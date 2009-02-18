@@ -515,9 +515,9 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 	        $attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_MyReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report");
 		}
 
-		/*if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
+		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
 			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_EmployeeReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report");
-		}*/
+		}
 
 		if ($authorizeObj->isAdmin()) {
 			$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");

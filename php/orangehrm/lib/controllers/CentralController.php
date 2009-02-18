@@ -1703,7 +1703,7 @@ switch ($moduletype) {
 																						
 													case 'Generate_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';
 																							$to = $_POST['txtToDate'].' 23:59:59';	
-																							$timeController->generateAttendanceReport($_SESSION['empID'], $from, $to);
+																							$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to);
 																							break;
 																							
 													case 'Save_Attendance_Report'		:	$timeController->saveAttendanceReport();

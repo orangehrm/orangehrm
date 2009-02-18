@@ -326,13 +326,24 @@ class TimeController {
 
 	public function showAttendanceReportForm($reportType) {
 		
-		$records['fromDate'] = 'YYYY-mm-DD';
-		$records['toDate'] = 'YYY-mm-DD';
+		$records['fromDate'] = 'YYYY-MM-DD';
+		$records['toDate'] = 'YYYY-MM-DD';
 		$records['reportType'] = $reportType;
 		$records['reportView'] = 'none';
+		$records['empName'] = '';
 		
-		if ($reportType == 'Emp') {
-			$records['empList'] = EmpInfo::getEmployeeSearchList();
+		/* Setting employee list for Auto-Complete */
+		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
+			$records['empList'] = EmpInfo::getEmployeeMainDetails();
+		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
+			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+		}
+		
+		/* Setting Employee ID */
+		if ($reportType == 'My') {
+			$records['empId'] = $_SESSION['empID'];
+		} else {
+			$records['empId'] = '';
 		}
 		
 		$path = '/templates/time/attendanceReport.php';
@@ -343,14 +354,37 @@ class TimeController {
 	
 	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
 		
+		$reportType = $_POST['hdnReportType'];
+		
 		$records['fromDate'] = $_POST['txtFromDate'];
 		$records['toDate'] = $_POST['txtToDate'];
-		$records['reportType'] = $_POST['hdnReportType'];
+		$records['reportType'] = $reportType;
 		$records['reportView'] = $_POST['optReportView'];
-		$records['editMode'] = Config::getAttendanceEmpEditSubmitted();
 		$records['messageType'] = $messageType;
 		$records['message'] = $message;
+		$records['empId'] = $empId;
+		$records['empName'] = $_POST['hdnEmpName'];
 		
+		/* Setting Edit Mode */
+		if ($this->authorizeObj->isAdmin()) {
+			$records['editMode'] = true;
+		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor() && 
+				  Config::getAttendanceSupEditSubmitted()) {
+			$records['editMode'] = true;
+		} elseif ($reportType == 'My' && Config::getAttendanceEmpEditSubmitted()) {
+			$records['editMode'] = true;
+		} else {
+			$records['editMode'] = false;
+		}
+		
+		/* Setting employee list for Auto-Complete */
+		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
+			$records['empList'] = EmpInfo::getEmployeeMainDetails();
+		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
+			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+		}
+		
+		/* Setting AttendanceRecord array */
 		$attendanceObj = new AttendanceRecord();
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
@@ -444,7 +478,7 @@ class TimeController {
 
 		$errorFlag = true;
 
-		// Employee can change displayed current time when he punches in/out
+		/* Employee can change displayed current time when he punches in/out */
 		if (isset($_POST['chkEmpChangeTime'])) {
 			try {
 				Config::setAttendanceEmpChangeTime('Yes');
@@ -459,7 +493,7 @@ class TimeController {
 			}
 		}
 
-		// Employee can edit submitted attendance records
+		/* Employee can edit submitted attendance records */
 		if (isset($_POST['chkEmpEditSubmitted'])) {
 			try {
 				Config::setAttendanceEmpEditSubmitted('Yes');
@@ -474,7 +508,7 @@ class TimeController {
 			}
 		}
 
-		// Supervisor can edit submitted attendance records of subordinates
+		/* Supervisor can edit submitted attendance records of subordinates */
 		if (isset($_POST['chkSupEditSubmitted'])) {
 			try {
 				Config::setAttendanceSupEditSubmitted('Yes');
@@ -497,6 +531,41 @@ class TimeController {
 
 		$this->showAttendanceConfig($messageType);
 
+	}
+	
+	private function _getSubsForAutoComplete($empId) {
+		
+		$reportToObj = new EmpRepTo();
+		$empList = $reportToObj->getEmpSubDetails($empId);
+		
+		/*
+		 * Here $empList comes as below,
+		 * 0 => string '001' (emp_number)
+		 * 1 => string 'Kayla Abbey' (Full Name)
+		 * 2 => string '001' (employee_id)
+		 * 
+		 * We want it in following format,
+		 * 0 => string '001' (emp_number)
+		 * 1 => string 'Kayla' (First Name)
+		 * 2 => string 'Abbey' (Last Name)
+		 */
+		
+		$newEmpList = array(); 
+		$count = count($empList);
+		
+		for ($i=0; $i<$count; $i++) {
+			
+			$newEmpList[$i][0] = $empList[$i][0];
+			
+			$tmpArr = explode(' ', $empList[$i][1]);
+			
+			$newEmpList[$i][1] = $tmpArr[0];
+			$newEmpList[$i][2] = $tmpArr[1];
+			
+		}
+		
+		return $newEmpList;
+		
 	}
 
 	/* Attendance Methods: End */

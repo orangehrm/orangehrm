@@ -37,8 +37,6 @@ if (isset($records['message'])) {
 	
 }
 
-
-
 ?>
 
 <script type="text/javascript">
@@ -84,10 +82,12 @@ $count = count($recordsArr);
 <?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>	
 
 	function markEmpNumber(empName) {
-		empNoField = document.getElementById("hidEmpNo");
+		empNoField = document.getElementById("hdnEmpNo");
+		empFullName = document.getElementById("hdnEmpName");
 		for(i in employees) {
 			if (employees[i].toLowerCase() == empName.toLowerCase()) {
 				empNoField.value = ids[i];
+				empFullName.value = employees[i];
 				return;
 			} else {
 				empNoField.value = '';
@@ -106,6 +106,13 @@ $count = count($recordsArr);
 	}
 	?>
 	
+	function showAutoSuggestTip(obj) {
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			obj.value = '';
+			obj.style.color = '#000000';
+		}
+	}
+	
 <?php } // Emp report data: Ends ?>
 
 //]]>
@@ -120,28 +127,11 @@ $count = count($recordsArr);
 	text-align: center;
 }
 
-<?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>	
-
-#employeeSearchAC {
-    width:15em; /* set width here */
-    padding-bottom:2em;
-}
-#employeeSearchAC {
-    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
-    float:left;
-    margin-right:5px;
-}
-#txtEmployeeSearch {
-    _position:absolute; /* abs pos needed for ie quirks */
-}
-
-<?php } // Emp report data: Ends ?>
-
 </style>
 
 <div class="outerbox" style="width:910px;text-align:center">
 
-<div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report; ?></h2></div>
+<div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report.($records['empName'] != ''?': '.$records['empName']:''); ?></h2></div>
     
 
 <!--
@@ -153,10 +143,14 @@ $count = count($recordsArr);
 </div>
 -->
 
+
+
 <form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post" 
 action="?timecode=Time&action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
 
 <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
+<input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
+<input type="hidden" name="hdnEmpName" id="hdnEmpName" value="" />
 
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <tbody>
@@ -164,23 +158,16 @@ action="?timecode=Time&action=Generate_Attendance_Report" <?php if ($records['re
   <td style="padding:10px; text-align:center">
   
 <?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>
-  <!--<?php echo $lang_Leave_Common_EmployeeName; ?>&nbsp;
-  <input type="text" name="txtEmpName" value="" />&nbsp;&nbsp;&nbsp;
-  
-  
-  
-  
-  
     
-       <div class="searchbox">
-        <?php echo $lang_Leave_Common_EmployeeName; ?>&nbsp;
-        <div class="yui-ac" id="employeeSearchAC">
+       <div>
+        &nbsp;
+        <div class="yui-ac" id="employeeSearchAC" style="float: left">
           <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
-          <div class="yui-ac-container" id="employeeSearchACContainer">
+          <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 0px; left: 0px;">
             <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
               <div style="display: none;" class="yui-ac-hd"></div>
               <div class="yui-ac-bd">
-                <ul>
+                <ul style="color: red">
                   <li style="display: none;"></li>
                   <li style="display: none;"></li>
                   <li style="display: none;"></li>
@@ -197,7 +184,7 @@ action="?timecode=Time&action=Generate_Attendance_Report" <?php if ($records['re
             </div>
             <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
           </div>
-        </div>&nbsp;&nbsp;&nbsp;  -->
+        </div>&nbsp;&nbsp;&nbsp;  
   
   
   

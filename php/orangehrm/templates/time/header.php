@@ -35,5 +35,6 @@
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/time.js"></script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
-<body>
+<body class="yui-skin-sam">
