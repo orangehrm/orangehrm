@@ -20,7 +20,7 @@
 
 if (isset($records['attRecord'])) {
 	$punchIn = false;
-	$punchTypeName = $lang_Time_PunchOut;
+	$punchTypeName = $lang_Time_Out;
 	$heading = $lang_Time_Heading_PunchOut;
 	/* Punch Info: Begins */
 	$punchInfo = $lang_Time_LastPunchIn.' '.$records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
@@ -31,7 +31,7 @@ if (isset($records['attRecord'])) {
 	/* Punch Info: Ends */
 } else {
 	$punchIn = true;
-	$punchTypeName = $lang_Time_PunchIn;
+	$punchTypeName = $lang_Time_In;
 	$heading = $lang_Time_Heading_PunchIn;
 	$punchInfo = '';
 }

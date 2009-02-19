@@ -141,7 +141,7 @@ $count = count($recordsArr);
     <div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report.($records['empName'] != ''?': '.$records['empName']:''); ?></h2></div>
     <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
     <input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
-    <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="" />
+    <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
 
     <div class="searchbox">
     
@@ -293,6 +293,7 @@ $count = count($recordsArr);
 <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
 <input type="hidden" name="optReportView" value="<?php echo $records['reportView']; ?>" />
 <input type="hidden" name="recordsCount" value="<?php echo $count; ?>" />
+<input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
 <input type="button" name="btnSave" value="<?php echo $lang_Common_Save; ?>" onclick="submitForm()" 
 class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />    
 </form>
