@@ -120,16 +120,20 @@ $count = count($recordsArr);
 
 <style type="text/css">
 #detailed-table td {
-	width: 130px;
+	width: 135px;
 }
 #detailed-table input {
 	width: 110px;
 	text-align: center;
 }
 
+.note-td {
+	text-align: left;
+}
+
 </style>
 
-<div class="outerbox" style="width:910px;">
+<div class="outerbox" style="width:945px;">
 
 <form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post" 
     action="?timecode=Time&amp;action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
@@ -142,11 +146,12 @@ $count = count($recordsArr);
     <div class="searchbox">
     
         <?php if ($records['reportType'] == 'Emp') {  ?>
-            
-        <div class="yui-skin-sam" style="float:left;">
-            <div id="employeeSearchAC" >    
+
+       <label for="txtEmployeeSearchName"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
+        <div class="yui-skin-sam" style="float:left;margin-right:10px">
+            <div id="employeeSearchAC" style="width:135px">    
                   <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"  
-                    type="text" value="<?php echo $lang_Common_TypeHereForHints; ?>" style="color: #999999" 
+                    type="text" value="<?php echo $lang_Common_TypeHereForHints; ?>" style="color:#999999;width:135px" 
                         onfocus="showAutoSuggestTip(this)"/>
                   <div id="employeeSearchACContainer"></div>      
             </div>
@@ -170,7 +175,7 @@ $count = count($recordsArr);
             <option value="detailed"><?php echo $lang_time_Option_Detailed; ?></option>
         </select>
 
-        <input type="submit" class="punchbutton" onclick="returnSearch();"
+        <input type="submit" class="punchbutton"
             class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                           
             value="<?php echo $lang_Time_Button_Generate;?>" />
         <br class="clear"/>
@@ -184,7 +189,7 @@ $count = count($recordsArr);
 
 <?php if ($records['reportView'] == 'detailed' && isset($recordsArr)) { // Detailed Table Begins ?>
 
-<div class="outerbox" style="width:910px;text-align:center;">
+<div class="outerbox" style="width:945px;text-align:center;">
 
 <!-- Message box: Begins -->
 <?php if (isset($records['message'])) { ?>
@@ -230,7 +235,7 @@ $count = count($recordsArr);
         <input type="text" name="txtNewInTime-<?php echo $i; ?>" id="txtNewInTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInTime(); ?>" />
         <input type="hidden" name="hdnOldInTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInTime(); ?>" />
         </td>
-        <td>
+        <td class="note-td">
         <input type="text" name="txtNewInNote-<?php echo $i; ?>" id="txtNewInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
         <input type="hidden" name="hdnOldInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
         </td>
@@ -242,7 +247,7 @@ $count = count($recordsArr);
         <input type="text" name="txtNewOutTime-<?php echo $i; ?>" id="txtNewOutTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutTime(); ?>" />
         <input type="hidden" name="hdnOldOutTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutTime(); ?>" />
         </td>
-        <td>
+        <td class="note-td">
         <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutNote(); ?>" />
         <input type="hidden" name="hdnOldOutNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutNote(); ?>" />
         </td>
@@ -260,7 +265,7 @@ $count = count($recordsArr);
         <td>
         <?php echo $recordsArr[$i]->getInTime() ;?>
         </td>
-        <td>
+        <td class="note-td">
         <?php echo $recordsArr[$i]->getInNote() ;?>
         </td>
         <td>
@@ -269,7 +274,7 @@ $count = count($recordsArr);
         <td>
         <?php echo $recordsArr[$i]->getOutTime() ;?>
         </td>
-        <td>
+        <td class="note-td">
         <?php echo $recordsArr[$i]->getOutNote() ;?>
         </td>
     </tr>
