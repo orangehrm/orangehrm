@@ -135,6 +135,14 @@ $count = count($recordsArr);
 
 <div class="outerbox" style="width:945px;">
 
+<!-- Message box: Begins -->
+<?php if (!isset($recordsArr)) { ?>
+    <div class="messagebar">
+        <span class="<?php echo 'FAILURE'; ?>"><?php echo $lang_Time_Attendance_NoReports; ?></span>
+    </div>
+<?php } ?>
+<!-- Message box: Ends -->
+
 <form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post" 
     action="?timecode=Time&amp;action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
 
