@@ -28,7 +28,7 @@ if ($records['messageType'] == 'SUCCESS') {
 
 ?>
 
-<div class="formpageNarrow">
+<div class="formpage">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Time_AttendanceConfiguration; ?></h2></div>
         <?php if (isset($records['message'])) { ?>
@@ -38,10 +38,10 @@ if ($records['messageType'] == 'SUCCESS') {
         <?php } ?>
 
 <form action="?timecode=Time&action=Save_Attendance_Config" method="post" id="attendanceConfig" name="attendanceConfig">
-<table width="141" border="0" cellpadding="4" cellspacing="0">
+<table width="480" border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <td width="94">&nbsp;<?php echo $lang_Time_EmpChangeTime; ?></td>
-      <td width="47">
+      <td width="470">&nbsp;<?php echo $lang_Time_EmpChangeTime; ?></td>
+      <td width="10">
         <input name="chkEmpChangeTime" id="chkEmpChangeTime" type="checkbox" <?php echo ($records['empChangeTime']?'checked':''); ?> />
       </td>
     </tr>
