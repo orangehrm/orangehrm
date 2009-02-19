@@ -1441,3 +1441,20 @@ table.simpleList td {
  	#txtEmployeeSearch {
  	    _position:absolute; /* abs pos needed for ie quirks */
  	}
+
+ 	#frmGenerateAttendanceReport div.searchbox input {
+ 	  margin-right:2px;
+ 	} 
+ 	
+    #frmGenerateAttendanceReport div.searchbox input.calendarBtn {
+      margin-top:0px;
+    }  	
+    
+    #frmGenerateAttendanceReport #employeeSearchAC {
+      margin-top:0;
+    }  	
+
+    #frmGenerateAttendanceReport #employeeSearchAC input#txtEmployeeSearch {
+      float:none;
+    }  	
+    

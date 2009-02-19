@@ -113,7 +113,7 @@ $count = count($recordsArr);
 		}
 	}
 	
-<?php } // Emp report data: Ends ?>
+<?php }  ?>
 
 //]]>
 </script> 
@@ -129,95 +129,52 @@ $count = count($recordsArr);
 
 </style>
 
-<div class="outerbox" style="width:910px;text-align:center">
-
-<div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report.($records['empName'] != ''?': '.$records['empName']:''); ?></h2></div>
-    
-
-<!--
-<div class="actionbar">
-    <div class="actionbuttons"></div>              
-    <div class="noresultsbar"></div>
-    <div class="pagingbar"></div>
-<br class="clear" />
-</div>
--->
-
-
+<div class="outerbox" style="width:910px;">
 
 <form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post" 
-action="?timecode=Time&action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
+    action="?timecode=Time&amp;action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
 
-<input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
-<input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
-<input type="hidden" name="hdnEmpName" id="hdnEmpName" value="" />
+    <div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report.($records['empName'] != ''?': '.$records['empName']:''); ?></h2></div>
+    <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
+    <input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
+    <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="" />
 
-<table border="0" cellpadding="0" cellspacing="0" class="data-table">
-  <tbody>
-  <tr>
-  <td style="padding:10px; text-align:center">
-  
-<?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>
+    <div class="searchbox">
     
-       <div>
-        &nbsp;
-        <div class="yui-ac" id="employeeSearchAC" style="float: left">
-          <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
-          <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 0px; left: 0px;">
-            <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
-              <div style="display: none;" class="yui-ac-hd"></div>
-              <div class="yui-ac-bd">
-                <ul style="color: red">
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                </ul>
-              </div>
-              <div style="display: none;" class="yui-ac-ft"></div>
+        <?php if ($records['reportType'] == 'Emp') {  ?>
+            
+        <div class="yui-skin-sam" style="float:left;">
+            <div id="employeeSearchAC" >    
+                  <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"  
+                    type="text" value="<?php echo $lang_Common_TypeHereForHints; ?>" style="color: #999999" 
+                        onfocus="showAutoSuggestTip(this)"/>
+                  <div id="employeeSearchACContainer"></div>      
             </div>
-            <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
-          </div>
-        </div>&nbsp;&nbsp;&nbsp;  
-  
-  
-  
-  
-  
-  
-  
-<?php } // Emp report data: Ends ?>
-  
-  <?php echo $lang_Leave_Common_FromDate; ?>&nbsp;
-  <input type="text" name="txtFromDate" id="txtFromDate" size="10" value="<?php echo $records['fromDate']; ?>" />
-  <input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;" />&nbsp;&nbsp;&nbsp;
+        </div>
+          
+          
+        <?php } ?>
+    
+        <label for="txtFromDate"><?php echo $lang_Leave_Common_FromDate;?></label>
+        <input type="text" name="txtFromDate" id="txtFromDate" size="10" value="<?php echo $records['fromDate']; ?>" />
+        <input type="button" value="  " class="calendarBtn" />
 
-  <?php echo $lang_Leave_Common_ToDate; ?>&nbsp;
-  <input type="text" name="txtToDate" id="txtToDate" size="10" value="<?php echo $records['toDate']; ?>" />
-  <input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;" />&nbsp;&nbsp;&nbsp;
+        <label for="txtToDate"><?php echo $lang_Leave_Common_ToDate;?></label>
+        <input type="text" name="txtToDate" id="txtToDate" size="10" value="<?php echo $records['toDate']; ?>" />
+        <input type="button" value="  " class="calendarBtn" />
 
-  <?php echo $lang_Time_ReportType; ?>&nbsp;
-  <select name="optReportView">
-	<!--<option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>-->
-	<option value="detailed"><?php echo $lang_time_Option_Detailed; ?></option>
-  </select>&nbsp;&nbsp;&nbsp;
-  
-  <!--<input type="button" class="punchbutton" name="btnGenerate" id="btnGenerate"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        value="<?php echo $lang_Time_Button_Generate; ?>" />-->
-  <input type="submit" name="btnGenerate" value="<?php echo $lang_Time_Button_Generate; ?>" 
-  class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
-  
-  </td>
-  </tr>
-  </tbody>
-</table>
+        
+        <label for="loc_name"><?php echo $lang_Time_ReportType?></label>
+        <select name="optReportView">
+            <!--<option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>-->
+            <option value="detailed"><?php echo $lang_time_Option_Detailed; ?></option>
+        </select>
+
+        <input type="submit" class="punchbutton" onclick="returnSearch();"
+            class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                           
+            value="<?php echo $lang_Time_Button_Generate;?>" />
+        <br class="clear"/>
+    </div>
 
 </form>
 
