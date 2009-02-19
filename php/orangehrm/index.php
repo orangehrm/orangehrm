@@ -181,6 +181,13 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
+/* Attendance Default Page */
+if ($authorizeObj->isAdmin()) {
+	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report';
+} else {
+	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report';
+}
+
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
 	$empId = $_SESSION['empID'];
@@ -506,7 +513,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 
 		/* Attendance Menu Items: Begin */
 
-		$attendance = new MenuItem("timesheets", $lang_Time_Menu_Attendacne);
+		$attendance = new MenuItem("timesheets", $lang_Time_Menu_Attendacne, $attendanceDefault);
 
 		$attsubs = array();
 
