@@ -1430,8 +1430,12 @@ table.simpleList td {
         margin: 10px 0px 2px 10px;
  	}
 
+    #employeeSearchAC li {
+        list-style-type:none;
+    }
+    
  	#employeeSearchAC {
- 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */ 	    
  	}
 
  	#txtEmployeeSearch {
