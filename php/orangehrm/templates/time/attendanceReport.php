@@ -57,10 +57,17 @@ $count = count($recordsArr);
 		count = <?php echo $count; ?>;
 		
 		for (i=0;i<count;i++) {
+		
+			var inTime = strToTime($("txtNewInDate-"+i).value+" "+$("txtNewInTime-"+i).value, dateTimeFormat);
+			var outTime = strToTime($("txtNewOutDate-"+i).value+" "+$("txtNewOutTime-"+i).value, dateTimeFormat);
 
-			if ((!strToTime($("txtNewInDate-"+i).value+" "+$("txtNewInTime-"+i).value, dateTimeFormat)) ||
-				(!strToTime($("txtNewOutDate-"+i).value+" "+$("txtNewOutTime-"+i).value, dateTimeFormat))) {
+			if (!inTime || !outTime) {
 				alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
+				errFlag = true;
+			}
+			
+			if (inTime >= outTime) {
+				alert("<?php echo $lang_Time_Attendance_InvalidOutTime; ?>");
 				errFlag = true;
 			}
 		

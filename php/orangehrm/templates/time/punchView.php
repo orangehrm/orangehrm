@@ -61,6 +61,18 @@ if ($records['message'] == 'save-success') {
 			alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
 			errFlag = true;
 		}
+		
+		<?php if (!$punchIn) { ?>
+		
+		var inTime = strToTime("<?php echo $records['attRecord'][0]->getInDate(); ?>"+" "+"<?php echo $records['attRecord'][0]->getInTime(); ?>", dateTimeFormat);
+		var outTime = strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat);
+		
+		if (inTime >= outTime) {
+			alert("<?php echo $lang_Time_Attendance_InvalidOutTime; ?>");
+			errFlag = true;
+		}
+		
+		<?php } ?>		
 
 		return !errFlag;
 	}
