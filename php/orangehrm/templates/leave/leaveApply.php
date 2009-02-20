@@ -20,8 +20,6 @@
 require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
- $employeeSearchList = $records['employeeSearchList'];
-
  $employees = null;
 
  if (isset($records[0])) {
@@ -564,10 +562,8 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 <?php } ?>
 
     <?php if (isset($role)) { ?>
+      <?php if(($role == authorize::AUTHORIZE_ROLE_ADMIN) || ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR)){ ?>
         <label for="cmbEmployeeId"><?php echo $lang_Leave_Common_EmployeeName; ?><span class="required">*</span></label>
-
-		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-
         <div>
         <input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo isset($prevEmployeeId) ? $prevEmployeeId : ""; ?>" />
         <div class="yui-ac" id="employeeSearchAC" style="float: left">
@@ -595,20 +591,8 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
               </div>
         </div>
         </div>
-
-		<?php } else if (isset($employees) && is_array($employees)) { ?>
-			<select name="cmbEmployeeId" id="cmbEmployeeId" onchange="resetShiftLength();" class="formSelect">
-	        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-				<?php
-			   		sort($employees);
-			   		foreach ($employees as $employee) {
-						$selected = ($prevEmployeeId == $employee[0]) ? 'selected="selected"' : "";
-			  	?>
-			 		  	<option <?php echo $selected; ?> value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
-			  <?php } ?>
-	  	    </select>
-		<?php } ?>
         <br class="clear"/>
+      <?php } ?>
     <?php } ?>
 
     <label for="sltLeaveType"><?php echo $lang_Leave_Common_LeaveType; ?></label>
@@ -719,11 +703,13 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
     }
 
         <?php
-            $i = 0;
-            foreach ($employeeSearchList as $record) {
+            if($employees){
+                $i = 0;
+                foreach ($employees as $record) {
         ?>
-             employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+                employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
         <?php
+                }
             }
 
         ?>

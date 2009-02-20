@@ -671,11 +671,11 @@ class LeaveController {
 
 		if ($admin) {
 			if ($authorizeObj->getIsAdmin() == 'Yes') {
-				$empObj = new EmpInfo();
-				$tmpObjs[0] = array(true);
+                $empObj = new EmpInfo();
+				$tmpObjs[0] = EmpInfo::getEmployeeSearchList();
 			} else if ($authorizeObj->isSupervisor()) {
 				$empRepToObj = new EmpRepTo();
-				$tmpObjs[0] = $empRepToObj->getEmpSubDetails($authorizeObj->getEmployeeId());
+				$tmpObjs[0] = $this->_prepareSubordinateList($empRepToObj->getEmpSubDetails($authorizeObj->getEmployeeId()));
 			}
 
 			$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -720,8 +720,6 @@ class LeaveController {
 		if (!empty($exception)) {
 			$tmpObjs['exception'] = $exception;
 		}
-
-        $tmpObjs['employeeSearchList'] = EmpInfo::getEmployeeSearchList();
 
 		$template = new TemplateMerger($tmpObjs, $path);
 
@@ -1286,6 +1284,18 @@ class LeaveController {
 
 	}
 
+    private function _prepareSubordinateList($subs){
+    	$subsForAutoComp = array();
+        $count = count($subs);
+
+        for ($i=0; $i<$count; $i++) {
+            $subsForAutoComp[$i][] = $subs[$i][1];
+            $subsForAutoComp[$i][] = '';
+            $subsForAutoComp[$i][] = $subs[$i][2];
+        }
+
+        return $subsForAutoComp;
+    }
 }
 
 class DuplicateLeaveException extends Exception {
