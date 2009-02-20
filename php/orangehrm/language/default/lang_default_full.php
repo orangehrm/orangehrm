@@ -1506,7 +1506,6 @@
 	$lang_Time_Attendance_ReportNoChange = "No changes to save";
 	$lang_Time_Attendance_Overlapping = "Overlapping records found";
 	$lang_Time_Attendance_NoReports = "No reports to display";
-	
  
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";

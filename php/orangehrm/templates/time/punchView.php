@@ -36,10 +36,12 @@ if (isset($records['attRecord'])) {
 	$punchInfo = '';
 }
 
-if ($records['messageType'] == 'SUCCESS') {
+if ($records['message'] == 'save-success') {
 	$records['message'] = $lang_Time_PunchSaving_SUCCESS;
-} elseif ($records['messageType'] == 'FAILURE') {
+} elseif ($records['message'] == 'save-failure') {
 	$records['message'] = $lang_Time_PunchSaving_FAILURE;
+} elseif ($records['message'] == 'overlapping-failure') {
+	$records['message'] = $lang_Time_Attendance_Overlapping;
 } else {
 	$records['message'] = null;
 }
@@ -84,6 +86,8 @@ if ($records['messageType'] == 'SUCCESS') {
 
 	<?php if (!$punchIn) { ?>
 	<input type="hidden" name="hdnAttendanceId" value="<?php echo $records['attRecord'][0]->getAttendanceId(); ?>" />
+	<input type="hidden" name="txtInDate" value="<?php echo $records['attRecord'][0]->getInDate(); ?>" />
+	<input type="hidden" name="txtInTime" value="<?php echo $records['attRecord'][0]->getInTime(); ?>" />
 	<?php } ?>
 	<input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
 

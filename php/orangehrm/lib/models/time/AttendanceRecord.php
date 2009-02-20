@@ -306,7 +306,7 @@ class AttendanceRecord {
 	}
 	
 	/**
-	 * 
+	 * Used in editing of Attendance Reports
 	 */
 
 	public function isOverlapping() {
@@ -336,6 +336,43 @@ class AttendanceRecord {
 		$condition .= " OR (`".self::DB_FIELD_PUNCHIN_TIME."` > '$in' AND `".self::DB_FIELD_PUNCHOUT_TIME."` < '$out'))";
 		
 		$selectConditions[] = $condition;
+		
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		
+		if (mysql_num_rows($result) > 0) {
+			throw new AttendanceRecordException('Overlapping record',
+												AttendanceRecordException::OVERLAPPING_RECORD);
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * 
+	 */
+
+	public function isOverlappingInTime() {
+		
+		if (!isset($this->employeeId) || !isset($this->inDate) || !isset($this->inTime)) {
+				
+			throw new AttendanceRecordException('Required values for checking overlapping are not set',
+												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);
+		
+		}
+		
+		$selectTable = "`".self::DB_TABLE."`";
+		$selectFields[] = "`".self::DB_FIELD_ATTENDANCE_ID."`";
+		
+		$selectConditions[] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '{$this->employeeId}'";
+		$selectConditions[] = "`".self::DB_FIELD_STATUS."` = '".self::STATUS_ACTIVE."'";
+		
+		$in = $this->inDate.' '.$this->inTime.':00';
+		$selectConditions[] = "(`".self::DB_FIELD_PUNCHIN_TIME."` <= '$in' AND `".self::DB_FIELD_PUNCHOUT_TIME."` >= '$in')";
 		
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);

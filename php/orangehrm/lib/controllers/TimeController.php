@@ -283,7 +283,7 @@ class TimeController {
 
 	/* Attendance Methods: Begin */
 	
-	public function showPunchView($messageType = null) {
+	public function showPunchView($messageType = null, $message = null) {
 
 		$attendanceObj = new AttendanceRecord();
 		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
@@ -293,6 +293,7 @@ class TimeController {
 		$records['currentDate'] = date('Y-m-d');
 		$records['currentTime'] = date('H:i');
 		$records['messageType'] = $messageType;
+		$records['message'] = $message;
 
 		$path = "/templates/time/punchView.php";
 		$template = new TemplateMerger($records, $path);
@@ -305,22 +306,48 @@ class TimeController {
 		$attendanceObj = $extractor->parsePunchData($_POST);
 
 		$attendanceId = $attendanceObj->getAttendanceId();
+		
 		if ($attendanceId) {
-			if ($attendanceObj->updateRecord()) {
-				$messageType = 'SUCCESS';
-			} else {
-				$messageType = 'FAILURE';
+			
+			try {
+				
+				$attendanceObj->isOverlapping(); // Would throw an exception on overlapping
+				
+				if ($attendanceObj->updateRecord()) {
+					$messageType = 'SUCCESS';
+					$message = 'save-success';
+				} else {
+					$messageType = 'FAILURE';
+					$message = 'save-failure';
+				}
+				
+			} catch (AttendanceRecordException $e) {
+					$messageType = 'FAILURE';
+					$message = 'overlapping-failure';				
 			}
+			
 		} else {
-			if ($attendanceObj->addRecord()) {
-				$messageType = 'SUCCESS';
-			} else {
-				$messageType = 'FAILURE';
+			
+			try {
+				
+				$attendanceObj->isOverlappingInTime(); // Would throw an exception on overlapping
+				
+				if ($attendanceObj->addRecord()) {
+					$messageType = 'SUCCESS';
+					$message = 'save-success';
+				} else {
+					$messageType = 'FAILURE';
+					$message = 'save-failure';
+				}
+				
+			} catch (AttendanceRecordException $e) {
+					$messageType = 'FAILURE';
+					$message = 'overlapping-failure';				
 			}
+			
 		}
 
-		$this->showPunchView($messageType);
-
+		$this->showPunchView($messageType, $message);
 
 	}
 
