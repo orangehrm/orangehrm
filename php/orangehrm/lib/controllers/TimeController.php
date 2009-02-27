@@ -379,6 +379,40 @@ class TimeController {
 		
 	}
 	
+	public function generateAttendanceSummary($empId, $from, $to) {
+		
+		$reportType = $_POST['hdnReportType'];
+		
+		$records['fromDate'] = $_POST['txtFromDate'];
+		$records['toDate'] = $_POST['txtToDate'];
+		$records['reportType'] = $reportType;
+		$records['reportView'] = $_POST['optReportView'];
+		$records['empId'] = $empId;
+		$records['empName'] = $_POST['hdnEmpName'];
+		$records['noReports'] = false;
+		
+		/* Setting employee list for Auto-Complete */
+		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
+			$records['empList'] = EmpInfo::getEmployeeMainDetails();
+		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
+			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+		}
+		
+		/* Setting AttendanceRecord array */
+		$attendanceObj = new AttendanceRecord();
+		$records['recordsArr'] = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+		
+		if (empty($records['recordsArr'])) {
+			$records['noReports'] = true;
+		}
+		
+		$path = '/templates/time/attendanceReport.php';
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+		
+	}
+	
 	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
 		
 		$reportType = $_POST['hdnReportType'];
@@ -391,6 +425,7 @@ class TimeController {
 		$records['message'] = $message;
 		$records['empId'] = $empId;
 		$records['empName'] = $_POST['hdnEmpName'];
+		$records['noReports'] = false;
 		
 		/* Setting Edit Mode */
 		if ($this->authorizeObj->isAdmin()) {
@@ -415,6 +450,10 @@ class TimeController {
 		$attendanceObj = new AttendanceRecord();
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+													
+		if (empty($records['recordsArr'])) {
+			$records['noReports'] = true;
+		}
 		
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);

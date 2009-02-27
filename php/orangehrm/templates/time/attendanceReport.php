@@ -114,13 +114,19 @@ $count = count($recordsArr);
 	?>
 	
 	function showAutoSuggestTip(obj) {
-		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
 			obj.value = '';
 			obj.style.color = '#000000';
-		}
 	}
 	
 <?php }  ?>
+
+<?php if ($records['reportView'] == 'summary') { ?>
+	function showDetailedReport(dateVal) {
+		document.frmShowDetailedReport.txtFromDate.value = dateVal;
+		document.frmShowDetailedReport.txtToDate.value = dateVal;
+		document.frmShowDetailedReport.submit();
+	}
+<?php } ?>
 
 //]]>
 </script> 
@@ -143,7 +149,7 @@ $count = count($recordsArr);
 <div class="outerbox" style="width:945px;">
 
 <!-- Message box: Begins -->
-<?php if ($records['empId'] != '' && !isset($recordsArr)) { ?>
+<?php if (isset($records['noReports']) && $records['noReports']) { ?>
     <div class="messagebar">
         <span class="<?php echo 'FAILURE'; ?>"><?php echo $lang_Time_Attendance_NoReports; ?></span>
     </div>
@@ -166,7 +172,7 @@ $count = count($recordsArr);
         <div class="yui-skin-sam" style="float:left;margin-right:10px">
             <div id="employeeSearchAC" style="width:135px">    
                   <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"  
-                    type="text" value="<?php echo $lang_Common_TypeHereForHints; ?>" style="color:#999999;width:135px" 
+                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:$lang_Common_TypeHereForHints); ?>" style="color:#999999;width:135px" 
                         onfocus="showAutoSuggestTip(this)"/>
                   <div id="employeeSearchACContainer"></div>      
             </div>
@@ -186,7 +192,7 @@ $count = count($recordsArr);
         
         <label for="loc_name"><?php echo $lang_Time_ReportType?></label>
         <select name="optReportView">
-            <!--<option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>-->
+            <option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>
             <option value="detailed"><?php echo $lang_time_Option_Detailed; ?></option>
         </select>
 
@@ -201,6 +207,64 @@ $count = count($recordsArr);
 </div> <!-- End of outerbox -->
     
 <br class="clear" />
+
+
+
+
+
+<?php if ($records['reportView'] == 'summary' && !empty($recordsArr)) { // Summary Table Begins ?>
+
+<div class="outerbox" style="width:300px;text-align:center;">
+
+<table border="0" cellpadding="0" cellspacing="0" class="data-table" id="summary-table">
+
+  <thead>
+	<tr>
+    	<th><?php echo $lang_Common_Date; ?></th>
+        <th><?php echo $lang_Time_Timesheet_Duration; ?></th>
+    </tr>
+  </thead>
+  
+  <tbody>
+  
+<?php for ($i=0; $i<$count; $i++) { ?>
+	  
+    <tr>
+        <td><?php echo $recordsArr[$i][0]; ?></td>
+        <td style="text-align:right;padding-right:80px">
+        <?php 
+        
+        if ($recordsArr[$i][1] > 0) {
+        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i][0]}')\" style=\"text-decoration:underline\">{$recordsArr[$i][1]}</a>";
+        } else {
+        	echo $recordsArr[$i][1];	
+        }
+        
+        ?>
+        </td>
+    </tr>
+    
+<?php } ?>
+
+ </tbody>
+</table>
+
+<form action="?timecode=Time&action=Summary_Attendance_Report" method="post" name="frmShowDetailedReport" id="frmShowDetailedReport" />
+<input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
+<input type="hidden" name="txtFromDate" value="" />
+<input type="hidden" name="txtToDate" value="" />
+<input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
+<input type="hidden" name="optReportView" value="detailed" />
+<input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
+</form> 
+
+</div> <!-- End of outerbox -->
+
+<?php } // Summary Table Ends ?>
+
+
+
+
 
 <?php if ($records['reportView'] == 'detailed' && isset($recordsArr)) { // Detailed Table Begins ?>
 

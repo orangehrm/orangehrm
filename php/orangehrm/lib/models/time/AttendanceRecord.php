@@ -221,6 +221,76 @@ class AttendanceRecord {
 
 	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
 
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch);
+
+		if (mysql_num_rows($result) > 0) {
+			return $this->_buildRecordObjects($result);
+		} else {
+			return null;
+		}
+
+	}
+	
+	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
+		
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch);
+
+		if (mysql_num_rows($result) == 0) {
+			return null;
+		}
+
+		$fromTime = strtotime($from);
+		$toTime = strtotime($to);
+		
+		$dateArray = array();
+		
+		for ($i=$fromTime; $i<$toTime; $i= strtotime("+1 day", $i)) {		
+			$dateArray[] = $i;				
+		}
+		
+		$inTime = array();
+		$outTime = array();	
+	
+		while ($row = mysql_fetch_array($result)) {
+			$inTime[] = strtotime($row[self::DB_FIELD_PUNCHIN_TIME]);
+			$outTime[] = strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]);
+		}
+		
+		$dateCount = count($dateArray);
+		$recordsCount = count($inTime);
+		$amountArr = array();
+		
+		for ($i=0; $i<$dateCount; $i++) {
+			
+			$start = $dateArray[$i];
+			$end = $dateArray[$i]+86399;
+			$amount = 0;
+			
+			for ($j=0; $j<$recordsCount; $j++) { 
+				
+				if (($inTime[$j] >= $start) && ($outTime[$j] <= $end)) { // [ ==== ]
+					$amount += ($outTime[$j] - $inTime[$j]);
+				} elseif (($inTime[$j] < $start) && ($outTime[$j] > $end)) { // ==[======]==
+					$amount += ($end - $start); 
+				} elseif (($inTime[$j] < $start) && ($outTime[$j] > $start) && ($outTime[$j] <= $end)) { // ==[====  ]
+					$amount += ($outTime[$j] - $start); 
+				} elseif (($inTime[$j] >= $start) && ($inTime[$j] < $end) && ($outTime[$j] > $end)) { // [  ====]==
+					$amount += ($end - $inTime[$j]);
+				}
+				
+			}
+			
+			$amountArr[$i][0] = date('Y-m-d', $dateArray[$i]);
+			$amountArr[$i][1] = number_format(round(($amount/3600),1), 1, '.', '');
+		
+		}
+	
+		return $amountArr;
+		
+	}
+	
+	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
+		
 		$selectTable = "`".self::DB_TABLE."`";
 
 		$selectFields[] = "`".self::DB_FIELD_ATTENDANCE_ID."`";
@@ -256,13 +326,9 @@ class AttendanceRecord {
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
-
-		if (mysql_num_rows($result) > 0) {
-			return $this->_buildRecordObjects($result);
-		} else {
-			return null;
-		}
-
+		
+		return $result;
+		
 	}
 
 	private function _buildRecordObjects($result) {
@@ -388,7 +454,11 @@ class AttendanceRecord {
 		}
 		
 	}
-
+	
+	/**
+	 * 
+	 */
+	
 }
 
 class AttendanceRecordException extends Exception {
