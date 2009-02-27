@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.9
+
+	New features
+	------------
+	Summary View of Attendance Reports
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.8
 
 	New features
