@@ -202,6 +202,11 @@ class EmailConfiguration {
 							'username' => $this->getSmtpUser(),
 							'password' => $this->getSmtpPass(),
 							'port' => $this->getSmtpPort());
+							
+			$security = $this->getSmtpSecurity();			
+			if ($security != self::EMAILCONFIGURATION_SMTP_SECURITY_NONE) {
+				$config['ssl'] = strtolower($security);
+			}
 
 			$transport = new Zend_Mail_Transport_Smtp($this->getSmtpHost(), $config);
 			$subject = "SMTP Configuration Test Email";
