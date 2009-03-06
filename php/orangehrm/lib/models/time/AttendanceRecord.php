@@ -281,7 +281,7 @@ class AttendanceRecord {
 			}
 			
 			$amountArr[$i][0] = date('Y-m-d', $dateArray[$i]);
-			$amountArr[$i][1] = number_format(round(($amount/3600),1), 1, '.', '');
+			$amountArr[$i][1] = number_format(round(($amount/3600),2), 2, '.', '');
 		
 		}
 	
