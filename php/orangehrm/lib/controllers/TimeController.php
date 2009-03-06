@@ -427,6 +427,13 @@ class TimeController {
 		$records['empName'] = $_POST['hdnEmpName'];
 		$records['noReports'] = false;
 		
+		/* Setting 'Back' button to summary view */
+		if (isset($_POST['hdnFromSummary'])) {
+			$records['hdnFromSummary'] = true;
+			$records['orgFromDate'] = $_POST['orgFromDate'];
+			$records['orgToDate'] = $_POST['orgToDate'];
+		}
+		
 		/* Setting Edit Mode */
 		if ($this->authorizeObj->isAdmin()) {
 			$records['editMode'] = true;

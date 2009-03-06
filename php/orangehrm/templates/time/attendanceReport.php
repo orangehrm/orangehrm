@@ -128,6 +128,18 @@ $count = count($recordsArr);
 	}
 <?php } ?>
 
+<?php if (isset($records['hdnFromSummary'])) { ?>
+
+	function backToSummary() {
+		var frm = document.frmGenerateAttendanceReport;
+		frm.optReportView.value = 'summary';
+		frm.txtFromDate.value = '<?php echo $records['orgFromDate']; ?>';
+		frm.txtToDate.value = '<?php echo $records['orgToDate']; ?>';
+		frm.submit();
+	}
+
+<?php } ?>
+
 //]]>
 </script> 
 
@@ -254,9 +266,12 @@ $count = count($recordsArr);
 <input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
 <input type="hidden" name="txtFromDate" value="" />
 <input type="hidden" name="txtToDate" value="" />
+<input type="hidden" name="orgFromDate" value="<?php echo $records['fromDate']; ?>" />
+<input type="hidden" name="orgToDate" value="<?php echo $records['toDate']; ?>" />
 <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
 <input type="hidden" name="optReportView" value="detailed" />
 <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
+<input type="hidden" name="hdnFromSummary" value="yes" />
 </form> 
 
 </div> <!-- End of outerbox -->
@@ -374,6 +389,12 @@ $count = count($recordsArr);
 <input type="hidden" name="optReportView" value="<?php echo $records['reportView']; ?>" />
 <input type="hidden" name="recordsCount" value="<?php echo $count; ?>" />
 <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
+<?php if (isset($records['hdnFromSummary'])) { ?>
+<input type="hidden" name="orgFromDate" value="<?php echo $records['orgFromDate']; ?>" />
+<input type="hidden" name="orgToDate" value="<?php echo $records['orgToDate']; ?>" />
+<input type="hidden" name="hdnFromSummary" value="yes" />
+<input type="button" value="Back" onclick="backToSummary()" class="punchbutton" />
+<?php } ?>
 <input type="button" name="btnSave" value="<?php echo $lang_Common_Save; ?>" onclick="submitForm()" 
 class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />    
 </form>
