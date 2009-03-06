@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.10
+
+    Bug fixes
+    ---------
+	2595713 - Email notification fails with a error: Unsupported SSL type (Re Fixed)
+	2653859 - Duration should be 2 decimal points in atten. summary
+	2653895 - List box reset to summary when selected detail report
+	2653870 - Back button needed from detail page to summary (attendance)
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.9
 
 	New features
