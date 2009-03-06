@@ -193,7 +193,8 @@ $count = count($recordsArr);
         <label for="loc_name"><?php echo $lang_Time_ReportType?></label>
         <select name="optReportView">
             <option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>
-            <option value="detailed"><?php echo $lang_time_Option_Detailed; ?></option>
+            <option value="detailed" <?php echo (isset($records['reportView']) && $records['reportView'] == 'detailed')?'selected':''; ?>>
+            <?php echo $lang_time_Option_Detailed; ?></option>
         </select>
 
         <input type="submit" class="punchbutton"
