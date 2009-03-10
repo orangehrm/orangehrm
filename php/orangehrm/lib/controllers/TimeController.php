@@ -282,7 +282,7 @@ class TimeController {
 
 
 	/* Attendance Methods: Begin */
-	
+
 	public function showPunchView($messageType = null, $message = null) {
 
 		$attendanceObj = new AttendanceRecord();
@@ -306,13 +306,13 @@ class TimeController {
 		$attendanceObj = $extractor->parsePunchData($_POST);
 
 		$attendanceId = $attendanceObj->getAttendanceId();
-		
+
 		if ($attendanceId) {
-			
+
 			try {
-				
+
 				$attendanceObj->isOverlapping(); // Would throw an exception on overlapping
-				
+
 				if ($attendanceObj->updateRecord()) {
 					$messageType = 'SUCCESS';
 					$message = 'save-success';
@@ -320,18 +320,18 @@ class TimeController {
 					$messageType = 'FAILURE';
 					$message = 'save-failure';
 				}
-				
+
 			} catch (AttendanceRecordException $e) {
 					$messageType = 'FAILURE';
-					$message = 'overlapping-failure';				
+					$message = 'overlapping-failure';
 			}
-			
+
 		} else {
-			
+
 			try {
-				
+
 				$attendanceObj->isOverlappingInTime(); // Would throw an exception on overlapping
-				
+
 				if ($attendanceObj->addRecord()) {
 					$messageType = 'SUCCESS';
 					$message = 'save-success';
@@ -339,12 +339,12 @@ class TimeController {
 					$messageType = 'FAILURE';
 					$message = 'save-failure';
 				}
-				
+
 			} catch (AttendanceRecordException $e) {
 					$messageType = 'FAILURE';
-					$message = 'overlapping-failure';				
+					$message = 'overlapping-failure';
 			}
-			
+
 		}
 
 		$this->showPunchView($messageType, $message);
@@ -352,37 +352,37 @@ class TimeController {
 	}
 
 	public function showAttendanceReportForm($reportType) {
-		
+
 		$records['fromDate'] = 'YYYY-MM-DD';
 		$records['toDate'] = 'YYYY-MM-DD';
 		$records['reportType'] = $reportType;
 		$records['reportView'] = 'none';
 		$records['empName'] = '';
-		
+
 		/* Setting employee list for Auto-Complete */
 		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
 			$records['empList'] = EmpInfo::getEmployeeMainDetails();
 		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
 		}
-		
+
 		/* Setting Employee ID */
 		if ($reportType == 'My') {
 			$records['empId'] = $_SESSION['empID'];
 		} else {
 			$records['empId'] = '';
 		}
-		
+
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
-		
+
 	}
-	
+
 	public function generateAttendanceSummary($empId, $from, $to) {
-		
+
 		$reportType = $_POST['hdnReportType'];
-		
+
 		$records['fromDate'] = $_POST['txtFromDate'];
 		$records['toDate'] = $_POST['txtToDate'];
 		$records['reportType'] = $reportType;
@@ -390,33 +390,33 @@ class TimeController {
 		$records['empId'] = $empId;
 		$records['empName'] = $_POST['hdnEmpName'];
 		$records['noReports'] = false;
-		
+
 		/* Setting employee list for Auto-Complete */
 		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
 			$records['empList'] = EmpInfo::getEmployeeMainDetails();
 		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
 		}
-		
+
 		/* Setting AttendanceRecord array */
 		$attendanceObj = new AttendanceRecord();
 		$records['recordsArr'] = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
-		
+
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
-		
+
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
-		
+
 	}
-	
+
 	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
-		
+
 		$reportType = $_POST['hdnReportType'];
-		
+
 		$records['fromDate'] = $_POST['txtFromDate'];
 		$records['toDate'] = $_POST['txtToDate'];
 		$records['reportType'] = $reportType;
@@ -426,18 +426,18 @@ class TimeController {
 		$records['empId'] = $empId;
 		$records['empName'] = $_POST['hdnEmpName'];
 		$records['noReports'] = false;
-		
+
 		/* Setting 'Back' button to summary view */
 		if (isset($_POST['hdnFromSummary'])) {
 			$records['hdnFromSummary'] = true;
 			$records['orgFromDate'] = $_POST['orgFromDate'];
 			$records['orgToDate'] = $_POST['orgToDate'];
 		}
-		
+
 		/* Setting Edit Mode */
 		if ($this->authorizeObj->isAdmin()) {
 			$records['editMode'] = true;
-		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor() && 
+		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor() &&
 				  Config::getAttendanceSupEditSubmitted()) {
 			$records['editMode'] = true;
 		} elseif ($reportType == 'My' && Config::getAttendanceEmpEditSubmitted()) {
@@ -445,51 +445,51 @@ class TimeController {
 		} else {
 			$records['editMode'] = false;
 		}
-		
+
 		/* Setting employee list for Auto-Complete */
 		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
 			$records['empList'] = EmpInfo::getEmployeeMainDetails();
 		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
 		}
-		
+
 		/* Setting AttendanceRecord array */
 		$attendanceObj = new AttendanceRecord();
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
-													
+
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
-		
+
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
-		
+
 	}
 
 	public function saveAttendanceReport() {
-		
+
 		$extractor = new EXTRACTOR_AttendanceRecord();
 		$attendanceArr = $extractor->parseReportData($_POST);
 		$updated = true;
 		$message = null;
 		$messageType = null;
-		
+
 		if (!empty($attendanceArr)) {
-			
+
 			try {
 
 				foreach ($attendanceArr as $attendanceObj) {
 					$attendanceObj->isOverlapping(); // Would throw an exception on overlapping
 				}
-				
+
 				foreach ($attendanceArr as $attendanceObj) { // TODO: Better if can use a transaction here to avoid partial updates
 					if (!$attendanceObj->updateRecord()) {
 						$updated = false;
-					} 
+					}
 				}
-						
+
 				if ($updated) {
 					$message = 'update-success';
 					$messageType = 'SUCCESS';
@@ -497,27 +497,27 @@ class TimeController {
 					$message = 'update-failure';
 					$messageType = 'FAILURE';
 				}
-			
+
 			} catch (AttendanceRecordException $e) {
-				
+
 				if ($e->getCode() == AttendanceRecordException::OVERLAPPING_RECORD) {
 					$message = 'overlapping-failure';
 					$messageType = 'FAILURE';
-				} else { 
+				} else {
 					die('Coding Error: Required values for checking overlapping are not set'); // TODO: throwing $e didn't work. Need to investigate why.
 				}
-				
+
 			}
-			
+
 		} else {
 			$message = 'nochange-failure';
 			$messageType = 'FAILURE';
 		}
-		
+
 		$from = $_POST['txtFromDate'].' 00:00:00';
 		$to = $_POST['txtToDate'].' 23:59:59';
 		$this->generateAttendanceReport($_POST['hdnEmployeeId'], $from, $to, $messageType, $message);
-		
+
 	}
 
 	public function showAttendanceConfig($messageType = null) {
@@ -605,40 +605,40 @@ class TimeController {
 		$this->showAttendanceConfig($messageType);
 
 	}
-	
+
 	private function _getSubsForAutoComplete($empId) {
-		
+
 		$reportToObj = new EmpRepTo();
 		$empList = $reportToObj->getEmpSubDetails($empId);
-		
+
 		/*
 		 * Here $empList comes as below,
 		 * 0 => string '001' (emp_number)
 		 * 1 => string 'Kayla Abbey' (Full Name)
 		 * 2 => string '001' (employee_id)
-		 * 
+		 *
 		 * We want it in following format,
 		 * 0 => string '001' (emp_number)
 		 * 1 => string 'Kayla' (First Name)
 		 * 2 => string 'Abbey' (Last Name)
 		 */
-		
-		$newEmpList = array(); 
+
+		$newEmpList = array();
 		$count = count($empList);
-		
+
 		for ($i=0; $i<$count; $i++) {
-			
+
 			$newEmpList[$i][0] = $empList[$i][0];
-			
+
 			$tmpArr = explode(' ', $empList[$i][1]);
-			
+
 			$newEmpList[$i][1] = $tmpArr[0];
 			$newEmpList[$i][2] = $tmpArr[1];
-			
+
 		}
-		
+
 		return $newEmpList;
-		
+
 	}
 
 	/* Attendance Methods: End */
@@ -1261,6 +1261,159 @@ class TimeController {
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}
+
+
+
+
+
+
+
+
+
+
+	/* Timegrid methods: Begin */
+
+	public function viewEditTimesheetGrid() {
+
+		$timesheetObj = $this->objTime;
+
+		if ($timesheetObj->getTimesheetId() != null) {
+			$timesheetObj->setEmployeeId(null);
+		}
+
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if (!is_object($timesheets[0])) {
+			if (($_SESSION['empID'] == $timesheetObj->getEmployeeId()) && (($timesheetObj->getEmployeeId() != null) && !empty($_SESSION['empID']))) {
+				$timesheetObj->addTimesheet();
+				$timesheets = $timesheetObj->fetchTimesheets();
+			} else {
+				$this->redirect(self::NO_TIMESHEET_FAILURE, '?timecode=Time&action=View_Select_Employee');
+			}
+		}
+
+		$timesheet = $timesheets[0];
+
+
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
+
+		if ($timesheet && $this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())) {
+			$roles[] = authorize::AUTHORIZE_ROLE_SUPERVISOR;
+		}
+
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if ($_SESSION['empID'] != $timesheet->getEmployeeId()) {
+			if (!$role) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+			}
+		}
+
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
+		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+		list($durationArr, $evantCountArray , $eventsIdArr) = $this->_generateTimesheetMain($timesheet);
+
+		$self=false;
+		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
+			$self=true;
+		}
+
+		$employeeObj = new EmpInfo();
+
+		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+
+		$path="/templates/time/viewEditTimesheetGrid.php";
+
+		$this->objTime->setEmployeeId($timesheet->getEmployeeId());
+		$this->objTime->setStartDate($timesheet->getStartDate());
+		$this->objTime->setEndDate($timesheet->getEndDate());
+
+
+		$dataArr[0]=$durationArr;
+		$dataArr[1]=$timesheet;
+		$dataArr[2]=$timesheetSubmissionPeriod[0];
+        $dataArr[3]=$employee[0];
+        $dataArr[4]=$evantCountArray ;
+        $dataArr[5]=$eventsIdArr ;
+
+
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+    private function _generateTimesheetMain($timesheet) {
+
+        $timeEventObj = new TimeEvent();
+
+        $timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+        $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
+        $timeEvents = $timeEventObj->fetchTimeEvents();
+
+
+
+
+        $durationArr = null;
+        $evantCountArray = array();
+        $eventsIdArr = null ;
+
+
+        for ($i=0; $i<count($timeEvents); $i++) {
+            $projectId=$timeEvents[$i]->getProjectId();
+            $activityId=$timeEvents[$i]->getActivityId();
+
+
+
+            if ($timeEvents[$i]->getReportedDate() != null) {
+                $expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getReportedDate())));
+            } else {
+                $expenseDate=strtotime(date('Y-m-d'));
+            }
+            if (!isset($durationArr[$projectId][$activityId][$expenseDate])) {
+                $durationArr[$projectId][$activityId][$expenseDate]=0;
+            }
+           if(array_key_exists($projectId.$activityId.$expenseDate , $evantCountArray)) {
+                 $evantCountArray[$projectId.$activityId.$expenseDate]++ ;
+             }else{
+                 $evantCountArray[$projectId.$activityId.$expenseDate] = 1 ;
+            }
+              $durationArr[$projectId][$activityId][$expenseDate]+=$timeEvents[$i]->getDuration();
+
+            if(isset($eventsIdArr[$projectId][$activityId][$expenseDate])){
+             	$eventsIdArr[$projectId][$activityId][$expenseDate] = $eventsIdArr[$projectId][$activityId][$expenseDate] . "," . $timeEvents[$i]->getTimeEventId() ;
+        	}else{
+ 				$eventsIdArr[$projectId][$activityId][$expenseDate] = $timeEvents[$i]->getTimeEventId() ;
+         	}
+         }
+         return array($durationArr, $evantCountArray , $eventsIdArr);
+    }
+
+
+	/* Timegrid methods: End */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function viewDefineEmployeeTimeReport() {
 		$path="/templates/time/defineEmployeeTimeReport.php";

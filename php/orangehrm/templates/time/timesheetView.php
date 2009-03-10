@@ -112,7 +112,7 @@ function actionCancel() {
 }
 
 function actionEdit() {
-	window.location=initialAction+"View_Edit_Timesheet&id=<?php echo $timesheet->getTimesheetId(); ?>&return=View_Timesheet";
+	window.location=initialAction+"View_Edit_Timesheet_Grid&id=<?php echo $timesheet->getTimesheetId(); ?>&return=View_Timesheet";
 }
 
 function actionReject() {
@@ -148,28 +148,28 @@ td {
 	text-align:center;
 }
 .tableTopLeft {
-    background: none;    
+    background: none;
 }
 .tableTopMiddle {
-    background: none;    
+    background: none;
 }
 .tableTopRight {
-    background: none;    
+    background: none;
 }
 .tableMiddleLeft {
-    background: none;    
+    background: none;
 }
 .tableMiddleRight {
-    background: none;    
+    background: none;
 }
 .tableBottomLeft {
-    background: none;    
+    background: none;
 }
 .tableBottomMiddle {
-    background: none;    
+    background: none;
 }
 .tableBottomRight {
-    background: none;    
+    background: none;
 }
 </style>
 
@@ -206,15 +206,15 @@ td {
             echo " - {$timesheet->getComment()}";
         }?></h3></div>
 <?php if (isset($_GET['message'])) {
-        $message  = $_GET['message'];    
+        $message  = $_GET['message'];
         $messageType = CommonFunctions::getCssClassForMessage($message);
         $message = "lang_Time_Errors_" . $message;
 ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-    </div>  
+    </div>
 <?php } ?>
-        
+
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
@@ -319,44 +319,44 @@ td {
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
 <div class="formbuttons">
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-    <input type="button" class="editbutton"  
-        onclick="actionEdit(); return false;" 
+    <input type="button" class="editbutton"
+        onclick="actionEdit(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnEdit" id="btnEdit"                           
-        value="<?php echo $lang_Common_Edit;?>" />            
-            
+        name="btnEdit" id="btnEdit"
+        value="<?php echo $lang_Common_Edit;?>" />
+
 	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
-        
-    <input type="button" class="submitbutton"  
+
+    <input type="button" class="submitbutton"
         onclick="actionSubmit(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnSubmit" id="btnSubmit"                            
-        value="<?php echo $lang_Common_Submit;?>" /> 
-                
+        name="btnSubmit" id="btnSubmit"
+        value="<?php echo $lang_Common_Submit;?>" />
+
 	<?php } ?>
 	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
-    <input type="button" class="cancelbutton"  
+    <input type="button" class="cancelbutton"
         onclick="actionCancel(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnCancel" id="btnCancel"                             
-        value="<?php echo $lang_Common_Cancel;?>" /> 
-                    
+        name="btnCancel" id="btnCancel"
+        value="<?php echo $lang_Common_Cancel;?>" />
+
 	<?php }
 	}
 	?>
-    <input type="button" class="detailsbutton"  
+    <input type="button" class="detailsbutton"
         onclick="actionDetails(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnDetails" id="btnDetails"                             
-        value="<?php echo $lang_Common_Details;?>" /> 
-            
+        name="btnDetails" id="btnDetails"
+        value="<?php echo $lang_Common_Details;?>" />
+
 	<?php if ($role && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
-    <input type="button" class="resetbutton"  
+    <input type="button" class="resetbutton"
         onclick="actionSubmit(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnReset" id="btnReset"                              
-        value="<?php echo $lang_Common_Reset;?>" /> 
-            
+        name="btnReset" id="btnReset"
+        value="<?php echo $lang_Common_Reset;?>" />
+
 	<?php } ?>
 </div>
 <br class="clear"/>
@@ -364,17 +364,17 @@ td {
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
 <div>
 	<?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" />
-	
-    <input type="button" class="approvebutton"  
+
+    <input type="button" class="approvebutton"
         onclick="actionApprove(); return false;"
         name="btnApprove" id="btnApprove"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                             
-        value="<?php echo $lang_Common_Approve;?>" />             
-    <input type="button" class="rejectbutton"  
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Approve;?>" />
+    <input type="button" class="rejectbutton"
         onclick="actionReject(); return false;"
         name="btnReject" id="btnReject"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                        
-        value="<?php echo $lang_Common_Reject;?>" />             
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Reject;?>" />
 </div>
 <br class="clear"/>
 	<?php } ?>
@@ -385,7 +385,7 @@ td {
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
