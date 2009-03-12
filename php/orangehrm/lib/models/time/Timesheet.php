@@ -51,8 +51,6 @@ class Timesheet {
 	const TIMESHEET_STATUS_APPROVED=20;
 	const TIMESHEET_STATUS_REJECTED=30;
 
-	const ONE_WEEK=7;
-
 	/**
 	 * Class atributes
 	 */
@@ -159,7 +157,7 @@ class Timesheet {
 		if ($this->getStartDate() == null) {
 
 			$day = date('N');
-
+			
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
 			if ($diff > 0) {
 				$diff-=7;
@@ -372,7 +370,7 @@ class Timesheet {
 
 		return false;
 	}
-
+	
 	/**
 	 * Retrieve timesheets in bulk
 	 *
@@ -430,7 +428,7 @@ class Timesheet {
 
 		return $objArr;
 	}
-
+	
 
 	/**
 	 * Retrieve timesheets by TimesheetId in bulk
@@ -442,7 +440,7 @@ class Timesheet {
 	 * @return Timesheet[] array of timesheets
 	 */
 	public function fetchTimesheetsByTimesheetIdBulk($page, $timsheetIds) {
-
+		
 		$sql_builder = new SQLQBuilder();
 		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
 
@@ -610,21 +608,21 @@ class Timesheet {
 		}
 
 	}
-
+        
         /**
          * Check for given date in approved timesheet for given employee
-         * @param string $date
+         * @param string $date 
 		 * @param string $empId
          * @return bool Returns true if record found, false other wise
          */
-
+        
         public static function checkDateInApprovedTimesheet($date, $empId){
 
             $sqlBuilder = new SQLQBuilder();
 
             $selectTable = "`".self::TIMESHEET_DB_TABLE_TIMESHEET."` a ";
             $selectFields[0] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`";
-
+          
             $selectConditions[0] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` <= '{$date}'" ;
             $selectConditions[1] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."` >= '{$date}'";
             $selectConditions[2] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '" .self::TIMESHEET_STATUS_APPROVED . "'";
@@ -633,13 +631,13 @@ class Timesheet {
             $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, NULL, NULL, 1);
             $dbConnection = new DMLFunctions();
             $result = $dbConnection->executeQuery($query);
-
+            
             if(mysql_num_rows($result) > 0){
             	return true;
             }else{
             	return false;
             }
-
+            
         }
 
 	/**

@@ -30,7 +30,7 @@ class EXTRACTOR_Timesheet {
 		//nothing to do
 	}
 
-	/*public function parseViewData($postArr) {
+	public function parseViewData($postArr) {
 
 		$this->parent_Timesheet = new Timesheet();
 
@@ -59,48 +59,7 @@ class EXTRACTOR_Timesheet {
 		}
 
 		return $this->parent_Timesheet;
-	}*/
-
-
-
-
-
-
-	public function parseViewData($postArr) {
-
-		$this->parent_Timesheet = new Timesheet();
-
-		if (isset($postArr['txtStartDate'])) {
-			$this->parent_Timesheet->setStartDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtStartDate']));
-		}
-
-		if (isset($postArr['txtEndDate'])) {
-			$this->parent_Timesheet->setEndDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEndDate']));
-		}
-
-		if (isset($postArr['txtTimesheetPeriodId'])) {
-			$this->parent_Timesheet->setTimesheetPeriodId($postArr['txtTimesheetPeriodId']);
-		}
-
-		if (isset($postArr['txtTimesheetId'])) {
-			$this->parent_Timesheet->setTimesheetId($postArr['txtTimesheetId']);
-		}
-
-		if (isset($postArr['txtEmployeeId'])) {
-			$this->parent_Timesheet->setEmployeeId($postArr['txtEmployeeId']);
-		} else if (isset($postArr['txtRepEmpID'])) {
-			$this->parent_Timesheet->setEmployeeId($postArr['txtRepEmpID']);
-		} else if (isset($_SESSION['empID'])){
-			$this->parent_Timesheet->setEmployeeId($_SESSION['empID']);
-		}
-
-		return $this->parent_Timesheet;
 	}
-
-
-
-
-
 
 	public function parseViewDataWithTimezoneDiff($clientStartDate, $clientEndDate, $timesheetPeriodId) {
 		$this->parent_Timesheet = new Timesheet();

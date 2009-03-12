@@ -1449,13 +1449,6 @@
 	$lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR = "Zero or negative interval specified";
 	$lang_Time_Errors_NO_EVENTS_WARNING = "No events to save";
 
-	/* Timegrid variables: Begin */
-
-	$lang_Time_Errors_InvalidDuration_Row_Error = "Enter a record atleast for a day";
-	$lang_Time_Errors_ProjectActivityAlreadySelected = "This project and activity already selected.";
-
-	/* Timegrid variables: End */
-
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
 	$lang_Time_Timesheet_ReportedDate = "Reported date";
@@ -1497,24 +1490,24 @@
 	$lang_Time_AttendanceConfigSaving_FAILURE = "Failed saving attendance configuration";
 	$lang_Time_PunchSaving_SUCCESS = "Record saved";
 	$lang_Time_PunchSaving_FAILURE = "Saving record failed";
-
+	
 	$lang_Time_Menu_MyReports = "My Reports";
 	$lang_Time_Menu_EmployeeReports = "Employee Reports";
-	$lang_Time_Heading_Attendance_Report = "Attendance Report";
+	$lang_Time_Heading_Attendance_Report = "Attendance Report";	
 	$lang_Time_ReportType = "Report Type";
 	$lang_Time_Option_Summary = "Summary";
 	$lang_time_Option_Detailed = "Detailed";
 	$lang_Time_Button_Generate = "Generate";
 	$lang_Time_In = "In";
 	$lang_Time_Out = "Out";
-
+	
 	$lang_Time_Attendance_ReportSavingSuccess = "Attendance report saved successfully";
 	$lang_Time_Attendance_ReportSavingFailure = "Saving attendace report failed";
 	$lang_Time_Attendance_ReportNoChange = "No changes to save";
 	$lang_Time_Attendance_Overlapping = "Overlapping records found";
 	$lang_Time_Attendance_NoReports = "No reports to display";
 	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
-
+ 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
 
