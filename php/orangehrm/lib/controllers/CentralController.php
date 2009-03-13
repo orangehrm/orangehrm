@@ -1633,6 +1633,52 @@ switch ($moduletype) {
 																					$timeController->setObjTime($objs);
 																					$timeController->deleteTimesheet($_POST['nextAction']);
 																					break;
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+													/* Timegrid Controlers: Begin */								
+																					
+													case 'Edit_Timeesheet_Grid'	:	$obj = $timesheetExtractor->parseViewData($_POST);
+																					if (isset($_GET['id']) && !empty($_GET['id'])) {
+																						$obj->setTimesheetId($_GET['id']);
+																					}
+																					if (isset($_GET['return']) && !empty($_GET['return'])) {
+																						$return=$_GET['return'];
+																					}
+																					$timeController->setObjTime($obj);
+																					$timeController->editTimesheetGrid($return);
+																					break;																					
+																					
+													/* Timegrid Controlers: End */								
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
 													case 'View_Work_Shifts'		:	$timeController->viewShifts();
 																					break;
 													case 'Add_Work_Shift'		:	$obj = $workShiftExtractor->parseAddData($_POST);
