@@ -112,7 +112,9 @@ function actionCancel() {
 }
 
 function actionEdit() {
-	window.location=initialAction+"Edit_Timeesheet_Grid&id=<?php echo $timesheet->getTimesheetId(); ?>&return=View_Timesheet";
+	$("frmTimesheet").action= initialAction+"Edit_Timeesheet_Grid";
+	$("frmTimesheet").submit();
+
 }
 
 function actionReject() {

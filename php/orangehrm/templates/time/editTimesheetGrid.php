@@ -18,101 +18,18 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/controllers/TimeController.php';
+$grid = $records['grid'];
+$gridCount = count($grid);
+$projectsList = $records['projectsList'];
+$projectsCount = count($projectsList);
+$startDateStamp = $records['startDateStamp'];
+$endDateStamp = $records['endDateStamp'];
 
-$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
 
-function populateActivities($projectId, $row, $activityId=null, $activityName=null) {
-
-	ob_clean();
-
-	require ROOT_PATH . '/language/default/lang_default_full.php';
-
-	$timeController = new TimeController();
-	$projectActivities = $timeController->fetchProjectActivities($projectId);
-
-	$objResponse = new xajaxResponse();
-	$xajaxFiller = new xajaxElementFiller();
-	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
-	$element="cmbActivity[$row]";
-
-	if (count($projectActivities) == 0) {
-		$projectActivities[0][0] = -1;
-		$projectActivities[0][1] = "- $lang_Time_Timesheet_SelectProject -";
-
-		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
-	} else {
-
-		if ($activityId != null) {
-			$projectActivityObject = new ProjectActivity();
-		    if ($projectId == $projectActivityObject->retrieveActivityProjectId($activityId)) {
-				$activityExists = false;
-				$i = 0;
-				foreach ($projectActivities as $activity) {
-					if ($activity[$i][0] == $activityId) {
-					    $activityExists = true;
-					}
-					$i++;
-				}
-
-				if (!$activityExists) {
-					$count = count($projectActivities);
-					$projectActivities[$count][0] = $activityId;
-					$projectActivities[$count][1] = $activityName;
-				}
-		    }
-		}
-
-		$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
-	 	$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- $lang_Common_Select -','-1');");
-		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 1);
-	}
-
-	$objResponse->addScript('document.getElementById("'.$element.'").focus();');
-
-	$objResponse->addAssign('status','innerHTML','');
-
-	return $objResponse->getXML();
-}
-
-$objAjax = new xajax();
-$objAjax->registerFunction('populateActivities');
-$objAjax->processRequests();
-
-$timesheet=$records[0];
-$timesheetSubmissionPeriod=$records[1];
-$timeExpenses=$records[2];
-$customers=$records[3];
-$projects=$records[4];
-$employee=$records[5];
-$self=$records[6];
-$return=$records[8];
-
-$status=$timesheet->getStatus();
-
-switch ($status) {
-	case Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED : $statusStr = $lang_Time_Timesheet_Status_NotSubmitted;
-												break;
-	case Timesheet::TIMESHEET_STATUS_SUBMITTED : $statusStr = $lang_Time_Timesheet_Status_Submitted;
-												break;
-	case Timesheet::TIMESHEET_STATUS_APPROVED : $statusStr = $lang_Time_Timesheet_Status_Approved;
-												break;
-	case Timesheet::TIMESHEET_STATUS_REJECTED : $statusStr = $lang_Time_Timesheet_Status_Rejected;
-												break;
-}
-
-$startDate = strtotime($timesheet->getStartDate() . " 00:00:00");
-$endDate = strtotime($timesheet->getEndDate() . " 23:59:59");
-$startDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $startDate));
-$endDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $endDate));
-$row=0;
-
-$sysConf = new sysConf();
-$dateFormat = LocaleUtil::convertToXpDateFormat($sysConf->getDateFormat());
-$timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 
 ?>
 <style type="text/css">
+
 .tableTopLeft {
     background: none;    
 }
@@ -137,15 +54,22 @@ $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 .tableBottomRight {
     background: none;    
 }
+
+input[type=text] {
+    border: 1px solid #888888;
+}
+
+td {
+    text-align:center;
+}
+
 </style>
 
-
-<?php $objAjax->printJavascript(); ?>
-
-
-
 <div class="outerbox" style="width:980px">
-<div class="mainHeading"><h2>Edit timesheet for week starting 2009-03-09</h2></div>    
+
+<div class="mainHeading">
+<h2><?php echo $lang_Time_Timesheet_EditTimesheetForWeekStarting.' '.date('Y-m-d', $startDateStamp); ?></h2>
+</div>    
     
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="/orangehrm/lib/controllers/CentralController.php?timecode=Time&id=4&action=">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -156,46 +80,150 @@ $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 	    	<th class="tableTopMiddle" width="120px"></th>
 	    	<th class="tableTopMiddle" width="120px"></th>
 
-<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
+<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<th width="80px" class="tableTopMiddle"></th>
 <?php } ?>
 
 			<th class="tableTopRight"></th>
 		</tr>
+
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle">Project</th>
 			<th class="tableMiddleMiddle">Activity</th>
 
-<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
+<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<th width="80px" class="tableMiddleMiddle"><?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?></th>
 <?php } ?>
 
 			<th class="tableMiddleRight"></th>
 
 		</tr>
+		
 	</thead>
+	
 	<tbody>
-					<tr id="row[0]">
-				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbProject[0]" name="cmbProject[]" onfocus="looseCurrFocus();"  onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, 0);" >
-										<option value="-1">--Select--</option>
+					
+		
+		
+<?php if ($gridCount > 0) { ?> 		
+		
 
-										<option value="0">Internal - Internal</option>
-									</select>
-				</td>
-				<td ><select id="cmbActivity[0]" name="cmbActivity[]" onfocus="looseCurrFocus();">
-						<option value="-1">- Select a Project -</option>
-					</select>
-				</td>
+
+
+<?php 
+
+$k = 0;
+
+foreach ($grid as $key => $value) { // Grid iteration: Begins 
+
+	$projectId = $value['projectId'];
+	$activityId = $value['activityId'];
+	
+	
+?>
+
+		<tr id="row-<?php echo $k; ?>">
+		
+			<td class="tableMiddleLeft"></td>
+			
+			<td >
+				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="">
+				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
-<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
-				<td width="80px"></td>
+<?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
+				<option value="<?php echo $projectsList[$j]['id']; ?>" 
+				<?php echo ($projectsList[$j]['id']==$projectId?'selected':''); ?>>
+				<?php echo $projectsList[$j]['name']; ?>
+				</option>
+<?php } // Project list : Ends ?>
+				
+				</select>
+			</td>
+			
+			<td>
+				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>">
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_NoProjects;?> --</option>
+				</select>
+			</td>
+				
+<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+			<td width="70px">
+				<input type="text" name="txtDuration-<?php echo $k; ?>" 
+				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" 
+				size="5" maxlength="5" />
+				<input type="hidden" name="hdnTimeEventId-<?php echo $k; ?>" 
+				value="<?php echo (isset($value[$i])?$value[$i]['eventId']:''); ?>" />
+			</td>
 <?php } ?>
 				
-				<td class="tableMiddleRight"></td>
-			</tr>
+			<td class="tableMiddleRight"></td>
+			
+		</tr>
+
+<?php 
+
+	$k++;
+
+} // Grid iteration: Ends ?>
+
+
+
+
+			
+<?php } else { // If Grid count is Zero ?>
+	
+
+
+
+
+
+
+
+		<tr id="row-1">
+		
+			<td class="tableMiddleLeft"></td>
+			
+			<td >
+				<select id="cmbProject-1" name="cmbProject-1" onchange="">
+				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
+				
+<?php for ($i=0; $i<$projectsCount; $i++) { // Project list : Begins ?>
+				<option value="<?php echo $projectsList[$i]['id']; ?>"><?php echo $projectsList[$i]['name']; ?></option>
+<?php } // Project list : Ends ?>
+				
+				</select>
+			</td>
+			
+			<td>
+				<select id="cmbActivity-1" name="cmbActivity-1">
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_NoProjects;?> --</option>
+				</select>
+			</td>
+				
+<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+			<td width="70px">
+				<input type="text" name="txtDuration" size="5" maxlength="5" />
+			</td>
+<?php } ?>
+				
+			<td class="tableMiddleRight"></td>
+			
+		</tr>
+
+
+
+
+
+
+	
+<?php } // Grid count checking ends ?> 			
+			
+			
+			
+			
 	</tbody>
+	
 	<tfoot>
 
 	  	<tr>
@@ -203,9 +231,8 @@ $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 
-<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
-			<td width="80px" class="tableBottomMiddle">
-			<input type="text" name="txtDuration" size="10" maxlength="5" />
+<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+			<td class="tableBottomMiddle">
 			</td>
 <?php } ?>
 
@@ -238,7 +265,7 @@ $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 <script type="text/javascript">
         //<![CDATA[
         totRows = 0;
-        currFocus = $("cmbProject[0]");
+        currFocus = $("cmbProject-1");
         currFocus.focus();
         if (document.getElementById && document.createElement) {
             roundBorder('outerbox');                

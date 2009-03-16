@@ -1283,8 +1283,96 @@ class TimeController {
 
 	/* Timegrid methods: Begin */
 	
-	public function editTimesheetGrid($return="View_Timesheet") {
-		$timesheetObj = $this->objTime;
+	public function editTimesheetGrid($messageType=null, $message=null) {
+		
+		$timesheet = $this->objTime;
+		
+		/* Setting Grid array: Begins */
+		$timeEventObj = new TimeEvent();		
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+        $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
+        $timeEventObj->setStartTime($timesheet->getStartDate());
+        $timeEventObj->setEndTime($timesheet->getEndDate());        
+        $timeEvents = $timeEventObj->fetchTimeEvents();
+        
+        $eventsCount = count($timeEvents);
+        $grid = array();
+        $activityObj = new ProjectActivity();
+        
+        if ($eventsCount > 0) {
+        
+	        for ($i=0; $i<$eventsCount; $i++) {
+	            
+	            $projectId = $timeEvents[$i]->getProjectId();
+	            $activityId = $timeEvents[$i]->getActivityId();
+	            $gridKey = $timeEvents[$i]->getEmployeeId().'-'.$projectId.'-'.$activityId;
+	            $dateKey = strtotime($timeEvents[$i]->getReportedDate());
+	            
+	            if (!isset($grid[$gridKey])) {
+	                
+	                $grid[$gridKey]['projectId'] = $projectId;
+	                $grid[$gridKey]['activityId'] = $activityId;
+	                $grid[$gridKey]['activityName'] = $activityObj->retrieveActivityName($activityId);
+	                $grid[$gridKey]['activityList'] = $activityObj->getActivityList($projectId);            
+	                
+	            }
+	            
+	            $grid[$gridKey][$dateKey]['duration'] = $timeEvents[$i]->getDuration();
+	            $grid[$gridKey][$dateKey]['eventId'] = $timeEvents[$i]->getTimeEventId();
+	            
+	        }
+	        
+	        $records['grid'] = $grid;
+		
+        } else {
+            $records['grid'] = null;            
+        }
+        /* Setting Grid array: Ends */
+		
+		/* Setting Projects List: Begins */
+		$projectObj = new Projects();
+		$projectObj->setDeleted(Projects::PROJECT_NOT_DELETED);
+		$projects = $projectObj->fetchProjects();		
+		$projectsCount = count($projects);
+		
+		if ($projectsCount > 0) {
+		    
+		    for ($i=0; $i<$projectsCount; $i++) {
+		        
+		        $projectId = $projects[$i]->getProjectId();
+		        $projectsList[$i]['name'] = $projects[$i]->retrieveCustomerName($projectId).
+		        							' - '.$projects[$i]->getProjectName();
+		        $projectsList[$i]['id'] = $projectId;
+		        
+		    }
+		    
+		    $records['projectsList'] = $projectsList;
+		    
+		} else {
+		    $records['projectsList'] = null;
+		}
+		/* Setting Projects List: Ends */
+		
+		$records['timesheetId'] = $timesheet->getEmployeeId();
+		$records['employeeId'] = $timesheet->getTimesheetId();
+		$records['startDateStamp'] = strtotime($timesheet->getStartDate());
+		$records['endDateStamp'] = strtotime($timesheet->getEndDate());
+		if (isset($messageType)) {
+		    $records['messageType'] = $messageType;
+		    $records['message'] = $message;
+		}
+		
+		$path='/templates/time/editTimesheetGrid.php';		
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+		
+		
+		
+		
+		
+		
+		
+		/*$timesheetObj = $this->objTime;
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 		$role = $this->authorizeObj->firstRole($roles);
@@ -1352,7 +1440,7 @@ class TimeController {
 		$dataArr[8]=$return;
 
 		$template = new TemplateMerger($dataArr, $path);
-		$template->display();
+		$template->display();*/
 	}
 	
 	

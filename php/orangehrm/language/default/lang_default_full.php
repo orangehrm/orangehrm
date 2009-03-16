@@ -1395,6 +1395,7 @@
 
 	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Timesheet for #name for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Edit timesheet for #name for #periodName starting #startDate";
+	$lang_Time_Timesheet_EditTimesheetForWeekStarting = "Edit timesheet for week starting";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 

@@ -1644,14 +1644,8 @@ switch ($moduletype) {
 													/* Timegrid Controlers: Begin */								
 																					
 													case 'Edit_Timeesheet_Grid'	:	$obj = $timesheetExtractor->parseViewData($_POST);
-																					if (isset($_GET['id']) && !empty($_GET['id'])) {
-																						$obj->setTimesheetId($_GET['id']);
-																					}
-																					if (isset($_GET['return']) && !empty($_GET['return'])) {
-																						$return=$_GET['return'];
-																					}
 																					$timeController->setObjTime($obj);
-																					$timeController->editTimesheetGrid($return);
+																					$timeController->editTimesheetGrid();
 																					break;																					
 																					
 													/* Timegrid Controlers: End */								
