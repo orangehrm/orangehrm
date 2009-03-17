@@ -264,11 +264,11 @@ class TimeEvent {
 	 */
 	public function addTimeEvent() {
 	
-		if ($this->getStartTime() != null && $this->getEmployeeId() != null){     
+		/*if ($this->getStartTime() != null && $this->getEmployeeId() != null){     
 			$this->_checkStartTimeInTimeEvent();
 		}
                 
-		$this->_isOverlapping();
+		$this->_isOverlapping();*/
 
 		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIME_EVENT_DB_TABLE_TIME_EVENT, self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID);
 		$this->setTimeEventId($newId);
@@ -333,9 +333,10 @@ class TimeEvent {
 	 * All except time event id is editable
 	 */
 	public function editTimeEvent() {
-		if ($this->_isOverlapping()) {
+		
+		/*if ($this->_isOverlapping()) {
 			return false;
-		}
+		}*/
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -382,7 +383,7 @@ class TimeEvent {
 			$updateValues[] = "'".$this->getReportedDate()."'";
 		}
 
-		if ($this->getDuration() != null) {
+		if ($this->getDuration() !== null) {
 			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
 			$updateValues[] = $this->getDuration();
 		}

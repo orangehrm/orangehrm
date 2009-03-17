@@ -1647,6 +1647,12 @@ switch ($moduletype) {
 																							$timeController->setObjTime($obj);
 																							$timeController->editTimesheetGrid();
 																							break;	
+																							
+													case 'Update_Timeesheet_Grid'		:	$obj = $timesheetExtractor->parseViewData($_POST);
+																							$timeController->setObjTime($obj);
+																							$eventsList = $timeEventExtractor->parseEditTimegrid($_POST);
+																							$timeController->updateTimegrid($eventsList);
+																							break;
 																					
 													case 'Timegrid_Fetch_Activities'	: 	echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
 																							break;																			

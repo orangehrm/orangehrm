@@ -1317,7 +1317,7 @@ class TimeController {
 	                
 	            }
 	            
-	            $grid[$gridKey][$dateKey]['duration'] = $timeEvents[$i]->getDuration();
+	            $grid[$gridKey][$dateKey]['duration'] = round($timeEvents[$i]->getDuration()/3600, 2);
 	            $grid[$gridKey][$dateKey]['eventId'] = $timeEvents[$i]->getTimeEventId();
 	            
 	        }
@@ -1353,8 +1353,8 @@ class TimeController {
 		}
 		/* Setting Projects List: Ends */
 		
-		$records['timesheetId'] = $timesheet->getEmployeeId();
-		$records['employeeId'] = $timesheet->getTimesheetId();
+		$records['employeeId'] = $timesheet->getEmployeeId();
+		$records['timesheetId'] = $timesheet->getTimesheetId();
 		$records['startDateStamp'] = strtotime($timesheet->getStartDate());
 		$records['endDateStamp'] = strtotime($timesheet->getEndDate());
 		if (isset($messageType)) {
@@ -1367,6 +1367,87 @@ class TimeController {
 		$template->display();
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public function updateTimegrid($eventsList) {
+	
+		$updateList = $eventsList[0];
+		$addList = $eventsList[1];
+		$updateCount = count($updateList);
+		$addCount = count($addList);
+		
+		if ($updateCount == 0 && $addCount == 0) { // If there in nothing to update
+		    
+		    $this->editTimesheetGrid('FAILURE', 'no-changes');
+		    
+		} else {
+		    
+		    /* Updating time events */
+		    
+		    $updateFlag = true;
+		    
+		    foreach ($updateList as $update) {
+		        
+		        if (!$update->editTimeEvent()) {
+		            $updateFlag = false;
+		        }
+		        
+		    }
+		    
+		    /* Adding time events */
+		    
+		    $addFlag = true;
+		    
+		    foreach ($addList as $add) {
+		        
+		        if (!$add->addTimeEvent()) {
+		            $addFlag = false;
+		        }
+		        
+		    }
+		    
+		    /* Sending the result back to the UI */
+		    
+		    if ($updateFlag && $addFlag) {
+		        
+		        $this->editTimesheetGrid('SUCCESS', 'update-success');
+		        
+		    } else {
+		        
+		        $this->editTimesheetGrid('FAILURE', 'update-failure');
+		        
+		    }
+		    
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public function prepareProjectActivitiesResponse($projectId=0) {
 	    

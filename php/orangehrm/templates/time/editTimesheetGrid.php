@@ -68,11 +68,19 @@ td {
 
 <div class="outerbox" style="width:980px">
 
+<!-- Message box: Begins -->
+<?php if (isset($records['message'])) { ?>
+    <div class="messagebar">
+        <span class="<?php echo $records['messageType']; ?>"><?php echo $records['message']; ?></span>
+    </div>
+<?php } ?>
+<!-- Message box: Ends -->
+
 <div class="mainHeading">
 <h2><?php echo $lang_Time_Timesheet_EditTimesheetForWeekStarting.' '.date('Y-m-d', $startDateStamp); ?></h2>
 </div>    
     
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="/orangehrm/lib/controllers/CentralController.php?timecode=Time&id=4&action=">
+<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Update_Timeesheet_Grid">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	<thead>
 
@@ -93,9 +101,18 @@ td {
 			<th class="tableMiddleMiddle">Project</th>
 			<th class="tableMiddleMiddle">Activity</th>
 
-<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<th width="80px" class="tableMiddleMiddle"><?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?></th>
-<?php } ?>
+<?php 
+	$datesCount = 0;
+	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+			<th width="80px" class="tableMiddleMiddle">
+			<?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?>
+			<input type="hidden" name="hdnReportedDate-<?php echo $datesCount; ?>" 
+			value="<?php echo date('Y-m-d', $i); ?>" />
+			</th>
+<?php 
+	$datesCount++;
+	} 
+?>
 
 			<th class="tableMiddleRight"></th>
 
@@ -120,7 +137,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	$projectId = $value['projectId'];
 	$activityId = $value['activityId'];
-	
+	$activityList = $value['activityList'];
+	$activityCount = count($activityList);
 	
 ?>
 
@@ -130,7 +148,6 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			<td >
 				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
-				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
 <?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
 				<option value="<?php echo $projectsList[$j]['id']; ?>" 
@@ -144,21 +161,41 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			<td>
 				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>">
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
+
+<?php for ($j=0; $j<$activityCount; $j++) { ?>
+				<option value="<?php echo $activityList[$j]->getId(); ?>" 
+				<?php echo ($activityList[$j]->getId()==$activityId?'selected':''); ?>>
+				<?php echo $activityList[$j]->getName(); ?>
+				</option>
+<?php } ?>
+
 				</select>
 			</td>
 				
-<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+<?php 
+	$dCount = 0; // $datesCount is defined at <th> and is used in EXTRACTOR_TimeEvent. Therefore use $dCount to avoid conflicts
+	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td width="70px">
-				<input type="text" name="txtDuration-<?php echo $k; ?>" 
+				<input type="text" name="txtDuration-<?php echo $k.'-'.$dCount; // Format: txtDuration-0-0 (RowCount-DatesCount) ?>" 
 				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" 
 				size="5" maxlength="5" />
-				<input type="hidden" name="hdnTimeEventId-<?php echo $k; ?>" 
-				value="<?php echo (isset($value[$i])?$value[$i]['eventId']:''); ?>" />
+				
+				<?php if(isset($value[$i])) { ?>
+				<input type="hidden" name="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>" 
+				value="<?php echo $value[$i]['eventId']; ?>" />
+				<input type="hidden" name="hdnDuration-<?php echo $k.'-'.$dCount; ?>" 
+				value="<?php echo $value[$i]['duration']; ?>" />
+				<?php } ?>
 			</td>
-<?php } ?>
+<?php 
+	$dCount++;
+	} 
+?>
 				
 			<td class="tableMiddleRight"></td>
+		
+		<input type="hidden" name="hdnProject-<?php echo $k; ?>" value="<?php echo $projectId; ?>" />	
+		<input type="hidden" name="hdnActivity-<?php echo $k; ?>" value="<?php echo $activityId; ?>" />	
 			
 		</tr>
 
@@ -181,12 +218,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 
 
-		<tr id="row-1">
+		<tr id="row-0">
 		
 			<td class="tableMiddleLeft"></td>
 			
 			<td >
-				<select id="cmbProject-1" name="cmbProject-1" onchange="fetchActivities(this.value, this.id)">
+				<select id="cmbProject-0" name="cmbProject-0" onchange="fetchActivities(this.value, this.id)">
 				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
 <?php for ($i=0; $i<$projectsCount; $i++) { // Project list : Begins ?>
@@ -197,16 +234,21 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			</td>
 			
 			<td>
-				<select id="cmbActivity-1" name="cmbActivity-1">
+				<select id="cmbActivity-0" name="cmbActivity-0">
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 				</select>
 			</td>
 				
-<?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
+<?php 
+	$dCount = 0;
+	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td width="70px">
-				<input type="text" name="txtDuration" size="5" maxlength="5" />
+				<input type="text" name="txtDuration-1-<?php echo $dCount; ?>" size="5" maxlength="5" />
 			</td>
-<?php } ?>
+<?php 
+	$dCount++;
+	} 
+?>
 				
 			<td class="tableMiddleRight"></td>
 			
@@ -243,24 +285,44 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 </table>
 
 <p id="controls">
-<input type="hidden" name="txtTimesheetId" value="4" />
-<input type="hidden" name="txtEmployeeId" value="1" />
-<input type="hidden" name="nextAction" value="View_Timesheet" />
+
+<?php 
+/* Hidden data: Begins 
+ * 
+ * Some values prefix 'txt' instead of 'hdn' to comply with Extractors
+ * 
+ * */ 
+
+?>
+
+<input type="hidden" name="txtEmployeeId" value="<?php echo $records['employeeId']; ?>" />
+<input type="hidden" name="txtTimesheetId" value="<?php echo $records['timesheetId']; ?>" />
+<input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $startDateStamp); ?>" />
+<input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $endDateStamp); ?>" />
+
+<input type="hidden" name="hdnGridCount" value="<?php echo $gridCount; ?>" />
+<input type="hidden" name="hdnDatesCount" value="<?php echo $datesCount; ?>" />
+
+<?php /* Hidden data: Ends */ ?>
+
 <div class="formbuttons">
+
 <input type="button" class="updatebutton"  
         onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnUpdate" id="btnUpdate"                              
         value="Add Row" />         
 <input type="button" class="resetbutton"  
-        onclick="actionReset(); return false;"
+        onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnReset" id="btnReset"                              
         value="Save" />         
+</div>
+
 </p>
 
 </form>
-</div>
+
 </div>
 
 <script type="text/javascript">
@@ -338,12 +400,13 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	/* Populate project activities: Ends */
 	
 	
+	function actionUpdate() {
+		document.frmTimesheet.submit();
+	}
 	
 	
 	
-	
-	totRows = 0;
-	currFocus = $("cmbProject-1");
+	currFocus = $("cmbProject-0");
 	currFocus.focus();
 	if (document.getElementById && document.createElement) {
 	    roundBorder('outerbox');                
