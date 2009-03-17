@@ -1643,10 +1643,13 @@ switch ($moduletype) {
 																					
 													/* Timegrid Controlers: Begin */								
 																					
-													case 'Edit_Timeesheet_Grid'	:	$obj = $timesheetExtractor->parseViewData($_POST);
-																					$timeController->setObjTime($obj);
-																					$timeController->editTimesheetGrid();
-																					break;																					
+													case 'Edit_Timeesheet_Grid'			:	$obj = $timesheetExtractor->parseViewData($_POST);
+																							$timeController->setObjTime($obj);
+																							$timeController->editTimesheetGrid();
+																							break;	
+																					
+													case 'Timegrid_Fetch_Activities'	: 	echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
+																							break;																			
 																					
 													/* Timegrid Controlers: End */								
 																					

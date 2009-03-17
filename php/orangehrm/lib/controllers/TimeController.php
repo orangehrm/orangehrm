@@ -799,7 +799,7 @@ class TimeController {
 
 		return $projectActivityArr;
 	}
-
+	
 	public function fetchCustomersProjects($customerId=0) {
 		$projectObj = new Projects();
 
@@ -1366,83 +1366,36 @@ class TimeController {
 		$template = new TemplateMerger($records, $path);
 		$template->display();
 		
-		
-		
-		
-		
-		
-		
-		/*$timesheetObj = $this->objTime;
-
-		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
-		$role = $this->authorizeObj->firstRole($roles);
-
-		if ($timesheetObj->getTimesheetId() != null) {
-			$timesheetObj->setEmployeeId(null);
-		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
-			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
-				$this->redirect('UNAUTHORIZED_FAILURE');
-			}
-		}
-
-		$timesheets = $timesheetObj->fetchTimesheets();
-
-		if ($timesheets == null) {
-			if ($_SESSION['empID'] == $timesheetObj->getTimesheetId()) {
-				$timesheetObj->addTimesheet();
-				$timesheets = $timesheetObj->fetchTimesheets();
-			}
-		}
-
-		$timesheet = $timesheets[0];
-
-		$timeEventObj = new TimeEvent();
-
-		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
-		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
-		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
-
-		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
-        $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
-        $timeEventObj->setStartTime($timesheet->getStartDate());
-        $timeEventObj->setEndTime($timesheet->getEndDate());
-
-		$timeEvents = $timeEventObj->fetchTimeEvents();
-
-		$path="/templates/time/editTimesheetGrid.php";
-
-		$customerObj = new Customer();
-		$projectObj = new Projects();
-
-		$customers = $customerObj->fetchCustomers();
-
-		// Only fetch non-deleted projects
-		$projectObj->setDeleted(Projects::PROJECT_NOT_DELETED);
-		$projects = $projectObj->fetchProjects();
-
-		$employeeObj = new EmpInfo();
-
-		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
-
-		$self=false;
-		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
-			$self=true;
-		}
-
-		$dataArr[0]=$timesheet;
-		$dataArr[1]=$timesheetSubmissionPeriod[0];
-		$dataArr[2]=$timeEvents;
-		$dataArr[3]=$customers;
-		$dataArr[4]=$projects;
-		$dataArr[5]=$employee[0];
-		$dataArr[6]=$self;
-		$dataArr[7]=$roles;
-		$dataArr[8]=$return;
-
-		$template = new TemplateMerger($dataArr, $path);
-		$template->display();*/
 	}
 	
+	public function prepareProjectActivitiesResponse($projectId=0) {
+	    
+	    if ($projectId < 0) {
+	        return null;
+	    }
+
+		$projectActivityObj = new ProjectActivity();
+		$projectActivities = $projectActivityObj->getActivityList($projectId);
+		$response = null;
+		$count = count($projectActivities);
+		
+		if (isset($projectActivities)) {
+		    
+		    for ($i=0; $i<$count; $i++) {
+		        
+		        if ($i == ($count-1)) {
+		            $response .= $projectActivities[$i]->getName().'%'.$projectActivities[$i]->getId();
+		        } else {
+		            $response .= $projectActivities[$i]->getName().'%'.$projectActivities[$i]->getId().';';
+		        }
+		        
+		    }
+		    
+		}
+		
+	    return $response;
+	    
+	}
 	
 	/* Timegrid methods: End */
 

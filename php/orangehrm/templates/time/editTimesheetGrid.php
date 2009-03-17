@@ -28,6 +28,7 @@ $endDateStamp = $records['endDateStamp'];
 
 
 ?>
+
 <style type="text/css">
 
 .tableTopLeft {
@@ -128,7 +129,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="tableMiddleLeft"></td>
 			
 			<td >
-				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="">
+				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
 				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
 <?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
@@ -143,7 +144,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			<td>
 				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>">
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_NoProjects;?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 				</select>
 			</td>
 				
@@ -185,7 +186,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="tableMiddleLeft"></td>
 			
 			<td >
-				<select id="cmbProject-1" name="cmbProject-1" onchange="">
+				<select id="cmbProject-1" name="cmbProject-1" onchange="fetchActivities(this.value, this.id)">
 				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
 <?php for ($i=0; $i<$projectsCount; $i++) { // Project list : Begins ?>
@@ -197,7 +198,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			<td>
 				<select id="cmbActivity-1" name="cmbActivity-1">
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_NoProjects;?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 				</select>
 			</td>
 				
@@ -263,12 +264,90 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 </div>
 
 <script type="text/javascript">
-        //<![CDATA[
-        totRows = 0;
-        currFocus = $("cmbProject-1");
-        currFocus.focus();
-        if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
-        }
-        //]]>
+	//<![CDATA[
+	
+	/* Populate project activities: Begins */
+
+	var xmlHttp = null;
+	
+	function fetchActivities(projectId, rowId) {
+	
+		try { // Firefox, Opera 8.0+, Safari
+	  		xmlHttp=new XMLHttpRequest();
+	  	}
+		catch(e) { // Internet Explorer
+	
+	  		try {
+	    		xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+	    	}
+	  		catch(e) {
+	
+	    		try {
+	      			xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+	      		}
+	    		catch(e) {
+	      			alert("Your browser does not support AJAX!");
+	      			return false;
+	      		}
+	    	}
+	  	}
+	  	
+	  	var rowIdArr = rowId.split("-");
+	
+		xmlHttp.onreadystatechange = function() { populateActivities(rowIdArr[1]); };
+	
+		xmlHttp.open("GET", "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Timegrid_Fetch_Activities&projectId="+projectId, true);
+		xmlHttp.send(null);
+	
+	}
+	
+	function populateActivities(rowId){
+
+		if(xmlHttp.readyState == 4){
+		
+			var combo = document.getElementById('cmbActivity-'+rowId);	
+			combo.options.length = 0;	
+			var response = trimResponse(xmlHttp.responseText);
+			
+			if (response.length > 0) {
+
+				var items = response.split(";");	
+				var count = items.length;
+			
+				for (var i=0;i<count;i++){
+		
+					var values = items[i].split("%");	
+					combo.options[i] = new Option(values[0],values[1]);
+		
+				}
+			
+			} else {
+			
+			    combo.options[0] = new Option('<?php echo $lang_Time_Timesheet_NoProjects;?>', '-1');
+			    
+			}
+	
+		}
+	
+	}
+	
+	function trimResponse(value) {
+	    return value.replace(/^\s+|\s+$/g,"");
+	}
+	
+	/* Populate project activities: Ends */
+	
+	
+	
+	
+	
+	
+	totRows = 0;
+	currFocus = $("cmbProject-1");
+	currFocus.focus();
+	if (document.getElementById && document.createElement) {
+	    roundBorder('outerbox');                
+	}
+	
+	//]]>
 </script>
