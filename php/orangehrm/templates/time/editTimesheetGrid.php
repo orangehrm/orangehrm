@@ -199,7 +199,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td calss="durationTd">
 				<input type="text" name="txtDuration-<?php echo $k.'-'.$dCount; // Format: txtDuration-0-0 (RowCount-DatesCount) ?>" 
-				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" 
+				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" id="txtDuration-<?php echo $k.'-'.$dCount; ?>" 
 				maxlength="5" />
 				
 				<?php if(isset($value[$i])) { ?>
@@ -265,7 +265,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	$dCount = 0;
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td class="durationTd">
-				<input type="text" name="txtDuration-1-<?php echo $dCount; ?>" size="5" maxlength="5" />
+				<input type="text" name="txtDuration-1-<?php echo $dCount; ?>" 
+				id="txtDuration-1-<?php echo $dCount; ?>" maxlength="5" />
 			</td>
 <?php 
 	$dCount++;
@@ -425,7 +426,9 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	/* Submitting Timegrid */
 	
 	function actionUpdate() {
-		document.frmTimegrid.submit();
+		if (validateTimegrid()) {
+			document.frmTimegrid.submit();
+		}
 	}
 	
 	/* Adding a row to grid: Begins */
@@ -502,6 +505,42 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	
 	/* Adding a row to grid: Ends */
 	
+	/* Validating timegrid: Begins */
+	
+	function validateTimegrid() {
+	
+	    var gridCount =	$('hdnGridCount').value;
+	    var datesCount = <?php echo $datesCount; ?>;
+	    var pattern = /^\d+.?\d*$/;
+	    var flag = true;
+	    
+	    for (var i=0; i<gridCount; i++) {
+	        
+	        for (var j=0; j<datesCount; j++) {
+	            
+	            var durationId = 'txtDuration-'+i+'-'+j;
+	            var duration = $(durationId).value;
+	            
+	            if (duration != '' && duration.match(pattern)==null) {
+	                
+					flag = false;	                
+	                
+	            }
+	            
+	        }
+	        
+	    }
+	    
+	    if (!flag) {
+	        alert('<?php echo $lang_Time_Errors_INVALID_TIME_FAILURE; ?>');
+	        return false;
+	    } else {
+	        return true;
+	    }
+	    
+	}
+	
+	/* Validating timegrid: Ends */	
 	
 	/* Making table corners round */
 	
