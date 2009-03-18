@@ -56,12 +56,25 @@ $endDateStamp = $records['endDateStamp'];
     background: none;    
 }
 
-input[type=text] {
-    border: 1px solid #888888;
-}
-
 td {
     text-align:center;
+}
+
+.durationTd {
+    width:70px;
+}
+
+.selectTd {
+    width:120px;
+}
+
+#frmTimegrid input[type=text] {
+    border: 1px solid #888888;
+    width: 50px;
+}
+
+#frmTimegrid select {
+    width: 120px;
 }
 
 </style>
@@ -80,8 +93,8 @@ td {
 <h2><?php echo $lang_Time_Timesheet_EditTimesheetForWeekStarting.' '.date('Y-m-d', $startDateStamp); ?></h2>
 </div>    
     
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Update_Timeesheet_Grid">
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<form id="frmTimegrid" name="frmTimegrid" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Update_Timeesheet_Grid">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="tblTimegrid">
 	<thead>
 
 		<tr>
@@ -90,7 +103,7 @@ td {
 	    	<th class="tableTopMiddle" width="120px"></th>
 
 <?php for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<th width="80px" class="tableTopMiddle"></th>
+			<th class="tableTopMiddle"></th>
 <?php } ?>
 
 			<th class="tableTopRight"></th>
@@ -104,7 +117,7 @@ td {
 <?php 
 	$datesCount = 0;
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<th width="80px" class="tableMiddleMiddle">
+			<th class="tableMiddleMiddle">
 			<?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?>
 			<input type="hidden" name="hdnReportedDate-<?php echo $datesCount; ?>" 
 			value="<?php echo date('Y-m-d', $i); ?>" />
@@ -146,7 +159,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		
 			<td class="tableMiddleLeft"></td>
 			
-			<td >
+			<td class="selectTd">
 				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
 				
 <?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
@@ -159,7 +172,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				</select>
 			</td>
 			
-			<td>
+			<td class="selectTd">
 				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>">
 
 <?php for ($j=0; $j<$activityCount; $j++) { ?>
@@ -175,10 +188,10 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <?php 
 	$dCount = 0; // $datesCount is defined at <th> and is used in EXTRACTOR_TimeEvent. Therefore use $dCount to avoid conflicts
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<td width="70px">
+			<td calss="durationTd">
 				<input type="text" name="txtDuration-<?php echo $k.'-'.$dCount; // Format: txtDuration-0-0 (RowCount-DatesCount) ?>" 
 				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" 
-				size="5" maxlength="5" />
+				maxlength="5" />
 				
 				<?php if(isset($value[$i])) { ?>
 				<input type="hidden" name="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>" 
@@ -222,7 +235,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		
 			<td class="tableMiddleLeft"></td>
 			
-			<td >
+			<td class="selectTd">
 				<select id="cmbProject-0" name="cmbProject-0" onchange="fetchActivities(this.value, this.id)">
 				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
@@ -233,7 +246,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				</select>
 			</td>
 			
-			<td>
+			<td class="selectTd">
 				<select id="cmbActivity-0" name="cmbActivity-0">
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 				</select>
@@ -242,7 +255,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <?php 
 	$dCount = 0;
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<td width="70px">
+			<td class="durationTd">
 				<input type="text" name="txtDuration-1-<?php echo $dCount; ?>" size="5" maxlength="5" />
 			</td>
 <?php 
@@ -300,7 +313,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $startDateStamp); ?>" />
 <input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $endDateStamp); ?>" />
 
-<input type="hidden" name="hdnGridCount" value="<?php echo $gridCount; ?>" />
+<input type="hidden" name="hdnGridCount" id="hdnGridCount" value="<?php echo $gridCount; ?>" />
 <input type="hidden" name="hdnDatesCount" value="<?php echo $datesCount; ?>" />
 
 <?php /* Hidden data: Ends */ ?>
@@ -308,7 +321,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <div class="formbuttons">
 
 <input type="button" class="updatebutton"  
-        onclick="actionUpdate(); return false;"
+        onclick="addRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnUpdate" id="btnUpdate"                              
         value="Add Row" />         
@@ -333,7 +346,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	var xmlHttp = null;
 	
 	function fetchActivities(projectId, rowId) {
-	
+
 		try { // Firefox, Opera 8.0+, Safari
 	  		xmlHttp=new XMLHttpRequest();
 	  	}
@@ -367,7 +380,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		if(xmlHttp.readyState == 4){
 		
-			var combo = document.getElementById('cmbActivity-'+rowId);	
+			var combo = $('cmbActivity-'+rowId);	
 			combo.options.length = 0;	
 			var response = trimResponse(xmlHttp.responseText);
 			
@@ -400,11 +413,88 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	/* Populate project activities: Ends */
 	
 	
+	/* Submitting Timegrid */
+	
 	function actionUpdate() {
-		document.frmTimesheet.submit();
+		document.frmTimegrid.submit();
 	}
 	
+	/* Adding a row to grid: Begins */
 	
+	function addRow() {
+	    
+		var tbody = $('tblTimegrid').getElementsByTagName('tbody')[0];
+		var rowNo = tbody.rows.length;
+		var row = tbody.insertRow(rowNo);
+		
+		/* Adding left most td */
+		
+		var leftCell = row.insertCell(0);
+		leftCell.class = 'tableMiddleLeft';
+		
+		/* Adding projects select box */
+		
+		var projectCell = row.insertCell(1);
+		var projectSelect = document.createElement('select');
+		var selectName = 'cmbProject-'+ rowNo;
+		projectSelect.name = selectName;
+		projectSelect.id = selectName;
+		projectSelect.setAttribute("onchange", "fetchActivities($('" + selectName + "').value, '" + selectName + "');");
+		projectSelect.options[0] = new Option('<?php echo $lang_Leave_Common_Select;?>', '-1');
+				
+		<?php
+		for ($i=0; $i<$projectsCount; $i++) {
+		?>
+		projectSelect.options[<?php echo $i+1; ?>] = new Option('<?php echo $projectsList[$i]['name']; ?>', '<?php echo $projectsList[$i]['id']; ?>');
+		<?php
+		}
+		?>
+		
+		projectCell.appendChild(projectSelect);
+		
+		/* Adding activities select box */
+		
+		var activityCell = row.insertCell(2);
+		var activitySelect = document.createElement('select');
+		activitySelect.name = 'cmbActivity-'+ rowNo;
+		activitySelect.id = 'cmbActivity-'+ rowNo;
+		activitySelect.options[0] = new Option('<?php echo $lang_Time_Timesheet_SelectProject;?>', '-1');
+		activityCell.appendChild(activitySelect);
+
+		/* Adding duration input boxes */
+		
+		<?php
+		for ($i=0; $i<$datesCount; $i++) {
+		?>
+
+		var durationCell = row.insertCell(<?php echo $i+3; ?>);
+		var durationInput = document.createElement('input');
+		durationInput.type = 'text';
+  		durationInput.name = 'txtDuration-' + rowNo + '-' + <?php echo $i; ?>;
+  		durationInput.id = 'txtDuration-' + rowNo + '-' + <?php echo $i; ?>;
+  		durationInput.maxLength = 5;
+		durationCell.appendChild(durationInput);
+
+		<?php
+		}
+		?>
+
+		/* Adding right most td */
+		
+		var rightCell = row.insertCell(3+<?php echo $datesCount; ?>);
+		rightCell.class = 'tableMiddleRight';
+		
+		/* Incrementing grid count (Grid count is used in EXTRACTOR_TimeEvent) */
+		
+		var gridCount =	$('hdnGridCount');
+		gridCount.value = parseInt(gridCount.value) + 1;
+
+	}
+	
+	/* Adding a row to grid: Ends */
+	
+	
+	/* Making table corners round */
 	
 	currFocus = $("cmbProject-0");
 	currFocus.focus();

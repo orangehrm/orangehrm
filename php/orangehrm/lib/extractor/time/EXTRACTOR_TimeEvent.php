@@ -246,12 +246,12 @@ class EXTRACTOR_TimeEvent {
 			         	$timeEvent->setDuration($postArr["txtDuration-$i-$j"] * 3600);
 			         	$timeEvent->setReportedDate($postArr["hdnReportedDate-$j"]);
 			         
-			         	$updateList[] = $timeEvent; //var_dump($updateList); die;
+			         	$updateList[] = $timeEvent;
 			         	
 			        } 	
 		             
 				} else { // A new time event
-		         
+				
 					if ($postArr["txtDuration-$i-$j"] != '') { // If no value has been put, no need to add a new time event
 
 			        	$timeEvent = new TimeEvent();
