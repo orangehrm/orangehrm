@@ -25,7 +25,16 @@ $projectsCount = count($projectsList);
 $startDateStamp = $records['startDateStamp'];
 $endDateStamp = $records['endDateStamp'];
 
+if (isset($records['message'])) { 
 
+	$message = '';
+	if ($records['message'] == 'update-success') {
+		$message = $lang_Time_Errors_UPDATE_SUCCESS;    
+	} elseif ($records['message'] == 'update-failure') {
+	    $message = $lang_Time_Errors_UPDATE_FAILURE;
+	}
+
+}
 
 ?>
 
@@ -84,7 +93,7 @@ td {
 <!-- Message box: Begins -->
 <?php if (isset($records['message'])) { ?>
     <div class="messagebar">
-        <span class="<?php echo $records['messageType']; ?>"><?php echo $records['message']; ?></span>
+        <span class="<?php echo $records['messageType']; ?>"><?php echo $message; ?></span>
     </div>
 <?php } ?>
 <!-- Message box: Ends -->
