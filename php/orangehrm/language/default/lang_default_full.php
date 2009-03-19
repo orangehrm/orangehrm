@@ -1430,9 +1430,12 @@
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Invalid time specified";
+	$lang_Time_Errors_INVALID_DURATION_FAILURE = "Invalid duration specified";
 	$lang_Time_Errors_EVENT_START_AFTER_END_ERROR = "Event start time after end time.";
 	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Invalid timesheet period.";
 	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "Timesheet contains unfinished activities";
+	$lang_Time_Errors_DUPLICATE_ROWS = "Duplicate rows found";
+	$lang_Time_Errors_NO_PROJECT_SELECTED = "Please select a project";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
 	$lang_Time_Errors_EncounteredFollowingProblems = "Encountered following problems";

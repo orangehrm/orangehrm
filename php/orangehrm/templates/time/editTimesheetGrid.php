@@ -32,6 +32,8 @@ if (isset($records['message'])) {
 		$message = $lang_Time_Errors_UPDATE_SUCCESS;    
 	} elseif ($records['message'] == 'update-failure') {
 	    $message = $lang_Time_Errors_UPDATE_FAILURE;
+	} elseif ($records['message'] == 'no-changes') {
+	    $message = $lang_Time_Attendance_ReportNoChange;
 	}
 
 }
@@ -169,7 +171,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="tableMiddleLeft"></td>
 			
 			<td class="selectTd">
-				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
+				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" 
+				id="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
 				
 <?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
 				<option value="<?php echo $projectsList[$j]['id']; ?>" 
@@ -182,7 +185,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			</td>
 			
 			<td class="selectTd">
-				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>">
+				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>" 
+				id="cmbActivity-<?php echo $k; ?>">
 
 <?php for ($j=0; $j<$activityCount; $j++) { ?>
 				<option value="<?php echo $activityList[$j]->getId(); ?>" 
@@ -245,7 +249,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="tableMiddleLeft"></td>
 			
 			<td class="selectTd">
-				<select id="cmbProject-0" name="cmbProject-0" onchange="fetchActivities(this.value, this.id)">
+				<select id="cmbProject-0" name="cmbProject-0" id="cmbProject-0" 
+				onchange="fetchActivities(this.value, this.id)">
 				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
 				
 <?php for ($i=0; $i<$projectsCount; $i++) { // Project list : Begins ?>
@@ -256,7 +261,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			</td>
 			
 			<td class="selectTd">
-				<select id="cmbActivity-0" name="cmbActivity-0">
+				<select id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 				</select>
 			</td>
@@ -265,8 +270,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	$dCount = 0;
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td class="durationTd">
-				<input type="text" name="txtDuration-1-<?php echo $dCount; ?>" 
-				id="txtDuration-1-<?php echo $dCount; ?>" maxlength="5" />
+				<input type="text" name="txtDuration-0-<?php echo $dCount; ?>" 
+				id="txtDuration-0-<?php echo $dCount; ?>" maxlength="5" />
 			</td>
 <?php 
 	$dCount++;
@@ -323,7 +328,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $startDateStamp); ?>" />
 <input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $endDateStamp); ?>" />
 
-<input type="hidden" name="hdnGridCount" id="hdnGridCount" value="<?php echo $gridCount; ?>" />
+<input type="hidden" name="hdnGridCount" id="hdnGridCount" value="<?php echo ($gridCount==0?1:$gridCount); ?>" />
 <input type="hidden" name="hdnDatesCount" value="<?php echo $datesCount; ?>" />
 
 <?php /* Hidden data: Ends */ ?>
@@ -331,14 +336,24 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <div class="formbuttons">
 
 <input type="button" class="updatebutton"  
+        onclick="backToTimesheetView(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnBack" id="btnBack"                              
+        value="Back" />         
+<input type="button" class="updatebutton"  
         onclick="addRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnUpdate" id="btnUpdate"                              
+        name="btnAddRow" id="btnAddRow"                              
         value="Add Row" />         
+<input type="button" class="updatebutton"  
+        onclick="removeRow(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnRemoveRow" id="btnRemoveRow"                              
+        value="Remove Row" />         
 <input type="button" class="resetbutton"  
         onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnReset" id="btnReset"                              
+        name="btnSave" id="btnSave"                              
         value="Save" />         
 </div>
 
@@ -422,6 +437,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	
 	/* Populate project activities: Ends */
 	
+	/* Going back to Timesheet view */
+	
+	function backToTimesheetView() {
+		document.frmTimegrid.action = '<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=View_Timesheet';
+		document.frmTimegrid.submit();
+	}
 	
 	/* Submitting Timegrid */
 	
@@ -452,7 +473,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		projectSelect.name = selectName;
 		projectSelect.id = selectName;
 		projectSelect.setAttribute("onchange", "fetchActivities($('" + selectName + "').value, '" + selectName + "');");
-		projectSelect.options[0] = new Option('<?php echo $lang_Leave_Common_Select;?>', '-1');
+		projectSelect.options[0] = new Option('-- <?php echo $lang_Leave_Common_Select;?> --', '-1');
 				
 		<?php
 		for ($i=0; $i<$projectsCount; $i++) {
@@ -470,7 +491,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var activitySelect = document.createElement('select');
 		activitySelect.name = 'cmbActivity-'+ rowNo;
 		activitySelect.id = 'cmbActivity-'+ rowNo;
-		activitySelect.options[0] = new Option('<?php echo $lang_Time_Timesheet_SelectProject;?>', '-1');
+		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectProject;?> --', '-1');
 		activityCell.appendChild(activitySelect);
 
 		/* Adding duration input boxes */
@@ -505,14 +526,38 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	
 	/* Adding a row to grid: Ends */
 	
+	/* Removing a row from grid */
+	
+	function removeRow() {
+
+		var tbody = $('tblTimegrid').getElementsByTagName('tbody')[0];
+		var rowNo = tbody.rows.length;
+		var gCount = <?php echo ($gridCount==0?1:$gridCount); // Can only remove rows added before saving ?>;
+
+		if (rowNo > gCount) {
+		    
+		    tbody.deleteRow(rowNo-1);
+		
+			/* Decrementing grid count (Grid count is used in EXTRACTOR_TimeEvent) */
+			
+			var gridCount =	$('hdnGridCount');
+			gridCount.value = parseInt(gridCount.value) - 1;
+		    
+		}
+	    
+	}
+	
 	/* Validating timegrid: Begins */
 	
 	function validateTimegrid() {
 	
 	    var gridCount =	$('hdnGridCount').value;
+	    
+		/* Checking durations entered */
+
 	    var datesCount = <?php echo $datesCount; ?>;
 	    var pattern = /^\d+.?\d*$/;
-	    var flag = true;
+	    var durationFlag = true;
 	    
 	    for (var i=0; i<gridCount; i++) {
 	        
@@ -522,21 +567,80 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	            var duration = $(durationId).value;
 	            
 	            if (duration != '' && duration.match(pattern)==null) {
-	                
-					flag = false;	                
-	                
+					durationFlag = false;	                
+	            } else if (duration > 24) {
+	                durationFlag = false;
 	            }
 	            
 	        }
 	        
 	    }
 	    
-	    if (!flag) {
-	        alert('<?php echo $lang_Time_Errors_INVALID_TIME_FAILURE; ?>');
+	    if (!durationFlag) {
+	        alert('<?php echo $lang_Time_Errors_INVALID_DURATION_FAILURE; ?>');
 	        return false;
-	    } else {
-	        return true;
 	    }
+	    
+	    /* Checking for duplicate rows */
+	    
+		var duplicateFlag = true;
+	    var activities = new Array();
+	    var duplicates = new Array();
+	    
+	    for (var i=0; i<gridCount; i++) {
+	    
+	    	var projectId = $('cmbProject-'+i).value;
+	    	var activityId = $('cmbActivity-'+i).value;
+	    	
+	    	if (projectId > -1 && activityId > -1) { // Checking whether projectId and activityId are not negative
+	    
+	    		var value = projectId+'-'+activityId;
+		    	
+		    	if (activities.length > 0) {
+		    	
+		    	    for (var j=0; j<i; j++) {
+		    	        
+		    	        if (activities[j] == value) {
+		    	        	duplicates[duplicates.length] = value;     
+		    	        } else {
+		    	            activities[activities.length] = value;
+		    	        }
+		    	        
+		    	    }
+		    	    
+		    	} else {
+		    	    activities[activities.length] = value; 
+		    	}
+	    	
+	    	}
+	    	
+	    }
+	    
+		if (duplicates.length > 0) {
+		    alert('<?php echo $lang_Time_Errors_DUPLICATE_ROWS; ?>');
+		    return false;
+		}
+		
+		/* For checking all empty rows */
+		
+		var emptyFlag = false;
+		
+		for (var i=0; i<gridCount; i++) {
+		
+			var projectId = $('cmbProject-'+i).value;
+			
+			if (projectId > -1) {
+			    emptyFlag = true;
+			}
+		    
+		} 
+		
+		if (!emptyFlag) {
+		    alert('<?php echo $lang_Time_Errors_NO_PROJECT_SELECTED; ?>');
+		    return false;
+		}
+	    
+		return true;
 	    
 	}
 	
