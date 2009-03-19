@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.1
+
+	New features
+	------------
+	Introduction of Timegrid view for Timesheets
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.10
 
     Bug fixes
