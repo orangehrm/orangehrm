@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
 // all the essential functionalities required for any enterprise.
@@ -455,7 +455,7 @@ class ReportGenerator {
  			$parentTableName['WORKEXPERIENCE']	    	= 'HS_HR_EMP_WORK_EXPERIENCE l';
  			$existingTableFieldName['WORKEXPERIENCE']	= 'a.EMP_NUMBER';
  			$existingTableName['WORKEXPERIENCE']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['WORKEXPERIENCE']  	= "l.EEXP_SEQNO, CONCAT(l.EEXP_EMPLOYER, ' - ', l.EEXP_JOBTIT, ' - ', (YEAR(l.EEXP_FROM_DATE)-YEAR(l.EEXP_TO_DATE)), ' yrs')";
+ 			$parentTableDescription['WORKEXPERIENCE']  	= "l.EEXP_SEQNO, CONCAT(l.EEXP_EMPLOYER, ' - ', l.EEXP_JOBTIT, ' - ',(YEAR(l.EEXP_TO_DATE)-YEAR(l.EEXP_FROM_DATE)), ' Years',' - ',(MONTH(l.EEXP_TO_DATE)-MONTH(l.EEXP_FROM_DATE)),' Months')";
 
  			$groupBy['WORKEXPERIENCE'] = $existingTableFieldName['WORKEXPERIENCE'];
  		}
