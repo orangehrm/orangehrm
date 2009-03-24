@@ -438,13 +438,6 @@ class Leave {
 	}
 
 	public function changeLeaveStatus($id = null, $comments = '') {
-		if (isset($id)) {
-			$this->setLeaveId($id);
-		}
-
-		if (isset($comment)) {
-			$this->setLeaveComments($comments);
-		}
 
 		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
 
@@ -452,8 +445,9 @@ class Leave {
 			return false;
 		}
 		$leave = $leaveObjs[0];
-
+        
 		$newStatus = $this->getLeaveStatus();
+        $comments = $this->getLeaveComments();
 
 		/** Check if no change */
 		if ($newStatus == $leave->getLeaveStatus() && $comments == $leave->getLeaveComments()) {
@@ -463,7 +457,10 @@ class Leave {
 		$taken = ($leave->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN);
 
 		$this->setLeaveStatus($newStatus);
-		$res = $this->_changeLeaveStatus();
+		$this->setLeaveComments($comments);
+        
+        $res = $this->_changeLeaveStatus();
+        
 
 		if ($res && $taken) {
 			$this->setLeaveTypeId($leave->getLeaveTypeId());

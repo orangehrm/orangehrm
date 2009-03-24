@@ -251,7 +251,8 @@ class LeaveRequests extends Leave {
 		}
 
 		$newStatus = $this->getLeaveStatus();
-
+        $comments = $this->getLeaveComments();
+        
 		$tmpLeave = new Leave();
 		$tmpLeaveArr = $tmpLeave->retrieveLeave($this->getLeaveRequestId());
 
@@ -261,6 +262,7 @@ class LeaveRequests extends Leave {
 			foreach ($tmpLeaveArr as $leave) {
 				if (!$adminApproval || ($leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_HOLIDAY)){
 					$leave->setLeaveStatus($newStatus);
+                    $leave->setLeaveComments($comments);
 					$res = $leave->changeLeaveStatus();
 					if (!$res) {
 						$ok = false;
