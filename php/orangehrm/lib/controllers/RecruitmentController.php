@@ -453,9 +453,9 @@ class RecruitmentController {
 		$joinConditions[1] = 'jt.`jobtit_code` = em.`job_title_code`';
 
 		$orderCondition = $selecteFields[1];
-
+		$selectConditions[] = "(em.`emp_status` != 'EST000' OR em.`emp_status` IS NULL)";
 		$sqlBuilder = new SQLQBuilder();
-		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, null, null, $orderCondition);
+		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, $selectConditions, null, $orderCondition);
 
 		$query = preg_replace("/\\\'/", "'", $query);
 
