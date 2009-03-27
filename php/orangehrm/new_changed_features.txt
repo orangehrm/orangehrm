@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.2
+
+    Bug fixes
+    ---------
+	2021166 - Report:One month working experience shown as 0 year
+	2031268 - Recruitment:Terminated emp can be assign as Hiring manager
+	2003409 - Supervisor cannot update comment when approving leave
+
 New & Changed Features for OrangeHRM ver 2.5-beta.1
 
 	New features
