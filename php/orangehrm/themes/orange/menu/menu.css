@@ -63,7 +63,7 @@
 	text-transform: capitalize;
 	color: #000000;
 	padding-left: 25px;
-	/* Disable link outline from clicked links. works only in firefox 
+	/* Disable link outline from clicked links. works only in firefox
 	 * For ie, need: onclick="this.blur();return true" or onfocus="if (this.blur) this.blur();"
 	*/
 	outline: 0;
@@ -106,7 +106,7 @@
 }
 
 #nav li.l1:hover a.l1_link { /*font-weight: bold;*/
-	
+
 }
 
 #nav li ul ul {
@@ -238,7 +238,7 @@
 	background: transparent url(icons/natandrace.gif) no-repeat center left;
 }
 
-/* Drop down menu widths */ 
+/* Drop down menu widths */
 /* TODO: Try to set widths automatically */
 #nav li#admin ul li.l2 span {
 	width: 10em;
@@ -298,19 +298,19 @@
 
 /* help menu icons */
 #nav li.l2 a.help {
-	background: transparent url(icons/natandrace.gif) no-repeat center left;
+	background: transparent url(newicons/Help-Contents.gif) no-repeat center left;
 }
 
 #nav li.l2 a.support {
-	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+	background: transparent url(newicons/Support.gif) no-repeat center left;
 }
 
 #nav li.l2 a.forum {
-	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+	background: transparent url(newicons/Forum.gif) no-repeat center left;
 }
 
 #nav li.l2 a.blog {
-	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+	background: transparent url(newicons/Blog.gif) no-repeat center left;
 }
 
 /* Admin menu icons */
@@ -351,11 +351,11 @@
 }
 
 #nav li.l2 a.importexport {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	background: transparent url(newicons/DataImport-Export.gif) no-repeat center left;
 }
 
 #nav li.l2 a.customfields {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	background: transparent url(newicons/Custom-Fields.gif) no-repeat center left;
 }
 
 #nav li.l2 a.ldap {
@@ -368,10 +368,10 @@
 
 /* PIM menu icons */
 #nav li.l2 a.emplist {
-	background: transparent url(icons/compinfo.gif) no-repeat center left;
+	background: transparent url(newicons/Employee-List-2.gif) no-repeat center left;
 }
 #nav li.l2 a.empadd {
-	background: transparent url(icons/empadd.gif) no-repeat center left;
+	background: transparent url(newicons/Add-Employee.gif) no-repeat center left;
 }
 
 #nav li.l2 a.personal {
@@ -404,7 +404,7 @@
 }
 
 #nav li.l2 a.daysoff {
-	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+	background: transparent url(newicons/Define-Days-Off.gif) no-repeat center left;
 }
 
 #nav li.l2 a.leavetypes {
@@ -412,7 +412,7 @@
 }
 
 #nav li.l2 a.assignleave {
-	background: transparent url(icons/applyLeave.gif) no-repeat center left;
+	background: transparent url(newicons/Assign-Leave.gif) no-repeat center left;
 }
 
 #nav li.l2 a.applyLeave {
@@ -420,16 +420,16 @@
 }
 
 #nav li.l2 a.approveLeave {
-    background: transparent url(icons/approveLeave.gif) no-repeat center left;
+    background: transparent url(newicons/Approve-Leave-2.gif) no-repeat center left;
 }
 
 #nav li.l2 a.leavelist {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	background: transparent url(newicons/Leave-List.gif) no-repeat center left;
 }
 
 /* Time menu icons */
 #nav li.l2 a.timesheets {
-	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+	background: transparent url(newicons/Timesheets.gif) no-repeat center left;
 }
 
 #nav li.l2 a.employeereports {
@@ -437,37 +437,37 @@
 }
 
 #nav li.l2 a.projectreports {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Project-Reports.gif) no-repeat center left;
 }
 
 #nav li.l2 a.workshifts {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Work-Shifts.gif) no-repeat center left;
 }
 
 #nav li.l2 a.punchTime {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Punch-InOut.gif) no-repeat center left;
 }
 
 #nav li.l2 a.projectTime {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Project-Time.gif) no-repeat center left;
 }
 
 /* Benefits menu icons */
 #nav li.l2 a.hsp {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Health-savings-plan.gif) no-repeat center left;
 }
 
 #nav li.l2 a.payrollschedule {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	background: transparent url(newicons/Payroll-Schedule.gif) no-repeat center left;
 }
 
 /* Recruitment menu icons */
 #nav li.l2 a.vacancies {
-	background: transparent url(icons/vacancies.gif) no-repeat center left;
+	background: transparent url(newicons/Job-Vacancies.gif) no-repeat center left;
 }
 
 #nav li.l2 a.applications {
-	background: transparent url(icons/vacancies.gif) no-repeat center left;
+	background: transparent url(newicons/Applicants.gif) no-repeat center left;
 }
 
 /* Reports menu icons */
