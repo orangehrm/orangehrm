@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.3
+
+	New features
+	------------
+	Added new icons to OrangeHRM menu items.
+
 New & Changed Features for OrangeHRM ver 2.5-beta.2
 
     Bug fixes
