@@ -41,32 +41,34 @@ class Leave {
 	 * Leave Status Constants
 	 *
 	 */
-	const LEAVE_LENGTH_FULL_DAY = 8;
-	const LEAVE_LENGTH_HALF_DAY_MORNING = -4;
-	const LEAVE_LENGTH_HALF_DAY_AFTERNOON = 4;
-	const LEAVE_LENGTH_HALF_DAY = 4;
+    const LEAVE_LENGTH_FULL_DAY = 8;
+    const LEAVE_LENGTH_HALF_DAY_MORNING = -4;
+    const LEAVE_LENGTH_HALF_DAY_AFTERNOON = 4;
+    const LEAVE_LENGTH_HALF_DAY = 4;
 
-	const LEAVE_STATUS_LEAVE_REJECTED = -1;
-	const LEAVE_STATUS_LEAVE_CANCELLED = 0;
-	const LEAVE_STATUS_LEAVE_PENDING_APPROVAL = 1;
-	const LEAVE_STATUS_LEAVE_APPROVED = 2;
-	const LEAVE_STATUS_LEAVE_TAKEN = 3;
-    const LEAVE_STATUS_LEAVE_HOLIDAY = 4;
+    const LEAVE_STATUS_LEAVE_REJECTED = -1;
+    const LEAVE_STATUS_LEAVE_CANCELLED = 0;
+    const LEAVE_STATUS_LEAVE_PENDING_APPROVAL = 1;
+    const LEAVE_STATUS_LEAVE_APPROVED = 2;
+    const LEAVE_STATUS_LEAVE_TAKEN = 3;
+    const LEAVE_STATUS_LEAVE_WEEKEND = 4;
+    const LEAVE_STATUS_LEAVE_HOLIDAY = 5;
 
-	public $statusLeaveRejected = -1;
-	public $statusLeaveCancelled = 0;
-	public $statusLeavePendingApproval = 1;
-	public $statusLeaveApproved = 2;
-	public $statusLeaveTaken = 3;
-    public $statusLeaveHoliday = 4;
+    public $statusLeaveRejected = -1;
+    public $statusLeaveCancelled = 0;
+    public $statusLeavePendingApproval = 1;
+    public $statusLeaveApproved = 2;
+    public $statusLeaveTaken = 3;
+    public $statusLeaveWeekend = 4;
+    public $statusLeaveHoliday = 5;
 
-	/**
-	 *	Leave Length Constants
-	 *
-	 */
-	public $lengthFullDay = 8;
-	public $lengthHalfDayMorning = -4;
-	public $lengthHalfDayAfternoon = 4;
+    /**
+     *  Leave Length Constants
+     *
+     */
+    public $lengthFullDay = 8;
+    public $lengthHalfDayMorning = -4;
+    public $lengthHalfDayAfternoon = 4;
 
 	/**
 	 *	Class Attributes
@@ -438,6 +440,13 @@ class Leave {
 	}
 
 	public function changeLeaveStatus($id = null, $comments = '') {
+		if (isset($id)) {
+			$this->setLeaveId($id);
+		}
+
+		if (isset($comment)) {
+			$this->setLeaveComments($comments);
+		}
 
 		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
 
@@ -445,9 +454,8 @@ class Leave {
 			return false;
 		}
 		$leave = $leaveObjs[0];
-        
+
 		$newStatus = $this->getLeaveStatus();
-        $comments = $this->getLeaveComments();
 
 		/** Check if no change */
 		if ($newStatus == $leave->getLeaveStatus() && $comments == $leave->getLeaveComments()) {
@@ -457,10 +465,7 @@ class Leave {
 		$taken = ($leave->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN);
 
 		$this->setLeaveStatus($newStatus);
-		$this->setLeaveComments($comments);
-        
-        $res = $this->_changeLeaveStatus();
-        
+		$res = $this->_changeLeaveStatus();
 
 		if ($res && $taken) {
 			$this->setLeaveTypeId($leave->getLeaveTypeId());
@@ -597,7 +602,9 @@ class Leave {
 		}
         $holidays = new Holidays();
         $weekends = new Weekends();
-        if($holidays->isHoliday($this->getLeaveDate()) || $weekends->isWeekend($this->getLeaveDate())){
+        if ($weekends->isWeekend($this->getLeaveDate())) {
+        	$arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_WEEKEND;
+        } elseif ($holidays->isHoliday($this->getLeaveDate())) {
         	$arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
         }
 		$arrRecordsList[5] = "'".$this->getLeaveComments()."'";

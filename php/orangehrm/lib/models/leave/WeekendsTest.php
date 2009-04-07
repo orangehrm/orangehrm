@@ -32,6 +32,7 @@ require_once "testConf.php";
 $_SESSION['WPATH'] = WPATH;
 
 require_once 'Weekends.php';
+require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH."/lib/confs/Conf.php";
 
 /**
@@ -77,6 +78,14 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
     	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (6, ".Weekends::WEEKENDS_LENGTH_HALF_DAY.");");
     	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (7, ".Weekends::WEEKENDS_LENGTH_WEEKEND.");");
 
+        mysql_query("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+                "VALUES (18, NULL, 'Nadeeth', 'H', 'Lansakara', 'rc')");
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
+        mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '18')");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (10, '18', 'LTY010', '2009-02-07', 4, 0.5, 3, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (11, '18', 'LTY010', '2009-02-08', 8, 1, 3, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (12, '18', 'LTY010', '2009-02-09', 8, 1, 4, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (13, '18', 'LTY010', '2009-02-10', 8, 1, 4, '', 11)");
     }
 
     /**
@@ -87,6 +96,9 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	mysql_query("TRUNCATE TABLE `".Weekends::WEEKENDS_TABLE."`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_leave_requests`", $this->connection);
     }
 
     /**
@@ -148,6 +160,30 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(Weekends::isWeekend("2008-07-27"));
 		$this->assertFalse(Weekends::isWeekend("2008-07-26"));
 		$this->assertFalse(Weekends::isWeekend("2008-07-25"));
+    }
+
+    public function testUpdateWeekendsForLeaves(){
+        Weekends::updateWeekendsForLeaves();
+        $dbConnection = new DMLFunctions();
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave ";
+        $result = $dbConnection -> executeQuery($query);
+        $leaves = array();
+        while($row = $dbConnection->dbObject->getArray($result)){
+            $leaves[$row['leave_id']] = $row['leave_status'];
+        }
+        $this->assertEquals(4, $leaves['10'], 'Invalid status');
+        $this->assertEquals(4, $leaves['11'], 'Invalid status');
+        $this->assertEquals(3, $leaves['12'], 'Invalid status');
+        $this->assertEquals(3, $leaves['13'], 'Invalid status');
+    }
+
+    public function testGetWeekendLength(){
+        $sunday = Weekends::getWeekendLength('2009-02-15');
+        $saturday = Weekends::getWeekendLength('2009-02-14');
+        $friday = Weekends::getWeekendLength('2009-02-13');
+        $this->assertEquals(8, $sunday, 'Invalid length');
+        $this->assertEquals(4, $saturday, 'Invalid Length');
+        $this->assertEquals(0, $friday, 'Invalid Length');
     }
 }
 

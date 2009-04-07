@@ -33,6 +33,7 @@ $_SESSION['WPATH'] = WPATH;
 
 require_once "Leave.php";
 require_once 'Holidays.php';
+require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH."/lib/confs/Conf.php";
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
@@ -74,6 +75,15 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (10, 'Independence', '".date('Y')."-07-04', ".Holidays::HOLIDAYS_RECURRING.", 8)");
     	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (11, 'Poya', '".date('Y')."-01-04', ".Holidays::HOLIDAYS_NOT_RECURRING.", 4)");
         UniqueIDGenerator::getInstance()->initTable();
+
+        mysql_query("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+                "VALUES (18, NULL, 'Nadeeth', 'H', 'Lansakara', 'rc')");
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
+        mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '18')");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (10, '18', 'LTY010', '".date('Y-m-d', time()-3600*24*2)."', 4, 0.5, 3, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (11, '18', 'LTY010', '".date('Y-m-d', time()-3600*24*1)."', 8, 1, 5, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (12, '18', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 8, 1, 2, '', 11)");
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (13, '18', 'LTY010', '".date('Y-m-d', time()+3600*24*3)."', 8, 1, 5, '', 11)");
     }
 
     /**
@@ -84,6 +94,9 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	mysql_query("TRUNCATE TABLE `hs_hr_holidays`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_leave_requests`", $this->connection);
     }
 
     public function testIsHoliday1() {
@@ -382,6 +395,78 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     		$this->assertEquals($res[$i]->getRecurring(), $expected[$i][3], 'Invalid Recurring Status');
     		$this->assertEquals($res[$i]->getLength(), $expected[$i][4], 'Invalid Length');
        	}
+    }
+
+    public function testUpdateHolidaysForLeavesOnCreate(){
+        $dbConnection = new DMLFunctions();
+
+        $date = date('Y-m-d', time()-3600*24*2);
+        $date2 = date('Y-m-d', time()+3600*24*2);
+
+        $query = "INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (12, 'National Day', '$date', 0, 8)";
+        $result = $dbConnection -> executeQuery($query);
+        $query = "INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (12, 'Pooya Day', '$date2', 0, 8)";
+        $result = $dbConnection -> executeQuery($query);
+
+        Holidays::updateHolidaysForLeavesOnCreate($date, '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 10 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
+
+        Holidays::updateHolidaysForLeavesOnCreate($date2, '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 12 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
+    }
+
+    public function testUpdateHolidaysForLeavesOnUpdate(){
+        $dbConnection = new DMLFunctions();
+
+        $date = date('Y-m-d', time()-3600*24*2);
+        $date2 = date('Y-m-d', time()+3600*24*2);
+
+        $query = "INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (12, 'National Day', '$date', 0, 8)";
+        $result = $dbConnection -> executeQuery($query);
+        $query = "INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (13, 'Pooya Day', '$date2', 0, 8)";
+        $result = $dbConnection -> executeQuery($query);
+
+        Holidays::updateHolidaysForLeavesOnUpdate($date, '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 10 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 11 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(3, $row['leave_status'], 'Invalid status');
+
+        Holidays::updateHolidaysForLeavesOnUpdate($date2, '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 12 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 13 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(2, $row['leave_status'], 'Invalid status');
+    }
+
+    public function testUpdateHolidaysForLeavesOnDelete(){
+        $dbConnection = new DMLFunctions();
+
+        Holidays::updateHolidaysForLeavesOnDelete(date('Y-m-d', time()-3600*24*2), '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 11 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(3, $row['leave_status'], 'Invalid status');
+
+        Holidays::updateHolidaysForLeavesOnDelete(date('Y-m-d', time()+3600*24*3), '8');
+        $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 13 ";
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+        $this->assertEquals(2, $row['leave_status'], 'Invalid status');
     }
 }
 

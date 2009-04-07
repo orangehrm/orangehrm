@@ -96,11 +96,12 @@ if ($modifier === "SUP") {
 
 <?php   if ((is_array($records)) && ($modifier !== "Taken")) { ?>
 
-        <input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
-
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>"/>
+            <input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
         <?php
             }
         ?>
@@ -143,7 +144,7 @@ if ($modifier === "SUP") {
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
-   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveHoliday=> $lang_Leave_Common_Weekend);
+   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveWeekend=> $lang_Leave_Common_Weekend);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
 
@@ -176,19 +177,24 @@ if ($modifier === "SUP") {
   						$holiday = Holidays::getHolidayForDate($record->getLeaveDate());
   						if (!empty($holiday) && is_a($holiday, 'Holidays')) {
   							echo $holiday->getDescription();
-  						} else {
-  							echo $lang_Leave_Common_Weekend;
+  						} elseif ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_WEEKEND) {
+                            echo $lang_Leave_Common_Weekend;
   						}
   			?>
   				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
   			<?php }?>
     	<?php
     		} else {
-    			if (Weekends::isWeekend($record->getLeaveDate())) {
+    			if ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_WEEKEND) {
     			    echo $lang_Leave_Common_Weekend;
-    			} else {
-    				$holiday = Holidays::getHolidayForDate($record->getLeaveDate());
-                    echo $holiday->getDescription();
+                } elseif($record->getLeaveStatus() == 0) {
+                    echo $lang_Leave_Common_Cancelled;
+                } else {
+                    $holiday = new Holidays();
+                    if($holiday->isHoliday($record->getLeaveDate())){
+                        $holiday = Holidays::getHolidayForDate($record->getLeaveDate());
+                        echo $holiday->getDescription();
+                    }
     			}
     			?>
     			<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />

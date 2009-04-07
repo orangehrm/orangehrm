@@ -162,21 +162,21 @@ $allRecords =   $records[3] ;
 	function init() {
 	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
 	}
-	
+
 	function nextPage() {
 		i=document.frmSummary.pageNO.value;
 		i++;
 		document.frmSummary.pageNO.value=i;
 		document.frmSummary.submit();
 	}
-	
+
 	function prevPage() {
 		var i=document.frmSummary.pageNO.value;
 		i--;
 		document.frmSummary.pageNO.value=i;
 		document.frmSummary.submit();
 	}
-	
+
 	function chgPage(pNO) {
 		document.frmSummary.pageNO.value=pNO;
 		document.frmSummary.submit();
@@ -283,8 +283,8 @@ $allRecords =   $records[3] ;
 		document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
 		document.frmSummary.submit();
 	}
-	
-<?php }  ?>	
+
+<?php }  ?>
 //]]>
 </script>
 
@@ -327,14 +327,14 @@ $allRecords =   $records[3] ;
 		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
 		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
 		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
-		<input type="hidden" name="pageNO" value="<?php echo $currentPage ?>" />    
+		<input type="hidden" name="pageNO" value="<?php echo $currentPage ?>" />
     <div class="actionbar">
         <div class="actionbuttons">
     <?php
         if ($auth === 'admin' ) {
     ?>
           <input type="button" class="<?php echo $btnClass;?>" id="editBtn" onclick="actForm();"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $btnTitle;?>" />
 
     <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
@@ -349,16 +349,16 @@ $allRecords =   $records[3] ;
 
 <?php
         }else if($auth === 'supervisor'){
-?>      
+?>
 
         <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
         <a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
     <?php } ?>
 
-<?php       
+<?php
         }
-?>                        
-        </div>              
+?>
+        </div>
         <div class="noresultsbar"></div>
         <div class="pagingbar">
         </div>
@@ -370,7 +370,7 @@ $allRecords =   $records[3] ;
 		$commonFunc = new CommonFunctions();
 		$pageStr = $commonFunc->printPageLinks($allRecords , $currentPage);
 		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-		echo $pageStr;	
+		echo $pageStr;
 ?>
 </div>
 
@@ -528,7 +528,7 @@ $allRecords =   $records[3] ;
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

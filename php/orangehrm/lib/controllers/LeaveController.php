@@ -1151,20 +1151,20 @@ class LeaveController {
 			case "specific" : $this->_displaySpecificHoliday($modifier);
 							 break;
 			case "weekend" : $this->_displayWeekend();
-							 break;
-		}
-	}
+		          			 break;
+        }
+    }
 
-	public function addHoliday() {
-		$this->_authenticateViewHoliday();
+    public function addHoliday() {
+        $this->_authenticateViewHoliday();
 
-		$objLeave = $this->getObjLeave();
-		$objLeave->add();
+        $objLeave = $this->getObjLeave();
+        $objLeave->add();
+        Leave::updateLeavesForDate($objLeave->getDate(), $objLeave->getLength());
+        Holidays::updateHolidaysForLeavesOnCreate($objLeave->getDate(), $objLeave->getLength());
+    }
 
-		Leave::updateLeavesForDate($objLeave->getDate(), $objLeave->getLength());
-	}
-
-	/**
+    /**
 	 * Wrpper to edit holidays
 	 *
 	 * @param unknown_type $modifier
@@ -1176,8 +1176,10 @@ class LeaveController {
 			case "specific" : $objLeave = $this->getObjLeave();
 							  $this->getObjLeave()->edit();
 							  Leave::updateLeavesForDate($objLeave->getDate(), $objLeave->getLength());
-							  break;
+                              Holidays::updateHolidaysForLeavesOnUpdate($objLeave->getDate(), $objLeave->getLength());
+                              break;
 			case "weekend" 	: $this->getObjLeave()->editDay();
+                              Weekends::updateWeekendsForLeaves();
 							  break;
 		}
 	}
@@ -1212,17 +1214,17 @@ class LeaveController {
 			return $res;
 		}
 
-		trigger_error("Unauthorized access", E_USER_NOTICE);
-	}
+    trigger_error("Unauthorized access", E_USER_NOTICE);
+    }
 
-	public function holidaysDelete() {
-		$this->getObjLeave()->delete();
+    public function holidaysDelete() {
+        $this->getObjLeave()->delete();
+        Holidays::updateHolidaysForLeavesOnDelete();
+        return "";
+    }
 
-		return "";
-	}
-
-	public function displayDefineHolidays($modifier="specific", $edit=false) {
-		$this->_authenticateViewHoliday();
+    public function displayDefineHolidays($modifier="specific", $edit=false) {
+        $this->_authenticateViewHoliday();
 
 		$record = null;
 		if ($edit) {

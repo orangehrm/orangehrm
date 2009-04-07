@@ -22,6 +22,7 @@
 
 require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH.'/lib/models/leave/Leave.php';
 
 /**
  * Weekend class
@@ -236,6 +237,54 @@ class Weekends {
 		return $objArr;
 	}
 
+    public static function updateWeekendsForLeaves(){
+
+        $dbConnection = new DMLFunctions();
+
+        $approved = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
+        $weekend = Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $approved, leave_length_hours = $lengthFullDay " .
+                " WHERE leave_status = $weekend AND leave_date > CURDATE()";
+        $result = $dbConnection -> executeQuery($query);
+        $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay " .
+                "WHERE leave_status = $weekend AND leave_date <= CURDATE()";
+        $result = $dbConnection -> executeQuery($query);
+
+        $query = "SELECT leave_id,leave_date FROM hs_hr_leave ";
+        $result = $dbConnection -> executeQuery($query);
+        while ($row = $dbConnection->dbObject->getArray($result)) {
+
+            $length = self::getWeekendLength($row['leave_date']);
+            if ($length) {
+                if ($length == $lengthFullDay) {
+                	$length = 0;
+                }
+                $query = "UPDATE hs_hr_leave SET leave_status = $weekend, leave_length_hours = $length " .
+                        "WHERE leave_id = $row[leave_id]";
+                $dbConnection -> executeQuery($query);
+            }
+        }
+    }
+
+    public static function getWeekendLength($date) {
+
+        $dayNumber = date('N', strtotime($date));
+
+        $selectTable = "`".self::WEEKENDS_TABLE."`";
+        $selectFields[0] = "`".self::WEEKENDS_TABLE_LENGTH."`";
+        $selectConditions[0] = "`".self::WEEKENDS_TABLE_DAY."` = $dayNumber";
+
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+
+        return $row[0];
+    }
 
 }
 ?>

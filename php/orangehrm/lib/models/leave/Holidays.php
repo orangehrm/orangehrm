@@ -20,6 +20,8 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/models/leave/Leave.php';
+require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 
 /**
  * Holidays Class
@@ -395,5 +397,76 @@ class Holidays {
 		$result = $dbConnection -> executeQuery($query);
 	}
 
+
+    public static function updateHolidaysForLeavesOnCreate($date, $length){
+
+        $dbConnection = new DMLFunctions();
+
+        $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
+        $length = $lengthFullDay - $length;
+        $length_days = $length / $lengthFullDay ;
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $holiday, leave_length_hours = $length, " .
+                 "leave_length_days = $length_days, leave_comments = Null " .
+                 " WHERE leave_date = '$date'";
+        $result = $dbConnection -> executeQuery($query);
+    }
+
+    public static function updateHolidaysForLeavesOnUpdate($date, $length){
+
+        $dbConnection = new DMLFunctions();
+
+        $approved = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
+        $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
+        $length = $lengthFullDay - $length;
+        $length_days = $length / $lengthFullDay ;
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $holiday, leave_length_hours = $length, " .
+                 "leave_length_days = $length_days, leave_comments = Null " .
+                 " WHERE leave_date = '$date'";
+        $result = $dbConnection -> executeQuery($query);
+
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $approved, leave_length_hours = $lengthFullDay, " .
+                 "leave_length_days = $length_days, leave_comments = Null " .
+                 "WHERE leave_status = $holiday AND leave_date > CURDATE() " .
+                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        $result = $dbConnection -> executeQuery($query);
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
+                 "leave_length_days = $length_days, leave_comments = Null " .
+                 "WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
+                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        $result = $dbConnection -> executeQuery($query);
+
+        Weekends::updateWeekendsForLeaves();
+    }
+
+    public static function updateHolidaysForLeavesOnDelete(){
+
+        $dbConnection = new DMLFunctions();
+
+        $approved = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
+        $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $approved, leave_length_hours = $lengthFullDay, " .
+                 "leave_length_days = 1, leave_comments = Null " .
+                 "WHERE leave_status = $holiday AND leave_date > CURDATE() " .
+                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        $result = $dbConnection -> executeQuery($query);
+
+        $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
+                 "leave_length_days = 1, leave_comments = Null " .
+                 "WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
+                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        $result = $dbConnection -> executeQuery($query);
+
+        Weekends::updateWeekendsForLeaves();
+    }
 }
 ?>

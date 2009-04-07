@@ -16,27 +16,27 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
-// TODO: Remove. File is not in use. 
+
+// TODO: Remove. File is not in use.
 ?>
 <div class="outerbox">
 <form id="frmCancelTakenLeave" name="frmCancelTakenLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelTakenLeaves">
 
     <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_list_Title5; ?></h2></div>
-    <?php 
+    <?php
     if (isset($_GET['message'])) {
         if ($_GET['message'] == "Success") {
             $messageType = 'success';
-            $messageStr = $lang_Leave_CANCEL_SUCCESS;                    
+            $messageStr = $lang_Leave_CANCEL_SUCCESS;
         } else if ($_GET['message'] == "Failiure") {
             $messageType = 'failure';
-            $messageStr = $lang_Leave_CANCEL_FAILURE;                    
-        } else {          
+            $messageStr = $lang_Leave_CANCEL_FAILURE;
+        } else {
             $message =  $_GET['message'];
             $messageType = CommonFunctions::getCssClassForMessage($message);
-            $messageStr = "lang_Leave_" . $message;        
-        }            
-    ?>      
+            $messageStr = "lang_Leave_" . $message;
+        }
+    ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
     </div>
