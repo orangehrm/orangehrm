@@ -713,7 +713,7 @@ $menu[] = $menuItem;
 /* Start help menu */
 $menuItem = new MenuItem("help", $lang_Menu_Help, '#');
 $subs = array();
-$subs[] = new MenuItem("help", $lang_Menu_HelpContents, "http://orangehrm.com/wiki/index.php/Orange_Help", '_blank');
+$subs[] = new MenuItem("help", $lang_Menu_HelpContents, "help.php", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Support, "http://www.orangehrm.com/subscribe-support.shtml", '_blank');
 $subs[] = new MenuItem("forum", $lang_Menu_Home_Forum, "http://www.orangehrm.com/forum/", '_blank');
 $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/blog/", '_blank');

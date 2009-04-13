@@ -161,7 +161,40 @@ define('REP', 'MOD004');
 define('LEAVE', 'MOD005');
 define('TIMEMOD', 'MOD006');
 define('RECRUITMOD', 'MOD008');
-//var_dump($moduletype); die;
+
+/* Help page session variables: Begin */
+
+if ($_SESSION['isAdmin'] == 'Yes') {
+    $_SESSION['hp-role'] = 'Admin';
+} elseif ($_SESSION['isSupervisor']) {
+    $_SESSION['hp-role'] = 'Sup';
+} else {
+    $_SESSION['hp-role'] = 'ESS';
+}
+
+switch ($moduletype) {
+
+    case 'admin'	:	$_SESSION['hp-module'] = 'Admin';
+    					$_SESSION['hp-action'] = $_GET['uniqcode'];
+    					if ($_GET['uniqcode'] == 'USR' && $_GET['isAdmin'] == 'Yes') { // Used for the help of creating users: Admin > Users
+    					    $_SESSION['hp-userType'] == 'Admin';
+    					} elseif ($_GET['uniqcode'] == 'USR' && $_GET['isAdmin'] == 'No') {
+    					    $_SESSION['hp-userType'] == 'ESS';
+    					}
+    					break;
+
+    case 'hr'		:	$_SESSION['hp-module'] = 'PIM';
+    					$_SESSION['hp-action'] = isset($_POST['pane'])?$_POST['pane']:'';
+    					break;
+
+    case 'leave'	:	$_SESSION['hp-module'] = 'Leave';
+    					$_SESSION['hp-action'] = $_GET['action'];
+    					break;
+
+}
+
+/* Help page session variables: End */
+
 switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
@@ -1633,55 +1666,55 @@ switch ($moduletype) {
 																					$timeController->setObjTime($objs);
 																					$timeController->deleteTimesheet($_POST['nextAction']);
 																					break;
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-													/* Timegrid Controlers: Begin */								
-																					
+
+
+
+
+
+
+
+
+													/* Timegrid Controlers: Begin */
+
 													case 'Edit_Timeesheet_Grid'			:	$obj = $timesheetExtractor->parseViewData($_POST);
 																							$timeController->setObjTime($obj);
 																							$timeController->editTimesheetGrid();
-																							break;	
-																							
+																							break;
+
 													case 'Update_Timeesheet_Grid'		:	$obj = $timesheetExtractor->parseViewData($_POST);
 																							$timeController->setObjTime($obj);
 																							$eventsList = $timeEventExtractor->parseEditTimegrid($_POST);
 																							$timeController->updateTimegrid($eventsList);
 																							break;
-																					
+
 													case 'Timegrid_Fetch_Activities'	: 	echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
-																							break;																			
-																					
-													/* Timegrid Controlers: End */								
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
-																					
+																							break;
+
+													/* Timegrid Controlers: End */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 													case 'View_Work_Shifts'		:	$timeController->viewShifts();
 																					break;
 													case 'Add_Work_Shift'		:	$obj = $workShiftExtractor->parseAddData($_POST);
@@ -1735,48 +1768,48 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->punchTime($punchIn);
 																					break;
-																					
+
 													/* Attendance Controls: Begin */
-													
+
 													case 'Show_Punch_View'				:	$timeController->showPunchView();
 																							break;
 
 													case 'Save_Punch'					:	$timeController->savePunch();
 																							break;
-																						
+
 													case 'Show_My_Report'				:	$timeController->showAttendanceReportForm('My');
 																							break;
-																							
+
 													case 'Show_Employee_Report'			:	$timeController->showAttendanceReportForm('Emp');
 																							break;
-																						
+
 													case 'Generate_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';
-																							$to = $_POST['txtToDate'].' 23:59:59';	
-																							
+																							$to = $_POST['txtToDate'].' 23:59:59';
+
 																							if ($_POST['optReportView'] == 'summary') {
 																								$timeController->generateAttendanceSummary($_POST['hdnEmpNo'], $from, $to);
 																							} elseif ($_POST['optReportView'] == 'detailed') {
-																								$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to);	
+																								$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to);
 																							}
-																							
+
 																							break;
-																							
+
 													case 'Summary_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';
 																							$to = $_POST['txtFromDate'].' 23:59:59';
 																							$timeController->generateAttendanceReport($_POST['hdnEmployeeId'], $from, $to);
-																							break;						
-																							
+																							break;
+
 													case 'Save_Attendance_Report'		:	$timeController->saveAttendanceReport();
 																							break;
 
 													case 'Show_Attendance_Config'		:	$timeController->showAttendanceConfig();
 																							break;
-																							
+
 													case 'Save_Attendance_Config'		:	$timeController->saveAttendanceConfig();
 																							break;
 
 													/* Attendance Controls: End */
-													
+
 													case 'Time_Event_Home'		:	$timeController->timeEventHome();
 																					break;
 													case 'New_Time_Event_View'	:	$new=true;
