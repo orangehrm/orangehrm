@@ -16,21 +16,21 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- $empInfo = null;
- if (isset($records[count($records)-1][0])) {
- 	$empInfo = $records[count($records)-1][0];
- }
 
-$currentPage = $records[2] ;
-$allRecords =   $records[3] ;
- array_pop($records);
- $deletedLeaveTypesFound = false;
- $auth = $modifier[1];
- $dispYear = $modifier[2];
+$empInfo = null;
+if (isset($records['empDetails'])) {
+	$empInfo = $records['empDetails'];
+}
 
- $copyQuota = $modifier[3];
+$currentPage = $records['pageNo'] ;
+$allRecords =   $records['leaveCount'] ;
+$deletedLeaveTypesFound = false;
+$auth = $modifier[1];
+$dispYear = $modifier[2];
 
- $broughtForward = $modifier[4];
+$copyQuota = $modifier[3];
+
+$broughtForward = $modifier[4];
 
 
  $modifier = $modifier[0];
@@ -70,7 +70,7 @@ $allRecords =   $records[3] ;
 
  require_once($lan->getLangPath("full.php"));
 
- if ($empInfo[0] == $_SESSION['empID']) {
+ if (isset($empInfo[0]) && $empInfo[0] == $_SESSION['empID']) {
  	$lang_Title = preg_replace(array('/#dispYear/'), array($dispYear), $lang_Leave_Leave_Summary_EMP_Title);
  } else {
  	if (isset($_REQUEST['id']) && ($_REQUEST['id'] != 0)) {
@@ -316,7 +316,7 @@ $allRecords =   $records[3] ;
 	}
 }
 
-	if (!is_array($records[0])) {
+	if (!is_array($records['leaveSummary'])) {
 ?>
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
@@ -454,8 +454,8 @@ $allRecords =   $records[3] ;
 <?php
 	$leaveTypeObj = new LeaveType();
 	$j = 0;
-	if (is_array($records[0])) {
-		  foreach ($records[0] as $record) {
+	if (is_array($records['leaveSummary'])) {
+		  foreach ($records['leaveSummary'] as $record) {
 			$cssClass = (!($j%2)) ? 'odd' : 'even';
 			$j++;
 

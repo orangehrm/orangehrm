@@ -856,13 +856,20 @@ class LeaveController {
 
         $eps = ($esp == null) ? 'employee' : $esp;
 
-		$tmpObjX[] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, FALSE ,$pageNO ,50);
-		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
-		$tmpObjX[] = $pageNO;
+		$tmpObjX['leaveSummary'] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, FALSE ,$pageNO ,50);
+
+		$empDetails = $empInfoObj->filterEmpMain($this->getId());
+		if (is_array($empDetails)) {
+			$tmpObjX['empDetails'] = $empDetails[0];
+		} else {
+			$tmpObjX['empDetails'] = $empDetails;
+		}
+
+		$tmpObjX['pageNo'] = $pageNO;
 
 		list($leaveCount) = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder ,FALSE ,0 ,0 ,TRUE);
 
-		$tmpObjX[] = $leaveCount['leaveCount'];
+		$tmpObjX['leaveCount'] = $leaveCount['leaveCount'];
 
 		$path = "/templates/leave/leaveSummary.php";
 
