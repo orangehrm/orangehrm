@@ -1,3 +1,13 @@
+﻿New & Changed Features for OrangeHRM ver 2.5-beta.4
+
+    Bug fixes
+    ---------
+	2587492 - Admin canceling an approved/taken leave leads to Fatal Error
+	2758108 - Stopper When Accessing Leave Summary as ESS User
+	2188524 - ESS can enter D of B manually & there will be Extractor erro
+	2709201 - Ess cannot edit ess tab:extractor based error
+	2540117 - Edit and save not working with "Path to Sendmail"
+
 New & Changed Features for OrangeHRM ver 2.5-beta.3
 
 	New features
