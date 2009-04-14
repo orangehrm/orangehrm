@@ -54,8 +54,17 @@ class EXTRACTOR_EmailConfiguration {
 			    $this->emailConfiguration->setTestEmail(trim($postArr["txtTestEmail"]));
 			}
 
-			$this->emailConfiguration->setSmtpAuth($postArr["optAuth"]);
-			$this->emailConfiguration->setSmtpSecurity($postArr["optSecurity"]);
+			if (isset($postArr["optAuth"])) {
+				$this->emailConfiguration->setSmtpAuth($postArr["optAuth"]);
+			}
+
+			if (isset($postArr["optSecurity"])) {
+				$this->emailConfiguration->setSmtpSecurity($postArr["optSecurity"]);
+			}
+
+			if (isset($postArr["txtSendmailPath"])) {
+				$this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
+			}
 
 			return $this->emailConfiguration;
 
