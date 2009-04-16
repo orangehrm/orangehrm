@@ -177,9 +177,9 @@ switch ($moduletype) {
     case 'admin'	:	$_SESSION['hp-module'] = 'Admin';
     					$_SESSION['hp-action'] = $_GET['uniqcode'];
     					if ($_GET['uniqcode'] == 'USR' && $_GET['isAdmin'] == 'Yes') { // Used for the help of creating users: Admin > Users
-    					    $_SESSION['hp-userType'] == 'Admin';
+    					    $_SESSION['hp-userType'] = 'Admin';
     					} elseif ($_GET['uniqcode'] == 'USR' && $_GET['isAdmin'] == 'No') {
-    					    $_SESSION['hp-userType'] == 'ESS';
+    					    $_SESSION['hp-userType'] = 'ESS';
     					}
     					break;
 
