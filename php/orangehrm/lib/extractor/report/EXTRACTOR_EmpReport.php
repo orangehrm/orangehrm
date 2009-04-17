@@ -20,6 +20,7 @@
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/models/report/EmpReport.php';
 require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EXTRACTOR_EmpReport {
 
@@ -31,7 +32,7 @@ class EXTRACTOR_EmpReport {
 
 	function parseAddData($postArr) {
 
-			$this->empreport->setRepName(trim($postArr['txtRepName']));
+			$this->empreport->setRepName(CommonFunctions::escapeHtml(trim($postArr['txtRepName'])));
 
 			$criteriaArr = $postArr['chkcriteria'];
 
@@ -137,7 +138,7 @@ class EXTRACTOR_EmpReport {
 	function parseEditData($postArr) {
 
 			$this->empreport->setRepID(trim($postArr['txtRepID']));
-			$this->empreport->setRepName(trim($postArr['txtRepName']));
+			$this->empreport->setRepName(CommonFunctions::escapeHtml(trim($postArr['txtRepName'])));
 
 			$criteriaArr = $postArr['chkcriteria'];
 

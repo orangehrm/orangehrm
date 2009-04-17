@@ -62,7 +62,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 }
 
 // Post values
-$reportName = isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : $reportName;
+$reportName = isset($this->postArr['txtRepName'])  ? CommonFunctions::escapeHtml($this->postArr['txtRepName']) : $reportName;
 
 // TODO: This file has to be simplified (eg: combine add/update part) and cleaned up.
 
