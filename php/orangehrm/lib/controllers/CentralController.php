@@ -1604,11 +1604,11 @@ switch ($moduletype) {
 																					$timeZoneDiff = $clientTimezoneOffset - $serverTimezoneOffset;
 
 																					if ($clientTimezoneOffset != $serverTimezoneOffset) {
+																						
 																						$useClientTime = true;
 																						$clientTimestamp = time() + $timeZoneDiff * 60;
 
-																						$day = date('w', $clientTimestamp);
-																						$day = ($day == 0) ? 7 : $day;
+																						$day = date('N', $clientTimestamp);
 
 																						$objSubmissionPeriods = new TimesheetSubmissionPeriod();
 						   																$timesheetSubmissionPeriods = $objSubmissionPeriods->fetchTimesheetSubmissionPeriods();
@@ -1618,14 +1618,15 @@ switch ($moduletype) {
 																						if ($dayDiff > 0) {
 																							$dayDiff -= 7;
 																						}
+																						
+																						$sign = ($dayDiff < 0) ? "" : "+";
 
-																						$clientStartDateTimestamp = strtotime("+$dayDiff day", (time() + $timeZoneDiff*60));
+																						$clientStartDateTimestamp = strtotime("{$sign}{$dayDiff} day", (time() + $timeZoneDiff*60));
 
 																						$clientStartDate = date('Y-m-d', $clientStartDateTimestamp);
 																						$clientEndDate = date('Y-m-d', strtotime("+6 day", $clientStartDateTimestamp));
 
 																					}
-
 
 													case 'View_Timesheet' 		:
 																					if ($current && $useClientTime) {

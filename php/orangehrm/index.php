@@ -501,7 +501,8 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 			$subsubs = array();
 
 			if ($authorizeObj->isESS()) {
-				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, "lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=");
+				$timesheetLink = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
+				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, $timesheetLink);
 			}
 
 			$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
