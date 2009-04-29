@@ -162,16 +162,20 @@ class Timesheet {
 			if ($diff > 0) {
 				$diff-=7;
 			}
+			
+			$sign = ($diff < 0) ? "" : "+";
 
-			$this->setStartDate(date('Y-m-d', strtotime("+$diff day", time())));
+			$this->setStartDate(date('Y-m-d', strtotime("{$sign}{$diff} day", time())));
 
 			$diff1=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 
 			if (($diff1-$diff) <= 6) {
 				$diff1+=6-($diff1-$diff);
 			}
+			
+			$sign = ($diff1 < 0) ? "" : "+";
 
-			$this->setEndDate(date('Y-m-d', strtotime("+$diff1 day", time()))." 23:59:59");
+			$this->setEndDate(date('Y-m-d', strtotime("{$sign}{$diff1} day", time()))." 23:59:59");
 
 			$this->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 		}
