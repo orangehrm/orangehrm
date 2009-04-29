@@ -367,6 +367,11 @@ class LeaveController {
 	}
 
 	private function _viewLeavesAdmin($details) {
+		
+		if ($_SESSION['isAdmin'] == 'No') {
+		    die('You are not authorized to view this page');
+		}
+		
 		$tmpObj = $this->getObjLeave();
 
 		/* Show only leave with requested statuses, default to approved leave
@@ -1015,6 +1020,10 @@ class LeaveController {
 	}
 
 	public function displayLeaveTypeSummary(){
+		
+		if ($_SESSION['isAdmin'] == 'No') {
+		    die('You are not authorized to view this page');
+		}
 
 		$tmpObj = new LeaveType();
 

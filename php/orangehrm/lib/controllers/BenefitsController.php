@@ -109,7 +109,11 @@ class BenefitsController {
 
 	public static function selectYearAndEmployee($action) {
 		switch ($action) {
-			case 'Expenditure' : $heading = 'HealthSavingsPlanUsedList';
+			case 'Expenditure' : if ($_SESSION['isAdmin'] == 'No') {
+								     die('You are not authorized to view this page');
+								 }
+			
+								 $heading = 'HealthSavingsPlanUsedList';
 							     $action = 'Hsp_Expenditures';
 							     break;
 			case 'Hsp_Summary' : $heading = 'EmployeeHspSummary';
@@ -118,9 +122,13 @@ class BenefitsController {
 			case 'Hsp_Summary_Employee' : $heading = 'PersonalHspSummary';
 										  $action = 'Hsp_Summary_Employee&amp;employeeId='.$_SESSION['empID'];
 									      break;
-			case 'Used_Select_Year' : $heading = 'HspUsed';
-							  $action = 'Hsp_Used';
-							  break;
+			case 'Used_Select_Year' : if ($_SESSION['isAdmin'] == 'No') {
+								      	die('You are not authorized to view this page');
+								 	  }
+								 	  
+								 	  $heading = 'HspUsed';
+							  		  $action = 'Hsp_Used';
+							          break;
 		}
 
 		$years = HspPayPeriod::getYears();
@@ -151,6 +159,11 @@ class BenefitsController {
 	}
 
 	public static function viewAddPayPeriod($year=null) {
+		
+		if ($_SESSION['isAdmin'] == 'No') {
+		    die('You are not authorized to view this page');
+		}
+		
 		$path = "/templates/benefits/addPayPeriods.php";
 
 		if (isset($year)) {
@@ -1078,6 +1091,11 @@ class BenefitsController {
 
 
 	public static function defineHsp(){
+		
+		if ($_SESSION['isAdmin'] == 'No') {
+		    die('You are not authorized to view this page');
+		}
+		
 		$path = "/templates/benefits/defineHsp.php";
 
 		$template = new TemplateMerger(null, $path);

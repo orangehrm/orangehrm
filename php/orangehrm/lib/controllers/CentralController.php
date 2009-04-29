@@ -243,6 +243,16 @@ $_SESSION['localRights'] = $locRights;
 switch ($moduletype) {
 
 	case 'admin' 	:  // beg. admin module
+	
+					if ($_GET['uniqcode'] == 'TCP') {
+						if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
+		    				die('You are not authorized to view this page');
+						}
+					} else {
+					    if ($_SESSION['isAdmin'] == 'No') {
+		    				die('You are not authorized to view this page');
+						}
+					}
 
 					$view_controller = new ViewController();
 
@@ -817,6 +827,10 @@ switch ($moduletype) {
 						}
 
 						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
+							
+							if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
+							    die('You are not authorized to view this page');
+							}
 
 							$view_controller ->viewList($_GET,$_POST);
 							break;
