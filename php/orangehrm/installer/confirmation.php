@@ -54,10 +54,12 @@ function confirm() {
 			<td class="tdComponent">Database Name</td>
 			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbName']?></td>
 		</tr>
+<?php if($_SESSION['dbCreateMethod'] == 'new') { ?>		
 		<tr>
 			<td class="tdComponent">Priviledged Database User-name</td>
 			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbUserName']?></td>
 		</tr>
+<?php } ?>
 <?php if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) { ?>
 		<tr>
 			<td class="tdComponent">OrangeHRM Database User-name</td>

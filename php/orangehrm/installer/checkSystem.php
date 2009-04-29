@@ -170,28 +170,33 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-                if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
 
-                    $mysqlServer = mysql_query("show engines");
-                    while ($engines = mysql_fetch_assoc($mysqlServer)) {
-                        if ($engines['Engine'] == 'InnoDB') {
-                            if ($engines['Support'] == 'DISABLED') {
-                                echo "<b><font color='red'>Disabled!</font></b>";
-                                $error_found = true;
-                            } elseif ($engines['Support'] == 'DEFAULT') {
-                                echo "<b><font color='green'>Default</font></b>";
-                            } elseif ($engines['Support'] == 'YES') {
-                                echo "<b><font color='green'>Enabled</font></b>";
-                            } elseif ($engines['Support'] == 'NO') {
-                                echo "<b><font color='red'>Not available!</font></b>";
-                                $error_found = true;
-                            } else {
-                                echo "<b><font color='red'>Unknown Error!</font></b>";
-                                $error_found = true;
-                            }
-                        }
-                    }
-                }
+		            $mysqlServer = mysql_query("show engines");
+		            
+		            while ($engines = mysql_fetch_assoc($mysqlServer)) {
+		                if ($engines['Engine'] == 'InnoDB') {
+		                    if ($engines['Support'] == 'DISABLED') {
+		                        echo "<b><font color='red'>Disabled!</font></b>";
+		                        $error_found = true;
+		                    } elseif ($engines['Support'] == 'DEFAULT') {
+		                        echo "<b><font color='green'>Default</font></b>";
+		                    } elseif ($engines['Support'] == 'YES') {
+		                        echo "<b><font color='green'>Enabled</font></b>";
+		                    } elseif ($engines['Support'] == 'NO') {
+		                        echo "<b><font color='red'>Not available!</font></b>";
+		                        $error_found = true;
+		                    } else {
+		                        echo "<b><font color='red'>Unknown Error!</font></b>";
+		                        $error_found = true;
+		                    }
+		                }
+		            }
+	             
+               } else {
+                  echo "<b><font color='red'>Cannot connect to the database</font></b>";
+                  $error_found = true;
+               }
             ?>
             </strong></td>
           </tr>

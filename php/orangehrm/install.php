@@ -95,6 +95,14 @@ if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }
 
+/* This $_SESSION['cMethod'] is used to determine wheter to use an existing database or a new one */
+
+$_SESSION['cMethod'] = 'existing';
+
+if (isset($_POST['cMethod'])) {
+	$_SESSION['cMethod'] = $_POST['cMethod'];
+} 
+
 if(isset($_POST['actionResponse']))
 	switch($_POST['actionResponse']) {
 
@@ -113,6 +121,13 @@ if(isset($_POST['actionResponse']))
 							 $dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);
 							 $dbInfo['dbOHRMPassword'] = trim($_POST['dbOHRMPassword']);
 						}
+						
+						if ($_POST['dbCreateMethod'] == 'existing') {
+							 $dbInfo['dbUserName'] = trim($_POST['dbOHRMUserName']);
+							 $dbInfo['dbPassword'] = trim($_POST['dbOHRMPassword']);
+						}
+						
+						$_SESSION['dbCreateMethod'] = $_POST['dbCreateMethod'];
 
 						$_SESSION['dbInfo'] = $dbInfo;
 
@@ -121,9 +136,9 @@ if(isset($_POST['actionResponse']))
 
 							if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
 								$error = 'WRONGDBVER';
-							elseif(mysql_select_db($dbInfo['dbName']))
+							elseif($_POST['dbCreateMethod'] == 'new' && mysql_select_db($dbInfo['dbName']))
 									$error = 'DBEXISTS';
-								elseif(!isset($_POST['chkSameUser'])) {
+								elseif($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
 
 									mysql_select_db('mysql');
 									$rset = mysql_query("SELECT USER FROM user WHERE USER = '" .$dbInfo['dbOHRMUserName'] . "'");

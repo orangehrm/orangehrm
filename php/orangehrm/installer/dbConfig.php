@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
 ?>
 <script language="JavaScript">
 
@@ -66,13 +67,9 @@ function submitDBInfo() {
 		alert('DB Name left Empty!');
 		frm.dbName.focus();
 		return;
-	} else {
-		if (frm.dbName.value.indexOf('-') != -1) {
-			alert('DB Name cannot include hyphens!');
-			frm.dbName.focus();
-			return;
-		}
 	}
+
+<?php if ($_SESSION['cMethod'] == 'new') { ?>
 
 	if(frm.dbUserName.value == '') {
 		alert('DB User-name left Empty');
@@ -85,10 +82,15 @@ function submitDBInfo() {
 		frm.dbOHRMUserName.focus();
 		return;
 	}
+
+<?php } ?>
+
 document.frmInstall.actionResponse.value  = 'DBINFO';
 document.frmInstall.submit();
 }
+
 </script>
+
 <link href="style.css" rel="stylesheet" type="text/css" />
 
 <div id="content">
@@ -156,6 +158,7 @@ document.frmInstall.submit();
 	<td class="tdComponent">Database Name</td>
 	<td class="tdValues"><input type="text" name="dbName" value="<?php echo  isset($_SESSION['dbInfo']['dbName']) ? $_SESSION['dbInfo']['dbName'] : 'hr_mysql'?>" tabindex="3"></td>
 </tr>
+<?php if ($_SESSION['cMethod'] == 'new') { // Couldn't use JavaScript since IE didn't support 'table-row' display property in CSS ?>
 <tr>
 	<td class="tdComponent">Priviledged Database Username</td>
 	<td class="tdValues"><input type="text" name="dbUserName" value="<?php echo  isset($_SESSION['dbInfo']['dbUserName']) ? $_SESSION['dbInfo']['dbUserName'] : 'root'?>" tabindex="4"> *</td>
@@ -164,11 +167,11 @@ document.frmInstall.submit();
 	<td class="tdComponent">Priviledged Database User Password</td>
 	<td class="tdValues"><input type="password" name="dbPassword" value="<?php echo  isset($_SESSION['dbInfo']['dbPassword']) ? $_SESSION['dbInfo']['dbPassword'] : ''?>" tabindex="5" > *</td>
 </tr>
-
 <tr>
 	<td class="tdComponent">Use the same Database User for OrangeHRM</td>
 	<td class="tdValues"><input type="checkbox" onclick="disableFields()" <?php echo isset($_POST['chkSameUser']) ? 'checked' : '' ?> name="chkSameUser" value="1" tabindex="6"></td>
 </tr>
+<?php } ?>
 <tr>
 	<td class="tdComponent">OrangeHRM Database Username</td>
 	<td class="tdValues"><input type="text" name="dbOHRMUserName" <?php echo isset($_POST['chkSameUser']) ? 'disabled' : '' ?> value="<?php echo  isset($_SESSION['dbInfo']['dbOHRMUserName']) ? $_SESSION['dbInfo']['dbOHRMUserName'] : 'orangehrm'?>" tabindex="7"> #</td>
@@ -182,14 +185,43 @@ document.frmInstall.submit();
 	<td class="tdValues"><input type="checkbox" name="chkEncryption" tabindex="9"></td>
 </tr>
 </table>
+
 <br />
+
+<table cellpadding="0" cellspacing="0" border="0" class="table">
+<tr>
+<td>
+<div id="dbMethod" style="padding:15px 10px 15px 2px">
+<b>
+<?php
+if ($_SESSION['cMethod'] == 'existing') {
+    echo 'Do you want OrangeHRM to create the database and user for you?';
+} else {
+    echo 'Do you want to use an existing empty database?';
+}
+
+?>
+</b>
+</div>
+</td>
+<td>
+<input type="hidden" name="cMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'new':'existing'; ?>" />
+<input type="submit" name="Yes" value="Yes" style="margin:15px 0px 15px 10px" />
+</td>
+</tr>
+</table>
+
+<br />
+<input type="hidden" id="dbCreateMethod" name="dbCreateMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'existing':'new'; ?>" />
 <input class="button" type="button" value="Back" onclick="back();" tabindex="11"/>
 <input type="button" value="Next" onclick="submitDBInfo()" tabindex="10"/>
-
 <br /><br />
-<div>
+
+<div id="pDescription">
 <font size="1">* Priviledged Database User should have the rights to create databases, create tables, insert data into table, alter table structure and to create database users.</font>
-<br />
+</div>
+<div id="oDescription">
 <font size="1"># OrangeHRM database user should have the rights to insert data into table, update data in a table, delete data in a table.</font>
 </div>
+
 </div>

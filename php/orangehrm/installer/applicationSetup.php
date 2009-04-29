@@ -22,28 +22,59 @@ require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
 
 // Installing
 function createDB() {
-	connectDB();
-	mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
 
-	if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-		$mysqlErrNo = mysql_errno();
+	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
-		$errorMsg = mysql_error();
-		if(!isset($errorMsg) || $errorMsg == '') {
-			$errorMsg = 'Unable to create Database.';
-		}
+		$dbName = $_SESSION['dbInfo']['dbName'];
+		$dbHost = $_SESSION['dbInfo']['dbHostName'];
+		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
+		$dbUser = $_SESSION['dbInfo']['dbUserName'];
+		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
-		if (isset($mysqlErrNo)) {
-			if ($mysqlErrNo == '1102') {
-				$errorMsg .= '. Please use valid name for database.';
+		if (mysql_connect($dbHost.':'.$dbPort, $dbUser, $dbPassword)) {
+
+			if (mysql_select_db($dbName)) {
+
+				$result = mysql_query("SHOW TABLES");
+
+				if (mysql_num_rows($result) > 0) {
+					$_SESSION['error'] = 'Given database is not empty.';
+				}
+
+			} else {
+			    $_SESSION['error'] = 'Cannot connect to the database. '.mysql_error();
 			}
+
+		} else {
+		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysql_error();
 		}
 
-		$_SESSION['error'] = $errorMsg;
+	} elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
-		return;
+		connectDB();
+		$dbName = '`'.$_SESSION['dbInfo']['dbName'].'`';
+		mysql_query("CREATE DATABASE " . $dbName);
+
+		if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+			$mysqlErrNo = mysql_errno();
+
+			$errorMsg = mysql_error();
+			if(!isset($errorMsg) || $errorMsg == '') {
+				$errorMsg = 'Unable to create Database.';
+			}
+
+			if (isset($mysqlErrNo)) {
+				if ($mysqlErrNo == '1102') {
+					$errorMsg .= '. Please use valid name for database.';
+				}
+			}
+
+			$_SESSION['error'] = $errorMsg.' '.mysql_error();
+
+			return;
+		}
+
 	}
-
 
 }
 
@@ -87,8 +118,8 @@ function fillData($phase=1, $source='/dbscript/dbscript-') {
 	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
 
 	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-		$_SESSION['error'] = 'Unable to create Database!';
-		error_log (date("r")." Fill Data Phase $phase - Error - Unable to create Database\n",3, "installer/log.txt");
+		$_SESSION['error'] = 'Cannot select the given database! '.mysql_error();
+		error_log (date("r")." Fill Data Phase $phase - Error - Cannot select the given database\n",3, "installer/log.txt");
 		return;
 	}
 
@@ -123,6 +154,8 @@ function fillData($phase=1, $source='/dbscript/dbscript-') {
 }
 
 function createDBUser() {
+
+if ($_SESSION['dbCreateMethod'] == 'new') {
 
 	connectDB();
 
@@ -187,6 +220,8 @@ USRSQL;
       		}
 		}
 	}
+
+}
 
 }
 
