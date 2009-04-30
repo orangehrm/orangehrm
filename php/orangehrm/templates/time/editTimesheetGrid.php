@@ -623,14 +623,14 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		
 		/* For checking all empty rows */
 		
-		var emptyFlag = false;
+		var emptyFlag = true;
 		
 		for (var i=0; i<gridCount; i++) {
 		
 			var projectId = $('cmbProject-'+i).value;
 			
-			if (projectId > -1) {
-			    emptyFlag = true;
+			if (projectId == -1) {
+			    emptyFlag = false;
 			}
 		    
 		} 
