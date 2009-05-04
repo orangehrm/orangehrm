@@ -62,6 +62,11 @@ if ($records['message'] == 'save-success') {
 			errFlag = true;
 		}
 		
+		if (trim($("txtTime").value) == '24:00') {
+			alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
+			errFlag = true;
+		}
+		
 		<?php if (!$punchIn) { ?>
 		
 		var inTime = strToTime("<?php echo $records['attRecord'][0]->getInDate(); ?>"+" "+"<?php echo $records['attRecord'][0]->getInTime(); ?>", dateTimeFormat);

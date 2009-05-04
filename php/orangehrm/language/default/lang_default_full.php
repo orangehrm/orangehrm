@@ -1494,6 +1494,7 @@
 	$lang_Time_AttendanceConfigSaving_FAILURE = "Failed saving attendance configuration";
 	$lang_Time_PunchSaving_SUCCESS = "Record saved";
 	$lang_Time_PunchSaving_FAILURE = "Saving record failed";
+	$lang_Time_Errors_InvalidMaxTime = "Invalid time entered. Maximum acceptable time is 23:59";
 	
 	$lang_Time_Menu_MyReports = "My Reports";
 	$lang_Time_Menu_EmployeeReports = "Employee Reports";

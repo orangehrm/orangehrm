@@ -70,6 +70,14 @@ $count = count($recordsArr);
 				alert("<?php echo $lang_Time_Attendance_InvalidOutTime; ?>");
 				errFlag = true;
 			}
+			
+			var inTimeValue = trim($("txtNewInTime-"+i).value);
+			var outTimeValue = trim($("txtNewOutTime-"+i).value);
+			
+			if (inTimeValue == '24:00' || outTimeValue == '24:00') {
+				alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
+				errFlag = true;
+			}
 		
 		}
 
