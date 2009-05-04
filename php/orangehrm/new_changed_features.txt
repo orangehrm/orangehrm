@@ -1,4 +1,16 @@
-﻿New & Changed Features for OrangeHRM ver 2.5-beta.4
+﻿New & Changed Features for OrangeHRM ver 2.5-beta.5
+
+    Bug fixes
+    ---------
+	2721087 - timesheet start from 1969-12-31
+	2613464 - Can't install if the user or database already created
+	2779333 - Installation with root not work with IE7 
+	1922834 - Installation: Hypens in database name are not checked (Refixed)
+	2711116 - Time Grid-Save without selecting a Project leads to SqlError
+	2641144 - Atten Report time get invalid when saved In/Out as 24:00
+	2644386 - Traditional Mode-Delete rows in Atten.Rept lead to sql Error
+
+New & Changed Features for OrangeHRM ver 2.5-beta.4
 
     Bug fixes
     ---------
