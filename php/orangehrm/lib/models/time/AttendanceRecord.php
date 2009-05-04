@@ -186,17 +186,17 @@ class AttendanceRecord {
 
 		if (isset($this->inNote)) {
 		    $updateFields[] = "`".self::DB_FIELD_IN_NOTE."`";
-		    $updateValues[] = $this->inNote;
+		    $updateValues[] = "'".$this->inNote."'";
 		}
 
 		if (isset($this->outNote)) {
 		    $updateFields[] = "`".self::DB_FIELD_OUT_NOTE."`";
-		    $updateValues[] = $this->outNote;
+		    $updateValues[] = "'".$this->outNote."'";
 		}
 
 		if (isset($this->status)) {
 		    $updateFields[] = "`".self::DB_FIELD_STATUS."`";
-		    $updateValues[] = $this->status;
+		    $updateValues[] = "'".$this->status."'";
 		}
 
 		$updateConditions[] = "`".self::DB_FIELD_ATTENDANCE_ID."` = {$this->attendanceId}";
