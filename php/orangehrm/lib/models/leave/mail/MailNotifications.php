@@ -584,8 +584,11 @@ class MailNotifications {
 		$txt = $txtArr[0].$recordTxt.$txtArr[2];
 
 		if (isset($leaveObjs[0])) {
-			$employeeName = $leaveObjs[0]->getEmployeeName();
+
 			$employeeId = $leaveObjs[0]->getEmployeeId();
+			
+			$empInfoObj = new EmpInfo();
+            $employeeName = $empInfoObj->getFullName($employeeId);
 
 			$this->_getAddresses($employeeId);
 

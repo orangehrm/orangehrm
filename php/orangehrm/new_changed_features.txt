@@ -4,11 +4,12 @@
     ---------
 	2721087 - timesheet start from 1969-12-31
 	2613464 - Can't install if the user or database already created
-	2779333 - Installation with root not work with IE7 
+	2779333 - Installation with root not work with IE7
 	1922834 - Installation: Hypens in database name are not checked (Refixed)
 	2711116 - Time Grid-Save without selecting a Project leads to SqlError
 	2641144 - Atten Report time get invalid when saved In/Out as 24:00
 	2644386 - Traditional Mode-Delete rows in Atten.Rept lead to sql Error
+	2787192 - Leave cancel mail doesn’t include the name of the individual
 
 New & Changed Features for OrangeHRM ver 2.5-beta.4
 
@@ -60,7 +61,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.8
 	New features
 	------------
 	Second implementation of "Attendance Tracking" (Admins/Supervisors can Attendance Reports)
-	
+
     Bug fixes
     ---------
 	2608200 - Attendance -> My Reports, left align In Note and Out Note
@@ -70,7 +71,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.8
 	2595446 - Display a message when no reports to display in attendance
 	2615902 - Overlaping time can be entered using punch IN/OUT
 	2595619 - Punch IN time should not grater than Punch Out
-	
+
 	2595713 - Email notification fails with a error: Unsupported SSL type
 	2615218 - Leave Assign button not functioning with Supervisor/Ess User (Fixed by Nadeeth)
 
@@ -91,7 +92,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.5
     Bug fixes
     ---------
     UI improvements of Admin & Leave Module
-    
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.4
 
     Bug fixes
@@ -102,7 +103,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.4
     2506461 - Ess cannot apply leave using firefox : UI issue
     2506497 - Ess: Leave summary back button will end up with notice page
     2522827 - Cannot delete the attached resumes in Recruitment
-    
+
     Bug fixes merged from 2.4.1
     ---------------------------
 	2094702 - Notice page when login via LDAP
