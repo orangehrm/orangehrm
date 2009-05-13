@@ -1,21 +1,21 @@
 <?php
-/*
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-// all the essential functionalities required for any enterprise.
-// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-// the GNU General Public License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License along with this program;
-// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-// Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
@@ -25,43 +25,43 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class SalaryGrades {
 
-	var $tableName = 'HS_PR_SALARY_GRADE';
+	public $tableName = 'HS_PR_SALARY_GRADE';
 
-	var $salgrdId;
-	var $salgrdDesc;
-	var $arrayDispList;
-	var $singleField;
+	public $salgrdId;
+	public $salgrdDesc;
+	public $arrayDispList;
+	public $singleField;
 
 
-	function SalaryGrades() {
+	public function SalaryGrades() {
 
 	}
 
-	function setSalGrdId($salgrdId) {
+	public function setSalGrdId($salgrdId) {
 
 		$this->salgrdId = $salgrdId;
 
 	}
 
-	function setSalGrdDesc($salgrdDesc) {
+	public function setSalGrdDesc($salgrdDesc) {
 
 		$this->salgrdDesc = $salgrdDesc;
 	}
 
 
-	function getSalGrdId() {
+	public function getSalGrdId() {
 
 		return $this->salgrdId;
 
 	}
 
-	function getSalGrdDesc() {
+	public function getSalGrdDesc() {
 
 		return $this->salgrdDesc;
 
 	}
 
-	function getListofCashBenefits($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
+	public function getListofCashBenefits($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -77,7 +77,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -103,7 +102,7 @@ class SalaryGrades {
 		}
 	}
 
-	function countCashBenefits($schStr,$mode) {
+	public function countCashBenefits($schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -119,7 +118,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -128,7 +126,7 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function getUnAssCashBenefits($pageNO,$schStr,$mode) {
+	public function getUnAssCashBenefits($pageNO,$schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -144,7 +142,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -170,7 +167,7 @@ class SalaryGrades {
 		}
 	}
 
-	function countUnAssCashBenefits($schStr,$mode) {
+	public function countUnAssCashBenefits($schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -186,7 +183,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -195,7 +191,7 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function getSalGrades($fetchDetailedSalGradesOnly = false) {
+	public function getSalGrades($fetchDetailedSalGradesOnly = false) {
 
 		$sql_builder = new SQLQBuilder();
 
@@ -244,7 +240,7 @@ class SalaryGrades {
 
 	}
 
-	function getListofSalaryGrades($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
+	public function getListofSalaryGrades($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -258,7 +254,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -284,7 +279,7 @@ class SalaryGrades {
 		}
 	}
 
-	function countSalaryGrades($schStr,$mode) {
+	public function countSalaryGrades($schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -298,7 +293,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->countResultset($schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -307,7 +301,7 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function delSalaryGrades($arrList) {
+	public function delSalaryGrades($arrList) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -320,7 +314,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->deleteRecord($arrList);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -328,7 +321,7 @@ class SalaryGrades {
 	}
 
 
-	function addSalaryGrades() {
+	public function addSalaryGrades() {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 
@@ -366,7 +359,11 @@ class SalaryGrades {
 		}
 	}
 
-	function updateSalaryGrades() {
+	public function updateSalaryGrades() {
+		
+		if ($this->isSalaryGradeNameExists($this->getSalGrdDesc())) {
+		    throw new SalaryGradesException('Salary grade name already exists', SalaryGradesException::UNKNOWN_EXCEPTION); // Error code is set to comply with ViewController.php
+		}
 
 		$this->getSalGrdId();
 		$arrRecordsList[0] = "'". $this->getSalGrdId() . "'";
@@ -390,11 +387,29 @@ class SalaryGrades {
 
 		return $message2;
 
-
+	}
+	
+	public function isSalaryGradeNameExists($salGradeName) {	    
+	    
+	    $selectTable = '`hs_pr_salary_grade`';	    
+	    $selectFields[] = '`sal_grd_code`';	    
+	    $selectConditions[] = "`sal_grd_name` = '$salGradeName'";
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	    
 	}
 
-
-	function filterSalaryGrades($getID) {
+	public function filterSalaryGrades($getID) {
 
 		$this->getID = $getID;
 		$tableName = 'HS_PR_SALARY_GRADE';
@@ -409,7 +424,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -436,7 +450,7 @@ class SalaryGrades {
 
 	}
 
-	function getListofNonCashBenefits($pageNO,$schStr,$mode) {
+	public function getListofNonCashBenefits($pageNO,$schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -452,7 +466,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -478,7 +491,7 @@ class SalaryGrades {
 		}
 	}
 
-	function countNonCashBenefits($schStr,$mode) {
+	public function countNonCashBenefits($schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -494,7 +507,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -503,7 +515,7 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function getUnAssNonCashBenefits($pageNO,$schStr,$mode) {
+	public function getUnAssNonCashBenefits($pageNO,$schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -519,7 +531,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -545,7 +556,7 @@ class SalaryGrades {
 		}
 	}
 
-	function countUnAssNonCashBenefits($schStr,$mode) {
+	public function countUnAssNonCashBenefits($schStr,$mode) {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -561,7 +572,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -570,7 +580,7 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function getSalGrdCodes() {
+	public function getSalGrdCodes() {
 
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -584,7 +594,6 @@ class SalaryGrades {
 
 		$sqlQString = $sql_builder->passResultSetMessage();
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 

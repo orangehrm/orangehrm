@@ -1,25 +1,48 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-all the essential functionalities required for any enterprise.
-Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
+
+/* Setting message: Begins */
+
+if (isset($this->getArr['msg'])) {
+	
+	if ($this->getArr['msg'] == 'UPDATE_SUCCESS') {
+	    $messageText = $lang_Common_UPDATE_SUCCESS;
+	    $messageType = 'SUCCESS';
+	} elseif ($this->getArr['msg'] == 'DUPLICATE_NAME_FAILURE') {
+	    $messageText = $lang_Error_salarygrades_DUPLICATE_NAME_FAILURE;
+	    $messageType = 'FAILURE';
+	} elseif ($this->getArr['msg'] == 'UPDATE_FAILURE') {
+	    $messageText = $lang_Error_salarygrades_ADD_FAILURE;
+	    $messageType = 'FAILURE';
+	}
+    
+} else {
+    
+    $messageText = null;
+    
+}
+
+/* Setting message: Ends */
 
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
@@ -61,7 +84,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 		}
 	}
-
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -116,16 +139,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
 
-    <?php $messageStr =  isset($this->getArr['msg']) ? $this->getArr['msg'] : null;
-        if (isset($messageStr)) {
-            $messageType = CommonFunctions::getCssClassForMessage($messageStr);
-            $messageStr = "lang_Error_salarygrades_" . $messageStr;
-    ?>
-        <div class="messagebar">
-            <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ""; ?></span>
-        </div>
-    <?php } ?>
-
+<?php if (isset($messageText)) { ?>
+<div class="messagebar">	
+	<span class="<?php echo $messageType; ?>"><?php echo $messageText; ?></span>
+</div>
+<?php } ?>
 
 <form name="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="return addSave()">
 
@@ -509,14 +527,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
 
-    <?php $messageStr =  isset($this->getArr['msg']) ? $this->getArr['msg'] : null;
-        if (isset($messageStr)) {
-            $messageStr = str_replace("%", " ", $expString);
-    ?>
-        <div class="messagebar">
-            <span class=""><?php echo $$messageStr; ?></span>
-        </div>
-    <?php } ?>
+<?php if (isset($messageText)) { ?>
+<div class="messagebar">	
+	<span class="<?php echo $messageType; ?>"><?php echo $messageText; ?></span>
+</div>
+<?php } ?>
 
 <form name="frmSalGrd" id="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addUpdate();">
     <input type="hidden" name="sqlState" value=""/>

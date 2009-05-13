@@ -2098,7 +2098,7 @@ class ViewController {
 
 					case 'SGR' : $showMsg = "UPDATE_SUCCESS";
 
-								 header("Location:".$_POST['referer']."&message=$showMsg");
+								 header("Location:".$_POST['referer']."&msg=$showMsg");
 
 					case 'EST' :
 					case 'CUR' :
@@ -2132,13 +2132,12 @@ class ViewController {
 
 			} else {
 				if (!isset($showMsg) || empty($showMsg)) {
-					$showMsg = "UPDATE_FAILURE";
+					$showMsg = "UPDATE_FAILURE"; 
 				}
 
 				$uniqcode = $index;
 
 				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
-				//echo mysql_error();
 
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp{$extraParams}");
 			}
