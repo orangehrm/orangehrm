@@ -97,19 +97,28 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 						$isSupervisor = false;
 						$isProjectAdmin = false;
                 		$isManager = false;
-                $isDirector = false;
+		                $isDirector = false;
+		                $isAcceptor = false;
+		                $isOfferer = false;
+
 						if ($_SESSION['isAdmin'] == 'No') {
 
 						$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 						$isSupervisor = $authorizeObj->isSupervisor();
 						$isProjectAdmin = $authorizeObj->isProjectAdmin();
                     	$isManager = $authorizeObj->isManager();
-                    $isDirector = $authorizeObj->isDirector();
+	                    $isDirector = $authorizeObj->isDirector();
+	                    $isAcceptor = $authorizeObj->isAcceptor();
+	                    $isOfferer = $authorizeObj->isOfferer();
+	                    
 					}
+					
 					$_SESSION['isSupervisor'] = $isSupervisor;
 					$_SESSION['isProjectAdmin'] = $isProjectAdmin;
                 	$_SESSION['isManager'] = $isManager;
 					$_SESSION['isDirector'] = $isDirector;
+					$_SESSION['isAcceptor'] = $isAcceptor;
+					$_SESSION['isOfferer'] = $isOfferer;
 
 					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 					$_SESSION['WPATH']= $wpath[0];
