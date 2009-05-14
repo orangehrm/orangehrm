@@ -303,10 +303,15 @@ class LeaveRequests extends Leave {
 				$totalLeaves = count($tmpLeaveArr);
 
 				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
-
-				if ($tmpLeaveArr[0]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-					$noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
-					$hours = $tmpLeaveArr[0]->getLeaveLengthHours();
+				
+				if (isset($filterLeaveStatus)) {
+					if (in_array($tmpLeaveArr[0]->getLeaveStatus(), $filterLeaveStatus)) {
+						$noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
+						$hours = $tmpLeaveArr[0]->getLeaveLengthHours();
+					}
+				} else {
+				    $noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
+				    $hours = $tmpLeaveArr[0]->getLeaveLengthHours();
 				}
 
 				if (($tmpLeaveArr[0]->getStartTime() != null) && ($tmpLeaveArr[0]->getEndTime() != null)) {
@@ -324,13 +329,21 @@ class LeaveRequests extends Leave {
 					for ($i=1; $i<$totalLeaves; $i++) {
 
 						if ($tmpLeaveArr[$i]->getLeaveLengthHours() > 0) {
-							if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-								$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
-								$hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
+							
+							if (isset($filterLeaveStatus)) {
+								if (in_array($tmpLeaveArr[$i]->getLeaveStatus(), $filterLeaveStatus)) {
+									$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
+									$hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
+								}
+							} else {
+							    $noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
+							    $hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
 							}
+							
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
 							}
+							
 						}
 
 						if ($comments != $tmpLeaveArr[$i]->getLeaveComments()) {
