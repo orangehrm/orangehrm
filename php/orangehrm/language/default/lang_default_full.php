@@ -1436,6 +1436,7 @@
 	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "Timesheet contains unfinished activities";
 	$lang_Time_Errors_DUPLICATE_ROWS = "Duplicate rows found";
 	$lang_Time_Errors_NO_PROJECT_SELECTED = "Please select a project";
+	$lang_Time_Errors_MaxTotalDuration = 'Total duration of a day cannot exceed 24 hours';
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
 	$lang_Time_Errors_EncounteredFollowingProblems = "Encountered following problems";

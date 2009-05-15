@@ -329,7 +329,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $endDateStamp); ?>" />
 
 <input type="hidden" name="hdnGridCount" id="hdnGridCount" value="<?php echo ($gridCount==0?1:$gridCount); ?>" />
-<input type="hidden" name="hdnDatesCount" value="<?php echo $datesCount; ?>" />
+<input type="hidden" name="hdnDatesCount" id="hdnDatesCount" value="<?php echo $datesCount; ?>" />
 
 <?php /* Hidden data: Ends */ ?>
 
@@ -550,12 +550,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	/* Validating timegrid: Begins */
 	
 	function validateTimegrid() {
-	
+		
 	    var gridCount =	$('hdnGridCount').value;
+	    var datesCount = $('hdnDatesCount').value;
 	    
 		/* Checking durations entered */
 
-	    var datesCount = <?php echo $datesCount; ?>;
 	    var pattern = /^\d+.?\d*$/;
 	    var durationFlag = true;
 	    
@@ -638,6 +638,25 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		if (!emptyFlag) {
 		    alert('<?php echo $lang_Time_Errors_NO_PROJECT_SELECTED; ?>');
 		    return false;
+		}
+		
+		/* Checking whether day's total duration is more than 24 hours */
+		
+		for (var i=0; i<datesCount; i++) {
+			
+			var dayTotal = 0;
+		    
+		    for (var j=0; j<gridCount; j++) {
+		        
+		        dayTotal = dayTotal + Number($('txtDuration-'+j+'-'+i).value);
+		        
+		    }
+		    
+		    if (dayTotal > 24) {
+		        alert('<?php echo $lang_Time_Errors_MaxTotalDuration; ?>');
+		        return false;
+		    }
+		    
 		}
 	    
 		return true;
