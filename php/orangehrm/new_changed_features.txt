@@ -1,4 +1,12 @@
-﻿New & Changed Features for OrangeHRM ver 2.5-beta.5
+﻿New & Changed Features for OrangeHRM ver 2.5-beta.6
+
+	2787192 - Leave cancel mail doesn’t include the name of the individual
+	2681493 - Pay Grade-Edit and save leads to Undefined variable error
+	2081698 - Leave:In Leave filtering,number of days rejected wrong
+	2461647 - Recruitment module is invisible for HM- log in as ldap user
+	2711126 - Total hrs per day can be grater than 24 hrs
+
+New & Changed Features for OrangeHRM ver 2.5-beta.5
 
     Bug fixes
     ---------
