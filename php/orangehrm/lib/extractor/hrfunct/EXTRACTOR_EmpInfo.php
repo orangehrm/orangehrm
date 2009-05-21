@@ -100,7 +100,7 @@ class EXTRACTOR_EmpInfo {
 
 	public function parseEditData($postArr) {
 
-		if ($postArr['main']=='1') {
+		if ($postArr['main']=='1') { // TODO: Check whether this code block is in use. Same content was appended to personalFlag
 
 			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 			if (isset($postArr['txtEmployeeId'])) {
@@ -114,6 +114,7 @@ class EXTRACTOR_EmpInfo {
 
 
 			$objectArr['EmpMain'] = $this->parent_empinfo;
+			
 		}
 
 		//personal
@@ -137,6 +138,19 @@ class EXTRACTOR_EmpInfo {
 			$this->parent_empinfo -> setEmpEthnicRace(($postArr['cmbEthnicRace']));
 
 			$objectArr['EmpPers'] = $this->parent_empinfo;
+			
+			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
+			if (isset($postArr['txtEmployeeId'])) {
+				$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
+			}
+
+			$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
+			$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
+			$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
+			$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
+
+			$objectArr['EmpMain'] = $this->parent_empinfo;
+
 		}
 
 		//job info
