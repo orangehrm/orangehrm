@@ -95,33 +95,19 @@ class EXTRACTOR_AttendanceRecord {
 			$attendanceRecordObj = new AttendanceRecord();
 			$changed = false;
 
-			//TODO: If one condition gets true, stop checking other conditions
-
 			if (trim($postArr['txtNewInDate-'.$i]) != $postArr['hdnOldInDate-'.$i]) {
 				$changed = true;
-			}
-
-			if (trim($postArr['txtNewInTime-'.$i]) != $postArr['hdnOldInTime-'.$i]) {
+			} elseif (trim($postArr['txtNewInTime-'.$i]) != $postArr['hdnOldInTime-'.$i]) {
 				$changed = true;
-			}
-
-			if (trim($postArr['txtNewInNote-'.$i]) != $postArr['hdnOldInNote-'.$i]) {
+			} elseif (trim($postArr['txtNewInNote-'.$i]) != $postArr['hdnOldInNote-'.$i]) {
 				$changed = true;
-			}
-
-			if (trim($postArr['txtNewOutDate-'.$i]) != $postArr['hdnOldOutDate-'.$i]) {
+			} elseif (trim($postArr['txtNewOutDate-'.$i]) != $postArr['hdnOldOutDate-'.$i]) {
 				$changed = true;
-			}
-
-			if (trim($postArr['txtNewOutTime-'.$i]) != $postArr['hdnOldOutTime-'.$i]) {
+			} elseif (trim($postArr['txtNewOutTime-'.$i]) != $postArr['hdnOldOutTime-'.$i]) {
 				$changed = true;
-			}
-
-			if (trim($postArr['txtNewOutNote-'.$i]) != $postArr['hdnOldOutNote-'.$i]) {
+			} elseif (trim($postArr['txtNewOutNote-'.$i]) != $postArr['hdnOldOutNote-'.$i]) {
 				$changed = true;
-			}
-
-			if (isset($postArr['chkDeleteStatus-'.$i])) {
+			} elseif (isset($postArr['chkDeleteStatus-'.$i])) {
 				$attendanceRecordObj->setStatus(AttendanceRecord::STATUS_DELETED);
 				$changed = true;
 			}
