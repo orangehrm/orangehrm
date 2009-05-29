@@ -18,9 +18,15 @@
  */
  
 require_once ROOT_PATH.'/lib/common/calendar.php';
- 
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_AttendanceRecord.php';
+
 if (isset($records['recordsArr'])) {
 	$recordsArr = $records['recordsArr'];
+	
+}
+
+if ($records['reportView'] == 'detailed' && isset($records['recordsArr'])) {
+	$extractor = new EXTRACTOR_AttendanceRecord($records['userTimeZoneOffset'], $records['serverTimeZoneOffset']);
 }
 
 if (isset($records['message'])) {
@@ -325,30 +331,37 @@ $count = count($recordsArr);
 	<?php 
 	
 	for ($i=0; $i<$count; $i++) { // Records array: Begins
+
+	$inDate = $extractor->adjustToServerTime('date', 'add', $recordsArr[$i]->getInDate().' '.$recordsArr[$i]->getInTime());
+	$inTime = $extractor->adjustToServerTime('time', 'add', $recordsArr[$i]->getInDate().' '.$recordsArr[$i]->getInTime());
+	$outDate = $extractor->adjustToServerTime('date', 'add', $recordsArr[$i]->getOutDate().' '.$recordsArr[$i]->getOutTime());
+	$outTime = $extractor->adjustToServerTime('time', 'add', $recordsArr[$i]->getOutDate().' '.$recordsArr[$i]->getOutTime());
 	
-	if ($records['editMode']) { ?>
+	if ($records['editMode']) { 
+	
+	?>
   
     <tr>
         <td>
         <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getAttendanceId(); ?>" />
-        <input type="text" name="txtNewInDate-<?php echo $i; ?>" id="txtNewInDate-<?php echo $i; ?>" size="10" value="<?php echo $recordsArr[$i]->getInDate() ; ?>" />
-        <input type="hidden" name="hdnOldInDate-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInDate();?>" />
+        <input type="text" name="txtNewInDate-<?php echo $i; ?>" id="txtNewInDate-<?php echo $i; ?>" size="10" value="<?php echo $inDate; ?>" />
+        <input type="hidden" name="hdnOldInDate-<?php echo $i; ?>" value="<?php echo $inDate;?>" />
         </td>
         <td>
-        <input type="text" name="txtNewInTime-<?php echo $i; ?>" id="txtNewInTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInTime(); ?>" />
-        <input type="hidden" name="hdnOldInTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInTime(); ?>" />
+        <input type="text" name="txtNewInTime-<?php echo $i; ?>" id="txtNewInTime-<?php echo $i; ?>" value="<?php echo $inTime; ?>" />
+        <input type="hidden" name="hdnOldInTime-<?php echo $i; ?>" value="<?php echo $inTime; ?>" />
         </td>
         <td class="note-td">
         <input type="text" name="txtNewInNote-<?php echo $i; ?>" id="txtNewInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
         <input type="hidden" name="hdnOldInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
         </td>
         <td>
-        <input type="text" name="txtNewOutDate-<?php echo $i; ?>" id="txtNewOutDate-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutDate(); ?>" />
-        <input type="hidden" name="hdnOldOutDate-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutDate(); ?>" />
+        <input type="text" name="txtNewOutDate-<?php echo $i; ?>" id="txtNewOutDate-<?php echo $i; ?>" value="<?php echo $outDate; ?>" />
+        <input type="hidden" name="hdnOldOutDate-<?php echo $i; ?>" value="<?php echo $outDate; ?>" />
         </td>
         <td>
-        <input type="text" name="txtNewOutTime-<?php echo $i; ?>" id="txtNewOutTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutTime(); ?>" />
-        <input type="hidden" name="hdnOldOutTime-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutTime(); ?>" />
+        <input type="text" name="txtNewOutTime-<?php echo $i; ?>" id="txtNewOutTime-<?php echo $i; ?>" value="<?php echo $outTime; ?>" />
+        <input type="hidden" name="hdnOldOutTime-<?php echo $i; ?>" value="<?php echo $outTime; ?>" />
         </td>
         <td class="note-td">
         <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutNote(); ?>" />
@@ -363,19 +376,19 @@ $count = count($recordsArr);
     	
     <tr>
         <td>
-        <?php echo $recordsArr[$i]->getInDate() ;?>
+        <?php echo $inDate ;?>
         </td>
         <td>
-        <?php echo $recordsArr[$i]->getInTime() ;?>
+        <?php echo $inTime ;?>
         </td>
         <td class="note-td">
         <?php echo $recordsArr[$i]->getInNote() ;?>
         </td>
         <td>
-        <?php echo $recordsArr[$i]->getOutDate() ;?>
+        <?php echo $outDate ;?>
         </td>
         <td>
-        <?php echo $recordsArr[$i]->getOutTime() ;?>
+        <?php echo $outTime ;?>
         </td>
         <td class="note-td">
         <?php echo $recordsArr[$i]->getOutNote() ;?>

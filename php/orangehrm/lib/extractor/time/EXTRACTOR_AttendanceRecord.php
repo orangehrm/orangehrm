@@ -22,6 +22,30 @@ require_once ROOT_PATH . '/lib/models/time/AttendanceRecord.php';
 
 class EXTRACTOR_AttendanceRecord {
 
+	private $userTimeZoneOffset;
+	private $serverTimeZoneOffset;
+
+	public function setUserTimeZoneOffset($userTimeZoneOffset) {
+	    $this->userTimeZoneOffset = $userTimeZoneOffset;
+	}
+
+	public function getUserTimeZoneOffset() {
+	    return $this->userTimeZoneOffset;
+	}
+
+	public function setServerTimeZoneOffset($serverTimeZoneOffset) {
+	    $this->serverTimeZoneOffset = $serverTimeZoneOffset;
+	}
+
+	public function getServerTimeZoneOffset() {
+	    return $this->serverTimeZoneOffset;
+	}
+
+	public function __construct($userTimeZoneOffset=null, $serverTimeZoneOffset=null) {
+	    $this->userTimeZoneOffset = $userTimeZoneOffset;
+	    $this->serverTimeZoneOffset = $serverTimeZoneOffset;
+	}
+
 	public function parsePunchData($postArr) {
 
 		$attendanceObj = new AttendanceRecord();
@@ -32,23 +56,26 @@ class EXTRACTOR_AttendanceRecord {
 
 		$attendanceObj->setEmployeeId($postArr['hdnEmployeeId']);
 
-		if (isset($postArr['txtInDate'])) {
-			$attendanceObj->setInDate($postArr['txtInDate']);
-		}
+		if (isset($postArr['txtInDate']) && isset($postArr['txtInTime'])) {
 
-		if (isset($postArr['txtInTime'])) {
-			$attendanceObj->setInTime($postArr['txtInTime']);
+			$value = trim($postArr['txtInDate']).' '.trim($postArr['txtInTime']);
+
+			$attendanceObj->setInDate($this->adjustToServerTime('date', 'subtract', $value));
+			$attendanceObj->setInTime($this->adjustToServerTime('time', 'subtract', $value));
+
 		}
 
 		if (isset($postArr['txtInNote'])) {
 			$attendanceObj->setInNote($postArr['txtInNote']);
 		}
 
-		if (isset($postArr['txtOutDate'])) {
-			$attendanceObj->setOutDate($postArr['txtOutDate']);
-		}
-		if (isset($postArr['txtOutTime'])) {
-			$attendanceObj->setOutTime($postArr['txtOutTime']);
+		if (isset($postArr['txtOutDate']) && isset($postArr['txtOutTime'])) {
+
+			$value = trim($postArr['txtOutDate']).' '.trim($postArr['txtOutTime']);
+
+			$attendanceObj->setOutDate($this->adjustToServerTime('date', 'subtract', $value));
+			$attendanceObj->setOutTime($this->adjustToServerTime('time', 'subtract', $value));
+
 		}
 
 		if (isset($postArr['txtOutNote'])) {
@@ -67,7 +94,9 @@ class EXTRACTOR_AttendanceRecord {
 
 			$attendanceRecordObj = new AttendanceRecord();
 			$changed = false;
-			
+
+			//TODO: If one condition gets true, stop checking other conditions
+
 			if (trim($postArr['txtNewInDate-'.$i]) != $postArr['hdnOldInDate-'.$i]) {
 				$changed = true;
 			}
@@ -91,23 +120,25 @@ class EXTRACTOR_AttendanceRecord {
 			if (trim($postArr['txtNewOutNote-'.$i]) != $postArr['hdnOldOutNote-'.$i]) {
 				$changed = true;
 			}
-			
+
 			if (isset($postArr['chkDeleteStatus-'.$i])) {
 				$attendanceRecordObj->setStatus(AttendanceRecord::STATUS_DELETED);
 				$changed = true;
 			}
 
 			if ($changed) {
-				/* Even if only one value is changed, setting other properties 
+				/* Even if only one value is changed, setting other properties
 				 * is required to carry out functions like checking overlapping
 				 */
 				$attendanceRecordObj->setAttendanceId($postArr['hdnAttendanceId-'.$i]);
 				$attendanceRecordObj->setEmployeeId($postArr['hdnEmployeeId']);
-				$attendanceRecordObj->setInDate(trim($postArr['txtNewInDate-'.$i]));
-				$attendanceRecordObj->setInTime(trim($postArr['txtNewInTime-'.$i]));
+				$value = trim($postArr['txtNewInDate-'.$i]).' '.trim($postArr['txtNewInTime-'.$i]);
+				$attendanceRecordObj->setInDate($this->adjustToServerTime('date', 'subtract', $value));
+				$attendanceRecordObj->setInTime($this->adjustToServerTime('time', 'subtract', $value));
 				$attendanceRecordObj->setInNote(trim($postArr['txtNewInNote-'.$i]));
-				$attendanceRecordObj->setOutDate(trim($postArr['txtNewOutDate-'.$i]));
-				$attendanceRecordObj->setOutTime(trim($postArr['txtNewOutTime-'.$i]));
+				$value = trim($postArr['txtNewOutDate-'.$i]).' '.trim($postArr['txtNewOutTime-'.$i]);
+				$attendanceRecordObj->setOutDate($this->adjustToServerTime('date', 'subtract', $value));
+				$attendanceRecordObj->setOutTime($this->adjustToServerTime('time', 'subtract', $value));
 				$attendanceRecordObj->setOutNote(trim($postArr['txtNewOutNote-'.$i]));
 			    $parsedObjs[] = $attendanceRecordObj;
 			}
@@ -115,6 +146,47 @@ class EXTRACTOR_AttendanceRecord {
 		}
 
 		return $parsedObjs;
+
+	}
+
+	public function adjustToServerTime($type, $operation, $value) {
+
+	    if (!isset($this->userTimeZoneOffset)) {
+	        throw new Exception('User time zone is not set');
+	    }
+
+	    if (!isset($this->serverTimeZoneOffset)) {
+	        throw new Exception('Server time zone is not set');
+	    }
+
+	    if ($type != 'date' && $type != 'time') {
+	        throw new Exception('Wrong type');
+	    }
+
+	    if ($operation != 'add' && $operation != 'subtract') {
+	        throw new Exception('Wrong operation');
+	    }
+
+    	$hourDiff = $this->userTimeZoneOffset - $this->serverTimeZoneOffset;
+		$timeStampDiff = $hourDiff*3600;
+
+		if ($type == 'date') {
+
+			if ($operation == 'add') {
+			    return date('Y-m-d', strtotime($value)+$timeStampDiff);
+			} elseif ($operation == 'subtract') {
+			    return date('Y-m-d', strtotime($value)-$timeStampDiff);
+			}
+
+ 		} elseif ($type == 'time') {
+
+			if ($operation == 'add') {
+			    return date('H:i', strtotime($value)+$timeStampDiff);
+			} elseif ($operation == 'subtract') {
+			    return date('H:i', strtotime($value)-$timeStampDiff);
+			}
+
+		}
 
 	}
 

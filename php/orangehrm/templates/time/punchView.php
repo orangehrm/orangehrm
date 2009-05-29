@@ -23,7 +23,7 @@ if (isset($records['attRecord'])) {
 	$punchTypeName = $lang_Time_Out;
 	$heading = $lang_Time_Heading_PunchOut;
 	/* Punch Info: Begins */
-	$punchInfo = $lang_Time_LastPunchIn.' '.$records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
+	$punchInfo = $lang_Time_LastPunchIn.' '.$records['punchedInDate'].' '.$records['punchedInTime'];
 	$punchNote = $records['attRecord'][0]->getInNote();
 	if (!empty($punchNote)) {
 		$punchInfo .= ' '."($punchNote)";
@@ -61,23 +61,23 @@ if ($records['message'] == 'save-success') {
 			alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
 			errFlag = true;
 		}
-		
+
 		if (trim($("txtTime").value) == '24:00') {
 			alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
 			errFlag = true;
 		}
-		
+
 		<?php if (!$punchIn) { ?>
-		
-		var inTime = strToTime("<?php echo $records['attRecord'][0]->getInDate(); ?>"+" "+"<?php echo $records['attRecord'][0]->getInTime(); ?>", dateTimeFormat);
+
+		var inTime = strToTime("<?php echo $records['punchedInDate']; ?>"+" "+"<?php echo $records['punchedInTime']; ?>", dateTimeFormat);
 		var outTime = strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat);
-		
+
 		if (inTime >= outTime) {
 			alert("<?php echo $lang_Time_Attendance_InvalidOutTime; ?>");
 			errFlag = true;
 		}
-		
-		<?php } ?>		
+
+		<?php } ?>
 
 		return !errFlag;
 	}
@@ -103,8 +103,8 @@ if ($records['message'] == 'save-success') {
 
 	<?php if (!$punchIn) { ?>
 	<input type="hidden" name="hdnAttendanceId" value="<?php echo $records['attRecord'][0]->getAttendanceId(); ?>" />
-	<input type="hidden" name="txtInDate" value="<?php echo $records['attRecord'][0]->getInDate(); ?>" />
-	<input type="hidden" name="txtInTime" value="<?php echo $records['attRecord'][0]->getInTime(); ?>" />
+	<input type="hidden" name="txtInDate" value="<?php echo $records['punchedInDate']; ?>" />
+	<input type="hidden" name="txtInTime" value="<?php echo $records['punchedInTime']; ?>" />
 	<?php } ?>
 	<input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
 
