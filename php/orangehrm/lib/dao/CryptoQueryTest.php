@@ -9,6 +9,7 @@ require_once 'PHPUnit/Framework.php';
 require_once 'CryptoQuery.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php'; 
+require_once ROOT_PATH . '/lib/confs/Conf.php';
 
 /**
  * Test class for CryptoQuery.
@@ -23,6 +24,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
      */
     protected $object;
     protected $keyFileExists = true;
+    protected $confObj;
 
     /**
      * Runs the test methods of this class.
@@ -48,6 +50,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
     {
         
         $this->object = new CryptoQuery;
+        $this->confObj = new Conf();
         
         $keyFilePath = ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm';
         
@@ -95,8 +98,8 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 		$expected[] = "AES_DECRYPT(`ebsal_basic_salary`, '$key')";
 		$expected[] = "hs_hr_emp_language";
 				
-		mysql_connect('localhost', 'root', MYSQL_ROOT_PASSWORD);
-		mysql_select_db('orangehrm');
+		mysql_connect($this->confObj->dbhost.':'.$this->confObj->dbport, $this->confObj->dbuser, $this->confObj->dbpass);
+		mysql_select_db($this->confObj->dbname);
 
 		$result = CryptoQuery::prepareDecryptFields($fields);
 		$this->assertEquals($expected, $result);
@@ -143,7 +146,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 		$values[] = '001';
 		$values[] = '0';
 		$values[] = null;
-		$values[] = '0000-00-00';
+		$values[] = null;
 		$values[] = null;
 		$values[] = '1';
 		$values[] = '0';
@@ -151,7 +154,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 		$values[] = '123';
 		$values[] = '';
     	$values[] = '';
-	    $values[] = '0000-00-00';
+	    $values[] = null;
     	$values[] = '';
 	
 		foreach($values as $value) {
