@@ -248,6 +248,10 @@ switch ($moduletype) {
 						if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
 		    				die('You are not authorized to view this page');
 						}
+					} elseif($_GET['uniqcode'] == 'PAC') {
+						if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isProjectAdmin']) {
+		    				die('You are not authorized to view this page');
+						}
 					} else {
 					    if ($_SESSION['isAdmin'] == 'No') {
 		    				die('You are not authorized to view this page');
