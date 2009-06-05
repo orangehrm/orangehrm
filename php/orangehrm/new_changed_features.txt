@@ -1,4 +1,17 @@
-﻿New & Changed Features for OrangeHRM ver 2.5-beta.6
+﻿New & Changed Features for OrangeHRM ver 2.5-beta.7
+
+	2595639 - Server time not properly reflected in the Punch IN
+	2608129 - Edited values not get saved in PIM-personal details
+	2595624 - "Back" button re-directed to pay grade instead of Job Title
+	2641407 - Delete one record will take more than 1min:with records>700
+	2641140 - Edit and save ess tab details will end up with Fatal Error
+	2509051 - Salary saving without a Pay Grade lead to Notice page
+	2527922 - Employee Nick name get blank when saved
+	2530843 - can't edit employee education details in PIM
+	2540117 - Edit and save not working with "Path to Sendmail"
+	2799949 - Project manager cannot edit his project activities
+
+New & Changed Features for OrangeHRM ver 2.5-beta.6
 
 	2787192 - Leave cancel mail doesn’t include the name of the individual
 	2681493 - Pay Grade-Edit and save leads to Undefined variable error
