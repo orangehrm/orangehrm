@@ -298,6 +298,36 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue($authObj->isProjectAdminOf(1), "Employee is an admin of project 1");
     	$this->assertFalse($authObj->isProjectAdminOf(2), "Employee is not an admin of project 2");
     }
+    
+    public function testIsActionPermitted() {
+        
+       // Admin
+       $this->assertTrue($this->authorizeObj->isActionPermitted('TCP'), 'Admin should be permitted all actions');
+       $this->assertTrue($this->authorizeObj->isActionPermitted('TAX'), 'Admin should be permitted all actions');
+       
+       // Supervisor 
+       $authObj = new authorize('012', 'No');
+       $this->assertTrue($authObj->isActionPermitted('TCP'), 'Supervisor should be permitted action TCP');
+       $this->assertTrue($authObj->isActionPermitted('CST'), 'Supervisor should be permitted action CST');
+       $this->assertFalse($authObj->isActionPermitted('TAX'), 'Supervisor should not be permitted action TAX');
+       
+       // Project Admin
+       $query = "INSERT INTO hs_hr_project_admin (project_id, emp_number) VALUES(1, 11)";
+       $this->assertTrue(mysql_query($query), mysql_error());
+       $authObj = new authorize('011', 'No');
+       
+       $this->assertTrue($authObj->isActionPermitted('PAC'), 'Project Admin should be permitted action PAC');
+       $this->assertFalse($authObj->isActionPermitted('TAX'), 'Project Admin should not be permitted action TAX'); 
+       
+       $query = "DELETE FROM hs_hr_project_admin WHERE project_id = 1 AND emp_number = 11";
+       $this->assertTrue(mysql_query($query), mysql_error());
+       
+       // ESS User
+       $authObj = new authorize('011', 'No');
+       $this->assertFalse($authObj->isActionPermitted('TCP'), 'ESS User should not be permitted action TCP');
+       $this->assertFalse($authObj->isActionPermitted('TAX'), 'ESS User should not be permitted action TAX');        
+        
+    }
 
 }
 

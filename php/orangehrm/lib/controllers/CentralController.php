@@ -244,20 +244,12 @@ switch ($moduletype) {
 
 	case 'admin' 	:  // beg. admin module
 	
-					if ($_GET['uniqcode'] == 'TCP') {
-						if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
-		    				die('You are not authorized to view this page');
-						}
-					} elseif($_GET['uniqcode'] == 'PAC') {
-						if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isProjectAdmin']) {
-		    				die('You are not authorized to view this page');
-						}
-					} else {
-					    if ($_SESSION['isAdmin'] == 'No') {
-		    				die('You are not authorized to view this page');
-						}
-					}
-
+					$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+					
+					if(!$authorizeObj->isActionPermitted($_GET['uniqcode'])){
+						die('Your are not authorize to view this page');
+					}					
+					
 					$view_controller = new ViewController();
 
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {

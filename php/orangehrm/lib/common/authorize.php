@@ -398,5 +398,46 @@ class authorize {
 
 		return false;
 	}
+	
+	public function isActionPermitted($action) {
+	    
+	    $permitted = false;
+	    
+	    switch ($action) {
+	    	
+	    	case 'TCP' :	if (!$this->isAdmin() && !$this->isSupervisor()) {
+	    	    				$permitted = false;
+	    					} else {
+	    					    $permitted = true;
+	    					}
+	    					break;
+	    					
+	    	case 'CST' :	if (!$this->isAdmin() && !$this->isSupervisor()) {
+	    	    				$permitted = false;
+	    					} else {
+	    					    $permitted = true;
+	    					}
+	    					break;
+	    					
+	    	case 'PAC' :	if (!$this->isAdmin() && !$this->isProjectAdmin()) {
+	    	    				$permitted = false;
+	    					} else {
+	    					    $permitted = true;
+	    					}
+	    					break;
+	        
+	        default : 		if ($this->isAdmin()) {
+	            	        	$permitted = true;
+	        		  		} else {
+	        		      		$permitted = false;
+	        		  		}
+	        		  		break;
+	        
+	    }
+	    
+	    return $permitted;	    
+	    
+	}
+	
 }
 ?>
