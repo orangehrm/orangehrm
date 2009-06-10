@@ -4,8 +4,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'CompPropertyTest::main');
 }
 
+require_once "testConf.php";
 require_once 'PHPUnit/Framework.php';
-
 require_once 'CompProperty.php';
 
 /**
