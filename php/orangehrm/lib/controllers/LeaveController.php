@@ -462,7 +462,7 @@ class LeaveController {
 
 	private function _cancelLeave() {
 		$tmpObj = $this->getObjLeave();
-
+		$tmpObj->setLeaveStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
 		return $tmpObj->cancelLeave($this->getId(), $tmpObj->getLeaveComments());
 	}
 
