@@ -69,6 +69,8 @@ class ExtractorJobApplicationTest extends PHPUnit_Framework_TestCase {
 	 * test the parseData function
 	 */
 	public function testParseData() {
+		
+		$_FILES['txtResume']['size'] = 0;
 
 		$extractor = new EXTRACTOR_JobApplication();
 

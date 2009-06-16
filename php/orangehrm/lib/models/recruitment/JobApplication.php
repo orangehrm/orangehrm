@@ -105,11 +105,11 @@ class JobApplication {
 	private $mobile;
 	private $email;
 	private $qualifications;
-	public $resumeData = array('name'=>'', 'tmpName'=>'', 'extension'=>'', 'size'=>0, 'error'=>'');
+	public $resumeData = array('name'=>'', 'tmpName'=>'', 'extension'=>'', 'size'=>0, 'error'=>''); // 'name' = Original name of the file
     private $status = self::STATUS_SUBMITTED;
     private $appliedDateTime;
     private $empNumber;
-    private $resumeName;
+    private $resumeName; // Name assigned by OrangeHRM
 
     private $events;
 
@@ -453,14 +453,6 @@ class JobApplication {
             $this->appliedDateTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT);
         }
 
-		/*$sqlBuilder = new SQLQBuilder();
-		$sqlBuilder->table_name = self::TABLE_NAME;
-		$sqlBuilder->flg_insert = 'true';
-		$sqlBuilder->arr_insert = $this->_getFieldValuesAsArray();
-		$sqlBuilder->arr_insertfield = $this->dbFields;
-
-		$sql = $sqlBuilder->addNewRecordFeature2();*/
-
 		$sql = "INSERT INTO `".self::TABLE_NAME."` (";
 
 		$fields = $this->dbFields;
@@ -484,9 +476,17 @@ class JobApplication {
 		for ($j=0; $j<$vCount; $j++) {
 
 			if ($j != ($vCount - 1)) {
-			    $sql .= "'".$values[$j]."', ";
+				if ($values[$j] == 'null') {
+					$sql .= $values[$j].", ";
+				} else {
+					$sql .= "'".$values[$j]."', ";    
+				}			    
 			} else {
-			    $sql .= "'".$values[$j]."')";
+				if ($values[$j] == 'null') {
+					$sql .= $values[$j].")";
+				} else {
+					$sql .= "'".$values[$j]."')";    
+				}
 			}
 
 		}
@@ -625,8 +625,8 @@ class JobApplication {
         $values[15] = is_null($this->status) ? self::STATUS_SUBMITTED : $this->status;
         $values[16] = is_null($this->appliedDateTime) ? 'null' : $this->appliedDateTime;
         $values[17] = empty($this->empNumber) ? 'null' : $this->empNumber;
-        $values[18] = ($this->resumeData['size'] > 0) ? $this->_getResumeName($this->id, $this->firstName, $this->lastName) : 'null';
-        $values[19] = ($this->resumeData['size'] > 0) ? $this->_prepareResumeToStore() : 'null';
+        $values[18] = ($this->resumeData['size'] > 0 || !empty($this->resumeName)) ? $this->_getResumeName($this->id, $this->firstName, $this->lastName) : 'null';
+        $values[19] = ($this->resumeData['size'] > 0 || !empty($this->resumeName)) ? $this->_prepareResumeToStore() : 'null';
 
 		return $values;
 	}

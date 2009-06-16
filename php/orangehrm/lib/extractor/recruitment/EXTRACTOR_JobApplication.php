@@ -83,6 +83,19 @@
 			$application->setQualifications(trim($postArr['txtQualifications']));
 		}
 
+		if ($_FILES['txtResume']['size'] > 0) {
+
+			if ($_FILES['txtResume']['error'] > 0) {
+			    $application->resumeData['error'] = $_FILES['txtResume']['error'];
+			} else {
+				$application->resumeData['name'] = $_FILES['txtResume']['name'];
+				$application->resumeData['tmpName'] = $_FILES['txtResume']['tmp_name'];
+				$application->resumeData['extension'] = strtolower(array_pop(explode(".", $_FILES['txtResume']['name'])));
+				$application->resumeData['size'] = $_FILES['txtResume']['size'];
+			}
+
+		}
+
 		return $application;
 	}
 
