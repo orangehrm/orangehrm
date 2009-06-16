@@ -21,6 +21,7 @@
 
 /* Buttons */
 /* Multiple classes used to make it easier to change styling per button later */
+input.backbutton,
 input.editbutton,
 input.savebutton,
 input.applybutton,
@@ -54,6 +55,7 @@ input.plainbtn {
 	cursor: default;
 }
 
+input.backbuttonhov,
 input.editbuttonhov,
 input.savebuttonhov,
 input.applybuttonhov,
@@ -377,6 +379,7 @@ div.formpage3col {
 /* div with back button */
 div.navigation {
 	margin-top:5px;
+	margin-left:15px;
 }
 
 /* Styling for required mark */
@@ -1433,9 +1436,9 @@ table.simpleList td {
     #employeeSearchAC li {
         list-style-type:none;
     }
-    
+
  	#employeeSearchAC {
- 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */ 	    
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
  	}
 
  	#txtEmployeeSearch {
@@ -1444,17 +1447,16 @@ table.simpleList td {
 
  	#frmGenerateAttendanceReport div.searchbox input {
  	  margin-right:2px;
- 	} 
- 	
+ 	}
+
     #frmGenerateAttendanceReport div.searchbox input.calendarBtn {
       margin-top:0px;
-    }  	
-    
+    }
+
     #frmGenerateAttendanceReport #employeeSearchAC {
       margin-top:0;
-    }  	
+    }
 
     #frmGenerateAttendanceReport #employeeSearchAC input#txtEmployeeSearch {
       float:none;
-    }  	
-    
+    }

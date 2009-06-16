@@ -25,7 +25,7 @@ div.subHeading {
 }
 
 div.messagebar {
-    zoom: 1;	
+    zoom: 1;
 }
 
 /* Button min-width fix for IE. Without this fix, IE assumes width is min-width */

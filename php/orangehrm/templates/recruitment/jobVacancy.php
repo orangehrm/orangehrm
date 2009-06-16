@@ -36,7 +36,7 @@ if ($action == 'ViewAdd') {
 
 $noOfEmployees = $records['noOfEmployees'];
 $employeeSearchList = $records['employeeSearchList'];
-$manager = $records['manager']; 
+$manager = $records['manager'];
 $jobTitles = $records['jobTitles'];
 $vacancy = $records['vacancy'];
 $locRights=$_SESSION['localRights'];
@@ -52,7 +52,7 @@ $locRights=$_SESSION['localRights'];
 	var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
 	var employeeSearchList = new Array();
-	
+
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
     }
@@ -81,9 +81,9 @@ $locRights=$_SESSION['localRights'];
 	}
 
     function save() {
-    	
+
     	$('cmbHiringManager').value = '-1';
-    	
+
     	for (i in employeeSearchList) {
     		if ($('txtHiringManagerSearch').value == employeeSearchList[i][0]) {
     			$('cmbHiringManager').value = employeeSearchList[i][2];
@@ -122,7 +122,7 @@ $locRights=$_SESSION['localRights'];
 		alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
 	}
-	
+
 	function showAutoSuggestTip(obj) {
 		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
 			obj.value = '';
@@ -163,17 +163,17 @@ $locRights=$_SESSION['localRights'];
         width: 400px;
         border: 1px;
 	}
-	
+
 	#employeeSearchAC {
  	    width:15em; /* set width here */
  	    padding-bottom:2em;
         margin: 10px 0px 2px 10px;
  	}
-	
+
  	#employeeSearchAC {
  	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
  	}
-	
+
  	#txtEmployeeSearch {
  	    _position:absolute; /* abs pos needed for ie quirks */
  	}
@@ -184,13 +184,12 @@ $locRights=$_SESSION['localRights'];
 <body class="yui-skin-sam">
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+        	<input type="button" class="backbutton" value="<?php echo $lang_Common_Back;?>"
+        		onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -198,9 +197,9 @@ $locRights=$_SESSION['localRights'];
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-        
+
   <form name="frmJobVacancy" id="frmJobVacancy" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
   		<?php
 			$prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
@@ -273,13 +272,13 @@ $locRights=$_SESSION['localRights'];
 
         <div class="formbuttons">
             <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" tabindex="5"
-                onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
             <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                 value="<?php echo $lang_Common_Clear;?>" />
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                 value="<?php echo $lang_Common_Reset;?>" />
         </div>
-        <br class="clear"/>                
+        <br class="clear"/>
 	</form>
     </div>
 
@@ -287,39 +286,39 @@ $locRights=$_SESSION['localRights'];
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
 
-		<?php 
-			$i = 0; 
-			
+		<?php
+			$i = 0;
+
 			foreach ($employeeSearchList as $record) {
 		?>
 			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-		<?php 
+		<?php
 			}
 		?>
 
 
  	 	YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-				
-			// Instantiate second JS Array DataSource 
-		    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList); 
-		 
-		    // Instantiate second AutoComplete 
-		    this.oAutoComp = new YAHOO.widget.AutoComplete('txtHiringManagerSearch','employeeSearchACContainer', this.oACDS); 
-		    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight"; 
-		    this.oAutoComp.typeAhead = false; 
-		    this.oAutoComp.useShadow = true; 
-		    this.oAutoComp.forceSelection = true; 
-		    this.oAutoComp.formatResult = function(oResultItem, sQuery) { 
+
+			// Instantiate second JS Array DataSource
+		    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList);
+
+		    // Instantiate second AutoComplete
+		    this.oAutoComp = new YAHOO.widget.AutoComplete('txtHiringManagerSearch','employeeSearchACContainer', this.oACDS);
+		    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+		    this.oAutoComp.typeAhead = false;
+		    this.oAutoComp.useShadow = true;
+		    this.oAutoComp.forceSelection = true;
+		    this.oAutoComp.formatResult = function(oResultItem, sQuery) {
 		        var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
 		        return (sMarkup);
 		    };
-		    
+
  	 	};
         //]]>
  	 </script>
-    </div>     
+    </div>
 </body>
 </html>

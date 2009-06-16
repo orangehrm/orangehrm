@@ -221,9 +221,8 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 <body>
     <div class="formpage3col">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+        	<input type="button" class="backbutton" value="<?php echo $lang_Common_Back;?>"
+        		onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
         </div>
         <div id="status" style="float:right;display:none;">
             <image src='<?php echo $iconDir; ?>/loading.gif' width='20' height='20' style="vertical-align: bottom;">
@@ -232,7 +231,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
         <div class="outerbox">
             <div class="mainHeading">
                 <h2><?php echo $lang_Recruit_ApplicationForm_Heading; echo empty($company) ? "({$lang_Recruit_Application_CompanyNameNotSet})" : $company; ?></h2></div>
-                        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -240,20 +239,20 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-        
+
   <form name="fromJobApplication" id="fromJobApplication" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
-        
+
         <input type="hidden" id="txtVacancyId" name="txtVacancyId" value="<?php echo $vacancy->getId();?>"/>
-  
+
   		<span class="formLabel"><?php echo $lang_Recruit_ApplicationForm_Position;?></span>
   		<span class="formValue"><?php echo $vacancy->getJobTitleName(); ?></span>
-        <br class="clear"/>	
+        <br class="clear"/>
 
 		<label for="txtFirstName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?><span class="required">*</span></label>
         <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"/>
-        
+
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
         <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"/>
         <br class="clear"/>
@@ -313,14 +312,14 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 
         <div class="formbuttons">
             <input type="button" class="savebutton" id="saveBtn" tabindex="15"
-                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" id="resetBtn" tabindex="16"
-                onclick="reset();" onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                onclick="reset();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Clear;?>" />
         </div>
         <br class="clear"/>
-        
+
 	</form>
     </div>
 
@@ -328,7 +327,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>
