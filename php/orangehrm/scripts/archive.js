@@ -448,4 +448,26 @@ function windowDimensions() {
         y = document.body.clientHeight;
     }
        return [x,y];
-}	
+}
+
+/**
+* Check for spaces, tabs, carriage returns and new lines
+*
+*/
+
+function isEmpty(value) {
+
+	if(value==null){return true;}
+
+	if(value.length==0) {return true;}
+	
+	for(i=0;i<value.length;i++) {
+	
+		if ((value.charAt(i)!=" ") && (value.charAt(i)!="\t") && (value.charAt(i)!="\n") && (value.charAt(i)!="\r")) {return false;}
+	
+	}
+	
+	return true;    
+    
+}
+

@@ -209,26 +209,26 @@ return $objResponse->getXML();
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
 			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
 			document.frmJobTitle.txtJobTitleName.focus();
-			return;
+			return false;
 		}
 
-		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
+		if(isEmpty(document.frmJobTitle.txtJobTitleDesc.value)) { // isEmpty() is defined in scripts/archive.js
 			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
 			document.frmJobTitle.txtJobTitleDesc.focus();
-			return;
+			return false;
 		}
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 			document.frmJobTitle.cmbPayGrade.focus();
-			return;
+			return false;
 		}
 
 		document.frmJobTitle.sqlState.value = "NewRecord";
 
 		document.frmJobTitle.submit();
 	}
-
+	
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
@@ -259,21 +259,21 @@ return $objResponse->getXML();
 			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
 			document.frmJobTitle.txtJobTitleName.focus();
 
-			return;
+			return false;
 		}
 
-		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
+		if(isEmpty(document.frmJobTitle.txtJobTitleDesc.value)) { // isEmpty() is defined in scripts/archive.js
 			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
 			document.frmJobTitle.txtJobTitleDesc.focus();
 
-			return;
+			return false;
 		}
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 			document.frmJobTitle.cmbPayGrade.focus();
 
-			return;
+			return false;
 		}
 
 		document.frmJobTitle.sqlState.value = "UpdateRecord";
@@ -498,7 +498,7 @@ return $objResponse->getXML();
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
-		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
+		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addSave()">
 
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
@@ -572,7 +572,7 @@ return $objResponse->getXML();
 
 <?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
+	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode" onsubmit="return addUpdate()">
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>" />
 		<label class="formLabel"><?php echo $lang_jobtitle_jobtitid; ?></label>
