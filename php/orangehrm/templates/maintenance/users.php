@@ -222,6 +222,9 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 <body class="yui-skin-sam">
     <div class="formpage2col" style="width:650px;">
         <div class="navigation">
+            <input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_view_Users; ?> : <?php echo ($adminUser == 'Yes') ? $lang_view_HRAdmin : $lang_view_ESS; ?> <?php echo $lang_view_Users; ?></h2></div>
@@ -271,17 +274,6 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                 </select>
 
                 <input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo $userEmpNumber;?>"/>
-
-<!--
-				<label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?><span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
-                <input type="text" name="txtUserEmpID" id="txtUserEmpID" readonly="readonly" disabled="disabled"
-                    class="formInputText"
-                    value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>"/>
-
-                <input type="button" <?php echo $disabled;?> value="..." onclick="popEmpList();"
-                    class="empPopupButton" tabindex="<?php echo $tabIndex++;?>"/>
--->
-
 		<div>
 		<label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?><span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
@@ -341,10 +333,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="<?php echo $tabIndex++;?>"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Clear;?>" />
-                    <input type="button" class="savebutton"
-                        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $lang_Common_Back;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
                 </div>
             </form>

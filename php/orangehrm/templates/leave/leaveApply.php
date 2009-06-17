@@ -696,6 +696,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         </div>
 </form>
 </div>
+<div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {

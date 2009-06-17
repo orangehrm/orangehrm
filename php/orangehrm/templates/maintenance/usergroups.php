@@ -114,9 +114,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+        	<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+        	  onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+              value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Admin_Users_UserGroup;?></h2></div>
@@ -153,7 +153,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                         value="<?php echo $lang_Common_Clear;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" />
                 <?php if (!$new) {                    
                          $rightsLabel = $lang_Admin_Users_Assign_User_Rights;
                          if ($_SESSION['userGroup'] == $groupId) {

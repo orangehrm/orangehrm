@@ -242,10 +242,10 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
                 <!-- SMTP -->
                 <div id="smtpDetails1">
-                    <label for="txtSmtpHost"><?php echo $lang_SmtpHost; ?></label>
+                    <label for="txtSmtpHost"><?php echo $lang_SmtpHost; ?><span class="required">*</span></label>
                     <input type="text" name="txtSmtpHost" id="txtSmtpHost"  class="formInputText"
                         value="<?php echo $editArr->getSmtpHost();?>" disabled="disabled" />
-                    <label for="txtSmtpPort"><?php echo $lang_SmtpPort; ?></label>
+                    <label for="txtSmtpPort"><?php echo $lang_SmtpPort; ?><span class="required">*</span></label>
                     <input type="text" name="txtSmtpPort" id="txtSmtpPort" class="formInputText"
                         value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled="disabled" />
                     <br class="clear"/>
@@ -254,7 +254,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                 
                 <div id="smtpDetails2">
                     <label for="optAuth"><?php echo $lang_EmailAuthentication; ?></label>
-                    <input type="radio" onchange="changeAuth();" name="optAuth" id="optAuthNONE" value="NONE" 
+                    <input type="radio" checked="checked" onchange="changeAuth();" name="optAuth" id="optAuthNONE" value="NONE" 
                     <?php echo ($editArr->getSmtpAuth() == "NONE") ? "checked" : ""?> disabled="disabled" />
                     <?php echo $lang_Common_No; ?>
                     <input type="radio" onchange="changeAuth();" name="optAuth" id="optAuthLOGIN" value="LOGIN" 
@@ -276,7 +276,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
                 <div id="smtpDetails4">
                     <label for="optSecurity"><?php echo $lang_EmailSecurity; ?></label>
-                    <input type="radio" name="optSecurity" id="optSecurityNONE" value="NONE" 
+                    <input type="radio" checked="checked" name="optSecurity" id="optSecurityNONE" value="NONE" 
                     <?php echo ($editArr->getSmtpSecurity() == "NONE") ? "checked" : ""; ?> disabled="disabled" />
                     <?php echo $lang_Common_No; ?>
                     <input type="radio" name="optSecurity" id="optSecuritySSL" value="SSL" 
@@ -303,7 +303,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                         value="<?php echo $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $lang_Common_Clear;?>" />
+                        value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
                 </div>
             </form>

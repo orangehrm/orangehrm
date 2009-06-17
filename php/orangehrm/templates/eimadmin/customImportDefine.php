@@ -275,9 +275,9 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+        	<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+        	  onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+              value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_DataImport_DefineCustomField_Heading;?></h2></div>
@@ -311,7 +311,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="button" class="clearbutton" onclick="reset();" tabindex="5"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                     value="<?php echo $lang_Common_Clear;?>" />
+                     value="<?php echo $lang_Common_Reset;?>" />
             </div>
                         
 	<table border="0">
@@ -367,7 +367,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
     //]]>
     </script>
 
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
 </div>    
 </body>
 </html>

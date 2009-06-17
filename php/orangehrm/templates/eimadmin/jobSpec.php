@@ -145,6 +145,9 @@ $locRights=$_SESSION['localRights'];
 <body>
 	<div class="formpage">
 		<div class="navigation">
+			<input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
 		</div>
 		<div class="outerbox">
 			<div class="mainHeading"><h2><?php echo $lang_jobspec_heading;?></h2></div>
@@ -184,10 +187,7 @@ $locRights=$_SESSION['localRights'];
 						value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
 					<input type="button" class="clearbutton" onclick="reset();" tabindex="5"
 						onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						 value="<?php echo $lang_Common_Clear;?>" />
-					<input type="button" class="savebutton"
-            			onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            			value="<?php echo $lang_Common_Back;?>" />
+						 value="<?php echo $lang_Common_Reset;?>" />
 	            </div>
 			</form>
 	    </div>

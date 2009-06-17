@@ -235,9 +235,9 @@ $customExportList = $this->popArr['customExportList'];
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+        	<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+        	  onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+              value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_DataExport_DefineCustomField_Heading;?></h2></div>

@@ -489,6 +489,9 @@ return $objResponse->getXML();
 
 <div class="formpage2col">
     <div class="navigation">
+    	<input type="button" class="savebutton"
+        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_jobtitle_heading;?></h2></div>
@@ -562,10 +565,6 @@ return $objResponse->getXML();
             <input type="button" class="clearbutton" onclick="clearAll();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Reset;?>" />
-            <input type="button" class="savebutton"
-                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Back;?>" />
-
         </div>
 
 	</form>
@@ -699,9 +698,6 @@ return $objResponse->getXML();
             <input type="button" class="clearbutton" onclick="$('frmJobTitle').reset();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Clear;?>" />
-            <input type="button" class="savebutton"
-                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Back;?>" />
 <?php } ?>
         </div>
 

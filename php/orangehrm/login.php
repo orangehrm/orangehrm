@@ -348,15 +348,15 @@ body {
               <td align="right" class="bodyTXT"><?php echo $lang_login_LoginName; ?> : </td>
               <td>
 <?php		if(isset($_POST['txtUserName'])) {?>
-              <input name="txtUserName" type="text" class="loginTXT" size="10" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1"/>
+              <input name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1"/>
 <?php		} else { ?>
-              <input name="txtUserName" type="text" class="loginTXT" size="10" tabindex="1"/>
+              <input name="txtUserName" type="text" class="loginText" tabindex="1"/>
 <?php		} ?>
               </td>
             </tr>
             <tr>
               <td align="right" class="bodyTXT"><?php echo $lang_login_Password; ?> : </td>
-              <td><input name="txtPassword" type="password" class="loginTXT" size="10" tabindex="2"/></td>
+              <td><input name="txtPassword" type="password" class="loginText" tabindex="2"/></td>
             </tr>
             <tr>
 			<td height="40" valign="bottom" align="center"><input type="Submit" name="Submit" value="<?php echo $lang_login_Login; ?>" class="button" tabindex="3"/> </td>

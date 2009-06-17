@@ -259,6 +259,9 @@ if ($locRights['edit']) {
 <body>
     <div class="formpage">
         <div class="navigation">
+            <input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_view_Project_Heading;?></h2></div>
@@ -312,10 +315,7 @@ if ($locRights['edit']) {
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="button" class="clearbutton" onclick="<?php echo $clearBtnAction;?>" tabindex="5"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                     value="<?php echo $lang_Common_Clear;?>" />
-                <input type="button" class="savebutton"
-                        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $lang_Common_Back;?>" />
+                     value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
             </div>
       </form>

@@ -87,6 +87,9 @@
 </script>
 <div class="formpage">
     <div class="navigation">
+		<input type="button" class="savebutton"
+		onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title;?></h2></div>
@@ -128,10 +131,7 @@
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Clear;?>" />
-            <input type="button" class="savebutton"
-                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Back;?>" />
+                value="<?php echo $lang_Common_Reset;?>" />
         </div>
     </form>
     </div>

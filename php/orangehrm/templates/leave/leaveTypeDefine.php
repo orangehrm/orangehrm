@@ -121,7 +121,7 @@ $leaveTypes = $records[1];
             <span class="formValue"><?php echo $oldLeaveType->getLeaveTypeName(); ?></value>
             <br class="clear"/>
         <?php } ?>
-            <label for="txtLeaveTypeName"><?php echo $lang_Leave_Common_LeaveTypeName;?></label>
+            <label for="txtLeaveTypeName"><?php echo $lang_Leave_Common_LeaveTypeName;?><span class="required">*</span></label></label>
             <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();" 
                 class="formInputText"/>
             <br class="clear"/>                

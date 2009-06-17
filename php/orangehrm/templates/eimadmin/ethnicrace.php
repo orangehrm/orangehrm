@@ -116,6 +116,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <body>
     <div class="formpage">
         <div class="navigation">
+            <input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_ethnicrace_heading;?></h2></div>
@@ -151,10 +154,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Clear;?>" />
-                    <input type="button" class="savebutton"
-                        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $lang_Common_Back;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
                 </div>
             </form>

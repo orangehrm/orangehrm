@@ -130,9 +130,9 @@ $tabIndex = 1;
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+            <input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_customeFields_Heading;?></h2></div>
@@ -203,7 +203,7 @@ $tabIndex = 1;
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="<?php echo $tabIndex++;?>"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                         value="<?php echo $lang_Common_Clear;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>                         
                 </div>
             </form>

@@ -135,6 +135,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 <div class="formpage">
     <div class="navigation">
+        <input type="button" class="savebutton"
+        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
@@ -163,10 +166,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="clearAll();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                 value="<?php echo $lang_Common_Clear;?>" />
-            <input type="button" class="savebutton"
-                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Back;?>" />
+                 value="<?php echo $lang_Common_Reset;?>" />
             <br class="clear"/>
         </div>
         <br class="clear"/>
@@ -556,7 +556,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                         value="<?php echo $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="clearAll();"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Clear;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" />
                     <input type="button" class="savebutton"
                         onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Back;?>" />

@@ -341,6 +341,9 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
     ?>
 <div class="formpage">
     <div class="navigation">
+		<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title?></h2></div>
@@ -359,12 +362,9 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
         <input type="button" class="savebutton" id="saveBtn"
             onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Save;?>" />
-        <input type="button" class="savebutton"
-        	onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        	value="<?php echo $lang_Common_Back;?>" />
         <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            value="<?php echo $lang_Common_Clear;?>" />
+            value="<?php echo $lang_Common_Reset;?>" />
     </div>
 
 </form>
