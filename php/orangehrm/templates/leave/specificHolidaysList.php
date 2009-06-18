@@ -111,11 +111,31 @@ if ($modifier === "SUP") {
 		}
 	}
 
-
 	function editRecord() {
 
  		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
+	}
+	
+	/**
+	 * If at least one day is unchecked, main check box would be unchecked
+	 */
+	
+	function unCheckMain() {
+	    
+		var allCheck = document.frmDeleteHolidays.allCheck;
+		
+		with (document.frmDeleteHolidays) {
+
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i] != allCheck && elements[i].checked == true) {
+					allCheck.checked = false;
+					return;
+				}
+			}
+			
+		}
+	    
 	}
 
 //]]> 
@@ -184,7 +204,7 @@ if (count($records) > 0) {
 
 ?>
   <tr>
-  	<td class="<?php echo $cssClass; ?>"><input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>"/></th>
+  	<td class="<?php echo $cssClass; ?>"><input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>" onclick="unCheckMain();" /></th>
     <td class="<?php echo $cssClass; ?>" style="padding-right: 20px;"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_View_Edit&id=<?php echo $record->getHolidayId(); ?>"><?php echo $record->getDescription(); ?></a></td>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php

@@ -170,12 +170,34 @@ if (!empty($projectId)) {
 			}
 		}
 	}
+	
+	/**
+	 * If at least one activity is unchecked, main check box would be unchecked
+	 */
+	
+	function unCheckMain() {
+	    
+		var allCheck = document.frmActivity.allCheck;
+		
+		with (document.frmActivity) {
+
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i] != allCheck && elements[i].checked == true) {
+					allCheck.checked = false;
+					return;
+				}
+			}
+			
+		}
+	    
+	}
 
 	/**
 	* When a check box is clicked, form action is changed according to selected ProjectID
 	*/
 
 	function setFormAction() {
+		unCheckMain();
 		var projectId = document.frmActivity.cmbProjectId.value;
 		document.frmActivity.action = "./CentralController.php?uniqcode=PAC&VIEW=MAIN&projectId=" + projectId;
 	}
