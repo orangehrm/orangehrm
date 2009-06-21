@@ -1,3 +1,16 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.8
+	Bug Fixes
+	---------
+	2665300 - Uploaded Resume not visible after scheduling first interview
+	2686124 - Submit Job application fails in Mysql Traditional Mode
+	2788246 - ESS Cancel Leave My SQL error –traditional mode
+	2026725 - Admin:Stopper in when job title defining
+	2018586 - Admin:Notice page when deleting project activities.
+
+	Minor Improvements
+	------------------
+	UI Improvements in Admin, Leave & Recruitment modules (Partial fix to 2512347 - UI Issues in Recruitment Module included)
+
 ﻿New & Changed Features for OrangeHRM ver 2.5-beta.7
 
 	2595639 - Server time not properly reflected in the Punch IN
