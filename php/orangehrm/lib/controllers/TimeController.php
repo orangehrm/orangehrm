@@ -1468,7 +1468,7 @@ class TimeController {
 
 		$projectActivityObj = new ProjectActivity();
 		$projectActivities = $projectActivityObj->getActivityList($projectId);
-		$response = null;
+		$response = '';
 		$count = count($projectActivities);
 
 		if (isset($projectActivities)) {
@@ -1476,9 +1476,9 @@ class TimeController {
 		    for ($i=0; $i<$count; $i++) {
 
 		        if ($i == ($count-1)) {
-		            $response .= $projectActivities[$i]->getName().'%'.$projectActivities[$i]->getId();
+		            $response .= trim($projectActivities[$i]->getName()).'%'.trim($projectActivities[$i]->getId());
 		        } else {
-		            $response .= $projectActivities[$i]->getName().'%'.$projectActivities[$i]->getId().';';
+		            $response .= trim($projectActivities[$i]->getName()).'%'.trim($projectActivities[$i]->getId()).';';
 		        }
 
 		    }

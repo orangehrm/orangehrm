@@ -243,13 +243,13 @@ $_SESSION['localRights'] = $locRights;
 switch ($moduletype) {
 
 	case 'admin' 	:  // beg. admin module
-	
+
 					$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-					
+
 					if(!$authorizeObj->isActionPermitted($_GET['uniqcode'])){
 						die('Your are not authorize to view this page');
-					}					
-					
+					}
+
 					$view_controller = new ViewController();
 
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
@@ -823,7 +823,7 @@ switch ($moduletype) {
 						}
 
 						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
-							
+
 							if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
 							    die('You are not authorized to view this page');
 							}
@@ -1614,7 +1614,7 @@ switch ($moduletype) {
 																					$timeZoneDiff = $clientTimezoneOffset - $serverTimezoneOffset;
 
 																					if ($clientTimezoneOffset != $serverTimezoneOffset) {
-																						
+
 																						$useClientTime = true;
 																						$clientTimestamp = time() + $timeZoneDiff * 60;
 
@@ -1628,7 +1628,7 @@ switch ($moduletype) {
 																						if ($dayDiff > 0) {
 																							$dayDiff -= 7;
 																						}
-																						
+
 																						$sign = ($dayDiff < 0) ? "" : "+";
 
 																						$clientStartDateTimestamp = strtotime("{$sign}{$dayDiff} day", (time() + $timeZoneDiff*60));
@@ -1679,12 +1679,6 @@ switch ($moduletype) {
 																					break;
 
 
-
-
-
-
-
-
 													/* Timegrid Controlers: Begin */
 
 													case 'Edit_Timeesheet_Grid'			:	$obj = $timesheetExtractor->parseViewData($_POST);
@@ -1698,7 +1692,8 @@ switch ($moduletype) {
 																							$timeController->updateTimegrid($eventsList);
 																							break;
 
-													case 'Timegrid_Fetch_Activities'	: 	echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
+													case 'Timegrid_Fetch_Activities'	:	ob_clean();
+																							echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
 																							break;
 
 													/* Timegrid Controlers: End */
