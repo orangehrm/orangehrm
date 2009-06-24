@@ -19,14 +19,14 @@ Boston, MA  02110-1301, USA
 
 require_once($lan->getLangPath("full.php"));
 
-$locRights=$_SESSION['localRights'];   
-   
+$locRights=$_SESSION['localRights'];
+
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $new = true;
 $disabled = '';
 $educationId = '';
 $institute = '';
-$course = '';    
+$course = '';
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
     $formAction="{$formAction}&amp;id={$this->getArr['id']}&amp;capturemode=updatemode";
@@ -35,7 +35,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $editData = $this->popArr['editArr'];
     $educationId = $this->getArr['id'];
     $institute = $editData[0][1];
-    $course = $editData[0][2];        
+    $course = $editData[0][2];
 }
 
 ?>
@@ -67,7 +67,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
         var course = trim($('txtDeg').value);
-        
+
         if (course == '') {
             err = true;
             msg += "\t- <?php echo $lang_Admin_CourseCannotBeBlank; ?>\n";
@@ -101,14 +101,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             frm.elements[i].disabled = false;
         }
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
         $('editBtn').className = "savebutton";
 
 <?php } else {?>
         alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
     }
-      
+
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -124,9 +124,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+			<input type="button" class="savebutton"
+				onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo "$lang_Menu_Admin_Quali : $lang_Menu_Admin_Quali_Education";?></h2></div>
@@ -138,44 +138,44 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-     
-            <form name="frmEducation" id="frmEducation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
-                                 
-                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>                
+
+            <form name="frmEducation" id="frmEducation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
+
+                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
                 <?php if (!$new) { ?>
                     <label for="txtEducationID"><?php echo $lang_Commn_code; ?></label>
                     <input type="hidden" id="txtEducationID" name="txtEducationID" value="<?php echo $educationId;?>"/>
                     <span class="formValue"><?php echo $educationId;?></span><br class="clear"/>
                 <?php } ?>
-                
+
                 <label for="txtUni"><?php echo $lang_Admin_Common_Institute; ?><span class="required">*</span></label>
                 <input type="text" id="txtUni" name="txtUni" tabindex="1" class="formInputText"
                     value="<?php echo $institute; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>
 
                 <label for="txtDeg"><?php echo $lang_Admin_Common_Course; ?><span class="required">*</span></label>
-                <input type="text" id="txtDeg" name="txtDeg" tabindex="1" class="formInputText" 
+                <input type="text" id="txtDeg" name="txtDeg" tabindex="1" class="formInputText"
                     value="<?php echo $course; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>
 
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
-                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
+                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                         
+<?php } ?>
                 </div>
             </form>
         </div>
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>

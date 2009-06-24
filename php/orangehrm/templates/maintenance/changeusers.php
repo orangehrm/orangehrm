@@ -134,7 +134,7 @@ function chkboxCheck() {
 	if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 		xajax_chkPassword(document.frmchange.txtOldPassword.value);
 	} else {
-        edit();	    
+        edit();
 	}
 
 }
@@ -228,13 +228,13 @@ function prepCPW() {
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_index_ChangePassword;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -242,17 +242,17 @@ function prepCPW() {
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-                
+
 <form name="frmchange" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&mtcode=<?php echo $this->getArr['mtcode']?>&capturemode=updatemode">
-    
+
     <input type="hidden" name="sqlState" value=""/>
     <input type="hidden"  name="txtUserID" value="<?php echo $editData[0][0]?>"/>
     <span class="formLabel"><?php echo $lang_Commn_code; ?></span>
     <span class="formValue"><?php echo $editData[0][0]?></span>
     <br class="clear"/>
-    
+
     <span class="formLabel"><?php echo $lang_Admin_Users_UserName; ?></span>
     <span class="formValue"><?php echo $editData[0][1]?></span>
     <input type="hidden" name="txtUserName" value="<?php echo $editData[0][1]?>">
@@ -261,23 +261,23 @@ function prepCPW() {
     <label for="txtOldPassword"><?php echo $lang_Admin_Change_Password_OldPassword; ?></label>
     <input type="password" disabled name="txtOldPassword" id="txtOldPassword" >
     <br class="clear"/>
-    
-    <label for="txtNewPassword"><?php echo $lang_Admin_Users_NewPassword; ?></label>    
+
+    <label for="txtNewPassword"><?php echo $lang_Admin_Users_NewPassword; ?></label>
     <input type="password" disabled name="txtNewPassword" id="txtNewPassword" />
     <br class="clear"/>
-    
+
     <label for="txtConfirmPassword"><?php echo $lang_Admin_Users_ConfirmNewPassword; ?></label>
     <input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" />
 	<br class="clear"/>
 
     <div class="formbuttons">
-        <input type="button" class="editbutton" id="editBtn" 
+        <input type="button" class="editbutton" id="editBtn"
             onclick="chkboxCheck();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            title="<?php echo $lang_Common_Edit;?>"                          
+            title="<?php echo $lang_Common_Edit;?>"
             value="<?php echo $lang_Common_Edit;?>" />
         <input type="button" class="clearbutton" onclick="clearAll();"
-            onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-             value="<?php echo $lang_Common_Clear;?>" />            
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+             value="<?php echo $lang_Common_Clear;?>" />
     </div>
 
 </form>
@@ -286,7 +286,7 @@ function prepCPW() {
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

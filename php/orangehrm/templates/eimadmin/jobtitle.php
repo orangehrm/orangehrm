@@ -228,7 +228,7 @@ return $objResponse->getXML();
 
 		document.frmJobTitle.submit();
 	}
-	
+
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
@@ -490,8 +490,8 @@ return $objResponse->getXML();
 <div class="formpage2col">
     <div class="navigation">
     	<input type="button" class="savebutton"
-        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        value="<?php echo $lang_Common_Back;?>" />
+	        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	        value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_jobtitle_heading;?></h2></div>

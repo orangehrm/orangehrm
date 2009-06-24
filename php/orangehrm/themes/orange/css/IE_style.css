@@ -45,14 +45,20 @@ input.assignbutton,
 input.viewbutton,
 input.detailsbutton,
 input.submitbutton,
-input.searchbutton,
+input.searchbutton {
+    text-align:center;
+	overflow:visible;
+    width:75px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 input.plainbtn {
     text-align:center;
 	overflow:visible;
-    width: auto !important;
+    width:150px !important;
     padding-left: 4px;
     padding-right: 4px;
-    min-width:60px;
 }
 
 div.formbuttons {

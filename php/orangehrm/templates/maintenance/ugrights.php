@@ -96,9 +96,9 @@ function edit() {
     }
 
     editBtn.value="<?php echo $lang_Common_Save; ?>";
-    editBtn.title="<?php echo $lang_Common_Save; ?>";      
+    editBtn.title="<?php echo $lang_Common_Save; ?>";
     editBtn.className = "savebutton";
-}    
+}
 
 //]]>
 </script>
@@ -114,16 +114,16 @@ function edit() {
 <body>
 <div class="formpage">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
+    	<input type="button" class="savebutton"
+	        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	        value="<?php echo $lang_Common_Back;?>" />
     </div>
 
 <form name="frmURights" id="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;uniqcode=<?php echo $this->getArr['uniqcode']?>">
-    
+
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups;?></h2></div>
-    
+
         <?php
         $ugDet = $this ->popArr['ugDet'];
         ?>
@@ -141,7 +141,7 @@ function edit() {
     <div class="outerbox">
         <div class="notice"><?php echo $lang_Admin_Users_Errors_SameGroup; ?></div>
     </div>
-    	              	
+
 
 <?php } elseif(isset($this->popArr['editArr'])) {
 
@@ -160,38 +160,38 @@ function edit() {
             }
 ?>
         </span>
-        <br class="clear"/>         
+        <br class="clear"/>
         <label for="chkAdd"><?php echo $lang_Admin_Users_add; ?></label>
-        <input type="checkbox" disabled="disabled" <?php echo $edit[0][2]==1 ? 'checked' : ''?> 
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][2]==1 ? 'checked' : ''?>
             name="chkAdd" id="chkAdd" value="1" class="formCheckboxWide"/>
-            
+
         <label for="chkEdit"><?php echo $lang_Admin_Users_edit; ?></label>
-        <input type="checkbox" disabled="disabled" <?php echo $edit[0][3]==1 ? 'checked' : ''?> 
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][3]==1 ? 'checked' : ''?>
             name="chkEdit" id="chkEdit" value="1" class="formCheckboxWide"/>
-        <br class="clear"/>            
+        <br class="clear"/>
 
         <label for="chkDelete"><?php echo $lang_Admin_Users_delete; ?></label>
-        <input type="checkbox" disabled="disabled" <?php echo $edit[0][4]==1 ? 'checked' : ''?> 
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][4]==1 ? 'checked' : ''?>
             name="chkDelete" id="chkDelete" value="1" class="formCheckboxWide"/>
-            
+
         <label for="chkView"><?php echo $lang_Admin_Users_view; ?></label>
-        <input type="checkbox" disabled="disabled" <?php echo $edit[0][5]==1 ? 'checked' : ''?> 
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][5]==1 ? 'checked' : ''?>
             name="chkView" id="chkView" value="1" class="formCheckboxWide"/>
-        <br class="clear"/>            
-        
+        <br class="clear"/>
+
         <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editBtn" 
-                        onclick="edit();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editBtn"
+                        onclick="edit();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Edit;?>" title="<?php echo $lang_Common_Edit;?>" />
 <?php } ?>
-        </div> 
+        </div>
     </div>
 
-<?php } else { 
+<?php } else {
         $disabled = $locRights['add'] ? '':'disabled="disabled"';
     ?>
-    <div class="outerbox">    
+    <div class="outerbox">
         <label for="cmbModuleID"><?php echo $lang_Admin_Users_Module; ?></label>
 		<select name="cmbModuleID" id="cmbModuleID" <?php echo $disabled; ?> class="formSelect">
             <option value="0">--<?php echo $lang_Admin_Users_SelectModule;?>--</option>
@@ -203,32 +203,32 @@ function edit() {
 ?>
 		</select>
 
-        <br class="clear"/>         
+        <br class="clear"/>
         <label for="chkAdd"><?php echo $lang_Admin_Users_add; ?></label>
-        <input type="checkbox" <?php echo $disabled;?> 
+        <input type="checkbox" <?php echo $disabled;?>
             name="chkAdd" id="chkAdd" value="1" class="formCheckboxWide"/>
-            
+
         <label for="chkEdit"><?php echo $lang_Admin_Users_edit; ?></label>
-        <input type="checkbox" <?php echo $disabled;?> 
+        <input type="checkbox" <?php echo $disabled;?>
             name="chkEdit" id="chkEdit" value="1" class="formCheckboxWide"/>
-        <br class="clear"/>            
+        <br class="clear"/>
 
         <label for="chkDelete"><?php echo $lang_Admin_Users_delete; ?></label>
-        <input type="checkbox" <?php echo $disabled;?> 
+        <input type="checkbox" <?php echo $disabled;?>
             name="chkDelete" id="chkDelete" value="1" class="formCheckboxWide"/>
-            
+
         <label for="chkView"><?php echo $lang_Admin_Users_view; ?></label>
-        <input type="checkbox" <?php echo $disabled;?> 
+        <input type="checkbox" <?php echo $disabled;?>
             name="chkView" id="chkView" value="1" class="formCheckboxWide"/>
-        <br class="clear"/>  
-        
+        <br class="clear"/>
+
         <div class="formbuttons">
-<?php if($locRights['add']) { ?>                
-        <input type="button" class="savebutton" id="saveBtn" 
-            onclick="addEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['add']) { ?>
+        <input type="button" class="savebutton" id="saveBtn"
+            onclick="addEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>" />
 <?php } ?>
-        </div> 
+        </div>
     </div>
 <?php } ?>
 
@@ -264,8 +264,8 @@ $modlist = $this->popArr['modlist'];
 </table>
         <div class="formbuttons">
 <?php if($locRights['delete']) { ?>
-        <input type="button" class="delbutton" id="delBtn" 
-            onclick="delEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        <input type="button" class="delbutton" id="delBtn"
+            onclick="delEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>" />
 
 <?php } ?>
@@ -275,7 +275,7 @@ $modlist = $this->popArr['modlist'];
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
