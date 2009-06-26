@@ -144,13 +144,13 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationConfirm_Heading . $actionName;?></h2></div>
-        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -158,7 +158,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
     <form id="frmConfirm" name="frmConfirm" onsubmit="return validate();" method="post" action="<?php echo $actionURL; ?>" >
@@ -203,23 +203,23 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <textarea id="txtNotes" name="txtNotes" tabindex="1" rows="6" cols="40"></textarea><br/>
 
         <div class="formbuttons">
-            <input type="submit" class="plainbtn"  id="actionBtn" tabindex="2"  
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <input type="submit" class="plainbtn"  id="actionBtn" tabindex="2"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $actionName;?>" />
             <input type="button" class="cancelbutton" onclick="goBack();" tabindex="3"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                 value="<?php echo $lang_Leave_Common_Cancel;?>" />            
-        </div>        
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                 value="<?php echo $lang_Leave_Common_Cancel;?>" />
+        </div>
        </form>
     </div>
     <script type="text/javascript">
         <!--
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         -->
     </script>
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-</div>    
+</div>
 </body>
 </html>

@@ -159,9 +159,9 @@ if (!empty($resumeName)) {
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
 
         <?php

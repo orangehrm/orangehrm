@@ -113,14 +113,14 @@ $tabIndex = 1;
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading">
                 <h2><?php echo $lang_DataExport_DefineCustomFieldHeadings_Heading . ' : ' . $name; ?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -128,9 +128,9 @@ $tabIndex = 1;
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-        
+
   <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>">
     <input type="hidden" name="sqlState" value="">
 	<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
@@ -150,30 +150,30 @@ $tabIndex = 1;
 		<tr><td class="<?php echo $cssClass;?>"><input type="hidden" name="cmbAssignedFields[]" value="<?php echo $assignedFields[$i];?>"/><?php echo $assignedFields[$i];?></td>
 			<td class="<?php echo $cssClass;?>"></td>
 			<td class="<?php echo $cssClass;?>">
-                <input type="text" name="headerValues[]" tabindex="<?php echo $tabIndex++;?>" 
+                <input type="text" name="headerValues[]" tabindex="<?php echo $tabIndex++;?>"
                     value="<?php echo $headings[$i];?>"/></td>
 		</tr>
 		<?php } ?>
 	</table>
-     <div class="formbuttons">               
-        <input type="button" class="savebutton" id="saveBtn" onclick="<?php echo $btnAction; ?>;" 
-            tabindex="<?php echo $tabIndex++;?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+     <div class="formbuttons">
+        <input type="button" class="savebutton" id="saveBtn" onclick="<?php echo $btnAction; ?>;"
+            tabindex="<?php echo $tabIndex++;?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Save;?>" />
         <input type="button" class="clearbutton" onclick="resetFields();" tabindex="<?php echo $tabIndex++;?>"
-            onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"
              value="<?php echo $lang_Common_Clear;?>" />
     </div>
-    
+
 	</form>
     </div>
-    <div class="notice"><?php echo $lang_DataExport_EditColumnHeadings; ?></div>    
+    <div class="notice"><?php echo $lang_DataExport_EditColumnHeadings; ?></div>
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>
-</div>    
+</div>
 </body>
 </html>

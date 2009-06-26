@@ -44,7 +44,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 //<![CDATA[
 
 	var employeeSearchList = new Array();
-	
+
     var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
     var firstInterviewDate = false;
 
@@ -136,9 +136,9 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	}
 
     function save() {
-    
+
     	$('cmbInterviewer').value = '-1';
-    	
+
     	for (i in employeeSearchList) {
     		if ($('txtInterviewerSearch').value == employeeSearchList[i][0]) {
     			$('cmbInterviewer').value = employeeSearchList[i][2];
@@ -156,14 +156,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	function reset() {
 		$('frmInterview').reset();
 	}
-	
+
 	function showAutoSuggestTip(obj) {
 		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
 			obj.value = '';
 			obj.style.color = '#000000';
 		}
-	}	
-	
+	}
+
 YAHOO.OrangeHRM.container.init();
 //]]>
 </script>
@@ -192,7 +192,7 @@ YAHOO.OrangeHRM.container.init();
 	#container {
 		 display: table-row !important;
 	}
-	
+
 	#dropdownPane {
 		display: table-cell;
 		border: none !important;
@@ -251,16 +251,16 @@ YAHOO.OrangeHRM.container.init();
 		border: none !important;
 		text-align: left !important;
 	}
-	
+
 	#employeeSearchAC {
  	    width:15em; /* set width here */
  	    padding-bottom:2em;
  	}
-	
+
  	#employeeSearchAC {
  	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
  	}
-	
+
     -->
 	</style>
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
@@ -276,13 +276,13 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 <body class="yui-skin-sam">
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	    	    value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php     echo $heading . ' ' . $applicantName;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -290,7 +290,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
   <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
@@ -335,7 +335,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
  	 	      </div>
     	</div>
     	</div>
-        
+
         <br/>
 		<?php
 				if ($noOfEmployees == 0) {
@@ -350,53 +350,53 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         <textarea id="txtNotes" name="txtNotes" tabindex="4" rows="6" cols="40"></textarea><br/>
         <div class="formbuttons">
             <input type="button" class="savebutton" id="saveBtn" tabindex="5"
-                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Clear;?>" />
         </div>
-        <br class="clear"/>                
+        <br class="clear"/>
 	</form>
     </div>
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
-    
-			<?php 
-				$i = 0; 
-				
+
+			<?php
+				$i = 0;
+
 				foreach ($employeeSearchList as $record) {
 			?>
 				employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-			<?php 
+			<?php
 				}
 			?>
-			
+
 			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-					
-				// Instantiate second JS Array DataSource 
-			    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList); 
-			 
-			    // Instantiate second AutoComplete 
-			    this.oAutoComp = new YAHOO.widget.AutoComplete('txtInterviewerSearch','employeeSearchACContainer', this.oACDS); 
-			    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight"; 
-			    this.oAutoComp.typeAhead = false; 
-			    this.oAutoComp.useShadow = true; 
-			    this.oAutoComp.forceSelection = true; 
-			    this.oAutoComp.formatResult = function(oResultItem, sQuery) { 
+
+				// Instantiate second JS Array DataSource
+			    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList);
+
+			    // Instantiate second AutoComplete
+			    this.oAutoComp = new YAHOO.widget.AutoComplete('txtInterviewerSearch','employeeSearchACContainer', this.oACDS);
+			    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+			    this.oAutoComp.typeAhead = false;
+			    this.oAutoComp.useShadow = true;
+			    this.oAutoComp.forceSelection = true;
+			    this.oAutoComp.formatResult = function(oResultItem, sQuery) {
 			        var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
 			        return (sMarkup);
 			    };
-		    
+
  	 		};
         //]]>
     </script>
 
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     <div id="cal1Container" style="position:absolute;" ></div>
-</div>    
+</div>
 </body>
 </html>

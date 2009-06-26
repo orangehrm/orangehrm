@@ -31,6 +31,8 @@ div.messagebar {
 /* Button min-width fix for IE. Without this fix, IE assumes width is min-width */
 input.editbutton,
 input.savebutton,
+input.applybutton,
+input.backbutton,
 input.updatebutton,
 input.clearbutton,
 input.inserttimebutton,
@@ -56,7 +58,7 @@ input.searchbutton {
 input.plainbtn {
     text-align:center;
 	overflow:visible;
-    width:150px !important;
+    width:75px !important;
     padding-left: 4px;
     padding-right: 4px;
 }

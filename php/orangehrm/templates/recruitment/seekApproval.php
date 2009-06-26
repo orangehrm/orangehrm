@@ -40,7 +40,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <script>
 //<![CDATA[
 	var employeeSearchList = new Array();
-	
+
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
     }
@@ -70,7 +70,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     function save() {
 
 		$('cmbDirector').value = '-1';
-    	
+
     	for (i in employeeSearchList) {
     		if ($('txtApproverSearch').value == employeeSearchList[i][0]) {
     			$('cmbDirector').value = employeeSearchList[i][2];
@@ -88,14 +88,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	function reset() {
 		$('frmSeekApproval').reset();
 	}
-	
+
 	function showAutoSuggestTip(obj) {
 		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
 			obj.value = '';
 			obj.style.color = '#000000';
 		}
 	}
-	
+
 //]]>
 </script>
 
@@ -155,9 +155,9 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     }
 
     #saveBtn {
-        width:auto;    
+        width:auto;
     }
-    
+
     #txtNotes {
         width: 320px;
         height: 150px;
@@ -184,17 +184,17 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         width: 400px;
         border: 1px;
 	}
-	
+
     .desc {
         font-style: italic;
         padding: 5px 0 5px 15px;
     }
-    
+
     	#employeeSearchAC {
  	    width:15em; /* set width here */
  	    padding-bottom:2em;
  	}
-	
+
  	#employeeSearchAC {
  	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
  	}
@@ -209,13 +209,13 @@ $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunct
 <body class="yui-skin-sam">
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -223,12 +223,12 @@ $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunct
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
   <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
   		<input type="hidden" name="cmbDirector" id="cmbDirector" value="-1" />
-		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br />	
+		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br />
 		<div>
 		<label for="txtApproverSearch"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
@@ -261,48 +261,48 @@ $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunct
         <textarea id="txtNotes" name="txtNotes" tabindex="2"></textarea><br/>
         <div class="desc"><?php echo $lang_Recruit_JobApplication_SeekApproval_Desc; ?></div>
         <div class="formbuttons">
-            <input type="button" class="savebutton" id="saveBtn" 
-                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <input type="button" class="savebutton" id="saveBtn"
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-        <br class="clear"/>                        
-        </div>                        
+        <br class="clear"/>
+        </div>
 	</form>
     </div>
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     <script type="text/javascript">
     //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
-            }    
+                roundBorder('outerbox');
+            }
 
-		<?php 
-			$i = 0; 
-			
+		<?php
+			$i = 0;
+
 			foreach ($employeeSearchList as $record) {
 		?>
 			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-		<?php 
+		<?php
 			}
 		?>
-			
+
 		YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-				
-			// Instantiate second JS Array DataSource 
-		    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList); 
-		 
-		    // Instantiate second AutoComplete 
-		    this.oAutoComp = new YAHOO.widget.AutoComplete('txtApproverSearch','employeeSearchACContainer', this.oACDS); 
-		    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight"; 
-		    this.oAutoComp.typeAhead = false; 
-		    this.oAutoComp.useShadow = true; 
-		    this.oAutoComp.forceSelection = true; 
-		    this.oAutoComp.formatResult = function(oResultItem, sQuery) { 
+
+			// Instantiate second JS Array DataSource
+		    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList);
+
+		    // Instantiate second AutoComplete
+		    this.oAutoComp = new YAHOO.widget.AutoComplete('txtApproverSearch','employeeSearchACContainer', this.oACDS);
+		    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+		    this.oAutoComp.typeAhead = false;
+		    this.oAutoComp.useShadow = true;
+		    this.oAutoComp.forceSelection = true;
+		    this.oAutoComp.formatResult = function(oResultItem, sQuery) {
 		        var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
 		        return (sMarkup);
 		    };
-		    
+
  	 	};
-						
+
         //]]>
     </script>
     </div>

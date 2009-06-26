@@ -192,18 +192,18 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     <?php
         $applicantName = CommonFunctions::escapeHtml($application->getFirstName() . ' ' . $application->getLastName());
         $jobTitleName = CommonFunctions::escapeHtml($application->getJobTitleName());
-        $heading = $lang_Recruit_JobApplicationHistory_EventHistory . ' - ' . $applicantName . ' (' 
+        $heading = $lang_Recruit_JobApplicationHistory_EventHistory . ' - ' . $applicantName . ' ('
             . $lang_Recruit_JobApplicationHistory_ApplicationForThePositionOf . ' ' . $jobTitleName . ')';
     ?>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+	    	<input type="button" class="savebutton"
+		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		        value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
-        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -211,9 +211,9 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-    
+
   		<div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
         <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div><br />
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
@@ -302,9 +302,9 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
             <label for="txtNotes"><?php echo $lang_Recruit_JobApplicationHistory_Notes; ?></label>
             <textarea name="txtNotes" disabled="true"><?php echo $notes; ?></textarea>
             <?php if ($allowEdit) { ?>
-            <input type="button" class="editbutton" id="editBtn" 
-                onclick="edit(this, '<?php echo $formId; ?>');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-                value="<?php echo $lang_Common_Edit;?>" />                
+            <input type="button" class="editbutton" id="editBtn"
+                onclick="edit(this, '<?php echo $formId; ?>');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Edit;?>" />
             <br/><br/>
             <?php } ?>
         </form>
@@ -319,7 +319,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     <script type="text/javascript">
         <!--
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         -->
     </script>
