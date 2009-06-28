@@ -57,62 +57,62 @@ $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
     function goBack() {
         location.href = "<?php echo "{$_SERVER['PHP_SELF']}?recruitcode=ApplicantViewJobs"; ?>";
     }
 </script>
 
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
-    <style type="text/css">
-    <!--
-    .roundbox {
-        margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 750px;
-    }
-
-    body {
-    	margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 780px;
-    }
-
-    .roundbox_content {
-        padding-left:50px;
-        padding-right:50px;
-        padding-top:20px;
-        padding-bottom:20px;
-    }
-    -->
+<style type="text/css">
+<!--
+body {
+	margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 780px;
+}
+-->
 </style>
+
+    <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+    <!--[if IE]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+
 </head>
-<body width="800">
-	<p><h2 class="moduleTitle"><?php echo $heading; ?></h2></p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="<?php echo $lang_Common_Back;?>" onMouseOut="this.src='<?php echo $backImg; ?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>';" src="<?php echo $backImg;?>"
-  			 onClick="goBack();">
-	</div>
-  <div class="roundbox">
-      <div class="message"><?php echo $message;?></div>
-  </div>
+<body>
+    <div class="formpage3col">
+        <div class="navigation">
+        	<input type="button" class="backbutton" value="<?php echo $lang_Common_Back;?>"
+        		onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
+        </div>
+		<div id="status" style="float:right;display:none;">
+            <?php echo $lang_Commn_PleaseWait;?>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading">
+                <h2><?php echo $heading; ?></h2></div>
+			<div class="messagebar"><?php echo $message;?></div>
+		</div>
+    </div>
+
     <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-        -->
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');
+        }
+    //]]>
     </script>
+
 </body>
 </html>

@@ -545,14 +545,14 @@ return $objResponse->getXML();
 		</select>
 		<div style="padding: 10px 0 2px 10px;">
             &nbsp;
-            <input type="button" class="plainbtn"
+            <input type="button" class="longbtn"
                 onclick="preserveData(); addSalaryGrade();"
-                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                onmouseover="this.className='longbtn longbtnhov'" onmouseout="this.className='longbtn'"
                 value="<?php echo $lang_jobtitle_addpaygrade;?>" />
             &nbsp;
-            <input type="button" class="plainbtn"
+            <input type="button" class="longbtn"
                 onclick="preserveData(); editSalaryGrade();"
-                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                onmouseover="this.className='longbtn longbtnhov'" onmouseout="this.className='longbtn'"
                 value="<?php echo $lang_jobtitle_editpaygrade;?>" />
 		</div>
         <br class="clear"/>
@@ -625,11 +625,11 @@ return $objResponse->getXML();
 				?>
 		</select>
 
-        <input type="button" class="plainbtn"
+        <input type="button" class="longbtn"
             onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>"
             disabled="disabled" style="margin:10px 2px 0 10px;"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-        <input type="button" class="plainbtn" onclick="preserveData(); editSalaryGrade();"
+        <input type="button" class="longbtn" onclick="preserveData(); editSalaryGrade();"
             value="<?php echo $lang_jobtitle_editpaygrade; ?>"  disabled="disabled" style="margin:10px 2px 0 5px;"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
@@ -673,11 +673,11 @@ return $objResponse->getXML();
 		<div class="controlContainer" style="padding-top: 20px; padding-left: 10px;">
             <input type="button" disabled="disabled" name="butUnAssEmploymentStatus"
                 value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();"
-                class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
+                class="extralongbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 			<br /><br />
             <input type="button" disabled="disabled" name="butUnAssEmploymentStatus"
                 value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();"
-                class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
+                class="extralongbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 		</div>
 		<div id="layerEmpStat" style="visibility: hidden;">
 			<input type="hidden" name="txtEmpStatID" />

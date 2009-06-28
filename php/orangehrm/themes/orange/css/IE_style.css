@@ -63,6 +63,22 @@ input.plainbtn {
     padding-right: 4px;
 }
 
+input.longbtn {
+    text-align:center;
+	overflow:visible;
+    width:120px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+input.extralongbtn {
+    text-align:center;
+	overflow:visible;
+    width:175px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 div.formbuttons {
 	text-align: left;
 	width:auto;

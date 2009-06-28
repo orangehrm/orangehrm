@@ -67,6 +67,32 @@ input.plainbtn {
 	cursor: default;
 }
 
+input.longbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:120px;
+	width: auto;
+	cursor: default;
+}
+
+input.extralongbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:175px;
+	width: auto;
+	cursor: default;
+}
+
 input.backbuttonhov,
 input.editbuttonhov,
 input.savebuttonhov,
@@ -88,7 +114,9 @@ input.detailsbuttonhov,
 input.submitbuttonhov,
 input.searchbuttonhov,
 input.punchbuttonhov,
-input.plainbtnhov {
+input.plainbtnhov,
+input.longbtnhov,
+input.extralongbtnhov {
 	border-color: #c63 #c63 #930 #930 !important;
 }
 
