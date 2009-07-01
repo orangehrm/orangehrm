@@ -266,7 +266,7 @@ $modlist = $this->popArr['modlist'];
 <?php if($locRights['delete']) { ?>
         <input type="button" class="delbutton" id="delBtn"
             onclick="delEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>" />
+            value="<?php echo $lang_Common_Clear;?>" title="<?php echo $lang_Common_Clear;?>" />
 
 <?php } ?>
         </div>
