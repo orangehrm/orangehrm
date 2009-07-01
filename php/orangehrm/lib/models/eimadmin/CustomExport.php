@@ -186,18 +186,50 @@ class CustomExport {
 	 * Get list of defined Custom Exports in format suitable for view.php
 	 * @return Array 2D array representing custom export objects defined in database.
 	 */
-	public static function getCustomExportListForView($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+    public static function getCustomExportListForView($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+                                                       
+        $tableName = self::TABLE_NAME;
+        $arrFieldList[0] = self::DB_FIELDS_ID;
+        $arrFieldList[1] = self::DB_FIELDS_NAME;
+        $arrFieldList[2] = self::DB_FIELDS_FIELDS;
+        $arrFieldList[3] = self::DB_FIELDS_HEADINGS;
+        
+        
+        $sqlBuilder = new SQLQBuilder();
 
-		$exports = CustomExport::getCustomExportList();
+        $sqlBuilder->table_name = $tableName;
+        $sqlBuilder->flg_select = 'true';
+        $sqlBuilder->arr_select = $arrFieldList;
 
-		$arrDispArr = null;
-		for($i=0; count($exports) > $i; $i++) {
-			$arrDispArr[$i][0] = $exports[$i]->getId();
-			$arrDispArr[$i][1] = $exports[$i]->getName();
-		}
+        $sqlQString = $sqlBuilder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
-		return $arrDispArr;
-	}
+        
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+        $i=0;
+
+         while ($line = mysql_fetch_array($result, MYSQL_NUM)) {
+
+            $arrayDispList[$i][0] = $line[0];
+            $arrayDispList[$i][1] = $line[1];
+            $arrayDispList[$i][2] = $line[2];
+            $i++;
+
+         }
+
+         if (isset($arrayDispList)) {
+
+            return $arrayDispList;
+
+        } else {
+
+            $arrayDispList = '';
+            return $arrayDispList;
+
+        }
+         
+    }
 
 	/**
 	 * Get the available fields (fields not yet assigned to this CustomExport)

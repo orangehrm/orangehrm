@@ -286,18 +286,50 @@ class CustomImport {
 	 * Get list of defined Custom Imports in format suitable for view.php
 	 * @return Array 2D array representing custom import objects defined in database.
 	 */
-	public static function getCustomImportListForView($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+     public static function getCustomImportListForView($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
 
-		$imports = CustomImport::getCustomImportList();
+        $tableName = self::TABLE_NAME;
+        $arrFieldList[0] = self::DB_FIELDS_ID;
+        $arrFieldList[1] = self::DB_FIELDS_NAME;
+        $arrFieldList[2] = self::DB_FIELDS_FIELDS;
+        $arrFieldList[3] = self::DB_FIELDS_HAS_HEADING;
+        
+        
+        $sqlBuilder = new SQLQBuilder();
 
-		$arrDispArr = null;
-		for($i=0; count($imports) > $i; $i++) {
-			$arrDispArr[$i][0] = $imports[$i]->getId();
-			$arrDispArr[$i][1] = $imports[$i]->getName();
-		}
+        $sqlBuilder->table_name = $tableName;
+        $sqlBuilder->flg_select = 'true';
+        $sqlBuilder->arr_select = $arrFieldList;
 
-		return $arrDispArr;
-	}
+        $sqlQString = $sqlBuilder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
+
+        
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+        $i=0;
+
+         while ($line = mysql_fetch_array($result, MYSQL_NUM)) {
+
+            $arrayDispList[$i][0] = $line[0];
+            $arrayDispList[$i][1] = $line[1];
+            $arrayDispList[$i][2] = $line[2];
+            $i++;
+
+         }
+
+         if (isset($arrayDispList)) {
+
+            return $arrayDispList;
+
+        } else {
+
+            $arrayDispList = '';
+            return $arrayDispList;
+
+        }
+
+    }
 
 	/**
 	 * Get the available fields (fields not yet assigned to this CustomImport)

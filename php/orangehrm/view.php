@@ -206,10 +206,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     ?>
 
     <?php 
-    /*
-     *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
-     */    
-    if ($this->getArr['uniqcode'] != 'CIM' && $this->getArr['uniqcode'] != 'CEX' && $this->getArr['uniqcode'] != 'CTM') {
+        
+    if ($this->getArr['uniqcode'] != 'CTM') {
     ?>        
     <div class="searchbox">
         <label for="loc_code"><?php echo $searchby?></label>

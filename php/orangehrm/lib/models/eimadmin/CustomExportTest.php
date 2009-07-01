@@ -177,26 +177,37 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
      * Test for getCustomExportListForView().
      */
     public function testGetCustomExportListForView() {
-    	$list = CustomExport::getCustomExportListForView(1,"","");
-    	$this->assertTrue(is_array($list));
-    	$this->assertEquals(3, count($list));
 
-		$expected = array(1=>'Export 1', 2=>'Export 2', 3=>'Export 3');
-		foreach ($list as $export) {
-			$id = $export[0];
-			$name = $export[1];
-
-			$this->assertTrue(array_key_exists($id, $expected));
-			$this->assertEquals($expected[$id], $name);
-			unset($expected[$id]);
-		}
-		$this->assertTrue(empty($expected));
-
-    	$this->_runQuery("DELETE FROM hs_hr_custom_export");
-    	$list = CustomExport::getCustomExportListForView(1,"","");
-    	$this->assertNull($list);
-    }
-
+   		
+    	$recordFound = CustomExport::getCustomExportListForView(1,"Export 2",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],2);
+    	$this->assertEquals($recordFound[0][1],"Export 2");
+    	$this->assertEquals($recordFound[0][2],"empId,lastName,firstName,city");
+			    	
+    	$recordFound = CustomExport::getCustomExportListForView(1,"Export 3",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],3);
+    	$this->assertEquals($recordFound[0][1],"Export 3");
+    	$this->assertEquals($recordFound[0][2],"empId,street1,street2,city");
+	
+    	$recordFound = CustomExport::getCustomExportListForView(1,"Export 1",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],1);
+    	$this->assertEquals($recordFound[0][1],"Export 1");
+    	$this->assertEquals($recordFound[0][2],"empId,lastName,firstName,middleName,street1,street2,city");
+    	
+    	$recordFound = CustomExport::getCustomExportListForView(1,"Export New",1);
+    	$this->assertFalse(is_array($recordFound));
+		// clean up
+		$this->_runQuery("DELETE FROM hs_hr_custom_export");
+     }
     /**
      * Test the getAvailableFields() method
      */

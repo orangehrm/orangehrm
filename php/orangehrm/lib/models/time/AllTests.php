@@ -45,7 +45,7 @@ class models_time_AllTests
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_time');
         $suite->addTestSuite('TimeEventTest');
         $suite->addTestSuite('TimeSheetSubmissionPeriodTest');
-        $suite->addTestSuite('TimeSheetTest');
+        $suite->addTestSuite('TimesheetTest');
         $suite->addTestSuite('ProjectReportTest');
 		$suite->addTestSuite('WorkshiftTest');
 		//$suite->addTestSuite('AttendanceRecordTest');

@@ -107,7 +107,6 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, count($diff), "Assigned fields not correct");
 
     	$this->assertTrue($import->getContainsHeader());
-
     }
 
     /**
@@ -170,26 +169,38 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
      * Test for getCustomImportListForView().
      */
     public function testGetCustomImportListForView() {
-    	$list = CustomImport::getCustomImportListForView(1,"","");
-    	$this->assertTrue(is_array($list));
-    	$this->assertEquals(3, count($list));
-
-		$expected = array(1=>'Import 1', 2=>'Import 2', 3=>'Import 3');
-		foreach ($list as $import) {
-			$id = $import[0];
-			$name = $import[1];
-
-			$this->assertTrue(array_key_exists($id, $expected));
-			$this->assertEquals($expected[$id], $name);
-			unset($expected[$id]);
-		}
-		$this->assertTrue(empty($expected));
-
-    	$this->_runQuery("DELETE FROM hs_hr_custom_import");
-    	$list = CustomImport::getCustomImportListForView(1,"","");
-    	$this->assertNull($list);
+        	    	
+    	 
+    	$recordFound = CustomImport::getCustomImportListForView(1,"Import 2",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],2);
+    	$this->assertEquals($recordFound[0][1],"Import 2");
+    	$this->assertEquals($recordFound[0][2],"empId,lastName,firstName,city");
+			    	
+    	$recordFound = CustomImport::getCustomImportListForView(1,"Import 3",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],3);
+    	$this->assertEquals($recordFound[0][1],"Import 3");
+    	$this->assertEquals($recordFound[0][2],"empId,firstName,lastName,street1,street2,city");
+	
+    	$recordFound = CustomImport::getCustomImportListForView(1,"Import 1",1);
+    	$this->assertTrue(is_array($recordFound));
+    	$this->assertEquals(1, count($recordFound));
+    	
+    	$this->assertEquals($recordFound[0][0],1);
+    	$this->assertEquals($recordFound[0][1],"Import 1");
+    	$this->assertEquals($recordFound[0][2],"empId,lastName,firstName,middleName,street1,street2,city");
+	
+		$recordFound = CustomImport::getCustomImportListForView(1,"Import New",1);
+    	$this->assertFalse(is_array($recordFound));
+		// clean up
+		$this->_runQuery("DELETE FROM hs_hr_custom_import");
+       	
     }
-
     /**
      * Test the getAvailableFields() method
      */
