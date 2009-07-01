@@ -292,7 +292,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
             </div>  
         <?php } ?>
         
-  <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>">
+  <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>" onsubmit="return <?php echo $btnAction; ?>;">
         <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
