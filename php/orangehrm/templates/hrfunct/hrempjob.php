@@ -67,10 +67,8 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
         if (oLayer.style.display == 'none') {
             oLink.innerHTML = "<?php echo $lang_hremp_ShowEmployeeJobHistory; ?>";
-            oLink.className = "show";
         } else {
             oLink.innerHTML = "<?php echo $lang_hremp_HideEmployeeJobHistory; ?>";
-            oLink.className = "hide";
         }
     }
 
@@ -92,10 +90,8 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 		if (oLayer.style.display == 'none') {
 			oLink.innerHTML = "<?php echo $lang_hremp_ShowEmployeeContracts; ?>";
-			oLink.className = "show";
 		} else {
 			oLink.innerHTML = "<?php echo $lang_hremp_HideEmployeeContracts; ?>";
-			oLink.className = "hide";
 		}
 	}
 
@@ -437,8 +433,8 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     $availableList = $this->popArr['availablelocationList'];
 ?>
 <?php if (!empty($assignedList)) { ?>
-	<table id="assignedLocationsTable">	
-<?php	    
+	<table id="assignedLocationsTable">
+<?php
     foreach($assignedList as $empLoc) {
         $locId = $empLoc->getLocation();
 ?>
@@ -455,7 +451,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     }
 ?>
 	</table>
-<?php 
+<?php
 	}
 ?>
 <!-- end of list of assigned locations -->
@@ -478,8 +474,8 @@ if ($locRights['add']) {
 <?php } ?>
 			  </tr>
 </table>
-<?php 
-} 
+<?php
+}
 ?>
 <div id ="addLocationLayer" style="display:none;height:50px;padding-left:5px;">
     <select name="cmbNewLocationId" id="cmbNewLocationId" style="margin-top:10px;">
@@ -500,10 +496,10 @@ if ($locRights['add']) {
         src="<?php echo $iconDir;?>assign.gif" />
 </div>
 <div class="formbuttons">
-    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditJob" 
-    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>" 
+    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditJob"
+    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
     	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editEmpMain(); return false;"/>
 	<input type="button" class="clearbutton" id="btnClearJob" onclick="reLoad();  return false;" tabindex="5"
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
@@ -511,4 +507,4 @@ if ($locRights['add']) {
 	<a href="javascript:toggleEmployeeContracts();" id="toggleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a>
 	<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>
 
-</div>	
+</div>
