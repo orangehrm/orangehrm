@@ -34,7 +34,7 @@ class EXTRACTOR_EmpEducation {
 		$this->empeducation->setEmpId(trim($postArr['txtEmpID']));
    		$this->empeducation->setEduCode(trim($postArr['cmbEduCode']));
    		$this->empeducation->setEduMajor(trim($postArr['txtEmpEduMajor']));
-   		$this->empeducation->setEduYear(trim($postArr['txtEmpEduYear']));
+   		$this->empeducation->setEduYear(empty($postArr['txtEmpEduYear'])?'null':trim($postArr['txtEmpEduYear']));
    		$this->empeducation->setEduGPA(trim($postArr['txtEmpEduGPA']));
    		$this->empeducation->setEduStartDate(self::_handleEmptyDates($postArr['txtEmpEduStartDate']));
    		$this->empeducation->setEduEndDate(self::_handleEmptyDates($postArr['txtEmpEduEndDate']));
@@ -47,7 +47,7 @@ class EXTRACTOR_EmpEducation {
 		$date = trim($date);
 
 	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
-			return "null";
+			return 'null';
 	    } else {
 	        return "'".$date."'";
 	    }

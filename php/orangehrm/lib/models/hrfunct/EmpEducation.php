@@ -172,7 +172,7 @@ class EmpEducation {
 		$arrFieldList[0] = "'". $this->getEmpID()         . "'";
 		$arrFieldList[1] = "'". $this->getEduCode()  . "'";
 		$arrFieldList[2] = "'". $this->getEduMajor() . "'";
-		$arrFieldList[3] = "'". $this->getEduYear()   . "'";
+		$arrFieldList[3] = $this->getEduYear();
 		$arrFieldList[4] = "'". $this->getEduGPA()   . "'";
 		$arrFieldList[5] = $this->getEduStartDate(); // Quotes removed to accept null values
 		$arrFieldList[6] = $this->getEduEndDate();
@@ -199,7 +199,7 @@ class EmpEducation {
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEduCode() . "'";
 		$arrRecordsList[2] = "'". $this->getEduMajor() . "'";
-		$arrRecordsList[3] = "'". $this->getEduYear() . "'";
+		$arrRecordsList[3] = $this->getEduYear();
 		$arrRecordsList[4] = "'". $this->getEduGPA() . "'";
 		$arrRecordsList[5] = $this->getEduStartDate(); // Quotes removed to accept null values
 		$arrRecordsList[6] = $this->getEduEndDate();
