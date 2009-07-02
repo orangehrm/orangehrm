@@ -42,16 +42,6 @@ class EXTRACTOR_TimeEvent {
 
 				$tmpObj->setProjectId($projectId);
 
-				$txtStartTime = trim($postArr['txtStartTime'][$i]);
-				if (!empty($txtStartTime)) {
-					$tmpObj->setStartTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($txtStartTime));
-				}
-
-				$txtEndTime = trim($postArr['txtEndTime'][$i]);
-				if (!empty($txtEndTime)) {
-					$tmpObj->setEndTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($txtEndTime));
-				}
-
 				$txtReportedDate = trim($postArr['txtReportedDate'][$i]);
 				$tmpObj->setReportedDate(LocaleUtil::getInstance()->convertToStandardDateFormat($txtReportedDate));
 
@@ -89,38 +79,6 @@ class EXTRACTOR_TimeEvent {
 		}
 
 		return $tmpArr;
-	}
-
-	public function parsePunch($postArr, $punchIn) {
-		$tmpObj = new TimeEvent();
-
-		$tmpObj->setProjectId(0);
-		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
-		$tmpObj->setEmployeeId($_SESSION['empID']);
-
-		$txtDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtDate']);
-		$txtTime = LocaleUtil::getInstance()->convertToStandardTimeFormat($postArr['txtTime'], null, true);
-
-		if ($punchIn) {
-			$tmpObj->setStartTime("{$txtDate} {$txtTime}");
-			$tmpObj->setDuration(0);
-		} else {
-			$txtStartTime = LocaleUtil::getInstance()->convertToStandardDateTimeFormat($postArr['startTime']);
-			$startTime = strtotime($txtStartTime);
-			$endTime = strtotime("{$txtDate} {$txtTime}");
-
-			if ($startTime >= $endTime) {
-				return null;
-			}
-			$tmpObj->setStartTime($txtStartTime);
-			$tmpObj->setEndTime("{$txtDate} {$txtTime}");
-			$tmpObj->setDuration($endTime-$startTime);
-			$tmpObj->setTimeEventId($postArr['timeEventId']);
-		}
-		$tmpObj->setReportedDate($txtDate);
-		$tmpObj->setDescription($postArr['txtNote']);
-
-		return $tmpObj;
 	}
 
 	public function parseSingleEvent($postArr) {
@@ -204,17 +162,6 @@ class EXTRACTOR_TimeEvent {
 
 		return array($tmpObj, $fromDate, $toDate, $pageNo);
 	}
-
-
-
-
-
-
-
-
-
-
-
 	
 	public function parseEditTimegrid($postArr) {
 	 
@@ -279,18 +226,6 @@ class EXTRACTOR_TimeEvent {
 		return $eventsList;	 
 	 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 ?>

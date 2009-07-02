@@ -127,16 +127,12 @@ td {
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
-			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
@@ -162,8 +158,6 @@ td {
 				<td class="tableMiddleLeft"></td>
 				<td><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 				<td><?php echo $projectActivity->getName(); ?></td>
-				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?></td>
-				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?></td>
 				<td><?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?></td>
 				<td><?php echo round($timeExpense->getDuration()/36)/100; ?></td>
 				<td><?php echo $timeExpense->getDescription(); ?></td>
@@ -181,8 +175,6 @@ td {
 	<tfoot>
 	  	<tr>
 			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>

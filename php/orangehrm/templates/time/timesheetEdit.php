@@ -175,16 +175,6 @@ function setCurrFocus(label, row) {
 	currFocus = $(label+"["+row+"]");
 }
 
-function actionInsertTime() {
-	if (!currFocus) {
-		currFocus = $("txtStartTime["+totRows+"]");
-	}
-	if (currFocus.value == "") {
-    	currFocus.value = formatDate(new Date(), dateTimeFormat);
-  	}
-  	currFocus.focus();
-}
-
 /**
  * Checks that the given date is within the timesheet period.
  * @return true if date within period, false otherwise
@@ -272,14 +262,8 @@ function validate() {
 		if (!lastRow || !allEmpty(x)) {
 			err[x] = false;
 
-			txtStartTime = trim($("txtStartTime["+x+"]").value);
-			txtEndTime = trim($("txtEndTime["+x+"]").value);
 			txtReportedDate = trim($("txtReportedDate["+x+"]").value);
 			duration = trim($("txtDuration["+x+"]").value);
-
-			startTime = strToTime(txtStartTime, dateTimeFormat);
-
-			endTime = strToTime(txtEndTime, dateTimeFormat);
 
 			reportedDate = strToDate(txtReportedDate, dateFormat);
 
@@ -295,16 +279,6 @@ function validate() {
 				err[x] = true;
 			}
 
-			if ((txtStartTime != "") && !startTime) {
-				errorMsgs[2] = "<?php echo $lang_Time_Errors_InvalidStartTime_ERROR; ?>";
-				err[x] = true;
-			}
-
-			if ((txtEndTime != "") && !endTime) {
-				errorMsgs[3] = "<?php echo $lang_Time_Errors_InvalidEndTime_ERROR; ?>";
-				err[x] = true;
-			}
-
 			if (txtReportedDate == "") {
 				errorMsgs[4] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified_ERROR; ?>";
 				err[x] = true;
@@ -317,61 +291,6 @@ function validate() {
 			if (!validateDuration(duration) || (lastRow && (duration != "") && (duration == 0))) {
 				errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
 				err[x] = true;
-			}
-
-			// Validate period/interval
-			if (txtStartTime == "") {
-				if (!isEmpty(duration) && !isEmpty(txtReportedDate) && (txtEndTime == "")) {
-
-					// Only reported date and duration specified. Check duration within timesheet period
-					if (!checkDateAndDuration(reportedDate, duration)) {
-						errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-						err[x] = true;
-					} else if (!lastRow && (validateDuration(duration) && duration == 0)) {
-
-						// Don't allow zero duration (for saved rows)
-						errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
-						err[x] = true;
-					}
-				} else {
-					errorMsgs[8] = "<?php echo $lang_Time_Errors_NoValidDurationOrInterval_ERROR; ?>";
-					err[x] = true;
-				}
-
-			} else {
-				if (txtEndTime == "") {
-					if (duration == "") {
-
-						// start time only. Check that it's within timesheet period
-						if (!checkDateWithinPeriod(startTime)) {
-							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-							err[x] = true;
-						}
-					} else {
-						// Only start time and duration specified. Check duration within timesheet period
-						if (!checkDateAndDuration(startTime, duration)) {
-							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-							err[x] = true;
-						}
-					}
-				} else {
-					if ((duration == "") || (!lastRow)) {
-
-						// start time and end time specified
-						if ((startTime && endTime) && (startTime >= endTime)) {
-							errorMsgs[9] = "<?php echo $lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR; ?>";
-							err[x] = true;
-						} else {
-							if (!checkDateWithinPeriod(startTime) || !checkDateWithinPeriod(endTime)) {
-								errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-								err[x] = true;
-							}
-						}
-					} else {
-							errorMsgs[10] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR; ?>";
-							err[x] = true;
-					}
-				}
 			}
 
 			if (err[x]) {
@@ -414,14 +333,6 @@ function allEmpty(row) {
 	}
 
 	if (!isFieldEmpty("txtDescription["+row+"]")) {
-		return false;
-	}
-
-	if (!isFieldEmpty("txtStartTime["+row+"]")) {
-		return false;
-	}
-
-	if (!isFieldEmpty("txtEndTime["+row+"]")) {
 		return false;
 	}
 
@@ -506,16 +417,12 @@ function goBack() {
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle"></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
-			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
@@ -582,8 +489,6 @@ function goBack() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?>" onfocus="looseCurrFocus();" /></td>
 				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'':'readonly="readonly"'; ?> id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo round($timeExpense->getDuration()/36)/100; ?>" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea>
@@ -618,8 +523,6 @@ function goBack() {
 						<option value="-1">- <?php echo $lang_Time_Timesheet_SelectProject; ?> -</option>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d')); ?>" onfocus="looseCurrFocus();" /></td>
 				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ></textarea></td>
@@ -629,8 +532,6 @@ function goBack() {
 	<tfoot>
 	  	<tr>
 			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
@@ -657,11 +558,6 @@ function goBack() {
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnReset" id="btnReset"                              
         value="<?php echo $lang_Common_Reset;?>" />         
-<input type="button" class="inserttimebutton"  
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        onclick="actionInsertTime(); return false;"
-        name="btnInsert" id="btnInsert"                             
-        value="<?php echo $lang_Common_InsertTime;?>" /> 
 
 <input type="button" class="delbutton"  
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
