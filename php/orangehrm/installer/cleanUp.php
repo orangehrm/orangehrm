@@ -30,39 +30,43 @@ return true;
 }
 
 function cleanUp() {
+	
+	if ($_SESSION['cMethod'] == 'new') {
 
-	if (!connectDB()) {
-		return false;
-	}
-
-	if (isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
-		$query = dropUser();
-	}
-
-	$query[0] = dropDB();
-
-	$sucExec = $query;
-	$overall = true;
-
-	for ($i=0;  $i < count($query); $i++) {
-		$sucExec[$i] = mysql_query($query[$i]);
-
-		if (!$sucExec[$i]) {
-			$overall = false;
+		if (!connectDB()) {
+			return false;
 		}
-	}
-
-	if (!$overall) {
-		connectDB();
+	
+		if (isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
+			$query = dropUser();
+		}
+	
+		$query[0] = dropDB();
+	
+		$sucExec = $query;
+		$overall = true;
+	
 		for ($i=0;  $i < count($query); $i++) {
-			if (!$sucExec[$i]) {
-				$sucExec[$i] = mysql_query($query[$i]);
-			}
-
+			$sucExec[$i] = mysql_query($query[$i]);
+	
 			if (!$sucExec[$i]) {
 				$overall = false;
 			}
 		}
+	
+		if (!$overall) {
+			connectDB();
+			for ($i=0;  $i < count($query); $i++) {
+				if (!$sucExec[$i]) {
+					$sucExec[$i] = mysql_query($query[$i]);
+				}
+	
+				if (!$sucExec[$i]) {
+					$overall = false;
+				}
+			}
+		}
+	
 	}
 
 	$sucExec[] = delConf();
