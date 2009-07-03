@@ -24,7 +24,7 @@ require_once($lan->getLangPath("full.php"));
 /* Setting message: Begins */
 
 if (isset($this->getArr['msg'])) {
-	
+
 	if ($this->getArr['msg'] == 'UPDATE_SUCCESS') {
 	    $messageText = $lang_Common_UPDATE_SUCCESS;
 	    $messageType = 'SUCCESS';
@@ -35,11 +35,11 @@ if (isset($this->getArr['msg'])) {
 	    $messageText = $lang_Error_salarygrades_ADD_FAILURE;
 	    $messageType = 'FAILURE';
 	}
-    
+
 } else {
-    
+
     $messageText = null;
-    
+
 }
 
 /* Setting message: Ends */
@@ -84,7 +84,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 		}
 	}
-	
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -116,9 +116,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		return true;
 	}
 
-	function clearAll() {
-		document.frmSalGrd.txtSalGrdDesc.value = '';
-	}
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -143,7 +140,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
 
 <?php if (isset($messageText)) { ?>
-<div class="messagebar">	
+<div class="messagebar">
 	<span class="<?php echo $messageType; ?>"><?php echo $messageText; ?></span>
 </div>
 <?php } ?>
@@ -164,9 +161,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
             <input type="button" class="savebutton"
                 onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="clearAll();"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                 value="<?php echo $lang_Common_Reset;?>" />
+            <input type="reset" class="clearbutton"  onmouseover="moverButton(this);"
+            	onmouseout="moutButton(this);" value="<?php echo $lang_Common_Reset;?>" />
             <br class="clear"/>
         </div>
         <br class="clear"/>
@@ -501,13 +497,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		location.href = document.frmSalCurDet.action + "&editID=" + currID;
 	}
 
-	function clearAll() {
-		if(document.Edit.title!='Save')
-			return;
-
-		document.frmSalGrd.txtSalGrdDesc.value = '';
-	}
-
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -528,7 +517,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
 
 <?php if (isset($messageText)) { ?>
-<div class="messagebar">	
+<div class="messagebar">
 	<span class="<?php echo $messageType; ?>"><?php echo $messageText; ?></span>
 </div>
 <?php } ?>
@@ -554,9 +543,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                         onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         title="<?php echo $lang_Common_Edit;?>"
                         value="<?php echo $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="clearAll();"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Reset;?>" />
+                    <input type="reset" class="clearbutton" onmouseover="moverButton(this);"
+                    	onmouseout="moutButton(this);" value="<?php echo $lang_Common_Reset;?>" />
                     <input type="button" class="savebutton"
                         onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Back;?>" />

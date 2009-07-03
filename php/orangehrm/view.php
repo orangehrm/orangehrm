@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	$readOnlyView = (isset($this->popArr['readOnlyView'])) && ($this->popArr['readOnlyView'] === true);
     $esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
-        
+
 	function getNextSortOrder($curSortOrder) {
 		switch ($curSortOrder) {
 			case 'null' :
@@ -50,9 +50,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
     $GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
     $GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
-    
+
 	function nextSortOrderInWords($sortOrder) {
-        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
+        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
 	}
 
 ?>
@@ -89,20 +89,20 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.standardView.submit();
 	}
 
-	function sortAndSearch(sortField, sortOrder) {    
+	function sortAndSearch(sortField, sortOrder) {
         var uri = "<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=" + sortField + "&sortOrder" + sortField + "=" + sortOrder + "<?php echo $esp;?>";
         document.standardView.action = uri;
-        document.standardView.submit();                                    
+        document.standardView.submit();
 	}
 
 	function returnAdd() {
 	<?php
 
 		switch($headingInfo[2]) {
-			case 1 : 
+			case 1 :
 				echo "location.href = './CentralController.php?uniqcode=".$this->getArr['uniqcode']."&capturemode=addmode".$esp."'";
 				break;
-			case 2 : 
+			case 2 :
 				echo "var popup=window.open('../../genpop.php?uniqcode=".$this->getArr['uniqcode']."','Employees','modal=yes,height=450,width=600');";
 				echo "if(!popup.opener) popup.opener=self;";
 				 break;
@@ -144,7 +144,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.standardView.captureState.value = 'SearchMode';
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
-		
+
 	}
 
 	function doHandleAll() {
@@ -182,7 +182,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
-//]]>	
+//]]>
 </script>
 </head>
 <body>
@@ -192,12 +192,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
     <input type="hidden" name="delState" value="" />
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
-           
-    <?php 
-    if (isset($this->getArr['message'])) {  
+
+    <?php
+    if (isset($this->getArr['message'])) {
         $expString  = $this->getArr['message'];
         $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
-    ?>      
+    ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
     </div>
@@ -205,46 +205,46 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     }
     ?>
 
-    <?php 
-        
+    <?php
+
     if ($this->getArr['uniqcode'] != 'CTM') {
-    ?>        
+    ?>
     <div class="searchbox">
         <label for="loc_code"><?php echo $searchby?></label>
         <select name="loc_code" id="loc_code">
             <?php
-            $optionCount = count($srchlist); 
+            $optionCount = count($srchlist);
             for ($c = -1; $optionCount - 1 > $c; $c++) {
                 $selected = "";
                 if(isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $c) {
                     $selected = 'selected="selected"';
                 }
-                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";                
+                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
             }
             ?>
         </select>
-        
+
         <label for="loc_name"><?php echo $description?></label>
         <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
         <input type="button" class="plainbtn" onclick="returnSearch();"
-            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
-            value="<?php echo $lang_Common_Search;?>" />
-        <input type="button" class="plainbtn" onclick="clear_form();" 
             onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-             value="<?php echo $lang_Common_Clear;?>" />
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Reset;?>" />
         <br class="clear"/>
     </div>
     <?php
      }
-    ?>                
-    
+    ?>
+
     <div class="actionbar">
         <div class="actionbuttons">
         <?php if (!$readOnlyView) { ?>
             <input type="button" class="plainbtn"
             <?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-                value="<?php echo $lang_Common_Add;?>" />          
+                value="<?php echo $lang_Common_Add;?>" />
 
             <?php if($headingInfo[2]==1) { ?>
                 <input type="button" class="plainbtn"
@@ -252,9 +252,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                     onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                     value="<?php echo $lang_Common_Delete;?>" />
         <?php     }
-            } 
+            }
         ?>
-        </div>              
+        </div>
         <div class="noresultsbar"><?php echo (empty($message)) ? $norecorddisplay : '';?></div>
         <div class="pagingbar">
         <?php
@@ -262,20 +262,20 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
             $commonFunc = new CommonFunctions();
             $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
             $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-    
+
             echo $pageStr;
 
             for ($j = 0; $j < 11; $j++) {
                 if (!isset($this->getArr['sortOrder'.$j])) {
                     $this->getArr['sortOrder'.$j] = 'null';
                 }
-            }                   
-        ?>          
+            }
+        ?>
         </div>
     <br class="clear" />
     </div>
 
-    <br class="clear" />                               
+    <br class="clear" />
     	<table cellpadding="0" cellspacing="0" class="data-table">
 			<thead>
             <tr>
@@ -291,8 +291,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						}
                         $sortOrder = $this->getArr['sortOrder'.$j];
 				?>
-					<td scope="col">                     
-						<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+					<td scope="col">
+						<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
                             title="<?php echo nextSortOrderInWords($sortOrder);?>"
                             class="<?php echo $sortOrder;?>"><?php echo $headings[$j]?>
                         </a>
@@ -300,14 +300,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				<?php } ?>
             </tr>
     		</thead>
-            
+
             <tbody>
     		<?php
 				if ((isset($message)) && ($message !='')) {
 					for ($j = 0; $j < count($message); $j++) {
-					                    
-                        $cssClass = ($j%2) ? 'even' : 'odd';   
-                        $detailsUrl = "./CentralController.php?id=" . $message[$j][0] . "&amp;uniqcode=" . $this->getArr['uniqcode'] . "&amp;capturemode=updatemode" . $esp;                 
+
+                        $cssClass = ($j%2) ? 'even' : 'odd';
+                        $detailsUrl = "./CentralController.php?id=" . $message[$j][0] . "&amp;uniqcode=" . $this->getArr['uniqcode'] . "&amp;capturemode=updatemode" . $esp;
 	 		?>
 				<tr>
        				<td class="<?php echo $cssClass?>">
@@ -333,7 +333,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			 				}
 		 			?>
 		 			<td class="<?php echo $cssClass?>">
-                        <?php if ($k == 1) { 
+                        <?php if ($k == 1) {
                                   echo "<a href='{$detailsUrl}'>{$descField}</a>";
                               } else {
                                   echo $descField;
@@ -341,7 +341,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                     </td>
 				<?php } ?>
 		 	</tr>
-		 	<?php 
+		 	<?php
 				}
 		 	}
 			?>
@@ -352,7 +352,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

@@ -354,7 +354,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                 value="<?php echo $lang_Common_Clear;?>" />
+                 value="<?php echo $lang_Common_Reset;?>" />
         </div>
         <br class="clear"/>
 	</form>

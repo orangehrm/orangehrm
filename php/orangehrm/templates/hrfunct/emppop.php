@@ -61,9 +61,9 @@ $reqPath = "";
 
     $GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
     $GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
-    
+
     function nextSortOrderInWords($sortOrder) {
-        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
+        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
     }
 
 	if (!isset($_GET['sortField']) || ($_GET['sortField'] == '')) {
@@ -192,7 +192,7 @@ else
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
-//]]>   
+//]]>
 </script>
 </head>
 <body style="padding:0 10px 0 0;">
@@ -207,10 +207,10 @@ else
         <div class="searchbox">
             <label for="loc_code"><?php echo $lang_Common_Search;?></label>
             <select name="loc_code" id="loc_code">
-                <?php                        
+                <?php
                     $optionCount = count($srchlist[0]);
                     for ($c = 0; $optionCount > $c; $c++) {
-                        $selected = "";        
+                        $selected = "";
                         if (isset($_POST['loc_code']) && ($_POST['loc_code'] == $srchlist[0][$c])) {
                             $selected = 'selected="selected"';
                         }
@@ -218,16 +218,16 @@ else
                     }
                 ?>
             </select>
-            
+
             <input type="text" size="20" name="loc_name" id="loc_name"
                 value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>" />
-            <br class="clear"/>                
+            <br class="clear"/>
             <input type="submit" class="plainbtn" name="btnSearch" style="margin:3px 3px 0 5px;"
-                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                 value="<?php echo $lang_Common_Search;?>" />
             <input type="button" class="plainbtn" onclick="clear_form();" name="clear" style="margin:3px 0 0 0;"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-                 value="<?php echo $lang_Common_Clear;?>" />
+                 value="<?php echo $lang_Common_Reset;?>" />
             <br class="clear"/>
         </div>
 
@@ -236,24 +236,24 @@ else
             <div class="noresultsbar"><?php echo (!isset($emplist) || empty($emplist)) ? $lang_empview_norecorddisplay : '';?></div>
             <div class="pagingbar">
             <?php
-    
+
                 if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) {
                     $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
                 } else {
                     $temp = $empviewcontroller -> countUnAssigned($_GET['reqcode']);
                 }
-    
+
                 $commonFunc = new CommonFunctions();
                 $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
                 $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-        
+
                 echo $pageStr;
-            ?>          
+            ?>
             </div>
             <br class="clear" />
         </div>
         <br class="clear" />
-        
+
 <!--  data table start -->
         <table cellpadding="0" cellspacing="0" class="data-table">
             <thead>
@@ -261,7 +261,7 @@ else
                 <?php
                     $headings = array($lang_empview_employeeid, $lang_empview_employeename);
                     $sortUrlFormat = $_SERVER['PHP_SELF'] . str_replace('&', '&amp;', $reqPath) . "&amp;VIEW=MAIN&amp;sortField=%d&amp;sortOrder%d=%s";
-                    
+
                     for ($j = 0; $j < count($headings); $j++) {
                         if (!isset($_GET['sortOrder'.$j])) {
                             $_GET['sortOrder'.$j] = 'null';
@@ -270,7 +270,7 @@ else
                         $nextSortOrder = getNextSortOrder($sortOrder);
                         $sortUrl = sprintf($sortUrlFormat, $j, $j, $nextSortOrder);
                 ?>
-                    <td scope="col">                     
+                    <td scope="col">
                         <a href="<?php echo $sortUrl;?>" title="<?php echo nextSortOrderInWords($sortOrder);?>"
                             class="<?php echo $sortOrder;?>"><?php echo $headings[$j]?>
                         </a>
@@ -278,7 +278,7 @@ else
                 <?php } ?>
             </tr>
             </thead>
-            <tbody>            
+            <tbody>
 <?php
             if ((isset($emplist)) && ($emplist !='')) {
                 for ($j = 0; $j < count($emplist); $j++) {
@@ -290,15 +290,15 @@ else
 ?>
                 <tr>
                     <td class="<?php echo $cssClass;?>">
-                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empId;?></a>                    
+                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empId;?></a>
                     </td>
                     <td>
                         <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empName;?></a>
-                    </td>                    
+                    </td>
                 </tr>
 
-<?php           } 
-            } 
+<?php           }
+            }
 ?>
             </tbody>
         </table>
@@ -307,11 +307,11 @@ else
     </div>
     <div class="pagingbar"><?php echo $pageStr;?></div>
     <br class="clear"/>
-    
+
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

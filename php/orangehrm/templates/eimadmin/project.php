@@ -53,7 +53,7 @@ if ($locRights['edit']) {
 	$addAdminBtnAction  = "addAdmin()";
 	$delAdminBtnAction  = "delAdmin()";
 	$saveAdminBtnAction = "saveAdmin()";
-	$clearBtnAction = "clearAll()";
+	$clearBtnAction = "this.form.reset()";
 } else {
 	$disabled = 'disabled = "true"';
 	$saveBtnAction = "showAccessDeniedMsg()";
@@ -122,15 +122,6 @@ if ($locRights['edit']) {
 
 		return true;
    }
-
-	/**
-	 * Clear all form fields in the project details form
-	 */
-	function clearAll() {
-		document.frmProject.cmbCustomerId.value='0';
-		document.frmProject.txtName.value='';
-		document.frmProject.txtDescription.value=''
-	}
 
 	/**
 	 * Go back to the project list page.

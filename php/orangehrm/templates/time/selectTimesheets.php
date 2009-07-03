@@ -20,7 +20,7 @@
  $_SESSION['moduleType'] = 'timeMod';
 require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
 require_once ROOT_PATH . '/plugins/PlugInFactory.php';
-// Check csv plugin available 
+// Check csv plugin available
 $PlugInObj = PlugInFactory::factory("CSVREPORT");
 if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
 	$csvExportRepotsPluginAvailable = true;
@@ -124,11 +124,11 @@ YAHOO.OrangeHRM.container.init();
 		   		foreach ($subList as $sub) {
 		    ?>
 		 	<option value="<?php echo $sub[0]; ?>" <?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'] && $_SESSION['cmbUserEmpID'] == $sub[0])?"selected":""; ?>><?php echo $sub[1]; ?></option>
-		   <?php 
-		   } 
+		   <?php
+		   }
 		   ?>
 		   </select>
-		  <?php  
+		  <?php
 		    }
     		}
 		   ?>			</td>
@@ -201,7 +201,7 @@ YAHOO.OrangeHRM.container.init();
 		  <td></td>
 		  <td></td>
   </tr>
-		
+
 	</tbody>
 	<tfoot>
 	  	<tr>
@@ -213,16 +213,16 @@ YAHOO.OrangeHRM.container.init();
 		</tr>
   	</tfoot>
 </table>
-<div class="formbuttons">                
-    <input type="submit" class="viewbutton" id="viewBtn" 
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<div class="formbuttons">
+    <input type="submit" class="viewbutton" id="viewBtn"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         value="<?php echo $lang_Common_View;?>" />
     <input type="button" class="clearbutton" onclick="formReset();"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-         value="<?php echo $lang_Common_Clear;?>" />
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+         value="<?php echo $lang_Common_Reset;?>" />
 <?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
     <input type="button" class="exportbutton" onclick="exportData(); return false;"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
          value="<?php echo $lang_DataExport_Export;?>" />
 
     <input type="image" name="btnExportData" alt="Export to CSV"
@@ -231,14 +231,14 @@ YAHOO.OrangeHRM.container.init();
        onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"
        onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" />
 <?php  } ?>
-                                  
+
 </div>
 </form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

@@ -135,13 +135,13 @@ $arrTaxStatus = array (EmpTax::TAX_STATUS_MARRIED => $lang_hrEmpMain_TaxStatusMa
 </table>
 
 <div class="formbuttons">
-    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditTax" 
-    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>" 
+    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditTax"
+    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
     	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editEmpMain(); return false;"/>
-	<input type="button" class="clearbutton" id="btnClearTax" onclick="reLoad();  return false;" tabindex="5"
+	<input type="reset" class="clearbutton" id="btnClearTax" tabindex="5"
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
-		 value="<?php echo $lang_Common_Clear;?>" />
-</div>	
+		value="<?php echo $lang_Common_Reset;?>" />
+</div>
 <?php } ?>

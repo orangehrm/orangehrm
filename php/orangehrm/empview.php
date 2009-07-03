@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,7 +26,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 	$sysConst = new sysConf();
 	$locRights = $_SESSION['localRights'];
-	
+
 	//$headingInfo =$this->popArr['headinginfo'];
 
     $currentPage = $this->popArr['currentPage'];
@@ -54,8 +54,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 	$GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
 	$GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
-	
-	function nextSortOrderInWords($sortOrder) {		
+
+	function nextSortOrderInWords($sortOrder) {
 		return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
 	}
 ?>
@@ -79,32 +79,32 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 		document.standardView.pageNO.value=i;
 		document.standardView.submit();
 	}
-	
+
 	function prevPage() {
 		var i=document.standardView.pageNO.value;
 		i--;
 		document.standardView.pageNO.value=i;
 		document.standardView.submit();
 	}
-	
+
 	function chgPage(pNO) {
 		document.standardView.pageNO.value=pNO;
 		document.standardView.submit();
 	}
-	
+
 	function sortAndSearch(sortField, sortOrder) {
 		var uri = "<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=" + sortField + "&sortOrder" + sortField + "=" + sortOrder;
 		document.standardView.action = uri;
 		document.standardView.submit();
 	}
-	
+
 <?php if($this->getArr['reqcode']=='EMP') { ?>
 	function returnAdd() {
 
 		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=addmode";
 
 	}
-	
+
 	function returnDelete() {
 		$check = 0;
 		with (document.standardView) {
@@ -175,52 +175,52 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 			}
 		}
 	}
-	
+
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
 
 	parent.scrollTo(0, 0);
-//]]>	
+//]]>
 </script>
 </head>
 <body>
 <div class="outerbox">
 
 	<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']; ?>&amp;sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>">
-	
+
 		<div class="mainHeading"><h2><?php echo $headingInfo[0]?></h2></div>
 		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
 		<input type="hidden" name="delState" value="" />
 		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
 		<input type="hidden" name="empID" value="" />
 
-		
-		<?php 
-		if (isset($this->getArr['message'])) {	
+
+		<?php
+		if (isset($this->getArr['message'])) {
 			$expString  = $this->getArr['message'];
 			$messageType = CommonFunctions::getCssClassForMessage($expString);
 			$messageType = 'failure';
-		?>		
+		?>
 		<div class="messagebar">
 			<span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
 		</div>
 		<?php
 		}
 		?>
-					
+
 		<div class="searchbox">
 			<label for="loc_code"><?php echo $searchby?></label>
 			<select name="loc_code" id="loc_code">
 				<?php
 					 $optionCount = count($srchlist[0]);
-		
+
 					 /* Don't show the last option (search by supervisor) if user is a supervisor */
 					 if ($_SESSION['isSupervisor']) {
 						$optionCount--;
 					 }
-		
+
 					 for ($c = 0; $optionCount > $c; $c++) {
 						if (isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c]) {
 						   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
@@ -233,29 +233,29 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 			<label for="loc_name"><?php echo $description?></label>
 			<input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
 			<input type="button" class="plainbtn" onclick="returnSearch();"
-				onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"							 
-				value="<?php echo $lang_Common_Search;?>" />
-			<input type="button" class="plainbtn" onclick="clear_form();" 
 				onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-				 value="<?php echo $lang_Common_Clear;?>" />
+				value="<?php echo $lang_Common_Search;?>" />
+			<input type="button" class="plainbtn" onclick="clear_form();"
+				onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+				 value="<?php echo $lang_Common_Reset;?>" />
 			<br class="clear"/>
 		</div>
-			
+
 			<div class="actionbar">
 				<div class="actionbuttons">
 					<input type="button" class="plainbtn"
 					<?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
 						onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-						value="<?php echo $lang_Common_Add;?>" />			
-	
+						value="<?php echo $lang_Common_Add;?>" />
+
 					<?php if($this->getArr['reqcode']=='EMP') { ?>
 						<input type="button" class="plainbtn"
 						<?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
 							onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-							value="<?php echo $lang_Common_Delete;?>" />			
-	
+							value="<?php echo $lang_Common_Delete;?>" />
+
 					<?php } ?>
-				</div>				
+				</div>
 				<div class="noresultsbar"><?php echo (empty($emplist)) ? $norecorddisplay : '';?></div>
 				<div class="pagingbar">
 				<?php
@@ -263,15 +263,15 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 					$commonFunc = new CommonFunctions();
 					$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
 					$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-			
+
 					echo $pageStr;
-		
+
 					for ($j = 0; $j < 11; $j++) {
 						if (!isset($this->getArr['sortOrder'.$j])) {
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
-					}					
-				?>			
+					}
+				?>
 				</div>
 			<br class="clear" />
 			</div>
@@ -280,50 +280,50 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 					<thead>
 					<tr>
 						<td width="50">&nbsp;&nbsp;&nbsp;</td>
-						<?php $j = 0; 
-							  $sortOrder = $this->getArr['sortOrder' . $j]; 
-						?>						
+						<?php $j = 0;
+							  $sortOrder = $this->getArr['sortOrder' . $j];
+						?>
 						<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 								title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $employeeid; ?>
 							</a>
 						</td>
-						<?php $j = 7; 
-							  $sortOrder = $this->getArr['sortOrder' . $j]; 
-						?>						
+						<?php $j = 7;
+							  $sortOrder = $this->getArr['sortOrder' . $j];
+						?>
 						<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $employeename; ?> </a>
 						</td>
-						<?php $j = 6; 
-							  $sortOrder = $this->getArr['sortOrder' . $j]; 
-						?>						
+						<?php $j = 6;
+							  $sortOrder = $this->getArr['sortOrder' . $j];
+						?>
 						<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_JobTitle; ?></a>
 						</td>
-						<?php $j = 9; 
-							  $sortOrder = $this->getArr['sortOrder' . $j]; 
-						?>						
+						<?php $j = 9;
+							  $sortOrder = $this->getArr['sortOrder' . $j];
+						?>
 						<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_EmploymentStatus; ?></a>
 						</td>
 						<?php $j = 8;
-							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+							  $sortOrder = $this->getArr['sortOrder' . $j];
 						?>
 						<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_SubDivision; ?></a>
 						</td>
 						<?php
 							/* Show supervisor only for admin users, not for supervisors */
 							if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
 								$j = 10;
-								$sortOrder = $this->getArr['sortOrder' . $j]; 
+								$sortOrder = $this->getArr['sortOrder' . $j];
 						?>
 							<td scope="col">
-							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');"
 								title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_Supervisor; ?></a>
 							</td>
 						<?php
@@ -337,24 +337,24 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 						if ((isset($emplist)) && ($emplist !='')) {
 							$compStructObj = new CompStruct();
 							$compStructObj->buildAllWorkStations();
-							
+
 							for ($j=0; $j<count($emplist);$j++) {
 								$descField=$emplist[$j][1];
 								$subDivision = "-";
-								
+
 								if (isset($emplist[$j][3]) && !empty($emplist[$j][3])) {
 									$subDivision = $compStructObj->fetchHierarchString($emplist[$j][3]);
 								}
-								
+
 								if ($sysConst->viewDescLen <= strlen($descField)) {
 									$descField = substr($descField,0,$sysConst->viewDescLen);
 									$descField .= "....";
 								}
-								
-								$cssClass = ($j%2) ? 'even' : 'odd'; 
+
+								$cssClass = ($j%2) ? 'even' : 'odd';
 					?>
 								<tr class="<?php echo $cssClass;?>">
-								<?php								
+								<?php
 								if($_GET['reqcode']=='EMP') {
 					?>
 									<td ><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>" /></td>
@@ -362,7 +362,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 									<td ></td>
 								<?php } ?>
 									<td ><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
-									
+
 									<td ><a target="_parent" href="../../index.php?menu_no_top=hr&amp;id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>"
 									 ><?php echo $descField?></a> </td>
 									<td ><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
@@ -380,14 +380,14 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 						<?php }
 					  }
 					?>
-					</tbody>					
+					</tbody>
 				</table>
 	</form>
 </div>
 <script type="text/javascript">
     <!--
     	if (document.getElementById && document.createElement) {
- 			roundBorder('outerbox');   	 			
+ 			roundBorder('outerbox');
 		}
     -->
 </script>

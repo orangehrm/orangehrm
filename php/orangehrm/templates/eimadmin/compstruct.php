@@ -130,6 +130,7 @@
         <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
         var allChildDepIds= new Array();
         var allChildIds = new Array();
+		var currentEditNodeValues = ['', '', '', '', ''];
 
 <?php if ($treeHierarchy) { ?>
 <?php
@@ -143,6 +144,14 @@
     }
 ?>
 <?php } ?>
+
+	function resetAddNodeForm() {
+		$('frmAddNode').reset();
+		if (currentEditNodeValues[1] != '') {
+			edit(currentEditNodeValues[0], currentEditNodeValues[1], currentEditNodeValues[2], currentEditNodeValues[3], currentEditNodeValues[4]);
+		}
+	}
+
     //]]>
     </script>
 
@@ -294,7 +303,7 @@
             <input type="button" class="savebutton"
                 onclick="validate();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="document.getElementById('frmAddNode').reset();"
+            <input type="button" class="clearbutton" onclick="resetAddNodeForm();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Reset;?>" />
 			<input type="button" class="savebutton" onclick="frmAddHide();" value="<?php echo $lang_compstruct_hide;?>" />

@@ -123,6 +123,7 @@
 	}
 
 	function addChild(rgtz, txt, parnt) {
+		currentEditNodeValues = ['', '', '', '', ''];
 		document.frmAddNode.reset();
 		document.getElementById("cmbLocation").selectedIndex = 0;
 		document.getElementById("cmbType").selectedIndex = 0;
@@ -134,6 +135,7 @@
 	}
 
 	function edit(deptid, id, txt, desc, loc){
+		currentEditNodeValues = [deptid, id, txt, desc, loc];
 	<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 		var words = txt.split(" ");
 		var found =false;

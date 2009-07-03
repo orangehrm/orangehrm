@@ -277,7 +277,7 @@ function prepCPW() {
             value="<?php echo $lang_Common_Edit;?>" />
         <input type="button" class="clearbutton" onclick="clearAll();"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-             value="<?php echo $lang_Common_Clear;?>" />
+             value="<?php echo $lang_Common_Reset;?>" />
     </div>
 
 </form>

@@ -28,9 +28,9 @@ $headingInfo=$this->popArr['headinginfo'];
 $currentPage = $this->popArr['currentPage'];
 $message= $this->popArr['message'];
 $themeDir = '../../themes/' . $styleSheet;
-// Check csv plugin available 
+// Check csv plugin available
 $PlugInObj = PlugInFactory::factory("CSVREPORT");
- 
+
 if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
 	$csvExportRepotsPluginAvailable = true;
 }
@@ -44,7 +44,7 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 	$currentPage = $this->popArr['currentPage'];
 
 	$message= $this->popArr['message'];
-	
+
 
 	$themeDir = '../../themes/' . $styleSheet;
 ?>
@@ -114,7 +114,7 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 
 		document.standardView.captureState.value = 'SearchMode';
 		document.standardView.pageNO.value=1;
-        document.standardView.submit();		
+        document.standardView.submit();
 	}
 
 	function doHandleAll()
@@ -155,12 +155,12 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
-	
+
 	function exportData(repcode) {
 		var url = "../../plugins/csv/CSVController.php?uniqcode=CSE&download=1&path=<?php echo addslashes(ROOT_PATH) ?>&moduleType=<?php echo  $_SESSION['moduleType'] ?>&repcode=" +  repcode + "&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
 	  window.location = url;
 	}
-//]]>    
+//]]>
 </script>
 </head>
 <body>
@@ -171,59 +171,59 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
     <input type="hidden" name="delState" value=""/>
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>"/>
 
-    <?php 
-    if (isset($this->getArr['message'])) {  
+    <?php
+    if (isset($this->getArr['message'])) {
         $expString  = $this->getArr['message'];
         $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
-    ?>      
+    ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
     </div>
     <?php
     }
     ?>
-    
+
     <div class="searchbox">
         <label for="loc_code"><?php echo $searchby?></label>
         <select name="loc_code" id="loc_code">
             <?php
-            $optionCount = count($srchlist[0]); 
+            $optionCount = count($srchlist[0]);
             for ($c = 0; $optionCount > $c; $c++) {
                 $selected = "";
                 if (isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $srchlist[0][$c]) {
                     $selected = 'selected="selected"';
                 }
-                echo "<option $selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";                
+                echo "<option $selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
             }
             ?>
         </select>
-        
+
         <label for="loc_name"><?php echo $searchfor; ?></label>
         <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
         <input type="button" class="plainbtn" onclick="returnSearch();"
-            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
-            value="<?php echo $lang_Common_Search;?>" />
-        <input type="button" class="plainbtn" onclick="clear_form();" 
             onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-             value="<?php echo $lang_Common_Clear;?>" />
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Reset;?>" />
         <br class="clear"/>
     </div>
-        
+
     <div class="actionbar">
         <div class="actionbuttons">
         <?php if($locRights['add'] && $headingInfo[2] == 1) { ?>
             <input type="button" class="plainbtn" onclick="returnAdd();"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-                value="<?php echo $lang_Common_Add;?>" />          
-            <?php 
-              } 
-              if ($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') {                
+                value="<?php echo $lang_Common_Add;?>" />
+            <?php
+              }
+              if ($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') {
             ?>
                 <input type="button" class="plainbtn" onclick="returnDelete();"
                     onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                     value="<?php echo $lang_Common_Delete;?>" />
         <?php  } ?>
-        </div>              
+        </div>
         <div class="noresultsbar"><?php echo (empty($message)) ? $norecorddisplay : '';?></div>
         <div class="pagingbar">
         <?php
@@ -231,21 +231,21 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
             $commonFunc = new CommonFunctions();
             $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
             $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-    
+
             echo $pageStr;
 
             for ($j = 0; $j < 11; $j++) {
                 if (!isset($this->getArr['sortOrder'.$j])) {
                     $this->getArr['sortOrder'.$j] = 'null';
                 }
-            }                   
-        ?>          
+            }
+        ?>
         </div>
     <br class="clear" />
     </div>
-		
+
     <table cellpadding="0" cellspacing="0" class="data-table">
-        <thead>        
+        <thead>
 			<tr>
 				<td width="50">
 				<?php if($headingInfo[2]==1) { ?>
@@ -260,16 +260,16 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
         <tbody>
 		<?php
 		if ((isset($message)) && ($message !='')) {
-		
+
 			for ($j = 0; $j < count($message); $j++) {
-			
+
 				$descField=$message[$j][1];
-			
+
 				if($sysConst->viewDescLen <= strlen($descField)) {
 					$descField = substr($descField,0,$sysConst->viewDescLen);
 					$descField .= "....";
 				}
-				
+
 				$cssClass = ($j%2) ? 'even' : 'odd';
 		?>
 				<tr>
@@ -281,21 +281,21 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 					<?php } ?>
 					</td>
 					<td class="<?php echo $cssClass; ?>">
-						<a href="./CentralController.php?id=<?php echo $message[$j][0]?>&amp;repcode=<?php echo $this->getArr['repcode']?>&amp;capturemode=updatemode" 
+						<a href="./CentralController.php?id=<?php echo $message[$j][0]?>&amp;repcode=<?php echo $this->getArr['repcode']?>&amp;capturemode=updatemode"
 							class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
                     </td>
 					<td class="<?php echo $cssClass; ?>"><?php echo $descField?></td>
 				    <td class="<?php echo $cssClass; ?>">
                     <?php if(trim($_GET['repcode'])  == 'EMPVIEW' && isset($csvExportRepotsPluginAvailable))  { ?>
                         <input type="button" class="button" id="btnExport" value="<?php echo $lang_DataExport_Export;?>"
-	        	              title="<?php echo $lang_DataExport_Export?>" name="btnExport" 
+	        	              title="<?php echo $lang_DataExport_Export?>" name="btnExport"
                               onclick="exportData('<?php echo $message[$j][0]?>')" />
 				    <?php } ?>
 				    </td>
 				</tr>
-		<?php 
+		<?php
 			}
-		} 
+		}
 		?>
         </tbody>
 		</table>
@@ -304,7 +304,7 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

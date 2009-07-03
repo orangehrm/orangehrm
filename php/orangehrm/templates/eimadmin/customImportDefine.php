@@ -56,7 +56,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
     var origAssignedFields = new Array();
 <?php
 	foreach($assignedFields as $field) {
-        $escapedField = addslashes($field);        
+        $escapedField = addslashes($field);
 	   	print "\torigAssignedFields.push(\"{$escapedField}\");\n";
 	}
 ?>
@@ -66,7 +66,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 	if($customImportList) {
 	   	foreach($customImportList as $import) {
 	   		if (empty($id) || ($id != $import->getId())) {
-                $escapedName = addslashes($import->getName());                
+                $escapedName = addslashes($import->getName());
 	   			print "\tnames.push(\"{$escapedName}\");\n";
 	   		}
 	   	}
@@ -76,7 +76,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
     var compulsaryFields = new Array();
 <?php
 	foreach($compulsaryFields as $field) {
-        $escapedField = addslashes($field);                
+        $escapedField = addslashes($field);
 	   	print "\tcompulsaryFields.push(\"{$escapedField}\");\n";
 	}
 ?>
@@ -164,7 +164,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 		}
 	}
 
-	function reset() {
+	function resetForm() {
 		$('txtFieldName').value = origName;
 
 		var assignedFields = $('cmbAssignedFields');
@@ -281,7 +281,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_DataImport_DefineCustomField_Heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -289,31 +289,31 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-        
+
   <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>" onsubmit="return <?php echo $btnAction; ?>;">
         <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
-            <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" 
+            <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>"
                 onkeyup="checkName();" class="formInputText"/>
             <div id="messageCell" class="error" style="display:block; float: left; margin:10px;">&nbsp;</div>
 			<br class="clear"/>
 			<label for="containsHeader"><?php echo $lang_DataImport_ContainsHeader; ?></label>
-            <input type="checkbox" id="containsHeader" name="containsHeader" tabindex="3" 
+            <input type="checkbox" id="containsHeader" name="containsHeader" tabindex="3"
                 <?php echo ($hasHeading)? 'checked="checked"':"";?> class="formCheckbox"/>
             <div style="display:block; font-style: italic; float: left; margin:10px;">(<?php echo $lang_DataImport_ContainsHeaderDescription;?>)</div>
 			<br class="clear"/>
-             <div class="formbuttons">               
-                <input type="button" class="savebutton" id="saveBtn" onclick="<?php echo $btnAction; ?>;" 
-                    tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+             <div class="formbuttons">
+                <input type="button" class="savebutton" id="saveBtn" onclick="<?php echo $btnAction; ?>;"
+                    tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
-                <input type="button" class="clearbutton" onclick="reset();" tabindex="5"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                <input type="button" class="clearbutton" onclick="resetForm();" tabindex="5"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                      value="<?php echo $lang_Common_Reset;?>" />
             </div>
-                        
+
 	<table border="0">
 		<tr>
 		   	<th width="100" style="align:center;"><?php echo $lang_DataImport_AvailableFields; ?></th>
@@ -330,9 +330,9 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 				?>
 			</select></td>
 			<td align="center" width="100">
-				<input type="button" name="btnAssignField" id="btnAssignField" onclick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> &gt;" 
+				<input type="button" name="btnAssignField" id="btnAssignField" onclick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> &gt;"
                     class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/><br /><br />
-				<input type="button" name="btnRemoveField" id="btnRemoveField" onclick="removeFields();" value="&lt; <?php echo $lang_DataImport_Remove; ?>" 
+				<input type="button" name="btnRemoveField" id="btnRemoveField" onclick="removeFields();" value="&lt; <?php echo $lang_DataImport_Remove; ?>"
                     class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/>
 			</td>
 			<td>
@@ -362,12 +362,12 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>
 
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-</div>    
+</div>
 </body>
 </html>

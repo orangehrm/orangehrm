@@ -54,9 +54,9 @@ $GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
 $GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
 
 function nextSortOrderInWords($sortOrder) {
-    return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
+    return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
 }
-    
+
 function getSortOrderInWords($SortOrder) {
 	if ($SortOrder == 'ASC') {
 		return 'Ascending';
@@ -243,7 +243,7 @@ for ($i = 0; $i < count($valueMap); $i++) {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
-//]]>     
+//]]>
 </script>
 </head>
 <body>
@@ -253,57 +253,57 @@ for ($i = 0; $i < count($valueMap); $i++) {
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
 
-    <?php 
-    if (isset($this->getArr['message'])) {  
+    <?php
+    if (isset($this->getArr['message'])) {
         $expString  = $this->getArr['message'];
         $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
-    ?>      
+    ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
     </div>
     <?php
     }
     ?>
-    
+
     <div class="searchbox">
         <label for="loc_code"><?php echo $searchby?></label>
         <select name="loc_code" id="loc_code">
             <?php
-            $optionCount = count($srchlist); 
+            $optionCount = count($srchlist);
             for ($c = -1; $optionCount - 1 > $c; $c++) {
                 $selected = "";
                 if(isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $c) {
                     $selected = 'selected="selected"';
                 }
-                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";                
+                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
             }
             ?>
         </select>
-        
+
         <label for="loc_name"><?php echo $description?></label>
         <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo $searchStr;?>" />
         <input type="button" class="plainbtn" onclick="returnSearch();"
-            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
-            value="<?php echo $lang_Common_Search;?>" />
-        <input type="button" class="plainbtn" onclick="clear_form();" 
             onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-             value="<?php echo $lang_Common_Clear;?>" />
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Reset;?>" />
         <br class="clear"/>
     </div>
-    
+
     <div class="actionbar">
         <div class="actionbuttons">
         <?php if ($allowAdd) { ?>
             <input type="button" class="plainbtn" onclick="returnAdd();"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-                value="<?php echo $lang_Common_Add;?>" />          
+                value="<?php echo $lang_Common_Add;?>" />
         <?php   } ?>
             <?php if ($allowDelete) { ?>
                 <input type="button" class="plainbtn" onclick="returnDelete();"
                     onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                     value="<?php echo $lang_Common_Delete;?>" />
-        <?php   } ?>                    
-        </div>              
+        <?php   } ?>
+        </div>
         <div class="noresultsbar"><?php echo (empty($list)) ? $norecorddisplay : '';?></div>
         <div class="pagingbar">
         <?php
@@ -311,20 +311,20 @@ for ($i = 0; $i < count($valueMap); $i++) {
             $commonFunc = new CommonFunctions();
             $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
             $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-    
+
             echo $pageStr;
 
             /*for ($j = 0; $j < 11; $j++) {
                 if (!isset($this->getArr['sortOrder'.$j])) {
                     $this->getArr['sortOrder'.$j] = 'null';
                 }
-            } */                  
-        ?>          
+            } */
+        ?>
         </div>
     <br class="clear" />
-    </div>    
+    </div>
 
-    <br class="clear" />                               
+    <br class="clear" />
     <table cellpadding="0" cellspacing="0" class="data-table">
         <thead>
         <tr>
@@ -361,7 +361,7 @@ for ($i = 0; $i < count($valueMap); $i++) {
 				if ((isset($list)) && ($list !='')) {
 					for ($j=0; $j < count($list);$j++) {
 						$cssClass = ($j%2) ? 'even' : 'odd';
-                        $detailsUrl = $baseURL . '&amp;id='. $list[$j][0] . '&amp;action=View';                        
+                        $detailsUrl = $baseURL . '&amp;id='. $list[$j][0] . '&amp;action=View';
 			?>
 						<tr>
 							<td class="<?php echo $cssClass?>">
@@ -383,11 +383,11 @@ for ($i = 0; $i < count($valueMap); $i++) {
 								$descField = getDisplayValue($list[$j][$k], $valueMap[$k], $maxDispLen);
 						?>
 							<td class="<?php echo $cssClass?>">
-                            <?php if ($k == 1) { 
+                            <?php if ($k == 1) {
                                       echo "<a href='{$detailsUrl}'>{$descField}</a>";
                                   } else {
                                       echo $descField;
-                                  } ?>                                                          
+                                  } ?>
                             </td>
 						<?php } ?>
 						</tr>
@@ -402,7 +402,7 @@ for ($i = 0; $i < count($valueMap); $i++) {
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

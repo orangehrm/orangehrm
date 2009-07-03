@@ -501,9 +501,9 @@ if ($locRights['add']) {
     	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editEmpMain(); return false;"/>
-	<input type="button" class="clearbutton" id="btnClearJob" onclick="reLoad();  return false;" tabindex="5"
-		onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
-		 value="<?php echo $lang_Common_Clear;?>" />
+	<input type="reset" class="clearbutton" id="btnClearJob" tabindex="5"
+		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		disabled="disabled" value="<?php echo $lang_Common_Reset;?>" />
 	<a href="javascript:toggleEmployeeContracts();" id="toggleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a>
 	<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>
 

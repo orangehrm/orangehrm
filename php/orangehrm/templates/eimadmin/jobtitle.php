@@ -697,7 +697,7 @@ return $objResponse->getXML();
 
             <input type="button" class="clearbutton" onclick="$('frmJobTitle').reset();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                 value="<?php echo $lang_Common_Clear;?>" />
+                 value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
         </div>
 

@@ -161,7 +161,7 @@ $tabIndex = 1;
             value="<?php echo $lang_Common_Save;?>" />
         <input type="button" class="clearbutton" onclick="resetFields();" tabindex="<?php echo $tabIndex++;?>"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-             value="<?php echo $lang_Common_Clear;?>" />
+             value="<?php echo $lang_Common_Reset;?>" />
     </div>
 
 	</form>

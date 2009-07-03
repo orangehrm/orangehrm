@@ -228,8 +228,8 @@ if ($modifier === "ADMIN") {
     <td>
     <input type="button" class="clearbutton" onclick="resetSearchForm();return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-         title="<?php echo $lang_Common_Clear;?>"
-         value="<?php echo $lang_Common_Clear;?>" />
+         title="<?php echo $lang_Common_Reset;?>"
+         value="<?php echo $lang_Common_Reset;?>" />
 
 	</td>
 	<td></td>
