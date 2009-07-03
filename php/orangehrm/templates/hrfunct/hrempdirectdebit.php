@@ -178,13 +178,14 @@ if (isset ($this->getArr['DDSEQ'])) {
 		  </tr>
 		</table>
 <?php	if($locRights['edit']) { ?>
-<div class="formbuttons">	
-    <input type="button" class="savebutton" name="btnEditDirectDebit" id="btnEditDirectDebit" 
-    	value="<?php echo $lang_Common_Save;?>" 
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditDirectDebit" id="btnEditDirectDebit"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="editDirectDebit(); return false;"/>    	
-</div>	
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="editDirectDebit(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 <?php	} ?>
 
 	</div>
@@ -247,14 +248,15 @@ if (isset ($this->getArr['DDSEQ'])) {
 		</table>
 <?php	if($locRights['add']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddDirectDebit" id="btnAddDirectDebit" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddDirectDebit" id="btnAddDirectDebit"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addDirectDebit(); return false;"/>    	
-</div>		
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addDirectDebit(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
  <?php	} ?>
-		
+
 	</div>
 <?php } ?>
 <div id="tableDirectDebit">
@@ -265,23 +267,23 @@ if (isset ($this->getArr['DDSEQ'])) {
 	if (!empty($rset)) {
 ?>
 	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_DirectDebitAssigned; ?></h3></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if ($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('DirectDebit');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if ($locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delDirectDebit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-			
+		</div>
+
 		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
 			<tr>
@@ -292,14 +294,14 @@ if (isset ($this->getArr['DDSEQ'])) {
 				<td><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
 				<td><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
 			</tr>
-		</thead>				
-		<tbody>		
+		</thead>
+		<tbody>
 <?php
 
 		$row = 0;
 		foreach ($rset as $ddinfo) {
 			$cssClass = ($row%2) ? 'even' : 'odd';
-			$row++; 			
+			$row++;
         	echo '<tr class="' . $cssClass . '">';
 			echo "<td><input type='checkbox' class='checkbox' name='chkdebitdel[]' value='" . $ddinfo->getDDSeqNo() . "'/></td>";
 			if ($ddinfo->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_CHECKING) {

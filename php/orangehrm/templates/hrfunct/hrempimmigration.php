@@ -163,13 +163,14 @@ function editPassport() {
 		</table>
 <?php	if($locRights['edit']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditPassport" id="btnEditPassport" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditPassport" id="btnEditPassport"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editPassport(); return false;"/>
-</div>		
-<?php } ?>		
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+<?php } ?>
 	</div>
 	<?php } else { ?>
 	<div id="addPaneImmigration" class="<?php echo ($this->popArr['empPPAss'] != null)?"addPane":""; ?>" >
@@ -217,12 +218,13 @@ function editPassport() {
 		</table>
 <?php	if($locRights['add']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddPassport" id="btnAddPassport" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddPassport" id="btnAddPassport"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="addPassport(); return false;"/>
-</div>		
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 <?php	} ?>
 	</div>
 <?php } ?>
@@ -231,27 +233,27 @@ function editPassport() {
 $rset = $this->popArr['empPPAss'];
 if ($rset != null){?>
 	<div class="subHeading"><h3><?php echo $lang_hremp_AssignedPassportVisas; ?></h3></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('Immigration');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 	<?php	if($locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delPassport();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>					
-	
-	
+		</div>
+
+
 	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
-			<tr>		
+			<tr>
             	<td></td>
 				<td><?php echo "$lang_hremp_passport/$lang_hremp_visa"; ?></td>
 				<td><?php echo $lang_hremp_passvisano?></td>
@@ -259,11 +261,11 @@ if ($rset != null){?>
 				<td><?php echo $lang_hremp_issueddate; ?></td>
 				<td><?php echo $lang_hremp_dateofexp; ?></td>
 			</tr>
-		</thead>				
+		</thead>
 		<tbody>
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
-		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+		$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkpassportdel[]' value='" . $rset[$c][1] ."'/></td>";
 			if($rset[$c][6]==1)

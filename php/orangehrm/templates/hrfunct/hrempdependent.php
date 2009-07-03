@@ -45,7 +45,7 @@ function validateDependants() {
 		document.frmEmp.txtDepName.focus();
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -89,7 +89,7 @@ function editDependent() {
 		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td>
-                	<?php echo $lang_hremp_name; ?> <span class="error">*</span> 
+                	<?php echo $lang_hremp_name; ?> <span class="error">*</span>
                 	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" />
                 </td>
                 <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"/></td>
@@ -101,12 +101,13 @@ function editDependent() {
 		</table>
 <?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
-	    <input type="button" class="savebutton" name="btnEditDependent" id="btnEditDependent" 
-	    	value="<?php echo $lang_Common_Save;?>" 
+	    <input type="button" class="savebutton" name="btnEditDependent" id="btnEditDependent"
+	    	value="<?php echo $lang_Common_Save;?>"
 	    	title="<?php echo $lang_Common_Save;?>"
-	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="editDependent(); return false;"/>
-	</div>		
+	    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+	</div>
 <?php	} ?>
 	</div>
 	<?php } else { ?>
@@ -124,13 +125,14 @@ function editDependent() {
 		</table>
 <?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
-	    <input type="button" class="savebutton" name="btnAddDependent" id="btnAddDependent" 
-	    	value="<?php echo $lang_Common_Save;?>" 
+	    <input type="button" class="savebutton" name="btnAddDependent" id="btnAddDependent"
+	    	value="<?php echo $lang_Common_Save;?>"
 	    	title="<?php echo $lang_Common_Save;?>"
-	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="addDependent(); return false;"/>
-	</div>		
-<?php	} ?>		
+	    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+	</div>
+<?php	} ?>
 	</div>
 <?php } ?>
 <?php
@@ -138,37 +140,37 @@ function editDependent() {
 $rset = $this->popArr['empDepAss'];
 if ($rset != null) { ?>
 	<div class="subHeading"><h3><?php echo $lang_hremp_AssignedDependents; ?></h3></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 	<?php if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('Dependents');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 	<?php	if($locRights['delete'] || ($_GET['reqcode'] === "ESS")) { ?>
 					<input type="button" class="delbutton"
 						onclick="delDependent();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
 		</div>
-	
-	
+
+
 	<table style="width:100%;" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
-			<tr>		
+			<tr>
                 <td></td>
 				<td><?php echo $lang_hremp_name; ?></td>
 				<td><?php echo $lang_hremp_relationship; ?></td>
 			</tr>
-		</thead>				
-		<tbody>			
+		</thead>
+		<tbody>
 <?php
     for($c=0;$rset && $c < count($rset); $c++)
         {
-		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+		$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkdepdel[]' value='" . $rset[$c][1] ."'/></td>";
 

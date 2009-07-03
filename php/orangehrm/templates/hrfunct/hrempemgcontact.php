@@ -133,16 +133,17 @@ function editEContact() {
 			 <td><input type="text" name="txtEConWorkTel" value="<?php echo $edit[0][6]?>"/></td>
 			 </tr>
 		</table>
-<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>		
+<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditEContact" id="btnEditEContact" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditEContact" id="btnEditEContact"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="editEContact(); return false;"/>    	
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="editEContact(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
 </div>
-<?php	} ?>			
-		
+<?php	} ?>
+
 	</div>
 <?php  } else { ?>
 	<div id="addPaneEmgContact" class="<?php echo ($this->popArr['empECAss'] != null)?"addPane":""; ?>" >
@@ -167,42 +168,43 @@ function editEContact() {
 			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 		</table>
-<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>		
+<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddEContact" id="btnAddEContact" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddEContact" id="btnAddEContact"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEContact(); return false;"/>    	
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEContact(); return false;" />
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
 </div>
-<?php	} ?>			
+<?php	} ?>
 	</div>
 <?php } ?>
 <?php
 $rset = $this->popArr['empECAss'];
 		if (!empty($rset)) {  ?>
-		<div class="subHeading"><h3><?php echo $lang_hremp_AssignedEmergencyContacts;?></h3></div>			
-		
+		<div class="subHeading"><h3><?php echo $lang_hremp_AssignedEmergencyContacts;?></h3></div>
+
 			<div class="actionbar">
 				<div class="actionbuttons">
-				
-		
+
+
 		<?php if($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('EmgContact');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 		<?php } ?>
 		<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
 					<input type="button" class="delbutton"
 						onclick="delEContact();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 		<?php 	} ?>
 			</div>
-		</div>					
+		</div>
 		<table width="550" cellspacing="0" cellpadding="0" class="data-table">
 			<thead>
-				<tr>		
+				<tr>
 	                <td width="50">&nbsp;</td>
 					<td><?php echo $lang_hremp_name; ?></td>
 					<td><?php echo $lang_hremp_relationship; ?></td>
@@ -210,11 +212,11 @@ $rset = $this->popArr['empECAss'];
 					<td><?php echo $lang_hremp_mobile; ?></td>
 					<td><?php echo $lang_hremp_worktele; ?></td>
 				</tr>
-			</thead>				
+			</thead>
 			<tbody>
 <?php
 		for ($c=0; $c < count($rset); $c++) {
-			$cssClass = ($c%2) ? 'even' : 'odd'; 			
+			$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $rset[$c][1] ."'/></td>";
 

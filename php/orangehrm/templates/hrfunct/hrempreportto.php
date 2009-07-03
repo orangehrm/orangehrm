@@ -287,15 +287,16 @@ function viewSup(sup,rep) {
 						</td>
 					  </tr>
                  </table>
-<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>                 
+<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddRepTo" id="btnAddRepTo" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddRepTo" id="btnAddRepTo"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTReportTo(); return false;"/>    	
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTReportTo(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
 </div>
-<?php	} ?>		                 
+<?php	} ?>
       </div>
 <?php } ?>
 <?php if (($this->popArr['suprset'] != null) || ($this->popArr['subrset'] != null)) { ?>
@@ -314,23 +315,23 @@ if ($rset != null && $empname != null){ ?>
 <td class="leftList">
 	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3></div>
 	<div><?php echo $lang_hremp_ie_CurrentSupervisors; ?></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if (!$supervisorEMPMode && $locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('ReportTo');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delSupEXTReportTo();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-			
+		</div>
+
 		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
 			<tr>
@@ -339,14 +340,14 @@ if ($rset != null && $empname != null){ ?>
 				 <td><?php echo $lang_hrEmpMain_ReportToName?></td>
 				 <td><?php echo $lang_hrEmpMain_reportingmethod?></td>
 			</tr>
-		</thead>				
-		<tbody>	
-			
+		</thead>
+		<tbody>
+
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';  
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
 	    	if ($_SESSION['isAdmin'] == 'No') {
 	    		echo "<td>";
                echo "</td>";
@@ -380,23 +381,23 @@ if ($rset != null && $empname != null){ ?>
 <td class="rightList">
 	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3></div>
 	<div><?php echo $lang_hremp_ie_CurrentSubordinates; ?></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if($locRights['add'] && $_SESSION['isAdmin'] == 'Yes') { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('ReportTo');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delSubEXTReportTo();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-			
+		</div>
+
 		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
 			<tr>
@@ -405,14 +406,14 @@ if ($rset != null && $empname != null){ ?>
 				 <td><?php echo $lang_hrEmpMain_ReportToName?></td>
 				 <td><?php echo $lang_hrEmpMain_reportingmethod?></td>
 			</tr>
-		</thead>				
-		<tbody>		
+		</thead>
+		<tbody>
 
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';  
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
 	    	if ($_SESSION['isAdmin'] == 'No') {
 	    		echo "<td>";
                echo "</td>";

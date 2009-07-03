@@ -104,8 +104,7 @@ function viewPayment(pay,curr) {
 	document.frmEmp.action = document.frmEmp.action + "&PAY=" + pay + "&CUR=" + curr;
 	document.frmEmp.pane.value = 14;
 	document.frmEmp.submit();
-}
-//--><!]]></script>
+}uu/--><!]]></script>
 <?php
 $supervisorEMPMode = false;
 if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
@@ -212,6 +211,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     	title="<?php echo $lang_Common_Save;?>"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editEXTPayment(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
 </div>
 <?php			}  ?>
        </div>
@@ -315,6 +315,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     	title="<?php echo $lang_Common_Save;?>"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="addEXTPayment(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"/>
 </div>
 <?php	} ?>
 	</div>

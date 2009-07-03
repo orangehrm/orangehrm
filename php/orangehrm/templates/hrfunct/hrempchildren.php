@@ -91,14 +91,15 @@ function editChildren() {
                 	<input type="button" class="calendarBtn" value="   " /></td>
                </tr>
 		</table>
-<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>		
+<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditChildren" id="btnEditChildren" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditChildren" id="btnEditChildren"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="editChildren(); return false;"/>
-</div>		
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 <?php	} ?>
 	</div>
 <?php } else { ?>
@@ -115,53 +116,54 @@ function editChildren() {
 					<input type="button" class="calendarBtn" value="   " /></td>
             </tr>
 		</table>
-<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>		
+<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddChildren" id="btnAddChildren" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddChildren" id="btnAddChildren"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="addChildren(); return false;"/>
-</div>		
-<?php	} ?>		
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+<?php	} ?>
 	</div>
 <?php } ?>
 <?php
 //checking for the records if exsists show the children table and the delete btn else hide
 	$rset = $this->popArr['empChiAss'];
-	if ($rset != null) {?>		
+	if ($rset != null) {?>
 	<div class="subHeading"><h3><?php echo $lang_hremp_AssignedChildren; ?></h3></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 	<?php if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('Children');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 	<?php	if($locRights['delete'] || ($_GET['reqcode'] === "ESS")) { ?>
 					<input type="button" class="delbutton"
 						onclick="delChildren();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-	
+		</div>
+
 	<table style="width:100%;" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
-			<tr>		
+			<tr>
                 <td></td>
 				<td><?php echo $lang_hremp_name; ?></td>
 				<td><?php echo $lang_hremp_dateofbirth; ?></td>
 			</tr>
-		</thead>				
-		<tbody>			
-				
+		</thead>
+		<tbody>
+
 	<?php
     for($c=0;$rset && $c < count($rset); $c++)
         {
-		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+		$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkchidel[]' value='" . $rset[$c][1] ."'/></td>";
 
