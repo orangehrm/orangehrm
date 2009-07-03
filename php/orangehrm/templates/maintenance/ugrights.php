@@ -39,7 +39,7 @@ function addEXT()
 {
 
 if(document.frmURights.cmbModuleID.value=='0') {
-	alert("<?php echo $lang_Admin_Users_Errors_FieldShouldBeSelected; ?>");
+	alert("<?php echo $lang_Admin_Users_Errors_ModuleShouldBeSelected; ?>");
 	document.frmURights.cmbModuleID.focus();
 	return;
 }

@@ -1303,6 +1303,7 @@
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
+	$lang_Admin_Users_Errors_ModuleShouldBeSelected = "Please select a module to assign the rights";
 	$lang_Admin_Users_Errors_ViewShouldBeSelected = "View should be selected";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Users_Errors_SpecialCharacters = "The username should not contain special characters";
