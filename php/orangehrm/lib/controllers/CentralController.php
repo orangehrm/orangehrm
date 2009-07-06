@@ -1671,7 +1671,11 @@ switch ($moduletype) {
 																					break;
 													case 'Edit_Timesheet'		:	$objs = $timeEventExtractor->parseEditData($_POST);
 																					$timeController->setObjTime($objs);
-																					$timeController->editTimesheet($_POST['nextAction']);
+																					if ($timeEventExtractor->getDetailedDuplicate()) {
+																						$timeController->editTimesheet($_POST['nextAction'], true);
+																					} else {
+																						$timeController->editTimesheet($_POST['nextAction']);
+																					}
 																					break;
 													case 'Delete_Timesheet'		:	$objs = $timeEventExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);

@@ -24,12 +24,20 @@ require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 class EXTRACTOR_TimeEvent {
 
+	private $detailedDuplicate = false;
+
+	public function getDetailedDuplicate() {
+		return $this->detailedDuplicate;
+	}
+
 	public function __construct() {
 		//nothing to do
 	}
 
 	public function parseEditData($postArr) {
+
 		$tmpArr = null;
+		$duplicateArr = array();
 
 		for ($i=0; $i<count($postArr['cmbActivity']); $i++) {
 				$tmpObj = new TimeEvent();
@@ -62,6 +70,19 @@ class EXTRACTOR_TimeEvent {
 				$tmpObj->setTimesheetId(trim($postArr['txtTimesheetId']));
 
 				$tmpArr[] = $tmpObj;
+
+				/* Checking duplicate rows: Begins */
+
+				$row = $postArr['cmbProject'][$i].'-'.$postArr['cmbActivity'][$i].'-'.$postArr['txtReportedDate'][$i];
+
+				if (!in_array($row, $duplicateArr) && !$this->detailedDuplicate) {
+					$duplicateArr[] = $row;
+				} else {
+					$this->detailedDuplicate = true;
+				}
+
+				/* Checking duplicate rows: Ends */
+
 		}
 
 		return $tmpArr;
@@ -162,69 +183,69 @@ class EXTRACTOR_TimeEvent {
 
 		return array($tmpObj, $fromDate, $toDate, $pageNo);
 	}
-	
+
 	public function parseEditTimegrid($postArr) {
-	 
+
 		$gridCount = $postArr['hdnGridCount'];
 		$datesCount = $postArr['hdnDatesCount'];
 		$employeeId = $postArr['txtEmployeeId'];
 		$timesheetId = $postArr['txtTimesheetId'];
 		$updateList = array();
 		$addList = array();
-		 
+
 		for ($i=0; $i<$gridCount; $i++) {
-		     
+
 		    for ($j=0; $j<$datesCount; $j++) {
-		         
+
 		        if (isset($postArr["hdnTimeEventId-$i-$j"]) ) { // An exsiting time event
 
 			        if (($postArr["txtDuration-$i-$j"] != $postArr["hdnDuration-$i-$j"]) ||
-			        	($postArr["cmbProject-$i"] != $postArr["hdnProject-$i"]) || 
+			        	($postArr["cmbProject-$i"] != $postArr["hdnProject-$i"]) ||
 			        	($postArr["cmbActivity-$i"] != $postArr["hdnActivity-$i"])) {
 			        // If there is no change from previous value, no need to update the time event
 			        // This check can only be done if $postArr["hdnTimeEventId-$i-$j"] is set
-			         
+
 			        	$timeEvent = new TimeEvent();
-			         	
+
 			         	$timeEvent->setTimeEventId($postArr["hdnTimeEventId-$i-$j"]);
 			         	$timeEvent->setEmployeeId($employeeId);
 			         	$timeEvent->setProjectId($postArr["cmbProject-$i"]);
 			         	$timeEvent->setActivityId($postArr["cmbActivity-$i"]);
 			         	$timeEvent->setDuration($postArr["txtDuration-$i-$j"] * 3600);
 			         	$timeEvent->setReportedDate($postArr["hdnReportedDate-$j"]);
-			         
+
 			         	$updateList[] = $timeEvent;
-			         	
-			        } 	
-		             
+
+			        }
+
 				} else { // A new time event
-				
+
 					if ($postArr["txtDuration-$i-$j"] != '') { // If no value has been put, no need to add a new time event
 
 			        	$timeEvent = new TimeEvent();
-			         	
+
 			         	$timeEvent->setTimesheetId($timesheetId);
 			         	$timeEvent->setEmployeeId($employeeId);
 			         	$timeEvent->setProjectId($postArr["cmbProject-$i"]);
 			         	$timeEvent->setActivityId($postArr["cmbActivity-$i"]);
 			         	$timeEvent->setDuration($postArr["txtDuration-$i-$j"] * 3600);
 			         	$timeEvent->setReportedDate($postArr["hdnReportedDate-$j"]);
-			         
+
 			         	$addList[] = $timeEvent;
-		         	    
+
 		         	}
-		             
+
 				}
-		         
+
 			}
-		     
+
 		}
-		
+
 		$eventsList[0] = $updateList;
 		$eventsList[1] = $addList;
-	 
-		return $eventsList;	 
-	 
+
+		return $eventsList;
+
 	}
 
 }

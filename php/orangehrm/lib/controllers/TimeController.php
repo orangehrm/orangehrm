@@ -878,7 +878,8 @@ class TimeController {
 		$template->display();
 	}
 
-	public function editTimesheet($nextAction) {
+	public function editTimesheet($nextAction, $duplicateRows = false) {
+
 		$timeEvents = $this->getObjTime();
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -886,6 +887,12 @@ class TimeController {
 
 		if ($timeEvents == null) {
 			$_GET['message'] = 'NO_EVENTS_WARNING';
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
+			return false;
+		}
+
+		if ($duplicateRows) {
+			$_GET['message'] = 'DUPLICATE_ROWS';
 			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
 			return false;
 		}

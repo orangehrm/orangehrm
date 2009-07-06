@@ -114,28 +114,31 @@ $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 ?>
 <style type="text/css">
 .tableTopLeft {
-    background: none;    
+    background: none;
 }
 .tableTopMiddle {
-    background: none;    
+    background: none;
 }
 .tableTopRight {
-    background: none;    
+    background: none;
 }
 .tableMiddleLeft {
-    background: none;    
+    background: none;
 }
 .tableMiddleRight {
-    background: none;    
+    background: none;
 }
 .tableBottomLeft {
-    background: none;    
+    background: none;
 }
 .tableBottomMiddle {
-    background: none;    
+    background: none;
 }
 .tableBottomRight {
-    background: none;    
+    background: none;
+}
+.tableMiddleMiddle {
+	text-align: left;
 }
 </style>
 <script type="text/javascript">
@@ -394,7 +397,7 @@ function goBack() {
                             array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
                             $headingStr); ?>
 </h2></div>
-    
+
     <?php
         if (isset($_GET['message'])) {
             $message = $_GET['message'];
@@ -403,7 +406,7 @@ function goBack() {
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php echo $timesheet->getTimesheetId(); ?>&action=">
@@ -423,7 +426,7 @@ function goBack() {
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle"></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
-			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
 			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
@@ -548,23 +551,23 @@ function goBack() {
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 <input type="hidden" name="nextAction" value="<?php echo $return; ?>" />
 <div class="formbuttons">
-<input type="button" class="updatebutton"  
+<input type="button" class="updatebutton"
         onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnUpdate" id="btnUpdate"                              
-        value="<?php echo $lang_Common_Update;?>" />         
-<input type="button" class="resetbutton"  
+        name="btnUpdate" id="btnUpdate"
+        value="<?php echo $lang_Common_Update;?>" />
+<input type="button" class="resetbutton"
         onclick="actionReset(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnReset" id="btnReset"                              
-        value="<?php echo $lang_Common_Reset;?>" />         
+        name="btnReset" id="btnReset"
+        value="<?php echo $lang_Common_Reset;?>" />
 
-<input type="button" class="delbutton"  
+<input type="button" class="delbutton"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         onclick="deleteTimeEvents(); return false;"
-        name="btnDelete" id="btnDelete"                             
-        value="<?php echo $lang_Common_Delete;?>" /> 
-                
+        name="btnDelete" id="btnDelete"
+        value="<?php echo $lang_Common_Delete;?>" />
+
 &nbsp;<?php echo $lang_Time_TimeFormat . " : {$dateFormat} {$timeFormat}";?>
 </div>
 
@@ -578,7 +581,7 @@ function goBack() {
         currFocus = $("cmbProject[<?php echo $row; ?>]");
         currFocus.focus();
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
         //]]>
 </script>
