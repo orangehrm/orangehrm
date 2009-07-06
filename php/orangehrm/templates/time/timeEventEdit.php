@@ -150,8 +150,7 @@ function isEmpty(value) {
 }
 
 function validate() {
-	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
-	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
+
 	duration = $("txtDuration").value;
 	reportedDate = $("txtReportedDate").value;
 
@@ -168,13 +167,10 @@ function validate() {
 		errFlag=true;
 	}
 
-	if (startTime && (($("txtEndTime").value != "") || (duration != ""))) {
-		if (!startTime || !endTime || (startTime > endTime) || (0 >= duration)) {
-			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
-			errFlag=true;
-		}
-	} else if (!startTime && duration == "") {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
+	pattern = /^\d+.?\d*$/;
+
+	if (duration == "" || duration < 0 || duration.match(pattern)==null) {
+		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
 		errFlag=true;
 	}
 
@@ -192,21 +188,10 @@ function validate() {
 	<?php if (isset($currentTimesheet)) { ?>
 	/* Timesheet period validation conditions begins */
 
-	if ($('txtStartTime').value != "" && $('txtEndTime').value == "") {
-
-		if (!checkDateAndDuration(startTime, duration)) {
-			errors[errors.length] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-			errFlag=true;
-	    }
-
-	} else if ($('txtStartTime').value != "" && $('txtEndTime').value != "") {
-
-	    if ((!checkDateAndDuration(startTime, duration)) || (!checkDateAndDuration(endTime, duration))) {
-			errors[errors.length] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-			errFlag=true;
-	    }
-
-	}
+	if (!checkDateAndDuration(reportedDate, duration)) {
+		errors[errors.length] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+		errFlag=true;
+    }
 
 	/* Timesheet period validation conditions ends */
 	<?php } ?>
@@ -235,62 +220,6 @@ function submitTimeEvent() {
 
 	return false;
 }
-
-function insertTime() {
-	this.value=formatDate(new Date(), dateTimeFormat);
-	calculateDuration();
-}
-
-function calculateDuration() {
-	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
-	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
-
-	if (startTime && endTime) {
-
-		$("txtDuration").value = Math.round((endTime-startTime)/36000)/100;
-		//$("txtDuration").readOnly = "readonly";
-	} else {
-		$("txtDuration").readOnly = "";
-
-		if (startTime && endTime && (startTime > endTime)) {
-			$("txtDuration").value = "";
-		}
-	}
-}
-
-function calculateEndDate() {
-
-	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
-	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
-	duration = $("txtDuration").value;
-
-	if (startTime   && (duration > 0)) {
-		endTime = new Date();
-		endTime.setTime(startTime+(3600000*duration));
-
-		$("txtEndTime").value = formatDate(endTime, dateTimeFormat);
-		//$("txtDuration").readOnly = "readonly";
-	} else {
-		$("txtDuration").readOnly = "";
-	}
-}
-
-function init() {
-	YAHOO.util.Event.addListener($("btnStartTimeInsert"), "click", insertTime, $("txtStartTime"), true);
-	YAHOO.util.Event.addListener($("btnEndTimeInsert"), "click", insertTime, $("txtEndTime"), true);
-
-	YAHOO.util.Event.addListener($("txtStartTime"), "focus", calculateDuration);
-	YAHOO.util.Event.addListener($("txtStartTime"), "change", calculateDuration);
-	YAHOO.util.Event.addListener($("txtEndTime"), "focus", calculateDuration);
-	YAHOO.util.Event.addListener($("txtEndTime"), "change", calculateDuration);
-
-	YAHOO.util.Event.addListener($("txtDuration"), "change", calculateEndDate);
-	//YAHOO.util.Event.addListener($("txtDuration"), "focus", calculateEndDate);
-	YAHOO.util.Event.addListener($("txtDuration"), "blur", calculateEndDate);
-}
-
-YAHOO.OrangeHRM.container.init();
-YAHOO.util.Event.addListener(window, "load", init);
 
 /* Timesheet duration validation Function Begins */
 
@@ -331,7 +260,7 @@ function checkDateAndDuration(dateValue, duration) {
         </a>
     </div>
     <div class="outerbox">
-        <div class="mainHeading"><h2><?php echo $lang_Time_SubmitTimeEventTitle;?></h2></div>   
+        <div class="mainHeading"><h2><?php echo $lang_Time_SubmitTimeEventTitle;?></h2></div>
 
 <form id="frmTimeEvent" name="frmTimesheet" method="post" action="?timecode=Time&action=" onsubmit="submitTimeEvent(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
@@ -426,36 +355,6 @@ function checkDateAndDuration(dateValue, duration) {
 		</tr>
 		<tr>
 			<td></td>
-			<td ><?php echo $lang_Time_Timesheet_StartTime; ?></td>
-			<td ></td>
-			<td >
-				<input type="text" id="txtStartTime" name="txtStartTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($startTime); ?>" />
-				<input src="../../themes/beyondT/icons/insertTime.gif"
-					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
-					onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
-					onclick="return false;"
-					name="btnStartTimeInsert" id="btnStartTimeInsert"
-					height="20" width="90" type="image" alt="Insert Time" />
-			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td ><?php echo $lang_Time_Timesheet_EndTime; ?></td>
-			<td ></td>
-			<td >
-				<input type="text" id="txtEndTime" name="txtEndTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($endTime); ?>" />
-				<input src="../../themes/beyondT/icons/insertTime.gif"
-					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
-					onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
-					onclick="return false;"
-					name="btnEndTimeInsert" id="btnEndTimeInsert"
-					height="20" width="90" type="image" alt="Insert Time" />
-			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_DateReportedFor; ?></td>
 			<td ></td>
 			<td >
@@ -491,17 +390,17 @@ function checkDateAndDuration(dateValue, duration) {
 <input type="hidden" name="txtTimeEventId" id="txtTimeEventId" value="<?php echo $timeEventId; ?>"/>
 <?php } ?>
     <div class="formbuttons">
-        <input type="button" class="submitbutton" name="btnSubmit" id="btnSubmit" 
-            onclick="submitTimeEvent(); return false;" 
-            onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-            value="<?php echo $lang_Common_Submit;?>" />                         
+        <input type="button" class="submitbutton" name="btnSubmit" id="btnSubmit"
+            onclick="submitTimeEvent(); return false;"
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Submit;?>" />
     </div>
 </form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

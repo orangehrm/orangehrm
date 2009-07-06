@@ -49,8 +49,8 @@ YAHOO.util.Event.addListener(window, "load", init);
         </a>
     </div>
     <div class="outerbox">
-    <div class="mainHeading"><h2><?php echo $lang_Time_UnfinishedActivitiesTitle;?></h2></div>
-    
+    <div class="mainHeading"><h2><?php echo $lang_Time_Add_NewEvent;?></h2></div>
+
     <?php if (isset($_GET['message'])) {
             $message = $_GET['message'];
             $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -58,7 +58,7 @@ YAHOO.util.Event.addListener(window, "load", init);
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 <?php if (isset($pendingTimeEvents) && is_array($pendingTimeEvents)) { ?>
@@ -104,13 +104,13 @@ YAHOO.util.Event.addListener(window, "load", init);
 </table>
 <?php } ?>
 <div class="formbuttons">
-    <span id="linkNewTimeEvent"><span class="first-child"><a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a></span></span>          
+    <span id="linkNewTimeEvent"><span class="first-child"><a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a></span></span>
 </div>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

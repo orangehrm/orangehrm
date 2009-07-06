@@ -1497,24 +1497,24 @@
 	$lang_Time_PunchSaving_SUCCESS = "Record saved";
 	$lang_Time_PunchSaving_FAILURE = "Saving record failed";
 	$lang_Time_Errors_InvalidMaxTime = "Invalid time entered. Maximum acceptable time is 23:59";
-	
+
 	$lang_Time_Menu_MyReports = "My Reports";
 	$lang_Time_Menu_EmployeeReports = "Employee Reports";
-	$lang_Time_Heading_Attendance_Report = "Attendance Report";	
+	$lang_Time_Heading_Attendance_Report = "Attendance Report";
 	$lang_Time_ReportType = "Report Type";
 	$lang_Time_Option_Summary = "Summary";
 	$lang_time_Option_Detailed = "Detailed";
 	$lang_Time_Button_Generate = "Generate";
 	$lang_Time_In = "In";
 	$lang_Time_Out = "Out";
-	
+
 	$lang_Time_Attendance_ReportSavingSuccess = "Attendance report saved successfully";
 	$lang_Time_Attendance_ReportSavingFailure = "Saving attendace report failed";
 	$lang_Time_Attendance_ReportNoChange = "No changes to save";
 	$lang_Time_Attendance_Overlapping = "Overlapping records found";
 	$lang_Time_Attendance_NoReports = "No reports to display";
 	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
- 
+
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
 
@@ -1533,6 +1533,7 @@
 	$lang_Time_Timesheet_DateReportedFor = "Date reported for";
 
 	$lang_Time_UnfinishedActivitiesTitle = "Unfinished Activities";
+	$lang_Time_Add_NewEvent = "Add New Time Event";
 	$lang_Time_NewEvent = "New Event";
 	$lang_Time_Complete = "Complete";
 
