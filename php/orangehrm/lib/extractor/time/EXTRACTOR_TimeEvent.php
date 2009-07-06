@@ -25,9 +25,14 @@ require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 class EXTRACTOR_TimeEvent {
 
 	private $detailedDuplicate = false;
+	private $detailedInvalidDuration = false;
 
 	public function getDetailedDuplicate() {
 		return $this->detailedDuplicate;
+	}
+
+	public function getDetailedInvalidDuration() {
+		return $this->detailedInvalidDuration;
 	}
 
 	public function __construct() {
@@ -38,6 +43,7 @@ class EXTRACTOR_TimeEvent {
 
 		$tmpArr = null;
 		$duplicateArr = array();
+		$durationArr = array();
 
 		for ($i=0; $i<count($postArr['cmbActivity']); $i++) {
 				$tmpObj = new TimeEvent();
@@ -82,6 +88,31 @@ class EXTRACTOR_TimeEvent {
 				}
 
 				/* Checking duplicate rows: Ends */
+
+				/* Checking for invalid durations: Begins */
+
+				if (!$this->detailedInvalidDuration) {
+
+					$key = trim($postArr['txtReportedDate'][$i]);
+					$value = (float)$postArr['txtDuration'][$i];
+
+					if (array_key_exists($key, $durationArr)) {
+
+						if (($durationArr[$key]+$value) > 24) {
+							$this->detailedInvalidDuration = true;
+						} else {
+							$durationArr[$key] = $durationArr[$key] + $value;
+						}
+
+					} else {
+
+						$durationArr[$key] = $value;
+
+					}
+
+				}
+
+				/* Checking for invalid durations: Ends */
 
 		}
 

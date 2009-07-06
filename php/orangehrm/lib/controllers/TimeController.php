@@ -878,7 +878,7 @@ class TimeController {
 		$template->display();
 	}
 
-	public function editTimesheet($nextAction, $duplicateRows = false) {
+	public function editTimesheet($nextAction, $duplicateRows = false, $invalidDuration = false) {
 
 		$timeEvents = $this->getObjTime();
 
@@ -893,6 +893,12 @@ class TimeController {
 
 		if ($duplicateRows) {
 			$_GET['message'] = 'DUPLICATE_ROWS';
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
+			return false;
+		}
+
+		if ($invalidDuration) {
+			$_GET['message'] = 'MaxTotalDuration';
 			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
 			return false;
 		}

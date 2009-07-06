@@ -1671,11 +1671,9 @@ switch ($moduletype) {
 																					break;
 													case 'Edit_Timesheet'		:	$objs = $timeEventExtractor->parseEditData($_POST);
 																					$timeController->setObjTime($objs);
-																					if ($timeEventExtractor->getDetailedDuplicate()) {
-																						$timeController->editTimesheet($_POST['nextAction'], true);
-																					} else {
-																						$timeController->editTimesheet($_POST['nextAction']);
-																					}
+																					$duplicateRows = $timeEventExtractor->getDetailedDuplicate();
+																					$invalidDuration = $timeEventExtractor->getDetailedInvalidDuration();
+																					$timeController->editTimesheet($_POST['nextAction'], $duplicateRows, $invalidDuration);
 																					break;
 													case 'Delete_Timesheet'		:	$objs = $timeEventExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);
