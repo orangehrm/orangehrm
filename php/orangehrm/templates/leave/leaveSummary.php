@@ -38,12 +38,14 @@ $broughtForward = $modifier[4];
  if ($modifier === 'edit') {
     $btnClass = 'savebutton';
     $btnTitle = $lang_Common_Save;
+    $resetDisabled = '';
  	$btnImage = '../../themes/beyondT/pictures/btn_save.gif';
  	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save';
  } else {
     $btnClass = 'editbutton';
     $btnTitle = $lang_Common_Edit;
+    $resetDisabled = 'disabled="disabled"';
  	$btnImage = '../../themes/beyondT/pictures/btn_edit.gif';
  	$btnImageMO = '../../themes/beyondT/pictures/btn_edit_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Edit_Summary';
@@ -336,6 +338,7 @@ $broughtForward = $modifier[4];
           <input type="button" class="<?php echo $btnClass;?>" id="editBtn" onclick="actForm();"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $btnTitle;?>" />
+		   <input type="reset" class="resetbutton" <?php echo $resetDisabled; ?> value="<?php echo $lang_Common_Reset; ?>" />
 
     <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
         <a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>

@@ -197,14 +197,15 @@ if(isset($this->popArr['editWrkExpArr'])) {
 	</table>
 <?php	if($locRights['edit']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditWrkExp" id="btnEditWrkExp" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditWrkExp" id="btnEditWrkExp"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="editEXTWrkExp(); return false;"/>    	
-</div>			                
-<?php	} ?>        
-	
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="editEXTWrkExp(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+<?php	} ?>
+
 </div>
 <?php } else { ?>
 <div id="addPaneWorkExperience" class="<?php echo ($this->popArr['rsetWrkExp'] != null)?"addPane":""; ?>" >
@@ -238,13 +239,14 @@ if(isset($this->popArr['editWrkExpArr'])) {
         </table>
 <?php	if($locRights['add']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddWrkExp" id="btnAddWrkExp" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddWrkExp" id="btnAddWrkExp"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTWrkExp(); return false;"/>    	
-</div>			                
-<?php	} ?>        
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTWrkExp(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+<?php	} ?>
 </div>
 <?php } ?>
 <?php
@@ -261,21 +263,21 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
 <div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignworkex?></h3></div>
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if ($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('WorkExperience');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if ($locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delEXTWrkExp();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-		
+		</div>
+
 	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 	<thead>
 	  <tr>
@@ -287,12 +289,12 @@ if(isset($this->popArr['editWrkExpArr'])) {
 		 <td width="65"><?php echo $lang_hrEmpMain_enddate; ?></td>
 		 <td><?php echo $lang_hrEmpMain_internal; ?></td>
 	</tr>
-	</thead>				
-	<tbody>		
+	</thead>
+	<tbody>
 <?php
     for($c=0; $rset && $c < count($rset); $c++) {
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';    	
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'/></td>";
             ?><td><a href="javascript:viewWrkExp('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][1]?></a></td><?php
             echo '<td>' . $rset[$c][2] .'</td>';

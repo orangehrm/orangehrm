@@ -72,7 +72,7 @@ function addEXTMembership() {
 	}
 
 	var txt = document.frmEmp.txtMemSubAmount;
-	if ((txt.value != '') && !decimalCurr(txt)) {
+	if ((txt.value != '') && !decimalCurrency(txt)) {
 		alert ("<?php echo $lang_hrEmpMain_SubscriptionAmountShouldBeNumeric; ?>!");
 		txt.focus();
 		return false;
@@ -101,7 +101,7 @@ function addEXTMembership() {
 function editEXTMembership() {
 
 	var txt = document.getElementById('etxtMemSubAmount');
-	if ((txt.value != '') && !decimalCurr(txt)) {
+	if ((txt.value != '') && !decimalCurrency(txt)) {
 		alert ("<?php echo $lang_hrEmpMain_SubscriptionAmountShouldBeNumeric; ?>!");
 		txt.focus();
 		return false;
@@ -291,13 +291,14 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
                   </table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddMembership" id="btnAddMembership" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddMembership" id="btnAddMembership"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTMembership(); return false;"/>    	
-</div>	
-                  
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTMembership(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+
 	</div>
 <?php } ?>
 <?php
@@ -314,13 +315,13 @@ if(isset($this->popArr['editMembershipArr'])) {
 <?php if($assignedMemberships){ ?>
 	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignmemship?></h3></div>
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 			<input type="button" class="addbutton"
 				onclick="showAddPane('Memberships');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 			<input type="button" class="delbutton"
 				onclick="delEXTMembership();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
 		</div>
 	</div>
 	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
@@ -333,12 +334,12 @@ if(isset($this->popArr['editMembershipArr'])) {
 			 <td><?php echo $lang_hrEmpMain_subcomdate?></td>
 			 <td><?php echo $lang_hrEmpMain_subredate?></td>
 		</tr>
-		</thead>				
-		<tbody>	
+		</thead>
+		<tbody>
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';  
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($mship)>$a;$a++)
 			    if($mship[$a][1]==$rset[$c][1])

@@ -104,7 +104,7 @@ function viewPayment(pay,curr) {
 	document.frmEmp.action = document.frmEmp.action + "&PAY=" + pay + "&CUR=" + curr;
 	document.frmEmp.pane.value = 14;
 	document.frmEmp.submit();
-}uu/--><!]]></script>
+}//--><!]]></script>
 <?php
 $supervisorEMPMode = false;
 if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {

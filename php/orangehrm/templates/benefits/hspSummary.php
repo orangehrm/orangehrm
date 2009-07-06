@@ -137,7 +137,7 @@ if (isset($errorFlag)) {
 				}
 			}
 		}
-		document.getElementById('btnAdd').style.display = 'none';
+		document.getElementById('btnEdit').style.display = 'none';
 		document.getElementById('btnSave').style.display = 'inline';
 	}
 
@@ -276,8 +276,12 @@ if (isset($errorFlag)) {
 		}
 	}
 
+	function resetForm() {
+		$('hspFullSummary').reset();
+	}
+
 </script>
-<div class="outerbox" style="width:750px;">
+<div class="outerbox" style="width:96%;">
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 <div class="mainHeading"><h2>
 <?php if (isset($oneEmployee)) {  ?>
@@ -287,7 +291,7 @@ if (isset($errorFlag)) {
 <?php } ?>
 </h2></div>
 
-<!-- Save success message begins -->  
+<!-- Save success message begins -->
 <?php
 
 if (isset($saveSuccess) && $saveSuccess) {
@@ -298,7 +302,7 @@ if (isset($saveSuccess) && $saveSuccess) {
 	$successMessage = $lang_Benefits_Summary_Could_Not_Save;
 }
 
-if (isset($successMessage)) {  ?>      
+if (isset($successMessage)) {  ?>
 <div class="messagebar">
     <span class="<?php echo $messageType; ?>"><?php echo $successMessage; ?></span>
 </div>
@@ -311,7 +315,7 @@ if (isset($successMessage)) {  ?>
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
 
     <div class="searchbox">
-    <?php if ($adminUser) { ?>    
+    <?php if ($adminUser) { ?>
         <label for="txtEmployeeSearch"><?php echo $lang_Admin_Users_Employee?></label>
         <div class="yui-ac" id="employeeSearchAC">
           <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
@@ -337,7 +341,7 @@ if (isset($successMessage)) {  ?>
             <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
           </div>
         </div>
-    <?php } ?>        
+    <?php } ?>
 
     <select name="year" id="select">
       <?php
@@ -348,20 +352,21 @@ if (isset($successMessage)) {  ?>
       <?php } ?>
     </select>
     <input type="submit" class="plainbtn" onclick="returnSearch();"
-        onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+        onmouseover="moverButton(this)" onmouseout="moutButton(this)"
         value="<?php echo $lang_Common_Search;?>" />
     <?php if ($adminUser) { ?>
-    <input type="button" class="editbutton" id="btnAdd" 
-        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-        value="<?php echo $lang_Common_Edit;?>" 
+    <input type="button" class="editbutton" id="btnEdit"
+        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Edit;?>"
         style="display:inline;"/>
-    <input type="button" class="savebutton" id="btnSave" 
-        onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-        value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" id="btnSave"
+        onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Save;?>"
         style="display:none;"/>
-                                
     <?php } ?>
-
+	<input type="button" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
+		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+		onclick="resetForm()" />
     <?php   if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
 
         if (isset($oneEmployee) && $oneEmployee) {
@@ -371,20 +376,22 @@ if (isset($successMessage)) {  ?>
             $pdfName = 'All-Employees-HSP-Summary';
             $empNoQueryStr = '';
         }
+
+        $pdfUrl = "?benefitcode=Benefits&action=Hsp_Summary&year={$year}&printPdf=1&pdfName={$pdfName}{$empNoQueryStr}";
     ?>
-        <a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=<?php echo $pdfName . $empNoQueryStr; ?>"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
-        <?php } ?> 
-
-
+    	<input type="button" class="longbtn" value="<?php echo $lang_Benefits_Summary_SaveAsPDF; ?>"
+			onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+    		onclick="location.href='<?php echo $pdfUrl; ?>';" />
+        <?php } ?>
         <br class="clear"/>
     </div>
-    
+
 </table>
 </form>
 <!-- Search form ends -->
 
 <!-- Summary form begins -->
-<form name="hspFullSummary" action="" method="post">
+<form name="hspFullSummary" id="hspFullSummary" action="" method="post">
 <input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
 <table width="740" border="0" cellspacing="0" cellpadding="0" class="data-table">
 <thead>
@@ -549,7 +556,7 @@ if (($i%2) == 0) {
 	$onclickFunction = "haltResumeHsp('$summaryId', '$empId', '$newStatusId')";
 
     ?>
-    <input type="button" name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
+    <input type="button" class="plainbtn name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
     </td>
   </tr>
 <?php } // Displaying summary ends ?>
@@ -600,7 +607,7 @@ YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

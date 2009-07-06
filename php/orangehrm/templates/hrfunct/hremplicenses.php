@@ -145,13 +145,14 @@ if(isset($this->getArr['LIC'])) {
 					  </tr>
 			</table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditLicense" id="btnEditLicense" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditLicense" id="btnEditLicense"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="editEXTLicense(); return false;"/>    	
-</div>				
-			
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="editEXTLicense(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+
 		</div>
 <?php } else { ?>
 	<div id="addPaneLicenses" class="<?php echo ($this->popArr['rsetLicense'] != null)?"addPane":""; ?>" >
@@ -185,17 +186,18 @@ if(isset($this->getArr['LIC'])) {
 
 					  <tr>
 						<td valign="top"></td>
-						<td align="left" valign="top">        
+						<td align="left" valign="top">
         				</td>
 					  </tr>
                   </table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddLicense" id="btnAddLicense" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddLicense" id="btnAddLicense"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTLicense(); return false;"/>    	
-</div>	                  
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTLicense(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 	</div>
 <?php } ?>
 <?php
@@ -211,13 +213,13 @@ if(isset($this->getArr['LIC'])) {
 <?php if($assignedLicenses){ ?>
 	 <div class="subHeading"><h3><?php echo $lang_hremplicenses_assignlicen?></h3></div>
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 			<input type="button" class="addbutton"
 				onclick="showAddPane('Licenses');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 			<input type="button" class="delbutton"
 				onclick="delEXTLicense();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
 		</div>
 	</div>
 	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
@@ -228,14 +230,14 @@ if(isset($this->getArr['LIC'])) {
 			 <td ><?php echo $lang_hrEmpMain_startdate?></td>
 			 <td ><?php echo $lang_hrEmpMain_enddate?></td>
 		</tr>
-		</thead>				
-		<tbody>	
+		</thead>
+		<tbody>
 <?php
 $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
-			$cssClass = ($c%2) ? 'even' : 'odd';			         	
+			$cssClass = ($c%2) ? 'even' : 'odd';
 ?>
 		<tr class="<?php echo $cssClass;?>">
             <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?php echo $rset[$c][1]?>'/></td>

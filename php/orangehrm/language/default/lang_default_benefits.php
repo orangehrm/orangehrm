@@ -192,6 +192,7 @@ $lang_Benefits_Summary_Employee = "Employee";
 $lang_Benefits_Summary_Total_Accrued = "Total Accrued";
 $lang_Benefits_Summary_Total_Used = "Total Used";
 $lang_Benefits_Summary_Last_Year_FSA_Balance = "Last Year FSA Balance";
+$lang_Benefits_Summary_SaveAsPDF = "Save as PDF";
 
 $lang_Benefits_Summary_Saved_Successfully = "Saved successfully";
 $lang_Benefits_Summary_Could_Not_Save = "Could not save data";

@@ -119,17 +119,18 @@ function editAttach() {
               </tr>
 			  <tr>
 				<td>&nbsp;</td>
-				<td>        
+				<td>
 				</td>
 			  </tr>
 	   </table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddAttachment" id="btnAddAttachment" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddAttachment" id="btnAddAttachment"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addAttach(); return false;"/>    	
-</div>		   
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addAttach(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 	 </div>
 <?php } ?>
 <?php
@@ -137,21 +138,21 @@ function editAttach() {
 	if ($rset != null){ ?>
 		<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></div>
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if ($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('Attachments');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if ($locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delAttach();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>	
-			
+		</div>
+
 		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
 			<tr>
@@ -161,13 +162,13 @@ function editAttach() {
 				<td><?php echo $lang_hremp_size?></td>
 				<td><?php echo $lang_hremp_type?></td>
 			</tr>
-		</thead>				
-		<tbody>				
+		</thead>
+		<tbody>
 <?php
 
 	$disabled = ($locRights['delete']) ? "" : 'disabled="disabled"';
     for($c=0;$rset && $c < count($rset); $c++) {
-		$cssClass = ($c%2) ? 'even' : 'odd';			         	
+		$cssClass = ($c%2) ? 'even' : 'odd';
 ?>
 		<tr class="<?php echo $cssClass;?>">
             <td><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]' value="<?php echo $rset[$c][1]; ?>"/></td>

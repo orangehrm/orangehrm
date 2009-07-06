@@ -244,7 +244,7 @@
 //]]>
 </script>
 <div class="outerbox">
-<form method="post" name="defineLeaveType" id="defineLeaveType" onsubmit="return false;" action="">
+<form method="post" name="defineLeaveType" id="defineLeaveType" onsubmit="return false;" action="" onreset="window.setTimeout('checkForDuplicates()', 100);">
     <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?></h2></div>
 
     <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
@@ -279,6 +279,7 @@
               <?php /* Show edit & delete button only if records are available: Ends */
               }
               ?>
+              <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
         </div>
         <div class="noresultsbar"><?php echo !$activeTypesAvailable ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>

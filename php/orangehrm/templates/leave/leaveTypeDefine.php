@@ -99,12 +99,12 @@ $leaveTypes = $records[1];
         }
 
     }
-//]]>   
+//]]>
 </script>
     <div class="formpage">
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Leave_Define_leave_Type_Title;?></h2></div>
-        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -112,7 +112,7 @@ $leaveTypes = $records[1];
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: CommonFunctions::escapeHtml($message); ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
     <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Leave_Type_Define">
@@ -122,22 +122,23 @@ $leaveTypes = $records[1];
             <br class="clear"/>
         <?php } ?>
             <label for="txtLeaveTypeName"><?php echo $lang_Leave_Common_LeaveTypeName;?><span class="required">*</span></label></label>
-            <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();" 
+            <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();"
                 class="formInputText"/>
-            <br class="clear"/>                
+            <br class="clear"/>
             <div class="error" id="messageCell"></div>
             <br class="clear"/>
-            <div class="formbuttons">               
-                <input type="button" class="savebutton" id="saveBtn" 
-                    onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <div class="formbuttons">
+                <input type="button" class="savebutton" id="saveBtn"
+                    onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
-            </div>          
+                <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+            </div>
         </form>
         </div>
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>

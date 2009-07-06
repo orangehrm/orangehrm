@@ -80,9 +80,9 @@ function unassignGroup() {
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+            <input type="button" class="backbutton"
+				onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo "$lang_rep_ReportDefinition : $lang_rep_AssignUserGroups"; ?></h2></div>
@@ -94,13 +94,13 @@ function unassignGroup() {
             <span class="formValue"><?php echo $reportName;?></span>
             <br class="clear"/>
 
-                      
+
 <?php if($locRights['add']) { ?>
             <form name="frmUSG" method="post" action="<?php echo $formAction;?>" >
                 <input type="hidden" name="USG" value=""/>
                 <input type="hidden" name="txtRepID" value="<?php echo $this->getArr['id']?>"/>
                 <input type="hidden" name="dummy"/>
-            
+
                 <label for="cmbUserGroup"><?php echo $lang_rep_UserGroup;?></label>
                 <select name="cmbUserGroup" id="cmbUserGroup" class="formSelect">
                 	<option value="0">-- <?php echo $lang_rep_SelectUserGroup;?> --</option>
@@ -115,9 +115,9 @@ function unassignGroup() {
                         }
             ?>
                 </select>
-                <div class="formbuttons">               
-                    <input type="button" class="assignbutton" id="assignBtn" style="margin-left:5px;" 
-                        onclick="assignGroup();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                <div class="formbuttons">
+                    <input type="button" class="assignbutton" id="assignBtn" style="margin-left:5px;"
+                        onclick="assignGroup();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Assign;?>" title="<?php echo $lang_Common_Assign;?>"/>
                 </div>
             </form>
@@ -127,7 +127,7 @@ function unassignGroup() {
 ?>
             <form name="frmRepUserGroup" method="post" action="<?php echo $formAction;?>">
             	<input type="hidden" name="USG" value=""/>
-            
+
                 <div class="subHeading"><h3><?php echo $lang_rep_AssignedUserGroups; ?></h3></div>
                 <div class="actionbar">
                     <div class="actionbuttons">
@@ -136,56 +136,56 @@ function unassignGroup() {
                             onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                             value="<?php echo $lang_Common_Delete;?>" />
                     <?php } ?>
-                    </div>              
+                    </div>
                     <div class="noresultsbar"><?php echo empty($assignedGroups) ? $lang_rep_NoUserGroupsAssigned : '';?></div>
                     <div class="pagingbar"></div>
                     <br class="clear" />
                 </div>
-                <br class="clear" />                             
+                <br class="clear" />
 
                 <table width="250" class="simpleList" >
                     <thead>
                         <tr>
 <?php if($locRights['delete']) { ?>
                             <th></th>
-<?php } ?>                        
+<?php } ?>
                         <th class="listViewThS1"><?php echo $lang_rep_UserGroup; ?></th>
                         </tr>
-                    </thead>                    
+                    </thead>
                     <tbody>
-<?php if (!empty($assignedGroups)) { ?>                    
+<?php if (!empty($assignedGroups)) { ?>
                         <?php
                             $odd = false;
                             foreach ($assignedGroups as $group) {
                                 $cssClass = ($odd) ? 'even' : 'odd';
                                 $odd = !$odd;
-                        ?>                    
+                        ?>
                         <tr>
                         <?php   if($locRights['delete']) { ?>
                                     <td class="<?php echo $cssClass?>">
-                                        <input type='checkbox' class='checkbox' name='chkdel[]' 
+                                        <input type='checkbox' class='checkbox' name='chkdel[]'
                                             value='<?php echo $group[1];?>'/>
                                     </td>
                         <?php } ?>
-                        
-                        <?php 
+
+                        <?php
                                 for ($a = 0; count($userGroupList) > $a; $a++) {
                                     if($userGroupList[$a][0] == $group[1]) {
-                        ?>                                                    
+                        ?>
                                         <td class="<?php echo $cssClass?>"><?php echo $userGroupList[$a][1];?></td>
-                        <?php                             
+                        <?php
                                     }
                                 }
                         ?>
                         </tr>
-                                    
+
                         <?php
                             }
                         ?>
-            <?php } ?>                        
+            <?php } ?>
                     </tbody>
                 </table>
-                <br class="clear"/>            
+                <br class="clear"/>
 
             </form>
 
@@ -194,7 +194,7 @@ function unassignGroup() {
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

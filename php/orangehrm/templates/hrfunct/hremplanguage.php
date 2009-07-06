@@ -215,13 +215,14 @@ if(isset($this->getArr['lanSEQ'])) {
 					  </tr>
                   </table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddLang" id="btnAddLang" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddLang" id="btnAddLang"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTLang(); return false;"/>    	
-</div>				
-                  
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTLang(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
+
 </div>
 <?php } ?>
 <?php
@@ -236,13 +237,13 @@ if(isset($this->getArr['lanSEQ'])) {
 <?php if($assignedLanguages) { ?>
 <div class="subHeading"><h3><?php echo $lang_hremplan_assignlanguage; ?></h3></div>
 <div class="actionbar">
-	<div class="actionbuttons">					
+	<div class="actionbuttons">
 		<input type="button" class="addbutton"
 			onclick="showAddPane('Languages');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-			value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+			value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 		<input type="button" class="delbutton"
 			onclick="delEXTLang();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-			value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+			value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
 	</div>
 </div>
 <table width="100%" cellspacing="0" cellpadding="0" class="data-table">
@@ -253,13 +254,13 @@ if(isset($this->getArr['lanSEQ'])) {
 		 <td><?php echo $lang_hremplan_fluency?></td>
 		 <td><?php echo $lang_hrEmpMain_ratinggarde?></td>
 	</tr>
-	</thead>				
-	<tbody>	
+	</thead>
+	<tbody>
 
 <?php
     for($c=0; $rset && $c < count($rset); $c++) {
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';  
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chklangdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'/></td>";
 
 			for($a=0;count($lanlist)>$a;$a++)

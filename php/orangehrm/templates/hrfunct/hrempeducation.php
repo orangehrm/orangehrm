@@ -169,12 +169,13 @@ function viewEducation(edu) {
 					  </tr>
 			</table>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddEducation" id="btnAddEducation" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddEducation" id="btnAddEducation"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTEducation(); return false;"/>    	
-</div>					
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTEducation(); return false;"/>
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+</div>
 	</div>
 <?php
 if(isset($this->popArr['editEducationArr'])) {
@@ -236,15 +237,15 @@ $allEduCodes = $this->popArr['allEduCodes'];
 if ($rset != null){?>
 <div class="subHeading"><h3><?php echo $lang_hrEmpMain_assigneducation?></h3></div>
 <div class="actionbar">
-	<div class="actionbuttons">					
+	<div class="actionbuttons">
 		<input type="button" class="addbutton"
 			onclick="showAddPane('Education');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-			value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+			value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 		<input type="button" class="delbutton"
 			onclick="delEXTEducation();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-			value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+			value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
 	</div>
-</div>	
+</div>
 <table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 	<thead>
 	  <tr>
@@ -253,13 +254,13 @@ if ($rset != null){?>
 		 <td><?php echo $lang_Leave_Common_Year?></td>
 		 <td><?php echo $lang_hrEmpMain_gpa?></td>
 	</tr>
-	</thead>				
-	<tbody>		
+	</thead>
+	<tbody>
 <?php
     for($c=0; $rset && $c < count($rset); $c++)
         {
-			$cssClass = ($c%2) ? 'even' : 'odd';			
-	    	echo '<tr class="' . $cssClass . '">';    	
+			$cssClass = ($c%2) ? 'even' : 'odd';
+	    	echo '<tr class="' . $cssClass . '">';
 
             echo "<td><input type='checkbox' class='checkbox' name='chkedudel[]' value='" . $rset[$c][1] . "'/></td>";
 

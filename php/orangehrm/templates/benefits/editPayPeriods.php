@@ -24,7 +24,7 @@ $payPeriod = $records[1];
 <script type="text/javascript">
 //<![CDATA[
 
-function cancelAddPayPeriod() {
+function goBack() {
 	window.location = '?benefitcode=Benefits&action=List_Benefits_Schedule&year=<?php echo $year; ?>';
 }
 
@@ -79,37 +79,44 @@ function addPayPeriod() {
 YAHOO.OrangeHRM.container.init();
 //]]>
 </script>
+
 <div class="formpage2col">
+
+	<div class="navigation">
+		<input type="button" class="backbutton"
+			onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Back;?>" />
+	</div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Benefits_EditPayDateForPaySchedule;?></h2></div>
-        
+
 <form action="?benefitcode=Benefits&amp;action=Edit_Pay_Period" method="post" name="frmAddPayPeriod" id="frmAddPayPeriod">
     <input name="txtPayPeriodId" type="hidden" id="txtPayPeriodId" value="<?php echo $payPeriod->getId(); ?>"/>
-    
-    
+
+
     <label for="txtPayPeriodFromDate"><?php echo $lang_Benefits_PayPeriod; ?></label>
     <input name="txtPayPeriodFromDate" type="text" id="txtPayPeriodFromDate"  size="10" class="formDateInput"
         value="<?php echo LocaleUtil::getInstance()->formatDate($payPeriod->getStartDate()); ?>"/>
     <input type="button" name="Date" value="  " class="calendarBtn" />
-    
+
     <label for="txtPayPeriodToDate"><?php echo $lang_Common_To; ?></label>
     <input name="txtPayPeriodToDate" type="text" id="txtPayPeriodToDate" class="formDateInput"
         value="<?php echo LocaleUtil::getInstance()->formatDate($payPeriod->getEndDate()); ?>" size="10"/>
     <input type="button" name="Date" value="  " class="calendarBtn" />
     <br class="clear"/>
-                    
+
     <label for="txtPayPeriodCloseDate"><?php echo $lang_Benefits_PayPeriodCloses; ?></label>
     <input name="txtPayPeriodCloseDate" type="text" id="txtPayPeriodCloseDate" class="formDateInput"
         value="<?php echo LocaleUtil::getInstance()->formatDate($payPeriod->getCloseDate()); ?>" size="10"/>
     <input type="button" name="Date" value="  " class="calendarBtn" />
     <br class="clear"/>
-        
+
     <label for="txtPayPeriodTimesheetDueDate"><?php echo $lang_Benefits_TimesheetAprovalDue; ?></label>
     <input name="txtPayPeriodTimesheetDueDate" type="text" id="txtPayPeriodTimesheetDueDate" class="formDateInput"
         value="<?php echo LocaleUtil::getInstance()->formatDate($payPeriod->getTimesheetAprovalDueDate()); ?>" size="10"/>
     <input type="button" name="Date" value="  " class="calendarBtn" />
     <br class="clear"/>
-        
+
     <label for="txtPayPeriodCheckDate"><?php echo $lang_Benefits_CheckDate; ?></label>
     <input name="txtPayPeriodCheckDate" type="text" id="txtPayPeriodCheckDate" class="formDateInput"
         value="<?php echo LocaleUtil::getInstance()->formatDate($payPeriod->getCheckDate()); ?>" size="10"/>
@@ -117,20 +124,19 @@ YAHOO.OrangeHRM.container.init();
     <br class="clear"/>
 
     <div class="formbuttons">
-        <input type="button" class="savebutton" id="saveBtn" 
-            onclick="addPayPeriod();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        <input type="button" class="savebutton" id="saveBtn"
+            onclick="addPayPeriod();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Save;?>" />
-        <input type="button" class="clearbutton" onclick="cancelAddPayPeriod();"
-            onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-             value="<?php echo $lang_Common_Cancel;?>" />                        
+        <input type="reset" class="resetbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+             value="<?php echo $lang_Common_Reset;?>" />
     </div>
-    <br class="clear"/> 
+    <br class="clear"/>
 </form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
