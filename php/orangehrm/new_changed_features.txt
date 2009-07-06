@@ -1,4 +1,27 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.9
+
+	Bug Fixes
+	---------
+	2491526 - Clear buttons should renamed as Reset
+	2509058 - Missing Hide button: cannot hide the show employee history
+	2500880 - UI Issues in Admin Module
+	2512347 - UI Issues in Recruitment Module
+	2711112 - Time Grid Summary->Activity not get populated in IE7
+	2489763 - Button labeled Delete but will clear the fields:admin rights
+	1937394 - Search feature is not implemented in  Data Import/Export
+	2026725 - Admin:Stopper in when job title defining
+	2810848 - Education in PIM will give a mysql error with traditional
+	2080592 - Leave:Supervisor cant c d list of taken leave of his subordi
+	2811969 - Orange installer will drop the database if it has data
+	2489756 - Improper alert :Modules should be selected instead of fields
+	2641167 - In timesheets project Internal time can be overlapped with a
+	2711133 TimeSheet Detail modification not reflect to TimeSheet Summa
+	2811427 - Duration can be grater than 24 per day in timesheet detail 
+	2711130 - Need warning when one activity grater than total of sameActi
+	2640896 - ProjectTime Page heading always shows unfinished act: title
+
 New & Changed Features for OrangeHRM ver 2.5-beta.8
+
 	Bug Fixes
 	---------
 	2665300 - Uploaded Resume not visible after scheduling first interview
