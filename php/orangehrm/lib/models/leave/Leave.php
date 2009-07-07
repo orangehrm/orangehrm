@@ -254,6 +254,7 @@ class Leave {
 		$selectConditions[1] = "a.`employee_id` = '".$employeeId."'";
 		$selectConditions[2] = "a.`leave_status` = ".$this->statusLeaveTaken;
 		$selectConditions[3] = "a.`leave_date` >= '".$year."-01-01'";
+		$selectConditions[4] = "a.`leave_date` <= '".$year."-12-31'";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
