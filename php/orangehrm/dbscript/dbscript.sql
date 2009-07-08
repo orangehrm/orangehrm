@@ -1786,18 +1786,6 @@ INSERT INTO `hs_hr_empstat`
   (`estat_code`, `estat_name`)
   VALUES ('EST000', 'Terminated');
 
-INSERT INTO `hs_hr_customer`
-  (`customer_id`, `name`, `description`)
-  VALUES (0, 'Internal', "Used to track special time events");
-
-INSERT INTO `hs_hr_project`
-  (`project_id`, `customer_id`, `name`, `description`)
-  VALUES (0, 0, 'Internal', "Used to track special time events");
-
-INSERT INTO `hs_hr_project_activity`
-  (`activity_id`, `project_id`, `name`)
-  VALUES (0, 0, 'Work time');
-
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(1, 'Weekly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(2, 'Bi Weekly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Monthly');
