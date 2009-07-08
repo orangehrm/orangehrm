@@ -76,29 +76,60 @@ function editDependent() {
 	return true;
 }
 
+function resetDependants() {
+	$('txtDepName').value = originalDependantName;
+	$('txtRelShip').value = originalDependantRelationship;
+}
+
 //--><!]]></script>
+<style type="text/css">
+div#editPaneDependents,
+div#addPaneDependents {
+	width:100%;
+}
+
+div#editPaneDependents label,
+div#addPaneDependents label {
+	width: 100px;
+}
+
+div#editPaneDependents br,
+div#addPaneDependents br {
+	clear:left;
+}
+
+div#editPaneDependents input,
+div#addPaneDependents input {
+	display:block;
+	margin: 2px 2px 2px 2px;
+	float:left;
+}
+
+div.formbuttons {
+	text-align:left;
+}
+
+input.hiddenField {
+	display:none;
+}
+
+</style>
 <div id="parentPaneDependents" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	<h3><?php echo $lang_hremp_dependents; ?></h3>
-    <input type="hidden" name="dependentSTAT"/>
+    <input type="hidden" name="dependentSTAT" class="hiddenField" />
 
 <?php if(isset($this->getArr['depSEQ'])) {
 		$edit = $this->popArr['editDepForm'];
 ?>
+	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" class="hiddenField" />
 	<div id="editPaneDependents" >
-		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td>
-                	<?php echo $lang_hremp_name; ?> <span class="error">*</span>
-                	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" />
-                </td>
-                <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"/></td>
-               </tr>
-              <tr>
-                <td><?php echo $lang_hremp_relationship; ?>&nbsp;</td>
-                <td><input name="txtRelShip" type="text" value="<?php echo $edit[0][3]?>">
-               </tr>
-		</table>
+		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
+		<input type="text" name="txtDepName" id="txtDepName" value="<?php echo $edit[0][2]; ?>" />
+		<br />
+		<label for="txtRelShip"><?php echo $lang_hremp_relationship; ?></label>
+		<input name="txtRelShip" id="txtRelShip" type="text" value="<?php echo $edit[0][3]?>" />
+		<br />
 <?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
 	    <input type="button" class="savebutton" name="btnEditDependent" id="btnEditDependent"
@@ -106,23 +137,25 @@ function editDependent() {
 	    	title="<?php echo $lang_Common_Save;?>"
 	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="editDependent(); return false;"/>
-	    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+	    <input type="button" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	    	onclick="resetDependants()" />
+   		<script type="text/javascript">
+		originalDependantName = "<?php echo $edit[0][2]; ?>";
+		originalDependantRelationship = "<?php echo $edit[0][3]; ?>";
+		</script>
 	</div>
 <?php	} ?>
 	</div>
 	<?php } else { ?>
+	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>" class="hiddenField" />
 	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>" >
-		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td><?php echo $lang_hremp_name; ?> <span class="error">*</span>
-                	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>"/></td>
-                <td><input name="txtDepName" type="text"/></td>
-                </tr>
-                <tr>
-                <td><?php echo $lang_hremp_relationship ; ?>&nbsp;</td>
-                <td><input type="text" name="txtRelShip" /></td>
-              </tr>
-		</table>
+		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
+		<input name="txtDepName" id="txtDepName" type="text" />
+		<br />
+		<label for="txtRelShip"><?php echo $lang_hremp_relationship ; ?></label>
+		<input type="text" name="txtRelShip" id="txtRelShip" />
+		<br />
 <?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
 	    <input type="button" class="savebutton" name="btnAddDependent" id="btnAddDependent"
@@ -130,11 +163,18 @@ function editDependent() {
 	    	title="<?php echo $lang_Common_Save;?>"
 	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="addDependent(); return false;"/>
-	    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+	    <input type="button" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	    	onclick="resetDependants()" />
+	    <script type="text/javascript">
+		originalDependantName = "";
+		originalDependantRelationship = "";
+		</script>
 	</div>
 <?php	} ?>
 	</div>
 <?php } ?>
+<br />
 <?php
 //checking for the records if exsists show the dependents table and the delete btn else hide
 $rset = $this->popArr['empDepAss'];

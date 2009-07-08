@@ -23,31 +23,18 @@ $arrRepMethod = array ($lang_hrEmpMain_arrRepMethod_Direct => 1, $lang_hrEmpMain
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editReportTo() {
 
-	if(document.EditReportTo.title=='Save') {
+	if ($('btnEditReportTo').value == '<?php echo $lang_Common_Save; ?>') {
 		editEXTReportTo();
 		return;
+	} else {
+		$('btnEditReportTo').value = '<?php echo $lang_Common_Save; ?>';
+		$('btnEditReportTo').onClick = editEXTReportTo;
 	}
 
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
+	var frm = document.frmEmp;
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
-
-	document.EditReportTo.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.EditReportTo.title="Save";
-}
-
-function moutReportTo() {
-	if(document.EditReportTo.title=='Save')
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function moverReportTo() {
-	if(document.EditReportTo.title=='Save')
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+	}
 }
 
 function returnEmpDetail(){
@@ -200,7 +187,11 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onclick="editReportTo();">
+					        <input type="button" id="btnEditReportTo" class="editbutton" value="<?php echo $lang_Common_Edit; ?>"
+					        	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+								onclick="editReportTo();" />
+							<input type="reset" class="resetbutton" disabled="disabled" value="<?php echo $lang_Common_Reset; ?>"
+									onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
 			<?php			}  ?>
 						</td>
 					  </tr>
@@ -243,7 +234,12 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onclick="editReportTo();">
+							<input type="button" id="btnEditReportTo" class="editbutton" value="<?php echo $lang_Common_Edit; ?>"
+								onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+								onclick="editReportTo();" />
+							<input type="reset" class="resetbutton" disabled="disabled" value="<?php echo $lang_Common_Reset; ?>"
+								onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
+
 		<?php			}  ?>
 						</td>
 					  </tr>

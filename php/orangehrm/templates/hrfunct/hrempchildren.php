@@ -69,65 +69,101 @@ function editChildren() {
 	qCombo(3);
 }
 
+function resetChildren() {
+	$('txtChiName').value = originalChildName;
+	$(dobFieldId).value = originalChildDOB;
+}
+
 //--><!]]></script>
+<style type="text/css">
+div#editPaneChildren,
+div#addPaneChildren {
+	width:100%;
+}
+
+div#editPaneChildren label,
+div#addPaneChildren label {
+	width: 100px;
+}
+
+div#editPaneChildren br,
+div#addPaneChildren br {
+	clear:left;
+}
+
+div#editPaneChildren input,
+div#addPaneChildren input {
+	display:block;
+	margin: 2px 2px 2px 2px;
+	float:left;
+}
+</style>
 <div id="parentPaneChildren" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	<h3><?php echo  $lang_hremp_children?></h3>
 
-    <input type="hidden" name="childrenSTAT" value=""/>
+    <input type="hidden" name="childrenSTAT" value="" class="hiddenField" />
 <?php if(isset($this->getArr['CHSEQ'])) {
 		$edit = $this->popArr['editChiForm'];
 ?>
+	<input type="hidden" name="txtCSeqNo" value="<?php echo $edit[0][1]?>" class="hiddenField" />
 	<div id="editPaneChildren" >
-		<table style="height=100px" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td><?php echo $lang_hremp_name?>
-                	<input type="hidden" name="txtCSeqNo" value="<?php echo $edit[0][1]?>"/></td>
-                <td><input type="text" name="txtChiName" value="<?php echo $edit[0][2]?>"/></td>
-               </tr>
-              <tr>
-                <td><?php echo $lang_hremp_dateofbirth?></td>
-                <td><input class="formDateInput" type="text" name="ChiDOB" id="eChiDOB" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10"/>
-                	<input type="button" class="calendarBtn" value="   " /></td>
-               </tr>
-		</table>
+		<label for="txtChiName"><?php echo $lang_hremp_name; ?></label>
+		<input type="text" name="txtChiName" id="txtChiName" value="<?php echo $edit[0][2]?>" />
+		<br />
+		<label for="eChiDOB"><?php echo $lang_hremp_dateofbirth; ?></label>
+		<input class="formDateInput" type="text" name="ChiDOB" id="eChiDOB" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+		<input type="button" class="calendarBtn" value="   " />
+		<br />
+
 <?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
-<div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditChildren" id="btnEditChildren"
-    	value="<?php echo $lang_Common_Save;?>"
-    	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-    	onclick="editChildren(); return false;"/>
-    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
-</div>
+		<div class="formbuttons">
+		    <input type="button" class="savebutton" name="btnEditChildren" id="btnEditChildren"
+		    	value="<?php echo $lang_Common_Save;?>"
+		    	title="<?php echo $lang_Common_Save;?>"
+		    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		    	onclick="editChildren(); return false;"/>
+		    <input type="button" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
+		    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		    	onclick="resetChildren()" />
+		    <script type="text/javascript">
+		    dobFieldId = "eChiDOB";
+			originalChildName = "<?php echo $edit[0][2]; ?>";
+			originalChildDOB = "<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>";
+			</script>
+		</div>
 <?php	} ?>
 	</div>
 <?php } else { ?>
+	<input type="hidden" name="txtCSeqNo" value="<?php echo $this->popArr['newCID']?>" class="hiddenField" />
 	<div id="addPaneChildren" class="<?php echo ($this->popArr['empChiAss'] != null)?"addPane":""; ?>">
-		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td><?php echo $lang_hremp_name; ?>
-                	<input type="hidden" name="txtCSeqNo" value="<?php echo $this->popArr['newCID']?>"/></td>
-                <td><input name="txtChiName" type="text"/></td>
-                </tr>
-                <tr>
-                <td><?php echo $lang_hremp_dateofbirth; ?></td>
-				<td><input class="formDateInput" type="text" name="ChiDOB" id="aChiDOB" size="10"/>
-					<input type="button" class="calendarBtn" value="   " /></td>
-            </tr>
-		</table>
+		<label for="txtChiName"><?php echo $lang_hremp_name; ?></label>
+		<input name="txtChiName" id="txtChiName" type="text" />
+		<br />
+		<label for="aChiDOB"><?php echo $lang_hremp_dateofbirth; ?></label>
+		<input class="formDateInput" type="text" name="ChiDOB" id="aChiDOB" size="10" />
+		<input type="button" class="calendarBtn" value="   " />
+		<br />
 <?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
-<div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddChildren" id="btnAddChildren"
-    	value="<?php echo $lang_Common_Save;?>"
-    	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-    	onclick="addChildren(); return false;"/>
-    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
-</div>
+		<div class="formbuttons">
+		    <input type="button" class="savebutton" name="btnAddChildren" id="btnAddChildren"
+		    	value="<?php echo $lang_Common_Save;?>"
+		    	title="<?php echo $lang_Common_Save;?>"
+		    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		    	onclick="addChildren(); return false;"/>
+		    <input type="button" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
+		    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		    	onclick="resetChildren()" />
+		    <script type="text/javascript">
+		    dobFieldId = "aChiDOB";
+			originalChildName = "";
+			originalChildDOB = "";
+			</script>
+		</div>
 <?php	} ?>
 	</div>
 <?php } ?>
+<br />
 <?php
 //checking for the records if exsists show the children table and the delete btn else hide
 	$rset = $this->popArr['empChiAss'];

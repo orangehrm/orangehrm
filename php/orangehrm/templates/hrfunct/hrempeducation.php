@@ -20,31 +20,18 @@
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editEducation() {
 
-	if(document.EditEducation.title=='Save') {
+	if ($('btnEditEducation').value == '<?php echo $lang_Common_Save; ?>') {
 		editEXTEducation();
 		return;
+	} else {
+		$('btnEditEducation').value = '<?php echo $lang_Common_Save; ?>';
+		$('btnEditEducation').onClick = editEXTEducation;
 	}
 
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
+	var frm = document.frmEmp;
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
-
-	document.EditEducation.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.EditEducation.title="Save";
-}
-
-function moutEducation() {
-	if(document.EditEducation.title=='Save')
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function moverEducation() {
-	if(document.EditEducation.title=='Save')
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+	}
 }
 
 function addEXTEducation() {
@@ -122,6 +109,36 @@ function viewEducation(edu) {
 	document.frmEmp.submit();
 }
 //--><!]]></script>
+<style type="text/css">
+div#editPaneEducation {
+	width:100%;
+}
+
+div#editPaneEducation label {
+	width: 200px;
+}
+
+div#editPaneEducation br {
+	clear:left;
+}
+
+div#editPaneEducation input {
+	display:block;
+	margin: 2px 2px 2px 2px;
+	float:left;
+}
+
+div#editPaneEducation #educationLabel {
+	display:inline;
+	font-weight:bold;
+	padding-left:2px;
+}
+
+div.formbuttons {
+	text-align:left;
+}
+</style>
+
 <div id="parentPaneEducation" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
     <input type="hidden" name="educationSTAT" value=""/>
@@ -152,14 +169,16 @@ function viewEducation(edu) {
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input class="formDateInput" type="text" name="txtEmpEduStartDate" id="atxtEmpEduStartDate" value="" size="10" />
-							<input type="button" value="  " class="calendarBtn" /></td>
+							<input class="formDateInput" type="text" name="txtEmpEduStartDate" id="atxtEmpEduStartDate" value="" />
+							<input type="button" value="  " class="calendarBtn" />
+						</td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input class="formDateInput" type="text" name="txtEmpEduEndDate" id="atxtEmpEduEndDate" value="" size="10" />
-							<input type="button" value="  " class="calendarBtn" /></td>
+							<input class="formDateInput" type="text" name="txtEmpEduEndDate" id="atxtEmpEduEndDate" value="" />
+							<input type="button" value="  " class="calendarBtn" />
+						</td>
 					 </tr>
 
 					 <tr>
@@ -168,64 +187,63 @@ function viewEducation(edu) {
 					    </td>
 					  </tr>
 			</table>
-<div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddEducation" id="btnAddEducation"
-    	value="<?php echo $lang_Common_Save;?>"
-    	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-    	onclick="addEXTEducation(); return false;"/>
-    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
-</div>
+		<div class="formbuttons">
+		    <input type="button" class="savebutton" name="btnAddEducation" id="btnAddEducation"
+		    	value="<?php echo $lang_Common_Save;?>"
+		    	title="<?php echo $lang_Common_Save;?>"
+		    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		    	onclick="addEXTEducation(); return false;"/>
+		    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
+				onmouseover="moverButton(this)" onmouseout="moutButton(this)" />
+		</div>
 	</div>
 <?php
 if(isset($this->popArr['editEducationArr'])) {
     $edit = $this->popArr['editEducationArr'];
 ?>
-	<div id="editPaneEducation" >
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td width="200"><?php echo $lang_hrEmpMain_education?></td>
-    				  <td><input type="hidden" name="cmbEduCode" value="<?php echo $edit[0][1]?>"/>
-						<?php	$allEduCodes = $this->popArr['allEduCodes'];
-							for($c=0; $allEduCodes && count($allEduCodes)>$c; $c++)
-								if($allEduCodes[$c][0] == $edit[0][1])
-									 echo $allEduCodes[$c][1] . ", ". $allEduCodes[$c][2];
-									 ?>
-					  </select></td>
-
-					</tr>
-                    <tr>
-                      <td><?php echo $lang_hrEmpMain_major?></td>
-    				  <td><input type="text" name="txtEmpEduMajor" value="<?php echo $edit[0][2]?>"/></td>
-					</tr>
-					 <tr>
-					<td><?php echo $lang_Leave_Common_Year?></td>
-						<td> <input type="text" name="txtEmpEduYear" id="etxtEmpEduYear" value="<?php echo $edit[0][3]?>"/></td>
-					 </tr>
-					 <tr>
-					<td><?php echo $lang_hrEmpMain_gpa?></td>
-						<td> <input type="text" name="txtEmpEduGPA" value="<?php echo $edit[0][4]?>"/></td>
-					 </tr>
-					<tr>
-					<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td>
-							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
-							<input type="button" value="  " class="calendarBtn" /></td>
-					</tr>
-					  <tr>
-						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td>
-							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" size="10" />
-							<input type="button" value="  " class="calendarBtn" /></td>
-					 </tr>
-
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_save.gif" alt="" title="Save" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onclick="editEducation();">
-						</td>
-					  </tr>
-		</table>
+	<input type="hidden" name="cmbEduCode" value="<?php echo $edit[0][1]?>" style="display:none" />
+	<div id="editPaneEducation">
+		<label><?php echo $lang_hrEmpMain_education?></label>
+		<label id="educationLabel"><?php
+				$allEduCodes = $this->popArr['allEduCodes'];
+				for($c=0; $allEduCodes && count($allEduCodes)>$c; $c++) {
+					if($allEduCodes[$c][0] == $edit[0][1]) {
+						 echo $allEduCodes[$c][1] . ", ". $allEduCodes[$c][2];
+					}
+				}
+			?>
+		</label>
+		<br />
+		<label for="txtEmpEduMajor"><?php echo $lang_hrEmpMain_major; ?></label>
+		<input type="text" name="txtEmpEduMajor" id="txtEmpEduMajor"
+			value="<?php echo $edit[0][2]?>" disabled="disabled" />
+		<br />
+		<label for="etxtEmpEduYear"><?php echo $lang_Leave_Common_Year?></label>
+		<input type="text" name="txtEmpEduYear" id="etxtEmpEduYear"
+			value="<?php echo $edit[0][3]?>"  disabled="disabled" />
+		<br />
+		<label for="txtEmpEduGPA"><?php echo $lang_hrEmpMain_gpa; ?></label>
+		<input type="text" name="txtEmpEduGPA" id="txtEmpEduGPA"
+			value="<?php echo $edit[0][4]?>" disabled="disabled" />
+		<br />
+		<label for="etxtEmpEduStartDate"><?php echo $lang_hrEmpMain_startdate; ?></label>
+		<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" disabled="disabled" style="float:left"
+			value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" />
+		<input type="button" value="  " class="calendarBtn"  disabled="disabled" style="float:left" />
+		<br />
+		<label for="etxtEmpEduEndDate"><?php echo $lang_hrEmpMain_enddate?></label>
+		<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" disabled="disabled" style="float:left"
+			value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" />
+		<input type="button" value="  " class="calendarBtn" disabled="disabled" style="float:left" />
+		<br /><br />
+		<div class="formbuttons">
+			<input type="button" class="editbutton" value="<?php echo $lang_Common_Edit; ?>" id="btnEditEducation"
+				onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+				onclick="editEducation();" />
+			<input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" disabled="disabled"
+				onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
+			<br />
+		</div>
 	</div>
 <?php } ?>
 <?php

@@ -22,34 +22,20 @@
 
 ?>
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
-function editLang()
-{
-	if(document.EditLang.title=='Save') {
+function editLang() {
+	if ($('btnEditLang').value == '<?php echo $lang_Common_Save; ?>') {
 		editEXTLang();
 		return;
+	} else {
+		$('btnEditLang').value = '<?php echo $lang_Common_Save; ?>';
+		$('btnEditLang').onClick = editEXTLang;
 	}
 
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
+	var frm = document.frmEmp;
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
-	document.EditLang.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.EditLang.title="Save";
+	}
 }
-
-function moutLang() {
-	if(document.EditLang.title=='Save')
-		document.EditLang.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.EditLang.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function moverLang() {
-	if(document.EditLang.title=='Save')
-		document.EditLang.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.EditLang.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-
 
 function addEXTLang()
 {
@@ -160,7 +146,11 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutLang();" onmouseover="moverLang();" name="EditLang" onclick="editLang();">
+							<input type="button" id="btnEditLang" class="editbutton" value="<?php echo $lang_Common_Edit; ?>"
+								onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+								onclick="editLang();" />
+							<input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" disabled="disabled"
+								onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
 						</td>
 					  </tr>
                   </table>

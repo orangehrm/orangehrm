@@ -21,30 +21,18 @@
 ?>
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editMembership() {
-	if(document.EditMembership.title=='Save') {
+	if($('btnEditMembership').value == '<?php echo $lang_Common_Save; ?>') {
 		editEXTMembership();
 		return;
+	} else {
+		$('btnEditMembership').value = '<?php echo $lang_Common_Save; ?>';
+		$('btnEditMembership').onClick = editEXTMembership;
 	}
 
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
+	var frm = document.frmEmp;
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
-	document.EditMembership.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.EditMembership.title="Save";
-}
-
-function moutMembership() {
-	if(document.EditMembership.title=='Save')
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function moverMembership() {
-	if(document.EditMembership.title=='Save')
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+	}
 }
 
 function goBack() {
@@ -147,6 +135,41 @@ function viewMembership(mem,mtp) {
 }
 
 //--><!]]></script>
+<style type="text/css">
+label#membershipLabel,
+label#membershipTypeLabel {
+	font-weight:bold;
+}
+
+div#editPaneMemberships {
+	width:100%;
+}
+
+div#editPaneMemberships label {
+	width: 200px;
+}
+
+div#editPaneMemberships br {
+	clear:left;
+}
+
+div#editPaneMemberships input {
+	display:block;
+	margin: 2px 2px 2px 2px;
+	float:left;
+}
+
+div#editPaneMemberships #membershipTypeLabel,
+div#editPaneMemberships #membershipLabel, {
+	display:inline;
+	font-weight:bold;
+	padding-left:2px;
+}
+
+div.formbuttons {
+	text-align:left;
+}
+</style>
 <div id="parentPaneMemberships" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
      <input type="hidden" name="membershipSTAT" value="" />
@@ -154,71 +177,65 @@ function viewMembership(mem,mtp) {
 if(isset($this->popArr['editMembershipArr'])) {
     $edit = $this->popArr['editMembershipArr'];
 ?>
+  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>" />
+  <input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>" />
   <div id="editPaneMemberships" >
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?php echo $lang_hrEmpMain_membershiptype; ?></td>
-    				  <td><strong>
-					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>"/>
-<?php
-						$typlist = $this->popArr['typlist'];
-						for($c=0;count($typlist)>$c;$c++)
-							if($typlist[$c][0]==$edit[0][2])
-							   echo $typlist[$c][1];
-?>
-					  </strong></td>
-					</tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_membership; ?></td>
-						<td align="left" valign="top"><strong>
-						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>"/>
-<?php
-						$mship = $this->popArr['mship'];
-						for($c=0;count($mship)>$c;$c++)
-						    if($mship[$c][1]==$edit[0][1])
-						       echo $mship[$c][2];
-?>
-						</strong></td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_subownership; ?></td>
-						<td align="left" valign="top"><select name="cmbMemSubOwn">
-<?php
-						for($c=0;count($subown)>$c;$c++)
-						    if($edit[0][3]==$subown[$c])
-							    echo "<option selected=\"selected\" value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
-							else
-							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
-?>
-						</select></td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>"/>
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
-						<td align="left" valign="top">
-							<input type="text" name="txtMemCommDat" id="etxtMemCommDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
-							<input class="calendarBtn" type="button" value="   " />
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
-						<td align="left" valign="top">
-							<input type="text" name="txtMemRenDat" id="etxtMemRenDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" size="10" />
-							<input class="calendarBtn" type="button" value="   " />
-						</td>
-					  </tr>
-
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-						        <img alt="" src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onclick="editEXTMembership();">
-						</td>
-					  </tr>
-       </table>
+	  	<label><?php echo $lang_hrEmpMain_membershiptype; ?></label>
+		<label id="membershipTypeLabel"><?php
+			$typlist = $this->popArr['typlist'];
+			for($c=0;count($typlist)>$c;$c++) {
+				if($typlist[$c][0]==$edit[0][2]) {
+				   echo $typlist[$c][1];
+				}
+			}
+		?>
+		</label>
+		<br />
+		<label><?php echo $lang_hrEmpMain_membership; ?></label>
+		<label id="membershipLabel"><?php
+			$mship = $this->popArr['mship'];
+			for($c=0;count($mship)>$c;$c++) {
+			    if($mship[$c][1]==$edit[0][1]) {
+					echo $mship[$c][2];
+			    }
+			}
+		?>
+		</label>
+		<br />
+		<label for="cmbMemSubOwn"><?php echo $lang_hrEmpMain_subownership; ?></label>
+		<select name="cmbMemSubOwn" id="cmbMemSubOwn" disabled="disabled">
+		<?php
+			$count = count($subown);
+			for($c = 0; $c < $count; $c++) {
+				$selected = ($edit[0][3] == $subown[$c]) ? 'selected="selected"' : '';
+		?><option <?php echo $selected; ?> value="<?php echo $subown[$c]; ?>"><?php echo $subown[$c]; ?></option>
+		<?php
+			}
+		?>
+		</select>
+		<br />
+		<label for="etxtMemSubAmount"><?php echo $lang_hrEmpMain_subamount?></label>
+		<input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" disabled="disabled"
+			value="<?php echo $edit[0][4]?>" />
+		<br />
+		<label for="etxtMemCommDat"><?php echo $lang_hrEmpMain_subcomdate?></label>
+		<input type="text" name="txtMemCommDat" id="etxtMemCommDat" disabled="disabled"
+			value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" />
+		<input class="calendarBtn" type="button" value="   " disabled="disabled" style="float:none" />
+		<br />
+		<label for="etxtMemRenDat"><?php echo $lang_hrEmpMain_subredate?></label>
+		<input type="text" name="txtMemRenDat" id="etxtMemRenDat" disabled="disabled"
+			value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" />
+		<input class="calendarBtn" type="button" value="  " disabled="disabled" />
+		<br /><br />
+		<div class="formbuttons">
+			<input type="button" class="editbutton" id="btnEditMembership" value="<?php echo $lang_Common_Edit; ?>"
+				onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+				onclick="editMembership();" />
+			<input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" disabled="disabled"
+				onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
+		</div>
+		&nbsp;
 	</div>
 <?php } else { ?>
 	<div id="addPaneMemberships" class="<?php echo ($this->popArr['rsetMembership'] != null)?"addPane":""; ?>" >

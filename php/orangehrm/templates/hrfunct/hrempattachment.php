@@ -63,8 +63,14 @@ function viewAttach(att) {
 }
 
 function editAttach() {
-	document.frmEmp.attSTAT.value="EDIT";
-	qCombo(6);
+	if ($('btnEditAttach').value == '<?php echo $lang_Common_Save; ?>') {
+		document.frmEmp.attSTAT.value="EDIT";
+		qCombo(6);
+	} else {
+		$('btnEditAttach').value = '<?php echo $lang_Common_Save; ?>'
+		$('txtAttDesc').disabled = false;
+		$('btnReset').disabled = false;
+	}
 }
 
 <?php
@@ -87,22 +93,22 @@ function editAttach() {
               </tr>
               <tr>
               	<td><?php echo $lang_Commn_description?></td>
-              	<td><textarea name="txtAttDesc" rows="3" cols="25" <?php echo $disabled; ?> ><?php echo $edit[0][2]?></textarea></td>
-              </tr>
-              <tr>
               	<td>
-              		<input type="button" value="<?php echo $lang_hremp_ShowFile; ?>"
-              		class="button" onclick="dwPopup()">
+              		<textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="25" disabled="disabled"><?php echo $edit[0][2]?></textarea>
               	</td>
               </tr>
-			  <tr>
-				<td>&nbsp;</td>
-				<td>
-<?php	if ($locRights['edit']) { ?>
-        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onclick="editAttach();" alt="" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif"/>
-<?php	} ?>
-				</td>
-				</tr>
+              <tr>
+              	<td colspan="2">
+              		<input type="button" class="plainbtn" value="<?php echo $lang_hremp_ShowFile; ?>"
+              		class="button" onclick="dwPopup()">
+					<?php	if ($locRights['edit']) { ?>
+        				<input type="button" class="editbutton" id="btnEditAttach" value="<?php echo $lang_Common_Edit; ?>"
+        					onmouseout="moutButton(this)" onmouseover="moverButton(this)" onclick="editAttach();" />
+        				<input type="reset" class="resetbutton" id="btnReset" disabled="disabled" value="<?php echo $lang_Common_Reset; ?>"
+        					onmouseout="moutButton(this)" onmouseover="moverButton(this)" />
+					<?php	} ?>
+              	</td>
+              </tr>
 		</table>
 	</div>
 <?php } else if ($locRights['add']) { ?>
