@@ -217,9 +217,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <body>
     <div class="formpage">
         <div class="navigation">
-        	<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+        	<input type="button" class="backbutton" onclick="goBack();"
         	  onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-              value="<?php echo $lang_Common_Back;?>" />
+              value="<?php echo $lang_Common_Back;?>" tabindex="13" />
         </div>
         <div id="status"></div>
         <div class="outerbox">
@@ -241,19 +241,19 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
                 <?php if (!$new) { ?>
                     <label for="txtLocationCode"><?php echo $lang_Commn_code; ?></label>
-                    <input type="hidden" id="txtLocationCode" name="txtLocationCode" value="<?php echo $locationCode;?>"/>
+                    <input type="hidden" id="txtLocationCode" name="txtLocationCode" value="<?php echo $locationCode;?>" tabindex="1" />
                     <span class="formValue"><?php echo $locationCode;?></span><br class="clear"/>
                 <?php } ?>
 
                 <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?><span class="required">*</span>
                 </label>
                 <input id="txtLocDescription" name="txtLocDescription" type="text" <?php echo $disabled;?> class="formInputText"
-                        value="<?php echo $locationName;?>" tabindex="1" />
+                        value="<?php echo $locationName;?>" tabindex="2" />
                <br class="clear"/>
 
                 <label for="cmbCountry"><?php echo $lang_compstruct_country; ?><span class="required">*</span></label>
                 <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect"
-                        onchange="onCountryChange(this.value);" tabindex="2" >
+                        onchange="onCountryChange(this.value);" tabindex="3" >
                     <option value="0">--- <?php echo $lang_districtinformation_selectcounlist;?> ---</option>
                     <?php
                         $countryList = $this->popArr['cntlist'];
@@ -270,7 +270,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <label for="txtState"><?php echo $lang_compstruct_state; ?></label>
                 <div id="lrState">
                 <?php if ($locationCountry == 'US') { ?>
-                    <select name="txtState" id="txtState" <?php echo $disabled;?> class="formSelect" tabindex="3" >
+                    <select name="txtState" id="txtState" <?php echo $disabled;?> class="formSelect" tabindex="4" >
                         <option value="0">--- <?php echo $lang_districtinformation_selstatelist;?>---</option>
                     <?php
                         $stateList = $this->popArr['provlist'];
@@ -284,52 +284,51 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     </select>
                 <?php } else { ?>
                     <input id="txtState" name="txtState" type="text" <?php echo $disabled;?> class="formInputText"
-                        value="<?php echo $locationState;?>" tabindex="3" />
+                        value="<?php echo $locationState;?>" tabindex="4" />
                 <?php } ?>
                 </div>
                 <br class="clear"/>
 
                 <input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo $locationState;?>"/>
 
-
                 <label for="cmbDistrict"><?php echo $lang_compstruct_city; ?></label>
                 <input id="cmbDistrict"  name="cmbDistrict" type="text" <?php echo $disabled;?> class="formInputText"
-                    value="<?php echo $locationCity; ?>" tabindex="4" />
+                    value="<?php echo $locationCity; ?>" tabindex="5" />
                 <br class="clear"/>
 
                 <label for="txtAddress"><?php echo $lang_compstruct_Address; ?><span class="required">*</span></label>
                 <textarea id='txtAddress' name='txtAddress' <?php echo $disabled;?> class="formTextArea"
-                    rows="3" cols="20" tabindex="5" ><?php echo $locationAddress;?></textarea>
+                    rows="3" cols="20" tabindex="6"><?php echo $locationAddress;?></textarea>
                 <br class="clear"/>
 
                 <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?><span class="required">*</span></label>
                 <input id='txtZIP' name='txtZIP' type="text" <?php echo $disabled;?> class="formInputText"
-                    value="<?php echo $locationZip;?>" tabindex="6" />
+                    value="<?php echo $locationZip;?>" tabindex="7" />
                 <br class="clear"/>
 
                 <label for="txtPhone"><?php echo $lang_compstruct_Phone; ?></label>
                 <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText"
-                    value="<?php echo $locationPhone;?>"/>
+                    value="<?php echo $locationPhone;?>" tabindex="8" />
                 <br class="clear"/>
 
                 <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>
                 <input id="txtFax" name="txtFax" type="text" <?php echo $disabled;?>  class="formInputText"
-                    value="<?php echo $locationFax;?>" tabindex="7"/>
+                    value="<?php echo $locationFax;?>" tabindex="9"/>
                 <br class="clear"/>
 
                 <label for="txtComments"><?php echo $lang_Leave_Common_Comments; ?></label>
                 <textarea id='txtComments' name='txtComments' <?php echo $disabled;?> class="formTextArea"
-                    rows="3" cols="20" tabindex="8" ><?php echo $locationComments;?></textarea>
+                    rows="3" cols="20" tabindex="10" ><?php echo $locationComments;?></textarea>
                 <br class="clear"/>
 
                 <div class="formbuttons">
 <?php if($locRights['edit']) { ?>
                     <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
-                        onclick="edit();" tabindex="9" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="reset();" tabindex="10"
+                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" tabindex="11" />
+                    <input type="button" class="clearbutton" onclick="reset();"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Reset;?>" />
+                         value="<?php echo $lang_Common_Reset;?>" tabindex="12" />
 <?php } ?>
                 </div>
             </form>
