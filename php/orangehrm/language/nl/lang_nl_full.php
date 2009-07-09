@@ -111,7 +111,8 @@
 
 	// Home
 	$lang_Menu_Home 							= "Home";
-
+	$lang_Menu_Help								= 'Help';
+	$lang_Menu_HelpContents						= 'Help inhoud';
 	$lang_Menu_Home_Support 					= "Helpdesk";
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
@@ -254,11 +255,32 @@
 	$lang_Common_Back = "Terug";
     $lang_Common_Add = "Toevoegen";
     $lang_Common_Delete = "Verwijder";
+    $lang_Common_Replace = "Vervang";
+    $lang_Common_Search = "Zoek";
+    $lang_Common_Clear = "Leeg";
+    $lang_Common_Reset = "Reset";
+    $lang_Common_Assign = "Toewijzen";
+    $lang_Common_Apply = "Verwerk";
+    $lang_Common_Cancel = "Annuleren";
+    $lang_Common_View = "Bekijk";
+    $lang_Common_Submit = "Verzend";      
+    $lang_Common_Reject = "Afkeuren";  
+    $lang_Common_Details = "Details";
+    $lang_Common_Approve = "Goedkeuren";
+    $lang_Common_Update = "Bijwerken";  
+    $lang_Common_InsertTime = "Tijd toevoegen";
+	$lang_Common_SortAscending = "Sorteer aflopend";
+	$lang_Common_SortDescending = "Sorteer oplopend";
+
 
 	$lang_Common_Time = "Tijd";
+	$lang_Common_Date = "Datum";
 	$lang_Common_Note = "Notitie";
 
 	$lang_Common_AccessDenied = "Toegang geweigerd";
+
+	$lang_Common_TEST_EMAIL_SUCCESS = "Test e-mail succesvol verzonden";
+	$lang_Common_TEST_EMAIL_FAILIURE = "Test e-mail mislukt. Dit kan komen door een foute configuratie";
 
 	//days
 	$lang_Common_Monday 					= "maandag";
@@ -283,6 +305,7 @@
 	$lang_Common_DUPLICATE_NAME_FAILURE     = "Naam is al in gebruik";
 	$lang_Common_COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE = "Compulsary velden niet toegewezen";
 	$lang_Common_IMPORT_FAILURE = "Importeren mislukt";
+    $lang_Common_IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE = "Importeren mislukt. Geen schrijfrechten in de tijdelijke directorie";
 
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
@@ -321,7 +344,6 @@
 	$lang_Leave_Common_HalfDayAfternoon 	= "Halve dag / middag";
 	$lang_Leave_Common_HalfDay 				= "Halve dag";
 	$lang_Leave_Common_LeaveTaken 			= "Opgenomen vrije dag";
-	$lang_Leave_Common_LeaveAvailable 		= "Mogelijke vrije dagen";
 	$lang_Leave_Common_LeaveRemaining 		= "Restant verlof";
 	$lang_Leave_Common_LeaveScheduled 		= "Gepland verlof";
 	$lang_Leave_Common_LeaveTypeName 		= "Titel van vrije dag";
@@ -356,6 +378,7 @@
 	$lang_Leave_Leave_list_SelectAtLeastOneStatus = "Selecteer minstens 1 verlof status";
 	$lang_Leave_Leave_list_From             = "Van";
 	$lang_Leave_Leave_list_To               = "Tot";
+    $lang_Leave_Leave_list_Period           = "Periode";
 	$lang_Leave_Select_Employee_Title 		= "Selecteer werknemer";
 	$lang_Leave_Leave_Summary_Title 		= "Overzicht van vrije dagen";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Overzicht vrije dagen voor #employeeName in #dispYear jaar";
@@ -523,6 +546,8 @@
 	$lang_geninfo_naics 					= "KvK nummer";
 	$lang_geninfo_err_CompanyName 			= "Bedrijfsnaam moet ingevuld zijn";
 	$lang_geninfo_err_Phone 				= "Geen geldig telefoonnummer/faxnummer";
+    $lang_geninfo_err_Fax                   = "Geen geldig faxnummer";
+
 	$lang_geninfo_err_CommentLengthWarning	= "De lengte voor commentaar is groter dan het toegestane maximum. Tekst aan het einde van het commentaar zal verloren raken.";
 
  	$lang_hierarchydef_heading 				= "Hierarchie informatie : Bedrijfsinformatie";
@@ -565,6 +590,10 @@
  	$lang_hremp_dependents 					= "Naasten";
 	$lang_hremp_children 					= "Kinderen";
 	$lang_hremp_relationship 				= "Relatie";
+	$lang_hremp_AssignedDependents			= "Toegewezen naasten";
+	$lang_hremp_AssignedChildren			= "Toegewezen kinderen";
+
+	$lang_hremp_AssignedEmergencyContacts   = "Toegewezen contact bij calamiteiten";
 
 	$lang_hremp_street1						= "Adres 1";
 	$lang_hremp_street2 					= "Adres 2";
@@ -583,6 +612,7 @@
 	$lang_hremp_i9status 					= "I9 status";
 	$lang_hremp_dateofexp 					= "Geldig tot";
 	$lang_hremp_i9reviewdate 				= "I9 beoordelings datum";
+	$lang_hremp_AssignedPassportVisas		= "Toegewezen paspoort/Visa";
 	$lang_hremp_path 						= "Pad";
 	$lang_hremp_filename 					= "Bestandsnaam";
 	$lang_hremp_size 						= "Omvang";
@@ -724,6 +754,8 @@
 	$lang_hrEmpMain_selecttype 				= "Selecteer methode";
 	$lang_hrEmpMain_Direct 					= "Direct";
 	$lang_hrEmpMain_Indirect 				= "Indirect";
+	$lang_hrEmpMain_ReportToId 				= "Id";
+	$lang_hrEmpMain_ReportToName 			= "Naam";
 	$lang_hrEmpMain_employeeskill 			= "Ervaring werknemer";
 	$lang_hrEmpMain_yearofex 				= "Aantal jaren ervaring";
 	$lang_hrEmpMain_assignskills 			= "Toegekende mogelijkheden";
@@ -870,6 +902,9 @@
  	$lang_routeinformation_heading 			= "Route Informatie : Route Informatie";
 	$lang_salarygrades_heading 				= "Baan : Salaris schaal";
 	$lang_salarygrades_currAss 				= "Toegekende valuta";
+    $lang_salarygrades_AssignedCurrencies   = "Toegewezen valuta";
+    $lang_salarygrades_EditAssignedCurrency = "Bewerk toegewezen valuta";
+    $lang_salarygrades_AssignNewCurrency    = "Nieuwe valuta toewijzen";
 	$lang_salarygrades_stepSal 				= "Schaal verhoging";
 	$lang_salarygrades_selectcurrency 			= "Valute veld moet geselecteerd worden";
 	$lang_salarygrades_minSalNumeric 			= "Minimum salaris moet nummeriek zijn";
@@ -879,7 +914,7 @@
 	$lang_salarygrades_stepPlusMinGreaterThanMax = "Verschil tussen salaris plus minimum salaris moet minder zijn dan het maximum salaris";
 	$lang_salarygrades_stepGreaterThanMax = "Stap salaris moet minder zijn dan het maximum salaris";
 	$lang_salarygrades_NameCannotBeBlank = "Salarisschaal naam mag niet leeg zijn!";
-	
+
 	$lang_Error_salarygrades_DUPLICATE_NAME_FAILURE		= "Toevoegen van salarisschaal mislukt. Namen mogen niet hetzelfde zijn";
 	$lang_Error_salarygrades_ADD_FAILURE				= "Toevoegen salarisschaal mislukt";
 
@@ -992,11 +1027,28 @@
 	$lang_MailTypes_Sendmailer = "SendMail";
 	$lang_MailTypes_Smtp = "SMTP";
 	$lang_SendmailPath = "Pad naar SendMail";
+	$lang_EmailAuthentication = "Gebruik SMTP authenticatie";
 	$lang_SmtpHost = "SMTP Host";
 	$lang_SmtpPort = "SMTP poort";
 	$lang_SmtpUser = "SMTP gebruiker";
 	$lang_SmtpPassword = "SMTP wachtwoord";
+	$lang_EmailSecurity = "Gebruik beveiligde verbinding";
+	$lang_Email_SSL = "SSL";
+	$lang_Email_TLS = "TLS";
+	$lang_SmtpSendTestEmail = "Verstuur test e-mail";
+	$lang_SmptTestEmailAddress = "Test e-mail adres";
+	$lang_Email_SendMail_Instructions = "Bepaal het juiste pad naar sendmail door sendmail_path te veranderen in php.ini";
+
+	// Email Configuration Validation
+	$lang_Error_FromEmailEmpty = "'E-mail versturen als' kan niet leeg zijn. Geef een geldig e-mail adres op";
+	$lang_Error_FromEmailInvalid = "'E-mail versturen als' moet een geldig e-mail adres zijn";
+	$lang_Error_SmtpHostEmpty = "'SMTP Host' kan niet leeg zijn";
+	$lang_Error_SmtpPortEmpty = "'SMTP Port' kan niet leeg zijn";
 	$lang_Error_Invalid_Port = "Ongeldige SMTP poort";
+	$lang_Error_SmtpUsernameEmpty = "'SMTP gebruikernaam' kan niet leeg zijn";
+	$lang_Error_SmtpPasswordEmpty = "'SMTP wachtwoord' kan niet leeg zijn";
+	$lang_Error_TestEmailEmpty = "Test e-mail adres is leeg";
+	$lang_Error_TestEmailValid = "Test e-mail adres is ongeldig";
 
 	//Projects
 	$lang_view_Project_Heading = "Project";
@@ -1119,6 +1171,13 @@
 	$lang_pim_CustomFields_NoCustomFieldsDefined = "Geen vrij invulbare velden gedefinieerd.";
 
 	// PIM tab labels
+	$lang_pim_PersonalDetails = 'Persoonlijke details';
+	$lang_pim_Employment = 'Aanstelling';
+	$lang_pim_Qualifications = 'Kwalificaties';
+	$lang_pim_EmployeeList = 'Medewerker lijst';
+	$lang_pim_AddEmployee = 'Medewerker toevoegen';
+    $lang_pim_Other = 'Overig';
+
 	$lang_pim_tabs_Personal = "Persoonlijk";
 	$lang_pim_tabs_Contact = "contact";
 	$lang_pim_tabs_EmergencyContacts = "Contact bij calamiteiten";
@@ -1138,6 +1197,8 @@
 	$lang_pim_tabs_Tax = "Vrijstelling van belasting";
 	$lang_pim_tabs_DirectDebit = "Directe storting";
 	$lang_pim_tabs_Custom = "Vrij invulbaar";
+
+	$lang_pim_ClickToEditPhoto = "Klik om foto te bewerken";
 
 	// Report module
 	$lang_rep_SelectionCriteria = "Selectie criteria";
@@ -1246,10 +1307,12 @@
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Wachtwoord incorrect";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Werknemers ID moet gedefineerd zijn";
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Veld moet geselecteerd zijn";
+	$lang_Admin_Users_Errors_ModuleShouldBeSelected = "Selecteer een modulo om de rechten toe te wijzen";
 	$lang_Admin_Users_Errors_ViewShouldBeSelected = "Weergave moet geselecteerd zijn";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Wachtwoorden komen niet overeen, geef wachtwoorden opnieuw op";
 	$lang_Admin_Users_Errors_SpecialCharacters = "De inlognaam mag geen speciale tekens bevatten";
 	$lang_Admin_Users_WrongPassword = "Komt niet overeen met uw oude wachtwoord";
+    $lang_Admin_Users_Errors_AdminUserGroupShouldBeSelected = "Admin gebruikersgroep zou moeten worden geselecteerd";
 
 	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Wilt u de rechten verwijderen";
 	$lang_Admin_Users_Errors_SameGroup = "Uw account behoord tot deze gebruikers groep. U bent niet gemachtigt om deze gebruikers groep aan te passen";
@@ -1311,6 +1374,7 @@
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Geef aub de naam op";
 
 	$lang_Admin_ProjectActivities = "Project activiteiten";
+    $lang_Admin_AssignedActivities = "Toegewezen activiteiten";
 	$lang_Admin_Activity = "Activiteit";
 	$lang_Admin_Project_Activity_ClickOnActivityToEdit = "Klik op een bestaande activiteit om te hernoemen";
 	$lang_Admin_Project_Activity_Error_PleaseSpecifyTheActivityName = "Geef de activiteiten naam op";
@@ -1336,6 +1400,7 @@
 
 	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Urenstaat van #name voor #periodName startend #startDate";
 	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Wijzig urenstaat van #name voor #periodName startend #startDate";
+	$lang_Time_Timesheet_EditTimesheetForWeekStarting = "Bewerk urenstaat voor de start week";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -1370,9 +1435,13 @@
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Geen urenstaat gevonden";
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Ongeldige tijd gespecificeerd";
+	$lang_Time_Errors_INVALID_DURATION_FAILURE = "Ongeldige duur opgegeven";
 	$lang_Time_Errors_EVENT_START_AFTER_END_ERROR = "Evenement start tijd na eind tijd.";
 	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Ongeldige urenstaat periode.";
 	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "De urenstaat bevat niet beeindigde activiteiten";
+	$lang_Time_Errors_DUPLICATE_ROWS = "Duplicaat rijen gevonden";
+	$lang_Time_Errors_NO_PROJECT_SELECTED = "Selecteer aub een project";
+	$lang_Time_Errors_MaxTotalDuration = 'De totale duur van een dag mag niet meer dan 24 uur zijn';
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "De volgende problemen zijn gevonden";
 	$lang_Time_Errors_EncounteredFollowingProblems = "De volgende problemen deden zich voor";
@@ -1398,6 +1467,7 @@
 	$lang_Time_Timesheet_Decription = "Omschrijving";
 	$lang_Time_Timesheet_NoCustomers = "Geen klanten";
 	$lang_Time_Timesheet_NoProjects = "Geen projecten";
+	$lang_Time_Timesheet_IncludeDeleteProjects = "Verwijderde projecten meenemen";
 
 	$lang_Time_Select_Employee_Title = "Selecteer medewerker";
 
@@ -1415,13 +1485,42 @@
 	$lang_mtview_UPDATE_FAILURE 			= "Bijwerken mislukt";
 	$lang_mtview_DELETE_FAILURE 			= "Verwijderen mislukt";
 
+	// Attendance
+	$lang_Time_Menu_Attendacne = "Aanwezigheid";
+	$lang_Time_Menu_PunchInOut = "Klok in/uit";
+	$lang_Time_Heading_PunchIn = "Klok in";
+	$lang_Time_Heading_PunchOut = "Klok uit";
+	$lang_Time_LastPunchIn = "Laatste inkloktijd was om";
+	$lang_Time_Menu_AttendanceConfiguration = "Configuratie";
+	$lang_Time_AttendanceConfiguration = "Aanwezigheid configuratie";
+	$lang_Time_EmpChangeTime = "Medewerker kan de weergegeven tijd veranderen als hij in/uit klokt";
+	$lang_Time_EmpEditSubmitted = "Medewerker kan de geregistreerde tijden bewerken";
+	$lang_Time_SupEditSubmitted = "Supervisor kan de geregistreerde tijden van mensen onder hem bewerken";
+	$lang_Time_AttendanceConfigSaving_SUCCESS = "Aanwezigheids configuratie succesvol opgeslagen";
+	$lang_Time_AttendanceConfigSaving_FAILURE = "Aanwezigheids configuratie opslaan is mislukt";
+	$lang_Time_PunchSaving_SUCCESS = "Record opgeslagen";
+	$lang_Time_PunchSaving_FAILURE = "Record opslaan mislukt";
+	$lang_Time_Errors_InvalidMaxTime = "Ongeldige tijd opgegeven. Maximaal toegestane tijd is 23:59";
+
+	$lang_Time_Menu_MyReports = "Mijn rapporten";
+	$lang_Time_Menu_EmployeeReports = "Medewerker rapporten";
+	$lang_Time_Heading_Attendance_Report = "Aanwezigheids rapport";	
+	$lang_Time_ReportType = "Rapport type";
+	$lang_Time_Option_Summary = "Samenvatting";
+	$lang_time_Option_Detailed = "Gedetaileerd";
+	$lang_Time_Button_Generate = "Genereer";
+	$lang_Time_In = "In";
+	$lang_Time_Out = "Uit";
+
+	$lang_Time_Attendance_ReportSavingSuccess = "Aanwezigheids rapport succesvol opgeslagen";
+	$lang_Time_Attendance_ReportSavingFailure = "Aanwezigheids rapport opslaan is mislukt";
+	$lang_Time_Attendance_ReportNoChange = "Geen wijzigingen om op te slaan";
+	$lang_Time_Attendance_Overlapping = "Overlappende records gevonden";
+	$lang_Time_Attendance_NoReports = " reports to display";
+	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
+
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Klok in/uit";
-	$lang_Time_PunchIn = "In";
-	$lang_Time_PunchOut = "Uit";
-
-	$lang_Time_LastPunchIn = "Laatste inklok tijd:";
-	$lang_Time_LastPunchOut = "Laatste uitklok tijd:";
 
 	$lang_Time_Errors_InvalidDateOrTime = "Ongeldige datum of tijd";
 	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Klok tijd kan niet zijn voor de laatste tijd geklokt";
@@ -1438,6 +1537,7 @@
 	$lang_Time_Timesheet_DateReportedFor = "Datum voor rapportage";
 
 	$lang_Time_UnfinishedActivitiesTitle = "Onafgemaakte activiteiten";
+	$lang_Time_Add_NewEvent = "Nieuw tijd evenement toevoegen";
 	$lang_Time_NewEvent = "Nieuw evenement";
 	$lang_Time_Complete = "Kompleet";
 
@@ -1629,6 +1729,8 @@
 	$lang_Recruit_Application_CompanyNameNotSet = 'Bedrijfsnaam niet opgegeven';
 	$lang_Recruit_ApplicationForm_Position = 'Sollicitatie voor de functie';
 	$lang_Recruit_Applicant_NoVacanciesFound = 'Er zijn geen openstaande vacatures gevonden. Kom later nog eens terug.';
+    $lang_Recruit_Applicant_ExpandAll = 'Alles uitklappen';
+    $lang_Recruit_Applicant_CollapseAll = 'Alles inklappen';
 
 	$lang_Recruit_ApplicationForm_FirstName = 'Voornaam';
 	$lang_Recruit_ApplicationForm_MiddleName = 'Tussenvoegsel';
@@ -1643,6 +1745,9 @@
 	$lang_Recruit_ApplicationForm_Mobile = 'Mobiele telefoon';
 	$lang_Recruit_ApplicationForm_Email = 'E-mail';
 	$lang_Recruit_ApplicationForm_Qualifications = 'Kwalificaties en kennis';
+	$lang_Recruit_ApplicationForm_Resume = 'CV';
+	$lang_Recruit_ApplicationForm_ResumeDownload = 'Download';
+	$lang_Recruit_ApplicationForm_ResumeDescription = 'De bestandsgrote moet minder zijn dan 1MB en alleen de formaten .doc, .docx, .odt, .pdf, .rtf, .txt zijn toegestaan';
 
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Geef aub op ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Geef aub een geldig email adres op voor ';
@@ -1651,8 +1756,17 @@
 
 	$lang_Recruit_ApplicationStatus_SuccessHeading = 'Sollicitatie ontvangen';
 	$lang_Recruit_ApplicationStatus_FailureHeading = 'Sollicitatie error';
-	$lang_Recruit_ApplySuccess = 'Uw sollicitatie voor de functie als #jobtitle# is ontvangen. Een e-mail bevestiging is verzonden naar het volgende e-mail adres: #email#';
-	$lang_Recruit_ApplyFailure = 'Er was een probleem met het verwerken van uw sollicitatie. Probeer het aub later nogmaals.';
+	$lang_Recruit_ApplySuccess = 'Uw sollicitatie voor de functie als #jobtitle# is ontvangen';
+	$lang_Recruit_ApplicantEmailedSuccess = 'Een e-mail bevestiging is verzonden naar het volgende e-mail adres: #email#';
+	$lang_Recruit_ApplyFailure = 'Er was een fout met het verwerken van uw sollicitatie. Probeert u het later nogmaals';
+	$lang_Recruit_ApplyFailure_UploadError = 'Er was een fout met het uploaden van uw CV. Daardoor is uw sollicitatie niet verwerkt. Probeert u het nogmaals aub';
+	$lang_Recruit_ApplyFailure_UploadSizeError = 'De bestandsgrote van uw CV is groter dan de toegestane 1MB';
+	$lang_Recruit_ApplyFailure_UploadTypeError = 'Het bestandstype van uw CV is niet toegestaan. Alleen .doc, .docx, .odt, .pdf, .rtf and .txt zijn toegestaan';
+
+	$lang_Recruit_Resume_DeletionSucceeded = 'Uw CV was succesvol verwijderd';
+	$lang_Recruit_Resume_DeletionFailed = 'CV verwijderen mislukt';
+	$lang_Recruit_Resume_ReplaceSucceeded = 'CV succesvol toegevoegd';
+	$lang_Recruit_Resume_ReplaceFailed = 'CV toevoegen mislukt';
 
 	// login page
 	$lang_login_title = "OrangeHRM - Nieuwe toepassing van HR management";
@@ -1697,6 +1811,7 @@
 	$lang_Time_AvailableEmployees = "Beschikbare medewerkers";
 	$lang_Time_AssignedEmployees = "Toegewezen medewerkers";
 	$lang_Time_AssignEmployeesTitle = "Werk shift bewerken";
+    $lang_Time_WorkShift_Add = "Nieuwe werk shift toevoegen";
 
 	$lang_Time_Error_SpecifyWorkShiftName = "Geef werk shift naam op";
 	$lang_Time_Error_SpecifyHoursPerDay = "Geef uren per dag op";
@@ -1715,4 +1830,3 @@
 	include 'lang_nl_benefits.php';
 
 	$lang_Common_To = "tot";
-?>

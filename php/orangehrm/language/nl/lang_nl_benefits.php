@@ -191,7 +191,8 @@ $lang_Benefits_Summary_Employer = "Employer";
 $lang_Benefits_Summary_Employee = "Employee";
 $lang_Benefits_Summary_Total_Accrued = "Total Accrued";
 $lang_Benefits_Summary_Total_Used = "Total Used";
-$lang_Benefits_Summary_Last_Year_FSA_Balance = "FSAL balans van het laatste jaar";
+$lang_Benefits_Summary_Last_Year_FSA_Balance = "FSA balans van het laatste jaar";
+$lang_Benefits_Summary_SaveAsPDF = "Opslaan als PDF";
 
 $lang_Benefits_Summary_Saved_Successfully = "Saved successfully";
 $lang_Benefits_Summary_Could_Not_Save = "Could not save data";
