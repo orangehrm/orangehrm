@@ -1508,3 +1508,9 @@ table.simpleList td {
       vertical-align:middle;
       height:14px;
     }
+
+    span.timeFormatHint {
+      font-size:10px;
+      color:#999999;
+      padding-left:6px;
+    }

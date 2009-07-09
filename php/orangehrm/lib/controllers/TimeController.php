@@ -296,13 +296,14 @@ class TimeController {
 		$records['messageType'] = $messageType;
 		$records['message'] = $message;
 
-		if (isset($records['attRecord'])) {
+		$sysConfObj = new sysConf();
+		$records['timeInputHint'] = $sysConfObj->getTimeInputHint();
 
+		if (isset($records['attRecord'])) {
 			$value = $records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
 
 			$records['punchedInDate'] = date('Y-m-d', strtotime($value) + $timeStampDiff);
 			$records['punchedInTime'] = date('H:i', strtotime($value) + $timeStampDiff);
-
 		}
 
 		$path = "/templates/time/punchView.php";

@@ -131,6 +131,7 @@ if ($records['message'] == 'save-success') {
         	<td>
         	<?php if ($records['editMode']) { ?>
         	<input type="text" name="<?php echo ($punchIn?'txtInTime':'txtOutTime'); ?>" id="txtTime" value="<?php echo $records['currentTime']; ?>" />
+        	<span class="timeFormatHint"><?php echo $records['timeInputHint']; ?></span>
         	<?php } else {
         		echo $records['currentTime'];
         	?>
