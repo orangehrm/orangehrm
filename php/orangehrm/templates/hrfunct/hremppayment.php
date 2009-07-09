@@ -99,6 +99,11 @@ function delEXTPayment() {
 	qCombo(14);
 }
 
+function resetForm() {
+	$('frmEmp').reset();
+	setCurrCode();
+}
+
 function viewPayment(pay,curr) {
 
 	document.frmEmp.action = document.frmEmp.action + "&PAY=" + pay + "&CUR=" + curr;
@@ -315,7 +320,9 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     	title="<?php echo $lang_Common_Save;?>"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="addEXTPayment(); return false;"/>
-    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"/>
+    <input type="button" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
+    	onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+    	onclick="resetForm()" />
 </div>
 <?php	} ?>
 	</div>

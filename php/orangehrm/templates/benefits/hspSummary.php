@@ -75,6 +75,8 @@ if (isset($errorFlag)) {
 #employeeSearchAC {
     width:15em; /* set width here */
     padding-bottom:2em;
+    position:relative;
+    top:-10px
 }
 #employeeSearchAC {
     z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
@@ -83,6 +85,22 @@ if (isset($errorFlag)) {
 }
 #txtEmployeeSearch {
     _position:absolute; /* abs pos needed for ie quirks */
+}
+
+#select {
+	position:relative;
+	left:10px;
+}
+
+#resetSummary, #btnSaveAsPDF {
+	position:relative;
+	left:-26px;
+}
+
+.data-table .valueSlot {
+	display:block;
+	width:100%;
+	text-align:center;
 }
 </style>
 <script>
@@ -283,13 +301,14 @@ if (isset($errorFlag)) {
 </script>
 <div class="outerbox" style="width:96%;">
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
-<div class="mainHeading"><h2>
-<?php if (isset($oneEmployee)) {  ?>
-<?php echo $lang_Benefits_Summary_Employee_Heading." "; echo $hspSummary[0]->getEmployeeName(); ?> - <?php echo $year; ?>
-<?php } else { ?>
-<?php echo $lang_Benefits_Summary_Heading; ?> - <?php echo $year; ?>
-<?php } ?>
-</h2></div>
+<div class="mainHeading"><h2><?php
+if (isset($oneEmployee)) {
+	echo "{$lang_Benefits_Summary_Employee_Heading} {$hspSummary[0]->getEmployeeName()} - {$year}";
+} else {
+	echo "{$lang_Benefits_Summary_Heading}- {$year}";
+}
+?></h2>
+</div>
 
 <!-- Save success message begins -->
 <?php
@@ -364,7 +383,7 @@ if (isset($successMessage)) {  ?>
         value="<?php echo $lang_Common_Save;?>"
         style="display:none;"/>
     <?php } ?>
-	<input type="button" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
+	<input type="button" id="resetSummary" class="plainbtn" value="<?php echo $lang_Common_Reset; ?>"
 		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
 		onclick="resetForm()" />
     <?php   if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
@@ -379,7 +398,7 @@ if (isset($successMessage)) {  ?>
 
         $pdfUrl = "?benefitcode=Benefits&action=Hsp_Summary&year={$year}&printPdf=1&pdfName={$pdfName}{$empNoQueryStr}";
     ?>
-    	<input type="button" class="longbtn" value="<?php echo $lang_Benefits_Summary_SaveAsPDF; ?>"
+    	<input type="button" class="longbtn" id="btnSaveAsPDF" value="<?php echo $lang_Benefits_Summary_SaveAsPDF; ?>"
 			onmouseover="moverButton(this)" onmouseout="moutButton(this)"
     		onclick="location.href='<?php echo $pdfUrl; ?>';" />
         <?php } ?>
@@ -393,7 +412,7 @@ if (isset($successMessage)) {  ?>
 <!-- Summary form begins -->
 <form name="hspFullSummary" id="hspFullSummary" action="" method="post">
 <input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
-<table width="740" border="0" cellspacing="0" cellpadding="0" class="data-table">
+<table border="0" cellspacing="0" cellpadding="0" class="data-table">
 <thead>
 
   <tr>
@@ -429,73 +448,85 @@ if (($i%2) == 0) {
 ?>
 <!-- This TR is repeated for each summary record -->
   <tr>
+    <td class="<?php echo $rowStyle; ?>">
     <?php if (!isset($oneEmployee) || $adminUser) { ?>
-    <td class="<?php echo $rowStyle; ?>"><a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getEmployeeId(); ?>"><?php echo $hspSummary[$i]->getEmployeeName(); ?></a>
+    	<a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getEmployeeId(); ?>">
+    		<?php echo $hspSummary[$i]->getEmployeeName(); ?>
+    	</a>
     <?php } ?>
-    <input type="hidden" name="hidSummaryId[]" id="" value="<?php echo $hspSummary[$i]->getSummaryId(); ?>" />
-    <input type="hidden" name="hidEmployeeId[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeId(); ?>" />
+	    <input type="hidden" name="hidSummaryId[]" id="" value="<?php echo $hspSummary[$i]->getSummaryId(); ?>" />
+	    <input type="hidden" name="hidEmployeeId[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeId(); ?>" />
     </td>
     <td class="<?php echo $rowStyle; ?>"><?php echo $hspSummary[$i]->getHspPlanName(); ?></td>
-    <td class="<?php echo $rowStyle; ?>"><span id="lblHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo $hspSummary[$i]->getHspPlanStatusName(); ?></span></td>
     <td class="<?php echo $rowStyle; ?>">
-    <?php if ($adminUser) { ?>
-    <input type="text" name="txtAnnualLimit[]" id="" value="<?php echo $hspSummary[$i]->getAnnualLimit(); ?>" size="6" disabled />
-    <?php } else {
-    	echo $hspSummary[$i]->getAnnualLimit();
-    }
-    ?>
-    </td>
-
-    <td class="<?php echo $rowStyle; ?>">
-    <?php
-    if ($hspSummary[$i]->getHspPlanId() == 3) {
-    	echo "NA";
-    	echo "<input type=\"hidden\" name=\"txtEmployerAmount[]\" value=\"0\" />";
-    } else {
-    ?>
-    <?php if ($adminUser) { ?>
-    <input type="text" name="txtEmployerAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployerAmount(); ?>" size="6" disabled />
-    <?php } else {
-    	echo $hspSummary[$i]->getEmployerAmount();
-    }
-    ?>
-    <?php } ?>
+    	<span id="lblHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo $hspSummary[$i]->getHspPlanStatusName(); ?></span>
     </td>
     <td class="<?php echo $rowStyle; ?>">
-	<?php
-    if ($hspSummary[$i]->getHspPlanId() == 2) {
-    	echo "NA";
-    	echo "<input type=\"hidden\" name=\"txtEmployeeAmount[]\" value=\"0\" />";
-    } else {
-    ?>
-    <?php if ($adminUser) { ?>
-    <input type="text" name="txtEmployeeAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeAmount(); ?>" size="6" disabled />
-    <?php } else {
-    	echo $hspSummary[$i]->getEmployeeAmount();
-    }
-    ?>
-    <?php } ?>
+    	<span class="valueSlot">
+	    <?php if ($adminUser) { ?>
+	    	<input type="text" name="txtAnnualLimit[]" id="" value="<?php echo $hspSummary[$i]->getAnnualLimit(); ?>" size="6" disabled="disabled" />
+	    <?php } else {
+	    	echo $hspSummary[$i]->getAnnualLimit();
+	    }
+	    ?>
+	    </span>
     </td>
     <td class="<?php echo $rowStyle; ?>">
-    <?php if ($adminUser) { ?>
-    <input type="text" name="txtTotalAccrued[]" id="" value="<?php echo $hspSummary[$i]->getTotalAccrued(); ?>" size="6" disabled />
-    <?php } else {
-    	echo $hspSummary[$i]->getTotalAccrued();
-    }
-    ?>
+    	<span class="valueSlot">
+	    <?php
+	    if ($hspSummary[$i]->getHspPlanId() == 3) {
+	    	echo "NA";
+	    	echo '<input type="hidden" name="txtEmployerAmount[]" value="0" />';
+	    } else {
+			if ($adminUser) { ?>
+	    	<input type="text" name="txtEmployerAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployerAmount(); ?>" size="6" disabled="disabled" />
+	    <?php } else {
+	    	echo $hspSummary[$i]->getEmployerAmount();
+	    	}
+	     } ?>
+	     </span>
     </td>
     <td class="<?php echo $rowStyle; ?>">
-    <?php if ($adminUser) { ?>
-    <input type="text" name="txtTotalUsed[]" id="" value="<?php echo $hspSummary[$i]->getTotalUsed(); ?>" size="6" disabled />
-    <?php } else {
-    	echo $hspSummary[$i]->getTotalUsed();
-    }
-    ?>
+    	<span class="valueSlot">
+		<?php
+	    if ($hspSummary[$i]->getHspPlanId() == 2) {
+	    	echo 'NA';
+	    	echo '<input type="hidden" name="txtEmployeeAmount[]" value="0" />';
+	    } else {
+	    	if ($adminUser) { ?>
+	    <input type="text" name="txtEmployeeAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeAmount(); ?>" size="6" disabled="disabled" />
+	    <?php } else {
+	    	echo $hspSummary[$i]->getEmployeeAmount();
+	    	}
+	    } ?>
+	    </span>
+    </td>
+    <td class="<?php echo $rowStyle; ?>">
+    	<span class="valueSlot">
+	    <?php if ($adminUser) { ?>
+	    <input type="text" name="txtTotalAccrued[]" id="" value="<?php echo $hspSummary[$i]->getTotalAccrued(); ?>" size="6" disabled="disabled" />
+	    <?php } else {
+	    	echo $hspSummary[$i]->getTotalAccrued();
+	    }
+	    ?>
+	    </span>
+    </td>
+    <td class="<?php echo $rowStyle; ?>">
+    	<span class="valueSlot">
+	    <?php if ($adminUser) { ?>
+	    <input type="text" name="txtTotalUsed[]" id="" value="<?php echo $hspSummary[$i]->getTotalUsed(); ?>" size="6" disabled="disabled" />
+	    <?php } else {
+	    	echo $hspSummary[$i]->getTotalUsed();
+	    }
+	    ?>
+	    </span>
     </td>
     <?php if ($showFsaBalance) { ?>
-	<td><?php if ($showFsaBalance) { echo $hspSummary[$i]->getFsaBalance(); } ?></td>
+	<td class="<?php echo $rowStyle; ?>">
+		<span class="valueSlot"><?php if ($showFsaBalance) { echo $hspSummary[$i]->getFsaBalance(); } ?></span>
+	</td>
     <?php } ?>
-    <td id="buttonSlot">
+    <td id="buttonSlot" class="<?php echo $rowStyle; ?>">
     <?php
 	$summaryId = $hspSummary[$i]->getSummaryId();
 	$statusId  = $hspSummary[$i]->getHspPlanStatus();
@@ -556,7 +587,7 @@ if (($i%2) == 0) {
 	$onclickFunction = "haltResumeHsp('$summaryId', '$empId', '$newStatusId')";
 
     ?>
-    <input type="button" class="plainbtn name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
+    <input type="button" class="plainbtn" name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
     </td>
   </tr>
 <?php } // Displaying summary ends ?>
