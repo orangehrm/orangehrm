@@ -113,7 +113,6 @@ class EmailNotificationConfiguration {
 
 		if (isset($notificationTypeId)) {
 			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
-			$selectConditions[3] = "`status` != 0";
 		}
 
 		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
