@@ -325,7 +325,7 @@ if (!empty($projectId)) {
 	       			</td>
 			 		<td class="<?php echo $cssClass?>">
 			 		<?php
-			 		$activityName = htmlspecialchars($activity->getName());
+			 		$activityName = htmlspecialchars($activity->getName(),ENT_QUOTES);
 			 		$activityId = $activity->getId();
 			 		if (empty($disableEdit)) {
 			 			echo "<a href='#' onclick='editActivity({$activityId},\"{$activityName}\");'>{$activityName}</a>";
