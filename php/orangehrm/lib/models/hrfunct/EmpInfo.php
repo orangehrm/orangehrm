@@ -505,9 +505,9 @@ class EmpInfo {
         //$tableName = 'HS_HR_EMPLOYEE';
         $arrFieldList[0] = "a.`emp_number`";
 
-        $filterFields[0] = "LPAD(a.`emp_number`, " . $this->employeeIdLength . ", 0)";
+        $filterFields[0] = "a.`emp_number`";
         $filterFields[1] = "a.`work_station`";
-        $filterFields[2] = "g.`employee_id`";
+        $filterFields[2] = "g.`emp_number`";
         $filterFields[3] = "a.`emp_status`";
 
         $sql_builder = new SQLQBuilder();
@@ -545,7 +545,7 @@ class EmpInfo {
                     return '';
                 }
             } else {
-                $selectConditions[] = "{$filterFields[$i]} LIKE '" . $filteredSearch[$i] . "%'";
+                $selectConditions[] = "{$filterFields[$i]} = '" . $filteredSearch[$i] . "'";
             }
         }
 
