@@ -1193,6 +1193,7 @@
 	$lang_pim_tabs_Tax = "Tax Exemptions";
 	$lang_pim_tabs_DirectDebit = "Direct Deposit";
 	$lang_pim_tabs_Custom = "Custom";
+	$lang_pim_tabs_Photo = "Photograph";
 
 	$lang_pim_ClickToEditPhoto = "Click to edit photo";
 
