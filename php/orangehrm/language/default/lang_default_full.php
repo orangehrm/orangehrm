@@ -627,6 +627,7 @@
 	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Are you sure you want to delete the photograph";
 
 	$lang_hremp_SelectAPhoto				= "Select a Photo";
+	$lang_hremp_ClickToSeeFullSizeImage		= "Click on the photo to see the full size image";
 	$lang_hremp_PhotoMaxSize				= "1M Max";
 	$lang_hremp_PhotoDimensions				= "Dimensions 100x120";
 

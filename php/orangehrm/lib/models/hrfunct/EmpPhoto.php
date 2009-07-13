@@ -107,12 +107,13 @@ class EmpPicture {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
+		return $message2;
 	}
 
 	function addEmpPic() {
 
         $dbConnection = new DMLFunctions();
-        
+
         $this->_escapeFields();
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpPicture() . "'";
@@ -214,20 +215,20 @@ class EmpPicture {
 	}
 
     private function _escapeFields() {
-        
-        /* The other fields are not user entered, so no need to strip slashes even 
+
+        /* The other fields are not user entered, so no need to strip slashes even
          * if magic_quotes is set
          */
         if (get_magic_quotes_gpc()) {
             $this->empPicFilename = stripslashes($this->empPicFilename);
-            $this->empId = stripslashes($this->empId);                         
+            $this->empId = stripslashes($this->empId);
         }
-        
+
         /* escape all fields, in case there is a way to inject values */
         $this->empPicture = mysql_real_escape_string($this->empPicture);
         $this->empPicFilename = mysql_real_escape_string($this->empPicFilename);
         $this->empPicSize = mysql_real_escape_string($this->empPicSize);
-        $this->empPicType = mysql_real_escape_string($this->empPicType);        
+        $this->empPicType = mysql_real_escape_string($this->empPicType);
     }
 }
 

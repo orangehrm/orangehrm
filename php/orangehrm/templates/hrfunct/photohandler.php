@@ -39,7 +39,7 @@ $lan = new Language();
 require_once($lan->getLangPath("full.php"));
 
 $photo = new EmpPicture();
-$employeeId = isset($_GET['id']) ? $_GET['id'] : '001';
+$employeeId = $_GET['id'];
 $edit = $photo->filterEmpPic($employeeId);
 
 $styleSheet = CommonFunctions::getTheme();
@@ -65,39 +65,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'VIEW') {
 	}
 }
 
-$object = new EmpPicture();
-$message = null;
-
-if(isset($_POST['STAT']) && $_POST['STAT'] == 'ADD') {
-	$extractor = new EXTRACTOR_EmpPhoto();
-	$object = $extractor->parseData();
-
-	if($object != null) {
-		$object->setEmpId($_GET['id']);
-		$object->addEmpPic();
-	} else {
-		$message = "FAILURE";
-	}
-}
-
-if(isset($_POST['STAT']) && $_POST['STAT'] == 'EDIT') {
-	$extractor = new EXTRACTOR_EmpPhoto();
-	$object = $extractor->parseData();
-
-	if($object != null) {
-		$object->setEmpId($_GET['id']);
-		$object->updateEmpPic();
-	} else {
-		$message = "FAILURE";
-	}
-}
-
-if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {
-	$object = new EmpPicture();
-	$object->delEmpPic(array(array($_GET['id'])));
-}
-
-$imagePath = "http://localhost:8080/orangehrm/templates/hrfunct/photohandler.php?id={$employeeId}";
+$imagePath = "../../templates/hrfunct/photohandler.php?id={$employeeId}";
 ?>
 
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
@@ -114,30 +82,23 @@ function updatePic() {
 }
 
 function deletePic() {
-
 	if (!confirm('<?php echo $lang_hremp_AreYouSureYouWantToDeleteThePhotograph; ?>?')) {
 		return false;
 	}
 
-	$('actionStatus').value = 'DELETE';
+	$('actionStatus').value = 'DEL';
 	_setUploadFormAttributes();
 	$('frmEmp').submit();
 }
 
 function _setUploadFormAttributes() {
 	$('frmEmp').encoding = 'multipart/form-data';
-	$('frmEmp').action = '<?php echo $imagePath; ?>';
-}
-function windowClose() {
-	opener.document.frmEmp.submit();
-	window.close();
+	$('imageChange').value = '1';
 }
 
-<?php if (isset($message) && ($message == "FAILURE")) { ?>
-	alert('<?php echo $lang_Error_UploadFailed; ?>');
-<?php } else if (isset($_POST['STAT'])) { ?>
-	windowClose();
-<?php } ?>
+function viewFullsize(image) {
+	window.open(image.src);
+}
 
 //--><!]]></script>
 <style type="text/css">
@@ -145,10 +106,17 @@ function windowClose() {
 	    padding: 2px;
 	    margin: 14px 4px 14px 8px;
 	    border: 1px solid #FAD163;
+	    cursor:pointer;
 	}
 
 	#imageSizeRule {
 		width:200px;
+	}
+
+	#imageHint {
+		font-size:10px;
+		color:#999999;
+		padding-left:8px;
 	}
 
 </style>
@@ -156,11 +124,13 @@ function windowClose() {
 
 <div class="addPane" >
 	<input type="hidden" name="STAT" id="actionStatus" />
+	<input type="hidden" name="imageChange" id="imageChange" value="0" />
 	<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
 
 	<span>
 		<img id="currentImage" style="width:100px; height:120px;" alt="Employee Photo"
-			src="<?php echo "{$imagePath}&action=VIEW"; ?>" />
+			src="<?php echo "{$imagePath}&action=VIEW"; ?>" onclick="viewFullsize(this)" /><br />
+		<span id="imageHint"><?php echo $lang_hremp_ClickToSeeFullSizeImage; ?></span>
 	</span>
 	<br />
 	<label for="photofile"><?php echo $lang_hremp_SelectAPhoto; ?></label>

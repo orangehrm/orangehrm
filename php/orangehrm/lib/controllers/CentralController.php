@@ -965,10 +965,45 @@ switch ($moduletype) {
 										}
 
 										if(isset($_POST['STAT']) && ((($_POST['STAT'] == 'ADD' || $_POST['STAT'] == 'ADDOTH') && $locRights['add']) || ($_POST['STAT'] == 'EDIT' && $locRights['edit']))) {
-												$parsedObject = $extractor->parseData($_POST);
-												$view_controller->assignData($_GET['reqcode'],$parsedObject,$_POST['STAT']);
+											if (isset($_POST['imageChange']) && $_POST['imageChange'] == '1') {
+												$object = new EmpPicture();
+												$extractor = new EXTRACTOR_EmpPhoto();
+												$message = null;
+												$result = false;
+
+												if (isset($_POST['STAT'])) {
+													switch ($_POST['STAT']) {
+														case 'ADD':
+															$object = $extractor->parseData();
+															if($object != null) {
+																$object->setEmpId($_GET['id']);
+																$result = $object->addEmpPic();
+															} else {
+																$message = "FAILURE";
+															}
+															break;
+														case 'EDIT':
+															$object = $extractor->parseData();
+															if($object != null) {
+																$object->setEmpId($_GET['id']);
+																$result = $object->updateEmpPic();
+															} else {
+																$message = "FAILURE";
+															}
+															break;
+													}
+												}
+											}
+
+											$parsedObject = $extractor->parseData($_POST);
+											$view_controller->assignData($_GET['reqcode'],$parsedObject,$_POST['STAT']);
+
 										} elseif(isset($_POST['STAT']) && $_POST['STAT'] == 'DEL' && $locRights['delete']) {
-												$view_controller->delAssignData($_GET['reqcode'],$_POST,$_GET);
+											if (isset($_POST['imageChange']) && $_POST['imageChange'] == '1') {
+												$object = new EmpPicture();
+												$result = $object->delEmpPic(array(array($_GET['id'])));
+											}
+											$view_controller->delAssignData($_GET['reqcode'],$_POST,$_GET);
 										}
 
 										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD') || ($_POST['educationSTAT'] == 'EDIT'))) {
