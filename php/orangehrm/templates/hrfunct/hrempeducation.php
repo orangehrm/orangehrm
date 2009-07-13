@@ -140,8 +140,10 @@ div.formbuttons {
 </style>
 
 <div id="parentPaneEducation" >
+
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-    <input type="hidden" name="educationSTAT" value=""/>
+	<input type="hidden" name="educationSTAT" value=""/>
+	<?php if (!isset($this->getArr['EDU'])) { ?>
    	<div id="addPaneEducation" class="<?php echo ($this->popArr['rsetEducation'] != null)?"addPane":""; ?>" >
     	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
@@ -197,6 +199,7 @@ div.formbuttons {
 				onmouseover="moverButton(this)" onmouseout="moutButton(this)" />
 		</div>
 	</div>
+	<?php } ?>
 <?php
 if(isset($this->popArr['editEducationArr'])) {
     $edit = $this->popArr['editEducationArr'];
