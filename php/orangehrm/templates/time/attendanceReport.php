@@ -77,10 +77,10 @@ $count = count($recordsArr);
 				errFlag = true;
 			}
 			
-			var inTimeValue = trim($("txtNewInTime-"+i).value);
-			var outTimeValue = trim($("txtNewOutTime-"+i).value);
+			maxInTimestamp = strToTime($("txtNewInDate-"+i).value+" 24:00", dateTimeFormat);
+			maxOutTimestamp = strToTime($("txtNewOutDate-"+i).value+" 24:00", dateTimeFormat);
 			
-			if (inTimeValue == '24:00' || outTimeValue == '24:00') {
+			if (inTime >= maxInTimestamp || outTime >= maxOutTimestamp) {
 				alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
 				errFlag = true;
 			}

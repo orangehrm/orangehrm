@@ -56,13 +56,16 @@ if ($records['message'] == 'save-success') {
 	function validate() {
 
 		errFlag = false;
-
+		
 		if (!strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat)) {
 			alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
 			errFlag = true;
 		}
+		
+		punchedTimestamp = strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat);
+		maxTimestamp = strToTime($("txtDate").value+" 24:00", dateTimeFormat);
 
-		if (trim($("txtTime").value) == '24:00') {
+		if (punchedTimestamp >= maxTimestamp) {
 			alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
 			errFlag = true;
 		}
