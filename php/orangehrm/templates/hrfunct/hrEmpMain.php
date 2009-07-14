@@ -406,8 +406,6 @@ function editEmpMain() {
 								"optGender",
 								"btnLicExpDate",
 								"txtLicExpDate",
-								"btnDOB",
-								"DOB",
 								"txtState",
 								"cmbCity",
 								"txtHmTelep",

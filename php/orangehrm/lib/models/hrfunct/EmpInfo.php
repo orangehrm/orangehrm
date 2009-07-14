@@ -1022,35 +1022,39 @@ class EmpInfo {
 
     function updateEmpPers() {
 
-        $arrRecordsList[0] = "'" . $this->getEmpId() . "'";
-        $arrRecordsList[1] = (trim($this->getEmpsmoker()) != '') ? "'". $this->getEmpsmoker() . "'" : "'0'";
-        $arrRecordsList[2] = ($this->getEmpEthnicRace() == '0') ? 'null' : "'" . $this->getEmpEthnicRace() . "'";
-        $arrRecordsList[3] = $this->getEmpDOB(); // Quotes are not included to allow null values
-        $arrRecordsList[4] = ($this->getEmpNation() == '0') ? 'null' : "'" . $this->getEmpNation() . "'";
-        $arrRecordsList[5] = (trim($this->getEmpGender()) != '') ? "'" . $this->getEmpGender() . "'" : 'null';
-        $arrRecordsList[6] = "'" . $this->getEmpMarital() . "'";
-        $arrRecordsList[7] = "'" . $this->getEmpSSNNo() . "'";
-        $arrRecordsList[8] = "'" . $this->getEmpSINNo() . "'";
-        $arrRecordsList[9] = "'" . $this->getEmpOthID() . "'";
-        $arrRecordsList[10] = "'" . $this->getEmpDriLicNo() . "'";
-        $arrRecordsList[11] = $this->empDriLicExpDat; // Quotes are not included to allow null values
-        $arrRecordsList[12] = "'" . $this->getEmpMilitary() . "'";
+        $arrRecordsList[] = "'" . $this->getEmpId() . "'";
+        $arrRecordsList[] = (trim($this->getEmpsmoker()) != '') ? "'". $this->getEmpsmoker() . "'" : "'0'";
+        $arrRecordsList[] = ($this->getEmpEthnicRace() == '0') ? 'null' : "'" . $this->getEmpEthnicRace() . "'";
+        $arrRecordsList[] = ($this->getEmpNation() == '0') ? 'null' : "'" . $this->getEmpNation() . "'";
+        $arrRecordsList[] = (trim($this->getEmpGender()) != '') ? "'" . $this->getEmpGender() . "'" : 'null';
+        $arrRecordsList[] = "'" . $this->getEmpMarital() . "'";
+        $arrRecordsList[] = "'" . $this->getEmpSSNNo() . "'";
+        $arrRecordsList[] = "'" . $this->getEmpSINNo() . "'";
+        $arrRecordsList[] = "'" . $this->getEmpOthID() . "'";
+        $arrRecordsList[] = "'" . $this->getEmpDriLicNo() . "'";
+        $arrRecordsList[] = $this->empDriLicExpDat; // Quotes are not included to allow null values
+        $arrRecordsList[] = "'" . $this->getEmpMilitary() . "'";
 
         $tableName = 'HS_HR_EMPLOYEE';
 
-        $arrFieldList[0] = 'EMP_NUMBER';
-        $arrFieldList[1] = 'EMP_SMOKER';
-        $arrFieldList[2] = 'ETHNIC_RACE_CODE';
-        $arrFieldList[3] = 'EMP_BIRTHDAY';
-        $arrFieldList[4] = 'NATION_CODE';
-        $arrFieldList[5] = 'EMP_GENDER';
-        $arrFieldList[6] = 'EMP_MARITAL_STATUS';
-        $arrFieldList[7] = 'EMP_SSN_NUM';
-        $arrFieldList[8] = 'EMP_SIN_NUM';
-        $arrFieldList[9] = 'EMP_OTHER_ID';
-        $arrFieldList[10] = 'EMP_DRI_LICE_NUM';
-        $arrFieldList[11] = 'EMP_DRI_LICE_EXP_DATE';
-        $arrFieldList[12] = 'EMP_MILITARY_SERVICE';
+        $arrFieldList[] = 'EMP_NUMBER';
+        $arrFieldList[] = 'EMP_SMOKER';
+        $arrFieldList[] = 'ETHNIC_RACE_CODE';
+        $arrFieldList[] = 'NATION_CODE';
+        $arrFieldList[] = 'EMP_GENDER';
+        $arrFieldList[] = 'EMP_MARITAL_STATUS';
+        $arrFieldList[] = 'EMP_SSN_NUM';
+        $arrFieldList[] = 'EMP_SIN_NUM';
+        $arrFieldList[] = 'EMP_OTHER_ID';
+        $arrFieldList[] = 'EMP_DRI_LICE_NUM';
+        $arrFieldList[] = 'EMP_DRI_LICE_EXP_DATE';
+        $arrFieldList[] = 'EMP_MILITARY_SERVICE';
+        
+        $dob = $this->getEmpDOB();
+        if (isset($dob)) {
+            $arrRecordsList[] = $dob;
+            $arrFieldList[] = 'EMP_BIRTHDAY';
+        }
 
         $sql_builder = new SQLQBuilder();
 
@@ -1060,8 +1064,6 @@ class EmpInfo {
         $sql_builder->arr_updateRecList = $arrRecordsList;
 
         $sqlQString = $sql_builder->addUpdateRecord1();
-        //$logw = new LogFileWriter();
-        //$logw->writeLogDB($sqlQString);
         $dbConnection = new DMLFunctions();
         $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 

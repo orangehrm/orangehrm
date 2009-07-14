@@ -119,14 +119,17 @@ class EXTRACTOR_EmpInfo {
 
 		//personal
 		if ($postArr['personalFlag']=='1') {
+			
+			if (isset($postArr['DOB'])) {
+			    $postArr['DOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['DOB']);
+			    $this->parent_empinfo -> setEmpDOB(self::_handleEmptyDates($postArr['DOB']));
+			}
 
-			$postArr['DOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['DOB']);
 			$postArr['txtLicExpDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtLicExpDate']);
 
 			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 			$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
 			$this->parent_empinfo -> setEmpSSNNo(trim($postArr['txtNICNo']));
-			$this->parent_empinfo -> setEmpDOB(self::_handleEmptyDates($postArr['DOB']));
 			$this->parent_empinfo -> setEmpGender(trim($postArr['optGender']));
 			$this->parent_empinfo -> setEmpDriLicNo(($postArr['txtLicenNo']));
 			$this->parent_empinfo -> setEmpNation(($postArr['cmbNation']));
