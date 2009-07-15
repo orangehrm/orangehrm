@@ -422,6 +422,15 @@ class CommonFunctions {
 				case '\\':
 					$escapedString .= "\\\\";
 					break;
+				case "\n":
+					$escapedString .= "\\n";
+					break;
+				case "\r":
+					$escapedString .= "\\r";
+					break;
+				case "\f":
+					$escapedString .= "\\f";
+					break;
 				default :
 					$escapedString .= $char;
 					break;

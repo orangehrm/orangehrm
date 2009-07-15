@@ -205,14 +205,16 @@
 
 					echo "<img src='../../themes/beyondT/icons/arrow.gif' alt=\"\"/>";
 			?>
-			<a class="title" href="#layerForm" onclick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['dept_id']." ".preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '',$child[0]['title']); ?></a>
+			<a class="title" href="#layerForm"
+				onclick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo CommonFunctions::escapeForJavascript(escapeshellcmd($child[0]['description']))?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['dept_id']." ".preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '',$child[0]['title']); ?></a>
 			<?php
 
 				} else {
 					// If in the popup window, allow top level (company) to be selected as well.
 					if (isset($_GET['esp']) && $_GET['esp'] == 1) {
                                         ?>
-						<a class="title" href="#layerForm" onclick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
+						<a class="title" href="#layerForm"
+							onclick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo CommonFunctions::escapeForJavascript(escapeshellcmd($child[0]['description']))?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
 
                                         <?php
 					} else {
