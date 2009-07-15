@@ -374,12 +374,13 @@ if ($modifier === "ADMIN") {
 	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) ||
 	    (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
 	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) { ?>
-		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<?php $leaveComments=htmlentities($record->getLeaveComments()); ?> 
+		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $leaveComments; ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved)) { ?>
-		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $leaveComments; ?>" />
 		<?php } else {
-			echo $record->getLeaveComments();
+			echo $leaveComments;
 			} ?></td>
   </tr>
 
