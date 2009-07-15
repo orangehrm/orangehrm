@@ -1563,6 +1563,11 @@
 
 	$lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified = "Invalid date or zero or negative range specified";
 
+	$lang_Time_Warning = 'Warning';
+	$lang_Time_Warning_FieldsWereReset = 'Fields were reset due to following errors';
+	$lang_Time_Warning_NoMatchingEmployeeFound = 'No matching employee found for the name #employeeName.';
+	$lang_Time_Warning_NoMatchingSupervisorFound = 'No matching supervisor found for the name #supervisorName.';
+
 	$lang_Menu_Time_EmployeeReports = "Employee Reports";
 
 	$lang_Time_SelectTimesheetsTitle = "Select Timesheets";

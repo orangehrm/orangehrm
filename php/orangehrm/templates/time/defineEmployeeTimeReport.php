@@ -59,12 +59,6 @@ $projectActivityObj = new ProjectActivity();
 //<![CDATA[
 var initialAction = "?timecode=Time&action=";
 
-function returnEmpDetail(){
-		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400,scrollbars=1');
-        if(!popup.opener) popup.opener=self;
-		popup.focus();
-}
-
 function viewEmployeeTimeReport() {
 	action = "Employee_Report";
 
@@ -77,6 +71,8 @@ function viewEmployeeTimeReport() {
 }
 
 function validate() {
+	_matchAutoCompletionFields();
+
 	startDate = strToDate($("txtFromDate").value, YAHOO.OrangeHRM.calendar.format);
 	endDate = strToDate($("txtToDate").value, YAHOO.OrangeHRM.calendar.format);
 
@@ -116,25 +112,71 @@ function validate() {
 	return true;
 }
 
+function formatAutoCompleteField(obj) {
+	if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+		obj.value = '';
+		obj.style.color = '#000000';
+	}
+}
+
+function _matchAutoCompletionFields() {
+	employeeName = $('cmbRepEmpID').value;
+
+	for (i = 0; i < employees.length; i++) {
+		if (employees[i] == employeeName) {
+			$('txtRepEmpID').value = ids[i];
+			return true;
+		}
+	}
+	return false;
+}
+
+employees = new Array();
+ids = new Array();
+<?php
+$employees = $records['empList'];
+for ($i=0;$i<count($employees);$i++) {
+	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
+}
+?>
 
 YAHOO.OrangeHRM.container.init();
 YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
-//]]> 
+//]]>
 </script>
 <?php $objAjax->printJavascript(); ?>
+<style type="text/css">
+#employeeSearchAC {
+    width:20em; /* set width here */
+    padding-bottom:2em;
+    position:relative;
+    top:-10px
+}
+
+#employeeSearchAC {
+    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+    float:left;
+    margin-right:5px;
+}
+
+#cmbRepEmpID {
+    _position:absolute; /* abs pos needed for ie quirks */
+}
+</style>
 <div id="status"></div>
 <div class="formpage">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Time_EmployeeTimeReportTitle;?></h2></div>
-    
-    <?php if (isset($_GET['message'])) {    
+
+    <?php if (isset($_GET['message'])) {
             $message =  $_GET['message'];
             $messageType = CommonFunctions::getCssClassForMessage($message);
             $message = 'lang_Time_Errors_' . $message;
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 <form name="frmEmp" id="frmEmp" method="post" action="?timecode=Time&amp;action=" onsubmit="viewEmployeeTimeReport(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
@@ -143,24 +185,17 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
-		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-			<td ><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" disabled="disabled" />
+			<td>
+				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
+		            <div id="employeeSearchAC" style="width:150px;">
+						<input type="text" name="cmbRepEmpID" id="cmbRepEmpID" style="margin:0px 0px 2px 0px; color:#999999" autocomplete="off"
+							value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="formatAutoCompleteField(this)" />
+						<div id="employeeSearchACContainer" style="margin:0px 0px 0px 0px;"></div>
+					</div>
+				</div>
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" />
-				<input type="button" value="..." onclick="returnEmpDetail();"/>
 			</td>
-		<?php } else if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
-			<td >
-				<select name="txtRepEmpID" id="txtRepEmpID">
-					<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-					<?php if (is_array($employees)) {
-		   					foreach ($employees as $employee) {
-		  			?>
-		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1]; ?></option>
-		  			<?php 	}
-		   				} ?>
-				</select>
-			</td>
-		<?php } ?>
+
 			<td></td>
 		</tr>
 		<tr>
@@ -222,7 +257,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td ></td>
 			<td >
 				<input type="text" id="txtToDate" name="txtToDate" value="" size="10"/>
-				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn" 
+				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"
                     style="display:inline;margin:0;float:none;"/>
 			</td>
 			<td></td>
@@ -237,18 +272,37 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 		</tr>
 	</tbody>
 </table>
-<div class="formbuttons">                
-    <input type="submit" class="viewbutton" id="viewBtn" 
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-        value="<?php echo $lang_Common_View;?>" />                                  
+<div class="formbuttons">
+    <input type="submit" class="viewbutton" id="viewBtn"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_View;?>" />
 </div>
 </form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
+
+    YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+	   	// Instantiate first JS Array DataSource
+	   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+
+	   	// Instantiate AutoComplete for cmbRepEmpID
+	   	this.oAutoComp = new YAHOO.widget.AutoComplete('cmbRepEmpID','employeeSearchACContainer', this.oACDS);
+	   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+	   	this.oAutoComp.typeAhead = false;
+	   	this.oAutoComp.useShadow = true;
+	   	this.oAutoComp.minQueryLength = 1;
+	   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+	   	    var sInputValue = YAHOO.util.Dom.get('cmbRepEmpID').value;
+	   	    if(sInputValue.length === 0) {
+	   	        var oSelf = this;
+	   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+	   	    }
+	   	});
+	}
 //]]>
 </script>
 </div>

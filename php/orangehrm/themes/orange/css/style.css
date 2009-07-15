@@ -445,6 +445,13 @@ div.fieldHint {
     font-style: italic;
 }
 
+label.sideHint {
+	font-size:10px;
+	width:120px;
+	color:#999999;
+	font-style:italic;
+}
+
 /* Form elements */
 label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput,
 input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,

@@ -38,21 +38,23 @@ function returnLocDet(){
 	var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400,resizable=1');
 	if(!popup.opener) popup.opener=self;
 }
-function returnEmpRepDetail() {
-	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400,scrollbars=1');
-    if(!popup.opener) popup.opener=self;
-	popup.focus();
-}
-function returnEmpDetail() {
-	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400,scrollbars=1');
-	if(!popup.opener) popup.opener=self;
-	popup.focus();
-}
+
 function validate() {
 	startDate = strToDate($("txtStartDate").value, YAHOO.OrangeHRM.calendar.format);
 	endDate = strToDate($("txtEndDate").value, YAHOO.OrangeHRM.calendar.format);
 	errFlag=false;
 	errors = new Array();
+
+	warnings = _matchAutoCompletionFields();
+
+	if (warnings.length > 0) {
+		warningMessage = "<?php echo "{$lang_Time_Warning}: {$lang_Time_Warning_FieldsWereReset}"; ?>\n"
+		for (i = 0; i < warnings.length; i++) {
+			warningMessage += "  - " + warnings[i] + "\n";
+		}
+		alert(warningMessage);
+	}
+
 	if (!startDate || !endDate || (startDate > endDate)) {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified; ?>";
 		errFlag=true;
@@ -66,6 +68,44 @@ function validate() {
 		return false;
 	}
 	return true;
+}
+
+function _matchAutoCompletionFields() {
+	warnings = new Array();
+
+	employeeName = $('txtUserEmpID').value;
+	employeeFound = false;
+	employeeFound = _matchRecords(employeeName, employees, 'cmbUserEmpID', ids, '<?php echo $lang_Time_Common_All; ?>', '-1');
+
+	if (!employeeFound) {
+		$('txtUserEmpID').value = '<?php echo $lang_Time_Common_All; ?>';
+		warnings.push('<?php echo $lang_Time_Warning_NoMatchingEmployeeFound; ?>'.replace('#employeeName', employeeName));
+	}
+<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+	supervisorName = $('cmbRepEmpID').value;
+	supervisorFound = false;
+	supervisorFound = _matchRecords(supervisorName, employees, 'txtRepEmpID', ids, '<?php echo $lang_Time_Common_All; ?>', '-1');
+
+	if (!supervisorFound) {
+		$('cmbRepEmpID').value = '<?php echo $lang_Time_Common_All; ?>';
+		warnings.push('<?php echo $lang_Time_Warning_NoMatchingSupervisorFound; ?>'.replace('#supervisorName', supervisorName));
+	}
+<?php } ?>
+	return warnings;
+}
+
+function _matchRecords(needle, haystack, assignmentFieldId, assignmentRecords, defaultNeedle, defaultAssignmentValue) {
+	if (needle == defaultNeedle) {
+		$(assignmentFieldId).value = defaultAssignmentValue;
+		return true;
+	}
+	for (i = 0; i < haystack.length; i++) {
+		if (haystack[i] == needle) {
+			$(assignmentFieldId).value = assignmentRecords[i];
+			return true;
+		}
+	}
+	return false;
 }
 
 function formReset() {
@@ -88,158 +128,132 @@ function exportData() {
 		var url = "../../plugins/csv/CSVController.php?path=<?php echo addslashes(ROOT_PATH) ?>&moduleType=<?php echo  $_SESSION['moduleType'] ?>&userEmpID=" + $('cmbUserEmpID').value + "&divisionId=" +  $('cmbLocation').value + "&supervisorId=" + $('txtRepEmpID').value + "&employmentStatusId=" + $('cmbEmploymentStatus').value + "&fromDate=" + $('txtStartDate').value + "&toDate=" +$('txtEndDate').value  + "&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
         window.location = url;
 }
+
+employees = new Array();
+ids = new Array();
+<?php
+$employees = $records['empList'];
+for ($i=0;$i<count($employees);$i++) {
+	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
+}
+?>
+
 YAHOO.OrangeHRM.container.init();
 </script>
+
+<style type="text/css">
+label {
+	width:150px;
+}
+
+#popLocLabel {
+	width:auto;
+}
+
+#employeeSearchAC, #supervisorSearchAC {
+    width:20em; /* set width here */
+    padding-bottom:2em;
+    position:relative;
+    top:-10px
+}
+
+#employeeSearchAC, #supervisorSearchAC {
+    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+    float:left;
+    margin-right:5px;
+}
+#txtUserEmpID, #cmbRepEmpID {
+    _position:absolute; /* abs pos needed for ie quirks */
+}
+
+</style>
+
 <div class="formpage">
-    <div class="outerbox">
-        <div class="mainHeading"><h2><?php echo $lang_Time_SelectTimesheetsTitle;?></h2></div>
-<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" onsubmit="return validate();">
-<table border="0" cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th></th>
-	    	<th></th>
-	    	<th></th>
-	    	<th></th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td></td>
-			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
-			<td></td>
-			<td>
-			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
-				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo (isset($_SESSION['txtUserEmpID']) && $_SESSION['posted'])?$_SESSION['txtUserEmpID']:$lang_Time_Common_All; ?>" readonly />
-				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'])?$_SESSION['cmbUserEmpID']:"-1"; ?>" />
-				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
-			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
-			<input type="hidden" name="txtUserEmpID" id="txtUserEmpID" value="">
-			<select name="cmbUserEmpID" id="cmbUserEmpID">
-			<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-			<?php
-		   	if (is_array($subList)) {
-		   		sort($subList);
-		   		foreach ($subList as $sub) {
-		    ?>
-		 	<option value="<?php echo $sub[0]; ?>" <?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'] && $_SESSION['cmbUserEmpID'] == $sub[0])?"selected":""; ?>><?php echo $sub[1]; ?></option>
-		   <?php
-		   }
-		   ?>
-		   </select>
-		  <?php
-		    }
-    		}
-		   ?>			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><?php echo $lang_Time_Division; ?></td>
-			<td></td>
-			<td>
-			  <input type="text" id="txtLocation" name="txtLocation" value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />
-			  <input type="hidden" id="cmbLocation" name="cmbLocation" value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
-			  <input type="button" id="popLoc" name="popLoc" value="..." onclick="returnLocDet();" />			</td>
-			<td></td>
-		</tr>
-		<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
-		<tr>
-			<td></td>
-			<td><?php echo $lang_Time_Supervisor; ?></td>
-			<td></td>
-			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" readonly />
-				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
-				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();" />			</td>
-			<td></td>
-		</tr>
-		<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
-			<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" value=""/>
-			<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $_SESSION['empID']; ?>" />
+	<div class="outerbox">
+		<div class="mainHeading"><h2><?php echo $lang_Time_SelectTimesheetsTitle;?></h2></div>
+		<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" onsubmit="return validate();">
+		<?php if ($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor'] == 'Yes') { ?>
+			<label for="txtUserEmpID"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
+			<div class="yui-skin-sam" style="float:left;margin-right:10px;">
+	            <div id="employeeSearchAC" style="width:150px;">
+					<input type="text" name="txtUserEmpID" id="txtUserEmpID" style="margin:10px 0px 2px 0px;" autocomplete="off"
+						value="<?php echo (isset($_SESSION['txtUserEmpID']) && $_SESSION['posted'])?$_SESSION['txtUserEmpID']:$lang_Time_Common_All; ?>" />
+					<div id="employeeSearchACContainer" style="margin:6px 0px 0px 0px;"></div>
+				</div>
+			</div>
+			<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" class="hide"
+				value="<?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'])?$_SESSION['cmbUserEmpID']:"-1"; ?>" />
+			<label for="txtUserEmpID" class="sideHint"><?php echo $lang_Common_TypeHereForHints; ?></label>
 		<?php } ?>
-		<tr>
-			<td></td>
-			<td><?php echo $lang_Time_EmploymentStatus; ?></td>
-			<td></td>
-			<td>
-				<select name="cmbEmploymentStatus" id="cmbEmploymentStatus">
-			<?php if (is_array($employmentStatuses)) { ?>
-					<option value="-1" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-1")?"selected":""; ?> id="statusDefault"><?php echo $lang_Time_Common_All; ?></option>
-				<?php foreach ($employmentStatuses as $employmentStatus) { ?>
-					<option value="<?php echo $employmentStatus[0]; ?>" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == $employmentStatus[0])?"selected":""; ?>><?php echo $employmentStatus[1]; ?></option>
-				<?php }
-				 } else {
-			?>
-				    <option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
-			<?php } ?>
-				</select>			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td ><?php echo $lang_Time_Common_FromDate; ?></td>
-			<td ></td>
-			<td >
-				<input type="text" id="txtStartDate" name="txtStartDate" value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
-				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/>			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td ><?php echo $lang_Time_Common_ToDate; ?></td>
-			<td ></td>
-			<td >
-				<input type="text" id="txtEndDate" name="txtEndDate" value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
-				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn" style="display:inline;margin:0;float:none;"/>			</td>
-			<td></td>
-		</tr>
-		<tr>
-		  <td></td>
-		  <td></td>
-		  <td></td>
-		  <td></td>
-		  <td></td>
-  </tr>
+			<br class="clear" />
 
-	</tbody>
-	<tfoot>
-	  	<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-  	</tfoot>
-</table>
-<div class="formbuttons">
-    <input type="submit" class="viewbutton" id="viewBtn"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        value="<?php echo $lang_Common_View;?>" />
-    <input type="button" class="clearbutton" onclick="formReset();"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-         value="<?php echo $lang_Common_Reset;?>" />
-<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
-    <input type="button" class="exportbutton" onclick="exportData(); return false;"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-         value="<?php echo $lang_DataExport_Export;?>" />
-
-    <input type="image" name="btnExportData" alt="Export to CSV"
-       onclick="exportData(); return false;"
-       src="../../themes/beyondT/icons/export.jpg"
-       onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"
-       onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" />
-<?php  } ?>
-
-</div>
-</form>
+			<label for="txtLocation"><?php echo $lang_Time_Division; ?></label>				<input type="text" id="txtLocation" name="txtLocation" class="formInputText"					value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />				<input type="hidden" id="cmbLocation" name="cmbLocation" calss="hide"					value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
+				<label for="txtLocation" id="popLocLabel">					<input type="button" id="popLoc" value="..." onclick="returnLocDet();" />
+				</label>				<br class="clear" />
+			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>				<label for="cmbRepEmpID"><?php echo $lang_Time_Supervisor; ?></label>
+				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
+	            	<div id="supervisorSearchAC" style="width:150px;margin-top:10px;">						<input type="text" name="cmbRepEmpID" id="cmbRepEmpID" class="formInputText" autocomplete="off"							value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" />
+						<div id="supervisorSearchACContainer" style="margin:6px 0px 0px 10px;"></div>
+					</div>
+				</div>				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" calss="hide"					value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
+				<label for="cmbRepEmpID" class="sideHint"><?php echo $lang_Common_TypeHereForHints; ?></label>				<br class="clear" />			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>				<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" class="hide" value=""/>				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" class="hide" value="<?php echo $_SESSION['empID']; ?>" />			<?php } ?>
+				<label for="cmbEmploymentStatus"><?php echo $lang_Time_EmploymentStatus; ?></label>				<select name="cmbEmploymentStatus" id="cmbEmploymentStatus" class="formSelect">			<?php if (is_array($employmentStatuses)) { ?>					<option value="-1" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-1")?"selected":""; ?> id="statusDefault"><?php echo $lang_Time_Common_All; ?></option>			<?php 	foreach ($employmentStatuses as $employmentStatus) { ?>					<option value="<?php echo $employmentStatus[0]; ?>" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == $employmentStatus[0])?"selected":""; ?>><?php echo $employmentStatus[1]; ?></option>			<?php 	}				} else {			?>					<option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>			<?php } ?>				</select>				<br class="clear" />
+				<label for="txtStartDate"><?php echo $lang_Time_Common_FromDate; ?></label>				<input type="text" id="txtStartDate" name="txtStartDate" class="formInputText"					value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
+				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn" />
+				<br class="clear" />
+				<label for="txtEndDate"><?php echo $lang_Time_Common_ToDate; ?></label>				<input type="text" id="txtEndDate" name="txtEndDate" class="formInputText"					value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
+				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn" />
+				<br class="clear" />
+				<div class="formbuttons">				    <input type="submit" class="viewbutton" id="viewBtn"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				        value="<?php echo $lang_Common_View;?>" />				    <input type="button" class="clearbutton" onclick="formReset();"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				         value="<?php echo $lang_Common_Reset;?>" />				<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>				    <input type="button" class="exportbutton" onclick="exportData(); return false;"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				         value="<?php echo $lang_DataExport_Export;?>" />
+				    <input type="image" name="btnExportData" alt="Export to CSV"				       onclick="exportData(); return false;"				       src="../../themes/beyondT/icons/export.jpg"				       onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"				       onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" />				<?php  } ?>				</div>			</form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
         roundBorder('outerbox');
     }
+
+    YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+	   	// Instantiate first JS Array DataSource
+	   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+
+	   	// Instantiate AutoComplete for txtUserEmpID
+	   	this.oAutoComp = new YAHOO.widget.AutoComplete('txtUserEmpID','employeeSearchACContainer', this.oACDS);
+	   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+	   	this.oAutoComp.typeAhead = false;
+	   	this.oAutoComp.useShadow = true;
+	   	this.oAutoComp.minQueryLength = 1;
+	   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+	   	    var sInputValue = YAHOO.util.Dom.get('txtUserEmpID').value;
+	   	    if(sInputValue.length === 0) {
+	   	        var oSelf = this;
+	   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+	   	    }
+	   	});
+	}
+
+<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+	YAHOO.OrangeHRM.autocomplete.ACJSArraySupervisor = new function() {
+	   	// Instantiate first JS Array DataSource
+	   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+
+	   	// Instantiate AutoComplete for cmbRepEmpID
+	   	this.oAutoComp = new YAHOO.widget.AutoComplete('cmbRepEmpID','supervisorSearchACContainer', this.oACDS);
+	   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+	   	this.oAutoComp.typeAhead = false;
+	   	this.oAutoComp.useShadow = true;
+	   	this.oAutoComp.minQueryLength = 1;
+	   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+	   	    var sInputValue = YAHOO.util.Dom.get('cmbRepEmpID').value;
+	   	    if(sInputValue.length === 0) {
+	   	        var oSelf = this;
+	   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+	   	    }
+	   	});
+	}
+<?php } ?>
+
 //]]>
 </script>
 </div>

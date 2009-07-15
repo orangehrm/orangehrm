@@ -874,6 +874,7 @@ class TimeController {
 		$dataArr[1] = $employees;
 		$dataArr[2] = $pendingTimesheets;
 		$dataArr[3] = $pending;
+		$dataArr['empList'] = EmpInfo::getEmployeeMainDetails();
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -1505,36 +1506,6 @@ class TimeController {
 
 	/* Timegrid methods: End */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function viewDefineEmployeeTimeReport() {
 		$path="/templates/time/defineEmployeeTimeReport.php";
 
@@ -1574,6 +1545,13 @@ class TimeController {
 		$dataArr[0] = $role;
 		$dataArr[1] = $employees;
 		$dataArr[2] = $projects;
+
+		$dataArr['empList'] = array();
+		if ($role == authorize::AUTHORIZE_ROLE_ADMIN) {
+			$dataArr['empList'] = EmpInfo::getEmployeeMainDetails();
+		} elseif ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
+			$dataArr['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+		}
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -1751,6 +1729,14 @@ class TimeController {
 		if ($_SESSION['isSupervisor']) {
 			$repObj = new EmpRepTo();
 			$dataArr[1] = $repObj->getEmpSubDetails($_SESSION['empID']);
+		}
+
+		$dataArr['empList'] = array();
+		/* Setting employee list for Auto-Complete */
+		if ($this->authorizeObj->isAdmin()) {
+			$dataArr['empList'] = EmpInfo::getEmployeeMainDetails();
+		} elseif ($this->authorizeObj->isSupervisor()) {
+			$dataArr['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
 		}
 
 		$template = new TemplateMerger($dataArr, $path);
