@@ -399,6 +399,37 @@ class CommonFunctions {
         return htmlspecialchars($value, ENT_QUOTES);
     }
 
+	/**
+	 * Escape string for use in javascript
+	 *
+	 * Escapes characters \, ", ' in the string by adding a \ in front.
+	 *
+	 * @param String $string String to be escaped
+	 * @return String escaped string
+	 */
+	public static function escapeForJavascript($string) {
+		$charArray = str_split($string);
+		$escapedString = '';
+
+		foreach($charArray as $char) {
+			switch ($char) {
+				case "'":
+					$escapedString .= "\\'";
+					break;
+				case "\"":
+					$escapedString .= "\\\"";
+					break;
+				case '\\':
+					$escapedString .= "\\\\";
+					break;
+				default :
+					$escapedString .= $char;
+					break;
+			}
+		}
+		return $escapedString;
+	}
+
     /**
      * Get's the first N characters of the given string, optionally appending the given suffix.
      *

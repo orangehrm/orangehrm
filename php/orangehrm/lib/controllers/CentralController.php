@@ -1718,7 +1718,7 @@ switch ($moduletype) {
 
 													/* Timegrid Controlers: Begin */
 
-													case 'Edit_Timeesheet_Grid'			:	$obj = $timesheetExtractor->parseViewData($_POST);
+													case 'Edit_Timesheet_Grid'			:	$obj = $timesheetExtractor->parseViewData($_POST);
 																							$timeController->setObjTime($obj);
 																							$timeController->editTimesheetGrid();
 																							break;

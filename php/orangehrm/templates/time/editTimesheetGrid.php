@@ -446,7 +446,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		<?php
 		for ($i=0; $i<$projectsCount; $i++) {
 		?>
-		projectSelect += '<option value="<?php echo $projectsList[$i]['id']; ?>"><?php echo $projectsList[$i]['name'];?></option>';
+		projectSelect += '<option value="<?php echo $projectsList[$i]['id']; ?>"><?php echo CommonFunctions::escapeForJavascript($projectsList[$i]['name']);?></option>';
 		<?php
 		}
 		?>

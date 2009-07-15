@@ -69,7 +69,7 @@ class xajaxElementFiller {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = $defSel;");
 		}
 	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
-	 		$objResponse->addScript("document.getElementById('".$element."').options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" .$fillArr[$i][($fele+1)]. "','".$fillArr[$i][$fele]."');");
+	 		$objResponse->addScript("document.getElementById('".$element."').options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" . CommonFunctions::escapeForJavascript($fillArr[$i][($fele+1)]). "','".$fillArr[$i][$fele]."');");
 
 		return $objResponse;
 	}
