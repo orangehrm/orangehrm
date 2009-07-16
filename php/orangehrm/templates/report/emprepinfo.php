@@ -1291,7 +1291,7 @@ function resetForm() {
 
     foreach ($addFieldList as $field=>$label) {
         $fieldId = 'FIELD_' . $field;
-        $checked = in_array('EMPNO', $fieldArr) ? 'checked="checked"': '';
+        $checked = in_array($field, $fieldArr) ? 'checked="checked"': '';
 ?>
     <label for='<?php echo $fieldId;?>'><?php echo $label;?></label>
     <input type='checkbox' <?php echo $checked;?> disabled="disabled" class='formCheckbox' name='checkfield[]'
