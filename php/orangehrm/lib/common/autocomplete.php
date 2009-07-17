@@ -25,5 +25,15 @@ include 'yui.php';
 
 <script type="text/javascript">
 YAHOO.namespace("OrangeHRM.autocomplete");
+
+// TODO: Add functions common to autocomplete here (eg: formatAutoCompleteField)
+YAHOO.OrangeHRM.autocomplete.formatAutoCompleteField = function (obj) {
+	if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+		obj.value = '';
+		obj.style.color = '#000000';
+	}
+}
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/autocomplete/assets/skins/sam/autocomplete-skin.css"/>
+
+<!-- Add common CSS of autocomplete here (eg: #employeeSearchAC) -->

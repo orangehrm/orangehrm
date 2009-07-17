@@ -164,17 +164,6 @@ if ($locRights['edit']) {
 	}
 
 	/**
-	 * Popup the employee list.
-	 */
-	function popEmployeeList() {
-		var popup = window.open('../../templates/hrfunct/emppop.php?reqcode=REP&PROJECT=<?php echo $project->getProjectId();?>','Employees','height=450,width=400,scrollbars=1');
-    	if(!popup.opener) {
-    		popup.opener=self;
-		}
-		popup.focus();
-	}
-
-	/**
 	 * Delete selected admins.
 	 */
 	function delAdmin() {
@@ -202,6 +191,7 @@ if ($locRights['edit']) {
 	 * Save an admin.
 	 */
 	function saveAdmin() {
+		_matchAutoCompletionFields();
 
 		with (document.frmProjectAdmins) {
 
@@ -215,6 +205,21 @@ if ($locRights['edit']) {
 	        	submit();
 			}
 		}
+	}
+
+	/**
+	 * Matches the Id of the employee from the selected employee name of the autocomplete field
+	 */
+	function _matchAutoCompletionFields() {
+		employeeName = $('projAdminName').value;
+	
+		for (i = 0; i < employees.length; i++) {
+			if (employees[i] == employeeName) {
+				$('projAdminID').value = ids[i];
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -236,6 +241,17 @@ if ($locRights['edit']) {
 
 		return admin;
 	}
+
+	employees = new Array();
+	ids = new Array();
+<?php
+$employees = $this->popArr['employeeList'];
+for ($i=0;$i<count($employees);$i++) {
+	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
+}
+?>	
+	
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -246,6 +262,28 @@ if ($locRights['edit']) {
 <!--[if IE]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
+
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
+
+<style type="text/css">
+#employeeSearchAC {
+    width:20em; /* set width here */
+    padding-bottom:2em;
+    position:relative;
+    top:-10px
+}
+
+#employeeSearchAC {
+    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+    float:left;
+    margin-right:5px;
+}
+
+#projAdminName {
+    _position:absolute; /* abs pos needed for ie quirks */
+}
+</style>
+
 </head>
 <body>
     <div class="formpage">
@@ -378,11 +416,16 @@ if ($locRights['edit']) {
             <br class="clear"/>
 
 			<div id ="addAdminLayer" style="display:none;">
-		    	<label for="projAdminName"><?php echo $lang_Admin_Users_Employee; ?></label>
-	               	<input type="text" readonly name="projAdminName" value="" >
-                  	<input type="hidden" readonly name="projAdminID" value="">
-                   	<input class="button" style="width:30px;" type="button" name="empPop" value=".."
-                   		onClick="popEmployeeList();" tabindex="4" <?php echo $disabled; ?> >
+				<label for="projAdminName"><?php echo $lang_Admin_Users_Employee; ?></label>
+				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
+			            <div id="employeeSearchAC" style="width:150px;">
+							<input type="text" name="projAdminName" id="projAdminName" style="margin:0px 0px 2px 0px; color:#999999" autocomplete="off"
+								value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="YAHOO.OrangeHRM.autocomplete.formatAutoCompleteField(this)" />
+							<div id="employeeSearchACContainer" style="margin:-4px 0px 0px 0px;"></div>
+						</div>
+					</div>
+
+                  	<input type="hidden" readonly name="projAdminID" id="projAdminID" value="" />
                     <input type="button" class="addbutton" id="addBtn"
                         onclick="<?php echo $saveAdminBtnAction; ?>;" tabindex="7"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
@@ -398,6 +441,25 @@ if ($locRights['edit']) {
             if (document.getElementById && document.createElement) {
                 roundBorder('outerbox');
             }
+            
+			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+			   	// Instantiate first JS Array DataSource
+			   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+		
+			   	// Instantiate AutoComplete for projAdminName
+			   	this.oAutoComp = new YAHOO.widget.AutoComplete('projAdminName','employeeSearchACContainer', this.oACDS);
+			   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+			   	this.oAutoComp.typeAhead = false;
+			   	this.oAutoComp.useShadow = true;
+			   	this.oAutoComp.minQueryLength = 1;
+			   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+			   	    var sInputValue = YAHOO.util.Dom.get('projAdminName').value;
+			   	    if(sInputValue.length === 0) {
+			   	        var oSelf = this;
+			   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+			   	    }
+		   	});
+		}
         //]]>
         </script>
 

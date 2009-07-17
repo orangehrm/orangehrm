@@ -115,8 +115,8 @@ $locRights=$_SESSION['localRights'];
 		for (var i=0; i < frm.elements.length; i++) {
 			frm.elements[i].disabled = false;
 		}
-		$('editBtn').src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif";
-		$('editBtn').title="<?php echo $lang_Common_Save; ?>";
+
+		$('editBtn').value = "<?php echo $lang_Common_Save; ?>";
 
 <?php } else {?>
 		alert('<?php echo $lang_Common_AccessDenied;?>');
