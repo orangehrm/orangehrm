@@ -169,8 +169,10 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
     }
 
-    function reset() {
+    function resetForm() {
         $('frmLocation').reset();
+        $('lrState').innerHTML = initialProvinceContent;
+        $('txtState').disabled = false;
     }
 
     function edit() {
@@ -326,7 +328,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
                         onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" tabindex="11" />
-                    <input type="button" class="clearbutton" onclick="reset();"
+                    <input type="button" class="clearbutton" onclick="resetForm();"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Reset;?>" tabindex="12" />
 <?php } ?>
@@ -342,5 +344,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         </script>
         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     </div>
+    <script type="text/javascript">
+    var initialProvinceContent = $('lrState').innerHTML;
+    </script> 
 </body>
 </html>

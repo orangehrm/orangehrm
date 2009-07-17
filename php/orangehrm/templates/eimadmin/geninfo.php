@@ -144,8 +144,10 @@ $disabled = "disabled='disabled'";
         }
     }
 
-    function reset() {
+    function resetForm() {
         $('frmGenInfo').reset();
+        $('lrState').innerHTML = initialProvinceContent;
+        $('txtState').disabled = false;
     }
 
     function edit() {
@@ -306,7 +308,7 @@ $disabled = "disabled='disabled'";
                     <input type="button" class="editbutton" id="editBtn"
                         onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                    <input type="button" class="clearbutton" onclick="resetForm();" tabindex="3"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
@@ -322,10 +324,10 @@ $disabled = "disabled='disabled'";
         </script>
         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     </div>
+    
+    <script type="text/javascript">
+    var initialProvinceContent = $('lrState').innerHTML;
+    </script> 
 </body>
 </html>
-
-
-
-
 
