@@ -1,3 +1,33 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.10
+	Changed Features
+	----------------
+	Updated the latest language files for the Dutch language
+
+	Bug Fixes
+	---------
+	2491526 - Clear buttons should renamed as Reset 
+	2786768 - Shift description does not allow for 7.5 hour shifts (Fix made by community contributor Afraz Ali)
+	2790590 - Define Report - Unchecked fields also display in a report
+	2804835 - Job duties strings is not fit to the frame width when viewin
+	2080314 - Leave: Double quotation is not affect after saving (Fix made by community contributor Nauman Ahmad)
+	2688218 - Description save with multi line will make record uneditable
+	2046166 - Time:For Project activities with ' cant enter time entries
+	2506371 - Implement the employee auto suggestion list in Time module
+	2530843 - can't edit employee education details in PIM
+	2489630 - Remove the employee image selection popup for consistancy
+	2641144 - Atten Report time get invalid when saved In/Out as 24:00
+	2050991 - Admin: Project activity with ‘ can’t be edited (Fix made by community contributor Usman Arham)
+	2595635 - When filter based on employee Print Time Sheet not retrieve (Fix made by community contributor Kamran Lodhi)
+	2489665 - Tab order not set for phone field when adding location.
+	2595650 - Time format should be mentioned in a label
+	2491699 - Reset button should implemented in a consistent way
+	2002400 - Send duplicate mails to CC address (Fix made by community contributor Usman Arham)
+	2640884 - project Internal should behave as normal project
+	2728341 - List of Taken leave is showing records for all years
+	2799959 - Supervisor cannot print time sheets using division criteria.
+	2188524 - ESS can enter D of B manually & there will be Extractor erro (Refixed)
+	2506497 - Ess: Leave summary back button will end up with notice page
+
 New & Changed Features for OrangeHRM ver 2.5-beta.9
 
 	Bug Fixes
