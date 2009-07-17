@@ -721,7 +721,7 @@ create table `hs_hr_unique_id` (
 create table `hs_hr_workshift` (
   `workshift_id` int(11) not null,
   `name` varchar(250) not null,
-  `hours_per_day` int(11) not null,
+  `hours_per_day` decimal(4,2) not null,
   primary key  (`workshift_id`)
 ) engine=innodb default charset=utf8;
 

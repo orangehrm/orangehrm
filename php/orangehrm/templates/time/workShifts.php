@@ -50,10 +50,10 @@ function addShift() {
 	if ( hoursPerDay == '') {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyHoursPerDay; ?>\n";
-	} else if (!isNaN(hoursPerDay) && hoursPerDay.indexOf('.') != -1) {
+	} else if (isNaN(hoursPerDay)) {
 		err=true;
-		msg+="\t- <?php echo $lang_Time_Error_DecimalNotAllowed; ?>\n";
-	} else if (!numbers($('txtHoursPerDay')) || (0 >= hoursPerDay)) {
+		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBeANumericValue; ?>\n";
+	} else if (0 >= hoursPerDay) {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositiveNumber; ?>\n";
 	} else if (hoursPerDay > 24) {

@@ -1821,6 +1821,7 @@
 	$lang_Time_Error_DecimalNotAllowed = "Decimal numbers are not allowed";
 	$lang_Time_Error_HoursPerDayShouldBePositiveNumber = "Hours per day should be a positive number";
 	$lang_Time_Error_HoursPerDayShouldBeLessThan24 = "Hours per day should be less than 24";
+	$lang_Time_Error_HoursPerDayShouldBeANumericValue = "Hours per day should be a numeric value";
 	$lang_Time_Error_NoEmployeeSelected = "No employee selected";
 
 	$lang_Time_Errors_INVALID_WORK_SHIFT_FAILURE = "There were problems in the work shift details";
