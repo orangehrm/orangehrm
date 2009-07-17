@@ -164,20 +164,19 @@ $customExportList = $this->popArr['customExportList'];
 		var assignedFields = $('cmbAssignedFields');
 		removeAllOptions(assignedFields);
 
-		for (var i = 0; i < origAssignedFields.length; i++) {
+		for (i = 0; i < origAssignedFields.length; i++) {
 			newElement = document.createElement("option");
 			newElement.setAttribute("value", origAssignedFields[i]);
-			newElement.text = origAssignedFields[i];
+			newElement.innerHTML = origAssignedFields[i];
 			assignedFields.appendChild(newElement);
 		}
 
-
 		var availableFields = $('cmbAvailableFields');
 		removeAllOptions(availableFields);
-		for (var i = 0; i < origAvailableFields.length; i++) {
+		for (i = 0; i < origAvailableFields.length; i++) {
 			newElement = document.createElement("option");
 			newElement.setAttribute("value", origAvailableFields[i]);
-			newElement.text = origAvailableFields[i];
+			newElement.innerHTML = origAvailableFields[i];
 			availableFields.appendChild(newElement);
 		}
 

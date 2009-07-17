@@ -173,7 +173,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 		for (var i = 0; i < origAssignedFields.length; i++) {
 			newElement = document.createElement("option");
 			newElement.setAttribute("value", origAssignedFields[i]);
-			newElement.text = origAssignedFields[i];
+			newElement.innerHTML = origAssignedFields[i];
 			assignedFields.appendChild(newElement);
 		}
 
@@ -183,7 +183,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 		for (var i = 0; i < origAvailableFields.length; i++) {
 			newElement = document.createElement("option");
 			newElement.setAttribute("value", origAvailableFields[i]);
-			newElement.text = origAvailableFields[i];
+			newElement.innerHTML = origAvailableFields[i];
 			availableFields.appendChild(newElement);
 		}
 

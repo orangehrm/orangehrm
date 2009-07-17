@@ -174,9 +174,9 @@
         	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
         	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         	onclick="editEmpMain(); return false;"/>
-		<input type="reset" class="clearbutton" id="btnClearPers" tabindex="5"
+		<input type="button" class="clearbutton" id="btnClearPers" tabindex="5"
 			onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
-			value="<?php echo $lang_Common_Reset;?>" />
+			onclick="this.form.reset(); this.form.EditMode.value = '1';" value="<?php echo $lang_Common_Reset;?>" />
     </div>
 
 <?php } ?>
