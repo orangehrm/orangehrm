@@ -56,6 +56,7 @@ function goBack() {
 	}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 ul {
@@ -78,7 +79,11 @@ li{
 <body>
 <table border="0">
 <tr><td></td>
-<td height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
+<td height="35">
+	<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
+		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+		onclick="goBack();" />
+</td>
 </tr>
 <tr><td></td><td>
 	<h2><center><?php echo $lang_rep_Report; ?>: <?php echo $this->repName; ?></center></h2></td>
