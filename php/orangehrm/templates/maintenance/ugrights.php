@@ -35,23 +35,21 @@ if ($_SESSION['userGroup'] == $this->popArr['ugDet'][0][0]) {
 <script type="text/javascript">
 //<![CDATA[
 
-function addEXT()
-{
+function addEXT() {
 
-if(document.frmURights.cmbModuleID.value=='0') {
-	alert("<?php echo $lang_Admin_Users_Errors_ModuleShouldBeSelected; ?>");
-	document.frmURights.cmbModuleID.focus();
-	return;
-}
-
-	var frm=document.frmURights;
-	if((!frm.chkView.checked) && (frm.chkAdd.checked || frm.chkEdit.checked || frm.chkDelete.checked)) {
-		alert("<?php echo $lang_Admin_Users_Errors_ViewShouldBeSelected; ?>");
-		return
+	if ($('cmbModuleID').value == '0') {
+		alert("<?php echo $lang_Admin_Users_Errors_ModuleShouldBeSelected; ?>");
+		$('cmbModuleID').focus();
+		return;
 	}
 
-document.frmURights.STAT.value="ADD";
-document.frmURights.submit();
+	if ((!$('chkView').checked) && ($('chkAdd').checked || $('chkEdit').checked || $('chkDelete').checked)) {
+		alert("<?php echo $lang_Admin_Users_Errors_ViewShouldBeSelected; ?>");
+		return;
+	}
+
+	$('STAT').value = "ADD";
+	$('frmURights').submit();
 }
 
 function editEXT()
@@ -127,7 +125,7 @@ function edit() {
         <?php
         $ugDet = $this ->popArr['ugDet'];
         ?>
-        <input type="hidden" name="STAT" value=""/>
+        <input type="hidden" name="STAT" id="STAT" value=""/>
         <span class="formLabel"><?php echo $lang_Admin_Users_UserGroupId; ?></span>
         <span class="formValue"><?php echo $ugDet[0][0];?></span>
         <input type="hidden" id="txtUserGroupID" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"/>
@@ -141,15 +139,12 @@ function edit() {
     <div class="outerbox">
         <div class="notice"><?php echo $lang_Admin_Users_Errors_SameGroup; ?></div>
     </div>
-
-
 <?php } elseif(isset($this->popArr['editArr'])) {
-
     $edit = $this->popArr['editArr'];
 ?>
     <div class="outerbox">
         <label for="cmbModuleID"><?php echo $lang_Admin_Users_Module; ?></label>
-        <input type="hidden" name="cmbModuleID" value="<?php echo $edit[0][1]?>"/>
+        <input type="hidden" id="cmbModuleID" name="cmbModuleID" value="<?php echo $edit[0][1]?>"/>
         <span class="formValue">
 <?php
 			$modlist = $this->popArr['modlist'];
