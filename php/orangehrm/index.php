@@ -571,7 +571,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 	$subs = array();
 
 	/* TODO: clean up this part based on requirements */
-	if ($_SESSION['isAdmin'] == "Yes" && $arrAllRights[TimeM]['view']) {
+	if ($_SESSION['isAdmin'] == "Yes" && $arrAllRights[Benefits]['view']) {
 		$yearVal = date('Y');
 		$sub = new MenuItem("hsp",$lang_Menu_Benefits_HealthSavingsPlan , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary&year={$yearVal}");
 		$subsubs = array();
