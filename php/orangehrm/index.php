@@ -447,7 +447,10 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 		if ($authorizeObj->isESS()) {
 			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_PersonalLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
 		}
-		$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_EmployeeLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary");
+
+		if ($arrAllRights[Leave]['view']) {
+			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_EmployeeLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary");
+		}
 		$sub->setSubMenuItems($subsubs);
 	} else if ($authorizeObj->isESS()) {
 		$sub = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
@@ -455,7 +458,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
 	$subs[] = $sub;
 
-	if ($authorizeObj->isAdmin()) {
+	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
 		$sub = new MenuItem("daysoff", $lang_Menu_Leave_DefineDaysOff, "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_DefineDaysOff_Weekends, "lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List");
@@ -471,13 +474,13 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
   		$subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view");
 	}
 
-	if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
+	if (($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) && $arrAllRights[Leave]['add']) {
 		$subs[] = new MenuItem("assignleave",$lang_Menu_Leave_Assign, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view");
 	}
 	if ($authorizeObj->isSupervisor()) {
   		$subs[] = new MenuItem("approveLeave", $lang_Menu_Leave_ApproveLeave, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor");
 	}
-	if ($authorizeObj->isAdmin()) {
+	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
 		$subs[] = new MenuItem("leavelist",$lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1");
 	}
 
@@ -505,8 +508,10 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, $timesheetLink);
 			}
 
-			$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
-			$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_EmployeeTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee");
+			if ($arrAllRights[TimeM]['view']) {
+				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
+				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_EmployeeTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee");
+			}
 			$sub->setSubMenuItems($subsubs);
 		}
 
@@ -523,11 +528,11 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 	        $attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_MyReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report");
 		}
 
-		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
+		if (($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) && $arrAllRights[TimeM]['view']) {
 			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_EmployeeReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report");
 		}
 
-		if ($authorizeObj->isAdmin()) {
+		if ($authorizeObj->isAdmin() && $arrAllRights[TimeM]['edit']) {
 			$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");
 		}
 
@@ -541,15 +546,15 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 		}
 
 		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
-	    if ($authorizeObj->firstRole($allowedRoles)) {
+	    if ($authorizeObj->firstRole($allowedRoles) && $arrAllRights[TimeM]['view']) {
 			$subs[] = new MenuItem("employeereports",$lang_Menu_Time_EmployeeReports , "lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define");
 	    }
 
-		if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) {
+		if ((($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) && $arrAllRights[TimeM]['view']) {
 			$subs[] = new MenuItem("projectreports",$lang_Menu_Time_ProjectReports, "lib/controllers/CentralController.php?timecode=Time&action=Project_Report_Define");
 		}
 
-		if ($_SESSION['isAdmin']=='Yes') {
+		if ($_SESSION['isAdmin']=='Yes' && $arrAllRights[TimeM]['view']) {
 			$subs[] = new MenuItem("workshifts", $lang_Menu_Time_WorkShifts, "lib/controllers/CentralController.php?timecode=Time&action=View_Work_Shifts");
 		}
 
@@ -566,7 +571,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 	$subs = array();
 
 	/* TODO: clean up this part based on requirements */
-	if ($_SESSION['isAdmin'] == "Yes") {
+	if ($_SESSION['isAdmin'] == "Yes" && $arrAllRights[TimeM]['view']) {
 		$yearVal = date('Y');
 		$sub = new MenuItem("hsp",$lang_Menu_Benefits_HealthSavingsPlan , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary&year={$yearVal}");
 		$subsubs = array();
@@ -599,16 +604,19 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 		$subs[] = $sub;
 	}
 
-	$sub = new MenuItem("payrollschedule",$lang_Menu_Benefits_PayrollSchedule , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year");
+	if ($_SESSION['isAdmin'] == "Yes" && $arrAllRights[Benefits]['view']) {
+		$sub = new MenuItem("payrollschedule",$lang_Menu_Benefits_PayrollSchedule , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year");
 
-	if ($_SESSION['isAdmin'] == "Yes") {
 		$subsubs = array();
 		$subsubs[] = new MenuItem("payrollschedule",$lang_Benefits_ViewPayrollSchedule , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year");
-		$subsubs[] = new MenuItem("payrollschedule",$lang_Benefits_AddPayPeriod , "lib/controllers/CentralController.php?benefitcode=Benefits&action=View_Add_Pay_Period");
+		if ($arrAllRights[Benefits]['add']) {
+			$subsubs[] = new MenuItem("payrollschedule",$lang_Benefits_AddPayPeriod , "lib/controllers/CentralController.php?benefitcode=Benefits&action=View_Add_Pay_Period");
+		}
 		$sub->setSubMenuItems($subsubs);
+
+		$subs[] = $sub;
 	}
 
-	$subs[] = $sub;
 	$menuItem->setSubMenuItems($subs);
 	$menu[] = $menuItem;
 }
@@ -769,7 +777,20 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 } elseif ($_GET['menu_no_top']=="recruit") {
 	$home = $recruitHomePage;
 } else {
-	$home = "";
+	$rightsCount = 0;
+	foreach ($arrAllRights as $moduleRights) {
+	    foreach ($moduleRights as $right) {
+	    	if ($right) {
+	        	$rightsCount++;
+	    	}
+	    }
+	}
+	
+	if ($rightsCount === 0) {
+		$home = 'message.php?case=no-rights&type=notice';
+	} else {
+		$home = "";
+	}
 }
 
 ?>

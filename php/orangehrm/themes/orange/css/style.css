@@ -1172,6 +1172,9 @@ textarea {
 	.success {
 		color: #005500;
 	}
+	.notice {
+		#000000;
+	}
 	.dateFormat {
 		font-weight: normal;
 		font-style: italic;

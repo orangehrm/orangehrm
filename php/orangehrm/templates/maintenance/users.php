@@ -81,7 +81,6 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 
     var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
-	// new
 	var employeeSearchList = new Array();
 
 	function showAutoSuggestTip(obj) {
@@ -89,7 +88,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 			obj.value = '';
 			obj.style.color = '#000000';
 		}
-	} //end new
+	}
 
     function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?php echo $adminUser; ?>";
@@ -277,7 +276,9 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 		<div>
 		<label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?><span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input name="txtUserEmpID" autocomplete="off" class="yui-ac-input" id="txtUserEmpID" type="text" value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+ 	 		      <input name="txtUserEmpID" autocomplete="off" class="yui-ac-input" id="txtUserEmpID" type="text" 
+ 	 		      	value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>" <?php echo $disabled; ?> 
+ 	 		      	tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>

@@ -43,7 +43,7 @@ function addEXT() {
 		return;
 	}
 
-	if ((!$('chkView').checked) && ($('chkAdd').checked || $('chkEdit').checked || $('chkDelete').checked)) {
+	if (!$('chkView').checked) {
 		alert("<?php echo $lang_Admin_Users_Errors_ViewShouldBeSelected; ?>");
 		return;
 	}
