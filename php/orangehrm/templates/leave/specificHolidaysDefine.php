@@ -30,6 +30,8 @@
 		$recurring = "";
 		$length = "";
 	}
+	
+	$rights = $records['rights'];
 
 	if (isset($modifier) && $modifier) {
 		$action = "Holiday_Specific_Edit";
@@ -126,10 +128,11 @@
         </select>
         <br class="clear"/>
         <div class="formbuttons">
-            <input type="button" class="savebutton" id="saveBtn"
+        	<?php $disabled = ($rights['edit']) ? '' : 'disabled="disabled"'; ?>
+            <input type="button" class="savebutton" id="saveBtn" <?php echo $disabled; ?>
                 onclick="addSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+            <input type="button" class="clearbutton" onclick="reset();" tabindex="3" <?php echo $disabled; ?>
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Reset;?>" />
         </div>

@@ -22,6 +22,7 @@
  }
 
  $modifier = $modifier[0];
+ $rights = $_SESSION['localRights'];
 
  if (isset($modifier) && ($modifier == "Taken")) {
  	$empInfo = $records[count($records)-1][0];
@@ -154,16 +155,18 @@ if ($modifier === "SUP") {
 
     <div class="actionbar">
         <div class="actionbuttons">
-            <input type="button" class="addbutton"
+        	<?php $disabled = ($rights['add']) ? '' : 'disabled="disabled"'; ?>
+            <input type="button" class="addbutton" <?php echo $disabled; ?>
                 name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Add;?>" />          
     
               <?php /* Show delete button only if records are available: Begins */
               if (count($records) > 0) {
-              ?>    
+              ?>
+              	<?php $disabled = ($rights['delete']) ? '' : 'disabled="disabled"'; ?>    
                 <input type="button" class="delbutton" onclick="actionDelete(); return false;"
-                    name="btnDel" id="btnDel"
+                    name="btnDel" id="btnDel" <?php echo $disabled; ?>
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"                    
                     value="<?php echo $lang_Common_Delete;?>" />
               <?php /* Show delete button only if records are available: Ends */

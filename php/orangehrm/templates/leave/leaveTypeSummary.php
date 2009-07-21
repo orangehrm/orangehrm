@@ -33,6 +33,9 @@
 	/* To check whether active leave types are available: Ends */
 
     $duplicateJavascript = '';
+    
+    $rights = $_SESSION['localRights'];
+    $disabled = 'disabled="disabled"';
 ?>
 
 <script type="text/javascript">
@@ -259,7 +262,7 @@
 
     <div class="actionbar">
         <div class="actionbuttons">
-            <input type="button" class="addbutton"
+            <input type="button" class="addbutton" <?php echo ($rights['add']) ? '' : $disabled; ?>
                 name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Add;?>" />
@@ -267,13 +270,13 @@
               <?php /* Show edit & delete button only if records are available: Begins */
                if ($activeTypesAvailable) {
               ?>
-                <input type="button" class="editbutton"
+                <input type="button" class="editbutton" <?php echo ($rights['edit']) ? '' : $disabled; ?>
                     name="btnEdit" id="btnEdit" onclick="actionEdit(); return false;"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Edit;?>" />
 
                 <input type="button" class="delbutton" onclick="actionDelete(); return false;"
-                    name="btnDel" id="btnDel"
+                    name="btnDel" id="btnDel" <?php echo ($rights['delete']) ? '' : $disabled; ?>
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Delete;?>" />
               <?php /* Show edit & delete button only if records are available: Ends */

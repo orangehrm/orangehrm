@@ -967,6 +967,7 @@ class LeaveController {
 
 		$tmpObj[0] = $leaveType;
 		$tmpObj[1] = $leaveType->fetchLeaveTypes(true);
+		$tmpObj['rights'] = $_SESSION['localRights'];
 		$template = new TemplateMerger($tmpObj, $path);
 
 		$template->display();
@@ -1039,6 +1040,7 @@ class LeaveController {
 	}
 
 
+	/* TODO: Seems like this method is no longer used. It should probably be removed */
 	public function displayLeaveEditTypeDefine(){
 
 		$tmpObj = new LeaveType();
@@ -1046,7 +1048,8 @@ class LeaveController {
 		$this->setObjLeave($tmpObj);
 
 		$tmpOb[0] = $tmpObj->retriveLeaveType($this->getId());
-		$tmpObj[1] = $leaveType->fetchLeaveTypes();
+		$tmpOb[1] = $leaveType->fetchLeaveTypes();
+		$tmpOb['rights'] = $_SESSION['localRights'];
 
 		$path = "/templates/leave/leaveTypeDefine.php";
 
@@ -1257,6 +1260,8 @@ class LeaveController {
 								$record = $weekendsObj->fetchWeek();
 								break;
 		}
+
+		$record['rights'] = $_SESSION['localRights'];
 
 		$template = new TemplateMerger($record, $path);
 

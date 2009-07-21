@@ -19,6 +19,7 @@
 
 $oldLeaveType = $records[0];
 $leaveTypes = $records[1];
+$rights = $records['rights'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -121,17 +122,18 @@ $leaveTypes = $records[1];
             <span class="formValue"><?php echo $oldLeaveType->getLeaveTypeName(); ?></value>
             <br class="clear"/>
         <?php } ?>
+        	<?php $disabled = ($rights['add']) ? '' : 'disabled="disabled"'; ?>
             <label for="txtLeaveTypeName"><?php echo $lang_Leave_Common_LeaveTypeName;?><span class="required">*</span></label></label>
-            <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();"
-                class="formInputText"/>
+            <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" <?php echo $disabled; ?>
+            	onkeyup="checkName();" class="formInputText"/>
             <br class="clear"/>
             <div class="error" id="messageCell"></div>
             <br class="clear"/>
             <div class="formbuttons">
-                <input type="button" class="savebutton" id="saveBtn"
+                <input type="button" class="savebutton" id="saveBtn" <?php echo $disabled; ?>
                     onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
-                <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
+                <input type="reset" class="resetbutton" <?php echo $disabled; ?> value="<?php echo $lang_Common_Reset; ?>" />
             </div>
         </form>
         </div>
