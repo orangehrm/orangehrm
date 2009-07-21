@@ -19,6 +19,9 @@
  */
 
 $workshifts = $records[0];
+$rights = $records['rights'];
+
+$disabledAttribute = 'disabled="disabled"';
 ?>
 
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -106,10 +109,11 @@ function actionDelete() {
 	        <label for="none">&nbsp;</label>
 	        <input type="hidden" id="none" name="none"/>
             <div class="formbuttons">
-                <input type="button" class="addbutton" id="addBtn" 
+            	<?php $disabled = ($rights['add']) ? '' : $disabledAttribute; ?>
+                <input type="button" class="addbutton" id="addBtn" <?php echo $disabled; ?>
                     onclick="addShift();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                     value="<?php echo $lang_Common_Add;?>" />
-                <input type="button" class="cancelbutton" onclick="cancelAddShift();" 
+                <input type="button" class="cancelbutton" onclick="cancelAddShift();" <?php echo $disabled; ?>
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
                      value="<?php echo $lang_Common_Cancel;?>" />                         
             </div>
@@ -136,18 +140,17 @@ function actionDelete() {
      
    <div class="actionbar">
         <div class="actionbuttons">
-            <input type="button" class="addbutton"
+        	<?php $disabled = ($rights['add']) ? '' : $disabledAttribute; ?>
+            <input type="button" class="addbutton" <?php echo $disabled; ?>
                 onclick="actionShowAdd();"
                 name="btnAdd" id="btnAdd"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                title="<?php echo $lang_Common_Add;?>"
                 value="<?php echo $lang_Common_Add;?>" />          
-
-                <input type="button" class="delbutton"
+			<?php $disabled = ($rights['delete']) ? '' : $disabledAttribute; ?>
+                <input type="button" class="delbutton" <?php echo $disabled; ?>
                     name="btnDel" id="btnDel" alt="Delete"
                     onclick="actionDelete();" 
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                    title="<?php echo $lang_Common_Delete;?>" 
                     value="<?php echo $lang_Common_Delete;?>" />
         </div>              
         <div class="noresultsbar"><?php echo (count($workshifts) == 0) ? $lang_Error_NoRecordsFound : '';?></div>

@@ -1276,29 +1276,11 @@ class TimeController {
 		$dataArr[8]=$role;
 		$dataArr[9]=$activitySum;
 		$dataArr[10]=$totalTime;
+		$dataArr['rights'] = $_SESSION['localRights'];
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/* Timegrid methods: Begin */
 
@@ -2106,6 +2088,7 @@ class TimeController {
 		$path = "/templates/time/workShifts.php";
 
 		$objs[] = Workshift::getWorkshifts();
+		$objs['rights'] = $_SESSION['localRights'];
 
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
@@ -2124,6 +2107,7 @@ class TimeController {
 			$objs[] = $workshift;
 			$objs[] = $workshift->getAssignedEmployees();
 			$objs[] = $workshift->getEmployeesWithoutWorkshift();
+			$objs['rights'] = $_SESSION['localRights'];
 
 			$template = new TemplateMerger($objs, $path);
 			$template->display();

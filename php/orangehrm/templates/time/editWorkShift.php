@@ -22,6 +22,7 @@ $workshift = $records[0];
 $assignedEmployees = $records[1];
 $availableEmployees = $records[2];
 
+$disabled = ($records['rights']['edit']) ? '' : 'disabled="disabled"';
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
@@ -77,9 +78,9 @@ function removeEmployee() {
 </script>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+            <input type="button" class="backbutton"
+				onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Time_AssignEmployeesTitle;?></h2></div>
@@ -106,7 +107,7 @@ function removeEmployee() {
 	        <input type="hidden" id="txtShiftId" name="txtShiftId" value="<?php echo $workshift->getWorkshiftId(); ?>"/>
         <br class="clear"/>
             <div class="formbuttons">           
-                <input type="button" class="savebutton"
+                <input type="button" class="savebutton" <?php echo $disabled; ?>
                     onclick="upateShift();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                     value="<?php echo $lang_Common_Save;?>" />
             </div>
@@ -119,8 +120,8 @@ function removeEmployee() {
 		   	<th width="125" style="align:center;"><?php echo $lang_Time_AssignedEmployees; ?></th>
 		</tr>
 		<tr><td width="100" >
-			<select size="10" id="cmbAvailableEmployees" name="cmbAvailableEmployees[]" style="width:125px;"
-					multiple="multiple">
+			<select size="10" id="cmbAvailableEmployees" name="cmbAvailableEmployees[]" <?php echo $disabled; ?>
+				style="width:125px;" multiple="multiple">
        			<?php
        				foreach($availableEmployees as $employee) {
        					$empNum = $employee['emp_number'];
@@ -130,12 +131,16 @@ function removeEmployee() {
 				?>
 			</select></td>
 			<td align="center" width="100">
-				<input type="button" name="btnAssignEmployee" id="btnAssignEmployee" onClick="assignEmployee();" value=" <?php echo $lang_compstruct_add; ?> >" style="width:80%"><br><br>
-				<input type="button" name="btnRemoveEmployee" id="btnRemoveEmployee" onClick="removeEmployee();" value="< <?php echo $lang_Leave_Common_Remove; ?>" style="width:80%">
+				<input type="button" <?php echo $disabled; ?> name="btnAssignEmployee" id="btnAssignEmployee" class="plainbtn"
+					onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+					onclick="assignEmployee();" value=" <?php echo $lang_compstruct_add; ?> >" style="width:80%" /><br /><br />
+				<input type="button" <?php echo $disabled; ?> name="btnRemoveEmployee" id="btnRemoveEmployee" class="plainbtn"
+					onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+					onclick="removeEmployee();" value="< <?php echo $lang_Leave_Common_Remove; ?>" style="width:80%" />
 			</td>
 			<td>
-			<select size="10" name="cmbAssignedEmployees[]" id="cmbAssignedEmployees" style="width:125px;"
-			        multiple="multiple">
+			<select size="10" name="cmbAssignedEmployees[]" id="cmbAssignedEmployees" <?php echo $disabled; ?>
+				style="width:125px;" multiple="multiple">
        			<?php
        				foreach($assignedEmployees as $employee) {
        					$empNum = $employee['emp_number'];

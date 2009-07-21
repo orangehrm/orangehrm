@@ -22,6 +22,8 @@ if (isset($records['empDetails'])) {
 	$empInfo = $records['empDetails'];
 }
 
+$rights = $_SESSION['localRights'];
+
 $currentPage = $records['pageNo'] ;
 $allRecords =   $records['leaveCount'] ;
 $deletedLeaveTypesFound = false;
@@ -292,7 +294,7 @@ $broughtForward = $modifier[4];
 
 <?php if (($auth === 'admin' ) || ($auth === 'supervisor')) { ?>
 <div class="navigation">
-	<input type="button" class="savebutton"
+	<input type="button" class="backbutton"
 	onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	value="<?php echo $lang_Common_Back;?>" />
 </div>
@@ -335,7 +337,7 @@ $broughtForward = $modifier[4];
     <?php
         if ($auth === 'admin' ) {
     ?>
-          <input type="button" class="<?php echo $btnClass;?>" id="editBtn" onclick="actForm();"
+          <input type="button" class="<?php echo $btnClass;?>" id="editBtn" onclick="actForm();" <?php echo ($rights['edit']) ? '' : 'disabled="disabled"'; ?>
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $btnTitle;?>" />
 		   <input type="reset" class="resetbutton" <?php echo $resetDisabled; ?> value="<?php echo $lang_Common_Reset; ?>" />
@@ -380,7 +382,7 @@ $broughtForward = $modifier[4];
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
-		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
+		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ((!empty($empInfo)) && $empInfo[0] != $_SESSION['empID'])))) { ?>
 
 			<?php $col = 1; ?>
 			<td>
@@ -470,7 +472,7 @@ $broughtForward = $modifier[4];
 			}
 ?>
   <tr>
-   	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
+   	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && (!empty($empInfo) && $empInfo[0] != $_SESSION['empID'])))) { ?>
   	<td class="<?php echo $cssClass; ?>"><?php echo $record['employee_name'] ?></td>
   	<?php } ?>
     <td class="<?php echo $cssClass; ?>">

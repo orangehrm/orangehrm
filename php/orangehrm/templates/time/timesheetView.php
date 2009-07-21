@@ -23,17 +23,19 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 
 
-$timeExpenses=$records[0];
-$timesheet=$records[1];
-$timesheetSubmissionPeriod=$records[2];
-$dailySum=$records[3];
-$employee=$records[4];
-$self=$records[5];
-$next=$records[6];
-$prev=$records[7];
-$role=$records[8];
-$activitySum=$records[9];
-$totalTime=$records[10];
+$timeExpenses = $records[0];
+$timesheet = $records[1];
+$timesheetSubmissionPeriod = $records[2];
+$dailySum = $records[3];
+$employee = $records[4];
+$self = $records[5];
+$next = $records[6];
+$prev = $records[7];
+$role = $records[8];
+$activitySum = $records[9];
+$totalTime = $records[10];
+
+$isEditable = ($records['rights']['edit'] || $records[5]); // $records[5] is true if the timesheet belongs to the current user
 
 if ($self) {
 	$next=true;
@@ -321,7 +323,7 @@ td {
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
 <div class="formbuttons">
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-    <input type="button" class="editbutton"
+    <input type="button" class="editbutton" <?php echo ($isEditable) ? '' : 'disabled="disabled"'; ?>
         onclick="actionEdit(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnEdit" id="btnEdit"
