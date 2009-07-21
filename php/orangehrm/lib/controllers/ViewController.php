@@ -3283,11 +3283,10 @@ class ViewController {
 							$project = new Projects();
 							$customer = new Customer ();
 							$form_creator->popArr['cusid'] = $customer->fetchCustomers();
+							$form_creator ->popArr['employeeList'] = EmpInfo::getEmployeeMainDetails();
 
  							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $project->fetchProject($getArr['id']) ;
-								$form_creator ->popArr['employeeList'] = EmpInfo::getEmployeeMainDetails();
-
 								$gw = new ProjectAdminGateway();
 								$form_creator ->popArr['admins'] = $gw->getAdmins($getArr['id']);
 							}
