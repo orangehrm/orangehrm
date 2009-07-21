@@ -202,7 +202,7 @@ return $objResponse->getXML();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 //<![CDATA[
 
 	function addSave() {
@@ -215,12 +215,6 @@ return $objResponse->getXML();
 		if(isEmpty(document.frmJobTitle.txtJobTitleDesc.value)) { // isEmpty() is defined in scripts/archive.js
 			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
 			document.frmJobTitle.txtJobTitleDesc.focus();
-			return false;
-		}
-
-		if(document.frmJobTitle.cmbPayGrade.value == '0') {
-			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
-			document.frmJobTitle.cmbPayGrade.focus();
 			return false;
 		}
 
@@ -268,14 +262,7 @@ return $objResponse->getXML();
 
 			return false;
 		}
-
-		if(document.frmJobTitle.cmbPayGrade.value == '0') {
-			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
-			document.frmJobTitle.cmbPayGrade.focus();
-
-			return false;
-		}
-
+		
 		document.frmJobTitle.sqlState.value = "UpdateRecord";
 
 		document.frmJobTitle.submit();
@@ -441,7 +428,7 @@ return $objResponse->getXML();
 		document.frmJobTitle.cmbPayGrade.value = 0;
 	}
 //]]>
-</script>
+--></script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
 <!--[if lte IE 6]>
@@ -531,7 +518,7 @@ return $objResponse->getXML();
 		</select>
         <br class="clear"/>
 
-		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?><span class="required">*</span></label>
+		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?></label>
 		<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;" class="formSelect">
 			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 			<?php
@@ -610,7 +597,7 @@ return $objResponse->getXML();
 		</select>
 		<br class="clear"/>
 
-		<label for="cmbPayGrade"><?php echo $lang_hrEmpMain_paygrade; ?><span class="required">*</span></label>
+		<label for="cmbPayGrade"><?php echo $lang_hrEmpMain_paygrade; ?></label>
 		<select disabled="disabled" name="cmbPayGrade" id="cmbPayGrade" class="formSelect">
 			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 			<?php

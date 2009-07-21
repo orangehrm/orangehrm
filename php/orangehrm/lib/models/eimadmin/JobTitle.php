@@ -192,8 +192,8 @@ class JobTitle {
 		$arrRecordsList[0] = "'". $this->getJobId() . "'";
 		$arrRecordsList[1] = "'". $this->getJobName() . "'";
 		$arrRecordsList[2] = "'". $this->getJobDesc() . "'";
-		$arrRecordsList[3] = "'". $this->getJobComm() . "'";
-		$arrRecordsList[4] = "'". $this->getJobSalGrd() . "'";
+		$arrRecordsList[3] = "'". $this->getJobComm() . "'";		
+		$arrRecordsList[4] = $this->jobSalGrd != '0' ? $this->jobSalGrd : 'null';
         $arrRecordsList[5] = isset($this->jobSpecId) ? $this->jobSpecId : 'null';
 
         $arrFieldList[0] = 'JOBTIT_CODE';
@@ -267,8 +267,8 @@ class JobTitle {
 		$arrRecordsList[0] = "'". $this->getJobId() . "'";
 		$arrRecordsList[1] = "'". $this->getJobName() . "'";
 		$arrRecordsList[2] = "'". $this->getJobDesc() . "'";
-		$arrRecordsList[3] = "'". $this->getJobComm() . "'";
-		$arrRecordsList[4] = "'". $this->getJobSalGrd() . "'";
+		$arrRecordsList[3] = "'". $this->getJobComm() . "'";		
+		$arrRecordsList[4] = $this->jobSalGrd != '0' ? $this->jobSalGrd : 'null';
         $arrRecordsList[5] = isset($this->jobSpecId) ? $this->jobSpecId : 'null';
         
 		$arrFieldList[0] = 'JOBTIT_CODE';
