@@ -164,7 +164,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <br class="clear"/>
 
                 <label for="selMembershipType"><?php echo $lang_membershipinfo_membershiptype; ?><span class="required">*</span></label>
-                <select id="selMembershipType" name="selMembershipType"<?php echo $disabled;?> class="formSelect">
+                <select id="selMembershipType" name="selMembershipType"<?php echo $disabled;?> tabindex="2" class="formSelect">
                         <?php
                             foreach($membershipTypes as $typeId => $typeName) {
                                 $selected = ($typeId == $membershipTypeId) ? "selected='selected'" : '';
@@ -177,9 +177,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <div class="formbuttons">
 <?php if($locRights['edit']) { ?>
                     <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
-                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        onclick="edit();" tabindex="3" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                    <input type="button" class="clearbutton" onclick="reset();" tabindex="4"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>

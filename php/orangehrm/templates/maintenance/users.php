@@ -257,7 +257,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                     <input type="password" id="txtUserPassword" name="txtUserPassword" class="formInputText"
                         tabindex="<?php echo $tabIndex++;?>"/>
 
-                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
+                    <label for="txtUserConfirmPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
                     <input type="password" id="txtUserConfirmPassword" name="txtUserConfirmPassword"
                         class="formInputText" tabindex="<?php echo $tabIndex++;?>"/>
                     <br class="clear"/>
@@ -278,7 +278,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input name="txtUserEmpID" autocomplete="off" class="yui-ac-input" id="txtUserEmpID" type="text" 
  	 		      	value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>" <?php echo $disabled; ?> 
- 	 		      	tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+ 	 		      	tabindex="<?php echo $tabIndex++;?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>
