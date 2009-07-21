@@ -1669,6 +1669,7 @@
     $lang_Recruit_JobApplicationAction_MarkDeclined = 'Mark Offer Declined';
     $lang_Recruit_JobApplicationAction_SeekApproval = 'Seek Approval';
     $lang_Recruit_JobApplicationAction_Approve = 'Approve';
+    $lang_Recruit_JobApplicationAction_Interview_Time_Format = 'HH:MM';
 
     $lang_Recruit_JobApplicationDetails_Heading = 'Application Details';
     $lang_Recruit_JobApplicationDetails_Status = 'Application Status';
