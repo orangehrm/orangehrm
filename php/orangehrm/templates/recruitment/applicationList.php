@@ -54,6 +54,10 @@ $statusList = array(
     .eventDate {
         font-style: italic;
     }
+    
+    table.simpleList {
+        margin: 4px 4px 4px 4px;
+    }
     -->
 </style>
 </head>
@@ -77,7 +81,7 @@ $statusList = array(
     <?php if (count($applications) == 0) { ?>
         <?php echo $lang_Recruit_JobApplicationList_NoApplications;?>
     <?php } else { ?>
-    <table class="simpleList" >
+    <table class="simpleList">
         <thead>
             <tr>
             <th width><?php echo $lang_Recruit_JobApplicationList_Name; ?></th>
