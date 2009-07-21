@@ -50,6 +50,13 @@ class EXTRACTOR_AttendanceRecord {
 
 		$attendanceObj = new AttendanceRecord();
 
+
+		if (isset($postArr['hdnTimestampDiff'])) {
+			$timestampDiffToPass = $postArr['hdnTimestampDiff']; // Means the corresponding timestampDiff has been already saved in the database.
+		} else {
+			$timestampDiffToPass = $this->_getTimestampDiff(); // Means a new record. Need to calculate timestampDiff
+		}
+
 		if (isset($postArr['hdnAttendanceId'])) {
 			$attendanceObj->setAttendanceId($postArr['hdnAttendanceId']);
 		}
@@ -60,8 +67,8 @@ class EXTRACTOR_AttendanceRecord {
 
 			$value = trim($postArr['txtInDate']).' '.trim($postArr['txtInTime']);
 
-			$attendanceObj->setInDate($this->adjustToServerTime('date', 'subtract', $value));
-			$attendanceObj->setInTime($this->adjustToServerTime('time', 'subtract', $value));
+			$attendanceObj->setInDate($this->_adjustToServerTime('date', $timestampDiffToPass, $value));
+			$attendanceObj->setInTime($this->_adjustToServerTime('time', $timestampDiffToPass, $value));
 
 		}
 
@@ -73,9 +80,13 @@ class EXTRACTOR_AttendanceRecord {
 
 			$value = trim($postArr['txtOutDate']).' '.trim($postArr['txtOutTime']);
 
-			$attendanceObj->setOutDate($this->adjustToServerTime('date', 'subtract', $value));
-			$attendanceObj->setOutTime($this->adjustToServerTime('time', 'subtract', $value));
+			$attendanceObj->setOutDate($this->_adjustToServerTime('date', $timestampDiffToPass, $value));
+			$attendanceObj->setOutTime($this->_adjustToServerTime('time', $timestampDiffToPass, $value));
 
+		}
+
+		if (!isset($postArr['hdnAttendanceId'])) {
+			$attendanceObj->setTimestampDiff($this->_getTimestampDiff());
 		}
 
 		if (isset($postArr['txtOutNote'])) {
@@ -119,12 +130,12 @@ class EXTRACTOR_AttendanceRecord {
 				$attendanceRecordObj->setAttendanceId($postArr['hdnAttendanceId-'.$i]);
 				$attendanceRecordObj->setEmployeeId($postArr['hdnEmployeeId']);
 				$value = trim($postArr['txtNewInDate-'.$i]).' '.trim($postArr['txtNewInTime-'.$i]);
-				$attendanceRecordObj->setInDate($this->adjustToServerTime('date', 'subtract', $value));
-				$attendanceRecordObj->setInTime($this->adjustToServerTime('time', 'subtract', $value));
+				$attendanceRecordObj->setInDate($this->_adjustToServerTime('date', $postArr['hdnTimestampDiff-'.$i], $value));
+				$attendanceRecordObj->setInTime($this->_adjustToServerTime('time', $postArr['hdnTimestampDiff-'.$i], $value));
 				$attendanceRecordObj->setInNote(trim($postArr['txtNewInNote-'.$i]));
 				$value = trim($postArr['txtNewOutDate-'.$i]).' '.trim($postArr['txtNewOutTime-'.$i]);
-				$attendanceRecordObj->setOutDate($this->adjustToServerTime('date', 'subtract', $value));
-				$attendanceRecordObj->setOutTime($this->adjustToServerTime('time', 'subtract', $value));
+				$attendanceRecordObj->setOutDate($this->_adjustToServerTime('date', $postArr['hdnTimestampDiff-'.$i], $value));
+				$attendanceRecordObj->setOutTime($this->_adjustToServerTime('time', $postArr['hdnTimestampDiff-'.$i], $value));
 				$attendanceRecordObj->setOutNote(trim($postArr['txtNewOutNote-'.$i]));
 			    $parsedObjs[] = $attendanceRecordObj;
 			}
@@ -135,44 +146,28 @@ class EXTRACTOR_AttendanceRecord {
 
 	}
 
-	public function adjustToServerTime($type, $operation, $value) {
-
-	    if (!isset($this->userTimeZoneOffset)) {
-	        throw new Exception('User time zone is not set');
-	    }
-
-	    if (!isset($this->serverTimeZoneOffset)) {
-	        throw new Exception('Server time zone is not set');
-	    }
+	private function _adjustToServerTime($type, $timestampDiff, $value) {
 
 	    if ($type != 'date' && $type != 'time') {
 	        throw new Exception('Wrong type');
 	    }
 
-	    if ($operation != 'add' && $operation != 'subtract') {
-	        throw new Exception('Wrong operation');
-	    }
-
-    	$hourDiff = $this->userTimeZoneOffset - $this->serverTimeZoneOffset;
-		$timeStampDiff = $hourDiff*3600;
-
 		if ($type == 'date') {
-
-			if ($operation == 'add') {
-			    return date('Y-m-d', strtotime($value)+$timeStampDiff);
-			} elseif ($operation == 'subtract') {
-			    return date('Y-m-d', strtotime($value)-$timeStampDiff);
-			}
-
+			return date('Y-m-d', strtotime($value)-$timestampDiff);
  		} elseif ($type == 'time') {
-
-			if ($operation == 'add') {
-			    return date('H:i', strtotime($value)+$timeStampDiff);
-			} elseif ($operation == 'subtract') {
-			    return date('H:i', strtotime($value)-$timeStampDiff);
-			}
-
+			return date('H:i', strtotime($value)-$timestampDiff);
 		}
+
+	}
+	
+	/* When saving in the database, timestampDiff is calculated by substracting
+	 * server timezone offset from client timezone offset. When showing records
+	 * to user this timestampDiff should be added to each date and time shown.
+	 */
+
+	private function _getTimestampDiff() {
+
+		return ($this->userTimeZoneOffset - $this->serverTimeZoneOffset)*3600;
 
 	}
 

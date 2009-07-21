@@ -332,10 +332,14 @@ $count = count($recordsArr);
 	
 	for ($i=0; $i<$count; $i++) { // Records array: Begins
 
-	$inDate = $extractor->adjustToServerTime('date', 'add', $recordsArr[$i]->getInDate().' '.$recordsArr[$i]->getInTime());
-	$inTime = $extractor->adjustToServerTime('time', 'add', $recordsArr[$i]->getInDate().' '.$recordsArr[$i]->getInTime());
-	$outDate = $extractor->adjustToServerTime('date', 'add', $recordsArr[$i]->getOutDate().' '.$recordsArr[$i]->getOutTime());
-	$outTime = $extractor->adjustToServerTime('time', 'add', $recordsArr[$i]->getOutDate().' '.$recordsArr[$i]->getOutTime());
+	$id = $recordsArr[$i]->getAttendanceId();
+	$inDate = $recordsArr[$i]->getInDate();
+	$inTime = $recordsArr[$i]->getInTime();
+	$inNote = $recordsArr[$i]->getInNote();
+	$outDate = $recordsArr[$i]->getOutDate();
+	$outTime = $recordsArr[$i]->getOutTime();
+	$outNote = $recordsArr[$i]->getOutNote();
+	$timestampDiff = $recordsArr[$i]->getTimestampDiff();
 	
 	if ($records['editMode']) { 
 	
@@ -343,7 +347,7 @@ $count = count($recordsArr);
   
     <tr>
         <td>
-        <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getAttendanceId(); ?>" />
+        <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $id; ?>" />
         <input type="text" name="txtNewInDate-<?php echo $i; ?>" id="txtNewInDate-<?php echo $i; ?>" size="10" value="<?php echo $inDate; ?>" />
         <input type="hidden" name="hdnOldInDate-<?php echo $i; ?>" value="<?php echo $inDate;?>" />
         </td>
@@ -352,8 +356,8 @@ $count = count($recordsArr);
         <input type="hidden" name="hdnOldInTime-<?php echo $i; ?>" value="<?php echo $inTime; ?>" />
         </td>
         <td class="note-td">
-        <input type="text" name="txtNewInNote-<?php echo $i; ?>" id="txtNewInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
-        <input type="hidden" name="hdnOldInNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getInNote(); ?>" />
+        <input type="text" name="txtNewInNote-<?php echo $i; ?>" id="txtNewInNote-<?php echo $i; ?>" value="<?php echo $inNote; ?>" />
+        <input type="hidden" name="hdnOldInNote-<?php echo $i; ?>" value="<?php echo $inNote; ?>" />
         </td>
         <td>
         <input type="text" name="txtNewOutDate-<?php echo $i; ?>" id="txtNewOutDate-<?php echo $i; ?>" value="<?php echo $outDate; ?>" />
@@ -364,11 +368,12 @@ $count = count($recordsArr);
         <input type="hidden" name="hdnOldOutTime-<?php echo $i; ?>" value="<?php echo $outTime; ?>" />
         </td>
         <td class="note-td">
-        <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutNote(); ?>" />
-        <input type="hidden" name="hdnOldOutNote-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getOutNote(); ?>" />
+        <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
+        <input type="hidden" name="hdnOldOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
         </td>
         <td>
         <input type="checkbox" name="chkDeleteStatus-<?php echo $i; ?>" id="chkDeleteStatus-<?php echo $i; ?>" />
+        <input type="hidden" name="hdnTimestampDiff-<?php echo $i; ?>" id="hdnTimestampDiff-<?php echo $i; ?>" value="<?php echo $timestampDiff; ?>" />
         </td>
     </tr>
     

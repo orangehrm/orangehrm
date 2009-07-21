@@ -720,6 +720,7 @@ create table `hs_hr_attendance` (
   `punchout_time` datetime null default null,
   `in_note` varchar(250) null default null,
   `out_note` varchar(250) null default null,
+  `timestamp_diff` int(11) not null,
   `status` enum('0','1'),
   primary key (`attendance_id`)
 ) engine=innodb default charset=utf8;

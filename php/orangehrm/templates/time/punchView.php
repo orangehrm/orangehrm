@@ -23,7 +23,9 @@ if (isset($records['attRecord'])) {
 	$punchTypeName = $lang_Time_Out;
 	$heading = $lang_Time_Heading_PunchOut;
 	/* Punch Info: Begins */
-	$punchInfo = $lang_Time_LastPunchIn.' '.$records['punchedInDate'].' '.$records['punchedInTime'];
+	$punchInfo = $lang_Time_LastPunchIn.' '.$records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
+	$timestampDiff = $records['attRecord'][0]->getTimestampDiff();
+	
 	$punchNote = $records['attRecord'][0]->getInNote();
 	if (!empty($punchNote)) {
 		$punchInfo .= ' '."($punchNote)";
@@ -72,7 +74,7 @@ if ($records['message'] == 'save-success') {
 
 		<?php if (!$punchIn) { ?>
 
-		var inTime = strToTime("<?php echo $records['punchedInDate']; ?>"+" "+"<?php echo $records['punchedInTime']; ?>", dateTimeFormat);
+		var inTime = strToTime("<?php echo $records['attRecord'][0]->getInDate(); ?>"+" "+"<?php echo $records['attRecord'][0]->getInTime(); ?>", dateTimeFormat);
 		var outTime = strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat);
 
 		if (inTime >= outTime) {
@@ -106,8 +108,8 @@ if ($records['message'] == 'save-success') {
 
 	<?php if (!$punchIn) { ?>
 	<input type="hidden" name="hdnAttendanceId" value="<?php echo $records['attRecord'][0]->getAttendanceId(); ?>" />
-	<input type="hidden" name="txtInDate" value="<?php echo $records['punchedInDate']; ?>" />
-	<input type="hidden" name="txtInTime" value="<?php echo $records['punchedInTime']; ?>" />
+	<input type="hidden" name="txtInDate" value="<?php echo $records['attRecord'][0]->getInDate(); ?>" />
+	<input type="hidden" name="txtInTime" value="<?php echo $records['attRecord'][0]->getInTime(); ?>" />
 	<?php } ?>
 	<input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
 
@@ -155,6 +157,11 @@ if ($records['message'] == 'save-success') {
   			<td></td>
         	<td></td>
         	<td>
+        	
+        	<?php if (isset($timestampDiff)) { ?>        		
+        	<input type="hidden" name="hdnTimestampDiff" id="hdnTimestampDiff" value="<?php echo $timestampDiff; ?>" />        	
+        	<?php } ?>        	
+        	
             <input type="button" class="punchbutton" name="btnPunch" id="btnPunch"
                     onclick="punchTime()"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"

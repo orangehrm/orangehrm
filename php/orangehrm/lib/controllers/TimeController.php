@@ -287,7 +287,7 @@ class TimeController {
 
 		$attendanceObj = new AttendanceRecord();
 		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
-													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1', true);
+																AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1', true);
 		$records['editMode'] = Config::getAttendanceEmpChangeTime();
 		$records['empId'] = $_SESSION['empID'];
 		$timeStampDiff = ($_SESSION['userTimeZoneOffset'] - round(date('Z')/3600, 1))*3600;
@@ -298,13 +298,6 @@ class TimeController {
 
 		$sysConfObj = new sysConf();
 		$records['timeInputHint'] = $sysConfObj->getTimeInputHint();
-
-		if (isset($records['attRecord'])) {
-			$value = $records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
-
-			$records['punchedInDate'] = date('Y-m-d', strtotime($value) + $timeStampDiff);
-			$records['punchedInTime'] = date('H:i', strtotime($value) + $timeStampDiff);
-		}
 
 		$path = "/templates/time/punchView.php";
 		$template = new TemplateMerger($records, $path);

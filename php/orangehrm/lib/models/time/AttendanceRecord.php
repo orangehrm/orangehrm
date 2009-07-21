@@ -24,14 +24,15 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class AttendanceRecord {
 
-	const DB_TABLE = "hs_hr_attendance";
-	const DB_FIELD_ATTENDANCE_ID = "attendance_id";
-	const DB_FIELD_EMPLOYEE_ID = "employee_id";
-	const DB_FIELD_PUNCHIN_TIME = "punchin_time";
-	const DB_FIELD_PUNCHOUT_TIME = "punchout_time";
-	const DB_FIELD_IN_NOTE = "in_note";
-	const DB_FIELD_OUT_NOTE = "out_note";
-	const DB_FIELD_STATUS = "status";
+	const DB_TABLE = 'hs_hr_attendance';
+	const DB_FIELD_ATTENDANCE_ID = 'attendance_id';
+	const DB_FIELD_EMPLOYEE_ID = 'employee_id';
+	const DB_FIELD_PUNCHIN_TIME = 'punchin_time';
+	const DB_FIELD_PUNCHOUT_TIME = 'punchout_time';
+	const DB_FIELD_IN_NOTE = 'in_note';
+	const DB_FIELD_OUT_NOTE = 'out_note';
+	const DB_FIELD_STATUS = 'status';
+	const DB_FIELD_TIMESTAMP_DIFF = 'timestamp_diff';
 	const STATUS_ACTIVE = 1;
 	const STATUS_DELETED = 0;
 
@@ -43,6 +44,7 @@ class AttendanceRecord {
 	private $outTime;
 	private $inNote;
 	private $outNote;
+	private $timestampDiff;
 	private $status; // Whether active or deleted (0 or 1)
 
 	public function setAttendanceId($attendanceId) {
@@ -109,6 +111,14 @@ class AttendanceRecord {
 	    return $this->outNote;
 	}
 
+	public function setTimestampDiff($timestampDiff) {
+	    $this->timestampDiff = $timestampDiff;
+	}
+
+	public function getTimestampDiff() {
+	    return $this->timestampDiff;
+	}
+
 	public function setStatus($status) {
 	    $this->status = $status;
 	}
@@ -143,6 +153,9 @@ class AttendanceRecord {
 			$insertFields[] = "`".self::DB_FIELD_IN_NOTE."`";
 			$insertValues[] = "'{$this->inNote}'";
 		}
+
+		$insertFields[] = "`".self::DB_FIELD_TIMESTAMP_DIFF."`";
+		$insertValues[] = "'{$this->timestampDiff}'";
 
 		$insertFields[] = "`".self::DB_FIELD_STATUS."`";
 		$insertValues[] = "'".self::STATUS_ACTIVE."'";
@@ -299,6 +312,7 @@ class AttendanceRecord {
 		$selectFields[] = "`".self::DB_FIELD_PUNCHOUT_TIME."`";
 		$selectFields[] = "`".self::DB_FIELD_IN_NOTE."`";
 		$selectFields[] = "`".self::DB_FIELD_OUT_NOTE."`";
+		$selectFields[] = "`".self::DB_FIELD_TIMESTAMP_DIFF."`";
 		$selectFields[] = "`".self::DB_FIELD_STATUS."`";
 
 		$selectConditions[] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '$employeeId'";
@@ -331,7 +345,7 @@ class AttendanceRecord {
 		
 	}
 
-	private function _buildRecordObjects($result) {
+	private function _buildRecordObjects($result, $adjustTime = true) {
 
 		while ($row = mysql_fetch_array($result)) {
 
@@ -361,7 +375,39 @@ class AttendanceRecord {
 				$attendanceObj->setOutNote($row['out_note']);
 			}
 
+			$attendanceObj->setTimestampDiff($row['timestamp_diff']);
 			$attendanceObj->setStatus($row['status']);
+			
+			/* Adjusting time according to the timezone of the place 
+			 * where the record was first entered.
+			 */
+			
+			if ($adjustTime) {
+				
+				/* When saving in the database, timestampDiff is calculated by substracting
+				 * server timezone offset from client timezone offset. When showing records
+				 * to user this timestampDiff should be added to each date and time shown.
+				 */
+				
+				$value = $attendanceObj->getInDate().' '.$attendanceObj->getInTime();			    
+			    $date = date('Y-m-d', strtotime($value)+$row['timestamp_diff']);
+			    $time = date('H:i', strtotime($value)+$row['timestamp_diff']);
+			    
+			    $attendanceObj->setInDate($date);
+			    $attendanceObj->setInTime($time);
+			    
+			    if ($row['punchout_time'] != null) {
+			        
+					$value = $attendanceObj->getOutDate().' '.$attendanceObj->getOutTime();			    
+				    $date = date('Y-m-d', strtotime($value)+$row['timestamp_diff']);
+				    $time = date('H:i', strtotime($value)+$row['timestamp_diff']);
+				    
+				    $attendanceObj->setOutDate($date);
+				    $attendanceObj->setOutTime($time);
+			        
+			    }
+			    
+			}
 
 			$attendanceArr[] = $attendanceObj;
 

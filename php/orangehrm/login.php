@@ -209,7 +209,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 <title><?php echo $lang_login_title; ?></title>
 <link href="favicon.ico" rel="icon" type="image/gif"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>
+<script type="text/javascript">
 
 	function submitForm() {
 
