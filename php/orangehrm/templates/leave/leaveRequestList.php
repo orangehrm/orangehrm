@@ -380,7 +380,7 @@ if ($modifier === "ADMIN") {
 		<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved)) { ?>
 		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $leaveComments; ?>" />
 		<?php } else {
-			echo $leaveComments;
+			echo $record->getLeaveComments();
 			} ?></td>
   </tr>
 
