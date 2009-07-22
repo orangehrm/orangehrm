@@ -22,6 +22,7 @@ $applicationId = $application->getId();
 
 $resourceName = 'lang_Recruit_JobApplicationAction_' . $action;
 $actionName = isset($$resourceName) ? $$resourceName : $action;
+$actionButtonClass = ($action == JobApplication::ACTION_MARK_OFFER_DECLINED) ? 'extralongbtn' : 'plainbtn';
 
 $confirmMsgRes = 'lang_Recruit_JobApplicationConfirm_Confirm' . $action;
 $confirmMsg = isset($$confirmMsgRes) ? $$confirmMsgRes : $confirmMsgRes;
@@ -106,10 +107,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 
     .txtValue {
         width: 300px;
-    }
-
-    label {
-
     }
 
     textarea {
@@ -203,7 +200,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <textarea id="txtNotes" name="txtNotes" tabindex="1" rows="6" cols="40"></textarea><br/>
 
         <div class="formbuttons">
-            <input type="submit" class="plainbtn"  id="actionBtn" tabindex="2"
+            <input type="submit" class="<?php echo $actionButtonClass; ?>"  id="actionBtn" tabindex="2"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $actionName;?>" />
             <input type="button" class="cancelbutton" onclick="goBack();" tabindex="3"

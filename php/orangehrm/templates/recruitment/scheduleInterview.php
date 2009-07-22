@@ -60,7 +60,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     }
 ?>
 
-
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
     }
@@ -153,7 +152,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		}
     }
 
-	function reset() {
+	function resetForm() {
 		$('frmInterview').reset();
 	}
 
@@ -179,46 +178,13 @@ YAHOO.OrangeHRM.container.init();
     <style type="text/css">
     <!--
 
-	.items {
-		border-top: none;
-		border-left: solid 1px #999999;
-		border-right: solid 1px #999999;
-		border-bottom: solid 1px #999999;
-		padding: 4px;
-		display: none;
-		width: 240px;
-	}
-
-	#container {
-		 display: table-row !important;
-	}
-
-	#dropdownPane {
-		display: table-cell;
-		border: none !important;
-		text-align: left !important;
-	}
-
-	#txtEnhancedSearchBox {
-		display: block;
-		border-top: solid 1px #000000;
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-bottom: solid 1px #000000;
-	}
-
     #txtNotes {
-        width: 330px;
+        width: 300px;
         height: 150px;
     }
 
-    form {
-        min-width: 550px;
-        max-width: 600px;
-    }
-
     br {
-        clear: left;
+        clear: both;
     }
 
     .calendarBtn {
@@ -228,6 +194,12 @@ YAHOO.OrangeHRM.container.init();
         display:inline !important;
         margin:0 !important;
         float:none !important;
+    }
+
+    .hint {
+    	color:#999999;
+    	font-size:10px;
+    	font-style:italic;
     }
 
     #txtDate, #txtTime {
@@ -240,16 +212,6 @@ YAHOO.OrangeHRM.container.init();
         padding-left: 10px;
         width: 400px;
         border: 1px;
-	}
-
-	#container {
-		display: table-row !important;
-	}
-
-	#dropdownPane {
-		display: table-cell;
-		border: none !important;
-		text-align: left !important;
 	}
 
 	#employeeSearchAC {
@@ -274,91 +236,94 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
     }
 ?>
 <body class="yui-skin-sam">
-    <div class="formpage">
-        <div class="navigation">
+	<div class="formpage">
+		<div class="navigation">
 	    	<input type="button" class="savebutton"
-		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-	    	    value="<?php echo $lang_Common_Back;?>" />
+				onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Back;?>" />
         </div>
+
         <div class="outerbox">
             <div class="mainHeading"><h2><?php     echo $heading . ' ' . $applicantName;?></h2></div>
-
-        <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
+<?php
+        	$message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
                 $message = "lang_Common_" . $message;
-        ?>
-            <div class="messagebar">
-                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>
-        <?php } ?>
+?>
+			<div class="messagebar">
+				<span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+			</div>
+<?php
+			}
 
-  <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
-		<?php
 			$prevEmpNum = '-1';
 			$empName = $lang_Common_TypeHereForHints;
-		?>
-		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
-		<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
+?>
 
-        <label for="txtDate"><?php echo $lang_Recruit_JobApplication_Schedule_Date; ?><span class="required">*</span></label>
-        <input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
-        <input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/><br/>
+			<form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
+				<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
+				<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
+
+				<label for="txtDate"><?php echo $lang_Recruit_JobApplication_Schedule_Date; ?><span class="required">*</span></label>
+				<input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
+				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/><br/>
 
         <label for="txtTime"><?php echo $lang_Recruit_JobApplication_Schedule_Time; ?><span class="required">*</span></label>
         <input type="text" id="txtTime" name="txtTime" tabindex="2" />
-        <?php echo $lang_Recruit_JobApplicationAction_Interview_Time_Format; ?><br/>
+        <span class="hint"><?php echo $lang_Recruit_JobApplicationAction_Interview_Time_Format; ?></span><br />
 
-        <div>
 		<span class="formLabel"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?><span class="required">*</span></span>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
- 	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
- 	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
- 	 		          <div style="display: none;" class="yui-ac-hd"></div>
- 	 		          <div class="yui-ac-bd">
- 	 		            <ul>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		              <li style="display: none;"></li>
- 	 		            </ul>
- 	 		          </div>
- 	 		          <div style="display: none;" class="yui-ac-ft"></div>
- 	 		        </div>
- 	 		        <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
- 	 	      </div>
+			<input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch"
+ 	 			type="text" value="<?php echo $empName ?>" tabindex="3"
+				onfocus="showAutoSuggestTip(this)" style="color: #999999; postion:relative; left:-10px;" />
+			<div class="yui-ac-container" id="employeeSearchACContainer" style="position:relative; top:16px; left:-10px;">
+ 	 			<div style="display: none; width: 159px; height: 0px; left: 100em;" class="yui-ac-content">
+ 	 				<div style="display: none;" class="yui-ac-hd"></div>
+					<div class="yui-ac-bd">
+						<ul>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+							<li style="display: none;"></li>
+						</ul>
+					</div>
+					<div style="display: none;" class="yui-ac-ft"></div>
+				</div>
+				<div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
+			</div>
     	</div>
-    	</div>
+        <br class="clear" />
 
-        <br/>
-		<?php
-				if ($noOfEmployees == 0) {
-		?>
+		<?php if ($noOfEmployees == 0) { ?>
 			<div id="nohiringmanagers">
 				<?php echo $lang_Recruit_NoHiringManagersNotice; ?>
 			</div>
-		<?php
-				}
-		?>
+		<?php } ?>
+
 		<label for="txtNotes"><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
-        <textarea id="txtNotes" name="txtNotes" tabindex="4" rows="6" cols="40"></textarea><br/>
-        <div class="formbuttons">
-            <input type="button" class="savebutton" id="saveBtn" tabindex="5"
-                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                 value="<?php echo $lang_Common_Reset;?>" />
-        </div>
-        <br class="clear"/>
+        <textarea id="txtNotes" name="txtNotes" tabindex="4" rows="6" cols="40"></textarea>
+        <br class="clear" />
+
+		<div class="formbuttons">
+			<input type="button" class="savebutton" id="saveBtn" tabindex="5"
+				onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Save;?>" />
+			<input type="button" class="clearbutton" onclick="resetForm();" tabindex="6"
+				onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Reset;?>" />
+		</div>
+		<br class="clear"/>
 	</form>
+
+	</div>
     </div>
     <script type="text/javascript">
     //<![CDATA[
@@ -398,6 +363,6 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     <div id="cal1Container" style="position:absolute;" ></div>
-</div>
+
 </body>
 </html>
