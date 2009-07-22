@@ -99,7 +99,7 @@
 
 	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
 	$lang_Error_SelectAtLeastOneCheckBox 				= "Select at least one check box";
-	
+
 	$lang_Notice_NoRights	= "No modules with administrative previledges were found. Adminstration rights of your user group may have " .
 			"been revoked or temporarily suspended.";
 
@@ -585,6 +585,11 @@
 	$lang_hremp_Workstation					= "Workstation";
 	$lang_hremp_Subdivision					= "Sub-division";
     $lang_hremp_Locations                   = "Locations";
+
+    $lang_hremp_MaritalStatus_Unmarried		= "Unmarried";
+    $lang_hremp_MaritalStatus_Married		= "Married";
+    $lang_hremp_MaritalStatus_Divorced		= "Divorced";
+    $lang_hremp_MaritalStatus_Others		= "Others";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";

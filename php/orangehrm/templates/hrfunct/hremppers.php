@@ -113,8 +113,9 @@
 <?php
 		$currentMarital = isset($this->postArr['cmbMarital']) ? $this->postArr['cmbMarital'] : $maritalStatus;
 		foreach ($arrMStat as $mstat) {
-			$selected = ($currentMarital == $mstat) ? 'selected="selected"' : '';
-			echo "<option {$selected} >{$mstat}</option>";
+			$mstatString = "lang_hremp_MaritalStatus_{$mstat}";
+			$selected = ($currentMarital == $$mstatString) ? 'selected="selected"' : '';
+			echo "<option {$selected} >{$$mstatString}</option>";
 		}
 ?>
 	</select><br class="clear" />
