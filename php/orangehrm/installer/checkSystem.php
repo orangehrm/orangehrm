@@ -173,7 +173,7 @@ function sysCheckPassed() {
                if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
 
 		            $mysqlServer = mysql_query("show engines");
-		            
+
 		            while ($engines = mysql_fetch_assoc($mysqlServer)) {
 		                if ($engines['Engine'] == 'InnoDB') {
 		                    if ($engines['Support'] == 'DISABLED') {
@@ -192,7 +192,7 @@ function sysCheckPassed() {
 		                    }
 		                }
 		            }
-	             
+
                } else {
                   echo "<b><font color='red'>Cannot connect to the database</font></b>";
                   $error_found = true;
@@ -233,21 +233,47 @@ function sysCheckPassed() {
             ?>
             </strong></td>
           </tr>
+          <tr>
+            <td class="tdComponent">Register Globals turned-off</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+			   $registerGlobalsValue = (bool) ini_get("register_globals");
+               if ($registerGlobalsValue) {
+                  echo "<font color='red'>On <sup>#</sup></font>";
+                  $error_found = true;
+				} else {
+                  echo "<font color='green'>OK</font>";
+               }
+            ?>
+            </strong></td>
+          </tr>
 		  <tr>
             <td class="tdComponent">Memory allocated for PHP script</td>
             <td align="right" class="tdValues"><?php echo checkMemory()?></td>
           </tr>
           <?php
+          	$printMoreInfoLink = false;
+
           	if(!(is_writable(ROOT_PATH . '/lib/confs'))){
 
-          		echo "<tr> <td> ";
+          		echo "<tr> <td colspan='2'> ";
           		echo "<font color='red'>* Web server requires write privilege to the following directory</font> ";
           		print_r(ROOT_PATH .'/lib/confs');
-          		print ' <a href="./guide/#systemChk" id="help" target="_blank">[ For More Information ?]</a>';
-
           		echo "</td> </tr>";
+          		$printMoreInfoLink = true;
           	}
 
+          	 if ($registerGlobalsValue) {
+          		echo "<tr> <td colspan='2'> ";
+          		echo "<font color='red'><sup>#</sup> The value of <strong>register_globals</strong> should be <strong>Off</strong> in php.ini file</font> ";
+          		echo "</td> </tr>";
+          		$printMoreInfoLink = true;
+          	 }
+
+          	 if ($printMoreInfoLink) {
+          	 	print ' <a href="./guide/#systemChk" id="help" target="_blank">[ For More Information ?]</a>';
+          	 }
           ?>
 		</table>
 		<br />
