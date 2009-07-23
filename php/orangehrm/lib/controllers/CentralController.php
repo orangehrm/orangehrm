@@ -1736,31 +1736,7 @@ switch ($moduletype) {
 													case 'Timegrid_Fetch_Activities'	:	ob_clean();
 																							echo $timeController->prepareProjectActivitiesResponse($_GET['projectId']);
 																							break;
-
 													/* Timegrid Controlers: End */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 													case 'View_Work_Shifts'		:	$timeController->viewShifts();
 																					break;
