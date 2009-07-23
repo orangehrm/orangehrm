@@ -533,7 +533,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 		}
 
 		if ($authorizeObj->isAdmin() && $arrAllRights[TimeM]['edit']) {
-			$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");
+			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");
 		}
 
 		$attendance->setSubMenuItems($attsubs);
