@@ -2096,28 +2096,33 @@ class ViewController {
 
 					case 'CST' : break;
 
-					case 'SGR' : $showMsg = "UPDATE_SUCCESS";
+					case 'EMX' :
+								$emailConfig = new EmailConfiguration(); 
+								$testEmail = $emailConfig->getTestEmail();
+								$showMsg = "";
 
-								 header("Location:".$_POST['referer']."&msg=$showMsg");
+								if (isset($testEmail)) {
+									if ($emailConfig->sendTestEmail()) {
+								 		$showMsg = "TEST_EMAIL_SUCCESS";
+								 	} else {
+								 		$showMsg = "TEST_EMAIL_FAILIURE";
+								 	}
+								}
 
+								header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&msg=$showMsg");
+								break;
+
+					case 'SGR' : 
+								$showMsg = "UPDATE_SUCCESS";
+
+								header("Location:".$_POST['referer']."&msg=$showMsg");
+								break;
+								
 					case 'EST' :
 					case 'CUR' :
-								if($noRedirect)
+								if($noRedirect) {
 									break;
-
-					case 'EMX' : $testEmail = $emailConfig->getTestEmail();
-								 $showMsg = "";
-
-								 if (isset($testEmail)) {
-								 	if ($emailConfig->sendTestEmail()) {
-								 	    $showMsg = "TEST_EMAIL_SUCCESS";
-								 	} else {
-								 	    $showMsg = "TEST_EMAIL_FAILIURE";
-								 	}
-								 }
-
-								 header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&msg=$showMsg");
-								 break;
+								}
 
 					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the
 
