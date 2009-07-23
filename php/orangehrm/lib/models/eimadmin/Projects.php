@@ -282,7 +282,7 @@ class Projects {
 
 
 
-	public function fetchProjects() {
+	public function fetchProjects($withEmptyProjects = true) {
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
 		$arrFieldList[2] = "`".self::PROJECT_DB_FIELD_NAME."`";
@@ -312,8 +312,13 @@ class Projects {
 		}
 
 		if (!is_null($this->getDeleted())) {
-
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".$this->getDeleted()."";
+		}
+		
+		if (!$withEmptyProjects) {
+			$subQuery = "SELECT COUNT(*) FROM `" . ProjectActivity::TABLE_NAME . "` pa WHERE " .
+					"pa.`" . ProjectActivity::DB_FIELD_PROJECT_ID . "` = " . self::TABLE_NAME . ".`" . self::PROJECT_DB_FIELD_PROJECT_ID . "`";
+		    $arrSelectConditions[] = "({$subQuery}) > 0";
 		}
 
 		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC');

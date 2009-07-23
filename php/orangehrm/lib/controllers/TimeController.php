@@ -1333,7 +1333,7 @@ class TimeController {
 		/* Setting Projects List: Begins */
 		$projectObj = new Projects();
 		$projectObj->setDeleted(Projects::PROJECT_NOT_DELETED);
-		$projects = $projectObj->fetchProjects();
+		$projects = $projectObj->fetchProjects(false);
 		$projectsCount = count($projects);
 
 		if ($projectsCount > 0) {
