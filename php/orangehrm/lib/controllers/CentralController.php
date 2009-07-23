@@ -239,7 +239,6 @@ $_SESSION['localRights'] = $locRights;
 
 
 
-
 switch ($moduletype) {
 
 	case 'admin' 	:  // beg. admin module
@@ -1558,8 +1557,13 @@ switch ($moduletype) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getLeaveRequestId());
-																								$mes = $leaveController->changeStatus();
-																								$leaveController->sendCancelledLeaveNotification($obj, true);
+																								
+																								if ($obj->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+																								    $mes = $leaveController->changeStatus('change');
+																								} else {
+																								    $mes = $leaveController->changeStatus();
+																								    $leaveController->sendCancelledLeaveNotification($obj, true);
+																								}
 																							}
 																						}
 																						$leaveController->redirect("");

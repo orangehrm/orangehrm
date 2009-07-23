@@ -112,14 +112,14 @@ class EXTRACTOR_LeaveRequests {
 		$objLeave = null;
 
 		if (isset($postArr['cmbStatus'])) {
-			for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
-				if ($postArr['cmbStatus'][$i] == 0) {
+			for ($i=0; $i < count($postArr['cmbStatus']); $i++) {				
 					$tmpObj = new LeaveRequests();
 					$tmpObj->setLeaveRequestId($postArr['id'][$i]);
 					$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
+					$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
 
 					$objLeave[] = $tmpObj;
-				}
+				
 			}
 		}
 
