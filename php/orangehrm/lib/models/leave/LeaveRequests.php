@@ -252,7 +252,7 @@ class LeaveRequests extends Leave {
 
 		$newStatus = $this->getLeaveStatus();
         $comments = $this->getLeaveComments();
-        
+
 		$tmpLeave = new Leave();
 		$tmpLeaveArr = $tmpLeave->retrieveLeave($this->getLeaveRequestId());
 
@@ -303,7 +303,7 @@ class LeaveRequests extends Leave {
 				$totalLeaves = count($tmpLeaveArr);
 
 				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
-				
+
 				if (isset($filterLeaveStatus)) {
 					if (in_array($tmpLeaveArr[0]->getLeaveStatus(), $filterLeaveStatus)) {
 						$noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
@@ -329,7 +329,7 @@ class LeaveRequests extends Leave {
 					for ($i=1; $i<$totalLeaves; $i++) {
 
 						if ($tmpLeaveArr[$i]->getLeaveLengthHours() > 0) {
-							
+
 							if (isset($filterLeaveStatus)) {
 								if (in_array($tmpLeaveArr[$i]->getLeaveStatus(), $filterLeaveStatus)) {
 									$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();

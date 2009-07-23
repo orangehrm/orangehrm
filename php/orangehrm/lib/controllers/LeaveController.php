@@ -486,7 +486,6 @@ class LeaveController {
 	}
 
 	public function redirect($message=null, $url = null, $id = null, $cust=null) {
-
 		if (isset($message)) {
 
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
@@ -727,7 +726,6 @@ class LeaveController {
 		}
 
 		$template = new TemplateMerger($tmpObjs, $path);
-
 		$template->display();
 	}
 
