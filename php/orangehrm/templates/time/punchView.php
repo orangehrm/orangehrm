@@ -135,7 +135,7 @@ if ($records['message'] == 'save-success') {
 			<td><?php echo $lang_Common_Time; ?></td>
         	<td>
         	<?php if ($records['editMode']) { ?>
-        	<input type="text" name="<?php echo ($punchIn?'txtInTime':'txtOutTime'); ?>" id="txtTime" value="<?php echo $records['currentTime']; ?>" />
+        	<input type="text" name="<?php echo ($punchIn?'txtInTime':'txtOutTime'); ?>" id="txtTime" value="<?php echo $records['currentTime']; ?>" size="10" />
         	<span class="timeFormatHint"><?php echo $records['timeInputHint']; ?></span>
         	<?php } else {
         		echo $records['currentTime'];
