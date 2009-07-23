@@ -42,12 +42,7 @@ function hideUrl() {
 
 YAHOO.util.Event.addListener(window, "load", init);
 </script>
-<div class="formpage">
-    <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
-    </div>
+<div class="formpage">    
     <div class="outerbox">
     <div class="mainHeading"><h2><?php echo $lang_Time_Add_NewEvent;?></h2></div>
 
