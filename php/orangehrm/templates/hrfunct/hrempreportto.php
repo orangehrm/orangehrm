@@ -290,7 +290,7 @@ function viewSup(sup,rep) {
     	title="<?php echo $lang_Common_Save;?>"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
     	onclick="addEXTReportTo(); return false;"/>
-    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
+    <input type="reset" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>" />
 </div>
 <?php	} ?>
       </div>

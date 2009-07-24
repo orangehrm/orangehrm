@@ -114,7 +114,7 @@ input.hiddenField {
 }
 
 </style>
-<div id="parentPaneDependents" >
+<div id="parentPaneDependents">
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	<h3><?php echo $lang_hremp_dependents; ?></h3>
     <input type="hidden" name="dependentSTAT" class="hiddenField" />
@@ -123,7 +123,7 @@ input.hiddenField {
 		$edit = $this->popArr['editDepForm'];
 ?>
 	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" class="hiddenField" />
-	<div id="editPaneDependents" >
+	<div id="editPaneDependents">
 		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
 		<input type="text" name="txtDepName" id="txtDepName" value="<?php echo $edit[0][2]; ?>" />
 		<br />
@@ -136,7 +136,7 @@ input.hiddenField {
 	    	value="<?php echo $lang_Common_Save;?>"
 	    	title="<?php echo $lang_Common_Save;?>"
 	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-	    	onclick="editDependent(); return false;"/>
+	    	onclick="editDependent(); return false;" />
 	    <input type="button" class="resetbutton" value="<?php echo $lang_Common_Reset; ?>"
 	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="resetDependants()" />
@@ -149,11 +149,11 @@ input.hiddenField {
 	</div>
 	<?php } else { ?>
 	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>" class="hiddenField" />
-	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>" >
+	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>">
 		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
 		<input name="txtDepName" id="txtDepName" type="text" />
 		<br />
-		<label for="txtRelShip"><?php echo $lang_hremp_relationship ; ?></label>
+		<label for="txtRelShip"><?php echo $lang_hremp_relationship; ?></label>
 		<input type="text" name="txtRelShip" id="txtRelShip" />
 		<br />
 <?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
@@ -208,16 +208,15 @@ if ($rset != null) { ?>
 		</thead>
 		<tbody>
 <?php
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+    for($c=0;$rset && $c < count($rset); $c++) {
 		$cssClass = ($c%2) ? 'even' : 'odd';
-        echo '<tr class="' . $cssClass . '">';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdepdel[]' value='" . $rset[$c][1] ."'/></td>";
-
-            ?> <td><a href="javascript:viewDependent(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td> <?php
-            echo '<td>' . $rset[$c][3] .'</td>';
-            echo '</tr>';
-        }?>
+?>
+			<tr class="<?php echo $cssClass; ?>">
+            	<td><input type="checkbox" class="checkbox" name="chkdepdel[]" value="<?php echo $rset[$c][1]; ?>" /></td>
+            	<td><a href="javascript:viewDependent(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td>
+				<td><?php echo $rset[$c][3]; ?></td>
+			</tr>
+<?php } ?>
 		</tbody>
   	</table>
 <?php } ?>

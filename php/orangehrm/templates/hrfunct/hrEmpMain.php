@@ -784,7 +784,6 @@ tableDisplayStyle = "table";
 <?php } else { ?>
 	    left:130px;
 <?php } ?>
-
 	}
 	#photodiv {
 		margin-top:19px;
@@ -1227,9 +1226,11 @@ tableDisplayStyle = "table";
     <div id="dependents" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '3') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_hremp_dependents;?></h2></div>
+    		<div style="width:99%; margin:2px 2px 0px 3px;">
 <?php require(ROOT_PATH . "/templates/hrfunct/hrempdependent.php"); ?>
 <?php require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
-			<br class="clear"/>
+				<br class="clear"/>
+			</div>
        	</div>
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>

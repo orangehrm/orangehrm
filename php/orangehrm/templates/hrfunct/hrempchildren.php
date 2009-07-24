@@ -98,7 +98,7 @@ div#addPaneChildren input {
 	float:left;
 }
 </style>
-<div id="parentPaneChildren" >
+<div id="parentPaneChildren">
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	<h3><?php echo  $lang_hremp_children?></h3>
 
@@ -195,18 +195,16 @@ div#addPaneChildren input {
 			</tr>
 		</thead>
 		<tbody>
-
-	<?php
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+<?php
+    for($c=0;$rset && $c < count($rset); $c++) {
 		$cssClass = ($c%2) ? 'even' : 'odd';
-        echo '<tr class="' . $cssClass . '">';
-            echo "<td><input type='checkbox' class='checkbox' name='chkchidel[]' value='" . $rset[$c][1] ."'/></td>";
-
-            ?> <td><a href="javascript:viewChildren(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td> <?php
-            echo '<td>' . LocaleUtil::getInstance()->formatDate($rset[$c][3]) .'</td>';
-            echo '</tr>';
-        }?>
+?>
+        <tr class="<?php $cssClass; ?>">
+			<td><input type="checkbox" class="checkbox" name="chkchidel[]" value="<?php echo $rset[$c][1]; ?> " /></td>
+			<td><a href="javascript:viewChildren(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td>
+			<td><?php echo LocaleUtil::getInstance()->formatDate($rset[$c][3]); ?></td>
+		</tr>
+<?php } ?>
 		</tbody>
 	</table>
 	<?php } ?>
