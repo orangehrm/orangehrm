@@ -302,7 +302,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
             <label for="txtNotes"><?php echo $lang_Recruit_JobApplicationHistory_Notes; ?></label>
             <textarea name="txtNotes" disabled="true"><?php echo $notes; ?></textarea>
             <?php if ($allowEdit) { ?>
-            <input type="button" class="editbutton" id="editBtn"
+            <input type="button" class="editbutton" id="editBtn" style="margin-left:3px;"
                 onclick="edit(this, '<?php echo $formId; ?>');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Edit;?>" />
             <br/><br/>
