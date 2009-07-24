@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-	if (isset($records)) {
+	if (isset($records[0])) {
 		$id = $records[0]->getHolidayId();
 		$description = $records[0]->getDescription();
 		$date = $records[0]->getDate();
@@ -30,7 +30,7 @@
 		$recurring = "";
 		$length = "";
 	}
-	
+
 	$rights = $records['rights'];
 
 	if (isset($modifier) && $modifier) {
