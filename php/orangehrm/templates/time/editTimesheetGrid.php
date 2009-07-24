@@ -315,7 +315,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnAddRow" id="btnAddRow"
         value="Add Row" />
-<input type="button" class="updatebutton"
+<input type="button" class="longbtn"
         onclick="removeRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnRemoveRow" id="btnRemoveRow"
