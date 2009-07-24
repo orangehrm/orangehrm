@@ -65,36 +65,36 @@ td {
 	text-align:center;
 }
 .tableTopLeft {
-    background: none;    
+    background: none;
 }
 .tableTopMiddle {
-    background: none;    
+    background: none;
 }
 .tableTopRight {
-    background: none;    
+    background: none;
 }
 .tableMiddleLeft {
-    background: none;    
+    background: none;
 }
 .tableMiddleRight {
-    background: none;    
+    background: none;
 }
 .tableBottomLeft {
-    background: none;    
+    background: none;
 }
 .tableBottomMiddle {
-    background: none;    
+    background: none;
 }
 .tableBottomRight {
-    background: none;    
+    background: none;
 }
 </style>
 
 <div id="status"></div>
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack(); return false;">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
+        <input type="button" class="backbutton"
+			onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2>
@@ -106,7 +106,7 @@ td {
                             array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
                             $headingStr); ?>
         </h2></div>
-    
+
     <?php
         if (isset($_GET['message'])) {
             $message = $_GET['message'];
@@ -115,7 +115,7 @@ td {
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -196,12 +196,12 @@ td {
 
 <div class="formbuttons">
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-    
-    <input type="button" class="editbutton"  
-        onclick="actionEdit(); return false;" 
+
+    <input type="button" class="editbutton"
+        onclick="actionEdit(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        name="btnEdit" id="btnEdit"                           
-        value="<?php echo $lang_Common_Edit;?>" />  
+        name="btnEdit" id="btnEdit"
+        value="<?php echo $lang_Common_Edit;?>" />
 <?php } ?>
 </div>
 </form>
@@ -209,8 +209,8 @@ td {
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>
-</p>
+

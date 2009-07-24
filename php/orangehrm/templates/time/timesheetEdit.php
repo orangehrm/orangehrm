@@ -384,9 +384,9 @@ function goBack() {
 <div id="status"></div>
 
    <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack(); return false;">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
+	    <input type="button" class="backbutton"
+			onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Back;?>" />
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php  $headingStr = $lang_Time_Timesheet_TimesheetNameForEditTitle;
