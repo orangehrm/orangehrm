@@ -61,7 +61,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 //<![CDATA[
 
     function goBack() {
-        location.href = "<?php echo "{$baseURL}&action=List"; ?>";
+        history.back();
     }
 
     function validate() {
