@@ -359,6 +359,16 @@ class RecruitmentController {
 		$genInfo = new GenInfo();
 		$objs['company'] = $genInfo->getValue('COMPANY');
 
+		$objs['retrySubmission'] = false;
+
+		$extractor = new EXTRACTOR_JobApplication();
+		if (isset($_GET['retrySubmission']) && $_GET['retrySubmission'] == 1) {
+			$objs['savedData'] = $extractor->retrieveFromSession();
+			$objs['retrySubmission'] = true;
+		} else {
+			$extractor->removeFromSession();
+		}
+
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
 	}
@@ -383,6 +393,7 @@ class RecruitmentController {
 
 		    $correctResume = false;
 		    $objs['error']['resumeUploadError'] = $jobApplication->resumeData['error'];
+		    $extractor->saveToSession($_POST);
 
 		} else { // This means resume has either successfully uploaded or no resume has been uploaded
 
@@ -393,6 +404,7 @@ class RecruitmentController {
 				} else {
 					$correctResume = false;
 					$objs['error']['resumeCompatibleError'] = $jobApplication->resumeData['error']; // isResumeCompatible() sets this error
+					$extractor->saveToSession($_POST);
 				}
 
 			}
@@ -405,6 +417,7 @@ class RecruitmentController {
 			try {
 
 			    $jobApplication->save(); // Throws exceptions on failiures
+				$extractor->removeFromSession();
 
 				/* Send mail notifications */
 				$notifier = new RecruitmentMailNotifier();
@@ -418,6 +431,7 @@ class RecruitmentController {
 
 			} catch (JobApplicationException $e) {
 				$objs['savingStatus'] = false;
+				$extractor->saveToSession($_POST);
 			}
 
 		}

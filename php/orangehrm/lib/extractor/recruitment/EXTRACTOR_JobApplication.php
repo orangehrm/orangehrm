@@ -99,4 +99,37 @@
 		return $application;
 	}
 
+	/* TODO: Move this method to a super extractor class if needed because
+	   it is a generic method */
+	public function saveToSession($postArray) {
+		foreach ($postArray as $postVar => $value) {
+			$_SESSION["JobApplication_{$postVar}"] = $value;
+		}
+	}
+
+	/* TODO: Move this method to a super extractor class if needed because
+	   it can be refactored to become a generic method */
+	public function retrieveFromSession($sessionVarPrefix = 'JobApplication_') {
+		$data = array();
+		foreach ($_SESSION as $sessionVar => $value) {
+			$regExp = '/^' . $sessionVarPrefix . '\.*/';
+			if (preg_match($regExp, $sessionVar)) {
+				$key = str_replace($sessionVarPrefix, '', $sessionVar);
+				$data[$key] = $value;
+			}
+		}
+		return $data;
+	}
+
+	/* TODO: Move this method to a super extractor class if needed because
+	   it can be refactored to become a generic method */
+	public function removeFromSession($sessionVarPrefix = 'JobApplication_') {
+		foreach ($_SESSION as $sessionVar => $value) {
+			$regExp = '/^' . $sessionVarPrefix . '\.*/';
+			if (preg_match($regExp, $sessionVar)) {
+				unset($_SESSION[$sessionVar]);
+			}
+		}
+	}
+
 }

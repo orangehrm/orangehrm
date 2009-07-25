@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+$resubmitResume = true;
+
 if (!empty($records['error']['resumeUploadError'])) { // There was an error when uploading resume
 
 	$heading = $lang_Recruit_ApplicationStatus_FailureHeading;
@@ -39,6 +41,7 @@ if (!empty($records['error']['resumeUploadError'])) { // There was an error when
 
 } elseif (!is_null($records['savingStatus']) && $records['savingStatus']) { // Application saved successfully
 
+	$resubmitResume = false;
 	$heading = $lang_Recruit_ApplicationStatus_SuccessHeading;
 
 	if (empty($records['error']['applicantEmailError'])) { // An email was sent to the applicant informing submission
@@ -51,11 +54,6 @@ if (!empty($records['error']['resumeUploadError'])) { // There was an error when
 
 }
 
-$picDir = "../../themes/{$styleSheet}/pictures/";
-
-$backImg = $picDir . 'btn_back.gif';
-$backImgPressed = $picDir . 'btn_back_02.gif';
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -63,9 +61,13 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script>
+<script type="text/javascript">
     function goBack() {
         location.href = "<?php echo "{$_SERVER['PHP_SELF']}?recruitcode=ApplicantViewJobs"; ?>";
+    }
+
+    function retrySubmission() {
+    	location.href = "<?php echo "{$_SERVER['PHP_SELF']}?recruitcode=ApplicantViewApplication&id={$records['application']->getVacancyId()}&retrySubmission=1"; ?>";
     }
 </script>
 
@@ -103,6 +105,13 @@ body {
             <div class="mainHeading">
                 <h2><?php echo $heading; ?></h2></div>
 			<div class="messagebar"><?php echo $message;?></div>
+			<?php if ($resubmitResume) { ?>
+			<div style="padding:4px 4px 4px 4px;">
+				<input type="button" class="longbtn" value="<?php echo $lang_Recruit_ApplicationStatus_FailureRetry; ?>"
+					onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+					onclick="retrySubmission()" />
+			</div>
+			<?php } ?>
 		</div>
     </div>
 

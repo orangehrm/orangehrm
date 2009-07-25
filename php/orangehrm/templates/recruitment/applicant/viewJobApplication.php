@@ -40,6 +40,7 @@ function populateStates($country) {
 		$objResponse->addAssign('state','innerHTML',
 				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8" class="formSelect"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse, $provinceList, 1, 'fromJobApplication.state', 'txtProvince');
+		$objResponse->addScript('_changeToSavedProvince()');
 	} else {
 		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText">');
 	}
@@ -55,19 +56,15 @@ $vacancy = $records['vacancy'];
 $countryList = $records['countryList'];
 $company = $records['company'];
 
+if ($records['retrySubmission'] && isset($records['savedData'])) {
+	foreach ($records['savedData'] as $varName => $value) {
+		$$varName = $value;
+	}
+}
+
 $formAction = $_SERVER['PHP_SELF'] . '?recruitcode=ApplicantApply';
 
-$picDir = "../../themes/{$styleSheet}/pictures/";
 $iconDir = "../../themes/{$styleSheet}/icons/";
-
-$backImg = $picDir . 'btn_back.gif';
-$backImgPressed = $picDir . 'btn_back_02.gif';
-
-$saveImg = $picDir . 'btn_save.gif';
-$saveImgPressed = $picDir . 'btn_save_02.gif';
-
-$clearImg = $picDir . 'btn_clear.gif';
-$clearImgPressed = $picDir . 'btn_clear_02.gif';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -185,7 +182,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 		}
     }
 
-	function reset() {
+	function resetForm() {
 		$('fromJobApplication').reset();
 	}
 
@@ -251,25 +248,31 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
         <br class="clear"/>
 
 		<label for="txtFirstName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?><span class="required">*</span></label>
-        <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"/>
+        <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"
+        	value="<?php echo (isset($txtFirstName)) ? $txtFirstName : ''; ?>" />
 
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
-        <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"/>
+        <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"
+        	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
-        <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText">
+        <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText"
+        	value="<?php echo (isset($txtLastName)) ? $txtLastName : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtStreet1"><?php echo $lang_Recruit_ApplicationForm_Street1; ?><span class="required">*</span></label>
-        <input type="text" id="txtStreet1" name="txtStreet1" tabindex="4" class="formInputText"/>
+        <input type="text" id="txtStreet1" name="txtStreet1" tabindex="4" class="formInputText"
+        	value="<?php echo (isset($txtStreet1)) ? $txtStreet1 : ''; ?>" />
 
 		<label for="txtStreet2"><?php echo $lang_Recruit_ApplicationForm_Street2; ?></label>
-        <input type="text" id="txtStreet2" name="txtStreet2" tabindex="5" class="formInputText"/>
+        <input type="text" id="txtStreet2" name="txtStreet2" tabindex="5" class="formInputText"
+        	value="<?php echo (isset($txtStreet2)) ? $txtStreet2 : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtCity"><?php echo $lang_Recruit_ApplicationForm_City; ?><span class="required">*</span></label>
-        <input type="text" id="txtCity" name="txtCity" tabindex="6" class="formInputText"/>
+        <input type="text" id="txtCity" name="txtCity" tabindex="6" class="formInputText"
+        	value="<?php echo (isset($txtCity)) ? $txtCity : ''; ?>" />
 
 		<label for="txtCountry"><?php echo $lang_Recruit_ApplicationForm_Country; ?><span class="required">*</span></label>
 		<select  id="txtCountry" name="txtCountry" tabindex="7" class="formSelect"
@@ -277,33 +280,39 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 	  		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist?> --</option>
 			<?php
 				  foreach($countryList as $country) {
-	    				echo "<option value='" . $country[0] . "'>" . $country[1] . "</option>";
+				  		$selected = (isset($txtCountry) && $country[0] == $txtCountry) ? 'selected="selected"' : '';
+	    				echo '<option value="' . $country[0] . '" ' . $selected . '>' . $country[1] . '</option>';
 				  }
 		    ?>
 		 </select>
          <br class="clear"/>
 
 		<label for="txtProvince"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?><span class="required">*</span></label>
-        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"/></div>
+        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"
+        	value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" /></div>
 
 		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?><span class="required">*</span></label>
-        <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"/>
+        <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"
+        	value="<?php echo (isset($txtZip)) ? $txtZip : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtPhone"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></label>
-        <input type="text" id="txtPhone" name="txtPhone" tabindex="10" class="formInputText"/>
+        <input type="text" id="txtPhone" name="txtPhone" tabindex="10" class="formInputText"
+        	value="<?php echo (isset($txtPhone)) ? $txtPhone : ''; ?>" />
 
 		<label for="txtMobile"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></label>
-        <input type="text" id="txtMobile" name="txtMobile" tabindex="11" class="formInputText"/>
+        <input type="text" id="txtMobile" name="txtMobile" tabindex="11" class="formInputText"
+        	value="<?php echo (isset($txtMobile)) ? $txtMobile : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtEmail"><?php echo $lang_Recruit_ApplicationForm_Email; ?><span class="required">*</span></label>
-        <input type="text" id="txtEmail" name="txtEmail" tabindex="12" class="formInputText"/>
+        <input type="text" id="txtEmail" name="txtEmail" tabindex="12" class="formInputText"
+        	value="<?php echo (isset($txtEmail)) ? $txtEmail : ''; ?>" />
         <br class="clear"/>
 
 		<label for="txtQualifications"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?><span class="required">*</span></label>
         <textarea id="txtQualifications" name="txtQualifications" tabindex="13" rows="8" cols="80" class="formTextArea"
-            style="width:450px;"></textarea>
+            style="width:450px;"><?php echo (isset($txtQualifications)) ? $txtQualifications : ''; ?></textarea>
         <br class="clear"/>
 
 		<label for="txtResume"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></label>
@@ -315,7 +324,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
                 onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" id="resetBtn" tabindex="16"
-                onclick="reset();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                onclick="resetForm();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Reset;?>" />
         </div>
         <br class="clear"/>
@@ -329,6 +338,22 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
         if (document.getElementById && document.createElement) {
             roundBorder('outerbox');
         }
+
+		getProvinceList($('txtCountry').value);
+
+		function _changeToSavedProvince() {
+        <?php if ($records['retrySubmission'] && isset($txtProvince)) { ?>
+	        provinceInput = $('txtProvince');
+	        if (provinceInput.type == 'select-one') {
+	        	for (i = 0; i < provinceInput.options.length; i++) {
+	        		if (provinceInput.options[i].value == '<?php echo $txtProvince; ?>') {
+	        			provinceInput.options.selectedIndex = i;
+	        			break;
+	        		}
+	        	}
+	        }
+        <?php } ?>
+		}
     //]]>
     </script>
     </div>

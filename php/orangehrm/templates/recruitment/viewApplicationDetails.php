@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 $application = $records['application'];
+
 $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
 $historyURL = $baseURL . '&id=' . $application->getId() .  '&action=ViewHistory';
 
@@ -159,7 +160,7 @@ if (!empty($resumeName)) {
 <body>
     <div class="formpage">
         <div class="navigation">
-	    	<input type="button" class="savebutton"
+	    	<input type="button" class="backbutton"
 		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		        value="<?php echo $lang_Common_Back;?>" />
         </div>
@@ -247,14 +248,14 @@ if (!empty($resumeName)) {
         <?php } ?>
 
 		<!-- Resume form: begins-->
-		<?php // Names of form elements should comply with expected names at EXTRACTOR_JobApplication ?>
+		<?php /* Names of form elements should comply with expected names at EXTRACTOR_JobApplication */ ?>
 		<div id="resumeForm" class="hide" style="display:none">
 		<form name="frmResume" id="frmResume" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
 		<input type="hidden" name="txtId" value="<?php echo $applicationId; ?>" />
 		<input type="hidden" name="txtFirstName" value="<?php echo $application->getFirstName(); ?>" />
 		<input type="hidden" name="txtLastName" value="<?php echo $application->getLastName(); ?>" />
 		<input type="file" id="txtResume" name="txtResume" />
-		<input type="submit" name="submit" value="<?php echo $lang_Common_Save; ?>" /><br/>
+		<input type="submit" name="submit" class="savebutton" value="<?php echo $lang_Common_Save; ?>" /><br/>
 		<?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?>
 		</form>
 		</div>
