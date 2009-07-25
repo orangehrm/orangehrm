@@ -351,6 +351,8 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 	        			break;
 	        		}
 	        	}
+	        } else {
+			provinceInput.value = "<?php echo $txtProvince; ?>";
 	        }
         <?php } ?>
 		}
