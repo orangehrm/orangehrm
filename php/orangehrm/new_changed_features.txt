@@ -1,4 +1,32 @@
 New & Changed Features for OrangeHRM ver 2.5-beta.10
+
+	Bug Fixes
+	---------
+	2810112 - Job.php attachment validation will reset the jobs.php form
+	2014068 - Recruitment : 'Back' button misbehaves in int.schdule page
+	2819417 - Blank pages loaded when clicking PIM tabs with IE for Admin
+	2641255 - Time->Punch In->Time field length should reduce
+	2641462 - Unnecessary back button display in Project Time
+	2819403 - Edit & save employment status lead to undefined variable err
+	2640813 - Menu items should be same size in the attendance
+	2819498 - mysql error given when try to save project without activity
+	1930077 - HSP-ESS users edit leave comment, isn't reflect after saving
+	2584464 - Admin cannot access with register_global on in php.ini
+	2824692 - Undefined variable stopper when ess cancel his leave
+	2807107 - Language constant should be defined for marital status
+	2512347 - UI Issues in Recruitment Module (Re-fixed with additional UI improvements)
+	2021370 - Admin:By Setting only 'delete' and 'View' ,can add and edit
+	2665339 - Time format should be mentioned when scheduling interview
+	1886631 - To add a job title - pay grade need not be mandatory
+	2824699 - undefined error occur when try to add a project
+	2021297 - Admin:Setting only 'Edit' right, admin can add,delete
+	2819414 - Incorrect tab order behavior issues in Admin module
+	2207193 - User with no rights can do all the privileged tasks
+	2509051 - Salary saving without a Pay Grade lead to Notice page
+	2079818 - Leave: Set leave quota 2009,->Ess can apply leave for 2008
+	2711107 - Time Grid Summary -> Back button not functioning in IE7
+
+New & Changed Features for OrangeHRM ver 2.5-beta.10
 	Changed Features
 	----------------
 	Updated the latest language files for the Dutch language
