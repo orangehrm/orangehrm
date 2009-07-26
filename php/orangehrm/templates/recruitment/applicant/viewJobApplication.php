@@ -40,11 +40,10 @@ function populateStates($country) {
 		$objResponse->addAssign('state','innerHTML',
 				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8" class="formSelect"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse, $provinceList, 1, 'fromJobApplication.state', 'txtProvince');
-		$objResponse->addScript('_changeToSavedProvince()');
 	} else {
 		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText">');
 	}
-	$objResponse->addScript('hideLoading();formJobApplication.txtProvince.focus();');
+	$objResponse->addScript('_changeToSavedProvince();hideLoading();formJobApplication.txtProvince.focus();');
 	return $objResponse->getXML();
 }
 
