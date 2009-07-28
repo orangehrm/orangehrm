@@ -28,7 +28,7 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 class LeaveRequests extends Leave {
 
 	const LEAVEREQUESTS_LEAVELENGTH_RANGE = 9;
-
+	const MAX_COMMENT_LENGTH = 256;
 	const LEAVEREQUESTS_MULTIPLESTATUSES = 5;
 
 	private $leaveFromDate;
@@ -339,11 +339,11 @@ class LeaveRequests extends Leave {
 							    $noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
 							    $hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
 							}
-							
+
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
 							}
-							
+
 						}
 
 						if ($comments != $tmpLeaveArr[$i]->getLeaveComments()) {

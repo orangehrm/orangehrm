@@ -129,7 +129,6 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 			msg += " - <?php echo $lang_Leave_Common_InvalidDateRange; ?>\n"
 		}
 
-
 		obj = document.frmLeaveApp.sltLeaveType;
 		if (obj.value == -1) {
 			err = true;
@@ -181,6 +180,11 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				err = true;
 				msg += " - <?php echo $lang_Error_NonNumericHours; ?>\n"
 			}
+		}
+
+		if ($('txtComments').value.length > <?php echo LeaveRequests::MAX_COMMENT_LENGTH; ?>){
+			err = true;
+			msg += " - <?php echo sprintf($lang_Leave_LeaveCommentTooLong, LeaveRequests::MAX_COMMENT_LENGTH); ?>\n"
 		}
 
 		if (err) {

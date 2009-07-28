@@ -390,6 +390,7 @@
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
 	$lang_Leave_Summary_Deleted_Types_Shown = "Denotes deleted leave types.";
     $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
+    $lang_Leave_LeaveCommentTooLong			= "Comment is too long. Maximun allowed size is %s characters.";
 
 	$lang_Leave_Holiday = "Holiday";
 	$lang_Leave_NoOfDays = "No of Days";

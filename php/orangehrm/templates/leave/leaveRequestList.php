@@ -62,7 +62,18 @@ $statusArr = array(Leave::LEAVE_STATUS_LEAVE_REJECTED => $lang_Leave_Common_Reje
                    Leave::LEAVE_STATUS_LEAVE_HOLIDAY => $lang_Leave_Common_Weekend,
                    LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => $lang_Leave_Common_StatusDiffer);
 ?>
-
+<script type="text/javascript">
+function validateLeaveRequestList() {
+	for (i = 0; i < noOfLeaveRecords; i++) {
+		if ($('txtComment_' + i).value.length > <?php echo LeaveRequests::MAX_COMMENT_LENGTH ?>) {
+			alert('<?php echo CommonFunctions::escapeForJavascript(sprintf($lang_Leave_LeaveCommentTooLong, LeaveRequests::MAX_COMMENT_LENGTH)); ?>');
+			$('txtComment_' + i).focus();
+			return false;
+		}
+	}
+	return true;
+}
+</script>
 <?php
 
 /* Show leave filter form only for admin */
@@ -155,6 +166,7 @@ if ($modifier === "ADMIN") {
 			}
 		}
 	}
+
 	YAHOO.OrangeHRM.container.init();
 //]]>
 </script>
@@ -247,7 +259,7 @@ if ($modifier === "ADMIN") {
 <?php if ($modifier !== "ADMIN") { ?>
 <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
 <?php } ?>
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>" onsubmit="return validateLeaveRequestList()">
 
 <?php   if ($modifier !== "Taken") { ?>
     <div class="actionbar">
@@ -282,6 +294,7 @@ if ($modifier === "ADMIN") {
   <tbody>
 <?php
 	$j = 0;
+	$idIndex = 0;
 	if (is_array($records))
 		foreach ($records as $record) {
 			if(!($j%2)) {
@@ -370,15 +383,15 @@ if ($modifier === "ADMIN") {
 
 		if (($modifier != null) && ($modifier == "Taken")) {
 			echo $record->getLeaveComments(); ?>
-		<input type="hidden" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<input type="hidden" <?php echo $inputType; ?> name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />
 	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) ||
 	    (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
 	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) { ?>
-		<?php $leaveComments=htmlentities($record->getLeaveComments()); ?> 
-		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $leaveComments; ?>" />
+		<?php $leaveComments=htmlentities($record->getLeaveComments()); ?>
+		<input type="text" <?php echo $inputType; ?> name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $leaveComments; ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved)) { ?>
-		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $leaveComments; ?>" />
+		<input type="text" <?php echo $inputType; ?> name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $leaveComments; ?>" />
 		<?php } else {
 			echo $record->getLeaveComments();
 			} ?></td>
@@ -389,6 +402,9 @@ if ($modifier === "ADMIN") {
 ?>
   </tbody>
 </table>
+<script type="text/javascript">
+noOfLeaveRecords = <?php echo $idIndex; ?>;
+</script>
 <br class="clear" />
 
 </form>

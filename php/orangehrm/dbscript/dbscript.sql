@@ -575,7 +575,7 @@ CREATE TABLE `hs_hr_leave` (
   `leave_length_hours` decimal(6,2) unsigned default NULL,
   `leave_length_days` decimal(4,2) unsigned default NULL,
   `leave_status` smallint(6) default NULL,
-  `leave_comments` varchar(80) default NULL,
+  `leave_comments` varchar(256) default NULL,
   `leave_request_id` int(11) NOT NULL,
   `leave_type_id` varchar(13) NOT NULL,
   `employee_id` int(7) NOT NULL,

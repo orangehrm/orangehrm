@@ -73,11 +73,22 @@ if ($modifier === "SUP") {
 			window.location = "?leavecode=Leave&action=<?php echo $backLink; ?>";
 		<?php } ?>
 	}
+
+	function validateLeaveList() {
+		for (i = 0; i < noOfLeaveRecords; i++) {
+			if ($('txtComment_' + i).value.length > <?php echo LeaveRequests::MAX_COMMENT_LENGTH ?>) {
+				alert('<?php echo CommonFunctions::escapeForJavascript(sprintf($lang_Leave_LeaveCommentTooLong, LeaveRequests::MAX_COMMENT_LENGTH)); ?>');
+				$('txtComment_' + i).focus();
+				return false;
+			}
+		}
+		return true;
+	}
 //]]>
 </script>
 <br class="clear" /><br class="clear" />
 <div class="outerbox">
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>" onsubmit="return validateLeaveList()">
     <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 
     <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -98,7 +109,7 @@ if ($modifier === "SUP") {
 
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>"/>
+                value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="savebutton"
                 onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Back;?>" />
@@ -125,6 +136,7 @@ if ($modifier === "SUP") {
   <tbody>
 <?php
 	$j = 0;
+	$idIndex = 0;
     if (is_array($records)) {
 		foreach ($records as $record) {
 			if(!($j%2)) {
@@ -210,17 +222,17 @@ if ($modifier === "SUP") {
 	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) { ?>
 
 
-		<input type="text" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<input type="text" name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($modifier == "MY") || ($modifier == "Taken")) {
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
-		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<input type="hidden" name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />
 		<?php } else {
 			echo $record->getLeaveComments();
 		?>
 			<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
-			<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+			<input type="hidden" name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />
 		<?php } ?>
 	</td>
   </tr>
@@ -235,6 +247,8 @@ if ($modifier === "SUP") {
 </div>
 <script type="text/javascript">
     <!--
+    	noOfLeaveRecords = <?php echo $idIndex; ?>;
+
         if (document.getElementById && document.createElement) {
             roundBorder('outerbox');
         }
