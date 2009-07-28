@@ -42,7 +42,6 @@ function populateActivities($projectId, $row, $activityId=null, $activityName=nu
 
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
 	} else {
-
 		if ($activityId != null) {
 			$projectActivityObject = new ProjectActivity();
 		    if ($projectId == $projectActivityObject->retrieveActivityProjectId($activityId)) {
@@ -454,7 +453,7 @@ function goBack() {
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo "$row, $activityId, '$activityName'"; ?>);">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo "$row, $activityId, '" . CommonFunctions::escapeForJavascript($activityName) . "'"; ?>);">
 				<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<option selected value="<?php echo $projectId; ?>"><?php echo "{$customerName} - {$projectName}"; ?></option>
 				<?php if (is_array($projects)) { ?>
