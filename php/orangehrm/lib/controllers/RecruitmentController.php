@@ -454,6 +454,7 @@ class RecruitmentController {
 		return $province->getProvinceCodes($countryCode);
 	}
 
+	/* TODO: Move this method to a model */
 	private static function _getEmployeeSearchList() {
 		$employeeSearchList = array();
 
