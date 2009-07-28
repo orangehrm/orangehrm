@@ -2097,7 +2097,7 @@ class ViewController {
 					case 'CST' : break;
 
 					case 'EMX' :
-								$emailConfig = new EmailConfiguration(); 
+								$emailConfig = new EmailConfiguration();
 								$testEmail = $emailConfig->getTestEmail();
 								$showMsg = "";
 
@@ -2112,12 +2112,12 @@ class ViewController {
 								header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&msg=$showMsg");
 								break;
 
-					case 'SGR' : 
+					case 'SGR' :
 								$showMsg = "UPDATE_SUCCESS";
 
 								header("Location:".$_POST['referer']."&msg=$showMsg");
 								break;
-								
+
 					case 'EST' :
 					case 'CUR' :
 								if($noRedirect) {
@@ -2137,7 +2137,7 @@ class ViewController {
 
 			} else {
 				if (!isset($showMsg) || empty($showMsg)) {
-					$showMsg = "UPDATE_FAILURE"; 
+					$showMsg = "UPDATE_FAILURE";
 				}
 
 				$uniqcode = $index;
@@ -3109,10 +3109,21 @@ class ViewController {
 
             case 'TCP' :    $form_creator->formPath = '/templates/eimadmin/companyProperty.php';
 
-                            if(!isset($_GET['action']))
-                            {
-                                $empInfo=new EmpInfo();
-                                $form_creator->popArr['emplist'] = $empInfo->getListofEmployee();
+            				$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
+                            if (!isset($_GET['action'])) {
+                                $empInfo = new EmpInfo();
+                                if ($authorizeObj->isAdmin()) {
+                                	$form_creator->popArr['emplist'] = $empInfo->getListofEmployee();
+                                } else {
+                                	$empReportTo = new EmpRepTo();
+									$form_creator->popArr['emplist'] = $empReportTo->getEmpSubDetails($_SESSION['empID']);
+									/* An element of the value from $empInfo->getListofEmployee() will contain
+									 * an array with 6 elements. Values from $empReportTo->getEmpSubDetails() will
+									 * only contain 3 elements. But there won't be a problem because only first 3 values
+									 * will be used in the template
+									 */
+                                }
                             }
 
                             $compProp = new CompProperty();
@@ -3126,10 +3137,20 @@ class ViewController {
                                 $pageNo = ceil($propertyCount/10);
                             }
 
-                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo);
-                            $form_creator->popArr['allProperties'] = $compProp->getPropertyList();
+							if ($authorizeObj->isAdmin()) {
+	                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo);
+							} else {
+								$subordinateList = array();
+								foreach ($form_creator->popArr['emplist'] as $subordinate) {
+									$subordinateList[] = $subordinate[0];
+								}
+	                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo, $subordinateList, true);
+
+							}
+							$form_creator->popArr['allProperties'] = $compProp->getPropertyList();
                             $form_creator->popArr['pageNo'] = $pageNo;
                             $form_creator->popArr['recordCount'] = $propertyCount;
+                            $form_creator->popArr['authObj'] = $authorizeObj;
 
                             break;
 

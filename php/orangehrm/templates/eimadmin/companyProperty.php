@@ -19,7 +19,9 @@
 
 $addBtnAction = 'add()';
 $delBtnAction = 'deleteProperties()';
-$saveBtnAction = 'saveList()'
+$saveBtnAction = 'saveList()';
+
+$authObj = $this->popArr['authObj'];
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -228,22 +230,23 @@ if (!isset($this->getArr['action'])) {
     <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title; ?></h2></div>
     <div class="actionbar">
         <div class="actionbuttons">
+			<?php if ($authObj->isAdmin()) { ?>
             <input type="button" class="addbutton"
                 onclick="<?php echo $addBtnAction; ?>;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Add;?>" />
-
+			<?php } ?>
             <?php if (!empty($properties)) { ?>
                 <input type="button" class="savebutton"
                     onclick="<?php echo $saveBtnAction; ?>"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
-
+				<?php if ($authObj->isAdmin()) { ?>
                 <input type="button" class="delbutton"
                     onclick="<?php echo $delBtnAction; ?>"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Delete;?>" />
-
+				<?php } ?>
         <?php     }
         ?>
         </div>
@@ -290,8 +293,7 @@ if (!isset($this->getArr['action'])) {
             $classBg = 'odd';
 
 
-            foreach ($properties as $property)
-            {
+            foreach ($properties as $property) {
             ?>
 
 
@@ -304,13 +306,12 @@ if (!isset($this->getArr['action'])) {
                         <select name='cmbUserEmpID[]'>
                             <option <?php echo ($property['emp_id']==-1)|($property['emp_id']=='')?'selected':'' ?> value="-1"><?php echo $lang_Admin_Property_Please_Select;?></option>
                         <?php
-                        if(isset($this->popArr['emplist']) && $this->popArr['emplist']!=0)
-                        {
-                        foreach($this->popArr['emplist'] as $emp)
-                        {
+                        if(isset($this->popArr['emplist']) && $this->popArr['emplist']!=0) {
+                        foreach($this->popArr['emplist'] as $emp) {
+                        	$empId = ($authObj->isAdmin()) ? $emp[2] : $emp[0]; // This is needed because the 1st element in array is employee id (not employee number) in Admin mode
                             ?>
 
-                            <option <?php echo $emp[0]==$property['emp_id']?'selected':'' ?> value="<?php echo $emp[0];?>"><?php echo $emp[1];?></option>
+                            <option <?php echo ($empId == $property['emp_id']) ? 'selected="selected"' : ''; ?> value="<?php echo $empId; ?>"><?php echo $emp[1];?></option>
 
 
                         <?php }} ?>

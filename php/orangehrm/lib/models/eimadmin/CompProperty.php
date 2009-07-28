@@ -133,15 +133,21 @@ class CompProperty {
 /*
  * Returns two dimentional array of list of properties
  */
-    public function getPropertyList($pageNo=null)
-    {
+    public function getPropertyList($pageNo = null, $belongsTo = null, $withUnallocated = false) {
         $dbConnection = new DMLFunctions();
+		$sql = "SELECT * FROM " . $this->TABLE_NAME;
+
+		if (isset($belongsTo) && is_array($belongsTo) && count($belongsTo) > 0) {
+			$sql .= " WHERE (`emp_id` IN ('" . implode("', '", $belongsTo) . "'))";
+
+			if ($withUnallocated) {
+				$sql .= " OR (`emp_id` IS NULL || `emp_id` = -1)";
+			}
+		}
 
         if (isset($pageNo)) {
 	        $selectLimit = ($pageNo*10-10).",".(10);
-	        $sql = "SELECT * FROM ".$this->TABLE_NAME." LIMIT $selectLimit";
-        } else {
-            $sql = "SELECT * FROM ".$this->TABLE_NAME;
+	        $sql .= " LIMIT $selectLimit";
         }
 
         $res = $dbConnection->executeQuery($sql);
