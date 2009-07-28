@@ -461,12 +461,24 @@ class TimeController {
 
 		/* Setting AttendanceRecord array */
 		$attendanceObj = new AttendanceRecord();
+		
+		if (isset($_POST['pageNo'])) {
+		    $pageNo = $_POST['pageNo'];
+		} else {
+		    $pageNo = 1;
+		}
+		
+		$limit = ($pageNo*50-50).', 50';		
+		
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
-													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', $limit);
 
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
+		
+		$records['recordsCount'] = $attendanceObj->countRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE);
+		$records['pageNo'] = $pageNo;
 
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);

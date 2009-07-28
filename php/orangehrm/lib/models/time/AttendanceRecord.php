@@ -344,6 +344,43 @@ class AttendanceRecord {
 		return $result;
 		
 	}
+	
+	public function countRecords($employeeId, $from=null, $to=null, $status=null, $punch=false) {
+		
+		$selectTable = "`".self::DB_TABLE."`";
+
+		$selectFields[] = "COUNT(".self::DB_FIELD_ATTENDANCE_ID.")";
+
+		$selectConditions[] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '$employeeId'";
+
+		if ($from != null) {
+			$selectConditions[] = "`".self::DB_FIELD_PUNCHIN_TIME."` >= '$from'";
+		}
+
+		if ($to != null) {
+			$selectConditions[] = "`".self::DB_FIELD_PUNCHIN_TIME."` <= '$to'"; // PUNCHIN is used since it is allowed PUNCHOUT to be out of upper limit
+		}
+		
+		if ($punch) {
+			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NULL";
+		} else {
+			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NOT NULL";
+		}
+
+		if ($status != null) {
+			$selectConditions[] = "`".self::DB_FIELD_STATUS."` = '$status'";
+		}
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		$row = $dbConnection->dbObject->getArray($result);
+		
+		return $row[0];
+	    
+	}
 
 	private function _buildRecordObjects($result, $adjustTime = true) {
 

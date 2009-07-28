@@ -154,6 +154,23 @@ $count = count($recordsArr);
 
 <?php } ?>
 
+	function nextPage() {
+		i=document.frmGenerateAttendanceReport.pageNo.value;
+		i++;
+		document.frmGenerateAttendanceReport.pageNo.value=i;
+		document.frmGenerateAttendanceReport.submit();
+	}
+	function prevPage() {
+		var i=document.frmGenerateAttendanceReport.pageNo.value;
+		i--;
+		document.frmGenerateAttendanceReport.pageNo.value=i;
+		document.frmGenerateAttendanceReport.submit();
+	}
+	function chgPage(pNo) {
+		document.frmGenerateAttendanceReport.pageNo.value=pNo;
+		document.frmGenerateAttendanceReport.submit();
+	}
+
 //]]>
 </script> 
 
@@ -168,6 +185,11 @@ $count = count($recordsArr);
 
 .note-td {
 	text-align: left;
+}
+
+#paging {
+   text-align:right;
+   margin-right: 10px; 
 }
 
 </style>
@@ -222,6 +244,8 @@ $count = count($recordsArr);
             <option value="detailed" <?php echo (isset($records['reportView']) && $records['reportView'] == 'detailed')?'selected':''; ?>>
             <?php echo $lang_time_Option_Detailed; ?></option>
         </select>
+        
+        <input type="hidden" name="pageNo" value="<?php echo (isset($records['recordsCount']))?$records['recordsCount']:'1'; ?>">
 
         <input type="submit" class="punchbutton"
             class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                           
@@ -307,6 +331,23 @@ $count = count($recordsArr);
     </div>
 <?php } ?>
 <!-- Message box: Ends -->
+
+
+<!-- Paging: Begins -->
+<?php if ($records['recordsCount']) {
+
+echo '<div id="paging">';
+
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($records['recordsCount'], $records['pageNo'], 50);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+
+echo $pageStr;
+
+echo '</div>';
+
+} ?>
+<!-- Paging: Ends -->
 
 <?php if(isset($records['editMode'])) { ?>
 <form id="frmSaveAttendanceReport" name="frmSaveAttendanceReport" method="post" action="?timecode=Time&action=Save_Attendance_Report">
