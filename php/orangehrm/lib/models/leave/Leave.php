@@ -966,15 +966,13 @@ class Leave {
 		$changeFields[] = "`leave_length_days`";
 		$changeFields[] = "`leave_length_hours`";
 
-		$changeValues[] = "(`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . "))";
-		$changeValues[] = "`leave_length_hours` - $length";
+		$changeValues[] = "IF((`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . ") < 0), 0,`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . "))";
+		$changeValues[] = "IF((`leave_length_hours` - $length) < 0, 0, `leave_length_hours` - $length) ";
 
 		$updateConditions[] = "`leave_date` = '" . $date . "'";
 		$updateConditions[] = "`leave_status` <> '" . self::LEAVE_STATUS_LEAVE_TAKEN . "'";
 
 		$query = $sql_builder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions, false);
-
-		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 
