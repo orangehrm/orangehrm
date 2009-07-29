@@ -378,7 +378,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	}
 	$subs = array();
 
-	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./index.php?menu_no_top=hr");
+	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC");
 	if ($arrAllRights[PIM]['add']) {
 		$subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./lib/controllers/CentralController.php?reqcode=EMP&capturemode=addmode");
 	}
@@ -753,6 +753,7 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 } elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {
 	$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 	$home = "./lib/controllers/CentralController.php?reqcode={$reqCode}";
+	$home = "./lib/controllers/CentralController.php?reqcode={$reqCode}&VIEW=MAIN&sortField=0&sortOrder0=ASC";
 	if (isset($_GET['id'])) {
     	$home .= "&amp;id={$_GET['id']}&amp;capturemode=updatemode";
    	} else {
@@ -785,7 +786,7 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 	    	}
 	    }
 	}
-	
+
 	if ($rightsCount === 0) {
 		$home = 'message.php?case=no-rights&type=notice';
 	} else {
