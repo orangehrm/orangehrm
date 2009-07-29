@@ -402,11 +402,47 @@ class TimeController {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
 		}
 
-		/* Setting AttendanceRecord array */
-		$attendanceObj = new AttendanceRecord();
-		$records['recordsArr'] = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
-													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
-
+		/* Setting summay records: Begins */
+		
+		/* If the criteria is same use the records array saved in $_SESSION 
+		 * rather than retrieving from database
+		 */
+		
+		$criteria = array($empId, $from, $to);
+		$sameQuery = false; 
+		
+		if (isset($_SESSION['attCriteria'])) {
+		    if ($criteria == $_SESSION['attCriteria']) {
+		        $sameQuery = true;
+		    } else {
+		        $_SESSION['attCriteria'] = $criteria;
+		    }
+		} else {
+		    $_SESSION['attCriteria'] = $criteria;
+		}
+		
+		if (isset($_POST['pageNo'])) {
+		    $pageNo = $_POST['pageNo'];
+		    $records['pageNo'] = $pageNo;
+		} else {
+		    $pageNo = 1;
+			$records['pageNo'] = $pageNo;
+		}
+		
+		if ($sameQuery) {
+		    $records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
+		    $records['recordsCount'] = count($_SESSION['attSummary']);
+		} else {
+			$attendanceObj = new AttendanceRecord();
+			$attSummary = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
+														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+			$_SESSION['attSummary'] = (empty($attSummary))?array():$attSummary; // We should alway pass an array to _getAttendanceSummaryForPage()
+			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);			    
+			$records['recordsCount'] = count($_SESSION['attSummary']);
+		}
+		
+		/* Setting summay records: Ends */		
+		
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
@@ -415,6 +451,13 @@ class TimeController {
 		$template = new TemplateMerger($records, $path);
 		$template->display();
 
+	}
+	
+	private function _getAttendanceSummaryForPage($attSummary, $pageNo, $recordsPerPage = 50) {
+	    
+	    $start = ($pageNo*$recordsPerPage) - $recordsPerPage;
+	    return array_slice($attSummary, $start, $recordsPerPage);	    
+	    
 	}
 
 	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {

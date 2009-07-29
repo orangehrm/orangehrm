@@ -245,7 +245,7 @@ $count = count($recordsArr);
             <?php echo $lang_time_Option_Detailed; ?></option>
         </select>
         
-        <input type="hidden" name="pageNo" value="<?php echo (isset($records['recordsCount']))?$records['recordsCount']:'1'; ?>">
+        <input type="hidden" name="pageNo" value="<?php echo (isset($records['pageNo']))?$records['pageNo']:'1'; ?>">
 
         <input type="submit" class="punchbutton"
             class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                           
@@ -266,6 +266,22 @@ $count = count($recordsArr);
 <?php if ($records['reportView'] == 'summary' && !empty($recordsArr)) { // Summary Table Begins ?>
 
 <div class="outerbox" style="width:300px;text-align:center;">
+
+<!-- Paging: Begins -->
+<?php if (isset($records['recordsCount']) && $records['recordsCount'] > 50) {
+
+echo '<div id="paging">';
+
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($records['recordsCount'], $records['pageNo'], 50);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+
+echo $pageStr;
+
+echo '</div>';
+
+} ?>
+<!-- Paging: Ends -->
 
 <table border="0" cellpadding="0" cellspacing="0" class="data-table" id="summary-table">
 
@@ -334,7 +350,7 @@ $count = count($recordsArr);
 
 
 <!-- Paging: Begins -->
-<?php if ($records['recordsCount']) {
+<?php if (isset($records['recordsCount']) && $records['recordsCount'] > 50) {
 
 echo '<div id="paging">';
 
