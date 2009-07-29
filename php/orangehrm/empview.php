@@ -154,8 +154,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 		}
 	}
 
-	function doCheckAll()
-	{$lang_jobspec_heading
+	function doCheckAll() {
 		with (document.standardView) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
@@ -279,7 +278,10 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 				<table cellspacing="0" cellpadding="0" class="data-table">
 					<thead>
 					<tr>
-						<td width="50">&nbsp;&nbsp;&nbsp;</td>
+						<td width="50">
+							<input type="checkbox" name="allCheck" class="checkbox" style="margin-left:1px"
+								onclick="doHandleAll()" />
+						</td>
 						<?php $j = 0;
 							  $sortOrder = $this->getArr['sortOrder' . $j];
 						?>
