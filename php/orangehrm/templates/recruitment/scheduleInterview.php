@@ -67,16 +67,15 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     /**
      * Check if second interview date is after the first interview date
      */
-    function secondInterviewAfterFirst() {
-
+    function secondInterviewBeforeFirst() {
         if (firstInterviewDate) {
 
-            timeVal = strToTime(firstInterviewDate, dateTimeFormat);
-            if (timeVal) {
-                newTime = $('txtDate').value.trim() + " " + $('txtTime').value.trim();
-                newTimeVal = strToTime(newTime, dateTimeFormat);
+            firstInterviewTimestamp = strToTime(firstInterviewDate, dateTimeFormat);
+            if (firstInterviewTimestamp) {
+                secondInterviewDate = $('txtDate').value.trim() + " " + $('txtTime').value.trim();
+                secondInterviewTimestamp = strToTime(secondInterviewDate, dateTimeFormat);
 
-                if (newTimeVal && newTimeVal < timeVal) {
+                if (secondInterviewTimestamp && secondInterviewTimestamp <= firstInterviewTimestamp) {
                     return true;
                 }
             }
@@ -114,7 +113,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         }
 
         if (!err) {
-            if (secondInterviewAfterFirst()) {
+            if (secondInterviewBeforeFirst()) {
                 err = true;
                 msg += "\t- <?php echo $lang_Recruit_JobApplication_SecondInterviewShouldBeAfterFirst; ?>(" + firstInterviewDate + ")\n";
             }
