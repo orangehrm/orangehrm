@@ -421,7 +421,7 @@ class Holidays {
         $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
         $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
         $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
-        $length = $lengthFullDay - $length;
+        if($length != Leave::LEAVE_LENGTH_FULL_DAY)$length = $lengthFullDay - $length;
         $length_days = $length / $lengthFullDay ;
 
         $query = "UPDATE hs_hr_leave SET leave_status = $holiday, leave_length_hours = $length, " .
