@@ -1765,6 +1765,7 @@
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Please Specify ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Please Specify valid email address for ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidPhone = 'Please Specify valid phone number for ';
+	$lang_Recruit_ZipContainsNonNumericChars = 'Zip code contains non-numeric characters. Do you want to continue?';
 	$lang_Recruit_ApplicationForm_PleaseSelect = 'Please Select ';
 
 	$lang_Recruit_ApplicationStatus_SuccessHeading = 'Job Application Received';

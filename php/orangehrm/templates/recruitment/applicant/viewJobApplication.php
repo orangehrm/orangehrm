@@ -106,7 +106,7 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 						'<?php echo $lang_Recruit_ApplicationForm_Qualifications;?>');
 
 		// compulsary fields
-		var compFields = new Array(0, 2, 3, 6, 7, 8, 11, 12);
+		var compFields = new Array(0, 2, 3, 5, 6, 7, 8, 11, 12);
 		var emailFields = new Array();
 		emailFields[0] = 11;
 		var phoneFields = new Array();
@@ -164,10 +164,18 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 			    }
 			}
 		}
+
 		if (err) {
 			alert(msg);
 			return false;
 		} else {
+			if (!numbers($('txtZip'))) {
+	            if (!confirm('<?php echo $lang_Recruit_ZipContainsNonNumericChars; ?>')) {
+	                $('txtZip').focus();
+	                return false;
+	            }
+			}
+
 			return true;
 		}
 	}
