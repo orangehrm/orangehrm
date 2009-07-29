@@ -279,8 +279,12 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 					<thead>
 					<tr>
 						<td width="50">
+							<?php if (empty($emplist)) { ?>
+							&nbsp;
+							<?php } else { ?>
 							<input type="checkbox" name="allCheck" class="checkbox" style="margin-left:1px"
 								onclick="doHandleAll()" />
+							<?php } ?>
 						</td>
 						<?php $j = 0;
 							  $sortOrder = $this->getArr['sortOrder' . $j];
