@@ -50,7 +50,7 @@
 
   	$results = null;
 
-  	for ($i=0; $i<count($records); $i++) {
+  	for ($i=0; $i<count($records)-1; $i++) {
   		$results[$records[$i]->getDay()] = $records[$i];
   	}
 

@@ -155,8 +155,8 @@ if ($modifier === "SUP") {
   <tr>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
-    <td class="<?php echo $cssClass; ?>"><?php
-   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveWeekend=> $lang_Leave_Common_Weekend);
+    <td class="<?php echo $cssClass; ?>"><?php 
+   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveHoliday=> $lang_Leave_Holiday, $record->statusLeaveWeekend=> $lang_Leave_Common_Weekend);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
 
@@ -191,7 +191,7 @@ if ($modifier === "SUP") {
   							echo $holiday->getDescription();
   						} elseif ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_WEEKEND) {
                             echo $lang_Leave_Common_Weekend;
-  						}
+  						} 
   			?>
   				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
   			<?php }?>
@@ -206,6 +206,10 @@ if ($modifier === "SUP") {
                     if($holiday->isHoliday($record->getLeaveDate())){
                         $holiday = Holidays::getHolidayForDate($record->getLeaveDate());
                         echo $holiday->getDescription();
+                    } else {
+                    	if (isset($statusArr[$record->getLeaveStatus()])) {
+                    		echo $statusArr[$record->getLeaveStatus()];
+                    	}
                     }
     			}
     			?>
