@@ -426,14 +426,14 @@ if (isset($exception)) {
 	if ($exception->isWarning()) {
 		$confirmDate = true;
 ?>
-<div id="duplicateWarning" class="confirmBox">
+<div id="duplicateWarning" class="confirmBox" style="margin-left:18px;">
  	<div class="confirmInnerBox">
 	<?php echo $lang_Leave_Error_DuplicateLeaveWarning; ?><br />
 	<?php echo $lang_Leave_Error_DuplicateLeaveWarningInstructions; ?>
 	</div>
 </div>
 <?php	} else { ?>
-<div id="duplicateError" class="confirmBox">
+<div id="duplicateError" class="confirmBox" style="margin-left:18px;">
  	<div class="confirmInnerBox">
 	<?php echo $lang_Leave_Error_DuplicateLeaveError; ?><br />
 	<?php echo $lang_Leave_Error_DuplicateLeaveErrorInstructions; ?>
@@ -447,29 +447,17 @@ if (!empty($duplicateLeaves) && count($duplicateLeaves) > 0) {
 	$empName = $duplicateLeaves[0]->getEmployeeName();
 }
 ?>
-<table border="0" cellpadding="0" cellspacing="0">
-<thead>
-<tr>
-<th class="tableTopLeft"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopMiddle"></th>
-<th class="tableTopRight"></th>
-</tr>
 
-<tr>
-<th ></th>
-<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date; ?></th>
-<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfHours; ?></th>
-<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period; ?></th>
-<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType; ?></th>
-<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status; ?></th>
-<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments; ?></th>
-<th></th>
-</tr>
+<table border="0" cellpadding="0" cellspacing="0" class="simpleList" style="margin-left:18px;">
+<thead>
+	<tr>
+		<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date; ?></th>
+		<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfHours; ?></th>
+		<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period; ?></th>
+		<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType; ?></th>
+		<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status; ?></th>
+		<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments; ?></th>
+	</tr>
 </thead>
 <tbody>
 
@@ -500,33 +488,20 @@ if (is_array($duplicateLeaves)) {
 
 ?>
 
-<tr>
-<td ></td>
-<td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($dup->getLeaveDate()); ?></td>
-<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveLengthHours(); ?></td>
-<td class="<?php echo $cssClass; ?>"><?php echo $leaveTime; ?></td>
-<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveTypeName(); ?></td>
-<td class="<?php echo $cssClass; ?>"><?php echo $statusArr[$dup->getLeaveStatus()]; ?></td>
-<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveComments(); ?></td>
-<td></td>
-</tr>
+	<tr>
+		<td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($dup->getLeaveDate()); ?></td>
+		<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveLengthHours(); ?></td>
+		<td class="<?php echo $cssClass; ?>"><?php echo $leaveTime; ?></td>
+		<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveTypeName(); ?></td>
+		<td class="<?php echo $cssClass; ?>"><?php echo $statusArr[$dup->getLeaveStatus()]; ?></td>
+		<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveComments(); ?></td>
+	</tr>
 
 <?php } } ?>
 
 </tbody>
-<tfoot>
-<tr>
-<td class="tableBottomLeft"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomMiddle"></td>
-<td class="tableBottomRight"></td>
-</tr>
-</tfoot>
 </table>
+
 <hr />
 <?php
 }
