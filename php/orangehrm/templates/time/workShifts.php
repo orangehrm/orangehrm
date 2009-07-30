@@ -93,6 +93,38 @@ function actionDelete() {
 		}
 	}
 }
+
+function doHandleAll() {
+	with (document.frmListOfShifts) {
+		if(elements['allCheck'].checked == false){
+			doUnCheckAll();
+		}
+		else if(elements['allCheck'].checked == true){
+			doCheckAll();
+		}
+	}
+}
+
+function doCheckAll() {
+	with (document.frmListOfShifts) {
+		for (var i=0; i < elements.length; i++) {
+			if (elements[i].type == 'checkbox') {
+				elements[i].checked = true;
+			}
+		}
+	}
+}
+
+function doUnCheckAll() {
+	with (document.frmListOfShifts) {
+		for (var i=0; i < elements.length; i++) {
+			if (elements[i].type == 'checkbox') {
+				elements[i].checked = false;
+			}
+		}
+	}
+}
+
 //]]>
 </script>
 <div id="addPanel" class="outerbox" style="width:300px;display:none;">
@@ -162,7 +194,8 @@ function actionDelete() {
 	<table border="0" cellpadding="0" cellspacing="0" class="data-table">
 		<thead>
 			<tr>
-		    	<td width="25"></td>
+		    	<td width="25"><input type="checkbox" class="checkbox" name="allCheck" value="" onclick="doHandleAll();" />
+		    	</td>
 		    	<td width="200"><?php echo $lang_Time_ShiftName; ?></td>
 		    	<td width="150"><?php echo $lang_Time_HoursPerDay; ?></td>
 			</tr>
