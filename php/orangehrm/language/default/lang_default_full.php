@@ -33,8 +33,6 @@
 
 	$lang_Error_DoYouWantToContinue 				= "Do you want to continue?";
 
-	$lang_Error_PleaseSelectAnEmployee				= "Please select an employee";
-
 	$lang_Error_ShouldBeNumeric 					= "Should be Numeric";
 	$lang_Error_FollowingErrorsWereFound 			= "Following errors were found";
 	$lang_Error_AreYouSureYouWantToDelete 			= "Are you sure you want to delete";
@@ -1525,6 +1523,8 @@
 	$lang_Time_Attendance_Overlapping = "Overlapping records found";
 	$lang_Time_Attendance_NoReports = "No reports to display";
 	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
+	$lang_Time_Attendance_EnterValidDates = "Please enter valid dates for To Date and From Date";
+	$lang_Time_Attendance_EnterValidDateRange = "Please enter a valid date range (From Date must be before To Date)";
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";

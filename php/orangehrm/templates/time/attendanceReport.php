@@ -16,13 +16,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
+
 require_once ROOT_PATH.'/lib/common/calendar.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_AttendanceRecord.php';
 
 if (isset($records['recordsArr'])) {
 	$recordsArr = $records['recordsArr'];
-	
+
 }
 
 if ($records['reportView'] == 'detailed' && isset($records['recordsArr'])) {
@@ -30,7 +30,7 @@ if ($records['reportView'] == 'detailed' && isset($records['recordsArr'])) {
 }
 
 if (isset($records['message'])) {
-	
+
 	if ($records['message'] == 'update-success') {
 		$records['message'] = $lang_Time_Attendance_ReportSavingSuccess;
 	} elseif ($records['message'] == 'update-failure') {
@@ -40,7 +40,7 @@ if (isset($records['message'])) {
 	} elseif($records['message'] == 'nochange-failure') {
 		$records['message'] = $lang_Time_Attendance_ReportNoChange;
 	}
-	
+
 }
 
 ?>
@@ -48,22 +48,22 @@ if (isset($records['message'])) {
 <script type="text/javascript">
 //<![CDATA[
 
-<?php if (isset($records['recordsArr'])) { 
+<?php if (isset($records['recordsArr'])) {
 
-$count = count($recordsArr);	
-	
+$count = count($recordsArr);
+
 ?>
 
 	dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
 
 	function validate() {
 
-		errFlag = false;		
+		errFlag = false;
 		var i=0;
 		count = <?php echo $count; ?>;
-		
+
 		for (i=0;i<count;i++) {
-		
+
 			var inTime = strToTime($("txtNewInDate-"+i).value+" "+$("txtNewInTime-"+i).value, dateTimeFormat);
 			var outTime = strToTime($("txtNewOutDate-"+i).value+" "+$("txtNewOutTime-"+i).value, dateTimeFormat);
 
@@ -71,36 +71,36 @@ $count = count($recordsArr);
 				alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
 				errFlag = true;
 			}
-			
+
 			if (inTime >= outTime) {
 				alert("<?php echo $lang_Time_Attendance_InvalidOutTime; ?>");
 				errFlag = true;
 			}
-			
+
 			maxInTimestamp = strToTime($("txtNewInDate-"+i).value+" 24:00", dateTimeFormat);
 			maxOutTimestamp = strToTime($("txtNewOutDate-"+i).value+" 24:00", dateTimeFormat);
-			
+
 			if (inTime >= maxInTimestamp || outTime >= maxOutTimestamp) {
 				alert("<?php echo $lang_Time_Errors_InvalidMaxTime; ?>");
 				errFlag = true;
 			}
-		
+
 		}
 
 		return !errFlag;
-		
+
 	}
-	
+
 	function submitForm() {
 		if (validate()) {
 			$("frmSaveAttendanceReport").submit();
 		}
 	}
-	
+
 <?php } ?>
 
 
-<?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>	
+<?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>
 
 	function markEmpNumber(empName) {
 		empNoField = document.getElementById("hdnEmpNo");
@@ -126,12 +126,12 @@ $count = count($recordsArr);
 		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 	}
 	?>
-	
+
 	function showAutoSuggestTip(obj) {
 			obj.value = '';
 			obj.style.color = '#000000';
 	}
-	
+
 <?php }  ?>
 
 <?php if ($records['reportView'] == 'summary') { ?>
@@ -171,8 +171,39 @@ $count = count($recordsArr);
 		document.frmGenerateAttendanceReport.submit();
 	}
 
+	function validateSearchCriteria() {
+		errors = new Array();
+		employeeName = $('txtEmployeeSearch').value;
+
+		if (employeeName == '' || employeeName == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			errors.push('<?php echo CommonFunctions::escapeForJavascript($lang_Error_PleaseSelectAnEmployee); ?>');
+		}
+
+		dateFormat = YAHOO.OrangeHRM.calendar.format;
+		fromDateTimestamp = strToTime($('txtFromDate').value, dateFormat);
+		toDateTimestamp = strToTime($('txtToDate').value, dateFormat);
+		if (!fromDateTimestamp || !toDateTimestamp) {
+			errors.push('<?php echo CommonFunctions::escapeForJavascript($lang_Time_Attendance_EnterValidDates); ?>');
+		} else {
+			if (fromDateTimestamp >= toDateTimestamp) {
+				errors.push('<?php echo CommonFunctions::escapeForJavascript($lang_Time_Attendance_EnterValidDateRange); ?>');
+			}
+		}
+
+		if (errors.length > 0) {
+			message = '<?php echo CommonFunctions::escapeForJavascript($lang_Error_PleaseCorrectTheFollowing); ?>' + "\n";
+			for (i = 0; i < errors.length; i++) {
+				message += ' - ' + errors[i] + "\n";
+			}
+
+			alert(message);
+			return false;
+		}
+		return true;
+	}
+
 //]]>
-</script> 
+</script>
 
 <style type="text/css">
 #detailed-table td {
@@ -189,7 +220,7 @@ $count = count($recordsArr);
 
 #paging {
    text-align:right;
-   margin-right: 10px; 
+   margin-right: 10px;
 }
 
 </style>
@@ -204,8 +235,9 @@ $count = count($recordsArr);
 <?php } ?>
 <!-- Message box: Ends -->
 
-<form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post" 
-    action="?timecode=Time&amp;action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>onsubmit="markEmpNumber(this.txtEmployeeSearch.value);"<?php } ?>>
+<form id="frmGenerateAttendanceReport" name="frmGenerateAttendanceReport" method="post"
+    action="?timecode=Time&amp;action=Generate_Attendance_Report" <?php if ($records['reportType'] == 'Emp') { ?>
+    onsubmit="markEmpNumber(this.txtEmployeeSearch.value); return validateSearchCriteria()"<?php } ?>>
 
     <div class="mainHeading"><h2><?php echo $lang_Time_Heading_Attendance_Report.($records['empName'] != ''?': '.$records['empName']:''); ?></h2></div>
     <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
@@ -213,22 +245,22 @@ $count = count($recordsArr);
     <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
 
     <div class="searchbox">
-    
+
         <?php if ($records['reportType'] == 'Emp') {  ?>
 
        <label for="txtEmployeeSearchName"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
         <div class="yui-skin-sam" style="float:left;margin-right:10px">
-            <div id="employeeSearchAC" style="width:135px">    
-                  <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"  
-                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:$lang_Common_TypeHereForHints); ?>" style="color:#999999;width:135px" 
+            <div id="employeeSearchAC" style="width:135px">
+                  <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"
+                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:$lang_Common_TypeHereForHints); ?>" style="color:#999999;width:135px"
                         onfocus="showAutoSuggestTip(this)"/>
-                  <div id="employeeSearchACContainer"></div>      
+                  <div id="employeeSearchACContainer"></div>
             </div>
         </div>
-          
-          
+
+
         <?php } ?>
-    
+
         <label for="txtFromDate"><?php echo $lang_Leave_Common_FromDate;?></label>
         <input type="text" name="txtFromDate" id="txtFromDate" size="10" value="<?php echo $records['fromDate']; ?>" />
         <input type="button" value="  " class="calendarBtn" />
@@ -237,18 +269,18 @@ $count = count($recordsArr);
         <input type="text" name="txtToDate" id="txtToDate" size="10" value="<?php echo $records['toDate']; ?>" />
         <input type="button" value="  " class="calendarBtn" />
 
-        
+
         <label for="loc_name"><?php echo $lang_Time_ReportType?></label>
         <select name="optReportView">
             <option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>
             <option value="detailed" <?php echo (isset($records['reportView']) && $records['reportView'] == 'detailed')?'selected':''; ?>>
             <?php echo $lang_time_Option_Detailed; ?></option>
         </select>
-        
+
         <input type="hidden" name="pageNo" value="<?php echo (isset($records['pageNo']))?$records['pageNo']:'1'; ?>">
 
         <input type="submit" class="punchbutton"
-            class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                           
+            class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Time_Button_Generate;?>" />
         <br class="clear"/>
     </div>
@@ -256,7 +288,7 @@ $count = count($recordsArr);
 </form>
 
 </div> <!-- End of outerbox -->
-    
+
 <br class="clear" />
 
 
@@ -291,26 +323,26 @@ echo '</div>';
         <th><?php echo $lang_Time_Timesheet_Duration; ?></th>
     </tr>
   </thead>
-  
+
   <tbody>
-  
+
 <?php for ($i=0; $i<$count; $i++) { ?>
-	  
+
     <tr>
         <td><?php echo $recordsArr[$i][0]; ?></td>
         <td style="text-align:right;padding-right:80px">
-        <?php 
-        
+        <?php
+
         if ($recordsArr[$i][1] > 0) {
         	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i][0]}')\" style=\"text-decoration:underline\">{$recordsArr[$i][1]}</a>";
         } else {
-        	echo $recordsArr[$i][1];	
+        	echo $recordsArr[$i][1];
         }
-        
+
         ?>
         </td>
     </tr>
-    
+
 <?php } ?>
 
  </tbody>
@@ -326,7 +358,7 @@ echo '</div>';
 <input type="hidden" name="optReportView" value="detailed" />
 <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
 <input type="hidden" name="hdnFromSummary" value="yes" />
-</form> 
+</form>
 
 </div> <!-- End of outerbox -->
 
@@ -368,7 +400,7 @@ echo '</div>';
 <?php if(isset($records['editMode'])) { ?>
 <form id="frmSaveAttendanceReport" name="frmSaveAttendanceReport" method="post" action="?timecode=Time&action=Save_Attendance_Report">
 <?php } ?>
-    
+
 <table border="0" cellpadding="0" cellspacing="0" class="data-table" id="detailed-table">
   <thead>
 	<tr>
@@ -385,8 +417,8 @@ echo '</div>';
   </thead>
   <tbody>
 
-	<?php 
-	
+	<?php
+
 	for ($i=0; $i<$count; $i++) { // Records array: Begins
 
 	$id = $recordsArr[$i]->getAttendanceId();
@@ -397,11 +429,11 @@ echo '</div>';
 	$outTime = $recordsArr[$i]->getOutTime();
 	$outNote = $recordsArr[$i]->getOutNote();
 	$timestampDiff = $recordsArr[$i]->getTimestampDiff();
-	
-	if ($records['editMode']) { 
-	
+
+	if ($records['editMode']) {
+
 	?>
-  
+
     <tr>
         <td>
         <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $id; ?>" />
@@ -433,9 +465,9 @@ echo '</div>';
         <input type="hidden" name="hdnTimestampDiff-<?php echo $i; ?>" id="hdnTimestampDiff-<?php echo $i; ?>" value="<?php echo $timestampDiff; ?>" />
         </td>
     </tr>
-    
+
     <?php } else { // If editing is not allowed ?>
-    	
+
     <tr>
         <td>
         <?php echo $inDate ;?>
@@ -456,13 +488,13 @@ echo '</div>';
         <?php echo $recordsArr[$i]->getOutNote() ;?>
         </td>
     </tr>
-    
+
 	<?php } } // Records array: Ends ?>
-	
+
   </tbody>
 </table>
 
-<br class="clear" /> 
+<br class="clear" />
 
 <?php if($records['editMode']) { ?>
 <input type="hidden" name="hdnEmployeeId" value="<?php echo $recordsArr[0]->getEmployeeId(); ?>" />
@@ -478,13 +510,13 @@ echo '</div>';
 <input type="hidden" name="hdnFromSummary" value="yes" />
 <input type="button" value="Back" onclick="backToSummary()" class="punchbutton" />
 <?php } ?>
-<input type="button" name="btnSave" value="<?php echo $lang_Common_Save; ?>" onclick="submitForm()" 
-class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />    
+<input type="button" name="btnSave" value="<?php echo $lang_Common_Save; ?>" onclick="submitForm()"
+class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 </form>
 <?php } ?>
 
-<br class="clear" /> 
-    
+<br class="clear" />
+
 
 </div> <!-- End of outerbox -->
 
@@ -495,15 +527,15 @@ class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this
 //<![CDATA[
 
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
-    
+
 <?php if ($records['reportType'] == 'Emp') { // Emp report data: Begins ?>
-    
+
 	YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 	   	// Instantiate first JS Array DataSource
 	   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
-	
+
 	   	// Instantiate AutoComplete for txtEmployeeSearch
 	   	this.oAutoComp = new YAHOO.widget.AutoComplete('txtEmployeeSearch','employeeSearchACContainer', this.oACDS);
 	   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
@@ -518,8 +550,8 @@ class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this
 	   	    }
 	   	});
 	};
-	
+
 <?php } // Emp report data: Ends ?>
-    
+
 //]]>
 </script>
