@@ -234,40 +234,10 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 	function calculateUserTimeZoneOffset() {
 
-		/*
-		* Function is from Josh Fraser (http://www.onlineaspect.com)
-		* Article Source: http://www.onlineaspect.com/2007/06/08/auto-detect-a-time-zone-with-javascript/
-		* Replaced toGMTString() with toUTCString()
-		*
-		* Returned offset is in hours with respect to UTC
-		* Ex:
-		* Chennai, Kolkata, Mumbai, New Delhi, Sri Jayawardenepura = 5.5
-		* Arizona = -7
-		*/
-
-		var rightNow = new Date();
-		var jan1 = new Date(rightNow.getFullYear(), 0, 1, 0, 0, 0, 0);  // jan 1st
-		var june1 = new Date(rightNow.getFullYear(), 6, 1, 0, 0, 0, 0); // june 1st
-		var temp = jan1.toUTCString();
-		var jan2 = new Date(temp.substring(0, temp.lastIndexOf(" ")-1));
-		temp = june1.toUTCString();
-		var june2 = new Date(temp.substring(0, temp.lastIndexOf(" ")-1));
-		var std_time_offset = (jan1 - jan2) / (1000 * 60 * 60);
-		var daylight_time_offset = (june1 - june2) / (1000 * 60 * 60);
-
-		if (std_time_offset != daylight_time_offset) {
-
-			// daylight savings time is observed
-
-			// positive is southern, negative is northern hemisphere
-			var hemisphere = std_time_offset - daylight_time_offset;
-			if (hemisphere >= 0) {
-				std_time_offset = daylight_time_offset;
-			}
-
-		}
-
-		return std_time_offset;
+		var myDate = new Date();
+		var offset = (-1)*myDate.getTimezoneOffset()/60;
+		
+		return offset;
 
 	}
 
