@@ -127,7 +127,7 @@
 	<span class="formFieldContainer">
 		<input type="checkbox" class="formCheckbox columncheckbox" <?php echo $disabled;?> name="chkSmokeFlag" id="chkSmokeFlag" <?php echo $checked;?> value="1"/>
 	</span>
-	<label><?php echo $lang_hremp_gender?></label>
+	<label style="margin-left:8px"><?php echo $lang_hremp_gender?></label>
 <?php
 	$gender = isset($this->postArr['optGender']) ? $this->postArr['optGender'] : $gender;
 	$gender = empty($gender) ? '1' : $gender;
