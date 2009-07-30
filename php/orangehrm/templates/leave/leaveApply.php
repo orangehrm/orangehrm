@@ -470,6 +470,7 @@ if (is_array($duplicateLeaves)) {
                        Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => $lang_Leave_Common_PendingApproval,
                        Leave::LEAVE_STATUS_LEAVE_APPROVED => $lang_Leave_Common_Approved,
                        Leave::LEAVE_STATUS_LEAVE_TAKEN => $lang_Leave_Common_Taken,
+                       Leave::LEAVE_STATUS_LEAVE_WEEKEND => $lang_Leave_Common_Weekend,
                        Leave::LEAVE_STATUS_LEAVE_HOLIDAY => $lang_Leave_Common_Weekend);
 	foreach ($duplicateLeaves as $dup) {
 		if(!($j%2)) {
