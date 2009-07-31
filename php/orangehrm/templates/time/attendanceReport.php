@@ -158,16 +158,19 @@ $count = count($recordsArr);
 		i=document.frmGenerateAttendanceReport.pageNo.value;
 		i++;
 		document.frmGenerateAttendanceReport.pageNo.value=i;
+		document.frmGenerateAttendanceReport.hdnFromPaging.value = 'Yes';
 		document.frmGenerateAttendanceReport.submit();
 	}
 	function prevPage() {
 		var i=document.frmGenerateAttendanceReport.pageNo.value;
 		i--;
 		document.frmGenerateAttendanceReport.pageNo.value=i;
+		document.frmGenerateAttendanceReport.hdnFromPaging.value = 'Yes';
 		document.frmGenerateAttendanceReport.submit();
 	}
 	function chgPage(pNo) {
 		document.frmGenerateAttendanceReport.pageNo.value=pNo;
+		document.frmGenerateAttendanceReport.hdnFromPaging.value = 'Yes';
 		document.frmGenerateAttendanceReport.submit();
 	}
 
@@ -243,6 +246,7 @@ $count = count($recordsArr);
     <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
     <input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
     <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
+	<input type="hidden" name="hdnFromPaging" id="hdnFromPaging" value="No" />
 
     <div class="searchbox">
 

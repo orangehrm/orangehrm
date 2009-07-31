@@ -403,14 +403,14 @@ class TimeController {
 		}
 
 		/* Setting summay records: Begins */
-		
-		/* If the criteria is same use the records array saved in $_SESSION 
+
+		/* If the criteria is same use the records array saved in $_SESSION
 		 * rather than retrieving from database
 		 */
-		
+
 		$criteria = array($empId, $from, $to);
-		$sameQuery = false; 
-		
+		$sameQuery = false;
+
 		if (isset($_SESSION['attCriteria'])) {
 		    if ($criteria == $_SESSION['attCriteria']) {
 		        $sameQuery = true;
@@ -420,15 +420,15 @@ class TimeController {
 		} else {
 		    $_SESSION['attCriteria'] = $criteria;
 		}
-		
-		if (isset($_POST['pageNo'])) {
+
+		if (isset($_POST['pageNo']) && $_POST['hdnFromPaging'] == 'Yes') { // If it's from Generate button, it should always display page 1.
 		    $pageNo = $_POST['pageNo'];
 		    $records['pageNo'] = $pageNo;
 		} else {
 		    $pageNo = 1;
 			$records['pageNo'] = $pageNo;
 		}
-		
+
 		if ($sameQuery) {
 		    $records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
 		    $records['recordsCount'] = count($_SESSION['attSummary']);
@@ -437,12 +437,12 @@ class TimeController {
 			$attSummary = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
 			$_SESSION['attSummary'] = (empty($attSummary))?array():$attSummary; // We should alway pass an array to _getAttendanceSummaryForPage()
-			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);			    
+			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
 			$records['recordsCount'] = count($_SESSION['attSummary']);
 		}
-		
-		/* Setting summay records: Ends */		
-		
+
+		/* Setting summay records: Ends */
+
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
@@ -452,12 +452,12 @@ class TimeController {
 		$template->display();
 
 	}
-	
+
 	private function _getAttendanceSummaryForPage($attSummary, $pageNo, $recordsPerPage = 50) {
-	    
+
 	    $start = ($pageNo*$recordsPerPage) - $recordsPerPage;
-	    return array_slice($attSummary, $start, $recordsPerPage);	    
-	    
+	    return array_slice($attSummary, $start, $recordsPerPage);
+
 	}
 
 	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
@@ -504,22 +504,22 @@ class TimeController {
 
 		/* Setting AttendanceRecord array */
 		$attendanceObj = new AttendanceRecord();
-		
-		if (isset($_POST['pageNo'])) {
+
+		if (isset($_POST['pageNo']) && $_POST['hdnFromPaging'] == 'Yes') { // If it's from Generate button, it should always display page 1.
 		    $pageNo = $_POST['pageNo'];
 		} else {
 		    $pageNo = 1;
 		}
-		
-		$limit = ($pageNo*50-50).', 50';		
-		
+
+		$limit = ($pageNo*50-50).', 50';
+
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', $limit);
 
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
-		
+
 		$records['recordsCount'] = $attendanceObj->countRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE);
 		$records['pageNo'] = $pageNo;
 
