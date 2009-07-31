@@ -1,4 +1,34 @@
-New & Changed Features for OrangeHRM ver 2.5-beta.10
+New & Changed Features for OrangeHRM ver 2.5-beta.12
+	Bug Fixes
+	---------
+	2811394 - can't add timesheet events if customer name has single quote
+	2814398 - Data too long error message for comments field in leave
+	2818906 - Supervisor shouldn't be able to add/delete company property
+	2548843 - Search for Canceled returns Taken leave    
+	2821079 - Duplicate same date with different holidays leads sql error 
+	2822258 - Employee list order, incorrect when employee id changed
+	2641120 - Missing select all check box in PIM Employee Information
+	2827880 - 1st and 2nd interview schedule date and time can not be same
+	2827840 - Recruitment->Application->Need to validate City & Zip Code
+	2542841 - Leave summary incorrect when deleting a specific holiday. 
+	2640838 - Give validation messages in attendance report 
+	2829472 - Overlapping leave not shown according to 2.5 UI standards
+	2825858 - stopper when applying same leave twice which include weekend
+	2021183 - Time: No checkBox to select all the records
+	2827867 - Recruitment->Applicant->Detail form width should increase
+	2827853 - Job vacancy List - The Reset button is not functioning properly
+	2489630 - Remove the employee image selection popup for consistancy
+	2640832 - Attendance Report->Generate button's Text partially shown
+	1955832 - Custom Fields can not Import
+	2827882 - Action button text is not clear in mark offer declined form
+	2827936 - Interviewer should not be able to schedule 2nd interview
+	2811324 - PIM-Job Detail->assigned location/s are not shown until save
+	2641185 - Emp. name field reset in attn.report after click on generate
+	2595639 - [REOPENED] Server time not properly reflected in the Punch IN
+	2641169 - Paging is not implemented in the Attendance Report
+	2641407 - [REOPENED] Delete one record will take more than 1min:with records>700
+
+New & Changed Features for OrangeHRM ver 2.5-beta.11
 
 	Bug Fixes
 	---------
