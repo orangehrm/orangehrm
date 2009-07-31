@@ -197,7 +197,7 @@ if (!empty($resumeName)) {
 
         ?>
 
-        <div class="outerbox">
+        <div class="outerbox" style="width:600px;">
             <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationDetails_Heading;?></h2></div>
 
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
@@ -212,20 +212,51 @@ if (!empty($resumeName)) {
 
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
         <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div><br/>
-  		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Position; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getJobTitleName()); ?></div><br/>
-    	<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getFirstName()); ?></div><br />
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMiddleName()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getLastName()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Street1; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getStreet1()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Street2; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getStreet2()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_City; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getCity()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Country; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getCountry()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getProvince()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Zip; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getZip()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getPhone()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMobile()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Email; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getEmail()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div><div class="txtBox"><pre style="font-family: Arial, Helvetica, sans-serif"><?php echo nl2br(wordwrap(trim(CommonFunctions::escapeHtml($application->getQualifications())), 65)); ?></pre></div><br/>
+
+  		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Position; ?></div>
+  		<div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getJobTitleName()); ?></div><br/>
+
+    	<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?></div>
+    	<div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getFirstName()); ?></div><br />
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMiddleName()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getLastName()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Street1; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getStreet1()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Street2; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getStreet2()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_City; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getCity()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Country; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getCountry()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getProvince()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Zip; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getZip()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getPhone()); ?></div><br/>
+
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMobile()); ?></div><br/>
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Email; ?></div>
+        <div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getEmail()); ?></div><br/>
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div>
+        <div class="txtBox" style="margin-left:-2px">
+        	<pre style="font-family: Arial, Helvetica, sans-serif; line-height:10px"><?php
+        		echo nl2br(wordwrap(trim(CommonFunctions::escapeHtml($application->getQualifications())), 75));
+        	?></pre>
+        </div>
+        <br/>
 
 		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div>
 
