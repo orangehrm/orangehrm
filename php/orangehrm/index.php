@@ -508,7 +508,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, $timesheetLink);
 			}
 
-			if ($arrAllRights[TimeM]['view']) {
+			if (($authorizeObj->isAdmin() && $arrAllRights[TimeM]['view']) || $authorizeObj->isSupervisor()) {
 				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
 				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_EmployeeTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee");
 			}
