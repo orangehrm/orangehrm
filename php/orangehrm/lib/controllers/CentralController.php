@@ -1557,7 +1557,7 @@ switch ($moduletype) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getLeaveRequestId());
-																								
+
 																								if ($obj->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 																								    $mes = $leaveController->changeStatus('change');
 																								} else {

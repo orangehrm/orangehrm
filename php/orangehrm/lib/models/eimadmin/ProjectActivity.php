@@ -44,6 +44,10 @@ class ProjectActivity {
 		return $this->id;
 	}
 
+	public function setId($id) {
+		$this->id = $id;
+	}
+
 	public function getProjectId() {
 		return $this->projectId;
 	}
@@ -309,6 +313,42 @@ class ProjectActivity {
 		$tmp->setName($row[self::DB_FIELD_NAME]);
 		$tmp->setDeleted((bool)$row[self::DB_FIELD_DELETED]);
 		return $tmp;
+	}
+
+	/**
+	 * If activity id is set, retrieves the data from the database and
+	 * populates the private data members
+	 */
+	public function fetch() {
+		if (!isset($this->id) || empty($this->id)) {
+			throw new Exception('Activity Id not set');
+		}
+
+		$selectTable = "`".self::TABLE_NAME."`";
+		$selectFields[] = "`".self::DB_FIELD_NAME."`";
+		$selectFields[] = "`".self::DB_FIELD_PROJECT_ID."`";
+		$selectFields[] = "`".self::DB_FIELD_DELETED."`";
+
+		$selectConditions[] = "`".self::DB_FIELD_ACTIVITY_ID."` = {$this->id}";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$recordCount = $dbConnection->dbObject->numberOfRows($result);
+		if ($recordCount != 1) {
+			throw new Exception('No records or multiple records found');
+		}
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			$this->name = $row[self::DB_FIELD_NAME];
+			$this->projectId = $row[self::DB_FIELD_PROJECT_ID];
+			$this->deleted = (bool) $row[self::DB_FIELD_DELETED];
+		}
 	}
 
 	/**

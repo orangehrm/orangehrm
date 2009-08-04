@@ -97,7 +97,7 @@ class Projects {
 	public function getProjectName(){
 		return $this->projectName;
 	}
-    
+
     public function getCustomerName(){
         $customer=new Customer();
         $customer=$customer->fetchCustomer($this->customerID);
@@ -314,7 +314,7 @@ class Projects {
 		if (!is_null($this->getDeleted())) {
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".$this->getDeleted()."";
 		}
-		
+
 		if (!$withEmptyProjects) {
 			$subQuery = "SELECT COUNT(*) FROM `" . ProjectActivity::TABLE_NAME . "` pa WHERE " .
 					"pa.`" . ProjectActivity::DB_FIELD_PROJECT_ID . "` = " . self::TABLE_NAME . ".`" . self::PROJECT_DB_FIELD_PROJECT_ID . "`";
@@ -379,6 +379,44 @@ class Projects {
 
 		return $arrDispArr;
 	}
+
+	/**
+	 * If porject id is set, retrieves the data from the database and
+	 * populates the private data members
+	 */
+	 public function fetch() {
+		if (!isset($this->projectID) || empty($this->projectID)) {
+			throw new Exception('Project Id not set');
+		}
+
+		$selectTable = "`".self::TABLE_NAME."`";
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_NAME."`";
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_DELETED."`";
+
+		$selectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` = {$this->projectID}";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$recordCount = $dbConnection->dbObject->numberOfRows($result);
+		if ($recordCount != 1) {
+			throw new Exception('No records or multiple records found');
+		}
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			$this->projectName = $row[self::PROJECT_DB_FIELD_NAME];
+			$this->customerID = $row[self::PROJECT_DB_FIELD_CUSTOMER_ID];
+			$this->projectDescription = $row[self::PROJECT_DB_FIELD_DESCRIPTION];
+			$this->deleted = (bool) $row[self::PROJECT_DB_FIELD_DELETED];
+		}
+	 }
 
 	/**
 	 * Retrieves Project Name for a given project ID.

@@ -70,10 +70,22 @@ function _matchAutoCompletionFields() {
 employees = new Array();
 ids = new Array();
 <?php
-$employees = $records['empList'];
-for ($i=0;$i<count($employees);$i++) {
-	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
-	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
+if ($role == authorize::AUTHORIZE_ROLE_ADMIN) {
+	$employeeList = $records['empList'];
+} elseif ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
+	$employeeList = $employees;
+} else {
+	$employeeList = array();
+}
+$employeeListCount = count($employeeList);
+for ($i = 0; $i < $employeeListCount; $i++) {
+	if ($role == authorize::AUTHORIZE_ROLE_ADMIN) {
+		$employeeName = $employeeList[$i][1] . " " . $employeeList[$i][2];
+	} elseif ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
+		$employeeName = $employeeList[$i][1];
+	}
+	echo "employees[{$i}] = '" . addslashes($employeeName) . "';\n";
+	echo "ids[{$i}] = \"{$employeeList[$i][0]}\";\n";
 }
 ?>
 -->
@@ -130,7 +142,7 @@ for ($i=0;$i<count($employees);$i++) {
 			<td></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
-		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
+		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN || $role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
 			<td>
 				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
 		            <div id="employeeSearchAC" style="width:150px;">
@@ -141,18 +153,8 @@ for ($i=0;$i<count($employees);$i++) {
 				</div>
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" />
 			</td>
-		<?php } else if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
-			<td >
-				<select name="txtRepEmpID" id="txtRepEmpID">
-					<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-					<?php if (is_array($employees)) {
-		   					foreach ($employees as $employee) {
-		  			?>
-		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1]; ?></option>
-		  			<?php 	}
-		   				} ?>
-				</select>
-			</td>
+		<?php } else { ?>
+			<td>&nbsp;</td>
 		<?php } ?>
 			<td></td>
 			<td>
@@ -206,7 +208,7 @@ for ($i=0;$i<count($employees);$i++) {
 	<tbody>
 		<?php if (is_array($employees)) {
 		   		foreach ($employees as $employee) {
-		   			if (is_array($pendingTimesheets[$employee[0]])) {
+		   			if (isset($pendingTimesheets[$employee[0]]) && is_array($pendingTimesheets[$employee[0]])) {
 		   				foreach ($pendingTimesheets[$employee[0]] as $timesheet) {
 		?>
 		<tr>

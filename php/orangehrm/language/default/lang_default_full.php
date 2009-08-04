@@ -1406,6 +1406,7 @@
 	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Timesheet for #name for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Edit timesheet for #name for #periodName starting #startDate";
 	$lang_Time_Timesheet_EditTimesheetForWeekStarting = "Edit timesheet for week starting";
+	$lang_Time_Timesheet_DeletedProjectsAndActivitiesNotice = "Deleted projects/activities are marked with an asterik %s. Click on a project/activity to edit.";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -1446,6 +1447,7 @@
 	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "Timesheet contains unfinished activities";
 	$lang_Time_Errors_DUPLICATE_ROWS = "Duplicate rows found";
 	$lang_Time_Errors_NO_PROJECT_SELECTED = "Please select a project";
+	$lang_Time_Errors_NO_ACTIVITY_SELECTED = "Please select an activity";
 	$lang_Time_Errors_MaxTotalDuration = 'Total duration of a day cannot exceed 24 hours';
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
@@ -1537,6 +1539,7 @@
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 
 	$lang_Time_Timesheet_SelectProject = "Select a Project";
+	$lang_Time_Timesheet_SelectActivity = "Select an Activity";
 
 	$lang_Time_Timesheet_UnfinishedActivitiesTitle = "Unfinished Activities";
 	$lang_Time_SubmitTimeEventTitle = "Submit Time Event";

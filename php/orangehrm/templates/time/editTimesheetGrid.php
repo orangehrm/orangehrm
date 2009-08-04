@@ -155,33 +155,57 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	$activityId = $value['activityId'];
 	$activityList = $value['activityList'];
 	$activityCount = count($activityList);
-
 ?>
 		<tr id="row-<?php echo $k; ?>">
 
 			<td class="tableMiddleLeft"></td>
 
-			<td class="selectTd">
-				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>"
+			<td class="selectTd" id="cmbProject-<?php echo $k; ?>-td">
+				<?php
+				$tags = '';
+				if ($value['projectObj']->getDeleted()) {
+					$tags ='style="display:none" disabled="disabled"';
+				?>
+					<span id="cmbProject-<?php echo $k; ?>-span">
+						<a href="javascript: changeDeletedProject('cmbProject-<?php echo $k; ?>')"><?php echo $value['projectObj']->getProjectName(); ?></a>
+						<span class="error">*</span>
+						<input type="hidden" name="cmbProject-<?php echo $k; ?>" value="<?php echo $projectId; ?>" />
+					</span>
+				<?php } ?>
+				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" <?php echo $tags; ?>
 				id="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
-
-<?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
+				<?php if ($value['projectObj']->getDeleted()) { ?>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject; ?> --</option>
+				<?php } ?>
+				<?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
 				<option value="<?php echo $projectsList[$j]['id']; ?>"
-				<?php echo ($projectsList[$j]['id']==$projectId?'selected':''); ?>>
+				<?php echo ($projectsList[$j]['id'] == $projectId) ? 'selected="selected"' : ''; ?>>
 				<?php echo $projectsList[$j]['name']; ?>
 				</option>
-<?php } // Project list : Ends ?>
-
+				<?php } // Project list : Ends ?>
 				</select>
 			</td>
 
-			<td class="selectTd">
-				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>"
+			<td class="selectTd" id="cmbActivity-<?php echo $k; ?>-td">
+				<?php
+					$tags = '';
+					if ($value['isActivityDeleted'] || $value['projectObj']->getDeleted()) {
+					$tags ='style="display:none" disabled="disabled"';
+				?>
+					<span id="cmbActivity-<?php echo $k; ?>-span">
+						<a href="javascript: changeDeletedActivity('cmbActivity-<?php echo $k; ?>')"><?php echo $value['activityName']; ?></a>
+						<span class="error">*</span>
+						<input type="hidden" name="cmbActivity-<?php echo $k; ?>" value="<?php echo $activityId; ?>" />
+					</span>
+				<?php } ?>
+				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>" <?php echo $tags; ?>
 				id="cmbActivity-<?php echo $k; ?>">
-
+				<?php if ($value['isActivityDeleted'] || $value['projectObj']->getDeleted()) { ?>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectActivity; ?> --</option>
+				<?php } ?>
 <?php for ($j=0; $j<$activityCount; $j++) { ?>
 				<option value="<?php echo $activityList[$j]->getId(); ?>"
-				<?php echo ($activityList[$j]->getId()==$activityId?'selected':''); ?>>
+				<?php echo (($activityList[$j]->getId() == $activityId) && !($value['isActivityDeleted'] || $value['projectObj']->getDeleted())) ? ' selected="selected"' : ''; ?>>
 				<?php echo $activityList[$j]->getName(); ?>
 				</option>
 <?php } ?>
@@ -230,7 +254,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="selectTd">
 				<select id="cmbProject-0" name="cmbProject-0" id="cmbProject-0"
 				onchange="fetchActivities(this.value, this.id)">
-				<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
 
 <?php for ($i=0; $i<$projectsCount; $i++) { // Project list : Begins ?>
 				<option value="<?php echo $projectsList[$i]['id']; ?>"><?php echo $projectsList[$i]['name']; ?></option>
@@ -241,7 +265,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 			<td class="selectTd">
 				<select id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectActivity;?> --</option>
 				</select>
 			</td>
 
@@ -320,16 +344,32 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnRemoveRow" id="btnRemoveRow"
         value="Remove Row" />
-<input type="button" class="resetbutton"
+<input type="button" class="savebutton"
         onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnSave" id="btnSave"
         value="Save" />
+<input type="button" class="resetbutton"
+		onclick="resetTimesheetGrid()"
+		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		value="<?php echo $lang_Common_Reset; ?>" />
 </div>
 
 </form>
 
 </div>
+
+<div class="requirednotice">
+	<?php echo sprintf($lang_Time_Timesheet_DeletedProjectsAndActivitiesNotice, '<span class="error">*</span>'); ?>
+</div>
+
+<form method="post" id="resetForm" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Edit_Timesheet_Grid" style="display:none">
+	<input type="hidden" name="txtTimesheetId" value="<?php echo $records['timesheetId']; ?>" />
+	<input type="hidden" name="txtEmployeeId" value="<?php echo $records['employeeId']; ?>" />
+	<input type="hidden" name="txtTimesheetPeriodId" value="<?php echo $records['timesheetPeriodId']; ?>" />
+	<input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $records['startDateStamp']); ?>" />
+	<input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $records['endDateStamp']); ?>" />
+</form>
 
 <script type="text/javascript">
 	//<![CDATA[
@@ -442,7 +482,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		projectSelect += 'onchange="fetchActivities($(\'' + selectName + '\').value, \'' + selectName + '\');"';
 		projectSelect += '>';
 
-		projectSelect += '<option value="-1">-- <?php echo $lang_Leave_Common_Select;?> --</option>';
+		projectSelect += '<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>';
 		<?php
 		for ($i=0; $i<$projectsCount; $i++) {
 		?>
@@ -461,7 +501,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var activitySelect = document.createElement('select');
 		activitySelect.name = 'cmbActivity-'+ rowNo;
 		activitySelect.id = 'cmbActivity-'+ rowNo;
-		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectProject;?> --', '-1');
+		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectActivity;?> --', '-1');
 		activityCell.appendChild(activitySelect);
 		row.appendChild(activityCell);
 
@@ -518,6 +558,32 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		}
 
+	}
+
+	function changeDeletedProject(id) {
+		$(id + '-td').removeChild($(id + '-span'));
+		$(id).style.display = 'block';
+		$(id).disabled = false;
+
+		activitySelectBoxId = id.replace('Project', 'Activity');
+		if ($(activitySelectBoxId).disabled) {
+			changeDeletedProject(activitySelectBoxId);
+		}
+	}
+
+	function changeDeletedActivity(id) {
+		$(id + '-td').removeChild($(id + '-span'));
+		$(id).style.display = 'block';
+		$(id).disabled = false;
+
+		projectSelectBoxId = id.replace('Activity', 'Project');
+		if ($(projectSelectBoxId).disabled) {
+			changeDeletedProject(projectSelectBoxId);
+		}
+	}
+
+	function resetTimesheetGrid() {
+		$('resetForm').submit();
 	}
 
 	/* Validating timegrid: Begins */
@@ -596,20 +662,30 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		/* For checking all empty rows */
 
-		var emptyFlag = true;
+		var emptyProjectFlag = true;
+		var emptyActivityFlag = true;
 
 		for (var i=0; i<gridCount; i++) {
 
 			var projectId = $('cmbProject-'+i).value;
+			if (!($('cmbProject-'+i).disabled) && projectId == -1) {
+			    emptyProjectFlag = false;
+			}
 
-			if (projectId == -1) {
-			    emptyFlag = false;
+			var activityId = $('cmbActivity-'+i).value;
+			if (!($('cmbActivity-'+i).disabled) && activityId == -1) {
+			    emptyActivityFlag = false;
 			}
 
 		}
 
-		if (!emptyFlag) {
+		if (!emptyProjectFlag) {
 		    alert('<?php echo $lang_Time_Errors_NO_PROJECT_SELECTED; ?>');
+		    return false;
+		}
+
+		if (!emptyActivityFlag) {
+		    alert('<?php echo $lang_Time_Errors_NO_ACTIVITY_SELECTED; ?>');
 		    return false;
 		}
 

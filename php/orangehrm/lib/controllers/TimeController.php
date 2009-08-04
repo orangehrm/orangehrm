@@ -904,7 +904,6 @@ class TimeController {
 
 			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
 
-
 			$timesheetObj = new Timesheet();
 			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
 			for ($i=0; $i<count($employees); $i++) {
@@ -1365,10 +1364,17 @@ class TimeController {
 	            $dateKey = strtotime($timeEvents[$i]->getReportedDate());
 
 	            if (!isset($grid[$gridKey])) {
+	            	$activityObj->setId($activityId);
+	            	$activityObj->fetch();
+	            	$projectObj = new Projects();
+					$projectObj->setProjectId($projectId);
+	            	$projectObj->fetch();
 
-	                $grid[$gridKey]['projectId'] = $projectId;
-	                $grid[$gridKey]['activityId'] = $activityId;
-	                $grid[$gridKey]['activityName'] = $activityObj->retrieveActivityName($activityId);
+	                $grid[$gridKey]['projectId'] = $projectId; // TODO: Remove this and use project object in the template
+	                $grid[$gridKey]['projectObj'] = $projectObj;
+	                $grid[$gridKey]['activityId'] = $activityId; // TODO: Remove this and use activity object in the template
+					$grid[$gridKey]['activityName'] = $activityObj->getName();
+					$grid[$gridKey]['isActivityDeleted'] = $activityObj->isDeleted();
 	                $grid[$gridKey]['activityList'] = $activityObj->getActivityList($projectId);
 
 	            }
@@ -1399,6 +1405,7 @@ class TimeController {
 		        $projectsList[$i]['name'] = $projects[$i]->retrieveCustomerName($projectId).
 		        							' - '.$projects[$i]->getProjectName();
 		        $projectsList[$i]['id'] = $projectId;
+		        $projectsList[$i]['deleted'] = $projects[$i]->getDeleted();
 
 		    }
 
@@ -1411,6 +1418,7 @@ class TimeController {
 
 		$records['employeeId'] = $timesheet->getEmployeeId();
 		$records['timesheetId'] = $timesheet->getTimesheetId();
+		$records['timesheetPeriodId'] = $timesheet->getTimesheetPeriodId();
 		$records['startDateStamp'] = strtotime($timesheet->getStartDate());
 		$records['endDateStamp'] = strtotime($timesheet->getEndDate());
 		if (isset($messageType)) {
