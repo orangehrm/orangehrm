@@ -243,13 +243,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 			<div class="actionbar">
 				<div class="actionbuttons">
 					<input type="button" class="plainbtn"
-					<?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
+					<?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'style=visibility:hidden;'; ?>
 						onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
 						value="<?php echo $lang_Common_Add;?>" />
 
 					<?php if($this->getArr['reqcode']=='EMP') { ?>
 						<input type="button" class="plainbtn"
-						<?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
+						<?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'style=visibility:hidden;'; ?>
 							onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
 							value="<?php echo $lang_Common_Delete;?>" />
 
