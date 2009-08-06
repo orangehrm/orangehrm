@@ -31,7 +31,7 @@ return true;
 
 function cleanUp() {
 	
-	if ($_SESSION['cMethod'] == 'new') {
+	if ($_SESSION['cMethod'] == 'new' || $_SESSION['dbCreateMethod'] == 'new') {
 
 		if (!connectDB()) {
 			return false;
