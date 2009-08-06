@@ -149,7 +149,7 @@ class Licenses {
 
 	function addLicenses() {
 
-		if ($this->_isDuplicateName($this->getLicensesDesc())) {
+		if ($this->_isDuplicateName()) {
 			throw new LicensesException("Duplicate name", 1);
 		}
 		
@@ -176,7 +176,7 @@ class Licenses {
 
 	function updateLicenses() {
 
-		if ($this->_isDuplicateName($this->getLicensesDesc())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new LicensesException("Duplicate name", 1);
 		}
 		
@@ -336,23 +336,47 @@ class Licenses {
 
 	}
 	
-	private function _isDuplicateName($licenses) {
-		
-		$selectTable = $this->tableName;
-		$selectFields[] = '`licenses_desc`';
-	    $selectConditions[] = "`licenses_desc` = '$licenses'";	    
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$licenses = $this->filterExistingLicenses();
+
+		if (is_array($licenses)) {
+			if ($update) {
+				if ($licenses[0][0] == $this->getLicensesId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingLicenses() {
+
+		$selectFields[] ='`licenses_code`'; 
+        $selectFields[] = '`licenses_desc`';  
+	    $selectTable = $this->tableName;
+
+        $selectConditions[] = "`licenses_desc` = '".$this->getLicensesDesc()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingLicenses[$cnt++] = $row;
+        }
+
+        if (isset($existingLicenses)) {
+            return  $existingLicenses;
+        } else {
+            $existingLicenses = '';
+            return  $existingLicenses;
+        }
 	}
 }
 class LicensesException extends Exception {
