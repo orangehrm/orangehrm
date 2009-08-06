@@ -98,6 +98,10 @@ class Customer {
 	 */
 	public function addCustomer() {
 
+		if ($this->_isDuplicateName($this->getCustomerName())) {
+			throw new CustomerException("Duplicate name", 1);
+		}
+		
 		$this->customerId = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::CUSTOMER_DB_FIELDS_ID);
 
 		$arrRecord[0] = "'". $this->getCustomerId() . "'";
@@ -127,6 +131,10 @@ class Customer {
 	 */
 	public	function updateCustomer() {
 
+		if ($this->_isDuplicateName($this->getCustomerName())) {
+			throw new CustomerException("Duplicate name", 1);
+		}
+		
 		$arrRecord[0] = "'". $this->getCustomerId() . "'";
 		$arrRecord[1] = "'". $this->getCustomerName() . "'";
 		$arrRecord[2] = "'". $this->getCustomerDescription() . "'";
@@ -182,6 +190,7 @@ class Customer {
 	 * To update the records reuse this function
 	 */
 	private function updateRecord($tableName,$arrFieldList,$arrRecordsList){
+				
 		$sql_builder = new SQLQBuilder();
 
 		$sql_builder->table_name = $tableName;
@@ -336,8 +345,28 @@ class Customer {
 
 		return $objArr;
 	}
+	
+	private function _isDuplicateName($customerName) {
+		
+		$selectTable = self::TABLE_NAME;
+		
+		$selectFields[] = '`name`';
+		$selectConditions[] = "`name`='$customerName'";	    	    
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 
 }
-
-
+class CustomerException extends Exception {
+}
 ?>
