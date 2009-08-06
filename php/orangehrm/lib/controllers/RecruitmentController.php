@@ -636,6 +636,7 @@ class RecruitmentController {
             $applicationId = $event->getApplicationId();
             $application = JobApplication::getJobApplication($applicationId);
             $application->setStatus(JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
+
             try {
                 $application->save();
                 $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);

@@ -479,13 +479,13 @@ class JobApplication {
 				if ($values[$j] == 'null') {
 					$sql .= $values[$j].", ";
 				} else {
-					$sql .= "'".$values[$j]."', ";    
-				}			    
+					$sql .= "'".$values[$j]."', ";
+				}
 			} else {
 				if ($values[$j] == 'null') {
 					$sql .= $values[$j].")";
 				} else {
-					$sql .= "'".$values[$j]."')";    
+					$sql .= "'".$values[$j]."')";
 				}
 			}
 
@@ -510,7 +510,7 @@ class JobApplication {
 		$values = $this->_getFieldValuesAsArray();
 
 		for ($i=0; $i<count($values); $i++) {
-		    if (!empty($values[$i])) {
+		    if (!empty($values[$i]) && $values[$i] !== 'null') {
 		        $fieldsArr[] = $fields[$i];
 		        $valuesArr[] = $values[$i];
 		    }
@@ -700,6 +700,12 @@ class JobApplication {
      */
 
     private function _getResumeName($appId, $firstName, $lastName) {
+		if (isset($this->resumeName)) {
+			$this->resumeName = trim($this->resumeName);
+			if (!empty($this->resumeName)) {
+				return $this->resumeName;
+			}
+		}
 
     	if (!is_null($appId) && !is_null($firstName) && !is_null($lastName)) {
 			$name = $appId.'-'.$firstName.'-'.$lastName.'.'.$this->resumeData['extension'];
@@ -768,7 +774,7 @@ class JobApplication {
 		return $this->id;
 
 	}
-	
+
 	/**
 	 * Deletes an existing resume
 	 * @return int Job application ID
