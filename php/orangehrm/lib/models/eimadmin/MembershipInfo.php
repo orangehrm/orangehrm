@@ -174,6 +174,10 @@ class MembershipInfo {
 
 	function addMembershipInfo() {
 
+		if ($this->_isDuplicateName($this->getMembershipInfoDesc(), $this->getMembershipTypeId())) {
+			throw new MembershipInfoException("Duplicate name", 1);
+		}
+		
 		$tableName = 'hs_hr_membership';
 
 		$this->membershipId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'membship_code', 'MME');
@@ -198,6 +202,10 @@ class MembershipInfo {
 
 	function updateMembershipInfo() {
 
+		if ($this->_isDuplicateName($this->getMembershipInfoDesc(), $this->getMembershipTypeId())) {
+			throw new MembershipInfoException("Duplicate name", 1);
+		}
+		
 		$this->getMembershipInfoId();
 		$arrRecordsList[0] = "'". $this->getMembershipInfoId() . "'";
 		$arrRecordsList[1] = "'". $this->getMembershipInfoDesc() . "'";
@@ -394,8 +402,29 @@ class MembershipInfo {
 	     	//Create Logs
 	     }
 	}
-
-
+	private function _isDuplicateName($membership, $membershipType) {
+		
+		$selectTable = "HS_HR_MEMBERSHIP";
+		
+		$selectFields[] = '`membtype_code`';
+		$selectFields[] = '`membship_name`';
+		
+	    $selectConditions[] = "`membship_name`='$membership'";
+	    $selectConditions[] = "`membtype_code`='$membershipType'";		    
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 }
-
+class MembershipInfoException extends Exception {
+}
 ?>
