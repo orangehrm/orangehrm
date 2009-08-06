@@ -300,7 +300,7 @@ function addEmpMain() {
 
 
 function goBack() {
-	location.href ="./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
+	location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&pageNO=<?php echo $this->getArr['currentPage']; ?>";
 }
 
 function editEmpMain() {
@@ -1002,9 +1002,12 @@ tableDisplayStyle = "table";
 	 	$middle = $this->popArr['editMainArr'][0][3];
 	 	$currentEmployeeName = $first . ' ' . $middle . ' ' . $last;
 	 }
-
 ?>
 <div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" alt="" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div>
+
+<div class="navigation">
+	<input type="button" class="backbutton" value="<?php echo $lang_Common_Back; ?>" onclick="goBack()" />
+</div>
 
 <?php	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
 <form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">

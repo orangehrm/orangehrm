@@ -35,10 +35,6 @@ function editMembership() {
 	}
 }
 
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
-	}
-
 function addEXTMembership() {
 
 	if(document.frmEmp.cmbMemTypeCode.value=='0') {

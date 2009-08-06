@@ -68,7 +68,14 @@ class EmpViewController {
  			$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['reqcode']));
     	}
 
-    	$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;
+		if (isset($postArr['pageNO'])) {
+			$currentPage = (int) $postArr['pageNO'];
+		} elseif (isset($getArr['pageNO'])) {
+			$currentPage = (int) $getArr['pageNO'];
+		} else {
+			$currentPage = 1;
+		}
+    	$form_creator ->popArr['currentPage'] = $currentPage;
 
 		$sortField = 4;
 		$sortOrder = 'ASC';
@@ -1880,6 +1887,8 @@ class EmpViewController {
 
 							$form_creator->popArr['rsetConExt'] = $empconext ->getAssConExt($getArr['id']);
 							}
+
+							$form_creator->popArr['currentPage'] = (isset($getArr['currentPage'])) ? $getArr['currentPage'] : 1;
 
 							break;
 
