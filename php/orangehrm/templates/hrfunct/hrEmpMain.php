@@ -300,7 +300,7 @@ function addEmpMain() {
 
 
 function goBack() {
-	location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&pageNO=<?php echo $this->getArr['currentPage']; ?>";
+	location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN<?php echo (isset($this->getArr['currentPage'])) ? "&pageNO={$this->getArr['currentPage']}" : ""; ?>";
 }
 
 function editEmpMain() {
@@ -1006,7 +1006,9 @@ tableDisplayStyle = "table";
 <div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" alt="" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div>
 
 <div class="navigation">
+<?php if (isset($this->popArr['showBackButton']) && $this->popArr['showBackButton']) { ?>
 	<input type="button" class="backbutton" value="<?php echo $lang_Common_Back; ?>" onclick="goBack()" />
+<?php } ?>
 </div>
 
 <?php	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>

@@ -75,6 +75,7 @@ class EmpViewController {
 		} else {
 			$currentPage = 1;
 		}
+
     	$form_creator ->popArr['currentPage'] = $currentPage;
 
 		$sortField = 4;
@@ -1889,6 +1890,11 @@ class EmpViewController {
 							}
 
 							$form_creator->popArr['currentPage'] = (isset($getArr['currentPage'])) ? $getArr['currentPage'] : 1;
+							if (isset($getArr['reqcode']) && $getArr['reqcode'] === 'ESS') {
+					    		$form_creator ->popArr['showBackButton'] = false;
+					    	} else {
+					    		$form_creator ->popArr['showBackButton'] = true;
+					    	}
 
 							break;
 
