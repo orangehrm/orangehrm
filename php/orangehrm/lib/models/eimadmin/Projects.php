@@ -129,6 +129,10 @@ class Projects {
 	 */
 	public function addProject() {
 
+		if ($this->_isDuplicateName()) {
+			throw new ProjectsException("Duplicate name", 1);
+		}
+		
 		$this->projectID = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::PROJECT_DB_FIELD_PROJECT_ID);
 
 		$arrRecord[0] = "'".$this->getProjectId()."'";
@@ -191,6 +195,10 @@ class Projects {
 	 */
 	public function updateProject() {
 
+		if ($this->_isDuplicateName(true)) {
+			throw new ProjectsException("Duplicate name", 1);
+		}
+		
 		$sql_builder = new SQLQBuilder();
 
 		$updateTable = self::TABLE_NAME;
@@ -494,5 +502,53 @@ class Projects {
 
 		return $objArr;
 	}
+	
+	private function _isDuplicateName($update=false) {
+		
+		$projects = $this->filterExistingProjects();
+
+		if (is_array($projects)) {
+			if ($projects) {
+				if ($projects[0][0] == $this->getProjectId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingProjects() {
+		
+		$selectFields[] = '`project_id`'; 
+		$selectFields[] = '`customer_id`';
+		$selectFields[] = '`name`'; 
+	    $selectTable = self::TABLE_NAME;
+
+        $selectConditions[] = "`customer_id` = '".$this->getCustomerId()."'";	
+        $selectConditions[] = "`name` = '".$this->getProjectName()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+            $existingProjects[$cnt++] = $row;
+        }
+
+        if (isset($existingProjects)) {
+            return $existingProjects;
+        } else {
+            $existingProjects = '';
+            return $existingProjects;
+        }
+	}
+}
+class ProjectsException extends Exception {
 }
 ?>
