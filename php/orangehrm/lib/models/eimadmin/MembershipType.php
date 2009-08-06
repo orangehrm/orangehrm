@@ -274,7 +274,7 @@ class MembershipType {
 
 	function addMembershipType() {
 
-		if ($this->_isDuplicateName($this->getMemDescription())) {
+		if ($this->_isDuplicateName()) {
 			throw new MembershipTypeException("Duplicate name", 1);
 		}
 		
@@ -306,7 +306,7 @@ class MembershipType {
 
 	function updateMembershipType() {
 
-		if ($this->_isDuplicateName($this->getMemDescription())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new MembershipTypeException("Duplicate name", 1);
 		}
 		
@@ -378,23 +378,47 @@ class MembershipType {
 
 	}
 
-	private function _isDuplicateName($membershipType) {
-		
-		$selectTable = $this->tableName;
-		$selectFields[] = '`membtype_name`';
-	    $selectConditions[] = "`membtype_name` = '$membershipType'";	    
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$membershipTypes = $this->filterExistingMembershipTypes();
+
+		if (is_array($membershipTypes)) {
+			if ($update) {
+				if ($membershipTypes[0][0] == $this->getMemId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingMembershipTypes() {
+
+		$selectFields[] ='`membtype_code`'; 
+        $selectFields[] = '`membtype_name`';  
+	    $selectTable = $this->tableName;
+
+        $selectConditions[] = "`membtype_name` = '".$this->getMemDescription()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingMembershipTypes[$cnt++] = $row;
+        }
+
+        if (isset( $existingMembershipTypes)) {
+            return   $existingMembershipTypes;
+        } else {
+             $existingMembershipTypes = '';
+            return   $existingMembershipTypes;
+        }
 	}
 }
 class MembershipTypeException extends Exception {
