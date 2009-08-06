@@ -149,6 +149,10 @@ class Licenses {
 
 	function addLicenses() {
 
+		if ($this->_isDuplicateName($this->getLicensesDesc())) {
+			throw new LicensesException("Duplicate name", 1);
+		}
+		
 		$tableName = 'HS_HR_LICENSES';
 
 		$this->LicensesId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'LICENSES_CODE', 'LIC');
@@ -172,6 +176,10 @@ class Licenses {
 
 	function updateLicenses() {
 
+		if ($this->_isDuplicateName($this->getLicensesDesc())) {
+			throw new LicensesException("Duplicate name", 1);
+		}
+		
 		$this->getLicensesId();
 		$arrRecordsList[0] = "'". $this->getLicensesId() . "'";
 		$arrRecordsList[1] = "'". $this->getLicensesDesc() . "'";
@@ -327,7 +335,26 @@ class Licenses {
 	     }
 
 	}
-
+	
+	private function _isDuplicateName($licenses) {
+		
+		$selectTable = $this->tableName;
+		$selectFields[] = '`licenses_desc`';
+	    $selectConditions[] = "`licenses_desc` = '$licenses'";	    
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 }
-
+class LicensesException extends Exception {
+}
 ?>
