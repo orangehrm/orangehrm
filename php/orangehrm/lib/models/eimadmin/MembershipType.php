@@ -274,6 +274,10 @@ class MembershipType {
 
 	function addMembershipType() {
 
+		if ($this->_isDuplicateName($this->getMemDescription())) {
+			throw new MembershipTypeException("Duplicate name", 1);
+		}
+		
 		$tableName = 'hs_hr_membership_type';
 
 		$this->getMemId();
@@ -302,6 +306,10 @@ class MembershipType {
 
 	function updateMembershipType() {
 
+		if ($this->_isDuplicateName($this->getMemDescription())) {
+			throw new MembershipTypeException("Duplicate name", 1);
+		}
+		
 		$this->getMemId();
 		$arrRecordsList[0] = "'". $this->getMemId() . "'";
 		$arrRecordsList[1] = "'". $this->getMemDescription() . "'";
@@ -370,6 +378,25 @@ class MembershipType {
 
 	}
 
+	private function _isDuplicateName($membershipType) {
+		
+		$selectTable = $this->tableName;
+		$selectFields[] = '`membtype_name`';
+	    $selectConditions[] = "`membtype_name` = '$membershipType'";	    
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 }
-
+class MembershipTypeException extends Exception {
+}
 ?>
