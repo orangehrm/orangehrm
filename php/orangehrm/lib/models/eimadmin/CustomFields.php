@@ -102,7 +102,7 @@ class CustomFields {
 	 */
 	public function addCustomField() {
 
-		if ($this->_isDuplicateName($this->getName())) {
+		if ($this->_isDuplicateName()) {
 			throw new CustomFieldsException("Duplicate name", 1);
 		}
 		
@@ -137,7 +137,7 @@ class CustomFields {
 	 */
 	public	function updateCustomField() {
 
-		if ($this->_isDuplicateName($this->getName())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new CustomFieldsException("Duplicate name", 1);
 		}
 		
@@ -319,25 +319,49 @@ class CustomFields {
 		return $tmp;
 	}
 	
-	private function _isDuplicateName($customerName) {
-		
-		$selectTable = self::TABLE_NAME;
-		
-		$selectFields[] = '`name`';
-		$selectConditions[] = "`name`='$customerName'";	    	    
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$cutomFields = $this->filterExistingCustomFields();
+
+		if (is_array($cutomFields)) {
+			if ($cutomFields) {
+				if ($cutomFields[0][0] == $this->getFieldNumber()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
 	}
+	
+	public function filterExistingCustomFields() {
+
+		$selectFields[] ='`field_num`'; 
+        $selectFields[] = '`name`';  
+	    $selectTable = self::TABLE_NAME;
+
+        $selectConditions[] = "`name` = '".$this->getName()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingCustomFields[$cnt++] = $row;
+        }
+
+        if (isset($existingCustomFields)) {
+            return $existingCustomFields;
+        } else {
+            $existingCustomFields = '';
+            return $existingCustomFields;
+        }
+	}
+	
 }
 
 class CustomFieldsException extends Exception {
