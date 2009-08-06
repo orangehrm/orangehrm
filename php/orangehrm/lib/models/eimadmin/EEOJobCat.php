@@ -149,7 +149,7 @@ class EEOJobCat {
 
 	function addEEOJobCat() {
 
-		if ($this->_isDuplicateName($this->getEEOJobCatDesc())) {
+		if ($this->_isDuplicateName()) {
 			throw new EEOJobCatException("Duplicate name", 1);
 		}
 		
@@ -177,7 +177,7 @@ class EEOJobCat {
 
 	function updateEEOJobCat() {
 
-		if ($this->_isDuplicateName($this->getEEOJobCatDesc())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new EEOJobCatException("Duplicate name", 1);
 		}
 		
@@ -293,23 +293,47 @@ class EEOJobCat {
 	     }
 	}
 	
-	private function _isDuplicateName($eeoName) {
-		
-		$selectTable = $this->tableName;	    
-	    $selectFields[] = '`eec_desc`';	    
-	    $selectConditions[] = "`eec_desc` = '$eeoName'";
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$eeoCat = $this->filterExistingEeoJobs();
+
+		if (is_array($eeoCat)) {
+			if ($update) {
+				if ($eeoCat[0][0] == $this->getEEOJobCatId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingEeoJobs() {
+
+        $selectFields[0] = '`eec_code`';	
+        $selectFields[1] = '`eec_desc`';	
+        $selectTable = $this->tableName;
+
+        $selectConditions[] = "`eec_desc` = '".$this->getEEOJobCatDesc()."'";
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingEeo[$cnt++] = $row;
+        }
+
+        if (isset($existingEeo)) {
+            return  $existingEeo;
+        } else {
+            $existingEeo = '';
+            return  $existingEeo;
+        }
 	}
 
 }

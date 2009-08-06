@@ -160,7 +160,7 @@ class Education {
 
 	function addEducation() {
 
-		if ($this->_isDuplicateName($this->getEduDeg(), $this->getEduUni())) {
+		if ($this->_isDuplicateName()) {
 			throw new EducationException("Duplicate name", 1);
 		}
 		
@@ -190,7 +190,7 @@ class Education {
 
 	function updateEducation() {
 
-		if ($this->_isDuplicateName($this->getEduDeg(), $this->getEduUni())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new EducationException("Duplicate name", 1);
 		}
 		
@@ -578,27 +578,50 @@ class Education {
 	     }
 	}  */
 	
-	private function _isDuplicateName($courseName, $institute) {
-		
-		$selectTable = $this->tableName;
-		$selectFields[] = '`edu_uni`';	    
-	    $selectFields[] = '`edu_deg`';	    
-	    $selectConditions[] = "`edu_deg` = '$courseName'";
-	    $selectConditions[] = "`edu_uni` = '$institute'";
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$education = $this->filterExistingEducations();
+
+		if (is_array($education)) {
+			if ($update) {
+				if ($education[0][0] == $this->getEduId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
 	}
 
+	public function filterExistingEducations() {
+
+		$selectFields[] ='`edu_code`'; 
+        $selectFields[] = '`edu_uni`';	    
+	    $selectFields[] = '`edu_deg`';	
+        $selectTable = $this->tableName;
+
+        $selectConditions[] = "`edu_deg` = '".$this->getEduDeg()."'";
+	    $selectConditions[] = "`edu_uni` = '".$this->getEduUni()."'";	   
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingEducations[$cnt++] = $row;
+        }
+
+        if (isset($existingEducations)) {
+            return  $existingEducations;
+        } else {
+            $existingEducations = '';
+            return  $existingEducations;
+        }
+	}
 }
 class EducationException extends Exception {
 }
