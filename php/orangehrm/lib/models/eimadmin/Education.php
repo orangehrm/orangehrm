@@ -160,6 +160,10 @@ class Education {
 
 	function addEducation() {
 
+		if ($this->_isDuplicateName($this->getEduDeg(), $this->getEduUni())) {
+			throw new EducationException("Duplicate name", 1);
+		}
+		
 		$tableName = 'hs_hr_education';
 		$this->eduId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'edu_code', 'EDU');
 
@@ -186,6 +190,10 @@ class Education {
 
 	function updateEducation() {
 
+		if ($this->_isDuplicateName($this->getEduDeg(), $this->getEduUni())) {
+			throw new EducationException("Duplicate name", 1);
+		}
+		
 		$this->getEduId();
 		$arrRecordsList[0] = "'". $this->getEduId() . "'";
 		$arrRecordsList[1] = "'". $this->getEduUni() . "'";
@@ -569,7 +577,29 @@ class Education {
 	     	//Create Logs
 	     }
 	}  */
+	
+	private function _isDuplicateName($courseName, $institute) {
+		
+		$selectTable = $this->tableName;
+		$selectFields[] = '`edu_uni`';	    
+	    $selectFields[] = '`edu_deg`';	    
+	    $selectConditions[] = "`edu_deg` = '$courseName'";
+	    $selectConditions[] = "`edu_uni` = '$institute'";
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 
 }
-
+class EducationException extends Exception {
+}
 ?>
