@@ -174,7 +174,7 @@ class MembershipInfo {
 
 	function addMembershipInfo() {
 
-		if ($this->_isDuplicateName($this->getMembershipInfoDesc(), $this->getMembershipTypeId())) {
+		if ($this->_isDuplicateName()) {
 			throw new MembershipInfoException("Duplicate name", 1);
 		}
 		
@@ -202,7 +202,7 @@ class MembershipInfo {
 
 	function updateMembershipInfo() {
 
-		if ($this->_isDuplicateName($this->getMembershipInfoDesc(), $this->getMembershipTypeId())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new MembershipInfoException("Duplicate name", 1);
 		}
 		
@@ -402,27 +402,51 @@ class MembershipInfo {
 	     	//Create Logs
 	     }
 	}
-	private function _isDuplicateName($membership, $membershipType) {
+	private function _isDuplicateName($update=false) {
+		$membershipInfo = $this->filterExistingMembershipInfo();
+
+		if (is_array($membershipInfo)) {
+			if ($update) {
+				if ($membershipInfo[0][0] == $this->getMembershipInfoId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingMembershipInfo() {
+
+		$tableName = 'HS_HR_MEMBERSHIP';
 		
-		$selectTable = "HS_HR_MEMBERSHIP";
-		
-		$selectFields[] = '`membtype_code`';
-		$selectFields[] = '`membship_name`';
-		
-	    $selectConditions[] = "`membship_name`='$membership'";
-	    $selectConditions[] = "`membtype_code`='$membershipType'";		    
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+		$selectFields[] ='`membship_code`'; 
+		$selectFields[] ='`membtype_code`'; 
+        $selectFields[] = '`membship_name`';  
+	    $selectTable = $tableName;
+
+        $selectConditions[] = "`membtype_code` = '".$this->getMembershipTypeId()."'";
+        $selectConditions[] = "`membship_name` = '".$this->getMembershipInfoDesc()."'";	              
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingMembershipInfo[$cnt++] = $row;
+        }
+
+        if (isset($existingMembershipInfo)) {
+            return $existingMembershipInfo;
+        } else {
+            $existingMembershipInfo = '';
+            return $existingMembershipInfo;
+        }
 	}
 }
 class MembershipInfoException extends Exception {
