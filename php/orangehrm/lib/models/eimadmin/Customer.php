@@ -98,7 +98,7 @@ class Customer {
 	 */
 	public function addCustomer() {
 
-		if ($this->_isDuplicateName($this->getCustomerName())) {
+		if ($this->_isDuplicateName()) {
 			throw new CustomerException("Duplicate name", 1);
 		}
 		
@@ -131,7 +131,7 @@ class Customer {
 	 */
 	public	function updateCustomer() {
 
-		if ($this->_isDuplicateName($this->getCustomerName())) {
+		if ($this->_isDuplicateName(true)) {
 			throw new CustomerException("Duplicate name", 1);
 		}
 		
@@ -346,24 +346,47 @@ class Customer {
 		return $objArr;
 	}
 	
-	private function _isDuplicateName($customerName) {
-		
-		$selectTable = self::TABLE_NAME;
-		
-		$selectFields[] = '`name`';
-		$selectConditions[] = "`name`='$customerName'";	    	    
-	    
-	    $sqlBuilder = new SQLQBuilder();
-	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-	    
-	    $dbConnection = new DMLFunctions();
-	    $result = $dbConnection->executeQuery($query);
-	    
-	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
-	        return true;
-	    } else {
-	        return false;
-	    }
+	private function _isDuplicateName($update=false) {
+		$cutomers = $this->filterExistingCustomers();
+
+		if (is_array($cutomers)) {
+			if ($cutomers) {
+				if ($cutomers[0][0] == $this->getCustomerId()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingCustomers() {
+
+		$selectFields[] ='`customer_id`'; 
+        $selectFields[] = '`name`';  
+	    $selectTable = self::TABLE_NAME;
+
+        $selectConditions[] = "`name` = '".$this->getCustomerName()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingCustomers[$cnt++] = $row;
+        }
+
+        if (isset($existingCustomers)) {
+            return $existingCustomers;
+        } else {
+             $existingCustomers = '';
+            return $existingCustomers;
+        }
 	}
 
 }

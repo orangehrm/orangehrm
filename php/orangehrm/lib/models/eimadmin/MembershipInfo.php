@@ -402,6 +402,7 @@ class MembershipInfo {
 	     	//Create Logs
 	     }
 	}
+	
 	private function _isDuplicateName($update=false) {
 		$membershipInfo = $this->filterExistingMembershipInfo();
 
