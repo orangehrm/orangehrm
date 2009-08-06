@@ -149,6 +149,10 @@ class EEOJobCat {
 
 	function addEEOJobCat() {
 
+		if ($this->_isDuplicateName($this->getEEOJobCatDesc())) {
+			throw new EEOJobCatException("Duplicate name", 1);
+		}
+		
 		$tableName = 'HS_HR_EEC';
 
 		$this->eeojobcatId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'EEC_CODE', 'EEC');
@@ -173,6 +177,10 @@ class EEOJobCat {
 
 	function updateEEOJobCat() {
 
+		if ($this->_isDuplicateName($this->getEEOJobCatDesc())) {
+			throw new EEOJobCatException("Duplicate name", 1);
+		}
+		
 		$this->getEEOJobCatId();
 		$arrRecordsList[0] = "'". $this->getEEOJobCatId() . "'";
 		$arrRecordsList[1] = "'". $this->getEEOJobCatDesc() . "'";
@@ -284,7 +292,27 @@ class EEOJobCat {
 	     	//Create Logs
 	     }
 	}
+	
+	private function _isDuplicateName($eeoName) {
+		
+		$selectTable = $this->tableName;	    
+	    $selectFields[] = '`eec_desc`';	    
+	    $selectConditions[] = "`eec_desc` = '$eeoName'";
+	    
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+	    
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+	    
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 
 }
-
+class EEOJobCatException extends Exception {
+}
 ?>
