@@ -120,6 +120,10 @@ class UserGroups {
 
 	function addUserGroups(){
 
+		if ($this->_isDuplicateName()) {
+			throw new UserGroupsException("Duplicate name", 1);
+		}
+		
 		$this->userGroupID = UniqueIDGenerator::getInstance()->getNextID($this->tableName, 'userg_id', 'USG');
 
 		$arrFieldList[0] = "'". $this->getUserGroupID() . "'";
@@ -143,6 +147,11 @@ class UserGroups {
 	}
 
 	function updateUserGroups(){
+		
+		if ($this->_isDuplicateName(true)) {
+			throw new UserGroupsException("Duplicate name", 1);
+		}
+		
 		$arrFieldList[0] = "'". $this->getUserGroupID() . "'";
 		$arrFieldList[1] = "'". $this->getUserGroupName() . "'";
 		$arrFieldList[2] = "'". $this->getUserGroupRepDef() . "'";
@@ -225,6 +234,50 @@ class UserGroups {
 
 		return $message2;
 	}
+	
+	private function _isDuplicateName($update=false) {
+		$userGroups = $this->filterExistingAdminUserGroups();
 
+		if (is_array($userGroups)) {
+			if ($userGroups) {
+				if ($userGroups[0][0] == $this->getUserGroupID()){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+	
+	public function filterExistingAdminUserGroups() {
+
+		$selectFields[] ='`userg_id`'; 
+        $selectFields[] = '`userg_name`';  
+	    $selectTable = $this->tableName;
+
+        $selectConditions[] = "`userg_name` = '".$this->getUserGroupName()."'";	       
+         
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+         
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $cnt = 0;
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $existingUserGroups[$cnt++] = $row;
+        }
+
+        if (isset($existingUserGroups)) {
+            return $existingUserGroups;
+        } else {
+             $existingUserGroups = '';
+            return $existingUserGroups;
+        }
+	}
+}
+class UserGroupsException extends Exception {
 }
 ?>
