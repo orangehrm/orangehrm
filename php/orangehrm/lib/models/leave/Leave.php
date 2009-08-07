@@ -978,6 +978,26 @@ class Leave {
 
 		$result = $dbConnection->executeQuery($query);
 	}
+	
+	public function adjustLeaveToWorkshift($duration, $empIdList) {
+		
+		$empIdList = implode(',', $empIdList);
+		
+		$query = "UPDATE `hs_hr_leave` SET `leave_length_hours` = IF (`leave_length_hours` < $duration, `leave_length_hours`, $duration), ";
+		$query .= "`leave_length_days` = IF (`leave_length_hours` < $duration, `leave_length_hours`/$duration, 1) ";
+		$query .= "WHERE `leave_status` IN (1, 2) AND `employee_id` IN ($empIdList)";
+	    
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		
+		if ($result) {
+		    return true;
+		} else {
+		    return false;
+		}	
+	
+	}
+	
 }
 
 ?>
