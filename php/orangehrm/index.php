@@ -448,7 +448,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_PersonalLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
 		}
 
-		if ($arrAllRights[Leave]['view']) {
+		if ($arrAllRights[Leave]['view'] || $authorizeObj->isSupervisor()) {
 			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_EmployeeLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary");
 		}
 		$sub->setSubMenuItems($subsubs);
