@@ -151,6 +151,28 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 		}
 	}
 
+	function toggleSelectAll() {
+		noOfRecords = 0;
+		noOfCheckedRecords = 0;
+
+		with (document.standardView) {
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i].name != 'allCheck') {
+					noOfRecords++;
+					if (elements[i].checked) {
+						noOfCheckedRecords++;
+					}
+				}
+			}
+
+			if (noOfCheckedRecords == noOfRecords) {
+				elements['allCheck'].checked = true;
+			} else {
+				elements['allCheck'].checked = false;
+			}
+		}
+	}
+
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
@@ -275,7 +297,8 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 				<tr>
 					<td class="<?php echo $cssClass; ?>" width="50">
 					<?php if($headingInfo[2]==1) { ?>
-						<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' />
+						<input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $message[$j][0]?>"
+							onclick="toggleSelectAll()" />
 					<?php } else { ?>
 						&nbsp;
 					<?php } ?>
