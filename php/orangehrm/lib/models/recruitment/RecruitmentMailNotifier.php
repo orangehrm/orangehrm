@@ -213,7 +213,7 @@ class RecruitmentMailNotifier {
 
 		 $notificationType = null;
 
-		 return $this->_sendMail($email, $subject, $body, $notificationType);
+		 return $this->_sendMail($email, $subject, stripslashes($body), $notificationType);
 	 }
 
     /**
@@ -285,7 +285,7 @@ class RecruitmentMailNotifier {
 
 		 $notificationType = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_JOB_APPLIED;
 
-		 return $this->_sendMail($email, $subject, $body, $notificationType);
+		 return $this->_sendMail($email, $subject, stripslashes($body), $notificationType);
 	 }
 
     /**
