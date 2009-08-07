@@ -304,6 +304,12 @@
 	$lang_Common_IMPORT_FAILURE = "Import failed";
     $lang_Common_IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE = "Import failed. No write permission to temporary directory";
 
+    // Common navigation
+    $lang_Common_First						= "First";
+    $lang_Common_Last 						= "Last";
+    $lang_Common_Previous 					= "Previous";
+	$lang_Common_Next 						= "Next";
+
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
 	// admin module

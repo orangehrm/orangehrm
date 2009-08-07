@@ -62,9 +62,8 @@ td {
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+            <input type="button" class="backbutton" value="<?php echo $lang_Common_Back;?>"
+            	onmouseover="moverButton(this)" onmouseout="moutButton(this)" onclick="goBack();" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo "{$lang_Time_EmployeeTimeReportTitle} : {$employee[2]} {$employee[1]}"; ?></h2></div>

@@ -206,7 +206,11 @@ label {
 				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn" />
 				<br class="clear" />
 				<div class="formbuttons">				    <input type="submit" class="viewbutton" id="viewBtn"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				        value="<?php echo $lang_Common_View;?>" />				    <input type="button" class="clearbutton" onclick="formReset();"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				         value="<?php echo $lang_Common_Reset;?>" />				<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>				    <input type="button" class="exportbutton" onclick="exportData(); return false;"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				         value="<?php echo $lang_DataExport_Export;?>" />
-				    <input type="image" name="btnExportData" alt="Export to CSV"				       onclick="exportData(); return false;"				       src="../../themes/beyondT/icons/export.jpg"				       onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"				       onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" />				<?php  } ?>				</div>			</form>
+					<!--
+						The value/label of the following button is hardcoded because it is shown
+						only if the plugin is installed and the label should come from the plugin
+						and not from the language files
+					-->				    <input type="button" name="btnExportData" value="Export to CSV" class="extralongbtn"				       onclick="exportData(); return false;"				       onmouseover="moverButton(this);"				       onmouseout="moutButton(this)" />				<?php  } ?>				</div>			</form>
 </div>
 <script type="text/javascript">
 //<![CDATA[

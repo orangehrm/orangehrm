@@ -42,16 +42,26 @@ function viewActivityReport(activityId, time) {
 
 function backToDefineProjectReport() {
 	action = "Project_Report_Define";
-
 	window.location = initialAction+action;
 }
 //]]>
 </script>
+<style type="text/css">
+span.noActivitiesNotice {
+	margin:4px;
+	font-style:italic;
+}
+
+hr.activitiesSeparator {
+	display:block;
+	width:100%;
+	margin:4px 4px 4px 0px;
+}
+</style>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="backToDefineProjectReport();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
+            <input type="button" class="backbutton" value="<?php echo $lang_Common_Back;?>"
+            	onmouseover="moverButton(this)" onmouseout="moutButton(this)" onclick="backToDefineProjectReport();" />
         </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Time_ProjectReportTitle;?></h2></div>
@@ -64,7 +74,7 @@ function backToDefineProjectReport() {
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
         <div id="status"></div>
@@ -75,22 +85,22 @@ function backToDefineProjectReport() {
     	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>"/>
     	<input type="hidden" name="activityId" value=""/>
     	<input type="hidden" name="time" value=""/>
-		
+
         <span class="formLabel"><?php echo $lang_Time_Timesheet_Project; ?></span>
         <span class="formValue"><?php echo $customerDet->getCustomerName() . " - " . $project->getProjectName();?></span>
         <br class="clear"/>
-        
+
 		<span class="formLabel"><?php echo $lang_Time_Report_From; ?></span>
         <span class="formValue"><?php echo $startDate; ?></span>
         <br class="clear"/>
-        
+
 		<span class="formLabel"><?php echo $lang_Time_Report_To; ?></span>
         <span class="formValue"><?php echo $endDate; ?></span>
         <br class="clear"/>
 
-		<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/><br />
+		<hr class="activitiesSeparator" />
   <?php if (empty($activityTimeArray)) { ?>
-		<div class="fieldHint"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
+		<span class="noActivitiesNotice"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></span>
   <?php } else { ?>
 
 		<table width="250" class="simpleList">
@@ -140,8 +150,8 @@ function backToDefineProjectReport() {
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
-</div>        
+</div>

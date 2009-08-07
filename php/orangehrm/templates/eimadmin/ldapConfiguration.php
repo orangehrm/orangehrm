@@ -63,41 +63,23 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-function mout() {
+function edit() {
 	var Edit = $("btnEdit");
 
-	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function mover() {
-	var Edit = $("btnEdit");
-
-	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-
-function edit()
-{
-	var Edit = $("btnEdit");
-
-	if(Edit.title=='Save') {
+	if(Edit.value == '<?php echo $lang_Common_Save; ?>') {
 		validate();
 		return;
 	}
 
 	var frm = document.frmLDAPConfig;
-	for (var i=0; i < frm.elements.length; i++) {
+	for (var i = 0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
 	}
-	var clear = $("btnClear");
-	clear.disabled = false;
-	Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	Edit.title="Save";
+
+	var resetButton = $("btnReset");
+	resetButton.disabled = false;
+
+	Edit.value = "<?php $lang_Common_Save; ?>";
 }
 
 	function validate() {
@@ -139,18 +121,8 @@ function edit()
 		}
 	}
 
-function clearAll() {
-
-	var server 	= $("txtLDAPServer");
-	var port 	= $("txtLDAPPort");
-	var domain 	= $("txtLDAPDomainName");
-	var status 	= $("cbLDAPEnable");
-
-	server.value 	= "";
-	port.value 		= "";
-	domain.value 	= "";
-	status.checked 	= false;
-
+function resetForm() {
+	$('frmLDAPConfig').reset();
 }
 
 
@@ -227,11 +199,15 @@ if (isset($_GET['message']) && $_GET['message'] == "UPDATE_SUCCESS") {
         <td colspan="7" align="center">
 
 <?php			if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
+			        <input type="button" class="editbutton" id="btnEdit" value="<?php echo $lang_Common_Edit; ?>" name="Edit"
+			        	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+			        	onclick="edit(); return false;">
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;">
+			        <input type="button" class="editbutton" id="btnEdit" disabled="disabled" value="<?php echo $lang_Common_Edit; ?>" />
 <?php			}  ?>
-<input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="clearAll(); return false;" />
+<input type="button" class="resetbutton" id="btnReset" disabled="disabled" value="<?php $lang_Common_Reset; ?>"
+	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
+	onclick="resetForm(); return false;" />
           </td>
         <td class="tableMiddleRight"></td>
       </tr>

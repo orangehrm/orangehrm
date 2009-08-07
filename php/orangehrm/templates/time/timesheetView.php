@@ -179,9 +179,9 @@ td {
 
 <h2>
 	<?php if ($prev) { ?>
-	<input src="../../themes/beyondT/icons/resultset_previous.png"
-			onclick="actionNav(1); return false;"
-			name="btnPrev" id="btnPrev" type="image"/>
+	<input type="button" name="btnPrev" id="btnPrev" class="plainbtn" value="<?php echo $lang_Common_Previous; ?>"
+		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+		onclick="actionNav(1); return false;" />
 		<?php
 			}
 				$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
@@ -193,9 +193,9 @@ td {
 							$headingStr);
 		if (($next)  && !($timesheet->getEndDate() >= date('Y-m-d'))) {
 	?>
-	<input src="../../themes/beyondT/icons/resultset_next.png"
-			onclick="actionNav(-1); return false;"
-			name="btnNext" id="btnNext" type="image"/>
+	<input type="button" name="btnNext" id="btnNext" class="plainbtn" value="<?php echo $lang_Common_Next; ?>"
+		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
+		onclick="actionNav(-1); return false;" />
 	<?php } ?>
 	<hr/>
 </h2>

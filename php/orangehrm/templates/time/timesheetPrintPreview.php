@@ -205,8 +205,11 @@ function popAndPrint() {
 function init() {
 	if (pages == 0) {
 		$("loadingMessage").style.display="none";
-		<?php $backButton = "<input type=image title=Back onMouseOut=this.src='../../themes/beyondT/pictures/btn_back.gif'; onMouseOver=this.src='../../themes/beyondT/pictures/btn_back_02.gif';  src=../../themes/beyondT/pictures/btn_back.gif onClick=goBack(); return false;/>"; ?>
-		$("printPanel").innerHTML = "<?php echo "<br><br>" . $lang_Error_NoRecordsFound . "<br><br>" . $backButton; ?>";
+		<?php
+			$backButton = '<input type="button" class="backbutton" value="' . $lang_Common_Back . '"' .
+					'onmouseout="moutButton(this)" onmouseover="moverButton(this)"  onclick="goBack()" />';
+		?>
+		$("printPanel").innerHTML = '<?php echo "<br /><br/>" . CommonFunctions::escapeForJavascript($lang_Error_NoRecordsFound) . "<br /><br />{$backButton}"; ?>';
 		return false;
 	}
 	loadPage(1, false);
@@ -222,13 +225,24 @@ function goBack() {
 
 YAHOO.util.Event.addListener(window, "load", init);
 </script>
+
+<style type="text/css">
+div#nonPrintPanel, div#printIframePanel {
+	margin: 8px;
+}
+</style>
+
 <div id="nonPrintPanel">
 	<span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
 	<h2><?php echo $lang_Time_PrintTimesheetsTitle; ?>  </h2> <h3><?php echo   $lang_Leave_Leave_list_From . ' : '     . LocaleUtil::getInstance()->formatDate($filterValues[4]); ?> <?php echo   $lang_Leave_Leave_list_To  . ' : '. LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>  </h3>
 	<?php if ($pages > 0) { ?>
   <div id="controls">
-		<input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;"/>
-		<input type="button" name="btnPrint" id="btnPrint" value="Print" onclick="printTimeSheets();"/>
+		<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
+			onmouseout="moutButton(this)" onmouseover="moverButton(this)"
+			onclick="goBack(); return false;" />
+		<input type="button" class="plainbtn" name="btnPrint" id="btnPrint" value="<?php $lang_Time_Print; ?>"
+			onmouseout="moutButton(this)" onmouseover="moverButton(this)"
+			onclick="printTimeSheets();"/>
 	</div>
 	<?php } ?>
 	<div id="navPanel"></div>
