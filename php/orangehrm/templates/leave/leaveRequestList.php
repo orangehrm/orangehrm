@@ -177,7 +177,7 @@ if ($modifier === "ADMIN") {
  */
 ?>
 <div></div>
-<div id="filterLeavePane" class="outerbox" style="width:800px;">
+<div id="filterLeavePane" class="outerbox" style="width:870px;">
     <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
     <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
             $message  = $_GET['message'];
@@ -204,14 +204,11 @@ if ($modifier === "ADMIN") {
   <span><input name="txtToDate" type="text" id="txtToDate" size="11" value="<?php echo $toDate;?>" />&nbsp;
   <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span></td>
   <td>
-    <input type="submit" class="searchbutton" id="Search"
-        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        title="<?php echo $lang_Common_Search;?>"
-        value="<?php echo $lang_Common_Search;?>" />
+    <input type="submit" class="searchbutton" id="Search" onmouseover="moverButton(this);" onmouseout="moutButton(this);"  title="<?php echo $lang_Common_Search;?>"
+        value="<?php echo $lang_Common_Search;?>" style="fl" />
   </td>
   <td></td>
   </tr>
-
   <tr>
   <td></td>
   <td><strong><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</strong></td>
