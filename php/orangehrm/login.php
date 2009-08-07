@@ -236,7 +236,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 		var myDate = new Date();
 		var offset = (-1)*myDate.getTimezoneOffset()/60;
-		
+
 		return offset;
 
 	}
@@ -414,7 +414,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5-beta.12 &copy; OrangeHRM Inc. 2005 - 2009 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5-beta.13 &copy; OrangeHRM Inc. 2005 - 2009 All rights reserved.</td>
 </tr>
 </table>
 
