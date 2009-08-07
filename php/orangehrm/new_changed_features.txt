@@ -1,3 +1,25 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.13
+	Bug Fixes
+	---------
+	2828796 - Jobs.php - Title of the job goes to the second line
+	2080505 - Leave: Work shift changes doesn't affect to applied leaves
+	2830123 - List of remaining image buttons in OrangeHRM 
+	2832974 - Leave List page, UI button misalignment in IE
+	2833552 - supervisor cannot see Employee Leave summery menu
+	2059476 - Recruitment: Email issue with ' marks
+	2831788 - Report Mod:'DeleteAll' is not working
+	2830142 - Implement back button in PIM employee info page
+	2688227 - System allow to add duplicate values under following menus
+	2811969 - Orange installer will drop the database if it has data
+	2810123 - Cannot download & view the attached resumes
+	2811333 - PIM->Employee List The Add & Delete Button should be hidden for supervisors
+	2819498 - mysql error given when try to save project without activity
+	2827871 - Recruitment->Applicant->Detail - Can't download the attached
+	1936614 - HSP-alpha.4:Employee HSP Summery->"Save as PDF",extra window
+	2825213 - Employee image visible in report to under PIM
+	2832980 - Employee Timesheet menu is missing for supervisor
+	1879947 - Print Timesheets: cannot select All
+
 New & Changed Features for OrangeHRM ver 2.5-beta.12
 	Bug Fixes
 	---------
