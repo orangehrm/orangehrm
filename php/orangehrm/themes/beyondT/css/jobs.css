@@ -18,9 +18,9 @@
  */
 
 /* This CSS file is used for styling job vacancy related public pages
- * i.e. Job vacancy list page and job application page, which are 
+ * i.e. Job vacancy list page and job application page, which are
  * Visible outside of OrangeHRM to people who have not logged into OrangeHRM.
- * 
+ *
  * These pages will possibly be integrated with a company website and will need
  * to be styled to match that.
  */
@@ -41,7 +41,6 @@ div.jobHeading {
 div.jobHeading span.jobTitle {
     display:block;
     float:left;
-    width:200px;
     font-size:1.5em;
 }
 
@@ -61,7 +60,7 @@ div.jobDetails div.jobDescription {
 }
 
 div.jobDetails input.applyButton {
-    
+
 }
 
 div.jobHeading a {
@@ -71,7 +70,7 @@ div.jobHeading a {
     padding-top: 0.25em;
     padding-bottom: 0.25em;
     padding-left:10px;
-    padding-right:10px;        
+    padding-right:10px;
 }
 
 div.jobHeading a:focus {
@@ -89,7 +88,7 @@ div.odd a.collapsed {
     background: white url(../../themes/orange/icons/collapsed.gif) no-repeat scroll 98% 50%;
 }
 
-div.even a.collapsed {    
+div.even a.collapsed {
     background: #EEEEEE url(../../themes/orange/icons/collapsed.gif) no-repeat scroll 98% 50%;
 }
 
@@ -97,7 +96,7 @@ div.odd a.expanded {
     background: #d3c5b6 url(../../themes/orange/icons/expanded.gif) no-repeat scroll 98% 50%;
 }
 
-div.even a.expanded {    
+div.even a.expanded {
     background: #d3c5b6 url(../../themes/orange/icons/expanded.gif) no-repeat scroll 98% 50%;
 }
 
@@ -117,13 +116,13 @@ div.novacancies {
 div.actionbar {
     width: 100%;
     display:block;
-    border-bottom: 1px solid #FAD163; 
-    text-align:right;   
+    border-bottom: 1px solid #FAD163;
+    text-align:right;
 }
 
 div.actionbar a {
     margin: 11px 5px 5px 5px;
-    padding-right: 10px;    
+    padding-right: 10px;
 }
 
 div.applydiv {
@@ -131,10 +130,10 @@ div.applydiv {
     width:auto;
     height:auto;
     margin:3px 5px 5px 2px;
-    padding: 2px 0;   
+    padding: 2px 0;
     display:block;
     float:none;
     border-bottom: 1px solid #FAD163;
 }
-/* Vacancy list styling end */		
+/* Vacancy list styling end */
 

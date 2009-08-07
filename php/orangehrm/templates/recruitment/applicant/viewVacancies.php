@@ -34,13 +34,13 @@ function apply(jobId) {
 
 function showhide(link, row) {
     if (link.className == 'expanded') {
-        link.className = 'collapsed';    
+        link.className = 'collapsed';
         $('details_' + row).style.display = 'none';
-        $('summary_' + row).style.display = 'block';       
+        $('summary_' + row).style.display = 'block';
     } else {
-        link.className = 'expanded';    
+        link.className = 'expanded';
         $('details_' + row).style.display = 'block';
-        $('summary_' + row).style.display = 'none';       
+        $('summary_' + row).style.display = 'none';
     }
 }
 
@@ -59,15 +59,15 @@ function toggleDescriptions(expand) {
         var link = $('link_' + row);
 
         if (expand) {
-            link.className = 'expanded';    
+            link.className = 'expanded';
             $('details_' + row).style.display = 'block';
-            $('summary_' + row).style.display = 'none';       
+            $('summary_' + row).style.display = 'none';
         } else {
-            link.className = 'collapsed';    
+            link.className = 'collapsed';
             $('details_' + row).style.display = 'none';
-            $('summary_' + row).style.display = 'block';               
-        }        
-    }     
+            $('summary_' + row).style.display = 'block';
+        }
+    }
 }
 
 //]]>
@@ -86,43 +86,44 @@ function toggleDescriptions(expand) {
 <div class="formpage3col">
     <div class="outerbox" id="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Recruit_ApplicantVacancyList_Heading;?></h2></div>
-            
-<?php 
-    if (empty($vacancies)) { 
+
+<?php
+    if (empty($vacancies)) {
 ?>
 	   <div class="novacancies"><?php echo $lang_Recruit_Applicant_NoVacanciesFound;?></div>
-<?php 
-    } else {        
+<?php
+    } else {
 ?>
        <div class="actionbar">
             <a id="expandAll" href="#" onclick="expandAll()"><?php echo $lang_Recruit_Applicant_ExpandAll;?></a>
             <a id="collapseAll" href="#" onclick="collapseAll()"><?php echo $lang_Recruit_Applicant_CollapseAll;?></a>
        </div><br class="clear"/>
-<?php        
+<?php
         $row = 0;
         foreach ($vacancies as $vacancy) {
-            
-            $cssClass = ($row%2) ? 'odd' : 'even';            
+
+            $cssClass = ($row%2) ? 'odd' : 'even';
             $row++;
-            
+
             $id = $vacancy->getId();
             $title = htmlspecialchars($vacancy->getJobTitleName());
             $description = htmlspecialchars($vacancy->getDescription());
-            $summary = substr($description, 0, 80) . '...';
+            $summary = substr($description, 0, 125) . '...';
 ?>
-        <div class="jobHeading <?php echo $cssClass;?>">
-            <a href="#" class="collapsed" id="link_<?php echo $row;?>" onclick="showhide(this, <?php echo $row;?>)">
-                <span class="jobTitle"><?php echo $title; ?></span>            
+        <div class="jobHeading <?php echo $cssClass;?>" style="height:36px">
+            <a href="#" class="collapsed" id="link_<?php echo $row;?>" onclick="showhide(this, <?php echo $row;?>)" style="height:30px">
+                <span class="jobTitle" style="width:auto"><?php echo $title; ?></span>
+                <br class="clear" />
                 <span class="jobSummary" id="summary_<?php echo $row;?>"><?php echo $summary;?></span>
             </a>
             <br class="clear"/>
         </div>
-        
+
         <div class="jobDetails <?php echo $cssClass;?>" id="details_<?php echo $row;?>" style="display:none;">
             <div class="jobDescription"><?php echo nl2br($description); ?></div>
             <div class="applydiv">
             <input type="button" class="applybutton"
-                onclick="apply(<?php echo $id; ?>);" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                onclick="apply(<?php echo $id; ?>);" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Apply;?>" />
             </div>
         </div>
@@ -132,20 +133,20 @@ function toggleDescriptions(expand) {
     <div class="<?php echo ($row%2) ? 'odd' : 'even'?>">
     <br class="clear"/>
     </div>
-<?php        
+<?php
     }
 ?>
 
-    
+
 
     </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
-//]]>            
+//]]>
 </script>
-</div>    
+</div>
 </body>
 </html>
