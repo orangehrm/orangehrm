@@ -153,9 +153,6 @@ $broughtForward = $modifier[4];
 	width: 40px;
 }
 
-#paging, #paging a {
-	color:gray;
-}
 
 -->
 </style>
@@ -366,18 +363,15 @@ $broughtForward = $modifier[4];
         </div>
         <div class="noresultsbar"></div>
         <div class="pagingbar">
-        </div>
-    </div>
-    <br class="clear"/>
-
-<div id="paging">
 <?php
 		$commonFunc = new CommonFunctions();
 		$pageStr = $commonFunc->printPageLinks($allRecords , $currentPage);
 		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 		echo $pageStr;
 ?>
-</div>
+        </div>
+    </div>
+    <br class="clear"/>
 
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>

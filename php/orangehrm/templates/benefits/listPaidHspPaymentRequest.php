@@ -49,25 +49,27 @@ function cancelAddPayPeriod() {
 ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
-    </div>    
+    </div>
 <?php } ?>
 
     <div class="actionbar">
         <div class="actionbuttons">
 <?php if ($_SESSION['isAdmin'] == "Yes") { ?>
-<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="cancelAddPayPeriod();">
+<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
+	onmouseout="moutButton(this);" onmouseover="moverButton(this)"
+	onclick="cancelAddPayPeriod();" />
 <?php } ?>
 <?php
 if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 ?>
 <a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $employeeId; ?>&printPdf=1&pdfName=HSP-Expenditures"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
 <?php } ?>
-        </div>              
+        </div>
         <div class="noresultsbar"></div>
         <div class="pagingbar"><?php echo (count($requests) == 0) ? $lang_empview_norecorddisplay : ''; ?></div>
     <br class="clear" />
     </div>
-    <br class="clear" />    
+    <br class="clear" />
 
 <?php if (count($requests) > 0) { ?>
 
@@ -128,7 +130,7 @@ if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

@@ -32,12 +32,6 @@ $statusList = array(
     JobApplication::STATUS_REJECTED => $lang_Recruit_JobApplicationStatus_Rejected
     );
 
-$picDir = "../../themes/{$styleSheet}/pictures/";
-$iconDir = "../../themes/{$styleSheet}/icons/";
-
-$backImg = $picDir . 'btn_back.gif';
-$backImgPressed = $picDir . 'btn_back_02.gif';
-
 $applicationId = $application->getId();
 $resumeName = $application->getResumeName();
 $formAction = 'CentralController.php?recruitcode=Application&action=replaceResume';

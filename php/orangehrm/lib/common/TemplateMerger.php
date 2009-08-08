@@ -34,11 +34,11 @@ class TemplateMerger {
 
 		$this->setObj($obj);
 		$this->setTemplatePath($templatePath);
-        
+
         if (!empty($templateHeader)) {
             $this->setTemplateHeader($baseDir."/".$templateHeader);
         }
-        if (!empty($templateFooter)) {        
+        if (!empty($templateFooter)) {
             $this->setTemplateFooter($baseDir."/".$templateFooter);
         }
 
@@ -129,7 +129,19 @@ class TemplateMerger {
                         $pdf->WriteHTML($html);
                         $pdf->Output($_GET['pdfName'] . '.pdf', 'F');
 
-                        echo "<img onclick=\"history.back();\" src=\"" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif\" onmouseover=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back_02.gif';\" onmouseout=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif';\" title=\"Back\" />";
+						// TODO: Replace this with xhtml
+						echo '<html>' .
+								'<head>' .
+								'<link href="../../themes/' . $_SESSION['styleSheet'] . '/css/style.css" type="text/css" rel="stylesheet" />' .
+								'<style type="text/css">' .
+								'body { margin: 10px; }' .
+								'</style>' .
+								'</head>' .
+								'<body>';
+                        echo '<input type="button" class="backbutton" value="' . $lang_Common_Back . '"' .
+                        		' onclick="history.back();" ' .
+                        		'onmouseover="moverButton(this)" onmouseout="moutButton(this)"  />';
+                        echo '</body></html>';
 
                         echo "<script>window.open('".$_SESSION['WPATH']."/lib/controllers/{$_GET['pdfName']}.pdf');</script>";
                 }

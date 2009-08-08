@@ -40,7 +40,9 @@ $backLink = './CentralController.php?uniqcode=IMP';
 </head>
 <body>
 <h2><?php echo $lang_DataImportStatus_Title; ?><hr/></h2>
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
+	<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
+		onmouseout="moutButton(this)" onmouseover="moverButton(this)"
+		onclick="goBack();" />
 	<br/>
 <?php
 	if ($importStatus->getNumFailed() == 0) {

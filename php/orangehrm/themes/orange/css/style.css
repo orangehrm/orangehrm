@@ -325,6 +325,12 @@ div.pagingbar {
 	display:block;
 	float:right;
 }
+
+div.pagingbar span.inactive {
+	color:gray;
+	font-size:11px;
+	vertical-align:top;
+}
 /* End search page styling */
 
 /* Results table in pim */

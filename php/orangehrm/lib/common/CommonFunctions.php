@@ -106,13 +106,13 @@ class CommonFunctions {
 		if ($noPages > 1) {
 
 			if($currentPage == 1) {
-				$strpagedump .= "<font color='Gray'>#first</font>";
-		    	$strpagedump .= "  ";
-				$strpagedump .= "<font color='Gray'>#previous</font>";
+				$strpagedump .= '<span class="inactive">#first</span>';
+		    	$strpagedump .= '&nbsp;';
+				$strpagedump .= '<span class="inactive">#previous</span>';
 			} else {
-	    		$strpagedump .= "<a href='javascript:chgPage(1);'>#first</a>";
-		    	$strpagedump .= "  ";
-	    		$strpagedump .= "<a href='javascript:prevPage();'>#previous</a>";
+	    		$strpagedump .= '<a href="javascript:chgPage(1);">#first</a>';
+		    	$strpagedump .= '&nbsp;';
+	    		$strpagedump .= '<a href="javascript:prevPage();">#previous</a>';
 			}
 
 	    	$strpagedump .= "  ";
@@ -120,30 +120,30 @@ class CommonFunctions {
 			$lowerLimit = (($currentPage - self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT) <= 0) ? 1 : ($currentPage - self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT);
 			$c = $lowerLimit;
 			while($c < $currentPage) {
-	    		$strpagedump .= "<a href='javascript:chgPage(" .$c. ");'>" .$c. "</a>";
-		    	$strpagedump .= "  ";
+	    		$strpagedump .= '<a href="javascript:chgPage(' . $c . ');">' .$c. '</a>';
+		    	$strpagedump .= '&nbsp;';
 				$c++;
 			}
 
-	    	$strpagedump .= "  ". $currentPage . "  ";
+	    	$strpagedump .= '<span class="inactive">' . $currentPage . '</span> ';
 
 
 			$upperLimit = (($currentPage + self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT) >= $noPages) ? $noPages : ($currentPage + self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT);
 			$c = $currentPage + 1;
 			while($c <=  $upperLimit) {
-	    		$strpagedump .= "<a href='javascript:chgPage(" .$c. ");'>" .$c. "</a>";
-		    	$strpagedump .= "  ";
+	    		$strpagedump .= '<a href="javascript:chgPage(' . $c . ');">' . $c . '</a>';
+		    	$strpagedump .= '&nbsp;';
 			    $c++;
 			}
 
 			if ($currentPage == $noPages) {
-				$strpagedump .= "<font color='Gray'>#next</font>";
-		    	$strpagedump .= "  ";
-				$strpagedump .= "<font color='Gray'>#last</font>";
+				$strpagedump .= '<span class="inactive">#next</span>';
+		    	$strpagedump .= '&nbsp;';
+				$strpagedump .= '<span class="inactive">#last</span>';
 			} else {
-	    		$strpagedump .= "<a href='javascript:nextPage();'>#next</a>";
-		    	$strpagedump .= "  ";
-	    		$strpagedump .= "<a href='javascript:chgPage(" .$noPages. ");'>#last</a>";
+	    		$strpagedump .= '<a href="javascript:nextPage();">#next</a>';
+		    	$strpagedump .= '&nbsp;';
+	    		$strpagedump .= '<a href="javascript:chgPage(' . $noPages . ');">#last</a>';
 			}
 		}
 

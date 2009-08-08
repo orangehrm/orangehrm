@@ -94,7 +94,9 @@ function goBack() {
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php } else { ?>
 <div id="controls">
- 	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
+ 	<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
+ 		onmouseout="moutButton(this);" onmouseover="moverButton(this)"
+		onclick="goBack();" />
 
  	<?php if($_SESSION['isAdmin']=='Yes') {?>
  	<img id="btnAdd" title="Add" onClick="edit();"
@@ -159,7 +161,7 @@ if ($_SESSION['printBenefits'] == "enabled") {
 					<td class="<?php echo $rowStyle; ?>">
 						<input  type="hidden" value="<?php echo $summary[$i]['hsp_id']; ?>"
 								id="txtHspId[<?php echo $i; ?>]" name="txtHspId[]" />
-		
+
 						<input  type="hidden" value="<?php echo $summary[$i]['emp_number']; ?>"
 								id="txtEmployeeId[<?php echo $i; ?>]" name="txtEmployeeId[]" />
 					</td>

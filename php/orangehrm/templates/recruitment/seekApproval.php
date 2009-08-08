@@ -25,11 +25,6 @@ $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
 $action = JobApplication::ACTION_SEEK_APPROVAL;
 $formAction = $baseURL . '&action=' . $action;
 
-$picDir = "../../themes/{$styleSheet}/pictures/";
-$iconDir = "../../themes/{$styleSheet}/icons/";
-
-$backImg = $picDir . 'btn_back.gif';
-$backImgPressed = $picDir . 'btn_back_02.gif';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
