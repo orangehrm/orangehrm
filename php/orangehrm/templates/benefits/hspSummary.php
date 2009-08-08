@@ -408,7 +408,17 @@ if (isset($successMessage)) {  ?>
 </table>
 </form>
 <!-- Search form ends -->
+<div class="pagingbar">
+<?php
+if (!isset($oneEmployee)) {
+	$commonFunc = new CommonFunctions();
+	$pageStr = $commonFunc->printPageLinks($records[4], $records[3], 50);
+	$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 
+	echo $pageStr;
+}
+?>
+</div><br class="clear" />
 <!-- Summary form begins -->
 <form name="hspFullSummary" id="hspFullSummary" action="" method="post">
 <input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
@@ -595,23 +605,7 @@ if (($i%2) == 0) {
 </table>
 </form>
 <!-- Summary form ends -->
-<table width="750">
-<!-- Paging begins -->
-<tr>
-<td class="paging" height="40">
-<?php
-if (!isset($oneEmployee)) {
-	$commonFunc = new CommonFunctions();
-	$pageStr = $commonFunc->printPageLinks($records[4], $records[3], 50);
-	$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 
-	echo $pageStr;
-}
-?>
-</td>
-</tr>
-<!-- Paging ends -->
-</table>
 <?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 <script type="text/javascript">
 YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
