@@ -347,8 +347,6 @@ $broughtForward = $modifier[4];
     <?php } if (!$copyQuota && $broughtForward) { ?>
         <a href="javascript:actCopyLeaveBroughtForward()"><?php echo $lang_Leave_CopyLeaveBroughtForwardFromLastYear; ?></a>
     <?php } ?>
-
-
 <?php
         }else if($auth === 'supervisor'){
 ?>
