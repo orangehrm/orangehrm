@@ -981,14 +981,17 @@ function resetForm() {
 	<?php
 
 	$empId = isset ($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : false;
-
+	
+	
 	if ($empId) {
 		$empId = $empInfoObj->fetchEmployeeId($empId);
+		$employeeName = $empInfoObj->getFullName($empId, true);
 		if (!$empId) {
 			$empId = $criteriaData['EMPNO'][0];
 		}
 	} else {
 		$empId = "";
+		$employeeName = "";
 	}
 	?>
 	  <select name="cmbId" onchange="disableEmployeeId();" disabled="disabled" class="formSelect">
@@ -996,7 +999,7 @@ function resetForm() {
 		<option value="1" <?php echo ($empId == "")?"":"selected='selected'"; ?> ><?php echo $lang_Leave_Common_Select;?> --></option>
 	  </select>
 
-	<input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly="readonly" name="cmbRepEmpID" value="<?php echo $empId;?>" class="formInputText" />
+	<input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly="readonly" name="cmbRepEmpID" value="<?php echo $employeeName;?>" class="formInputText" />
 	<input type="hidden" readonly="readonly" name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   />
 	<input class="empPopupButton" type="button" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> name="empPop" value=".."
 	    onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>/>
