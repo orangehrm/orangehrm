@@ -111,7 +111,7 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 		emailFields[0] = 11;
 		var phoneFields = new Array();
 		phoneFields[0] = 9;
-		phoneFields[0] = 10;
+		phoneFields[1] = 10;
 
 		// validate compulsary fields
 		var numCompFields = compFields.length;
@@ -261,7 +261,7 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
         <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"
         	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" />
-        <br class="clear"/>
+        <br class="cleasadsdsr"/>
 
 		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
         <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText"
