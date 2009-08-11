@@ -85,13 +85,13 @@ $rights = $records['rights'];
     }
 
     function checkName() {
-        name = document.DefineLeaveType.txtLeaveTypeName.value;
+        chkName = document.DefineLeaveType.txtLeaveTypeName.value;
         oLink = document.getElementById("messageCell");
 
-        if (isTypeName(name)) {
+        if (isTypeName(chkName)) {
             oLink.innerHTML = "<?php echo $lang_Leave_NAME_IN_USE_ERROR; ?>";
             oLink.className = "error";
-        } else if (isDeletedName(name)) {
+        } else if (isDeletedName(chkName)) {
             oLink.innerHTML = "<?php echo $lang_Leave_Define_IsDeletedName . ' ' .  $lang_Leave_Define_UndeleteLeaveType .
                 " <a href='javascript:undeleteLeaveType();'>$lang_Leave_Undelete</a>"; ?>";
             oLink.className = "warning";
