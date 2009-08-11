@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Education {
 
-	var $tableName = 'HS_HR_EDUCATION';
+	var $tableName = 'hs_hr_education';
 
 	var $eduId;
 	var $eduUni;

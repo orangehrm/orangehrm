@@ -521,13 +521,13 @@ class Projects {
 	
 	public function filterExistingProjects() {
 		
-		$selectFields[] = '`project_id`'; 
-		$selectFields[] = '`customer_id`';
-		$selectFields[] = '`name`'; 
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`"; 
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
+		$selectFields[] = "`".self::PROJECT_DB_FIELD_NAME."`"; 
 	    $selectTable = self::TABLE_NAME;
 
-        $selectConditions[] = "`customer_id` = '".$this->getCustomerId()."'";	
-        $selectConditions[] = "`name` = '".$this->getProjectName()."'";	       
+        $selectConditions[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`= '".$this->getCustomerId()."'";	
+        $selectConditions[] = "`".self::PROJECT_DB_FIELD_NAME."`= '".$this->getProjectName()."'";       
          
         $sqlBuilder = new SQLQBuilder();
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);

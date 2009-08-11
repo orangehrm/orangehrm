@@ -420,7 +420,7 @@ class MembershipInfo {
 	
 	public function filterExistingMembershipInfo() {
 
-		$tableName = 'HS_HR_MEMBERSHIP';
+		$tableName = 'hs_hr_membership';
 		
 		$selectFields[] ='`membship_code`'; 
 		$selectFields[] ='`membtype_code`'; 

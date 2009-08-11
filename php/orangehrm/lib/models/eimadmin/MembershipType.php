@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class MembershipType {
 
-	var $tableName = 'HS_HR_MEMBERSHIP_TYPE';
+	var $tableName = 'hs_hr_membership_type';
 	var $memId;
 	var $memDesc;
 	var $arrayDispList;

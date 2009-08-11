@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EEOJobCat {
 
-	var $tableName = 'HS_HR_EEC';
+	var $tableName = 'hs_hr_eec';
 	var $eeojobcatId;
 	var $eeojobcatDesc;
 	var $arrayDispList;

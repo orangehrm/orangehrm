@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Licenses {
 
-	var $tableName = 'HS_HR_LICENSES';
+	var $tableName = 'hs_hr_licenses';
 	var $LicensesId;
 	var $LicensesDesc;
 	var $arrayDispList;

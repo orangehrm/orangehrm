@@ -336,11 +336,11 @@ class CustomFields {
 	
 	public function filterExistingCustomFields() {
 
-		$selectFields[] ='`field_num`'; 
-        $selectFields[] = '`name`';  
+		$selectFields[] = self::DB_FIELDS_NUM; 
+        $selectFields[] = self::DB_FIELDS_NAME;
 	    $selectTable = self::TABLE_NAME;
 
-        $selectConditions[] = "`name` = '".$this->getName()."'";	       
+        $selectConditions[] = "`".self::DB_FIELDS_NAME. "` = '".$this->getName()."'";	       
          
         $sqlBuilder = new SQLQBuilder();
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
