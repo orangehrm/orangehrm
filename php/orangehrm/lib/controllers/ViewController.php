@@ -2054,7 +2054,10 @@ class ViewController {
 
 				case 'EMX'  :		$emailConfig = new EmailConfiguration();
 									$emailConfig = $object;
-									$res = $emailConfig->reWriteConf();
+									$res = (bool) $emailConfig->reWriteConf();
+									$testEmail = $emailConfig->getTestEmail();
+									$testEmailType = $emailConfig->getTestEmailType();
+
 									break;
 				case 'ENS'  :		$emailNotifacationConfigs = new EmailNotificationConfiguration($_SESSION['user']);
 									$emailNotifacationConfigs = $object;
@@ -2098,10 +2101,16 @@ class ViewController {
 
 					case 'EMX' :
 								$emailConfig = new EmailConfiguration();
-								$testEmail = $emailConfig->getTestEmail();
 								$showMsg = "";
 
-								if (isset($testEmail)) {
+								/*
+								 * $testEmail and $testEmail should be initialized when writing the mailConfig file
+								 * Getting the value for $testEmail should not be from the newlt created EmailConfiguration
+								 * object, since test mail value is not written to the physical file
+								 */
+								if (isset($testEmail) && !empty($testEmail) && isset($testEmailType) && !empty($testEmailType)) {
+									$emailConfig->setTestEmail($testEmail);
+									$emailConfig->setTestEmailType($testEmailType);
 									if ($emailConfig->sendTestEmail()) {
 								 		$showMsg = "TEST_EMAIL_SUCCESS";
 								 	} else {
