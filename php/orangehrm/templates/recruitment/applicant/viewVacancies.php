@@ -106,8 +106,8 @@ function toggleDescriptions(expand) {
             $row++;
 
             $id = $vacancy->getId();
-            $title = htmlspecialchars($vacancy->getJobTitleName());
-            $description = htmlspecialchars($vacancy->getDescription());
+            $title = $vacancy->getJobTitleName();
+            $description = $vacancy->getDescription();
             $summary = substr($description, 0, 125) . '...';
 ?>
         <div class="jobHeading <?php echo $cssClass;?>" style="height:36px">
