@@ -3290,5 +3290,24 @@ class EmpInfo {
 
         return $employeeSearchList;
     }
+    
+    public function cleanCustomFieldData($customFieldIds) {
+		$customFieldsPrefix = 'custom';
+
+		$updatingFields = array();
+		foreach ($customFieldIds as $id) {
+		    $updatingFields[] = "`{$customFieldsPrefix}{$id}` = NULL";
+		}
+		
+		$query = "UPDATE `hs_hr_employee` SET " . implode(',', $updatingFields) . ";";
+		
+		$dbConnection = new DMLFunctions();
+		try {
+			$result = $dbConnection->executeQuery($query);
+			return ((bool) $result);
+		} catch (Exception $e) {
+		    return false;
+		}
+    }
 }
 ?>

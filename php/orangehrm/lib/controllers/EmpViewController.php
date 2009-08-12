@@ -2543,5 +2543,15 @@ class EmpViewController {
 
             return $result;
        }
+       
+       public function cleanCustomFieldData($params) {
+	       	$eventOccurance = array_shift($params);
+	       	$customFieldIds = $params[0];
+
+			if ($eventOccurance === 'custom_field_delete') {
+				$empInfo = new EmpInfo();
+				$empInfo->cleanCustomFieldData($customFieldIds);
+			}
+       }
 }
 ?>

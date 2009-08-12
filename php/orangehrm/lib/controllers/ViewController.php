@@ -19,6 +19,8 @@
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
+require_once ROOT_PATH . '/lib/common/EventMediator.php';
+
 require_once ROOT_PATH . '/lib/models/eimadmin/Location.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/SalaryGrades.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CurrencyTypes.php';
@@ -372,6 +374,12 @@ class ViewController {
 							try {
 								$this->customFields->deleteFields($arrList[0]);
 								$res = true;
+								
+							    if (is_array($arrList) && count($arrList) > 0) {
+						            $mediator = EventMediator::instance();
+						            $mediator->notify(EventMediator::POST_CUSTOM_FIELD_DELETE_EVENT, array('customFieldIds' => $arrList[0]));
+								}
+								
 							} catch (CustomFieldsException $e) {
 								$res = false;
 							}
