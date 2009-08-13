@@ -78,9 +78,7 @@ if ($locRights['edit']) {
  	function addProject() {
 
 		if (validateFields()) {
-
         	document.frmProject.sqlState.value = "NewRecord";
-        	document.frmProject.submit();
         	return true;
 		}
 
@@ -212,7 +210,7 @@ if ($locRights['edit']) {
 	 */
 	function _matchAutoCompletionFields() {
 		employeeName = $('projAdminName').value;
-	
+
 		for (i = 0; i < employees.length; i++) {
 			if (employees[i] == employeeName) {
 				$('projAdminID').value = ids[i];
@@ -250,8 +248,8 @@ for ($i=0;$i<count($employees);$i++) {
 	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
 	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 }
-?>	
-	
+?>
+
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -441,11 +439,11 @@ for ($i=0;$i<count($employees);$i++) {
             if (document.getElementById && document.createElement) {
                 roundBorder('outerbox');
             }
-            
+
 			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 			   	// Instantiate first JS Array DataSource
 			   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
-		
+
 			   	// Instantiate AutoComplete for projAdminName
 			   	this.oAutoComp = new YAHOO.widget.AutoComplete('projAdminName','employeeSearchACContainer', this.oACDS);
 			   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
