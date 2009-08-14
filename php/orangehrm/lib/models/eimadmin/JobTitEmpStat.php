@@ -230,35 +230,48 @@ class JobTitEmpStat {
 	     }
 	}
 
-	public function getAllEmpStats() {
-		$tableName = 'hs_hr_empstat';
+	public function getAllEmpStats($value) {
 
-		$arrFieldList[0] = 'ESTAT_CODE';
-		$arrFieldList[1] = 'ESTAT_NAME';
+                $tableName="`hs_hr_jobtit_empstat` a,`hs_hr_empstat` b";                
+                $arrFieldList[0] = "a.`estat_code`";
+                $arrFieldList[1] = "b.`estat_name`";
 
-		$sqlQString = 'SELECT ' . $arrFieldList[0] . ', ' . $arrFieldList[1] . ' FROM ' . $tableName;
+                $selectConditions[] = "a.`jobtit_code`='{$value}'";
+                $selectConditions[] = "a.`estat_code`=b.`estat_code`";
+                $sqlQString='SELECT ' . $arrFieldList[0] . ',' . $arrFieldList[1] . ' FROM ' . $tableName . ' WHERE '
+                 . $selectConditions[0] . ' AND ' . $selectConditions[1];
 
-		$dbConnection = new DMLFunctions();
-       	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+                $dbConnection = new DMLFunctions();
+                $result = $dbConnection -> executeQuery($sqlQString);
+                $num=$dbConnection->dbObject->numberOfRows($result);
+				
+                if ($num<1) { // if job title already selected
 
+                    $tableName = 'hs_hr_empstat';
+                    $arrFieldList[0] = 'ESTAT_CODE';
+                    $arrFieldList[1] = 'ESTAT_NAME';
+
+                    $sqlQString = 'SELECT ' . $arrFieldList[0] . ', ' . $arrFieldList[1] . ' FROM ' . $tableName;
+                    $result = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+                
+                }
+				
 		$i=0;
 
-		while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		while ($line = $dbConnection->dbObject->getArray($result)) {
 
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
+                    $arrayDispList[$i][0] = $line[0];
+                    $arrayDispList[$i][1] = $line[1];
+                    $i++;
+                }
 
-	    	$i++;
-	     }
+                if (isset($arrayDispList)) {
 
-	     if (isset($arrayDispList)) {
+                    return $arrayDispList;
 
-	       	return $arrayDispList;
-
-	     } else {
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
+                } else {
+	     	
+                }
 	}
 }
 ?>

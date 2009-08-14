@@ -184,7 +184,7 @@ class ViewController {
 							if($cntrl == 'allEmpStat') {
 
 								$jobtit_empstat = new JobTitEmpStat();
-								return $jobtit_empstat->getAllEmpStats();
+								return $jobtit_empstat->getAllEmpStats($value);
 							}
 
 							break;

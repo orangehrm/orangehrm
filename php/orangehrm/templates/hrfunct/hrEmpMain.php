@@ -20,6 +20,7 @@
 //xajax headers
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
@@ -72,9 +73,23 @@ return $response->getXML();
 //}
 
 function fetchJobSpecInfo($value) {
-	$view_controller = new ViewController();
-	$response = new xajaxResponse();
+
+   $jobTitle=new JobTitle();
+   $status=$jobTitle->getJobStatusFromTitle($value);
+
+   $tmp=$status[0];
+   $status[0]=array(0=>'',1=>'0',2=>'--- Select ---'); // get the select option at top
+   $status[]=$tmp;
+
+   $view_controller = new ViewController();
+   $response = new xajaxResponse();
+
+   $xajaxFiller = new xajaxElementFiller();
+
+   $objResponse = $xajaxFiller->cmbFillerById($response,$status,1,'frmEmp.empstatpp','cmbType');
+
     $jobSpec = $view_controller->getJobSpecForJob($value);
+
     if (empty($jobSpec)) {
         $jobSpecName = '';
         $jobSpecDuties = '';
@@ -85,8 +100,8 @@ function fetchJobSpecInfo($value) {
 
     $response->addAssign('jobSpecName','innerHTML', $jobSpecName);
     $response->addAssign('jobSpecDuties','innerHTML', $jobSpecDuties);
-
     $response->addAssign('status','innerHTML','');
+
 return $response->getXML();
 }
 

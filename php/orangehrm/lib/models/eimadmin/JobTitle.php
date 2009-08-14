@@ -346,6 +346,61 @@ class JobTitle {
 
 	}
 
+        public function getJobStatusFromTitle($getID){
+
+            $this->getID = $getID;
+			
+            if ($this->getID=='0') {                  // if clicked on select
+
+                $selectTable = "`hs_hr_empstat` a";
+                $arrFieldList[0] = "a.`estat_code`";
+                $arrFieldList[1] = "a.`estat_code`";
+                $arrFieldList[2] = "a.`estat_name`";
+                $selectConditions=null;
+                
+            } else {
+
+                $selectTable = "`hs_hr_jobtit_empstat` a,`hs_hr_empstat` b";
+                $arrFieldList[0] = "a.`jobtit_code`";
+                $arrFieldList[1] = "a.`estat_code`";
+                $arrFieldList[2] = "b.`estat_name`";
+
+                $selectConditions[] = "a.`jobtit_code`='{$this->getID}'";
+                $selectConditions[] = "a.`estat_code`=b.`estat_code`";
+            }           
+
+            $sql_builder = new SQLQBuilder();
+            $sqlQString = $sql_builder->simpleSelect($selectTable, $arrFieldList, $selectConditions);
+
+	    	$dbConnection = new DMLFunctions();
+            $result = $dbConnection -> executeQuery($sqlQString); 
+						
+	    	$i=0;
+			$fieldNum=count($arrFieldList);
+			
+            while ($line = $dbConnection->dbObject->getArray($result)) {
+	    		
+				for ($c=0;$fieldNum> $c ; $c++){
+                            $arrayDispList[$i][$c] = $line[$c];
+                }
+	    		$i++;
+            }
+
+            if (isset($arrayDispList)) {
+
+				return $arrayDispList;
+
+			} else {
+
+				$arrayDispList = '';
+				return $arrayDispList;
+
+			}
+           
+            return $arrayDispList;
+
+        }
+
 }
 
 ?>

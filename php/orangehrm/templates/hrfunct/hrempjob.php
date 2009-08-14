@@ -332,6 +332,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	<br class="clear" />
 
 	<label for="cmbType"><?php echo $lang_hremp_EmpStatus; ?></label>
+        <div id="empstatpp">
 	<select class="formSelect" name="cmbType" id="cmbType" <?php echo $disabled; ?> onchange="javascript: cmbTypeChanged();">
 		<option value="0">-- <?php echo $lang_hremp_selempstat?> --</option>
 <?php
@@ -356,6 +357,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 		}
 ?>
 	</select>
+        </div>
 	<br class="clear" />
 
 	<label><?php echo $lang_hremp_jobspec; ?></label>
