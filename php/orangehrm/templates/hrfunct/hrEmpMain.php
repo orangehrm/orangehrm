@@ -73,13 +73,15 @@ return $response->getXML();
 //}
 
 function fetchJobSpecInfo($value) {
+	$lan = new Language();
+	require ($lan->getLangPath("full.php"));
 
    $jobTitle=new JobTitle();
    $status=$jobTitle->getJobStatusFromTitle($value);
 
    $tmp=$status[0];
-   $status[0]=array(0=>'',1=>'0',2=>'--- Select ---'); // get the select option at top
-   $status[]=$tmp;
+   $status[0] = array(0 => '', 1 => '0', 2 => "-- {$lang_hremp_selempstat} --"); // get the select option at top
+   $status[] = $tmp;
 
    $view_controller = new ViewController();
    $response = new xajaxResponse();
@@ -101,6 +103,8 @@ function fetchJobSpecInfo($value) {
     $response->addAssign('jobSpecName','innerHTML', $jobSpecName);
     $response->addAssign('jobSpecDuties','innerHTML', $jobSpecDuties);
     $response->addAssign('status','innerHTML','');
+
+	$response->addScript('reselectEmpStatus();');
 
 return $response->getXML();
 }
@@ -389,7 +393,8 @@ function editEmpMain() {
 		/* form elements disabled only for supervisor mode */
 		if ($supervisorEMPMode) { ?>
 
-			disableArr = new Array(	'cmbRepEmpID',
+			disableArr = new Array(	'cmbType',
+									'cmbRepEmpID',
 									'cmbRepMethod',
 									'cmbRepType',
 									'txtBasSal',

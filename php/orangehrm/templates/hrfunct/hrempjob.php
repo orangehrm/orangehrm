@@ -281,9 +281,28 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
      */
      function onJobTitleChange(value) {
 		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-		//xajax_assEmpStat(value);
 		xajax_fetchJobSpecInfo(value);
      }
+     
+    function reselectEmpStatus() {
+    	empStatusSelectBox = $('cmbType');
+    	jobTitleSelectBox = $('cmbJobTitle');
+    	oldJobTitle = $('hidJobTitle').value;
+    	
+		if (oldEmpStatus != 0 || oldEmpStatus != '') {
+			if (oldJobTitle == jobTitleSelectBox.options[jobTitleSelectBox.selectedIndex].value) {
+			    for (i = 0; i < empStatusSelectBox.options.length; i++) {
+			        if (empStatusSelectBox.options[i].value == oldEmpStatus) {
+			            empStatusSelectBox.selectedIndex = i;
+			            $('hidType').value = oldEmpStatus;
+			            break;
+			        }
+			    }
+			} else {
+			    $('hidType').value = '0';
+			}
+		}
+	}
 
 //--><!]]></script>
 <style type="text/css">
@@ -314,16 +333,19 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	<?php  ?>
 	<select name="cmbJobTitle" id="cmbJobTitle" class="formSelect" <?php echo $disabled; ?> onchange="onJobTitleChange(this.value);">
 		<option value="0">-- <?php echo $lang_hremp_SelectJobTitle; ?> --</option>
-<?php $jobtit = $this->popArr['jobtit'];
+<?php 	$jobtit = $this->popArr['jobtit'];
+		$selectedJobTitle = 0;
 	for ($c=0; $jobtit && count($jobtit)>$c ; $c++)
 		if(isset($this->postArr['cmbJobTitle'])) {
 			if($this->postArr['cmbJobTitle'] == $jobtit[$c][0]) {
   				echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+  				$selectedJobTitle = $jobtit[$c][0];
 			} else {
   				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 			}
 		} elseif($edit1[0][2] == $jobtit[$c][0]) {
 			echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+			$selectedJobTitle = $jobtit[$c][0];
 		} else {
 			echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 		}
@@ -337,15 +359,18 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 		<option value="0">-- <?php echo $lang_hremp_selempstat?> --</option>
 <?php
 	$arrEmpType = $this->popArr['empstatlist'];
+	$selectedEmpStatusValue = 0;
 	for($c=0;count($arrEmpType)>$c;$c++)
 		if(isset($this->postArr['cmbType'])) {
 			if($this->postArr['cmbType']==$arrEmpType[$c][0]) {
 				echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+				$selectedEmpStatusValue = $arrEmpType[$c][0];
 			} else {
 				echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 			}
 		} elseif($edit1[0][1]==$arrEmpType[$c][0]) {
 			echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+			$selectedEmpStatusValue = $arrEmpType[$c][0];
 		} else {
 			echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 		}
@@ -357,6 +382,8 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 		}
 ?>
 	</select>
+	<input type="hidden" name="hidJobTitle" id="hidJobTitle" value="<?php echo $selectedJobTitle; ?>" />
+	<input type="hidden" name="hidType" id="hidType"value="<?php echo $selectedEmpStatusValue; ?>" />
         </div>
 	<br class="clear" />
 
@@ -489,3 +516,7 @@ if (!empty($assignedList)) {
 	<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>
 
 </div>
+
+<script type="text/javascript">
+	var oldEmpStatus = $('hidType').value;
+</script>

@@ -164,7 +164,11 @@ class EXTRACTOR_EmpInfo {
 
 			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 			$this->parent_empinfo -> setEmpJobTitle(trim($postArr['cmbJobTitle']));
-			$this->parent_empinfo -> setEmpStatus(trim($postArr['cmbType']));
+			if (isset($postArr['cmbType'])) {
+				$this->parent_empinfo -> setEmpStatus(trim($postArr['cmbType']));
+			} else {
+			    $this->parent_empinfo -> setEmpStatus(trim($postArr['hidType']));
+			}
 			$this->parent_empinfo -> setEmpEEOCat(trim($postArr['cmbEEOCat']));
 			$this->parent_empinfo -> setEmpLocation(($postArr['cmbLocation']));
 			$this->parent_empinfo -> setEmpJoinedDate(self::_handleEmptyDates($postArr['txtJoinedDate']));
