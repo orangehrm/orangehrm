@@ -59,9 +59,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
         var desc = trim($('txtLanguageInfoDesc').value);
 
-        if (desc == '' || !alpha($('txtLanguageInfoDesc'))) {
+        if (desc == '') {
             err = true;
             msg += "\t- <?php echo $lang_Error_InvalidDescription; ?>\n";
+        } else if (!alpha($('txtLanguageInfoDesc'))) {
+            err = true;
+            msg += "\t- <?php echo $lang_hremplan_NameContainsNonChars; ?>\n";
         }
 
         if (err) {

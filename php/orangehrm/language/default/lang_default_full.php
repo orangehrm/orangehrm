@@ -707,6 +707,7 @@
 	$lang_hremplan_SelectLanguage			= "Select Language";
 	$lang_hremplan_SelectFluency			= "Select Fluency";
 	$lang_hremplan_SelectRating 			= "Select Rating";
+	$lang_hremplan_NameContainsNonChars		= 'Language name can contain only characters';
 
 	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
 
