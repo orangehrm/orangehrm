@@ -1,3 +1,32 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.14
+	Bug Fixes
+	---------
+	2013481 - Recruitment : Zip code accept chars without warning msg
+	2021193 - Report: Selecting an employee gives User ID
+	2000656 - Leave : Undelete leave types caused to open new tab in IE7
+	2835438 - Having capital letters in table names lead to a notice page
+	2833580 - Mail Configuration-> Test mail is not sent by the system
+	2835398 - Job Title with & sign, Display with unnecessary characters
+	2823025 - Old data will remain with newly defined custom fields
+	2836008 - Time Sheet Grid-> Alert message has grammar mistake
+	2835925 - WorkShift Time-Display as decimal & validate again & again
+	2836016 - In Leave List-'Show leave status' label shows in 2 lines
+	1992646 - Admin Add Projects and press enter creates two same items
+	2808880 - All employee statuses are shown in PIM instead of selected
+	2012364 - Time:Supervisor should't be able to change employment state
+	1963016 - Leave : delete specific holiday leads mysql error
+	2825245 - pressing the save button in myleave make leave status cancel
+	2819405 - Admin: language improve the field validation error message
+	2819419 - Edit button remains as edit when pressed ,In Job vacancies 
+	2825866 - List of image buttons need to replace with action buttons 
+	1965104 - Reset button not properly work in IE
+	2021188 - Report:Select the Header check box->delete, should give msg 
+	2012357 - Time:can't search employee by the employment state
+	2021167 - Time:Work shift:Hours per day exceeds 24 hours
+	2013502 - Recruitment : City is not validating in jobs application
+	2714285 - No save successfully msg when Finishing 1st & 2nd interview
+	2820625 - pagination not implemented in Custom Export & Import pages 
+
 New & Changed Features for OrangeHRM ver 2.5-beta.13
 	Bug Fixes
 	---------
