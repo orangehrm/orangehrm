@@ -171,6 +171,37 @@ if ($modifier === "ADMIN") {
 	YAHOO.OrangeHRM.container.init();
 //]]>
 </script>
+<style type="text/css">
+input.checkbox {
+	vertical-align: middle;
+}
+
+input.calendarBtn {
+	float:none;
+	display:inline;
+	width:500px;
+}
+
+input#txtFromDate, input#txtToDate {
+	float:none;
+	display:inline;
+	margin-right: -10px;
+	margin-left: 8px;
+}
+
+label.mainLabel {
+	font-weight:bold;
+	float:none;
+	display:inline-block;
+	width:150px;
+}
+
+label.subLabel {
+	float:none;
+	display:inline;
+	width:auto;
+}
+</style>
 <?php
 /* Following empty div added to prevent problem in IE, where outerbox margin is not used due to
  * iframe added by YAHOO.OrangeHRM.container.init()
@@ -188,66 +219,41 @@ if ($modifier === "ADMIN") {
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
         </div>
     <?php } ?>
-
 <form id="frmFilterLeave" name="frmFilterLeave" method="post"
       onsubmit="return validateSearch();"
       action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $refreshAction; ?>">
-  <table border="0" cellpadding="2" cellspacing="0">
-  <tbody>
-  <tr>
-  <td></td>
-  <td><strong><?php echo $lang_Leave_Leave_list_Period;?></strong></td>
-  <td><?php echo $lang_Leave_Leave_list_From;?>
-  <span><input name="txtFromDate" type="text" id="txtFromDate"  size="11" value="<?php echo $fromDate;?>"/>&nbsp;
-  <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $lang_Leave_Leave_list_To;?>
-  <span><input name="txtToDate" type="text" id="txtToDate" size="11" value="<?php echo $toDate;?>" />&nbsp;
-  <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span></td>
-  <td>
-    
-  </td>
-  <td></td>
-  </tr>
-  <tr>
-  <td></td>
-  <td><strong><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</strong></td>
-  <td nowrap="nowrap" >
-	<?php echo $lang_Leave_Common_All; ?>
-	<input type='checkbox' class='checkbox' name='allCheck' id='allCheck' onclick="toggleAll();"/>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+	<label class="mainLabel"><?php echo $lang_Leave_Leave_list_Period;?></label>
+	<label class="subLabel" for="txtFromDate"><?php echo $lang_Leave_Leave_list_From;?></label>
+	<input name="txtFromDate" type="text" id="txtFromDate"  size="11" value="<?php echo $fromDate;?>" />
+  	<input type="button" value="  " class="calendarBtn" style="float:none;display:inline;" />
+  	<label class="subLabel" for="txtToDate" style="margin-left:30px;"><?php echo $lang_Leave_Leave_list_To;?></label>
+  	<input name="txtToDate" type="text" id="txtToDate" size="11" value="<?php echo $toDate;?>" />
+	<input type="button" value="  " class="calendarBtn" style="float:none;display:inline;" /><br />
+	<label class="mainLabel"><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</label>
+	<label class="subLabel" for="allCheck"><?php echo $lang_Leave_Common_All; ?></label>
+	<input type="checkbox" class="checkbox" name="allCheck" id="allCheck" onclick="toggleAll();"/>
 <?php
 	foreach ($statusArr as $key=>$value) {
-
-		// Don't show multiple status as a check box
+		/* Don't show multiple status as a check box */
 		if ($key == LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES) {
 			continue;
 		}
-
-		$checked = (in_array($key, $leaveStatuses)) ? "checked='checked'" : "";
+		$checked = (in_array($key, $leaveStatuses)) ? 'checked="checked"' : '';
 ?>
-		<?php echo "$value";?>
-		<input type='checkbox' class='checkbox' name='leaveStatus[]' value='<?php echo $key;?>'
-			<?php echo $checked;?> />
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<label class="subLabel" for="<?php echo "leaveStatus_{$key}"; ?>"><?php echo $value;?></label>
+	<input type="checkbox" class="checkbox" name="leaveStatus[]" id="<?php echo "leaveStatus_{$key}"; ?>"
+		value="<?php echo $key;?>" <?php echo $checked;?> />
 <?php
 	}
 ?>
-    </td>
-    <td>
-    <input type="submit" class="searchbutton" id="Search" 
+	&nbsp;&nbsp;
+	<input type="submit" class="searchbutton" id="Search"
     	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         value="<?php echo $lang_Common_Search;?>" />
     <input type="button" class="clearbutton" onclick="resetSearchForm();return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
          title="<?php echo $lang_Common_Reset;?>"
          value="<?php echo $lang_Common_Reset;?>" />
-
-	</td>
-	<td></td>
-	</tr>
-	</tbody>
-	</table>
 </form>
 </div>
 <hr/>
