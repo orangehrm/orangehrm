@@ -172,7 +172,7 @@
 	$lang_Leave_APPROVE_SUCCESS = "Leave Assigned";
 	$lang_Leave_APPROVE_FAILURE = "Leave Assign failed";
 	$lang_Leave_CANCEL_SUCCESS = "Successfully cancelled";
-	$lang_Leave_CHANGE_STATUS_SUCCESS = "Successfully changed the leave status";
+	$lang_Leave_CHANGE_STATUS_SUCCESS = "Successfully changed the leave(s)";
 
 	// Report
 	$lang_Menu_Reports = "Reports";
@@ -265,7 +265,7 @@
 	$lang_Leave_Common_Rejected 			= "Rejected";
 	$lang_Leave_Common_Taken 				= "Taken";
 	$lang_Leave_Common_InvalidStatus 		= "Invalid Status";
-	$lang_Leave_Common_StatusDiffer 		= "Partly Approved";
+	$lang_Leave_Common_StatusDiffer 		= "Partly Approved / Status Differ";
 	$lang_Leave_Common_FullDay 				= "Full Day";
 	$lang_Leave_Common_HalfDayMorning 		= "Half Day / Morning";
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";

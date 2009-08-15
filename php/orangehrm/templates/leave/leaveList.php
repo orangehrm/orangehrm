@@ -47,17 +47,15 @@ if ($modifier === "SUP") {
  $lang_Title = $lang_Leave_Leave_list_Title3;
 }
 
- if ($modifier === "SUP") {
- 	$action = "Leave_ChangeStatus";
- 	$backLink = "Leave_FetchLeaveSupervisor";
- } else if ($modifier === "ADMIN") {
- 	$action = "Leave_ChangeStatus";
- 	$backLink = "Leave_FetchLeaveAdmin";
- } else {
- 	$action = "Leave_CancelLeave";
- 	$backLink = "Leave_FetchLeaveEmployee";
- }
+$action = "Leave_ChangeStatus";
 
+if ($modifier === "SUP") {
+	$backLink = "Leave_FetchLeaveSupervisor";
+} else if ($modifier === "ADMIN") {
+	$backLink = "Leave_FetchLeaveAdmin";
+} else {
+	$backLink = "Leave_FetchLeaveEmployee";
+}
 ?>
 
 <script type="text/javascript">
@@ -86,9 +84,11 @@ if ($modifier === "SUP") {
 	}
 //]]>
 </script>
-<br class="clear" /><br class="clear" />
+
 <div class="outerbox">
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>" onsubmit="return validateLeaveList()">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post"
+	action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>"
+	onsubmit="return validateLeaveList()">
     <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 
     <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -96,9 +96,11 @@ if ($modifier === "SUP") {
             $messageType = CommonFunctions::getCssClassForMessage($message);
             $messageStr = "lang_Leave_" . $message;
     ?>
+    	<?php if (isset($$messageStr)) { ?>
         <div class="messagebar">
-            <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
+            <span class="<?php echo $messageType; ?>"><?php echo $$messageStr; ?></span>
         </div>
+        <?php } ?>
     <?php } ?>
 
 
@@ -155,7 +157,7 @@ if ($modifier === "SUP") {
   <tr>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
-    <td class="<?php echo $cssClass; ?>"><?php 
+    <td class="<?php echo $cssClass; ?>"><?php
    			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveHoliday=> $lang_Leave_Holiday, $record->statusLeaveWeekend=> $lang_Leave_Common_Weekend);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
@@ -191,7 +193,7 @@ if ($modifier === "SUP") {
   							echo $holiday->getDescription();
   						} elseif ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_WEEKEND) {
                             echo $lang_Leave_Common_Weekend;
-  						} 
+  						}
   			?>
   				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
   			<?php }?>

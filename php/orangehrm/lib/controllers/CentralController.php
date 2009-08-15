@@ -1412,7 +1412,8 @@ switch ($moduletype) {
 																						$leaveController->redirect(null, array($url));
 																						break;
 
-													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
+													case 'Leave_CancelLeave' 		:  	// TODO: Check whether this is no loger used, and if so, remove this case
+																						$objs = $leaveExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
 																							foreach ($objs as $obj) {

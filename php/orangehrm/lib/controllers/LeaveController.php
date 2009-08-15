@@ -367,11 +367,11 @@ class LeaveController {
 	}
 
 	private function _viewLeavesAdmin($details) {
-		
+
 		if ($_SESSION['isAdmin'] == 'No') {
 		    die('You are not authorized to view this page');
 		}
-		
+
 		$tmpObj = $this->getObjLeave();
 
 		/* Show only leave with requested statuses, default to approved leave
@@ -932,25 +932,12 @@ class LeaveController {
 			return;
 		}
 
-		if (isset($id)) {
-
-			$objReportTo = new EmpRepTo();
-
-			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
-
-			$subordinate = false;
-
-			for ($i=0; $i < count($subordinates); $i++) {
-				if (in_array($id, $subordinates[$i])) {
-					$subordinate = true;
-					break;
-				}
-			}
-
-			if (!$subordinate) {
-				trigger_error("Unauthorized access", E_USER_NOTICE);
-			}
-		} else if (isset($id) && ($id === $_SESSION['empID'])) {
+		/*
+		 * Removed checking for subordinates since ESS user will also access this method
+		 * to change the leave status (to Cancel) and change comments. (This was implemented
+		 * as the fix to bug 2825245 - pressing the save button in myleave make leave status cancel)
+		 */
+		if (isset($id) && ($id === $_SESSION['empID'])) {
 			trigger_error("Unauthorized access1", E_USER_NOTICE);
 		}
 	}
@@ -1019,7 +1006,7 @@ class LeaveController {
 	}
 
 	public function displayLeaveTypeSummary(){
-		
+
 		if ($_SESSION['isAdmin'] == 'No') {
 		    die('You are not authorized to view this page');
 		}
