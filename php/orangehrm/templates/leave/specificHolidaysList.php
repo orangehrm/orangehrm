@@ -117,29 +117,31 @@ if ($modifier === "SUP") {
  		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
-	
+
 	/**
 	 * If at least one day is unchecked, main check box would be unchecked
 	 */
-	
-	function unCheckMain() {
-	    
-		var allCheck = document.frmDeleteHolidays.allCheck;
-		
-		with (document.frmDeleteHolidays) {
 
-			for (var i=0; i < elements.length; i++) {
-				if (elements[i].type == 'checkbox' && elements[i] != allCheck && elements[i].checked == true) {
-					allCheck.checked = false;
-					return;
+	function unCheckMain() {
+		noOfCheckboxes = 0;
+		noOfCheckedCheckboxes = 0;
+
+		with ($('frmDeleteHolidays')) {
+			for (i = 0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i].name != 'allCheck') {
+					noOfCheckboxes++;
+					if (elements[i].checked == true) {
+						noOfCheckedCheckboxes++;
+					}
+
 				}
 			}
-			
 		}
-	    
+
+		$('allCheck').checked = (noOfCheckboxes == noOfCheckedCheckboxes);
 	}
 
-//]]> 
+//]]>
 </script>
 <div class="outerbox">
 <form id="frmDeleteHolidays" name="frmDeleteHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=">
@@ -159,34 +161,34 @@ if ($modifier === "SUP") {
             <input type="button" class="addbutton" <?php echo $disabled; ?>
                 name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Add;?>" />          
-    
+                value="<?php echo $lang_Common_Add;?>" />
+
               <?php /* Show delete button only if records are available: Begins */
               if (count($records) > 0) {
               ?>
-              	<?php $disabled = ($rights['delete']) ? '' : 'disabled="disabled"'; ?>    
+              	<?php $disabled = ($rights['delete']) ? '' : 'disabled="disabled"'; ?>
                 <input type="button" class="delbutton" onclick="actionDelete(); return false;"
                     name="btnDel" id="btnDel" <?php echo $disabled; ?>
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                    
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Delete;?>" />
               <?php /* Show delete button only if records are available: Ends */
               }
-              ?>                    
-        </div>              
+              ?>
+        </div>
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
     <br class="clear" />
     </div>
     <br class="clear" />
 
-    
+
 <?php /* Show table only if records are available: Begins */
 if (count($records) > 0) {
 ?>
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
-		<td width="50px"><input type="checkbox" name='allCheck' value='' onclick="doHandleAll();" /></td>
+		<td width="50px"><input type="checkbox" name="allCheck" id="allCheck" value="" onclick="doHandleAll();" /></td>
     	<td scope="col"><?php echo $lang_Leave_Common_NameOfHoliday;?></td>
     	<td scope="col"><?php echo $lang_Leave_Common_Date;?></td>
     	<td scope="col"><?php echo $lang_Leave_Common_Length;?></td>
@@ -207,7 +209,10 @@ if (count($records) > 0) {
 
 ?>
   <tr>
-  	<td class="<?php echo $cssClass; ?>"><input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>" onclick="unCheckMain();" /></th>
+  	<td class="<?php echo $cssClass; ?>">
+  		<input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>"
+  			onchange="unCheckMain();" onclick="unCheckMain();" />
+  	</td>
     <td class="<?php echo $cssClass; ?>" style="padding-right: 20px;"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_View_Edit&id=<?php echo $record->getHolidayId(); ?>"><?php echo $record->getDescription(); ?></a></td>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
@@ -238,11 +243,11 @@ if (count($records) > 0) {
 </form>
 <?php   }
 	  ?>
-</div>      
+</div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
