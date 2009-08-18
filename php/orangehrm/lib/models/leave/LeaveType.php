@@ -265,7 +265,7 @@ class LeaveType {
 
     	$selectOrder = "ASC";
 
-    	$selectOrderBy = $selectFields[0];
+    	$selectOrderBy = $selectFields[1];
 
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder, null);
 		//echo $query."\n";

@@ -379,8 +379,12 @@ class MembershipInfo {
 		$arr1[0][1]=$eno;
 		$arr2[0][0]='MEMBTYPE_CODE';
 		$arr2[0][1]="'$typ'";
-
+		
 		$sqlQString = $sql_builder->selectFilter($arr1,$arr2);
+		
+		if(isset($arr2)) {
+			$sqlQString = str_replace("ORDER BY MEMBSHIP_CODE", "ORDER BY MEMBSHIP_NAME", $sqlQString);
+		}
 
 		$dbConnection = new DMLFunctions();
        	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -394,8 +398,8 @@ class MembershipInfo {
 
 	    	$i++;
 	     }
-
-	     if (isset($arrayDispList)) {
+	     	     
+	     if (isset($arrayDispList)) {	     	
 	       	return $arrayDispList;
 	     } else {
 	     	//Handle Exceptions

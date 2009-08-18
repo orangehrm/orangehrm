@@ -253,7 +253,7 @@ class EEOJobCat {
 
 	}
 
-	function getEEOJobCatCodes () {
+	function getEEOJobCatCodes() {
 
 		$sql_builder = new SQLQBuilder();
 		$tableName = 'HS_HR_EEC';
@@ -264,7 +264,7 @@ class EEOJobCat {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$sqlQString = $sql_builder->passResultSetMessage();
+		$sqlQString = $sql_builder->passResultSetMessage(0, '', -1, 1);
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

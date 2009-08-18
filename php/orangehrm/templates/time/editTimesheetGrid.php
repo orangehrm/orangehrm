@@ -38,6 +38,13 @@ if (isset($records['message'])) {
 
 }
 
+function compareConcatenatedName($a, $b){
+    return strcmp($a["name"], $b["name"]);
+}
+
+//sort the array by customer name - project name
+usort($projectsList , "compareConcatenatedName");
+
 ?>
 
 <style type="text/css">

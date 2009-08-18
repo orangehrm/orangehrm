@@ -1576,7 +1576,7 @@ class TimeController {
 		$customerObj = new Customer();
 		$projectObj = new Projects();
 
-		$customers = $customerObj->fetchCustomers();
+		$customers = $customerObj->fetchCustomers(0, '', -1 , 1);
 
 		$projects = $projectObj->fetchProjects();
 
@@ -1762,7 +1762,7 @@ class TimeController {
 
 		$employmentStatusObj = new EmploymentStatus();
 
-		$dataArr[0] = $employmentStatusObj->getListofEmpStat(0, '', -1);
+		$dataArr[0] = $employmentStatusObj->getListofEmpStat(0, '', -1, 1);
 
 		if ($_SESSION['isSupervisor']) {
 			$repObj = new EmpRepTo();

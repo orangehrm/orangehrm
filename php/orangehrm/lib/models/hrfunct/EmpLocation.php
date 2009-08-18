@@ -183,7 +183,11 @@ class EmpLocation {
 
         $selectCondition[] = 'b.' . self::DB_FIELD_EMP_NUMBER . ' IS NULL';
         $sqlBuilder = new SQLQBuilder();
-        $sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectCondition);
+        
+        $sortField = self::FIELD_LOCATION_NAME;
+        $sortOrder = "ASC";
+        
+        $sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectCondition, null, $sortField , $sortOrder );
 
         $locList = array();
 

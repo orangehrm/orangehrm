@@ -329,7 +329,7 @@ class Projects {
 		    $arrSelectConditions[] = "({$subQuery}) > 0";
 		}
 
-		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC');
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[2], 'ASC');
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function

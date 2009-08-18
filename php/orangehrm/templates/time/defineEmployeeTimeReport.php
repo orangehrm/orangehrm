@@ -52,6 +52,29 @@ $customerObj = new Customer();
 $projectObj = new Projects();
 $projectActivityObj = new ProjectActivity();
 
+//create a two-dimensional array to sort the project's dropdown list
+if(isset($projects)) {
+	foreach($projects as $project) {
+		
+		$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+		
+		$projectAndCustomers = array();
+		
+		$projectAndCustomers['concat'] = $customerDet->getCustomerName()." - ".$project->getProjectName();
+		$projectAndCustomers['project'] = $project;
+		$projectAndCustomers['customer'] = $customerDet;
+		
+		$arrayProjectAndCustomers[] = $projectAndCustomers;
+	}
+}
+
+function compareConcatenatedName($a, $b){
+    return strcmp($a["concat"], $b["concat"]);
+}
+
+//sort the array by customer name - project name
+usort($arrayProjectAndCustomers, "compareConcatenatedName");
+
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
@@ -204,17 +227,17 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td ></td>
 			<td >
 				<select id="cmbProject" name="cmbProject" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value);">
-				<?php if (is_array($projects)) { ?>
+				<?php if (is_array($arrayProjectAndCustomers)) { ?>
 						<option value="-1"><?php echo $lang_Time_Common_All;?></option>
-				<?php	foreach ($projects as $project) {
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
-
+				<?php	   for($a = 0;$a <count($arrayProjectAndCustomers); $a++) {
+							$objProject = $arrayProjectAndCustomers[$a]['project'];
+					
 							$selected = "";
-							if (isset($projectId) && ($projectId == $project->getProjectId())) {
+							if (isset($projectId) && ($projectId == $objProject->getProjectId())) {
 								$selected = "selected";
 							}
 				?>
-						<option value="<?php echo $project->getProjectId(); ?>" <?php echo $selected; ?> ><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
+						<option value="<?php echo $objProject->getProjectId(); ?>" <?php echo $selected; ?> ><?php echo $arrayProjectAndCustomers[$a]['concat']; ?></option>
 				<?php 	}
 					} else { ?>
 						<option value="-2">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>

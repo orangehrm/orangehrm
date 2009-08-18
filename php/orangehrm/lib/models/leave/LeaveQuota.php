@@ -399,10 +399,10 @@ class LeaveQuota {
 
 		$joinTypes[1] = "LEFT";
 
-		$selectOrderBy="$arrFields[0], $selectOrderBy";
+		$selectOrderBy = "$arrFields[2], $arrFields[0], $selectOrderBy";
 		$selectOrder = "ASC";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes, $selectOrderBy, $selectOrder);
+		 $query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes, $selectOrderBy, $selectOrder);
 
 		$dbConnection = new DMLFunctions();
 

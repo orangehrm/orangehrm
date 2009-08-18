@@ -336,7 +336,7 @@ class EmpEducation {
 
 		$arr[0][0]='EMP_NUMBER';
 		$arr[0][1]=$id;
-		$sqlQString = $sql_builder->selectFilter($arr,1);
+		$sqlQString = $sql_builder->selectFilter($arr, 1, 1);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();

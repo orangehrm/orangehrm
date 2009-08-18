@@ -419,7 +419,7 @@ class Education {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$sqlQString = $sql_builder->passResultSetMessage();
+		$sqlQString = $sql_builder->passResultSetMessage(0, '', -1, 2);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();

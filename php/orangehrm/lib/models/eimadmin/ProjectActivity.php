@@ -286,7 +286,7 @@ class ProjectActivity {
 		$fields[3] = self::DB_FIELD_DELETED;
 
 		$sqlBuilder = new SQLQBuilder();
-		$sql = $sqlBuilder->simpleSelect(self::TABLE_NAME, $fields, $selectCondition);
+		$sql = $sqlBuilder->simpleSelect(self::TABLE_NAME, $fields, $selectCondition, $fields[1], "ASC");
 
 		$actList = array();
 

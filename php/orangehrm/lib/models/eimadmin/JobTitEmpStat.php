@@ -232,18 +232,23 @@ class JobTitEmpStat {
 
 	public function getAllEmpStats($value) {
 
-                $tableName="`hs_hr_jobtit_empstat` a,`hs_hr_empstat` b";                
-                $arrFieldList[0] = "a.`estat_code`";
-                $arrFieldList[1] = "b.`estat_name`";
+        $tableName="`hs_hr_jobtit_empstat` a,`hs_hr_empstat` b";                
+        $arrFieldList[0] = "a.`estat_code`";
+        $arrFieldList[1] = "b.`estat_name`";
+		
+		$sql_builder = new SQLQBuilder();
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
 
-                $selectConditions[] = "a.`jobtit_code`='{$value}'";
-                $selectConditions[] = "a.`estat_code`=b.`estat_code`";
-                $sqlQString='SELECT ' . $arrFieldList[0] . ',' . $arrFieldList[1] . ' FROM ' . $tableName . ' WHERE '
-                 . $selectConditions[0] . ' AND ' . $selectConditions[1];
+        $selectConditions[] = "a.`jobtit_code`='{$value}'";
+        $selectConditions[] = "a.`estat_code`=b.`estat_code`";
+         $sqlQString='SELECT ' . $arrFieldList[0] . ',' . $arrFieldList[1] . ' FROM ' . $tableName . ' WHERE '
+                 . $selectConditions[0] . ' AND ' . $selectConditions[1] ;
 
-                $dbConnection = new DMLFunctions();
-                $result = $dbConnection -> executeQuery($sqlQString);
-                $num=$dbConnection->dbObject->numberOfRows($result);
+         $dbConnection = new DMLFunctions();
+         $result = $dbConnection -> executeQuery($sqlQString);
+         $num=$dbConnection->dbObject->numberOfRows($result);
 				
                 if ($num<1) { // if job title already selected
 
@@ -251,7 +256,7 @@ class JobTitEmpStat {
                     $arrFieldList[0] = 'ESTAT_CODE';
                     $arrFieldList[1] = 'ESTAT_NAME';
 
-                    $sqlQString = 'SELECT ' . $arrFieldList[0] . ', ' . $arrFieldList[1] . ' FROM ' . $tableName;
+                    $sqlQString = 'SELECT ' . $arrFieldList[0] . ', ' . $arrFieldList[1] . ' FROM ' . $tableName. ' ORDER BY '.$arrFieldList[1]. ' ASC';
                     $result = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
                 
                 }
