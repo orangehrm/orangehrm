@@ -647,7 +647,7 @@ function showPane(paneId) {
 	    pane = allPanes[i];
 	    if (pane != paneId) {
 	    	var paneDiv = $(pane);
-	    	if (paneDiv.className.indexOf('currentpanel') > -1) {
+	    	if (paneDiv!= null && paneDiv.className.indexOf('currentpanel') > -1) {
 	    		paneDiv.className = paneDiv.className.replace(/\scurrentpanel\b/,'');
 	    	}
 
@@ -660,7 +660,7 @@ function showPane(paneId) {
 	}
 
 	var currentPanel = $(paneId);
-	if (currentPanel.className.indexOf('currentpanel') == -1) {
+	if (currentPanel != null && currentPanel.className.indexOf('currentpanel') == -1) {
 		currentPanel.className += ' currentpanel';
 	}
 	var currentLink = $(paneId + 'Link');
