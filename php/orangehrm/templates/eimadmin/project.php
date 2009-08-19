@@ -79,6 +79,7 @@ if ($locRights['edit']) {
 
 		if (validateFields()) {
         	document.frmProject.sqlState.value = "NewRecord";
+        	document.frmProject.submit();
         	return true;
 		}
 
@@ -440,23 +441,25 @@ for ($i=0;$i<count($employees);$i++) {
                 roundBorder('outerbox');
             }
 
-			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-			   	// Instantiate first JS Array DataSource
-			   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
-
-			   	// Instantiate AutoComplete for projAdminName
-			   	this.oAutoComp = new YAHOO.widget.AutoComplete('projAdminName','employeeSearchACContainer', this.oACDS);
-			   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
-			   	this.oAutoComp.typeAhead = false;
-			   	this.oAutoComp.useShadow = true;
-			   	this.oAutoComp.minQueryLength = 1;
-			   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
-			   	    var sInputValue = YAHOO.util.Dom.get('projAdminName').value;
-			   	    if(sInputValue.length === 0) {
-			   	        var oSelf = this;
-			   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
-			   	    }
-		   	});
+			if ($('projAdminName') != null) {
+				YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+				   	// Instantiate first JS Array DataSource
+				   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+	
+				   	// Instantiate AutoComplete for projAdminName
+				   	this.oAutoComp = new YAHOO.widget.AutoComplete('projAdminName','employeeSearchACContainer', this.oACDS);
+				   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+				   	this.oAutoComp.typeAhead = false;
+				   	this.oAutoComp.useShadow = true;
+				   	this.oAutoComp.minQueryLength = 1;
+				   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+				   	    var sInputValue = YAHOO.util.Dom.get('projAdminName').value;
+				   	    if(sInputValue.length === 0) {
+				   	        var oSelf = this;
+				   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+				   	    }
+			   	});
+			}
 		}
         //]]>
         </script>
