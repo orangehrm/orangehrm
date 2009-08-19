@@ -36,14 +36,16 @@ if(isset($projects)) {
 		
 		$arrayProjectAndCustomers[] = $projectAndCustomers;
 	}
+	
+	//sort the array by customer name - project name
+	usort($arrayProjectAndCustomers, "compareConcatenatedName");
 }
 
 function compareConcatenatedName($a, $b){
     return strcmp($a["concat"], $b["concat"]);
 }
 
-//sort the array by customer name - project name
-usort($arrayProjectAndCustomers, "compareConcatenatedName");
+
 ?>
 
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -191,7 +193,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 			<td ></td>
 			<td >
 				<select id="cmbProject" name="cmbProject" >
-				<?php if (is_array($arrayProjectAndCustomers)) {                        
+				<?php if (isset($arrayProjectAndCustomers) && is_array($arrayProjectAndCustomers)) {                        
 
                           for($a = 0;$a <count($arrayProjectAndCustomers); $a++) {
 							$objProject = $arrayProjectAndCustomers[$a]['project'];
