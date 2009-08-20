@@ -534,6 +534,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($checkStoreTaken->storeLeaveTaken());
 
     }
+    
+    public function testIsLeaveTableEmpty() {
+    	
+    	$result = Leave::isLeaveTableEmpty();
+    	
+    	$this->assertFalse($result);
+    }
 
 }
 

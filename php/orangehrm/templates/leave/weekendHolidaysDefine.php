@@ -50,7 +50,7 @@
 
   	$results = null;
 
-  	for ($i=0; $i<count($records)-1; $i++) {
+  	for ($i=0; $i<7; $i++) {
   		$results[$records[$i]->getDay()] = $records[$i];
   	}
 
@@ -62,7 +62,7 @@
   ?>
     <input type="hidden" name="txtDay[]" value="<?php echo $key; ?>" />
     <span class="formLabel"><?php echo $dayOfTheWeek;?></span>
-    <select name="sltLeaveLength[]" style="width:100px;" class="formSelect">
+    <select name="sltLeaveLength[]" style="width:100px;" class="formSelect" <?php if(!$records['changeWeekends']) echo "disabled='disabled'";  ?>>
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_FULL_DAY; ?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_FULL_DAY)? 'selected="selected"':""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_HALF_DAY;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_HALF_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_WEEKEND;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_WEEKEND)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_Weekend; ?></option>
@@ -72,14 +72,21 @@
   	}
   ?>
 <div class="formbuttons">
+<?php if($records['changeWeekends']) { ?>
     <input type="button" class="savebutton" id="saveBtn"
         onclick="editSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         value="<?php echo $lang_Common_Save;?>" />
     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         value="<?php echo $lang_Common_Reset;?>" />
+<?php } ?>
 </div>
 </form>
+<?php 
+	if(!$records['changeWeekends']) {
+		echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Leave_Weekend_Disabled_Warning);
+	}
+?>
 </div>
 <script type="text/javascript">
 //<![CDATA[

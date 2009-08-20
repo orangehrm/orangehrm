@@ -63,6 +63,14 @@
 			errMes += "\t- <?php echo $lang_Error_InvalidDate; ?>\r\n";
 		}
 
+		var desc = "<?php echo $description; ?>";
+		if (desc) {
+	    	var answer = confirm("<?php echo preg_replace('/#date/', $date, $lang_Leave_Holiday_Edit_Warning); ?>");
+	    	if (!answer){
+	    		return;
+	    	}
+		}
+
 		if (errMes != "") {
 			errMes = "Please correct the following errors to continue\r\n\r\n"+errMes;
 			alert(errMes);

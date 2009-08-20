@@ -523,6 +523,32 @@ class Leave {
 		return $totalLeaveLength;
 	}
 
+	/**
+	 * Checks whether the leave table is empty.
+	 *
+	 * @return bool
+	 *
+	 */
+	public static function isLeaveTableEmpty() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'count(*)';
+		$arrTable = "`hs_hr_leave`";
+
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields);
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+		$count = mysql_fetch_row($result);
+
+		if ($count[0] > 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	protected function _adjustLeaveLength() {
 		$timeOff = $this->_timeOffLength($this->getLeaveDate());
 		$shift = Leave::LEAVE_LENGTH_FULL_DAY;

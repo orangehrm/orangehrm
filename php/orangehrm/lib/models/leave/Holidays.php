@@ -399,6 +399,10 @@ class Holidays {
 
 
     public static function updateHolidaysForLeavesOnCreate($date, $length){
+    	
+    	if ($date <= date('Y-m-d')) {
+    		return true;
+    	}
 
         $dbConnection = new DMLFunctions();
 
@@ -415,9 +419,14 @@ class Holidays {
 
     public static function updateHolidaysForLeavesOnUpdate($date, $length){
 
+        if ($date <= date('Y-m-d')) {
+    		return true;
+    	}
+    	
         $dbConnection = new DMLFunctions();
 
         $approved = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        $pendingApproval = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
         $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
         $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
         $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
@@ -430,17 +439,17 @@ class Holidays {
         $result = $dbConnection -> executeQuery($query);
 
 
-        $query = "UPDATE hs_hr_leave SET leave_status = $approved, leave_length_hours = $lengthFullDay, " .
+        $query = "UPDATE hs_hr_leave SET leave_status = $pendingApproval, leave_length_hours = $lengthFullDay, " .
                  "leave_length_days = $length_days, leave_comments = Null " .
                  "WHERE leave_status = $holiday AND leave_date > CURDATE() " .
                  "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
         $result = $dbConnection -> executeQuery($query);
 
-        $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
-                 "leave_length_days = $length_days, leave_comments = Null " .
-                 "WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
-                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
-        $result = $dbConnection -> executeQuery($query);
+       # $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
+                 #"leave_length_days = $length_days, leave_comments = Null " .
+                 #"WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
+                 #"AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        #$result = $dbConnection -> executeQuery($query);
 
         Weekends::updateWeekendsForLeaves();
     }
@@ -450,21 +459,22 @@ class Holidays {
         $dbConnection = new DMLFunctions();
 
         $approved = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        $pendingApproval = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
         $taken = Leave::LEAVE_STATUS_LEAVE_TAKEN;
         $holiday = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
         $lengthFullDay = Leave::LEAVE_LENGTH_FULL_DAY;
 
-        $query = "UPDATE hs_hr_leave SET leave_status = $approved, leave_length_hours = $lengthFullDay, " .
+        $query = "UPDATE hs_hr_leave SET leave_status = $pendingApproval, leave_length_hours = $lengthFullDay, " .
                  "leave_length_days = 1, leave_comments = Null " .
                  "WHERE leave_status = $holiday AND leave_date > CURDATE() " .
                  "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
         $result = $dbConnection -> executeQuery($query);
 
-        $query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
-                 "leave_length_days = 1, leave_comments = Null " .
-                 "WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
-                 "AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
-        $result = $dbConnection -> executeQuery($query);
+        #$query = "UPDATE hs_hr_leave SET leave_status = $taken, leave_length_hours = $lengthFullDay, " .
+                 #"leave_length_days = 1, leave_comments = Null " .
+                 #"WHERE leave_status = $holiday AND leave_date <= CURDATE()" .
+                 #"AND leave_date NOT IN(SELECT date FROM hs_hr_holidays ) ";
+        #$result = $dbConnection -> executeQuery($query);
 
         Weekends::updateWeekendsForLeaves();
     }

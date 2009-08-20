@@ -1247,7 +1247,8 @@ class LeaveController {
 		}
 
 		$record['rights'] = $_SESSION['localRights'];
-
+		$record['changeWeekends'] = Leave::isLeaveTableEmpty();
+		
 		$template = new TemplateMerger($record, $path);
 
 		$modifier = $edit;
