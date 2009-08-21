@@ -147,6 +147,15 @@ class EmpViewController {
 								return $empbassal->getUnAssCurrCodes($salGrd,$employee);
 							}
 							break;
+			case 'BAS_FOR_PIM' :
+							if($cntrl == 'currency') {
+
+								$empbassal = new EmpBasSalary();
+								$salGrd = $value[0];
+								$employee = $value[1];
+								return $empbassal->getCurrCodes($salGrd);
+							}
+							break;
 
 			case 'EMP' :
 							if($cntrl == 'province') {
@@ -804,7 +813,12 @@ class EmpViewController {
 			if($action == 'ADD')
 				$emppayment->addEmpBasSal();
 			elseif($action == 'EDIT')
-				$emppayment->updateEmpBasSal();
+				if(is_array($object)){
+					$emppayment = new EmpBasSalary();
+					$emppayment->updateEmpBasSal($object);
+				}else{
+					$emppayment->updateEmpBasSal();
+				}
 
 		return;
 		}

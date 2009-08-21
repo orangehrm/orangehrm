@@ -204,30 +204,47 @@ class EmpBasSalary {
 
 	}
 
-	function updateEmpBasSal() {
-
-		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpSalGrdCode() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpCurrCode() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpBasSal() . "'";
-		$arrRecordsList[4] = empty($this->payPeriod) ? "null" : "'". $this->payPeriod . "'";
-
+	function updateEmpBasSal($object =  null) {
+		
 		$tableName = 'hs_hr_emp_basicsalary';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'SAL_GRD_CODE';
-		$arrFieldList[2] = 'CURRENCY_ID';
-		$arrFieldList[3] = 'EBSAL_BASIC_SALARY';
-		$arrFieldList[4] = 'PAYPERIOD_CODE';
-
 		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_update = 'true';
-		$sql_builder->arr_update = $arrFieldList;
-		$sql_builder->arr_updateRecList = $arrRecordsList;
-
-		$sqlQString = $sql_builder->addUpdateRecord1(2);
-
+		
+		if(is_array($object)){
+			
+			$fields[0] = 'emp_number';
+			$fields[1] = 'sal_grd_code';
+			$fields[2] = 'currency_id';
+			$fields[3] = 'ebsal_basic_salary';
+			$fields[4] = 'payperiod_code';
+			
+			$newObject = $object['new'];
+			$values[0] = $newObject->getEmpId();
+			$values[1] = "'". $newObject->getEmpSalGrdCode() . "'";
+			$values[2] = "'". $newObject->getEmpCurrCode() . "'";
+			$values[3] = "'". $newObject->getEmpBasSal() . "'";
+			$values[4] = empty($newObject->payPeriod) ? "null" :$newObject->payPeriod;
+			
+			
+			$oldObject = $object['old'];
+			$updateCondition[] = "SAL_GRD_CODE = '".$oldObject->getEmpSalGrdCode()."'";
+			$updateCondition[] = "CURRENCY_ID = '".$oldObject->getEmpCurrCode()."'";
+			$sqlQString = $sql_builder->simpleUpdate($tableName,$fields,$values,$updateCondition,false);
+		}else{	
+			
+			$sql_builder->table_name = $tableName;
+			
+			$arrRecordsList[0] = "'". $this->getEmpId() . "'";
+			$arrRecordsList[1] = "'". $this->getEmpSalGrdCode() . "'";
+			$arrRecordsList[2] = "'". $this->getEmpCurrCode() . "'";
+			$arrRecordsList[3] = "'". $this->getEmpBasSal() . "'";
+			$arrRecordsList[4] = empty($this->payPeriod) ? "null" : "'". $this->payPeriod . "'";
+			
+			$sql_builder->flg_update = 'true';
+			$sql_builder->arr_update = $arrFieldList;
+			$sql_builder->arr_updateRecList = $arrRecordsList;
+	
+			$sqlQString = $sql_builder->addUpdateRecord1(2);
+		}
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 

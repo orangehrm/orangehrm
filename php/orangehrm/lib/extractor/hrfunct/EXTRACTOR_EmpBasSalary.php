@@ -41,7 +41,17 @@ class EXTRACTOR_EmpBasSalary{
 			if ($payPeriod > 0) {
 				$this->empbassal->setPayPeriod($payPeriod);
 			}
-			return $this->empbassal;
+			if(isset($postArr['oldSalaryGrade']) && isset($postArr['oldCurrency'])){
+				$oldObject = new EmpBasSalary();
+				$oldObject->setEmpSalGrdCode($postArr['oldSalaryGrade']);
+				$oldObject->setEmpCurrCode($postArr['oldCurrency']);
+				$array = array();
+				$array['new'] =  $this->empbassal;
+				$array['old'] = $oldObject;
+				return $array;
+			}else{
+				return $this->empbassal;
+			}
 	}
 
 	function reloadData($postArr) {

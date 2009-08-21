@@ -134,7 +134,7 @@ function getMinMaxCurrency($value, $salGrd) {
 	$temp[0] = $salGrd;
 	$temp[1] = $_GET['id'];
 
-	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
+	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS_FOR_PIM','currency');
 
 	for($c=0; $c < count($currlist);$c++)
 		if(isset($currlist[$c][2]) && $currlist[$c][2] == $value)
@@ -149,15 +149,17 @@ function getMinMaxCurrency($value, $salGrd) {
 		$response->addAssign('divMaxCurrency','innerHTML', '-N/A-');
 
 	} else {
-		$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
-		$response->addAssign('divMinCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][3]));
-		$response->addAssign('txtMaxCurrency','value', $currlist[$c][5]);
-		$response->addAssign('divMaxCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][5]));
+		if(isset($currlist[$c])){
+			$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
+			$response->addAssign('divMinCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][3]));
+			$response->addAssign('txtMaxCurrency','value', $currlist[$c][5]);
+			$response->addAssign('divMaxCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][5]));
+		}
 	}
 return $response->getXML();
 }
 $GLOBALS['lang_hremp_SelectCurrency'] = $lang_hremp_SelectCurrency;
-function getUnAssignedCurrencyList($payGrade) {
+function getUnAssignedCurrencyList($payGrade,$callbackScript = null) {
 	$emp_view_controller = new EmpViewController();
 	$empId = $_GET['id'];
 
@@ -175,6 +177,7 @@ function getUnAssignedCurrencyList($payGrade) {
 	$xajaxFiller->setDefaultOptionName('select_currency');
 	$response = $xajaxFiller->cmbFiller2($response, $currlist, 0, 2, 'frmEmp', 'cmbCurrCode', 0);
 	$response->addAssign('status','innerHTML','');
+	$response->addScript("getUnAssignedCurrencyListCallback('$payGrade')");
 
 	return $response->getXML();
 }

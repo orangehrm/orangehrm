@@ -694,6 +694,7 @@
 
 	$lang_hremp_SelectCurrency				= "Select Currency";
 	$lang_hremp_SelectPayGrade				= "Select Pay Grade";
+	$lang_hremp_Currency_is_already_exist	= 'Currency is already exist';
 
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
 	$lang_hremp_ContractStartDate			= "Contract Start Date";
