@@ -29,7 +29,7 @@ class LeaveRequests extends Leave {
 
 	const LEAVEREQUESTS_LEAVELENGTH_RANGE = 9;
 	const MAX_COMMENT_LENGTH = 256;
-	const LEAVEREQUESTS_MULTIPLESTATUSES = 5;
+	const LEAVEREQUESTS_MULTIPLESTATUSES = 6;
 
 	private $leaveFromDate;
 	private $leaveToDate;

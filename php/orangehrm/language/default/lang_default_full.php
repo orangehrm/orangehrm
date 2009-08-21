@@ -311,6 +311,7 @@
 	$lang_Common_Next 						= "Next";
 
 	$lang_Leave_Common_Weekend 				= "Weekend";
+	$lang_Leave_Common_Holiday				= "Holiday";
 
 	// admin module
 	$lang_Admin_Common_Institute 			= "Institute";
