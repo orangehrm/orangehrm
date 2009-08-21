@@ -79,9 +79,13 @@ function fetchJobSpecInfo($value) {
    $jobTitle=new JobTitle();
    $status=$jobTitle->getJobStatusFromTitle($value);
 
-   $tmp=$status[0];
-   $status[0] = array(0 => '', 1 => '0', 2 => "-- {$lang_hremp_selempstat} --"); // get the select option at top
-   $status[] = $tmp;
+   $stat[]=array(0 => '', 1 => '0', 2 => "-- {$lang_hremp_selempstat} --");
+
+   for( $i=0;$i<count($status);$i++){
+        $stat[]=$status[$i];
+   }
+
+   $status=$stat;
 
    $view_controller = new ViewController();
    $response = new xajaxResponse();
@@ -90,7 +94,7 @@ function fetchJobSpecInfo($value) {
 
    $objResponse = $xajaxFiller->cmbFillerById($response,$status,1,'frmEmp.empstatpp','cmbType');
 
-    $jobSpec = $view_controller->getJobSpecForJob($value);
+   $jobSpec = $view_controller->getJobSpecForJob($value);
 
     if (empty($jobSpec)) {
         $jobSpecName = '';

@@ -885,6 +885,57 @@ class TimeController {
 		return $projectArr;
 	}
 
+        public function fetchIncludingDeletedProjects($includeDeleted) {
+                
+                $lan = new Language();
+                require ($lan->getLangPath("full.php"));
+
+                $projectsObj = new Projects();
+                $customerObj = new Customer();
+                $projectArr[]= array(0=>"-1",1=>"{$lang_Time_Common_All}"); //this is the first element
+
+                if ($includeDeleted == 1) {
+                    $projectsObj->setDeleted(1);
+                    $DeletedProj = $projectsObj->fetchProjects();
+
+                    if (isset($DeletedProj)) {
+                        foreach ($DeletedProj as $DeProj) {
+                            $customerDet = $customerObj->fetchCustomer($DeProj->getCustomerId(), true);
+                            $tmpArr[0] = $DeProj->getProjectId();
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName() . '[' . $lang_Common_Deleted . ']';
+                            $projectArr[] = $tmpArr;                           
+                        }
+                    }
+
+                    $projectsObj->setDeleted(0);
+                    $ActiveProj = $projectsObj->fetchProjects();
+
+                    if (isset($ActiveProj)) {
+                        foreach ($ActiveProj as $DeProj) {
+                            $customerDet = $customerObj->fetchCustomer($DeProj->getCustomerId(), true);
+                            $tmpArr[0] = $DeProj->getProjectId();
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName();
+                            $projectArr[] = $tmpArr;
+                        }
+                    }
+                    
+                } else {
+                    $projectsObj->setDeleted(0);
+                    $ActiveProj = $projectsObj->fetchProjects();
+
+                    if (isset($ActiveProj)) {
+                        foreach ($ActiveProj as $DeProj) {
+                            $customerDet = $customerObj->fetchCustomer($DeProj->getCustomerId(), true);
+                            $tmpArr[0] = $DeProj->getProjectId();
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName();
+                            $projectArr[] = $tmpArr;                           
+                        }
+                    }
+                }
+
+                return $projectArr;
+        }
+
 	public function viewSelectEmployee() {
 
 		if ($_SESSION['isAdmin'] == 'No' && !$_SESSION['isSupervisor']) {
@@ -1577,7 +1628,7 @@ class TimeController {
 		$projectObj = new Projects();
 
 		$customers = $customerObj->fetchCustomers(0, '', -1 , 1);
-
+                $projectObj->setDeleted(0); // choose only not deleted records
 		$projects = $projectObj->fetchProjects();
 
 		$dataArr[0] = $role;

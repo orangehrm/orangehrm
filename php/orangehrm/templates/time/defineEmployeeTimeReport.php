@@ -40,8 +40,29 @@ function populateActivities($projectId) {
 	return $objResponse->getXML();
 }
 
+function getDeletedProjects($val){
+
+    $timeController = new TimeController();
+    $objResponse = new xajaxResponse();
+    $xajaxFiller = new xajaxElementFiller();
+
+     $element="cmbProject";
+
+    if ($val==1) {
+        $projectList=$timeController->fetchIncludingDeletedProjects(1);
+        $Response = $xajaxFiller->cmbFillerById($objResponse,$projectList, 0,'frmReport',$element, 0);
+    } else {
+        $projectList=$timeController->fetchIncludingDeletedProjects(0);
+        $Response = $xajaxFiller->cmbFillerById($objResponse,$projectList, 0,'frmReport',$element, 0);
+    }
+
+    return $objResponse->getXML();
+
+}
+
 $objAjax = new xajax();
 $objAjax->registerFunction('populateActivities');
+$objAjax->registerFunction('getDeletedProjects');
 $objAjax->processRequests();
 
 $role=$records[0];
@@ -76,11 +97,22 @@ function compareConcatenatedName($a, $b){
 }
 
 ?>
+
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
 //<![CDATA[
 var initialAction = "?timecode=Time&action=";
+
+function getProjectlist(check){
+    if (check) {
+        xajax_getDeletedProjects(1);
+    } else {
+        xajax_getDeletedProjects(0);
+
+    }
+
+}
 
 function viewEmployeeTimeReport() {
 	action = "Employee_Report";
@@ -244,7 +276,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 				<?php } ?>
 				</select>
 			</td>
-			<td></td>
+			<td><label><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)"> Show Deleted</label></td>
 		</tr>
 		<tr>
 			<td></td>

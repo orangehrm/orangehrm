@@ -45,13 +45,47 @@ function compareConcatenatedName($a, $b){
     return strcmp($a["concat"], $b["concat"]);
 }
 
+function getDeletedProjects($val){
+
+    $timeController = new TimeController();
+    $objResponse = new xajaxResponse();
+    $xajaxFiller = new xajaxElementFiller();
+
+     $element="cmbProject";
+
+    if ($val==1) {
+        $projectList=$timeController->fetchIncludingDeletedProjects(1);
+        $Response = $xajaxFiller->cmbFillerById($objResponse,$projectList, 0,'frmReport',$element, 0);
+    } else {
+        $projectList=$timeController->fetchIncludingDeletedProjects(0);
+        $Response = $xajaxFiller->cmbFillerById($objResponse,$projectList, 0,'frmReport',$element, 0);
+    }
+
+    return $objResponse->getXML();
+
+}
+
+$objAjax = new xajax();
+$objAjax->registerFunction('getDeletedProjects');
+$objAjax->processRequests();
+
 
 ?>
-
+<?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
 var initialAction = "?timecode=Time&action=";
+
+function getProjectlist(check){
+    if (check) {
+        xajax_getDeletedProjects(1);
+    } else {
+        xajax_getDeletedProjects(0);
+        
+    }
+
+}
 
 function viewProjectReport() {
 	action = "Project_Report";
@@ -214,7 +248,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 				<?php } ?>
 				</select>
 			</td>
-			<td></td>
+                        <td><label id="lblshowDeleted" name="lblshowDeleted"><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)"> Show Deleted</label></td>
 		</tr>
 		<tr>
 			<td></td>

@@ -370,7 +370,7 @@ class JobTitle {
             }           
 
             $sql_builder = new SQLQBuilder();
-            $sqlQString = $sql_builder->simpleSelect($selectTable, $arrFieldList, $selectConditions);
+            $sqlQString = $sql_builder->simpleSelect($selectTable, $arrFieldList, $selectConditions, $arrFieldList[2], 'ASC');
 
 	    	$dbConnection = new DMLFunctions();
             $result = $dbConnection -> executeQuery($sqlQString); 

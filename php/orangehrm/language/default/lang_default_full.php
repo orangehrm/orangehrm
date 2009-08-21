@@ -252,6 +252,7 @@
 	$lang_Common_Back = "Back";
     $lang_Common_Add = "Add";
     $lang_Common_Delete = "Delete";
+    $lang_Common_Deleted = "Deleted";
     $lang_Common_Replace = "Replace";
     $lang_Common_Search = "Search";
     $lang_Common_Clear = "Clear";
