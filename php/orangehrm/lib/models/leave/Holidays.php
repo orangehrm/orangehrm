@@ -419,9 +419,9 @@ class Holidays {
 
     public static function updateHolidaysForLeavesOnUpdate($date, $length){
 
-        if ($date <= date('Y-m-d')) {
-    		return true;
-    	}
+        #if ($date <= date('Y-m-d')) {
+    		#return true;
+    	#}
     	
         $dbConnection = new DMLFunctions();
 
