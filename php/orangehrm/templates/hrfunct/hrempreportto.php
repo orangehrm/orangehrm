@@ -46,38 +46,38 @@ function returnEmpDetail(){
 function addEXTReportTo() {
 
 	if(document.frmEmp.cmbRepType.value=='0') {
-		alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
-		document.frmEmp.cmbRepType.focus();
-		return;
-	}
+	 	alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
+	 	document.frmEmp.cmbRepType.focus();
+	 	return;
+	 }
 
-	if(document.frmEmp.txtRepEmpID.value=='') {
-		alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
-		document.frmEmp.txtRepEmpID.focus();
-		return;
-	}
+	 if(document.frmEmp.txtRepEmpID.value=='') {
+	 	alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
+	 	document.frmEmp.txtRepEmpID.focus();
+	 	return;
+	 }
 
-	if(document.frmEmp.cmbRepMethod.value=='0') {
-		alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
-		document.frmEmp.cmbRepMethod.focus();
-		return;
-	}
+	 if(document.frmEmp.cmbRepMethod.value=='0') {
+	 	alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
+	 	document.frmEmp.cmbRepMethod.focus();
+	 	return;
+	 }
 
-	if(document.frmEmp.cmbRepType.value == 'Supervisor') {
+	 if(document.frmEmp.cmbRepType.value == 'Supervisor') {
 
-	    document.frmEmp.txtSubEmpID.value = document.frmEmp.txtEmpID.value;
-		document.frmEmp.txtSupEmpID.value = document.frmEmp.txtRepEmpID.value;
+	     document.frmEmp.txtSubEmpID.value = document.frmEmp.txtEmpID.value;
+	 	document.frmEmp.txtSupEmpID.value = document.frmEmp.txtRepEmpID.value;
 
-	}
+	 }
 
-	if(document.frmEmp.cmbRepType.value == 'Subordinate') {
-		document.frmEmp.txtSupEmpID.value = document.frmEmp.txtEmpID.value;
-		document.frmEmp.txtSubEmpID.value = document.frmEmp.txtRepEmpID.value;
+	 if(document.frmEmp.cmbRepType.value == 'Subordinate') {
+	 	document.frmEmp.txtSupEmpID.value = document.frmEmp.txtEmpID.value;
+	 	document.frmEmp.txtSubEmpID.value = document.frmEmp.txtRepEmpID.value;
 
-	}
+	 }
 
-  document.frmEmp.reporttoSTAT.value="ADD";
-  qCombo(15);
+   document.frmEmp.reporttoSTAT.value="ADD";
+   qCombo(15);
 }
 
 function editEXTReportTo() {
@@ -140,6 +140,10 @@ function viewSup(sup,rep) {
 	document.frmEmp.pane.value = 15;
 	document.frmEmp.submit();
 }
+	function changeReporter(){
+		document.frmEmp.action = document.frmEmp.action + "&reporterChanged=changed";
+	}
+
 //--><!]]></script>
 <div id="parentPaneReportTo" >
 <?php
@@ -160,15 +164,23 @@ function viewSup(sup,rep) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[0]?>"/>
-    				 <strong><?php echo $arrRepType[0]?></strong></td>
+
+
+
+    				 <td align="left" valign="top"><select disabled="disabled" name='cmbRep' onChange = "changeReporter();" ><strong>
+
+    				 <option selected="selected" value= " <?php echo $lang_hrEmpMain_arrRepType_Supervisor ?> "> <?php echo $lang_hrEmpMain_arrRepType_Supervisor ?> </option>
+    				 <option value= "<?php echo $lang_hrEmpMain_arrRepType_Subordinate ?>"> <?php echo $lang_hrEmpMain_arrRepType_Subordinate ?> </option>
+					</select>
+    				 <input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[0]?>"/>
+
 					</tr>
 					<tr>
-						<td valign="top"><?php echo $lang_empview_employeeid?></td>
+						<td valign="top"><?php echo $lang_empview_employeename?></td>
 <?php						$empsupid =$this->getArr['editIDSup']; ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"/><strong>
-						<?php echo $empInfoObj->fetchEmployeeId($this->getArr['editIDSup']);?>
-						</strong></td>
+						<?php echo $empInfoObj->getFullName($this->getArr['editIDSup']);?>
+					</strong></td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
@@ -204,15 +216,19 @@ function viewSup(sup,rep) {
   	<input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>"/>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
+                      <td><?php echo $lang_hrEmpMain_supervisorsubordinator ?></td>
     				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[1]?>"/>
-    				 <strong><?php echo $arrRepType[1]?></strong></td>
+    				 <select disabled="disabled" name='cmbRep' onChange = "changeReporter();"><strong>
+
+    				 <option selected="selected" value= " <?php echo $lang_hrEmpMain_arrRepType_Subordinate ?> "> <?php echo $lang_hrEmpMain_arrRepType_Subordinate ?> </option>
+    				 <option value= "<?php echo $lang_hrEmpMain_arrRepType_Supervisor ?>"> <?php echo $lang_hrEmpMain_arrRepType_Supervisor ?> </option>
+					</select></td>
 					</tr>
 					<tr>
-						<td valign="top"><?php echo $lang_empview_employeeid; ?></td>
+						<td valign="top"><?php echo $lang_empview_employeename; ?></td>
 						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"/><strong>
-						<?php echo  $empInfoObj->fetchEmployeeId($empsubid); ?>
+						<?php echo  $empInfoObj->getFullName($empsubid); ?>
 						</strong></td>
 					  </tr>
 
@@ -435,5 +451,5 @@ if ($rset != null && $empname != null){ ?>
   </tr>
 </table>
 <?php } ?>
-<?php } ?>
+<?php }?>
 </div>

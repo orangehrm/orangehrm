@@ -1049,7 +1049,7 @@ class EmpInfo {
         $arrFieldList[] = 'EMP_DRI_LICE_NUM';
         $arrFieldList[] = 'EMP_DRI_LICE_EXP_DATE';
         $arrFieldList[] = 'EMP_MILITARY_SERVICE';
-        
+
         $dob = $this->getEmpDOB();
         if (isset($dob)) {
             $arrRecordsList[] = $dob;
@@ -3194,11 +3194,11 @@ class EmpInfo {
         $selectTable = "`" . self :: EMPLOYEE_TABLE_NAME . "`";
         $selectFields[0] = "`" . self :: EMPLOYEE_FIELD_FIRST_NAME . "`";
         $selectFields[1] = "`" . self :: EMPLOYEE_FIELD_LAST_NAME . "`";
-        
+
         if ($withMiddleName) {
         	$selectFields[2] = "`" . self :: EMPLOYEE_FIELD_MIDDLE_NAME . "`";
         }
-        
+
         $selectConditions[0] = "`" . self :: EMPLOYEE_FIELD_EMP_NUMBER . "` = " . $employeeId;
 
         $sqlBuilder = new SQLQBuilder();
@@ -3210,12 +3210,12 @@ class EmpInfo {
         if (mysql_num_rows($result) == 1) {
 
             $row = $dbConnection->dbObject->getArray($result);
-            
+
             if (!$withMiddleName) {
             	 $fullname = $row[0] . " " . $row[1];
             } else {
             	 $fullname = $row[0] . " ".$row[2] ." " . $row[1];
-            }           
+            }
 
             return $fullname;
 
@@ -3290,7 +3290,7 @@ class EmpInfo {
 
         return $employeeSearchList;
     }
-    
+
     public function cleanCustomFieldData($customFieldIds) {
 		$customFieldsPrefix = 'custom';
 
@@ -3298,9 +3298,9 @@ class EmpInfo {
 		foreach ($customFieldIds as $id) {
 		    $updatingFields[] = "`{$customFieldsPrefix}{$id}` = NULL";
 		}
-		
+
 		$query = "UPDATE `hs_hr_employee` SET " . implode(',', $updatingFields) . ";";
-		
+
 		$dbConnection = new DMLFunctions();
 		try {
 			$result = $dbConnection->executeQuery($query);

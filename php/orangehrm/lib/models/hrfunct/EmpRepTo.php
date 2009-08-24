@@ -193,14 +193,19 @@ class EmpRepTo {
 		return $message2;
 	}
 
-	function updateEmpRepTo($supEmpID,$subEmpID,$oldRepMethod,$newRepMethod) {
+	function updateEmpRepTo($supEmpID,$subEmpID,$oldRepMethod,$newRepMethod, $rChanged = null) {
 
-		$sqlQString = "UPDATE hs_hr_emp_reportto SET EREP_SUP_EMP_NUMBER='".$supEmpID."', EREP_SUB_EMP_NUMBER='".$subEmpID."', EREP_REPORTING_MODE='".$newRepMethod."' WHERE EREP_SUP_EMP_NUMBER='".$supEmpID."' AND EREP_SUB_EMP_NUMBER='".$subEmpID."' AND EREP_REPORTING_MODE='".$oldRepMethod."'";
-
+		if($rChanged=="reporterChanged"){
+			$sqlQString = "UPDATE hs_hr_emp_reportto SET EREP_SUP_EMP_NUMBER='".$subEmpID."', EREP_SUB_EMP_NUMBER='".$supEmpID."', EREP_REPORTING_MODE='".$newRepMethod."' WHERE EREP_SUP_EMP_NUMBER='".$supEmpID."' AND EREP_SUB_EMP_NUMBER='".$subEmpID."' AND EREP_REPORTING_MODE='".$oldRepMethod."'";
+		}
+		else{
+			$sqlQString = "UPDATE hs_hr_emp_reportto SET EREP_SUP_EMP_NUMBER='".$supEmpID."', EREP_SUB_EMP_NUMBER='".$subEmpID."', EREP_REPORTING_MODE='".$newRepMethod."' WHERE EREP_SUP_EMP_NUMBER='".$supEmpID."' AND EREP_SUB_EMP_NUMBER='".$subEmpID."' AND EREP_REPORTING_MODE='".$oldRepMethod."'";
+		}
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		return $message2;
+
+	return $message2;
 
 
 	}

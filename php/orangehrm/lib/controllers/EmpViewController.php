@@ -867,7 +867,13 @@ class EmpViewController {
 
 				$emprepto->addEmpRepTo();
 			} else if($action == 'EDIT') {
-				$emprepto->updateEmpRepTo($_POST['txtSupEmpID'],$_POST['txtSubEmpID'],$_POST['oldRepMethod'],$_POST['cmbRepMethod']);
+
+				if(isset($_GET['reporterChanged']) && $_GET['reporterChanged']== 'changed'){
+					$emprepto->updateEmpRepTo($_POST['txtSupEmpID'],$_POST['txtSubEmpID'],$_POST['oldRepMethod'],$_POST['cmbRepMethod'], "reporterChanged" );
+				}
+				else{
+					$emprepto->updateEmpRepTo($_POST['txtSupEmpID'],$_POST['txtSubEmpID'],$_POST['oldRepMethod'],$_POST['cmbRepMethod']);
+				}
 			}
 
 		return;
@@ -2557,7 +2563,7 @@ class EmpViewController {
 
             return $result;
        }
-       
+
        public function cleanCustomFieldData($params) {
 	       	$eventOccurance = array_shift($params);
 	       	$customFieldIds = $params[0];
