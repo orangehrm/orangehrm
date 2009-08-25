@@ -76,6 +76,13 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Medical', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Medicals', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY013', 'Medicalx', 1)");
+
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY014', 'Casual', 1)");
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY015', 'Casual', 1)");
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY016', 'Casual', 1)");
+
+
+        
         UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -90,7 +97,11 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY013'", $this->connection);
-    	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY014'", $this->connection);
+    	 
+         mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY014'", $this->connection);
+         mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY015'", $this->connection);
+         mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY016'", $this->connection);
+
     }
 
    public function testAddLeaveType() {
@@ -116,7 +127,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 
    public function testRetriveLeaveType() {
 
-        $res = $this->classLeaveType->retriveLeaveType("LTY016");
+        $res = $this->classLeaveType->retriveLeaveType("LTY017");
 
         $this->assertEquals($res, null, "Retured non exsistant record ");
    }
@@ -185,17 +196,16 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 
         $res = $this->classLeaveType->fetchLeaveTypes();
 
-
-        //$this->assertEquals(count($res), 3, "Number of records found is not accurate ");
-
-        $expected[0] = array("LTY011", "Medical");
-        $expected[1] = array("LTY012", "Medicals");
-        $expected[2] = array("LTY013", "Medicalx");
+        $expected[] = array("LTY014", "Casual");
+        $expected[] = array("LTY015", "Casual");
+        $expected[] = array("LTY016", "Casual");
+        $expected[] = array("LTY011", "Medical");
+        $expected[] = array("LTY012", "Medicals");
+        $expected[] = array("LTY013", "Medicalx");
 
         for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result 1");
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result 2");
-
+        	$this->assertEquals($expected[$i][0], $res[$i]->getLeaveTypeId(), "Didn't return expected result 1");
+        	$this->assertEquals($expected[$i][1], $res[$i]->getLeaveTypeName(), "Didn't return expected result 2");
         }
     }
 
@@ -227,6 +237,15 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 		// Unavailable leave type name
     	$typeList = $this->classLeaveType->getLeaveTypeWithName("Annual");
     	$this->assertNull($typeList);
+
+                //Chek for same leave type error, checks if its returning only one record
+        $typeList = $this->classLeaveType->getLeaveTypeWithName("Casual");
+        $this->assertEquals(1, count($typeList));
+
+        // test if the most recent levetype is selected
+        $myres=mysql_query("SELECT * FROM `hs_hr_leavetype` WHERE `leave_type_name` = 'Casual' ORDER BY `leave_type_id` DESC LIMIT 0,1", $this->connection);
+        $myarr=mysql_fetch_array($myres);
+        $this->assertEquals('LTY016',$myarr[0]);
 
     }
 

@@ -149,13 +149,19 @@ class LeaveType {
 		$selectFields[1] = '`leave_type_name`';
 		$selectFields[2] = '`available_flag`';
 
+                $selectConditions[0] = "`leave_type_name` = '".$leaveTypeName."'";
+
+                $selectLimit     = '0,1';
+                $selectOrder     = 'DESC';
+                $selectOrderBy   = '`leave_type_id`';
+
 		$selectConditions[0] = "`leave_type_name` = '".$leaveTypeName."'";
 
 		if (!$includeDeleted) {
 			$selectConditions[1] = "`available_flag` = '".$this->availableStatusFlag."'";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, null, null, null);
+                $query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy,  $selectOrder, $selectLimit);
 
 		$dbConnection = new DMLFunctions();
 
