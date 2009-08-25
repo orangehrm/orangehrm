@@ -151,7 +151,7 @@ class LeaveRequests extends Leave {
 	 *
 	 * @return LeaveRequests[][] $leaveArr A 2D array of the leaves
 	 */
-	public function retriveLeaveRequestsSupervisor($supervisorId) {
+	public function retriveLeaveRequestsSupervisor($supervisorId,$leaveStatuses, $fromDate, $toDate) {
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -178,8 +178,9 @@ class LeaveRequests extends Leave {
 
 		$result = $dbConnection -> executeQuery($query);
 
-		$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, Leave::LEAVE_STATUS_LEAVE_APPROVED, Leave::LEAVE_STATUS_LEAVE_REJECTED);
-		$leaveArr = $this->_buildObjArr($result, true, $leaveStatuses);
+		
+		$leaveArr = $this->_buildObjArr($result, true, $leaveStatuses,$fromDate,$toDate);
+		
 
 		return $leaveArr;
 	}

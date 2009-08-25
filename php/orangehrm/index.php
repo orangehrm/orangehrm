@@ -478,7 +478,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 		$subs[] = new MenuItem("assignleave",$lang_Menu_Leave_Assign, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view");
 	}
 	if ($authorizeObj->isSupervisor()) {
-  		$subs[] = new MenuItem("approveLeave", $lang_Menu_Leave_ApproveLeave, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor");
+  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor");
 	}
 	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
 		$subs[] = new MenuItem("leavelist",$lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1");

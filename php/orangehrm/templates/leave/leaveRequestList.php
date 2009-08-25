@@ -38,7 +38,7 @@
 if ($modifier === "ADMIN") {
 	$lang_Title = $lang_Leave_Leave_list_TitleAllEmployees;
 } else if ($modifier === "SUP") {
-	$lang_Title = $lang_Leave_Leave_list_Title1;
+	$lang_Title = $lang_Leave_Leave_list_TitleAllSubordinates;
 } else if ($modifier === "Taken") {
 	$lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
 } else if ($modifier === "MY") {
@@ -79,7 +79,7 @@ function validateLeaveRequestList() {
 <?php
 
 /* Show leave filter form only for admin */
-if ($modifier === "ADMIN") {
+if ($modifier === "ADMIN" || $modifier ==="SUP") {
 
 	$refreshAction = $_GET['action'];
 ?>
@@ -263,7 +263,7 @@ label.subLabel {
 ?>
 
 <div class="outerbox">
-<?php if ($modifier !== "ADMIN") { ?>
+<?php if ($modifier !== "ADMIN" && $modifier !=="SUP") { ?>
 <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
 <?php } ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>" onsubmit="return validateLeaveRequestList()">

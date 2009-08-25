@@ -376,6 +376,7 @@
 	$lang_Leave_Leave_list_Title2 			= "Leave Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";
 	$lang_Leave_Leave_list_Title4 			= "Scheduled Leaves";
+	$lang_Leave_Leave_list_TitleAllSubordinates	= "Leave List (All Subordinates)";
 	$lang_Leave_Leave_list_TitleAllEmployees= "Leave List (All Employees)";
 	$lang_Leave_Leave_list_TitleMyLeaveList = "My Leave List";
 	$lang_Leave_Leave_list_Title5 			= "Taken Leaves";
