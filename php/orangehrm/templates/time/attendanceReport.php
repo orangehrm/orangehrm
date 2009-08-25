@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -330,9 +330,15 @@ echo '</div>';
 
   <tbody>
 
-<?php for ($i=0; $i<$count; $i++) { ?>
+<?php for ($i=0; $i<$count; $i++) { 
 
-    <tr>
+	$className="odd";
+	if (($i%2) == 0) {
+		$className="even";
+	}
+?>
+
+    <tr class="<?php echo $className; ?>">
         <td><?php echo $recordsArr[$i][0]; ?></td>
         <td style="text-align:right;padding-right:80px">
         <?php
@@ -434,11 +440,16 @@ echo '</div>';
 	$outNote = $recordsArr[$i]->getOutNote();
 	$timestampDiff = $recordsArr[$i]->getTimestampDiff();
 
+	$className="odd";
+	if (($i%2) == 0) {
+		$className="even";
+	}
+	
 	if ($records['editMode']) {
 
 	?>
 
-    <tr>
+    <tr class="<?php echo $className;?>">
         <td>
         <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $id; ?>" />
         <input type="text" name="txtNewInDate-<?php echo $i; ?>" id="txtNewInDate-<?php echo $i; ?>" size="10" value="<?php echo $inDate; ?>" />
@@ -472,7 +483,7 @@ echo '</div>';
 
     <?php } else { // If editing is not allowed ?>
 
-    <tr>
+    <tr class="<?php echo $className;?>">
         <td>
         <?php echo $inDate ;?>
         </td>

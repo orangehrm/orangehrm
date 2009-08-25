@@ -43,7 +43,9 @@ function compareConcatenatedName($a, $b){
 }
 
 //sort the array by customer name - project name
-usort($projectsList , "compareConcatenatedName");
+if (is_array($projectsList)) {
+	usort($projectsList , "compareConcatenatedName");
+}
 
 ?>
 
