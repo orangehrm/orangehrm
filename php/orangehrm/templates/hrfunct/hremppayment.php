@@ -60,6 +60,20 @@ qCombo(14);
 
 function editEXTPayment() {
 
+	if(document.frmEmp.cmbCurrCode.value=='0') {
+			alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>!");
+			document.frmEmp.cmbCurrCode.focus();
+			return;
+	}
+
+	var cnt=document.frmEmp.txtBasSal;
+	if(!decimalCurr(cnt)) {
+		alert("<?php echo $lang_Error_FieldShouldBeNumeric; ?>");
+		cnt.focus();
+		return;
+	}
+
+
 	var cnt=document.getElementById('etxtBasSal');
 	if(!decimalCurr(cnt)) {
 		alert("<?php echo $lang_Error_FieldShouldBeNumeric; ?>");
@@ -278,8 +292,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php			}  ?>
        </div>
 <?php } else { ?>
-	<div id="addPanePayments" class="<?php echo ($this->popArr['rsetPayment'] != null)?"addPane":""; ?>" >
-	<input type="text" id="cmbSalaryGrade" name="cmbSalaryGrade" value="<?php echo $this->popArr['salGrd'] ?>">
+	<div id="addPanePayments" class="<?php echo ($this->popArr['rsetPayment'] != null)?"addPane":""; ?>" >	
 				<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_paygrade; ?></td>
@@ -295,7 +308,10 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
     				    			 echo $salgradelist[$c][1];
     				    		}
-    				  		}
+    				  		} ?>
+    				  		<input type="hidden" id="cmbSalaryGrade" name="cmbSalaryGrade" value="<?php echo $this->popArr['salGrd'] ?>">
+    				  		
+<?php 
     				  	}else {
     				  		?>
                             <script type="text/javascript">
