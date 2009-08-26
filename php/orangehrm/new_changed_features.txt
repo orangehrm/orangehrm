@@ -1,3 +1,28 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.15
+	Bug Fixes
+	---------
+	2014044 - 'Job offer' should not depend with int. schdule 
+	2830103 - can't select employee through mouse in IE8 
+	2839409 - Project Manager can't see the Project Report
+	2000664 - Leave : Same Leave Types can be defined : gives a problem. 
+	2082155 - Leave:Supervisor cant see,canceled,rejected leave of subordi. (From community contributor Adeel Khan)
+	2640861 - Attendance Report row's should be highlighted
+	2171396 - PIM: Supervisor name can't be changed
+	2811321 - Projects or Activities deletion may effect to reports 
+	2571323 - Pay Grade and Currency should editable when press the edit b
+	2841672 - Leave on Holidays should be searchable
+	2548843 - Search for Canceled returns Taken leave
+	2832996 - all list in OrangeHRM should show data in alphabetical order
+	2815576 - Leave- Admin assign leave -Error on status bar in IE
+	2021205 - PIM->Salary: Basic Salary not validated when 1currency is in
+	2041262 - PIM: Can exceed salary from the maximum and minimum
+	2831902 - Getting err Page when edu selected& qualification is not.
+	2831864 - data not retrieved: in age,pay grade criteria given
+	2831865 - Data not retrieved when pay grade is given
+	2831866 - Data not retrieved when age and education given
+	2831911 - data not retrieved -All Selection Criteria
+	2792059 - Report -MySql Error when viewing report with criteria pay gr
+
 New & Changed Features for OrangeHRM ver 2.5-beta.14
 	Bug Fixes
 	---------
