@@ -35,8 +35,8 @@ class RecruitmentAuthManager {
      */
     private static $permissions = array(
         JobApplication::STATUS_SUBMITTED => array(
-            self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW),
-            self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW),
+            self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW, JobApplication::ACTION_OFFER_JOB),
+            self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW, JobApplication::ACTION_OFFER_JOB),
             self::ROLE_INTERVIEW1_MANAGER => array(),
             self::ROLE_INTERVIEW2_MANAGER => array(),
             self::ROLE_DIRECTOR => array(),
@@ -46,8 +46,8 @@ class RecruitmentAuthManager {
         ),
         JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED => array(
             JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED => array(
-                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT),
-                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT),
+                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB),
+                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB),
                 self::ROLE_INTERVIEW1_MANAGER => array(JobApplication::ACTION_REJECT),
                 self::ROLE_INTERVIEW2_MANAGER => array(),
                 self::ROLE_DIRECTOR => array(),
@@ -56,8 +56,8 @@ class RecruitmentAuthManager {
                 self::ROLE_OTHER_DIRECTOR => array(),
             ),
             JobApplicationEvent::STATUS_INTERVIEW_FINISHED => array(
-                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW),
-                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW),
+                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW, JobApplication::ACTION_OFFER_JOB),
+                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW, JobApplication::ACTION_OFFER_JOB),
                 self::ROLE_INTERVIEW1_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW),
                 self::ROLE_INTERVIEW2_MANAGER => array(),
                 self::ROLE_DIRECTOR => array(),
@@ -68,8 +68,8 @@ class RecruitmentAuthManager {
         ),
         JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED => array(
             JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED => array(
-                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT),
-                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT),
+                self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB),
+                self::ROLE_HIRING_MANAGER => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB),
                 self::ROLE_INTERVIEW1_MANAGER => array(),
                 self::ROLE_INTERVIEW2_MANAGER => array(JobApplication::ACTION_REJECT),
                 self::ROLE_DIRECTOR => array(),
