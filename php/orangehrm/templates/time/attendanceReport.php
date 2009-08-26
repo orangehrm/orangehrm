@@ -128,8 +128,11 @@ $count = count($recordsArr);
 	?>
 
 	function showAutoSuggestTip(obj) {
+			
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
 			obj.value = '';
 			obj.style.color = '#000000';
+		}
 	}
 
 <?php }  ?>
