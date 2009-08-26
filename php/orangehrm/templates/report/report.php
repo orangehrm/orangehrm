@@ -23,27 +23,57 @@ $lan = new Language();
 require_once ROOT_PATH . '/language/default/lang_default_full.php';
 require_once($lan->getLangPath("full.php"));
 
-$lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
-									'Employee First Name'=>$lang_rep_EmployeeFirstName,
-									'Employee Last Name'=>$lang_rep_EmployeeLastName,
-									'Address'=>$lang_rep_Address,
-									'Telephone'=>$lang_rep_Telephone,
-									'Report to'=>$lang_rep_ReportTo,
-									'Reporting method'=>$lang_rep_ReportingMethod,
-									'Date of Birth'=>$lang_rep_DateOfBirth,
-									'Salary Grade'=>$lang_rep_SalaryGrade,
-									'Employee Status'=>$lang_rep_EmployeeStatus,
-									'Joined Date'=>$lang_rep_JoinedDate,
-									'Job Title'=>$lang_rep_JobTitle,
-									'Qualifications'=>$lang_rep_Qualification,
-									'Year of passing'=>$lang_rep_YearOfPassing,
-									'Sub division'=>$lang_rep_SubDivision,
-									'Languages'=>$lang_rep_Languages,
-									'Skills'=>$lang_rep_Skills,
-									'Contract'=>$lang_rep_Contract,
-									'Work experience'=>$lang_rep_WorkExperience);
+$lang_Template_rep_headName = array(
+		'EMPNO' => $lang_rep_EmployeeNo,
+		'EMPFIRSTNAME' => $lang_rep_EmployeeFirstName,
+		'EMPLASTNAME' => $lang_rep_EmployeeLastName,
+		'ADDRESS1' => $lang_rep_Address,
+		'TELENO' => $lang_rep_Telephone,
+		'AGE' => $lang_rep_AgeGroup,
+		'REPORTTO' => $lang_rep_ReportTo,
+		'REPORTINGMETHOD' => $lang_rep_ReportingMethod,
+		'JOBTITLE' => $lang_rep_JobTitle,
+		'SERPIR' => $lang_rep_ServicePeriod,
+		'SUBDIVISION' => $lang_rep_SubDivision,
+		'QUL' => $lang_rep_Qualification,
+		'YEAROFPASSING' => $lang_rep_YearOfPassing,
+		'EMPSTATUS' => $lang_rep_EmployeeStatus,
+		'PAYGRD' => $lang_rep_SalaryGrade,
+		'LANGUAGES' => $lang_rep_Languages,
+		'SKILLS' => $lang_rep_Skills,
+		'CONTRACT' => $lang_rep_Contract,
+		'WORKEXPERIENCE' => $lang_rep_WorkExperience);
 
 $styleSheet = CommonFunctions::getTheme();
+
+$toBeReplaced = $records['replacements'];
+
+$replacements = array(
+	'REPORTINGMETHOD' => array(
+		$toBeReplaced['directReportingMode'] => $lang_hrEmpMain_Direct,
+		$toBeReplaced['indirectReportingMode'] => $lang_hrEmpMain_Indirect,
+	)
+);
+
+function formatValue($string, $key, $replacements) {
+	if ($string == ReportField::EMPTY_MARKER) {
+	    return $string;
+	}
+	
+	if (array_key_exists($key, $replacements)) {
+	    $string = $replacements[$key][$string];
+	}
+	
+	if ($key === 'AGE' || $key === 'SERPIR') {
+	    $duration = time() - strtotime($string);
+	    $string = (string) floor($duration / (365 * 3600 * 24));
+	} elseif ($key === 'CONTRACT') {
+	    list($start, $end) = explode(' - ', $string);
+	    $string = LocaleUtil::getInstance()->formatDate($start) . ' - ' . LocaleUtil::getInstance()->formatDate($end);
+	}
+	
+    return $string;
+}
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -58,9 +88,13 @@ function goBack() {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">
+<style type="text/css" media="all">
+body {
+    margin:4px 4px 4px 0px;
+}
+
 ul {
-	margin: 0px;
+	margin: 0px 0px 0px 12px;
 	left: -6px;
 	position: relative;
 	top: 0px;
@@ -68,183 +102,87 @@ ul {
     padding-left: 0px;
 }
 
-li{
-	list-style-type: none;
-	vertical-align: middle;
-	margin-top:8px;
+h2 {
+    display:block;
+    text-align:center;
+}
+
+th {
+    text-align:left;
+    vertical-align:top;
+}
+
+td {
+    vertical-align:top;
+    padding: 2px 4px 2px 4px;
+}
+
+li {
+    list-style-type:disc;
 }
 
 </style>
 </head>
 <body>
-<table border="0">
-<tr><td></td>
-<td height="35">
+<div class="navigation">
 	<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
 		onmouseover="moverButton(this)" onmouseout="moutButton(this)"
 		onclick="goBack();" />
-</td>
-</tr>
-<tr><td></td><td>
-	<h2><center><?php echo $lang_rep_Report; ?>: <?php echo $this->repName; ?></center></h2></td>
-</tr>
-<tr><td></td><td>
-		<table border="0" cellpadding="0" cellspacing="0" align="center">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
+</div>
+<h2><?php echo "{$lang_rep_Report}: {$records['reportName']}"; ?></h2>
+<table class="simpleList" style="margin: 8px 8px 8px 8px; min-width: 99%; width: <?php echo count($records['headerNames']) * 10; ?>%;">
+	<thead>
+		<tr>
 <?php
-				$startColumn=0;
-				if (!$empNoField) {
-					$startColumn=1;
-				}
-				$reportingMethod = false;
-				$subDivision = false;
-				$contractDate = false;
-				$jobTitle = false;
-				$qualifications = false;
-				$skills = false;
-				$workExperience = false;
-				$dateFields = array_fill(0, count($this->headName), false);
-
-				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
-				for($i=$startColumn;$i<count($this->headName); $i++){
-					if (isset($lang_Template_rep_headName) && ($lang_Template_rep_headName[$this->headName[$i]])) {
-						$colHead = $lang_Template_rep_headName[$this->headName[$i]];
-					} else {
-						$colHead = $this->headName[$i];
-					}
-					echo "<td valign='top'>" . '<strong>' . $colHead . '</strong>' . '</td>';
-
-					switch ($this->headName[$i]) {
-						case 'Reporting method' : $reportingMethod = $i;
-												  break;
-						case 'Contract' : $contractDate = $i;
-										  break;
-						case 'Qualifications' : $qualifications = $i;
-												break;
-						case 'Sub division' : $subDivision = $i;
-											  $compStructObj = new CompStruct();
-											  $compStructObj->buildAllWorkStations();
-											  break;
-						case 'Job Title' : $jobTitle = $i;
-										   break;
-						case 'Skills' : $skills = $i;
-										break;
-						case 'Work experience' : $workExperience = $i;
-												 break;
-						case 'Date of Birth' : $dateFields[$i] = true;
-												 break;
-						case 'Joined Date' : $dateFields[$i] = true;
-												 break;
-
-					}
-}?>
-
-					</tr>
-
-<?php			$l=0;
-				if (is_array($repDetails )) {
-					foreach ($repDetails as $i=>$employee){
-						$className="odd";
-						if (($l%2) == 0) {
-							$className="even";
-						}
-						$l++;
-				?>
-					<tr valign="top" class="<?php echo $className; ?>">
-<?php					for($j=$startColumn;$j<$columns; $j++) {
-							$tdWidth='auto';
-							switch ($j) {
-								case $contractDate : $tdWidth='130px';
-													 break;
-								case $subDivision : $tdWidth='130px';
-													break;
-								case $jobTitle : $tdWidth='130px';
-												 break;
-								case $qualifications : $tdWidth='130px';
-													   break;
-								case $skills : $tdWidth='180px';
-											   break;
-								case $workExperience : $tdWidth='180px';
-											   		   break;
-							}
-					?>
-						<td>
-					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
-								$last=null; ?>
-								<ul style="height: 90%; width:<?php echo $tdWidth; ?>; clear:both;">
-						<?php
-								$rowHeight=floor(80/count($repDetails[$i][$j]));
-								$colWidth=substr($tdWidth, 0, -2);
-								$charWidth=$colWidth/5;
-
-								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
-									echo "<li style='height: $rowHeight%' >";
-									if (($repDetails[$i][$j][$k] != '')) {
-
-										// Convert date fields
-										if($dateFields[$j]) {
-											$repDetails[$i][$j][$k] = LocaleUtil::getInstance()->formatDate($repDetails[$i][$j][$k]);
-										}
-
-										if ($contractDate && $contractDate == $j) {
-											$dates = explode(" - ", $repDetails[$i][$j][$k]);
-											if (count($dates) == 2) {
-												$startDate = LocaleUtil::getInstance()->formatDate($dates[0]);
-												$endDate = LocaleUtil::getInstance()->formatDate($dates[1]);
-												$repDetails[$i][$j][$k] = $startDate . " - " . $endDate;
-											}
-										}
-
-
-										if ($subDivision && ($subDivision == $j)) {
-											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
-										} else if ($reportingMethod && ($reportingMethod == $j)) {
-											echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j][$k]];
-										} else if ($charWidth > 0){
-											echo wordwrap($repDetails[$i][$j][$k], $charWidth, "<br>", 1);
-										} else {
-											echo $repDetails[$i][$j][$k];
-										}
-										$last = $repDetails[$i][$j][$k];
-									} else {
-										echo '―';
-									}
-									echo "</li>";
-								} ?>
-								</ul>
-					<?php	} else {
-								echo "&nbsp;";
-							}?>
-
-						</td>
-				<?php	}
+	foreach ($records['headerNames'] as $headerName){
+		$isHeaderSet = (isset($lang_Template_rep_headName) && isset($lang_Template_rep_headName[$headerName]));
+		$colHead = ($isHeaderSet) ? $lang_Template_rep_headName[$headerName] : $headerName;
 ?>
-					</tr>
-<?php 			}
+	<th><?php echo $colHead; ?></th>
+<?php
+}
+?>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+$repDetails = $records['arrayDispList'];
+
+if (is_array($repDetails)) {
+	$odd = true;
+	foreach ($repDetails as $key => $records) {
+		$className = ($odd) ? 'odd' : 'even';
+		$odd = !$odd;
+?>
+	<tr>
+<?php foreach ($records as $columnName => $columnValue) { ?>
+    	<td class="<?php echo $className; ?>">
+<?php
+	if (is_array($columnValue)) {
+		$emptyList = true;
+		echo '<ul>';
+		foreach ($columnValue as $item) {
+			if (empty($item) || $item == ReportField::EMPTY_MARKER) {
+				$emptyValueFound = true;
+			    continue;
 			}
+		    echo "<li>" . formatValue($item, $columnName, $replacements) . "</li>\n";
+		    $emptyList = false;
+		}
+		echo '</ul>';
+		echo ($emptyList) ? ReportField::EMPTY_MARKER : '';
+	} else {
+		echo (empty($columnValue)) ? ReportField::EMPTY_MARKER : formatValue($columnValue, $columnName, $replacements);
+	} 
 ?>
-
-
-                   </table></td>
-                    <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-              </td></tr></table>
+    	</td>
+<?php } ?>
+	</tr>
+<?php
+	}
+}
+?>
+	</tbody>
+</table>
 </body>
 </html>

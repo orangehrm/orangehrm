@@ -348,56 +348,61 @@ class RepViewController {
 								$report = new EmpReport();
 								$repgen = new ReportGenerator();
 
-								$form_creator ->popArr['editArr'] = $edit = $report->filterReport($getArr['id']);
-
-								$repgen ->repID = $edit[0][0];
-								$repgen ->repName = $edit[0][1];
-
+								$edit = $report->filterReport($getArr['id']);
+								$repgen ->reportId = $edit[0][0];
+								
 								$criteria = explode('|',$edit[0][2]);
-
-								for($c=0;count($criteria)>$c;$c++) {
+								$criteriaCount = count($criteria);
+								for($c = 0; $criteriaCount > $c; $c++) {
 									$crit_value = explode("=",$criteria[$c]);
 
-									$repgen -> criteria[$crit_value[0]] = '';
-									for($d=1;count($crit_value)>$d;$d++)
-										if($d==count($crit_value)-1)
-											$repgen -> criteria[$crit_value[0]] .= $crit_value[$d];
-										else
-											$repgen -> criteria[$crit_value[0]] .= $crit_value[$d] . "|";
+									$repgen -> setCriteria($crit_value[0], '');
+									
+									$criteriaValueCount = count($crit_value); 	
+									for($d = 1; $criteriaValueCount > $d; $d++) {
+										if($d == count($crit_value) - 1) {
+											$repgen -> setCriteria($crit_value[0], $crit_value[$d], true);
+										} else {
+											$repgen -> setCriteria($crit_value[0], $crit_value[$d]  . "|", true);
+										}
+									}
 								}
 
 								$field = explode('|',$edit[0][3]);
-
-								$empNoField=false;
-								for($c=0;count($field)>$c;$c++) {
-									$repgen->field[$field[$c]] = 1;
+								$fieldCount = count($field);
+								$empNoField = false;
+								for($c = 0; $fieldCount > $c; $c++) {
+									$repgen->setField($field[$c],1);
 									if ($field[$c] == 'EMPNO') {
-										$empNoField=true;
+										$empNoField = true;
 									}
 								}
 
-								$repgen->field['EMPNO'] = 1;
+								$repgen->setField('EMPNO', 1);
 
 								$sqlQ = $repgen->reportQueryBuilder();
-								//echo $sqlQ."<br/>";
+								$arrayDispList = $repgen->buildDisplayList($sqlQ);
+								$employee = array ();
+						        if (is_array($arrayDispList)) {
+						            $employee = current($arrayDispList);
+						        }
 
-								$dbConnection = new DMLFunctions();
-								$message2 = $dbConnection -> executeQuery($sqlQ);
+						        $columns = count($employee);
+						        $rows = count($arrayDispList);
+						        
+						        $objs['reportName'] = $edit[0][1];
+						        $objs['arrayDispList'] = $arrayDispList;
+						        $objs['headerNames'] = $repgen->getHeaders();
+						        $objs['replacements'] = array( // TODO: Prefix index with class name
+						        	'directReportingMode' => EmpRepTo::REPORTING_MODE_DIRECT,
+						        	'indirectReportingMode' => EmpRepTo::REPORTING_MODE_INDIRECT,
+						        );
+						        
+						        $templatePath = '/templates/report/report.php'; 
+						        $template = new TemplateMerger($objs, $templatePath, null, null);
+						        $template->display();
 
-								$i=0;
-								while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-									for ($c=0;count($repgen->field)*2>$c;$c+=2) {
-									   	$arrayDispList[$line[0]][$c/2][$line[$c]] = $line[$c+1];
-									}
-								   	$i++;
-								}
-								//print_r($arrayDispList);
-
-								if (!isset($arrayDispList)) {
-									$arrayDispList = null;
-								}
-								$repgen->reportDisplay($arrayDispList, $empNoField);
-								return;
+						        return;
 
 							break;
 

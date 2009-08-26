@@ -24,6 +24,8 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 class EmpRepTo {
+	const REPORTING_MODE_DIRECT = 1;
+	const REPORTING_MODE_INDIRECT = 2;
 
 	var $tableName = 'HS_HR_EMP_REPORTTO';
 

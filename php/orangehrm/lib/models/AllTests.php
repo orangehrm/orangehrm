@@ -36,6 +36,7 @@ require_once 'hrfunct/AllTests.php';
 require_once 'recruitment/AllTests.php';
 require_once 'benefits/AllTests.php';
 require_once 'benefits/mail/AllTests.php';
+require_once 'report/AllTests.php';
 
 class models_AllTests
 {
@@ -57,6 +58,7 @@ class models_AllTests
         $suite->addTest(models_recruitment_AllTests::suite());
         $suite->addTest(models_benefits_AllTests::suite());
         $suite->addTest(models_benefits_mail_AllTests::suite());
+        $suite->addTest(models_report_AllTests::suite());
 
         return $suite;
     }
