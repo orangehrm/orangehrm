@@ -550,7 +550,8 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 			$subs[] = new MenuItem("employeereports",$lang_Menu_Time_EmployeeReports , "lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define");
 	    }
 
-		if ((($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) && $arrAllRights[TimeM]['view']) {
+	    // && $arrAllRights[TimeM]['view'] - was removed from the condition so that project admins can see the menu
+		if ((($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin'])) {
 			$subs[] = new MenuItem("projectreports",$lang_Menu_Time_ProjectReports, "lib/controllers/CentralController.php?timecode=Time&action=Project_Report_Define");
 		}
 
