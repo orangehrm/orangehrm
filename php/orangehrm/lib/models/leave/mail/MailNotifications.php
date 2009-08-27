@@ -232,10 +232,17 @@ class MailNotifications {
 
 		if (isset($notificationAddresses) && is_array($notificationAddresses)) {
 
-			$logMessage .= "\r\nCC to";
+			if (is_array($this->to)) {
+				$logMessage .= "\r\nCC to";
+			}
 
 			foreach ($notificationAddresses as $cc) {
-					$mailer->addCc($cc);
+					if (is_array($this->to)) {
+						$mailer->addCc($cc);
+					} else {
+						$mailer->addTo($cc);
+						$this->to = array();
+					}
 					$logMessage .= "\r\n".$cc;
 			}
 
