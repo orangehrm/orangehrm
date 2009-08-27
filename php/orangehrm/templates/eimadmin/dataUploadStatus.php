@@ -212,6 +212,9 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 		$('spanProgressPercentage').innerHTML = pecentage + '%';
 	}
 
+    function goBack() {
+        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+    }
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
@@ -235,6 +238,11 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 
 <body>
 <div class="formpage">
+<div class="navigation">
+<input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	value="<?php echo $lang_Common_Back;?>" />
+</div>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo $lang_DataImportStatus_ContinuingDataImport;?></h2></div>
     <h3><?php echo $lang_DataImportStatus_Summary; ?></h3>
