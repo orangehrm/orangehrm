@@ -37,8 +37,6 @@
 
 	$lang_Error_DoYouWantToContinue 				= "Wilt u doorgaan?";
 
-	$lang_Error_PleaseSelectAnEmployee				= "Selecteer een medewerker a.u.b.";
-
 	$lang_Error_ShouldBeNumeric 					= "Moet numeriek zijn";
 	$lang_Error_FollowingErrorsWereFound 			= "De volgende fouten zijn gevonden";
 	$lang_Error_AreYouSureYouWantToDelete 			= "Weet u zeker dat u de gegevens wilt verwijderen";
@@ -103,6 +101,9 @@
 
 	$lang_Error_FieldShouldBeSelected					= "Veld moet geselecteerd zijn";
 	$lang_Error_SelectAtLeastOneCheckBox 				= "Selecteer minimaal een vak";
+
+	$lang_Notice_NoRights	= "Er zijn geen modules met administrator rechten gevonden. Adminstrator rechten voor uw gebruikers groep kunnen " .
+			"zijn ingetrokken of tijdelijk zijn opgeschort.";
 
 	/**
 	 * Menu Items
@@ -255,6 +256,7 @@
 	$lang_Common_Back = "Terug";
     $lang_Common_Add = "Toevoegen";
     $lang_Common_Delete = "Verwijder";
+    $lang_Common_Deleted = "Verwijderd";
     $lang_Common_Replace = "Vervang";
     $lang_Common_Search = "Zoek";
     $lang_Common_Clear = "Leeg";
@@ -307,7 +309,14 @@
 	$lang_Common_IMPORT_FAILURE = "Importeren mislukt";
     $lang_Common_IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE = "Importeren mislukt. Geen schrijfrechten in de tijdelijke directorie";
 
+    // Common navigation
+    $lang_Common_First						= "Eerste";
+    $lang_Common_Last 						= "Laatste";
+    $lang_Common_Previous 					= "Vorige";
+	$lang_Common_Next 						= "Volgende";
+
 	$lang_Leave_Common_Weekend 				= "Weekend";
+	$lang_Leave_Common_Holiday				= "Vakantie";
 
 	// admin module
 	$lang_Admin_Common_Institute 			= "Instituut";
@@ -371,6 +380,7 @@
 	$lang_Leave_Leave_list_Title2 			= "Opgenomen vrije dagen door #employeeName in #dispYear jaar";
 	$lang_Leave_Leave_list_Title3 			= "Lijst van vrije dagen";
 	$lang_Leave_Leave_list_Title4 			= "Toegestane verlofen";
+	$lang_Leave_Leave_list_TitleAllSubordinates	= "Lijst van vrije dagen (alle ondergeschikten)";
 	$lang_Leave_Leave_list_TitleAllEmployees= "Verlof lijst (alle medewerkers)";
 	$lang_Leave_Leave_list_TitleMyLeaveList = "Mijn verlof lijst";
 	$lang_Leave_Leave_list_Title5 			= "Opgenomen verlof";
@@ -391,6 +401,9 @@
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Definieer verlofdagen: Weekend";
 	$lang_Leave_Summary_Deleted_Types_Shown = "Duidt geschrapte verloftypes aan.";
         $lang_Leave_Summary_Deleted_Types_MoreInfo = "Verwijderde verlof types worden hier weergegeven als de medewerker deze in het verleden heeft gebruikt voor verwijdering. Verwijderde verlof types worden bewaard in het systeem maar kunnen niet opnieuw gebruikt worden voor nieuwe verloven.";
+    $lang_Leave_LeaveCommentTooLong			= "Commentaar is te lang. Maximun aantal tekens is %s.";
+    $lang_Leave_Holiday_Edit_Warning = "Alle van toepassing zijnde toekomstige verlofaanvragen voor de datum - #date , worden gereset naar de status in afwachting van goedkeuring. Zeker weten?";
+    $lang_Leave_Weekend_Disabled_Warning = " #star Het totaal aantal van toepassing zijn verlofaanvragen zou nul moeten zijn om de weekends te veranderen.";
 
 	$lang_Leave_Holiday = "Vakantie";
 	$lang_Leave_NoOfDays = "Aantal dagen";
@@ -587,6 +600,11 @@
 	$lang_hremp_Subdivision					= "Sub-divisie";
     $lang_hremp_Locations                   = "Locaties";
 
+    $lang_hremp_MaritalStatus_Unmarried		= "Ongetrouwd";
+    $lang_hremp_MaritalStatus_Married		= "Getrouwd";
+    $lang_hremp_MaritalStatus_Divorced		= "Gescheiden";
+    $lang_hremp_MaritalStatus_Others		= "Anders";
+
  	$lang_hremp_dependents 					= "Naasten";
 	$lang_hremp_children 					= "Kinderen";
 	$lang_hremp_relationship 				= "Relatie";
@@ -631,6 +649,7 @@
 	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Weet u zeker dat u de foto wilt verwijderen";
 
 	$lang_hremp_SelectAPhoto				= "Selecteer een foto";
+	$lang_hremp_ClickToSeeFullSizeImage		= "Klik op de foto om deze in een groot formaat te zien";
 	$lang_hremp_PhotoMaxSize				= "1M maximaal";
 	$lang_hremp_PhotoDimensions				= "Afmetingen 100x120";
 
@@ -681,6 +700,7 @@
 
 	$lang_hremp_SelectCurrency				= "Selecteer valuta";
 	$lang_hremp_SelectPayGrade				= "Select Pay Grade";
+	$lang_hremp_Currency_is_already_exist	= 'Valuta bestaat al reeds';
 
 	$lang_hremp_ContractExtensionId			= "Contract verlenging ID";
 	$lang_hremp_ContractStartDate			= "Contract startdatum";
@@ -697,6 +717,7 @@
 	$lang_hremplan_SelectLanguage			= "Selecteer taal";
 	$lang_hremplan_SelectFluency			= "Selecteer beheersing";
 	$lang_hremplan_SelectRating 			= "Selecteer niveau";
+	$lang_hremplan_NameContainsNonChars		= 'De taal naam kan alleen letters bevatten';
 
 	$lang_hremp_PleaseSelectJobTitle= "aub Selecteer een functie voor deze werknemer {here}";
 
@@ -1197,6 +1218,7 @@
 	$lang_pim_tabs_Tax = "Vrijstelling van belasting";
 	$lang_pim_tabs_DirectDebit = "Directe storting";
 	$lang_pim_tabs_Custom = "Vrij invulbaar";
+	$lang_pim_tabs_Photo = "Foto";
 
 	$lang_pim_ClickToEditPhoto = "Klik om foto te bewerken";
 
@@ -1401,6 +1423,7 @@
 	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Urenstaat van #name voor #periodName startend #startDate";
 	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Wijzig urenstaat van #name voor #periodName startend #startDate";
 	$lang_Time_Timesheet_EditTimesheetForWeekStarting = "Bewerk urenstaat voor de start week";
+	$lang_Time_Timesheet_DeletedProjectsAndActivitiesNotice = "Verwijdere projecten/activiteiten zijn gekenmerkt met een ster %s. Klik op een project/activiteit om te bewerken.";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -1441,6 +1464,7 @@
 	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "De urenstaat bevat niet beeindigde activiteiten";
 	$lang_Time_Errors_DUPLICATE_ROWS = "Duplicaat rijen gevonden";
 	$lang_Time_Errors_NO_PROJECT_SELECTED = "Selecteer aub een project";
+	$lang_Time_Errors_NO_ACTIVITY_SELECTED = "Selecteer een activiteit";
 	$lang_Time_Errors_MaxTotalDuration = 'De totale duur van een dag mag niet meer dan 24 uur zijn';
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "De volgende problemen zijn gevonden";
@@ -1518,6 +1542,8 @@
 	$lang_Time_Attendance_Overlapping = "Overlappende records gevonden";
 	$lang_Time_Attendance_NoReports = " reports to display";
 	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
+	$lang_Time_Attendance_EnterValidDates = "Geef een geledige datum op voor de tot datum en de vanaf datum";
+	$lang_Time_Attendance_EnterValidDateRange = "Geef een geldige datum range op (Vanaf datum moet voor de tot datum zijn)";
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Klok in/uit";
@@ -1530,6 +1556,7 @@
 	$lang_Menu_Time_PunchInOut = "Klik in/uit";
 
 	$lang_Time_Timesheet_SelectProject = "Selecteer een project";
+	$lang_Time_Timesheet_SelectActivity = "Selecteer een activiteit";
 
 	$lang_Time_Timesheet_UnfinishedActivitiesTitle = "Onafgemaakte activiteiten";
 	$lang_Time_SubmitTimeEventTitle = "Geef tijd evenement op";
@@ -1564,6 +1591,11 @@
 	$lang_Time_Errors_EmployeeNotSpecified = "Medewerker niet opgegeven";
 
 	$lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified = "Ongeldige datum of nul of negatieve reeks opgegeven";
+
+	$lang_Time_Warning = 'Waarschuwing';
+	$lang_Time_Warning_FieldsWereReset = 'De velden zijn gereset vanwege de volgende fouten';
+	$lang_Time_Warning_NoMatchingEmployeeFound = 'Geen overeenkomende medewerker gevonden voor de naam #employeeName.';
+	$lang_Time_Warning_NoMatchingSupervisorFound = 'Geen overeenkomende supervisor gevonden voor de naam #supervisorName.';
 
 	$lang_Menu_Time_EmployeeReports = "Medewerker rapportages";
 
@@ -1663,6 +1695,7 @@
     $lang_Recruit_JobApplicationAction_MarkDeclined = 'Kenmerk aanbod als afgewezen';
     $lang_Recruit_JobApplicationAction_SeekApproval = 'Vraag goedkeuring';
     $lang_Recruit_JobApplicationAction_Approve = 'Goedkeuren';
+    $lang_Recruit_JobApplicationAction_Interview_Time_Format = 'UU:MM';
 
     $lang_Recruit_JobApplicationDetails_Heading = 'Sollicitatie details';
     $lang_Recruit_JobApplicationDetails_Status = 'Sollicitatie status';
@@ -1752,6 +1785,7 @@
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Geef aub op ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Geef aub een geldig email adres op voor ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidPhone = 'Geef aub een geldig telefoonnummer op voor ';
+	$lang_Recruit_ZipContainsNonNumericChars = 'De postcode bevat niet nummerieke tekens. Wilt u verder gaan?';
 	$lang_Recruit_ApplicationForm_PleaseSelect = 'Selecteer aub ';
 
 	$lang_Recruit_ApplicationStatus_SuccessHeading = 'Sollicitatie ontvangen';
@@ -1762,6 +1796,7 @@
 	$lang_Recruit_ApplyFailure_UploadError = 'Er was een fout met het uploaden van uw CV. Daardoor is uw sollicitatie niet verwerkt. Probeert u het nogmaals aub';
 	$lang_Recruit_ApplyFailure_UploadSizeError = 'De bestandsgrote van uw CV is groter dan de toegestane 1MB';
 	$lang_Recruit_ApplyFailure_UploadTypeError = 'Het bestandstype van uw CV is niet toegestaan. Alleen .doc, .docx, .odt, .pdf, .rtf and .txt zijn toegestaan';
+	$lang_Recruit_ApplicationStatus_FailureRetry = 'Probeer nogmaals te versturen';
 
 	$lang_Recruit_Resume_DeletionSucceeded = 'Uw CV was succesvol verwijderd';
 	$lang_Recruit_Resume_DeletionFailed = 'CV verwijderen mislukt';
@@ -1818,6 +1853,7 @@
 	$lang_Time_Error_DecimalNotAllowed = "Decimalen zijn niet toegestaan";
 	$lang_Time_Error_HoursPerDayShouldBePositiveNumber = "Uren per dag moet een positief nummer zijn";
 	$lang_Time_Error_HoursPerDayShouldBeLessThan24 = "Uren per dag zou minder moeten zijn dan 24";
+	$lang_Time_Error_HoursPerDayShouldBeANumericValue = "Uren per dag moeten een numerieke waarde hebben";
 	$lang_Time_Error_NoEmployeeSelected = "Geen medewerker geselecteerd";
 
 	$lang_Time_Errors_INVALID_WORK_SHIFT_FAILURE = "Er waren problemem in de details van de werk shift";
