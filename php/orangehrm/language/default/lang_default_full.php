@@ -399,7 +399,7 @@
     $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
     $lang_Leave_LeaveCommentTooLong			= "Comment is too long. Maximun allowed size is %s characters.";
     $lang_Leave_Holiday_Edit_Warning = "All the applied future leave for date - #date , will be reset to Pending Approval. Are you sure?";
-    $lang_Leave_Weekend_Disabled_Warning = " #star The total number of applied leave shoudl be zero to change the weekends.";
+    $lang_Leave_Weekend_Disabled_Warning = " #star The total number of applied leave should be zero to change the weekends.";
 
 	$lang_Leave_Holiday = "Holiday";
 	$lang_Leave_NoOfDays = "No of Days";
