@@ -105,10 +105,6 @@ div#addPaneDependents input {
 	float:left;
 }
 
-div.formbuttons {
-	text-align:left;
-}
-
 input.hiddenField {
 	display:none;
 }

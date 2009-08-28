@@ -115,10 +115,13 @@ function editEContact() {
 	<div id="editPaneEmgContact">
 		<table id="editPaneEmgContact" style="height:120px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
           <tr>
-			 <td><font color="#ff0000">*</font><?php echo $lang_hremp_name; ?><input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>"></td>
+			 <td>
+			 	<?php echo $lang_hremp_name; ?> <span class="required">*</span>
+			 	<input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>">
+			 </td>
 			 <td><input type="text" name="txtEConName" value="<?php echo $edit[0][2]?>"/></td>
 			 <td width="50">&nbsp;</td>
-			<td><font color="#ff0000">*</font><?php echo $lang_hremp_relationship; ?></td>
+			<td><?php echo $lang_hremp_relationship; ?> <span class="required">*</span></td>
 			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"/></td>
 			 </tr>
 			 <tr>
@@ -149,11 +152,11 @@ function editEContact() {
 	<div id="addPaneEmgContact" class="<?php echo ($this->popArr['empECAss'] != null)?"addPane":""; ?>" >
 		<table style="height:120px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
 			 <tr>
-			 <td><font color="#ff0000">*</font><?php echo $lang_hremp_name; ?>
+			 <td><?php echo $lang_hremp_name; ?> <span class="required">*</span>
 			 	<input type="hidden" name="txtECSeqNo" value="<?php echo $this->popArr['newECID']?>" /></td>
 			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 <td width="50">&nbsp;</td>
-			<td><font color="#ff0000">*</font><?php echo $lang_hremp_relationship; ?>&nbsp;&nbsp;</td>
+			 <td><?php echo $lang_hremp_relationship; ?> <span class="required">*</span>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 			 <tr>

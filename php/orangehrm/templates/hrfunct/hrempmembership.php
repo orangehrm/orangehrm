@@ -162,9 +162,6 @@ div#editPaneMemberships #membershipLabel, {
 	padding-left:2px;
 }
 
-div.formbuttons {
-	text-align:left;
-}
 </style>
 <div id="parentPaneMemberships" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>

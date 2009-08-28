@@ -134,9 +134,6 @@ div#editPaneEducation #educationLabel {
 	padding-left:2px;
 }
 
-div.formbuttons {
-	text-align:left;
-}
 </style>
 
 <div id="parentPaneEducation" >
