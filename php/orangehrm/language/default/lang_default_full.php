@@ -1108,6 +1108,7 @@
 	$lang_DataImport_CustomImportTypesCanBeManaged = "Custom import types can be managed ";
 	$lang_DataImport_ClickingHereLink = "here";
 	$lang_DataImport_Error_PleaseSelectFile = "Please select a CSV File";
+	$lang_DataImport_Error_Invalid_File = "CSV File - Invalid file type";
 
 	// Data Import Status
 	$lang_DataImportStatus_Title = "Data Import Status";

@@ -58,6 +58,12 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=IMP&amp;upload=1";
             errors.push('<?php echo $lang_DataImport_Error_PleaseSelectFile; ?>');
         }
 
+		var fileType = ($('importFile').value).substring(($('importFile').value).length - 3).toLowerCase();;
+		if (fileType != 'csv' && fileName != "") {
+			error = true;
+			errors.push('<?php echo $lang_DataImport_Error_Invalid_File; ?>');
+		}
+        
         if (error) {
             errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
             for (i in errors) {
