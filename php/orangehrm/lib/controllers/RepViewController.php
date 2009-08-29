@@ -179,19 +179,19 @@ class RepViewController {
 
 				case 'EMPDEF'  :		$report = new EmpReport();
 										$report = $object;
-										
+
 										$res = $report -> addReport();
-										
+
 										if ($res){
 											$id = $report -> getRepID();
-		
+
 											$repusg = new EmpRepUserGroup();
-		
+
 											$repusg -> setRepCode($id);
 											$repusg -> setUserGroupID($_SESSION['userGroup']);
 											$repusg -> addRepUserGroup();
 										}
-										
+
 										break;
 			}
 
@@ -214,7 +214,7 @@ class RepViewController {
 
 			} else {
 				$errorCode = mysql_errno();
-											
+
 				switch ($errorCode) {
 					case 1062:
 						$showMsg = 'DUPLICATE_NAME_ADDED';
@@ -251,7 +251,7 @@ class RepViewController {
 			} else {
 
 				$errorCode = mysql_errno();
-				
+
 				switch ($errorCode) {
 					case 1062:
 						$showMsg = 'UPDATED_TO_DUPLICATE_NAME';
@@ -350,15 +350,16 @@ class RepViewController {
 
 								$edit = $report->filterReport($getArr['id']);
 								$repgen ->reportId = $edit[0][0];
-								
+
+								/* TODO: The following actions should be moved to model class */
 								$criteria = explode('|',$edit[0][2]);
 								$criteriaCount = count($criteria);
 								for($c = 0; $criteriaCount > $c; $c++) {
 									$crit_value = explode("=",$criteria[$c]);
 
 									$repgen -> setCriteria($crit_value[0], '');
-									
-									$criteriaValueCount = count($crit_value); 	
+
+									$criteriaValueCount = count($crit_value);
 									for($d = 1; $criteriaValueCount > $d; $d++) {
 										if($d == count($crit_value) - 1) {
 											$repgen -> setCriteria($crit_value[0], $crit_value[$d], true);
@@ -370,17 +371,12 @@ class RepViewController {
 
 								$field = explode('|',$edit[0][3]);
 								$fieldCount = count($field);
-								$empNoField = false;
+
 								for($c = 0; $fieldCount > $c; $c++) {
 									$repgen->setField($field[$c],1);
-									if ($field[$c] == 'EMPNO') {
-										$empNoField = true;
-									}
 								}
 
-								$repgen->setField('EMPNO', 1);
-
-								$sqlQ = $repgen->reportQueryBuilder();
+								$sqlQ = $repgen->buildReportQuery();
 								$arrayDispList = $repgen->buildDisplayList($sqlQ);
 								$employee = array ();
 						        if (is_array($arrayDispList)) {
@@ -389,7 +385,7 @@ class RepViewController {
 
 						        $columns = count($employee);
 						        $rows = count($arrayDispList);
-						        
+
 						        $objs['reportName'] = $edit[0][1];
 						        $objs['arrayDispList'] = $arrayDispList;
 						        $objs['headerNames'] = $repgen->getHeaders();
@@ -397,8 +393,8 @@ class RepViewController {
 						        	'directReportingMode' => EmpRepTo::REPORTING_MODE_DIRECT,
 						        	'indirectReportingMode' => EmpRepTo::REPORTING_MODE_INDIRECT,
 						        );
-						        
-						        $templatePath = '/templates/report/report.php'; 
+
+						        $templatePath = '/templates/report/report.php';
 						        $template = new TemplateMerger($objs, $templatePath, null, null);
 						        $template->display();
 
@@ -407,8 +403,8 @@ class RepViewController {
 							break;
 
 			case 'RUG' :	$form_creator ->formPath = '/templates/report/repusg.php';
-							
-                            $report = new EmpReport();                            
+
+                            $report = new EmpReport();
                             $emprepgroup = new EmpRepUserGroup();
 							$form_creator ->popArr['report'] = $report->filterReport($getArr['id']);
 							$form_creator->popArr['usgAll'] = $emprepgroup -> getAllUserGroups();

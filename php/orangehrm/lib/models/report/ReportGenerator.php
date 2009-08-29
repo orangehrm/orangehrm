@@ -14,7 +14,7 @@
 
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA 
+ * Boston, MA  02110-1301, USA
  */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
@@ -31,7 +31,7 @@ class ReportGenerator {
         'reportId' => null,
         'reportName' => null,
         'employeeIdLength' => null, // TODO: Deprecate
-    
+
     );
 
     private $criteriaFieldMap = array (
@@ -60,9 +60,9 @@ class ReportGenerator {
             'pk' => 'emp_number',
             'fk' => 'emp_number'
         ),
-        
+
     );
-    
+
     private $criteriaFieldTableMap = array(
     	'EMPNO' => 'hs_hr_employee',
         'AGE' => 'hs_hr_employee',
@@ -86,7 +86,7 @@ class ReportGenerator {
         'repID' => 'reportId',
         'repName' => 'reportName',
     );
-    
+
     private $preffixedFields = array('EMPNO');
     private $listFields = array('REPORTTO', 'QUL', 'YEAROFPASSING', 'SKILLS', 'CONTRACT', 'WORKEXPERIENCE', 'REPORTINGMETHOD');
 
@@ -96,11 +96,11 @@ class ReportGenerator {
 
     public function __construct() {
     	$emptyMarker = ReportField::EMPTY_MARKER;
-    	
+
         $ageQuery = "IF(STRCMP(DATE_FORMAT(hs_hr_employee.`emp_birthday`, CONCAT(YEAR(hs_hr_employee.`emp_birthday`), '-%m-%d')), '0-00-00'), " .
         "DATE_FORMAT(hs_hr_employee.`emp_birthday`, CONCAT(YEAR(hs_hr_employee.`emp_birthday`), '-%m-%d')), " .
         "'{$emptyMarker}')";
-        
+
         $sevicePeriodQuery = "IF(STRCMP(DATE_FORMAT(hs_hr_employee.`joined_date`, CONCAT(YEAR(hs_hr_employee.`joined_date`), '-%m-%d')), '0-00-00'), " .
         		"DATE_FORMAT(hs_hr_employee.`joined_date`, CONCAT(YEAR(hs_hr_employee.`joined_date`), '-%m-%d')), " .
         		"'{$emptyMarker}')";
@@ -132,7 +132,7 @@ class ReportGenerator {
             'SKILLS' => new ReportField('skill_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_skill', 'emp_number', 'emp_number', new JoinTable('hs_hr_skill', 'skill_code', 'skill_code', 'hs_hr_emp_skill')),
             'CONTRACT' => new ReportField("{CONCAT(DATE(`econ_extend_start_date`), ' - ', DATE(`econ_extend_end_date`))}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_contract_extend', 'emp_number', 'emp_number'),
             'WORKEXPERIENCE' => new ReportField("{CONCAT(`eexp_employer`, ' - ', `eexp_jobtit`, ' - ',(YEAR(`eexp_to_date`)-YEAR(`eexp_from_date`)), ' Years',' - ',(MONTH(`eexp_to_date`)-MONTH(`eexp_from_date`)),' Months')}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_work_experience', 'emp_number', 'emp_number'),
-            
+
         );
 
         $this->criteria = array ();
@@ -141,7 +141,7 @@ class ReportGenerator {
 
         $this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
     }
-    
+
     public function ageToYear($age) {
         $currYear = strftime('%Y');
         $currMonthDate = strftime('-%m-%d');
@@ -171,7 +171,7 @@ class ReportGenerator {
         return $query;
     }
 
-    function reportDisplay($repDetails, $empNoField = false) {
+    function reportDisplay($repDetails) {
         $employee = array ();
 
         if (is_array($repDetails)) {
@@ -258,7 +258,7 @@ class ReportGenerator {
     public function getHeaders() {
         return $this->headName;
     }
-    
+
     public function buildDisplayList($query) {
         $dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
@@ -270,21 +270,21 @@ class ReportGenerator {
 				if (is_numeric($column)) { // TODO: Remove this part when $dbConnection->dbObject->getArray() can fetch an associative array only
 				    continue;
 				}
-				
+
 				$trimmedValue = trim(str_replace(ReportField::GROUP_SEPARATOR, '', $value));
 				$trimmedValue = trim(str_replace(ReportField::COMPOSITE_SEPARATOR, '', $value));
-				
+
 				if (empty($trimmedValue)) {
 				    $value = null;
 				} elseif (in_array($column, $this->listFields)) {
 				    $value = explode(ReportField::GROUP_SEPARATOR, $value);
 				}
-				
+
 				$dataRow[$column] = $value;
 			}
 		    $arrayDispList[] = $dataRow;
 		}
-		
+
 		return $arrayDispList;
     }
 
@@ -337,7 +337,7 @@ class ReportGenerator {
                         $lowerLimit = $this->ageToYear($lowerLimit);
                         $upperLimit = $this->ageToYear($upperLimit);
 
-                        /* Swapping the values because ageToYear() will return a lower year value 
+                        /* Swapping the values because ageToYear() will return a lower year value
                          * a higher age
                          */
                         $temp = $lowerLimit;
@@ -356,17 +356,17 @@ class ReportGenerator {
                 	$joins[] = new ReportField('sal_grd_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_basicsalary', 'emp_number', 'emp_number', new JoinTable('hs_pr_salary_grade', 'sal_grd_code', 'sal_grd_code', 'hs_hr_emp_basicsalary'));
                 	continue;
                 } elseif ($field == 'QUL') {
-                	$joins['hs_hr_emp_education.`edu_code`'] = new ReportField("{CONCAT_WS(' - ', hs_hr_education.`edu_uni`, hs_hr_education.`edu_deg`)}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_education', 'emp_number', 'emp_number', new JoinTable('hs_hr_education', 'edu_code', 'edu_code', 'hs_hr_emp_education'));                    
+                	$joins['hs_hr_emp_education.`edu_code`'] = new ReportField("{CONCAT_WS(' - ', hs_hr_education.`edu_uni`, hs_hr_education.`edu_deg`)}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_education', 'emp_number', 'emp_number', new JoinTable('hs_hr_education', 'edu_code', 'edu_code', 'hs_hr_emp_education'));
                 } elseif ($field == 'LANGUAGE') {
                     $joins['hs_hr_emp_language.`lang_code`'] = new ReportField('lang_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_language', 'emp_number', 'emp_number',  new JoinTable('hs_hr_language', 'lang_code', 'lang_code', 'hs_hr_emp_language'));
                 } elseif ($field == 'SKILL') {
                     $joins['hs_hr_emp_skill.`skill_code`'] = new ReportField('skill_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_skill', 'emp_number', 'emp_number', new JoinTable('hs_hr_skill', 'skill_code', 'skill_code', 'hs_hr_emp_skill'));
                 }
-                
+
                 $where[] = "{$mappedField} {$comparator} '{$value}'";
             }
         }
-        
+
         return array (
             $joins,
             $where
@@ -388,7 +388,7 @@ class ReportGenerator {
 				if (!($mappedField instanceof ReportField)) {
 				    continue;
 				}
-				
+
 				$selectionAdded = false;
 				switch ($mappedField->type) {
 				    case ReportField::SINGLE_VALUE:
@@ -405,7 +405,7 @@ class ReportGenerator {
 				    	if ($this->_isDirectQuery($mappedField->field)) {
 				    	    $fieldString = $this->_extractQuery($mappedField->field);
 				    	} else {
-							$fieldString = "{$mappedField->table}.`{$mappedField->field}`";				    	    
+							$fieldString = "{$mappedField->table}.`{$mappedField->field}`";
 				    	}
 				    	$joins["{$mappedField}"] = $mappedField;
 				    	break;
@@ -415,15 +415,15 @@ class ReportGenerator {
 				    		$fieldString = "GROUP_CONCAT(DISTINCT " . implode(" SEPARATOR '{$groupSeparator}'), GROUP_CONCAT(DISTINCT ", $multipleFields) . " SEPARATOR '{$groupSeparator}')";
 				    	} else {
 				    		$tableName = isset($mappedField->ternaryTable) ? $mappedField->ternaryTable->table : $mappedField->table;
-							$fieldString = "GROUP_CONCAT(DISTINCT {$tableName}.`{$mappedField->field}` SEPARATOR '{$groupSeparator}')";		    	    
+							$fieldString = "GROUP_CONCAT(DISTINCT {$tableName}.`{$mappedField->field}` SEPARATOR '{$groupSeparator}')";
 				    	}
-			    	    			    	    
+
 				    	$joins["{$mappedField}"] = $mappedField;
 				    	break;
 				    default;
 				    	break;
 				}
-				
+
 				if (!$selectionAdded) {
 					$select[] = "{$fieldString} AS `{$field}`";
 				}
@@ -454,9 +454,9 @@ class ReportGenerator {
                     $tableName = "(`{$tableName}` INNER JOIN {$join->ternaryTable->table} " . ((!empty($alias)) ? "AS `{$alias}` " : '') .
                     		"ON " . ((!empty($alias)) ? $alias : $join->ternaryTable->table) . ".`{$join->ternaryTable->pk}` = {$join->ternaryTable->fkTable}.`{$join->ternaryTable->fk}`)";
                 }
-                
+
                 $table .= "LEFT JOIN {$tableName} \n\tON " . ReportField::LEFT_TABLE . ".`{$join->fk}` = {$join->table}.`{$join->pk}`\n";
-                
+
                 $joined[] = $join->table;
             }
         }
@@ -467,7 +467,7 @@ class ReportGenerator {
             $where = 'WHERE (' . implode(") AND \n(", $where) . ')';
             $query .= $where;
         }
-        
+
         $query .= "\nGROUP BY (hs_hr_employee.`emp_number`)";
 
         return $query;
