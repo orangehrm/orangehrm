@@ -88,7 +88,7 @@ class ReportGenerator {
     );
 
     private $preffixedFields = array('EMPNO');
-    private $listFields = array('REPORTTO', 'QUL', 'YEAROFPASSING', 'SKILLS', 'CONTRACT', 'WORKEXPERIENCE', 'REPORTINGMETHOD');
+    private $listFields = array('REPORTTO', 'QUL', 'YEAROFPASSING', 'SKILLS', 'CONTRACT', 'WORKEXPERIENCE', 'REPORTINGMETHOD', 'LANGUAGES');
 
     private $criteria;
     private $field;
