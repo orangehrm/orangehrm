@@ -66,7 +66,7 @@ if ($modifier === "SUP") {
 		<?php
 	    } else if ($modifier == "Taken") {
 		?>
-			history.back();
+		window.location = "?leavecode=Leave&action=Leave_Summary&id=<?php echo $_REQUEST['id'];?>";
 		<?php } else { ?>
 			window.location = "?leavecode=Leave&action=<?php echo $backLink; ?>";
 		<?php } ?>
@@ -112,12 +112,13 @@ if ($modifier === "SUP") {
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="savebutton"
-                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Back;?>" />
+           
         <?php
             }
         ?>
+		<input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
         </div>
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
