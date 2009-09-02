@@ -1691,7 +1691,7 @@ class ViewController {
 				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 
 				if (!isset($showMsg) || empty($showMsg)) {
-					$showMsg = "ADD_FAILURE";
+					$showMsg = "DUP_USERS_FAILURE";
 				}
 
 				$uniqcode = $index;
