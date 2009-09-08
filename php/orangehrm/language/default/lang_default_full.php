@@ -47,6 +47,7 @@
 	$lang_Error_NameOfHolidayCannotBeBlank 			= "Name of holiday cannot be blank";
 
 	$lang_Error_NoLeaveTypes 						= "No Leave Types";
+           $lang_Error_NoYearSpecified 						= "No Year Specified";
 	$lang_Error_NoRecordsFound 						= "No records found!";
 
 	$lang_Error_InvalidDate 						= "Invalid date";

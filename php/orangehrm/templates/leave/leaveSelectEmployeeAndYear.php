@@ -134,15 +134,23 @@
 
     	<td width="130px" class="odd">
 		    	  <select name="year">
-		    	    <option value="-1"> - <?php echo $lang_Leave_Common_Select;?> - </option>
-		   <?php
+		    	   	   <?php
 		   		if (is_array($years)) {
 		   			foreach ($years as $year) {
+                                             $selectYear = "";
+                                           if(date("Y") == $year){
+                                                $selectYear = "selected";
+
+
+                                        }
 		  ?>
-		 		  	<option value="<?php echo $year ?>"><?php echo $year ?></option>
+		 		  	<option value="<?php echo $year ?>" <?php echo $selectYear ?>><?php echo $year ?></option>
 		  <?php 	}
-		   		}
+		   		}else{
 		 ?>
+                                       <option value="-1">--<?php echo $lang_Error_NoYearSpecified;?> --</option>
+                                       <?php
+                                }?>
   	    		  </select>
    	    </td>
 
