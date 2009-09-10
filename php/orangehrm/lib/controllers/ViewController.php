@@ -3157,6 +3157,7 @@ class ViewController {
 							if ($authorizeObj->isAdmin()) {
 	                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo);
 							} else {
+								$empReportTo = new EmpRepTo();
                                 $subbordinates = $empReportTo->getEmpSubDetails($_SESSION['empID']);
 								$subordinateList = array();
 								foreach ($subbordinates as $subordinate) {
