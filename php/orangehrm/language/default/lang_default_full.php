@@ -853,6 +853,7 @@
 	$lang_hrEmpMain_DirectDebitRoutingNumberShouldBeNumeric = "Routing number should be numeric";
 	$lang_hrEmpMain_DirectDebitAmountShouldBeSpecified = "Amount should be specified";
 	$lang_hrEmpMain_DirectDebitAmountShouldBeNumeric = "Amount should be numeric";
+	$lang_hrEmpMain_DirectDebitAmountTooLarge = "Amount is too large";
 	$lang_hrEmpMain_DirectDebitTransactionTypeShouldBeSelected = "Transaction Type should be selected";
 
  	$lang_jobtitle_heading 					= "Job : Job Title";

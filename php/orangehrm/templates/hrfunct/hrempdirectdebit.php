@@ -65,6 +65,8 @@ function validateDirectDebit() {
 		errors[errors.length] = "<?php echo $lang_hrEmpMain_DirectDebitAmountShouldBeSpecified; ?>";
 	} else if (!decimalCurrency(control)) {
 		errors[errors.length] = "<?php echo $lang_hrEmpMain_DirectDebitAmountShouldBeNumeric; ?>";
+	} else if (parseInt(control.value).toString().length > 9) {
+		errors[errors.length] = "<?php echo $lang_hrEmpMain_DirectDebitAmountTooLarge; ?>";
 	}
 
 	control = document.frmEmp.cmbTransactionType;
