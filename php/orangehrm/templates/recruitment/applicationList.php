@@ -54,7 +54,7 @@ $statusList = array(
     .eventDate {
         font-style: italic;
     }
-    
+
     table.simpleList {
         margin: 4px 4px 4px 4px;
     }
@@ -65,7 +65,7 @@ $statusList = array(
     <div class="formpage2col">
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationList_Heading;?></h2></div>
-        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -73,7 +73,7 @@ $statusList = array(
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
 
@@ -125,9 +125,7 @@ $statusList = array(
             <td class="<?php echo $cssClass?>"><?php echo CommonFunctions::escapeHtml($app->getJobTitleName()); ?></td>
             <td class="<?php echo $cssClass?>"><?php echo CommonFunctions::escapeHtml($app->getHiringManagerName()); ?></td>
             <td class="<?php echo $cssClass?>"><?php echo $status; ?>
-            <?php if (!empty($statusDate)) { ?>
-                <div class="eventDate">(<?php echo $statusDate; ?>)</div>
-            <?php } ?>
+
             </td>
             <td class="<?php echo $cssClass?>">
             <?php
@@ -160,10 +158,10 @@ $statusList = array(
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>
-</div>  
+</div>
 </body>
 </html>
