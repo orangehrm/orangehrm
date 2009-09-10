@@ -83,6 +83,11 @@ if ($records['message'] == 'save-success') {
 		}
 
 		<?php } ?>
+		
+		if ($('txtNote').value.length > 250) {
+			alert("<?php echo $lang_Time_Attendance_NoteTooLong; ?>");
+			errFlag = true;
+		}
 
 		return !errFlag;
 	}

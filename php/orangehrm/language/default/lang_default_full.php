@@ -1544,6 +1544,7 @@
 	$lang_Time_Attendance_InvalidOutTime = "Punch Out time should be greater than Punch In time";
 	$lang_Time_Attendance_EnterValidDates = "Please enter valid dates for To Date and From Date";
 	$lang_Time_Attendance_EnterValidDateRange = "Please enter a valid date range (From Date must be before To Date)";
+	$lang_Time_Attendance_NoteTooLong = "Note is too long";
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
