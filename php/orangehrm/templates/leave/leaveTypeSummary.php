@@ -137,6 +137,29 @@
 			}
 		}
 	}
+	
+	/**
+	 * If at least one day is unchecked, main check box would be unchecked
+	 */
+
+	function unCheckMain() {
+		noOfCheckboxes = 0;
+		noOfCheckedCheckboxes = 0;
+
+		with ($('defineLeaveType')) {
+			for (i = 0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i].name != 'allCheck') {
+					noOfCheckboxes++;
+					if (elements[i].checked == true) {
+						noOfCheckedCheckboxes++;
+					}
+
+				}
+			}
+		}
+
+		$('allCheck').checked = (noOfCheckboxes == noOfCheckedCheckboxes);
+	}
 
 	function removeMarkFromCell(cell, mark) {
 
@@ -297,7 +320,7 @@ if ($activeTypesAvailable) {
   <thead>
     <tr>
       <td width="50">
-        <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
+        <input type='checkbox' class='checkbox' name='allCheck' id='allCheck' value='' onclick="doHandleAll();" />
       </td>
       <td><?php echo $lang_Leave_Common_LeaveTypeId?></td>
       <td><?php echo $lang_Leave_Common_LeaveType;?></td>
@@ -321,7 +344,7 @@ if ($activeTypesAvailable) {
 			 $j++;
 ?>
     <tr>
-      <td class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
+      <td class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' onclick="unCheckMain();" /></td>
       <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
       <td class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
