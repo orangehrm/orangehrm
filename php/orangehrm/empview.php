@@ -174,6 +174,29 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 			}
 		}
 	}
+	
+	/**
+	 * If at least one day is unchecked, main check box would be unchecked
+	 */
+
+	function unCheckMain() {
+		noOfCheckboxes = 0;
+		noOfCheckedCheckboxes = 0;
+
+		with (document.getElementById('standardView')) {
+			for (i = 0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox' && elements[i].name != 'allCheck') {
+					noOfCheckboxes++;
+					if (elements[i].checked == true) {
+						noOfCheckedCheckboxes++;
+					}
+
+				}
+			}
+		}
+
+		document.getElementById('allCheck').checked = (noOfCheckboxes == noOfCheckedCheckboxes);
+	}
 
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
@@ -187,7 +210,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 <body>
 <div class="outerbox">
 
-	<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']; ?>&amp;sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>">
+	<form name="standardView" id="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']; ?>&amp;sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>">
 
 		<div class="mainHeading"><h2><?php echo $headingInfo[0]?></h2></div>
 		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
@@ -282,7 +305,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 							<?php if (empty($emplist)) { ?>
 							&nbsp;
 							<?php } else { ?>
-							<input type="checkbox" name="allCheck" class="checkbox" style="margin-left:1px"
+							<input type="checkbox" name="allCheck" id="allCheck" class="checkbox" style="margin-left:1px"
 								onclick="doHandleAll()" />
 							<?php } ?>
 						</td>
@@ -363,7 +386,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 								<?php
 								if($_GET['reqcode']=='EMP') {
 					?>
-									<td ><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>" /></td>
+									<td ><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>" onclick="unCheckMain();" /></td>
 								<?php } else { ?>
 									<td ></td>
 								<?php } ?>
