@@ -60,7 +60,7 @@
             <exclude name="devTools/**"/>
             <exclude name="lib/**/testConf.php"/>
             <exclude name="lib/confs/Conf.php"/>
-        	<exclude name="lib/confs/cryptokeys/"/>
+            <exclude name="lib/confs/cryptokeys/key.ohrm"/>
             <exclude name="lib/confs/mailConf.php"/>
             <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
