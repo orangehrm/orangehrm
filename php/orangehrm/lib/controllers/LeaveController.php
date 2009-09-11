@@ -442,7 +442,7 @@ class LeaveController {
 	 * @return void
 	 */
 	private function _viewLeavesSupervisor($details) {
-		
+
 		if (isset($_POST['leaveStatus'])) {
 			$leaveStatuses = $_POST['leaveStatus'];
 		} else if (isset($_SESSION['leaveStatusFilters'])) {
@@ -473,8 +473,6 @@ class LeaveController {
 		 } else {
 			$_SESSION['leaveListToDate'] = $toDate;
 		 }
-		
-		
 		$tmpObj = $this->getObjLeave();
 
 		if (!$details) {
@@ -489,11 +487,10 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObj, $path);
 
 		$modifiers[] = "SUP";
-		
+
 		$modifiers['leave_statuses'] = $leaveStatuses;
 		$modifiers['from_date'] = $fromDate;
 		$modifiers['to_date'] = $toDate;
-		
 
 		$template->display($modifiers);
 	}
@@ -1280,7 +1277,9 @@ class LeaveController {
 		}
 
 		switch ($modifier) {
-			case "specific"	:	$path = "/templates/leave/specificHolidaysDefine.php";
+			case "specific"	:	$holiday = new Holidays();
+ 								$record['holidayList'] = $holiday->listHolidays();
+								$path = "/templates/leave/specificHolidaysDefine.php";
 								break;
 			case "weekend"	:	$path = "/templates/leave/weekendHolidaysDefine.php";
 								$weekendsObj = new Weekends();
@@ -1290,7 +1289,7 @@ class LeaveController {
 
 		$record['rights'] = $_SESSION['localRights'];
 		$record['changeWeekends'] = Leave::isLeaveTableEmpty();
-		
+
 		$template = new TemplateMerger($record, $path);
 
 		$modifier = $edit;

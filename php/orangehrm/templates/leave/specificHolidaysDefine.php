@@ -41,15 +41,43 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
+
+	holidayDates = new Array();
+
+	<?php if(isset($records['holidayList'])) {
+        foreach(($records['holidayList']) as $holidaydate) {
+
+                print "\tholidayDates.push(\"{$holidaydate->getDate()}\");\n";
+
+        }
+    }
+	?>
 	function goBack() {
 		location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_List';
 	}
 
 	function addSave() {
+
+	date = document.getElementById('txtDate').value;
+		if (isTypeName(date)) {
+            alert("<?php echo $lang_Leave_HOLIDAY_IN_USE_ERROR; ?>");
+            return false;
+        }
+
 		if (validate()) {
 			document.frmDefineHolidays.submit();
 		}
 	}
+
+	 function isTypeName(date) {
+		n = holidayDates.length;
+        for (var i=0; i<n; i++) {
+            if (holidayDates[i] == date) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	function validate() {
 		errMes = "";

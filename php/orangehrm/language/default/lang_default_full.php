@@ -421,6 +421,7 @@
 	$lang_Leave_LEAVE_TYPE_EDIT_SUCCESS     = "Changes saved successfully";
 	$lang_Leave_NO_CHANGES_TO_SAVE_WARNING  = "No changes to save";
 	$lang_Leave_Undelete			= "Undelete";
+	$lang_Leave_HOLIDAY_IN_USE_ERROR = "Date is in use. Choose another date";
 
 	$lang_Leave_Summary_Error_CorrectLeaveSummary	= "Error(s) in the Leave Summary!\\nPlease correct the highlighted leave quota values.";
 	$lang_Leave_Summary_Error_NonNumericValue		= "Non-numeric";
