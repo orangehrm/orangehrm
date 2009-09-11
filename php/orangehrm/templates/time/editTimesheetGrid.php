@@ -210,7 +210,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>" <?php echo $tags; ?>
 				id="cmbActivity-<?php echo $k; ?>">
 				<?php if ($value['isActivityDeleted'] || $value['projectObj']->getDeleted()) { ?>
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectActivity; ?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProjectFirst; ?> --</option>
 				<?php } ?>
 <?php for ($j=0; $j<$activityCount; $j++) { ?>
 				<option value="<?php echo $activityList[$j]->getId(); ?>"
@@ -274,7 +274,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 			<td class="selectTd">
 				<select id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
-				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectActivity;?> --</option>
+				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProjectFirst;?> --</option>
 				</select>
 			</td>
 
