@@ -213,11 +213,12 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
-			<th></th>
+		<th></th>
 	    	<th></th>
 	    	<th></th>
 	    	<th></th>
-			<th></th>
+		<th></th>
+                <th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -248,8 +249,16 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 				<?php } ?>
 				</select>
 			</td>
-                        <td><label id="lblshowDeleted" name="lblshowDeleted"><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)"> Show Deleted</label></td>
+                        <td></td>
 		</tr>
+                <tr>
+                    <td></td>
+                    <td><?php echo $lang_Time_Timesheet_Project_Deleted; ?></td>
+                    <td></td>
+                    <td><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)" ></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 		<tr>
 			<td></td>
 			<td ><?php echo $lang_Time_Common_FromDate; ?></td>

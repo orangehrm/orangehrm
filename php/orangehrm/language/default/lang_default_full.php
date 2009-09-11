@@ -1437,7 +1437,7 @@
 	$lang_Time_Timesheet_ProjectActivity = "Project / Activity";
 	$lang_Time_Timesheet_Project = "Project";
 	$lang_Time_Timesheet_Activity = "Activity";
-
+        $lang_Time_Timesheet_Project_Deleted = "Show Deleted";
 	$lang_Time_Timesheet_Total = "Total";
 	$lang_Time_TimeFormat = "Time Format";
 
