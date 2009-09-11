@@ -1557,6 +1557,7 @@
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 
 	$lang_Time_Timesheet_SelectProject = "Select a Project";
+	$lang_Time_Timesheet_SelectProjectFirst = "Select a Project First";
 	$lang_Time_Timesheet_SelectActivity = "Select an Activity";
 
 	$lang_Time_Timesheet_UnfinishedActivitiesTitle = "Unfinished Activities";

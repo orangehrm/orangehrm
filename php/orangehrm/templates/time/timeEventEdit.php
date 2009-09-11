@@ -322,7 +322,7 @@ function checkDateAndDuration(dateValue, duration) {
 			<?php
 
 				if (!isset($activityId) && !isset($projectId)) {
-				    echo "<option value=\"-1\">- {$lang_Time_Timesheet_SelectProject} -</option>";
+				    echo "<option value=\"-1\">- {$lang_Time_Timesheet_SelectProjectFirst} -</option>";
 				} else {
 				    echo "<option value=\"-1\">- {$lang_Leave_Common_Select} -</option>";
 				}
