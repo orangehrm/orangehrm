@@ -18,9 +18,10 @@
  *
  */
 
-require_once ROOT_PATH."/lib/models/leave/Leave.php";
-require_once ROOT_PATH."/lib/models/leave/LeaveQuota.php";
-require_once ROOT_PATH.'/lib/logs/LogFileWriter.php';
+require_once ROOT_PATH . '/lib/models/leave/Leave.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 //require_once "LeaveType.php";
 
@@ -90,7 +91,7 @@ class LeaveSummary extends LeaveQuota {
 	 */
 	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false, $pageNO=0, $itemPerPage=0, $leaveCount = FALSE) {
 
-		$selectFields[0] = "a.`emp_number` as emp_number";
+ 		$selectFields[0] = "a.`emp_number` as emp_number";
 		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
 		$selectFields[2] = "c.`leave_type_name` as leave_type_name";
 		$selectFields[3] = "COALESCE(b.`no_of_days_allotted`, 0) as no_of_days_allotted";
@@ -112,16 +113,35 @@ class LeaveSummary extends LeaveQuota {
 
 		$selectConditions = null;
 
+                $repObj  = new EmpRepTo();
+                $empList = $repObj->getEmpSubDetails($_SESSION['empID']);
+
+                if ( ($employeeId ==self::LEAVESUMMARY_CRITERIA_ALL ) && $searchBy == "employee" && (count($empList)>0)) {      // supervisors can see their sub ordinates leaves
+
+                        $emNumb=count($empList);
+                        for ($i = 0; $i < $emNumb ; $i++) {
+                            $empNumbers[] = $empList[$i][0];
+                        }
+
+                        $selectConditions[] = "a.`emp_number` IN (" . implode(',', $empNumbers) . ")";
+		}
+
 		if ( $searchBy == "employee" && !empty($employeeId) && ($employeeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "a.`emp_number` = {$employeeId}";
+                 
 		}
+
 		if ( $searchBy == "leaveType" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "b.`leave_type_id` = '{$leaveTypeId}'";
+                        
 		}
 		if ( $searchBy == "both" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "a.`emp_number` = {$employeeId} AND b.`leave_type_id` = '{$leaveTypeId}'";
+                       
+                        
 		}
-		
+
+                 
 		$selectConditions[]  = "(a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000')" ;
 
 		if ($sortField == null) {
@@ -147,6 +167,7 @@ class LeaveSummary extends LeaveQuota {
         }
 
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, $limit, $groupBy);
+                
 
 		$objLeaveType = new LeaveType();
 
