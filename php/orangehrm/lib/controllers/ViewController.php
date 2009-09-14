@@ -1561,11 +1561,21 @@ class ViewController {
 											}
 											$res = false;
 										} catch (CSVSplitterException $e) {
-                                            if (($e->getCode() == CSVSplitterException::DIRECTORY_NOT_WRITABLE) ||
-                                                    ($e->getCode() == CSVSplitterException::FILES_NOT_WRITABLE)) {
+                                            if (($e->getCode() == CSVSplitterException::DIRECTORY_NOT_WRITABLE)||($e->getCode() == CSVSplitterException::FILES_NOT_WRITABLE)) {
                                                 $showMsg = "IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE";
                                                 $res = false;
-    										}
+                                            }
+
+                                            if (($e->getCode() == CSVSplitterException::SOURCE_FILE_NOT_FOUND) || ($e->getCode() == CSVSplitterException::SOURCE_FILE_NOT_READABLE)){
+                                                $showMsg = "IMPORT_FILE_PERMISSION_ERROR";
+                                                $res = false;
+                                            }
+
+                                            if (($e->getCode() == CSVSplitterException::SOURCE_FILE_EMPTY)){
+                                                $showMsg = "IMPORT_FILE_EMPTY_ERROR";
+                                                $res = false;
+                                            }
+
                                         }
 									}
 									break;

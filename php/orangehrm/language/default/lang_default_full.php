@@ -298,7 +298,7 @@
 	$lang_Common_UPDATE_SUCCESS 			= "Successfully Updated";
 	$lang_Common_DELETE_SUCCESS 			= "Successfully Deleted";
 	$lang_Common_ADD_FAILURE 				= "Failed to Add";
-        $lang_Common_DUP_USERS_FAILURE                          = "Cannot Add Duplicate User";
+    $lang_Common_DUP_USERS_FAILURE          = "Cannot Add Duplicate User";
 	$lang_Common_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_Common_DELETE_FAILURE 			= "Failed to Delete";
 	$lang_Common_UNKNOWN_FAILURE            = "Operation Failed";
@@ -306,6 +306,8 @@
 	$lang_Common_COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE = "Compulsary fields not assigned";
 	$lang_Common_IMPORT_FAILURE = "Import failed";
     $lang_Common_IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE = "Import failed. No write permission to temporary directory";
+    $lang_Common_IMPORT_FILE_PERMISSION_ERROR = "Import failed. Check file permissions";
+    $lang_Common_IMPORT_FILE_EMPTY_ERROR = "Import failed. File was empty";
 
     // Common navigation
     $lang_Common_First						= "First";
