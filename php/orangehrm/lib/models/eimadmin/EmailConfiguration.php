@@ -196,14 +196,23 @@ class EmailConfiguration {
 
 	public function sendTestEmail() {
 
+
 		if ($this->getTestEmailType() == "smtp") {
 
-			$config = array('auth' => 'login',
-							'username' => $this->getSmtpUser(),
-							'password' => $this->getSmtpPass(),
-							'port' => $this->getSmtpPort());
-							
-			$security = $this->getSmtpSecurity();			
+                        $auth = $this->getSmtpAuth();
+
+			if ($auth != self::EMAILCONFIGURATION_SMTP_AUTH_NONE){
+
+                        $config = array('auth' => 'login',
+                                                        'username' =>$this->getSmtpUser(),
+                                                        'password' =>$this->getSmtpPass(),
+                                                        'port' =>$this->getSmtpPort());
+                        } else {
+                        $config = array('port' =>$this->getSmtpPort());
+                        }
+
+			$security = $this->getSmtpSecurity();
+			
 			if ($security != self::EMAILCONFIGURATION_SMTP_SECURITY_NONE) {
 				$config['ssl'] = strtolower($security);
 			}
