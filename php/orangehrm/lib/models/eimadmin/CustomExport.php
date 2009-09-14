@@ -39,7 +39,7 @@ class CustomExport {
 
 	/** CSV Field name constants */
 	const FIELD_EMPID = 'empId';
-    const FIELD_LASTNAME = 'lastName';
+        const FIELD_LASTNAME = 'lastName';
 	const FIELD_FIRSTNAME =  'firstName';
 	const FIELD_MIDDLENAME = 'middleName';
 	const FIELD_STREET1 = 'street1';
@@ -64,7 +64,7 @@ class CustomExport {
 	const FIELD_CUSTOM8 = 'custom8';
 	const FIELD_CUSTOM9 = 'custom9';
 	const FIELD_CUSTOM10 = 'custom10';
-	//const FIELD_WORKSTATE = 'workState';
+	const FIELD_WORKSTATE = 'workState';
 	const FIELD_SALARY = 'salary';
 	const FIELD_PAYFREQUENCY = 'payFrequency';
 	const FIELD_FITWSTATUS = 'FITWStatus';
@@ -155,7 +155,7 @@ class CustomExport {
 			self::FIELD_ZIP, self::FIELD_GENDER, self::FIELD_BIRTHDATE, self::FIELD_SSN,
 			self::FIELD_EMPSTATUS, self::FIELD_JOINEDDATE, self::FIELD_WORKSTATION, self::FIELD_LOCATION);
 
-		$restOfAllFields = array(/*self::FIELD_WORKSTATE, */self::FIELD_SALARY, self::FIELD_PAYFREQUENCY, self::FIELD_FITWSTATUS,
+		$restOfAllFields = array(self::FIELD_WORKSTATE, self::FIELD_SALARY, self::FIELD_PAYFREQUENCY, self::FIELD_FITWSTATUS,
 			self::FIELD_FITWEXCEMPTIONS, self::FIELD_SITWSTATE, self::FIELD_SITWSTATUS, self::FIELD_SITWEXCEMPTIONS,
 			self::FIELD_SUISTATE, self::FIELD_DD1ROUTING, self::FIELD_DD1ACCOUNT, self::FIELD_DD1AMOUNT,
 			self::FIELD_DD1AMOUNTCODE, self::FIELD_DD1CHECKING, self::FIELD_DD2ROUTING, self::FIELD_DD2ACCOUNT,
