@@ -563,7 +563,7 @@ class LeaveController {
 		$toDate = $tmpObj->getLeaveToDate();
 		$authorizeObj = $this->authorize;
 
-		if($authorizeObj->isESS()){
+		if($authorizeObj->isESS() && !$authorizeObj->isSupervisor()){
 
 			$fromDateArray = explode("-" , $fromDate)  ;
 			$toDateArray = explode("-" , $toDate);
@@ -923,14 +923,14 @@ class LeaveController {
 	 */
 	private function _authenticateViewLeaveSummary() {
 		$id = $this->getId();
-                
-                
-                
+
+
+
 		if (($_SESSION['isAdmin'] !== 'Yes') && ($id !== $_SESSION['empID'])){
 
 			$objReportTo = new EmpRepTo();
 
-                                              
+
 			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
 
 			for ($i=0; $i < count($subordinates); $i++) {
@@ -1139,7 +1139,7 @@ class LeaveController {
 		} else {
 			$repObj = new EmpRepTo();
 			$tmpOb[1] = $repObj->getEmpSubDetails($_SESSION['empID']);
-                       
+
 		}
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
