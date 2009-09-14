@@ -199,17 +199,17 @@ class EmailConfiguration {
 
 		if ($this->getTestEmailType() == "smtp") {
 
-                        $auth = $this->getSmtpAuth();
+            	$auth = $this->getSmtpAuth();
 
 			if ($auth != self::EMAILCONFIGURATION_SMTP_AUTH_NONE){
 
-                        $config = array('auth' => 'login',
-                                                        'username' =>$this->getSmtpUser(),
-                                                        'password' =>$this->getSmtpPass(),
-                                                        'port' =>$this->getSmtpPort());
-                        } else {
-                        $config = array('port' =>$this->getSmtpPort());
-                        }
+            $config = array('auth' => 'login',
+                            'username' =>$this->getSmtpUser(),
+                            'password' =>$this->getSmtpPass(),
+                            'port' =>$this->getSmtpPort());
+            } else {
+            	$config = array('port' =>$this->getSmtpPort());
+            }
 
 			$security = $this->getSmtpSecurity();
 			
