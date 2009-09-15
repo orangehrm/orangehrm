@@ -530,7 +530,7 @@ class TimeController {
 	}
 
 	public function saveAttendanceReport() {
-
+		
 		$extractor = new EXTRACTOR_AttendanceRecord($_SESSION['userTimeZoneOffset'], round(date('Z')/3600, 1));
 		$attendanceArr = $extractor->parseReportData($_POST);
 		$updated = true;
@@ -538,6 +538,22 @@ class TimeController {
 		$messageType = null;
 
 		if (!empty($attendanceArr)) {
+			
+			/* Following check is for $_SESSION['attCriteria'] which
+			 * is used in generateAttendanceSummary()
+			 */
+			
+			if (isset($_SESSION['attCriteria'])) {
+				
+			    $criteria = array($_POST['hdnEmployeeId'], $_POST['txtFromDate'].' 00:00:00', $_POST['txtToDate'].' 23:59:59');
+			    
+			    if ($_SESSION['attCriteria'] == $criteria) {
+			        $_SESSION['attCriteria'] = null;
+			    }			    
+			    
+			}
+			
+			/* Check for $_SESSION['attCriteria'] Ends */			
 
 			try {
 
