@@ -1,4 +1,41 @@
+New & Changed Features for OrangeHRM ver 2.5-beta.16
+
+	Bug Fixes
+	---------
+	
+	2841874 - Emp List:check 'Delete All' and uncheck all-> mysql error
+	2844764 - Cryptokeys and temp directories are missing in in the relea
+	2846003 - PIM:'Direct Deposit' amount length>9 leads to mysql error
+	2839394 - Supervisor->Select a Company Property leads to the Mysql Err
+	2846038 - Subordinates name and Report method not shown in reports
+	2840214 - punchIn/Out page Note with characters>256 leads to mysql err
+	2854117 - Names not listed in leave summery for Admin user with employ
+	2833626 - Leave Summary->Employees names aren't shown for HRAdminUser
+	2061936 - Recruitment:Unwanted text after rejecting job application
+	2571308 - Report to->Supervisor/Subordinate,Emp ID should be editable
+	2075361 - ESS: Date of birth can't Change in IE 7
+	2839423 - Project Time -> Default values are incorrect
+	2559996 - The same date can be specify as holiday several times
+	2839425 - Time->Attendance ->sub menu is not aligned.
+	2845424 - Project Reports page:'Show Deleted' field should be aligned
+	2839417 - TS Detail View->Edit->Default values are incorrect
+	2722930 - Leave applied should be able to cancel on same day
+	2844787 - Stopper when import data if file doesn't have read permissio
+	2833636 - Without leave quota-Supervisor can't assign leave to his sub:
+	2804767 - Test email from email Configuration not working for non SSL
+	2833634 - Notification mail gets fail when Ess canceling the leave
+	2080488 - Leave:no way to c the leaves of all subordinates to supervis.
+	2844776 - There should be a back button in summary page import/export
+	2846040 - File type is not validating in import
+	2846051 - shows emp No even the 'Emp No' field is unchecked
+	2615411 - Implement back button in 'List of taken leave' link.
+	2688230 - Give a meaningful error message for duplicated ess users.
+	2009682 - Admin:Com property:emp selecting mechanism should improve 
+	2835952 - Leave summary-Current year should be selected as default Year.
+	
+
 New & Changed Features for OrangeHRM ver 2.5-beta.15
+
 	Bug Fixes
 	---------
 	2014044 - 'Job offer' should not depend with int. schdule 
@@ -24,6 +61,7 @@ New & Changed Features for OrangeHRM ver 2.5-beta.15
 	2792059 - Report -MySql Error when viewing report with criteria pay gr
 
 New & Changed Features for OrangeHRM ver 2.5-beta.14
+
 	Bug Fixes
 	---------
 	2013481 - Recruitment : Zip code accept chars without warning msg
@@ -53,6 +91,7 @@ New & Changed Features for OrangeHRM ver 2.5-beta.14
 	2820625 - pagination not implemented in Custom Export & Import pages 
 
 New & Changed Features for OrangeHRM ver 2.5-beta.13
+
 	Bug Fixes
 	---------
 	2828796 - Jobs.php - Title of the job goes to the second line
@@ -75,6 +114,7 @@ New & Changed Features for OrangeHRM ver 2.5-beta.13
 	1879947 - Print Timesheets: cannot select All
 
 New & Changed Features for OrangeHRM ver 2.5-beta.12
+
 	Bug Fixes
 	---------
 	2811394 - can't add timesheet events if customer name has single quote
@@ -133,6 +173,7 @@ New & Changed Features for OrangeHRM ver 2.5-beta.11
 	2711107 - Time Grid Summary -> Back button not functioning in IE7
 
 New & Changed Features for OrangeHRM ver 2.5-beta.10
+
 	Changed Features
 	----------------
 	Updated the latest language files for the Dutch language
