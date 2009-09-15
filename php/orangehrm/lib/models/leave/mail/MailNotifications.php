@@ -225,7 +225,9 @@ class MailNotifications {
 
 		if (isset($this->to) && is_array($this->to)) {
 			foreach ($this->to as $to) {
-				$mailer->addTo($to);
+				if ($to != "") {
+                                    $mailer->addTo($to);
+                                }
 				$logMessage .= "\r\n".$to;
 			}
 		}
@@ -238,10 +240,14 @@ class MailNotifications {
 
 			foreach ($notificationAddresses as $cc) {
 					if (is_array($this->to)) {
-						$mailer->addCc($cc);
+						if ($cc != "") {
+                                                    $mailer->addCc($cc);
+                                                }
 					} else {
-						$mailer->addTo($cc);
-						$this->to = array();
+						if ($cc != "") {
+                                                    $mailer->addTo($cc);
+                                                    $this->to = array();
+                                                }
 					}
 					$logMessage .= "\r\n".$cc;
 			}
@@ -593,7 +599,7 @@ class MailNotifications {
 		if (isset($leaveObjs[0])) {
 
 			$employeeId = $leaveObjs[0]->getEmployeeId();
-			
+
 			$empInfoObj = new EmpInfo();
             $employeeName = $empInfoObj->getFullName($employeeId);
 
