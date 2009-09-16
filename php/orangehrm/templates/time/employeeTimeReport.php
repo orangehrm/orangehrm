@@ -106,6 +106,12 @@ td {
 			<th ><?php echo round($totalTime/36)/100; ?></th>
 			<td></td>
 		</tr>
+		<tr>
+			<td></td>
+			<td colspan="3"><?php echo $lang_Time_Timesheet_ApprovedReport; ?></td>
+			<td></td>
+		</tr>
+
 		<?php
 			  } else { ?>
 		<tr>

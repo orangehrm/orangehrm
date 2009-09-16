@@ -1442,6 +1442,7 @@
         $lang_Time_Timesheet_Project_Deleted = "Show Deleted";
 	$lang_Time_Timesheet_Total = "Total";
 	$lang_Time_TimeFormat = "Time Format";
+	$lang_Time_Timesheet_ApprovedReport = "Employee Time Report for Approved Timesheets";
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
