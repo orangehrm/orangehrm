@@ -97,7 +97,7 @@ if (isset($_SESSION['error'])) {
 
 /* This $_SESSION['cMethod'] is used to determine wheter to use an existing database or a new one */
 
-$_SESSION['cMethod'] = 'existing';
+$_SESSION['cMethod'] = 'new';
 
 if (isset($_POST['cMethod'])) {
 	$_SESSION['cMethod'] = $_POST['cMethod'];
@@ -110,12 +110,20 @@ if(isset($_POST['actionResponse']))
 		case 'LICENSEOK' : $_SESSION['LICENSE'] = 'OK'; break;
 		case 'SYSCHECKOK' : $_SESSION['SYSCHECK'] = 'OK'; break;
 
-		case 'DBINFO' : $dbInfo = array( 'dbHostName' => trim($_POST['dbHostName']),
+		case 'DBINFO' :                 $uname = "";
+                                                $passw = "";
+                                                if (isset( $_POST['dbUserName'] )) {
+                                                     $uname = trim($_POST['dbUserName']);
+                                                }
+                                                if (isset( $_POST['dbPassword'] )) {
+                                                     $passw = trim($_POST['dbPassword']);
+                                                }
+                                                $dbInfo = array( 'dbHostName' => trim($_POST['dbHostName']),
 										 'dbHostPort' => trim($_POST['dbHostPort']),
 										 'dbHostPortModifier' => trim($_POST['dbHostPortModifier']),
 										 'dbName' => trim($_POST['dbName']),
-										 'dbUserName' => trim($_POST['dbUserName']),
-										 'dbPassword' => trim($_POST['dbPassword']));
+										 'dbUserName' => $uname,
+										 'dbPassword' => $passw);
 
 						if(!isset($_POST['chkSameUser'])) {
 							 $dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);

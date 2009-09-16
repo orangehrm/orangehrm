@@ -21,6 +21,10 @@
 ?>
 <script language="JavaScript">
 
+function dosubmit(){
+    document.frmInstall.submit();
+}
+
 function disableFields() {
 
 	if(document.frmInstall.chkSameUser.checked) {
@@ -134,8 +138,30 @@ document.frmInstall.submit();
 
  <table cellpadding="0" cellspacing="0" border="0" class="table">
 	<tr>
-		<th colspan="3" align="left">Database Configuration</td>
+		<th colspan="3" align="left">Database Configuration    
+               </th>
+                
 	</tr>
+
+ <tr>
+        <td class="tdComponent">Database to Use</td>
+        <td class="tdValues"> <select name="dbmethods" onchange="dosubmit();">
+
+                <?php
+                    $selectEx = "";
+                    $selectDB = "";
+                    
+                    if ($_SESSION['cMethod'] == 'existing') {
+                        $selectEx = "selected";
+                    } else {
+                        $selectDB = "selected";
+                    }
+                ?>
+                                        <option value="" <?php echo $selectEx; ?>>Existing Empty Database</option>
+                                        <option value="" <?php echo $selectDB; ?>>New Databse</option>
+                              </select>
+        </td>
+</tr>
 <tr>
 	<td class="tdComponent">Database Host Name</td>
 	<td class="tdValues"><input type="text" name="dbHostName" value="<?php echo  isset($_SESSION['dbInfo']['dbHostName']) ? $_SESSION['dbInfo']['dbHostName'] : 'localhost'?>" tabindex="1" ></td>
@@ -171,7 +197,7 @@ document.frmInstall.submit();
 	<td class="tdComponent">Use the same Database User for OrangeHRM</td>
 	<td class="tdValues"><input type="checkbox" onclick="disableFields()" <?php echo isset($_POST['chkSameUser']) ? 'checked' : '' ?> name="chkSameUser" value="1" tabindex="6"></td>
 </tr>
-<?php } ?>
+<?php  } ?>
 <tr>
 	<td class="tdComponent">OrangeHRM Database Username</td>
 	<td class="tdValues"><input type="text" name="dbOHRMUserName" <?php echo isset($_POST['chkSameUser']) ? 'disabled' : '' ?> value="<?php echo  isset($_SESSION['dbInfo']['dbOHRMUserName']) ? $_SESSION['dbInfo']['dbOHRMUserName'] : 'orangehrm'?>" tabindex="7"> #</td>
@@ -188,28 +214,8 @@ document.frmInstall.submit();
 
 <br />
 
-<table cellpadding="0" cellspacing="0" border="0" class="table">
-<tr>
-<td>
-<div id="dbMethod" style="padding:15px 10px 15px 2px">
-<b>
-<?php
-if ($_SESSION['cMethod'] == 'existing') {
-    echo 'Do you want OrangeHRM to create the database and user for you?';
-} else {
-    echo 'Do you want to use an existing empty database?';
-}
-
-?>
-</b>
-</div>
-</td>
-<td>
 <input type="hidden" name="cMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'new':'existing'; ?>" />
-<input type="submit" name="Yes" value="Yes" style="margin:15px 0px 15px 10px" />
-</td>
-</tr>
-</table>
+
 
 <br />
 <input type="hidden" id="dbCreateMethod" name="dbCreateMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'existing':'new'; ?>" />
