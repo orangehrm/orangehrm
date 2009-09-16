@@ -1346,12 +1346,12 @@ class TimeController {
 
 		$timesheet = $timesheets[0];
 
-
-
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
-
+		$dataArr['supView'] = false;
+		
 		if ($timesheet && $this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())) {
 			$roles[] = authorize::AUTHORIZE_ROLE_SUPERVISOR;
+			$dataArr['supView'] = true;
 		}
 
 		$role = $this->authorizeObj->firstRole($roles);

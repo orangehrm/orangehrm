@@ -35,7 +35,7 @@ $role = $records[8];
 $activitySum = $records[9];
 $totalTime = $records[10];
 
-$isEditable = ($records['rights']['edit'] || $records[5]); // $records[5] is true if the timesheet belongs to the current user
+$isEditable = ($records['rights']['edit'] || $records[5] || $records['supView']); // $records[5] is true if the timesheet belongs to the current user
 
 if ($self) {
 	$next=true;
