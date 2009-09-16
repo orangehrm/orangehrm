@@ -45,12 +45,20 @@
 	holidayDates = new Array();
 
 	<?php if(isset($records['holidayList'])) {
-        foreach(($records['holidayList']) as $holidaydate) {
+			foreach(($records['holidayList']) as $holidaydate) {
+				if ($modifier) {
+					if ($holidaydate->getDate()!=$date){
+						echo "\tholidayDates.push(\"{$holidaydate->getDate()}\");\n";
+					}
+				}
+				else{
+					echo "\tholidayDates.push(\"{$holidaydate->getDate()}\");\n";
+				}
+        	}
+		}
 
-                print "\tholidayDates.push(\"{$holidaydate->getDate()}\");\n";
 
-        }
-    }
+
 	?>
 	function goBack() {
 		location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_List';
@@ -91,13 +99,6 @@
 			errMes += "\t- <?php echo $lang_Error_InvalidDate; ?>\r\n";
 		}
 
-		var desc = "<?php echo $description; ?>";
-		if (desc) {
-	    	var answer = confirm("<?php echo preg_replace('/#date/', $date, $lang_Leave_Holiday_Edit_Warning); ?>");
-	    	if (!answer){
-	    		return;
-	    	}
-		}
 
 		if (errMes != "") {
 			errMes = "Please correct the following errors to continue\r\n\r\n"+errMes;
