@@ -536,12 +536,7 @@ function updateEmpMain() {
         }
     }
 
-    if ( (document.frmEmp.txtzipCode.value != '') && (!numbers(document.frmEmp.txtzipCode)) ){
-		if (!confirm ("<?php echo $lang_Error_CompStruct_ZipInvalid; ?>".replace(/#characterList/, nonNumbers(document.frmEmp.txtzipCode))+". <?php echo $lang_Error_DoYouWantToContinue; ?>") ) {
-			document.frmEmp.txtzipCode.focus();
-			return;
-		}
-	}
+
 
 	var cntrl = document.frmEmp.txtHmTelep;
 	if(cntrl.value != '' && !checkPhone(cntrl)) {
