@@ -273,7 +273,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			</td>
 
 			<td class="selectTd">
-				<select id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
+				<select style = "width:150px" id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProjectFirst;?> --</option>
 				</select>
 			</td>
@@ -440,7 +440,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 			} else {
 
-			    combo.options[0] = new Option('<?php echo $lang_Time_Timesheet_NoProjects;?>', '-1');
+			    combo.options[0] = new Option('<?php echo $lang_Time_Timesheet_SelectProjectFirst;?>', '-1');
 
 			}
 
@@ -508,9 +508,10 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		/* Adding activities select box */
 		activityCell = document.createElement('td');
 		var activitySelect = document.createElement('select');
+		activitySelect.style.width= "150px";
 		activitySelect.name = 'cmbActivity-'+ rowNo;
 		activitySelect.id = 'cmbActivity-'+ rowNo;
-		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectActivity;?> --', '-1');
+		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectProjectFirst;?> --', '-1');
 		activityCell.appendChild(activitySelect);
 		row.appendChild(activityCell);
 
