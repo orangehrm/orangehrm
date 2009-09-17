@@ -33,7 +33,7 @@ function populateActivities($projectId, $activityId=-1) {
 
 	if (count($projectActivities) == 0) {
 		$projectActivities[0][0] = -1;
-		$projectActivities[0][1] = "- $lang_Time_Timesheet_SelectProject -";
+		$projectActivities[0][1] = "- $lang_Time_Timesheet_SelectProjectFirst -";
 
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
 	} else {
