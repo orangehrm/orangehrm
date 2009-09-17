@@ -305,14 +305,7 @@ function addEmpMain() {
 		return;
 	}
 
-	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_MiddleNameNumbers?>')) {
-		cnt.focus();
-		return;
-	} else if ((cnt.value == '') && !confirm('<?php echo $lang_Error_MiddleNameEmpty?>')) {
-		cnt.focus();
-		return;
-	}
+
 
 	document.frmEmp.sqlState.value = "NewRecord";
 	document.frmEmp.submit();
@@ -506,13 +499,6 @@ function updateEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpMiddleName;
 
-	if((document.frmEmp.main.value == 1) && !(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_MiddleNameNumbers?>')) {
-		cnt.focus();
-		return;
-	} else if ((document.frmEmp.main.value == 1) && (cnt.value == '') && !confirm('<?php echo $lang_Error_MiddleNameEmpty?>')) {
-		cnt.focus();
-		return;
-	}
 
     // contact details validation
     if( document.frmEmp.contactFlag.value == '1' ){
