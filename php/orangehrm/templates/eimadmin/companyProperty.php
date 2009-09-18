@@ -22,13 +22,6 @@ $delBtnAction = 'deleteProperties()';
 $saveBtnAction = 'saveList()';
 
 $authObj = $this->popArr['authObj'];
-
-if (isset($this->popArr['emplist'])) {
-	
-	$employees = $this->popArr['emplist'];
-	
-}
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,12 +33,7 @@ if (isset($this->popArr['emplist'])) {
 <script type="text/javascript">
 //<![CDATA[
 
-var employeeSearchList = new Array();
 var properties=new Array();
-
-var arrEmpName = document.getElementsByName('txtUserEmp[]'); 
-var arrEmpId = document.getElementsByName('cmbUserEmpID[]');
-	
 <?php
 
 if(isset($this->getArr['action']) && (count($this->popArr['allProperties'])!=0))
@@ -62,20 +50,6 @@ if(isset($this->getArr['action']) && (count($this->popArr['allProperties'])!=0))
     }
 }
 
-?>
-
-<?php
-if (isset($employees) ){
- 
-   if ($employees) {
-       $i = 0;        
-       foreach ($employees as $record) {?>
-          employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-     <?php
-     }
-   }
-
-}  
 ?>
 
 function add()
@@ -96,19 +70,6 @@ function saveList()
 {
     var sqlState =  document.getElementById('listSqlState');
     sqlState.value = 'UpdateRecord';
-      	
-	for(i=0; i < arrEmpName.length; i++) {
-
-       if (arrEmpName[i].value == '') {
-           arrEmpId[i].value = '-1';
-        }
-
-		for (a in employeeSearchList) {
-    		if (arrEmpName[i].value == employeeSearchList[a][0]) {     			 
-    			arrEmpId[i].value = employeeSearchList[a][2];    			
-    		}
-    	}    	
-	}
 
     var form = document.getElementById('propertyList');
     form.submit();
@@ -257,14 +218,13 @@ function chgPage(pNo) {
 <!--[if IE]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
-<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
 
 
 <body>
 <?php
 if (!isset($this->getArr['action'])) {
-    $properties = $this->popArr['properties'];   
+    $properties = $this->popArr['properties'];
 ?>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title; ?></h2></div>
@@ -332,8 +292,7 @@ if (!isset($this->getArr['action'])) {
             {
             $classBg = 'odd';
 
-			$a =0;
-			
+
             foreach ($properties as $property) {
             ?>
 
@@ -344,35 +303,23 @@ if (!isset($this->getArr['action'])) {
                         <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
                         <td class="<?php echo $classBg ?>" width="400" nowrap="nowrap">
                         <input readonly="readonly" name="propId[]" type="hidden" value='<?php echo $property['prop_id']==0?'':$property['prop_id']?>'>
-                        <input type='hidden' name="cmbUserEmpID[]" value="">    
-                        
-                        <div class="yui-skin-sam" style="float:left;margin-right:10px;">
-	           				<div id="employeeSearchAC<?php echo $a; ?>" style="width:150px;">
-								<input type="text" name="txtUserEmp[]" id="txtUserEmpID<?php echo $a; ?>" style="margin:1px 0px 2px 0px;position: relative" autocomplete="off"
-								value="" />
-							    <div id="employeeSearchACContainer<?php echo $a; ?>" style="margin:6px 0px 0px 0px;"></div>
-						  </div>
-			 		  </div>
-                        
-                        <script type="text/javascript">                         	
-                         	for (a in employeeSearchList) {
-							    if (employeeSearchList[a][2] == '<?php echo $property['emp_id']; ?>') {
-							    	arrEmpName[<?php echo $a; ?>].value = employeeSearchList[a][0];
-                                    break
-							    } else {
-                                    arrEmpName[<?php echo $a; ?>].value = '<?php echo $lang_Common_TypeHereForHints ;?>';
-                                    arrEmpId[<?php echo $a; ?>].value = '-1';
-                                }
-    						}                        			
-                         		
-                         </script>
-                        
+                        <select name='cmbUserEmpID[]'>
+                            <option <?php echo ($property['emp_id']==-1)|($property['emp_id']=='')?'selected':'' ?> value="-1"><?php echo $lang_Admin_Property_Please_Select;?></option>
+                        <?php
+                        if(isset($this->popArr['emplist']) && $this->popArr['emplist']!=0) {
+                        foreach($this->popArr['emplist'] as $emp) {
+                        	$empId = ($authObj->isAdmin()) ? $emp[2] : $emp[0]; // This is needed because the 1st element in array is employee id (not employee number) in Admin mode
+                            ?>
+
+                            <option <?php echo ($empId == $property['emp_id']) ? 'selected="selected"' : ''; ?> value="<?php echo $empId; ?>"><?php echo $emp[1];?></option>
+
+
+                        <?php }} ?>
+                        </select>
                         </td>
             </tr>
 
             <?php
-            	$a++;
-            	
                 if ($classBg=='odd')
                     $classBg = 'even';
                 else
@@ -432,26 +379,6 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
     if (document.getElementById && document.createElement) {
         roundBorder('outerbox');
     }
-    
-    YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-            // Instantiate second JS Array DataSource
-            this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList);
-            
-            <?php 
-            	if (isset($properties)) {
-            		for($c = 0; $c<count($properties); $c++ ) { ?>
-		            // Instantiate second AutoComplete
-		            this.oAutoComp = new YAHOO.widget.AutoComplete('txtUserEmpID<?php echo $c; ?>','employeeSearchACContainer<?php echo $c; ?>', this.oACDS);
-		            this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
-		            this.oAutoComp.typeAhead = false;
-		            this.oAutoComp.useShadow = true;
-		            this.oAutoComp.forceSelection = true;
-		            this.oAutoComp.formatResult = function(oResultItem, sQuery) {
-		            var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
-		            return (sMarkup);
-		            };
-            <?php }} ?>
-        };
 //]]>
 </script>
 </body>

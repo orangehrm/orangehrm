@@ -3141,10 +3141,10 @@ class ViewController {
                             if (!isset($_GET['action'])) {
                                 $empInfo = new EmpInfo();
                                 if ($authorizeObj->isAdmin()) {
-                                	$form_creator->popArr['emplist'] = $empInfo->getEmployeeSearchList();
+                                	$form_creator->popArr['emplist'] = $empInfo->getListofEmployee();
                                 } else {
                                 	$empReportTo = new EmpRepTo();
-									$form_creator->popArr['emplist'] = $this->_prepareSubordinateList($empReportTo->getEmpSubDetails($_SESSION['empID'])); // prepare the subordinate list for auto complete box
+									$form_creator->popArr['emplist'] = $empReportTo->getEmpSubDetails($_SESSION['empID']);
 									/* An element of the value from $empInfo->getListofEmployee() will contain
 									 * an array with 6 elements. Values from $empReportTo->getEmpSubDetails() will
 									 * only contain 3 elements. But there won't be a problem because only first 3 values
@@ -3167,10 +3167,8 @@ class ViewController {
 							if ($authorizeObj->isAdmin()) {
 	                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo);
 							} else {
-								$empReportTo = new EmpRepTo();
-                                $subbordinates = $empReportTo->getEmpSubDetails($_SESSION['empID']);
 								$subordinateList = array();
-								foreach ($subbordinates as $subordinate) {
+								foreach ($form_creator->popArr['emplist'] as $subordinate) {
 									$subordinateList[] = $subordinate[0];
 								}
 	                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo, $subordinateList, true);
@@ -3443,20 +3441,6 @@ class ViewController {
 				}
 		$form_creator->display();
 
-	}
-	
-	 private function _prepareSubordinateList($subs) {
-	 	
-	    	$subsForAutoComp = array();
-	        $count = count($subs);
-	
-	        for ($i = 0; $i< $count; $i++) {
-	            $subsForAutoComp[$i][] = $subs[$i][1];
-	            $subsForAutoComp[$i][] = '';
-	            $subsForAutoComp[$i][] = ltrim($subs[$i][0], "0");
-	        }
-	
-	        return $subsForAutoComp;
 	}
 
     /**
