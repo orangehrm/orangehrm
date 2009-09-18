@@ -976,9 +976,6 @@ tableDisplayStyle = "table";
 </style>
 <!--[if IE]>
 <style type="text/css">
-	#pimleftmenu ul.pimleftmenu li {
-	    display:inline;
-	}
 
 	/* following style may not be needed */
 	#pimleftmenu ul.pimleftmenu {
