@@ -768,6 +768,10 @@ class RecruitmentController {
             try {
                 $application->save();
                 $this->_saveApplicationEvent($event, JobApplicationEvent::EVENT_MARK_OFFER_DECLINED);
+
+                $notifier = new RecruitmentMailNotifier();
+                $notifier->sendApplicationRejectedEmailToApplicant($application);
+
                 $message = 'UPDATE_SUCCESS';
             } catch (Exception $e) {
                 $message = 'UPDATE_FAILURE';

@@ -124,6 +124,50 @@ class EmailNotificationConfiguration {
 		return $this->_buildObjArr($result);
 	}
 
+	public function fetchSelectedMailNotifications($notificationTypeId=null) {
+		$notificationObjs = $this->fetchSelectedNotifcationStatus($notificationTypeId);
+		$emails = null;
+
+		if (is_array($notificationObjs)) {
+			foreach ($notificationObjs as $notificationObj) {
+				$emails[] = $notificationObj->getEmail();
+			}
+		}
+
+		return $emails;
+	}
+	/*
+	 * Fetch only selected notification statuses for admins status=1
+	 *
+	 * */
+	public function fetchSelectedNotifcationStatus($notificationTypeId=null) {
+		$sqlQBuilder = new SQLQBuilder();
+
+		$arrFields[0] = '`user_id`';
+		$arrFields[1] = '`notification_type_id`';
+		$arrFields[2] = '`status`';
+
+		$arrTable = "`hs_hr_mailnotifications`";
+
+		$userId = $this->getUserId();
+		if (isset($userId)) {
+			$selectConditions[1] = "`user_id` = '{$this->getUserId()}'";
+		}
+
+		if (isset($notificationTypeId)) {
+			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
+			$selectConditions[3] = "`status`='1'";
+		}
+
+		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection -> executeQuery($query);
+
+		return $this->_buildObjArr($result);
+	}
+
 	public function updateNotificationStatus() {
 
 		$userObj = new Users();

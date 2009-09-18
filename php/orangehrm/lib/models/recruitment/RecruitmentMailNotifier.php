@@ -432,6 +432,7 @@ class RecruitmentMailNotifier {
             throw new RecruitmentMailNotifierException("Invalid parameters",RecruitmentMailNotifierException::INVALID_PARAMETER);
         }
         $intManagerEmail = $this->_getEmpAddress($intManagerId);
+
         if (empty($intManagerEmail)) {
             $this->_log("Interviewing manager {$intManagerId} does not have email address.");
             return false;
@@ -485,12 +486,22 @@ class RecruitmentMailNotifier {
         $attachment->filename = 'interview.ics';
 
         /* Send Email with task attached */
-        $to =  "{$intManagerName['first']} {$intManagerName['last']}<{$intManagerEmail}>";
-        $body = '';
+
+		$body = '';
         $notificationType = null;
         $attachments = array($attachment);
         $subject = $summary;
-        $this->_sendMail($to, $subject, $body, $notificationType, $attachments);
+
+		$admins=new EmailNotificationConfiguration();
+		$adminEmails=$admins->fetchSelectedMailNotifications(7); // get all admin email ids
+
+		$this->_sendMail($intManagerEmail, $subject, $body, $notificationType, $attachments);
+        $this->_sendMail($applicantEmail, $subject, $body, $notificationType, $attachments);
+
+        $num=count($adminEmails);
+        for($i=0;$i<$num;$i++){
+        	 $this->_sendMail($adminEmails[$i], $subject, $body, $notificationType, $attachments);
+        }
      }
 
     /**
