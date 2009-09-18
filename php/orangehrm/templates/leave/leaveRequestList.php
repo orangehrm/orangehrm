@@ -24,6 +24,9 @@
  $leaveStatuses = (isset($modifier['leave_statuses'])) ? $modifier['leave_statuses'] : array();
  $fromDate = (isset($modifier['from_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['from_date']) : null;
  $toDate = (isset($modifier['to_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['to_date']) : null;
+ 
+ $recordsCount = $modifier['recordsCount'];
+ $pageNo = $modifier['pageNo'];
 
  $modifier = $modifier[0];
 
@@ -168,6 +171,27 @@ if ($modifier === "ADMIN" || $modifier ==="SUP") {
 			}
 		}
 	}
+	
+	/* Functions for paging */
+	
+	function nextPage() {
+		i=document.frmFilterLeave.pageNo.value;
+		i++;
+		document.frmFilterLeave.pageNo.value=i;
+		document.frmFilterLeave.submit();
+	}
+
+	function prevPage() {
+		var i=document.frmFilterLeave.pageNo.value;
+		i--;
+		document.frmFilterLeave.pageNo.value=i;
+		document.frmFilterLeave.submit();
+	}
+
+	function chgPage(pNO) {
+		document.frmFilterLeave.pageNo.value=pNO;
+		document.frmFilterLeave.submit();
+	}
 
 	YAHOO.OrangeHRM.container.init();
 //]]>
@@ -233,6 +257,7 @@ label.subLabel {
 	<label class="mainLabel"><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</label>
 	<label class="subLabel" for="allCheck"><?php echo $lang_Leave_Common_All; ?></label>
 	<input type="checkbox" class="checkbox" name="allCheck" id="allCheck" onclick="toggleAll();"/>
+	<input type="hidden" name="pageNo" value="<?php echo (isset($pageNo))?$pageNo:'1'; ?>">
 <?php
 	foreach ($statusArr as $key=>$value) {
 		/* Don't show multiple status as a check box */
@@ -278,7 +303,23 @@ label.subLabel {
 <?php   } ?>
         </div>
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
-        <div class="pagingbar"></div>
+        
+		<!-- Paging: Begins -->
+		<?php if ($recordsCount > 50) {
+		
+		echo '<div class="pagingbar">';
+		
+		$commonFunc = new CommonFunctions();
+		$pageStr = $commonFunc->printPageLinks($recordsCount, $pageNo, 50);
+		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+		
+		echo $pageStr;
+		
+		echo '</div>';
+		
+		} ?>
+		<!-- Paging: Ends -->
+        
     <br class="clear" />
     </div>
 <?php   } ?>

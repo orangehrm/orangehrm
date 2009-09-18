@@ -385,39 +385,37 @@ class LeaveController {
 			unset($_SESSION['leaveListToDate']);
 		}
 
+		/* Setting leave status */
+		
 		if (isset($_POST['leaveStatus'])) {
 			$leaveStatuses = $_POST['leaveStatus'];
 		} else if (isset($_SESSION['leaveStatusFilters'])) {
 			$leaveStatuses = $_SESSION['leaveStatusFilters'];
 		} else {
-			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_APPROVED);
+			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
 		}
 		$_SESSION['leaveStatusFilters'] = $leaveStatuses;
 
 		$fromDate = isset($_POST['txtFromDate'])?$_POST['txtFromDate']:
-			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:null);
+			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:$this->_generateStartEndDate('start'));
 		$toDate = isset($_POST['txtToDate'])?$_POST['txtToDate']:
-			(isset($_SESSION['leaveListToDate']) ? $_SESSION['leaveListToDate']:null);
+			(isset($_SESSION['leaveListToDate']) ? $_SESSION['leaveListToDate']:$this->_generateStartEndDate('end'));
 
-
-		 $timeStamp = strtotime($fromDate);
-		 if (($timeStamp === false) || $timeStamp == -1 ) {
-		 	$fromDate = null;
-		 	unset($_SESSION['leaveListFromDate']);
-		 } else {
-			$_SESSION['leaveListFromDate'] = $fromDate;
-		 }
-
-		 $timeStamp = strtotime($toDate);
-		 if (($timeStamp === false) || $timeStamp == -1 ) {
-		 	$toDate = null;
-		 	unset($_SESSION['leaveListToDate']);
-		 } else {
-			$_SESSION['leaveListToDate'] = $toDate;
-		 }
+		$_SESSION['leaveListFromDate'] = $fromDate;
+		$_SESSION['leaveListToDate'] = $toDate;
+		
+		if (isset($_POST['pageNo'])) {
+		    $pageNo = $_POST['pageNo'];
+		} else {
+		    $pageNo = 1;
+		}
+		
+		$modifiers['recordsCount'] = 0;
+		$limit = ($pageNo*50-50).', 50';
 
 		if (!$details) {
-			$tmpObj = $tmpObj->retriveLeaveRequestsAdmin($leaveStatuses, $fromDate, $toDate);
+			$modifiers['recordsCount'] = $tmpObj->countLeaveRequestsAdmin($leaveStatuses, $fromDate, $toDate);
+			$tmpObj = $tmpObj->retriveLeaveRequestsAdmin($leaveStatuses, $fromDate, $toDate, $limit);
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
 			$this->_authenticateViewLeaveDetails();
@@ -431,9 +429,20 @@ class LeaveController {
 		$modifiers['leave_statuses'] = $leaveStatuses;
 		$modifiers['from_date'] = $fromDate;
 		$modifiers['to_date'] = $toDate;
+		$modifiers['pageNo'] = $pageNo;
 
 		$template->display($modifiers);
 
+	}
+	
+	private function _generateStartEndDate($state = 'start') {
+	    
+	    if ($state == 'start') {
+	        return date('Y-m-d');
+	    } else {
+	        return date('Y-m-d', time()+30*24*3600);
+	    }
+	    
 	}
 
 	/**
@@ -448,35 +457,32 @@ class LeaveController {
 		} else if (isset($_SESSION['leaveStatusFilters'])) {
 			$leaveStatuses = $_SESSION['leaveStatusFilters'];
 		} else {
-			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_APPROVED);
+			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
 		}
 		$_SESSION['leaveStatusFilters'] = $leaveStatuses;
 
 		$fromDate = isset($_POST['txtFromDate'])?$_POST['txtFromDate']:
-			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:null);
+			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:$this->_generateStartEndDate('start'));
 		$toDate = isset($_POST['txtToDate'])?$_POST['txtToDate']:
-			(isset($_SESSION['leaveListToDate']) ? $_SESSION['leaveListToDate']:null);
+			(isset($_SESSION['leaveListToDate']) ? $_SESSION['leaveListToDate']:$this->_generateStartEndDate('end'));
 
-
-		 $timeStamp = strtotime($fromDate);
-		 if (($timeStamp === false) || $timeStamp == -1 ) {
-		 	$fromDate = null;
-		 	unset($_SESSION['leaveListFromDate']);
-		 } else {
-			$_SESSION['leaveListFromDate'] = $fromDate;
-		 }
-
-		 $timeStamp = strtotime($toDate);
-		 if (($timeStamp === false) || $timeStamp == -1 ) {
-		 	$toDate = null;
-		 	unset($_SESSION['leaveListToDate']);
-		 } else {
-			$_SESSION['leaveListToDate'] = $toDate;
-		 }
+		$_SESSION['leaveListFromDate'] = $fromDate;
+		$_SESSION['leaveListToDate'] = $toDate;
+		 
+		if (isset($_POST['pageNo'])) {
+		    $pageNo = $_POST['pageNo'];
+		} else {
+		    $pageNo = 1;
+		}
+		
+		$modifiers['recordsCount'] = 0;
+		$limit = ($pageNo*50-50).', 50';
+		 
 		$tmpObj = $this->getObjLeave();
 
 		if (!$details) {
-			$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId(),$leaveStatuses, $fromDate, $toDate);
+			$modifiers['recordsCount'] = $tmpObj->countLeaveRequestsSupervisor($this->getId(), $leaveStatuses, $fromDate, $toDate);
+			$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId(), $leaveStatuses, $fromDate, $toDate, $limit);
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
 			$this->_authenticateViewLeaveDetails();
@@ -491,6 +497,7 @@ class LeaveController {
 		$modifiers['leave_statuses'] = $leaveStatuses;
 		$modifiers['from_date'] = $fromDate;
 		$modifiers['to_date'] = $toDate;
+		$modifiers['pageNo'] = $pageNo;
 
 		$template->display($modifiers);
 	}

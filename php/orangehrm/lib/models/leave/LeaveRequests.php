@@ -115,8 +115,9 @@ class LeaveRequests extends Leave {
 	 * @param $fromDate Date Start date to search
 	 * @param $toDate Date End date to search
 	 */
-	public function retriveLeaveRequestsAdmin($filterLeaveStatus = null, $fromDate = null, $toDate = null) {
 
+	public function retriveLeaveRequestsAdmin($filterLeaveStatus = null, $fromDate, $toDate, $limit) {
+		
 		$sqlBuilder = new SQLQBuilder();
 
 		$arrFields[0] = 'c.`leave_type_name`';
@@ -128,13 +129,19 @@ class LeaveRequests extends Leave {
 		$arrTables[0] = "`hs_hr_leave_requests` a";
 		$arrTables[1] = "`hs_hr_employee` b";
 		$arrTables[2] = "`hs_hr_leavetype` c";
+		$arrTables[3] = "`hs_hr_leave` d";
 
-        $selectConditions[0]  = "b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000'" ;
+		$leaveStates = implode(',', $filterLeaveStatus);
+
+        $selectConditions[0] = "(b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000')" ;
+        $selectConditions[1] = "(d. `leave_status` IN ($leaveStates))";
+        $selectConditions[2] = "(d.`leave_date` >= '$fromDate' AND d.`leave_date` <= '$toDate')"; 
 
 		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
 		$joinConditions[2] = "a.`leave_type_id` = c.`leave_type_id`";
+		$joinConditions[3] = "a.`leave_request_id` = d.`leave_request_id`";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit);
 
 		$dbConnection = new DMLFunctions();
 
@@ -143,6 +150,42 @@ class LeaveRequests extends Leave {
 		$leaveArr = $this->_buildObjArr($result, true, $filterLeaveStatus, $fromDate, $toDate);
 
 		return $leaveArr;
+		
+	}
+	
+	public function countLeaveRequestsAdmin($filterLeaveStatus = null, $fromDate, $toDate) {
+		
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'COUNT(*)';
+
+		$arrTables[0] = "`hs_hr_leave_requests` a";
+		$arrTables[1] = "`hs_hr_employee` b";
+		$arrTables[2] = "`hs_hr_leave` d";
+
+		$leaveStates = implode(',', $filterLeaveStatus);
+
+        $selectConditions[0] = "(b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000')" ;
+        $selectConditions[1] = "(d. `leave_status` IN ($leaveStates))";
+        $selectConditions[2] = "(d.`leave_date` >= '$fromDate' AND d.`leave_date` <= '$toDate')"; 
+
+		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
+		$joinConditions[2] = "a.`leave_request_id` = d.`leave_request_id`";
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+		
+		$row = mysql_fetch_array($result);
+		
+		if (!empty($row)) {
+			return $row[0]; 
+		} else {
+			return 0;
+		}
+		
 	}
 
 	/**
@@ -151,7 +194,7 @@ class LeaveRequests extends Leave {
 	 *
 	 * @return LeaveRequests[][] $leaveArr A 2D array of the leaves
 	 */
-	public function retriveLeaveRequestsSupervisor($supervisorId,$leaveStatuses, $fromDate, $toDate) {
+	public function retriveLeaveRequestsSupervisor($supervisorId,$leaveStatuses, $fromDate, $toDate, $limit) {
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -165,24 +208,66 @@ class LeaveRequests extends Leave {
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
 		$arrTables[2] = "`hs_hr_employee` d";
 		$arrTables[3] = "`hs_hr_leavetype` e";
+		$arrTables[4] = "`hs_hr_leave` f";
 
-		$joinConditions[1] = "a.`employee_id` = c.`erep_sub_emp_number`";
-		$joinConditions[2] = "a.`employee_id` = d.`emp_number`";
-		$joinConditions[3] = "a.`leave_type_id` = e.`leave_type_id`";
+		$joinConditions[1] = "(a.`employee_id` = c.`erep_sub_emp_number`)";
+		$joinConditions[2] = "(a.`employee_id` = d.`emp_number`)";
+		$joinConditions[3] = "(a.`leave_type_id` = e.`leave_type_id`)";
+		$joinConditions[4] = "(a.`leave_request_id` = f.`leave_request_id`)";
 
-		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
+		$leaveStates = implode(',', $leaveStatuses);
+		
+		$selectConditions[0] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
+        $selectConditions[1] = "(f. `leave_status` IN ($leaveStates))";
+        $selectConditions[2] = "(f.`leave_date` >= '$fromDate' AND f.`leave_date` <= '$toDate')"; 
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$leaveArr = $this->_buildObjArr($result, true, $leaveStatuses,$fromDate,$toDate);
+
+		return $leaveArr;
+
+	}
+	
+	public function countLeaveRequestsSupervisor($supervisorId,$leaveStatuses, $fromDate, $toDate) {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'COUNT(*)';
+
+		$arrTables[0] = "`hs_hr_leave_requests` a";
+		$arrTables[1] = "`hs_hr_emp_reportto` c";
+		$arrTables[2] = "`hs_hr_employee` d";
+		$arrTables[3] = "`hs_hr_leave` f";
+
+		$joinConditions[1] = "(a.`employee_id` = c.`erep_sub_emp_number`)";
+		$joinConditions[2] = "(a.`employee_id` = d.`emp_number`)";
+		$joinConditions[3] = "(a.`leave_request_id` = f.`leave_request_id`)";
+
+		$leaveStates = implode(',', $leaveStatuses);
+		
+		$selectConditions[0] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
+        $selectConditions[1] = "(f. `leave_status` IN ($leaveStates))";
+        $selectConditions[2] = "(f.`leave_date` >= '$fromDate' AND f.`leave_date` <= '$toDate')"; 
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
-
 		
-		$leaveArr = $this->_buildObjArr($result, true, $leaveStatuses,$fromDate,$toDate);
+		$row = mysql_fetch_array($result);
 		
-
-		return $leaveArr;
+		if (!empty($row)) {
+			return $row[0]; 
+		} else {
+			return 0;
+		}
+		
 	}
 
 /**
