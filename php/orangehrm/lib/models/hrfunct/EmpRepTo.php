@@ -381,7 +381,6 @@ class EmpRepTo {
 	function getEmpSubDetails($getID) {
 
 		$sqlBuilder = new SQLQBuilder();
-                $arrayDispList=array();
 
 		$arrFields[0] = 'LPAD(b.`emp_number`, '.$this->employeeIdLength.', 0)';
 		$arrFields[1] = "CONCAT(b.`emp_firstname`, ' ', b.`emp_lastname`)";

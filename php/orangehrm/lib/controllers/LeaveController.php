@@ -93,7 +93,7 @@ class LeaveController {
 
 	public function viewLeaves($modifier="employee", $year=null, $details=false, $sortField = null, $sortOrder = null, $pageNO=null) {
 
- 		if ($details) {
+		if ($details) {
 			switch ($modifier) {
 				case "employee": $this->setObjLeave(new Leave());
 								 $this->_viewLeavesEmployee($details);
@@ -899,7 +899,7 @@ class LeaveController {
 
 		$tmpObj = $this->getObjLeave();
 
-                $eps = ($esp == null) ? 'employee' : $esp;
+        $eps = ($esp == null) ? 'employee' : $esp;
 
 		$tmpObjX['leaveSummary'] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, FALSE ,$pageNO ,50);
 
@@ -929,19 +929,17 @@ class LeaveController {
 	 *
 	 */
 	private function _authenticateViewLeaveSummary() {
+
 		$id = $this->getId();
-
-
 
 		if (($_SESSION['isAdmin'] !== 'Yes') && ($id !== $_SESSION['empID'])){
 
 			$objReportTo = new EmpRepTo();
 
-
 			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
 
 			for ($i=0; $i < count($subordinates); $i++) {
-				if (in_array($id, $subordinates[$i]) || $id==0 ) {  // $id==0  for all option in view leave list
+				if (in_array($id, $subordinates[$i])) {
 					$subordinate = true;
 					break;
 				}

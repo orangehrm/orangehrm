@@ -165,14 +165,12 @@
 		<?php } else if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
 			<select name="id">
 				<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-                                <option value="0"><?php echo $lang_Leave_Common_All;?></option>
 				<?php
 		   			if (is_array($employees)) {
 		   				sort($employees);
 		   				foreach ($employees as $employee) {
 		  ?>
 		 		<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
-                                
 		  <?php 		}
 		   			}
          ?>

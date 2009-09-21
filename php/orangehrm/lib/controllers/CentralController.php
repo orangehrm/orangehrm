@@ -1332,11 +1332,11 @@ switch ($moduletype) {
 																							}
 																						}
 
-                                                                                                                                                                                if(isset($_REQUEST['pageNO'])){
-                                                                                                                                                                                        $pageNO = $_REQUEST['pageNO'];
-                                                                                                                                                                                }else{
-                                                                                                                                                                                        $pageNO = 1;
-                                                                                                                                                                                }
+                                                                                        if(isset($_REQUEST['pageNO'])){
+                                                                                                $pageNO = $_REQUEST['pageNO'];
+                                                                                        }else{
+                                                                                                $pageNO = 1;
+                                                                                        }
 
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
