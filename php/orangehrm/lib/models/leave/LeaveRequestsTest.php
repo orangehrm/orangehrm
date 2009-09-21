@@ -201,7 +201,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     public function testRetriveLeaveRequestsSupervisor1() {
     	$leaveObj = $this->classLeaveRequest;
 		$statusPendingApproval = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor('051',$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor('051',$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNull($res, 'Non exsistent record found');
     }
@@ -211,7 +211,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$employeeId = '012';
 		
 		$statusPendingApproval = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
     	
@@ -226,7 +226,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	}
 
     	$statusApproved = array(Leave::LEAVE_STATUS_LEAVE_APPROVED);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusApproved,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*3));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusApproved,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*3), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(1, count($res), 'Wrong number of records found');
     	
@@ -238,7 +238,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($expected[3], $res[0]->getLeaveToDate(), 'Wrong To Date');
 	
     	$statusCancelled = array(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusCancelled,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*3));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusCancelled,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*3), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(1, count($res), 'Wrong number of records found');
     	
@@ -251,7 +251,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	
     	
     	$statusRejected = array(Leave::LEAVE_STATUS_LEAVE_REJECTED);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusRejected,date('Y-m-d', time()+3600*24*4),date('Y-m-d', time()+3600*24*4));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusRejected,date('Y-m-d', time()+3600*24*4),date('Y-m-d', time()+3600*24*4), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(1, count($res), 'Wrong number of records found');
     	
@@ -263,7 +263,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($expected[3], $res[0]->getLeaveToDate(), 'Wrong To Date');
     	
     	$statusTaken = array(Leave::LEAVE_STATUS_LEAVE_TAKEN);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusTaken,date('Y-m-d', time()+3600*24*5),date('Y-m-d', time()+3600*24*5));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statusTaken,date('Y-m-d', time()+3600*24*5),date('Y-m-d', time()+3600*24*5), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(1, count($res), 'Wrong number of records found');
     	
@@ -275,7 +275,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($expected[3], $res[0]->getLeaveToDate(), 'Wrong To Date');
 		
 		$statuses = array(Leave::LEAVE_STATUS_LEAVE_CANCELLED,Leave::LEAVE_STATUS_LEAVE_REJECTED,Leave::LEAVE_STATUS_LEAVE_TAKEN);
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statuses,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*5));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId,$statuses,date('Y-m-d', time()+3600*24*3),date('Y-m-d', time()+3600*24*5), '0,50');
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(3, count($res), 'Wrong number of records found');
     	
@@ -293,7 +293,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusPendingApproval = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL." WHERE leave_request_id = 10"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL." WHERE leave_request_id = 11"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusPendingApproval,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
@@ -302,7 +302,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusRejected = array(Leave::LEAVE_STATUS_LEAVE_REJECTED);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_request_id = 10"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_request_id = 11"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusRejected,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusRejected,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
@@ -311,7 +311,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusApproved = array(Leave::LEAVE_STATUS_LEAVE_APPROVED);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_request_id = 10"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_request_id = 11"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusApproved,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusApproved,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
@@ -320,7 +320,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusPartlyApproved = array(Leave::LEAVE_STATUS_LEAVE_APPROVED,Leave::LEAVE_STATUS_LEAVE_REJECTED);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_id = 11"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_id = 13"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusPartlyApproved,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusPartlyApproved,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
@@ -328,7 +328,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusCancelled = array(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_CANCELLED." WHERE leave_request_id = 10"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_CANCELLED." WHERE leave_request_id = 11"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusCancelled,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusCancelled,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Should not return any results');
 
@@ -336,7 +336,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		$statusTaken = array(Leave::LEAVE_STATUS_LEAVE_TAKEN);
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_TAKEN." WHERE leave_request_id = 10"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_TAKEN." WHERE leave_request_id = 11"), mysql_error());
-    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusTaken,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2));
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId,$statusTaken,date('Y-m-d', time()+3600*24),date('Y-m-d', time()+3600*24*2), '0,50');
 
     	$this->assertNotNull($res, 'Should not return any results');
 

@@ -204,7 +204,7 @@ class CustomizableCSVExport implements CSVExportPlugin {
               CustomExport::FIELD_CUSTOM8 => new CSVField('custom8', CSVField::FIELD_TYPE_DIRECT),
               CustomExport::FIELD_CUSTOM9 => new CSVField('custom9', CSVField::FIELD_TYPE_DIRECT),
               CustomExport::FIELD_CUSTOM10 => new CSVField('custom10', CSVField::FIELD_TYPE_DIRECT),
-              #CustomExport::FIELD_WORKSTATE => new CSVField('tax_work_state', CSVField::FIELD_TYPE_DIRECT),
+              CustomExport::FIELD_WORKSTATE => new CSVField('tax_work_state', CSVField::FIELD_TYPE_DIRECT),
               CustomExport::FIELD_SALARY => new CSVField('ebsal_basic_salary', CSVField::FIELD_TYPE_DIRECT),
               CustomExport::FIELD_PAYFREQUENCY => new CSVField('payperiod_code', CSVField::FIELD_TYPE_FROMMAP, $payPeriods),
               CustomExport::FIELD_FITWSTATUS => new CSVField('tax_federal_status', CSVField::FIELD_TYPE_DIRECT),
