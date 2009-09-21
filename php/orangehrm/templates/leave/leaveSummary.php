@@ -374,7 +374,18 @@ $broughtForward = $modifier[4];
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
-		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ((!empty($empInfo)) && $empInfo[0] != $_SESSION['empID'])))) { ?>
+<?php 
+
+if (
+	(isset($_REQUEST['id']) && empty($_REQUEST['id'])) && 
+	(
+		$_SESSION['isAdmin'] == 'Yes' ||
+		(
+			isset($_SESSION['empID']) && 
+			((!empty($empInfo)) && $empInfo[0] != $_SESSION['empID'])
+		)
+	)
+) { ?>
 
 			<?php $col = 1; ?>
 			<td>
@@ -464,7 +475,20 @@ $broughtForward = $modifier[4];
 			}
 ?>
   <tr>
-   	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && (!empty($empInfo) && $empInfo[0] != $_SESSION['empID'])))) { ?>
+  
+<?php 
+if (
+	(isset($_REQUEST['id']) && empty($_REQUEST['id'])) && 
+	(
+		$_SESSION['isAdmin'] == 'Yes' ||
+		(
+			isset($_SESSION['empID']) && 
+			(!empty($empInfo) && $empInfo[0] != $_SESSION['empID'])
+		)
+	)
+) { 
+?>
+  	
   	<td class="<?php echo $cssClass; ?>"><?php echo $record['employee_name'] ?></td>
   	<?php } ?>
     <td class="<?php echo $cssClass; ?>">
