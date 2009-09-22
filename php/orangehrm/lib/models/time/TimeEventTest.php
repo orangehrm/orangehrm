@@ -398,28 +398,6 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$this->assertNull($res, "Empty report received");
     }
 
-    public function testTimeReport2() {
-		$eventObj = $this->classTimeEvent;
-
-    	$expected[10][10] = array(180);
-
-    	$eventObj->setEmployeeId(10);
-
-    	$res = $eventObj->timeReport(date('Y-m-d'), date('Y-m-d', time()+3600*2));
-
-    	$this->assertNotNull($res, "Empty report received");
-
-    	$this->assertType("array", $res, "Results are not an array");
-
-    	foreach ($res as $projectId=>$projectDetails) {
-    		$this->assertType("array", $expected[$projectId], "Wrong result format");
-    		foreach ($projectDetails as $activityId=>$timeSpent) {
-    			$this->assertType("array", $expected[$projectId][$activityId], "Results are not an array");
-				$this->assertEquals($expected[$projectId][$activityId][0], $timeSpent, "Timespent wrong");
-    		}
-    	}
-    }
-    
     public function testFetchTimeSheetIds(){
     	
     	$eventObj = $this->classTimeEvent;

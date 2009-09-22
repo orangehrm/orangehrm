@@ -372,7 +372,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 
         $attachments = $mockMailer->getAttachments();
 
-        $this->assertEquals(2, count($attachments));
+        $this->assertEquals(3, count($attachments));
 
     }
 

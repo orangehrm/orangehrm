@@ -150,8 +150,9 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 	}
 
     public function testAddLeaveQuotaAccuracy1() {
-		$expected[] = array(date('Y'), "LTY010", "Medical", "10");
+
 		$expected[] = array(date('Y'), "LTY011", "Casual", "20");
+		$expected[] = array(date('Y'), "LTY010", "Medical", "10");
 
         for ($i=0; $i < count($expected); $i++) {
 
@@ -198,8 +199,9 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         }
     }
     public function testEditLeaveQuota1() {
-        $expected[] = array(date('Y'), "LTY010", "Medical", "15");
+
         $expected[] = array(date('Y'), "LTY011", "Casual", "18");
+        $expected[] = array(date('Y'), "LTY010", "Medical", "15");
 
         for ($i=0; $i < count($expected); $i++) {
 
@@ -254,9 +256,9 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
 
-        $expected[] = array(date('Y'), "LTY010", "Medical", "10");
         $expected[] = array(date('Y'), "LTY011", "Casual", "20");
-
+        $expected[] = array(date('Y'), "LTY010", "Medical", "10");
+        
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getYear(), $expected[$i][0], "Didn't return expected result ");
         	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][1], "Didn't return expected result ");
@@ -301,7 +303,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		$result = $quota[1]->isLeaveQuotaDeleted();
 		$this->assertFalse($result);
 
-		$result = $quota[2]->isLeaveQuotaDeleted();
+		$result = $quota[4]->isLeaveQuotaDeleted();
 		$this->assertTrue($result);
 	}
 

@@ -79,8 +79,8 @@ class EmpLocationTest extends PHPUnit_Framework_TestCase {
                     "VALUES(13, '0042', 'Jayaweera', 'Nimal', 'T')");
 
         // Insert locations
-        $this->locations[] = array('LOC001', 'Kandy');
         $this->locations[] = array('LOC002', 'Colombo');
+        $this->locations[] = array('LOC001', 'Kandy');
         $this->locations[] = array('LOC003', 'Matara');
         $this->locations[] = array('LOC004', 'Nuwara Eliya');
 
@@ -304,7 +304,7 @@ class EmpLocationTest extends PHPUnit_Framework_TestCase {
         $list = EmpLocation::getUnassignedLocations(12);
         $this->assertTrue(is_array($list));
         $this->assertEquals(2, count($list));
-        $this->_compareLocations(array($this->locations[0], $this->locations[3]), $list);
+        $this->_compareLocations(array($this->locations[1], $this->locations[3]), $list);
 
         // employee with all location assigned
         $list = EmpLocation::getUnassignedLocations(11);
@@ -357,7 +357,7 @@ class EmpLocationTest extends PHPUnit_Framework_TestCase {
      */
     private function _compareLocations($expected, $result) {
         $this->assertEquals(count($expected), count($result));
-
+        
         $i = 0;
         foreach ($result as $location) {
             $this->assertTrue(is_array($location));

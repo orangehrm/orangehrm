@@ -412,7 +412,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 10 ";
         $result = $dbConnection -> executeQuery($query);
         $row = $dbConnection->dbObject->getArray($result);
-        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
+        $this->assertEquals(3, $row['leave_status'], 'Invalid status');
 
         Holidays::updateHolidaysForLeavesOnCreate($date2, '8');
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 12 ";
@@ -440,7 +440,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 11 ";
         $result = $dbConnection -> executeQuery($query);
         $row = $dbConnection->dbObject->getArray($result);
-        $this->assertEquals(3, $row['leave_status'], 'Invalid status');
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
 
         Holidays::updateHolidaysForLeavesOnUpdate($date2, '8');
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 12 ";
@@ -450,7 +450,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 13 ";
         $result = $dbConnection -> executeQuery($query);
         $row = $dbConnection->dbObject->getArray($result);
-        $this->assertEquals(2, $row['leave_status'], 'Invalid status');
+        $this->assertEquals(1, $row['leave_status'], 'Invalid status');
     }
 
     public function testUpdateHolidaysForLeavesOnDelete(){
@@ -460,13 +460,13 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 11 ";
         $result = $dbConnection -> executeQuery($query);
         $row = $dbConnection->dbObject->getArray($result);
-        $this->assertEquals(3, $row['leave_status'], 'Invalid status');
+        $this->assertEquals(5, $row['leave_status'], 'Invalid status');
 
         Holidays::updateHolidaysForLeavesOnDelete(date('Y-m-d', time()+3600*24*3), '8');
         $query = "SELECT leave_id, leave_status FROM hs_hr_leave WHERE leave_id = 13 ";
         $result = $dbConnection -> executeQuery($query);
         $row = $dbConnection->dbObject->getArray($result);
-        $this->assertEquals(2, $row['leave_status'], 'Invalid status');
+        $this->assertEquals(1, $row['leave_status'], 'Invalid status');
     }
 }
 
