@@ -1,8 +1,37 @@
-New & Changed Features for OrangeHRM ver 2.5-beta.16
+New & Changed Features for OrangeHRM ver 2.5-beta.17
 
 	Bug Fixes
 	---------
+	2843433 - Lot of error messages in the server log when access applicat.
+	2840790 - Duration isn't updated when changing Report type dropdown
+	2840205 - supervisor can't see subordinates' attendance reports.
+	2839363 - Supervisor can't edit or save subordinates' TS
+	2853572 - Installers db selection option should be more userfriendly.
+	2839405 - Time->Employee Report Not Retrieves Data
+	2831824 - To load Leave List, System will take more than 9 min
+	2556502 - Too large numbers are accepted which cannot be handled properly
+	2841024 - In IE8:PIM page there's gap between items in the left panel.
+	2827911 - Notification mail issues in recruitment module.
+	2026711 - PIM:saved ZIP code validated again & again PIM module
+	2844685 - Add Employee:Remove Warning message for middle name
 	
+	Re-Fixes
+	--------
+	2854117 - Names not listed in leave summery for Admin user with employ
+	2839417 - TS Detail View->Edit->Default values are incorrect
+	2839423 - Project Time -> Default values are incorrect
+	2559996 - The same date can be specify as holiday several times
+	
+	Reverted Fixes
+	--------------
+	2009682 - Admin:Com property:emp selecting mechanism should improve.
+	2080488 - Leave:no way to c the leaves of all subordinates to supervis.
+	
+
+New & Changed Features for OrangeHRM ver 2.5-beta.16
+
+	Bug Fixes
+	---------	
 	2841874 - Emp List:check 'Delete All' and uncheck all-> mysql error
 	2844764 - Cryptokeys and temp directories are missing in in the relea
 	2846003 - PIM:'Direct Deposit' amount length>9 leads to mysql error
