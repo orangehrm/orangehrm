@@ -1086,13 +1086,13 @@ function getCurrencyAssigned($salgrd) {
 	/**
 	 * Select from multiple tables
 	 */
-	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions = null, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null, $groupBy = null) {
+	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions = null, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null, $groupBy = null, $distinct = false) {
 
 		if (!isset($joinTypes)) {
 			$joinTypes = array_fill(1, count($arrTables)-1, "LEFT");
 		}
 
-		$query = $this->_buildSelect($arrFields);
+		$query = $this->_buildSelect($arrFields, $distinct);
 
 		$query .= " FROM ";
 
@@ -1251,9 +1251,13 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 	}
 
-	function _buildSelect($arrFields) {
+	function _buildSelect($arrFields, $distinct = false) {
 
-		$query = "SELECT ".$this->_buildList($arrFields, " , ");
+		if ($distinct) {
+			$query = "SELECT DISTINCT ".$this->_buildList($arrFields, " , ");
+		} else {
+			$query = "SELECT ".$this->_buildList($arrFields, " , ");
+		}
 
 		return $query;
 	}

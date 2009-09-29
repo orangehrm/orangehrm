@@ -141,7 +141,7 @@ class LeaveRequests extends Leave {
 		$joinConditions[2] = "a.`leave_type_id` = c.`leave_type_id`";
 		$joinConditions[3] = "a.`leave_request_id` = d.`leave_request_id`";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit, null, true);
 
 		$dbConnection = new DMLFunctions();
 
@@ -221,7 +221,7 @@ class LeaveRequests extends Leave {
         $selectConditions[1] = "(f. `leave_status` IN ($leaveStates))";
         $selectConditions[2] = "(f.`leave_date` >= '$fromDate' AND f.`leave_date` <= '$toDate')"; 
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null, $limit, null, true);
 
 		$dbConnection = new DMLFunctions();
 
