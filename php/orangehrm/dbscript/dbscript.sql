@@ -1468,7 +1468,7 @@ INSERT INTO `hs_hr_country` VALUES ('SZ', 'SWAZILAND', 'Swaziland', 'SWZ', 748);
 INSERT INTO `hs_hr_country` VALUES ('SE', 'SWEDEN', 'Sweden', 'SWE', 752);
 INSERT INTO `hs_hr_country` VALUES ('CH', 'SWITZERLAND', 'Switzerland', 'CHE', 756);
 INSERT INTO `hs_hr_country` VALUES ('SY', 'SYRIAN ARAB REPUBLIC', 'Syrian Arab Republic', 'SYR', 760);
-INSERT INTO `hs_hr_country` VALUES ('TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan, Province of China', 'TWN', 158);
+INSERT INTO `hs_hr_country` VALUES ('TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan', 'TWN', 158);
 INSERT INTO `hs_hr_country` VALUES ('TJ', 'TAJIKISTAN', 'Tajikistan', 'TJK', 762);
 INSERT INTO `hs_hr_country` VALUES ('TZ', 'TANZANIA, UNITED REPUBLIC OF', 'Tanzania, United Republic of', 'TZA', 834);
 INSERT INTO `hs_hr_country` VALUES ('TH', 'THAILAND', 'Thailand', 'THA', 764);
