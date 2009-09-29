@@ -25,8 +25,8 @@
  $fromDate = (isset($modifier['from_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['from_date']) : null;
  $toDate = (isset($modifier['to_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['to_date']) : null;
  
- $recordsCount = $modifier['recordsCount'];
- $pageNo = $modifier['pageNo'];
+ $recordsCount = isset($modifier['recordsCount'])?$modifier['recordsCount']:0;
+ $pageNo = isset($modifier['pageNo'])?$modifier['pageNo']:1;
 
  $modifier = $modifier[0];
 
