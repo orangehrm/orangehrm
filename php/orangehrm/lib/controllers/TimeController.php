@@ -539,22 +539,13 @@ class TimeController {
 
 		if (!empty($attendanceArr)) {
 			
-			/* Following check is for $_SESSION['attCriteria'] which
-			 * is used in generateAttendanceSummary()
+			/* $_SESSION['attCriteria'] is used in Attendance Summary
+			 * and needs to reset when saving records. Otherwise summary
+			 * can look wrong
 			 */
 			
-			if (isset($_SESSION['attCriteria'])) {
-				
-			    $criteria = array($_POST['hdnEmployeeId'], $_POST['txtFromDate'].' 00:00:00', $_POST['txtToDate'].' 23:59:59');
-			    
-			    if ($_SESSION['attCriteria'] == $criteria) {
-			        $_SESSION['attCriteria'] = null;
-			    }			    
-			    
-			}
+			$_SESSION['attCriteria'] = null;
 			
-			/* Check for $_SESSION['attCriteria'] Ends */			
-
 			try {
 
 				foreach ($attendanceArr as $attendanceObj) {
