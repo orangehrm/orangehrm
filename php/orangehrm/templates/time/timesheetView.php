@@ -348,11 +348,13 @@ td {
 	<?php }
 	}
 	?>
+	<!--
     <input type="button" class="detailsbutton"
         onclick="actionDetails(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnDetails" id="btnDetails"
         value="<?php echo $lang_Common_Details;?>" />
+    -->
 
 	<?php if ($role && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
     <input type="button" class="resetbutton"

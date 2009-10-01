@@ -496,7 +496,6 @@ class RecruitmentMailNotifier {
 		$adminEmails=$admins->fetchSelectedMailNotifications(7); // get all admin email ids
 
 		$this->_sendMail($intManagerEmail, $subject, $body, $notificationType, $attachments);
-        $this->_sendMail($applicantEmail, $subject, $body, $notificationType, $attachments);
 
         $num=count($adminEmails);
         for($i=0;$i<$num;$i++){
