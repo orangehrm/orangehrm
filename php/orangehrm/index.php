@@ -541,9 +541,9 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 
 		/* Attendance Menu Items: End */
 
-		if ($authorizeObj->isESS()) {
+		/*if ($authorizeObj->isESS()) {
 	        $subs[] = new MenuItem("projectTime", $lang_Menu_Time_ProjectTime, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");
-		}
+		}*/
 
 		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
 	    if ($authorizeObj->firstRole($allowedRoles) && $arrAllRights[TimeM]['view']) {
