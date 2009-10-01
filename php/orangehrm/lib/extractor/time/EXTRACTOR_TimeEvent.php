@@ -62,7 +62,7 @@ class EXTRACTOR_TimeEvent {
 				if (isset($postArr['txtDuration'][$i])) {
 
 					$txtDuration = trim($postArr['txtDuration'][$i]);
-					if (!empty($txtDuration)) {
+					if (!empty($txtDuration) || $txtDuration == 0) {
 						$tmpObj->setDuration($txtDuration*3600);
 					}
 				}
