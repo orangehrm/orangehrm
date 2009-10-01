@@ -158,7 +158,7 @@ document.frmInstall.submit();
                     }
                 ?>
                                         <option value="" <?php echo $selectEx; ?>>Existing Empty Database</option>
-                                        <option value="" <?php echo $selectDB; ?>>New Databse</option>
+                                        <option value="" <?php echo $selectDB; ?>>New Database</option>
                               </select>
         </td>
 </tr>
@@ -186,11 +186,11 @@ document.frmInstall.submit();
 </tr>
 <?php if ($_SESSION['cMethod'] == 'new') { // Couldn't use JavaScript since IE didn't support 'table-row' display property in CSS ?>
 <tr>
-	<td class="tdComponent">Priviledged Database Username</td>
+	<td class="tdComponent">Privileged Database Username</td>
 	<td class="tdValues"><input type="text" name="dbUserName" value="<?php echo  isset($_SESSION['dbInfo']['dbUserName']) ? $_SESSION['dbInfo']['dbUserName'] : 'root'?>" tabindex="4"> *</td>
 </tr>
 <tr>
-	<td class="tdComponent">Priviledged Database User Password</td>
+	<td class="tdComponent">Privileged Database User Password</td>
 	<td class="tdValues"><input type="password" name="dbPassword" value="<?php echo  isset($_SESSION['dbInfo']['dbPassword']) ? $_SESSION['dbInfo']['dbPassword'] : ''?>" tabindex="5" > *</td>
 </tr>
 <tr>
