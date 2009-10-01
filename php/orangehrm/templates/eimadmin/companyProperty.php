@@ -300,7 +300,13 @@ if (!isset($this->getArr['action'])) {
             <tr>
 
                         <td class="<?php echo $classBg ?>" width="50"> <input type='checkbox' class='checkbox' name='chkPropId[]' value='<?php echo $property['prop_id']?>' onchange='checkIfAllChecked()' /></td>
-                        <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
+                        <td class="<?php echo $classBg ?>" width="250">
+                        <?php if ($authObj->isAdmin()) { ?>
+                        <a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a>
+                        <?php } else { 
+                        	echo $property['prop_name'];
+                        } ?>
+                        </td>
                         <td class="<?php echo $classBg ?>" width="400" nowrap="nowrap">
                         <input readonly="readonly" name="propId[]" type="hidden" value='<?php echo $property['prop_id']==0?'':$property['prop_id']?>'>
                         <select name='cmbUserEmpID[]'>
