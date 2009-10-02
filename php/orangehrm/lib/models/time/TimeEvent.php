@@ -302,7 +302,7 @@ class TimeEvent {
 			$insertValues[] = "'".$this->getReportedDate()."'";
 		}
 
-		if ($this->getDuration() != null) {
+		if ($this->getDuration() !== null) {
 			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
 			$insertValues[] = $this->getDuration();
 		}
