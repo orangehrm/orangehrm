@@ -487,12 +487,12 @@ INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
 INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
 INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,'file_ver_01');
 INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,0,'DVR001','FVR001','version 1.0');
-INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),
-								  ('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),
-								  ('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting'),
-								  ('MOD005', 'Leave', 'Mohanjith', 'mohanjith@beyondm.net', 'VER001', 'Leave Tracking'),
-								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking'),
-								  ('MOD007', 'Benefits', 'Gayanath', 'gayanath@orangehrm.com', 'VER001', 'Benefits Tracking'),
+INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','OrangeHRM','info@orangehrm.com','VER001','HR Admin'),
+								  ('MOD002','PIM','OrangeHRM','info@orangehrm.com','VER001','HR Functions'),
+								  ('MOD004','Report','OrangeHRM','info@orangehrm.com','VER001','Reporting'),
+								  ('MOD005', 'Leave', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Leave Tracking'),
+								  ('MOD006', 'Time', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Time Tracking'),
+								  ('MOD007', 'Benefits', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Benefits Tracking'),
  	 							('MOD008', 'Recruitment', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Recruitment');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
