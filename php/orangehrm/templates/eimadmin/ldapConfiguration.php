@@ -57,6 +57,7 @@ elseif(LdapDetails::LDAP_TYPE=='Windows AD'){
 </style>
 </head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet; ?>/scripts/style.js"></script>
 <script type="text/javascript" >
 
 function $(id) {
@@ -79,7 +80,7 @@ function edit() {
 	var resetButton = $("btnReset");
 	resetButton.disabled = false;
 
-	Edit.value = "<?php $lang_Common_Save; ?>";
+	Edit.value = "<?php echo $lang_Common_Save; ?>";
 }
 
 	function validate() {
@@ -205,7 +206,7 @@ if (isset($_GET['message']) && $_GET['message'] == "UPDATE_SUCCESS") {
 <?php			} else { ?>
 			        <input type="button" class="editbutton" id="btnEdit" disabled="disabled" value="<?php echo $lang_Common_Edit; ?>" />
 <?php			}  ?>
-<input type="button" class="resetbutton" id="btnReset" disabled="disabled" value="<?php $lang_Common_Reset; ?>"
+<input type="button" class="resetbutton" id="btnReset" disabled="disabled" value="<?php echo $lang_Common_Reset; ?>"
 	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
 	onclick="resetForm(); return false;" />
           </td>

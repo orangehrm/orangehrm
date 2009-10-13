@@ -110,7 +110,7 @@ document.frmInstall.submit();
 						$msg = $_SESSION['errorMsg'] . '. ';
 					}
 
-					$msg .= 'Please Check Priviledged Database Username and Password Correct.';
+					$msg .= 'Please Check Privileged Database Username and Password Correct.';
 
 	    		}else if(isset($_SESSION['mysqlErrNo']) && $_SESSION['mysqlErrNo'] == '2003'){
 	    			if (isset($_SESSION['errorMsg'])) {
@@ -224,7 +224,7 @@ document.frmInstall.submit();
 <br /><br />
 
 <div id="pDescription">
-<font size="1">* Priviledged Database User should have the rights to create databases, create tables, insert data into table, alter table structure and to create database users.</font>
+<font size="1">* Privileged Database User should have the rights to create databases, create tables, insert data into table, alter table structure and to create database users.</font>
 </div>
 <div id="oDescription">
 <font size="1"># OrangeHRM database user should have the rights to insert data into table, update data in a table, delete data in a table.</font>
