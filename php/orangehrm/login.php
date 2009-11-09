@@ -76,6 +76,8 @@ if (file_exists($benefitsFile)) {
 
 if (!empty($_POST['hdnUserTimeZoneOffset'])) {
 	$_SESSION['userTimeZoneOffset'] = $_POST['hdnUserTimeZoneOffset'];
+} else {
+	$_SESSION['userTimeZoneOffset'] = 0;
 }
 
 /* Saving user time zone offset in session: Ends */
