@@ -24,14 +24,6 @@ require_once ROOT_PATH.'/lib/logs/LogFileWriter.php';
 
 //require_once "LeaveType.php";
 
-/**
- * Leave Summary Operations
- *
- * @package OrangeHRM
- * @author S.H.Mohanjith
- * @copyright OrangeHRM Inc. International
- *
- */
 class LeaveSummary extends LeaveQuota {
 
 	const LEAVESUMMARY_CRITERIA_ALL = '0';
@@ -88,7 +80,7 @@ class LeaveSummary extends LeaveQuota {
 	/**
 	 * Leave summary of all employees
 	 */
-	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false, $pageNO=0, $itemPerPage=0, $leaveCount = FALSE) {
+	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false, $pageNO=1, $itemPerPage=0, $leaveCount = FALSE) {
 
 		$selectFields[0] = "a.`emp_number` as emp_number";
 		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
@@ -112,17 +104,12 @@ class LeaveSummary extends LeaveQuota {
 
 		$selectConditions = null;
 
-		if ( $searchBy == "employee" && !empty($employeeId) && ($employeeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+		if ( ($searchBy == "employee" || $searchBy == "both") && !empty($employeeId) && ($employeeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "a.`emp_number` = {$employeeId}";
 		}
-		if ( $searchBy == "leaveType" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
-			$selectConditions[] = "b.`leave_type_id` = '{$leaveTypeId}'";
-		}
-		if ( $searchBy == "both" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
-			$selectConditions[] = "a.`emp_number` = {$employeeId} AND b.`leave_type_id` = '{$leaveTypeId}'";
-		}
-		
+
 		$selectConditions[]  = "(a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000')" ;
+		$selectConditions[] = "c.`available_flag` = 1";
 
 		if ($sortField == null) {
 			$sortField = 0;
@@ -136,29 +123,43 @@ class LeaveSummary extends LeaveQuota {
 		$orderBy = array_pop($tmpFieldDefWords);
 
 		$sqlBuilder = new SQLQBuilder();
-		
-        $limit = null;
-        if ($pageNO > 0) {
-        	
-            $pageNO--;
-            $pageNO *= $itemPerPage;
-            $limit = "$pageNO, $itemPerPage";
-            
-        }
-
-		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, $limit, $groupBy);
+        
+		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, null, $groupBy);
 
 		$objLeaveType = new LeaveType();
 
 		if($leaveCount){
-			$query = "SELECT COUNT(*) AS leaveCount FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+			if ( ($searchBy == "leaveType" || $searchBy == "both") && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+				$query = "SELECT COUNT(*) AS leaveCount FROM ( $query ) subsel WHERE leave_type_id = '$leaveTypeId' AND available_flag = {$objLeaveType->availableStatusFlag}";
+			} else {
+				$query = "SELECT COUNT(*) AS leaveCount FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+			}
 		}else{	
-			$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+			if ( ($searchBy == "leaveType" || $searchBy == "both") && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+				$query = "SELECT * FROM ( $query ) subsel WHERE leave_type_id = '$leaveTypeId' AND available_flag = {$objLeaveType->availableStatusFlag}";
+			} else {
+				$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+			}
 		}
+
 		if (!$hideDeleted) {
 			$query = $query . " OR leave_taken > 0 OR leave_scheduled > 0";
 		}
+		
+		/* Setting limit */
+		
+		if (!$leaveCount) {
 
+	        $limit = '0, 50';
+	        if ($pageNO > 0) {
+	            $pageNO--;
+	            $pageNO *= $itemPerPage;
+	            $limit = "$pageNO, $itemPerPage";
+	        }
+
+			$query = $query." LIMIT ".$limit;	
+		}
+		
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
@@ -169,6 +170,7 @@ class LeaveSummary extends LeaveQuota {
 		}
 
 		return $resultArr;
+		
 	}
 
 	private function _fetchSumOfLeavesAll() {
