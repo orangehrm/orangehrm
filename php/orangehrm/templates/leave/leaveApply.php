@@ -160,19 +160,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				} else if (fromTime > toTime) {
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
-				} else if (($('txtLeaveTotalTime').value != '') && (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) ) {
-					err = true;
-					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
-				}
+				} 
 
-			} else if (($('sltLeaveFromTime').value != '') && extractTimeFromHours($('txtLeaveTotalTime').value)) {
-				if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
-					err = true;
-					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
-				}
-			} else if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
-				err = true;
-				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
 			} else if (($('sltLeaveFromTime').value == '' || $('sltLeaveToTime').value == '') && $('txtLeaveTotalTime').value == '') {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
@@ -180,6 +169,14 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				err = true;
 				msg += " - <?php echo $lang_Error_NonNumericHours; ?>\n"
 			}
+			
+			<?php if ($records['isEss']) { ?>
+			if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
+				err = true;
+				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
+			}
+			<?php } ?>			
+			
 		}
 
 		if ($('txtComments').value.length > <?php echo LeaveRequests::MAX_COMMENT_LENGTH; ?>){

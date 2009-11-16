@@ -714,6 +714,7 @@ class LeaveController {
 	 */
 	public function displayLeaveInfo($admin=false, $exception = null) {
 		$authorizeObj = $this->authorize;
+		$tmpObjs['isEss'] = false;
 
 		if ($admin) {
 			if ($authorizeObj->getIsAdmin() == 'Yes') {
@@ -756,6 +757,7 @@ class LeaveController {
 			$workShift = Workshift::getWorkshiftForEmployee($this->getId());
 			$shiftLength = isset($workShift) ? $workShift->getHoursPerDay() : Leave::LEAVE_LENGTH_FULL_DAY;
 			$tmpObjs['shiftLength'] = $shiftLength;
+			$tmpObjs['isEss'] = true;
 
 		}
 
