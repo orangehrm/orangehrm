@@ -33,7 +33,7 @@ $lang_Template_rep_headName = array(
 		'REPORTTO' => $lang_rep_ReportTo,
 		'REPORTINGMETHOD' => $lang_rep_ReportingMethod,
 		'JOBTITLE' => $lang_rep_JobTitle,
-		'SERPIR' => $lang_rep_ServicePeriod,
+		'SERPIR' => $lang_rep_JoinedDate,
 		'SUBDIVISION' => $lang_rep_SubDivision,
 		'QUL' => $lang_rep_Qualification,
 		'YEAROFPASSING' => $lang_rep_YearOfPassing,
@@ -65,8 +65,7 @@ function formatValue($string, $key, $replacements) {
 	}
 	
 	if ($key === 'AGE' || $key === 'SERPIR') {
-	    $duration = time() - strtotime($string);
-	    $string = (string) floor($duration / (365 * 3600 * 24));
+	    $duration = $string;
 	} elseif ($key === 'CONTRACT') {
 	    list($start, $end) = explode(' - ', $string);
 	    $string = LocaleUtil::getInstance()->formatDate($start) . ' - ' . LocaleUtil::getInstance()->formatDate($end);
