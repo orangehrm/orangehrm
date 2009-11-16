@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.5.0.1
+
+	Bug Fixes
+	---------
+	userTimeZoneOffset issue of UK based users
+	2677771 - Pagination in Leave Summary incorrect: add/delete Leave Type
+	2894143 - Workshift are not propely identified when assigning leave
+	2896468 - Reports->view report, Servi. Period must replace by Join dat
+
 New & Changed Features for OrangeHRM ver 2.5-beta.17
 
 	Bug Fixes
