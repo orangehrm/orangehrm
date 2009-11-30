@@ -1348,7 +1348,7 @@ class LeaveController {
         for ($i=0; $i<$count; $i++) {
             $subsForAutoComp[$i][] = $subs[$i][1];
             $subsForAutoComp[$i][] = '';
-            $subsForAutoComp[$i][] = $subs[$i][2];
+            $subsForAutoComp[$i][] = $subs[$i][0];
         }
 
         return $subsForAutoComp;
