@@ -109,7 +109,7 @@ class RecruitmentAuthManager {
             self::ROLE_OTHER_DIRECTOR => array(),
         ),
         JobApplication::STATUS_PENDING_APPROVAL => array(
-            self::ROLE_ADMIN => array(),
+            self::ROLE_ADMIN => array(JobApplication::ACTION_REJECT, JobApplication::ACTION_APPROVE),
             self::ROLE_HIRING_MANAGER => array(),
             self::ROLE_INTERVIEW1_MANAGER => array(),
             self::ROLE_INTERVIEW2_MANAGER => array(),
