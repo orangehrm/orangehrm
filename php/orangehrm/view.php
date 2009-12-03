@@ -314,13 +314,21 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 					<?php if($headingInfo[2] == 1) { ?>
 						<?php if ((!$readOnlyView) && (CommonFunctions::extractNumericId($message[$j][0]) > 0)) { ?>
 							<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' />
-						<?php } ?>
+						<?php }
+                                            else
+                                            {
+                                        $terminatedStatusFlag=1;
+                                        }?>
 					<?php 	} else { ?>
 						&nbsp;
 					<?php 	}  ?>
 					</td>
 		 			<td class="<?php echo $cssClass?>">
-		 				<a href="<?php echo $detailsUrl;?>"><?php echo $message[$j][0]?></a>
+		 				<?php if(isset($terminatedStatusFlag) && $terminatedStatusFlag == 1){
+                                                        echo $message[$j][0];
+                                                    }else{?>
+                                                        <a href="<?php echo $detailsUrl;?>"><?php echo $message[$j][0]?></a>
+                                                <?php }?>
 		 			</td>
 					<?php
 		 				for ($k = 1; $k < count($headings); $k++) {
@@ -334,7 +342,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		 			?>
 		 			<td class="<?php echo $cssClass?>">
                         <?php if ($k == 1) {
-                                  echo "<a href='{$detailsUrl}'>{$descField}</a>";
+                                  if(isset($terminatedStatusFlag) && $terminatedStatusFlag == 1)
+                                    {
+                                       echo $descField;
+                                        $terminatedStatusFlag=0;
+                                    }
+                                    else
+                                    {
+                                        echo "<a href='{$detailsUrl}'>{$descField}</a>";
+                                    }
                               } else {
                                   echo $descField;
                               } ?>
