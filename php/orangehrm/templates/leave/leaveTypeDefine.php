@@ -37,6 +37,9 @@ $rights = $records['rights'];
     }
 ?>
 
+    function goBack() {
+		location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Type_Summary';
+    }
     function addSave() {
 
         name = document.DefineLeaveType.txtLeaveTypeName.value;
@@ -134,6 +137,9 @@ $rights = $records['rights'];
                     onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="reset" class="resetbutton" <?php echo $disabled; ?> value="<?php echo $lang_Common_Reset; ?>" />
+                <input type="button" class="savebutton"
+		onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+		value="<?php echo $lang_Common_Back;?>" />
             </div>
         </form>
         </div>
