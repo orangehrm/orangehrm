@@ -1047,7 +1047,7 @@
 	$lang_MailFrom = "Mail Sent As";
 	$lang_MailSendingMethod = "Sending Method";
 	$lang_MailTypes_Mail = "Internal PHP function";
-	$lang_MailTypes_Sendmailer = "Send Mail";
+	$lang_MailTypes_Sendmailer = "sendmail";
 	$lang_MailTypes_Smtp = "SMTP";
 	$lang_SendmailPath = "Path to Sendmail";
 	$lang_EmailAuthentication = "Use SMTP Authentication";
