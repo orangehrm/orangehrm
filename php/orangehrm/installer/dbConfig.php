@@ -42,7 +42,7 @@ function changePortField() {
 	port = document.getElementById('dbHostPort');
 
 	if (portModifier.value == "port") {
-		port.maxLength = '4';
+		port.maxLength = '5';
 		port.size = '4';
 		port.value = "3306";
 	} else if (portModifier.value == "socket") {
@@ -174,7 +174,7 @@ document.frmInstall.submit();
     </td>
 	<td class="tdValues">
 		<input type="text" id="dbHostPort" name="dbHostPort"
-				maxlength="<?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'256':'4'; ?>"
+				maxlength="<?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'256':'5'; ?>"
 				size="<?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'40':'4'; ?>"
 				value="<?php echo  isset($_SESSION['dbInfo']['dbHostPort']) ? $_SESSION['dbInfo']['dbHostPort'] : '3306'?>"
 				tabindex="2" />
