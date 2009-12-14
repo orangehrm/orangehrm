@@ -149,14 +149,14 @@ $styleSheet = CommonFunctions::getTheme();
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 // Default leave home page
-if ($authorizeObj->isSupervisor()) {
+if ($authorizeObj->isAdmin()){
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
+} else if ($authorizeObj->isSupervisor()) {
 	if ($authorizeObj->isAdmin()){
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_HomeSupervisor';
 	} else {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
 	}
-} else if ($authorizeObj->isAdmin()){
-	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 } else if ($authorizeObj->isESS()) {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
 }
