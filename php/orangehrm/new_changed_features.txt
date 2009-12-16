@@ -1,3 +1,16 @@
+New & Changed Features for OrangeHRM ver 2.5.0.2
+
+	Bug Fixes
+	---------
+	Changed default leave module home page for Admins. Earlier it was Define Leave Types. Now it is Leave List
+	Corrected employee IDs sent to leaveApply.php. Earlier it sent employee_id instead of emp_number
+	2874627 - Recruitment: Admin+Approver cant view link to approve applic.
+	2840811 - Make Terminated uneditable in employee status in Admin.
+	2033797 - Leave:'Back' button missing.
+	2854090 - Installers mysql port number is restricted to 4 digits.
+	2860531 - Mail Configuration->'Send Mail' should rename as 'sendmail'.
+	2909850 - Click on Leave Module leads following Notice page
+
 New & Changed Features for OrangeHRM ver 2.5.0.1
 
 	Bug Fixes
