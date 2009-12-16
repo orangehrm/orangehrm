@@ -150,7 +150,7 @@ $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 // Default leave home page
 if ($authorizeObj->isAdmin()){
-	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1';
 } else if ($authorizeObj->isSupervisor()) {
 	if ($authorizeObj->isAdmin()){
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_HomeSupervisor';
