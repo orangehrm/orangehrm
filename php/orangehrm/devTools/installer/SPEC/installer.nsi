@@ -149,7 +149,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
     SectionEnd
 
-    Section "OrangeHRM 2.5.0.1" SecOrangeHRM
+    Section "OrangeHRM 2.5.0.2" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
