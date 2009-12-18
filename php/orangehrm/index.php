@@ -257,113 +257,116 @@ $menuObj = new Menu();
 /* TODO: Extract to separate class */
 $menu = array();
 
-/* Start Admin menu */
-if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSION['isProjectAdmin'] || $_SESSION['isSupervisor']) {
-
+/* View for Admin users */
+if ($_SESSION['isAdmin']=='Yes' || $arrAllRights[Admin]['view']) {
 	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
 	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
+	$sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
+	$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Gen, "index.php?uniqcode=GEN&menu_no_top=eim");
+	$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Locations, "index.php?uniqcode=LOC&menu_no_top=eim");
+	$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_CompStruct, "index.php?uniqcode=CST&menu_no_top=eim");
+	$subsubs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
 
-	/* View for Admin users */
-	if ($_SESSION['isAdmin']=='Yes') {
-		$sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
-		$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Gen, "index.php?uniqcode=GEN&menu_no_top=eim");
-		$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Locations, "index.php?uniqcode=LOC&menu_no_top=eim");
-		$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_CompStruct, "index.php?uniqcode=CST&menu_no_top=eim");
-		$subsubs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+	$sub->setSubMenuItems($subsubs);
 
-		$sub->setSubMenuItems($subsubs);
+	$subs = array();
+	$subs[] = $sub;
 
-		$subs = array();
-		$subs[] = $sub;
+	$sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobTitles, "index.php?uniqcode=JOB&menu_no_top=eim");
+	$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobSpecs, "index.php?uniqcode=SPC&menu_no_top=eim");
+	$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_PayGrades, "index.php?uniqcode=SGR&menu_no_top=eim");
+	$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "index.php?uniqcode=EST&menu_no_top=eim");
+	$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EEO, "index.php?uniqcode=EEC&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobTitles, "index.php?uniqcode=JOB&menu_no_top=eim");
-		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobSpecs, "index.php?uniqcode=SPC&menu_no_top=eim");
-		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_PayGrades, "index.php?uniqcode=SGR&menu_no_top=eim");
-		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "index.php?uniqcode=EST&menu_no_top=eim");
-		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EEO, "index.php?uniqcode=EEC&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("qualifications",$lang_Menu_Admin_Quali,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "index.php?uniqcode=EDU&menu_no_top=eim");
+	$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "index.php?uniqcode=LIC&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("qualifications",$lang_Menu_Admin_Quali,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "index.php?uniqcode=EDU&menu_no_top=eim");
-		$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "index.php?uniqcode=LIC&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("skills",$lang_Menu_Admin_Skills,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Skills, "index.php?uniqcode=SKI&menu_no_top=eim");
+	$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
 
-		$sub = new MenuItem("skills",$lang_Menu_Admin_Skills,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Skills, "index.php?uniqcode=SKI&menu_no_top=eim");
-		$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
+	$sub = new MenuItem("memberships",$lang_Menu_Admin_Memberships,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("memberships",$lang_Menu_Admin_Memberships_MembershipTypes, "index.php?uniqcode=MEM&menu_no_top=eim");
+	$subsubs[] = new MenuItem("memberships",$lang_Menu_Admin_Memberships_Memberships, "index.php?uniqcode=MME&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$subs[] = $sub;
-		$sub = new MenuItem("memberships",$lang_Menu_Admin_Memberships,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("memberships",$lang_Menu_Admin_Memberships_MembershipTypes, "index.php?uniqcode=MEM&menu_no_top=eim");
-		$subsubs[] = new MenuItem("memberships",$lang_Menu_Admin_Memberships_Memberships, "index.php?uniqcode=MME&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_Nationality, "index.php?uniqcode=NAT&menu_no_top=eim");
+	$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_EthnicRaces, "index.php?uniqcode=ETH&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_Nationality, "index.php?uniqcode=NAT&menu_no_top=eim");
-		$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_EthnicRaces, "index.php?uniqcode=ETH&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("users",$lang_Menu_Admin_Users,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
+	$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
+	$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("users",$lang_Menu_Admin_Users,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
-		$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
-		$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("email",$lang_Menu_Admin_EmailNotifications,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailConfiguration, "index.php?uniqcode=EMX&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailSubscribe, "index.php?uniqcode=ENS&menu_no_top=eim" );
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("email",$lang_Menu_Admin_EmailNotifications,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailConfiguration, "index.php?uniqcode=EMX&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailSubscribe, "index.php?uniqcode=ENS&menu_no_top=eim" );
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("project",$lang_Menu_Admin_ProjectInfo,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("project",$lang_Menu_Admin_Customers, "index.php?uniqcode=CUS&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("project",$lang_Menu_Admin_Projects, "index.php?uniqcode=PRJ&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim" );
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("project",$lang_Menu_Admin_ProjectInfo,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("project",$lang_Menu_Admin_Customers, "index.php?uniqcode=CUS&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("project",$lang_Menu_Admin_Projects, "index.php?uniqcode=PRJ&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim" );
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("importexport",$lang_Menu_Admin_DataImportExport,   "#");
+	$subsubs = array();
+	$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataExportDefine, "index.php?uniqcode=CEX&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataExport, "index.php?uniqcode=CSE&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataImportDefine, "index.php?uniqcode=CIM&menu_no_top=eim" );
+	$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataImport, "index.php?uniqcode=IMP&menu_no_top=eim" );
+	$sub->setSubMenuItems($subsubs);
+	$subs[] = $sub;
 
-		$sub = new MenuItem("importexport",$lang_Menu_Admin_DataImportExport,   "#");
-		$subsubs = array();
-		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataExportDefine, "index.php?uniqcode=CEX&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataExport, "index.php?uniqcode=CSE&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataImportDefine, "index.php?uniqcode=CIM&menu_no_top=eim" );
-		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataImport, "index.php?uniqcode=IMP&menu_no_top=eim" );
-		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;
+	$sub = new MenuItem("customfields",$lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
+	$subs[] = $sub;
 
-		$sub = new MenuItem("customfields",$lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
-		$subs[] = $sub;
+  	if ($_SESSION['ldap'] == "enabled") {
+  		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
+  	}
 
-	  	if ($_SESSION['ldap'] == "enabled") {
-	  		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
-	  	}
-
-	} else if ($_SESSION['isProjectAdmin']) {
-		$subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
-	} else if ($_SESSION['isSupervisor']) {
-		$subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-	}
-
-	$menuItem->setSubMenuItems($subs);
-	$menu[] = $menuItem;
+} else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
+	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=PAC&menu_no_top=eim");
+	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
+	$subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
+} else if ($_SESSION['isSupervisor'] && !$_SESSION['isProjectAdmin']) {
+	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
+	$subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+} else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
+	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
+    $subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+    $subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
 }
-//define('PIM_MENU_TYPE', 'dropdown');
-//define('PIM_MENU_TYPE', 'mixed');
+
+$menuItem->setSubMenuItems($subs);
+$menu[] = $menuItem;
+
 define('PIM_MENU_TYPE', 'left');
 $_SESSION['PIM_MENU_TYPE'] = PIM_MENU_TYPE;
 
