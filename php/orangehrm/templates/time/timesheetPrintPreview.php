@@ -240,7 +240,7 @@ div#nonPrintPanel, div#printIframePanel {
 		<input type="button" value="<?php echo $lang_Common_Back; ?>" class="backbutton"
 			onmouseout="moutButton(this)" onmouseover="moverButton(this)"
 			onclick="goBack(); return false;" />
-		<input type="button" class="plainbtn" name="btnPrint" id="btnPrint" value="<?php $lang_Time_Print; ?>"
+		<input type="button" class="plainbtn" name="btnPrint" id="btnPrint" value="<?php echo $lang_Time_Print; ?>"
 			onmouseout="moutButton(this)" onmouseover="moverButton(this)"
 			onclick="printTimeSheets();"/>
 	</div>
