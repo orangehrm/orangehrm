@@ -21,21 +21,34 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpConExt.php';
 
 class EXTRACTOR_EmpConExt {
 
-	function EXTRACTOR_EmpConExt() {
+	public function __construct() {
 		$this->empconext= new EmpConExt();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtEmpConExtStartDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpConExtStartDat']);
 		$postArr['txtEmpConExtEndDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpConExtEndDat']);
 
 		$this->empconext->setEmpId(trim($postArr['txtEmpID']));
   		$this->empconext->setEmpConExtId(trim($postArr['txtEmpConExtID']));
-   		$this->empconext->setEmpConExtStartDat(trim($postArr['txtEmpConExtStartDat']));
-  		$this->empconext->setEmpConExtEndDat(trim($postArr['txtEmpConExtEndDat']));
+   		$this->empconext->setEmpConExtStartDat(self::_handleEmptyDates(trim($postArr['txtEmpConExtStartDat'])));
+  		$this->empconext->setEmpConExtEndDat(self::_handleEmptyDates(trim($postArr['txtEmpConExtEndDat'])));
 
 		return $this->empconext;
 	}
+	
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
+	
 }
 ?>

@@ -39,7 +39,11 @@ function delConExt() {
 }
 
 function addConExt() {
-	if(document.frmEmp.txtEmpConExtStartDat.value == '' || document.frmEmp.txtEmpConExtEndDat.value == '') {
+
+	txtStartDate = document.frmEmp.txtEmpConExtStartDat.value;
+	txtEndDate = document.frmEmp.txtEmpConExtEndDat.value;
+
+	if(txtStartDate == '' || txtEndDate == '' || txtStartDate == 'YYYY-mm-DD' || txtEndDate == 'YYYY-mm-DD') {
 		alert("<?php echo $lang_Error_EnterDate; ?>");
 		return;
 	}

@@ -26,7 +26,7 @@
 	$lang_Error_PleaseCorrectTheFollowing 			= "Please correct the following";
 	$lang_Error_SelectAtLeastOneRecordToDelete 		= "Select at least one record to delete";
 	$lang_Error_DoYouWantToDelete 					= "Do you want to delete?";
-	$lang_Error_EnterDate							= "Enter Date?";
+	$lang_Error_EnterDate							= "Please enter date";
 
 	$lang_Error_PleaseSelectAYear 					= "Please select a Year";
 	$lang_Error_PleaseSelectAnEmployee 				= "Please select an Employee";

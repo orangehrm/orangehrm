@@ -160,8 +160,8 @@ class EmpConExt {
 		$this->getEmpId();
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpConExtId() . "'";
-		$arrFieldList[2] = "'". $this->getEmpConExtStartDat() . "'";
-		$arrFieldList[3] = "'". $this->getEmpConExtEndDat() . "'";
+		$arrFieldList[2] = $this->getEmpConExtStartDat(); // Quotes were removed to allow null values.
+		$arrFieldList[3] = $this->getEmpConExtEndDat();
 
 		$tableName = 'HS_HR_EMP_CONTRACT_EXTEND';
 	
