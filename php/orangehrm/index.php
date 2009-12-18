@@ -348,24 +348,30 @@ if ($_SESSION['isAdmin']=='Yes' || $arrAllRights[Admin]['view']) {
   	if ($_SESSION['ldap'] == "enabled") {
   		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
   	}
+  	
+	$menuItem->setSubMenuItems($subs);
+	$menu[] = $menuItem;
 
 } else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
 	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=PAC&menu_no_top=eim");
 	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
 	$subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
+	$menuItem->setSubMenuItems($subs);
+	$menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && !$_SESSION['isProjectAdmin']) {
 	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
 	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
 	$subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+	$menuItem->setSubMenuItems($subs);
+	$menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
 	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
 	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
     $subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
     $subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
+	$menuItem->setSubMenuItems($subs);
+	$menu[] = $menuItem;
 }
-
-$menuItem->setSubMenuItems($subs);
-$menu[] = $menuItem;
 
 define('PIM_MENU_TYPE', 'left');
 $_SESSION['PIM_MENU_TYPE'] = PIM_MENU_TYPE;
