@@ -231,6 +231,7 @@ class EXTRACTOR_TimeEvent {
 		        if (isset($postArr["hdnTimeEventId-$i-$j"]) ) { // An exsiting time event
 
 			        if (($postArr["txtDuration-$i-$j"] != $postArr["hdnDuration-$i-$j"]) ||
+			        	($postArr["txtComment-$i-$j"] != $postArr["hdntxtComment-$i-$j"]) ||
 			        	($postArr["cmbProject-$i"] != $postArr["hdnProject-$i"]) ||
 			        	($postArr["cmbActivity-$i"] != $postArr["hdnActivity-$i"])) {
 			        // If there is no change from previous value, no need to update the time event
@@ -244,6 +245,7 @@ class EXTRACTOR_TimeEvent {
 			         	$timeEvent->setActivityId($postArr["cmbActivity-$i"]);
 			         	$timeEvent->setDuration($postArr["txtDuration-$i-$j"] * 3600);
 			         	$timeEvent->setReportedDate($postArr["hdnReportedDate-$j"]);
+			         	$timeEvent->setDescription($postArr["txtComment-$i-$j"]);
 
 			         	$updateList[] = $timeEvent;
 
@@ -261,6 +263,7 @@ class EXTRACTOR_TimeEvent {
 			         	$timeEvent->setActivityId($postArr["cmbActivity-$i"]);
 			         	$timeEvent->setDuration($postArr["txtDuration-$i-$j"] * 3600);
 			         	$timeEvent->setReportedDate($postArr["hdnReportedDate-$j"]);
+			         	$timeEvent->setDescription($postArr["txtComment-$i-$j"]);
 
 			         	$addList[] = $timeEvent;
 

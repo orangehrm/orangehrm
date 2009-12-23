@@ -97,6 +97,11 @@ td {
     width: 120px;
 }
 
+.commentBox {
+    margin-top: 10px;
+    display: none;
+}
+
 </style>
 
 <div class="outerbox" style="width:980px">
@@ -228,13 +233,17 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				<input type="text" name="txtDuration-<?php echo $k.'-'.$dCount; // Format: txtDuration-0-0 (RowCount-DatesCount) ?>"
 				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" id="txtDuration-<?php echo $k.'-'.$dCount; ?>"
 				maxlength="5" />
-
+				<textarea name="txtComment-<?php echo $k.'-'.$dCount; ?>" rows="2" cols="8" class="commentBox"><?php echo (isset($value[$i])?$value[$i]['comment']:''); ?></textarea>
+				
 				<?php if(isset($value[$i])) { ?>
 				<input type="hidden" name="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>"
 				value="<?php echo $value[$i]['eventId']; ?>" />
 				<input type="hidden" name="hdnDuration-<?php echo $k.'-'.$dCount; ?>"
 				value="<?php echo $value[$i]['duration']; ?>" />
-				<?php } ?>
+				<input type="hidden" name="hdntxtComment-<?php echo $k.'-'.$dCount; ?>"
+				value="<?php echo $value[$i]['comment']; ?>" />
+				<?php } ?>	
+							
 			</td>
 <?php
 	$dCount++;
@@ -273,7 +282,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			</td>
 
 			<td class="selectTd">
-				<select style = "width:150px" id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
+				<select style = "width:125px" id="cmbActivity-0" name="cmbActivity-0" id="cmbActivity-0">
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProjectFirst;?> --</option>
 				</select>
 			</td>
@@ -283,7 +292,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
 			<td class="durationTd">
 				<input type="text" name="txtDuration-0-<?php echo $dCount; ?>"
-				id="txtDuration-0-<?php echo $dCount; ?>" maxlength="5" />
+				id="txtDuration-0-<?php echo $dCount; ?>" maxlength="5" /><br />
+				<textarea name="txtComment-0-<?php echo $dCount; ?>" rows="2" cols="8" class="commentBox"></textarea>
 			</td>
 <?php
 	$dCount++;
@@ -344,11 +354,11 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
         name="btnBack" id="btnBack"
         value="Back" />
 <input type="button" class="updatebutton"
-        onclick="addRow(); return false;"
+		onclick="addRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnAddRow" id="btnAddRow"
         value="Add Row" />
-<input type="button" class="longbtn"
+<input type="button" class="updatebutton"
         onclick="removeRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnRemoveRow" id="btnRemoveRow"
@@ -362,6 +372,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		onclick="resetTimesheetGrid()"
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		value="<?php echo $lang_Common_Reset; ?>" />
+<input type="button" class="updatebutton" onmouseover="moverButton(this);" 
+		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="Show Comments" />
 </div>
 
 </form>
@@ -380,6 +392,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	<input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $records['endDateStamp']); ?>" />
 </form>
 
+<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
 	//<![CDATA[
 
@@ -422,7 +435,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		if(xmlHttp.readyState == 4){
 
-			var combo = $('cmbActivity-'+rowId);
+			var combo = $s('cmbActivity-'+rowId);
 			combo.options.length = 0;
 			var response = trimResponse(xmlHttp.responseText);
 
@@ -473,7 +486,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	function addRow() {
 
-		var tbody = $('tblTimegrid').getElementsByTagName('tbody')[0];
+		var tbody = $s('tblTimegrid').getElementsByTagName('tbody')[0];
 		var rowNo = tbody.rows.length;
 		row = document.createElement('tr');
 
@@ -488,7 +501,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		selectName = 'cmbProject-'+ rowNo;
 
 		projectSelect = '<select name="' + selectName + '" id="' + selectName + '"';
-		projectSelect += 'onchange="fetchActivities($(\'' + selectName + '\').value, \'' + selectName + '\');"';
+		projectSelect += 'onchange="fetchActivities($s(\'' + selectName + '\').value, \'' + selectName + '\');"';
 		projectSelect += '>';
 
 		projectSelect += '<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject;?> --</option>';
@@ -508,7 +521,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		/* Adding activities select box */
 		activityCell = document.createElement('td');
 		var activitySelect = document.createElement('select');
-		activitySelect.style.width= "150px";
+		activitySelect.style.width= "125px";
 		activitySelect.name = 'cmbActivity-'+ rowNo;
 		activitySelect.id = 'cmbActivity-'+ rowNo;
 		activitySelect.options[0] = new Option('-- <?php echo $lang_Time_Timesheet_SelectProjectFirst;?> --', '-1');
@@ -522,13 +535,31 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		?>
 
 		durationCell = document.createElement('td');
+		
+		/* Adding input box */
 		var durationInput = document.createElement('input');
 		durationInput.type = 'text';
   		durationInput.name = 'txtDuration-' + rowNo + '-' + <?php echo $i; ?>;
   		durationInput.id = 'txtDuration-' + rowNo + '-' + <?php echo $i; ?>;
   		durationInput.maxLength = 5;
-		durationCell.appendChild(durationInput);
+  		durationCell.appendChild(durationInput);
+		
+		/* Adding text area */
+		var durationComment = document.createElement('textarea');
+		var durationCommentName = 'txtComment-' + rowNo + '-' + <?php echo $i; ?>;
+		durationComment.setAttribute("name", durationCommentName);
+		durationComment.setAttribute("cols","8");
+		durationComment.setAttribute("rows","2");
+		durationComment.setAttribute("class","commentBox");
+		if (!displayComments) {
+			durationComment.setAttribute("style","display:none");
+		} else {
+		    durationComment.setAttribute("style","display:block");
+		}
+		durationCell.appendChild(durationComment);
+		
 		row.appendChild(durationCell);
+		
 		<?php
 		}
 		?>
@@ -542,7 +573,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		/* Incrementing grid count (Grid count is used in EXTRACTOR_TimeEvent) */
 
-		var gridCount =	$('hdnGridCount');
+		var gridCount =	$s('hdnGridCount');
 		gridCount.value = parseInt(gridCount.value) + 1;
 
 	}
@@ -553,7 +584,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	function removeRow() {
 
-		var tbody = $('tblTimegrid').getElementsByTagName('tbody')[0];
+		var tbody = $s('tblTimegrid').getElementsByTagName('tbody')[0];
 		var rowNo = tbody.rows.length;
 		var gCount = <?php echo ($gridCount==0?1:$gridCount); // Can only remove rows added before saving ?>;
 
@@ -563,7 +594,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 			/* Decrementing grid count (Grid count is used in EXTRACTOR_TimeEvent) */
 
-			var gridCount =	$('hdnGridCount');
+			var gridCount =	$s('hdnGridCount');
 			gridCount.value = parseInt(gridCount.value) - 1;
 
 		}
@@ -571,37 +602,37 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	}
 
 	function changeDeletedProject(id) {
-		$(id + '-td').removeChild($(id + '-span'));
-		$(id).style.display = 'block';
-		$(id).disabled = false;
+		$s(id + '-td').removeChild($s(id + '-span'));
+		$s(id).style.display = 'block';
+		$s(id).disabled = false;
 
 		activitySelectBoxId = id.replace('Project', 'Activity');
-		if ($(activitySelectBoxId).disabled) {
+		if ($s(activitySelectBoxId).disabled) {
 			changeDeletedProject(activitySelectBoxId);
 		}
 	}
 
 	function changeDeletedActivity(id) {
-		$(id + '-td').removeChild($(id + '-span'));
-		$(id).style.display = 'block';
-		$(id).disabled = false;
+		$s(id + '-td').removeChild($s(id + '-span'));
+		$s(id).style.display = 'block';
+		$s(id).disabled = false;
 
 		projectSelectBoxId = id.replace('Activity', 'Project');
-		if ($(projectSelectBoxId).disabled) {
+		if ($s(projectSelectBoxId).disabled) {
 			changeDeletedProject(projectSelectBoxId);
 		}
 	}
 
 	function resetTimesheetGrid() {
-		$('resetForm').submit();
+		$s('resetForm').submit();
 	}
 
 	/* Validating timegrid: Begins */
 
 	function validateTimegrid() {
 
-	    var gridCount =	$('hdnGridCount').value;
-	    var datesCount = $('hdnDatesCount').value;
+	    var gridCount =	$s('hdnGridCount').value;
+	    var datesCount = $s('hdnDatesCount').value;
 
 		/* Checking durations entered */
 
@@ -613,7 +644,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	        for (var j=0; j<datesCount; j++) {
 
 	            var durationId = 'txtDuration-'+i+'-'+j;
-	            var duration = $(durationId).value;
+	            var duration = $s(durationId).value;
 
 	            if (duration != '' && duration.match(pattern)==null) {
 					durationFlag = false;
@@ -638,8 +669,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	    for (var i=0; i<gridCount; i++) {
 
-	    	var projectId = $('cmbProject-'+i).value;
-	    	var activityId = $('cmbActivity-'+i).value;
+	    	var projectId = $s('cmbProject-'+i).value;
+	    	var activityId = $s('cmbActivity-'+i).value;
 
 	    	if (projectId > -1 && activityId > -1) { // Checking whether projectId and activityId are not negative
 
@@ -677,13 +708,13 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		for (var i=0; i<gridCount; i++) {
 
-			var projectId = $('cmbProject-'+i).value;
-			if (!($('cmbProject-'+i).disabled) && projectId == -1) {
+			var projectId = $s('cmbProject-'+i).value;
+			if (!($s('cmbProject-'+i).disabled) && projectId == -1) {
 			    emptyProjectFlag = false;
 			}
 
-			var activityId = $('cmbActivity-'+i).value;
-			if (!($('cmbActivity-'+i).disabled) && activityId == -1) {
+			var activityId = $s('cmbActivity-'+i).value;
+			if (!($s('cmbActivity-'+i).disabled) && activityId == -1) {
 			    emptyActivityFlag = false;
 			}
 
@@ -707,7 +738,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		    for (var j=0; j<gridCount; j++) {
 
-		        dayTotal = dayTotal + Number($('txtDuration-'+j+'-'+i).value);
+		        dayTotal = dayTotal + Number($s('txtDuration-'+j+'-'+i).value);
 
 		    }
 
@@ -726,11 +757,39 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	/* Making table corners round */
 
-	currFocus = $("cmbProject-0");
+	currFocus = $s("cmbProject-0");
 	currFocus.focus();
 	if (document.getElementById && document.createElement) {
 	    roundBorder('outerbox');
 	}
+	
+	/* ID function that doesn't conflict with jQuery */
+	
+	function $s(id) {
+		return document.getElementById(id);
+	}
+	
+	/* Toggling comments */
+	
+	var displayComments = false;
+	
+	$(document).ready(function() {
+		
+		$('#toggleComments').click(function(){
+			
+			if (!displayComments) {
+			    $('.commentBox').show();
+			    $('#toggleComments').attr('value', 'Hide Comments');
+			    displayComments = true;
+			} else {
+			    $('.commentBox').hide();
+			    $('#toggleComments').attr('value', 'Show Comments');
+			    displayComments = false;
+			}
+			
+		});
+		
+	});
 
 	//]]>
 </script>

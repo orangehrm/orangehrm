@@ -1439,6 +1439,7 @@ class TimeController {
 
 	            $grid[$gridKey][$dateKey]['duration'] = round($timeEvents[$i]->getDuration()/3600, 2);
 	            $grid[$gridKey][$dateKey]['eventId'] = $timeEvents[$i]->getTimeEventId();
+	            $grid[$gridKey][$dateKey]['comment'] = $timeEvents[$i]->getDescription();
 
 	        }
 

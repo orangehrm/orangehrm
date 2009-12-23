@@ -388,7 +388,7 @@ class TimeEvent {
 			$updateValues[] = $this->getDuration();
 		}
 
-		if ($this->getDescription() != null) {
+		if ($this->getDescription() !== null) {
 			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
 			$updateValues[] = "'".$this->getDescription()."'";
 		}
