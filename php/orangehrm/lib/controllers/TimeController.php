@@ -1396,7 +1396,7 @@ class TimeController {
 
 	/* Timegrid methods: Begin */
 
-	public function editTimesheetGrid($messageType=null, $message=null) {
+	public function editTimesheetGrid($messageType=null, $message=null, $showComments = 'No') {
 
 		$timesheet = $this->objTime;
 
@@ -1484,6 +1484,7 @@ class TimeController {
 		    $records['messageType'] = $messageType;
 		    $records['message'] = $message;
 		}
+		$records['showComments'] = $showComments;
 
 		$path='/templates/time/editTimesheetGrid.php';
 		$template = new TemplateMerger($records, $path);
@@ -1545,11 +1546,11 @@ class TimeController {
 
 		    if ($updateFlag && $addFlag) {
 
-		        $this->editTimesheetGrid('SUCCESS', 'update-success');
+		        $this->editTimesheetGrid('SUCCESS', 'update-success', $_POST['hdnShowComments']);
 
 		    } else {
 
-		        $this->editTimesheetGrid('FAILURE', 'update-failure');
+		        $this->editTimesheetGrid('FAILURE', 'update-failure', $_POST['hdnShowComments']);
 
 		    }
 

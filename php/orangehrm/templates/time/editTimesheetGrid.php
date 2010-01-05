@@ -99,7 +99,9 @@ td {
 
 .commentBox {
     margin-top: 10px;
+<?php if ($records['showComments'] == 'No') { ?>
     display: none;
+<?php } ?>
 }
 
 </style>
@@ -340,9 +342,9 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <input type="hidden" name="txtTimesheetId" value="<?php echo $records['timesheetId']; ?>" />
 <input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $startDateStamp); ?>" />
 <input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $endDateStamp); ?>" />
-
 <input type="hidden" name="hdnGridCount" id="hdnGridCount" value="<?php echo ($gridCount==0?1:$gridCount); ?>" />
 <input type="hidden" name="hdnDatesCount" id="hdnDatesCount" value="<?php echo $datesCount; ?>" />
+<input type="hidden" name="hdnShowComments" id="hdnShowComments" value="<?php echo $records['showComments']; ?>" />
 
 <?php /* Hidden data: Ends */ ?>
 
@@ -373,7 +375,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		value="<?php echo $lang_Common_Reset; ?>" />
 <input type="button" class="updatebutton" onmouseover="moverButton(this);" 
-		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="Show Comments" />
+		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo ($records['showComments']=='Yes')?'Hide Comments':'Add Comments'; ?>" />
 </div>
 
 </form>
@@ -389,7 +391,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	<input type="hidden" name="txtEmployeeId" value="<?php echo $records['employeeId']; ?>" />
 	<input type="hidden" name="txtTimesheetPeriodId" value="<?php echo $records['timesheetPeriodId']; ?>" />
 	<input type="hidden" name="txtStartDate" value="<?php echo date('Y-m-d', $records['startDateStamp']); ?>" />
-	<input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $records['endDateStamp']); ?>" />
+	<input type="hidden" name="txtEndDate" value="<?php echo date('Y-m-d', $records['endDateStamp']); ?>" />	
 </form>
 
 <script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
@@ -780,10 +782,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			if (!displayComments) {
 			    $('.commentBox').show();
 			    $('#toggleComments').attr('value', 'Hide Comments');
+			    $('#hdnShowComments').attr('value', 'Yes');
 			    displayComments = true;
 			} else {
 			    $('.commentBox').hide();
-			    $('#toggleComments').attr('value', 'Show Comments');
+			    $('#toggleComments').attr('value', 'Add Comments');
+			    $('#hdnShowComments').attr('value', 'No');
 			    displayComments = false;
 			}
 			
