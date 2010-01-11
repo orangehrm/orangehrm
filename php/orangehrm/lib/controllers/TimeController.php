@@ -2272,38 +2272,66 @@ class TimeController {
 		$assignedEmployees = $obj[1];
 		$id = $workShift->getWorkshiftId();
 
-		try {
-			$workShift->save();
-			$workShift->removeAssignedEmployees();
-			$workShift->assignEmployees($assignedEmployees);
+        if(!$this  -> _isWorkshiftNameAvailable($workShift)) {
+
+        	try {
+
+				$workShift->save();
+				$workShift->removeAssignedEmployees();
+				$workShift->assignEmployees($assignedEmployees);
 			
-			/* Updating pending leaves accordingly: Begins */
+				/* Updating pending leaves accordingly: Begins */
 			
-			$empList = $workShift->getAssignedEmployees();
+				$empList = $workShift->getAssignedEmployees();
 			
-			if (!empty($empList)) {
+				if (!empty($empList)) {
 				
-				foreach ($empList as $emp) {
-				    $empIdList[] = $emp[Workshift::DB_FIELD_EMP_NUMBER];
+					foreach ($empList as $emp) {
+				    	$empIdList[] = $emp[Workshift::DB_FIELD_EMP_NUMBER];
+					}
+				
+			    	$duration = $workShift->getHoursPerDay();
+			    	$leaveObj = new Leave();
+			    
+			    	if (!$leaveObj->adjustLeaveToWorkshift($duration, $empIdList)) {
+			        	throw new Exception('Updating pending leaves failed for new workshift value');
+			    	}
+			    
 				}
-				
-			    $duration = $workShift->getHoursPerDay();
-			    $leaveObj = new Leave();
-			    
-			    if (!$leaveObj->adjustLeaveToWorkshift($duration, $empIdList)) {
-			        throw new Exception('Updating pending leaves failed for new workshift value');
-			    }
-			    
+			
+				/* Updating pending leaves accordingly: Ends */
+
+			} catch (WorkshiftException $exception) {
+				$this->redirect('UPDATE_FAILURE', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
+            }
+
+			$this->redirect('UPDATE_SUCCESS', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
+         
+			} else {
+				$this->redirect('Duplicate_Name_FAILURE', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
 			}
 			
-			/* Updating pending leaves accordingly: Ends */
-
-		} catch (WorkshiftException $exception) {
-			$this->redirect('UPDATE_FAILURE', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
-		}
-
-		$this->redirect('UPDATE_SUCCESS', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
 	}
+	
+    private function _isWorkshiftNameAvailable($workShift) {
+    	
+        $flag=0;
+        $objs = Workshift::getWorkshifts();
+        
+        foreach($objs as $workShiftSelect) {
+            if(strtolower($workShiftSelect->getName()) == strtolower($workShift->getName())) {
+                $flag=1;
+                break;
+            }
+        }
+        
+        if($flag==1) {
+        	return true;   
+        }
+             
+        return false;
+        
+    }
 
 	public function deleteWorkShifts() {
 		$workShifts = $this->getObjTime();
