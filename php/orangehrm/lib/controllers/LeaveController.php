@@ -903,7 +903,7 @@ class LeaveController {
 
         $eps = ($esp == null) ? 'employee' : $esp;
 
-		$tmpObjX['leaveSummary'] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, FALSE ,$pageNO ,50);
+		$tmpObjX['leaveSummary'] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, true ,$pageNO ,50);
 
 		$empDetails = $empInfoObj->filterEmpMain($this->getId());
 		if (is_array($empDetails)) {
