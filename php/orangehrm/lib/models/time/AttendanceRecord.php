@@ -21,6 +21,7 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH . '/lib/models/time/AttendanceReportRow.php';
 
 class AttendanceRecord {
 
@@ -234,7 +235,7 @@ class AttendanceRecord {
 
 	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
 
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch);
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch , true);
 
 		if (mysql_num_rows($result) > 0) {
 			return $this->_buildRecordObjects($result);
@@ -246,7 +247,7 @@ class AttendanceRecord {
 	
 	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
 		
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch);
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch, true);
 
 		if (mysql_num_rows($result) == 0) {
 			return null;
@@ -264,11 +265,38 @@ class AttendanceRecord {
 		$inTime = array();
 		$outTime = array();	
 	
+		$reportRows = array ();
 		while ($row = mysql_fetch_array($result)) {
+			
+			$object = new AttendanceReportRow('summary');
+			
+			$object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];
+			
+			$seconds = substr(round($row['duration'],0),-2);
+			$minutes = substr(round($row['duration'],0),-4, -2);
+			$hours = substr(round($row['duration'],0),-6, -4);
+			$days = substr(round($row['duration'],0),-8, -6);		
+			
+			if($days > 0) {
+				
+				$startTimeToStamp = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])));
+				$endimeToStamp = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])));
+				
+				
+				//for($i = $startTimeToStamp;$i <= $endimeToStamp
+			}
+			
+			//$object->duration = number_format(round(($row['duration']/10),2), 2, '.', ''); ;
+			$object->duration = $days.".".$hours.".".$minutes.".".$seconds;
+			$object->inTime = $row[self::DB_FIELD_PUNCHIN_TIME];
+			$object->outTime = $row [self::DB_FIELD_PUNCHOUT_TIME];
+			$object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
+
 			$inTime[] = strtotime($row[self::DB_FIELD_PUNCHIN_TIME]);
-			$outTime[] = strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]);
+			$outTime[] = strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]);	
+			$reportRows [] = $object;		
 		}
-		
+
 		$dateCount = count($dateArray);
 		$recordsCount = count($inTime);
 		$amountArr = array();
@@ -294,49 +322,66 @@ class AttendanceRecord {
 			}
 			
 			$amountArr[$i][0] = date('Y-m-d', $dateArray[$i]);
-			$amountArr[$i][1] = number_format(round(($amount/3600),2), 2, '.', '');
+			$amountArr[$i][1] = number_format(round(($amount/3600),2), 2, '.', '');		
 		
 		}
-	
-		return $amountArr;
+	return $reportRows;
+		//return $amountArr;
 		
 	}
 	
-	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
+	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $forSummary = false) {
 		
 		$selectTable = "`".self::DB_TABLE."`";
 
-		$selectFields[] = "`".self::DB_FIELD_ATTENDANCE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_PUNCHIN_TIME."`";
-		$selectFields[] = "`".self::DB_FIELD_PUNCHOUT_TIME."`";
-		$selectFields[] = "`".self::DB_FIELD_IN_NOTE."`";
-		$selectFields[] = "`".self::DB_FIELD_OUT_NOTE."`";
-		$selectFields[] = "`".self::DB_FIELD_TIMESTAMP_DIFF."`";
-		$selectFields[] = "`".self::DB_FIELD_STATUS."`";
+		$selectFields[] = "a.`".self::DB_FIELD_ATTENDANCE_ID."`";
+		$selectFields[] = "a.`".self::DB_FIELD_EMPLOYEE_ID."`";
+		$selectFields[] = "a.`".self::DB_FIELD_PUNCHIN_TIME."`";
+		$selectFields[] = "a.`".self::DB_FIELD_PUNCHOUT_TIME."`";
+		$selectFields[] = "a.`".self::DB_FIELD_IN_NOTE."`";
+		$selectFields[] = "a.`".self::DB_FIELD_OUT_NOTE."`";
+		$selectFields[] = "a.`".self::DB_FIELD_TIMESTAMP_DIFF."`";
+		$selectFields[] = "a.`".self::DB_FIELD_STATUS."`";
+		$selectFields[] = "e.`".EmpInfo::EMPLOYEE_FIELD_FIRST_NAME."`";
+		$selectFields[] = "e.`".EmpInfo::EMPLOYEE_FIELD_LAST_NAME."`";
+		
+		$tables [0] = "`".self::DB_TABLE."` a";
+		$tables [1] = EmpInfo::EMPLOYEE_TABLE_NAME." e";
+		
+		$joinConditions [1] = "a.".self::DB_FIELD_EMPLOYEE_ID."= e.".EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER; 
 
-		$selectConditions[] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '$employeeId'";
+		if($employeeId > 0 ) {
+		    $selectConditions[] = "a.`".self::DB_FIELD_EMPLOYEE_ID."` = '$employeeId'";
+		}
 
 		if ($from != null) {
-			$selectConditions[] = "`".self::DB_FIELD_PUNCHIN_TIME."` >= '$from'";
+			$selectConditions[] = "a.`".self::DB_FIELD_PUNCHIN_TIME."` >= '$from'";
 		}
 
 		if ($to != null) {
-			$selectConditions[] = "`".self::DB_FIELD_PUNCHIN_TIME."` <= '$to'"; // PUNCHIN is used since it is allowed PUNCHOUT to be out of upper limit
+			$selectConditions[] = "a.`".self::DB_FIELD_PUNCHIN_TIME."` <= '$to'"; // PUNCHIN is used since it is allowed PUNCHOUT to be out of upper limit
 		}
 		
 		if ($punch) {
-			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NULL";
+			$selectConditions[] = "a.`".self::DB_FIELD_PUNCHOUT_TIME."` IS NULL";
 		} else {
-			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NOT NULL";
+			$selectConditions[] = "a.`".self::DB_FIELD_PUNCHOUT_TIME."` IS NOT NULL";
 		}
 
 		if ($status != null) {
-			$selectConditions[] = "`".self::DB_FIELD_STATUS."` = '$status'";
+			$selectConditions[] = "a.`".self::DB_FIELD_STATUS."` = '$status'";
 		}
 
 		$sqlBuilder = new SQLQBuilder();
-		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $orderBy, $order, $limit);
+		
+		$groupBy = null;
+		if($forSummary) {
+			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT (punchin_time,'%Y %c %d')" ;
+			$selectFields[] = " (SUM(punchout_time - punchin_time)) AS duration";
+		}
+		
+		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $tables, $joinConditions, $selectConditions, null, $orderBy, $order, $limit, $groupBy);
+		//$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $orderBy, $order, $limit);
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);

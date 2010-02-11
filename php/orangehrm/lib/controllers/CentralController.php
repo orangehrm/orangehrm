@@ -1811,9 +1811,9 @@ switch ($moduletype) {
 																							$to = $_POST['txtToDate'].' 23:59:59';
 
 																							if ($_POST['optReportView'] == 'summary') {
-																								$timeController->generateAttendanceSummary($_POST['hdnEmpNo'], $from, $to);
+																								$timeController->generateAttendanceSummary($_POST['hdnEmpNo'], $from, $to, true);
 																							} elseif ($_POST['optReportView'] == 'detailed') {
-																								$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to);
+																								$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to , null, null,true);
 																							}
 
 																							break;

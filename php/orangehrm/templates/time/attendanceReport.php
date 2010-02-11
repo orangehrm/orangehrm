@@ -125,6 +125,8 @@ $count = count($recordsArr);
 		echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
 		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 	}
+	echo "employees[" . ++$i . "] = 'All';\n";
+	echo "ids[" . $i . "] = \"A-\";\n";
 	?>
 
 	function showAutoSuggestTip(obj) {
@@ -326,6 +328,7 @@ echo '</div>';
 
   <thead>
 	<tr>
+	    <th><?php "Name" ?></th>
     	<th><?php echo $lang_Common_Date; ?></th>
         <th><?php echo $lang_Time_Timesheet_Duration; ?></th>
     </tr>
@@ -333,23 +336,26 @@ echo '</div>';
 
   <tbody>
 
-<?php for ($i=0; $i<$count; $i++) { 
+<?php 
+    for ($i=0; $i<$count; $i++) { 
 
 	$className="odd";
 	if (($i%2) == 0) {
 		$className="even";
 	}
+
 ?>
 
     <tr class="<?php echo $className; ?>">
-        <td><?php echo $recordsArr[$i][0]; ?></td>
+        <td><?php echo $recordsArr[$i]->employeeName;?></td>
+        <td><?php echo $recordsArr[$i]->inTime; ?></td>
         <td style="text-align:right;padding-right:80px">
         <?php
 
-        if ($recordsArr[$i][1] > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i][0]}')\" style=\"text-decoration:underline\">{$recordsArr[$i][1]}</a>";
+        if ($recordsArr[$i]->duration > 0) {
+        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->duration}')\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
         } else {
-        	echo $recordsArr[$i][1];
+        	echo $recordsArr[$i]->duration;
         }
 
         ?>

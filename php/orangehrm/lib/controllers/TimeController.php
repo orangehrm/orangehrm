@@ -383,7 +383,7 @@ class TimeController {
 
 	}
 
-	public function generateAttendanceSummary($empId, $from, $to) {
+	public function generateAttendanceSummary($empId, $from, $to, $summary = false) {
 
 		$reportType = $_POST['hdnReportType'];
 
@@ -435,7 +435,7 @@ class TimeController {
 		} else {
 			$attendanceObj = new AttendanceRecord();
 			$attSummary = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
-														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', null, false , $summary);
 			$_SESSION['attSummary'] = (empty($attSummary))?array():$attSummary; // We should alway pass an array to _getAttendanceSummaryForPage()
 			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
 			$records['recordsCount'] = count($_SESSION['attSummary']);
@@ -460,7 +460,7 @@ class TimeController {
 
 	}
 
-	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
+	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null, $summary = false) {
 
 		$reportType = $_POST['hdnReportType'];
 
