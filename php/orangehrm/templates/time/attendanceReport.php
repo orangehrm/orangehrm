@@ -140,9 +140,10 @@ $count = count($recordsArr);
 <?php }  ?>
 
 <?php if ($records['reportView'] == 'summary') { ?>
-	function showDetailedReport(dateVal) {
+	function showDetailedReport(dateVal, employeeId) {
 		document.frmShowDetailedReport.txtFromDate.value = dateVal;
 		document.frmShowDetailedReport.txtToDate.value = dateVal;
+		document.frmShowDetailedReport.hdnEmployeeId.value = employeeId;
 		document.frmShowDetailedReport.submit();
 	}
 <?php } ?>
@@ -328,7 +329,7 @@ echo '</div>';
 
   <thead>
 	<tr>
-	    <th><?php "Name" ?></th>
+	    <th><?php echo $lang_empview_employeename ?></th>
     	<th><?php echo $lang_Common_Date; ?></th>
         <th><?php echo $lang_Time_Timesheet_Duration; ?></th>
     </tr>
@@ -353,7 +354,10 @@ echo '</div>';
         <?php
 
         if ($recordsArr[$i]->duration > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->duration}')\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
+        	if($recordsArr[$i]->multipleDayPunch) {
+        		$recordsArr[$i]->inTime = $recordsArr[$i]->mutipleDayPunchStartTime;
+        	}
+        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->inTime}',{$recordsArr[$i]->employeeId})\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
         } else {
         	echo $recordsArr[$i]->duration;
         }

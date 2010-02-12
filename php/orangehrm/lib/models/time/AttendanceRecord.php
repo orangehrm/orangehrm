@@ -253,81 +253,68 @@ class AttendanceRecord {
 			return null;
 		}
 
-		$fromTime = strtotime($from);
-		$toTime = strtotime($to);
-		
-		$dateArray = array();
-		
-		for ($i=$fromTime; $i<$toTime; $i= strtotime("+1 day", $i)) {		
-			$dateArray[] = $i;				
-		}
-		
-		$inTime = array();
-		$outTime = array();	
-	
 		$reportRows = array ();
-		while ($row = mysql_fetch_array($result)) {
-			
-			$object = new AttendanceReportRow('summary');
-			
-			$object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];
-			
-			$seconds = substr(round($row['duration'],0),-2);
-			$minutes = substr(round($row['duration'],0),-4, -2);
-			$hours = substr(round($row['duration'],0),-6, -4);
-			$days = substr(round($row['duration'],0),-8, -6);		
-			
-			if($days > 0) {
-				
-				$startTimeToStamp = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])));
-				$endimeToStamp = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])));
-				
-				
-				//for($i = $startTimeToStamp;$i <= $endimeToStamp
-			}
-			
-			//$object->duration = number_format(round(($row['duration']/10),2), 2, '.', ''); ;
-			$object->duration = $days.".".$hours.".".$minutes.".".$seconds;
-			$object->inTime = $row[self::DB_FIELD_PUNCHIN_TIME];
-			$object->outTime = $row [self::DB_FIELD_PUNCHOUT_TIME];
-			$object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
-
-			$inTime[] = strtotime($row[self::DB_FIELD_PUNCHIN_TIME]);
-			$outTime[] = strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]);	
-			$reportRows [] = $object;		
-		}
-
-		$dateCount = count($dateArray);
-		$recordsCount = count($inTime);
-		$amountArr = array();
 		
-		for ($i=0; $i<$dateCount; $i++) {
+		while ($row = mysql_fetch_array($result)) {	
 			
-			$start = $dateArray[$i];
-			$end = $dateArray[$i]+86399;
-			$amount = 0;
-			
-			for ($j=0; $j<$recordsCount; $j++) { 
+			if(substr(round($row['duration'],0),-8, -6) > 0) {
 				
-				if (($inTime[$j] >= $start) && ($outTime[$j] <= $end)) { // [ ==== ]
-					$amount += ($outTime[$j] - $inTime[$j]);
-				} elseif (($inTime[$j] < $start) && ($outTime[$j] > $end)) { // ==[======]==
-					$amount += ($end - $start); 
-				} elseif (($inTime[$j] < $start) && ($outTime[$j] > $start) && ($outTime[$j] <= $end)) { // ==[====  ]
-					$amount += ($outTime[$j] - $start); 
-				} elseif (($inTime[$j] >= $start) && ($inTime[$j] < $end) && ($outTime[$j] > $end)) { // [  ====]==
-					$amount += ($end - $inTime[$j]);
+				$durationArray  = array();
+				
+				$startTimeToStamp = strtotime(date("Y-m-d H:i:s",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])));
+                $endimeToStamp = strtotime(date("Y-m-d H:i:s",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])));  
+				
+                $totalDuration = $endimeToStamp - $startTimeToStamp;
+                
+				$nextDatOfPunchInDate = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME]))."next day");
+				$previousDateOfPunchOutDate = strtotime(date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])));				
+				
+				$startDateDuration = $nextDatOfPunchInDate - $startTimeToStamp;
+				$durationArray [date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHIN_TIME]))] = $startDateDuration/3600;
+				$endDateDuration = $endimeToStamp - $previousDateOfPunchOutDate;								
+				
+				$remainingDuration = $totalDuration - ($startDateDuration + $endDateDuration);
+				
+				$max = ($remainingDuration / 3600 / 24 );
+				$next = strtotime(date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHIN_TIME]))."next day");
+				
+				for($i=0 ; $i < $max; $i++) {					
+					$durationArray [date("Y-m-d",$next)] = 24;
+					$next = strtotime(date("Y-m-d",$next)."next day");
 				}
 				
+				$durationArray [date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]))] = $endDateDuration/3600;
+				
+				foreach($durationArray as $date => $duration) {
+					$object = new AttendanceReportRow('summary');
+					$object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];
+                    $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
+                    $object->inTime = $date;
+                    
+                    $duration = (intval ($duration)).".".((strstr( $duration, '.' ))*60);
+                    $object->duration = $duration;
+                    
+                    $object->multipleDayPunch = true;
+                    $object->mutipleDayPunchStartTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
+                    $reportRows [] = $object;   
+				}
+					
+			} else {
+				$minutes = substr(round($row['duration'],0),-4, -2);
+                $hours = substr(round($row['duration'],0),-6, -4);           
+				
+				$object = new AttendanceReportRow('summary');
+            
+                $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
+				$object->duration = $hours.".".$minutes;
+                $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
+                $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
+                $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
+            
+                $reportRows [] = $object; 				
 			}
-			
-			$amountArr[$i][0] = date('Y-m-d', $dateArray[$i]);
-			$amountArr[$i][1] = number_format(round(($amount/3600),2), 2, '.', '');		
-		
 		}
-	return $reportRows;
-		//return $amountArr;
-		
+	   return $reportRows;
 	}
 	
 	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $forSummary = false) {
