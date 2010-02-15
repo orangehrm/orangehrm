@@ -16,7 +16,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
+$_SESSION['moduleType'] = 'leave';
+require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+require_once ROOT_PATH . '/plugins/PlugInFactory.php';
+//Check leave-csv plugin available
+$csvLeaveExportRepotsPluginAvailable = false;
+$PlugInObj = PlugInFactory::factory("LEAVEREPORT");
+if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
+	$csvLeaveExportRepotsPluginAvailable = true;
+} 
+//echo '<pre>';print_r($records);
 $empInfo = null;
 if (isset($records['empDetails'])) {
 	$empInfo = $records['empDetails'];
@@ -236,6 +245,7 @@ $broughtForward = $modifier[4];
 	YAHOO.util.Event.addListener(window, "load", init);
 
 	function actForm() {
+		
 		if (validateLeaveSummary()) {
 
 			document.frmSummary.action = '<?php echo $frmAction; ?>';
@@ -276,6 +286,7 @@ $broughtForward = $modifier[4];
 		window.location = '?leavecode=Leave&action=Leave_Brought_Forward_Copy_Last_Year&currYear=<?php echo $dispYear; ?>';
 	}
 
+	
 <?php	} ?>
 
 <?php	if ($auth === 'supervisor') { ?>
@@ -286,13 +297,35 @@ $broughtForward = $modifier[4];
 	}
 
 <?php }  ?>
+
+<?php if (($auth === 'admin' ) || ($auth === 'supervisor')) {
+	
+?>
+function exportSummaryData(pdfData) {
+	
+	//exportStatus = true;
+   // var url = "../../plugins/leave-csv/LeaveReportController.php?path=<?php echo addslashes(ROOT_PATH) ?>&userId=<?php echo $_SESSION['empID'];?>&repType=LeaveSummaryRep&moduleType=<?php echo  $_SESSION['moduleType'] ?>&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
+   var userId = document.getElementById('id').value ;
+    var yearVal = document.getElementById('year').value ;
+	var leaveTypeId = document.getElementById('leaveTypeId').value ;
+	var searchBy = document.getElementById('searchBy').value ;
+	//exportStatus = true;
+
+    var url = "../../plugins/leave-csv/LeaveReportController.php?path=<?php echo addslashes(ROOT_PATH) ?>&userId="+userId+"&year="+yearVal+"&leaveType="+leaveTypeId+"&searchBy="+searchBy+"&printPdf="+pdfData+"&pdfName=Leave-Summary"+"&repType=LeaveSummaryRep&moduleType=<?php echo  $_SESSION['moduleType'] ?>&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
+	
+	window.location = url;
+
+
+}
+
+<?php
+}?>
 //]]>
 </script>
 
 <?php if (($auth === 'admin' ) || ($auth === 'supervisor')) { ?>
 <div class="navigation">
-	<input type="button" class="backbutton"
-	onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+	<input type="button" class="backbutton" onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	value="<?php echo $lang_Common_Back;?>" />
 </div>
 <?php } ?>
@@ -324,10 +357,10 @@ $broughtForward = $modifier[4];
 	} else {
 ?>
 	<form method="post" onsubmit="return actForm(); return false;" name="frmSummary" id="frmSummary">
-		<input type="hidden" name="id" value="<?php echo isset($_REQUEST['id'])?$_REQUEST['id']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>"/>
-		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
-		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
-		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
+		<input type="hidden" id = "id" name="id" value="<?php echo isset($_REQUEST['id'])?$_REQUEST['id']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>"/>
+		<input type="hidden" id="leaveTypeId" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
+		<input type="hidden" id="year" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
+		<input type="hidden" id="searchBy" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
 		<input type="hidden" name="pageNO" value="<?php echo $currentPage ?>" />
     <div class="actionbar">
         <div class="actionbuttons">
@@ -338,6 +371,8 @@ $broughtForward = $modifier[4];
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $btnTitle;?>" />
 		   <input type="reset" class="resetbutton" <?php echo $resetDisabled; ?> value="<?php echo $lang_Common_Reset; ?>" />
+		   
+		   
 
     <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
         <a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
@@ -356,6 +391,18 @@ $broughtForward = $modifier[4];
     <?php } ?>
 
 <?php
+        }
+        if(($auth === 'supervisor' || $auth === 'admin') && $csvLeaveExportRepotsPluginAvailable) {
+        ?>
+        <!--
+						The value/label of the following button is hardcoded because it is shown
+						only if the plugin is installed and the label should come from the plugin
+						and not from the language files-->
+	<input type="button" name="btnExportData" value="Export To CSV" class="plainbtn" onclick="exportSummaryData(0); return false;"
+	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
+    <input type="button" name="btnExportPDFData" value="Export To PDF" class="plainbtn" onclick="exportSummaryData(1); return false;"
+	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
+<?php 	
         }
 ?>
         </div>
