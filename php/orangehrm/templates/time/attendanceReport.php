@@ -126,7 +126,7 @@ $count = count($recordsArr);
 		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 	}
 	echo "employees[" . ++$i . "] = 'All';\n";
-	echo "ids[" . $i . "] = \"A-\";\n";
+	echo "ids[" . $i . "] = \"-1\";\n";
 	?>
 
 	function showAutoSuggestTip(obj) {
@@ -140,10 +140,11 @@ $count = count($recordsArr);
 <?php }  ?>
 
 <?php if ($records['reportView'] == 'summary') { ?>
-	function showDetailedReport(dateVal, employeeId) {
+	function showDetailedReport(dateVal, employeeId, name) {
 		document.frmShowDetailedReport.txtFromDate.value = dateVal;
 		document.frmShowDetailedReport.txtToDate.value = dateVal;
 		document.frmShowDetailedReport.hdnEmployeeId.value = employeeId;
+		document.frmShowDetailedReport.hdnEmpName.value = name;
 		document.frmShowDetailedReport.submit();
 	}
 <?php } ?>
@@ -255,7 +256,6 @@ $count = count($recordsArr);
 	<input type="hidden" name="hdnFromPaging" id="hdnFromPaging" value="No" />
 
     <div class="searchbox">
-
         <?php if ($records['reportType'] == 'Emp') {  ?>
 
        <label for="txtEmployeeSearchName"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
@@ -286,7 +286,7 @@ $count = count($recordsArr);
             <option value="detailed" <?php echo (isset($records['reportView']) && $records['reportView'] == 'detailed')?'selected':''; ?>>
             <?php echo $lang_time_Option_Detailed; ?></option>
         </select>
-
+        <input type="hidden" name="callbackSummery" id="callbackSummery" value="<?php echo $records['empId'];?>" />
         <input type="hidden" name="pageNo" value="<?php echo (isset($records['pageNo']))?$records['pageNo']:'1'; ?>">
 
         <input type="submit" class="punchbutton"
@@ -352,12 +352,8 @@ echo '</div>';
         <td><?php echo $recordsArr[$i]->inTime; ?></td>
         <td style="text-align:right;padding-right:80px">
         <?php
-
         if ($recordsArr[$i]->duration > 0) {
-        	if($recordsArr[$i]->multipleDayPunch) {
-        		$recordsArr[$i]->inTime = $recordsArr[$i]->mutipleDayPunchStartTime;
-        	}
-        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->inTime}',{$recordsArr[$i]->employeeId})\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
+        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->getPunchInTime()}',{$recordsArr[$i]->employeeId},'".addcslashes($recordsArr[$i]->employeeName,"'")."')\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
         } else {
         	echo $recordsArr[$i]->duration;
         }
@@ -380,6 +376,7 @@ echo '</div>';
 <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />
 <input type="hidden" name="optReportView" value="detailed" />
 <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
+<input type="hidden" name="callbackSummery" id="callbackSummery" value="<?php echo $records['empId'];?>" />
 <input type="hidden" name="hdnFromSummary" value="yes" />
 </form>
 
@@ -427,6 +424,7 @@ echo '</div>';
 <table border="0" cellpadding="0" cellspacing="0" class="data-table" id="detailed-table">
   <thead>
 	<tr>
+	    <th><?php echo $lang_Common_EmployeeName ?></th>
     	<th><?php echo $lang_Time_In.' '.$lang_Common_Date; ?></th>
         <th><?php echo $lang_Time_In.' '.$lang_Common_Time; ?></th>
     	<th><?php echo $lang_Time_In.' '.$lang_Common_Note; ?></th>
@@ -463,6 +461,7 @@ echo '</div>';
 	?>
 
     <tr class="<?php echo $className;?>">
+        <td><?php echo $recordsArr[$i]->getEmployeeName()?></td>
         <td>
         <input type="hidden" name="hdnAttendanceId-<?php echo $i; ?>" value="<?php echo $id; ?>" />
         <input type="text" name="txtNewInDate-<?php echo $i; ?>" id="txtNewInDate-<?php echo $i; ?>" size="10" value="<?php echo $inDate; ?>" />

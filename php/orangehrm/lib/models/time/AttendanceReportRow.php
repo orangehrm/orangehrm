@@ -13,8 +13,15 @@ class AttendanceReportRow {
     
 	public function __construct($type) {
 		$this->reportType = $type;
-	}	
+	}
 	
+	public function getPunchInTime(){
+	   if($this->multipleDayPunch) {
+            return $this->mutipleDayPunchStartTime;
+       } else {
+       	    return $this->inTime;
+       }
+	}	
 }
 
 ?>

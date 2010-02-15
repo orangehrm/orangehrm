@@ -394,12 +394,16 @@ class TimeController {
 		$records['empId'] = $empId;
 		$records['empName'] = $_POST['hdnEmpName'];
 		$records['noReports'] = false;
+        $subordinateIds = null;
 
 		/* Setting employee list for Auto-Complete */
 		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
 			$records['empList'] = EmpInfo::getEmployeeMainDetails();
 		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+			foreach($records['empList'] as $subordinate){
+				$subordinateIds [] = $subordinate [0];
+			}
 		}
 
 		/* Setting summay records: Begins */
@@ -435,7 +439,7 @@ class TimeController {
 		} else {
 			$attendanceObj = new AttendanceRecord();
 			$attSummary = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
-														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', null, false , $summary);
+														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', null, false , $subordinateIds);
 			$_SESSION['attSummary'] = (empty($attSummary))?array():$attSummary; // We should alway pass an array to _getAttendanceSummaryForPage()
 			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
 			$records['recordsCount'] = count($_SESSION['attSummary']);
@@ -475,6 +479,7 @@ class TimeController {
 		$records['noReports'] = false;
 		$records['userTimeZoneOffset'] = $_SESSION['userTimeZoneOffset'];
 		$records['serverTimeZoneOffset'] = round(date('Z')/3600, 1);
+		$rocords['postBackEmployeeId '] = $_POST['callbackSummery'];
 
 		/* Setting 'Back' button to summary view */
 		if (isset($_POST['hdnFromSummary'])) {
@@ -495,11 +500,15 @@ class TimeController {
 			$records['editMode'] = false;
 		}
 
+		$subordinateIds = null;
 		/* Setting employee list for Auto-Complete */
 		if ($reportType == 'Emp' && $this->authorizeObj->isAdmin()) {
 			$records['empList'] = EmpInfo::getEmployeeMainDetails();
 		} elseif ($reportType == 'Emp' && $this->authorizeObj->isSupervisor()) {
 			$records['empList'] = $this->_getSubsForAutoComplete($_SESSION['empID']);
+		    foreach($records['empList'] as $subordinate){
+                $subordinateIds [] = $subordinate [0];
+            }
 		}
 
 		/* Setting AttendanceRecord array */
@@ -514,7 +523,7 @@ class TimeController {
 		$limit = ($pageNo*50-50).', 50';
 
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
-													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', $limit);
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', $limit, false, $subordinateIds);
 
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;

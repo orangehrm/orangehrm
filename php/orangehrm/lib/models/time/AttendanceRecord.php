@@ -47,6 +47,7 @@ class AttendanceRecord {
 	private $outNote;
 	private $timestampDiff;
 	private $status; // Whether active or deleted (0 or 1)
+	private $employeeName;
 
 	public function setAttendanceId($attendanceId) {
 	    $this->attendanceId = $attendanceId;
@@ -127,6 +128,13 @@ class AttendanceRecord {
 	public function getStatus() {
 	    return $this->status;
 	}
+	public function setEmployeeName($employeeName) {
+		$this->employeeName = $employeeName;
+	}
+
+	public function getEmployeeName() {
+		return $this->employeeName;
+	}	
 
 	/**
 	 *
@@ -233,9 +241,9 @@ class AttendanceRecord {
 	 *
 	 */
 
-	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
+	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false,  $subordinateIds = null) {
 
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch , true);
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch , true, $subordinateIds);
 
 		if (mysql_num_rows($result) > 0) {
 			return $this->_buildRecordObjects($result);
@@ -245,9 +253,9 @@ class AttendanceRecord {
 
 	}
 	
-	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
-		
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch, true);
+	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $subordinateIds = null) {
+
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch, true , $subordinateIds);
 
 		if (mysql_num_rows($result) == 0) {
 			return null;
@@ -291,7 +299,7 @@ class AttendanceRecord {
                     $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
                     $object->inTime = $date;
                     
-                    $duration = (intval ($duration)).".".((strstr( $duration, '.' ))*60);
+                    $duration = (intval ($duration)).".".round(((strstr( $duration, '.' ))*60));
                     $object->duration = $duration;
                     
                     $object->multipleDayPunch = true;
@@ -301,8 +309,8 @@ class AttendanceRecord {
 					
 			} else {
 				$minutes = substr(round($row['duration'],0),-4, -2);
-                $hours = substr(round($row['duration'],0),-6, -4);           
-				
+                $hours = substr(round($row['duration'],0),-6, -4);
+
 				$object = new AttendanceReportRow('summary');
             
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
@@ -317,7 +325,7 @@ class AttendanceRecord {
 	   return $reportRows;
 	}
 	
-	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $forSummary = false) {
+	private function _fetchResult($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $forSummary = false, $subordinateIds = null) {
 		
 		$selectTable = "`".self::DB_TABLE."`";
 
@@ -357,6 +365,9 @@ class AttendanceRecord {
 
 		if ($status != null) {
 			$selectConditions[] = "a.`".self::DB_FIELD_STATUS."` = '$status'";
+		}
+		if($subordinateIds != null) {
+			$selectConditions[] = "a.".self::DB_FIELD_EMPLOYEE_ID." IN (".implode(",",$subordinateIds).")";
 		}
 
 		$sqlBuilder = new SQLQBuilder();
@@ -442,6 +453,10 @@ class AttendanceRecord {
 
 			if ($row['out_note'] != null) {
 				$attendanceObj->setOutNote($row['out_note']);
+			}
+			
+			if($row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME] && $row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME]) {
+				$attendanceObj->setEmployeeName($row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME]);
 			}
 
 			$attendanceObj->setTimestampDiff($row['timestamp_diff']);

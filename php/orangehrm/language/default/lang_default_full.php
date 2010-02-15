@@ -274,6 +274,8 @@
 	$lang_Common_Time = "Time";
 	$lang_Common_Date = "Date";
 	$lang_Common_Note = "Note";
+	
+	$lang_Common_EmployeeName = "Employee Name";
 
 	$lang_Common_AccessDenied = "Access Denied";
 
