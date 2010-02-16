@@ -16,7 +16,14 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
+$_SESSION['moduleType'] = 'rep';
+require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+require_once ROOT_PATH . '/plugins/PlugInFactory.php';
+//Check leave-csv plugin available
+$PlugInObj = PlugInFactory::factory("RECEREPORT");
+if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
+	$recPluginAvailable = true;
+}
 $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
 $detailsURL = $baseURL . '&action=ViewDetails';
 $historyURL = $baseURL . '&action=ViewHistory';
@@ -60,6 +67,20 @@ $statusList = array(
     }
     -->
 </style>
+<script type="text/javascript">
+
+  function exportData(pdfData) {		
+
+	   var url = "../../plugins/rec-csv/RecruitmentReportController.php?path=<?php echo addslashes(ROOT_PATH) ?>&printPdf="+pdfData+"&pdfName=rec-Summary"+"&repType=applicantSummaryRep&moduleType=<?php echo  $_SESSION['moduleType'] ?>&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
+
+        window.location = url;
+
+
+}
+function reset() {
+   $('standardView').reset();
+}
+</script>
 </head>
 <body>
     <div class="formpage2col">
@@ -76,6 +97,21 @@ $statusList = array(
             </div>
         <?php } ?>
 
+            <?php if(isset($recPluginAvailable) && $recPluginAvailable ) {  ?>
+    <form name="standardView" id="standardView" method="post" action="<?php //echo $baseURL;?>&amp;action=<?php //echo $this->getArr['action'];?>&amp;sortField=<?php //echo $this->getArr['sortField']?>&amp;sortOrder<?php //echo $this->getArr['sortField']?>=<?php //echo $this->getArr['sortOrder'.$this->getArr['sortField']];?>">
+
+      <!--
+						The value/label of the following button is hardcoded because it is shown
+						only if the plugin is installed and the label should come from the plugin
+						and not from the language files-->
+	<input type="button" name="btnExportData" value="Export To CSV" class="plainbtn" onclick="exportData(0); return false;"
+	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
+    <input type="button" name="btnExportPDFData" value="Export To PDF" class="plainbtn" onclick="exportData(1); return false;"
+	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
+
+
+  </form>
+    <?php } ?>
 
 
     <?php if (count($applications) == 0) { ?>

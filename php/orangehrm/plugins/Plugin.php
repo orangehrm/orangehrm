@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class Plugin {
 		
-	private static $PluginArray = array('CSVREPORT' => 'plugins/csv/installer.xml', 'LDAP' => 'plugins/ldap/installer.xml', 'LEAVEREPORT' => 'plugins/leave-csv/installer.xml');
+	private static $PluginArray = array('CSVREPORT' => 'plugins/csv/installer.xml', 'LDAP' => 'plugins/ldap/installer.xml', 'LEAVEREPORT' => 'plugins/leave-csv/installer.xml', 'RECEREPORT' => 'plugins/rec-csv/installer.xml');
 	
 	public static function fetchPlugin($plugInName){
 	
