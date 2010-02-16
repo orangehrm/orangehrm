@@ -71,7 +71,7 @@ $statusList = array(
 
   function exportData(pdfData) {		
 
-	   var url = "../../plugins/rec-csv/RecruitmentReportController.php?path=<?php echo addslashes(ROOT_PATH) ?>&printPdf="+pdfData+"&pdfName=rec-Summary"+"&repType=applicantSummaryRep&moduleType=<?php echo  $_SESSION['moduleType'] ?>&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
+	   var url = "../../plugins/rec-export/RecruitmentReportController.php?path=<?php echo addslashes(ROOT_PATH) ?>&printPdf="+pdfData+"&pdfName=rec-Summary"+"&repType=applicantSummaryRep&moduleType=<?php echo  $_SESSION['moduleType'] ?>&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
 
         window.location = url;
 
