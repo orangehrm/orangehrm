@@ -419,10 +419,10 @@ class TimeController {
 		    if ($criteria == $_SESSION['attCriteria']) {
 		        $sameQuery = true;
 		    } else {
-		        $_SESSION['attCriteria'] = $criteria;
+		       // $_SESSION['attCriteria'] = $criteria;
 		    }
 		} else {
-		    $_SESSION['attCriteria'] = $criteria;
+		    //$_SESSION['attCriteria'] = $criteria;
 		}
 
 		if (isset($_POST['pageNo']) && $_POST['hdnFromPaging'] == 'Yes') { // If it's from Generate button, it should always display page 1.

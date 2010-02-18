@@ -20,6 +20,17 @@
 require_once ROOT_PATH.'/lib/common/calendar.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_AttendanceRecord.php';
 
+
+$_SESSION['moduleType'] = 'timeMod';
+require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+require_once ROOT_PATH . '/plugins/PlugInFactory.php';
+// Check csv plugin available
+$PlugInObj = PlugInFactory::factory("CSVREPORT");
+if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
+    $csvExportRepotsPluginAvailable = true;
+}
+
+
 if (isset($records['recordsArr'])) {
 	$recordsArr = $records['recordsArr'];
 
@@ -47,12 +58,25 @@ if (isset($records['message'])) {
 
 <script type="text/javascript">
 //<![CDATA[
+function exportData() { 
+	var from = $('txtFromDate').value;
+	var to = $('txtToDate').value;	
+    var reportView = document.frmGenerateAttendanceReport.optReportView.options[document.frmGenerateAttendanceReport.optReportView.selectedIndex].value;
+    markEmpNumber($('txtEmployeeSearch').value);
+    var hdnEmpNo = $('hdnEmpNo').value;
+    if(validateSearchCriteria()) {
+	    var url = "../../plugins/PluginController.php?route=CSVPluginController/exportAttendanceData/&path=<?php echo addslashes(ROOT_PATH)?>&txtFromDate="+from+"&txtToDate="+to+"&optReportView="+reportView+"&hdnEmpNo="+hdnEmpNo;
+	    window.location = url;
+    }
+}
+
 
 <?php if (isset($records['recordsArr'])) {
 
 $count = count($recordsArr);
 
 ?>
+
 
 	dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
 
@@ -235,7 +259,7 @@ $count = count($recordsArr);
 
 </style>
 
-<div class="outerbox" style="width:945px;">
+<div class="outerbox">
 
 <!-- Message box: Begins -->
 <?php if (isset($records['noReports']) && $records['noReports']) { ?>
@@ -262,8 +286,7 @@ $count = count($recordsArr);
         <div class="yui-skin-sam" style="float:left;margin-right:10px">
             <div id="employeeSearchAC" style="width:135px">
                   <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"
-                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:$lang_Common_TypeHereForHints); ?>" style="color:#999999;width:135px"
-                        onfocus="showAutoSuggestTip(this)"/>
+                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:"All"); ?>" style="color:#999999;width:135px"/>
                   <div id="employeeSearchACContainer"></div>
             </div>
         </div>
@@ -292,6 +315,17 @@ $count = count($recordsArr);
         <input type="submit" class="punchbutton"
             class="punchbutton" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Time_Button_Generate;?>" />
+        
+        
+        <?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
+                    <!--
+                        this pece of code added to compatible the time module with attendance data exporter
+                    -->
+                    <input type="button" name="btnExportData" value="Export to CSV" class="extralongbtn"
+                       onclick="exportData(); return false;"
+                       onmouseover="moverButton(this);"
+                       onmouseout="moutButton(this)" />
+      <?php  } ?>
         <br class="clear"/>
     </div>
 
@@ -390,7 +424,7 @@ echo '</div>';
 
 <?php if ($records['reportView'] == 'detailed' && isset($recordsArr)) { // Detailed Table Begins ?>
 
-<div class="outerbox" style="width:945px;text-align:center;">
+<div class="outerbox" style="text-align:center;">
 
 <!-- Message box: Begins -->
 <?php if (isset($records['message'])) { ?>
@@ -431,6 +465,7 @@ echo '</div>';
     	<th><?php echo $lang_Time_Out.' '.$lang_Common_Date; ?></th>
     	<th><?php echo $lang_Time_Out.' '.$lang_Common_Time; ?></th>
     	<th><?php echo $lang_Time_Out.' '.$lang_Common_Note; ?></th>
+    	<th><?php echo $lang_Time_Timesheet_Duration ?></th>
     	<?php if ($records['editMode']) { ?>
     	<th><?php echo $lang_Common_Delete; ?></th>
     	<?php } ?>
@@ -486,6 +521,10 @@ echo '</div>';
         <td class="note-td">
         <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
         <input type="hidden" name="hdnOldOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
+        </td>
+        <td>
+        <input type="text" name="txtDuration-<?php echo $i; ?>" id="txtDuration-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getDuration(); ?>" read />
+        <input type="hidden" name="hdnDuration-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getDuration(); ?>" />
         </td>
         <td>
         <input type="checkbox" name="chkDeleteStatus-<?php echo $i; ?>" id="chkDeleteStatus-<?php echo $i; ?>" />

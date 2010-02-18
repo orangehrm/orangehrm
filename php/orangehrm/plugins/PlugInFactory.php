@@ -50,6 +50,11 @@ class PlugInFactory
 			throw new PlugInFactoryException(PlugInFactoryException::PLUGIN_INSTALL_ERROR);		
 		} */
 	}
+
+	
+	public function executePluginAction(){
+		
+	}
 	
 	/**
 	 * Read plugins's install xml file

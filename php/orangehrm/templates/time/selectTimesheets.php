@@ -188,28 +188,79 @@ label {
 		<?php } ?>
 			<br class="clear" />
 
-			<label for="txtLocation"><?php echo $lang_Time_Division; ?></label>				<input type="text" id="txtLocation" name="txtLocation" class="formInputText"					value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />				<input type="hidden" id="cmbLocation" name="cmbLocation" calss="hide"					value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
-				<label for="txtLocation" id="popLocLabel">					<input type="button" id="popLoc" value="..." onclick="returnLocDet();" />
-				</label>				<br class="clear" />
-			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>				<label for="cmbRepEmpID"><?php echo $lang_Time_Supervisor; ?></label>
+			<label for="txtLocation"><?php echo $lang_Time_Division; ?></label>
+				<input type="text" id="txtLocation" name="txtLocation" class="formInputText"
+					value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />
+				<input type="hidden" id="cmbLocation" name="cmbLocation" calss="hide"
+					value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
+				<label for="txtLocation" id="popLocLabel">
+					<input type="button" id="popLoc" value="..." onclick="returnLocDet();" />
+				</label>
+				<br class="clear" />
+			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+				<label for="cmbRepEmpID"><?php echo $lang_Time_Supervisor; ?></label>
 				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
-	            	<div id="supervisorSearchAC" style="width:150px;margin-top:10px;">						<input type="text" name="cmbRepEmpID" id="cmbRepEmpID" class="formInputText" autocomplete="off"							value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" />
+	            	<div id="supervisorSearchAC" style="width:150px;margin-top:10px;">
+						<input type="text" name="cmbRepEmpID" id="cmbRepEmpID" class="formInputText" autocomplete="off"
+							value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" />
 						<div id="supervisorSearchACContainer" style="margin:6px 0px 0px 10px;"></div>
 					</div>
-				</div>				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" calss="hide"					value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
-				<label for="cmbRepEmpID" class="sideHint"><?php echo $lang_Common_TypeHereForHints; ?></label>				<br class="clear" />			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>				<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" class="hide" value=""/>				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" class="hide" value="<?php echo $_SESSION['empID']; ?>" />			<?php } ?>
-				<label for="cmbEmploymentStatus"><?php echo $lang_Time_EmploymentStatus; ?></label>				<select name="cmbEmploymentStatus" id="cmbEmploymentStatus" class="formSelect">			<?php if (is_array($employmentStatuses)) { ?>					<option value="-1" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-1")?"selected":""; ?> id="statusDefault"><?php echo $lang_Time_Common_All; ?></option>			<?php 	foreach ($employmentStatuses as $employmentStatus) { ?>					<option value="<?php echo $employmentStatus[0]; ?>" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == $employmentStatus[0])?"selected":""; ?>><?php echo $employmentStatus[1]; ?></option>			<?php 	}				} else {			?>					<option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>			<?php } ?>				</select>				<br class="clear" />
-				<label for="txtStartDate"><?php echo $lang_Time_Common_FromDate; ?></label>				<input type="text" id="txtStartDate" name="txtStartDate" class="formInputText"					value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
+				</div>
+				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" calss="hide"
+					value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
+				<label for="cmbRepEmpID" class="sideHint"><?php echo $lang_Common_TypeHereForHints; ?></label>
+				<br class="clear" />
+			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
+				<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" class="hide" value=""/>
+				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" class="hide" value="<?php echo $_SESSION['empID']; ?>" />
+			<?php } ?>
+
+				<label for="cmbEmploymentStatus"><?php echo $lang_Time_EmploymentStatus; ?></label>
+				<select name="cmbEmploymentStatus" id="cmbEmploymentStatus" class="formSelect">
+			<?php if (is_array($employmentStatuses)) { ?>
+					<option value="-1" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-1")?"selected":""; ?> id="statusDefault"><?php echo $lang_Time_Common_All; ?></option>
+			<?php 	foreach ($employmentStatuses as $employmentStatus) { ?>
+					<option value="<?php echo $employmentStatus[0]; ?>" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == $employmentStatus[0])?"selected":""; ?>><?php echo $employmentStatus[1]; ?></option>
+			<?php 	}
+				} else {
+			?>
+					<option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
+			<?php } ?>
+				</select>
+				<br class="clear" />
+
+				<label for="txtStartDate"><?php echo $lang_Time_Common_FromDate; ?></label>
+				<input type="text" id="txtStartDate" name="txtStartDate" class="formInputText"
+					value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
 				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn" />
 				<br class="clear" />
-				<label for="txtEndDate"><?php echo $lang_Time_Common_ToDate; ?></label>				<input type="text" id="txtEndDate" name="txtEndDate" class="formInputText"					value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
+
+				<label for="txtEndDate"><?php echo $lang_Time_Common_ToDate; ?></label>
+				<input type="text" id="txtEndDate" name="txtEndDate" class="formInputText"
+					value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
 				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn" />
 				<br class="clear" />
-				<div class="formbuttons">				    <input type="submit" class="viewbutton" id="viewBtn"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				        value="<?php echo $lang_Common_View;?>" />				    <input type="button" class="clearbutton" onclick="formReset();"				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"				         value="<?php echo $lang_Common_Reset;?>" />				<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>					<!--
+
+				<div class="formbuttons">
+				    <input type="submit" class="viewbutton" id="viewBtn"
+				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				        value="<?php echo $lang_Common_View;?>" />
+				    <input type="button" class="clearbutton" onclick="formReset();"
+				        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				         value="<?php echo $lang_Common_Reset;?>" />
+				<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
+					<!--
 						The value/label of the following button is hardcoded because it is shown
 						only if the plugin is installed and the label should come from the plugin
 						and not from the language files
-					-->				    <input type="button" name="btnExportData" value="Export to CSV" class="extralongbtn"				       onclick="exportData(); return false;"				       onmouseover="moverButton(this);"				       onmouseout="moutButton(this)" />				<?php  } ?>				</div>			</form>
+					-->
+				    <input type="button" name="btnExportData" value="Export to CSV" class="extralongbtn"
+				       onclick="exportData(); return false;"
+				       onmouseover="moverButton(this);"
+				       onmouseout="moutButton(this)" />
+				<?php  } ?>
+				</div>
+			</form>
 </div>
 <script type="text/javascript">
 //<![CDATA[

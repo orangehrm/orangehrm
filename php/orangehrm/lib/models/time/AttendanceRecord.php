@@ -48,6 +48,7 @@ class AttendanceRecord {
 	private $timestampDiff;
 	private $status; // Whether active or deleted (0 or 1)
 	private $employeeName;
+	private $duration;
 
 	public function setAttendanceId($attendanceId) {
 	    $this->attendanceId = $attendanceId;
@@ -134,7 +135,17 @@ class AttendanceRecord {
 
 	public function getEmployeeName() {
 		return $this->employeeName;
-	}	
+	}
+	public function setDuration($duration) {
+		$this->duration = $duration;
+	}
+
+	public function getDuration() {
+		return $this->duration;
+	}
+	
+	
+	
 
 	/**
 	 *
@@ -461,6 +472,14 @@ class AttendanceRecord {
 
 			$attendanceObj->setTimestampDiff($row['timestamp_diff']);
 			$attendanceObj->setStatus($row['status']);
+			
+			$row['duration'] = round($row['duration']);
+			$dateArray = array();			
+			$dateArray [] = str_pad( substr($row['duration'],-8, -6), 2, "0", STR_PAD_LEFT );
+			$dateArray [] = str_pad( substr($row['duration'],-6, -4), 2, "0", STR_PAD_LEFT );
+			$dateArray [] = str_pad( substr($row['duration'],-4, -2), 2, "0", STR_PAD_LEFT );	
+			
+            $attendanceObj->setDuration(implode(".",$dateArray));
 			
 			/* Adjusting time according to the timezone of the place 
 			 * where the record was first entered.

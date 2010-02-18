@@ -131,5 +131,7 @@ abstract class plugInCommon {
     
 	private function readXMl(){
 	}
+	
+
 }
 ?>
