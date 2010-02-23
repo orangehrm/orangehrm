@@ -272,8 +272,12 @@ class Conf {
 
 		\$this->dbhost	= '$dbHost';
 		\$this->dbport 	= '$dbHostPort';
-		\$this->dbname	= '$dbName';
-		\$this->dbuser	= '$dbOHRMUser';
+		if(defined('ENVIRNOMENT') && ENVIRNOMENT == 'test'){
+		\$this->dbname    = 'test_$dbName';		
+		}else {
+		\$this->dbname    = '$dbName';
+		}
+		\$this->dbuser    = '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
 		\$this->version = '2.5.0.2';
 
