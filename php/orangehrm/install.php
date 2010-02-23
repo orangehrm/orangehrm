@@ -26,6 +26,8 @@ function sockComm($postArr) {
 	$data = "userName=".$postArr['userName']
 			."&userEmail=".$postArr['userEmail']
 			."&userComments=".$postArr['userComments']
+			."&firstName=".$postArr['firstName']
+			."&company=".$postArr['company']
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
 
 	$fp = @fsockopen($host, 80);

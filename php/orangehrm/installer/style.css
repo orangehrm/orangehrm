@@ -240,5 +240,9 @@ li {
 	font-size:12px;
 	margin-top: 2px;
 	font-family:"Courier New", Courier, monospace;
+}
 
+/* Styling for required mark */
+span.required {
+    color: red;
 }

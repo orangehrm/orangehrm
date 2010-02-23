@@ -33,23 +33,26 @@ function noREG() {
 function regInfo() {
 
 	frm = document.frmInstall;
+	var messages = '';
 	if(frm.userName.value == '') {
-		alert('Please fill the Name Field');
-		frm.userName.focus();
-		return;
+		messages += "\n" + ' - Enter last name ';
 	}
+	if(frm.company.value == '') {
+		messages += "\n" + ' - Enter company name';  
+    }
 
 	var reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/;
 
 	if(frm.userEmail.value == '') {
-		alert('Email Field Empty!');
-		frm.userEmail.focus();
-		return;
+		messages += "\n" + ' - Enter e-mail address';
 	} else if (!reg.test(frm.userEmail.value)) {
-		alert('Invalid E-mail Address!');
-		frm.userEmail.focus();
-		return;
+		messages += "\n" + ' - Invalid e-mail address';
 	}
+
+	if (messages != '') {
+        alert('Please correct the following error(s)' + messages);
+        return;
+    }
 
 document.frmInstall.actionResponse.value  = 'REGINFO';
 document.frmInstall.submit();
@@ -58,12 +61,46 @@ document.frmInstall.btnRegister.disabled = true;
 </script>
 <link href="style.css" rel="stylesheet" type="text/css" />
 
+<style>
+        ul.registration li { 
+        	color:#dc8701; 
+        	height: 11px;
+        }
+        ul.registration li span { 
+            color:black;           
+        }
+        
+        .registration {           
+            	
+        }
+        .wrapper {
+        	display: block;
+        }
+        
+        .wrapper_content_div {
+        	float: left;
+            margin: 5px 30px 0px 0px; 
+        }
+		.clear {
+			clear:both;
+		}
+}
+</style>
 
-<div id="content">
+<div style="display: block;" class="wrapper">
 	<h2>Step 7: Registration</h2>
-
-        <p>You have sucessfully installed OrangeHRM, please take a moment to register.</p>
-        <p>By registering you will be kept Up to Date and receive information on OrangeHRM (releases, updates, etc.).</p>
+	 <p>You have sucessfully installed OrangeHRM, please take a moment to register.</p>
+	<div class="wrapper">
+    <div class="wrapper_content_div">
+        <h3>Benefits of Registration</h3>
+	        <ul class="registration">
+	            <li><span> Upgrades to new releases</span></li>
+	            <li><span>Receive patches for bug fixes</span></li>
+	            <li><span>Notification of new software updates</span></li>
+	            <li><span>Prioritize your support queries</span></li>
+	            <li><span>Receive OrangeHRM news letter and other useful updates</span></li>
+	        </ul>
+    </div>
 
 
         <?php if(isset($reqAccept)) {
@@ -76,37 +113,58 @@ document.frmInstall.btnRegister.disabled = true;
 	}
 
 	if(!isset($reqAccept) || (!$reqAccept)) { ?>
-    <table cellpadding="0" cellspacing="0" border="0" class="table">
-	  <tr>
-	 	<th colspan="3" align="left">Details</th>
-	  </tr>
+	<div class="wrapper_content_div">
+	<h3>Detail</h3>
+    <table cellpadding="0" cellspacing="0" border="0">
       <tr>
-        <td class="tdComponent_n">Name</td>
+        <td class="tdComponent_n">First name</td>
+        <td class="tdValues_n"><input type="text" name="firstName" tabindex="1" value="<?php echo isset($_POST['firstName'])? $_POST['firstName'] : ''?>"/></td>
+      </tr>
+      <tr>
+        <td class="tdComponent_n">Last name <span class="required">*</span></td>
         <td class="tdValues_n"><input type="text" name="userName" tabindex="2" value="<?php echo isset($_POST['userName'])? $_POST['userName'] : ''?>"/></td>
       </tr>
       <tr>
-        <td class="tdComponent_n">Email</td>
-        <td class="tdValues_n"><input type="text" name="userEmail" tabindex="3" value="<?php echo isset($_POST['userEmail'])? $_POST['userEmail'] : ''?>"/></td>
+        <td class="tdComponent_n">Company<span class="required">*</span></td>
+        <td class="tdValues_n"><input type="text" name="company" tabindex="3" value="<?php echo isset($_POST['company'])? $_POST['company'] : ''?>"/></td>
+      </tr>
+      <tr>
+      <tr>
+      <tr>
+        <td class="tdComponent_n">Email<span class="required">*</span></td>
+        <td class="tdValues_n"><input type="text" name="userEmail" tabindex="4" value="<?php echo isset($_POST['userEmail'])? $_POST['userEmail'] : ''?>"/></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Comments</td>
-        <td class="tdValues_n"><textarea name="userComments" tabindex="4"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
+        <td class="tdValues_n"><textarea name="userComments" tabindex="5"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Updates/Newsletter</td>
         <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="5" <?php echo (isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
       </tr>
-</table>
-<?php } ?>
-	<br />
-
-        <?php if(!isset($reqAccept)) { ?>
+      <tr>
+        <td>
+            <?php if(!isset($reqAccept)) { ?>
         <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
-		<input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
+        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
         <?php } elseif($reqAccept) { ?>
         <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
         <?php } else { ?>
         <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <?php } ?>
+       
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top: 10px;">
+            <span class="required"> * </span>Required Fields      
+        </td>
+      </tr>
+</table>
 </div>
+</div>
+<?php } ?>
+	<br />        
+</div>
+<br class="clear"/>
