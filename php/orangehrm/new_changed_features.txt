@@ -1,5 +1,13 @@
-New & Changed Features for OrangeHRM ver 2.5.0.2
+New & Changed Features for OrangeHRM ver 2.5.0.3-beta.1
 
+    Stories Included
+    -----------------
+    Change ldao them to fit 2.5 theme
+    Change registration page
+    Recruitment add-on
+    Time and Attendance CSV add-on  compatibilty and refactoring improvent in the base prduct over plugins.
+
+New & Changed Features for OrangeHRM ver 2.5.0.2
 	Bug Fixes
 	---------
 	Changed default leave module home page for Admins. Earlier it was Define Leave Types. Now it is Leave List
