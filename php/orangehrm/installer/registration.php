@@ -144,15 +144,7 @@ document.frmInstall.btnRegister.disabled = true;
       </tr>
       <tr>
         <td>
-            <?php if(!isset($reqAccept)) { ?>
-        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
-        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
-        <?php } elseif($reqAccept) { ?>
-        <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
-        <?php } else { ?>
-        <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
-        <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
-        <?php } ?>
+           
        
         </td>
       </tr>
@@ -164,7 +156,19 @@ document.frmInstall.btnRegister.disabled = true;
 </table>
 </div>
 </div>
-<?php } ?>
+<?php } 
+  if(!isset($reqAccept)) { ?>
+        <div style="margin-left: 440px;">
+	        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
+	        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
+        </div>
+        <?php } elseif($reqAccept) {?>
+        <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
+        <?php } else { ?>
+        <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
+        <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
+        <?php } 
+?>
 	<br />        
 </div>
 <br class="clear"/>
