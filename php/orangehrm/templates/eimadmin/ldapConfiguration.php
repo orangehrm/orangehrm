@@ -18,19 +18,17 @@
  *
  */
 
-require_once($lan->getLangPath("full.php"));
+require_once ($lan->getLangPath ( "full.php" ));
 
-$locRights=$_SESSION['localRights'];
+$locRights = $_SESSION ['localRights'];
 
-$editArr = $this->popArr['editArr'];
+$editArr = $this->popArr ['editArr'];
 
-if(LdapDetails::LDAP_TYPE=='Open LDAP'){
-
+if (LdapDetails::LDAP_TYPE == 'Open LDAP') {
 	$ldapPortEx = '(Ex: 389)';
 	$ldapDomainNameDisc = $lang_LDAP_Suffix;
 	$ldapDomainNameEx = '(Ex: u=orangehrm,dc=orangehrm,dc=com)';
-}
-elseif(LdapDetails::LDAP_TYPE=='Windows AD'){
+} elseif (LdapDetails::LDAP_TYPE == 'Windows AD') {
 
 	$ldapPortEx = '(Ex: 3128)';
 	$ldapDomainNameDisc = $lang_LDAP_Domain_Name;
@@ -40,15 +38,29 @@ elseif(LdapDetails::LDAP_TYPE=='Windows AD'){
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?php echo str_replace('#ldapType', LdapDetails::LDAP_TYPE=="Open LDAP"?"LDAP":LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration) ; ?></title>
+<title><?php
+echo str_replace ( '#ldapType', LdapDetails::LDAP_TYPE == "Open LDAP" ? "LDAP" : LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration );
+?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php
+echo $styleSheet;
+?>/css/style.css"
+	rel="stylesheet" type="text/css">
+<link href="../../themes/<?php
+echo $styleSheet;
+?>/css/leave.css"
+	rel="stylesheet" type="text/css" />
 <style type="text/css">
-@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); .style1 {color: #FF0000}
+@import url("../../themes/<?php
+echo $styleSheet;
+?>/css/style.css");
+
+.style1 {
+	color: #FF0000
+}
 
 .hide {
-	display:none;
+	display: none;
 }
 
 .show {
@@ -57,8 +69,11 @@ elseif(LdapDetails::LDAP_TYPE=='Windows AD'){
 </style>
 </head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../themes/<?php echo $styleSheet; ?>/scripts/style.js"></script>
-<script type="text/javascript" >
+<script type="text/javascript"
+	src="../../themes/<?php
+	echo $styleSheet;
+	?>/scripts/style.js"></script>
+<script type="text/javascript">
 
 function $(id) {
 	return document.getElementById(id);
@@ -67,7 +82,7 @@ function $(id) {
 function edit() {
 	var Edit = $("btnEdit");
 
-	if(Edit.value == '<?php echo $lang_Common_Save; ?>') {
+	if(Edit.value == '<?php	echo $lang_Common_Save;	?>') {
 		validate();
 		return;
 	}
@@ -80,7 +95,7 @@ function edit() {
 	var resetButton = $("btnReset");
 	resetButton.disabled = false;
 
-	Edit.value = "<?php echo $lang_Common_Save; ?>";
+	Edit.value = "<?php	echo $lang_Common_Save;	?>";
 }
 
 	function validate() {
@@ -92,7 +107,7 @@ function edit() {
 
 		if (server.value == '') {
 			error = true;
-			errors.push('<?php echo $lang_LDAP_Error_Server_Empty; ?>');
+			errors.push('<?php echo $lang_LDAP_Error_Server_Empty;?>');
 		}
 
 		if (domain.value == '') {
@@ -103,12 +118,12 @@ function edit() {
 		if (port.value != '') {
 			if ( !numbers(port) || ((port.value <= 0) || (port.value > 65535))) {
 				error = true;
-				errors.push('<?php echo $lang_LDAP_Invalid_Port; ?>');
+				errors.push('<?php echo $lang_LDAP_Invalid_Port;?>');
 			}
 		}
 
 		if (error) {
-			errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
+			errStr = "<?php	echo $lang_Common_EncounteredTheFollowingProblems;?>\n";
 			for (i in errors) {
 				errStr += " - "+errors[i]+"\n";
 			}
@@ -129,109 +144,60 @@ function resetForm() {
 
 </script>
 <body>
-<h2><?php echo str_replace('#ldapType', LdapDetails::LDAP_TYPE=="Open LDAP"?"LDAP":LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration) ; ?><hr/></h2>
-<?php
-if (!extension_loaded("ldap")){ //To check whether the pluging is installed or not
-
-	echo("<span class='Error'>$lang_LDAP__Error_Extension_Disabled</span>");
-}
-else{
-?>
-<form id="frmLDAPConfig" name="frmLDAPConfig" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=LDAP&id=1">
-<input type="hidden" name="sqlState" id="sqlState" />
-<font face="Verdana, Arial, Helvetica, sans-serif">
-<?php
-if (isset($_GET['message']) && $_GET['message'] == "UPDATE_SUCCESS") {
-	echo "<font color=\"#009966\">" . $lang_Common_UPDATE_SUCCESS . "</font>";
-} elseif (isset($_GET['message']) && $_GET['message'] == "UPDATE_FAILURE") {
-	echo "<font color=\"#ff3366\">" . $lang_Common_UPDATE_FAILURE . "</font>";
-}
-?>
-</font>
-  <table border="0" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th class="tableTopLeft"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-
-        <th class="tableTopRight"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="tableMiddleLeft"></td>
-        <td valign="top"><span class="error">*</span> <?php echo $lang_LDAP_Server; ?></td>
-        <td width="25">&nbsp;</td>
-        <td valign="top"><input type="text" disabled name="txtLDAPServer" id="txtLDAPServer" value="<?php echo $editArr->getLdapServer();?>"/>
-		<br>(Ex: 192.0.2.201)<br><br>
-		</td>
-        <td width="25">&nbsp;</td>
-		<td valign="top"><?php echo $lang_LDAP_Port; ?></td>
-		<td width="25">&nbsp;</td>
-		<td valign="top"><input type="text" disabled name="txtLDAPPort" id="txtLDAPPort" value="<?php echo $editArr->getLdapPort();?>"/>
-		<br><?php echo $ldapPortEx; ?><br><br>
-		</td>
-		<td class="tableMiddleRight"></td>
-      </tr>
-
-	  <tr>
-        <td class="tableMiddleLeft"></td>
-        <td valign="top"><span class="error">*</span> <?php echo $ldapDomainNameDisc; ?></td>
-        <td width="25">&nbsp;</td>
-        <td valign="top"><input type="text" disabled name="txtLDAPDomainName" id="txtLDAPDomainName" value="<?php echo $editArr->getLdapDomainName();?>" />
-		<br><?php echo $ldapDomainNameEx;?><br><br>
-		</td>
-        <td width="25">&nbsp;</td>
-		<td valign="top"><?php echo $lang_LDAP_Enable; ?></td>
-		<td width="25">&nbsp;</td>
-		<td valign="top"><input type="checkbox" disabled name="cbLDAPEnable" id="cbLDAPEnable" value="" <?php if ($editArr->getLdapStatus() == "enabled") { echo "checked=\"checked\"";} ?>/></td>
-
-        <td class="tableMiddleRight"></td>
-      </tr>
-
-	  <tr>
-        <td class="tableMiddleLeft"></td>
-        <td colspan="7" align="center">
-
-<?php			if($locRights['edit']) { ?>
-			        <input type="button" class="editbutton" id="btnEdit" value="<?php echo $lang_Common_Edit; ?>" name="Edit"
-			        	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
-			        	onclick="edit(); return false;">
-<?php			} else { ?>
-			        <input type="button" class="editbutton" id="btnEdit" disabled="disabled" value="<?php echo $lang_Common_Edit; ?>" />
-<?php			}  ?>
-<input type="button" class="resetbutton" id="btnReset" disabled="disabled" value="<?php echo $lang_Common_Reset; ?>"
-	onmouseout="moutButton(this);" onmouseover="moverButton(this);"
-	onclick="resetForm(); return false;" />
-          </td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="tableBottomLeft"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-
-        <td class="tableBottomRight"></td>
-      </tr>
-    </tfoot>
-  </table>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+<?php if (! extension_loaded ( "ldap" )) { //To check whether the pluging is installed or not
+	       echo ("<span class='Error'>$lang_LDAP__Error_Extension_Disabled</span>");
+      } else { ?>
+<form id="frmLDAPConfig" name="frmLDAPConfig" method="post"	action="<?php	echo $_SERVER ['PHP_SELF'];?>?uniqcode=LDAP&id=1">
+	<input	type="hidden" name="sqlState" id="sqlState" />         
+        <?php if (isset($_GET['message'])) {
+		        $message  = $_GET['message'];
+		        $messageType = CommonFunctions::getCssClassForMessage($message);
+		        $message = "lang_Time_Errors_" . $message; ?>
+			    <div class="messagebar">
+			        <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+			    </div>
+<?php         } ?>
+        
+        
+    <div class="outerbox" style="width: 600px;">
+	       <div class="mainHeading"><h2><?php	echo str_replace ( '#ldapType', LdapDetails::LDAP_TYPE == "Open LDAP" ? "LDAP" : LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration );?></h2></div>
+	        <label for="txtLDAPServer"> <span class="error">*</span> <?php	echo $lang_LDAP_Server;	?></label>
+	        <input	type="text" disabled name="txtLDAPServer" id="txtLDAPServer"value="<?php echo $editArr->getLdapServer ();?>" />(Ex: 192.0.2.201) 
+	         <br class="clear" />
+	        <label for="txtLDAPPort"> <?php	echo $lang_LDAP_Port;?></label><input	type="text" disabled name="txtLDAPPort" id="txtLDAPPort" value="<?php echo $editArr->getLdapPort (); ?>" /> 
+	        <?php	echo $ldapPortEx; ?>
+	        <br class="clear" />
+	        
+	        <label> <span class="error">*</span> <?php	echo $ldapDomainNameDisc; ?></label>
+	        <input type="text" disabled name="txtLDAPDomainName" id="txtLDAPDomainName"	value="<?php echo $editArr->getLdapDomainName ();?>" /> 
+	        <?php echo $ldapDomainNameEx;	?>
+	        <br class="clear" />
+	        
+	        <label style="width: 160px;"><?php echo $lang_LDAP_Enable;?></label> 
+	        <input style="margin-top: 10px;" type="checkbox"	disabled name="cbLDAPEnable" id="cbLDAPEnable" value=""	<?php	if ($editArr->getLdapStatus () == "enabled") {echo "checked=\"checked\"";}?> />
+	        <br class="clear" />
+	        <div class="formbuttons">
+		        <?php	if ($locRights ['edit']) {?>
+					        <input type="button" class="editbutton" id="btnEdit" value="<?php echo $lang_Common_Edit;?>" name="Edit" onmouseout="moutButton(this);" onmouseover="moverButton(this);" onclick="edit(); return false;">
+		        <?php	} else {?>
+					        <input type="button" class="editbutton" id="btnEdit" disabled="disabled" value="<?php echo $lang_Common_Edit; ?>" />
+		        <?php	} ?>
+		        <input type="button" class="resetbutton" id="btnReset"	disabled="disabled" value="<?php echo $lang_Common_Reset;?>" onmouseout="moutButton(this);" onmouseover="moverButton(this);" onclick="resetForm(); return false;" /> 
+		        <br class="clear" />
+	        </div>
+	        <span id="notice"><?php	echo preg_replace ( '/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark );	?>.</span>
+	
+	</div>
 </form>
 <?php
 }
 ?>
 </body>
 </html>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');
+    }
+//]]>
+</script>
