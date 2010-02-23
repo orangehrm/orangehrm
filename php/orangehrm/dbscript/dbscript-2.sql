@@ -526,6 +526,7 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(2, 'Bi Week
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(6, 'Hourly');
 
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_domain_name', '');
