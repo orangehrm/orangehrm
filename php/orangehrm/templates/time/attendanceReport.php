@@ -308,8 +308,7 @@ $count = count($recordsArr);
             <option value="summary"><?php echo $lang_Time_Option_Summary; ?></option>
             <option value="detailed" <?php echo (isset($records['reportView']) && $records['reportView'] == 'detailed')?'selected':''; ?>>
             <?php echo $lang_time_Option_Detailed; ?></option>
-        </select>
-        <input type="hidden" name="callbackSummery" id="callbackSummery" value="<?php echo $records['empId'];?>" />
+        </select>      
         <input type="hidden" name="pageNo" value="<?php echo (isset($records['pageNo']))?$records['pageNo']:'1'; ?>">
 
         <input type="submit" class="punchbutton"
@@ -563,7 +562,7 @@ echo '</div>';
 <br class="clear" />
 
 <?php if($records['editMode']) { ?>
-<input type="hidden" name="hdnEmployeeId" value="<?php echo $recordsArr[0]->getEmployeeId(); ?>" />
+<input type="hidden" name="hdnEmployeeId" value="<?php echo $records['empId']; ?>" />
 <input type="hidden" name="txtFromDate" value="<?php echo $records['fromDate']; ?>" />
 <input type="hidden" name="txtToDate" value="<?php echo $records['toDate']; ?>" />
 <input type="hidden" name="hdnReportType" value="<?php echo $records['reportType']; ?>" />

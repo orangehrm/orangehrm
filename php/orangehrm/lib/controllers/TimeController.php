@@ -479,7 +479,6 @@ class TimeController {
 		$records['noReports'] = false;
 		$records['userTimeZoneOffset'] = $_SESSION['userTimeZoneOffset'];
 		$records['serverTimeZoneOffset'] = round(date('Z')/3600, 1);
-		$rocords['postBackEmployeeId '] = $_POST['callbackSummery'];
 
 		/* Setting 'Back' button to summary view */
 		if (isset($_POST['hdnFromSummary'])) {
