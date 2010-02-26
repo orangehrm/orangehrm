@@ -98,7 +98,7 @@
 	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
 	$lang_Error_SelectAtLeastOneCheckBox 				= "Select at least one check box";
 
-	$lang_Notice_NoRights	= "No modules with administrative previledges were found. Adminstration rights of your user group may have " .
+	$lang_Notice_NoRights	= "No modules with administrative privileges were found. Adminstration rights of your user group may have " .
 			"been revoked or temporarily suspended.";
 
 	/**
