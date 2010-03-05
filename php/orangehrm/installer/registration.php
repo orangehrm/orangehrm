@@ -90,7 +90,7 @@ document.frmInstall.btnRegister.disabled = true;
 <div style="display: block;" class="wrapper">
 	<h2>Step 7: Registration</h2>
 	 <p>You have sucessfully installed OrangeHRM, please take a moment to register.</p>
-	<div class="wrapper">
+	<div class="wrapper" style="width: 900px;">
     <div class="wrapper_content_div">
         <h3>Benefits of Registration</h3>
 	        <ul class="registration">
@@ -156,9 +156,12 @@ document.frmInstall.btnRegister.disabled = true;
 </table>
 </div>
 </div>
-<?php } 
-  if(!isset($reqAccept)) { ?>
-        <div style="margin-left: 440px;">
+<br style="clear: both"/>
+<?php }  ?>
+  <div style="margin-left: 490px; padding-top: 20px;">
+<?php   if(!isset($reqAccept)) { ?>
+
+        <div>
 	        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
 	        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
         </div>
@@ -169,6 +172,6 @@ document.frmInstall.btnRegister.disabled = true;
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <?php } 
 ?>
-	<br />        
+ </div>    
 </div>
 <br class="clear"/>
