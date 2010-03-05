@@ -479,10 +479,10 @@ echo '</div>';
 	$id = $recordsArr[$i]->getAttendanceId();
 	$inDate = $recordsArr[$i]->getInDate();
 	$inTime = $recordsArr[$i]->getInTime();
-	$inNote = $recordsArr[$i]->getInNote();
+	$inNote = htmlentities($recordsArr[$i]->getInNote());
 	$outDate = $recordsArr[$i]->getOutDate();
 	$outTime = $recordsArr[$i]->getOutTime();
-	$outNote = $recordsArr[$i]->getOutNote();
+	$outNote = htmlentities($recordsArr[$i]->getOutNote());
 	$timestampDiff = $recordsArr[$i]->getTimestampDiff();
 
 	$className="odd";
