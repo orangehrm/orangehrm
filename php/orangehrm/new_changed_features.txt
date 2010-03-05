@@ -1,3 +1,13 @@
+New & Changed Features for OrangeHRM ver 2.5.0.3-beta.2
+
+	No thanks and Regisor buttons should be placed buttom of the page
+	2959502 - Illeagal characters stop registration page been sent 
+	2959512 - In csv report Customer coumn is not shown
+	2959507 - Timesheet CSV cotains "In date" Header Instead of "Out Date"
+	2959503 - "News letter " should be a one word "Newsletter"
+	2959533 - For punch in notes when " includ,text after " are not shown
+	2959505 - Seperator should be there in the applicants details PDF
+
 New & Changed Features for OrangeHRM ver 2.5.0.3-beta.1
 
     Stories Included
