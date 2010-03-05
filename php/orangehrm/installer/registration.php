@@ -98,7 +98,7 @@ document.frmInstall.btnRegister.disabled = true;
 	            <li><span>Receive patches for bug fixes</span></li>
 	            <li><span>Notification of new software updates</span></li>
 	            <li><span>Prioritize your support queries</span></li>
-	            <li><span>Receive OrangeHRM news letter and other useful updates</span></li>
+	            <li><span>Receive OrangeHRM newsletter and other useful updates</span></li>
 	        </ul>
     </div>
 
