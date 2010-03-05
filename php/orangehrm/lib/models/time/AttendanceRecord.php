@@ -385,7 +385,7 @@ class AttendanceRecord {
 		
 		$groupBy = null;
 		if($forSummary) {
-			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT (punchin_time,'%Y %c %d')" ;
+			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT(punchin_time,'%Y %c %d')" ;
 			$selectFields[] = " (SUM(punchout_time - punchin_time)) AS duration";
 		}
 		
