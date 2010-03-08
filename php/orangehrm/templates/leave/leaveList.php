@@ -208,7 +208,9 @@ if ($modifier === "SUP") {
                     $holiday = new Holidays();
                     if($holiday->isHoliday($record->getLeaveDate())){
                         $holiday = Holidays::getHolidayForDate($record->getLeaveDate());
-                        echo $holiday->getDescription();
+				if(isset($holiday)) {
+                        		echo $holiday->getDescription();
+				}
                     } else {
                     	if (isset($statusArr[$record->getLeaveStatus()])) {
                     		echo $statusArr[$record->getLeaveStatus()];
