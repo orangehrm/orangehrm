@@ -45,6 +45,7 @@
 
 	$lang_Error_LeaveDateCannotBeABlankValue 		= "Leave date cannot be a blank value!";
 	$lang_Error_NameOfHolidayCannotBeBlank 			= "Name of holiday cannot be blank";
+
 	$lang_Error_NoLeaveTypes 						= "No Leave Types";
            $lang_Error_NoYearSpecified 						= "No Year Specified";
 	$lang_Error_NoRecordsFound 						= "No records found!";
@@ -1488,7 +1489,7 @@
 	$lang_Time_Errors_NoValidDurationOrInterval_ERROR = "No valid duration or interval specified";
 	$lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR = "Zero or negative interval specified";
 	$lang_Time_Errors_NO_EVENTS_WARNING = "No events to save";
-    $lang_Time_Errors_Duplicate_Workshift_Name_ERROR = "WorkShift name is in use. Choose another name.";
+
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
 	$lang_Time_Timesheet_ReportedDate = "Reported date";

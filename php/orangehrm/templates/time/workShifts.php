@@ -27,15 +27,6 @@ $disabledAttribute = 'disabled="disabled"';
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 
 <script type="text/javascript">
-shiftNames = new Array();
-<?php
-    if($workshifts) {
-        foreach($workshifts as $shiftType) {
-            echo "\tshiftNames.push(\"{$shiftType->getName()}\");\n";
-
-        }
-    }
-?>
 //<![CDATA[
 var baseUrl = '?timecode=Time&action=';
 
@@ -47,30 +38,12 @@ function actionShowAdd() {
 function cancelAddShift() {
 	$('addPanel').style.display = 'none';
 	$('frmAddWorkShift').reset();
-         oLink = document.getElementById("messageCell");
-         oLink.innerHTML = "";
 }
-function nameExits(name) {
-        var flag=0;
-        n = shiftNames.length;
-        for (var i=0; i<n; i++) {
-            if (shiftNames[i].toLowerCase() == name.toLowerCase()) {
-                flag=1;
-                break;
-            }
-        }
-        if(flag==1)
-            return true;
-        return false;
- }
+
 function addShift() {
 	err=false;
 	msg='<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
-	if(nameExits($('txtShiftName').value.trim())) {
-    	err=true;
-		msg+="\t- <?php echo $lang_Time_Errors_Duplicate_Workshift_Name_ERROR; ?>\n";
-	}
 	if ($('txtShiftName').value.trim() == '') {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyWorkShiftName; ?>\n";
@@ -151,18 +124,7 @@ function doUnCheckAll() {
 		}
 	}
 }
-function checkName() {
-        chkName = $('txtShiftName').value.trim();
-        oLink = document.getElementById("messageCell");
 
-        if (nameExits(chkName)) {
-            oLink.innerHTML = "<?php echo $lang_Time_Errors_Duplicate_Workshift_Name_ERROR; ?>";
-            oLink.className = "error";
-        } else {
-            oLink.innerHTML = "";
-        }
-
-    }
 //]]>
 </script>
 <div id="addPanel" class="outerbox" style="width:300px;display:none;">
@@ -170,10 +132,8 @@ function checkName() {
 	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&amp;action=">
 		<div class="roundbox">
 			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?><span class="required">*</span></label>
-	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" onkeyup="checkName();" class="formInputText"/>
+	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" class="formInputText"/>
             <br class="clear"/>
-            <div class="error" id="messageCell"></div>
-                <br class="clear"/>
 	        <label for="txtHoursPerDay"> <?php echo $lang_Time_HoursPerDay; ?><span class="required">*</span></label>
 	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3" class="formInputText"
                 style="width:30px;"/>
