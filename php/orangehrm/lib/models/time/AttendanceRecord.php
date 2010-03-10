@@ -254,7 +254,7 @@ class AttendanceRecord {
 
 	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false,  $subordinateIds = null) {
 
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch , true, $subordinateIds);
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch , false, $subordinateIds);
 
 		if (mysql_num_rows($result) > 0) {
 			return $this->_buildRecordObjects($result);
@@ -387,6 +387,8 @@ class AttendanceRecord {
 		if($forSummary) {
 			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT(punchin_time,'%Y %c %d')" ;
 			$selectFields[] = " (SUM(punchout_time - punchin_time)) AS duration";
+		} else  {
+			$selectFields[] = " (punchout_time - punchin_time) AS duration";
 		}
 		
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $tables, $joinConditions, $selectConditions, null, $orderBy, $order, $limit, $groupBy);

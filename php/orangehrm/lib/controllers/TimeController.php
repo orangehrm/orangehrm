@@ -415,7 +415,7 @@ class TimeController {
 		$criteria = array($empId, $from, $to);
 		$sameQuery = false;
 
-		if (isset($_SESSION['attCriteria'])) {
+		/*if (isset($_SESSION['attCriteria'])) {
 		    if ($criteria == $_SESSION['attCriteria']) {
 		        $sameQuery = true;
 		    } else {
@@ -423,7 +423,7 @@ class TimeController {
 		    }
 		} else {
 		    $_SESSION['attCriteria'] = $criteria;
-		}
+		}*/
 
 		if (isset($_POST['pageNo']) && $_POST['hdnFromPaging'] == 'Yes') { // If it's from Generate button, it should always display page 1.
 		    $pageNo = $_POST['pageNo'];
