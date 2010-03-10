@@ -1,8 +1,7 @@
-New & Changed Features for OrangeHRM ver 2.5.0.3-beta.2
+New & Changed Features for OrangeHRM ver 2.5.0.3
 
-revert the bug : 2049129 - Time: Work shift should be unique. Fix was from
-community contributor Asad Raza
-
+2965427 - can't assing employees for workshifts.getting an err msg.revert the bug : 2049129 - Time: Work shift should be unique. Fix was from
+		community contributor Asad Raza
 
 New & Changed Features for OrangeHRM ver 2.5.0.3-beta.2
 
