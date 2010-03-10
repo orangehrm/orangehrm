@@ -1,5 +1,11 @@
 New & Changed Features for OrangeHRM ver 2.5.0.3-beta.2
 
+revert the bug : 2049129 - Time: Work shift should be unique. Fix was from
+community contributor Asad Raza
+
+
+New & Changed Features for OrangeHRM ver 2.5.0.3-beta.2
+
 	No thanks and Regisor buttons should be placed buttom of the page
 	2959502 - Illeagal characters stop registration page been sent 
 	2959512 - In csv report Customer coumn is not shown
