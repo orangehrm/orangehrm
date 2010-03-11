@@ -3,7 +3,7 @@
 	<div id="contentContainer">
 	<?php if(count($listJobTitle) == 0){?>
 			<div id="messageBalloon_notice" class="messageBalloon_notice">
-				<ul><li><?php echo __("Job titles haven't been defined")?> <a href="<?php echo url_for('admin/saveJobTitle') ?>"><?php echo __("Define Now")?></a></li></ul>		
+				<ul><li><?php echo __("Job titles haven't been defined")?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now")?></a></li></ul>		
 			</div>
 		<?php }?>
 		<?php if($confirm){?>
