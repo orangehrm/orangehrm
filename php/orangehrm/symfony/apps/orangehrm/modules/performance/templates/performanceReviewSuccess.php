@@ -24,9 +24,10 @@
 					 <label class="detailHearder"><?php echo __("Status")?></label>
                      <label class="detail"><?php echo $performanceReview->getTextStatus()?> </label>
                    <br class="clear"/>
+					 <?php if( count($performanceReview->getPerformanceReviewComment()) > 0){?>
 					 <label class="detailHearder"><?php echo __("Notes")?></label>
 					 <label class="detail">
-					 <?php if( count($performanceReview->getPerformanceReviewComment() > 0)){?>
+					 
 						 <table width="400px">
 						 <th>
 						 	<tr>
@@ -38,15 +39,16 @@
 	                     <?php foreach( $performanceReview->getPerformanceReviewComment() as $comment){?>
 	                     	<tr>
 	                     		<td ><?php echo $comment->getCreateDate()?></td>
-	                     		<td ><?php echo $comment->getEmployee()->getFullName()?></td>
+	                     		<td ><?php echo ($comment->getEmployee()->getFullName() != '')? $comment->getEmployee()->getFullName():'Admin'?></td>
 	                     		<td ><?php echo $comment->getComment()?></td>
 	                     	</tr>
 	                     
 	                     <?php }?>
 	                     </table>
-                     <?php }?>
+                     
                      </label>
                    <br class="clear"/>
+                   <?php }?>
 				   
 				   <div id="tableWrapper">
 				   <input type="hidden" name="validRate" id="validRate" value="1"></input>
@@ -111,7 +113,7 @@
                </div>  
             </form> 
 				<div id="buttonWrapper">&nbsp;
-                    <?php if(($isReviwer && $performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>  
+                    <?php if(($isReviwer && ($performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState()==PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>  
                     <input type="button" class="savebutton" id="saveBtn"
                         value="<?php echo __("Edit")?>"  />
                       <?php }?>  
