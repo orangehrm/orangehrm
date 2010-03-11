@@ -99,7 +99,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 						$_SESSION['user']=$rset[0][3];
 						$_SESSION['userGroup']=$rset[0][4];
 						$_SESSION['isAdmin']=$rset[0][7];
-						$_SESSION['empID']=$rset[0][6];
+						$_SESSION['empID']=$rset[0][6]; // This is employee ID with leading zeros.
+						$_SESSION['empNumber']=$rset[0][9]; // This is the real employee ID (emp_number) with no padding.
 
 						$_SESSION['fname']=$rset[0][2];
 
@@ -157,7 +158,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 				$_SESSION['user']=$rset[0][3];
 				$_SESSION['userGroup']=$rset[0][4];
 				$_SESSION['isAdmin']=$rset[0][7];
-				$_SESSION['empID']=$rset[0][6];
+				$_SESSION['empID']=$rset[0][6]; // This is employee ID with leading zeros.
+				$_SESSION['empNumber']=$rset[0][9]; // This is the real employee ID (emp_number) with no padding.
 
 				$_SESSION['fname']=$rset[0][2];
 
@@ -416,7 +418,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5.0.3 &copy; OrangeHRM Inc. 2005 - 2009 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5.0.3 &copy; OrangeHRM Inc. 2005 - 2010 All rights reserved.</td>
 </tr>
 </table>
 

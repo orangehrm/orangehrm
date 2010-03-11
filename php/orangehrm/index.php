@@ -48,6 +48,7 @@ define('Leave', 'MOD005');
 define('TimeM', 'MOD006');
 define('Benefits', 'MOD007');
 define('Recruit', 'MOD008');
+define('Perform', 'MOD009');
 
 $arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 $arrAllRights=array(Admin => $arrRights,
@@ -57,7 +58,8 @@ $arrAllRights=array(Admin => $arrRights,
 					Leave => $arrRights,
 					TimeM => $arrRights,
 					Benefits => $arrRights,
-					Recruit => $arrRights);
+					Recruit => $arrRights,
+					Perform => $arrRights);
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
@@ -140,6 +142,9 @@ switch ($_GET['menu_no_top']) {
 		break;
 	case "recruit" :
 		$arrRights=$arrAllRights[Recruit];
+		break;
+	case "perform" :
+		$arrRights=$arrAllRights[Perform];
 		break;
 }
 $_SESSION['localRights']=$arrRights;
@@ -651,6 +656,29 @@ if ($arrAllRights[Recruit]['view']) {
 	$menu[] = $menuItem;
 }
 
+/* Performance menu start */
+
+$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=./symfony/web/index.php/performance/viewReview");
+$menuItem->setCurrent($_GET['menu_no_top']=="perform");
+$enablePerformMenu = false;
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="perform") && isset($_GET['reqcode']) && $arrRights['view'] )  {
+	$enablePerformMenu = true;
+}
+$subs = array();
+
+if ($arrAllRights[Perform]['add'] && ($_SESSION['isAdmin']=='Yes')) {
+	$subs[] = new MenuItem('definekpi', $lang_Menu_Define_Kpi, "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/listDefineKpi");
+	$subs[] = new MenuItem('definekpi', 'Add KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveKpi");
+	$subs[] = new MenuItem('definekpi', 'Copy KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/copyKpi");
+	$subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveReview");
+}
+
+$subs[] = new MenuItem('definekpi', 'Search Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview");
+
+$menuItem->setSubMenuItems($subs);
+
+$menu[] = $menuItem;
+
 /* Start reports menu */
 if ($_SESSION['isAdmin']=='Yes' && $arrAllRights[Report]['view']) {
 	$menuItem = new MenuItem("report", $lang_Menu_Reports ,"./index.php?menu_no_top=rep");
@@ -759,7 +787,11 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 
 	/* TODO: Remove this pageNo variable */
 	$pageNo = isset($_GET['pageNo'])? '&amp;pageNo=1' : '';
-    $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+       if( isset($_GET['uri']))
+            $home = $_GET['uri'];
+       else
+            $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+        
 } elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {
 	$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 	$home = "./lib/controllers/CentralController.php?reqcode={$reqCode}";
@@ -787,6 +819,8 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 	$home = $beneftisHomePage;
 } elseif ($_GET['menu_no_top']=="recruit") {
 	$home = $recruitHomePage;
+} elseif ($_GET['menu_no_top']=="performance") {
+	$home = $_GET['uri'];
 } else {
 	$rightsCount = 0;
 	foreach ($arrAllRights as $moduleRights) {

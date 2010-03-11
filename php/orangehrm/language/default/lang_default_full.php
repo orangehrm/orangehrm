@@ -117,7 +117,8 @@
 
 	$lang_Menu_Ess								= "ESS";
 	$lang_Menu_Pim 								= "PIM";
-
+	// Performance Module
+	$lang_Menu_Perform 							= "Performance";
 	// Admin Module
 	$lang_Menu_Admin 							= "Admin";
 
@@ -224,6 +225,9 @@
 	$lang_Menu_Recruit = "Recruitment";
 	$lang_Menu_Recruit_JobVacancies = "Job Vacancies";
 	$lang_Menu_Recruit_JobApplicants = "Applicants";
+	
+	// Performance Module
+	$lang_Menu_Define_Kpi = "KPI List";
 
 	/**
 	 * Common

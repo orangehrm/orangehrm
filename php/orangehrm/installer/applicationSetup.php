@@ -296,6 +296,40 @@ CONFCONT;
 
 }
 
+function writeSymfonyDbConfigFile() {
+
+	$dbHost = $_SESSION['dbInfo']['dbHostName'];
+	$dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
+	$dbName = $_SESSION['dbInfo']['dbName'];
+
+	if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
+		$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
+		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
+	} else {
+		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
+		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
+	}
+	
+    $confContent = <<< CONFCONT
+all:
+  doctrine:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=$dbHost;dbname=$dbName'
+      username: $dbOHRMUser
+      password: $dbOHRMPassword
+      port: $dbHostPort
+      attributes: { export: tables }
+CONFCONT;
+
+	$filename = ROOT_PATH . '/symfony/config/databases.yml';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $confContent);
+
+    fclose($handle);
+
+}
+
 function writeLog() {
 	$Content = "Client Info\n\n";
 
@@ -388,6 +422,7 @@ function writeLog() {
 
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "installer/log.txt");
 					writeConfFile();
+					writeSymfonyDbConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;

@@ -937,6 +937,42 @@ create table `hs_hr_emp_locations` (
   primary key  (`emp_number`, `loc_code`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_kpi` (
+  `id` int(13) not null,
+  `job_title_code` varchar(13) default null,
+  `description` varchar(200) default null,
+  `rate_min` double default null,
+  `rate_max` double default null,
+  `rate_default` tinyint(4) default null,
+  `is_active` tinyint(4) default null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_performance_review` (
+  `id` int(13) not null,
+  `employee_id` int(13) not null,
+  `reviewer_id` int(13) not null,
+  `creator_id` varchar(36) default null,
+  `job_title_code` varchar(10) not null,
+  `sub_division_id` int(13) default null,  
+  `creation_date` date not null,
+  `period_from` date not null,
+  `period_to` date not null,
+  `due_date` date not null,
+  `state` tinyint(2) default null,
+  `kpis` text default null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_performance_review_comments`(
+	`id` int(13) not null auto_increment,
+	`pr_id` int(13) not null,
+	`employee_id` int(13) default null,
+	`comment` text default null,
+	`create_date` date not null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
