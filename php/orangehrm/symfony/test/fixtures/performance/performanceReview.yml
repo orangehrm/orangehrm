@@ -1,0 +1,15 @@
+PerformanceReview:
+  PR_001:
+    employeeId: 1
+    reviewerId: 2
+    periodFrom: 2009-01-01
+    periodTo: 2009-12-31
+    dueDate: 2010-03-01
+    kpis : <xml><kpis><kpi><id>1</id><name>what best</name><min>1</m><max>10</max><rate>5</rate><comment>This is test comment</comment></kpi><kpi></kpi></kpis></xml>
+  PR_002:
+    employeeId: 1
+    reviewerId: 2
+    periodFrom: 2009-01-01
+    periodTo: 2009-12-31
+    dueDate: 2010-03-01
+    kpis : <xml><kpis><kpi></kpi></kpis></xml>   

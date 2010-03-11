@@ -1,0 +1,611 @@
+Chapter 18 - Performance
+========================
+
+If you expect your website will attract a crowd, performance and optimization issues should be a major factor during the development phase. Rest assured, performance has always been a chief concern among the core symfony developers.
+
+While the advantages gained by accelerating the development process result in some overhead, the core symfony developers have always been cognizant of performance requirements. Accordingly, every class and every method have been closely inspected and optimized to be as fast as possible. The basic overhead, which you can measure by comparing the time to display a "hello, world" message with and without symfony, is minimal. As a result, the framework is scalable and reacts well to stress tests. And as the ultimate proof, some websites with extremely high traffic (that is, websites with millions of active subscribers and a lot of server-pressuring Ajax interactions) use symfony and are very satisfied with its performance. Check the list of websites developed with symfony in the wiki ([http://trac.symfony-project.org/wiki/ApplicationsDevelopedWithSymfony](http://trac.symfony-project.org/wiki/ApplicationsDevelopedWithSymfony)) for names.
+
+But, of course, high-traffic websites often have the means to expand the server farm and upgrade hardware as they see fit. If you don't have the resources to do this, or if you want to be sure the full power of the framework is always at your disposal, there are a few tweaks that you can use to further speed up your symfony application. This chapter lists some of the recommended performance optimizations at all levels of the framework and they are mostly for advanced users. Some of them were already mentioned throughout the previous chapters, but you will find it useful to have them all in one place.
+
+Tweaking the Server
+-------------------
+
+A well-optimized application should rely on a well-optimized server. You should know the basics of server performance to make sure there is no bottleneck outside symfony. Here are a few things to check to make sure that your server isn't unnecessarily slow.
+
+Having `magic_quotes_gpc` turned `on` in the `php.ini` slows down an application, because it tells PHP to escape all quotes in request parameters, but symfony will systematically unescape them afterwards, and the only consequence will be a loss of time--and quotes-escaping problems on some platforms. Therefore, turn this setting off if you have access to the PHP configuration.
+
+The more recent PHP release you use, the better. PHP 5.2 is faster than PHP 5.1, and PHP 5.1 is a lot faster than PHP 5.0. So make sure you upgrade your PHP version to benefit from the latest performance improvements.
+
+The use of a PHP accelerator (such as APC, XCache, or eAccelerator) is almost compulsory for a production server, because it can make PHP run an average 50% faster, with no tradeoff. Make sure you install one of the accelerator extensions to feel the real speed of PHP.
+
+On the other hand, make sure you deactivate any debug utility, such as the Xdebug or APD extension, in your production server.
+
+>**NOTE**
+>You might be wondering about the overhead caused by the `mod_rewrite` extension: it is negligible. Of course, loading an image with rewriting rules is slower than loading an image without, but the slowdown is orders of magnitude below the execution of any PHP statement.
+
+>**TIP**
+>When one server is not enough, you can still add another and use load balancing. As long as the `uploads/` directory is shared and you use database storage for sessions, a symfony project will react seamlessly in a load-balanced architecture.
+
+Tweaking the Model
+------------------
+
+In symfony, the model layer has the reputation of being the slowest part. If benchmarks show that you have to optimize this layer, here are a few possible improvements.
+
+### Optimizing Propel Integration
+
+Initializing the model layer (the core Propel classes) takes some time, because of the need to load a few classes and construct various objects. However, because of the way symfony integrates Propel, these initialization tasks occur only when an action actually needs the model--and as late as possible. The Propel classes will be initialized only when an object of your generated model is autoloaded. This means pages that don't use the model are not penalized by the model layer.
+
+If your entire application doesn't require the use of the model layer, you can also save the initialization of the `sfDatabaseManager` by switching the whole layer off in your `settings.yml`:
+
+    all:
+      .settings:
+        use_database: off
+
+The generated model classes (in `lib/model/om/`) are already optimized--they don't contain comments, and they benefit from the autoloading system. Relying on autoloading instead of manually including files means that classes are loaded only if it is really necessary. So in case one model class is not needed, having classes autoloaded will save execution time, while the alternative method of using `include` statements won't. As for the comments, they document the use of the generated methods but lengthen the model files--resulting in a minor overhead on slow disks. As the generated method names are pretty explicit, the comments are turned off by default.
+
+These two enhancements are symfony-specific, but you can revert to the Propel defaults by changing two settings in your `propel.ini` file, as follows:
+
+    propel.builder.addIncludes = true   # Add include statements in generated classes
+                                        # Instead of relying on the autoloading system
+    propel.builder.addComments = true   # Add comments to generated classes
+
+### Limiting the Number of Objects to Hydrate
+
+When you use a method of a peer class to retrieve objects, your query goes through the hydrating process (creating and populating objects based on the rows of the result of the query). For instance, to retrieve all the rows of the `article` table with Propel, you usually do the following:
+
+    [php]
+    $articles = ArticlePeer::doSelect(new Criteria());
+
+The resulting `$articles` variable is an array of objects of class `Article`. Each object has to be created and initialized, which takes time. This has one major consequence: Contrary to direct database queries, the speed of a Propel query is directly proportional to the number of results it returns. This means your model methods should be optimized to return only a given number of results. When you don't need all the results returned by a `Criteria`, you should limit it with the `setLimit()` and `setOffset()` methods. For instance, if you need only the rows 10 to 20 of a particular query, refine the `Criteria` as in Listing 18-1.
+
+Listing 18-1 - Limiting the Number of Results Returned by a Criteria
+
+    [php]
+    $c = new Criteria();
+    $c->setOffset(10);  // Offset of the first record returned
+    $c->setLimit(10);   // Number of records returned
+    $articles = ArticlePeer::doSelect($c);
+
+This can be automated by the use of a pager. The `sfPropelPager` object automatically handles the offset and the limit of a Propel query to hydrate only the objects required for a given page. Refer to the [pager documentation](http://www.symfony-project.org/cookbook/1_1/pager) for more information on this class.
+
+### Minimizing the Number of Queries with Joins
+
+During application development, you should keep an eye on the number of database queries issued by each request. The web debug toolbar shows the number of queries for each page, and clicking the little database icon reveals the SQL code of these queries. If you see the number of queries rising abnormally, it is time to consider using a Join.
+
+Before explaining the Join methods, let's review what happens when you loop over an array of objects and use a Propel getter to retrieve details about a related class, as in Listing 18-2. This example supposes that your schema describes an `article` table with a foreign key to an `author` table.
+
+Listing 18-2 - Retrieving Details About a Related Class in a Loop
+
+    [php]
+    // In the action
+    $this->articles = ArticlePeer::doSelect(new Criteria());
+
+    // Database query issued by doSelect()
+    SELECT article.id, article.title, article.author_id, ...
+    FROM   article
+
+    // In the template
+    <ul>
+    <?php foreach ($articles as $article): ?>
+      <li><?php echo $article->getTitle() ?>,
+        written by <?php echo $article->getAuthor()->getName() ?></li>
+    <?php endforeach; ?>
+    </ul>
+
+If the `$articles` array contains ten objects, the `getAuthor()` method will be called ten times, which in turn executes one database query each time it is called to hydrate one object of class `Author`, as in Listing 18-3.
+
+Listing 18-3 - Foreign Key Getters Issue One Database Query
+
+    [php]
+    // In the template
+    $article->getAuthor()
+
+    // Database query issued by getAuthor()
+    SELECT author.id, author.name, ...
+    FROM   author
+    WHERE  author.id = ?                // ? is article.author_id
+
+So the page of Listing 18-2 will require a total of 11 queries: the one necessary to build the array of `Article` objects, plus the 10 queries to build one `Author` object at a time. This is a lot of queries to display only a list of articles and their author.
+
+If you were using plain SQL, you would know how to reduce the number of queries to only one by retrieving the columns of the `article` table and those of the `author` table in the same query. That's exactly what the `doSelectJoinAuthor()` method of the `ArticlePeer` class does. It issues a slightly more complex query than a simple `doSelect()` call, but the additional columns in the result set allow Propel to hydrate both `Article` objects and the related `Author` objects. The code of Listing 18-4 displays exactly the same result as Listing 18-2, but it requires only one database query to do so rather than 11 and therefore is faster.
+
+Listing 18-4 - Retrieving Details About Articles and Their Author in the Same Query
+
+    [php]
+    // In the action
+    $this->articles = ArticlePeer::doSelectJoinAuthor(new Criteria());
+
+    // Database query issued by doSelectJoinAuthor()
+    SELECT article.id, article.title, article.author_id, ...
+           author.id, author.name, ...
+    FROM   article, author
+    WHERE  article.author_id = author.id
+
+    // In the template (unchanged)
+    <ul>
+    <?php foreach ($articles as $article): ?>
+      <li><?php echo $article->getTitle() ?>,
+        written by <?php echo $article->getAuthor()->getName() ?></li>
+    <?php endforeach; ?>
+    </ul>
+
+There is no difference in the result returned by a `doSelect()` call and a `doSelectJoinXXX()` method; they both return the same array of objects (of class Article in the example). The difference appears when a foreign key getter is used on these objects afterwards. In the case of `doSelect()`, it issues a query, and one object is hydrated with the result; in the case of `doSelectJoinXXX()`, the foreign object already exists and no query is required, and the process is much faster. So if you know that you will need related objects, call a `doSelectJoinXXX()` method to reduce the number of database queries--and improve the page performance.
+
+The `doSelectJoinAuthor()` method is automatically generated when you call a `propel-build-model` because of the relationship between the `article` and `author` tables. If there were other foreign keys in the article table structure--for instance, to a category table--the generated `BaseArticlePeer` class would have other Join methods, as shown in Listing 18-5.
+
+Listing 18-5 - Example of Available `doSelect` Methods for an `ArticlePeer` Class
+
+    [php]
+    // Retrieve Article objects
+    doSelect()
+
+    // Retrieve Article objects and hydrate related Author objects
+    doSelectJoinAuthor()
+
+    // Retrieve Article objects and hydrate related Category objects
+    doSelectJoinCategory()
+
+    // Retrieve Article objects and hydrate related objects except Author
+    doSelectJoinAllExceptAuthor()
+
+    // Synonym of
+    doSelectJoinAll()
+
+The peer classes also contain Join methods for `doCount()`. The classes with an i18n counterpart (see Chapter 13) provide a `doSelectWithI18n()` method, which behaves the same as Join methods but for i18n objects. To discover the available Join methods in your model classes, you should inspect the generated peer classes in `lib/model/om/`. If you don't find the Join method needed for your query (for instance, there is no automatically generated Join method for many-to-many relationships), you can build it yourself and extend your model.
+
+>**TIP**
+>Of course, a `doSelectJoinXXX()` call is a bit slower than a call to `doSelect()`, so it only improves the overall performance if you use the hydrated objects afterwards.
+
+### Avoid Using Temporary Arrays
+
+When using Propel, objects are already hydrated, so there is no need to prepare a temporary array for the template. Developers not used to ORMs usually fall into this trap. They want to prepare an array of strings or integers, whereas the template can rely directly on an existing array of objects. For instance, imagine that a template displays the list of all the titles of the articles present in the database. A developer who doesn't use OOP would probably write code similar to what is shown in Listing 18-6.
+
+Listing 18-6 - Preparing an Array in the Action Is Useless If You Already Have One
+
+    [php]
+    // In the action
+    $articles = ArticlePeer::doSelect(new Criteria());
+    $titles = array();
+    foreach ($articles as $article)
+    {
+      $titles[] = $article->getTitle();
+    }
+    $this->titles = $titles;
+
+    // In the template
+    <ul>
+    <?php foreach ($titles as $title): ?>
+      <li><?php echo $title ?></li>
+    <?php endforeach; ?>
+    </ul>
+
+The problem with this code is that the hydrating is already done by the `doSelect()` call (which takes time), making the `$titles` array superfluous, since you can write the same code as in Listing 18-7. So the time spent to build the `$titles` array could be gained to improve the application performance.
+
+Listing 18-7 - Using an Array of Objects Exempts You from Creating a Temporary Array
+
+    [php]
+    // In the action
+    $this->articles = ArticlePeer::doSelect(new Criteria());
+
+    // In the template
+    <ul>
+    <?php foreach ($articles as $article): ?>
+      <li><?php echo $article->getTitle() ?></li>
+    <?php endforeach; ?>
+    </ul>
+
+If you feel that you really need to prepare a temporary array because some processing is necessary on objects, the right way to do so is to create a new method in your model class that directly returns this array. For instance, if you need an array of article titles and the number of comments for each article, the action and the template should look like Listing 18-8.
+
+Listing 18-8 - Using a Custom Method to Prepare a Temporary Array
+
+    [php]
+    // In the action
+    $this->articles = ArticlePeer::getArticleTitlesWithNbComments();
+
+    // In the template
+    <ul>
+    <?php foreach ($articles as $article): ?>
+      <li><?php echo $article[0] ?> (<?php echo $article[1] ?> comments)</li>
+    <?php endforeach; ?>
+    </ul>
+
+It's up to you to build a fast-processing `getArticleTitlesWithNbComments()` method in the model--for instance, by bypassing the whole object-relational mapping and database abstraction layers.
+
+### Bypassing the ORM
+
+When you don't really need objects but only a few columns from various tables, as in the previous example, you can create specific methods in your model that bypass completely the ORM layer. You can directly call the database with PDO, for instance, and return a custom-built array. Listing 18-9 illustrates this idea.
+
+Listing 18-9 - Using Direct PDO Access for Optimized Model Methods, in `lib/model/ArticlePeer.php`
+
+    [php]
+    class ArticlePeer extends BaseArticlePeer
+    {
+      public static function getArticleTitlesWithNbComments()
+      {
+        $connection = Propel::getConnection();
+        $query = 'SELECT %s as title, COUNT(%s) AS nb FROM %s LEFT JOIN %s ON %s = %sGROUP BY %s';
+        $query = sprintf($query,
+          ArticlePeer::TITLE, CommentPeer::ID,
+          ArticlePeer::TABLE_NAME, CommentPeer::TABLE_NAME,
+          ArticlePeer::ID, CommentPeer::ARTICLE_ID,
+          ArticlePeer::ID
+        );
+
+        $statement = $connection->prepare($query);
+        $statement->execute();
+
+        $results = array();
+        while ($resultset = $statement->fetch(PDO::FETCH_OBJ))
+        {
+          $results[] = array($resultset->title, $resultset->nb);
+        }
+
+        return $results;
+      }
+    }
+
+When you start building these sorts of methods, you may end up writing one custom method for each action, and lose the benefit of the layer separation--not to mention the fact that you lose database-independence.
+
+>**TIP**
+>If Propel doesn't suit you as a model layer, consider using other ORMs before writing your queries by hand. For instance, check the `sfDoctrine` plug-in for an interface with the PhpDoctrine ORM. In addition, you can use any other database abstraction layer.
+
+### Speeding Up the Database
+
+There are many database-specific optimization techniques that can be applied regardless of whether you're using symfony. This section briefly outlines the most common database optimization strategies, but a good knowledge of database engines and administration is required to get the most out of your model layer.
+
+>**TIP**
+>Remember that the web debug toolbar displays the time taken by each query in a page, and that every tweak should be monitored to determine whether it really improves performance.
+
+Table queries are often based on non-primary key columns. To improve the speed of such queries, you should define indexes in your database schema. To add a single column index, add the `index: true` property to the column definition, as in Listing 18-10.
+
+Listing 18-10 - Adding a Single Column Index, in `config/schema.yml`
+
+    propel:
+      article:
+        id:
+        author_id:
+        title: { type: varchar(100), index: true }
+
+You can use the alternative `index: unique` syntax to define a unique index instead of a classic one. You can also define multiple column indices in `schema.yml` (refer to Chapter 8 for more details about the indexing syntax). You should strongly consider doing this, because it is often a good way to speed up a complex query.
+
+After adding an index to a schema, you should do the same in the database itself, either by issuing an `ADD INDEX` query directly in the database or by calling the `propel-build-all` command (which will not only rebuild the table structure, but also erase all the existing data).
+
+>**TIP**
+>Indexing tends to make `SELECT` queries faster, but `INSERT`, `UPDATE`, and `DELETE` queries are slower. Also, database engines use only one index per query, and they infer the index to be used for each query based on internal heuristics. Adding an index can sometimes be disappointing in terms of performance boost, so make sure you measure the improvements.
+
+Unless specified otherwise, each request uses a single database connection in symfony, and the connection is closed at the end of the request. You can enable persistent database connections to use a pool of database connections that remain open between queries, by setting `persistent: true` in the `databases.yml` file, as shown in Listing 18-11.
+
+Listing 18-11 - Enabling Persistent Database Connection Support, in `config/databases.yml`
+
+    prod:
+      propel:
+        class:         sfPropelDatabase
+        param:
+          dsn:         mysql:dbname=example;host=localhost
+          username:    username
+          password:    password
+          persistent:  true      # Use persistent connections
+
+This may or may not improve the overall database performance, depending on numerous factors. The documentation on the subject is abundant on the Internet. Make sure you benchmark your application performance before and after changing this setting to validate its interest.
+
+>**SIDEBAR**
+>MySQL-specific tips
+>
+>Many settings of the MySQL configuration, found in the my.cnf file, may alter database performance. Make sure you read the online documentation ([http://dev.mysql.com/doc/refman/5.0/en/option-files.html](http://dev.mysql.com/doc/refman/5.0/en/option-files.html)) on this subject.
+>
+>One of the tools provided by MySQL is the slow queries log. All SQL statements that take more than `long_query_time` seconds to execute (this is a setting that can be changed in the `my.cnf`) are logged in a file that is quite difficult to construe by hand, but that the `mysqldumpslow` command summarizes usefully. This is a great tool to detect the queries that require optimizations.
+
+Tweaking the View
+-----------------
+
+According to how you design and implement the view layer, you may notice small slowdowns or speedups. This section describes the alternatives and their tradeoffs.
+
+### Using the Fastest Code Fragment
+
+If you don't use the caching system, you have to be aware that an `include_component()` is slightly slower than an `include_partial()`, which itself is slightly slower than a simple PHP `include`. This is because symfony instantiates a view to include a partial and an object of class `sfComponent` to include a component, which collectively add some minor overhead beyond what's required to include the file.
+
+However, this overhead is insignificant, unless you include a lot of partials or components in a template. This may happen in lists or tables, and every time you call an `include_partial()` helper inside a `foreach` statement. When you notice that a large number of partial or component inclusions have a significant impact on your performance, you may consider caching (see Chapter 12), and if caching is not an option, then switch to simple `include` statements.
+
+As for slots and component slots, the difference in performance is perceptible. The process time necessary to set and include a slot is negligible--it is equivalent to a variable instantiation. But component slots rely on a view configuration, and they require a few objects to be initiated to work. However, component slots can be cached independently from the calling templates, while slots are always cached within the template that includes them.
+
+### Speeding Up the Routing Process
+
+As explained in Chapter 9, every call to a link helper in a template asks the routing system to process an internal URI into an external URL. This is done by finding a match between the URI and the patterns of the `routing.yml` file. Symfony does it quite simply: It tries to match the first rule with the given URI, and if it doesn't work, it tries with the following, and so on. As every test involves regular expressions, this is quite time consuming.
+
+There is a simple workaround: Use the rule name instead of the module/action couple. This will tell symfony which rule to use, and the routing system won't lose time trying to match all previous rules.
+
+In concrete terms, consider the following routing rule, defined in your `routing.yml` file:
+
+    article_by_id:
+      url:          /article/:id
+      param:        { module: article, action: read }
+
+Then instead of outputting a hyperlink this way:
+
+    [php]
+    <?php echo link_to('my article', 'article/read?id='.$article->getId()) ?>
+
+you should use the fastest version:
+
+    [php]
+    <?php echo link_to('my article', '@article_by_id?id='.$article->getId()) ?>
+
+The difference starts being noticeable when a page includes a few dozen routed hyperlinks.
+
+### Skipping the Template
+
+Usually, a response is composed of a set of headers and content. But some responses don't need content. For instance, some Ajax interactions need only a few pieces of data from the server in order to feed a JavaScript program that will update different parts of the page. For this kind of short response, a set of headers alone is faster to transmit. As discussed in Chapter 11, an action can return only a JSON header. Listing 18-12 reproduces an example from Chapter 11.
+
+Listing 18-12 - Example Action Returning a JSON Header
+
+    [php]
+    public function executeRefresh()
+    {
+      $output = '{"title":"My basic letter","name":"Mr Brown"}';
+      $this->getResponse()->setHttpHeader("X-JSON", '('.$output.')');
+
+      return sfView::HEADER_ONLY;
+    }
+
+This skips the template and the layout, and the response can be sent at once. As it contains only headers, it is more lightweight and will take less time to transmit to the user.
+
+Chapter 6 explained another way to skip the template by returning content text directly from the action. This breaks the MVC separation, but it can increase the responsiveness of an action greatly. Check Listing 18-13 for an example.
+
+Listing 18-13 - Example Action Returning Content Text Directly
+
+    [php]
+    public function executeFastAction()
+    {
+      return $this->renderText("<html><body>Hello, World!</body></html>");
+    }
+
+### Restricting the Default Helpers
+
+The standard helper groups (`Partial`, `Cache`, and `Form`) are loaded for every request. If you are sure that you won't use some of them, removing a helper group from the list of standard ones will save you the parsing of the helper file. In particular, the Form helper group, although included by default, is quite heavy and slows down pages with no forms just because of its size. So it might be a good idea to edit the `standard_helpers` setting in the `settings.yml` file to remove it:
+
+    all:
+      .settings:
+        standard_helpers: [Partial, Cache]    # Form is removed
+
+The tradeoff is that you must declare the `Form` helper group on each template using it with `use_helper('Form')`.
+
+### Compressing the Response
+
+Symfony compresses the response before sending it to the user. This feature is based on the PHP zlib module. You can save a little CPU time for each request by deactivating it in the `settings.yml` file:
+
+    all:
+      .settings:
+        compressed: off
+
+Be aware that the CPU gain will be balanced by the bandwidth loss, so the performance won't increase in all configurations with this change.
+
+>**TIP**
+>If you deactivate zip compression in PHP, you can enable it at the server level. Apache has a compression extension of its own.
+
+Tweaking the Cache
+------------------
+
+Chapter 12 already described how to cache parts of a response or all of it. The response cache results in a major performance improvement, and it should be one of your first optimization considerations. If you want to make the most out of the cache system, read further, for this section unveils a few tricks you might not have thought of.
+
+### Clearing Selective Parts of the Cache
+
+During application development, you have to clear the cache in various situations:
+
+  * When you create a new class: Adding a class to an autoloading directory (one of the project's `lib/` folders) is not enough to have symfony find it automatically in non-development environments. You must clear the autoloading configuration cache so that symfony browses again all the directories of the `autoload.yml` file and references the location of autoloadable classes--including the new ones.
+  * When you change the configuration in production: The configuration is parsed only during the first request in production. Further requests use the cached version instead. So a change in the configuration in the production environment (or any environment where debug is turned off) doesn't take effect until you clear the cached version of the file.
+  * When you modify a template in an environment where the template cache is enabled: The valid cached templates are always used instead of existing templates in production, so a template change is ignored until the template cache is cleared or outdated.
+  * When you update an application with the `project:deploy` command: This case usually covers the three previous modifications.
+
+The problem with clearing the whole cache is that the next request will take quite long to process, because the configuration cache needs to be regenerated. Besides, the templates that were not modified will be cleared from the cache as well, losing the benefit of previous requests.
+
+That means it's a good idea to clear only the cache files that really need to be regenerated. Use the options of the `cache:clear` task to define a subset of cache files to clear, as demonstrated in Listing 18-14.
+
+Listing 18-14 - Clearing Only Selective Parts of the Cache
+
+    // Clear only the cache of the frontend application
+    > php symfony cache:clear frontend
+
+    // Clear only the HTML cache of the frontend application
+    > php symfony cache:clear frontend template
+
+    // Clear only the configuration cache of the frontend application
+    > php symfony cache:clear frontend config
+
+You can also remove files by hand in the `cache/` directory, or clear template cache files selectively from the action with the `$cacheManager->remove()` method, as described in Chapter 12.
+
+All these techniques will minimize the negative performance impact of any of the changes listed previously.
+
+>**TIP**
+>When you upgrade symfony, the cache is automatically cleared, without manual intervention (if you set the `check_symfony_version` parameter to `true` in `settings.yml`).
+
+### Generating Cached Pages
+
+When you deploy a new application to production, the template cache is empty. You must wait for users to visit a page once for this page to be put in the cache. In critical deployments, the overhead of page processing is not acceptable, and the benefits of caching must be available as soon as the first request is issued.
+
+The solution is to automatically browse the pages of your application in the staging environment (where the configuration is similar to the one in production) to have the template cache generated, then to transfer the application with the cache to production.
+
+To browse the pages automatically, one option is to create a shell script that looks through a list of external URLs with a browser (curl for instance). But there is a better and faster solution: a symfony batch using the `sfBrowser` object, already discussed in Chapter 15. That's an internal browser written in PHP (and used by `sfTestBrowser` for functional tests). It takes an external URL and returns a response, but the interesting thing is that it triggers the template cache just like a regular browser. As it only initializes symfony once and doesn't pass by the HTTP transport layer, this method is a lot faster.
+
+Listing 18-15 shows an example batch script used to generate template cache files in a staging environment. Launch it by calling `php batch/generate_cache.php`.
+
+Listing 18-15 - Generating the Template Cache, in `batch/generate_cache.php`
+
+    [php]
+    require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
+    $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'staging', false);
+    sfContext::createInstance($configuration);
+
+    // Array of URLs to browse
+    $uris = array(
+      '/foo/index',
+      '/foo/bar/id/1',
+      '/foo/bar/id/2',
+      ...
+    );
+
+    $b = new sfBrowser();
+    foreach ($uris as $uri)
+    {
+      $b->get($uri);
+    }
+
+### Using a Database Storage System for Caching
+
+The default storage system for the template cache in symfony is the file system: Fragments of HTML or serialized response objects are stored under the `cache/` directory of a project. Symfony proposes an alternative way to store cache: a SQLite database. Such a database is a simple file that PHP natively knows how to query very efficiently.
+
+To tell symfony to use SQLite storage instead of file system storage for the template cache, open the `factories.yml` file and edit the `view_cache` entry as follows:
+
+    view_cache:
+      class: sfSQLiteCache
+      param:
+        database: %SF_TEMPLATE_CACHE_DIR%/cache.db
+
+The benefits of using SQLite storage for the template cache are faster read and write operations when the number of cache elements is important. If your application makes heavy use of caching, the template cache files end up scattered in a deep file structure; in this case, switching to SQLite storage will increase performance. In addition, clearing the cache on file system storage may require a lot of files to be removed from the disk; this operation may last a few seconds, during which your application is unavailable. With a SQLite storage system, the cache clearing process results in a single file operation: the deletion of the SQLite database file. Whatever the number of cache elements currently stored, the operation is instantaneous.
+
+### Bypassing Symfony
+
+Perhaps the best way to speed symfony up is to bypass it completely . . . this is said only partly in jest. Some pages don't change and don't need to be reprocessed by the framework at each request. The template cache is already here to speed up the delivery of such pages, but it still relies on symfony.
+
+A couple of tricks described in Chapter 12 allow you to bypass symfony completely for some pages. The first one involves the use of HTTP 1.1 headers for asking the proxies and client browsers to cache the page themselves, so that they don't request it again the next time the page is needed. The second one is the super fast cache (automated by the `sfSuperCachePlugin` plug-in), which consists of storing a copy of the response in the `web/` directory and modifying the rewriting rules so that Apache first looks for a cached version before handing a request to symfony.
+
+Both these methods are very effective, and even if they only apply to static pages, they will take the burden of handling these pages off from symfony, and the server will then be fully available to deal with complex requests.
+
+### Caching the Result of a Function Call
+
+If a function doesn't rely on context-sensitive values nor on randomness, calling it twice with the same parameters should return the same result. That means the second call could very well be avoided if the result had been stored the first time. That's exactly what the `sfFunctionCache` class does. This class has a `call()` method, which expects a callable and an array of parameters as its arguments. When called, this method creates an md5 hash with all its arguments and looks in the cache for a key named by this hash. If such a key is found, the function returns the result stored in the cache. If not, the `sfFunctionCache` executes the function, stores the result in the cache, and returns it. So the second execution of Listing 18-16 will be faster than the first one.
+
+Listing 18-16 - Caching the Result of a Function
+
+    [php]
+    $cache = new sfFileCache(array('cache_dir' => sfConfig::get('sf_cache_dir').'/function'));
+    $fc = new sfFunctionCache($cache);
+    $result1 = $fc->call('cos', array(M_PI));
+    $result2 = $fc->call('preg_replace', array('/\s\s+/', ' ', $input));
+
+The `sfFunctionCache` constructor expects a cache object. The first argument of the `call()` method must be a callable, so it can be a function name, an array of a class name and static method name, or an array of an object name and public method name. As for the other argument of the `call()` method, it's an array of arguments that will be passed to the callable.
+
+>**CAUTION**
+>If you use a file based cache object as in the example, it's better to give a cache directory under the `cache/` directory, as it will be cleanup automatically by the `cache:clear` task. If you store the function cache somewhere else, it will not be cleared automatically when you clear the cache through the command line.
+
+### Caching Data in the Server
+
+PHP accelerators provide special functions to store data in memory so that you can reuse it across requests. The problem is that they all have a different syntax, and each has its own specific way of performing this task. The symfony cache classes abstract all these differences and works with whatever accelerator you are using. See its syntax in Listing 18-17.
+
+Listing 18-17 - Using a PHP accelerator to cache data
+
+    [php]
+    $cache = new sfAPCCache();
+
+    // Storing data in the cache
+    $cache->set($name, $value, $lifetime);
+
+    // Retrieving data
+    $value = $cache->get($name);
+
+    // Checking if a piece of data exists in the cache
+    $value_exists = $cache->has($name);
+
+    // Clear the cache
+    $cache->clear();
+
+The `set()` method returns `false` if the caching didn't work. The cached value can be anything (a string, an array, an object); the `sfProcessCache` class will deal with the serialization. The `get()` method returns `null` if the required variable doesn't exist in the cache.
+
+>**TIP**
+>If you want to go further into memory caching, make sure you take a look at the `sfMemcacheCache` class. It provides the same interface as the other cache classes and it can help decrease the database load on load-balanced applications.
+
+Deactivating the Unused Features
+--------------------------------
+
+The default symfony configuration activates the most common features of a web application. However, if you happen to not need all of them, you should deactivate them to save the time their initialization takes on each request.
+
+For instance, if your application doesn't use the session mechanism, or if you want to start the session handling by hand, you should turn the `auto_start` setting to `false` in the `storage` key of the `factories.yml` file, as in Listing 18-19.
+
+Listing 18-19 - Turning Sessions Off, in `frontend/config/factories.yml`
+
+    all:
+      storage:
+        class: sfSessionStorage
+        param:
+          auto_start: false
+
+The same applies for the database feature (as explained in the "Tweaking the Model" section earlier in this chapter). If your application makes no use of a database, deactivate it for a small performance gain, this time in the `settings.yml` file (see Listing 18-20).
+
+Listing 18-20 - Turning Database Features Off, in `frontend/config/settings.yml`
+
+    all:
+      .settings:
+        use_database:      off    # Database and model features
+
+As for the security features (see Chapter 6), you can deactivate them in the `filters.yml` file, as shown in Listing 18-21.
+
+Listing 18-21 - Turning Features Off, in `frontend/config/filters.yml`
+
+    rendering: ~
+    security:
+      enabled: off
+
+    # generally, you will want to insert your own filters here
+
+    cache:     ~
+    common:    ~
+    execution: ~
+
+Some features are useful only in development, so you should not activate them in production. This is already the case by default, since the production environment in symfony is really optimized for performance. Among the performance-impacting development features, the debug mode is the most severe. As for the symfony logs, the feature is also turned off in production by default.
+
+You may wonder how to get information about failed requests in production if logging is disabled, and argue that problems arise not only in development. Fortunately, symfony can use the `sfErrorLoggerPlugin` plug-in, which runs in the background in production and logs the details of 404 and 500 errors in a database. It is much faster than the file logging feature, because the plug-in methods are called only when a request fails, while the logging mechanism, once turned on, adds a nonnegligible overhead whatever the level. Check the installation instructions and manual at [http://www.symfony-project.com/wiki/sfErrorLoggerPlugin](http://trac.symfony-project.org/wiki/sfErrorLoggerPlugin).
+
+>**TIP**
+>Make sure you regularly check the server error logs--they also contain very valuable information about 404 and 500 errors.
+
+Optimizing Your Code
+--------------------
+
+It's also possible to speed up your application by optimizing the code itself. This section offers some insight regarding how to do that.
+
+### Core Compilation
+
+Loading ten files requires more I/O operations than loading one long file, especially on slow disks. Loading a very long file requires more resources than loading a smaller file--especially if a large share of the file content is of no use for the PHP parser, which is the case for comments.
+
+So merging a large number of files and stripping out the comments they contain is an operation that improves performance. Symfony already does that optimization; it's called the core compilation. At the beginning of the first request (or after the cache is cleared), a symfony application concatenates all the core framework classes (`sfActions`, `sfRequest`, `sfView`, and so on) into one file, optimizes the file size by removing comments and double blanks, and saves it in the cache, in a file called `config_core_compile.yml.php`. Each subsequent request only loads this single optimized file instead of the 30 files that compose it.
+
+If your application has classes that must always be loaded, and especially if they are big classes with lots of comments, it may be beneficial to add them to the core compile file. To do so, just add a `core_compile.yml` file in your application `config/` directory, and list in it the classes that you want to add, as in Listing 18-22.
+
+Listing 18-22 - Adding Your Classes to the Core Compile File, in `frontend/config/core_compile.yml`
+
+    - %SF_ROOT_DIR%/lib/myClass.class.php
+    - %SF_ROOT_DIR%/apps/frontend/lib/myToolkit.class.php
+    - %SF_ROOT_DIR%/plugins/myPlugin/lib/myPluginCore.class.php
+    ...
+
+### The sfOptimizer Plug-In
+
+Symfony also offers another optimization tool, called `sfOptimizer`. It applies various optimization strategies to the symfony and application code, which may further speed up the execution.
+
+The symfony code counts many tests that rely on configuration parameters--and your application may also do so. For instance, if you take a look at the symfony classes, you will often see a test on the value of the `sf_logging_enabled` parameter before a call to the `sfLogger` object:
+
+    [php]
+    if (sfConfig::get('sf_logging_enabled'))
+    {
+       $this->getContext()->getLogger()->info('Been there');
+    }
+
+Even if the `sfConfig` registry is very well optimized, the number of calls to its `get()` method during the processing of each request is important--and it counts in the final performance. One of the `sfOptimizer` optimization strategies is to replace configuration constants by their value--as long as these constants are not subject to change at runtime. That's the case, for instance, with the `sf_logging_enabled` parameter; when it is defined as `false`, the `sfOptimizer` transforms the previous code into the following:
+
+    [php]
+    if (0)
+    {
+       $this->getContext()->getLogger()->info('Been there');
+    }
+
+And that's not all, because an evident test like the preceding one also gets optimized to an empty string.
+
+To apply the optimizations, you must first install the plug-in from [http://trac.symfony-project.org/wiki/sfOptimizerPlugin](http://trac.symfony-project.org/wiki/sfOptimizerPlugin) and then call the `optimize` task, specifying an application and an environment:
+
+    > php symfony optimize frontend prod
+
+If you want to apply other optimization strategies to your code, the `sfOptimizer` plug-in might be a good starting place.
+
+Summary
+-------
+
+Symfony is already a very optimized framework and is able to handle high-traffic websites without a problem. But if you really need to optimize your application's performance, tweaking the configuration (whether the server configuration, the PHP configuration, or the application settings) will gain you a small boost. You should also follow good practices to write efficient model methods; and since the database is often a bottleneck in web applications, this point should require all your attention. Templates can also benefit from a few tricks, but the best boost will always come from caching. Finally, don't hesitate to look at existing plug-ins, since some of them provide innovative techniques to further speed up the delivery of web pages (`sfSuperCache`, `sfOptimizer`).

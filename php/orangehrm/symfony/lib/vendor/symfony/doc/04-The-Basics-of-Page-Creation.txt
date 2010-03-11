@@ -1,0 +1,297 @@
+Chapter 4 - The Basics Of Page Creation
+=======================================
+
+Curiously, the first tutorial that programmers follow when learning a new language or a framework is the one that displays "Hello, world!" on the screen. It is strange to think of the computer as something that can greet the whole world, since every attempt in the artificial intelligence field has so far resulted in poor conversational abilities. But symfony isn't dumber than any other program, and the proof is, you can create a page that says "Hello, `<Your Name Here>`" with it.
+
+This chapter will teach you how to create a module, which is a structural element that groups pages. You will also learn how to create a page, which is divided into an action and a template, because of the MVC pattern. Links and forms are the basic web interactions; you will see how to insert them in a template and handle them in an action.
+
+Creating a Module Skeleton
+--------------------------
+
+As Chapter 2 explained, symfony groups pages into modules. Before creating a page, you need to create a module, which is initially an empty shell with a file structure that symfony can recognize.
+
+The symfony command line automates the creation of modules. You just need to call the `generate:module` task with the application name and the module name as arguments. In the previous chapter, you created a `frontend` application. To add a `content` module to this application, type the following commands:
+
+    > cd ~/myproject
+    > php symfony generate:module frontend content
+
+    >> dir+      ~/myproject/apps/frontend/modules/content/actions
+    >> file+     ~/myproject/apps/frontend/modules/content/actions/actions.class.php
+    >> dir+      ~/myproject/apps/frontend/modules/content/templates
+    >> file+     ~/myproject/apps/frontend/modules/content/templates/indexSuccess.php
+    >> file+     ~/myproject/test/functional/frontend/contentActionsTest.php
+    >> tokens    ~/myproject/test/functional/frontend/contentActionsTest.php
+    >> tokens    ~/myproject/apps/frontend/modules/content/actions/actions.class.php
+    >> tokens    ~/myproject/apps/frontend/modules/content/templates/indexSuccess.php
+
+Apart from the `actions/`, and `templates/` directories, this command created only three files. The one in the test/ folder concerns functional tests, and you don't need to bother with it until Chapter 15. The `actions.class.php` (shown in Listing 4-1) forwards to the default module congratulation page. The `templates/indexSuccess.php` file is empty.
+
+Listing 4-1 - The Default Generated Action, in `actions/actions.class.php`
+
+    [php]
+    <?php
+
+    class contentActions extends sfActions
+    {
+      public function executeIndex()
+      {
+        $this->forward('default', 'module');
+      }
+    }
+
+>**NOTE**
+>If you look at an actual `actions.class.php` file, you will find more than these few lines, including a lot of comments. This is because symfony recommends using PHP comments to document your project and prepares each class file to be compatible with the phpDocumentor tool ([http://www.phpdoc.org/](http://www.phpdoc.org/)).
+
+For each new module, symfony creates a default `index` action. It is composed of an action method called `executeIndex` and a template file called `indexSuccess.php`. The meanings of the `execute` prefix and `Success` suffix will be explained in Chapters 6 and 7, respectively. In the meantime, you can consider that this naming is a convention. You can see the corresponding page (reproduced in Figure 4-1) by browsing to the following URL:
+
+    http://localhost/frontend_dev.php/content/index
+
+The default `index` action will not be used in this chapter, so you can remove the `executeIndex()` method from the `actions.class.php` file, and delete the `indexSuccess.php` file from the `templates/` directory.
+
+>**NOTE**
+>Symfony offers other ways to initiate a module than the command line. One of them is to create the directories and files yourself. In many cases, actions and templates of a module are meant to manipulate data of a given table. As the necessary code to create, retrieve, update, and delete records from a table is often the same, symfony provides a mechanism to generate this code for you. Refer to Chapter 14 for more information about this technique.
+
+Figure 4-1 - The default generated index page
+
+![The default generated index page](/images/book/F0401.jpg "The default generated index page")
+
+Adding a Page
+-------------
+
+In symfony, the logic behind pages is stored in the action, and the presentation is in templates. Pages without logic (still) require an empty action.
+
+### Adding an Action
+
+The "Hello, world!" page will be accessible through a `show` action. To create it, just add an `executeShow` method to the `contentActions` class, as shown in Listing 4-2.
+
+Listing 4-2 - Adding an Action Is Like Adding an Execute Method to the Action Class
+
+    [php]
+    <?php
+
+    class contentActions extends sfActions
+    {
+      public function executeShow()
+      {
+      }
+    }
+
+The name of the action method is always `executeXxx()`, where the second part of the name is the action name with the first letter capitalized.
+
+Now, if you request the following URL:
+
+    http://localhost/frontend_dev.php/content/show
+
+symfony will complain that the `showSuccess.php` template is missing. That's normal; in symfony, a page is always made of an action and a template.
+
+>**CAUTION**
+>URLs (not domain names) are case-sensitive, and so is symfony (even though the method names are case-insensitive in PHP). This means that symfony will return a 404 error if you call `sHow` with the browser.
+
+-
+
+>**SIDEBAR**
+>URLs are part of the response
+>
+>Symfony contains a routing system that allows you to have a complete separation between the actual action name and the form of the URL needed to call it. This allows for custom formatting of the URL as if it were part of the response. You are no longer limited by the file structure nor by the request parameters; the URL for an action can look like the phrase you want. For instance, the call to the index action of a module called article usually looks like this:
+>
+>     http://localhost/frontend_dev.php/article/index?id=123
+>
+>This URL retrieves a given article from a database. In this example, it retrieves an article (with `id=123`) in the Europe section that specifically discusses finance in France. But the URL can be written in a completely different way with a simple change in the `routing.yml` configuration file:
+>
+>     http://localhost/articles/europe/france/finance.html
+>
+>Not only is the resulting URL search engine-friendly, it is also significant for the user, who can then use the address bar as a pseudo command line to do custom queries, as in the following:
+>
+>     http://localhost/articles/tagged/finance+france+euro
+>
+>Symfony knows how to parse and generate smart URLs for the user. The routing system automatically peels the request parameters from a smart URL and makes them available to the action. It also formats the hyperlinks included in the response so that they look "smart". You will learn more about this feature in Chapter 9.
+>
+>Overall, this means that the way you name the actions of your applications should not be influenced by the way the URL used to call them should look, but by the actions' functions in the application. An action name explains what the action actually does, and it is often a verb in the infinitive form (like `show`, `list`, `edit`, and so on). Action names can be made totally invisible to the end user, so don't hesitate to use explicit action names (like `listByName` or `showWithComments`). You will economize on code comments to explain your action function, plus the code will be much easier to read.
+
+### Adding a Template
+
+The action expects a template to render itself. A template is a file located in the `templates/` directory of a module, named by the action and the action termination. The default action termination is a "success," so the template file to be created for the `show` action is to be called `showSuccess.php`.
+
+Templates are supposed to contain only presentational code, so keep as little PHP code in them as possible. As a matter of fact, a page displaying "Hello, world!" can have a template as simple as the one in Listing 4-3.
+
+Listing 4-3 - The `content/templates/showSuccess.php` Template
+
+    [php]
+    <p>Hello, world!</p>
+
+If you need to execute some PHP code in the template, you should avoid using the usual PHP syntax, as shown in Listing 4-4. Instead, write your templates using the PHP alternative syntax, as shown in Listing 4-5, to keep the code understandable for non-PHP programmers. Not only will the final code be correctly indented, but it will also help you keep the complex PHP code in the action, because only control statements (`if`, `foreach`, `while`, and so on) have an alternative syntax.
+
+Listing 4-4 - The Usual PHP Syntax, Good for Actions, But Bad for Templates
+
+    [php]
+    <p>Hello, world!</p>
+    <?php
+
+    if ($test)
+    {
+      echo "<p>".time()."</p>";
+    }
+
+    ?>
+
+Listing 4-5 - The Alternative PHP Syntax, Good for Templates
+
+    [php]
+    <p>Hello, world!</p>
+    <?php if ($test): ?>
+      <p><?php echo time(); ?></p>
+    <?php endif; ?>
+
+>**TIP**
+>A good rule of thumb to check if the template syntax is readable enough is that the file should not contain HTML code echoed by PHP or curly brackets. And most of the time, when opening a `<?php`, you will close it with `?>` in the same line.
+
+### Passing Information from the Action to the Template
+
+The job of the action is to do all the complicated calculation, data retrieval, and tests, and to set variables for the template to be echoed or tested. Symfony makes the attributes of the action class (accessed via `$this->variableName` in the action) directly accessible to the template in the global namespace (via `$variableName`). Listings 4-6 and 4-7 show how to pass information from the action to the template.
+
+Listing 4-6 - Setting an Action Attribute in the Action to Make It Available to the Template
+
+    [php]
+    <?php
+
+    class contentActions extends sfActions
+    {
+      public function executeShow()
+      {
+        $today = getdate();
+        $this->hour = $today['hours'];
+      }
+    }
+
+Listing 4-7 - The Template Has Direct Access to the Action Attributes
+
+    [php]
+    <p>Hello, world!</p>
+    <?php if ($hour >= 18): ?>
+      <p>Or should I say good evening? It is already <?php echo $hour ?>.</p>
+    <?php endif; ?>
+
+Note that the use of the short opening tags (`<?=`, equivalent to `<?php echo`) is not recommended for professional web applications, since your production web server may be able to understand more than one scripting language and consequently get confused. Besides, the short opening tags do not work with the default PHP configuration and need server tweaking to be activated. Ultimately, when you have to deal with XML and validation, it falls short because `<?` has a special meaning in XML.
+
+>**NOTE**
+>The template already has access to a few pieces of data without the need of any variable setup in the action. Every template can call methods of the `$sf_request`, `$sf_params`, `$sf_response`, and `$sf_user` objects. They contain data related to the current request, request parameters, response, and session. You will soon learn how to use them efficiently.
+
+Linking to Another Action
+-------------------------
+
+You already know that there is a total decoupling between an action name and the URL used to call it. So if you create a link to `update` in a template as in Listing 4-10, it will only work with the default routing. If you later decide to change the way the URLs look, then you will need to review all templates to change the hyperlinks.
+
+Listing 4-10 - Hyperlinks, the Classic Way
+
+    [php]
+    <a href="/frontend_dev.php/content/update?name=anonymous">
+      I never say my name
+    </a>
+
+To avoid this hassle, you should always use the `link_to()` helper to create hyperlinks to your application's actions. And if you only want to generate the URL part, the `url_for()` is the helper you're looking for.
+
+A helper is a PHP function defined by symfony that is meant to be used within templates. It outputs some HTML code and is faster to use than writing the actual HTML code by yourself. Listing 4-11 demonstrates the use of the hyperlink helpers.
+
+Listing 4-11 - The `link_to()`, and `url_for()` Helpers
+
+    [php]
+    <p>Hello, world!</p>
+    <?php if ($hour >= 18): ?>
+    <p>Or should I say good evening? It is already <?php echo $hour ?>.</p>
+    <?php endif; ?>
+    <form method="post" action="<?php echo url_for('content/update') ?>">
+      <label for="name">What is your name?</label>
+      <input type="text" name="name" id="name" value="" />
+      <input type="submit" value="Ok" />
+      <?php echo link_to('I never say my name','content/update?name=anonymous') ?>
+    </form>
+
+The resulting HTML will be the same as previously, except that when you change your routing rules, all the templates will behave correctly and reformat the URLs accordingly.
+
+Form manipulation deserves a whole chapter of its own, since symfony provides many tools to make it even easier. You will learn more about these helpers in Chapter 10.
+
+The `link_to()` helper, like many other helpers, accepts another argument for special options and additional tag attributes. Listing 4-12 shows an example of an option argument and the resulting HTML. The option argument is either an associative array or a simple string showing `key=value` couples separated by blanks.
+
+Listing 4-12 - Most Helpers Accept an Option Argument
+
+    [php]
+    // Option argument as an associative array
+    <?php echo link_to('I never say my name', 'content/update?name=anonymous',
+      array(
+        'class'    => 'special_link',
+        'confirm'  => 'Are you sure?',
+        'absolute' => true
+    )) ?>
+
+    // Option argument as a string
+    <?php echo link_to('I never say my name', 'content/update?name=anonymous',
+      'class=special_link confirm=Are you sure? absolute=true') ?>
+
+    // Both calls output the same
+     => <a class="special_link" onclick="return confirm('Are you sure?');"
+        href="http://localhost/frontend_dev.php/content/update/name/anonymous">
+        I never say my name</a>
+
+Whenever you use a symfony helper that outputs an HTML tag, you can insert additional tag attributes (like the `class` attribute in the example in Listing 4-12) in the option argument. You can even write these attributes in the "quick-and-dirty" HTML 4.0 way (without double quotes), and symfony will output them in nicely formatted XHTML. That's another reason why helpers are faster to write than HTML.
+
+>**NOTE**
+>Because it requires an additional parsing and transformation, the string syntax is a little slower than the array syntax.
+
+Like all symfony helpers, the link helpers are numerous and have many options. Chapter 9 will describe them in detail.
+
+Getting Information from the Request
+------------------------------------
+
+Whether the user sends information via a form (usually in a POST request) or via the URL (GET request), you can retrieve the related data from the action with the `getParameter()` method of the `sfRequest` object. Listing 4-13 shows how, in `update`, you retrieve the value of the `name` parameter.
+
+Listing 4-13 - Getting Data from the Request Parameter in the Action
+
+    [php]
+    <?php
+
+    class contentActions extends sfActions
+    {
+      // ...
+
+      public function executeUpdate($request)
+      {
+        $this->name = $request->getParameter('name');
+      }
+    }
+
+As a convenience, all `executeXxx()` methods take the current `sfRequest` object as its first argument.
+
+If the data manipulation is simple, you don't even need to use the action to retrieve the request parameters. The template has access to an object called `$sf_params`, which offers a `get`() method to retrieve the request parameters, just like the `getParameter()` in the action.
+
+If `executeUpdate()` were empty, Listing 4-14 shows how the `updateSuccess.php` template would retrieve the same `name` parameter.
+
+Listing 4-14 - Getting Data from the Request Parameter Directly in the Template
+
+    [php]
+    <p>Hello, <?php echo $sf_params->get('name') ?>!</p>
+
+>**NOTE**
+>Why not use the `$_POST`, `$_GET`, or `$_REQUEST` variables instead? Because then your URLs will be formatted differently (as in `http://localhost/articles/europe/france/finance.html`, without `?` nor `=`), the usual PHP variables won't work anymore, and only the routing system will be able to retrieve the request parameters. And you may want to add input filtering to prevent malicious code injection, which is only possible if you keep all request parameters in one clean parameter holder.
+
+The `$sf_params` object is more powerful than just giving a getter equivalent to an array. For instance, if you only want to test the existence of a request parameter, you can simply use the `$sf_params->has()` method instead of testing the actual value with `get()`, as in Listing 4-15.
+
+Listing 4-15 - Testing the Existence of a Request Parameter in the Template
+
+    [php]
+    <?php if ($sf_params->has('name')): ?>
+      <p>Hello, <?php echo $sf_params->get('name') ?>!</p>
+    <?php else: ?>
+      <p>Hello, John Doe!</p>
+    <?php endif; ?>
+
+You may have already guessed that this can be written in a single line. As with most getter methods in symfony, both the `$request->getParameter()` method in the action and the `$sf_params->get()` method in the template (which, as a matter of fact, calls the same method on the same object) accept a second argument: the default value to be used if the request parameter is not present.
+
+    [php]
+    <p>Hello, <?php echo $sf_params->get('name', 'John Doe') ?>!</p>
+
+Summary
+-------
+
+In symfony, pages are composed of an action (a method in the `actions/actions.class.php` file prefixed with `execute`) and a template (a file in the `templates/` directory, usually ending with `Success.php`). They are grouped in modules, according to their function in the application. Writing templates is facilitated by helpers, which are functions provided by symfony that return HTML code. And you need to think of the URL as a part of the response, which can be formatted as needed, so you should refrain from using any direct reference to the URL in action naming or request parameter retrieval.
+
+Once you know these basic principles, you can already write a whole web application with symfony. But it would take you way too long, since almost every task you will have to achieve during the course of the application development is facilitated one way or another by some symfony feature... which is why the book doesn't stop now.

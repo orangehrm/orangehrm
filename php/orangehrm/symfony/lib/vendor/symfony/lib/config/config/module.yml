@@ -1,0 +1,4 @@
+default:
+  enabled:          on
+  view_class:       sfPHP
+  is_internal:      off

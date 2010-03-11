@@ -1,0 +1,11 @@
+default:
+  .actions:
+    error_404_module:       default
+    error_404_action:       error404
+
+  .settings:
+    available:              on
+
+    i18n:                   off
+
+    enabled_modules:       [default]

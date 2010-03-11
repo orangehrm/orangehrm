@@ -1,0 +1,688 @@
+Upgrade from 1.0 to 1.1
+=======================
+
+This document describes the changes made in symfony 1.1 and what need
+to be done to upgrade your symfony 1.0 projects.
+
+WARNING: symfony 1.1 is only compatible with PHP > 5.1.
+
+How to upgrade?
+---------------
+
+To upgrade a project:
+
+  * If you don't use a SCM tool, please make a backup of your project.
+    As symfony replaces some files during the upgrade
+    (front controllers for example), you need a way to merge your
+    customizations after the upgrade.
+
+  * Update the `symfony` file located in the project root directory
+    by changing those three lines:
+
+        [php]
+        chdir(dirname(__FILE__));
+        include('config/config.php');
+        include($sf_symfony_data_dir.'/bin/symfony.php');
+
+    to
+
+        [php]
+        chdir(dirname(__FILE__));
+        require_once(dirname(__FILE__).'/config/ProjectConfiguration.class.php');
+        $configuration = new ProjectConfiguration();
+        include($configuration->getSymfonyLibDir().'/command/cli.php');
+
+    You can also copy the skeleton file from the symfony project skeleton directly:
+
+        $ cp /path/to/symfony/lib/task/generator/skeleton/project/symfony symfony
+
+  * Create a `config/ProjectConfiguration.class.php` file with the following content:
+
+        [php]
+        <?php
+
+        require_once '##SYMFONY_LIB_DIR##/autoload/sfCoreAutoload.class.php';
+        sfCoreAutoload::register();
+
+        class ProjectConfiguration extends sfProjectConfiguration
+        {
+          public function setup()
+          {
+          }
+        }
+
+    Then, replace `##SYMFONY_LIB_DIR##` with the path to the symfony 1.1
+    `lib/` directory. This is the new way to change the symfony version used
+    for your project.
+
+    You can also copy the skeleton file from the symfony project skeleton directly:
+
+        $ cp /path/to/symfony/lib/task/generator/skeleton/project/config/ProjectConfiguration.class.php config/ProjectConfiguration.class.php
+
+  * Launch the `project:upgrade1.1` task from your project directory
+    to perform an automatic upgrade:
+
+        $ ./symfony project:upgrade1.1
+
+    This task can be launched several times without any side effect. Each time
+    you upgrade to a new symfony 1.1 beta / RC or the final symfony 1.1, you
+    need to launch this task.
+
+  * If you don't plan to upgrade the validation or mailing system to
+    the new system, you must enable the compatibility mode in `settings.yml`:
+
+        [yml]
+        all:
+          .settings:
+            compat_10: on
+
+    Here is a list of the things that will be enabled when switching to the
+    compatibility mode (see the bundled `sfCompat10Plugin` plugin for
+    more information):
+
+      * Zend Framework and ezComponents bridges
+      * sfProcessCache
+      * validation system (validate.yml, validator classes, ...)
+      * fill in filter
+      * sfMail with phpmailer
+
+The remaining sections explains backward incompatible changes.
+
+Batch scripts
+-------------
+
+The use of batch scripts is deprecated, in favor of custom CLI tasks. The new CLI system makes it easy to add a new symfony command to a project, so refer to the Chapter 16 of the symfony book for a detailed how-to on CLI tasks.
+
+If you just want your old batch scripts to work, you need to change the first lines of the every batch scripts--the lines that look like a front controller's initialization. So change the following:
+
+    [php]
+    <?php
+    define('SF_ROOT_DIR',    realpath(dirname(__FILE__).'/..'));
+    define('SF_APP',         'frontend');
+    define('SF_ENVIRONMENT', 'prod');
+    define('SF_DEBUG',       false);
+
+      require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
+    // your batch code here
+
+To:
+
+    [php]
+    <?php
+    require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
+    $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'prod', false);
+    sfContext::createInstance($configuration);
+
+    // your batch code here
+
+If you need to initialize the database connection, just add the following lines:
+
+    [php]
+    $databaseManager = new sfDatabaseManager($configuration);
+    $databaseManager->loadConfiguration();
+
+Flash attributes
+----------------
+
+Flash attributes are now managed directly by `sfUser`. New usage:
+
+    [php]
+    // action
+    $this->getUser()->setFlash('notice', 'foo');
+    $notice = $this->getUser()->getFlash('notice');
+
+    // template
+    <?php $sf_user->hasFlash('notice'): ?>
+      <?php echo $sf_user->getFlash('notice') ?>
+    <?php endif; ?>
+
+The `flash` entry in `filters.yml` must be removed too as the `sfFlashFilter`
+was removed.
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+Deprecated methods in sfComponent
+---------------------------------
+
+The following methods of `sfComponent` have been removed:
+
+  * `->getPresentationFor()`
+  * `->sendEmail()`
+
+They are accessible from `sfController`:
+
+    [php]
+    // action
+    $this->getController()->getPresentationFor(...);
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+Singletons
+----------
+
+The sfI18N, sfRouting, and sfLogger objects are now factories and
+not singletons.
+
+If you want to get one of those objects in your code, they are
+available from `sfContext`:
+
+    [php]
+    sfContext::getInstance()->getI18N()
+    sfContext::getInstance()->getRouting()
+    sfContext::getInstance()->getLogger()
+
+### Routing
+
+Here is the default configuration for the routing in `factories.yml`:
+
+    [yml]
+    routing:
+      class: sfPatternRouting
+      param:
+        load_configuration: true
+
+The `project:upgrade1.1` task makes all the changes for you.
+
+### Logging
+
+Here is the default configuration for logging in `factories.yml`:
+
+    [yml]
+    logger:
+      class: sfAggregateLogger
+      param:
+        level: debug
+        loggers:
+          sf_web_debug:
+            class: sfWebDebugLogger
+            param:
+              level: debug
+              condition: %SF_WEB_DEBUG%
+              xdebug_logging: true
+          sf_file_debug:
+            class: sfFileLogger
+            param:
+              level: debug
+              file: %SF_LOG_DIR%/%SF_APP%_%SF_ENVIRONMENT%.log
+
+The `logging.yml` configuration file is not used anymore.
+Instead, you can configure logging in `factories.yml`.
+
+To disable logging in the production environment, you will have to change
+your application `factories.yml`:
+
+    [yml]
+    prod:
+      logger:
+        class:   sfNoLogger
+        param:
+          level:   err
+          loggers: ~
+
+There is also a new `logging_enabled` setting in `settings.yml`.
+This can be used to prevent logging in the production environment altogether:
+
+    [yml]
+    prod:
+      .settings:
+        logging_enabled: off
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+### i18n
+
+Here is the default configuration for i18n in `factories.yml`:
+
+    [yml]
+    i18n:
+      class: sfI18N
+      param:
+        source:              XLIFF
+        debug:               off
+        untranslated_prefix: "[T]"
+        untranslated_suffix: "[/T]"
+        cache:
+          class: sfFileCache
+          param:
+            automatic_cleaning_factor: 0
+            cache_dir:                 %SF_I18N_CACHE_DIR%
+            lifetime:                  86400
+            prefix:                    %SF_APP_DIR%
+
+The `i18n.yml` configuration file is not used anymore.
+Instead, you can configure i18n in `factories.yml`.
+
+The only exception is the `default_culture` setting which is now configurable
+in `settings.yml` and do not depend on the i18n framework anymore:
+
+  default_culture: en
+
+If your project has some specific settings, you must move your current
+configuration from the `i18n.yml` to the `factories.yml` and add the default
+culture in `settings.yml` as shown above.
+
+Cache Framework
+---------------
+
+The `sfFunctionCache` class does not extend `sfFileCache` anymore.
+You must now pass a cache object to the constructor.
+The first argument to ->call() must now be a PHP callable.
+
+Some `sfCache` configuration parameter have changed their named to underscore names:
+
+  * automaticCleaningFactor -> automatic_cleaning_factor
+  * cacheDir -> cache_dir
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+Autoloading
+-----------
+
+The `autoloading_function` setting in `settings.yml` is not used anymore.
+You can register autoloading callables in your application configuration class.
+
+Thanks to the new `sfAutoload::autoloadAgain()` method, you won't need to clear
+the cache when you add or move classes in your project. This method will
+automatically find the changes and flush the autoloading cache.
+
+VERSION
+-------
+
+The lib/VERSION file has been removed. If you want to get the current symfony
+version, you can use the `SYMFONY_VERSION` constant. This constant is defined
+in `autoload/sfCoreAutoload.class.php`
+
+Routing
+-------
+
+To inject default route parameters, you can now use the `->setDefaultParameter()`
+method instead of using the `sf_routing_defaults` setting:
+
+    [php]
+    $this->context->getRouting()->setDefaultParameter($key, $value);
+
+I18N
+----
+
+symfony core classes don't return internationalized strings anymore:
+
+    [php]
+    <?php echo __($sf_request->getError('foo')) ?>
+
+This behavior has changed for the following methods and functions:
+
+    [php]
+    sfWebRequest::getError()
+    sfWebResponse::addMeta()
+
+The following helpers (in sfCompat10Plugin) still return internationalized data:
+
+    [php]
+    form_error()
+    include_metas()
+
+The `getGlobalMessageSource()` and `getGlobalMessageFormat()` methods has been
+removed from the sfI18N class. They are now equivalent to `getMessageSource()`
+and `getMessageFormat()`.
+
+Logger
+------
+
+Logger priorities are now constants:
+
+    [php]
+    sfLogger::INFO
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+Deprecated methods in sfAction
+------------------------------
+
+The following methods of `sfAction` have been deprecated and throw
+a `sfConfigurationException` if `sf_compat_10` is set to `false`:
+
+  * `->validate()`
+  * `->handleError()`
+
+Deprecated methods in sfRequest
+-------------------------------
+
+The following methods of `sfRequest` have been deprecated and throw
+a `sfConfigurationException` if `sf_compat_10` is set to `false`:
+
+  * `->getError()`
+  * `->getErrors()`
+  * `->getErrorNames()`
+  * `->hasError()`
+  * `->hasErrors()`
+  * `->setError()`
+  * `->setErrors()`
+  * `->removeError()`
+
+Deprecated methods in sfWebRequest
+----------------------------------
+
+The following methods of `sfWebRequest` have been deprecated and throw
+a `sfConfigurationException` if `sf_compat_10` is set to `false`:
+
+  * `->getFile()`
+  * `->getFileError()`
+  * `->getFileName()`
+  * `->getFileNames()`
+  * `->getFilePath()`
+  * `->getFileSize()`
+  * `->getFileType()`
+  * `->hasFile()`
+  * `->hasFileError()`
+  * `->hasFileErrors()`
+  * `->hasFiles()`
+  * `->getFileValue()`
+  * `->getFileValues()`
+  * `->getFileExtension()`
+  * `->moveFile()`
+
+`->initialize()` methods
+------------------------
+
+Most symfony core classes are initialized thanks to a `->initialize()` method.
+As of symfony 1.1, this method is automatically called by `__construct()`,
+so, there is no need to call it by yourself.
+
+Configuration files loading
+---------------------------
+
+Some core classes can be configured with a `.yml` file:
+
+ *Class*              | *Configuration file*
+ -------------------- | --------------------------------
+ `sfAction`           | `security.yml`
+ `sfAutoload`         | `autoload.yml`
+ `sfConfigCache`      | `config_handlers.yml`
+ `sfContext`          | `factories.yml`
+ `sfController`       | `generator.yml` and `module.yml`
+ `sfDatabaseManager`  | `databases.yml`
+ `sfFilterChain`      | `filters.yml`
+ `sfI18N`             | `i18n.yml`
+ `sfPatternRouting`   | `routing.yml`
+ `sfPHPView`          | `view.yml`
+ `sfViewCacheManager` | `cache.yml`
+
+In symfony 1.1, the loading of the configuration file for ''independant''
+sub-frameworks has been moved to a `loadConfiguration()` method to ease
+decoupling and reuse them without needing the whole framework:
+
+  * `sfDatabaseManager`
+  * `sfI18N`
+  * `sfPatternRouting`
+
+So, for example, if you need a database manager in your batch script,
+you will have to change from:
+
+    [php]
+    $databaseManager = new sfDatabaseManager();
+    $databaseManager->initialize();
+
+to:
+
+    [php]
+    $configuration = ProjectConfiguration::getApplicationConfiguration($application, $env, true);
+    $databaseManager = new sfDatabaseManager($configuration);
+    $databaseManager->loadConfiguration();
+
+The `initialize()` call is not needed anymore (see the point above).
+
+Web Debug
+---------
+
+The `web_debug` entry in `filters.yml` must be removed as the `sfWebDebugFilter`
+has been removed. The web debug toolbar is now injected in the response thanks
+to a listener.
+
+The `project:upgrade1.1` task makes all those changes for you.
+
+Session timeout
+---------------
+
+The `sf_timeout` setting is not used anymore. To change the session timeout,
+you now have to edit `factories.yml` instead of the `settings.yml`,
+and change the parameters of the `user` factory:
+
+    [yml]
+    all:
+      user:
+        class: myUser
+        param:
+          timeout:     1800     # session timeout in seconds
+
+Routing configuration
+---------------------
+
+The `sf_suffix`, `sf_default_module`, and `sf_default_action` settings are not
+used anymore. To change the default suffix, module, or action, you now have
+to edit `factories.yml` instead of `settings.yml`, and change the parameters
+of the `routing` factory:
+
+    [yml]
+    all:
+      routing:
+        class: sfPatternRouting
+        param:
+          load_configuration: true
+          suffix:             .       # Default suffix for generated URLs. If set to a single dot (.), no suffix is added. Possible values: .html, .php, and so on.
+          default_module:     default # Default module and action to be called when
+          default_action:     index   # A routing rule doesn't set it
+
+`php.yml` configuration file
+----------------------------
+
+The `php.yml` configuration file has been removed.
+
+The only setting you will have to check by hand is `log_errors`, which was set
+to `on` by `php.yml`.
+
+`php.yml` is replaced by the `check_configuration.php` utility you can find
+in `data/bin`. It checks your environment against symfony requirements.
+You can launch it from anywhere:
+
+    $ php /path/to/symfony/data/bin/check_configuration.php
+
+Even if you can use this utility from the command line, it's strongly recommended
+to launch it from the web by copying it under your web root directory as PHP can
+use different php.ini configuration files for the CLI and the web.
+
+`$sf_symfony_data_dir` removal
+------------------------------
+
+In symfony 1.1, `$sf_symfony_data_dir` has been removed. All relevant files and
+directories from the symfony `data` directory have been moved to the `lib`
+directory:
+
+ *Old Location*         | *New Location*
+ ---------------------- | -----------------------------
+ `data/config`          | `lib/config/config`
+ `data/i18n`            | `lib/i18n/data`
+ `data/skeleton`        | `lib/task/generator/skeleton`
+ `data/modules/default` | `lib/controller/default`
+ `data/web/errors`      | `lib/exception/data`
+ `data/exception.*`     | `lib/exception/data`
+
+The symfony core has been upgraded to take these changes into account.
+
+sfLoader
+--------
+
+All `sfLoader` static methods (except `::getHelperDirs()` and `::loadHelpers()`)
+have been moved to the `sfProjectConfiguration` and `sfApplicationConfiguration`
+classes:
+
+  * `sfProjectConfiguration`:
+      * `->getGeneratorSkeletonDirs()`
+      * `->getGeneratorTemplate()`
+      * `->getGeneratorTemplateDirs()`
+      * `->getModelDirs()`
+
+  * `sfApplicationConfiguration`:
+      * `->getControllerDirs()`
+      * `->getTemplateDirs()`
+      * `->getTemplateDir()`
+      * `->getTemplatePath()`
+      * `->getI18NGlobalDirs()`
+      * `->getI18NDirs()`
+      * `->getConfigPaths()`
+
+sfCore
+------
+
+The `sfCore` has been removed. The code has been moved to `sfProjectConfiguration`,
+`sfApplicationConfiguration`, and `sfContext` classes.
+
+Front Controllers
+-----------------
+
+All front controllers have to be upgraded. The SF_DEBUG, SF_APP, SF_ENVIRONMENT,
+and SF_ROOT_DIR constants are gone. If you use some of these constants in your
+project, please use their sfConfig::get('') counterparts:
+
+ *Old*             | *New*
+ ----------------- | ---------------------------------
+ `SF_ROOT_DIR`     | `sfConfig::get('sf_root_dir')`
+ `SF_ENVIRONMENT`  | `sfConfig::get('sf_environment')`
+ `SF_APP`          | `sfConfig::get('sf_app')`
+ `SF_DEBUG`        | `sfConfig::get('sf_debug')`
+
+The `project:upgrade1.1` task upgrades all front controllers for you.
+If you made some customizations, symfony will issue a warning and won't
+upgrade them automatically. You can then copy the default skeleton from
+symfony: /path/to/symfony/lib/task/generator/skeleton/app/web/index.php
+
+config.php
+----------
+
+All `config.php` files have been removed. The are replaced by the `ProjectConfiguration`
+class and the application configuration classes.
+
+If you've added some cutomizations in `config.php` files, you will have to migrate them
+to those new classes.
+
+Directory structure
+-------------------
+
+All `sfConfig` constants ending with `_dir_name` have been removed.
+
+Cache keys
+----------
+
+The `sfViewCacheManager::removePattern()` and `sfToolkit::clearGlob()` don't work anymore
+for removing several cache parts at once. But the `sfViewCacheManager::remove()` now
+accepts internal URIs with wildcards. So you can replace:
+
+    $cacheManager->removePattern('*/all/user/show/id/*');
+
+By:
+
+    $cacheManager->remove('user/show?id=*', '*', 'all');
+
+This also works for partials and contextual partials. You can then replace:
+
+    $cacheManager->removePattern('/sf_cache_partial/user/_my_partial/sf_cache_key/*');
+
+By:
+
+    $cacheManager->remove('@sf_cache_partial?module=user&action=_my_partial&sf_cache_key=*');
+
+And the biggets benefit is that it allows you to clear 'glob' URIs in *any* cache
+factory, not only the `sfFileCache`.
+
+Layout
+------
+
+The action template variables are not available anymore in the layout. This means that the layout
+only has access to **global** variables (all `sf_` variables) and variables registered via the
+`template.filter_parameters` event.
+
+Refer to this wiki page for more information on how to upgrade:
+
+    http://trac.symfony-project.com/wiki/Symfony11LayoutUpgrade
+
+Tasks
+-----
+
+The symfony command line task names have changed. They now use a namespace syntax. The old task names still work--they are just aliases for the new task names. Here is a table showing the name changes:
+
+ Old task name             |  New task name
+ ------------------------- | ----------------
+ clear-cache               | cache:clear
+ clear-controllers         | project:clear-controllers
+ disable                   | project:disable
+ downgrade                 | [Not implemented]
+ enable                    | project:enable
+ fix-perms                 | project:permissions
+ freeze                    | project:freeze
+ init-app                  | generate:app
+ init-batch                | [Not implemented]
+ init-controller           | [Not implemented]
+ init-module               | generate:module
+ init-project              | generate:project
+ log-purge                 | log:clear
+ log-rotate                | log:rotate
+ plugin-install            | plugin:install
+ plugin-list               | plugin:list
+ plugin-uninstall          | plugin:uninstall
+ plugin-upgrade            | plugin:upgrade
+ propel-build-all          | propel:build-all
+ propel-build-all-load     | propel:build-all-load
+ propel-build-db           | propel:build-db
+ propel-build-model        | propel:build-model
+ propel-build-schema       | propel:build-schema
+ propel-build-sql          | propel:build-sql
+ propel-convert-xml-schema | propel:schema-to-yml
+ propel-convert-yml-schema | propel:schema-to-xml
+ propel-dump-data          | propel:data-dump
+ propel-generate-crud      | propel:generate-crud
+ propel-init-admin         | propel:init-admin
+ propel-init-crud          | [Not implemented]
+ propel-insert-sql         | propel:insert-sql
+ propel-load-data          | propel:data-load
+ sync                      | project:deploy
+ test-all                  | test:all
+ test-functional           | test:functional
+ test-unit                 | test:unit
+ unfreeze                  | project:unfreeze
+ upgrade                   | project:freeze
+
+As before, if you want to list the available tasks, just call the `symfony` command with no argument:
+
+    > php symfony
+
+NOTE to early adopters
+----------------------
+
+If you have upgraded your project and have a `lib/ProjectConfiguration.class.php` file,
+then you need to upgrade your project manually before being able to launch the
+`project:upgrade1.1` task.
+
+Here is how:
+
+  * Move `lib/ProjectConfiguration.class.php` to `config/ProjectConfiguration.class.php`
+
+  * Change the path to symfony in `config/ProjectConfiguration.class.php` if needed.
+
+  * Move all your application configuration classes (`lib/$APP_NAME$Configuration.class.php`)
+    to their respective `apps/$APP_NAME$/config/` directory.
+
+  * Remove the `require_once dirname(__FILE__).'/ProjectConfiguration.class.php';` in all
+    the application configuration classes.
+
+  * Change the location of `ProjectConfiguration.class.php` in the main `symfony` script to `config/`
+
+  * Change your front controllers so they look like this:
+
+        [php]
+        <?php
+
+        require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
+
+        $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'dev', true);
+        sfContext::createInstance($configuration)->dispatch();
+
+You can now launch the `project:upgrade1.1` script to finish the upgrade.

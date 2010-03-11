@@ -1,0 +1,1057 @@
+Chapter 7 - Inside The View Layer
+=================================
+
+The view is responsible for rendering the output correlated to a particular action. In symfony, the view consists of several parts, with each part designed to be easily modified by the person who usually works with it.
+
+* Web designers generally work on the templates (the presentation of the current action data) and on the layout (containing the code common to all pages). These are written in HTML with small embedded chunks of PHP, which are mostly calls to helpers.
+* For reusability, developers usually package template code fragments into partials or components. They use slots and component slots to affect more than one zone of the layout. Web designers can work on these template fragments as well.
+* Developers focus on the YAML view configuration file (setting the properties of the response and other interface elements) and on the response object. When dealing with variables in the templates, the risks of cross-site scripting must not be ignored, and a good comprehension of output escaping techniques is required to safely record user data.
+
+But whatever your role is, you will find useful tools to speed up the tedious job of presenting the results of the action. This chapter covers all of these tools.
+
+Templating
+----------
+
+Listing 7-1 shows a typical symfony template. It contains some HTML code and some basic PHP code, usually calls to variables defined in the action (via `$this->name = 'foo';`) and helpers.
+
+Listing 7-1 - A Sample indexSuccess.php Template
+
+    [php]
+    <h1>Welcome</h1>
+    <p>Welcome back, <?php echo $name ?>!</p>
+    <ul>What would you like to do?
+      <li><?php echo link_to('Read the last articles', 'article/read') ?></li>
+      <li><?php echo link_to('Start writing a new one', 'article/write') ?></li>
+    </ul>
+
+As explained in Chapter 4, the alternative PHP syntax is preferable for templates to make them readable for non-PHP developers. You should keep PHP code to a minimum in templates, since these files are the ones used to design the GUI of the application, and are sometimes created and maintained by another team, specialized in presentation but not in application logic. Keeping the logic inside the action also makes it easier to have several templates for a single action, without any code duplication.
+
+### Helpers
+
+Helpers are PHP functions that return HTML code and can be used in templates. In Listing 7-1, the `link_to()` function is a helper. Sometimes, helpers are just time-savers, packaging code snippets frequently used in templates. For instance, you can easily imagine the function definition for this helper:
+
+    [php]
+    <?php echo input_tag('nickname') ?>
+     => <input type="text" name="nickname" id="nickname" value="" />
+
+It should look like Listing 7-2.
+
+Listing 7-2 - Sample Helper Definition
+
+    [php]
+    function input_tag($name, $value = null)
+    {
+      return '<input type="text" name="'.$name.'" id="'.$name.'"value="'.$value.'" />';
+    }
+
+As a matter of fact, the `input_tag()` function built into symfony is a little more complicated than that, as it accepts a third parameter to add other attributes to the `<input>` tag. You can check its complete syntax and options in the online API documentation ([http://www.symfony-project.org/api/1_2/](http://www.symfony-project.org/api/1_2/)).
+
+Most of the time, helpers carry intelligence and save you long and complex coding:
+
+    [php]
+    <?php echo auto_link_text('Please visit our website www.example.com') ?>
+     => Please visit our website <a href="http://www.example.com">www.example.com</a>
+
+Helpers facilitate the process of writing templates and produce the best possible HTML code in terms of performance and accessibility. You can always use plain HTML, but helpers are usually faster to write.
+
+>**TIP**
+>You may wonder why the helpers are named according to the underscore syntax rather than the camelCase convention, used everywhere else in symfony. This is because helpers are functions, and all the core PHP functions use the underscore syntax convention.
+
+#### Declaring Helpers
+
+The symfony files containing helper definitions are not autoloaded (since they contain functions, not classes). Helpers are grouped by purpose. For instance, all the helper functions dealing with text are defined in a file called `TextHelper.php`, called the `Text` helper group. So if you need to use a helper in a template, you must load the related helper group earlier in the template by declaring it with the `use_helper()` function. Listing 7-3 shows a template using the `auto_link_text()` helper, which is part of the `Text` helper group.
+
+Listing 7-3 - Declaring the Use of a Helper
+
+    [php]
+    // Use a specific helper group in this template
+    <?php use_helper('Text') ?>
+    ...
+    <h1>Description</h1>
+    <p><?php echo auto_link_text($description) ?></p>
+
+>**TIP**
+>If you need to declare more than one helper group, add more arguments to the `use_helper()` call. For instance, to load both the `Text` and the `Javascript` helper groups in a template, call `<?php use_helper('Text', 'Javascript') ?>`.
+
+A few helpers are available by default in every template, without need for declaration. These are helpers of the following helper groups:
+
+  * `Helper`: Required for helper inclusion (the `use_helper()` function is, in fact, a helper itself)
+  * `Tag`: Basic tag helper, used by almost every helper
+  * `Url`: Links and URL management helpers
+  * `Asset`: Helpers populating the HTML `<head>` section, and providing easy links to external assets (images, JavaScript, and style sheet files)
+  * `Partial`: Helpers allowing for inclusion of template fragments
+  * `Cache`: Manipulation of cached code fragments
+  * `Form`: Form input helpers
+
+The list of the standard helpers, loaded by default for every template, is configurable in the `settings.yml` file. So if you know that you will not use the helpers of the `Cache` group, or that you will always use the ones of the Text group, modify the standard_helpers setting accordingly. This will speed up your application a bit. You cannot remove the first four helper groups in the preceding list (`Helper`, `Tag`, `Url`, and `Asset`), because they are compulsory for the templating engine to work properly. Consequently, they don't even appear in the list of standard helpers.
+
+>**TIP**
+>If you ever need to use a helper outside a template, you can still load a helper group from anywhere by calling `sfProjectConfiguration::getActive()->loadHelpers($helpers)`, where `$helpers` is a helper group name or an array of helper group names. For instance, if you want to use `auto_link_text()` in an action, you need to call `sfProjectConfiguration::getActive()->loadHelpers('Text')` first.
+
+#### Frequently Used Helpers
+
+You will learn about some helpers in detail in later chapters, in relation with the feature they are helping. Listing 7-4 gives a brief list of the default helpers that are used a lot, together with the HTML code they return.
+
+Listing 7-4 - Common Default Helpers
+
+    [php]
+    // Helper group
+    <?php use_helper('HelperName') ?>
+    <?php use_helper('HelperName1', 'HelperName2', 'HelperName3') ?>
+
+    // Tag group
+    <?php echo tag('input', array('name' => 'foo', 'type' => 'text')) ?>
+    <?php echo tag('input', 'name=foo type=text') ?>  // Alternative options syntax
+     => <input name="foo" type="text" />
+    <?php echo content_tag('textarea', 'dummy content', 'name=foo') ?>
+     => <textarea name="foo">dummy content</textarea>
+
+    // Url group
+    <?php echo link_to('click me', 'mymodule/myaction') ?>
+    => <a href="/route/to/myaction">click me</a>  // Depends on the routing settings
+
+    // Asset group
+    <?php echo image_tag('myimage', 'alt=foo size=200x100') ?>
+     => <img src="/images/myimage.png" alt="foo" width="200" height="100"/>
+    <?php echo javascript_include_tag('myscript') ?>
+     => <script language="JavaScript" type="text/javascript" src="/js/myscript.js"></script>
+    <?php echo stylesheet_tag('style') ?>
+     => <link href="/stylesheets/style.css" media="screen" rel="stylesheet"type="text/css" />
+
+There are many other helpers in symfony, and it would take a full book to describe all of them. The best reference for helpers is the online API documentation ([http:// www.symfony-project.org/api/1_2/](http://www.symfony-project.org/api/1_2/)), where all the helpers are well documented, with their syntax, options, and examples.
+
+#### Adding Your Own Helpers
+
+Symfony ships with a lot of helpers for various purposes, but if you don't find what you need in the API documentation, you will probably want to create a new helper. This is very easy to do.
+
+Helper functions (regular PHP functions returning HTML code) should be saved in a file called `FooBarHelper.php`, where `FooBar` is the name of the helper group. Store the file in the `apps/frontend/lib/helper/` directory (or in any `helper/` directory created under one of the `lib/` folders of your project) so it can be found automatically by the `use_helper('FooBar')` helper for inclusion.
+
+>**TIP**
+>This system even allows you to override the existing symfony helpers. For instance, to redefine all the helpers of the `Text` helper group, just create a `TextHelper.php` file in your `apps/frontend/lib/helper/` directory. Whenever you call `use_helper('Text')`, symfony will use your helper group rather than its own. But be careful: as the original file is not even loaded, you must redefine all the functions of a helper group to override it; otherwise, some of the original helpers will not be available at all.
+
+### Page Layout
+
+The template shown in Listing 7-1 is not a valid XHTML document. The `DOCTYPE` definition and the `<html>` and `<body>` tags are missing. That's because they are stored somewhere else in the application, in a file called `layout.php`, which contains the page layout. This file, also called the global template, stores the HTML code that is common to all pages of the application to avoid repeating it in every template. The content of the template is integrated into the layout, or, if you change the point of view, the layout "decorates" the template. This is an application of the decorator design pattern, illustrated in Figure 7-1.
+
+>**TIP**
+>For more information about the decorator and other design patterns, see *Patterns of Enterprise Application Architecture* by Martin Fowler (Addison-Wesley, ISBN: 0-32112-742-0).
+
+Figure 7-1 - Decorating a template with a layout
+
+![Decorating a template with a layout](/images/book/F0701.png "Decorating a template with a layout")
+
+Listing 7-5 shows the default page layout, located in the application `templates/` directory.
+
+Listing 7-5 - Default Layout, in `myproject/apps/frontend/templates/layout.php`
+
+    [php]
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+      <head>
+        <?php include_http_metas() ?>
+        <?php include_metas() ?>
+        <?php include_title() ?>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </head>
+      <body>
+        <?php echo $sf_content ?>
+      </body>
+    </html>
+
+The helpers called in the `<head>` section grab information from the response object and the view configuration. The `<body>` tag outputs the result of the template. With this layout, the default configuration, and the sample template in Listing 7-1, the processed view looks like Listing 7-6.
+
+Listing 7-6 - The Layout, the View Configuration, and the Template Assembled
+
+    [php]
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+      <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="title" content="symfony project" />
+        <meta name="robots" content="index, follow" />
+        <meta name="description" content="symfony project" />
+        <meta name="keywords" content="symfony, project" />
+        <title>symfony project</title>
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="shortcut icon" href="/favicon.ico">
+      </head>
+      <body>
+        <h1>Welcome</h1>
+        <p>Welcome back, <?php echo $name ?>!</p>
+        <ul>What would you like to do?
+          <li><?php echo link_to('Read the last articles', 'article/read') ?></li>
+          <li><?php echo link_to('Start writing a new one', 'article/write') ?></li>
+        </ul>
+      </body>
+    </html>
+
+The global template can be entirely customized for each application. Add in any HTML code you need. This layout is often used to hold the site navigation, logo, and so on. You can even have more than one layout, and decide which layout should be used for each action. Don't worry about JavaScript and style sheet inclusion for now; the "View Configuration" section later in this chapter shows how to handle that.
+
+### Template Shortcuts
+
+In templates, a few symfony variables are always available. These shortcuts give access to the most commonly needed information in templates, through the core symfony objects:
+
+  * `$sf_context`: The whole context object (`instance of sfContext`)
+  * `$sf_request`: The request object (`instance of sfRequest`)
+  * `$sf_params` : The parameters of the request object
+  * `$sf_user`   : The current user session object (`instance of sfUser`)
+
+The previous chapter detailed useful methods of the `sfRequest` and `sfUser` objects. You can actually call these methods in templates through the `$sf_request` and `$sf_user` variables. For instance, if the request includes a `total` parameter, its value is available in the template with the following:
+
+    [php]
+    // Long version
+    <?php echo $sf_request->getParameter('total') ?>
+
+    // Shorter version
+    <?php echo $sf_params->get('total') ?>
+
+    // Equivalent to the following action code
+    echo $request->getParameter('total')
+
+Code Fragments
+--------------
+
+You may often need to include some HTML or PHP code in several pages. To avoid repeating that code, the PHP `include()` statement will suffice most of the time.
+
+For instance, if many of the templates of your application need to use the same fragment of code, save it in a file called `myFragment.php` in the global template directory (`myproject/apps/frontend/templates/`) and include it in your templates as follows:
+
+    [php]
+    <?php include(sfConfig::get('sf_app_template_dir').'/myFragment.php') ?>
+
+But this is not a very clean way to package a fragment, mostly because you can have different variable names between the fragment and the various templates including it. In addition, the symfony cache system (described in Chapter 12) has no way to detect an include, so the fragment cannot be cached independently from the template. Symfony provides three alternative types of intelligent code fragments to replace `include`s:
+
+  * If the logic is lightweight, you will just want to include a template file having access to some data you pass to it. For that, you will use a partial.
+  * If the logic is heavier (for instance, if you need to access the data model and/or modify the content according to the session), you will prefer to separate the presentation from the logic. For that, you will use a component.
+  * If the fragment is meant to replace a specific part of the layout, for which default content may already exist, you will use a slot.
+
+>**Note**
+>Another code fragment type, called a component slot, is to be used when the nature of the fragment depends on the context (for instance, if the fragment needs to be different for the actions of a given module). Component slots are described later in this chapter.
+
+The inclusion of these fragments is achieved by helpers of the `Partial` group. These helpers are available from any symfony template, without initial declaration.
+
+### Partials
+
+A partial is a reusable chunk of template code. For instance, in a publication application, the template code displaying an article is used in the article detail page, and also in the list of the best articles and the list of latest articles. This code is a perfect candidate for a partial, as illustrated in Figure 7-2.
+
+Figure 7-2 - Reusing partials in templates
+
+![Reusing partials in templates](/images/book/F0702.png "Reusing partials in templates")
+
+Just like templates, partials are files located in the `templates/` directory, and they contain HTML code with embedded PHP. A partial file name always starts with an underscore (`_`), and that helps to distinguish partials from templates, since they are located in the same `templates/` folders.
+
+A template can include partials whether it is in the same module, in another module, or in the global `templates/` directory. Include a partial by using the `include_partial()` helper, and specify the module and partial name as a parameter (but omit the leading underscore and the trailing `.php`), as described in Listing 7-7.
+
+Listing 7-7 - Including a Partial in a Template of the `mymodule` Module
+
+    [php]
+    // Include the frontend/modules/mymodule/templates/_mypartial1.php partial
+    // As the template and the partial are in the same module,
+    // you can omit the module name
+    <?php include_partial('mypartial1') ?>
+
+    // Include the frontend/modules/foobar/templates/_mypartial2.php partial
+    // The module name is compulsory in that case
+    <?php include_partial('foobar/mypartial2') ?>
+
+    // Include the frontend/templates/_mypartial3.php partial
+    // It is considered as part of the 'global' module
+    <?php include_partial('global/mypartial3') ?>
+
+Partials have access to the usual symfony helpers and template shortcuts. But since partials can be called from anywhere in the application, they do not have automatic access to the variables defined in the action calling the templates that includes them, unless passed explicitly as an argument. For instance, if you want a partial to have access to a `$total` variable, the action must hand it to the template, and then the template to the helper as a second argument of the `include_partial()` call, as shown in Listings 7-8, 7-9, and 7-10.
+
+Listing 7-8 - The Action Defines a Variable, in `mymodule/actions/actions.class.php`
+
+    [php]
+    class mymoduleActions extends sfActions
+    {
+      public function executeIndex()
+      {
+        $this->total = 100;
+      }
+    }
+
+Listing 7-9 - The Template Passes the Variable to the Partial, in `mymodule/templates/indexSuccess.php`
+
+    [php]
+    <p>Hello, world!</p>
+    <?php include_partial('mypartial', array('mytotal' => $total)) ?>
+
+Listing 7-10 - The Partial Can Now Use the Variable, in `mymodule/templates/_mypartial.php`
+
+    [php]
+    <p>Total: <?php echo $mytotal ?></p>
+
+>**TIP**
+>All the helpers so far were called by `<?php echo functionName() ?>`. The partial helper, however, is simply called by `<?php include_partial() ?>`, without `echo`, to make it behave similar to the regular PHP `include()` statement. If you ever need a function that returns the content of a partial without actually displaying it, use `get_partial()` instead. All the `include_` helpers described in this chapter have a `get_` counterpart that can be called together with an `echo` statement.
+
+>**TIP**
+>**New in symfony 1.1**: Instead of resulting in a template, an action can return a partial or a component. The `renderPartial()` and `renderComponent()` methods of the action class promote reusability of code. Besides, they take advantage of the caching abilities of the partials (see Chapter 12). The variables defined in the action will be automatically passed to the partial/component, unless you define an associative array of variables as a second parameter of the method.
+>
+>     [php]
+>     public function executeFoo()
+>     {
+>       // do things
+>       $this->foo = 1234;
+>       $this->bar = 4567;
+>
+>       return $this->renderPartial('mymodule/mypartial');
+>     }
+>
+>In this example, the partial will have access to `$foo` and `$bar`. If the action ends with the following line:
+>
+>       return $this->renderPartial('mymodule/mypartial', array('foo' => $this->foo));
+>
+>Then the partial will only have access to `$foo`.
+
+### Components
+
+In Chapter 2, the first sample script was split into two parts to separate the logic from the presentation. Just like the MVC pattern applies to actions and templates, you may need to split a partial into a logic part and a presentation part. In such a case, you should use a component.
+
+A component is like an action, except it's much faster. The logic of a component is kept in a class inheriting from `sfComponents`, located in an `actions/components.class.php` file. Its presentation is kept in a partial. Methods of the `sfComponents` class start with the word `execute`, just like actions, and they can pass variables to their presentation counterpart in the same way that actions can pass variables. Partials that serve as presentation for components are named by the component (without the leading `execute`, but with an underscore instead). Table 7-1 compares the naming conventions for actions and components.
+
+Table 7-1 - Action and Component Naming Conventions
+
+Convention               |  Actions              |  Components
+------------------------ | --------------------- | ----------------------
+Logic file               | `actions.class.php`   | `components.class.php`
+Logic class extends      | `sfActions`           | `sfComponents`
+Method naming            | `executeMyAction()`   | `executeMyComponent()`
+Presentation file naming | `myActionSuccess.php` | `_myComponent.php`
+
+>**TIP**
+>Just as you can separate actions files, the `sfComponents` class has an `sfComponent` counterpart that allows for single component files with the same type of syntax.
+
+For instance, suppose you have a sidebar displaying the latest news headlines for a given subject, depending on the user's profile, which is reused in several pages. The queries necessary to get the news headlines are too complex to appear in a simple partial, so they need to be moved to an action-like file--a component. Figure 7-3 illustrates this example.
+
+For this example, shown in Listings 7-11 and 7-12, the component will be kept in its own module (called `news`), but you can mix components and actions in a single module if it makes sense from a functional point of view.
+
+Figure 7-3 - Using components in templates
+
+![Using components in templates](/images/book/F0703.png "Using components in templates")
+
+Listing 7-11 - The Components Class, in `modules/news/actions/components.class.php`
+
+    [php]
+    <?php
+
+    class newsComponents extends sfComponents
+    {
+      public function executeHeadlines()
+      {
+        $c = new Criteria();
+        $c->addDescendingOrderByColumn(NewsPeer::PUBLISHED_AT);
+        $c->setLimit(5);
+        $this->news = NewsPeer::doSelect($c);
+      }
+    }
+
+Listing 7-12 - The Partial, in `modules/news/templates/_headlines.php`
+
+    [php]
+    <div>
+      <h1>Latest news</h1>
+      <ul>
+      <?php foreach($news as $headline): ?>
+        <li>
+          <?php echo $headline->getPublishedAt() ?>
+          <?php echo link_to($headline->getTitle(),'news/show?id='.$headline->getId()) ?>
+        </li>
+      <?php endforeach ?>
+      </ul>
+    </div>
+
+Now, every time you need the component in a template, just call this:
+
+    [php]
+    <?php include_component('news', 'headlines') ?>
+
+Just like the partials, components accept additional parameters in the shape of an associative array. The parameters are available to the partial under their name, and in the component via the `$this` object. See Listing 7-13 for an example.
+
+Listing 7-13 - Passing Parameters to a Component and Its Template
+
+    [php]
+    // Call to the component
+    <?php include_component('news', 'headlines', array('foo' => 'bar')) ?>
+
+    // In the component itself
+    echo $this->foo;
+     => 'bar'
+
+    // In the _headlines.php partial
+    echo $foo;
+     => 'bar'
+
+You can include components in components, or in the global layout, as in any regular template. Like actions, components' `execute` methods can pass variables to the related partial and have access to the same shortcuts. But the similarities stop there. A component doesn't handle security or validation, cannot be called from the Internet (only from the application itself), and doesn't have various return possibilities. That's why a component is faster to execute than an action.
+
+### Slots
+
+Partials and components are great for reusability. But in many cases, code fragments are required to fill a layout with more than one dynamic zone. For instance, suppose that you want to add some custom tags in the `<head>` section of the layout, depending on the content of the action. Or, suppose that the layout has one major dynamic zone, which is filled by the result of the action, plus a lot of other smaller ones, which have a default content defined in the layout but can be overridden at the template level.
+
+For these situations, the solution is a slot. Basically, a slot is a placeholder that you can put in any of the view elements (in the layout, a template, or a partial). Filling this placeholder is just like setting a variable. The filling code is stored globally in the response, so you can define it anywhere (in the layout, a template, or a partial). Just make sure to define a slot before including it, and remember that the layout is executed after the template (this is the decoration process), and the partials are executed when they are called in a template. Does it sound too abstract? Let's see an example.
+
+Imagine a layout with one zone for the template and two slots: one for the sidebar and the other for the footer. The slot values are defined in the templates. During the decoration process, the layout code wraps the template code, and the slots are filled with the previously defined values, as illustrated in Figure 7-4. The sidebar and the footer can then be contextual to the main action. This is like having a layout with more than one "hole".
+
+Figure 7-4 - Layout slots defined in a template
+
+![Layout slots defined in a template](/images/book/F0704.png "Layout slots defined in a template")
+
+Seeing some code will clarify things further. To include a slot, use the `include_slot()` helper. The `has_slot()` helper returns `true` if the slot has been defined before, providing a fallback mechanism as a bonus. For instance, define a placeholder for a `'sidebar'` slot in the layout and its default content as shown in Listing 7-14.
+
+Listing 7-14 - Including a `'sidebar'` Slot in the Layout
+
+    [php]
+    <div id="sidebar">
+    <?php if (has_slot('sidebar')): ?>
+      <?php include_slot('sidebar') ?>
+    <?php else: ?>
+      <!-- default sidebar code -->
+      <h1>Contextual zone</h1>
+      <p>This zone contains links and information
+      relative to the main content of the page.</p>
+    <?php endif; ?>
+    </div>
+
+As it's quite common to display some default content if a slot is not defined, the `include_slot` helper returns a Boolean indicating if the slot has been defined. Listing 7-15 shows how to take this return value into account to simplify the code.
+
+Listing 7-15 - Including a `'sidebar'` Slot in the Layout
+
+    [php]
+    <div id="sidebar">
+    <?php if (!include_slot('sidebar')): ?>
+      <!-- default sidebar code -->
+      <h1>Contextual zone</h1>
+      <p>This zone contains links and information
+      relative to the main content of the page.</p>
+    <?php endif; ?>
+    </div>
+
+Each template has the ability to define the contents of a slot (actually, even partials can do it). As slots are meant to hold HTML code, symfony offers a convenient way to define them: just write the slot code between a call to the `slot()` and `end_slot()` helpers, as in Listing 7-16.
+
+Listing 7-16 - Overriding the `'sidebar'` Slot Content in a Template
+
+    [php]
+    // ...
+
+    <?php slot('sidebar') ?>
+      <!-- custom sidebar code for the current template-->
+      <h1>User details</h1>
+      <p>name:  <?php echo $user->getName() ?></p>
+      <p>email: <?php echo $user->getEmail() ?></p>
+    <?php end_slot() ?>
+
+The code between the slot helpers is executed in the context of the template, so it has access to all the variables that were defined in the action. Symfony will automatically put the result of this code in the response object. It will not be displayed in the template, but made available for future `include_slot()` calls, like the one in Listing 7-14.
+
+Slots are very useful to define zones meant to display contextual content. They can also be used to add HTML code to the layout for certain actions only. For instance, a template displaying the list of the latest news might want to add a link to an RSS feed in the `<head>` part of the layout. This is achieved simply by adding a `'feed'` slot in the layout and overriding it in the template of the list.
+
+If the content of the slot is very short, as this is the case when defining a `title` slot for example, you can simply pass the content as a second argument of the `slot()` method as shown in Listing 7-17.
+
+Listing 7-17 - Using `slot()` to define a short Value
+
+    [php]
+    <?php slot('title', 'The title value') ?>
+
+>**SIDEBAR**
+>Where to find template fragments
+>
+>People working on templates are usually web designers, who may not know symfony very well and may have difficulties finding template fragments, since they can be scattered all over the application. These few guidelines will make them more comfortable with the symfony templating system.
+>
+>First of all, although a symfony project contains many directories, all the layouts, templates, and template fragments files reside in directories named `templates/`. So as far as a web designer is concerned, a project structure can be reduced to something like this:
+>
+>
+>     myproject/
+>       apps/
+>         application1/
+>           templates/       # Layouts for application 1
+>           modules/
+>             module1/
+>               templates/   # Templates and partials for module 1
+>             module2/
+>               templates/   # Templates and partials for module 2
+>             module3/
+>               templates/   # Templates and partials for module 3
+>
+>
+>All other directories can be ignored.
+>
+>When meeting an `include_partial()`, web designers just need to understand that only the first argument is important. This argument's pattern is `module_name/partial_name`, and that means that the presentation code is to be found in `modules/module_name/templates/_partial_name.php`.
+>
+>For the `include_component()` helper, module name and partial name are the first two arguments. As for the rest, a general idea about what helpers are and which helpers are the most common in templates should be enough to start designing templates for symfony applications.
+
+View Configuration
+------------------
+
+In symfony, a view consists of two distinct parts:
+
+  * The HTML presentation of the action result (stored in the template, in the layout, and in the template fragments)
+  * All the rest, including the following:
+
+    * Meta declarations: Keywords, description, or cache duration.
+    * Page title: Not only does it help users with several browser windows open to find yours, but it is also very important for search sites' indexing.
+    * File inclusions: JavaScript and style sheet files.
+    * Layout: Some actions require a custom layout (pop-ups, ads, and so on) or no layout at all (such as Ajax actions).
+
+In the view, all that is not HTML is called view configuration, and symfony provides two ways to manipulate it. The usual way is through the `view.yml` configuration file. It can be used whenever the values don't depend on the context or on database queries. When you need to set dynamic values, the alternative method is to set the view configuration via the `sfResponse` object attributes directly in the action.
+
+>**NOTE**
+>If you ever set a view configuration parameter both via the `sfResponse` object and via the `view.yml` file, the `sfResponse` definition takes precedence.
+
+### The view.yml File
+
+Each module can have one `view.yml` file defining the settings of its views. This allows you to define view settings for a whole module and per view in a single file. The first-level keys of the `view.yml` file are the module view names. Listing 7-18 shows an example of view configuration.
+
+Listing 7-18 - Sample Module-Level `view.yml`
+
+    editSuccess:
+      metas:
+        title: Edit your profile
+
+    editError:
+      metas:
+        title: Error in the profile edition
+
+    all:
+      stylesheets: [my_style]
+      metas:
+        title: My website
+
+>**CAUTION**
+>Be aware that the main keys in the `view.yml` file are view names, not action names. As a reminder, a view name is composed of an action name and an action termination. For instance, if the `edit` action returns `sfView::SUCCESS` (or returns nothing at all, since it is the default action termination), then the view name is `editSuccess`.
+
+The default settings for the module are defined under the `all:` key in the module `view.yml`. The default settings for all the application views are defined in the application `view.yml`. Once again, you recognize the configuration cascade principle:
+
+  * In `apps/frontend/modules/mymodule/config/view.yml`, the per-view definitions apply only to one view and override the module-level definitions.
+  * In `apps/frontend/modules/mymodule/config/view.yml`, the `all:` definitions apply to all the actions of the module and override the application-level definitions.
+  * In `apps/frontend/config/view.yml`, the `default:` definitions apply to all modules and all actions of the application.
+
+>**TIP**
+>Module-level `view.yml` files don't exist by default. The first time you need to adjust a view configuration parameter for a module, you will have to create an empty `view.yml` in its `config/` directory.
+
+After seeing the default template in Listing 7-5 and an example of a final response in Listing 7-6, you may wonder where the header values come from. As a matter of fact, they are the default view settings, defined in the application `view.yml` and shown in Listing 7-19.
+
+Listing 7-19 - Default Application-Level View Configuration, in `apps/frontend/config/view.yml`
+
+    default:
+      http_metas:
+        content-type: text/html
+
+      metas:
+        #title:        symfony project
+        #description:  symfony project
+        #keywords:     symfony, project
+        #language:     en
+        robots:       index, follow
+
+      stylesheets:    [main]
+
+      javascripts:    []
+
+      has_layout:     on
+      layout:         layout
+
+Each of these settings will be described in detail in the "View Configuration Settings" section.
+
+### The Response Object
+
+Although part of the view layer, the response object is often modified by the action. Actions can access the symfony response object, called `sfResponse`, via the `getResponse()` method. Listing 7-20 lists some of the `sfResponse` methods often used from within an action.
+
+Listing 7-20 - Actions Have Access to the `sfResponse` Object Methods
+
+    [php]
+    class mymoduleActions extends sfActions
+    {
+      public function executeIndex()
+      {
+        $response = $this->getResponse();
+
+        // HTTP headers
+        $response->setContentType('text/xml');
+        $response->setHttpHeader('Content-Language', 'en');
+        $response->setStatusCode(403);
+        $response->addVaryHttpHeader('Accept-Language');
+        $response->addCacheControlHttpHeader('no-cache');
+
+        // Cookies
+        $response->setCookie($name, $content, $expire, $path, $domain);
+
+        // Metas and page headers
+        $response->addMeta('robots', 'NONE');
+        $response->addMeta('keywords', 'foo bar');
+        $response->setTitle('My FooBar Page');
+        $response->addStyleSheet('custom_style');
+        $response->addJavaScript('custom_behavior');
+      }
+    }
+
+In addition to the setter methods shown here, the `sfResponse` class has getters that return the current value of the response attributes.
+
+The header setters are very powerful in symfony. Headers are sent as late as possible (in the `sfRenderingFilter`), so you can alter them as much as you want and as late as you want. They also provide very useful shortcuts. For instance, if you don't specify a charset when you call `setContentType()`, symfony automatically adds the default charset defined in the `settings.yml` file.
+
+    [php]
+    $response->setContentType('text/xml');
+    echo $response->getContentType();
+     => 'text/xml; charset=utf-8'
+
+The status code of responses in symfony is compliant with the HTTP specification. Exceptions return a status 500, pages not found return a status 404, normal pages return a status 200, pages not modified can be reduced to a simple header with status code 304 (see Chapter 12 for details), and so on. But you can override these defaults by setting your own status code in the action with the `setStatusCode()` response method. You can specify a custom code and a custom message, or simply a custom code--in which case, symfony will add the most common message for this code.
+
+    [php]
+    $response->setStatusCode(404, 'This page does not exist');
+
+>**TIP**
+>Before sending the headers, symfony normalizes their names. So you don't need to bother about writing `content-language` instead of `Content-Language` in a call to `setHttpHeader()`, as symfony will understand the former and automatically transform it to the latter.
+
+### View Configuration Settings
+
+You may have noticed that there are two kinds of view configuration settings:
+
+  * The ones that have a unique value (the value is a string in the `view.yml` file and the response uses a `set` method for those)
+  * The ones with multiple values (for which `view.yml` uses arrays and the response uses an `add` method)
+
+Keep in mind that the configuration cascade erases the unique value settings but piles up the multiple values settings. This will become more apparent as you progress through this chapter.
+
+#### Meta Tag Configuration
+
+The information written in the `<meta>` tags in the response is not displayed in a browser but is useful for robots and search engines. It also controls the cache settings of every page. Define these tags under the `http_metas:` and `metas:` keys in `view.yml`, as in Listing 7-21, or with the `addHttpMeta()` and `addMeta()` response methods in the action, as in Listing 7-22.
+
+Listing 7-21 - Meta Definition As Key: Value Pairs in `view.yml`
+
+    http_metas:
+      cache-control: public
+
+    metas:
+      description:   Finance in France
+      keywords:      finance, France
+
+Listing 7-22 - Meta Definition As Response Settings in the Action
+
+    [php]
+    $this->getResponse()->addHttpMeta('cache-control', 'public');
+    $this->getResponse()->addMeta('description', 'Finance in France');
+    $this->getResponse()->addMeta('keywords', 'finance, France');
+
+Adding an existing key will replace its current content by default. For HTTP meta tags, you can add a third parameter and set it to `false` to have the `addHttpMeta()` method (as well as the `setHttpHeader()`) append the value to the existing one, rather than replacing it.
+
+    [php]
+    $this->getResponse()->addHttpMeta('accept-language', 'en');
+    $this->getResponse()->addHttpMeta('accept-language', 'fr', false);
+    echo $this->getResponse()->getHttpHeader('accept-language');
+     => 'en, fr'
+
+In order to have these meta tags appear in the final document, the `include_http_metas()` and `include_metas()` helpers must be called in the `<head>` section (this is the case in the default layout; see Listing 7-5). Symfony automatically aggregates the settings from all the `view.yml` files (including the default one shown in Listing 7-18) and the response attribute to output proper `<meta>` tags. The example in Listing 7-21 ends up as shown in Listing 7-23.
+
+Listing 7-23 - Meta Tags Output in the Final Page
+
+    [php]
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Finance in France" />
+    <meta name="keywords" content="finance, France" />
+
+As a bonus, the HTTP header of the response is also impacted by the `http-metas:` definition, even if you don't have any `include_http_metas()` helpers in the layout, or if you have no layout at all. For instance, if you need to send a page as plain text, define the following `view.yml`:
+
+    http_metas:
+      content-type: text/plain
+
+    has_layout: false
+
+#### Title Configuration
+
+The page title is a key part to search engine indexing. It is also very useful with modern browsers that provide tabbed browsing. In HTML, the title is both a tag and meta information of the page, so the `view.yml` file sees the `title:` key as a child of the `metas:` key. Listing 7-24 shows the title definition in `view.yml`, and Listing 7-25 shows the definition in the action.
+
+Listing 7-24 - Title Definition in `view.yml`
+
+    indexSuccess:
+      metas:
+        title: Three little piggies
+
+Listing 7-25 - Title Definition in the Action--Allows for Dynamic Titles
+
+    [php]
+    $this->getResponse()->setTitle(sprintf('%d little piggies', $number));
+
+In the `<head>` section of the final document, the title definition sets the `<meta name="title">` tag if the `include_metas()` helper is present, and the `<title>` tag if the `include_title()` helper is present. If both are included (as in the default layout of Listing 7-5), the title appears twice in the document source (see Listing 7-6), which is harmless.
+
+#### File Inclusion Configuration
+
+Adding a specific style sheet or JavaScript file to a view is easy, as Listing 7-26 demonstrates.
+
+Listing 7-26 - Asset File Inclusion
+
+    // In the view.yml
+    indexSuccess:
+      stylesheets: [mystyle1, mystyle2]
+      javascripts: [myscript]
+
+    [php]
+    // In the Action
+    $this->getResponse()->addStylesheet('mystyle1');
+    $this->getResponse()->addStylesheet('mystyle2');
+    $this->getResponse()->addJavascript('myscript');
+
+    // In the Template
+    <?php use_stylesheet('mystyle1') ?>
+    <?php use_stylesheet('mystyle2') ?>
+    <?php use_javascript('myscript') ?>
+    
+In each case, the argument is a file name. If the file has a logical extension (`.css` for a style sheet and `.js` for a JavaScript file), you can omit it. If the file has a logical location (`/css/` for a style sheet and `/js/` for a JavaScript file), you can omit it as well. Symfony is smart enough to figure out the correct extension or location.
+
+Unlike the meta and title definitions, the file inclusion definitions don't require any helper in the template or layout to be included. This means that the previous settings will output the HTML code of Listing 7-27, whatever the content of the template and the layout.
+
+Listing 7-27 - File Inclusion Result--No Need for a Helper Call in the Layout
+
+    [php]
+    <head>
+    ...
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/mystyle1.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/mystyle2.css" />
+    <script language="javascript" type="text/javascript" src="/js/myscript.js">
+    </script>
+    </head>
+
+>**NOTE**
+>Style sheet and JavaScript inclusions in the response are performed by a filter called `sfCommonFilter`. It looks for a `<head>` tag in the response, and adds the `<link>` and `<script>` just before the closing `</head>`. This means that the inclusion can't take place if there is no `<head>` tag in your layout or templates.
+
+Remember that the configuration cascade principle applies, so any file inclusion defined in the application `view.yml` makes it appear in every page of the application. Listings 7-28, 7-29, and 7-30 demonstrate this principle.
+
+Listing 7-28 - Sample Application `view.yml`
+
+    default:
+      stylesheets: [main]
+
+Listing 7-29 - Sample Module `view.yml`
+
+    indexSuccess:
+      stylesheets: [special]
+
+    all:
+      stylesheets: [additional]
+
+Listing 7-30 - Resulting `indexSuccess` View
+
+    [php]
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/additional.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/special.css" />
+
+If you need to remove a file defined at a higher level, just add a minus sign (`-`) in front of the file name in the lower-level definition, as shown in Listing 7-31.
+
+Listing 7-31 - Sample Module `view.yml` That Removes a File Defined at the Application Level
+
+    indexSuccess:
+      stylesheets: [-main, special]
+
+    all:
+      stylesheets: [additional]
+
+To remove all style sheets or JavaScript files, use `-*` as a file name, as shown in Listing 7-32.
+
+Listing 7-32 - Sample Module `view.yml` That Removes all Files Defined at the Application Level
+
+    indexSuccess:
+      stylesheets: [-*]
+      javascripts: [-*]
+
+You can be more accurate and define an additional parameter to force the position where to include the file (first or last position), as shown in Listing 7-33. This works for boths style sheets and JavaScript files.
+
+Listing 7-33 - Defining the Position of the Included Asset
+
+    // In the view.yml
+    indexSuccess:
+      stylesheets: [special: { position: first }]
+
+    [php]
+    // In the action
+    $this->getResponse()->addStylesheet('special', 'first');
+    
+    // In the template
+    <?php use_stylesheet('special', 'first') ?>
+
+**New in symfony 1.1**: You can also decide to bypass the transformation of the asset file name, so that the resulting `<link>` or `<script>` tags refer to the exact location specified, as show in Listing 7-34.
+
+Listing 7-34 - Style Sheet Inclusion with Raw Name
+
+    // In the view.yml
+    indexSuccess:
+      stylesheets: [main, paper: { raw_name: true }]
+
+    [php]
+    // In the Action
+    $this->getResponse()->addStylesheet('main', '', array('raw_name' => true));
+    
+    // In the template
+    <?php use_stylesheet('main', '', array('raw_name' => true)) ?>
+    
+    // Resulting View
+    <link rel="stylesheet" type="text/css" href="main" />
+
+To specify media for a style sheet inclusion, you can change the default style sheet tag options, as shown in Listing 7-35.
+
+Listing 7-35 - Style Sheet Inclusion with Media
+
+    // In the view.yml
+    indexSuccess:
+      stylesheets: [main, paper: { media: print }]
+
+    [php]
+    // In the Action
+    $this->getResponse()->addStylesheet('paper', '', array('media' => 'print'));
+    
+    // In the template
+    <?php use_stylesheet('paper', '', array('media' => 'print')) ?>
+    
+    // Resulting View
+    <link rel="stylesheet" type="text/css" media="print" href="/css/paper.css" />
+
+#### Layout Configuration
+
+According to the graphical charter of your website, you may have several layouts. Classic websites have at least two: the default layout and the pop-up layout.
+
+You have already seen that the default layout is `myproject/apps/frontend/templates/layout.php`. Additional layouts must be added in the same global `templates/` directory. If you want a view to use a `frontend/templates/my_layout.php` file, use the syntax shown in Listing 7-36.
+
+Listing 7-36 - Layout Definition 
+
+    // In view.yml
+    indexSuccess:
+      layout: my_layout
+
+    [php]
+    // In the action
+    $this->setLayout('my_layout');
+    
+    // In the template
+    <?php decorate_with('my_layout') ?>
+
+Some views don't need any layout at all (for instance, plain text pages or RSS feeds). In that case, set `has_layout` to `false`, as shown in Listing 7-37.
+
+Listing 7-37 - Layout Removal 
+
+    // In `view.yml`
+    indexSuccess:
+      has_layout: false
+    
+    [php]
+    // In the Action
+    $this->setLayout(false);
+    
+    // In the template
+    <?php decorate_with(false) ?>
+
+>**NOTE**
+>Ajax actions views have no layout by default.
+
+Component Slots
+---------------
+
+Combining the power of view components and view configuration brings a new perspective to view development: the component slot system. It is an alternative to slots focusing on reusability and layer separation. So component slots are more structured than slots, but a little slower to execute.
+
+Just like slots, component slots are named placeholders that you can declare in the view elements. The difference resides in the way the filling code is determined. For a slot, the code is set in another view element; for a component slot, the code results from the execution of a component, and the name of this component comes from the view configuration. You will understand component slots more clearly after seeing them in action.
+
+To set a component slot placeholder, use the `include_component_slot()` helper. This function expects a label as a parameter. For instance, suppose that the `layout.php` file of the application contains a contextual sidebar. Listing 7-38 shows how the component slot helper would be included.
+
+Listing 7-38 - Including a Component Slot with the Name `'sidebar'`
+
+    [php]
+    ...
+    <div id="sidebar">
+      <?php include_component_slot('sidebar') ?>
+    </div>
+
+Define the correspondence between the component slot label and a component name in the view configuration. For instance, set the default component for the `sidebar` component slot in the application `view.yml`, under the `components` header. The key is the component slot label; the value must be an array containing a module and a component name. Listing 7-39 shows an example.
+
+Listing 7-39 - Defining the Default `'sidebar'` Slot Component, in `frontend/config/view.yml`
+
+    default:
+      components:
+        sidebar:  [bar, default]
+
+So when the layout is executed, the `sidebar` component slot is filled with the result of the `executeDefault()` method of the barComponents class located in the bar module, and this method will display the `_default.php` partial located in `modules/bar/templates/`.
+
+The configuration cascade gives you the ability to override this setting for a given module. For instance, in a `user` module, you may want the contextual component to display the user name and the number of articles that the user published. In that case, specialize the sidebar slot setting in the module `view.yml`, as shown in Listing 7-40.
+
+Listing 7-40 - Specializing the 'sidebar' Slot Component, in `frontend/modules/user/config/view.yml`
+
+    all:
+      components:
+        sidebar:  [bar, user]
+
+The component definitions to handle this slot should look like the ones in Listing 7-41.
+
+Listing 7-41 - Components Used by the 'sidebar' Slot, in `modules/bar/actions/components.class.php`
+
+    [php]
+    class barComponents extends sfComponents
+    {
+      public function executeDefault()
+      {
+      }
+
+      public function executeUser()
+      {
+        $this->current_user = $this->getUser()->getCurrentUser();
+        $c = new Criteria();
+        $c->add(ArticlePeer::AUTHOR_ID, $this->current_user->getId());
+        $this->nb_articles = ArticlePeer::doCount($c);
+      }
+    }
+
+Listing 7-42 shows the views for these two components.
+
+Listing 7-42 - Partials Used by the `'sidebar'` Slot Components, in `modules/bar/templates/`
+
+    [php]
+    // _default.php
+    <p>This zone contains contextual information.</p>
+
+    // _user.php
+    <p>User name: <?php echo $current_user->getName() ?></p>
+    <p><?php echo $nb_articles ?> articles published</p>
+
+Component slots can be used for breadcrumbs, contextual navigations, and dynamic insertions of all kinds. As components, they can be used in the global layout and regular templates, or even in other components. The configuration setting the component of a slot is always taken from the configuration of the last action called.
+
+If you need to suspend the use of a component slot for a given module, just declare an empty module/component for it, as shown in Listing 7-43.
+
+Listing 7-43 - Disabling a Component Slot in `view.yml`
+
+    all:
+      components:
+        sidebar:  []
+
+Output Escaping
+---------------
+
+When you insert dynamic data in a template, you must be sure about the data integrity. For instance, if data comes from forms filled in by anonymous users, there is a risk that it may include malicious scripts intended to launch cross-site scripting (XSS) attacks. You must be able to escape the output data, so that any HTML tag it contains becomes harmless.
+
+As an example, suppose that a user fills an input field with the following value:
+
+    [php]
+    <script>alert(document.cookie)</script>
+
+If you echo this value without caution, the JavaScript will execute on every browser and allow for much more dangerous attacks than just displaying an alert. This is why you must escape the value before displaying it, so that it becomes something like this:
+
+    [php]
+    &lt;script&gt;alert(document.cookie)&lt;/script&gt;
+
+You could escape your output manually by enclosing every unsure value in a call to `htmlspecialchars()`, but that approach would be very repetitive and error-prone. Instead, symfony provides a special system, called output escaping, which automatically escapes every variable output in a template. It is activated by a simple parameter in the application `settings.yml`.
+
+### Activating Output Escaping
+
+Output escaping is configured globally for an application in the `settings.yml` file. Two parameters control the way that output escaping works: the strategy determines how the variables are made available to the view, and the method is the default escaping function applied to the data.
+
+Basically, all you need to do to activate output escaping is to set the `escaping_strategy` parameter to `on` instead of its default value `off`, as shown in Listing 7-44.
+
+Listing 7-44 - Activating Output Escaping, in `frontend/config/settings.yml`
+
+    all:
+      .settings:
+        escaping_strategy: on
+        escaping_method:   ESC_SPECIALCHARS
+
+This will add `htmlspecialchars()` to all variable output by default. For instance, suppose that you define a `test` variable in an action as follows:
+
+    [php]
+    $this->test = '<script>alert(document.cookie)</script>';
+
+With output escaping turned on, echoing this variable in the template will output the escaped data:
+
+    [php]
+    echo $test;
+     => &lt;script&gt;alert(document.cookie)&lt;/script&gt;
+
+In addition, every template has access to an `$sf_data` variable, which is a container object referencing all the escaped variables. So you can also output the test variable with the following:
+
+    [php]
+    echo $sf_data->get('test');
+    => &lt;script&gt;alert(document.cookie)&lt;/script&gt;
+
+>**TIP**
+>The $sf_data object implements the Array interface, so instead of using the `$sf_data->get('myvariable')`, you can retrieve escaped values by calling `$sf_data['myvariable']`. But it is not a real array, so functions like `print_r()` will not work as expected.
+
+`$sf_data` also gives you access to the unescaped, or raw, data. This is useful when a variable stores HTML code meant to be interpreted by the browser, provided that you trust this variable. Call the `getRaw()` method when you need to output the raw data.
+
+    [php]
+    echo $sf_data->getRaw('test');
+     => <script>alert(document.cookie)</script>
+
+You will have to access raw data each time you need variables containing HTML to be really interpreted as HTML. You can now understand why the default layout uses `$sf_data->getRaw('sf_content')` to include the template, rather than a simpler `$sf_content`, which breaks when output escaping is activated.
+
+When `escaping_strategy` is `off`, `$sf_data` is still available, but it always returns raw data.
+
+>**TIP**
+>Symfony 1.0 had two other possible values for `escaping_strategy`. `bc` now fallbacks to `off`, and `both` now fallbacks to `on`. Using any of these values still work, but will log an error.
+
+### Escaping Helpers
+
+Escaping helpers are functions returning an escaped version of their input. They can be provided as a default `escaping_method` in the `settings.yml` file or to specify an escaping method for a specific value in the view. The following escaping helpers are available:
+
+  * `ESC_RAW`: Doesn't escape the value.
+  * `ESC_SPECIALCHARS`: Applies the PHP function `htmlspecialchars()` to the input.
+  * `ESC_ENTITIES`: Applies the PHP function `htmlentities()` to the input with `ENT_QUOTES` as the quote style.
+  * `ESC_JS`: Escapes a value to be put into a JavaScript string that is going to be used as HTML. This is useful for escaping things where HTML is going to be dynamically changed using JavaScript.
+  * `ESC_JS_NO_ENTITIES`: Escapes a value to be put into a JavaScript string but does not add entities. This is useful if the value is going to be displayed using a dialog box (for example, for a `myString` variable used in `javascript:alert(myString);`).
+
+### Escaping Arrays and Objects
+
+Output escaping not only works for strings, but also for arrays and objects. Any values that are objects or arrays will pass on their escaped state to their children. Assuming your strategy is set to `on`, Listing 7-45 demonstrates the escaping cascade.
+
+Listing 7-45 - Escaping Also Works for Arrays and Objects
+
+    [php]
+    // Class definition
+    class myClass
+    {
+      public function testSpecialChars($value = '')
+      {
+        return '<'.$value.'>';
+      }
+    }
+
+    // In the action
+    $this->test_array = array('&', '<', '>');
+    $this->test_array_of_arrays = array(array('&'));
+    $this->test_object = new myClass();
+
+    // In the template
+    <?php foreach($test_array as $value): ?>
+      <?php echo $value ?>
+    <?php endforeach; ?>
+     => &amp; &lt; &gt;
+    <?php echo $test_array_of_arrays[0][0] ?>
+     => &amp;
+    <?php echo $test_object->testSpecialChars('&') ?>
+     => &lt;&amp;&gt;
+
+As a matter of fact, the variables in the template are not of the type you might expect. The output escaping system "decorates" them and transforms them into special objects:
+
+    [php]
+    <?php echo get_class($test_array) ?>
+     => sfOutputEscaperArrayDecorator
+    <?php echo get_class($test_object) ?>
+     => sfOutputEscaperObjectDecorator
+
+This explains why some usual PHP functions (like `array_shift()`, `print_r()`, and so on) don't work on escaped arrays anymore. But they can be still be accessed using `[]`, be traversed using `foreach`, and they give back the right result with `count()` (`count()` works only with PHP 5.2 or later). And in templates, the data should be read-only anyway, so most access will be through the methods that do work.
+
+You still have a way to retrieve the raw data through the `$sf_data` object. In addition, methods of escaped objects are altered to accept an additional parameter: an escaping method. So you can choose an alternative escaping method each time you display a variable in a template, or opt for the `ESC_RAW` helper to deactivate escaping. See Listing 7-46 for an example.
+
+Listing 7-46 - Methods of Escaped Objects Accept an Additional Parameter
+
+    [php]
+    <?php echo $test_object->testSpecialChars('&') ?>
+    => &lt;&amp;&gt;
+    // The three following lines return the same value
+    <?php echo $test_object->testSpecialChars('&', ESC_RAW) ?>
+    <?php echo $sf_data->getRaw('test_object')->testSpecialChars('&') ?>
+    <?php echo $sf_data->get('test_object', ESC_RAW)->testSpecialChars('&') ?>
+     => <&>
+
+If you deal with objects in your templates, you will use the additional parameter trick a lot, since it is the fastest way to get raw data on a method call.
+
+>**CAUTION**
+>The usual symfony variables are also escaped when you turn on output escaping. So be aware that `$sf_user`, `$sf_request`, `$sf_param`, and `$sf_context` still work, but their methods return escaped data, unless you add `ESC_RAW` as a final argument to their method calls.
+
+>**TIP**
+>**New in symfony 1.1**: Even if XSS is one of the most common exploit of websites, this is not the only one. CSRF is also very popular and symfony provides automatic forms protection.
+
+Summary
+-------
+
+All kinds of tools are available to manipulate the presentation layer. The templates are built in seconds, thanks to helpers. The layouts, partials, components, and component slots bring both modularity and reusability. The view configuration takes advantage of the speed of YAML to handle (mostly) page headers. The configuration cascade exempts you from defining every setting for each view. For every modification of the presentation that depends on dynamic data, the action has access to the `sfResponse` object. And the view is secure from XSS attacks, thanks to the output escaping system.

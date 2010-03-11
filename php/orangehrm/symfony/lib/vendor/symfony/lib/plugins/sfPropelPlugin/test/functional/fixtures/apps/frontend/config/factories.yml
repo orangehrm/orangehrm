@@ -1,0 +1,119 @@
+prod:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+
+cli:
+  controller:
+    class: sfConsoleController
+  request:
+    class: sfConsoleRequest
+  response:
+    class: sfConsoleResponse
+
+test:
+  response:
+    class: sfWebResponse
+    param:
+      send_http_headers: false
+
+  storage:
+    class: sfSessionTestStorage
+    param:
+      session_path: %SF_TEST_CACHE_DIR%/sessions
+
+#all:
+#  controller:
+#    class: sfFrontWebController
+#
+#  request:
+#    class: sfWebRequest
+#    param:
+#      formats:
+#        txt:  text/plain
+#        js:   [application/javascript, application/x-javascript, text/javascript]
+#        css:  text/css
+#        json: [application/json, application/x-json]
+#        xml:  [text/xml, application/xml, application/x-xml]
+#        rdf:  application/rdf+xml
+#        atom: application/atom+xml
+#
+#  response:
+#    class: sfWebResponse
+#    param:
+#      logging: %SF_LOGGING_ENABLED%
+#      charset: %SF_CHARSET%
+#
+#  user:
+#    class: myUser
+#    param:
+#      timeout:         1800
+#      logging:         %SF_LOGGING_ENABLED%
+#      use_flash:       true
+#      default_culture: %SF_DEFAULT_CULTURE%
+#
+#  storage:
+#    class: sfSessionStorage
+#    param:
+#      session_name: symfony
+#
+#  view_cache:
+#    class: sfFileCache
+#    param:
+#      automatic_cleaning_factor: 0
+#      cache_dir:                 %SF_TEMPLATE_CACHE_DIR%
+#      lifetime:                  86400
+#      prefix:                    %SF_APP_DIR%
+#
+#  i18n:
+#    class: sfI18N
+#    param:
+#      source:               XLIFF
+#      debug:                off
+#      untranslated_prefix:  "[T]"
+#      untranslated_suffix:  "[/T]"
+#      cache:
+#        class: sfFileCache
+#        param:
+#          automatic_cleaning_factor: 0
+#          cache_dir:                 %SF_I18N_CACHE_DIR%
+#          lifetime:                  86400
+#          prefix:                    %SF_APP_DIR%
+#
+#  routing:
+#    class: sfPatternRouting
+#    param:
+#      load_configuration: true
+#      suffix:             .
+#      default_module:     default
+#      default_action:     index
+#      variable_prefixes:  [':']
+#      segment_separators: ['/', '.']
+#      variable_regex:     '[\w\d_]+'
+#      debug:              %SF_DEBUG%
+#      logging:            %SF_LOGGING_ENABLED%
+#      cache:
+#        class: sfFileCache
+#        param:
+#          automatic_cleaning_factor: 0
+#          cache_dir:                 %SF_CONFIG_CACHE_DIR%/routing
+#          lifetime:                  31556926
+#          prefix:                    %SF_APP_DIR%
+#
+#  logger:
+#    class: sfAggregateLogger
+#    param:
+#      loggers:
+#        sf_web_debug:
+#          class: sfWebDebugLogger
+#          param:
+#            level: debug
+#            condition:      %SF_WEB_DEBUG%
+#            xdebug_logging: true
+#        sf_file_debug:
+#          class: sfFileLogger
+#          param:
+#            level: debug
+#            file: %SF_LOG_DIR%/%SF_APP%_%SF_ENVIRONMENT%.log

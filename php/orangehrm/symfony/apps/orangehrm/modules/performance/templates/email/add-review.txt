@@ -1,0 +1,12 @@
+Hi #reviewerName,
+
+You were added as the reviewer of following Performance Review.
+You can locate this review by logging in and navigating to
+Performance > Search Review
+
+Employee : #empName
+Period : #period
+Due Date : #dueDate
+
+Regards,
+OrangeHRM.

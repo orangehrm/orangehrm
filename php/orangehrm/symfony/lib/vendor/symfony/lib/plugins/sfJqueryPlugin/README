@@ -1,0 +1,141 @@
+= Jquery Plug-In =
+
+The `sfJqueryPlugin` offers helpers that integrate the [http://www.jquery.com/ Jquery] Javascript framework.
+
+== Support ==
+#symfony channel @ Freenode IRC.
+
+== Maintainer ==
+Please report all bugs to Fourat Zouari <fourat[at]gmail[dot]com> (loca|host on IRC)
+
+== Licence ==
+This plugin is licensed under the MIT license. For the full copyright and license information, please view the LICENSE file that was distributed with this source code.
+
+== Introduction ==
+
+Jquery is offering an easy API, very well documented and can be a good replacement for the Prototype framework wich's used by default on symfony Javascript's helper.
+
+And since Jquery comes with its powerfull JqueryUI to do effects easily, there's no need to implement scriptaculous.
+
+The integration of `sfJqueryPlugin` is made simple, developers will have to use the new `jQuery` helper and prefix the old ''prototyped'' methods with '''jq_'''.
+
+So the prototype method:
+
+{{{
+<?php echo link_to_remote(....);?>
+}}}
+
+will get this new Jquery form:
+
+{{{
+<?php echo jq_link_to_remote(....);?>
+}}}
+
+== Installation ==
+
+  * Install the plugin
+{{{
+$ symfony plugin-install http://plugins.symfony-project.com/sfJqueryPlugin
+}}}
+  * Alternatively, if you don't have PEAR installed, you can download the latest package attached to this plugin's wiki page and extract it under your project's `plugins/` directory
+  * Download the jquery file from www.jquery.com and put it in:
+{{{
+web/js/jq/jquery.js
+}}}
+
+  You can choose to put the jQuery library somewhere alse, but then you'll need to customize the `app_sfJQueryPlugin_library_path` setting in your `app.yml`.
+
+== Basic syntax ==
+
+=== Declaring the helper in templates ===
+
+ * Inside a template
+{{{
+<?php use_helper('jQuery') ?>
+}}}
+
+ * In `settings.yml`, for all modules
+{{{
+standard_helpers:       [..., jQuery]
+}}}
+
+=== Using Jquery methods ===
+
+To use Jquery methods, refer to ''Chapter 11'' [http://www.symfony-project.com/book/1_0/11-Ajax-Integration Ajax Integration], all helper functions described on the chapter can be used with the '''jq_''' prefix.
+
+== jQuery Helpers documentation ==
+
+Below are complete syntax for ready to use methods in the jQuery Helpers.
+
+ * `jq_periodically_call_remote($options = array())`
+ * `jq_link_to_function($name, $function, $html_options = array())`
+ * `jq_link_to_remote($name, $options = array(), $html_options = array())`
+ * `jq_update_element_function($element_id, $options = array())`
+ * `jq_form_remote_tag($options = array(), $options_html = array())`
+ * `jq_submit_to_remote($name, $value, $options = array(), $options_html = array())`
+ * `jq_javascript_tag($content)`
+
+These are the methods reconverted into jQuery functions till the `sfJqueryPlugin` last version. Future changes will integrate more functions.
+
+== Using JSON ==
+http://trac.symfony-project.com/wiki/AjaxAndJSON#jsonwithoutheader and:
+{{{
+<?php echo jq_link_to_remote(image_tag('icons/delete.png'),
+                             array('url'      => '@delete')),
+                                   'dataType' => 'json',
+                                   'success'  => 'leaveGroup(request)')) ?>
+}}}
+
+== TODO ==
+
+ * Add unit tests
+ * Use `sprintf` for string manipulation
+ * Implement the rest of the Javascript Helper:
+    * visual_effect
+    * sortable_element
+    * draggable_element
+    * drop_receiving_element
+    * input_auto_complete_tag
+    * input_in_place_editor_tag
+
+== Changelog ==
+
+=== Trunk ===
+
+ * Tiago.Ribeiro: Added JSON dataType support
+ * Tiago.Ribeiro: Removed escaping from 'with' parameter
+ * Tiago.Ribeiro: Added request parameter to `complete` callback
+ * francois: Replaced `$` by `jQuery`
+ * francois: Made the jQuery lib file configurable
+
+=== 2007-10-17 | 1.0.0 Stable ===
+
+  * fourat: success, complete, beforeSend and error .ajax options updated just as the jQuery documentation.
+
+=== 2007-10-17 | 0.0.8 Beta ===
+
+  * fourat: Fixed data parameter handling in `jq_remote_function()`.
+
+=== 2007-10-16 | 0.0.7 Beta ===
+
+  * fourat: Fixed dataType parameter handling in `jq_remote_function()`.
+
+=== 2007-10-15 | 0.0.6 Beta ===
+
+  * fourat: Jquery has fixed the documentation and now providing a dataType:text to forbid script execution in returned data (see ticket [http://dev.jquery.com/ticket/1788 1788])
+
+=== 2007-10-11 | 0.0.5 Beta ===
+
+  * fourat: Fixed `method` parameter and data serialisation in `jq_remote_function`.
+
+=== 2007-10-10 | 0.0.4 Beta ===
+
+  * fourat: Initial release
+  * fourat: Implementing basic ajax functions:
+    * jq_periodically_call_remote
+    * jq_link_to_function
+    * jq_link_to_remote
+    * jq_update_element_function
+    * jq_form_remote_tag
+    * jq_submit_to_remote
+    * jq_javascript_tag

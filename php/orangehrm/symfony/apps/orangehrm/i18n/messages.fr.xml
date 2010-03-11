@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Company Name</source>
+        <target>A propos de Jobeet</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>First </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Previous</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Next</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Last</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Job : Employment Status</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Search By</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>--Select--</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Search</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Reset</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Add</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Delete</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Employment Status ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Employment Status Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>Back</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Qualification : Licenses</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Code</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Description</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Edit</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Fields marked with an asterisk #star are required.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Memberships : Membership</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Membership Type</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Job : EEO Job Category</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Title</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Skills : Skills</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Save</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Qualification : Education</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Education ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Course</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Institute</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Company Info : General</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Number of Employees</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Tax ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>NAICS</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Phone</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Fax</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Country</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Address1</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>Address2</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>City</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>State / Province</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>ZIP Code</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>Comments</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Duties</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Memberships : Membership Types</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Membership Type ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Membership Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>Company Info: Company Property</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>Property Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>Project</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Customer Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>Memberships : Membership Type</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>Customer</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>Nationality &amp; Race : Nationality</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Custom Fields</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Field Number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Field Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Type</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>String</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Drop Down</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Company Info : Locations</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>Address</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Job : Pay Grade</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Job : Job Title</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Job Title ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Job Title Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Job Description</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Job Title Comments</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Pay Grade</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Job : Pay Grades</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Search For:</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Pay Grade ID </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>Pay Grade Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>License ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>License Description</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Nationality &amp; Race :Ethnic Races</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Ethnic Race ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Ethnic Race Name </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Skill ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Skill Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>EEO Job Category Id</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>EEO Job Category Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Memberships : Memberships</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Property Name </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Project Administrators</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Customers</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Customer Id</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Job : Job Specifications</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Nationality ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Nationality Name </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Projects</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Project Id</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Project Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Skills : Languages</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Custom Field Id</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Custom Field Name </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Language ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Language Name </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>City Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Location ID</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Location Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Please select a field to search</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Select at least one record to delete</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Employee Information</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Search For</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Employee Id</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Employee Name</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Job Title</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Employment Status</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Sub-Division</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Supervisor</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,69 @@
+methods:
+  post: [name, email, age, message, image, password, password_bis]
+  get:  [name]
+
+fillin:
+  enabled:       Yes
+
+names:
+  name:
+    required:     on
+    required_msg: The name field cannot be left blank
+    validators:   [myStringValidator]
+  email:
+    required:     on
+    required_msg: The email field cannot be left blank
+    validators:   [myStringValidator, sfEmailValidator_email]
+  age:
+    required:     off
+    validators:   [sfNumberValidator_age]
+  message:
+    required:     on
+    required_msg: The message field cannot be left blank
+  image:
+    required:     on
+    required_msg: Please upload an image file
+    validators:   [sfFileValidator_image]
+    file:         true
+  password:
+    group:        foo
+    required:     off
+    required_msg: This is required
+  password_bis:
+    group:        foo
+    required:     off
+    required_msg: This is required bis
+
+myStringValidator:
+  class: sfStringValidator
+  param:
+    min:       2
+    min_error: This field is too short (2 characters minimum)
+    max:       100
+    max_error: This field is too long (100 characters maximum)
+
+sfEmailValidator_email:
+  class: sfEmailValidator
+  param:
+    email_error:  This email address is invalid
+
+sfNumberValidator_age:
+  class: sfNumberValidator
+  param:
+    nan_error:    Please enter an integer
+    min:          0
+    min_error:    "You're not even born. How do you want to send a message?"
+    max:          120
+    max_error:    "Hey, grandma, aren't you too old to surf on the Internet?"
+
+sfFileValidator_image:
+  class:              sfFileValidator
+  param:
+    mime_types:       
+      - 'image/jpeg'
+      - 'image/png'
+      - 'image/x-png'
+      - 'image/pjpeg'        
+    mime_types_error: Only PNG and JPEG images are allowed
+    max_size:         512000
+    max_size_error:   Max size is 512Kb

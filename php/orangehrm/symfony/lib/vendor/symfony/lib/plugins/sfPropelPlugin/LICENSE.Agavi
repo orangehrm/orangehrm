@@ -1,0 +1,14 @@
+On behalf of Veikko Mäkinen, the original author of Agavi's CreoleSessionStorage, I hereby grant you a special, non-exclusive, worldwide, royalty-free, perpetual license to include and modify the CreoleSessionStorage in the symfony project under a license other than the GNU Lesser General Public License, subject to the following conditions:
+
+1) you must include and leave intact all copyright notices in the respective parts of the source code, if applicable.
+2) you must add a note to the source code stating that the original version the file is based on is licensed under the LGPL, but a special license was granted.
+3) you must either
+  a) include this special license in a LICENSE.Agavi file, and reference it in the COPYRIGHT file, along with the proper copyright information and a note about the special character of this license, deviating from the original LGPL license, or
+  b) include the copyright information and the license itself and make clear the existance and background of this license agreement in a manner of your choice, provided that it is of similar nature to that of other such information about third-party intellectual property bundled with symfony.
+
+December 8, 2006
+Munich, Germany
+
+David Zülke
+Lead Developer
+The Agavi Project

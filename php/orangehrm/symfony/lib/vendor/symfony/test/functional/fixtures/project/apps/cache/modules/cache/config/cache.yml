@@ -1,0 +1,55 @@
+_contextualCacheableComponent:
+  enabled:    on
+  contextual: true
+
+_contextualComponent:
+  enabled:    off
+  contextual: true
+
+_cacheableComponent:
+  enabled:  on
+
+_component:
+  enabled:  off
+
+_contextualCacheablePartial:
+  enabled:    on
+  contextual: true
+
+_contextualPartial:
+  enabled:    off
+  contextual: true
+
+_cacheablePartial:
+  enabled:  on
+
+_partial:
+  enabled:  off
+
+multi:
+  enabled:  off
+
+multiBis:
+  enabled:  off
+
+specificCacheKey:
+  enabled:  off
+
+action:
+  enabled:     on
+  with_layout: off
+
+page:
+  with_layout: true
+
+imageWithLayoutCacheWithLayout:
+  with_layout: true
+
+imageWithLayoutCacheNoLayout:
+  with_layout: false
+
+imageNoLayoutCacheWithLayout:
+  with_layout: true
+
+imageNoLayoutCacheNoLayout:
+  with_layout: false

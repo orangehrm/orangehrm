@@ -1,0 +1,53 @@
+fillin:
+  enabled:       Yes
+
+validators:
+  myStringValidator:
+    class: sfStringValidator
+    param:
+      min:       2
+      min_error: This field is too short (2 characters minimum)
+      max:       100
+      max_error: This field is too long (100 characters maximum)
+
+fields:
+  name:
+    required:
+      msg:       The name field cannot be left blank
+    myStringValidator:
+    methods:     [get, post]
+  email:
+    required:
+      msg:       The email field cannot be left blank
+    myStringValidator:
+    sfEmailValidator:
+      email_error:  This email address is invalid
+  age:
+    sfNumberValidator:
+      nan_error:    Please enter an integer
+      min:          0
+      min_error:    "You're not even born. How do you want to send a message?"
+      max:          120
+      max_error:    "Hey, grandma, aren't you too old to surf on the Internet?"
+  message:
+    required:
+      msg:          The message field cannot be left blank
+  image:
+    required:
+      msg:          Please upload an image file
+    file:           true
+    sfFileValidator:
+      mime_types:
+        - 'image/jpeg'
+        - 'image/png'
+        - 'image/x-png'
+        - 'image/pjpeg'
+      mime_types_error: Only PNG and JPEG images are allowed
+      max_size:         512000
+      max_size_error:   Max size is 512Kb
+  password:
+    group:       foo
+    group_msg:   This is required
+  password_bis:
+    group:       foo
+    group_msg:   This is required bis

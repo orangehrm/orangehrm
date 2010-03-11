@@ -1,0 +1,4 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+##CONFIG##

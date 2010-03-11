@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>新規作成</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>編集</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>一覧</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>保存</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>保存して更に追加</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>キャンセル</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>リセット</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>検索</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>データがありません</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>操作</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(ページ %%page%%%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>降順</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>昇順</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>最初のページ</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>前のページ</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>次のページ</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>最後のページ</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>アイテムを作成しました</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>アイテムを更新しました</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>アイテムを作成しました。以下で別のアイテムを追加できます。</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>アイテムを更新しました。以下で別のアイテムを追加できます。</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>エラーのためアイテムを保存できませんでした</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>アイテムを削除しました</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

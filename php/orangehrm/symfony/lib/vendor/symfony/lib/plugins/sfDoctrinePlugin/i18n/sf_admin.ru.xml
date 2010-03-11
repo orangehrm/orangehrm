@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Создать</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Редактировать</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Удалить</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Список</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Сохранить</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Сохранить и добавить</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Отмена</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Очистить</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Фильтр</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Нет результатов</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Действия</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(страница %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>По возрастанию</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>По убыванию</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Первая страница</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Предыдущая страница</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Следующая страница</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Последняя страница</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Объект успешно создан.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Объект успешно изменен.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Объект успешно создан. Вы можете добавить еще один.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Объект успешно обновлен. Вы можете добавить еще один.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Объект не сохранен из-за некоторых ошибок.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Объект успешно удален.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Вы должны выделить как-минимум один объект.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Вы должны выбрать действие, которое будет выполнено с выделенными объектами.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Возникла проблемма при удалении выделенных объектов, так как некоторые объекты больше не существуют.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Выделенные объекты успешно удалены.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Возникла проблемма при удалении выделенных объектов.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,13 @@
+fields:
+  first_name:
+    required:
+      msg:   The first name field cannot be left blank
+
+  last_name:
+    required:
+      msg:   The last name field cannot be left blank
+
+fillin:
+  enabled:  on
+  param:
+    name: myform

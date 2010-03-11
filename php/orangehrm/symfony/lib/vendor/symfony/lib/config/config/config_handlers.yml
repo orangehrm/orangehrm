@@ -1,0 +1,45 @@
+config/autoload.yml:
+  class:    sfAutoloadConfigHandler
+
+config/databases.yml:
+  class:    sfDatabaseConfigHandler
+
+config/settings.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix: sf_
+
+config/app.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix: app_
+
+config/factories.yml:
+  class:    sfFactoryConfigHandler
+
+config/core_compile.yml:
+  class:    sfCompileConfigHandler
+
+config/filters.yml:
+  class:    sfFilterConfigHandler
+
+config/routing.yml:
+  class:    sfRoutingConfigHandler
+
+modules/*/config/generator.yml:
+  class:    sfGeneratorConfigHandler
+
+modules/*/config/view.yml:
+  class:    sfViewConfigHandler
+
+modules/*/config/security.yml:
+  class:    sfSecurityConfigHandler
+
+modules/*/config/cache.yml:
+  class:    sfCacheConfigHandler
+
+modules/*/config/module.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix: mod_
+    module: yes

@@ -1,0 +1,465 @@
+Chapter 13 - I18n And L10n
+==========================
+
+If you ever developed an international application, you know that dealing with every aspect of text translation, local standards, and localized content can be a nightmare. Fortunately, symfony natively automates all the aspects of internationalization.
+
+As it is a long word, developers often refer to internationalization as i18n (count the letters in the word to know why). Localization is referred to as l10n. They cover two different aspects of multilingual web applications.
+
+An internationalized application contains several versions of the same content in various languages or formats. For instance, a webmail interface can offer the same service in several languages; only the interface changes.
+
+A localized application contains distinct information according to the country from which it is browsed. Think about the contents of a news portal: When browsed from the United States, it displays the latest headlines about the United States, but when browsed from France, the headlines concern the French news. So an l10n application not only provides content translation, but the content can be different from one localized version to another.
+
+All in all, dealing with i18n and l10n means that the application can take care of the following:
+
+  * Text translation (interface, assets, and content)
+  * Standards and formats (dates, amounts, numbers, and so on)
+  * Localized content (many versions of a given object according to a country)
+
+This chapter covers the way symfony deals with those elements and how you can use it to develop internationalized and localized applications.
+
+User Culture
+------------
+
+All the built-in i18n features in symfony are based on a parameter of the user session called the culture. The culture is the combination of the country and the language of the user, and it determines how the text and culture-dependent information are displayed. Since it is serialized in the user session, the culture is persistent between pages.
+
+### Setting the Default Culture
+
+By default, the culture of new users is the `default_culture`. You can change this setting in the `settings.yml` configuration file, as shown in Listing 13-1.
+
+Listing 13-1 - Setting the Default Culture, in `frontend/config/settings.yml`
+
+    all:
+      .settings:
+        default_culture: fr_FR
+
+>**NOTE**
+>During development, you might be surprised that a culture change in the `settings.yml` file doesn't change the current culture in the browser. That's because the session already has a culture from previous pages. If you want to see the application with the new default culture, you need to clear the domain cookies or restart your browser.
+
+Keeping both the language and the country in the culture is necessary because you may have a different French translation for users from France, Belgium, or Canada, and a different Spanish content for users from Spain or Mexico. The language is coded in two lowercase characters, according to the ISO 639-1 standard (for instance, `en` for English). The country is coded in two uppercase characters, according to the ISO 3166-1 standard (for instance, `GB` for Great Britain).
+
+### Changing the Culture for a User
+
+The user culture can be changed during the browsing session--for instance, when a user decides to switch from the English version to the French version of the application, or when a user logs in to the application and uses the language stored in his preferences. That's why the `sfUser` class offers getter and setter methods for the user culture. Listing 13-2 shows how to use these methods in an action.
+
+Listing 13-2 - Setting and Retrieving the Culture in an Action
+
+    [php]
+    // Culture setter
+    $this->getUser()->setCulture('en_US');
+
+    // Culture getter
+    $culture = $this->getUser()->getCulture();
+     => en_US
+
+>**SIDEBAR**
+>Culture in the URL
+>
+>When using symfony's localization and internationalization features, pages tend to have different versions for a single URL--it all depends on the user session. This prevents you from caching or indexing your pages in a search engine.
+>
+>One solution is to make the culture appear in every URL, so that translated pages can be seen as different URLs to the outside world. In order to do that, add the `:sf_culture` token in every rule of your application `routing.yml`:
+>
+>
+>     page:
+>       url: /:sf_culture/:page
+>       requirements: { sf_culture: (?:fr|en|de) }
+>       params: ...
+>
+>     article:
+>       url: /:sf_culture/:year/:month/:day/:slug
+>       requirements: { sf_culture: (?:fr|en|de) }
+>       params: ...
+>
+>
+>To avoid manually setting the sf_culture request parameter in every `link_to()`, symfony automatically adds the user culture to the default routing parameters. It also works inbound because symfony will automatically change the user culture if the `sf_culture` parameter is found in the URL.
+
+### Determining the Culture Automatically
+
+In many applications, the user culture is defined during the first request, based on the browser preferences. Users can define a list of accepted languages in their browser, and this data is sent to the server with each request, in the `Accept-Language` HTTP header. You can retrieve it in symfony through the `sfWebRequest` object. For instance, to get the list of preferred languages of a user in an action, type this:
+
+    [php]
+    $languages = $request->getLanguages();
+
+The HTTP header is a string, but symfony automatically parses it and converts it into an array. So the preferred language of the user is accessible with `$languages[0]` in the preceding example.
+
+It can be useful to automatically set the user culture to its preferred browser language in a site home page or in a filter for all pages. But as your website will probably only support a limited set of languages, it's better to use the `getPreferredCulture()` method. It returns the best language by comparing the user preferred languages and the supported languages:
+
+    [php]
+    $language = $request->getPreferredCulture(array('en', 'fr')); // the website is available in English and French
+
+If there is no match, the method returns the first supported language (`en` in the preceding example).
+
+>**CAUTION**
+>The `Accept-Language` HTTP header is not very reliable information, since users rarely know how to modify it in their browser. Most of the time, the preferred browser language is the language of the interface, and browsers are not available in all languages. If you decide to set the culture automatically according to the browser preferred language, make sure you provide a way for the user to choose an alternate language.
+
+Standards and Formats
+---------------------
+
+The internals of a web application don't care about cultural particularities. Databases, for instance, use international standards to store dates, amounts, and so on. But when data is sent to or retrieved from users, a conversion needs to be made. Users won't understand timestamps, and they will prefer to declare their mother language as Français instead of French. So you will need assistance to do the conversion automatically, based on the user culture.
+
+### Outputting Data in the User's Culture
+
+Once the culture is defined, the helpers depending on it will automatically have proper output. For instance, the `format_number()` helper automatically displays a number in a format familiar to the user, according to its culture, as shown in Listing 13-3.
+
+Listing 13-3 - Displaying a Number for the User's Culture
+
+    [php]
+    <?php use_helper('Number') ?>
+
+    <?php $sf_user->setCulture('en_US') ?>
+    <?php echo format_number(12000.10) ?>
+     => '12,000.10'
+
+    <?php $sf_user->setCulture('fr_FR') ?>
+    <?php echo format_number(12000.10) ?>
+     => '12 000,10'
+
+You don't need to explicitly pass the culture to the helpers. They will look for it themselves in the current session object. Listing 13-4 lists helpers that take into account the user culture for their output.
+
+Listing 13-4 - Culture-Dependent Helpers
+
+    [php]
+    <?php use_helper('Date') ?>
+
+    <?php echo format_date(time()) ?>
+     => '9/14/06'
+
+    <?php echo format_datetime(time()) ?>
+     => 'September 14, 2006 6:11:07 PM CEST'
+
+    <?php use_helper('Number') ?>
+
+    <?php echo format_number(12000.10) ?>
+     => '12,000.10'
+
+    <?php echo format_currency(1350, 'USD') ?>
+     => '$1,350.00'
+
+    <?php use_helper('I18N') ?>
+
+    <?php echo format_country('US') ?>
+     => 'United States'
+
+    <?php format_language('en') ?>
+     => 'English'
+
+    <?php use_helper('Form') ?>
+
+    <?php echo input_date_tag('birth_date', mktime(0, 0, 0, 9, 14, 2006)) ?>
+     => input type="text" name="birth_date" id="birth_date" value="9/14/06" size="11" />
+
+    <?php echo select_country_tag('country', 'US') ?>
+     => <select name="country" id="country"><option value="AF">Afghanistan</option>
+          ...
+          <option value="GB">United Kingdom</option>
+          <option value="US" selected="selected">United States</option>
+          <option value="UM">United States Minor Outlying Islands</option>
+          <option value="UY">Uruguay</option>
+          ...
+        </select>
+
+The date helpers can accept an additional format parameter to force a culture-independent display, but you shouldn't use it if your application is internationalized.
+
+### Getting Data from a Localized Input
+
+If it is necessary to show data in the user's culture, as for retrieving data, you should, as much as possible, push users of your application to input already internationalized data. This approach will save you from trying to figure out how to convert data with varying formats and uncertain locality. For instance, who might enter a monetary value with comma separators in an input box?
+
+You can frame the user input format either by hiding the actual data (as in a `select_country_tag()`) or by separating the different components of complex data into several simple inputs.
+
+For dates, however, this is often not possible. Users are used to entering dates in their cultural format, and you need to be able to convert such data to an internal (and international) format. This is where the `sfI18N` class applies. Listing 13-5 demonstrates how this class is used.
+
+Listing 13-5 - Getting a Date from a Localized Format in an Action
+
+    [php]
+    $date= $request->getParameter('birth_date');
+    $user_culture = $this->getUser()->getCulture();
+
+    // Getting a timestamp
+    $timestamp = $this->getContext()->getI18N()->getTimestampForCulture($date, $user_culture);
+
+    // Getting a structured date
+    list($d, $m, $y) = $this->getContext()->getI18N()->getDateForCulture($date, $user_culture);
+
+Text Information in the Database
+--------------------------------
+
+A localized application offers different content according to the user's culture. For instance, an online shop can offer products worldwide at the same price, but with a custom description for every country. This means that the database must be able to store different versions of a given piece of data, and for that, you need to design your schema in a particular way and use culture each time you manipulate localized model objects.
+
+### Creating Localized Schema
+
+For each table that contains some localized data, you should split the table in two parts: one table that does not have any i18n column, and the other one with only the i18n columns. The two tables are to be linked by a one-to-many relationship. This setup lets you add more languages when required without changing your model. Let's consider an example using a `Product` table.
+
+First, create tables in the `schema.yml` file, as shown in Listing 13-6.
+
+Listing 13-6 - Sample Schema for i18n Data, in `config/schema.yml`
+
+    my_connection:
+      my_product:
+        _attributes: { phpName: Product, isI18N: true, i18nTable: my_product_i18n }
+        id:          { type: integer, required: true, primaryKey: true, autoincrement: true }
+        price:       { type: float }
+
+      my_product_i18n:
+        _attributes: { phpName: ProductI18n }
+        id:          { type: integer, required: true, primaryKey: true, foreignTable: my_product, foreignReference: id }
+        culture:     { isCulture: true, type: varchar, size: 7, required: true, primaryKey: true }
+        name:        { type: varchar, size: 50 }
+
+Notice the `isI18N` and `i18nTable` attributes in the first table, and the special `culture` column in the second. All these are symfony-specific Propel enhancements.
+
+The symfony automations can make this much faster to write. If the table containing internationalized data has the same name as the main table with `_i18n` as a suffix, and they are related with a column named `id` in both tables, you can omit the `id` and `culture` columns in the `_i18n` table as well as the specific i18n attributes for the main table; symfony will infer them. It means that symfony will see the schema in Listing 13-7 as the same as the one in Listing 13-6.
+
+Listing 13-7 - Sample Schema for i18n Data, Short Version, in `config/schema.yml`
+
+    my_connection:
+      my_product:
+        _attributes: { phpName: Product }
+        id:
+        price:       float
+      my_product_i18n:
+        _attributes: { phpName: ProductI18n }
+        name:        varchar(50)
+
+### Using the Generated I18n Objects
+
+Once the corresponding object model is built (don't forget to call the `propel:build-model` task after each modification of the `schema.yml`), you can use your `Product` class with i18n support as if there were only one table, as shown in Listing 13-8.
+
+Listing 13-8 - Dealing with i18n Objects
+
+    [php]
+    $product = ProductPeer::retrieveByPk(1);
+    $product->setName('Nom du produit'); // By default, the culture is the current user culture
+    $product->save();
+
+    echo $product->getName();
+     => 'Nom du produit'
+
+    $product->setName('Product name', 'en'); // change the value for the 'en' culture
+    $product->save();
+
+    echo $product->getName('en');
+     => 'Product name'
+
+As for queries with the peer objects, you can restrict the results to objects having a translation for the current culture by using the `doSelectWithI18n` method, instead of the usual `doSelect`, as shown in Listing 13-10. In addition, it will create the related i18n objects at the same time as the regular ones, resulting in a reduced number of queries to get the full content (refer to Chapter 18 for more information about this method's positive impacts on performance).
+
+Listing 13-10 - Retrieving Objects with an i18n `Criteria`
+
+    [php]
+    $c = new Criteria();
+    $c->add(ProductPeer::PRICE, 100, Criteria::LESS_THAN);
+    $products = ProductPeer::doSelectWithI18n($c, $culture);
+    // The $culture argument is optional
+    // The current user culture is used if no culture is given
+
+So basically, you should never have to deal with the i18n objects directly, but instead pass the culture to the model (or let it guess it) each time you do a query with the regular objects.
+
+Interface Translation
+---------------------
+
+The user interface needs to be adapted for i18n applications. Templates must be able to display labels, messages, and navigation in several languages but with the same presentation. Symfony recommends that you build your templates with the default language, and that you provide a translation for the phrases used in your templates in a dictionary file. That way, you don't need to change your templates each time you modify, add, or remove a translation.
+
+### Configuring Translation
+
+The templates are not translated by default, which means that you need to activate the template translation feature in the `settings.yml` file prior to everything else, as shown in Listing 13-11.
+
+Listing 13-11 - Activating Interface Translation, in `frontend/config/settings.yml`
+
+    all:
+      .settings:
+        i18n: on
+
+### Using the Translation Helper
+
+Let's say that you want to create a website in English and French, with English being the default language. Before even thinking about having the site translated, you probably wrote the templates something like the example shown in Listing 13-12.
+
+Listing 13-12 - A Single-Language Template
+
+    [php]
+    Welcome to our website. Today's date is <?php echo format_date(date()) ?>
+
+For symfony to translate the phrases of a template, they must be identified as text to be translated. This is the purpose of the `__()` helper (two underscores), a member of the I18N helper group. So all your templates need to enclose the phrases to translate in such function calls. Listing 13-12, for example, can be modified to look like Listing 13-13 (as you will see in the "Handling Complex Translation Needs" section later in this chapter, there is an even better way to call the translation helper in this example).
+
+Listing 13-13 - A Multiple-Language-Ready Template
+
+    [php]
+    <?php use_helper('I18N') ?>
+
+    <?php echo __('Welcome to our website.') ?>
+    <?php echo __("Today's date is ") ?>
+    <?php echo format_date(date()) ?>
+
+>**TIP**
+>If your application uses the I18N helper group for every page, it is probably a good idea to include it in the `standard_helpers` setting in the `settings.yml` file, so that you avoid repeating `use_helper('I18N')` for each template.
+
+### Using Dictionary Files
+
+Each time the `__()` function is called, symfony looks for a translation of its argument in the dictionary of the current user's culture. If it finds a corresponding phrase, the translation is sent back and displayed in the response. So the user interface translation relies on a dictionary file.
+
+The dictionary files are written in the XML Localization Interchange File Format (XLIFF), named according to the pattern `messages.[language code].xml`, and stored in the application `i18n/` directory.
+
+XLIFF is a standard format based on XML. As it is well known, you can use third-party translation tools to reference all text in your website and translate it. Translation firms know how to handle such files and to translate an entire site just by adding a new XLIFF translation.
+
+>**TIP**
+>In addition to the XLIFF standard, symfony also supports several other translation back-ends for dictionaries: gettext, MySQL, and SQLite. Refer to the API documentation for more information about configuring these back-ends.
+
+Listing 13-14 shows an example of the XLIFF syntax with the `messages.fr.xml` file necessary to translate Listing 13-13 into French.
+
+Listing 13-14 - An XLIFF Dictionary, in `frontend/i18n/messages.fr.xml`
+
+    [xml]
+    <?xml version="1.0" ?>
+    <xliff version="1.0">
+      <file original="global" source-language="en_US" datatype="plaintext">
+        <body>
+          <trans-unit id="1">
+            <source>Welcome to our website.</source>
+            <target>Bienvenue sur notre site web.</target>
+          </trans-unit>
+          <trans-unit id="2">
+            <source>Today's date is </source>
+            <target>La date d'aujourd'hui est </target>
+          </trans-unit>
+        </body>
+      </file>
+    </xliff>
+
+The `source-language` attribute must always contain the full ISO code of your default culture. Each translation is written in a `trans-unit` tag with a unique `id` attribute.
+
+With the default user culture (set to en_US), the phrases are not translated and the raw arguments of the `__()` calls are displayed. The result of Listing 13-13 is then similar to Listing 13-12. However, if the culture is changed to `fr_FR` or `fr_BE`, the translations from the `messages.fr.xml` file are displayed instead, and the result looks like Listing 13-15.
+
+Listing 13-15 - A Translated Template
+
+    [php]
+    Bienvenue sur notre site web. La date d'aujourd'hui est
+    <?php echo format_date(date()) ?>
+
+If additional translations need to be done, simply add a new `messages.``XX``.xml` translation file in the same directory.
+
+>**TIP**
+>As looking for dictionary files, parsing them, and finding the correct translation for a given string takes some time, symfony uses an internal cache to speedup the process. By default, this cache uses the filesystem. You can configure how the i18N cache works (for instance, to share the cache between several servers) in the `factories.yml` (see Chapter 19).
+
+### Managing Dictionaries
+
+If your `messages.XX.xml` file becomes too long to be readable, you can always split the translations into several dictionary files, named by theme. For instance, you can split the `messages.fr.xml` file into these three files in the application `i18n/` directory:
+
+  * `navigation.fr.xml`
+  * `terms_of_service.fr.xml`
+  * `search.fr.xml`
+
+Note that as soon as a translation is not to be found in the default `messages.XX.xml` file, you must declare which dictionary is to be used each time you call the `__()` helper, using its third argument. For instance, to output a string that is translated in the `navigation.fr.xml` dictionary, write this:
+
+    [php]
+    <?php echo __('Welcome to our website', null, 'navigation') ?>
+
+Another way to organize translation dictionaries is to split them by module. Instead of writing a single `messages.XX.xml` file for the whole application, you can write one in each `modules/[module_name]/i18n/` directory. It makes modules more independent from the application, which is necessary if you want to reuse them, such as in plug-ins (see Chapter 17).
+
+**New in symfony 1.1**
+
+As updating the i18n dictionaries by hand is quite error prone, symfony provides a task to automate the process. The `i18n:extract` task parses a symfony application to extract all the strings that need to be translated. It takes an application and a culture as its arguments:
+
+    > php symfony i18n:extract frontend en
+
+By default, the task does not modify your dictionaries, it just outputs the number of new and old i18n strings. To append the new strings to your dictionary, you can pass the `--auto-save` option:
+
+    > php symfony i18n:extract --auto-save frontend en
+
+You can also delete old strings automatically by passing the `--auto-delete` option:
+
+    > php symfony i18n:extract --auto-save --auto-delete frontend en
+
+>**NOTE**
+>The current task has some known limitations. It can only works with the default `messages` dictionary, and for file based backends (`XLIFF` or `gettext`), it only saves and deletes strings in the main `apps/frontend/i18n/messages.XX.xml` file.
+
+### Handling Other Elements Requiring Translation
+
+The following are other elements that may require translation:
+
+  * Images, text documents, or any other type of assets can also vary according to the user culture. The best example is a piece of text with a special typography that is actually an image. For these, you can create subdirectories named after the user `culture`:
+
+        [php]
+        <?php echo image_tag($sf_user->getCulture().'/myText.gif') ?>
+
+  * Error messages from validation files are automatically output by a `__()`, so you just need to add their translation to a dictionary to have them translated.
+  * The default symfony pages (page not found, internal server error, restricted access, and so on) are in English and must be rewritten in an i18n application. You should probably create your own `default` module in your application and use `__()` in its templates. Refer to Chapter 19 to see how to customize these pages.
+
+### Handling Complex Translation Needs
+
+Translation only makes sense if the `__()` argument is a full sentence. However, as you sometimes have formatting or variables mixed with words, you could be tempted to cut sentences into several chunks, thus calling the helper on senseless phrases. Fortunately, the `__()` helper offers a replacement feature based on tokens, which will help you to have a meaningful dictionary that is easier to handle by translators. As with HTML formatting, you can leave it in the helper call as well. Listing 13-16 shows an example.
+
+Listing 13-16 - Translating Sentences That Contain Code
+
+    [php]
+    // Base example
+    Welcome to all the <b>new</b> users.<br />
+    There are <?php echo count_logged() ?> persons logged.
+
+    // Bad way to enable text translation
+    <?php echo __('Welcome to all the') ?>
+    <b><?php echo __('new') ?></b>
+    <?php echo __('users') ?>.<br />
+    <?php echo __('There are') ?>
+    <?php echo count_logged() ?>
+    <?php echo __('persons logged') ?>
+
+    // Good way to enable text translation
+    <?php echo __('Welcome to all the <b>new</b> users') ?> <br />
+    <?php echo __('There are %1% persons logged', array('%1%' => count_logged())) ?>
+
+In this example, the token is `%1%`, but it can be anything, since the replacement function used by the translation helper is `strtr()`.
+
+One of the common problems with translation is the use of the plural form. According to the number of results, the text changes but not in the same way according to the language. For instance, the last sentence in Listing 13-16 is not correct if `count_logged()` returns 0 or 1. You could do a test on the return value of this function and choose which sentence to use accordingly, but that would represent a lot of code. Additionally, different languages have different grammar rules, and the declension rules of plural can be quite complex. As this problem is very common, symfony provides a helper to deal with it, called `format_number_choice()`. Listing 13-17 demonstrates how to use this helper.
+
+Listing 13-17 - Translating Sentences Depending on the Value of Parameters
+
+    [php]
+    <?php echo format_number_choice(
+      '[0]Nobody is logged|[1]There is 1 person logged|(1,+Inf]There are %1% persons logged', array('%1%' => count_logged()), count_logged()) ?>
+
+The first argument is the multiple possibilities of text. The second argument is the replacement pattern (as with the `__()` helper) and is optional. The third argument is the number on which the test is made to determine which text is taken.
+
+The message/string choices are separated by the pipe (`|`) character followed by an array of acceptable values, using the following syntax:
+
+  * `[1,2]`: Accepts values between 1 and 2, inclusive
+  * `(1,2)`: Accepts values between 1 and 2, excluding 1 and 2
+  * `{1,2,3,4}`: Only values defined in the set are accepted
+  * `[-Inf,0)`: Accepts values greater or equal to negative infinity and strictly less than 0
+  * `{n: n % 10 > 1 && n % 10 < 5} pliki`: Matches numbers like 2, 3, 4, 22, 23, 24 (useful for languages like polish or russian) **New in development version**
+
+Any nonempty combinations of the delimiters of square brackets and parentheses are acceptable.
+
+The message will need to appear explicitly in the XLIFF file for the translation to work properly. Listing 13-18 shows an example.
+
+Listing 13-18 - XLIFF Dictionary for a `format_number_choice()` Argument
+
+    ...
+    <trans-unit id="3">
+      <source>[0]Nobody is logged|[1]There is 1 person logged|(1,+Inf]There are %1% persons logged</source>
+      <target>[0]Personne n'est connecté|[1]Une personne est connectée|(1,+Inf]Il y a %1% personnes en ligne</target>
+    </trans-unit>
+    ...
+
+>**SIDEBAR**
+>A few words about charsets
+>
+>Dealing with internationalized content in templates often leads to problems with charsets. If you use a localized charset, you will need to change it each time the user changes culture. In addition, the templates written in a given charset will not display the characters of another charset properly.
+>
+>This is why, as soon as you deal with more than one culture, all your templates must be saved in UTF-8, and the layout must declare the content with this charset. You won't have any unpleasant surprises if you always work with UTF-8, and you will save yourself from a big headache.
+>
+>Symfony applications rely on one central setting for the charset, in the `settings.yml` file. Changing this parameter will change the `content-type` header of all responses.
+>
+>     all:
+>       .settings:
+>         charset: utf-8
+
+### Calling the Translation Helper Outside a Template
+
+Not all the text that is displayed in a page comes from templates. That's why you often need to call the `__()` helper in other parts of your application: actions, filters, model classes, and so on. Listing 13-19 shows how to call the helper in an action by retrieving the current instance of the `I18N` object through the context singleton.
+
+Listing 13-19 - Calling `__()` in an Action
+
+    [php]
+    $this->getContext()->getI18N()->__($text, $args, 'messages');
+
+Summary
+-------
+
+Handling internationalization and localization in web applications is painless if you know how to deal with the user culture. The helpers automatically take it into account to output correctly formatted data, and the localized content from the database is seen as if it were part of a simple table. As for the interface translation, the `__()` helper and XLIFF dictionary ensure that you will have maximum versatility with minimum work.

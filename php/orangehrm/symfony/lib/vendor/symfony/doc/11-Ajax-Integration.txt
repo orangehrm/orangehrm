@@ -1,0 +1,815 @@
+Chapter 11 - Ajax Integration
+=============================
+
+Interactions on the client side, complex visual effects, and asynchronous communication are common in Web 2.0 applications. All those require JavaScript, but coding it by hand is often cumbersome and time-consuming to debug. Fortunately, symfony automates many of the common uses of JavaScript in the templates with a complete set of helpers. Many of the client-side behaviors can even be coded without a single line of JavaScript. Developers only need to worry about the effect they want to achieve, and symfony will deal with complex syntax and compatibility issues.
+
+This chapter describes the tools provided by symfony to facilitate client-side scripting:
+
+  * Basic JavaScript helpers output standards-compliant `<script>` tags in symfony templates, to update a Document Object Model (DOM) element or trigger a script with a link.
+  * Prototype is a JavaScript library integrated in symfony, which speeds up client-side scripting development by adding new functions and methods to the JavaScript core.
+  * Ajax helpers allow the user to update some parts of a page by clicking a link, submitting a form, or modifying a form element.
+  * The many options of these helpers provide even greater flexibility and power, notably by the use of callback functions.
+  * Script.aculo.us is another JavaScript library, also integrated in symfony, which adds dynamic visual effects to enhance the interface and the user experience.
+  * JavaScript Object Notation (JSON) is a standard used to communicate between a server and a client script.
+  * Complex client-side interactions, combining all the aforementioned elements, are possible in symfony applications. Autocompletion, drag-and-drop, sortable lists, and editable text can all be implemented with a single line of PHP--a call to a symfony helper.
+
+Basic JavaScript Helpers
+------------------------
+
+JavaScript has long been considered as having little real use in professional web applications due to the lack of cross-browser compatibility. Today, the compatibility issues are (mostly) solved, and some robust libraries allow you to program complex interactions in JavaScript without the need for countless lines of code and lost hours of debugging. The most popular advance is called Ajax, which is discussed in the "Ajax Helpers" section later in this chapter.
+
+Paradoxically, you will see very little JavaScript code in this chapter. This is because symfony has an original approach to client-side scripting: It packages and abstracts JavaScript behaviors into helpers, so your templates end up showing no JavaScript code at all. For the developer, adding a behavior to an element in the page takes one line of PHP, but this helper call does output JavaScript code, and inspecting the generated responses will reveal all the encapsulated complexity. The helpers deal with browser consistency, complex limit cases, extensibility, and so on, so the amount of JavaScript code they contain can be quite important. Therefore, this chapter will teach you how not to use JavaScript to achieve effects that you use to build with JavaScript.
+
+All of the helpers described here are available in templates, provided that you declare the use of the `Javascript` helper group.
+
+    [php]
+    <?php use_helper('Javascript') ?>
+
+As you'll soon learn, some of these helpers output HTML code, and some of them output JavaScript code.
+
+### JavaScript in Templates
+
+In XHTML, JavaScript code blocks must be enclosed within CDATA declarations. But pages requiring multiple JavaScript code blocks can soon become tedious to write. That's why symfony provides a `javascript_tag()` helper, which transforms a string into an XHTML-compliant `<script>` tag. Listing 11-1 demonstrates using this helper.
+
+Listing 11-1 - Inserting JavaScript with the `javascript_tag()` Helper
+
+    [php]
+    <?php echo javascript_tag("
+      function foobar()
+      {
+      ...
+      }
+    ") ?>
+     => <script type="text/javascript">
+        //<![CDATA[
+          function foobar()
+          {
+            ...
+          }
+        //]]>
+        </script>
+
+But the most common use of JavaScript, more than code blocks, is in a hyperlink that triggers a particular script. The `link_to_function()` helper does exactly that, as shown in Listing 11-2.
+
+Listing 11-2 - Triggering JavaScript by a Link with the `link_to_function()` Helper
+
+    [php]
+    <?php echo link_to_function('Click me!', "alert('foobar')") ?>
+     => <a href="#" onClick="alert('foobar'); return none;">Click me!</a>
+
+As with the `link_to()` helper, you can add options to the `<a>` tag in the third argument.
+
+>**NOTE**
+>Just as the `link_to()` helper has a `button_to()` brother, you can trigger JavaScript from a button (`<input type="button">`) by calling the `button_to_function()` helper. And if you prefer a clickable image, just call `link_to_function(image_tag('myimage'), "alert('foobar')")`.
+
+### Updating a DOM Element
+
+One common task in dynamic interfaces is the update of an element in the page. This is something that you usually write as shown in Listing 11-3.
+
+Listing 11-3 - Updating an Element in JavaScript
+
+    [php]
+    <div id="indicator">Data processing beginning</div>
+    <?php echo javascript_tag("
+      document.getElementById("indicator").innerHTML =
+        "<strong>Data processing complete</strong>";
+    ") ?>
+
+Symfony provides a helper that produces JavaScript, not HTML, for this purpose, and it's called `update_element_function()`. Listing 11-4 shows its use.
+
+Listing 11-4 - Updating an Element in JavaScript with the `update_element_function()` Helper
+
+    [php]
+    <div id="indicator">Data processing beginning</div>
+    <?php echo javascript_tag(
+      update_element_function('indicator', array(
+        'content'  => "<strong>Data processing complete</strong>",
+      ))
+    ) ?>
+
+You might be wondering why this helper is particularly useful, since it's at least as long as the actual JavaScript code. It's really a matter of readability. For instance, you might want to insert content before or after an element, remove an element instead of just updating it, or even do nothing according to a certain condition. In such cases, the JavaScript code becomes somewhat messier, but the `update_element_function()` keeps the template very readable, as you can see in Listing 11-5.
+
+Listing 11-5 - Options of the `update_element_function()` Helper
+
+    [php]
+    // Insert content just after the 'indicator' element
+    update_element_function('indicator', array(
+      'position' => 'after',
+      'content'  => "<strong>Data processing complete</strong>",
+    ));
+
+    // Remove the element before the 'indicator', and only if $condition is true
+    update_element_function('indicator', array(
+      'action'   => $condition ? 'remove' : 'empty',
+      'position' => 'before',
+    ))
+
+The helper makes your templates easier to understand than any JavaScript code, and you have a single syntax for similar behaviors. That's also why the helper name is so long: It makes the code self-sufficient, without the need of extra comments.
+
+### Graceful Degradation
+
+The `<noscript>` tag allows you to specify some HTML code that is displayed only by browsers that do not have JavaScript support. Symfony complements this with a helper that works the other way around: It qualifies some code so that only browsers that actually support JavaScript execute it. The `if_javascript()` and `end_if_javascript()` helpers facilitate the creation of applications that degrade gracefully, as demonstrated in Listing 11-6.
+
+Listing 11-6 - Using the `if_javascript()` Helper to Allow Graceful Degradation
+
+    [php]
+    <?php if_javascript(); ?>
+      <p>You have JavaScript enabled.</p>
+    <?php end_if_javascript(); ?>
+
+    <noscript>
+      <p>You don't have JavaScript enabled.</p>
+    </noscript>
+
+>**NOTE**
+>You don't need to include `echo` when calling the `if_javascript()` and `end_if_javascript()` helpers.
+
+Prototype
+---------
+
+Prototype is a great JavaScript library that extends the possibilities of the client scripting language, adds the missing functions you've always dreamed of, and offers new mechanisms to manipulate the DOM. The project website is [http://prototypejs.org/](http://prototypejs.org/).
+
+The Prototype files are bundled with the symfony framework and accessible in every new symfony project, in `web/sf/prototype/`. This means that you can use Prototype by adding the following code to your action:
+
+    [php]
+    $prototypeDir = sfConfig::get('sf_prototype_web_dir');
+    $this->getResponse()->addJavascript($prototypeDir.'/js/prototype');
+
+or by adding it in the `view.yml` file:
+
+    all:
+      javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype]
+
+>**NOTE**
+>Since the symfony Ajax helpers, described in the next section, rely on Prototype, the Prototype library is already included automatically as soon as you use one of them. It means that you won't need to manually add the Prototype JavaScript to your response if your template calls a `_remote` helper.
+
+Once the Prototype library is loaded, you can take advantage of all the new functions it adds to the JavaScript core. This book's purpose is not to describe them all, but you will easily find good documentation about Prototype on the Web, including at the following websites:
+
+  * Particletree: [http://particletree.com/features/quick-guide-to-prototype/](http://particletree.com/features/quick-guide-to-prototype/)
+  * Sergio Pereira: [http://www.sergiopereira.com/articles/prototype.js.html](http://www.sergiopereira.com/articles/prototype.js.html)
+  * Script.aculo.us: [http://wiki.script.aculo.us/scriptaculous/show/Prototype](http://wiki.script.aculo.us/scriptaculous/show/Prototype)
+
+One of the functions Prototype adds to JavaScript is the dollar function, `$()`. Basically, this function is a simple shortcut to `document.getElementById()`, but a little more powerful. See Listing 11-7 for an example of its use.
+
+Listing 11-7 - Using the `$()` Function to Get an Element by ID in JavaScript
+
+    [php]
+    node = $('elementID');
+
+    // Means the same as
+    node = document.getElementById('elementID');
+
+    // It can also retrieve more than one element at a time
+    // And in this case the result is an array of DOM elements
+    nodes = $('firstDiv', 'secondDiv');
+
+Prototype also provides a function that the JavaScript core really lacks, which returns an array of all the DOM elements that have the class passed as argument:
+
+    [php]
+    nodes = document.getElementByClassName('myclass');
+
+However, you will seldom use it, because Prototype provides an even more powerful function called double dollar, `$$()`. This function returns an array of DOM elements based on a CSS selector. So the previous call can also be written as follows:
+
+    [php]
+    nodes = $$('.myclass');
+
+Thanks to the power of CSS selectors, you can parse the DOM by class, ID, and parent-child and previous-next relationships even more easily than you would with an XPath expression. You can even access elements with a complex selector combining all these:
+
+    [php]
+    nodes = $$('body div#main ul li.last img > span.legend');
+
+One last example of the syntax enhancements provided by Prototype is the each array iterator. It provides the same concision as in PHP, added to the ability to define anonymous functions and closures in JavaScript. You will probably use it a lot if you code JavaScript by hand.
+
+    [php]
+    var vegetables = ['Carrots', 'Lettuce', 'Garlic'];
+    vegetables.each(function(food) { alert('I love ' + food); });
+
+Because programming in JavaScript with Prototype is much more fun than doing it by hand, and because it is also part of symfony, you should really spend a few minutes to read the related documentation.
+
+Ajax Helpers
+------------
+
+What if you wanted to update an element in the page, not with JavaScript as in Listing 11-5, but with a PHP script executed by the server? This would give you the opportunity to change part of the page according to a server response. The `remote_function()` helper does exactly that, as demonstrated in Listing 11-8.
+
+Listing 11-8 - Using the `remote_function()` Helper
+
+    [php]
+    <div id="myzone"></div>
+    <?php echo javascript_tag(
+      remote_function(array(
+        'update'  => 'myzone',
+        'url'     => 'mymodule/myaction',
+      ))
+    ) ?>
+
+>**NOTE**
+>The `url` parameter can contain either an internal URI (`module/action?key1=value1&...`) or a routing rule name, just as in a regular `url_for()`.
+
+When called, this script will update the element of id myzone with the response or the request of the `mymodule/myaction` action. This kind of interaction is called Ajax, and it's the heart of highly interactive web applications. Here is how Wikipedia ([http://en.wikipedia.org/wiki/AJAX](http://en.wikipedia.org/wiki/AJAX)) describes it:
+
+Ajax makes web pages feel more responsive by exchanging small amounts of data with the server behind the scenes, so that the entire web page does not have to be reloaded each time the user makes a change. This is meant to increase the web page's interactivity, speed, and usability.
+
+Ajax relies on `XMLHttpRequest`, a JavaScript object that behaves like a hidden frame, which you can update from a server request and reuse to manipulate the rest of your web page. This object is quite low level, and different browsers deal with it in different ways, so handling Ajax requests manually usually means writing long portions of code. Fortunately, Prototype encapsulates all the code necessary to deal with Ajax and provides a simpler Ajax object, and symfony relies on this object. This is why the Prototype library is automatically loaded once you use an Ajax helper in a template.
+
+>**CAUTION**
+>The Ajax helpers won't work if the URL of the remote action doesn't belong to the same domain as the current page. This restriction exists for security reasons, and relies on browsers limitations that cannot be bypassed.
+
+An Ajax interaction is made up of three parts: a caller (a link, a button, a form, a clock, or any control that the user manipulates to launch the action), a server action, and a zone in the page to display the response of the action. You can build more complex interactions if the remote action returns data to be processed by a javascript function on the client side. Symfony provides multiple helpers to insert Ajax interaction in your templates, all containing the word `remote` in their name. They also share a common syntax--an associative array with all the Ajax parameters in it. Be aware that the Ajax helpers output HTML code, not JavaScript.
+
+>**SIDEBAR**
+>How about Ajax actions?
+>
+>Actions called as remote functions are regular actions. They follow routing, can determine the view to render the response with their `return`, pass variables to the templates, and alter the model just like other actions.
+>
+>However, when called through Ajax, actions return `true` to the following call:
+>
+>     [php]
+>     $isAjax = $this->getRequest()->isXmlHttpRequest();
+>
+>Symfony knows that an action is in an Ajax context and can adapt the response processing accordingly. Therefore, by default, Ajax actions don't include the web debug toolbar in the development environment. Also, they skip the decoration process (their template is not included in a layout by default). If you want an Ajax view to be decorated, you need to specify explicitly `has_layout: true` for this view in the module `view.yml` file.
+>
+>Because responsiveness is crucial in Ajax interactions, if the response is not too complex, it might be a good idea to avoid creating a view and instead return the response directly from the action. So you can use the `renderText()` method in the action to skip the template and boost Ajax requests.
+>
+>**New in symfony 1.1**: Most Ajax actions result in a template that simply includes a partial, because the code of the Ajax response is already used to display the initial page. To avoid creating a template for just one line of code, the action can use the `renderPartial()` method. This method takes advantage of both the reusability of partials, their caching abilities, and the speed of the `renderText()` method.
+>
+>     [php]
+>     public function executeMyAction()
+>     {
+>       // do things
+>       return $this->renderPartial('mymodule/mypartial');
+>     }
+>
+
+### Ajax Link
+
+Ajax links form a large share of the Ajax interactions available in Web 2.0 applications. The `link_to_remote()` helper outputs a link that calls, not surprisingly, a remote function. The syntax is very similar to that of `link_to()` (except that the second parameter is the associative array of Ajax options), as shown in Listing 11-9.
+
+Listing 11-9 - Ajax Link with the `link_to_remote()` Helper
+
+    [php]
+    <div id="feedback"></div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update' => 'feedback',
+        'url'    => 'post/delete?id='.$post->getId(),
+    )) ?>
+
+In this example, clicking the `'Delete this post'` link will issue a call to the `post/delete` action in the background. The response returned by the server will appear in the element of `id` `feedback`. This process is illustrated in Figure 11-1.
+
+Figure 11-1 - Triggering a remote update with a hyperlink
+
+![Triggering a remote update with a hyperlink](/images/book/F1101.png "Triggering a remote update with a hyperlink")
+
+You can use an image instead of a string to bear the link, use a rule name instead of an internal module/action URL, and add options to the `<a>` tag in a third argument, as shown in Listing 11-10.
+
+Listing 11-10 - Options of the `link_to_remote()` Helper
+
+    [php]
+    <div id="emails"></div>
+    <?php echo link_to_remote(image_tag('refresh'), array(
+        'update' => 'emails',
+        'url'    => '@list_emails',
+    ), array(
+        'class'  => 'ajax_link',
+    )) ?>
+
+### Ajax-Driven Forms
+
+Web forms typically call another action, but this causes the whole page to be refreshed. The correspondence of the `link_to_function()` for a form would be that the form submission only updates an element in the page with the server response. This is what the `form_remote_tag()` helper does, and its syntax is demonstrated in Listing 11-11.
+
+Listing 11-11 - Ajax Form with the `form_remote_tag()` Helper
+
+    [php]
+    <div id="item_list"></div>
+    <?php echo form_remote_tag(array(
+        'update'   => 'item_list',
+        'url'      => 'item/add',
+    )) ?>
+      <label for="item">Item:</label>
+      <?php echo input_tag('item') ?>
+      <?php echo submit_tag('Add') ?>
+    </form>
+
+A `form_remote_tag()` opens a `<form>`, just like the regular `form_tag()` helper. Submitting this form will issue a POST request to the `item/add` action in the background, with the `item` field as a request parameter. The response will replace the contents of the `item_list` element, as illustrated in Figure 11-2. Close an Ajax form with a regular `</form>` closing tag.
+
+Figure 11-2 - Triggering a remote update with a form
+
+![Triggering a remote update with a form](/images/book/F1102.png "Triggering a remote update with a form")
+
+>**CAUTION**
+>Ajax forms can't be multipart. This is a limitation of the `XMLHttpRequest` object. This means you can't handle file uploads via an Ajax form. There are workarounds though--for instance, using a hidden `iframe` instead of an `XMLHttpRequest`.
+
+If you want to allow a form to work in both page mode and Ajax mode, the best solution is to define it like a regular form, but to provide, in addition to the normal submit button, a second button (`<input type="button" />`) to submit the form in Ajax. Symfony calls this button `submit_to_remote()`. This will help you build Ajax interactions that degrade gracefully. See an example in Listing 11-12.
+
+Listing 11-12 - A Form with Regular and Ajax Submission
+
+    [php]
+    <div id="item_list"></div>
+    <?php echo form_tag('@item_add_regular') ?>
+      <label for="item">Item:</label>
+      <?php echo input_tag('item') ?>
+      <?php if_javascript(); ?>
+        <?php echo submit_to_remote('ajax_submit', 'Add in Ajax', array(
+            'update'   => 'item_list',
+            'url'      => '@item_add',
+        )) ?>
+      <?php end_if_javascript(); ?>
+      <noscript>
+        <?php echo submit_tag('Add') ?>
+      </noscript>
+    </form>
+
+Another example of combined use of remote and regular submit tags is a form that edits an article. It can offer a preview button in Ajax and a publish button that does a regular submission.
+
+>**NOTE**
+>When the user presses the Enter key, the form is submitted using the action defined in the main `<form>` tag--in this example, a regular action.
+
+Modern forms can also react not only when submitted, but also when the value of a field is being updated by a user. In symfony, you use the `observe_field()` helper for that. Listing 11-13 shows an example of using this helper to build a suggestion feature: Each character typed in an `item` field triggers an Ajax call refreshing the `item_suggestion` element in the page.
+
+Listing 11-13 - Calling a Remote Function When a Field Value Changes with `observe_field()`
+
+    [php]
+    <?php echo form_tag('@item_add_regular') ?>
+      <label for="item">Item:</label>
+      <?php echo input_tag('item') ?>
+      <div id="item_suggestion"></div>
+      <?php echo observe_field('item', array(
+          'update'   => 'item_suggestion',
+          'url'      => '@item_being_typed',
+      )) ?>
+      <?php echo submit_tag('Add') ?>
+    </form>
+
+The module/action written in the `@item_being_typed` rule will be called each time the user changes the value of the observed field (`item`), even without submitting the form. The action will be able to get the current `item` value from the `value` request parameter. If you want to pass something other than the value of the observed field, you can specify it as a JavaScript expression in the `with` parameter. For instance, if you want the action to get a `param` parameter, write the `observe_field()` helper as shown in Listing 11-14.
+
+Listing 11-14 - Passing Your Own Parameters to the Remote Action with the `with` Option
+
+    [php]
+    <?php echo observe_field('item', array(
+        'update'   => 'item_suggestion',
+        'url'      => '@item_being_typed',
+        'with'     => "'param=' + value",
+    )) ?>
+
+Note that this helper doesn't output an HTML element, but instead outputs a behavior for the element passed as a parameter. You will see more examples of JavaScript helpers assigning behaviors later in this chapter.
+
+If you want to observe all the fields of a form, you should use the `observe_form()` helper, which calls a remote function each time one of the form fields is modified.
+
+### Periodically Calling Remote Functions
+
+Last but not least, the `periodically_call_remote()` helper is an Ajax interaction triggered every few seconds. It is not attached to an HTML control, but runs transparently in the background, as a behavior of the whole page. This can be of great use to track the position of the mouse, autosave the content of a large text area, and so on. Listing 11-15 shows an example of using this helper.
+
+Listing 11-15 - Periodically Calling a Remote Function with `periodically_call_remote()`
+
+    [php]
+    <div id="notification"></div>
+    <?php echo periodically_call_remote(array(
+        'frequency' => 60,
+        'update'    => 'notification',
+        'url'       => '@watch',
+        'with'      => "'param=' + \$F('mycontent')",
+    )) ?>
+
+If you don't specify the number of seconds (`frequency`) to wait between two calls to the remote function, the default value of 10 seconds is used. Note that the `with` parameter is evaluated in JavaScript, so you can use Prototype functions in it, such as the `$F()` function.
+
+Remote Call Parameters
+----------------------
+
+All the Ajax helpers described in the previous sections can take other parameters, in addition to the `update` and `url` parameters. The associative array of Ajax parameters can alter and tweak the behavior of the remote calls and the processing of their response.
+
+### Updating Distinct Elements According to the Response Status
+
+If the remote action fails, the remote helpers can choose to update another element than the one updated by a successful response. To that purpose, just split the value of the `update` parameter into an associative array, and set different values for the element to update in cases of `success` and `failure`. This is of great use if, for instance, there are many Ajax interactions in a page and one error feedback zone. Listing 11-16 demonstrates handling a conditional update.
+
+Listing 11-16 - Handling a Conditional Update
+
+    [php]
+    <div id="error"></div>
+    <div id="feedback"></div>
+    <p>Hello, World!</p>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'   => array('success' => 'feedback', 'failure' => 'error'),
+        'url'      => 'post/delete?id='.$post->getId(),
+    )) ?>
+
+>**TIP**
+>Only HTTP error codes (500, 404, and all codes not in the 2XX range) will trigger the failure update, not the actions returning `sfView::ERROR`. So if you want to make an action return an Ajax failure, it must call `$this->getResponse()->setStatusCode(404)` or similar.
+
+### Updating an Element According to Position
+
+Just as with the `update_element_function()` helper, you can specify the element to update as relative to a specific element by adding a `position` parameter. Listing 11-17 shows an example.
+
+Listing 11-17 - Using the Position Parameter to Change the Response Location
+
+    [php]
+    <div id="feedback"></div>
+    <p>Hello, World!</p>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'   => 'feedback',
+        'url'      => 'post/delete?id='.$post->getId(),
+        'position' => 'after',
+    )) ?>
+
+This will insert the response of the Ajax call after the `feedback` element; that is, between the `<div>` and the `<p>`. With this method, you can do several Ajax calls and see the responses accumulate after the `update` element.
+
+The `position` parameter can take the following values:
+
+  * `before`: Before the element
+  * `after`: After the element
+  * `top`: At the top of the content of the element
+  * `bottom`: At the bottom of the content of the element
+
+### Updating an Element According to a Condition
+
+A remote call can take an additional parameter to allow confirmation by the user before actually submitting the `XMLHttpRequest`, as shown in Listing 11-18.
+
+Listing 11-18 - Using the Confirm Parameter to Ask for a Confirmation Before Calling the Remote Function
+
+    [php]
+    <div id="feedback"></div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'   => 'feedback',
+        'url'      => 'post/delete?id='.$post->getId(),
+        'confirm'  => 'Are you sure?',
+    )) ?>
+
+A JavaScript dialog box showing "Are you sure?" will pop up when the user clicks the link, and the `post/delete` action will be called only if the user confirms his choice by clicking OK.
+
+The remote call can also be conditioned by a test performed on the browser side (in JavaScript), if you provide a `condition` parameter, as shown in Listing 11-19.
+
+Listing 11-19 - Conditionally Calling the Remote Function According to a Test on the Client Side
+
+    [php]
+    <div id="feedback"></div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'    => 'feedback',
+        'url'       => 'post/delete?id='.$post->getId(),
+        'condition' => "$('elementID') == true",
+    )) ?>
+
+### Determining the Ajax Request Method
+
+By default, Ajax requests are made with the POST method. If you want to make an Ajax call that doesn't modify data, or if you want to display a form that has built-in validation as the result of an Ajax call, you might need to change the Ajax request method to GET. The `method` option alters the Ajax request method, as shown in Listing 11-20.
+
+Listing 11-20 - Changing the Ajax Request Method
+
+    [php]
+    <div id="feedback"></div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'    => 'feedback',
+        'url'       => 'post/delete?id='.$post->getId(),
+        'method'    => 'get',
+    )) ?>
+
+### Authorizing Script Execution
+
+If the response code of the Ajax call (the code sent by the server, inserted in the `update` element) contains JavaScript, you might be surprised to see that these scripts are not executed by default. This is to reduce remote attack risks and to allow script execution only when the developer knows for sure what code is in the response.
+
+That's why you need to declare explicitly the ability to execute scripts in remote responses, with the `script` option. Listing 11-21 gives an example of an Ajax call declaring that JavaScript from the remote response can be executed.
+
+Listing 11-21 - Authorizing Script Execution in the Ajax Response
+
+    [php]
+    <div id="feedback"></div>
+    <?php
+      // If the response of the post/delete action contains JavaScript,
+      // allow it to be executed by the browser
+      echo link_to_remote('Delete this post', array(
+        'update' => 'feedback',
+        'url'    => 'post/delete?id='.$post->getId(),
+        'script' => true,
+    )) ?>
+
+If the remote template contains Ajax helpers (such as `remote_function()`), be aware that these PHP functions generate JavaScript code, and they won't execute unless you add the `'script' => true` option.
+
+>**NOTE**
+>Even if you enable script execution for the remote response, you won't actually see the scripts in the remote code, if you use a tool to check the generated code. The scripts will execute but will not appear in the code. Although peculiar, this behavior is perfectly normal.
+
+### Creating Callbacks
+
+One important drawback of Ajax interactions is that they are invisible to the user until the zone to update is actually updated. This means that in cases of a slow network or server failure, users may believe that their action was taken into account, when it actually was not processed. This is why it is important to notify the user of the events of an Ajax interaction.
+
+By default, each remote request is an asynchronous process during which various JavaScript callbacks can be triggered (for progress indicators and the like). All callbacks have access to the `request` object, which holds the underlying `XMLHttpRequest`. The callbacks correspond to the events of any Ajax interaction:
+
+  * `before`: Before request is initiated
+  * `after`: Immediately after request is initiated and before loading
+  * `loading`: When the remote response is being loaded by the browser
+  * `loaded`: When the browser has finished loading the remote response
+  * `interactive`: When the user can interact with the remote response, even though it has not finished loading
+  * `success`: When the `XMLHttpRequest` is completed, and the HTTP status code is in the 2XX range
+  * `failure`: When the `XMLHttpRequest` is completed, and the HTTP status code is not in the 2XX range
+  * `404`: When the request returns a 404 status
+  * `complete`: When the `XMLHttpRequest` is complete (fires after `success` or `failure`, if they are present)
+
+For instance, it is very common to show a loading indicator when a remote call is initiated, and to hide it once the response is received. To achieve that, simply add `loading` and `complete` parameters to the Ajax call, as shown in Listing 11-22.
+
+Listing 11-22 - Using Ajax Callbacks to Show and Hide an Activity Indicator
+
+    [php]
+    <div id="feedback"></div>
+    <div id="indicator">Loading...</div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'   => 'feedback',
+        'url'      => 'post/delete?id='.$post->getId(),
+        'loading'  => "Element.show('indicator')",
+        'complete' => "Element.hide('indicator')",
+    )) ?>
+
+The show and hide methods, as well as the JavaScript Element object, are other useful additions of Prototype.
+
+Creating Visual Effects
+-----------------------
+
+Symfony integrates the visual effects of the script.aculo.us library, to allow you to do more than show and hide `<div>` elements in your web pages. You will find good documentation on the effects syntax in the wiki at [http://script.aculo.us/](http://script.aculo.us/). Basically, the library provides JavaScript objects and functions that manipulate the DOM in order to achieve complex visual effects. See a few examples in Listing 11-23. Since the result is a visual animation of certain areas in a web page, it is recommended that you test the effects yourself to understand what they really do. The script.aculo.us website offers a gallery where you can get an idea of the dynamic effects.
+
+Listing 11-23 - Visual Effects in JavaScript with Script.aculo.us
+
+    [php]
+    // Highlights the element 'my_field'
+    Effect.Highlight('my_field', { startcolor:'#ff99ff', endcolor:'#999999' })
+
+    // Blinds down an element
+    Effect.BlindDown('id_of_element');
+
+    // Fades away an element
+    Effect.Fade('id_of_element', { transition: Effect.Transitions.wobble })
+
+Symfony encapsulates the JavaScript `Effect` object in a helper called `visual_effect()`, still part of the `Javascript` helper group. It outputs JavaScript that can be used in a regular link, as shown in Listing 11-24.
+
+Listing 11-24 - Visual Effects in Templates with the `visual_effect()` Helper
+
+    [php]
+    <div id="secret_div" style="display:none">I was here all along!</div>
+    <?php echo link_to_function(
+      'Show the secret div',
+      visual_effect('appear', 'secret_div')
+    ) ?>
+    // Will make a call to Effect.Appear('secret_div')
+
+The `visual_effects()` helper can also be used in the Ajax callbacks, as shown in Listing 11-25, which displays an activity indicator like Listing 11-22, but is visually more satisfactory. The `indicator` element appears progressively when the Ajax call starts, and it fades progressively when the response arrives. In addition, the feedback element is highlighted after being updated by the remote call, to draw the user's attention to this part of the window.
+
+Listing 11-25 - Visual Effects in Ajax Callbacks
+
+    [php]
+    <div id="feedback"></div>
+    <div id="indicator" style="display: none">Loading...</div>
+    <?php echo link_to_remote('Delete this post', array(
+        'update'   => 'feedback',
+        'url'      => 'post/delete?id='.$post->getId(),
+        'loading'  => visual_effect('appear', 'indicator'),
+        'complete' => visual_effect('fade', 'indicator').
+                      visual_effect('highlight', 'feedback'),
+    )) ?>
+
+Notice how you can combine visual effects by concatenating them in a callback.
+
+JSON
+----
+
+JavaScript Object Notation (JSON) is a lightweight data-interchange format. Basically, it is nothing more than a JavaScript hash (see an example in Listing 11-26) used to carry object information. But JSON has two great benefits for Ajax interactions: It is easy to read in JavaScript, and it can reduce the size of a web response.
+
+Listing 11-26 - A Sample JSON Object in JavaScript
+
+    var myJsonData = {"menu": {
+      "id": "file",
+      "value": "File",
+      "popup": {
+        "menuitem": [
+          {"value": "New", "onclick": "CreateNewDoc()"},
+          {"value": "Open", "onclick": "OpenDoc()"},
+          {"value": "Close", "onclick": "CloseDoc()"}
+        ]
+      }
+    }}
+
+If an Ajax action needs to return structured data to the caller page for further JavaScript processing, JSON is a good format for the response. This is very useful if, for instance, one Ajax call is to update several elements in the caller page.
+
+For instance, imagine a caller page that looks like Listing 11-27. It has two elements that may need to be updated. One remote helper could update only one of the elements of the page (either the `title` or the `name`), but not both.
+
+Listing 11-27 - Sample Template for Multiple Ajax Updates
+
+    [php]
+    <h1 id="title">Basic letter</h1>
+    <p>Dear <span id="name">name_here</span>,</p>
+    <p>Your e-mail was received and will be answered shortly.</p>
+    <p>Sincerely,</p>
+
+To update both, imagine that the Ajax response can be a JSON data block
+containing the following array:
+
+     {"title":"My basic letter","name":"Mr Brown"}
+
+Then the remote call can easily interpret this response and update several 
+fields in a row, with a little help from JavaScript. The code in Listing 
+11-28 shows what could be added to the template of Listing 11-27 to achieve 
+this effect.
+
+Listing 11-28 - Updating More Than One Element from a Remote Response
+
+    [php]
+    <?php echo link_to_remote('Refresh the letter', array(
+      'url'      => 'publishing/refresh',
+      'complete' => 'updateJSON(request)'
+    )) ?>
+
+    <?php echo javascript_tag("
+      function updateJSON(ajax)
+      {
+        json = ajax.responseJSON;
+        var elId;
+        for (elId in json)
+        {
+          Element.update(elId, json[elId]);
+        }
+      }
+    ") ?>
+
+The `complete` callback has access to the Ajax response and can pass it to a
+third-party function. This custom `updateJSON()` function iterates over the 
+JSON obtained from the response via `responseJSON` and for each member of the
+array, updates the element named by the key with the content of the value.
+
+Listing 11-29 shows how the `publishing/refresh` action can return a JSON response.
+
+Listing 11-29 - Sample Action Returning JSON data
+
+    [php]
+    class publishingActions extends sfActions
+    {
+      public function executeRefresh()
+      {
+        $this->getResponse()->setHttpHeader('Content-Type','application/json; charset=utf-8');
+        $output = '[["title", "My basic letter"], ["name", "Mr Brown"]]';
+        return $this->renderText('('.$output.')');
+      }
+
+Using the `application/json` content type allows Prototype to automatically evaluate the JSON passed as the body of the response, which is preferred to returning it via the header, because the HTTP header is limited in size and some browsers struggle with responses that do not have a body.
+By using `->renderText()` the template file is not used, resulting in better performance.
+
+JSON has become a standard among web applications. Web services often propose responses in JSON rather than XML to allow service integration in the client (mashup), rather than on the server. So if you wonder which format to use for communication between your server and a JavaScript function, JSON is probably your best bet.
+
+>**TIP**
+>Since version 5.2, PHP offers two functions, `json_encode()` and `json_decode()`, that allow you to convert an array between the PHP syntax and the JSON syntax, and vice versa ([http://www.php.net/manual/en/ref.json.php](http://www.php.net/manual/en/ref.json.php)). These facilitate the integration of JSON arrays (and Ajax in general) and enable the use of more readable native PHP code:
+>
+>     [php]
+>     $output = array("title" => "My basic letter", "name" => "Mr Brown");
+>     return $this->renderText(json_encode($output));
+
+Performing Complex Interactions with Ajax
+-----------------------------------------
+
+Among the symfony Ajax helpers, you will also find some tools that build up complex interactions with a single call. They allow you to enhance the user experience by desktop-application-like interactions (drag-and-drop, autocompletion, and live editing) without the need for complex JavaScript. The following sections describe the helpers for complex interactions and show simple examples. Additional parameters and tweaks are described in the script.aculo.us documentation.
+
+>**CAUTION**
+>If complex interactions are possible, they need extra time for presentation tweaking to make them feel natural. Use them only when you are sure that they enhance the user experience. Avoid them when there is a risk that they will disorient users.
+
+### Autocompletion
+
+A text-input component that shows a list of words matching the user's entry while the user types is called an autocompletion. With a single helper called `input_auto_complete_tag()`, you can achieve this effect, provided that the remote action returns a response formatted as an HTML item list similar to the example shown in Listing 11-30.
+
+Listing 11-30 - Example of a Response Compatible with the Autocomplete Tag
+
+    <ul>
+      <li>suggestion1</li>
+      <li>suggestion2</li>
+      ...
+    </ul>
+
+Insert the helper in a template as you would do with a regular text input, following the example shown in Listing 11-31.
+
+Listing 11-31 - Using the Autocomplete Tag Helper in a Template
+
+    [php]
+    <?php echo form_tag('mymodule/myaction') ?>
+      Find an author by name:
+      <?php echo input_auto_complete_tag('author', 'default name',
+        'author/autocomplete',
+        array('autocomplete' => 'off'),
+        array('use_style'    => true)
+      ) ?>
+      <?php echo submit_tag('Find') ?>
+    </form>
+
+This will call the `author/autocomplete` action each time the user types a character in the `author` field. It's up to you to design the action so that it determines a list of possible matches according to the author request parameter and returns them in a format similar to Listing 11-30. The helper will then display the list under the `author` tag, and clicking one of the suggestions or selecting it with the keyboard will complete the input, as shown in Figure 11-3.
+
+Figure 11-3 - An autocompletion example
+
+![An autocompletion example](/images/book/F1103.png "An autocompletion example")
+
+The third argument of the `input_auto_complete_tag()` helper can take the following parameters:
+
+  * `use_style`: Styles the response list automatically.
+  * `frequency`: Frequency of the periodical call (defaults to 0.4s).
+  * `indicator`: Id of an indicator that will be shown when loading of the autocompletion suggestions started and faded when it completes.
+  * tokens: To allow tokenized incremental autocompletion. For instance, if you set this parameter to `,` and if the user entered `jane, george`, the action would receive only the value `'george'`.
+
+### Drag-and-Drop
+
+The ability to grab an element with the mouse, move it, and release it somewhere else is familiar in desktop applications but rarer in web browsers. This is because coding such behavior in plain JavaScript is very complicated. Fortunately, it requires only one line in symfony.
+
+The framework provides two helpers, `draggable_element()` and `drop_receiving_element()`, that can be seen as behavior modifiers; they add observers and abilities to the element they address. Use them to declare an element as draggable or as a receiving element for draggable elements. A draggable element can be grabbed by clicking it with the mouse. Until the mouse button is released, the element can be moved, or dragged, across the window. A receiving element calls a remote function when a draggable element is released on it. Listing 11-32 demonstrates this type of interaction with a shopping cart receiving element.
+
+Listing 11-32 - Draggable Elements and Drop-Receiving Elements in a Shopping Cart
+
+    [php]
+    <ul id="items">
+      <li id="item_1" class="food">Carrot</li>
+      <?php echo draggable_element('item_1', array('revert' => true)) ?>
+      <li id="item_2" class="food">Apple</li>
+      <?php echo draggable_element('item_2', array('revert' => true)) ?>
+      <li id="item_3" class="food">Orange</li>
+      <?php echo draggable_element('item_3', array('revert' => true)) ?>
+    </ul>
+    <div id="cart">
+      <p>Your cart is empty</p>
+      <p>Drag items here to add them to your cart</p>
+    </div>
+    <?php echo drop_receiving_element('cart', array(
+      'url'        => 'cart/add',
+      'accept'     => 'food',
+      'update'     => 'cart',
+    )) ?>
+
+Each of the items of the unordered list can be grabbed by the mouse and dragged across the window. When released, they return to their original position. When released over the `cart` element, it triggers a remote call to the cart/add action. The action will be able to determine which item was dropped in the `cart` element by looking at the `id` request parameter. So Listing 11-32 simulates a real shopping session: You grab items and release them in the cart, and then proceed to checkout.
+
+>**TIP**
+>In Listing 11-32, the helpers are written just after the element they modify, but that is not a requirement. You could very well group all the `draggable_element()` and `drop_receiving_element()` helpers at the end of the template. The important thing is the first argument of the helper call, which specifies the identifier of the element to receive the behavior.
+
+The `draggable_element()` helper accepts the following parameters:
+
+  * `revert`: If set to `true`, the element will return to its original location when released. It can also be an arbitrary function reference, called when the drag ends.
+  * `ghosting`: Clones the element and drags the clone, leaving the original in place until the clone is dropped.
+  * `snap`: If set to `false`, no snapping occurs. Otherwise, the draggable can be dragged only to the intersections of a grid of interval x and y, and in this case, it takes the form `xy` or `[x,y]` or `function(x,y){ return [x,y] }`.
+
+The `drop_receiving_element()` helper accepts the following parameters:
+
+  * `accept`: A string or an array of strings describing CSS classes. The element will accept only draggable elements that have one or more of these CSS classes.
+  * `hoverclass`: CSS class added to the element when the user drags an accepted draggable element over it.
+
+### Sortable Lists
+
+Another possibility offered by draggable elements is the ability to sort a list by moving its items with the mouse. The `sortable_element()` helper adds the sortable behavior to an item, and Listing 11-33 is a good example of implementing this feature.
+
+Listing 11-33 - Sortable List Example
+
+    [php]
+    <p>What do you like most?</p>
+    <ul id="order">
+      <li id="item_1" class="sortable">Carrots</li>
+      <li id="item_2" class="sortable">Apples</li>
+      <li id="item_3" class="sortable">Oranges</li>
+      // Nobody likes Brussel sprouts anyway
+      <li id="item_4">Brussel sprouts</li>
+    </ul>
+    <div id="feedback"></div>
+    <?php echo sortable_element('order', array(
+      'url'    => 'item/sort',
+      'update' => 'feedback',
+      'only'   => 'sortable',
+    )) ?>
+
+By the magic of the `sortable_element()` helper, the `<ul>` element is made sortable, which means that its children can be reordered by drag-and-drop. Each time the user drags an item and releases it to reorder the list, an Ajax request is made with the following parameters:
+
+    POST /sf_sandbox/web/frontend_dev.php/item/sort HTTP/1.1
+      order[]=1&order[]=3&order[]=2&_=
+
+The full ordered list is passed as an array (with the format `order[$rank]=$id`, the `$rank` starting at 0, and the `$id` based on what comes after the underscore (`_`) in the list element `id` property). The `id` property of the sortable element (`order` in the example) is used to name the array of parameters.
+
+The `sortable_element()` helper accepts the following parameters:
+
+  * `only`: A string or an array of strings describing CSS classes. Only the child elements of the sortable element with this class can be moved.
+  * `hoverclass`: CSS class added to the element when the mouse is hovered over it.
+  * `overlap`: Set it to `horizontal` if the items are displayed inline, and to `vertical` (the default value) when there is one item per line (as in the example).
+  * `tag`: If the list to order is not a set of `<li>` elements, you must define which child elements of the sortable element are to be made draggable (for instance, `div` or `dl`).
+
+>**TIP**
+>Since symfony 1.1 you can also use `sortable_element()` helper without the `url` option. Then no AJAX request will be made on sorting. Useful if you want to defer the AJAX call to a `save` button or similar.
+
+### Edit in Place
+
+More and more web applications allow users to edit the contents of pages directly on the page, without the need to redisplay the content in a form. The principle of the interaction is simple. A block of text is highlighted when the user hovers the mouse over it. If the user clicks inside the block, the plain text is converted into a text area filled with the text of the block, and a save button appears. The user can edit the text inside the text area, and once he saves it, the text area disappears and the text is displayed in plain form. With symfony, you can add this editable behavior to an element with the `input_in_place_editor_tag()` helper. Listing 11-34 demonstrates using this helper.
+
+Listing 11-34 - Editable Text Example
+
+    [php]
+    <div id="edit_me">You can edit this text</div>
+    <?php echo input_in_place_editor_tag('edit_me', 'mymodule/myaction', array(
+      'cols'        => 40,
+      'rows'        => 10,
+    )) ?>
+
+When the user clicks the editable text, it is replaced by a text input area filled with the text, which can be edited. When the form is submitted, the `mymodule/myaction` action is called in Ajax with the edited value set as the `value` parameter. The result of the action updates the editable element. It is very fast to write and very powerful.
+
+The `input_in_place_editor_tag()` helper accepts the following parameters:
+
+  * cols and rows: The size of the text input area that appears for editing (it becomes a `<textarea>` if `rows` is more than 1).
+  * `loadTextURL`: The URI of an action that is called to display the text to edit. This is useful if the content of the editable element uses special formatting and if you want the user to edit the text without formatting.
+  * `save_text` and `cancel_text`: The text on the save link (defaults to "ok") and on the cancel link (defaults to "cancel").
+
+More options are available. See [http://mir.aculo.us/2007/7/17/in-place-editing-the-summer-2007-rewrite/](http://mir.aculo.us/2007/7/17/in-place-editing-the-summer-2007-rewrite/) for documentation of options and their effects.
+
+Summary
+-------
+
+If you are tired of writing JavaScript in your templates to get client-side behaviors, the JavaScript helpers offer a simple alternative. Not only do they automate the basic link behavior and element update, but they also provide a way to develop Ajax interactions in a snap. With the help of the powerful syntax enhancements provided by Prototype and the great visual effects provided by script.aculo.us, even complex interactions take no more than a few lines to write.
+
+And since making a highly interactive application is as easy as making static pages with symfony, you can consider that almost all desktop applications interactions are now available in web applications.

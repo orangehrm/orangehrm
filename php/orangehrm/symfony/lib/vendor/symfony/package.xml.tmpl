@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>symfony</name>
+ <channel>pear.symfony-project.com</channel>
+ <summary>Symfony is a complete framework designed to optimize the development of web applications.</summary>
+ <description>
+   Symfony is a complete framework designed to optimize the development of web applications by way of several key features.
+   For starters, it separates a web application's business rules, server logic, and presentation views.
+   It contains numerous tools and classes aimed at shortening the development time of a complex web application.
+   Additionally, it automates common tasks so that the developer can focus entirely on the specifics of an application.
+   The end result of these advantages means there is no need to reinvent the wheel every time a new web application is built!
+ </description>
+ <lead>
+  <name>Fabien POTENCIER</name>
+  <user>fabpot</user>
+  <email>fabien.potencier@symfony-project.com</email>
+  <active>yes</active>
+ </lead>
+ <date>##CURRENT_DATE##</date>
+ <version>
+   <release>##SYMFONY_VERSION##</release>
+   <api>1.2.0</api>
+ </version>
+ <stability>
+  <release>##STABILITY##</release>
+  <api>##STABILITY##</api>
+ </stability>
+ <license uri="http://www.symfony-project.org/license">MIT license</license>
+ <notes>-</notes>
+
+ <contents>
+  <dir name="/">
+
+    ##CLASS_FILES##
+
+   <file role="script" baseinstalldir="/" install-as="symfony" name="data/bin/symfony">
+    <tasks:replace type="pear-config" from="@DATA-DIR@" to="data_dir" />
+    <tasks:replace type="pear-config" from="@PEAR-DIR@" to="php_dir" />
+   </file>
+
+   <file role="script" baseinstalldir="/" name="data/bin/symfony.bat" />
+
+   <file role="doc" baseinstalldir="symfony" install-as="book/LICENSE" name="doc/LICENSE" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/01-Introducing-Symfony.txt" name="doc/01-Introducing-Symfony.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/02-Exploring-Symfony-s-Code.txt" name="doc/02-Exploring-Symfony-s-Code.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/03-Running-Symfony.txt" name="doc/03-Running-Symfony.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/04-The-Basics-of-Page-Creation.txt" name="doc/04-The-Basics-of-Page-Creation.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/05-Configuring-Symfony.txt" name="doc/05-Configuring-Symfony.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/06-Inside-the-Controller-Layer.txt" name="doc/06-Inside-the-Controller-Layer.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/07-Inside-the-View-Layer.txt" name="doc/07-Inside-the-View-Layer.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/08-Inside-the-Model-Layer.txt" name="doc/08-Inside-the-Model-Layer.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/09-Links-and-the-Routing-System.txt" name="doc/09-Links-and-the-Routing-System.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/10-Forms.txt" name="doc/10-Forms.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/11-Ajax-Integration.txt" name="doc/11-Ajax-Integration.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/12-Caching.txt" name="doc/12-Caching.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/13-I18n-and-L10n.txt" name="doc/13-I18n-and-L10n.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/14-Generators.txt" name="doc/14-Generators.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/15-Unit-and-Functional-Testing.txt" name="doc/15-Unit-and-Functional-Testing.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/16-Application-Management-Tools.txt" name="doc/16-Application-Management-Tools.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/17-Extending-Symfony.txt" name="doc/17-Extending-Symfony.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/18-Performance.txt" name="doc/18-Performance.txt" />
+   <file role="doc" baseinstalldir="symfony" install-as="book/19-Mastering-Symfony-s-Configuration-Files.txt" name="doc/19-Mastering-Symfony-s-Configuration-Files.txt" />
+
+   <file role="doc" baseinstalldir="symfony" name="README" />
+   <file role="doc" baseinstalldir="symfony" name="COPYRIGHT" />
+   <file role="doc" baseinstalldir="symfony" name="LICENSE" />
+   <file role="doc" baseinstalldir="symfony" name="UPGRADE_TO_1_1" />
+   <file role="doc" baseinstalldir="symfony" name="UPGRADE_TO_1_2" />
+   <file role="doc" baseinstalldir="symfony" name="licenses/LICENSE.ICU" />
+   <file role="doc" baseinstalldir="symfony" name="licenses/LICENSE.lime" />
+   <file role="doc" baseinstalldir="symfony" name="licenses/LICENSE.prado" />
+  </dir>
+ </contents>
+
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.4</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   <extension>
+    <name>reflection</name>
+   </extension>
+   <extension>
+    <name>ctype</name>
+   </extension>
+   <extension>
+    <name>pcre</name>
+   </extension>
+   <extension>
+    <name>simplexml</name>
+   </extension>
+   <extension>
+    <name>xml</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+
+ <phprelease>
+   <installconditions>
+     <os>
+       <name>windows</name>
+     </os>
+   </installconditions>
+   <filelist>
+     <install as="symfony.bat" name="data/bin/symfony.bat" />
+   </filelist>
+ </phprelease>
+
+ <phprelease>
+  <filelist>
+   <ignore name="data/bin/symfony.bat" />
+  </filelist>
+ </phprelease>
+
+ <changelog>
+ </changelog>
+</package>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Ny</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Redigera</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Radera</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Lista</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Spara</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Spara och skapa ny</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Avbryt</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Välj en åtgärd</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Nollställ</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrera</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Inga resultat</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Åtgärder</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(sida %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>stigande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>fallande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] inget resultat|[1] 1 resultat|(1,+Inf] %1% resultat</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Första sidan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Föregående sida</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Näste sida</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Sista sidan</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Objekt skapades.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Objekt uppdaterat.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Objektet skapades. Du kan skapa ett nytt nedanför.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Objektet uppdaterades. Du kan skapa ett nytt nedanför.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Objektet kunde inte sparas på grund av vissa fel.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Objektet raderades.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Du måste välja minst ett objekt</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Du måste välja en åtgärd att utföra på det valda objektet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Ett problem uppstod när de valda objekten skulle raderas då vissa objekt inte existerar längre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>De valda objekten har raderats.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Ett problem uppstod när de valda objekten raderades.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

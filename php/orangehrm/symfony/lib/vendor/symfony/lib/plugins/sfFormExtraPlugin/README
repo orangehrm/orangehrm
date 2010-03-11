@@ -1,0 +1,58 @@
+= sfFormExtraPlugin =
+
+The `sfFormExtraPlugin` packages useful validators, widgets, and forms.
+
+This collection holds validators, widgets, and forms which we don't want to include with the main symfony package
+because they are too specific or have external dependencies.
+
+== Installation ==
+
+  * Install the plugin
+
+    {{{
+      symfony plugin:install symfony/sfFormExtraPlugin
+    }}}
+
+  * Clear the cache
+
+    {{{
+      symfony cache:clear
+    }}}
+
+== Documentation ==
+
+All classes have full API and usage documentation. The API documentation is available here.
+
+== Forms ==
+
+  * sfFormLanguage: A form to change the symfony user culture
+
+== Validators ==
+
+  * sfValidatorReCaptcha: Validates a ReCaptcha (see sfWidgetFormReCaptcha)
+  * sfValidatorBlacklist: Validates that a value is not one of the configured forbidden ones
+  * sfValidatorSchemaTimeInterval: Validates a time interval between two dates provided by a widget schema
+
+== Widgets ==
+
+  * sfWidgetFormReCaptcha: Displays a ReCaptcha widget (see sfValidatorReCaptcha)
+  * sfWidgetFormSelectDoubleList: Displays a double list widget
+  * sfWidgetFormJQueryDate: Displays a date using JQuery UI
+  * sfWidgetFormJQueryAutocompleter: Displays an input tag with autocomplete support using JQuery
+  * sfWidgetFormPropelJQueryAutocompleter: Displays an autocomplete widget tied to a Propel model
+  * sfWidgetFormTextareaTinyMCE: A rich textarea rendered with TinyMCE
+
+== How to contribute ==
+
+If you want to contribute a validator, a widget, or a form, follow these steps:
+
+  * Check the prerequisites
+    * The license must be MIT
+    * You must have a unit test suite (100% coverage)
+    * You must have PHPdoc for all classes and methods with a documentation usage
+    * You must follow symfony coding standards
+    * The contribution must not be too specific
+    * You must be sure you will be able to maintain your contribution
+  * Create a ticket and attach a patch
+    * Choose `sfFormExtraPlugin` as the component
+    * Change the qualification to `Ready for core team`

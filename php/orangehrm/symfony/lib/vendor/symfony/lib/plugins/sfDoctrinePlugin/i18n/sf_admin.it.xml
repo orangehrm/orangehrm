@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Nuovo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Modifica</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Cancella</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Lista</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Salva</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Salva e aggiungi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Annulla</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Scegli un'azione</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Reset</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtra</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Nessun risultato</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Azioni</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(pagina %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>asc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>disc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] nessun risultato|[1] 1 risultato|(1,+Inf] %1% risultati</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Prima pagina</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Pagina precedente</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Pagina seguente</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Ultima pagina</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>L'elemento è stato creato con successo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>L'elemento è stato aggiornato con successo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>L'elemento è stato creato con successo. Puoi aggiungerne un altro di seguito.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>L'elemento è stato aggiornato con successo. Puoi aggiungerne un altro di seguito.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>L'elemento non è stato salvato a causa di qualche errore.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>L'elemento è stato cancellato con successo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Selezionare almeno un elemento.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Selezionare un'azione da eseguire sugli elementi selezionati.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Si è verificato un problema durante la cancellazione degli elementi selezionati, alcuni elementi non esistono più.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Gli elementi selezionati sono stati cancellati.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Si è verificato un problema durante la cancellazione degli elementi selezionati.</target>
+      </trans-unit>
+   </body>
+  </file>
+</xliff>

@@ -1,0 +1,16 @@
+default:
+  deliver:           on
+  mailer:            smtp
+  domain:            localhost.localdomain
+  hostname:          localhost
+  port:              25
+  username:          ''
+  password:          ''
+
+  wordwrap:          80
+
+  .headers:
+    priority:        3
+    content_type:    text/plain
+    charset:         utf-8
+    encoding:        8bit

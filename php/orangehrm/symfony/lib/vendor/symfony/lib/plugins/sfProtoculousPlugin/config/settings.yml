@@ -1,0 +1,3 @@
+all:
+  .settings:
+    prototype_web_dir:      /sfProtoculousPlugin  #default 1.6.02 and 1.8 files. Can be changed to compressed files for production.

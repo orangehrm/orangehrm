@@ -1,0 +1,16 @@
+table {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+table tr th {
+  padding: 6px;
+  background: #ccc;
+  color: #000;
+  border-collapse: collapse;
+}
+
+table tr td {
+  padding: 4px;
+  border: 1px solid #ccc;
+}

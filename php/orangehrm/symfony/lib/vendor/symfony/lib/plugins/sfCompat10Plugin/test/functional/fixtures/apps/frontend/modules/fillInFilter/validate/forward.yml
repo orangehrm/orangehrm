@@ -1,0 +1,10 @@
+methods:
+  post: [name]
+
+fillin:
+  enabled:  on
+
+names:
+  name:
+    required:      true
+    required_msg:  name is empty

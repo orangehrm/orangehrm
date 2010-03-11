@@ -1,0 +1,1487 @@
+Employee:
+  tableName: hs_hr_employee
+  columns:
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(4)
+      primary: true
+    emp_lastname:
+      name: emp_lastname as lastName
+      type: string(100)
+      default: ''
+      notnull: true
+    emp_firstname:
+      name: emp_firstname as firstName
+      type: string(100)
+      default: ''
+      notnull: true
+    emp_middle_name:
+      name: emp_middle_name as middleName
+      type: string(100)
+      default: ''
+      notnull: true
+    emp_nick_name:
+      name: emp_nick_name as nickName
+      type: string(100)
+      default: ''
+    emp_smoker:
+      name: emp_smoker as smoker
+      type: integer(2)
+      default: '0'
+    emp_ssn_num:
+      name: emp_ssn_num as ssn
+      type: string(100)
+      default: ''
+    emp_sin_num:
+      name: emp_sin_num as sin
+      type: string(100)
+      default: ''
+    emp_other_id:
+      name: emp_other_id as otherId
+      type: string(100)
+      default: ''
+    emp_dri_lice_num:
+      name: emp_dri_lice_num as licenseNo
+      type: string(100)
+      default: ''
+    emp_military_service:
+      name: emp_military_service as militaryService
+      type: string(100)
+      default: ''
+    emp_street1:
+      name: emp_street1 as street1
+      type: string(100)
+      default: ''
+    emp_street2:
+      name: emp_street2 as street2
+      type: string(100)
+      default: ''
+    city_code:
+      name: city_code as city
+      type: string(100)
+      default: ''
+    coun_code:
+      name: coun_code as country
+      type: string(100)
+      default: ''
+    provin_code:
+      name: provin_code as province
+      type: string(100)
+      default: ''
+    employee_id:
+      name: employee_id as employeeId 
+      type: string(50)
+    ethnic_race_code: string(13)
+    emp_birthday: date(25)
+    nation_code: string(13)
+    emp_gender: integer(2)
+    emp_marital_status: string(20)
+    emp_dri_lice_exp_date: date(25)
+    emp_status: string(13)
+    job_title_code: string(13)
+    eeo_cat_code: string(13)
+    work_station: integer(4)
+    emp_zipcode: string(20)
+    emp_hm_telephone: string(50)
+    emp_mobile: string(50)
+    emp_work_telephone: string(50)
+    emp_work_email: string(50)
+    sal_grd_code: string(13)
+    joined_date: date(25)
+    emp_oth_email: string(50)
+    terminated_date: date(25)
+    termination_reason: string(256)
+    custom1: string(250)
+    custom2: string(250)
+    custom3: string(250)
+    custom4: string(250)
+    custom5: string(250)
+    custom6: string(250)
+    custom7: string(250)
+    custom8: string(250)
+    custom9: string(250)
+    custom10: string(250)
+  relations:
+    subDivision:
+      class: CompanyStructure
+      local: work_station
+      foreign: id
+      type: one
+    jobTitle:
+      class: JobTitle
+      local: job_title_code
+      foreign: jobtit_code
+      type: one
+    employeeStatus:
+      class: EmployeeStatus
+      local: emp_status
+      foreign: estat_code
+      type: one
+    supervisors:
+      class: Employee
+      local: erep_sub_emp_number
+      foreign: erep_sup_emp_number
+      refClass: ReportTo
+      foreignAlias: subordinates
+    locations:
+      class: Location
+      local: emp_number
+      foreign: loc_code
+      refClass: EmpLocations
+      foreignAlias: employees
+    dependents:
+      class: EmpDependents
+      local: emp_number
+      foreign: emp_number
+      type: many
+    children:
+      class: EmpChildren
+      local: emp_number
+      foreign: emp_number
+      type: many
+    emergencyContacts:
+      class: EmpEmergencyContacts
+      local: emp_number
+      foreign: emp_number
+      type: many
+    immigrationDocuments:
+      class: EmpPassport
+      local: emp_number
+      foreign: emp_number
+      type: many
+    workExperience:
+      class: EmpWorkExperience
+      local: emp_number
+      foreign: emp_number
+      type: many
+    education:
+      class: EmployeeEducation
+      local: emp_number
+      foreign: emp_number
+      type: many
+    skills:
+      class: EmployeeSkill
+      local: emp_number
+      foreign: emp_number
+      type: many
+    languages:
+      class: EmployeeLanguage
+      local: emp_number
+      foreign: emp_number
+      type: many
+    licenses:
+      class: EmployeeLicenses
+      local: emp_number
+      foreign: emp_number
+      type: many
+    memberships:
+      class: EmployeeMemberDetail
+      local: emp_number
+      foreign: emp_number
+      type: many
+    salary:
+      class: EmpBasicsalary
+      local: emp_number
+      foreign: emp_number
+      type: many
+    directDebit:
+      class: EmpDirectdebit
+      local: emp_number
+      foreign: emp_number
+      type: many
+                        
+EmpLocations:
+  tableName: hs_hr_emp_locations
+  columns:
+    emp_number as empNumber:
+      type: integer(4)
+      primary: true
+    loc_code:
+      type: string(13)
+      primary: true
+      
+EmpDependents:
+  tableName: hs_hr_emp_dependents
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ed_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ed_name as name:
+      type: string(100)
+      default: ''
+    ed_relationship as relationship:
+      type: string(100)
+      default: ''
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+
+EmpChildren:
+  tableName: hs_hr_emp_children
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ec_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ec_name as name:
+      type: string(100)
+      default: ''
+    ec_date_of_birth as dob: date(25)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+EmpEmergencyContacts:
+  tableName: hs_hr_emp_emergency_contacts
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    eec_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    eec_name as name:
+      type: string(100)
+      default: ''
+    eec_relationship as relationship:
+      type: string(100)
+      default: ''
+    eec_home_no as home_phone:
+      type: string(100)
+      default: ''
+    eec_mobile_no as mobile_phone:
+      type: string(100)
+      default: ''
+    eec_office_no as office_phone:
+      type: string(100)
+      default: ''
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+EmpPassport:
+  tableName: hs_hr_emp_passport
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ep_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ep_passport_num as number:
+      type: string(100)
+      default: ''
+      notnull: true
+    ep_i9_status as i9_status:
+      type: string(100)
+      default: ''
+    ep_passportissueddate as passport_issue_date: timestamp(25)
+    ep_passportexpiredate as passport_expire_date: timestamp(25)
+    ep_comments as comments: string(255)
+    ep_passport_type_flg as type_flag : integer(2)
+    ep_i9_review_date as i9_review_date: date(25)
+    cou_code as country: string(6)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+EmpUsTax:
+  tableName: hs_hr_emp_us_tax
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    tax_federal_exceptions as federal_exceptions:
+      type: integer(4)
+      default: '0'
+    tax_state_exceptions as state_exceptions:
+      type: integer(4)
+      default: '0'
+    tax_federal_status as federal_status: string(13)
+    tax_state as state: string(13)
+    tax_state_status as state_status: string(13)
+    tax_unemp_state as unemp_state: string(13)
+    tax_work_state as work_state: string(13)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      foreignType: one
+      foreignAlias: usTax
+      
+EmpWorkExperience:
+  tableName: hs_hr_emp_work_experience
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    eexp_seqno as seqno:
+      type: decimal(10)
+      primary: true
+    eexp_employer as employer: string(100)
+    eexp_jobtit as jobtitle: string(120)
+    eexp_from_date as from_date: timestamp(25)
+    eexp_to_date as to_date: timestamp(25)
+    eexp_comments as comments: string(200)
+    eexp_internal as internal: integer(4)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+Location:
+  tableName: hs_hr_location
+  columns:
+    loc_code:
+      type: string(13)
+      primary: true
+    loc_name: string(100)
+    loc_country: string(3)
+    loc_state: string(50)
+    loc_city: string(50)
+    loc_add: string(100)
+    loc_zip: string(10)
+    loc_phone: string(30)
+    loc_fax: string(30)
+    loc_comments: string(100)
+  relations:
+    country:
+      local: loc_country
+      foreign: cou_code
+      type: one
+    CompanyStructure:
+      local: loc_code
+      foreign: loc_code
+      type: many
+    Employees:
+      class: Employee
+      local: loc_code
+      foreign: emp_number
+      refClass: EmpLocations
+      foreignAlias: employees
+
+Country:
+  tableName: hs_hr_country
+  columns:
+    cou_code:
+      type: string(2)
+      fixed: true
+      primary: true
+    name:
+      type: string(80)
+      default: ''
+      notnull: true
+    cou_name:
+      type: string(80)
+      default: ''
+      notnull: true
+    iso3:
+      type: string(3)
+      fixed: true
+    numcode: integer(2)
+  relations:
+    locations:
+      class: Location
+      local: cou_code
+      foreign: loc_country
+      type: many
+
+CompanyStructure:
+  tableName: hs_hr_compstructtree
+  columns:
+    title:
+      type: string(2147483647)
+      notnull: true
+    description:
+      type: string(2147483647)
+      notnull: true
+    lft:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    rgt:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    id:
+      type: integer(4)
+      primary: true
+    parnt:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    loc_code: string(13)
+    dept_id: string(32)
+  relations:
+    employees:
+      class: Employee
+      local: id
+      foreign: work_station
+      type: many
+      foreignAlias: subDivision
+    location:
+      class: Location
+      local: loc_code
+      foreign: loc_code
+      type: one
+  
+
+EmployeeStatus:
+  tableName: hs_hr_empstat
+  columns:
+    estat_code:
+      name: estat_code as id
+      type: string(13)
+      primary: true
+    estat_name: 
+      name: estat_name as name
+      type: string(50)
+  relations:
+    employees:
+      class: Employee
+      local: estat_code
+      foreign: emp_status
+      type: many
+      
+UniqueId:
+  tableName: hs_hr_unique_id
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_id:
+      type: integer(4)
+      unsigned: 1
+      notnull: true
+    table_name:
+      type: string(50)
+      notnull: true
+    field_name:
+      type: string(50)
+      notnull: true
+      
+JobTitle:
+  tableName: hs_hr_job_title
+  columns:
+    jobtit_code:
+      name: jobtit_code as id
+      type: string(13)
+      primary: true
+    jobtit_name:
+      name: jobtit_name as name 
+      type: string(50)
+    jobtit_desc: 
+      name: jobtit_desc as description
+      type: string(200)
+    jobtit_comm: 
+      name: jobtit_comm as comments
+      type: string(400)
+    sal_grd_code: 
+      name: sal_grd_code as salaryGradeId
+      type: string(13)
+      notnull: false
+    jobspec_id: 
+      name: jobspec_id as jobspecId
+      type: string(13)
+      notnull: false
+  relations:
+    employees:
+      class: Employee
+      local: jobtit_code
+      foreign: job_title_code
+      type: many
+    SalaryGrade:
+      local: salaryGradeId
+      foreign: sal_grd_code
+      type: one
+    JobSpecifications:
+      local: jobspecId
+      foreign: jobspec_id
+      type: one
+    JobTitleEmployeeStatus:
+      local: id
+      foreign: jobtit_code
+      type: many
+    definekpi:
+      class: DefineKpi
+      local: jobtit_code
+      foreign: job_title_code
+      type: many
+      
+ReportTo:
+  tableName: hs_hr_emp_reportto
+  columns:
+    erep_sup_emp_number:
+      name: erep_sup_emp_number as supervisorId
+      type: integer(4)
+      primary: true
+    erep_sub_emp_number:
+      name: erep_sub_emp_number as subordinateId
+      type: integer(4)
+      primary: true
+    erep_reporting_mode:
+      name: erep_reporting_mode as reportingMode
+      type: integer(2)
+      primary: true
+  relations:
+    supervisor:
+      class: Employee
+      local: erep_sup_emp_number
+      foreign: emp_number
+      type: one
+    subordinate:
+      class: Employee
+      local: erep_sub_emp_number
+      foreign: emp_number
+      type: one
+      
+CompanyGeninfo:
+  tableName: hs_hr_geninfo
+  columns:
+    code:
+      type: string(13)
+      primary: true
+    geninfo_keys: string(200)
+    geninfo_values: string(800)
+ 
+Country:
+  tableName: hs_hr_country
+  columns:
+    cou_code:
+      type: string(2)
+      fixed: true
+      primary: true
+    name:
+      type: string(80)
+      default: ''
+      notnull: true
+    cou_name:
+      type: string(80)
+      default: ''
+      notnull: true
+    iso3:
+      type: string(3)
+      fixed: true
+    numcode: integer(2)
+  
+Province:
+  tableName: hs_hr_province
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    province_name:
+      type: string(40)
+      default: ''
+      notnull: true
+    province_code:
+      type: string(2)
+      fixed: true
+      default: ''
+      notnull: true
+    cou_code:
+      type: string(2)
+      fixed: true
+      default: us
+      notnull: true
+ 
+CompanyProperty:
+  tableName: hs_hr_comp_property
+  columns:
+    prop_id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    prop_name:
+      type: string(250)
+      notnull: true
+    emp_id: integer(4)
+ 
+JobCategory:
+  tableName: hs_hr_eec
+  columns:
+    eec_code:
+      type: string(13)
+      primary: true
+    eec_desc: string(50)
+  relations:
+    Employee:
+      local: eec_code
+      foreign: eeo_cat_code
+      type: many
+ 
+SalaryGrade:
+  tableName: hs_pr_salary_grade
+  columns:
+    sal_grd_code:
+      type: string(13)
+      primary: true
+    sal_grd_name: string(60)    
+  relations:
+    EmpBasicsalary:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: many
+    JobTitle:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: many
+    SalaryCurrencyDetail:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: many
+
+JobSpecifications:
+  tableName: hs_hr_job_spec
+  columns:
+    jobspec_id:
+      type: integer(4)
+      primary: true
+    jobspec_name: string(50)
+    jobspec_desc: string(2147483647)
+    jobspec_duties: string(2147483647)
+ 
+Education:
+  tableName: hs_hr_education
+  columns:
+    edu_code:
+      name: edu_code as eduCode
+      type: string(13)
+      primary: true
+    edu_uni: string(100)
+    edu_deg: string(100)
+  relations:
+    HsHrEmpEducation:
+      local: edu_code
+      foreign: edu_code
+      type: many
+
+EmployeeEducation:
+  tableName: hs_hr_emp_education
+  columns:
+    emp_number:
+      name: emp_number
+      type: integer(4)
+      primary: true
+    edu_code:
+      name: edu_code as code
+      type: string(13)
+      primary: true
+    edu_major as major: string(100)
+    edu_year as year: decimal(4)
+    edu_gpa as gpa: string(25)
+    edu_start_date as start_date: timestamp(25)
+    edu_end_date as end_date: timestamp(25)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Education:
+      local: eduCode
+      foreign: eduCode
+      type: one
+
+Licenses:
+  tableName: hs_hr_licenses
+  columns:
+    licenses_code:
+      type: string(13)
+      primary: true
+    licenses_desc: string(50)
+  relations:
+    EmployeeLicenses:
+      local: licenses_code
+      foreign: licenses_code
+      type: many
+
+EmployeeLicenses:
+  tableName: hs_hr_emp_licenses
+  columns:
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(4)
+      primary: true
+    licenses_code as code:
+      type: string(100)
+      primary: true
+    licenses_date as date: date(25)
+    licenses_renewal_date as renewal_date: date(25)
+  relations:
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
+    license:
+      class: Licenses
+      local: licenses_code
+      foreign: licenses_code
+      type: one
+
+Skill:
+  tableName: hs_hr_skill
+  columns:
+    skill_code:
+      type: string(13)
+      primary: true
+    skill_name: string(120)
+    skill_description: string(2147483647)
+  relations:
+    EmployeeSkill:
+      local: skill_code
+      foreign: skill_code
+      type: many      
+
+EmployeeSkill:
+  tableName: hs_hr_emp_skill
+  columns:
+    emp_number:
+      type: integer(4)
+      default: '0'
+      notnull: true
+      primary: true
+    skill_code as code:
+      type: string(13)
+      default: ''
+      notnull: true
+      primary: true
+    years_of_exp:
+      type: decimal(2)
+      default: '0'
+      notnull: true
+    comments:
+      type: string(100)
+      default: ''
+      notnull: true
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Skill:
+      local: skill_code
+      foreign: skill_code
+      type: one
+
+Language:
+  tableName: hs_hr_language
+  columns:
+    lang_code:
+      type: string(13)
+      primary: true
+    lang_name: string(120)
+  relations:
+    EmployeeLanguage:
+      local: lang_code
+      foreign: lang_code
+      type: many
+ 
+EmployeeLanguage:
+  tableName: hs_hr_emp_language
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    lang_code as code:
+      type: string(13)
+      primary: true
+    elang_type as lang_type:
+      type: integer(2)
+      primary: true
+    competency:
+      type: integer(2)
+      default: '0'
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Language:
+      local: lang_code
+      foreign: lang_code
+      type: one
+ 
+MembershipType:
+  tableName: hs_hr_membership_type
+  columns:
+    membtype_code:
+      type: string(13)
+      primary: true
+    membtype_name: string(120)
+  relations:
+    HsHrEmpMemberDetail:
+      local: membtype_code
+      foreign: membtype_code
+      type: many
+    Membership:
+      local: membtype_code
+      foreign: membtype_code
+      type: many
+
+Membership:
+  tableName: hs_hr_membership
+  columns:
+    membship_code:
+      type: string(13)
+      primary: true
+    membtype_code: string(13)
+    membship_name: string(120)
+  relations:
+    MembershipType:
+      local: membtype_code
+      foreign: membtype_code
+      type: one
+    EmployeeMemberDetail:
+      local: membship_code
+      foreign: membship_code
+      type: many
+ 
+EmployeeMemberDetail:
+  tableName: hs_hr_emp_member_detail
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    membship_code:
+      type: string(13)
+      primary: true
+    membtype_code:
+      type: string(13)
+      primary: true
+    ememb_subscript_amount as subscription:
+      type: decimal(15)
+      scale: false
+    ememb_subscript_ownership as ownership: string(20)
+    ememb_commence_date as commence_date: timestamp(25)
+    ememb_renewal_date as renewal_date: timestamp(25)
+  relations:
+    MembershipType:
+      local: membtype_code
+      foreign: membtype_code
+      type: one
+    Membership:
+      local: membship_code
+      foreign: membship_code
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+
+EmpBasicsalary:
+  tableName: hs_hr_emp_basicsalary
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    sal_grd_code:
+      type: string(13)
+      primary: true
+    currency_id:
+      type: string(6)
+      primary: true
+    ebsal_basic_salary as basic_salary: string(100)
+    payperiod_code: string(13)
+  relations:
+    salaryGrade:
+      class: SalaryGrade
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: one
+    currencyType:
+      class: CurrencyType
+      local: currency_id
+      foreign: currency_id
+      type: one
+    employee:
+      class: Employee
+      local: emp_number
+      foreign: emp_number
+      type: one
+    payperiod:
+      class: Payperiod
+      local: payperiod_code
+      foreign: payperiod_code
+      type: one
+
+CurrencyType:
+  tableName: hs_hr_currency_type
+  columns:
+    code:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    currency_id as id:
+      type: string(3)
+      fixed: true
+      primary: true
+    currency_name as name:
+      type: string(70)
+      default: ''
+      notnull: true
+  relations:
+    EmpBasicsalary:
+      local: currency_id
+      foreign: currency_id
+      type: many
+    SalaryCurrencyDetail:
+      local: currency_id
+      foreign: currency_id
+      type: many
+
+SalaryCurrencyDetail:
+  tableName: hs_pr_salary_currency_detail
+  columns:
+    sal_grd_code:
+      type: string(13)
+      primary: true
+    currency_id:
+      type: string(6)
+      primary: true
+    salcurr_dtl_minsalary as min_salary: float(2147483647)
+    salcurr_dtl_stepsalary as salary_step: float(2147483647)
+    salcurr_dtl_maxsalary as max_salary: float(2147483647)
+  relations:
+    CurrencyType:
+      local: currency_id
+      foreign: currency_id
+      type: one
+    SalaryGrade:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: one
+
+Payperiod:
+  tableName: hs_hr_payperiod
+  columns:
+    payperiod_code as code:
+      type: string(13)
+      primary: true
+    payperiod_name as name: string(100)
+  relations:
+    EmpBasicsalary:
+      local: payperiod_code
+      foreign: payperiod_code
+      type: many
+
+EmpDirectdebit:
+  tableName: hs_hr_emp_directdebit
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    dd_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    dd_routing_num as routing_num:
+      type: integer(4)
+      notnull: true
+    dd_account as account:
+      type: string(100)
+      default: ''
+      notnull: true
+    dd_amount as amount:
+      type: decimal(11)
+      notnull: true
+      scale: false
+    dd_account_type as account_type:
+      type: string(20)
+      default: ''
+      notnull: true
+    dd_transaction_type as transaction_type:
+      type: string(20)
+      default: ''
+      notnull: true
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+Nationality:
+  tableName: hs_hr_nationality
+  columns:
+    nat_code:
+      type: string(13)
+      primary: true
+    nat_name: string(120)
+  relations:
+    Employee:
+      local: nat_code
+      foreign: nation_code
+      type: many
+
+EthnicRace:
+  tableName: hs_hr_ethnic_race
+  columns:
+    ethnic_race_code:
+      type: string(13)
+      primary: true
+    ethnic_race_desc: string(50)
+  relations:
+    Employee:
+      local: ethnic_race_code
+      foreign: ethnic_race_code
+      type: many
+
+Customer:
+  tableName: hs_hr_customer
+  columns:
+    customer_id:
+      type: integer(4)
+      primary: true
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(250)
+  relations:
+    Project:
+      local: customer_id
+      foreign: customer_id
+      type: many
+      
+Project:
+  tableName: hs_hr_project
+  columns:
+    project_id:
+      type: integer(4)
+      primary: true
+    customer_id:
+      type: integer(4)
+      primary: true
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(250)
+  relations:
+    Customer:
+      local: customer_id
+      foreign: customer_id
+      type: one
+    ProjectActivity:
+      local: project_id
+      foreign: project_id
+      type: many
+    ProjectAdmin:
+      local: project_id
+      foreign: project_id
+      type: many
+  
+ 
+ProjectActivity:
+  tableName: hs_hr_project_activity
+  columns:
+    activity_id:
+      type: integer(4)
+      primary: true
+    project_id:
+      type: integer(4)
+      notnull: true
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one
+
+ProjectAdmin:
+  tableName: hs_hr_project_admin
+  columns:
+    project_id:
+      type: integer(4)
+      primary: true
+    emp_number:
+      type: integer(4)
+      primary: true
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one 
+
+CustomFields:
+  tableName: hs_hr_custom_fields
+  columns:
+    field_num:
+      type: integer(4)
+      primary: true
+    name:
+      type: string(250)
+      notnull: true
+    type:
+      type: integer(4)
+      notnull: true
+    extra_data: string(250)
+ 
+JobTitleEmployeeStatus:
+  tableName: hs_hr_jobtit_empstat
+  columns:
+    jobtit_code:
+      type: string(13)
+      primary: true
+    estat_code:
+      type: string(13)
+      primary: true
+  relations:
+    JobTitle:
+      local: jobtit_code
+      foreign: id
+      type: one
+    EmployeeStatus:
+      local: estat_code
+      foreign: id
+      type: one
+
+UserGroup:
+  tableName: hs_hr_user_group
+  columns:
+    userg_id:
+      type: string(36)
+      primary: true
+    userg_repdef:
+      type: integer(2)
+      unsigned: 1
+      default: '0'
+    userg_name: string(45)
+  relations:
+    EmployeeUsergroup:
+      local: userg_id
+      foreign: userg_id
+      type: many
+    Users:
+      local: userg_id
+      foreign: userg_id
+      type: many
+      
+Users:
+  tableName: hs_hr_users
+  columns:
+    id:
+      type: string(36)
+      primary: true
+    user_name:
+      type: string(20)
+      default: ''
+    is_admin:
+      type: string(3)
+      fixed: true
+    receive_notification:
+      type: string(1)
+      fixed: true
+    deleted:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    user_password: string(32)
+    first_name: string(45)
+    last_name: string(45)
+    emp_number: integer(4)
+    user_hash: string(32)
+    description: string(2147483647)
+    date_entered: timestamp(25)
+    date_modified: timestamp(25)
+    modified_user_id: string(36)
+    created_by: string(36)
+    title: string(50)
+    department: string(50)
+    phone_home: string(45)
+    phone_mobile: string(45)
+    phone_work: string(45)
+    phone_other: string(45)
+    phone_fax: string(45)
+    email1: string(100)
+    email2: string(100)
+    status: string(25)
+    address_street: string(150)
+    address_city: string(150)
+    address_state: string(100)
+    address_country: string(25)
+    address_postalcode: string(10)
+    user_preferences: string(2147483647)
+    employee_status: string(25)
+    userg_id: string(36)
+  relations:
+    modifiedUser:
+      class: Users
+      local: modified_user_id
+      foreign: id
+      type: one
+    createdUser:
+      class: Users
+      local: id
+      foreign: created_by
+      type: many
+    userGroup:
+      class: UserGroup
+      local: userg_id
+      foreign: userg_id
+      type: one
+    employee:
+      class: Employee
+      local: emp_number
+      foreign: emp_number
+      type: one
+    MailNotification:
+      local: id
+      foreign: user_id
+      type: many
+
+EmployeeUsergroup:
+  tableName: hs_hr_emprep_usergroup
+  columns:
+    userg_id:
+      type: string(13)
+      primary: true
+    rep_code:
+      type: string(13)
+      primary: true
+  relations:
+    UserGroup:
+      local: userg_id
+      foreign: userg_id
+      type: one
+
+ModuleRights:
+  tableName: hs_hr_rights
+  columns:
+    userg_id:
+      type: string(36)
+      primary: true
+    mod_id:
+      type: string(36)
+      primary: true
+    addition:
+      type: integer(2)
+      unsigned: 1
+      default: '0'
+    editing:
+      type: integer(2)
+      unsigned: 1
+      default: '0'
+    deletion:
+      type: integer(2)
+      unsigned: 1
+      default: '0'
+    viewing:
+      type: integer(2)
+      unsigned: 1
+      default: '0'
+  relations:
+    UserGroup:
+      local: userg_id
+      foreign: userg_id
+      type: one
+    Module:
+      local: mod_id
+      foreign: mod_id
+      type: one
+
+Module:
+  tableName: hs_hr_module
+  columns:
+    mod_id:
+      type: string(36)
+      primary: true
+    name: string(45)
+    owner: string(45)
+    owner_email: string(100)
+    version: string(36)
+    description: string(2147483647)
+  relations:
+    ModuleRights:
+      local: mod_id
+      foreign: mod_id
+      type: many 
+
+MailNotification:
+  tableName: hs_hr_mailnotifications
+  columns:
+    user_id:
+      type: string(36)
+      notnull: true
+      primary: true
+    notification_type_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    status:
+      type: integer(4)
+      notnull: true
+  relations:
+    Users:
+      local: user_id
+      foreign: id
+      type: one   
+
+CurrencyType:
+  tableName: hs_hr_currency_type
+  columns:
+    code:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    currency_id:
+      type: string(3)
+      fixed: true
+      primary: true
+    currency_name:
+      type: string(70)
+      default: ''
+      notnull: true
+
+DefineKpi:
+  tableName: hs_hr_kpi
+  columns:
+    id:
+      name: id as id
+      type: integer(4)
+      primary: true
+    job_title_code:
+      name: job_title_code as jobtitlecode
+      type: string(13)
+    description: 
+      name: description as desc
+      type: string(200)
+    rate_min: 
+      name: rate_min as min
+      type: float
+    rate_max: 
+      name: rate_max as max
+      type: float
+    rate_default: 
+      name: rate_default as default
+      type: integer(1)
+    is_active:
+      name: is_active as isactive
+      type: integer(1)
+  relations:
+    JobTitle:
+      class: JobTitle
+      local: jobtitlecode
+      foreign: id
+      
+PerformanceReview:
+  tableName: hs_hr_performance_review
+  columns:
+    id:
+      name: id as id
+      type: integer(13)
+      primary: true
+    employee_id:
+      name: employee_id as employeeId
+      type: integer(13)
+    reviewer_id:
+      name: reviewer_id as reviewerId
+      type: integer(13)
+    creator_id:
+      name: creator_id as creatorId
+      type: string(36)
+    job_title_code:
+      name: job_title_code as jobTitleCode
+      type: string(10)
+    sub_division_id:
+      name: sub_division_id as subDivisionId
+      type: integer(13)
+    creation_date:
+      name: creation_date as creationDate
+      type: date(25)
+    period_from:
+      name: period_from as periodFrom
+      type: date(25)
+    period_to:
+      name: period_to as periodTo
+      type: date(25)
+    due_date:
+      name: due_date as dueDate
+      type: date(25)
+    state:
+      name: state as state
+      type: integer(2)
+    kpis:
+      name: kpis as kpis
+      type: string(1000)
+  relations:
+    Employee:
+      class: Employee
+      local: employeeId
+      foreign: emp_number
+    Reviewer:
+      class: Employee
+      local: reviewerId
+      foreign: emp_number
+    Creator:
+      class: Users
+      local: creatorId
+      foreign: id
+    PerformanceReviewComment:
+      class: PerformanceReviewComment
+      local: id
+      foreign: pr_id
+      type: many
+    JobTitle:
+      class: JobTitle
+      local: jobTitleCode
+      foreign: id
+      type: one
+    SubDivision:
+      class: CompanyStructure
+      local: subDivisionId
+      foreign: id
+      type: one
+
+PerformanceReviewComment:
+  tableName: hs_hr_performance_review_comments
+  columns:
+    id:
+      name: id as id
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    pr_id:
+      name: pr_id as performanceReviewId
+      type: integer(13)
+    employee_id:
+      name: employee_id as employeeId
+      type: integer(13)
+    comment:
+      name: comment as comment
+      type: string(1000)
+    create_date:
+      name: create_date as createDate
+      type: date(25)
+  relations:
+    Employee:
+      class: Employee
+      local: employeeId
+      foreign: emp_number
+    PerformanceReview:
+      class: PerformanceReview
+      local: pr_id
+      foreign: id
+      type: one

@@ -1,0 +1,42 @@
+- %SF_SYMFONY_LIB_DIR%/autoload/sfAutoload.class.php
+- %SF_SYMFONY_LIB_DIR%/action/sfComponent.class.php
+- %SF_SYMFONY_LIB_DIR%/action/sfAction.class.php
+- %SF_SYMFONY_LIB_DIR%/action/sfActions.class.php
+- %SF_SYMFONY_LIB_DIR%/action/sfActionStack.class.php
+- %SF_SYMFONY_LIB_DIR%/action/sfActionStackEntry.class.php
+- %SF_SYMFONY_LIB_DIR%/config/sfLoader.class.php
+- %SF_SYMFONY_LIB_DIR%/controller/sfController.class.php
+- %SF_SYMFONY_LIB_DIR%/database/sfDatabaseManager.class.php
+- %SF_SYMFONY_LIB_DIR%/event/sfEvent.class.php
+- %SF_SYMFONY_LIB_DIR%/filter/sfFilter.class.php
+- %SF_SYMFONY_LIB_DIR%/filter/sfCommonFilter.class.php
+- %SF_SYMFONY_LIB_DIR%/filter/sfExecutionFilter.class.php
+- %SF_SYMFONY_LIB_DIR%/filter/sfRenderingFilter.class.php
+- %SF_SYMFONY_LIB_DIR%/filter/sfFilterChain.class.php
+- %SF_SYMFONY_LIB_DIR%/log/sfLogger.class.php
+- %SF_SYMFONY_LIB_DIR%/log/sfNoLogger.class.php
+- %SF_SYMFONY_LIB_DIR%/request/sfRequest.class.php
+- %SF_SYMFONY_LIB_DIR%/response/sfResponse.class.php
+- %SF_SYMFONY_LIB_DIR%/routing/sfRouting.class.php
+- %SF_SYMFONY_LIB_DIR%/storage/sfStorage.class.php
+- %SF_SYMFONY_LIB_DIR%/user/sfUser.class.php
+- %SF_SYMFONY_LIB_DIR%/util/sfNamespacedParameterHolder.class.php
+- %SF_SYMFONY_LIB_DIR%/view/sfView.class.php
+- %SF_SYMFONY_LIB_DIR%/view/sfViewParameterHolder.class.php
+
+# these classes are optionals but very likely to be used (in web context)
+- %SF_SYMFONY_LIB_DIR%/controller/sfWebController.class.php
+- %SF_SYMFONY_LIB_DIR%/controller/sfFrontWebController.class.php
+- %SF_SYMFONY_LIB_DIR%/request/sfWebRequest.class.php
+- %SF_SYMFONY_LIB_DIR%/routing/sfPatternRouting.class.php
+- %SF_SYMFONY_LIB_DIR%/response/sfWebResponse.class.php
+- %SF_SYMFONY_LIB_DIR%/storage/sfSessionStorage.class.php
+- %SF_SYMFONY_LIB_DIR%/view/sfPHPView.class.php
+
+# output escaper
+- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaperSafe.class.php
+#- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaper.class.php
+#- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaperArrayDecorator.class.php
+#- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaperGetterDecorator.class.php
+#- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaperIteratorDecorator.class.php
+#- %SF_SYMFONY_LIB_DIR%/view/escaper/sfOutputEscaperObjectDecorator.class.php

@@ -1,0 +1,99 @@
+prod:
+  .settings:
+    logging_enabled: off
+    no_script_name:           off
+
+dev:
+  .settings:
+    # E_ALL | E_STRICT = 4095
+    error_reporting:        4095
+    web_debug:              on
+    cache:                  on
+    no_script_name:         off
+    etag:                   on
+
+test:
+  .settings:
+    # E_ALL | E_STRICT = 4095
+    error_reporting:        4095
+    web_debug:              off
+    cache:                  on
+    no_script_name:         off
+    etag:                   on
+
+all:
+#  .actions:
+#    default_module:         default
+#    default_action:         index
+#
+#    error_404_module:       default
+#    error_404_action:       error404
+#
+#    login_module:           default
+#    login_action:           login
+#
+#    module_disabled_module: default
+#    module_disabled_action: disabled
+#
+#    secure_module:          default
+#    secure_action:          secure
+#
+#    unavailable_module:     default
+#    unavailable_action:     unavailable
+#
+#  .settings:
+#    available:              on
+#
+#    path_info_array:        SERVER
+#    path_info_key:          PATH_INFO
+#
+#    url_format:             PATH
+#
+#    use_database:           on
+#
+#    use_security:           on
+#
+#    compressed:             on
+#
+#    i18n:                   off
+#
+#    suffix:                 .
+#
+#    standard_helpers:       [Partial, Cache, Form]
+#
+#    max_forwards:           5
+#
+#    web_debug:              off
+#
+#    cache:                  off
+#
+#    no_script_name:         on
+#
+#    # E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR = 337
+#    error_reporting:        337
+#
+#    rich_text_js_dir:       js/tiny_mce
+#
+#    use_flash:              on
+#
+#    enabled_modules:        [default]
+#
+#    strip_comments:         on
+#
+#    etag:                   on
+#
+#    validation_error_prefix:    ' &darr;&nbsp;'
+#    validation_error_suffix:    ' &nbsp;&darr;'
+#    validation_error_class:     form_error
+#    validation_error_id_prefix: error_for_
+# 
+#    autoloading_functions: ~
+# 
+#    charset: utf-8
+# 
+#    escaping_strategy: bc
+#    escaping_method:   ESC_ENTITIES
+#
+#    prototype_web_dir: /sf/prototype
+#    admin_web_dir:     /sf/sf_admin
+#    web_debug_web_dir: /sf/sf_web_debug

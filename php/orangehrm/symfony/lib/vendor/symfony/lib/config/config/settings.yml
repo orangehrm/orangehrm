@@ -1,0 +1,71 @@
+default:
+  .actions:
+    error_404_module:       default   # To be called when a 404 error is raised
+    error_404_action:       error404  # Or when the requested URL doesn't match any route
+
+    login_module:           default   # To be called when a non-authenticated user
+    login_action:           login     # Tries to access a secure page
+
+    secure_module:          default   # To be called when a user doesn't have
+    secure_action:          secure    # The credentials required for an action
+
+    module_disabled_module: default   # To be called when a user requests 
+    module_disabled_action: disabled  # A module disabled in the module.yml
+
+  .settings:
+    # Optional features. Deactivating unused features boots performance a bit.
+    use_database:           on        # Enable database manager. Set to off if you don't use a database.
+    i18n:                   off       # Enable interface translation. Set to off if your application should not be translated.
+    check_symfony_version:  off       # Enable check of symfony version for every request. Set to on to have symfony clear the cache automatically when the framework is upgraded. Set to off if you always clear the cache after an upgrade.
+    compressed:             off       # Enable PHP response compression. Set to on to compress the outgoing HTML via the PHP handler.
+    check_lock:             off       # Enable the application lock system triggered by the clear-cache and disable tasks. Set to on to have all requests to disabled applications redirected to the $sf_symfony_lib_dir/exception/data/unavailable.php page.
+
+    # Form security secret (CSRF protection)
+    csrf_secret:            false     # Unique secret to enable CSRF protection or false to disable
+
+    # Output escaping settings
+    escaping_strategy:      off              # Determines how variables are made available to templates. Accepted values: on, off.
+    escaping_method:        ESC_SPECIALCHARS # Function or helper used for escaping. Accepted values: ESC_RAW, ESC_ENTITIES, ESC_JS, ESC_JS_NO_ENTITIES, and ESC_SPECIALCHARS.
+
+    # Routing settings
+    no_script_name:         off       # Enable the front controller name in generated URLs
+
+    # Validation settings, used for error generation by the Validation helper
+    validation_error_prefix:    ' &darr;&nbsp;'
+    validation_error_suffix:    ' &nbsp;&darr;'
+    validation_error_class:     form_error
+    validation_error_id_prefix: error_for_
+
+    # Cache settings
+    cache:                  off       # Enable the template cache
+    etag:                   on        # Enable etag handling
+    lazy_cache_key:         off       # Delays creation of a cache key until after checking whether an action or partial is cacheable (defaults to false for backward compatibility)
+
+    # Logging and debugging settings
+    web_debug:              off       # Enable the web debug toolbar
+    error_reporting:        <?php echo (E_PARSE | E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR)."\n" ?> # Determines which events are logged.
+
+    # Assets paths
+    rich_text_js_dir:       js/tiny_mce
+    admin_web_dir:          /sf/sf_admin
+    web_debug_web_dir:      /sf/sf_web_debug
+    calendar_web_dir:       /sf/calendar
+
+    # Helpers included in all templates by default
+    standard_helpers:       [Partial, Cache, Form]
+
+    # Activated modules from plugins or from the symfony core
+    enabled_modules:        [default]
+
+    # Charset used for the response
+    charset:                utf-8
+
+    # Miscellaneous
+    strip_comments:         on         # Remove comments in core framework classes as defined in the core_compile.yml
+    max_forwards:           5
+
+    # Logging
+    logging_enabled:        on
+
+    # i18n
+    default_culture:        en        # Default user culture

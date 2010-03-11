@@ -1,0 +1,11 @@
+page2:
+  client_lifetime: 86400
+
+page3:
+  client_lifetime: 86400
+
+all:
+  enabled:         on
+  with_layout:     on
+  lifetime:        86400
+  client_lifetime: 0

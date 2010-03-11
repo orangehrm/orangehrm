@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Νέο</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Επεξεργασία</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Διαγραφή</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Απαρίθμηση</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Αποθήκευση</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Αποθήκευση και Προσθήκη</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Ακύρωση</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Καθαρισμός</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Φίλτρο</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Κανένα Αποτέλεσμα.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Ενέργειες</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(Σελίδα %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>αυξ</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>φθι</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Πρώτη Σελίδα</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Προηγούμενη Σελίδα</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Επόμενη Σελίδα</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Τελευταία Σελίδα</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Το αντικείμενο δημιουργήθηκε επιτυχώς.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Το αντικείμενο ενημερώθηκε επιτυχώς.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Το αντικείμενο δημιουργήθηκε επιτυχώς. Μπορείτε να προσθέσετε ένα καινούριο παρακάτω.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Το αντικείμενο ενημερώθηκε επιτυχώς. Μπορείτε να προσθέσετε ένα καινούριο παρακάτω.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Το αντικείμενο δεν αποθηκεύθηκε λόγω κάποιων σφαλμάτων.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Το αντικείμενο διαγράφηκε επιτυχώς.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Πρέπει να επιλέξετε τουλάχιστον ένα αντικείμενο.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Πρέπει να επιλέξετε κάποια ενέργεια να εκτελεστεί στα επιλεγμένα αντικείμενα.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Κάποιο πρόβλημα σημειώθηκε κατά την διαγραφή των επιλεγμένων αντικειμένων καθώς μερικά αντικείμενα δεν υπάρχουν πια.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Τα επιλεγμένα αντικείμενα διαγράφηκαν επιτυχώς.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Κάποιο πρόβλημα σημειώθηκε κατά την διαγραφή των επιλεγμένων αντικειμένων.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

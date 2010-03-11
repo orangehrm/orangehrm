@@ -1,0 +1,812 @@
+Upgrading Projects from 1.1 to 1.2
+==================================
+
+This document describes the changes made in symfony 1.2 and what need
+to be done to upgrade your symfony 1.1 projects.
+
+If you want more detailed information on what has been changed/added in symfony 1.2,
+you can read the [What's new?](http://www.symfony-project.org/tutorial/1_2/whats-new) tutorial.
+
+>**CAUTION**
+>symfony 1.2 is compatible with PHP 5.2.4 or later.
+>It might also work with PHP 5.2.0 to 5.2.3 but there is no guarantee.
+
+How to upgrade?
+---------------
+
+To upgrade a project:
+
+  * Check that all plugins used by your project are compatible with symfony
+    1.2
+
+  * If you don't use a SCM tool, please make a backup of your project.
+
+  * Upgrade symfony to 1.2
+
+  * Launch the `project:upgrade1.2` task from your project directory
+    to perform an automatic upgrade:
+
+        $ php symfony project:upgrade1.2
+
+    This task can be launched several times without any side effect. Each time
+    you upgrade to a new symfony 1.2 beta / RC or the final symfony 1.2, you
+    have to launch this task.
+
+  * Upgrade the plugins to their 1.2 version
+
+  * You need to rebuild your models and forms due to some changes described
+    below (read below how to upgrade to Propel 1.3 first):
+
+        $ php symfony propel:build-model
+        $ php symfony propel:build-forms
+        $ php symfony propel:build-filters
+
+  * Clear the cache:
+
+        $ php symfony cc
+
+The remaining sections explain the main changes made in symfony 1.2 that need
+some kind of upgrade (automatic or not).
+
+Upgrade to 1.2 final
+--------------------
+
+If you have upgraded your 1.1 project before 1.2 final, you need to check the
+following things:
+
+  * If you have generated CRUD modules with the `--non-verbose-templates` options,
+    you need to remove the extra `$form->renderHiddenFields()` statement in the `_form.php`
+    template. If not, you can have erroneous "CSRF attack detected" error messages.
+
+  * For all generated CRUD modules, and if you have enabled CSRF protection, you need
+    to insert `$request->checkCSRFProtection()` at the beginning of the generated
+    `executeDelete()` method to be protected from CSRF attacks.
+
+Propel
+------
+
+Propel has been upgraded to version 1.3, which replaces support for Creole
+with PDO.
+
+Due to the removal of Creole, the following classes are removed:
+
+ *class name*             | *equivalent*
+ ------------------------ | -------------------------------
+ `sfCreoleDatabase`       | `sfPropelDatabase`
+ `sfDebugConnection`      | `DebugPDO`
+ `sfMessageSource_Creole` | `sfMessageSource_PDO`
+ `sfCreoleSessionStorage` | `sfPDOSessionStorage`
+ 
+The `propel:build-db` task has been removed as this functionality is not yet
+provided by Propel 1.3.
+
+The first step to upgrading is changing from Creole to PDO syntax in the
+database configuration from the project `databases.yml` file.
+
+Locate the following:
+
+    [yml]
+    all:
+      propel:
+        class:      sfPropelDatabase
+        param:
+          dsn:      mysql://username:password@localhost/example
+
+Replace with the following:
+
+    [yml]
+    dev:
+      propel:
+        param:
+          classname: DebugPDO
+
+    test:
+      propel:
+        param:
+          classname:  DebugPDO
+
+    all:
+      propel:
+        class: sfPropelDatabase
+        param:
+          dsn:        mysql:dbname=example;host=localhost
+          username:   username
+          password:   password
+          encoding:   utf8
+          persistent: true
+          pooling:    true
+          classname:  PropelPDO
+
+Next, you must also upgrade the `propel.ini` with the PDO format DSN and updated
+configuration options.
+
+Locate the following:
+
+    [ini]
+    propel.database            = mysql
+    propel.database.createUrl  = mysql://username:password@localhost/
+    propel.database.url        = mysql://username:password@localhost/example
+
+Replace with the following:
+
+    [ini]
+    propel.database            = mysql
+    propel.database.driver     = mysql
+    propel.database.url        = mysql:dbname=example;host=localhost
+    propel.database.user       = username
+    propel.database.password   = password
+    propel.database.encoding   = utf8
+
+Since the underlying api has changed quite a bit, you need to rebuild the
+object model:
+
+    $ php symfony propel:build-model
+
+In most cases, this will be all that is required. If you have customized
+object model classes, you may need to manually upgrade for the changes in
+API from Creole to PDO. The upgrade task will attempt to change method
+signatures to match the `Persistent` interface, by adding type hinting for
+PropelPDO in `->save($con = null)` and `->delete($con = null)`.
+
+Change instances of:
+
+    [php]
+    public function save($con = null)
+    public function delete($con = null)
+
+To add PropelPDO type hint:
+
+    [php]
+    public function save(PropelPDO $con = null)
+    public function delete(PropelPDO $con = null)
+
+The transaction api has change slightly: `->begin` has been renamed `->beginTransaction()`
+and `->rollback()` has been renamed `->rollBack()`. Here are the differences:
+ 
+`Creole`:
+
+    [php]
+    $con->begin();
+    try {
+      /* db logic */
+      $con->commit();
+    } catch (SQLException $sqle) {
+      $con->rollback();
+      throw $sqle;
+    }
+    
+`PDO`:
+
+    [php]
+    $con->beginTransaction();
+    try {
+      /* db logic */
+      $con->commit();
+    } catch (PDOException $sqle) {
+      $con->rollBack();
+      throw $sqle;
+    }
+
+The `::doSelectRS` method has been renamed to `::doSelectStmt`. Here are the differences:
+
+`Creole`:
+
+    [php]
+    // example of how to manually hydrate objects
+    $rs = AuthorPeer::doSelectRS(new Criteria());
+    while($rs->next()) {
+      $a = new Author();
+      $a->hydrate($rs);
+    }
+
+    // example of how to create array of single column
+    $rs = AuthorPeer::doSelectRS(new Criteria());
+    $names = array();
+    while($rs->next()) {
+      $names[] = $rs->getString(2);
+    }
+    
+    $con = Propel::getConnection(SomeTablePeer::DATABASE_NAME);
+    $stmt = $con->prepareStatement("SELECT * FROM some_table WHERE name = ?");
+    $stmt->setString(1, $name);
+    $rs = $stmt->executeQuery();
+    while($rs->next()) {
+       print "Name: " . $rs->getString("name") . "\n";
+    }
+
+
+`PDO`:
+
+    [php]
+    // example of how to manually hydrate objects
+    $stmt = AuthorPeer::doSelectStmt(new Criteria());
+    while($row = $stmt->fetch(PDO::FETCH_NUM)) {
+      $a = new Author();
+      $a->hydrate($row);
+    }
+    
+    // example of how to create array of single column
+    $stmt = AuthorPeer::doSelectStmt(new Criteria());
+    $names = array();
+    while($res = $stmt->fetchColumn(1)) {
+      $names[] = $res;
+    }
+    
+    $con = Propel::getConnection(SomeTablePeer::DATABASE_NAME);
+    $stmt = $con->prepare("SELECT * FROM some_table WHERE name = ?");
+    $stmt->bindValue(1, $name);
+    $stmt->execute();
+    while($row = $stmt->fetch()) { 
+       print "Name: " . $row['name'] . "\n";
+    }
+
+The `Clob` and `Lob` classes from Creole are not used anymore. It means you
+need to change your code when using these objects:
+
+    [php]
+    // Propel 1.1
+    $object->getClobColumn()->getContents();
+
+    // Propel 1.2
+    $object->getClobColumn();
+
+See http://propel.phpdb.org/trac/wiki/Users/Documentation/1.3/Upgrading for more details
+on upgrading.
+
+All the Propel library have been moved from `lib/propel` to `lib`. The upgrade task
+upgrades the `propel.ini` file to reflect these changes.
+
+Request
+-------
+
+The `path_info_array`, `path_info_key`, and `relative_url_root` settings have
+been moved from `settings.yml` to `factories.yml` (in the `param` section of the
+`request` factory configuration).
+
+This change removes the dependency between `sfRequest` and `sfConfig`.
+
+These three request options are now passed to the request constructor as a
+fourth argument. The formats are also passed as an option,
+instead of being passed as an attribute.
+
+The request method constants from `sfRequest` values have changed from integers
+to strings and the `sfRequest::NONE` method has been removed:
+
+ **Constant** | **Old value** | **New value**
+ ------------ | ------------- | -------------
+ GET          | 2             | GET
+ POST         | 4             | POST
+ PUT          | 5             | PUT
+ DELETE       | 6             | DELETE
+ HEAD         | 7             | HEAD
+ NONE         | 1             | -
+
+The `getMethod()` and `getMethodName()` methods now returns the same value,
+so `getMethodName()` is deprecated.
+
+The `sfAction::getMethodNames()` and the corresponding code in
+`sfValidationExecutionFilter` from `sfCompat10Plugin` have been removed.
+This method was deprecated in 1.1 and was not really useable in 1.0.
+
+Validators
+----------
+
+The `sfValidatorSchemaCompare` constant values have been changed. No change to
+your code need to be done, but now, you can use nice shortcuts.
+The following two examples are equivalent:
+
+    [php]
+    // symfony 1.1 and 1.2
+    $v = new sfValidatorSchemaCompare('left', sfValidatorSchemaCompare::EQUAL, 'right');
+
+    // symfony 1.2 only
+    $v = new sfValidatorSchemaCompare('left', '==', 'right');
+
+The `sfValidatorI18nChoiceCountry` and `sfValidatorI18nChoiceLanguage` validators
+had a required `culture` option in symfony 1.1. As the culture is not used in those
+validators, the `culture` option is now deprecated. It is still there to maintain
+backward compatibility but you don't need to provide it anymore.
+
+Forms 
+----- 
+    
+In symfony 1.1, the `BaseFormPropel` was generated in the wrong place (under the 
+`lib/form/base/` directory). You need to move it to the `lib/form/` directory. 
+
+Widgets
+-------
+
+The new `sfWidgetFormChoice` widgets are now used by default by the Propel generated forms
+instead of `sfWidgetFormSelect`. To take advantage of this more powerful widgets, you will
+need to rebuilt your forms:
+
+    $ php symfony propel:build-forms
+
+Response
+--------
+
+There is a new setting for the `response` factory: `send_http_headers`.
+This setting is `true` by default, except for the `test` environment where
+the headers must not be sent by PHP (the same goal was achieved by using
+the `sf_test` setting in symfony 1.1).
+
+This change removes the dependency between `sfResponse` and `sfConfig`.
+
+The `getStylesheets()` and `getJavascripts()` methods can now return all the
+stylesheets and javascripts ordered by position if you pass `sfWebResponse::ALL`
+as their first argument:
+
+    [php]
+    $response = new sfWebResponse(new sfEventDispatcher());
+    $response->addStylesheet('foo.css');
+    $response->addStylesheet('bar.css', 'first');
+
+    var_export($response->getStylesheets());
+
+    // outputs
+    array(
+      'bar.css' => array(),
+      'foo.css' => array(),
+    )
+
+The `sfWebResponse::ALL` is also now the default value for the position argument.
+In symfony 1.1, as the default value is the empty string, the methods only return
+the files registered for the default position by default, which is not very intuitive.
+
+In symfony 1.1, you was able to get all the files by passing the `'ALL'` string
+as the position, and this behavior is still available by passing
+`sfWebResponse::RAW`:
+
+    [php]
+    var_export($response->getStylesheets(sfWebResponse::RAW));
+
+    // outputs
+    array(
+      'first' =>
+        array(
+          'bar.css' => array (),
+        ),
+      '' =>
+        array(
+        'foo.css' => array(),
+        ),
+      'last' => array(),
+    )
+
+All the positions (first, '', and last) are now also available as constants:
+
+    [php]
+    sfWebResponse::FIRST  === 'first'
+    sfWebResponse::MIDDLE === ''
+    sfWebResponse::LAST   === 'last'
+
+The `removeStylesheet()` and `removeJavascript()` methods now only take one argument,
+the file to remove from the response. It will remove the file in all the available
+positions. In symfony 1.1, they take the position as a second argument.
+
+Prototype and Scriptaculous
+---------------------------
+
+symfony continues to decouple its bundled software. In 1.2 the bundled Prototype
+and Scriptaculous libraries and helpers (`JavascriptHelper`) have been moved to a
+core-plugin. Core plugins behave like any plugin but are shipped with symfony.
+This will make the JavaScript and CSS files of the new `sfProtoculousPlugin`
+(the more or less unofficial name of the often featured duo) behave like real plugin
+assets. They will be now in `web/sfProtoculousPlugin` rather than in `web/sf`
+(as it has been in 1.0 and 1.1). The `prototype_web_dir` setting will also now point
+to the new directory.
+
+In addition some very basic javascript helpers that are reusable by any JS framework, have
+been extracted to a `JavascriptBaseHelper` which stays in core.
+
+As a new addition, `javascript_tag()` now can behave as `slot()`. This allows such usage
+
+    [php]
+    <?php javascript_tag() ?>
+    alert('All is good')
+    <?php end_javascript_tag() ?>
+
+Assets from built-in plugins
+----------------------------
+
+Some built-in plugins come with some stylesheet and JavaScript files. To make them
+accessible to your project, you need to run the `plugin:publish-assets` task:
+
+    $ php symfony plugin:publish-assets
+
+The `project:upgrade1.2` task do this for you.
+
+Browser
+-------
+
+The `sfBrowser` and `sfTestBrowser` classes have been refactored in four classes:
+
+  * `sfBrowserBase`:        The base browser class. It knows nothing about symfony,
+                            except classes from the symfony platform.
+
+  * `sfBrowser`:            It inherits from `sfBrowserBase` and implements the
+                            methods specific to symfony.
+
+  * `sfTestFunctionalBase`: The base functional test class. It implements test
+                            methods that are independant from symfony.
+
+  * `sfTestFunctional`:     It inherits from `sfTestFunctionalBase` and implements
+                            the test methods specific to symfony.
+
+  * `sfTestBrowser`:        A BC class which is the same as the `sfTestFunctional`
+                            class with a constructor signature compatible with symfony 1.1
+
+The idea behind the refactor is that the `sfTestFunctional` class is a test class,
+not a browser. So, it takes a browser and a test object as its arguments:
+
+    [php]
+    $testBrowser = new sfTestBrowser('localhost');
+
+    $tester = new sfTestFunctional(new sfBrowser('localhost'), new lime_test());
+
+The `sfTestFunctional` class acts as a proxy for the browser class which means
+that all methods from the browser are accessible directly from the functional
+tester object.
+
+This refactor must not introduce backward incompatibility with symfony 1.1.
+
+The browser classes now add the `HTTP_REFERER` header for each request.
+
+Tests
+-----
+
+### Testers
+
+The `sfTestFunctionalBase` class now delegates the actual tests to `sfTester`
+classes. symfony 1.2 has several built-in tester classes:
+
+  * `request`:    `sfTesterRequest`
+  * `response`:   `sfTesterResponse`
+  * `user`:       `sfTesterUser`
+  * `view_cache`: `sfTesterViewCache`
+
+All the old methods from the test browser have been moved to one of the tester
+class:
+
+ *method name*          | *tester class*      | *new method name*
+ ---------------------- | ------------------- | -----------------
+ `isRequestParameter`   | `sfTesterRequest`   | `isParameter`
+ `isRequestFormat`      | `sfTesterRequest`   | `isFormat`
+                        |                     |
+ `isStatusCode`         | `sfTesterResponse`  | `isStatusCode`
+ `responseContains`     | `sfTesterResponse`  | `contains`
+ `isResponseHeader`     | `sfTesterResponse`  | `isHeader`
+ `checkResponseElement` | `sfTesterResponse`  | `checkElement`
+                        |                     |
+ `isUserCulture`        | `sfTesterUser`      | `isCulture`
+                        |                     |
+ `isCached`             | `sfTesterViewCache` | `isCached`
+ `isUriCached`          | `sfTesterViewCache` | `isUriCached`
+
+The tester classes also comes with new test methods:
+
+ *tester class*      | *new method name*
+ ------------------- | -----------------
+ `sfTesterRequest`   | `hasCookie`
+ `sfTesterRequest`   | `isCookie`
+ `sfTesterRequest`   | `isMethod`
+                     |
+ `sfTesterUser`      | `isAuthenticated`
+ `sfTesterUser`      | `hasCredential`
+ `sfTesterUser`      | `isAttribute`
+ `sfTesterUser`      | `isFlash`
+
+Even if the old methods are deprecated, they do not send any warning and will
+not be removed to maintain backward compatibility with symfony 1.0 and 1.1.
+
+### Links
+
+When you simulate a click on a button or on a link, you give the name to the `click()`
+method. But you don't have the possibility to differentiate two different links or buttons
+with the same name.
+
+As of symfony 1.2, the `click()` method takes a third argument to pass some options.
+
+You can pass a `position` option to change the link you want to click on:
+
+    [php]
+    $b->
+      click('/', array(), array('position' => 1))->
+      // ...
+    ;
+
+By default, symfony clicks on the first link it finds in the page.
+
+You can also pass a `method` option to change the method of the link or the form
+you are clicking on:
+
+    [php]
+    $b->
+      click('/delete', array(), array('method' => 'delete'))->
+      // ...
+    ;
+
+This is very useful when a link is converted to a dynamic form generated
+with JavaScript.
+
+Actions
+-------
+
+By default, when you use the `redirectIf()` or `redirectUnless()` methods
+in your actions, symfony automatically changes the response HTTP status
+code to 302.
+
+These two methods now have an additional optional argument to change this
+default status code:
+
+    [php]
+    $this->redirectIf($condition, '@homepage', 301);
+    $this->redirectUnless($condition, '@homepage', 301);
+
+The `redirect()` method already have this feature.
+
+Components
+----------
+
+If you have the output escaper enabled, there was a bug in symfony 1.0 and 1.1.
+When you passed some variables from an action to a component, these were escaped
+in the component. So, in some circumstances, you had to unescaped them:
+
+    [php]
+    public function executeInAComponent($request)
+    {
+      $this->foo = $this->foo->getRawValue();
+    }
+
+As of symfony 1.2, this has been fixed and all variables are now unescaped
+by default in a component method.
+
+For the above example, you will need to remove the `getRawValue()` step as
+the framework does this automatically for you.
+
+sfParameterHolder
+-----------------
+
+The `has()` method of `sfParameterHolder` has been changed to be more
+semantically correct.
+
+It now returns `true` even if the value is `null`:
+
+    [php]
+    $ph = new sfParameterHolder();
+    $ph->set('foo', 'bar');
+    $ph->set('bar', null);
+
+    $ph->has('foo') === true;
+    $ph->has('bar') === true; // returns false under symfony 1.0 or 1.1
+
+The `sfParameterHolder::has()` method is used by the `hasParameter()` and
+`hasAttribute()` methods available for a large number of core classes.
+
+Tasks
+-----
+
+The Propel tasks relying on Phing now output a clear error message if the embed
+Phing task fails.
+
+Some CLI tasks takes an application name as an argument because they need to connect
+to the database. We need an application because the configuration can be customized
+on an application basis and all the symfony configuration system is based on the
+application level.
+
+For these tasks, this argument has been removed in favor of an optional "application"
+option. If you don't provide the "application" option, symfony will take the database
+configuration from the project `databases.yml` file.
+
+The following task signatures have been changed accordingly:
+
+ * `propel:build-all-load`
+ * `propel:data-dump`
+ * `propel:data-load`
+
+>**Note**
+>This is possible because `sfDatabaseManager` now takes a project configuration or an
+application configuration. For the curious one, this works because
+`sfDatabaseConfigHandler` now returns a static or a dynamic configuration based
+on an array of configuration files (see the `execute()` and `evaluate()` methods).
+
+The `propel:insert-sql` task removes all the data from the database.
+As it destroys information, it now asks the user to confirm the execution of
+the task. The same goes for the `propel:build-all` and `propel:build-all-load` tasks,
+as they call the `propel:insert-sql` task.
+
+If you want to use these tasks in a batch and want to avoid the confirmation question,
+pass the `no-confirmation` option:
+
+    $ php symfony propel:insert-sql --no-confirmation
+
+Before symfony 1.2, the `propel:insert-sql` task was the only task to read its
+database configuration information from `propel.ini`. As of symfony 1.2, it
+reads its information from `databases.yml`. So, if you use several different
+connections in your model, the task will take those into account.
+Thanks to this new feature, you can now use the `--connection` option
+if you want to only load SQL statements for a given connection:
+
+    $ php symfony propel:insert-sql --connection=propel
+
+You can also use the `--env` and the `--application` options to select a
+specific configuration to use:
+
+    $ php symfony propel:insert-sql --env=prod --application=frontend
+
+The `propel:generate-crud` has been renamed to `propel:generate-module`. The old
+task name is still available as an alias.
+
+The `non-atomic-actions` option of `propel:generate-module` has been removed
+and some new options have been added:
+
+  * singular:          The singular name for the actions and templates
+  * plural:            The plural name for the actions and templates
+  * route-prefix:      The route prefix to use
+  * with-propel-route: Whether the related routes are Propel aware
+
+To ease the debugging, the `propel:build-model`, `propel:build-all`, and
+`propel:build-all-load` tasks do not remove the generated XML schemas anymore
+if you pass the `--trace` option.
+
+URL helpers
+-----------
+
+The old `post` option of `link_to` is still valid but deprecated:
+
+    [php]
+    // is deprecated
+    <?php echo link_to('@some_route', array('post' => true)) ?>
+
+    // and equivalent to
+    <?php echo link_to('@some_route', array('method' => 'post')) ?>
+
+The `url_for()` and `link_to()` helpers support new signatures.
+Instead of an internal URI, they can now also take the route name and
+an array of parameters:
+
+    [php]
+    echo url_for('@article', array('id' => 1));
+    echo link_to('Link to article', '@article', array('id' => 1));
+
+The old behavior still works without changing anything to your code.
+
+Image helper
+------------
+
+In symfony 1.0 and 1.1 the `image_tag` helper would generate the `alt`
+attribute of the img-tag from the filename. This now only happens if
+`sf_compat_10` is on. The new behaviour eases finding of unset alt attributes
+using a (x)html validator. As a bonus, there is now a `alt_title` option that
+will set alt and title attribute to the same value, which is useful for cross
+browser tooltips.
+
+View
+----
+
+You can override `sfViewCacheManager::generateCacheKey()` by defining a
+`sf_cache_namespace_callable` setting. As of symfony 1.2, the callable
+is now called with an additional argument, the view cache manager instance.
+
+Configuration
+-------------
+
+Before symfony 1.2, all the plugins installed under the `plugins` directory,
+and all built-in plugins were automatically loaded.
+
+As of symfony 1.2, you need to enable the plugins you want to use in your projects.
+You can do this in your `ProjectConfiguration` class. Here is how to enable the
+Doctrine plugin and disable the Propel one:
+
+    [php]
+    public function setup()
+    {
+      $this->enablePlugins('sfDoctrinePlugin');
+      $this->disablePlugins('sfPropelPlugin');
+    }
+
+You can add several plugins in one call by passing an array of plugin names:
+
+    [php]
+    public function setup()
+    {
+      $this->enablePlugins(array('sfDoctrinePlugin', 'sfGuardPlugin'));
+    }
+
+You can also change the order in which plugins are loaded by using the `setPlugins`
+method:
+
+    [php]
+    public function setup()
+    {
+      $this->setPlugins(array('sfDoctrinePlugin', 'sfCompat10Plugin'));
+    }
+
+The `orm` setting is deprecated in `settings.yml` as it is now automatically
+set when the ORM plugin is loaded.
+
+The `compat_10` setting is also deprecated in `settings.yml` as it is now
+automatically set when the `sfCompat10Plugin` is loaded.
+
+So, to enable the 1.0 compatibility plugin, you need to enable it in your
+configuration:
+
+    [php]
+    public function setup()
+    {
+      $this->enablePlugins('sfCompat10Plugin');
+    }
+
+By default, symfony only enables the Propel plugin.
+
+You can also enable all installed plugins:
+
+    [php]
+    public function setup()
+    {
+      $this->enableAllPluginsExcept('sfDoctrinePlugin');
+    }
+
+The previous example allows you to enable all plugins except the Doctrine one.
+If you upgrade from 1.0 or 1.1, this line will make symfony behave like in
+symfony 1.0 and 1.1.
+
+The `sfLoader` class is deprecated as the `getHelperDirs()` and `loadHelpers()`
+methods are now part of the `sfApplicationConfiguration` class. The `sfLoader`
+methods now generate a deprecated log message and then call the new methods from
+the current active configuration.
+
+### Plugin configuration
+
+Plugins now have the option of providing a plugin configuration class. These
+plugin configuration classes setup autoloading for the plugin, and are
+instantiated in `sfProjectConfiguration`. This means symfony 1.2 tasks no
+longer require an application argument for plugin classes to be used. This
+allows plugins to connect to `command.*` events, something that was not
+previously possible.
+
+I18N
+----
+
+Internally, the `sfCultureInfo` class is now only used as a singleton.
+Even if it is still possible to bypass the `getInstance()` method and instantiate
+a new object directly, it is deprecated. By using the singleton, the performance
+are better as we only instantiate one culture info object per request and it
+also means that you can now override some culture information globally in your
+configuration classes.
+
+The `sfCultureInfo::getCountries()`, `sfCultureInfo::getCurrencies()`, and
+`sfCultureInfo::getLanguages()` methods now take an optional argument which allows
+to restrict the return value:
+
+    [php]
+    // will only return the FR and ES countries in english
+    $countries = sfCultureInfo::getInstance('en')->getCountries(array('FR', 'ES'));
+
+The `sfCultureInfo::getCurrencies()` method now returns an array of currency names.
+In previous symfony versions, it returned an array with the symbol and the name.
+To get the old behavior, just pass `true` as the second argument:
+
+    [php]
+    $currencies = sfCultureInfo::getInstance('en')->getCurrencies(null, true);
+
+To get the translation of a single country, language, or currency, you can now
+use the `getCountry()`, `getCurrency()`, and `getLanguage()` methods from the
+`sfCultureInfo` class.
+
+Exception Templates
+-------------------
+
+symfony now respects the current request format when rendering any uncaught
+exceptions. You can customize each format's output by adding a template to
+your project or application `config/error` directory.
+
+For example, an uncaught exception during an XML request could render
+`config/error/exception.xml.php` when your application is in debug mode, or
+`config/error/error.xml.php` when your application is not in debug mode.
+
+If you had customized the 500 error template in your project, you will
+need to manually move it to the new directory:
+
+  * For symfony 1.1: from `config/error500.php` to `config/error/error.html.php`
+  * For symfony 1.0: from `web/errors/error500.php` to `config/error/error.html.php`

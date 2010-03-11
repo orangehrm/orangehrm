@@ -1,0 +1,7 @@
+# get /articleInitCrud/index
+ok 1 - request parameter module is articleInitCrud
+ok 2 - request parameter action is index
+ok 3 - status code is 200
+ok 4 - response selector body does not match regex /This is a temporary page/
+1..4
+ Looks like everything went fine.                                      

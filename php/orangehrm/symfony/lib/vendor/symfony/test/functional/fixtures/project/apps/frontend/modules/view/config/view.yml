@@ -1,0 +1,16 @@
+fooSuccess:
+  metas:
+    title: foo title
+
+indexSuccess:
+  metas:
+    title: index title
+
+plainSuccess:
+  http_metas:
+    content-type: text/plain
+
+imageSuccess:
+  http_metas:
+    content-type: image/jpg
+  has_layout: false

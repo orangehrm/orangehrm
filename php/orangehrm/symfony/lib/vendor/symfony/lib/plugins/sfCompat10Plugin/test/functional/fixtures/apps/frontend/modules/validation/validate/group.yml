@@ -1,0 +1,24 @@
+methods:
+  post:           [input1, input2, input3, input4]
+
+names:
+  input1:
+    required:     no
+    group:        group1
+  input2:
+    required:     no
+    group:        group1
+    validators:   [nameValidator]
+
+  input3:
+    required:     no
+    group:        group2
+  input4:
+    required:     no
+    group:        group2
+
+nameValidator:
+  class:          sfStringValidator
+  param:
+    min:          10
+    min_error:    nameValidator

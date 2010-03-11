@@ -1,0 +1,11 @@
+execution: ~
+default:   ~
+
+new:
+  class: newFilterClass
+  param:
+    key: value
+
+rendering:
+  param:
+    key: value

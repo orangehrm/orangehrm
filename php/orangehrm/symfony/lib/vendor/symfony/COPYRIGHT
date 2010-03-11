@@ -1,0 +1,73 @@
+COPYRIGHTS
+==========
+
+symfony
+-------
+
+symfony is originally based on Mojavi3 by Sean Kerr <sean@code-box.org>
+
+Url:       http://www.symfony-project.com/
+Copyright: Fabien Potencier
+License:   MIT - see LICENSE file
+
+International Components for Unicode
+------------------------------------
+
+symfony contains a port of parts of the International Components for Unicode library
+
+Url:       http://www.ibm.com/software/globalization/icu/, http://icu.sourceforge.net/
+Copyright: 1995-2006 International Business Machines Corporation and others.
+License:   ICU License - see licenses/LICENSE.ICU file
+
+Dynarch calendar
+----------------
+
+symfony contains the dynarch calendar software
+
+Url:       http://www.dynarch.com/projects/calendar/
+Copyright: Mihai Bazon, 2002-2005
+License:   LGPL - http://www.gnu.org/licenses/lgpl.html
+
+Prototype
+---------
+
+symfony contains the Prototype software
+
+Url:       http://prototype.conio.net/
+Copyright: 2005 Sam Stephenson
+License:   MIT - see licenses/LICENSE.prototype file
+
+script.aculo.us
+---------------
+
+symfony contains the script.aculo.us software
+
+Url:       http://script.aculo.us, http://mir.aculo.us
+Copyright: 2005, 2006 Thomas Fuchs
+License:   MIT - see licenses/LICENSE.script.aculo.us file
+
+famfamfam icons
+---------------
+
+symfony contains a subset of the silk famfamfam icons
+
+Url:       http://www.famfamfam.com/lab/icons/silk/
+License:   http://creativecommons.org/licenses/by/2.5/
+
+Prado i18n classes
+------------------
+
+symfony contains the Prado i18n core classes
+
+Url:       http://www.pradosoft.com/
+Copyright: 2004-2006, The PRADO Group
+License:   BSD - see licenses/LICENSE.prado file
+
+lime
+----
+
+symfony uses the lime software
+
+Url:       http://www.symfony-project.com/
+Copyright: Fabien Potencier
+License:   MIT - see licenses/LICENSE.lime file
