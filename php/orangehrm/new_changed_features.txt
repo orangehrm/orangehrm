@@ -1,3 +1,44 @@
+New & Changed Features for OrangeHRM ver 2.6-alpha.4
+
+	New Features
+	------------
+	All the acceptance test cases of Performance module
+	
+	Known Issues
+	------------
+    Deleted job titles and sub divisions are not handled.
+
+	Bug Fixes
+	---------
+    2961108 - Search Review- Click on delete leads to delete all records
+    2961707 - Employee can not view his/her approved reviews
+    2961723 - Admin shouldn't be able to edit/del in being reviewed state
+    2961702 - Warning message should show when copping KPI
+    2961730 - Review List >Review date column should rename as Due date
+    2950548 - Throws error while saving with a large description
+    2950549 - Throws error while saving with a large number
+    2950555 - Deleting a particular kpi resets the default rating scale
+    2950565 - Deselecting one item should untick the select all check mark
+    2950552 - Setting the default option in multiple KPIs leads to error
+    2950567 - Marking a KPI with empty scale as default does not work
+    2951927 - Null values in the rating scale converted to zero
+    2951928 - Can not save a KPI without a maximum value
+    2961697 - "Being Reviwed " should be corrected as "Being Reviewed"
+    2950556 - Create meaningful error message for rating scale validation
+    2950568 - After deleting all KPI the copy kpi button should be hidden
+    2950571 - Job title is a mandatory field. But can search without it
+    2961699 - Performance Review Form - > HR admin comment not save
+    2950547 - Re-opening and saving a KPI with no rating scale fails
+    2951915 - Select all checkbox behaves differently in IE8
+    2951918 - Check boxes in Search KPI page shows strange behavior in IE8
+    2951932 - Setting a scale as default doesn't effect while updating
+    2961698 - Renaming labels in Performance Review
+    2950532 - Search result does not specify the search string
+    2951937 - Validation fails if minimum is 1.5 and maximum is 1.9 in KPI
+    2961703 - Error while approving or rejecting a review
+    2961720 - Submitted Reviews can be edited
+    2950550 - Modifying the default rating scale resets it
+
 New & Changed Features for OrangeHRM ver 2.5.0.3
 
 2965427 - can't assing employees for workshifts.getting an err msg.revert the bug : 2049129 - Time: Work shift should be unique. Fix was from
