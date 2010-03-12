@@ -273,10 +273,12 @@ class AttendanceRecord {
 		}
 
 		$reportRows = array ();
-		
+
 		while ($row = mysql_fetch_array($result)) {	
 			
-			if(substr(round($row['duration'],0),-8, -6) > 0) {
+			$splitedDduration = explode(":",$row['duration']);	
+
+			if($splitedDduration [0]  > 24) {
 				
 				$durationArray  = array();
 				
@@ -318,14 +320,12 @@ class AttendanceRecord {
                     $reportRows [] = $object;   
 				}
 					
-			} else {
-				$minutes = substr(round($row['duration'],0),-4, -2);
-                $hours = substr(round($row['duration'],0),-6, -4);
+			} else {			
 
 				$object = new AttendanceReportRow('summary');
             
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
-				$object->duration = $hours.".".$minutes;
+				$object->duration = $splitedDduration[0].".".$splitedDduration[1];
                 $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
                 $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
                 $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
@@ -386,9 +386,9 @@ class AttendanceRecord {
 		$groupBy = null;
 		if($forSummary) {
 			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT(punchin_time,'%Y %c %d')" ;
-			$selectFields[] = " (SUM(punchout_time - punchin_time)) AS duration";
+			$selectFields[] = " (TIMEDIFF(punchout_time,punchin_time)) AS duration";
 		} else  {
-			$selectFields[] = " (punchout_time - punchin_time) AS duration";
+			$selectFields[] = " TIMEDIFF(punchout_time,punchin_time) AS duration";
 		}
 		
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $tables, $joinConditions, $selectConditions, null, $orderBy, $order, $limit, $groupBy);
@@ -473,15 +473,10 @@ class AttendanceRecord {
 			}
 
 			$attendanceObj->setTimestampDiff($row['timestamp_diff']);
-			$attendanceObj->setStatus($row['status']);
+			$attendanceObj->setStatus($row['status']);			
 			
-			$row['duration'] = round($row['duration']);
-			$dateArray = array();			
-			$dateArray [] = str_pad( substr($row['duration'],-8, -6), 2, "0", STR_PAD_LEFT );
-			$dateArray [] = str_pad( substr($row['duration'],-6, -4), 2, "0", STR_PAD_LEFT );
-			$dateArray [] = str_pad( substr($row['duration'],-4, -2), 2, "0", STR_PAD_LEFT );	
-			
-            $attendanceObj->setDuration(implode(".",$dateArray));
+			$durationAsArray = explode(":",$row['duration']);			
+            $attendanceObj->setDuration($durationAsArray[0].":".$durationAsArray[1]);
 			
 			/* Adjusting time according to the timezone of the place 
 			 * where the record was first entered.

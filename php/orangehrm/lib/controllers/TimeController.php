@@ -523,7 +523,7 @@ class TimeController {
 
 		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', $limit, false, $subordinateIds);
-
+												
 		if (empty($records['recordsArr'])) {
 			$records['noReports'] = true;
 		}
