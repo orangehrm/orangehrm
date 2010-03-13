@@ -405,6 +405,8 @@ class performanceActions extends sfActions {
                 $performanceReviewService = new PerformanceReviewService();
                 $review = $performanceReviewService->readPerformanceReview($reviewIds[0]);
                 $this->clues = $this->getReviewSearchClues($review);
+				
+               
                 return;
 
             }
@@ -587,11 +589,11 @@ class performanceActions extends sfActions {
 	    
 	}
 
-    protected function getReviewSearchClues(sfWebRequest $request, $suffix='') {
+    protected function getReviewSearchClues($request, $suffix='') {
         
             $clues = array();
 
-            if (get_class($request) == 'sfWebRequest') {
+            if ( $request instanceof  sfWebRequest) {
 
                 $clues['from'] = $request->getParameter('txtPeriodFromDate'.$suffix);
                 $clues['to'] = $request->getParameter('txtPeriodToDate'.$suffix);
@@ -604,8 +606,9 @@ class performanceActions extends sfActions {
                 $clues['reviewerId'] = $request->getParameter('hdnReviewerId'.$suffix);
                 $clues['pageNo'] = $request->getParameter('hdnPageNo'.$suffix);
 
-            } elseif (get_class($request) == 'PerformanceReview') {
+            } elseif ( $request instanceof  PerformanceReview ) {
 
+      
                 $clues['from'] = $request->getPeriodFrom();
                 $clues['to'] = $request->getPeriodTo();
                 $clues['due'] = $request->getDueDate();
