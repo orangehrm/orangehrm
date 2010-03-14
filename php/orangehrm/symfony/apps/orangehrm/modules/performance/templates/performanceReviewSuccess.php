@@ -95,7 +95,7 @@
 				 			</td>
 							<td class="">
 				 				<textarea id='txtComments' name='txtComments[<?php echo $kpi->getId()?>]' 
-                    rows="1" cols="20" tabindex="2"><?php echo trim($kpi->getComment())?></textarea>
+                    rows="1" cols="20" tabindex="2"><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
 				 			</td>
 				 				
 				 	</tr>
@@ -220,8 +220,8 @@
 					 	
 				 	 },
 				 	 messages: {
-				 		txtMainCommet: "<?php echo __('Comments length exceed')?>"
-				 		
+				 		txtMainCommet: "<?php echo __('Comments length exceed')?>",
+				 		validRate: ""
 				 	 }
 				 });
 

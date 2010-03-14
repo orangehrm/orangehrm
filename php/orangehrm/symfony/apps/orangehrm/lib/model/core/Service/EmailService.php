@@ -80,14 +80,32 @@ class EmailService extends BaseService{
 			
 			if( count($this->message->getTo()) > 0){
 				$mailer = $this->getSwiftMailer();
-				$this->setFrom(array($this->mailAddress =>'OrangeHRM'));
-				$numSent = $mailer->send($this->message);
+				switch($this->mailType)
+				{
+					case 'smtp':
+						$this->setFrom(array($this->mailAddress =>'OrangeHRM'));
+						$numSent = $mailer->send($this->message);
+					break;
+					
+					case 'sendmail':
+						if($mailer->getTransport()->isStarted())
+							$numSent = $mailer->send($this->message);
+						else
+							$logMessage .= "\r\n fail to start send mailer transport";
+					break;
+					
+					default:
+						$numSent = $mailer->send($this->message);
+				}
+				
+				
+				
 				error_log($logMessage."\r\n", 3, $logPath."notification_mails.log");
 			}
 			return true ;
 		}catch (Exception $e) {
 			error_log($e->getMessage()."\r\n", 3, $logPath."notification_mails.log");
-			throw new CoreServiceException($e->getMessage());
+			//throw new CoreServiceException($e->getMessage());
 		}	 
 	}
 	
@@ -122,7 +140,8 @@ class EmailService extends BaseService{
 	 */
 	public function setFrom( $mailFrom = array())
 	{
-		$this->message->setFrom( $mailFrom );
+		if($this->mailType == 'smtp')
+		 $this->message->setFrom( $mailFrom );
 	}
 	
 	/**

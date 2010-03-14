@@ -297,7 +297,7 @@ class PerformanceReviewService extends BaseService {
                 $mailService->setTo(array($email));
                 $mailService->setSubject("Performance Review Submitted");
                 $mailService->setMailBody($mailBody);
-                $mailService->sendMail();
+                @$mailService->sendMail();
             }
             return true ;
         } catch( Exception $e) {
@@ -325,7 +325,7 @@ class PerformanceReviewService extends BaseService {
                 $mailService->setTo(array($email));
                 $mailService->setSubject("Performance Review Rejected");
                 $mailService->setMailBody($mailBody);
-                $mailService->sendMail();
+                @$mailService->sendMail();
             }
             return true ;
         } catch (Exception $e) {
@@ -352,7 +352,7 @@ class PerformanceReviewService extends BaseService {
             $mailService->setTo(array($email));
             $mailService->setSubject("Performance Review Approved");
             $mailService->setMailBody($mailBody);
-            $mailService->sendMail();
+            @$mailService->sendMail();
         }
             return true ;
         } catch ( Exception $e) {
@@ -386,7 +386,7 @@ class PerformanceReviewService extends BaseService {
                 $mailService->setTo(array($reviewerEmail));
                 $mailService->setSubject("You Have Got to Review a Performance Review");
                 $mailService->setMailBody($mailBody);
-                $mailService->sendMail();
+                @$mailService->sendMail();
 
             }
 

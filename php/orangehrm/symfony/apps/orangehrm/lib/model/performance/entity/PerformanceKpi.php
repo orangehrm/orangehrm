@@ -76,7 +76,7 @@ class PerformanceKpi{
         }
 
         public function setComment($comment) {
-            $this->comment = $comment;
+            $this->comment = htmlspecialchars($comment);
         }
 
        
