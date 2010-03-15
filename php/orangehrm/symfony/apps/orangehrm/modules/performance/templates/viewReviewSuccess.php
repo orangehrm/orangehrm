@@ -338,6 +338,7 @@ $formatData['newSeparater'] = '/';
 		$("#allCheck").click(function() {
 			if ($('#allCheck').attr('checked')) {
 				$('.innercheckbox').attr('checked', true);
+                $('#deleteReview').attr('disabled', false);
 			} else {
 				$('.innercheckbox').attr('checked', false);
 			}
