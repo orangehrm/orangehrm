@@ -475,8 +475,9 @@ class AttendanceRecord {
 			$attendanceObj->setTimestampDiff($row['timestamp_diff']);
 			$attendanceObj->setStatus($row['status']);			
 			
-			$durationAsArray = explode(":",$row['duration']);			
-            $attendanceObj->setDuration($durationAsArray[0].":".$durationAsArray[1]);
+			$durationAsArray = explode(":",$row['duration']);
+			$dur = isset($durationAsArray[1])?$durationAsArray[1]:'00';
+            $attendanceObj->setDuration($durationAsArray[0].":".$dur);
 			
 			/* Adjusting time according to the timezone of the place 
 			 * where the record was first entered.
