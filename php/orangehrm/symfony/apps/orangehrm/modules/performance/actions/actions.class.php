@@ -166,6 +166,7 @@ class performanceActions extends sfActions {
 		$this->kpi				=	$kpi;
 		if ($request->isMethod ( 'post' )) {
 			
+			
 			$kpi->setJobtitlecode ( $request->getParameter ( 'txtJobTitle' ) );
 			$kpi->setDesc ( $request->getParameter ( 'txtDescription' ) );
 			if (trim($request->getParameter ( 'txtMinRate' )) != "" ){ 
@@ -181,13 +182,12 @@ class performanceActions extends sfActions {
 			}
 							
 			if ($request->getParameter ( 'chkDefaultScale' ) == 1) {
+				
 				$kpi->setDefault ( 1 );
 				
 			} else {
 				$kpi->setDefault ( 0 );
 			}
-			
-			
 			$kpiService->saveDefineKpi ( $kpi );
 			$this->setMessage('SUCCESS',array('Successfully Updated'));
 			$this->redirect ( 'performance/listDefineKpi' );

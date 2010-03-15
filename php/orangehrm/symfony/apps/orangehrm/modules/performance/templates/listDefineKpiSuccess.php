@@ -1,6 +1,6 @@
 
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.tablesorter.min.js');?>"></script>
+
 <div id="content">
 	<div id="contentContainer">
 		<?php if(count($listJobTitle) == 0){?>
@@ -196,8 +196,7 @@
 					}
 				});
 
-			//Sort the table 
-			 $("#sortTable").tablesorter(); 
+			 
 				
 		 });
 

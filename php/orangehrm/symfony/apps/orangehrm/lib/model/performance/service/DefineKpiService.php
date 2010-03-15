@@ -107,10 +107,9 @@ class DefineKpiService extends BaseService {
 				$idGenService->setEntity ( $Kpi );
 				$Kpi->setId ( $idGenService->getNextID () );
 			}
-			if($Kpi->getDefault() == 1)
-				$this->overRideDefineKpiDefaultRate();
-			
 			$Kpi->save ();
+			if($Kpi->getDefault() == 1)
+				$this->overRideDefineKpiDefaultRate($Kpi);
 			return $Kpi;
 		} catch ( Exception $e ) {
 			throw new PerformanceServiceException ( $e->getMessage () );
@@ -183,12 +182,13 @@ class DefineKpiService extends BaseService {
 	 * 
 	 * @return Array
 	 */
-	private function overRideDefineKpiDefaultRate() {
+	private function overRideDefineKpiDefaultRate( DefineKpi $Kpi) {
 		try {
 			
 				$q = Doctrine_Query::create ()
 				->update ( 'DefineKpi' )
-				->set ( 'DefineKpi.default', '0' );
+				->set ( 'DefineKpi.default', '0' )
+				->whereNotIn('DefineKpi.id',array($Kpi->getId()));
 				$q->execute ();
 			
 			return true ;
