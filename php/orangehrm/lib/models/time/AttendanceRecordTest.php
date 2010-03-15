@@ -104,7 +104,7 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 		
 		$object = new AttendanceRecord();
 				
-		$this->assertEquals(sizeof($object->fetchRecords(-1,'2009-02-11','2011-02-16')),6);		
+		$this->assertEquals(sizeof($object->fetchRecords(-1,'2009-02-11','2011-02-16')),7);		
 		$this->assertEquals(sizeof($object->fetchRecords(1,'2009-02-11','2010-02-16 23:59:59')),2);
 		$this->assertEquals(sizeof($object->fetchRecords(1,'2009-02-11','2010-02-16')),1);		
 		
