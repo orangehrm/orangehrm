@@ -1,3 +1,19 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.1
+
+	Known Issues
+	------------
+    Deleted job titles and sub divisions are not handled.
+
+	Bug Fixes
+	---------
+    2970542 - Default value check box is deselected, when updating KPIs
+    2970587 - Spelling mistake - schduled - should be scheduled
+    2970597 - Performance Review -rating field should be validated
+    2970604 - Save comment with special characters leads to hide kpis
+    2970605 - Warning message are ovelapping
+    2970613 - Review List -> Select all checkbox not work properly
+    2970631 - Edit Review feature is not compatible with 5.2.10-2
+
 New & Changed Features for OrangeHRM ver 2.6-alpha.4
 
 	New Features
