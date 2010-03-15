@@ -49,7 +49,7 @@ class EmailService extends BaseService{
 			break;
 			
 			case 'sendmail':
-				$transport = Swift_SendmailTransport::newInstance($this->sendmailPath );
+				$transport = Swift_SendmailTransport::newInstance();
 				$mailer    = Swift_Mailer::newInstance($transport);
 			break;
 			

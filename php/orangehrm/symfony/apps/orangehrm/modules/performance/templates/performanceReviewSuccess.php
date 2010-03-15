@@ -167,6 +167,9 @@
 	          }); 
 	      } 
 	  }
+
+
+	  
 	  
 		
 	  $(document).ready(function(){ 
@@ -193,6 +196,7 @@
 			//When Submit button click
 				$("#submitBtn").click(function() {
 					$('#frmSave :input').removeAttr('disabled');
+					
 					$('#saveMode').val('submit');
 					$('#frmSave').submit();
 				});
@@ -240,6 +244,7 @@
 						var max ;
 						var min ;
 						var rate ;
+						var msg ;
 						var error = false;
 						$("input.smallInput").each(function() {
 
@@ -247,21 +252,28 @@
 							max	=	parseFloat($(this).attr('maxscale'));
 							min =   parseFloat($(this).attr('minscale'));
 							rate =  parseFloat(this.value) ;
-							if( (rate > max) || (rate <min) ){
+							if(!isNaN(this.value)){
+								
+								if( (rate > max) || (rate <min) ){
+									$(this).css('background-color', '#ffeeee');
+									$(this).css('border', 'solid 1px #ffdddd');
+									msg = 'Rate is not in max-min range';
+									error = true;
+	
+								}else{
+									$(this).css('background-color', '#ffffff');
+									$(this).css('border', 'solid 1px #000000');	
+								}
+							}else{
 								$(this).css('background-color', '#ffeeee');
 								$(this).css('border', 'solid 1px #ffdddd');
-								
+								msg = 'Rate is not numeric';
 								error = true;
-
-							}else{
-								$(this).css('background-color', '#ffffff');
-								$(this).css('border', 'solid 1px #000000');	
 							}
-							
 						});
 
 						if(error){
-							$("#messageBalloon_failure ul").html('<li>Rate is not in max-min range</li>');
+							$("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 							$("#performanceError").show();
 							$('#validRate').val('0');									
 						}else
