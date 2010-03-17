@@ -146,7 +146,7 @@
 		 	 messages: {
 		 		'txtEmpName-0':{ 
 		 			required:"Employee Name is required",
-                    empIdSet:"Pleae select an employee",
+                    empIdSet:"Please select an employee",
                     sameAsEmp:"Employee can not also be the reviewer"
 		 		},
 		 		'txtReviewerName-0':{ 
