@@ -53,9 +53,8 @@ abstract class BasePerformanceReview extends sfDoctrineRecord
              'type' => 'integer',
              'length' => '2',
              ));
-        $this->hasColumn('kpis as kpis', 'string', 1000, array(
+        $this->hasColumn('kpis as kpis', 'string', null, array(
              'type' => 'string',
-             'length' => '1000',
              ));
     }
 

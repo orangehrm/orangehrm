@@ -91,11 +91,11 @@
 							<td class="" >
 								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>"></input>
 								<input type="hidden" name="min<?php echo $kpi->getId()?>" id="min<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMinRate()?>"></input>
-				 				 <input id="txtRate<?php echo $kpi->getId()?>"  name="txtRate[<?php echo $kpi->getId()?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate())?>" tabindex="4" maxscale="<?php echo $kpi->getMaxRate()?>" minscale="<?php echo $kpi->getMinRate()?>" valiadate="1" />
+				 				 <input id="txtRate<?php echo $kpi->getId()?>"  name="txtRate[<?php echo $kpi->getId()?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate())?>"  maxscale="<?php echo $kpi->getMaxRate()?>" minscale="<?php echo $kpi->getMinRate()?>" valiadate="1" />
 				 			</td>
 							<td class="">
-				 				<textarea id='txtComments' name='txtComments[<?php echo $kpi->getId()?>]' 
-                    rows="1" cols="20" tabindex="2"><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
+				 				<textarea id='txtComments' class="reviwerComment" name='txtComments[<?php echo $kpi->getId()?>]' 
+                    rows="1" cols="20" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
 				 			</td>
 				 				
 				 	</tr>
@@ -307,7 +307,27 @@
 						return false;
 					});
 
-					
+					//Check Reviwer comment
+					$("#frmSave").delegate("keyup", "textarea.reviwerComment", function(event) {
+						var error = false;
+						var msg ;
+						
+						$("textarea.reviwerComment").each(function() {
+							if(this.value.length >= 100 ){
+								error = true;
+							}
+						});
+
+						if(error){
+							$("#messageBalloon_failure ul").html('<li>Comments length exceed</li>');
+							$("#performanceError").show();
+							$('#validRate').val('0');									
+						}else{
+							$("#performanceError").hide();
+							$('#validRate').val('1');
+						}
+					});
+						
 							
 		}); 
   </script>

@@ -1425,7 +1425,7 @@ PerformanceReview:
       type: integer(2)
     kpis:
       name: kpis as kpis
-      type: string(1000)
+      type: string
   relations:
     Employee:
       class: Employee
