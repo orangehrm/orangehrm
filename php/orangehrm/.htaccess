@@ -12,3 +12,7 @@ deny from all
 order allow,deny
 deny from all
 </Files>
+<Files *.yml>
+order allow,deny
+deny from all
+</Files>

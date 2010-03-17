@@ -143,7 +143,8 @@
    
  </div>
   <script type="text/javascript">
-	
+
+	//Check autosave
   	function autosave() 
 	  { 
 	      var t = setTimeout("autosave()", 20000); 
@@ -168,8 +169,28 @@
 	      } 
 	  }
 
-
-	  
+      //Check submit 
+	  function checkSubmit(){
+		  var valid	=	true ;
+		  var msg	=	'';
+		  $("input.smallInput").each(function() {
+			  max	=	parseFloat($(this).attr('maxscale'));
+			  min =   parseFloat($(this).attr('minscale'));
+			  rate =  parseFloat(this.value) ;
+				
+			  if( !isNaN(max) || !isNaN(min)){
+				  if( isNaN(rate)){
+					  valid = false;
+				  }
+			  }	  
+		  });
+		  if( !valid ){
+			  msg	=	'Please add rating value ';
+			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
+			  $("#performanceError").show();
+		  }
+		  return valid ;
+	  }
 	  
 		
 	  $(document).ready(function(){ 
@@ -196,9 +217,10 @@
 			//When Submit button click
 				$("#submitBtn").click(function() {
 					$('#frmSave :input').removeAttr('disabled');
-					
-					$('#saveMode').val('submit');
-					$('#frmSave').submit();
+					if(checkSubmit()){
+						$('#saveMode').val('submit');
+						$('#frmSave').submit();
+					}
 				});
 
 			//When Submit button click
