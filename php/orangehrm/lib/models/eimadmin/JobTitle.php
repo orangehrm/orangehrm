@@ -32,7 +32,12 @@ class JobTitle {
 
 	const TABLE_NAME = 'HS_HR_JOB_TITLE';
     
+    const DB_FIELD_CODE = 'jobtit_code';
     const DB_FIELD_JOBSPEC_ID = 'jobspec_id';
+    const DB_FIELD_IS_ACTIVE = 'is_active';
+    
+    const DELETED_JOB_TITLE = 0;
+    const ACTIVE_JOB_TITLE = 1;
     
 	var $tableName = self::TABLE_NAME;
 
@@ -115,8 +120,9 @@ class JobTitle {
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
+		$specialSearch = "`".self::DB_FIELD_IS_ACTIVE."` = ".self::ACTIVE_JOB_TITLE;
 
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder, false, $specialSearch);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
@@ -145,12 +151,17 @@ class JobTitle {
 		$tableName = 'HS_HR_JOB_TITLE';
 		$arrFieldList[0] = 'JOBTIT_CODE';
 		$arrFieldList[1] = 'JOBTIT_NAME';
+		$arrFieldList[2] = 'IS_ACTIVE';
 
 		$sql_builder = new SQLQBuilder();
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
+		
+		if (is_array($schStr)) {
+			$schStr[] = 1; // To get only the active job titles    
+		}
 
 		$sqlQString = $sql_builder->countResultset($schStr,$mode);
 
@@ -165,22 +176,25 @@ class JobTitle {
 
 	function delJobTitles($arrList) {
 
-		$tableName = 'HS_HR_JOB_TITLE';
-		$arrFieldList[0] = 'JOBTIT_CODE';
-
-		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_delete = 'true';
-		$sql_builder->arr_delete = $arrFieldList;
-
-		$sqlQString = $sql_builder->deleteRecord($arrList);
-
-		//echo $sqlQString;
+		$updateTable = "`hs_hr_job_title`";
+		
+		$changeFields[0] = "`".self::DB_FIELD_IS_ACTIVE."`";
+		$changeValues[0] = self::DELETED_JOB_TITLE;
+		
+		$updateConditions[0] = self::DB_FIELD_CODE." IN('".implode("','",$arrList[0])."')";
+		
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions);
+		
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$result = $dbConnection->executeQuery($query);
+		
+		if ($result) {
+		    return true;
+		}
 
-		return $message2;
+		return false;
+
 	}
 
 	function addJobTitles() {
@@ -235,8 +249,9 @@ class JobTitle {
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
+		$specialSearch = "`".self::DB_FIELD_IS_ACTIVE."` = ".self::ACTIVE_JOB_TITLE;
 
-		$sqlQString = $sql_builder->passResultSetMessage(0, '', -1, 1);
+		$sqlQString = $sql_builder->passResultSetMessage(0, '', -1, 1, 'ASC', false, $specialSearch);
 
 		$dbConnection = new DMLFunctions();
        		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

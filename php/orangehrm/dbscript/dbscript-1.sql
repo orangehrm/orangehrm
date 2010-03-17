@@ -39,6 +39,7 @@ create table `hs_hr_job_title` (
 	`jobtit_comm` varchar(400) default null,
 	`sal_grd_code` varchar(13) default null,
 	`jobspec_id` int(11) default null,
+	`is_active` tinyint(4) default 1,
 	primary key(`jobtit_code`),
     key sal_grd_code (`sal_grd_code`),
     key jobspec_id (`jobspec_id`)
