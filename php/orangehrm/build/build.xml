@@ -74,6 +74,7 @@
             <exclude name="Emp5000.php"/>
             <exclude name="Emp5000.txt"/>
         	<exclude name="orangehrm-quick-start-guide.html"/>
+        	<exclude name="build/myconf.php"/>
         </fileset>
     </copy>
 	<copy todir="${dist.dir}">
