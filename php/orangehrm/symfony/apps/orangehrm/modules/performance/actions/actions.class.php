@@ -292,7 +292,8 @@ class performanceActions extends sfActions {
 				
 				switch( $saveMode ){
 					case 'save':
-						$performanceReviewService->changePerformanceStatus($performanceReview,PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED);
+						if( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED)
+							$performanceReviewService->changePerformanceStatus($performanceReview,PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED);
 					break;
 					case 'submit':
 						$performanceReviewService->changePerformanceStatus($performanceReview ,PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED);
