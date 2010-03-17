@@ -85,8 +85,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       * @return String formatted amount
       */
      public function formatMoney($amount) {
+        $amount = (double) $amount;
         $fmtAmount = number_format($amount, 2, '.', '');
-         return $fmtAmount;
+        return $fmtAmount;
      }
 
 	 /**
