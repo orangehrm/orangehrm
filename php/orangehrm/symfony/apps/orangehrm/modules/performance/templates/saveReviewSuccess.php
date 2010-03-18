@@ -13,7 +13,7 @@
 	
 		<div class="outerbox">
 
-            <div id="formHeading"><h2>Add Performance Review</h2></div>
+            <div id="formHeading"><h2><?php echo isset($clues['id'])?__('Edit Performance Review'):__('Add Performance Review'); ?></h2></div>
 			
 			<form action="#" id="frmSave" name="frmSave" class="content_inner" method="post">
 

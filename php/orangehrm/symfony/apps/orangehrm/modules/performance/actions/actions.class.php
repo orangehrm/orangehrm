@@ -443,6 +443,7 @@ class performanceActions extends sfActions {
 
             if ($request->getParameter("hdnId-0")) { // Updating an existing one
                 $review = $performanceReviewService->readPerformanceReview($request->getParameter("hdnId-0"));
+                $this->clues['id'] = $request->getParameter("hdnId-0");                
             } else { // Adding a new one
                 $review = new PerformanceReview();
             }
@@ -465,7 +466,9 @@ class performanceActions extends sfActions {
 			$performanceReviewService->informReviewer($review);
 			
 			$this->getUser()->setFlash('prClues', $clues);
-			$this->templateMessage = array('SUCCESS', 'Successfully added. <a href="viewReview">View</a>');
+			
+			$actionResult = ($request->getParameter("hdnId-0"))?'updated':'added';			
+			$this->templateMessage = array('SUCCESS', 'Successfully '.$actionResult.'. <a href="viewReview">View</a>');
 		    
 		}
 	    	    
