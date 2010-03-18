@@ -6,6 +6,7 @@
 				<ul><li><?php echo __("Job titles haven't been defined")?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now")?></a></li></ul>
 			</div>
 		<?php }?>
+		<?php echo message()?>
         <div class="outerbox">
             <div id="formHeading"><h2>Add KPI</h2></div>
 			
