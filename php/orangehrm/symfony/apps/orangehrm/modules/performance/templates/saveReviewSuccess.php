@@ -65,7 +65,7 @@
 				
 				<input type="button" class="savebutton" id="saveBtn" value="Save" tabindex="6" />
                         
-				<input type="button" class="savebutton" id="resetBtn" value="Clear" tabindex="7" />
+				<input type="button" class="savebutton" id="resetBtn" value="Reset" tabindex="7" />
                     
 			</div>  
               
