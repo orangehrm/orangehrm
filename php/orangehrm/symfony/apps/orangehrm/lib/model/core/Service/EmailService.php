@@ -88,10 +88,13 @@ class EmailService extends BaseService{
 					break;
 					
 					case 'sendmail':
-						if($mailer->getTransport()->isStarted())
+						//if($mailer->getTransport()->isStarted())
+						//{
+							$this->message->setSender($this->mailAddress);
 							$numSent = $mailer->send($this->message);
-						else
-							$logMessage .= "\r\n fail to start send mailer transport";
+						//}
+						//else
+						//	$logMessage .= "\r\n fail to start send mailer transport";
 					break;
 					
 					default:
