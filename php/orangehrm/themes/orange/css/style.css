@@ -265,7 +265,7 @@ table.data-table tbody tr td {
 table.data-table tbody td a {
 	font-size: 12px;
 	color: #000000;
-	text-decoration: none;
+	
 }
 
 table.data-table tbody td a:hover {

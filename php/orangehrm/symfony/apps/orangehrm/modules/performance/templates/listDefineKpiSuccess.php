@@ -19,7 +19,7 @@
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value="all"><?php echo __('All')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo $jobTitle->getName()?></option>
+	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getName())?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
@@ -107,7 +107,7 @@
 								<input type='checkbox' class='innercheckbox' name='chkKpiID[]' id="chkLoc" value='<?php echo  $kpi->getId()?>' />
 							</td>
 							<td class="">
-				 				<?php echo  $kpi->getJobTitle()->getName()?>
+				 				<?php echo  htmlspecialchars_decode($kpi->getJobTitle()->getName())?>
 				 			</td>
 				 			<td class="">
 				 				<a href="<?php echo url_for('performance/updateKpi?id='.$kpi->getId()) ?>"><?php echo  $kpi->getDesc()?></a>

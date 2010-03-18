@@ -13,7 +13,7 @@
                      <label class="detail"><?php echo $performanceReview->getEmployee()->getFirstName()?> <?php echo $performanceReview->getEmployee()->getLastName()?></label>
                    <br class="clear"/>
                    <label class="detailHearder"><?php echo __("Job Title")?></label>
-                     <label class="detail"><?php echo $performanceReview->getJobTitle()->getName()?> </label>
+                     <label class="detail"><?php echo htmlspecialchars_decode($performanceReview->getJobTitle()->getName())?> </label>
                    <br class="clear"/>
 				     <label class="detailHearder"><?php echo __("Reviewer")?></label>
                      <label class="detail"><?php echo $performanceReview->getReviewer()->getFirstName()?> <?php echo $performanceReview->getReviewer()->getLastName()?></label>
