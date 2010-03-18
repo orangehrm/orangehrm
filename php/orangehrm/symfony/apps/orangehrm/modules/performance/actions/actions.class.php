@@ -606,9 +606,9 @@ class performanceActions extends sfActions {
                 $clues['jobCode'] = $request->getParameter('txtJobTitleCode'.$suffix);
                 $clues['divisionId'] = $request->getParameter('txtSubDivisionId'.$suffix);
                 $clues['empName'] = $request->getParameter('txtEmpName'.$suffix);
-                $clues['empId'] = $request->getParameter('hdnEmpId'.$suffix);
+                $clues['empId'] = empty($clues['empName'])?0:$request->getParameter('hdnEmpId'.$suffix);
                 $clues['reviewerName'] = $request->getParameter('txtReviewerName'.$suffix);
-                $clues['reviewerId'] = $request->getParameter('hdnReviewerId'.$suffix);
+                $clues['reviewerId'] = empty($clues['reviewerName'])?0:$request->getParameter('hdnReviewerId'.$suffix);
                 $clues['pageNo'] = $request->getParameter('hdnPageNo'.$suffix);
 
             } elseif ( $request instanceof  PerformanceReview ) {
