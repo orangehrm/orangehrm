@@ -500,6 +500,9 @@ JobTitle:
       name: jobspec_id as jobspecId
       type: string(13)
       notnull: false
+    is_active:
+      name: is_active as isActive
+      type: integer(4)
   relations:
     employees:
       class: Employee

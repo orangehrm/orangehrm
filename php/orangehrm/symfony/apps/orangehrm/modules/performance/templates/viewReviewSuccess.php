@@ -54,7 +54,13 @@ $formatData['newSeparater'] = '/';
                 		    $selected = '';
                 		}
                 		
-                		echo "<option value=\"".$job->getId()."\"".$selected.">".$job->getName()."</option>\n";
+                		$jobName = $job->getName();
+                		
+                		if ($job->getIsActive() == JobTitle::JOB_STATUS_DELETED) {
+                		    $jobName = $jobName.' ('.__('Deleted').')';
+                		}
+                		
+                		echo "<option value=\"".$job->getId()."\"".$selected.">".$jobName."</option>\n";
                 	}
                 	?>
                 </select>

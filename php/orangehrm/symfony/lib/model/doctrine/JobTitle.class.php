@@ -23,6 +23,10 @@
  */
 class JobTitle extends BaseJobTitle
 {
+	
+	const JOB_STATUS_DELETED = 0;
+	const JOB_STATUS_ACTIVE = 1;
+	
 	public function __toString() {
 		return $this->name;
 	}

@@ -485,7 +485,8 @@ class performanceActions extends sfActions {
 		
 		/* Job title list */
 		$jobService	= new JobService();
-		$this->jobList = $jobService->getJobTitleList();
+		$this->jobList = $jobService->getJobTitleList('job.id', 'ASC', 
+						 array(JobTitle::JOB_STATUS_DELETED, JobTitle::JOB_STATUS_ACTIVE));
 		
 		/* Employee list */
 		if ($this->loggedAdmin) {

@@ -33,6 +33,10 @@ abstract class BaseJobTitle extends sfDoctrineRecord
              'type' => 'string',
              'length' => '13',
              ));
+        $this->hasColumn('is_active as isActive', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => '4',
+             ));
     }
 
     public function setUp()

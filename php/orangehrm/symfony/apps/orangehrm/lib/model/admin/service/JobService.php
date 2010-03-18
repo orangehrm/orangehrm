@@ -563,12 +563,13 @@ class JobService extends BaseService {
      * Get Employee stat
      * @return unknown_type
      */
-    public function getJobTitleList( $orderField='job.id',$orderBy='ASC' )
+    public function getJobTitleList( $orderField='job.id',$orderBy='ASC', $activeStatus=array(JobTitle::JOB_STATUS_ACTIVE))
     {
     	try
         {
 	    	$q = Doctrine_Query::create()
 			    ->from('JobTitle job')
+			    ->whereIn('isActive', $activeStatus)
 			    ->orderBy($orderField.' '.$orderBy);
 			
 			$jobTitleList = $q->execute();
