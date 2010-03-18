@@ -222,6 +222,10 @@
 	background: transparent url(icons/customers.gif) no-repeat center left;
 }
 
+#nav li#perform a.l1_link {
+	background: transparent url(icons/skills.gif) no-repeat center left;
+}
+
 #nav li#report a.l1_link {
 	background: transparent url(icons/defemprep.gif) no-repeat center left;
 }
@@ -279,7 +283,9 @@
 #nav li#recruit ul {
 	width: 12em;
 }
-
+#nav li#perform ul {
+	width: 12em;
+}
 #nav li#report ul li.l2 span {
 	width: 8em;
 }
@@ -468,6 +474,11 @@
 
 #nav li.l2 a.applications {
 	background: transparent url(newicons/Applicants.gif) no-repeat center left;
+}
+
+/* Performance menu icons */
+#nav li.l2 a.definekpi {
+	background: transparent url(icons/defemprep.gif) no-repeat center left;
 }
 
 /* Reports menu icons */
