@@ -60,7 +60,7 @@ $formatData['newSeparater'] = '/';
                 		    $jobName = $jobName.' ('.__('Deleted').')';
                 		}
                 		
-                		echo "<option value=\"".$job->getId()."\"".$selected.">".$jobName."</option>\n";
+                		echo "<option value=\"".$job->getId()."\"".$selected.">".htmlspecialchars_decode($jobName)."</option>\n";
                 	}
                 	?>
                 </select>
@@ -201,7 +201,7 @@ $formatData['newSeparater'] = '/';
 				 		</td>
 				 		
 				 		<td class="">
-				 			<?php echo $review->getJobTitle()->getName(); ?>
+				 			<?php echo htmlspecialchars_decode($review->getJobTitle()->getName()); ?>
 				 		</td>
 				 		
 				 		<td class="">
