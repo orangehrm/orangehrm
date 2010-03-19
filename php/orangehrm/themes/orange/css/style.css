@@ -1168,7 +1168,7 @@ textarea {
 	.required {
 		color: #ff0000;
 	}
-	.error, .failure {
+	.failure {
 		color: #ff0000;
 	}
 	.warning {
