@@ -75,8 +75,12 @@ class EmailService extends BaseService{
 		$logMessage = "";
 		try{
 			
+			
 			$logMessage = date('r')." Sending {$this->message->getSubject()} to";
-			$logMessage .= "\r\n".implode(',',$this->message->getTo());
+			foreach( $this->message->getTo() as $index=>$value){
+				$logMessage .= $index.' ';
+			}
+			
 			
 			if( count($this->message->getTo()) > 0){
 				$mailer = $this->getSwiftMailer();

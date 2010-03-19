@@ -1,8 +1,0 @@
-View Reviews 
-
-
-
-
-<?php
-
-?>
