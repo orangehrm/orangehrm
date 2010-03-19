@@ -139,8 +139,8 @@
 			 rules: {
 			 	'txtEmpName-0': { required: true, empIdSet: true, sameAsEmp: true },
 			 	'txtReviewerName-0': { required: true, reviewerIdSet: true, sameAsEmp: true },
-			 	'txtPeriodFromDate-0': { required: true, dateISO: true },
-			 	'txtPeriodToDate-0': { required: true, dateISO: true },
+			 	'txtPeriodFromDate-0': { required: true, dateISO: true , validFromDate: true },
+			 	'txtPeriodToDate-0': { required: true, dateISO: true ,validToDate: true },
 			 	'txtDueDate-0': { required: true, dateISO: true }
 		 	 },
 		 	 messages: {
@@ -156,11 +156,13 @@
 		 		},
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"Period From Date is required",
-		 			dateISO:"Period From Date should be a valid date"
+		 			dateISO:"Period From Date should be a valid date",
+		 			validFromDate: " Period From Date should be lesser than Period To Date"
 		 		},
 		 		'txtPeriodToDate-0':{ 
 			 		required:"Period To Date is required",
-			 		dateISO:"Period To Date should be a valid date"
+			 		dateISO:"Period To Date should be a valid date",
+			 		validToDate: " Period To Date should be higher than Period From Date"
 		 		},
 		 		'txtDueDate-0':{ 
 			 		required:"Due Date is required",
@@ -200,6 +202,42 @@
             } else {
                 return true;
             }
+        });
+
+        /* Valid From Date */
+        $.validator.addMethod("validFromDate", function(value, element) {
+        	
+            var fromdate	=	$('#txtPeriodFromDate-0').val();
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var todate		=	$('#txtPeriodToDate-0').val();
+            var	todateObj	=	new Date(todate.replace(/-/g,' ')); 
+           
+			
+			if( ($('#txtPeriodToDate-0').val() != '') && (fromdateObj >= todateObj)){
+				
+    			return false;
+			}
+    		else
+    			return true;
+
+        });
+
+        /* Valid To Date */
+        $.validator.addMethod("validToDate", function(value, element) {
+        	
+            var fromdate	=	$('#txtPeriodFromDate-0').val();
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var todate		=	$('#txtPeriodToDate-0').val();
+            var	todateObj	=	new Date(todate.replace(/-/g,' ')); 
+           
+			
+			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= todateObj)){
+				
+    			return false;
+			}
+    		else
+    			return true;
+
         });
 
 	}); // ready():Ends
