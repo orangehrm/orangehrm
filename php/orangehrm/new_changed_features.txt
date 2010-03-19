@@ -1,3 +1,30 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.2
+
+	Bug Fixes
+	---------
+	2950546 - Validation should be performed when text changes
+	2950558 - 2009 should be changed to 2010
+	2950575 - Deleting job title in admin module empties the KPI's job tit
+	2961053 - The Search Review Form is not work with IE7
+	2961700 - From and To date should not be mandatory for review queries
+	2970592 - A reviewer can submit without entering anything
+	2970603 - Save comments with large text leads to length exception 
+	2971077 - Spelling mistake in Add review page
+	2971141 - Review entering "being reviewed" state from submitted
+	2971766 - Job titles with special chars not displaying properly
+	2971790 - From Date, To Date and Due Date should be validated
+	2972449 - Edit Review -> employee name should validate
+	2961721 - After scheduled the Review HR admin cannot edit it.
+	2961068	- Clear button name should be changed as Reset
+	2971780 - Icons are missing in the Performance module menu
+	2971791	- Reviewer can not view his/her own review without searching
+	2971783 - Review search issue come with employee and reviewer
+	2971095 - From Date, To Date and Due Date should be validated
+	2970667 - Clear button should be labelled as Reset in Edit Review
+	2970654 - Edit Review form adds schedules
+	2970613 - Review List -> Select all checkbox not work properly
+	2970604 - Save comment with special characters leads to hide kpis
+
 New & Changed Features for OrangeHRM ver 2.6-beta.1
 
 	Known Issues
