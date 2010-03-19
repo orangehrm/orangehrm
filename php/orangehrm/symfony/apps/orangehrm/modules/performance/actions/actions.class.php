@@ -481,8 +481,8 @@ class performanceActions extends sfActions {
 	
 	public function executeViewReview(sfWebRequest $request) {
 		
-		/* Showing Performance Review Add form 
-		 * =================================== */
+		/* Showing Performance Review Search form 
+		 * ====================================== */
 		
 		$performanceReviewService = new PerformanceReviewService();
 		

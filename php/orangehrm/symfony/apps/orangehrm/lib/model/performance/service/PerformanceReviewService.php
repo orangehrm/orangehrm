@@ -95,7 +95,12 @@ class PerformanceReviewService extends BaseService {
 
             if (!empty($reviewerId)) {
                 //$where .= " AND reviewerId = $reviewerId";
-                array_push($where,"reviewerId = $reviewerId");
+                if (empty($empId)) {
+                	$wherePart = "(reviewerId = $reviewerId OR employeeId = $reviewerId)";
+                } else {
+                    $wherePart = "reviewerId = $reviewerId";
+                }
+                array_push($where, $wherePart);
             }
 
             if (!empty($jobCode)) {
@@ -110,9 +115,10 @@ class PerformanceReviewService extends BaseService {
 
             $q = Doctrine_Query::create()
                  ->from('PerformanceReview');
-            if(count($where) > 0)
-              $q->where(implode(' AND ',$where));
-			
+            if (count($where) > 0) {
+            	$q->where(implode(' AND ',$where));
+            }
+            
             return $q;
 
         } catch(Exception $e) {
