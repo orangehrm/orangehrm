@@ -468,7 +468,7 @@ class performanceActions extends sfActions {
 			$this->getUser()->setFlash('prClues', $clues);
 			
 			$actionResult = ($request->getParameter("hdnId-0"))?'updated':'added';			
-			$this->templateMessage = array('SUCCESS', 'Successfully '.$actionResult.'. <a href="viewReview">View</a>');
+			$this->templateMessage = array('SUCCESS', 'Successfully '.$actionResult.' review of '.$this->clues['empName'].'. <a href="viewReview">View</a>');
 		    
 		}
 	    	    
