@@ -95,7 +95,7 @@ class PerformanceReviewService extends BaseService {
 
             if (!empty($reviewerId)) {
                 //$where .= " AND reviewerId = $reviewerId";
-                if (empty($empId)) {
+                if (empty($empId) && isset($clues['loggedReviewerId'])) {
                 	$wherePart = "(reviewerId = $reviewerId OR employeeId = $reviewerId)";
                 } else {
                     $wherePart = "reviewerId = $reviewerId";
@@ -459,29 +459,30 @@ class PerformanceReviewService extends BaseService {
 
             $resultList = $q->execute();
 
-            $jsonList = array();
+			$empList = array();
+			$empIds = array();
 
-            /* Refator: Begins */
+            /* Making sure employee list is unique: Begins */
             $i = 0;
             foreach ($resultList as $result) {
-                $empList[$i][0] = $result->getEmployee()->getFullName();
-                $empList[$i][1] = $result->getEmployee()->getEmpNumber();
-                $i++;
+            	
+            	$empId =  $result->getEmployee()->getEmpNumber();
+            	
+            	if (!in_array($empId, $empIds)) {
+ 	            	$empList[$i][0] = $result->getEmployee()->getFullName();
+	                $empList[$i][1] = $empId;
+	                $empIds[] = $empId;
+ 	               	$i++;
+            	}
+            	
             }
+            /* Making sure employee list is unique: Ends */
 
-            $empList = array_unique($empList);
+            $jsonList = array();
 
             foreach ($empList as $emp) {
                 $jsonList[] = "{name:'".$emp[0]."',id:'".$emp[1]."'}";
             }
-            /* Refator: Ends */
-
-            // TODO: For some reason, distinct() didn't work. When it works remove
-            // above refactor part and activate below commented part.
-
-            /*foreach ($resultList as $result) {
-                $jsonList[] = "{name:'".$result->getEmployee()->getFullName()."',id:'".$result->getEmployee()->getEmpNumber()."'}";
-            }*/
 
             if ($addSelf) {
                 $jsonList[] = "{name:'".$resultList[0]->getReviewer()->getFullName()."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
