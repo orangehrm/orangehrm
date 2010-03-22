@@ -286,6 +286,9 @@ $formatData['newSeparater'] = '/';
 		/* Auto completion of employees */
 		$("#txtEmpName").autocomplete(empdata, {
 			formatItem: function(item) {
+				if ($("#txtEmpName").val() != item.name) {
+				    $('#hdnEmpId').val(0);
+				}
 		    	return item.name;
 			}, matchContains:"word"
 		}).result(function(event, item) {
@@ -295,6 +298,9 @@ $formatData['newSeparater'] = '/';
 		/* Auto completion of reviewers */
 		$("#txtReviewerName").autocomplete(empdata, {
 			formatItem: function(item) {
+				if ($("#txtReviewerName").val() != item.name) {
+				    $('#hdnReviewerId').val(0);
+				}
 		    	return item.name;
 			}, matchContains:"word"
 		}).result(function(event, item) {
