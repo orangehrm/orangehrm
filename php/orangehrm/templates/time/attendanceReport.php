@@ -552,6 +552,8 @@ echo '</div>';
         <td class="note-td">
         <?php echo $recordsArr[$i]->getOutNote() ;?>
         </td>
+        <td></td>
+        <td></td>
     </tr>
 
 	<?php } } // Records array: Ends ?>
