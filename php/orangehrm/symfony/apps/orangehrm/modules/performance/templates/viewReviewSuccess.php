@@ -89,6 +89,7 @@ $formatData['newSeparater'] = '/';
                 value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="5" />
                 <input type="hidden" name="hdnEmpId" id="hdnEmpId" 
                 value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>">
+                <div class="errorDiv"></div>
                 <br class="clear"/>
 				<?php } // $loggedAdmin || $loggedReviewer:Ends ?>
 
@@ -98,6 +99,7 @@ $formatData['newSeparater'] = '/';
                 value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="6" />
                 <input type="hidden" name="hdnReviewerId" id="hdnReviewerId" 
                 value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>">
+                <div class="errorDiv"></div>
                 <br class="clear"/>
                 <?php } // $loggedAdmin:Ends ?>
                 
@@ -358,21 +360,19 @@ $formatData['newSeparater'] = '/';
             $('#deleteReview').attr('disabled', false);
 		});
 		
-		/* Validation 		
+		/* Validation */		
 		$("#frmSearch").validate({
 			
 			 rules: {
-			 	'txtPeriodFromDate': { required: true, dateISO: true },
-			 	'txtPeriodToDate': { required: true, dateISO: true }
+			 	'txtEmpName': { validEmp: true },
+			 	'txtReviewerName': { validReviewer: true }
 		 	 },
 		 	 messages: {
-		 		'txtPeriodFromDate':{ 
-		 			required:"Period From Date is required",
-		 			dateISO:"Period From Date should be a valid date"
+		 		'txtEmpName':{ 
+		 			validEmp:"Entered employee does not exist"
 		 		},
-		 		'txtPeriodToDate':{ 
-			 		required:"Period To Date is required",
-			 		dateISO:"Period To Date should be a valid date"
+		 		'txtReviewerName':{ 
+			 		validReviewer:"Entered reviewer does not exist"
 		 		}
 		 	 },
 		 	 errorPlacement: function(error, element) {
@@ -380,7 +380,25 @@ $formatData['newSeparater'] = '/';
    			 }
 		 	 
 		});
-		*/		
+		
+		/* Checking valid inputs to Employee */
+        $.validator.addMethod("validEmp", function(value, element) {
+            if ($('#hdnEmpId').val() == 0 && $('#txtEmpName').val() != '') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        
+		/* Checking valid inputs to Reviewer */
+        $.validator.addMethod("validReviewer", function(value, element) {
+            if ($('#hdnReviewerId').val() == 0 && $('#txtReviewerName').val() != '') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+				
 	}); // ready():Ends
 
 	/* Applying rounding box style */ 
