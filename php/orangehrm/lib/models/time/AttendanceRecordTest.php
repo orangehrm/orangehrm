@@ -48,7 +48,9 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 			(5, 2, '2010-02-15 10:00:00', '2010-02-18 10:30:00', '', '', 0, '1'),
 			(6, 1, '2010-02-16 14:39:00', '2010-02-16 15:39:00', 'note3', '', 0, '1'),
 			(7, 3, '2010-02-13 11:51:00', '2010-02-15 13:52:00', 'note4', '', 0, '1'),
-			(8, 3, '2010-02-12 08:00:00', '2010-02-12 09:00:00', 'note5', 'note6', 0, '1');";
+			(8, 3, '2010-02-12 08:00:00', '2010-02-12 09:15:00', 'note5', 'note6', 0, '1'),
+			(9, 3, '2010-02-12 10:00:00', '2010-02-12 11:00:00', 'note5', 'note6', 0, '1')
+			;";
 		
 		$connection = new DMLFunctions();
 		foreach ($sql as $sqlStatement) {
@@ -69,6 +71,7 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 6 ;";
 		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 7 ;";
 		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 8 ;";
+		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 9 ;";
 	  
 	   $sql [] = "DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1 ;";
 	   $sql [] = "DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 2 ;";
@@ -76,7 +79,7 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 	  
 	    $connection = new DMLFunctions();
         foreach ($sql as $sqlStatement) {
-          //$connection->executeQuery(trim($sqlStatement));
+         	$connection->executeQuery(trim($sqlStatement));
         }
 	}
 
@@ -102,20 +105,19 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testFetchRecords() {
 		
-		$object = new AttendanceRecord();
-				
-		$this->assertEquals(sizeof($object->fetchRecords(-1,'2009-02-11','2011-02-16')),7);		
+		$object = new AttendanceRecord();				
+		$this->assertEquals(sizeof($object->fetchRecords(-1,'2009-02-11','2011-02-16')),8);		
 		$this->assertEquals(sizeof($object->fetchRecords(1,'2009-02-11','2010-02-16 23:59:59')),2);
 		$this->assertEquals(sizeof($object->fetchRecords(1,'2009-02-11','2010-02-16')),1);		
 		
-		$this->assertEquals(sizeof($object->fetchRecords(3,'2010-02-11 00:00:00','2010-02-12 23:59:59')),1);
+		$this->assertEquals(sizeof($object->fetchRecords(3,'2010-02-11 00:00:00','2010-02-12 23:59:59')),2);
 		$attendance = $object->fetchRecords(3,'2010-02-11 00:00:00','2010-02-12 23:59:59');
 		
 		$this->assertEquals($attendance [0]->getEmployeeId(),3);
 		$this->assertEquals($attendance [0]->getInDate(),'2010-02-12');
 		$this->assertEquals($attendance [0]->getInTime(),'08:00');
 		$this->assertEquals($attendance [0]->getOutDate(),'2010-02-12');
-		$this->assertEquals($attendance [0]->getOutTime(),'09:00');
+		$this->assertEquals($attendance [0]->getOutTime(),'09:15');
 	}
 	
 	/**
@@ -133,7 +135,7 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 		$attendance = $object->fetchSummary(3,'2010-02-11 00:00:00','2010-02-12 23:59:59');
 		
 		$this->assertEquals($attendance [0]->employeeName,'Tyler Abraham');
-        $this->assertEquals($attendance [0]->duration,1);
+        $this->assertEquals($attendance [0]->duration, 2.15);
         $this->assertEquals($attendance [0]->inTime,'2010-02-12');
         $this->assertEquals($attendance [0]->outTime,'2010-02-12');
       

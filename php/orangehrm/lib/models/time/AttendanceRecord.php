@@ -275,10 +275,8 @@ class AttendanceRecord {
 		$reportRows = array ();
 
 		while ($row = mysql_fetch_array($result)) {	
-			
-			$splitedDduration = explode(":",$row['duration']);	
 
-			if($splitedDduration [0]  > 24) {
+			if($row['duration']/60/60  > 24 || (date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])) != date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])))) {
 				
 				$durationArray  = array();
 				
@@ -320,12 +318,13 @@ class AttendanceRecord {
                     $reportRows [] = $object;   
 				}
 					
-			} else {			
+			} else {
 
-				$object = new AttendanceReportRow('summary');
-            
+				$duration = number_format(((intval($row['duration']/60/60)) + (($row['duration']/60/60) - intval($row['duration']/60/60))/100*60),2);
+
+				$object = new AttendanceReportRow('summary');            
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
-				$object->duration = $splitedDduration[0].".".$splitedDduration[1];
+				$object->duration = $duration;
                 $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
                 $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
                 $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
@@ -385,14 +384,14 @@ class AttendanceRecord {
 		
 		$groupBy = null;
 		if($forSummary) {
-			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT(punchin_time,'%Y %c %d')" ;
-			$selectFields[] = " (TIMEDIFF(punchout_time,punchin_time)) AS duration";
+
+			$groupBy  = self::DB_FIELD_EMPLOYEE_ID.",  DATE_FORMAT(".self::DB_FIELD_PUNCHIN_TIME.",'%Y %c %d'), DATE_FORMAT(".self::DB_FIELD_PUNCHOUT_TIME.",'%Y %c %d') " ;
+			$selectFields[] = " (SUM(TIME_TO_SEC(".self::DB_FIELD_PUNCHOUT_TIME.") - TIME_TO_SEC(".self::DB_FIELD_PUNCHIN_TIME."))) AS duration";
 		} else  {
-			$selectFields[] = " TIMEDIFF(punchout_time,punchin_time) AS duration";
+			$selectFields[] = " TIMEDIFF(".self::DB_FIELD_PUNCHOUT_TIME.",".self::DB_FIELD_PUNCHIN_TIME.") AS duration";
 		}
 		
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $tables, $joinConditions, $selectConditions, null, $orderBy, $order, $limit, $groupBy);
-		//$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $orderBy, $order, $limit);
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
@@ -434,8 +433,7 @@ class AttendanceRecord {
 		$result = $dbConnection->executeQuery($query);
 		$row = $dbConnection->dbObject->getArray($result);
 		
-		return $row[0];
-	    
+		return $row[0];	    
 	}
 
 	private function _buildRecordObjects($result, $adjustTime = true) {
@@ -504,18 +502,12 @@ class AttendanceRecord {
 				    $time = date('H:i', strtotime($value)+$row['timestamp_diff']);
 				    
 				    $attendanceObj->setOutDate($date);
-				    $attendanceObj->setOutTime($time);
-			        
-			    }
-			    
+				    $attendanceObj->setOutTime($time);			        
+			    }			    
 			}
-
 			$attendanceArr[] = $attendanceObj;
-
 		}
-
 		return $attendanceArr;
-
 	}
 	
 	/**
@@ -529,8 +521,7 @@ class AttendanceRecord {
 			!isset($this->outDate) || !isset($this->outTime)) {
 				
 			throw new AttendanceRecordException('Required values for checking overlapping are not set',
-												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);
-		
+												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);		
 		}
 		
 		$selectTable = "`".self::DB_TABLE."`";
@@ -561,8 +552,7 @@ class AttendanceRecord {
 												AttendanceRecordException::OVERLAPPING_RECORD);
 		} else {
 			return false;
-		}
-		
+		}		
 	}
 	
 	/**
@@ -574,8 +564,7 @@ class AttendanceRecord {
 		if (!isset($this->employeeId) || !isset($this->inDate) || !isset($this->inTime)) {
 				
 			throw new AttendanceRecordException('Required values for checking overlapping are not set',
-												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);
-		
+												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);		
 		}
 		
 		$selectTable = "`".self::DB_TABLE."`";
