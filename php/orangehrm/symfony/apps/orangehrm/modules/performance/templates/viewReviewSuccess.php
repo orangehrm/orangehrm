@@ -286,9 +286,6 @@ $formatData['newSeparater'] = '/';
 		/* Auto completion of employees */
 		$("#txtEmpName").autocomplete(empdata, {
 			formatItem: function(item) {
-				if ($("#txtEmpName").val() != item.name) {
-				    $('#hdnEmpId').val(0);
-				}
 		    	return item.name;
 			}, matchContains:"word"
 		}).result(function(event, item) {
@@ -298,9 +295,6 @@ $formatData['newSeparater'] = '/';
 		/* Auto completion of reviewers */
 		$("#txtReviewerName").autocomplete(empdata, {
 			formatItem: function(item) {
-				if ($("#txtReviewerName").val() != item.name) {
-				    $('#hdnReviewerId').val(0);
-				}
 		    	return item.name;
 			}, matchContains:"word"
 		}).result(function(event, item) {
@@ -389,7 +383,7 @@ $formatData['newSeparater'] = '/';
 		
 		/* Checking valid inputs to Employee */
         $.validator.addMethod("validEmp", function(value, element) {
-            if ($('#hdnEmpId').val() == 0 && $('#txtEmpName').val() != '') {
+            if (($('#hdnEmpId').val() == 0 && $('#txtEmpName').val() != '') && $('#txtEmpName').val() != 'Type for hints...') {
                 return false;
             } else {
                 return true;
@@ -398,7 +392,7 @@ $formatData['newSeparater'] = '/';
         
 		/* Checking valid inputs to Reviewer */
         $.validator.addMethod("validReviewer", function(value, element) {
-            if ($('#hdnReviewerId').val() == 0 && $('#txtReviewerName').val() != '') {
+            if (($('#hdnReviewerId').val() == 0 && $('#txtReviewerName').val() != '') && $('#txtReviewerName').val() != 'Type for hints...') {
                 return false;
             } else {
                 return true;
