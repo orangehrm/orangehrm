@@ -553,6 +553,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		durationComment.setAttribute("cols","8");
 		durationComment.setAttribute("rows","2");
 		durationComment.setAttribute("class","commentBox");
+		durationComment.setAttribute("id",durationCommentName);
 		if (!displayComments) {
 			durationComment.setAttribute("style","display:none");
 		} else {
@@ -561,7 +562,14 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		durationCell.appendChild(durationComment);
 		
 		row.appendChild(durationCell);
-		
+		$(durationComment).addClass('commentBox');
+		if (displayComments){	 
+			$(durationComment).show();
+			$(durationComment).css('display','block');
+		}
+		else
+			$(durationComment).hide();
+			
 		<?php
 		}
 		?>
@@ -578,6 +586,16 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var gridCount =	$s('hdnGridCount');
 		gridCount.value = parseInt(gridCount.value) + 1;
 
+		//adjustCommandBox();
+
+	}
+
+	/** Adjust comment Box*/
+	function adjustCommandBox(){
+		$('#txtComment-1-0').hide();
+		//$("textarea.commentBox1").each(function() {
+			
+		//});
 	}
 
 	/* Adding a row to grid: Ends */
