@@ -137,8 +137,8 @@
 		$("#frmSave").validate({
 			
 			 rules: {
-			 	'txtEmpName-0': { required: true, empIdSet: true, sameAsEmp: true },
-			 	'txtReviewerName-0': { required: true, reviewerIdSet: true, sameAsEmp: true },
+			 	'txtEmpName-0': { required: true, empIdSet: true, sameAsEmp: true, validEmp: true },
+			 	'txtReviewerName-0': { required: true, reviewerIdSet: true, sameAsEmp: true, validReviewer: true },
 			 	'txtPeriodFromDate-0': { required: true, dateISO: true , validFromDate: true },
 			 	'txtPeriodToDate-0': { required: true, dateISO: true ,validToDate: true },
 			 	'txtDueDate-0': { required: true, dateISO: true ,validDueDate: true }
@@ -147,12 +147,14 @@
 		 		'txtEmpName-0':{ 
 		 			required:"Employee Name is required",
                     empIdSet:"Please select an employee",
-                    sameAsEmp:"Employee can not also be the reviewer"
+                    sameAsEmp:"Employee can not also be the reviewer",
+                    validEmp:"Entered employee does not exist"
 		 		},
 		 		'txtReviewerName-0':{ 
 		 			required:"Reviewer Name is required",
                     reviewerIdSet:"Please select a reviewer",
-                    sameAsEmp:"Employee can not also be the reviewer"
+                    sameAsEmp:"Employee can not also be the reviewer",
+                    validReviewer:"Entered reviewer does not exist"
 		 		},
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"Period From Date is required",
@@ -239,6 +241,24 @@
     		else
     			return true;
 
+        });
+        
+		/* Checking valid inputs to Employee */
+        $.validator.addMethod("validEmp", function(value, element) {
+            if (($('#hdnEmpId-0').val() == 0 && $('#txtEmpName-0').val() != '') && $('#txtEmpName-0').val() != 'Type for hints...') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        
+		/* Checking valid inputs to Reviewer */
+        $.validator.addMethod("validReviewer", function(value, element) {
+            if (($('#hdnReviewerId-0').val() == 0 && $('#txtReviewerName-0').val() != '') && $('#txtReviewerName-0').val() != 'Type for hints...') {
+                return false;
+            } else {
+                return true;
+            }
         });
 
         /* Valid Due Date */
