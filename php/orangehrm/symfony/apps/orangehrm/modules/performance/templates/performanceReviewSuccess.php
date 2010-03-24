@@ -62,12 +62,15 @@
             			<td width="10px" scope="col">
 						 
 						</td>
-						<td width="350" scope="col">
+						<td width="300" scope="col">
 						<?php echo __("KPI/Question")?> 
 						</td>
-						<td scope="col" width="100">
-						 <?php echo __("Rating Scale")?>
-						</td> 
+						<td scope="col" width="70">
+						 <?php echo __("Min Rate")?>
+						</td>
+						<td scope="col" width="70">
+						 <?php echo __("Max Rate")?>
+						</td>  
 						<td scope="col" width="50">
 						 <?php echo __("Rating")?>
 						</td>
@@ -85,8 +88,11 @@
 		       				<td class="">
 				 				<?php echo $kpi->getKpi()?>
 				 			</td>
-				 			<td class="">
-				 				<?php echo $kpi->getMinRate()?>-<?php echo $kpi->getMaxRate()?>
+				 			<td>
+				 				 <?php echo ($kpi->getMinRate()!= '')?$kpi->getMinRate():'-'?> 
+				 			</td>
+				 			<td>
+				 				 <?php echo ($kpi->getMaxRate() !='')?$kpi->getMaxRate():'-'?> 
 				 			</td>
 							<td class="" >
 								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>"></input>
