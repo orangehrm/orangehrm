@@ -59,7 +59,7 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
         }
 
         $dayStart = $startDate . " 00:00:00";
-        $nextDay = date("Y-m-d", strtotime("+1 day", strtotime($endDate)));
+	$nextDay = date("Y-m-d",  strtotime($endDate));
         $dayEnd =  $nextDay . " 00:00:00";
 
 		$sql = "SELECT  a.activity_id as activity_id, " .
@@ -125,7 +125,7 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
         }
 
         $dayStart = $startDate . " 00:00:00";
-        $nextDay = date("Y-m-d", strtotime("+1 day", strtotime($endDate)));
+	$nextDay = date("Y-m-d",  strtotime($endDate));
         $dayEnd =  $nextDay . " 00:00:00";
 
         $limit = "";
