@@ -928,7 +928,7 @@ class TimeController {
                         foreach ($DeletedProj as $DeProj) {
                             $customerDet = $customerObj->fetchCustomer($DeProj->getCustomerId(), true);
                             $tmpArr[0] = $DeProj->getProjectId();
-                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName() . '[' . $lang_Common_Deleted . ']';
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName() . ' (Deleted)';
                             $projectArr[] = $tmpArr;                           
                         }
                     }
