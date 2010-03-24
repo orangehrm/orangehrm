@@ -417,10 +417,12 @@ class Leave {
 		$selectConditions[2] = "a.`leave_date` >='". mysql_real_escape_string($fromDate) . "'";
 		$selectConditions[3] = "a.`leave_date` <='". mysql_real_escape_string($toDate) . "'";
 		$selectConditions[4] = "a.`leave_status` <>'". self::LEAVE_STATUS_LEAVE_CANCELLED . "'";
-
+        $selectConditions[5] = "a.`leave_status` <>'". self::LEAVE_STATUS_LEAVE_REJECTED . "'";
+        $selectConditions[6] = "a.`leave_status` <>'". self::LEAVE_STATUS_LEAVE_WEEKEND . "'";
+        
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		$result = $dbConnection->executeQuery($query);
-
+        
 		$leaveArr = $this->_buildObjArr($result, true);
 
 		return $leaveArr;

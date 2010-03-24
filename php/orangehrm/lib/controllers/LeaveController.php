@@ -640,7 +640,7 @@ class LeaveController {
 				/* If multiple day leave request, we don't need to check leave times.
 				 * Just throw an exception.
 				 */
-				if ($fromDate != $toDate) {
+				if ($fromDate != $toDate) { 
 					throw new DuplicateLeaveException($duplicates);
 				} else {
 					/* A single day leave request. We need to check leave times. */
