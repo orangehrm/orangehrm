@@ -371,31 +371,38 @@ echo '</div>';
   <tbody>
 
 <?php 
-    for ($i=0; $i<$count; $i++) { 
 
-	$className="odd";
-	if (($i%2) == 0) {
-		$className="even";
-	}
+	$i = 0;
+	foreach ($recordsArr as $attendanceRow) {
+
+		$className="odd";
+		if (($i%2) == 0) {
+			$className="even";
+		}
 
 ?>
-
     <tr class="<?php echo $className; ?>">
-        <td><?php echo $recordsArr[$i]->employeeName;?></td>
-        <td><?php echo $recordsArr[$i]->inTime; ?></td>
+    <?php if($attendanceRow->employeeName == null) {?>
+    			 <td><?php echo $records['empName'];?></td>
+    <?php } else { ?>
+    			 <td><?php echo $attendanceRow->employeeName;?></td>
+    <?php }?>
+       
+        <td><?php echo $attendanceRow->inTime; ?></td>
         <td style="text-align:right;padding-right:80px">
         <?php
-        if ($recordsArr[$i]->duration > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$recordsArr[$i]->getPunchInTime()}',{$recordsArr[$i]->employeeId},'".addcslashes($recordsArr[$i]->employeeName,"'")."')\" style=\"text-decoration:underline\">{$recordsArr[$i]->duration}</a>";
+        if ($attendanceRow->duration > 0) {
+        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" style=\"text-decoration:underline\">{$attendanceRow->duration}</a>";
         } else {
-        	echo $recordsArr[$i]->duration;
+        	echo $attendanceRow->duration;
         }
 
         ?>
         </td>
     </tr>
 
-<?php } ?>
+<?php $i++;
+	 } ?>
 
  </tbody>
 </table>

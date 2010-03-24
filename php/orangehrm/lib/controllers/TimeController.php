@@ -440,6 +440,10 @@ class TimeController {
 			$attendanceObj = new AttendanceRecord();
 			$attSummary = $attendanceObj->fetchSummary($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
 														AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC', null, false , $subordinateIds);
+			if($empId != -1) {
+				$attSummary = $attendanceObj->populateDataRangeArrayForSummary( $from, $to , $attSummary);
+			}
+						
 			$_SESSION['attSummary'] = (empty($attSummary))?array():$attSummary; // We should alway pass an array to _getAttendanceSummaryForPage()
 			$records['recordsArr'] = $this->_getAttendanceSummaryForPage($_SESSION['attSummary'], $pageNo);
 			$records['recordsCount'] = count($_SESSION['attSummary']);
