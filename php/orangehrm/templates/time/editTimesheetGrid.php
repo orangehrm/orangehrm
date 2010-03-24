@@ -360,7 +360,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnAddRow" id="btnAddRow"
         value="Add Row" />
-<input type="button" class="updatebutton"
+<input type="button" class="longbtn"
         onclick="removeRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnRemoveRow" id="btnRemoveRow"
@@ -374,7 +374,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		onclick="resetTimesheetGrid()"
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		value="<?php echo $lang_Common_Reset; ?>" />
-<input type="button" class="updatebutton" onmouseover="moverButton(this);" 
+<input type="button" class="longbtn" onmouseover="moverButton(this);" 
 		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo ($records['showComments']=='Yes')?'Hide Comments':'Add Comments'; ?>" />
 </div>
 
@@ -586,17 +586,11 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var gridCount =	$s('hdnGridCount');
 		gridCount.value = parseInt(gridCount.value) + 1;
 
-		//adjustCommandBox();
+		
 
 	}
 
-	/** Adjust comment Box*/
-	function adjustCommandBox(){
-		$('#txtComment-1-0').hide();
-		//$("textarea.commentBox1").each(function() {
-			
-		//});
-	}
+	
 
 	/* Adding a row to grid: Ends */
 
