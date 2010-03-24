@@ -141,7 +141,7 @@
 			 	'txtReviewerName-0': { required: true, reviewerIdSet: true, sameAsEmp: true },
 			 	'txtPeriodFromDate-0': { required: true, dateISO: true , validFromDate: true },
 			 	'txtPeriodToDate-0': { required: true, dateISO: true ,validToDate: true },
-			 	'txtDueDate-0': { required: true, dateISO: true }
+			 	'txtDueDate-0': { required: true, dateISO: true ,validDueDate: true }
 		 	 },
 		 	 messages: {
 		 		'txtEmpName-0':{ 
@@ -156,17 +156,18 @@
 		 		},
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"Period From Date is required",
-		 			dateISO:"Period From Date should be a valid date",
+		 			dateISO:"Period From Date should be YYYY-MM-DD format",
 		 			validFromDate: " Period From Date should be lesser than Period To Date"
 		 		},
 		 		'txtPeriodToDate-0':{ 
 			 		required:"Period To Date is required",
-			 		dateISO:"Period To Date should be a valid date",
+			 		dateISO:"Period To Date should be YYYY-MM-DD format",
 			 		validToDate: " Period To Date should be higher than Period From Date"
 		 		},
 		 		'txtDueDate-0':{ 
 			 		required:"Due Date is required",
-			 		dateISO:"To Date should be a valid date"
+			 		dateISO:"To Date should be YYYY-MM-DD format",
+			 		validDueDate:"Due Date should be higher than Period From Date"
 		 		}
 		 	 },
 		 	 errorPlacement: function(error, element) {
@@ -232,6 +233,24 @@
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= todateObj)){
+				
+    			return false;
+			}
+    		else
+    			return true;
+
+        });
+
+        /* Valid Due Date */
+        $.validator.addMethod("validDueDate", function(value, element) {
+        	
+            var fromdate	=	$('#txtPeriodFromDate-0').val();
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var duedate		=	$('#txtDueDate-0').val();
+            var	duedateObj	=	new Date(duedate.replace(/-/g,' ')); 
+           
+			
+			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj > duedateObj)){
 				
     			return false;
 			}
