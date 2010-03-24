@@ -243,7 +243,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				<input type="hidden" name="hdnDuration-<?php echo $k.'-'.$dCount; ?>"
 				value="<?php echo $value[$i]['duration']; ?>" />
 				<input type="hidden" name="hdntxtComment-<?php echo $k.'-'.$dCount; ?>"
-				value="<?php echo $value[$i]['comment']; ?>" />
+				value="<?php echo htmlspecialchars($value[$i]['comment']); ?>" />
 				<?php } ?>	
 							
 			</td>
