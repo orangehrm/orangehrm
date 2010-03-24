@@ -267,25 +267,34 @@ class AttendanceRecord {
 	public function populateDataRangeArrayForSummary($from=null, $to=null, $reportData = null){
 				
 		$i = strtotime($from);
-		
+
 		$tempDateArray = array();
-		while($i<= strtotime($to)) {
-			$tempDateArray [date("Y-m-d", $i)] = null;			
+
+		if(LocaleUtil::getInstance()->formatDate($from) != null && LocaleUtil::getInstance()->formatDate($to) != null) {
 			
-			foreach($reportData as $reportRow) {
-				if($reportRow->inTime == date("Y-m-d", $i)){
-					$tempDateArray[date("Y-m-d", $i)] = $reportRow;
+			while($i<= strtotime($to)) {
+				
+				$tempDateArray [date("Y-m-d", $i)] = null;
+							
+				if(is_array($reportData)) {
+					foreach($reportData as $reportRow) {
+						if($reportRow->inTime == date("Y-m-d", $i)){
+							$tempDateArray[date("Y-m-d", $i)] = $reportRow;
+						}
+					}
 				}
+				if(! ($tempDateArray[date("Y-m-d", $i)] instanceof AttendanceReportRow)) {
+					$tempObject = new AttendanceReportRow('summary');
+					$tempObject->inTime = date("Y-m-d", $i);
+					$tempObject->duration = '0.00';
+					$tempDateArray[date("Y-m-d", $i)] = $tempObject;				
+				} 
+				$i = strtotime("+1 day",$i);
 			}
-			if(! ($tempDateArray[date("Y-m-d", $i)] instanceof AttendanceReportRow)) {
-				$tempObject = new AttendanceReportRow('summary');
-				$tempObject->inTime = date("Y-m-d", $i);
-				$tempObject->duration = '0.00';
-				$tempDateArray[date("Y-m-d", $i)] = $tempObject;				
-			} 
-			$i = strtotime("+1 day",$i);
-		}		
-		return $tempDateArray;
+			return $tempDateArray;
+		} else {
+			return $reportData;
+		}
 	}
 	
 	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $subordinateIds = null) {

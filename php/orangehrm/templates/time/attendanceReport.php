@@ -257,6 +257,9 @@ $count = count($recordsArr);
    margin-right: 10px;
 }
 
+.hasPunch {
+	color : gray;
+}
 </style>
 
 <div class="outerbox">
@@ -379,20 +382,25 @@ echo '</div>';
 		if (($i%2) == 0) {
 			$className="even";
 		}
+		
+		$hasPunchedStyleClass = "";
+		if($attendanceRow->duration == 0) {
+			$hasPunchedStyleClass = "hasPunch";
+		}
 
 ?>
     <tr class="<?php echo $className; ?>">
     <?php if($attendanceRow->employeeName == null) {?>
-    			 <td><?php echo $records['empName'];?></td>
+    			 <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $records['empName'];?></td>
     <?php } else { ?>
-    			 <td><?php echo $attendanceRow->employeeName;?></td>
+    			 <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $attendanceRow->employeeName;?></td>
     <?php }?>
        
-        <td><?php echo $attendanceRow->inTime; ?></td>
-        <td style="text-align:right;padding-right:80px">
+        <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $attendanceRow->inTime; ?></td>
+        <td class="<?php echo $hasPunchedStyleClass;?>" style="text-align:right;padding-right:80px">
         <?php
         if ($attendanceRow->duration > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" style=\"text-decoration:underline\">{$attendanceRow->duration}</a>";
+        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" class='".$hasPunchedStyleClass."'  style=\"text-decoration:underline\">{$attendanceRow->duration}</a>";
         } else {
         	echo $attendanceRow->duration;
         }

@@ -393,6 +393,13 @@ class TimeController {
 		$records['reportView'] = $_POST['optReportView'];
 		$records['empId'] = $empId;
 		$records['empName'] = $_POST['hdnEmpName'];
+		
+		if ($empId > 0) {
+			$empInfo = new EmpInfo();
+			$empInfo = $empInfo->filterEmpMain($empId);
+			$records['empName'] = $empInfo[0][2]." ".$empInfo[0][1];
+		}
+
 		$records['noReports'] = false;
         $subordinateIds = null;
 

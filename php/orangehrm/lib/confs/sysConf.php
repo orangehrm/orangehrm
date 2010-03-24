@@ -33,7 +33,7 @@ class sysConf {
 
   var $dateInputHint;
   var $timeInputHint;
-
+  public $javascriptInputHint = "YYYY-MM-DD";
   var $styleSheet;
 
   function sysConf() {
