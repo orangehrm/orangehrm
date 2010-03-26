@@ -542,8 +542,8 @@ class performanceActions extends sfActions {
             $this->getUser()->setAttribute('prSearchClues', $this->clues);
 
             /* Checking whether wrong seacrch criteria */
-            if ((!empty($this->clues['empName']) && $this->clues['empId'] == 0) ||
-                (!empty($this->clues['reviewerName']) && $this->clues['reviewerId'] == 0)
+            if ((!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) ||
+                (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName']))
             ) {
                 $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
                 return;
@@ -639,7 +639,33 @@ class performanceActions extends sfActions {
 			return $clues;
         
     }
-    
+
+    protected function _isCorrectEmployee($id, $name) {
+
+        $flag = true;
+
+        if ((!empty($name) && $id == 0)) {
+            $flag = false;
+        }
+
+        if (!empty($name) && !empty($id)) {
+
+            $employeeService = new EmployeeService();
+            $employee = $employeeService->getEmployee($id);
+
+            if ($employee->getFullName() != $name) {
+                $flag = false;
+            }
+
+        }
+
+        if ($flag) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
  
     
 }
