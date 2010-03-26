@@ -540,6 +540,14 @@ class performanceActions extends sfActions {
 				$this->clues = $this->getReviewSearchClues($request);
 			}
             $this->getUser()->setAttribute('prSearchClues', $this->clues);
+
+            /* Checking whether wrong seacrch criteria */
+            if ((!empty($this->clues['empName']) && $this->clues['empId'] == 0) ||
+                (!empty($this->clues['reviewerName']) && $this->clues['reviewerId'] == 0)
+            ) {
+                $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
+                return;
+            }
 			
 			/* Setting logged in user type */
 			if (!$this->loggedAdmin && $this->loggedReviewer) {

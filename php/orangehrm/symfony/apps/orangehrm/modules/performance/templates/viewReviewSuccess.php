@@ -322,7 +322,21 @@ $formatData['newSeparater'] = '/';
 		
 		/* Search button */
 		$('#searchButton').click(function(){
+
+            <?php if ($loggedAdmin || $loggedReviewer) { ?>
+            if ($('#txtEmpName').val() == 'Type for hints...') {
+                $('#txtEmpName').val('');
+            }
+            <?php } // $loggedAdmin || $loggedReviewer:Ends ?>
+
+            <?php if ($loggedAdmin) { ?>
+            if ($('#txtReviewerName').val() == 'Type for hints...') {
+                $('#txtReviewerName').val('');
+            }
+            <?php } // $loggedAdmin:Ends ?>
+
 			$('#frmSearch').submit();
+            
 		});
 		
 		/* Add button */
@@ -360,45 +374,6 @@ $formatData['newSeparater'] = '/';
             $('#deleteReview').attr('disabled', false);
 		});
 		
-		/* Validation */		
-		$("#frmSearch").validate({
-			
-			 rules: {
-			 	'txtEmpName': { validEmp: true },
-			 	'txtReviewerName': { validReviewer: true }
-		 	 },
-		 	 messages: {
-		 		'txtEmpName':{ 
-		 			validEmp:"Entered employee does not exist"
-		 		},
-		 		'txtReviewerName':{ 
-			 		validReviewer:"Entered reviewer does not exist"
-		 		}
-		 	 },
-		 	 errorPlacement: function(error, element) {
-     		 	error.appendTo(element.next().next());
-   			 }
-		 	 
-		});
-		
-		/* Checking valid inputs to Employee */
-        $.validator.addMethod("validEmp", function(value, element) {
-            if (($('#hdnEmpId').val() == 0 && $('#txtEmpName').val() != '') && $('#txtEmpName').val() != 'Type for hints...') {
-                return false;
-            } else {
-                return true;
-            }
-        });
-        
-		/* Checking valid inputs to Reviewer */
-        $.validator.addMethod("validReviewer", function(value, element) {
-            if (($('#hdnReviewerId').val() == 0 && $('#txtReviewerName').val() != '') && $('#txtReviewerName').val() != 'Type for hints...') {
-                return false;
-            } else {
-                return true;
-            }
-        });
-				
 	}); // ready():Ends
 
 	/* Applying rounding box style */ 
