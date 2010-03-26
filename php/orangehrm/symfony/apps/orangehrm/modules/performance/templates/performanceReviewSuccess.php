@@ -113,7 +113,7 @@
 				<?php if(($isHrAdmin || $isReviwer) && ($performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>
 				  <label class="detailHearder"><?php echo __("Note")?></label>
                      <textarea id='txtMainComment' name='txtMainComment' class="formTextArea"
-                    rows="3" cols="20" tabindex="2"></textarea>
+                    rows="3" cols="20" ></textarea>
                    <br class="clear"/>
                  <?php }?>
                </div>  
@@ -191,7 +191,7 @@
 			  }	  
 		  });
 		  if( !valid ){
-			  msg	=	'Please add rating value ';
+			  msg	=	'Please enter a KPI rating within the defined Minimum and Maximum value';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -285,7 +285,7 @@
 								if( (rate > max) || (rate <min) ){
 									$(this).css('background-color', '#ffeeee');
 									$(this).css('border', 'solid 1px #ffdddd');
-									msg = 'Rate is not in max-min range';
+									msg = 'Please enter a KPI rating within the defined Minimum and Maximum value';
 									error = true;
 	
 								}else{
@@ -295,7 +295,7 @@
 							}else{
 								$(this).css('background-color', '#ffeeee');
 								$(this).css('border', 'solid 1px #ffdddd');
-								msg = 'Rate is not numeric';
+								msg = 'Please enter a KPI rating within the defined Minimum and Maximum value';
 								error = true;
 							}
 						});
@@ -319,13 +319,18 @@
 						var msg ;
 						
 						$("textarea.reviwerComment").each(function() {
-							if(this.value.length >= 100 ){
+							if(this.value.length >= 2000 ){
+								$(this).css('background-color', '#ffeeee');
+								$(this).css('border', 'solid 1px #ffdddd');
 								error = true;
+							}else{
+								$(this).css('background-color', '#ffffff');
+								$(this).css('border', 'solid 1px #000000');	
 							}
 						});
 
 						if(error){
-							$("#messageBalloon_failure ul").html('<li>Comments length exceed</li>');
+							$("#messageBalloon_failure ul").html('<li>Please make sure that the comment contains less than 2000 characters</li>');
 							$("#performanceError").show();
 							$('#validRate').val('0');									
 						}else{
