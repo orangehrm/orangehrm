@@ -21,7 +21,7 @@
                        <label for="txtLocationCode"><?php echo __("Copy From")?><span class="required">*</span></label>
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1">
                         <option value=""><?php echo __("--Select Job Title--")?></option>
-                     	 <?php foreach($listJobTitle as $jobTitle){?>
+                     	 <?php foreach($listAllJobTitle as $jobTitle){?>
 	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if($fromJobTitle ==  $jobTitle->getId()){ print("selected");}?>><?php echo htmlspecialchars_decode($jobTitle->getName())?></option>
 	                     <?php }?>
                      </select>

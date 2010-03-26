@@ -206,6 +206,7 @@ class performanceActions extends sfActions {
 		
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
+		$this->listAllJobTitle	=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
 		if ($request->isMethod ( 'post' )) {
 			
