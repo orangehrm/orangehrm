@@ -417,10 +417,27 @@ class performanceActions extends sfActions {
 			
 			$clues = $this->getReviewSearchClues($request, '-0');
 			$this->clues = $clues;
+
+            if ($request->getParameter("hdnId-0")) { // Review ID
+                $this->clues['id'] = $request->getParameter("hdnId-0");
+            }
+
 			$employeeService = new EmployeeService();
 			$employee = $employeeService->getEmployee($clues['empId']);
 		   	$empJobCode = $employee->getJobTitleCode();
 		   	$subDivisionId = $employee->getWorkStation();
+
+            /* Checking whether wrong employee */
+            if (!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) {
+                $this->templateMessage = array('WARNING', 'No employee exists with this name.');
+                return;
+            }
+
+            /* Checking whether wrong reviewer */
+            if (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName'])) {
+                $this->templateMessage = array('WARNING', 'No reviewer exists with this name.');
+                return;
+            }
 		   			   	
 		   	if (empty($empJobCode)) {
 		   	    
@@ -444,7 +461,6 @@ class performanceActions extends sfActions {
 
             if ($request->getParameter("hdnId-0")) { // Updating an existing one
                 $review = $performanceReviewService->readPerformanceReview($request->getParameter("hdnId-0"));
-                $this->clues['id'] = $request->getParameter("hdnId-0");                
             } else { // Adding a new one
                 $review = new PerformanceReview();
             }
