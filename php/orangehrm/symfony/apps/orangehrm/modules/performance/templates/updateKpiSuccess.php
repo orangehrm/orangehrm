@@ -14,18 +14,18 @@
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
-                   <label for="txtLocationCode"><?php echo __('KPI Description')?><span class="required">*</span></label>
+                   <label for="txtDescription"><?php echo __('KPI Description')?><span class="required">*</span></label>
                    <textarea id='txtDescription' name='txtDescription' class="formTextArea"
                     rows="3" cols="20" tabindex="2"><?php echo $kpi->getDesc()?></textarea>
              		 <br class="clear"/>
-             		 <label for="txtLocationCode"><?php echo __('Minimum Rating')?></label>
+             		 <label for="txtMinRate"><?php echo __('Minimum Rating')?></label>
                     <input id="txtMinRate"  name="txtMinRate" type="text"  class="formInputText" value="<?php echo $kpi->getMin()?>" tabindex="3" />
              		 <br class="clear"/>
-             		 <label for="txtLocationCode"><?php echo __('Maximum Rating')?></label>
+             		 <label for="txtMaxRate"><?php echo __('Maximum Rating')?></label>
                     <input id="txtMaxRate"  name="txtMaxRate" type="text"  class="formInputText" value="<?php echo $kpi->getMax()?>" tabindex="4" />
              		 <br class="clear"/>
-             		  <label for="txtLocationCode"><?php echo __('Make Default Scale')?></label>
-                    <input type="checkbox" name="chkDefaultScale" id="chkDefaultScale" class="formInputText" value="1"  <?php if($kpi->getDefault()){?>checked="checked" <?php }?> tabindex="5" ></input>
+             		  <label for="chkDefaultScale"><?php echo __('Make Default Scale')?></label>
+                    <input type="checkbox" name="chkDefaultScale" id="chkDefaultScale" class="alignCheckbox"  value="1"  <?php if($kpi->getDefault()){?>checked="checked" <?php }?> tabindex="5" ></input>
              		 <br class="clear"/>
              	</div>
 				<div id="buttonWrapper">

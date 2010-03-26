@@ -477,6 +477,12 @@ input.formCheckboxWide {
     float: left;
     margin: 10px 100px 0 0;
 }
+input.alignCheckbox {
+	display: block;
+	float: left;
+	margin: 10px 0 2px 7px;
+}
+
 span.formFieldContainer {
 	display:block;
 	float:left;
