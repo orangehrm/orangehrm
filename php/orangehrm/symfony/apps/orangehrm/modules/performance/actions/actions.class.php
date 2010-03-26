@@ -157,7 +157,7 @@ class performanceActions extends sfActions {
 	 */
 	public function executeUpdateKpi(sfWebRequest $request) {
 		$jobService				=	new JobService();
-		$this->listJobTitle		=	$jobService->getJobTitleList();
+		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
 		$kpiService 			= 	new DefineKpiService ( );
 		$this->defaultRate		=	$kpiService->getKpiDefaultRate();
