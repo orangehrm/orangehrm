@@ -658,7 +658,7 @@ if ($arrAllRights[Recruit]['view']) {
 
 /* Performance menu start */
 
-$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=./symfony/web/index.php/performance/viewReview");
+$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=./symfony/web/index.php/performance/viewReview/mode/new");
 $menuItem->setCurrent($_GET['menu_no_top']=="perform");
 $enablePerformMenu = false;
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="perform") && isset($_GET['reqcode']) && $arrRights['view'] )  {
@@ -673,7 +673,7 @@ if ($arrAllRights[Perform]['add'] && ($_SESSION['isAdmin']=='Yes')) {
 	$subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveReview");
 }
 
-$subs[] = new MenuItem('definekpi', 'Search Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview");
+$subs[] = new MenuItem('definekpi', 'Search Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview/mode/new");
 
 $menuItem->setSubMenuItems($subs);
 

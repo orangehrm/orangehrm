@@ -520,22 +520,28 @@ class performanceActions extends sfActions {
 		$companyService = new CompanyService();
 		$this->subDivisionList = $companyService->getSubDivisionList();
 		
+        /* Checking whether a newly invoked search form */
+        $newSearch = false; 
+        if ($request->getParameter('mode') == 'new') {
+        	$newSearch = true;
+        }
+		
 		/* Preserving search clues */
         $hdnEmpId = $request->getParameter("hdnEmpId");
-        if (isset($hdnEmpId)) { // If the user has performed a new search
+        if (isset($hdnEmpId) && !$newSearch) { // If the user has performed a new search
             $this->clues = $this->getReviewSearchClues($request);
         } else {
 
-            if ($this->getUser()->hasAttribute('prSearchClues')) {
+            if ($this->getUser()->hasAttribute('prSearchClues') && !$newSearch) {
                 $this->clues = $this->getUser()->getAttribute('prSearchClues');
             }
 
-            if ($this->getUser()->hasFlash('prClues')) {
+            if ($this->getUser()->hasFlash('prClues') && !$newSearch) {
                 $this->clues = $this->getUser()->getFlash('prClues');
             }
 
         }
-
+        
 		/* Processing reviews 
 		 * ================== */
 		 
