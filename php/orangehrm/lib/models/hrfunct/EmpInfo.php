@@ -3309,5 +3309,18 @@ class EmpInfo {
 		    return false;
 		}
     }
+    
+    public function resetJobTitile($jobCodes) {
+        
+        $query = "UPDATE `hs_hr_employee` SET `job_title_code` = NULL WHERE `job_title_code` IN ('".implode("', '", $jobCodes)."')";
+        
+        $dbConnection = new DMLFunctions();
+        
+        if (!$dbConnection->executeQuery($query)) {
+            throw new Exception('Job titles could not be reset');
+        }
+        
+    }
+    
 }
 ?>

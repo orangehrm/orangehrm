@@ -277,7 +277,11 @@ class ViewController {
         	case 'JOB' :
 
         		$this->jobtit = new JobTitle();
-        		$res = $this->jobtit ->delJobTitles($arrList);
+        		$res = $this->jobtit->delJobTitles($arrList);
+        		if ($res) {
+        		    $empInfo = new EmpInfo();
+        		    $empInfo->resetJobTitile($arrList[0]);
+        		}
         		break;
 
         	case 'SPC' :
