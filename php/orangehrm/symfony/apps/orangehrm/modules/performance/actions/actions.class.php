@@ -675,7 +675,7 @@ class performanceActions extends sfActions {
             $employeeService = new EmployeeService();
             $employee = $employeeService->getEmployee($id);
 
-            if ($employee->getFullName() != $name) {
+            if ($employee->getFirstName().' '.$employee->getLastName() != $name) {
                 $flag = false;
             }
 
