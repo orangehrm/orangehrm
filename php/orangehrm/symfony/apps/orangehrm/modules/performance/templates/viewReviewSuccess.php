@@ -151,7 +151,7 @@ $formatData['newSeparater'] = '/';
 				<thead>
             		<tr>
             			<td width="50" class="tdcheckbox">
-							<input type="checkbox" name="allCheck" value="" id="allCheck" />
+							<input type="checkbox" name="allCheck" value="" id="allCheck" <?php echo ($loggedAdmin)?'':'disabled'; ?> />
 						</td>
             			
 						<td scope="col">
@@ -195,7 +195,7 @@ $formatData['newSeparater'] = '/';
 		       			<td class="tdcheckbox">
 							<input type="checkbox" class="innercheckbox" name="chkReview[]" 
 							id="chkReview-<?php echo $i; ?>" value="<?php echo $review->getId(); ?>"
-							<?php echo ($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED)?'':'disabled'; ?> />
+							<?php echo (($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED) && $loggedAdmin)?'':'disabled'; ?> />
 						</td>
 						
 						<td class="">
