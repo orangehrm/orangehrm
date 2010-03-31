@@ -362,16 +362,17 @@ class Customer {
 	}
 	
 	public function filterExistingCustomers() {
+		$sqlBuilder = new SQLQBuilder();
+		$customerName = $sqlBuilder->quoteCorrectString($this->getCustomerName(), true, true);
 
 		$selectFields[] ='`customer_id`'; 
         $selectFields[] = '`name`';  
 	    $selectTable = self::TABLE_NAME;
 
-        $selectConditions[] = "`name` = '".$this->getCustomerName()."'";	       
-         
-        $sqlBuilder = new SQLQBuilder();
+        $selectConditions[] = "`name` = '{$customerName}'";	       
+
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-         
+
         $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($query);
 

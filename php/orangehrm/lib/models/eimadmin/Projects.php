@@ -205,17 +205,17 @@ class Projects {
 
 		if ($this->getCustomerId()!= null) {
 			$updateFields[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
-			$updateValues[] = "'".$this->getCustomerId()."'";
+			$updateValues[] = $this->getCustomerId();
 		}
 
 		if ($this->getProjectName() != null) {
 			$updateFields[] = "`".self::PROJECT_DB_FIELD_NAME."`";
-			$updateValues[] = "'".$this->getProjectName()."'";
+			$updateValues[] = $this->getProjectName();
 		}
 
 		if ($this->getProjectDescription() != null) {
 			$updateFields[] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
-			$updateValues[] = "'".$this->getProjectDescription()."'";
+			$updateValues[] = $this->getProjectDescription();
 		}
 
 		if ($this->getDeleted() != null) {
@@ -226,9 +226,7 @@ class Projects {
 		$updateConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
 
 		if (is_array($updateFields)) {
-			$updateValues = $sql_builder->quoteCorrect($updateValues);
-
-			$sqlQString = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+			$sqlQString = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions, true);
 
 			$dbConnection = new DMLFunctions();
 			$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
@@ -520,6 +518,8 @@ class Projects {
 	}
 	
 	public function filterExistingProjects() {
+		$sqlBuilder = new SQLQBuilder();
+		$projectName = $sqlBuilder->quoteCorrectString($this->getProjectName(), true, true);
 		
 		$selectFields[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`"; 
 		$selectFields[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
@@ -527,9 +527,8 @@ class Projects {
 	    $selectTable = self::TABLE_NAME;
 
         $selectConditions[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`= '".$this->getCustomerId()."'";	
-        $selectConditions[] = "`".self::PROJECT_DB_FIELD_NAME."`= '".$this->getProjectName()."'";       
+        $selectConditions[] = "`".self::PROJECT_DB_FIELD_NAME."`= '{$projectName}'";       
          
-        $sqlBuilder = new SQLQBuilder();
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
          
         $dbConnection = new DMLFunctions();

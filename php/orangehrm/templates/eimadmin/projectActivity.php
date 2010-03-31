@@ -111,7 +111,7 @@ if (!empty($projectId)) {
     	var activityNames = new Array();
     	<?php
     		for ($i=0; $i<count($activities); $i++) {
-				echo "activityNames[{$i}] = \"{$activities[$i]->getName()}\";";
+				echo "activityNames[{$i}] = \"" . CommonFunctions::escapeForJavascript($activities[$i]->getName()) . "\";";
     		}
     	?>
     	for (var i=0; i < activityNames.length; i++) {
@@ -238,12 +238,24 @@ if (!empty($projectId)) {
 	 * Edit the given activity's name
 	 */
 	function editActivity(activityId, activityName) {
+		activityName = replaceAll('&amp;', '&', activityName);
+		activityName = replaceAll('&lt;', '<', activityName);
+		activityName = replaceAll('&gt;', '>', activityName);
+		
 		document.frmActivity.activityName.value = activityName;
 		document.frmActivity.activityId.value = activityId;
 		if (addMode) {
 			addMode = false;
 		}
 		displayAddLayer();
+	}
+
+	function replaceAll(needle, replacement, haystack) {
+		while (haystack.indexOf(needle) != -1) {
+			haystack = haystack.replace(needle, replacement);
+		}
+
+		return haystack;
 	}
 //]]>
 </script>
@@ -287,9 +299,9 @@ if (!empty($projectId)) {
 				<?php
 				  foreach ($projects as $project) {
 					  $selected = ($project->getProjectId() == $projectId) ? 'selected="selected"' : '';
-					  $projectName = htmlspecialchars($project->getProjectName());
-                      $customerName = htmlspecialchars($project->getCustomerName());
-                      $displayString=$customerName . ' - ' . $projectName;
+					  $projectName = $project->getProjectName();
+                      $customerName = $project->getCustomerName();
+                      $displayString = $customerName . ' - ' . $projectName;
 					  echo "<option $selected value=\"{$project->getProjectId()}\">{$displayString}</option>";
 				  }
    				?>
@@ -328,7 +340,7 @@ if (!empty($projectId)) {
 			 		$activityName = htmlspecialchars($activity->getName(),ENT_QUOTES);
 			 		$activityId = $activity->getId();
 			 		if (empty($disableEdit)) {
-			 			echo "<a href='#' onclick='editActivity({$activityId},\"{$activityName}\");'>{$activityName}</a>";
+			 			echo "<a href=\"#\" onclick=\"editActivity({$activityId}, this.innerHTML);\">{$activityName}</a>";
 			 		} else {
 			 			echo $activityName;
 			 		}

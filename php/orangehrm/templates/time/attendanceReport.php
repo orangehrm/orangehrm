@@ -549,26 +549,14 @@ echo '</div>';
     <?php } else { // If editing is not allowed ?>
 
     <tr class="<?php echo $className;?>">
-        <td>
-        <?php echo $inDate ;?>
-        </td>
-        <td>
-        <?php echo $inTime ;?>
-        </td>
-        <td class="note-td">
-        <?php echo $recordsArr[$i]->getInNote() ;?>
-        </td>
-        <td>
-        <?php echo $outDate ;?>
-        </td>
-        <td>
-        <?php echo $outTime ;?>
-        </td>
-        <td class="note-td">
-        <?php echo $recordsArr[$i]->getOutNote() ;?>
-        </td>
-        <td></td>
-        <td></td>
+    	<td><?php echo $recordsArr[$i]->getEmployeeName()?></td>
+        <td><?php echo $inDate ;?> </td>
+        <td><?php echo $inTime ;?></td>
+        <td class="note-td"><?php echo $recordsArr[$i]->getInNote() ;?></td>
+        <td><?php echo $outDate ;?></td>
+        <td><?php echo $outTime ;?></td>
+        <td class="note-td"><?php echo $recordsArr[$i]->getOutNote() ;?></td>
+        <td><?php echo $recordsArr[$i]->getDuration(); ?></td>       
     </tr>
 
 	<?php } } // Records array: Ends ?>
