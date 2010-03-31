@@ -1,3 +1,20 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.3
+
+	Bug Fixes
+	---------
+	All the bug fixes done in 2.5.0.4
+	
+	2971095 - From Date, To Date and Due Date should be validated 
+	2973172 - Propely display rating scales without minimum or maximum
+	2974539 - More meaningful comment needed for rating scale validation
+	2974526 - Can not copy from deleted job title
+	2974519 - KPIs of deleted job titles should be disabled for modifying 
+	2974742 - Search Review brings back wrong results
+	2971790 - Edit Review -> employee name should validate
+	2970583 - Newly invoked Search Review contains old values:
+	2974542 - Review can be added for a user without job title
+	2970608 - checkboxes of  scheduled reviews should be disabled for emp
+
 New & Changed Features for OrangeHRM ver 2.6-beta.2
 
 	Bug Fixes
