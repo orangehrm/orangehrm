@@ -407,7 +407,6 @@ class performanceActions extends sfActions {
                 $performanceReviewService = new PerformanceReviewService();
                 $review = $performanceReviewService->readPerformanceReview($reviewIds[0]);
                 $this->clues = $this->getReviewSearchClues($review);
-				
                
                 return;
 

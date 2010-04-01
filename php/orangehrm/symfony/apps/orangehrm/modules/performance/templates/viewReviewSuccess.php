@@ -341,18 +341,18 @@ $formatData['newSeparater'] = '/';
 		
 		/* Add button */
 		$('#addReview').click(function(){
-			window.location.href = 'saveReview';
+			window.location.href = '<?php echo url_for('performance/saveReview'); ?>';
 		});
 
 		/* Edit button */
 		$('#editReview').click(function(){
-			$('#frmList').attr('action', 'saveReview');
+			$('#frmList').attr('action', '<?php echo url_for('performance/saveReview'); ?>');
 			$('#frmList').submit();
 		});
 		
 		/* Delete button */
 		$('#deleteReview').click(function(){
-			$('#frmList').attr('action', 'deleteReview');
+			$('#frmList').attr('action', '<?php echo url_for('performance/deleteReview'); ?>');
 			$('#frmList').submit();
 		});
 
