@@ -10,7 +10,7 @@
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value=""><?php echo __('Select Job Title')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo htmlspecialchars_decode($jobTitle->getName())?></option>
+	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo htmlspecialchars_decode($jobTitle->getName())?><?php echo ($jobTitle->getIsActive()==0)?' (Deleted)':''?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
