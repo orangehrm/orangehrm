@@ -466,15 +466,16 @@ class performanceActions extends sfActions {
 
             $xmlStr = $performanceKpiService->getXmlFromKpi($kpiService->getKpiForJobTitle($empJobCode));
 		    
+         
 		    $review->setEmployeeId($clues['empId']);
 			$review->setReviewerId($request->getParameter("hdnReviewerId-0"));
             $review->setCreatorId($this->loggedUserId);
 			$review->setJobTitleCode($empJobCode);
 			$review->setSubDivisionId($subDivisionId);
 			$review->setCreationDate(date('Y-m-d'));
-			$review->setPeriodFrom($request->getParameter("txtPeriodFromDate-0"));
-			$review->setPeriodTo($request->getParameter("txtPeriodToDate-0"));
-			$review->setDueDate($request->getParameter("txtDueDate-0"));
+			$review->setPeriodFrom( date("Y-m-d",strtotime($request->getParameter("txtPeriodFromDate-0"))));
+			$review->setPeriodTo(date("Y-m-d",strtotime($request->getParameter("txtPeriodToDate-0"))) );
+			$review->setDueDate(date("Y-m-d",strtotime($request->getParameter("txtDueDate-0"))) );
 			$review->setState(PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED);
 			$review->setKpis($xmlStr);				
 			

@@ -158,6 +158,7 @@
 		 			required:"Period From Date is required",
 		 			dateISO:"Period From Date should be YYYY-MM-DD format",
 		 			validFromDate: " Period From Date should be lesser than Period To Date"
+		 			
 		 		},
 		 		'txtPeriodToDate-0':{ 
 			 		required:"Period To Date is required",
@@ -209,17 +210,18 @@
         $.validator.addMethod("validFromDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
             var todate		=	$('#txtPeriodToDate-0').val();
-            var	todateObj	=	new Date(todate.replace(/-/g,' ')); 
+            var	todateObj	=	new Date(todate.replace(/-/g,'/')); 
            
 			
 			if( ($('#txtPeriodToDate-0').val() != '') && (fromdateObj >= todateObj)){
 				
     			return false;
 			}
-    		else
+    		else{
     			return true;
+    		}
 
         });
 
@@ -227,17 +229,18 @@
         $.validator.addMethod("validToDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
             var todate		=	$('#txtPeriodToDate-0').val();
-            var	todateObj	=	new Date(todate.replace(/-/g,' ')); 
+            var	todateObj	=	new Date(todate.replace(/-/g,'/')); 
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= todateObj)){
 				
     			return false;
 			}
-    		else
-    			return true;
+    		else{
+        			return true;
+    		}
 
         });
         
@@ -245,19 +248,24 @@
         $.validator.addMethod("validDueDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var	fromdateObj		=	new Date(fromdate.replace(/-/g,' '));
+            var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
             var duedate		=	$('#txtDueDate-0').val();
-            var	duedateObj	=	new Date(duedate.replace(/-/g,' ')); 
+            var	duedateObj	=	new Date(duedate.replace(/-/g,'/')); 
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj > duedateObj)){
 				
     			return false;
 			}
-    		else
-    			return true;
+    		else{
+    				//$('#txtDueDate-0').val(getFormatDate(duedateObj));
+        			return true;
+    		}
 
         });
+
+
+ 		       
 
 	}); // ready():Ends
 	
@@ -265,5 +273,6 @@
 	if (document.getElementById && document.createElement) {
  		roundBorder('outerbox');
 	}
+
 
 </script>

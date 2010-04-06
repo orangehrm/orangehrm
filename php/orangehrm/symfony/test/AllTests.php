@@ -58,7 +58,7 @@ class AllTests
             $dir->next();
         }        
         
-        // $suite->addTestFile(  dirname(__FILE__). '/model/performance/service/EmailServiceTest.php' );
+        
         return $suite;
 		}
     
