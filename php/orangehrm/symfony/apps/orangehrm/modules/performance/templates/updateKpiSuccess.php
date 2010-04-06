@@ -2,7 +2,7 @@
 <div id="content">
 	<div id="contentContainer">
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __('Update Kpi')?></h2></div>
+            <div id="formHeading"><h2><?php echo __('Update KPI')?></h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
               <div id="formWrapper">
