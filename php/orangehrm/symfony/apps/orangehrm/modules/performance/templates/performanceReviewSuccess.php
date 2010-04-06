@@ -187,11 +187,17 @@
 			  if( !isNaN(max) || !isNaN(min)){
 				  if( isNaN(rate)){
 					  valid = false;
+					  $(this).css('background-color', '#ffeeee');
+					  $(this).css('border', 'solid 1px #ffdddd');
+				  }else{
+					  $(this).css('background-color', '#ffffff');
+					  $(this).css('border', 'solid 1px #000000');	
 				  }
+					  
 			  }	  
 		  });
 		  if( !valid ){
-			  msg	=	'Please enter a KPI rating within the defined Minimum and Maximum value';
+			  msg	=	'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -285,7 +291,7 @@
 								if( (rate > max) || (rate <min) ){
 									$(this).css('background-color', '#ffeeee');
 									$(this).css('border', 'solid 1px #ffdddd');
-									msg = 'Please enter a KPI rating within the defined Minimum and Maximum value';
+									msg = 'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
 									error = true;
 	
 								}else{
@@ -295,7 +301,7 @@
 							}else{
 								$(this).css('background-color', '#ffeeee');
 								$(this).css('border', 'solid 1px #ffdddd');
-								msg = 'Please enter a KPI rating within the defined Minimum and Maximum value';
+								msg = 'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
 								error = true;
 							}
 						});
