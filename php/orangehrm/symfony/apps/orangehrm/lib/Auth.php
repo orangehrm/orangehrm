@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/common/authorize.php';
+//require_once ROOT_PATH . '/lib/common/authorize.php';
 
 /**
  * OrangeHRM Authentication & Authorization library. Taken from insurance branch.
@@ -66,7 +66,7 @@ class Auth {
 
     	if (isset($_SESSION['fname'])) {
     		$this->loggedIn = true;
-	        $orangeAuth = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+	        $orangeAuth = new AuthorizeService($_SESSION['empID'], $_SESSION['isAdmin']);
 	        
 	        $roleList = $orangeAuth->getRoles();
 	        if (!empty($roleList)) {

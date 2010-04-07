@@ -54,6 +54,11 @@ class performanceActions extends sfActions {
 	 */
 	public function executeListDefineKpi(sfWebRequest $request) {
 		
+	  	$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
+        
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
 		$kpiService 			= 	new DefineKpiService ( );
@@ -111,6 +116,11 @@ class performanceActions extends sfActions {
 	 * @return None
 	 */
 	public function executeSaveKpi(sfWebRequest $request) {
+		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
+		
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
 		
@@ -156,6 +166,10 @@ class performanceActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeUpdateKpi(sfWebRequest $request) {
+		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
@@ -202,6 +216,10 @@ class performanceActions extends sfActions {
 	 * $return none
 	 **/
 	public function executeCopyKpi(sfWebRequest $request) {
+		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
 		$kpiService 			= new DefineKpiService ( );
 		
 		$jobService				=	new JobService();
@@ -239,7 +257,10 @@ class performanceActions extends sfActions {
 	 * @return none
 	 */
 	public function executeDeleteDefineKpi(sfWebRequest $request) {
-		
+		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
 		if ($request->isMethod ( 'post' )) {
 			$defineKpiService = new DefineKpiService ( );
 			$defineKpiService->deleteDefineKpi ( $request->getParameter ( 'chkKpiID' ) );
@@ -379,6 +400,10 @@ class performanceActions extends sfActions {
     
 	public function executeSaveReview(sfWebRequest $request) {
 		
+		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        if (!$adminMode) {
+            return $this->forward("performance", "unauthorized");
+      	}
 		/* Showing Performance Review Add form*/
 		
 		$companyService	= new CompanyService();
@@ -604,6 +629,19 @@ class performanceActions extends sfActions {
 	    
 	}
 	
+  	/**
+     * Show not authorized message
+     * 
+     */
+    public function executeUnauthorized(sfWebRequest $request) {
+        sfConfig::set('sf_web_debug', false);
+        sfConfig::set('sf_debug', false);
+
+        $response = $this->getResponse();
+        $response->setStatusCode(401, 'Not authorized');        
+        return $this->renderText("You do not have the proper credentials to access this page!");
+    }
+    
 	public function executeDeleteReview(sfWebRequest $request) {
 		
 	    $delReviews = $request->getParameter('chkReview');

@@ -563,7 +563,7 @@ class JobService extends BaseService {
      * Get Employee stat
      * @return unknown_type
      */
-    public function getJobTitleList( $orderField='job.id',$orderBy='ASC', $activeStatus=array(JobTitle::JOB_STATUS_ACTIVE))
+    public function getJobTitleList( $orderField='job.id',$orderBy='ASC', $activeStatus=array(1))
     {
     	try
         {
