@@ -713,7 +713,13 @@ class performanceActions extends sfActions {
             $employeeService = new EmployeeService();
             $employee = $employeeService->getEmployee($id);
 
-            if ($employee->getFirstName().' '.$employee->getLastName() != $name) {
+            $nameArray = explode(' ', $name);
+
+            if (count($nameArray) == 2 &&
+                $employee->getFirstName().' '.$employee->getLastName() != $name) {
+                $flag = false;
+            } elseif (count($nameArray) == 3 &&
+                      $employee->getFullName() != $name) {
                 $flag = false;
             }
 
