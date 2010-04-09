@@ -390,7 +390,7 @@ class PerformanceReviewService extends BaseService {
 
                 $mailService = new EmailService();
                 $mailService->setTo(array($reviewerEmail));
-                $mailService->setSubject("You Have Got to Review a Performance Review");
+                $mailService->setSubject("You Have Been Assigned a New Performance Review");
                 $mailService->setMailBody($mailBody);
                 @$mailService->sendMail();
 
