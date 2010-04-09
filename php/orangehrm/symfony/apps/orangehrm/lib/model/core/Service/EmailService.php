@@ -76,7 +76,7 @@ class EmailService extends BaseService{
 		try{
 			
 			
-			$logMessage = date('r')." Sending {$this->message->getSubject()} to";
+			$logMessage = date('r')." Sending {$this->message->getSubject()} to ";
 			foreach( $this->message->getTo() as $index=>$value){
 				$logMessage .= $index.' ';
 			}
