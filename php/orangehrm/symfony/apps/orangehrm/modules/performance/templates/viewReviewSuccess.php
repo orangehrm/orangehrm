@@ -43,7 +43,7 @@ $formatData['newSeparater'] = '/';
                 <br class="clear"/>
                 
                 <label for="txtJobTitleCode">Job Title</label>
-                <select name="txtJobTitleCode" class="formSelect" tabindex="3">
+                <select id="txtJobTitleCode" name="txtJobTitleCode" class="formSelect" tabindex="3">
                 	<option value="0">All</option>
                 	<?php
                 	foreach ($jobList as $job) {
@@ -67,7 +67,7 @@ $formatData['newSeparater'] = '/';
                 <br class="clear"/>
 
 				<label for="txtSubDivisionId">Sub Unit</label>
-                <select name="txtSubDivisionId" class="formSelect" tabindex="4">
+                <select id="txtSubDivisionId" name="txtSubDivisionId" class="formSelect" tabindex="4">
                 	<option value="0">All</option>
                 	<?php
                 	foreach ($subDivisionList as $subDivisionb) {
@@ -107,6 +107,7 @@ $formatData['newSeparater'] = '/';
 				
 			<div id="buttonWrapper">
                 <input type="button" class="savebutton" id="searchButton" value="Search" tabindex="7" />
+                <input type="button" class="savebutton" id="clearBtn" value="Clear" tabindex="8" />
             </div>  
             
             </form>
@@ -131,9 +132,9 @@ $formatData['newSeparater'] = '/';
 		<div class="navigationHearder">
 
             <?php if ($loggedAdmin) { ?>
-	    	<input type="button" class="savebutton" id="addReview" value="Add" tabindex="8" />
-            <input type="submit" class="savebutton" name="editReview" id="editReview" value="Edit" tabindex="9" disabled />
-	        <input type="button" class="clearbutton" id="deleteReview" value="Delete" tabindex="10" disabled />
+	    	<input type="button" class="savebutton" id="addReview" value="Add" tabindex="9" />
+            <input type="submit" class="savebutton" name="editReview" id="editReview" value="Edit" tabindex="10" disabled />
+	        <input type="button" class="clearbutton" id="deleteReview" value="Delete" tabindex="11" disabled />
             <?php } ?>
 
 			<?php if ($pager->haveToPaginate()) { ?>
@@ -337,6 +338,24 @@ $formatData['newSeparater'] = '/';
 
 			$('#frmSearch').submit();
             
+		});
+
+        // Clear button
+		$('#clearBtn').click(function(){
+
+            $('#txtPeriodFromDate').val('');
+            $('#txtPeriodToDate').val('');
+            $('#txtJobTitleCode').val('0');
+            $('#txtSubDivisionId').val('0');
+            <?php if ($loggedAdmin || $loggedReviewer) { ?>
+            $('#txtEmpName').val('');
+            $('#hdnEmpId').val('0');
+            <?php } // $loggedAdmin || $loggedReviewer:Ends ?>
+            <?php if ($loggedAdmin) { ?>
+            $('#txtReviewerName').val('');
+            $('#hdnReviewerId').val('0');
+            <?php } // $loggedAdmin:Ends ?>
+
 		});
 		
 		/* Add button */
