@@ -190,8 +190,15 @@
 					  $(this).css('background-color', '#ffeeee');
 					  $(this).css('border', 'solid 1px #ffdddd');
 				  }else{
-					  $(this).css('background-color', '#ffffff');
-					  $(this).css('border', 'solid 1px #000000');	
+					  if( (rate > max) || (rate <min) ){
+							$(this).css('background-color', '#ffeeee');
+							$(this).css('border', 'solid 1px #ffdddd');
+							 valid = false;
+
+						}else{
+							$(this).css('background-color', '#ffffff');
+							$(this).css('border', 'solid 1px #000000');	
+						}
 				  }
 					  
 			  }	  
