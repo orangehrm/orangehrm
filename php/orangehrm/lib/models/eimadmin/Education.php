@@ -600,10 +600,13 @@ class Education {
 	    $selectFields[] = '`edu_deg`';	
         $selectTable = $this->tableName;
 
-        $selectConditions[] = "`edu_deg` = '".$this->getEduDeg()."'";
-	    $selectConditions[] = "`edu_uni` = '".$this->getEduUni()."'";	   
-         
         $sqlBuilder = new SQLQBuilder();
+        $institute = $sqlBuilder->quoteCorrectString($this->getEduUni(), true, true);
+        $course = $sqlBuilder->quoteCorrectString($this->getEduDeg(), true, true);
+        
+        $selectConditions[] = "`edu_deg` = '{$course}'";
+	    $selectConditions[] = "`edu_uni` = '{$institute}'";	   
+         
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
          
         $dbConnection = new DMLFunctions();

@@ -34,8 +34,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $disabled = "disabled='disabled'";
     $editData = $this->popArr['editArr'];
     $educationId = $this->getArr['id'];
-    $institute = $editData[0][1];
-    $course = $editData[0][2];
+    $institute = CommonFunctions::escapeHtml($editData[0][1]);
+    $course = CommonFunctions::escapeHtml($editData[0][2]);
 }
 
 ?>
