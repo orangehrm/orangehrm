@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
 <div id="content">
-	<div id="contentContainer">
+	<div id="performanceReviewcontentContainer">
         <div class="outerbox">
             <div id="formHeading"><h2><?php echo __("Performance Review")?></h2></div>
 			
@@ -27,13 +27,13 @@
 					 <?php if( count($performanceReview->getPerformanceReviewComment()) > 0){?>
 					 <label class="detailHearder"><?php echo __("Notes")?></label>
 					 <label class="detail">
-					 
-						 <table width="400px">
+
+						 <table width="600px">
 						 <th>
 						 	<tr>
 						 		<td width="100px"><b><?php echo __("Date")?></b></td>
 						 		<td width="150px"><b><?php echo __("Employee")?></b></td>
-						 		<td width="150px"><b><?php echo __("Comment")?></b></td>
+						 		<td width="350px"><b><?php echo __("Comment")?></b></td>
 						 	</tr>
 						 </th>
 	                     <?php foreach( $performanceReview->getPerformanceReviewComment() as $comment){?>
@@ -62,19 +62,19 @@
             			<td width="10px" scope="col">
 						 
 						</td>
-						<td width="300" scope="col">
+						<td width="490px" scope="col">
 						<?php echo __("KPI/Question")?> 
 						</td>
-						<td scope="col" width="70">
+						<td scope="col" width="100">
 						 <?php echo __("Min Rate")?>
 						</td>
-						<td scope="col" width="70">
+						<td scope="col" width="100">
 						 <?php echo __("Max Rate")?>
 						</td>  
-						<td scope="col" width="50">
+						<td scope="col" width="100">
 						 <?php echo __("Rating")?>
 						</td>
-						<td scope="col" width="150">
+						<td scope="col" width="200">
 						 <?php echo __("Reviewer Comments")?>
 						</td>
             		</tr>
@@ -85,23 +85,23 @@
             				<td class="">
 				 				
 				 			</td>
-		       				<td class="">
+		       				<td >
 				 				<?php echo $kpi->getKpi()?>
 				 			</td>
-				 			<td>
+				 			<td >
 				 				 <?php echo ($kpi->getMinRate()!= '')?$kpi->getMinRate():'-'?> 
 				 			</td>
-				 			<td>
+				 			<td >
 				 				 <?php echo ($kpi->getMaxRate() !='')?$kpi->getMaxRate():'-'?> 
 				 			</td>
-							<td class="" >
+							<td  >
 								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>"></input>
 								<input type="hidden" name="min<?php echo $kpi->getId()?>" id="min<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMinRate()?>"></input>
 				 				 <input id="txtRate<?php echo $kpi->getId()?>"  name="txtRate[<?php echo $kpi->getId()?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate())?>"  maxscale="<?php echo $kpi->getMaxRate()?>" minscale="<?php echo $kpi->getMinRate()?>" valiadate="1" />
 				 			</td>
 							<td class="">
 				 				<textarea id='txtComments' class="reviwerComment" name='txtComments[<?php echo $kpi->getId()?>]' 
-                    rows="1" cols="20" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
+                    rows="2" cols="40" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
 				 			</td>
 				 				
 				 	</tr>
@@ -113,7 +113,7 @@
 				<?php if(($isHrAdmin || $isReviwer) && ($performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>
 				  <label class="detailHearder"><?php echo __("Note")?></label>
                      <textarea id='txtMainComment' name='txtMainComment' class="formTextArea"
-                    rows="3" cols="20" ></textarea>
+                    rows="4" cols="60" ></textarea>
                    <br class="clear"/>
                  <?php }?>
                </div>  

@@ -87,3 +87,7 @@ div.navigationHearder {
 	margin-right: 10px;
 	margin-bottom: 3px;
 }
+
+#performanceReviewcontentContainer {
+	width: 1000px;
+}
