@@ -66,7 +66,7 @@ $formatData['newSeparater'] = '/';
                 </select>
                 <br class="clear"/>
 
-				<label for="txtSubDivisionId">Sub Unit</label>
+				<label for="txtSubDivisionId">Sub Division</label>
                 <select id="txtSubDivisionId" name="txtSubDivisionId" class="formSelect" tabindex="4">
                 	<option value="0">All</option>
                 	<?php
