@@ -49,7 +49,7 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
     public function testSaveKpi()
     {
     	
-    	foreach ($this->testCases['Kpi'] as $testCase) {
+    	foreach ($this->testCases['Kpi'] as $key=>$testCase) {
 			$kpi	=	new DefineKpi();
 			$kpi->setJobtitlecode ($this->testCases['JobTitle']['jobtitlecode']);
 			$kpi->setDesc ( $testCase['desc']);
@@ -62,8 +62,21 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
 			$result	=	($kpi instanceof DefineKpi)?true:false;
 			$this->assertTrue($result);
 			
+			$this->testCases['Kpi'][$key]["id"] =  $kpi->getId();
     	}
-    	  
+
+    	file_put_contents(sfConfig::get('sf_test_dir') . '/fixtures/performance/kpi.yml',sfYaml::dump($this->testCases));
     }
+    
+	/**
+	 * Test Read Kpi
+	 * @return unknown_type
+	 */
+	public function testReadKpi(){
+		foreach ($this->testCases['Kpi'] as $key=>$testCase) {
+			$result	=	$this->kpiDao->readKpi( $testCase['id']);
+			$this->assertTrue($result instanceof DefineKpi);
+		}
+	}
     
 }

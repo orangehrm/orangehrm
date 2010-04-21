@@ -49,6 +49,21 @@ class KpiDao extends BaseDao {
 	}
 	
 	/**
+	 * Read kpi 
+	 * @param $defineKpiId
+	 * @return DefineKpi Array
+	 */
+	public function readKpi($defineKpiId){
+		try {
+			$defineKpis = Doctrine::getTable ( 'DefineKpi' )
+			->find ( $defineKpiId );
+			return $defineKpis;
+		} catch ( Exception $e ) {
+			throw new PerformanceServiceException ( $e->getMessage () );
+		}
+	}
+	
+	/**
      * Get Kpi for Job Title
      * 
      * @param int $jobTitleId
