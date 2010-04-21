@@ -124,14 +124,11 @@ class IDGeneratorService extends BaseService
 			case 'ProjectActivity':
 				$prefix	=	'';
 			break;
-			
-			case 'PerformanceReview':
-				$prefix	=	'';
+            
+            case 'EmployeeReport':
+				$prefix	=	'REP';
 			break;
-			
-			case 'DefineKpi':
-				$prefix	=	'';
-			break;
+
 		}
 
 		return $prefix ;
@@ -176,7 +173,10 @@ class IDGeneratorService extends BaseService
 				    ->where('table_name = '."'$tableName'");
 
 		$uniqueId = $q->fetchOne();
-		return $uniqueId->getLastId();
+		if( $uniqueId instanceof UniqueId)
+			return $uniqueId->getLastId();
+		else
+			return 0;
 	}
 
 	/**

@@ -48,7 +48,17 @@ class AllTests
             $coredir->next();
         }        
         
+    	$dir = new DirectoryIterator( dirname(__FILE__). '/model/performance/dao' );
+        while($dir->valid()) {
+            if( strpos( $dir, 'Test.php' ) !== false ) {
+                $suite->addTestFile(  dirname(__FILE__). '/model/performance/dao/'. $dir );
+                
+            }
+            $dir->next();
+        }
+        
         //Execute performance service class
+        /*
         $dir = new DirectoryIterator( dirname(__FILE__). '/model/performance/service' );
         while($dir->valid()) {
             if( strpos( $dir, 'Test.php' ) !== false ) {
@@ -57,10 +67,10 @@ class AllTests
             }
             $dir->next();
         }        
-        
+        */
         
         return $suite;
 		}
     
-   
+   			
 }
