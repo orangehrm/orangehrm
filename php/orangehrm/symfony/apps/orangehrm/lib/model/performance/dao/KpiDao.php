@@ -59,8 +59,52 @@ class KpiDao extends BaseDao {
 			->find ( $defineKpiId );
 			return $defineKpis;
 		} catch ( Exception $e ) {
-			throw new PerformanceServiceException ( $e->getMessage () );
+			throw new DaoException ( $e->getMessage () );
 		}
+	}
+	
+	/**
+	 * Delete Kpi
+	 * @param $DefineKpiList
+	 * @return none
+	 */
+	public function deleteKpi($DefineKpiList) {
+		try {
+			$q = Doctrine_Query::create ()
+			->delete ( 'DefineKpi' )
+			->whereIn ( 'id', $DefineKpiList );
+			$numDeleted = $q->execute ();
+			
+			return true ;
+			
+		} catch ( Exception $e ) {
+			throw new DaoException ( $e->getMessage () );
+		}
+	}
+	
+	/**
+	 * Get Kpi default rating scale
+	 * 
+	 * @return Int
+	 */
+	public function getKpiDefaultRate() {
+		
+		$defaultRate	=	array();
+		try {
+			$q = Doctrine_Query::create ()
+			->select ( 'kpi.rate_min, kpi.rate_max' )
+			->from ( "DefineKpi kpi" )
+			->where ( "kpi.rate_default = 1" );
+			
+			$defaultRate = $q->fetchOne();
+			
+			return $defaultRate;
+			
+		} catch ( Exception $e ) {
+			throw new DaoException ( $e->getMessage () );
+		}
+		
+		
 	}
 	
 	/**

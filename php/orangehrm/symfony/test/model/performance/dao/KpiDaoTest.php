@@ -77,6 +77,29 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
 			$result	=	$this->kpiDao->readKpi( $testCase['id']);
 			$this->assertTrue($result instanceof DefineKpi);
 		}
+		
+	}
+	
+	/**
+	 * Test delete Kpi
+	 */
+	public function testGetKpiDefaultRate(  ){
+		$result	=	$this->kpiDao->getKpiDefaultRate( );
+		$this->assertEquals($result , array(2,10));
+		
+	}
+	
+	/**
+	 * Test delete Kpi
+	 */
+	public function testDeleteSkill(  ){
+		$deleteList	=	array();
+		foreach ($this->testCases['Kpi'] as $key=>$testCase) {
+			array_push($deleteList,$testCase['id']);
+		}
+		$result = $this->kpiDao->deleteKpi( $deleteList );
+		$this->assertTrue($result);
+		
 	}
     
 }
