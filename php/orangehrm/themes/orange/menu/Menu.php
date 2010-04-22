@@ -54,6 +54,16 @@ class Menu implements MenuRenderer {
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 var dropdownMenuHidden = false;
 
+function menuExited() {
+	var topUl = document.getElementById('nav');
+	var uls = topUl.getElementsByTagName('ul');
+	for(var i=0; i<uls.length; i++) {
+	    ul = uls[i];
+	    ul.style.left = '-999em';
+	}
+	dropdownMenuHidden = true;	
+}
+
 function menuclicked(item) {
 	var topUl = document.getElementById('nav');
 	var uls = topUl.getElementsByTagName('ul');
@@ -113,7 +123,7 @@ try {
 </div>     
                   
 <div id="top-menu">
-<ul id="nav">
+<ul id="nav" onmouseout="menuExited();">
 
 <?php
 	if (!empty($menu)) {
