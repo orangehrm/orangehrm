@@ -374,8 +374,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		onclick="resetTimesheetGrid()"
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		value="<?php echo $lang_Common_Reset; ?>" />
-<input type="button" class="longbtn" onmouseover="moverButton(this);" 
-		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo ($records['showComments']=='Yes')?'Hide Comments':'Add Comments'; ?>" />
+<input type="button" class="extralongbtn" onmouseover="moverButton(this);" 
+		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo ($records['showComments']=='Yes') ? $lang_Time_TimeGrid_Hide_Comments : $lang_Time_TimeGrid_AddOrView_Comments; ?>" />
 </div>
 
 </form>
@@ -793,12 +793,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			if (!displayComments) {
 			    $('.commentBox').show();
-			    $('#toggleComments').attr('value', 'Hide Comments');
+			    $('#toggleComments').attr('value', '<?php echo $lang_Time_TimeGrid_Hide_Comments; ?>');
 			    $('#hdnShowComments').attr('value', 'Yes');
 			    displayComments = true;
 			} else {
 			    $('.commentBox').hide();
-			    $('#toggleComments').attr('value', 'Add Comments');
+			    $('#toggleComments').attr('value', '<?php echo $lang_Time_TimeGrid_AddOrView_Comments; ?>');
 			    $('#hdnShowComments').attr('value', 'No');
 			    displayComments = false;
 			}

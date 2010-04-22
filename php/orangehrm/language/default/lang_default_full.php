@@ -1645,6 +1645,9 @@
 
 	$lang_Time_Errors_PROJECT_NOT_FOUND_FAILURE = "Project not found.";
 	$lang_Time_Errors_ACTIVITY_NOT_FOUND_FAILURE = "Activity not found.";
+	
+	$lang_Time_TimeGrid_Hide_Comments = "Hide Comments";
+	$lang_Time_TimeGrid_AddOrView_Comments = "Add/View Comments";
 
 	$lang_Common_Yes = "Yes";
 	$lang_Common_No = "No";
