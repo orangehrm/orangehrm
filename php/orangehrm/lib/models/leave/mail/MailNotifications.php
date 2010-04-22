@@ -219,7 +219,7 @@ class MailNotifications {
 
 		$mailer->setSubject($this->subject);
 		$mailNotificationObj = new EmailNotificationConfiguration();
-		$notificationAddresses = $mailNotificationObj->fetchMailNotifications($this->notificationTypeId);
+		$notificationAddresses = $mailNotificationObj->fetchMailNotifications($this->notificationTypeId, true);
 
 		$logMessage = date('r')." Sending {$this->subject} to";
 

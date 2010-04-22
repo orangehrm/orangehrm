@@ -80,8 +80,8 @@ class EmailNotificationConfiguration {
 		}
 	}
 
-	public function fetchMailNotifications($notificationTypeId=null) {
-		$notificationObjs = $this->fetchNotifcationStatus($notificationTypeId);
+	public function fetchMailNotifications($notificationTypeId = null, $filterUnsubscribed = false) {
+		$notificationObjs = $this->fetchNotifcationStatus($notificationTypeId, $filterUnsubscribed);
 		$emails = null;
 
 		if (is_array($notificationObjs)) {
@@ -97,7 +97,7 @@ class EmailNotificationConfiguration {
 	/**
 	 * Fetch all notification status
 	 */
-	public function fetchNotifcationStatus($notificationTypeId=null) {
+	public function fetchNotifcationStatus($notificationTypeId = null, $filterUnsubscribed = false) {
 		$sqlQBuilder = new SQLQBuilder();
 
 		$arrFields[0] = '`user_id`';
@@ -115,6 +115,10 @@ class EmailNotificationConfiguration {
 			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
 		}
 
+		if ($filterUnsubscribed) {
+			$selectConditions[] = "`status` = 1";
+		}
+		
 		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
 
 		$dbConnection = new DMLFunctions();
