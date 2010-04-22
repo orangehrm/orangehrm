@@ -1,6 +1,20 @@
 index:
   credentials:  [[Admin, Supervisor, Manager]]
 
-delete:
+ListDefineKpi:
   credentials:  [Admin]
   
+SaveKpi:
+  credentials:  [Admin]
+
+UpdateKpi:
+  credentials:  [Admin]
+  
+CopyKpi:
+  credentials:  [Admin]
+  
+DeleteDefineKpi:
+  credentials:  [Admin]
+ 
+SaveReview:
+  credentials:  [Admin]

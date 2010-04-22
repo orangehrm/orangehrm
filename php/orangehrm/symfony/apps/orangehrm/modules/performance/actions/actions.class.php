@@ -29,8 +29,8 @@ class performanceActions extends sfActions {
 	 * @return KpiService
 	 */
 	public function getKpiService( ){
-		$kpiService			=	new KpiService();
-		$this->kpiService	=	$kpiService->setKpiDao(new KpiDao());
+		$this->kpiService	=	new KpiService();
+		$this->kpiService->setKpiDao(new KpiDao());
 		return $this->kpiService ;
 	}
 	
@@ -76,18 +76,18 @@ class performanceActions extends sfActions {
 	 */
 	public function executeListDefineKpi(sfWebRequest $request) {
 		
-	  	$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
+	  	//$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
+        //if (!$adminMode) {
+          //  return $this->forward("performance", "unauthorized");
+      	//}
         
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
-		$kpiService 			= 	new DefineKpiService ( );
+		$kpiService 			= 	$this->getKpiService();
 		$this->mode				=	$request->getParameter('mode');
 		
 		$this->pager = new SimplePager('KpiList', sfConfig::get('app_items_per_page'));
-		 $this->pager->setPage(($request->getParameter('page')!='')?$request->getParameter('page'):0);
+		$this->pager->setPage(($request->getParameter('page')!='')?$request->getParameter('page'):0);
 		 
 		if($request->getParameter('mode')=='search')
         {
@@ -122,9 +122,6 @@ class performanceActions extends sfActions {
         	$this->kpiList = $kpiService->getKpiList($offset,$limit);
         }
         
-        
-        
-        
        $this->hasKpi	=	( count($this->kpiList)>0 )?true:false;
 		
 	}
@@ -138,15 +135,11 @@ class performanceActions extends sfActions {
 	 * @return None
 	 */
 	public function executeSaveKpi(sfWebRequest $request) {
-		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
 		
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
 		
-		$kpiService 			= 	new DefineKpiService ( );
+		$kpiService 			= 	$this->getKpiService();
 		$this->defaultRate		=	$kpiService->getKpiDefaultRate();
 		
 		if ($request->isMethod ( 'post' )) {
@@ -188,10 +181,7 @@ class performanceActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeUpdateKpi(sfWebRequest $request) {
-		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
+		
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
@@ -238,10 +228,7 @@ class performanceActions extends sfActions {
 	 * $return none
 	 **/
 	public function executeCopyKpi(sfWebRequest $request) {
-		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
+
 		$kpiService 			= new DefineKpiService ( );
 		
 		$jobService				=	new JobService();
@@ -279,10 +266,7 @@ class performanceActions extends sfActions {
 	 * @return none
 	 */
 	public function executeDeleteDefineKpi(sfWebRequest $request) {
-		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
+
 		if ($request->isMethod ( 'post' )) {
 			$defineKpiService = new DefineKpiService ( );
 			$defineKpiService->deleteDefineKpi ( $request->getParameter ( 'chkKpiID' ) );
@@ -422,10 +406,7 @@ class performanceActions extends sfActions {
     
 	public function executeSaveReview(sfWebRequest $request) {
 		
-		$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        if (!$adminMode) {
-            return $this->forward("performance", "unauthorized");
-      	}
+
 		/* Showing Performance Review Add form*/
 		
 		$companyService	= new CompanyService();
