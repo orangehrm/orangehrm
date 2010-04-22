@@ -4,7 +4,7 @@ JobTitle:
   copyJobtitlecode: JOB002
   copyJobtitlecodename: 'Tech lead'
 Kpi:
-  Kpi_KPI001: { desc: 'KPI description1"fgasd', min: 1, max: 10, default: 0, isactive: true, id: '056' }
-  Kpi_KPI002: { desc: 'KPI description2', min: 1, max: 10, default: 0, isactive: true, id: '057' }
-  Kpi_KPI003: { desc: 'KPI description3', min: 2, max: 10, default: 1, isactive: true, id: '058' }
-  Kpi_KPI004: { desc: 'KPI description4', min: 1, max: 10, default: 0, isactive: true, id: '059' }
+  Kpi_KPI001: { desc: 'KPI description1"fgasd', min: 1, max: 10, default: 0, isactive: true }
+  Kpi_KPI002: { desc: 'KPI description2', min: 1, max: 10, default: 0, isactive: true }
+  Kpi_KPI003: { desc: 'KPI description3', min: 2, max: 10, default: 1, isactive: true }
+  Kpi_KPI004: { desc: 'KPI description4', min: 1, max: 10, default: 0, isactive: true }

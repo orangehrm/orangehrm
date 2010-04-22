@@ -81,25 +81,58 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * Test delete Kpi
+	 * Test Get default Kpi rating
 	 */
 	public function testGetKpiDefaultRate(  ){
 		$result	=	$this->kpiDao->getKpiDefaultRate( );
-		$this->assertEquals($result , array(2,10));
+		$this->assertTrue($result instanceof DefineKpi);
 		
+	}
+	
+	/**
+	 * Test over ride default kpi 
+	 */
+	public function testOverRideKpiDefaultRate(  ){
+		foreach ($this->testCases['Kpi'] as $key=>$testCase) {
+			$kpi	=	$this->kpiDao->readKpi( $testCase['id']);
+			$result	=	$this->kpiDao->overRideKpiDefaultRate($kpi);
+			$this->assertTrue($result);
+		}
+		
+		
+	}
+	
+	/**
+	 * Test Get default Kpi rating
+	 */
+	public function testGetKpiForJobTitle(  ){
+		$kpiList	=	$this->kpiDao->getKpiForJobTitle( $this->testCases['JobTitle']['jobtitlecode']);
+		foreach( $kpiList as $result){
+			$this->assertTrue($result instanceof DefineKpi);
+		}
+	}
+	
+	/**
+	 * Test delete kpi for job title
+	 */
+	public function testDeleteKpiForJobTitle(  ){
+		$result	=	$this->kpiDao->deleteKpiForJobTitle( $this->testCases['JobTitle']['jobtitlecode']);
+		$this->assertTrue($result);
 	}
 	
 	/**
 	 * Test delete Kpi
 	 */
-	public function testDeleteSkill(  ){
+	public function testDeleteKpi(  ){
 		$deleteList	=	array();
 		foreach ($this->testCases['Kpi'] as $key=>$testCase) {
 			array_push($deleteList,$testCase['id']);
+			unset($this->testCases['Kpi'][$key]["id"]);
 		}
 		$result = $this->kpiDao->deleteKpi( $deleteList );
 		$this->assertTrue($result);
 		
+		file_put_contents(sfConfig::get('sf_test_dir') . '/fixtures/performance/kpi.yml',sfYaml::dump($this->testCases));
 	}
     
 }
