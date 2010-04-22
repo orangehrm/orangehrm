@@ -82,6 +82,43 @@ class KpiDao extends BaseDao {
 		}
 	}
 	
+    /**
+     * Get KPI List
+     * @return unknown_type
+     */
+    public function getKpiList( $offset=0,$limit=10){
+    	try{
+	    	$q = Doctrine_Query::create()
+			    ->from('DefineKpi kpi')
+			    ->orderBy('kpi.jobtitlecode');
+			
+			$q->offset($offset)->limit($limit);
+			
+			$kpiList = $q->execute();  
+			return  $kpiList ;
+			
+        }catch( Exception $e){
+            throw new DaoException ( $e->getMessage () );
+        }
+    }
+    
+    /**
+     * Get KPI count list
+     * @return unknown_type
+     */
+    public function getCountKpiList( ){
+    	try{
+	    	$count = Doctrine_Query::create()
+			    		->from('DefineKpi kpi')
+			    		->count();
+			
+			return  $count ;
+			
+        }catch( Exception $e){
+            throw new DaoException ( $e->getMessage () );
+        }
+    }
+    
 	/**
 	 * Get Kpi default rating scale
 	 * 

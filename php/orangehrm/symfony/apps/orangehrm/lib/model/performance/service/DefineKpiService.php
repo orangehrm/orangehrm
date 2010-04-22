@@ -57,10 +57,8 @@ class DefineKpiService extends BaseService {
      * Get KPI List
      * @return unknown_type
      */
-    public function getKpiList( $offset=0,$limit=10)
-    {
-    	try
-        {
+    public function getKpiList( $offset=0,$limit=10){
+    	try{
 	    	$q = Doctrine_Query::create()
 			    ->from('DefineKpi kpi')
 			    ->orderBy('kpi.jobtitlecode');
@@ -70,8 +68,7 @@ class DefineKpiService extends BaseService {
 			$kpiList = $q->execute();  
 			return  $kpiList ;
 			
-        }catch( Exception $e)
-        {
+        }catch( Exception $e){
             throw new AdminServiceException($e->getMessage());
         }
     }
@@ -80,18 +77,15 @@ class DefineKpiService extends BaseService {
      * Get KPI count list
      * @return unknown_type
      */
-    public function getCountKpiList( )
-    {
-    	try
-        {
+    public function getCountKpiList( ){
+    	try{
 	    	$count = Doctrine_Query::create()
 			    		->from('DefineKpi kpi')
 			    		->count();
 			
 			return  $count ;
 			
-        }catch( Exception $e)
-        {
+        }catch( Exception $e){
             throw new AdminServiceException($e->getMessage());
         }
     }

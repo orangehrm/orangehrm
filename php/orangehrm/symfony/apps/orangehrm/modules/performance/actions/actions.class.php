@@ -22,6 +22,28 @@
  */
 class performanceActions extends sfActions {
 	
+	private $kpiService ;
+	
+	/**
+	 * Get Kpi Service
+	 * @return KpiService
+	 */
+	public function getKpiService( ){
+		$kpiService			=	new KpiService();
+		$this->kpiService	=	$kpiService->setKpiDao(new KpiDao());
+		return $this->kpiService ;
+	}
+	
+	/**
+	 * Set Kpi Service
+	 * 
+	 * @param KpiService $kpiService
+	 * @return void
+	 */
+	public function setKpiService( KpiService $kpiService){
+		$this->kpiService = $kpiService;
+	}
+	
 	/**
 	 * This method is executed before each action
 	 */
