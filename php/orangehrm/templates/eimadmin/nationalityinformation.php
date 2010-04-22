@@ -33,7 +33,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $disabled = "disabled='disabled'";
     $editData = $this->popArr['editArr'];
     $nationalityId = $editData[0][0];
-    $nationalityName = $editData[0][1];
+    $nationalityName = CommonFunctions::escapeHtml($editData[0][1]);
 }
 
 ?>

@@ -399,9 +399,10 @@ class MembershipType {
         $selectFields[] = '`membtype_name`';  
 	    $selectTable = $this->tableName;
 
-        $selectConditions[] = "`membtype_name` = '".$this->getMemDescription()."'";	       
-         
-        $sqlBuilder = new SQLQBuilder();
+	    $sqlBuilder = new SQLQBuilder();
+	    $description = $sqlBuilder->quoteCorrectString($this->getMemDescription());
+        $selectConditions[] = "`membtype_name` = {$description}";
+
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
          
         $dbConnection = new DMLFunctions();

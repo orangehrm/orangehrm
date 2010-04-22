@@ -357,11 +357,13 @@ class Licenses {
         $selectFields[] = '`licenses_desc`';  
 	    $selectTable = $this->tableName;
 
-        $selectConditions[] = "`licenses_desc` = '".$this->getLicensesDesc()."'";	       
-         
-        $sqlBuilder = new SQLQBuilder();
+	    $sqlBuilder = new SQLQBuilder();
+	    
+	    $description = $sqlBuilder->quoteCorrectString($this->getLicensesDesc());
+        $selectConditions[] = "`licenses_desc` = {$description}";	       
+        
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-         
+
         $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($query);
 

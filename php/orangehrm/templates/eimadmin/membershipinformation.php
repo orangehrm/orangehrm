@@ -42,8 +42,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $disabled = "disabled='disabled'";
     $editData = $this->popArr['editArr'];
     $membershipId = $editData[0][0];
-    $membershipName = $editData[0][1];
-    $membershipTypeId = $editData[0][2];
+    $membershipName = CommonFunctions::escapeHtml($editData[0][1]);
+    $membershipTypeId = CommonFunctions::escapeHtml($editData[0][2]);
 }
 
 ?>

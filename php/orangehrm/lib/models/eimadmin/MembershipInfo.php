@@ -431,10 +431,11 @@ class MembershipInfo {
         $selectFields[] = '`membship_name`';  
 	    $selectTable = $tableName;
 
+	    $sqlBuilder = new SQLQBuilder();
+	    $name = $sqlBuilder->quoteCorrectString($this->getMembershipInfoDesc());
         $selectConditions[] = "`membtype_code` = '".$this->getMembershipTypeId()."'";
-        $selectConditions[] = "`membship_name` = '".$this->getMembershipInfoDesc()."'";	              
+        $selectConditions[] = "`membship_name` = {$name}";	              
          
-        $sqlBuilder = new SQLQBuilder();
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
          
         $dbConnection = new DMLFunctions();
