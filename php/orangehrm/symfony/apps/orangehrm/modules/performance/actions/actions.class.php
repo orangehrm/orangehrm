@@ -185,7 +185,7 @@ class performanceActions extends sfActions {
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
-		$kpiService 			= 	new DefineKpiService ( );
+		$kpiService 			= 	$this->getKpiService();
 		$this->defaultRate		=	$kpiService->getKpiDefaultRate();
 		
 		$kpi					=	$kpiService->readDefineKpi($request->getParameter ( 'id' ));
@@ -229,7 +229,7 @@ class performanceActions extends sfActions {
 	 **/
 	public function executeCopyKpi(sfWebRequest $request) {
 
-		$kpiService 			= new DefineKpiService ( );
+		$kpiService 			= $this->getKpiService();
 		
 		$jobService				=	new JobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
