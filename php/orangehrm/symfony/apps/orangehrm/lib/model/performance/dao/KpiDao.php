@@ -108,6 +108,47 @@ class KpiDao extends BaseDao {
 	}
 	
 	/**
+	 * overrides kpi default rating scale
+	 * 
+	 * @return boolean
+	 */
+	public function overRideKpiDefaultRate( DefineKpi $Kpi) {
+		try {
+			
+				$q = Doctrine_Query::create ()
+				->update ( 'DefineKpi' )
+				->set ( 'DefineKpi.default', '0' )
+				->whereNotIn('DefineKpi.id',array($Kpi->getId()));
+				$q->execute ();
+			
+			return true ;
+			
+		} catch ( Exception $e ) {
+			throw new DaoException ( $e->getMessage () );
+		}
+	}
+	
+	/**
+	 * Delete Kpi for job title
+	 * 
+	 * @return boolean
+	 */
+	public function deleteKpiForJobTitle( $toJobTitleCode ){
+		try{
+	    	
+        	$q = Doctrine_Query::create ()
+			->delete ( 'DefineKpi' )
+			->where ( "jobtitlecode='$toJobTitle'"  );
+			$numDeleted = $q->execute ();
+			
+			return true;
+			   
+        }catch( Exception $e){
+            throw new DaoException($e->getMessage());
+        }
+	}
+	
+	/**
      * Get Kpi for Job Title
      * 
      * @param int $jobTitleId
