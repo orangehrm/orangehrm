@@ -2349,5 +2349,34 @@ class TimeController {
 
 		$this->redirect($mes, '?timecode=Time&action=View_Work_Shifts');
 	}
+	
+	public function deleteTimeGridRows() {
+		$timeEvent = new TimeEvent();
+		$ids = $_POST['deletionIds'];
+		
+		$deletedRowCount = 0;
+		$totalRowCount = count($ids);		
+		
+		foreach ($ids as $id) {
+			$timeEvent->setTimeEventId($id);
+			$success = (bool) $timeEvent->deleteTimeEvent();
+			if ($success) {
+				$deletedRowCount++;
+			}
+		}
+		
+		if ($totalRowCount == $deletedRowCount) {
+			$messageType = 'SUCCESS';
+			$message = 'row-delete-success';
+		} elseif ($deletedRowCount == 0) {
+			$messageType = 'FAILURE';
+			$message = 'row-delete-failure';
+		} else {
+			$messageType = 'WARNING';
+			$message = 'row-delete-partial-success';
+		}
+
+		$this->editTimesheetGrid($messageType, $message);
+	}
 }
 ?>

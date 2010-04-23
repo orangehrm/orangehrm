@@ -1727,6 +1727,12 @@ switch ($moduletype) {
 																							$timeController->setObjTime($obj);
 																							$timeController->editTimesheetGrid();
 																							break;
+																							
+													case 'Delete_Timesheet_Grid_Rows'	:
+																							$obj = $timesheetExtractor->parseViewData($_POST);
+																							$timeController->setObjTime($obj);
+																							$timeController->deleteTimeGridRows();
+																							break;
 
 													case 'Update_Timeesheet_Grid'		:	$obj = $timesheetExtractor->parseViewData($_POST);
 																							$timeController->setObjTime($obj);

@@ -1648,6 +1648,10 @@
 	
 	$lang_Time_TimeGrid_Hide_Comments = "Hide Comments";
 	$lang_Time_TimeGrid_AddOrView_Comments = "Add/View Comments";
+	$lang_Time_TimeGrid_RemoveRow_Warning = "This will remove the rows in time grid permanently and the changes of new rows will not be saved. This action cannot be undone. Are you sure you want to continue?";
+	$lang_Time_TimeGrid_RemoveRow_Success = "Row(s) were deleted successfully";
+	 $lang_Time_TimeGrid_RemoveRow_PartialSuccess = "Some of the rows could not be deleted";
+	 $lang_Time_TimeGrid_RemoveRow_Failure = "Failed to delete row(s)";
 
 	$lang_Common_Yes = "Yes";
 	$lang_Common_No = "No";

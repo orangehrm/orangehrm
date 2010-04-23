@@ -25,17 +25,18 @@ $projectsCount = count($projectsList);
 $startDateStamp = $records['startDateStamp'];
 $endDateStamp = $records['endDateStamp'];
 
+$messageList = array(
+	'update-success' => $lang_Time_Errors_UPDATE_SUCCESS,
+	'update-failure' => $lang_Time_Errors_UPDATE_FAILURE,
+	'no-changes' => $lang_Time_Attendance_ReportNoChange,
+	'row-delete-success' => $lang_Time_TimeGrid_RemoveRow_Success,
+	'row-delete-failure' => $lang_Time_TimeGrid_RemoveRow_Failure,
+	'row-delete-partial-success' => $lang_Time_TimeGrid_RemoveRow_PartialSuccess
+);
+
 if (isset($records['message'])) {
-
-	$message = '';
-	if ($records['message'] == 'update-success') {
-		$message = $lang_Time_Errors_UPDATE_SUCCESS;
-	} elseif ($records['message'] == 'update-failure') {
-	    $message = $lang_Time_Errors_UPDATE_FAILURE;
-	} elseif ($records['message'] == 'no-changes') {
-	    $message = $lang_Time_Attendance_ReportNoChange;
-	}
-
+	$messageKey = $records['message'];
+	$message = isset($messageList[$messageKey]) ? $messageList[$messageKey] : '';
 }
 
 function compareConcatenatedName($a, $b){
@@ -106,7 +107,7 @@ td {
 
 </style>
 
-<div class="outerbox" style="width:980px">
+<div class="outerbox" style="width:1020px">
 
 <!-- Message box: Begins -->
 <?php if (isset($records['message'])) { ?>
@@ -138,8 +139,8 @@ td {
 
 		<tr>
 			<th class="tableMiddleLeft"></th>
-			<th class="tableMiddleMiddle">Project</th>
-			<th class="tableMiddleMiddle">Activity</th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project;?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity;?></th>
 
 <?php
 	$datesCount = 0;
@@ -174,7 +175,9 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 ?>
 		<tr id="row-<?php echo $k; ?>">
 
-			<td class="tableMiddleLeft"></td>
+			<td class="tableMiddleLeft">
+				<input type="checkbox" class="existing-row" id="chekbox-<?php echo $k; ?>" />
+			</td>
 
 			<td class="selectTd" id="cmbProject-<?php echo $k; ?>-td">
 				<?php
@@ -239,7 +242,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				
 				<?php if(isset($value[$i])) { ?>
 				<input type="hidden" name="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>"
-				value="<?php echo $value[$i]['eventId']; ?>" />
+				id="hdnTimeEventId-<?php echo $k; ?>" value="<?php echo $value[$i]['eventId']; ?>" />
 				<input type="hidden" name="hdnDuration-<?php echo $k.'-'.$dCount; ?>"
 				value="<?php echo $value[$i]['duration']; ?>" />
 				<input type="hidden" name="hdntxtComment-<?php echo $k.'-'.$dCount; ?>"
@@ -494,7 +497,13 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		/* Adding left most td */
 		leftCell = document.createElement('td');
+		var deletionCheckbox = document.createElement('input');
+		deletionCheckbox.setAttribute('type', 'checkbox');
+		deletionCheckbox.className = 'new-row';
+		
 		leftCell.className = 'tableMiddleLeft';
+		leftCell.appendChild(deletionCheckbox);
+		
 		row.appendChild(leftCell);
 
 		/* Adding projects select box */
@@ -594,25 +603,33 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	/* Adding a row to grid: Ends */
 
-	/* Removing a row from grid */
+	/* Removing rows from grid */
 
 	function removeRow() {
-
-		var tbody = $s('tblTimegrid').getElementsByTagName('tbody')[0];
-		var rowNo = tbody.rows.length;
-		var gCount = <?php echo ($gridCount==0?1:$gridCount); // Can only remove rows added before saving ?>;
-
-		if (rowNo > gCount) {
-
-		    tbody.deleteRow(rowNo-1);
-
-			/* Decrementing grid count (Grid count is used in EXTRACTOR_TimeEvent) */
-
-			var gridCount =	$s('hdnGridCount');
-			gridCount.value = parseInt(gridCount.value) - 1;
-
+		if (!confirm('<?php echo $lang_Time_TimeGrid_RemoveRow_Warning;?>')) {
+			return;
 		}
 
+		rowNo = 0;
+		deletionIds = [];
+		$('#tblTimegrid input:checkbox').each(function(){
+			if ($(this).attr('checked')) {
+				if ($(this).attr('id') != '') {
+					deletionIds.push($('#hdnTimeEventId-' + rowNo).val());
+				}
+				$(this).parent().parent().remove();
+			}
+			rowNo++;
+		});
+
+		if (deletionIds.length > 0) {
+			$('#frmTimegrid').attr('action', '<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Delete_Timesheet_Grid_Rows');
+			$('#frmTimegrid').attr('style', 'display:none;');
+			for (i = 0; i < deletionIds.length; i++) {
+				$('#frmTimegrid').append('<input type="hidden" name="deletionIds[]" value="' + deletionIds[i] + '" />');
+			}
+			$('#frmTimegrid').submit();
+		}
 	}
 
 	function changeDeletedProject(id) {
