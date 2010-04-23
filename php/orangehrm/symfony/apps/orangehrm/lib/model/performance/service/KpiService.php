@@ -85,7 +85,7 @@ class KpiService extends BaseService {
 	 * Save Kpi
 	 * @return None
 	 */
-	public function saveDefineKpi(DefineKpi $Kpi) {
+	public function saveKpi(DefineKpi $Kpi) {
 		try {
 			$this->getKpiDao()->saveKpi( $Kpi );
 			if($Kpi->getDefault() == 1)

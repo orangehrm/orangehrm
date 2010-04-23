@@ -58,7 +58,7 @@ class AllTests
         }
         
         //Execute performance service class
-        /*
+        
         $dir = new DirectoryIterator( dirname(__FILE__). '/model/performance/service' );
         while($dir->valid()) {
             if( strpos( $dir, 'Test.php' ) !== false ) {
@@ -67,7 +67,7 @@ class AllTests
             }
             $dir->next();
         }        
-        */
+        
         
         return $suite;
 		}
