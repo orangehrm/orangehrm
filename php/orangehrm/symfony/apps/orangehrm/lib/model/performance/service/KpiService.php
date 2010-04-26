@@ -171,7 +171,7 @@ class KpiService extends BaseService {
 	public function copyKpi( $toJobTitle , $fromJobTitle)
 	{
 		try {
-			$this->getKpiDao()->deleteKpiForJobTitle($fromJobTitle);
+			$this->getKpiDao()->deleteKpiForJobTitle( $toJobTitle);
 			
 			$kpiList	=	$this->getKpiForJobTitle( $fromJobTitle );
 			

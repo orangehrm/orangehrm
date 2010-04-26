@@ -268,8 +268,8 @@ class performanceActions extends sfActions {
 	public function executeDeleteDefineKpi(sfWebRequest $request) {
 
 		if ($request->isMethod ( 'post' )) {
-			$defineKpiService = new DefineKpiService ( );
-			$defineKpiService->deleteDefineKpi ( $request->getParameter ( 'chkKpiID' ) );
+			$kpiService = $this->getKpiService();
+			$kpiService->deleteKpi ( $request->getParameter ( 'chkKpiID' ) );
 		}
 		$this->setMessage('SUCCESS',array('Successfully Deleted'));
 		$this->redirect ( 'performance/listDefineKpi' );
