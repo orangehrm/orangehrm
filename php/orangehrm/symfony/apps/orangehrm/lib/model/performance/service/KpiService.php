@@ -116,7 +116,7 @@ class KpiService extends BaseService {
 	 */
 	public function deleteKpi($DefineKpiList) {
 		try {
-			$this->getKpiDao()->deleteKpi();
+			$this->getKpiDao()->deleteKpi( $DefineKpiList );
 			
 			return true ;
 			
