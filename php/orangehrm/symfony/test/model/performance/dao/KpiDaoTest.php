@@ -46,8 +46,7 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
      * Test Save Kpi function
      *
      */
-    public function testSaveKpi()
-    {
+    public function testSaveKpi(){
     	
     	foreach ($this->testCases['Kpi'] as $key=>$testCase) {
 			$kpi	=	new DefineKpi();

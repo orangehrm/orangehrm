@@ -101,7 +101,7 @@ class KpiService extends BaseService {
 	 * @param $defineKpiId
 	 * @return Array
 	 */
-	public function readDefineKpi($defineKpiId) {
+	public function readKpi($defineKpiId) {
 		try {
 			return $this->getKpiDao()->readKpi( $defineKpiId );
 		} catch ( Exception $e ) {
@@ -183,7 +183,7 @@ class KpiService extends BaseService {
 				$kpi->setMax ( $fromKpi->getMax() );
 				$kpi->setDefault ( 0 );
 				$kpi->setIsactive ( 1 );
-				$this->saveDefineKpi($kpi);
+				$this->saveKpi($kpi);
 			}
 			return true ;
 		}catch ( Exception $e ) {

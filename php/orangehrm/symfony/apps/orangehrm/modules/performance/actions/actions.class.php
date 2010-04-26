@@ -165,7 +165,7 @@ class performanceActions extends sfActions {
 				
 				$defineKpi->setIsactive ( 1 );
 				
-				$kpiService->saveDefineKpi ( $defineKpi );
+				$kpiService->saveKpi ( $defineKpi );
 				
 				$this->setMessage('SUCCESS',array('Successfully Added <a href="listDefineKpi"> View KPI List</a>'));
 				$this->redirect ( 'performance/saveKpi' );
@@ -188,7 +188,7 @@ class performanceActions extends sfActions {
 		$kpiService 			= 	$this->getKpiService();
 		$this->defaultRate		=	$kpiService->getKpiDefaultRate();
 		
-		$kpi					=	$kpiService->readDefineKpi($request->getParameter ( 'id' ));
+		$kpi					=	$kpiService->readKpi($request->getParameter ( 'id' ));
 		$this->kpi				=	$kpi;
 		if ($request->isMethod ( 'post' )) {
 			
@@ -214,7 +214,7 @@ class performanceActions extends sfActions {
 			} else {
 				$kpi->setDefault ( 0 );
 			}
-			$kpiService->saveDefineKpi ( $kpi );
+			$kpiService->saveKpi ( $kpi );
 			$this->setMessage('SUCCESS',array('Successfully Updated'));
 			$this->redirect ( 'performance/listDefineKpi' );
 		}
