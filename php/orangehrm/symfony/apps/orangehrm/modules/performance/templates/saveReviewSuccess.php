@@ -35,14 +35,14 @@
 				<div class="errorDiv"></div>
              	<br class="clear"/>
               
-              	<label for="txtPeriodFromDate-0">Period From Date <span class="required">*</span></label>
+              	<label for="txtPeriodFromDate-0">From Date <span class="required">*</span></label>
 				<input id="txtPeriodFromDate-0" name="txtPeriodFromDate-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['from'])?$clues['from']:''; ?>" tabindex="3" />
 				<input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
 				<div class="errorDiv"></div>
              	<br class="clear"/>
 
-              	<label for="txtPeriodToDate-0">Period To Date <span class="required">*</span></label>
+              	<label for="txtPeriodToDate-0">To Date <span class="required">*</span></label>
 				<input id="txtPeriodToDate-0" name="txtPeriodToDate-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['to'])?$clues['to']:''; ?>" tabindex="4" />
 				<input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
