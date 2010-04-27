@@ -97,6 +97,8 @@ class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
       foreach ($this->testCases['PerformanceReview'] as $key=>$testCase) {
          $result = $this->performanceReviewDao->deletePerformanceReview($testCase['id']);
          $this->assertTrue($result);
+         unset($this->testCases['PerformanceReview'][$key]["id"]);
       }
+      file_put_contents(sfConfig::get('sf_test_dir') . '/fixtures/performance/performanceReview.yml',sfYaml::dump($this->testCases));
    }
 }

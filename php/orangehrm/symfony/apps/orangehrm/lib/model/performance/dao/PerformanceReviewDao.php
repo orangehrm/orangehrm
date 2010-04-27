@@ -105,7 +105,103 @@ class PerformanceReviewDao extends BaseDao {
             }
             return false;
         } catch (Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
+            throw new DaoException($e->getMessage());
         }
+    }
+
+    /**
+     * Builds the search query that fetches all the
+     * records for given search clues
+     */
+    private function getSearchReviewQuery($clues) {
+
+        try {
+
+            $where	=	array();
+            $from = $clues['from'];
+            $to = $clues['to'];
+            $jobCode = $clues['jobCode'];
+            $divisionId = $clues['divisionId'];
+            $empId = $clues['empId'];
+            $reviewerId = $clues['reviewerId'];
+
+            if (isset($clues['loggedReviewerId']) && $clues['loggedReviewerId'] != $clues['empId']) {
+                $reviewerId = $clues['loggedReviewerId'];
+            }
+
+            if (isset($clues['loggedEmpId'])) {
+                $empId = $clues['loggedEmpId'];
+            }
+
+            //$where = "periodFrom >= '$from' AND periodTo <= '$to'";
+
+        	if (!empty($from)) {
+                //$where .= " AND employeeId = $empId";
+                array_push($where,"periodFrom >= '$from'");
+            }
+
+        	if (!empty($to)) {
+                //$where .= " AND employeeId = $empId";
+                array_push($where,"periodTo <= '$to'");
+            }
+
+            if (!empty($empId)) {
+                //$where .= " AND employeeId = $empId";
+                array_push($where,"employeeId = $empId");
+            }
+
+            if (!empty($reviewerId)) {
+                //$where .= " AND reviewerId = $reviewerId";
+                if (empty($empId) && isset($clues['loggedReviewerId'])) {
+                	$wherePart = "(reviewerId = $reviewerId OR employeeId = $reviewerId)";
+                } else {
+                    $wherePart = "reviewerId = $reviewerId";
+                }
+                array_push($where, $wherePart);
+            }
+
+            if (!empty($jobCode)) {
+               // $where .= " AND jobTitleCode = '$jobCode'";
+                array_push($where,"jobTitleCode = '$jobCode'");
+            }
+
+            if (!empty($divisionId)) {
+               // $where .= " AND subDivisionId = $divisionId";
+                array_push($where,"subDivisionId = $divisionId");
+            }
+
+            $q = Doctrine_Query::create()
+                 ->from('PerformanceReview');
+            if (count($where) > 0) {
+            	$q->where(implode(' AND ',$where));
+            }
+
+            return $q;
+
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+    /**
+     * Returns Object based on the combination of search
+     * @param array $clues
+     * @param array $offset
+     * @param array $limit
+     * @throws DaoException
+     */
+    public function searchPerformanceReview($clues = array(), $offset = null, $limit = null) {
+        try {
+            $q = $this->getSearchReviewQuery($clues);
+            if(!is_null($offset) && !is_null($limit)) {
+               $q->offset($offset)->limit($limit);
+            }
+            return $q->execute();
+
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
     }
 }

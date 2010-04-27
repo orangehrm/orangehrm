@@ -29,173 +29,89 @@ class PerformanceReviewService extends BaseService {
       return $this->performanceReviewDao;
    }
 
-   //@todo this need refactoring
-   public function savePerformanceReviews($reviews) {
-      try {
-
-         $idGeneratorService = new IDGeneratorService();
-
-         foreach ($reviews as $review) {
-
-             $idGeneratorService->setEntity($review);
-             $review->setId($idGeneratorService->getNextID());
-             $review->save();
-
-         }
-
-      } catch (Exception $e) {
+   /**
+    * Save PerformanceReview
+    * @param PerformanceReview $performanceReview
+    * @returns PerformanceReview
+    * @throws PerformanceServiceException
+    */
+   public function savePerformanceReview(PerformanceReview $performanceReview) {
+      try{
+         return $this->performanceReviewDao->savePerformanceReview($performanceReview);
+      } catch(Exception $e) {
          throw new PerformanceServiceException($e->getMessage());
       }
    }
 
     /**
-     * Builds the search query that fetches all the
-     * records for given search clues
-     */
-
-    private function _getSearchReviewQuery($clues) {
-
-        try {
-
-            $where	=	array();
-        	$from = $clues['from'];
-            $to = $clues['to'];
-            $jobCode = $clues['jobCode'];
-            $divisionId = $clues['divisionId'];
-            $empId = $clues['empId'];
-            $reviewerId = $clues['reviewerId'];
-
-            if (isset($clues['loggedReviewerId']) && $clues['loggedReviewerId'] != $clues['empId']) {
-                $reviewerId = $clues['loggedReviewerId'];
-            }
-			
-            if (isset($clues['loggedEmpId'])) {
-                $empId = $clues['loggedEmpId'];
-            }
-
-            //$where = "periodFrom >= '$from' AND periodTo <= '$to'";
-			
-        	if (!empty($from)) {
-                //$where .= " AND employeeId = $empId";
-                array_push($where,"periodFrom >= '$from'");
-            }
-            
-        	if (!empty($to)) {
-                //$where .= " AND employeeId = $empId";
-                array_push($where,"periodTo <= '$to'");
-            }
-            
-            if (!empty($empId)) {
-                //$where .= " AND employeeId = $empId";
-                array_push($where,"employeeId = $empId");
-            }
-
-            if (!empty($reviewerId)) {
-                //$where .= " AND reviewerId = $reviewerId";
-                if (empty($empId) && isset($clues['loggedReviewerId'])) {
-                	$wherePart = "(reviewerId = $reviewerId OR employeeId = $reviewerId)";
-                } else {
-                    $wherePart = "reviewerId = $reviewerId";
-                }
-                array_push($where, $wherePart);
-            }
-
-            if (!empty($jobCode)) {
-               // $where .= " AND jobTitleCode = '$jobCode'";
-                array_push($where,"jobTitleCode = '$jobCode'");
-            }
-
-            if (!empty($divisionId)) {
-               // $where .= " AND subDivisionId = $divisionId";
-                array_push($where,"subDivisionId = $divisionId");
-            }
-
-            $q = Doctrine_Query::create()
-                 ->from('PerformanceReview');
-            if (count($where) > 0) {
-            	$q->where(implode(' AND ',$where));
-            }
-            
-            return $q;
-
-        } catch(Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
-        }
-
-    }
-
-    /**
-     * Returns a portion of the matched records
-     * based on $offset and $limit
-     */
-
-    public function fetchReviews($clues, $offset, $limit) {
-
-        try {
-
-            $q = $this->_getSearchReviewQuery($clues);
-            $q->offset($offset)->limit($limit);
-            return $q->execute();
-
-        } catch(Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
-        }
-
-    }
-
-    /**
-     * Returns the count of records
-     * that matched given $clues
-     */
-
-    public function countReviews($clues) {
-
-        try {
-
-            $q = $this->_getSearchReviewQuery($clues);
-            return $q->count();
-
-        } catch(Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
-        }
-
-    }
-
-    /**
      * Read Performance Review
-     * @param $reviewId
+     * @param int $reviewId
      * @return PerformanceReview
+     * @throws PerformanceServiceException
      */
     public function readPerformanceReview($reviewId) {
-
         try {
-            $performanceReview = Doctrine::getTable('PerformanceReview')
-            ->find($reviewId);
-            return $performanceReview;
+            return $this->performanceReviewDao->readPerformanceReview($reviewId);
         } catch(Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }
     }
 
     /**
-     * Save Performance Review
-     * @param PerformanceReview $performanceReview
-     * @return PerformanceReview
+     * Delete PerformanceReview
+     * @param array $reviewList
+     * @returns boolean
+     * @throws PerformanceServiceException
      */
-    public function savePerformanceReview(PerformanceReview $performanceReview) {
+    public function deletePerformanceReview($reviewList) {
+      try {
+         return $this->performanceReviewDao->deletePerformanceReview($reviewList);
+      } catch(Exception $e) {
+         throw new PerformanceServiceException($e->getMessage());
+      }
+    }
+
+    /**
+     * Get All PerformanceReviews
+     */
+    public function getPerformanceReviewList() {
+      try {
+         return $this->performanceReviewDao->getPerformanceReviewList();
+      } catch(Exception $e) {
+         throw new PerformanceServiceException($e->getMessage());
+      }
+    }
+
+    /**
+     * Search for PerformanceReviews on multiple criteria
+     * @param array $searchParam
+     * @param $offset
+     * @param $limit
+     * @returns Collection
+     * @throws PerformanceServiceException
+     */
+    public function searchPerformanceReview($searchParam = array(), $offset = null, $limit = null) {
+      try {
+         return $this->performanceReviewDao->searchPerformanceReview($searchParam, $offset, $limit);
+      } catch(Exception $e) {
+         throw new PerformanceServiceException($e->getMessage());
+      }
+    }
+
+    /**
+     * Counting the reviews
+     * @param array $searchParam
+     * @returns int
+     * @throws PerformanceServiceException
+     */
+    public function countReviews($searchParam = array()) {
         try {
-            if ( $performanceReview->getId() == '') {
-                $idGenService = new IDGeneratorService( );
-                $idGenService->setEntity($performanceReview);
-                $performanceReview->setId($idGenService->getNextID());
-            }
-
-            $performanceReview->save();
-            return $performanceReview;
-
-        } catch (Exception $e) {
+            $reviews = $this->performanceReviewDao->searchPerformanceReview($searchParam);
+            return count($reviews);
+        } catch(Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }
+
     }
 
     /**
@@ -222,39 +138,14 @@ class PerformanceReviewService extends BaseService {
                         break;
                 }
 
-                $performanceReview->setState($status);      
-				
-                $q = Doctrine_Query::create()
-				    ->update('PerformanceReview')
-				    ->set("state='?'", $status)
-				    ->where("id = ?",$performanceReview->getId());
-                $q->execute();
-                //$this->savePerformanceReview($performanceReview);
-                return true ;
+                $performanceReview->setState($status);
+                $savedInstance = $this->performanceReviewDao->savePerformanceReview($performanceReview);
+                if($savedInstance instanceof PerformanceReview) {
+                   return true;
+                }
+                return false;
         } catch (Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     * Get Performance Review List
-     * @return unknown_type
-     */
-    public function getPerformanceReviewList( )
-    {
-        try
-        {
-            $q = Doctrine_Query::create()
-                ->from('PerformanceReview pr')
-                ->orderBy('pr.id');
-
-            $performanceReviewList = $q->execute();
-
-            return  $performanceReviewList ;
-
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
         }
     }
 
@@ -270,15 +161,16 @@ class PerformanceReviewService extends BaseService {
 
             $performanceReviewComment->setPrId($performanceReview->getId());
             $performanceReviewComment->setComment($comment);
-            if(is_numeric($user))
+            if(is_numeric($user)) {
             	$performanceReviewComment->setEmployeeId($user);
+            }
+            
             $performanceReviewComment->setCreateDate(date('Y-m-d'));
             $performanceReviewComment->save();
 
         } catch ( Exception $e) {
             throw new AdminServiceException($e->getMessage());
         }
-
     }
 
     /**
@@ -399,22 +291,6 @@ class PerformanceReviewService extends BaseService {
 
     }
 
-    public function deleteReview($reviewList) {
-
-        try {
-
-            $q = Doctrine_Query::create()
-               ->delete('PerformanceReview')
-               ->whereIn('id', $reviewList);
-               $numDeleted = $q->execute();
-
-            return true ;
-
-        } catch (Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
-        }
-    }
-
     /**
      * Checks whether the given employee is a reviewer
      */
@@ -422,19 +298,13 @@ class PerformanceReviewService extends BaseService {
     public function isReviewer($empId) {
 
         try {
+            $reviews = $this->performanceReviewDao->searchPerformanceReview(array('reviewerId' => $empId));
 
-            $q = Doctrine_Query::create()
-            ->from('PerformanceReview')
-            ->where("reviewerId = $empId");
-
-            $searchList = $q->execute();
-
-            if (count($searchList) > 0) {
+            if (count($reviews) > 0) {
                 return true;
             } else {
                 return false;
             }
-
         } catch (Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }
@@ -450,14 +320,10 @@ class PerformanceReviewService extends BaseService {
 
         try {
 
-            $q = Doctrine_Query::create()
-            ->from('PerformanceReview')
-            ->where("reviewerId = $reviewerId");
+            $resultList = $this->performanceReviewDao->searchPerformanceReview(array('reviewerId' => $reviewerId));
 
-            $resultList = $q->execute();
-
-			$empList = array();
-			$empIds = array();
+            $empList = array();
+            $empIds = array();
 
             /* Making sure employee list is unique: Begins */
             $i = 0;
@@ -494,5 +360,4 @@ class PerformanceReviewService extends BaseService {
         }
 
     }
-
 }
