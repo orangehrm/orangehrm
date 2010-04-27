@@ -87,6 +87,7 @@ class performanceActions extends sfActions {
 	 */
 	public function getPerformanceReviewService(){
 		$this->performanceReviewService	=	new PerformanceReviewService();
+		$this->performanceReviewService->setPerformanceReviewDao(new PerformanceReviewDao());
 		return $this->performanceReviewService;
 	}
 	
