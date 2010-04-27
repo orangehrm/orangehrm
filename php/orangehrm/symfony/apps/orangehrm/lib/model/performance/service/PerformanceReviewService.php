@@ -282,9 +282,8 @@ class PerformanceReviewService extends BaseService {
                 $mailService->setSubject("You Have Been Assigned a New Performance Review");
                 $mailService->setMailBody($mailBody);
                 @$mailService->sendMail();
-
             }
-
+            return true;
         } catch (Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }
