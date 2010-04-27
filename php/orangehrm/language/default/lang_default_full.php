@@ -1647,7 +1647,7 @@
 	$lang_Time_Errors_ACTIVITY_NOT_FOUND_FAILURE = "Activity not found.";
 	
 	$lang_Time_TimeGrid_Hide_Comments = "Hide Comments";
-	$lang_Time_TimeGrid_AddOrView_Comments = "Add/View Comments";
+	$lang_Time_TimeGrid_ViewOrHide_Comments = "View/Hide Comments";
 	$lang_Time_TimeGrid_RemoveRow_Warning = "You have chosen to remove the row(s) permanently.\n\tPress OK to continue.";
 	$lang_Time_TimeGrid_NoRowSelected_Warning = "No row(s) selected to be deleted"; 
 	$lang_Time_TimeGrid_RemoveRow_Success = "Row(s) were deleted successfully";

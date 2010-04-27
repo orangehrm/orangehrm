@@ -367,7 +367,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
         onclick="removeRow(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         name="btnRemoveRow" id="btnRemoveRow"
-        value="Remove Row" />
+        value="Remove Rows" />
 <input type="button" class="savebutton"
         onclick="actionUpdate(); return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
@@ -378,7 +378,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 		value="<?php echo $lang_Common_Reset; ?>" />
 <input type="button" class="extralongbtn" onmouseover="moverButton(this);" 
-		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo ($records['showComments']=='Yes') ? $lang_Time_TimeGrid_Hide_Comments : $lang_Time_TimeGrid_AddOrView_Comments; ?>" />
+		onmouseout="moutButton(this);" name="toggleComments" id="toggleComments" value="<?php echo $lang_Time_TimeGrid_ViewOrHide_Comments; ?>" />
 </div>
 
 </form>
@@ -489,11 +489,13 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	/* Adding a row to grid: Begins */
 
+	rowNo = 0;
 	function addRow() {
 
 		var tbody = $s('tblTimegrid').getElementsByTagName('tbody')[0];
-		var rowNo = tbody.rows.length;
+		rowNo = (rowNo == 0) ? tbody.rows.length : rowNo;
 		row = document.createElement('tr');
+		row.setAttribute('id', 'row-' + rowNo);
 
 		/* Adding left most td */
 		leftCell = document.createElement('td');
@@ -599,7 +601,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var gridCount =	$s('hdnGridCount');
 		gridCount.value = parseInt(gridCount.value) + 1;
 
-		
+		/* Incrementing the row number to be used for newly added rows */
+		rowNo++;
 
 	}
 
@@ -679,24 +682,6 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    var pattern = /^\d+.?\d*$/;
 	    var durationFlag = true;
 
-	    /*
-	    for (var i=0; i<gridCount; i++) {
-
-	        for (var j=0; j<datesCount; j++) {
-
-	            var durationId = 'txtDuration-'+i+'-'+j;
-	            var duration = $s(durationId).value;
-
-	            if (duration != '' && duration.match(pattern)==null) {
-					durationFlag = false;
-	            } else if (duration > 24) {
-	                durationFlag = false;
-	            }
-
-	        }
-
-	    }*/
-
 	    $('.durationTd input:text').each(function(){
             duration = $(this).val();
             if (duration != '' && duration.match(pattern) == null) {
@@ -718,8 +703,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    var activities = new Array();
 	    var duplicates = new Array();
 
-	    
-	    for (var i=0; i<gridCount; i++) {
+	    $('#tblTimegrid tbody tr').each(function() {
+		    i = parseInt($(this).attr('id').replace('row-', ''));
 
 	    	var projectId = $s('cmbProject-'+i).value;
 	    	var activityId = $s('cmbActivity-'+i).value;
@@ -730,7 +715,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		    	if (activities.length > 0) {
 
-		    	    for (var j=0; j<i; j++) {
+		    	    for (var j = 0; j < i; j++) {
 
 		    	        if (activities[j] == value) {
 		    	        	duplicates[duplicates.length] = value;
@@ -746,39 +731,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	    	}
 
-	    }
-/*
-	    $('#tblTimegrid tbody tr').each(function() {
-	    	//var projectId = $s('cmbProject-'+i).value;
-	    	//var activityId = $s('cmbActivity-'+i).value;
-	    	var projectId = $(this).filter('select:first').val();
-	    	var activityId = $(this).filter('select').filter(function(index){
-		    	return (index == 1);
-		    }).val();
-
-	    	if (projectId > -1 && activityId > -1) { // Checking whether projectId and activityId are not negative
-
-	    		var value = projectId+'-'+activityId;
-
-		    	if (activities.length > 0) {
-
-		    	    for (var j=0; j<i; j++) {
-
-		    	        if (activities[j] == value) {
-		    	        	duplicates[duplicates.length] = value;
-		    	        } else {
-		    	            activities[activities.length] = value;
-		    	        }
-
-		    	    }
-
-		    	} else {
-		    	    activities[activities.length] = value;
-		    	}
-
-	    	}
-		});
-*/
+	    }); 
+	    
 		if (duplicates.length > 0) {
 		    alert('<?php echo $lang_Time_Errors_DUPLICATE_ROWS; ?>');
 		    return false;
@@ -789,19 +743,20 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		var emptyProjectFlag = true;
 		var emptyActivityFlag = true;
 
-		for (var i=0; i<gridCount; i++) {
+		$('#tblTimegrid tbody tr').each(function() {
+		    i = parseInt($(this).attr('id').replace('row-', ''));
 
-			var projectId = $s('cmbProject-'+i).value;
-			if (!($s('cmbProject-'+i).disabled) && projectId == -1) {
+			var projectId = $('#cmbProject-' + i).val();
+			if ($('#cmbProject-' + i).attr('disabled') == false && projectId == -1) {
 			    emptyProjectFlag = false;
 			}
 
-			var activityId = $s('cmbActivity-'+i).value;
-			if (!($s('cmbActivity-'+i).disabled) && activityId == -1) {
+			var activityId = $('#cmbActivity-' + i).val();
+			if ($('#cmbActivity-' + i).attr('disabled') == false && activityId == -1) {
 			    emptyActivityFlag = false;
 			}
 
-		}
+		});
 
 		if (!emptyProjectFlag) {
 		    alert('<?php echo $lang_Time_Errors_NO_PROJECT_SELECTED; ?>');
@@ -815,23 +770,21 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 		/* Checking whether day's total duration is more than 24 hours */
 
-		for (var i=0; i<datesCount; i++) {
+		for (var i = 0; i < datesCount; i++) {
 
 			var dayTotal = 0;
 
-		    for (var j=0; j<gridCount; j++) {
-
+			$('#tblTimegrid tbody tr').each(function() {
+			    j = parseInt($(this).attr('id').replace('row-', ''));
 		        dayTotal = dayTotal + Number($s('txtDuration-'+j+'-'+i).value);
-
-		    }
+		    });
 
 		    if (dayTotal > 24) {
 		        alert('<?php echo $lang_Time_Errors_MaxTotalDuration; ?>');
 		        return false;
 		    }
-
 		}
-
+		
 		return true;
 
 	}
@@ -862,12 +815,10 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			
 			if (!displayComments) {
 			    $('.commentBox').show();
-			    $('#toggleComments').attr('value', '<?php echo $lang_Time_TimeGrid_Hide_Comments; ?>');
 			    $('#hdnShowComments').attr('value', 'Yes');
 			    displayComments = true;
 			} else {
 			    $('.commentBox').hide();
-			    $('#toggleComments').attr('value', '<?php echo $lang_Time_TimeGrid_AddOrView_Comments; ?>');
 			    $('#hdnShowComments').attr('value', 'No');
 			    displayComments = false;
 			}
