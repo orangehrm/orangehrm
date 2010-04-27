@@ -77,13 +77,13 @@
             			<td width="50" class="tdcheckbox">
 							<input type="checkbox"  name="allCheck" value="" id="allCheck" />
 						</td>
-            			
+            			<td scope="col" > 
+						 <?php echo __('KPI')?>
+						</td> 
 						<td width="150" scope="col">
 						 <?php echo __('Job Title')?>
 						</td>
-						<td scope="col" > 
-						 <?php echo __('KPI')?>
-						</td> 
+						
 						<td scope="col" > 
 						 <?php echo __('Min Rate')?>
 						</td>
@@ -107,11 +107,13 @@
 								<input type='checkbox' class='innercheckbox' name='chkKpiID[]' id="chkLoc" value='<?php echo  $kpi->getId()?>' />
 							</td>
 							<td class="">
-				 				<?php echo  htmlspecialchars_decode($kpi->getJobTitle()->getName())?>
-				 			</td>
-				 			<td class="">
 				 				<a href="<?php echo url_for('performance/updateKpi?id='.$kpi->getId()) ?>"><?php echo  $kpi->getDesc()?></a>
 				 			</td>
+				 			
+							<td class="">
+				 				<?php echo  htmlspecialchars_decode($kpi->getJobTitle()->getName())?>
+				 			</td>
+				 			
 				 			<td class="">
 				 				<?php echo  ($kpi->getRateMin()!='')?$kpi->getRateMin():'-'?>
 				 			</td>
