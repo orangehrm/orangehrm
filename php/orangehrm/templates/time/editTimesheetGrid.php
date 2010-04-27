@@ -234,7 +234,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 <?php
 	$dCount = 0; // $datesCount is defined at <th> and is used in EXTRACTOR_TimeEvent. Therefore use $dCount to avoid conflicts
 	for ($i=$startDateStamp; $i<=$endDateStamp; $i=strtotime("+1 day", $i)) { ?>
-			<td calss="durationTd">
+			<td class="durationTd">
 				<input type="text" name="txtDuration-<?php echo $k.'-'.$dCount; // Format: txtDuration-0-0 (RowCount-DatesCount) ?>"
 				value="<?php echo (isset($value[$i])?$value[$i]['duration']:''); ?>" id="txtDuration-<?php echo $k.'-'.$dCount; ?>"
 				maxlength="5" />
@@ -255,10 +255,10 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	}
 ?>
 
-			<td class="tableMiddleRight"></td>
-
-		<input type="hidden" name="hdnProject-<?php echo $k; ?>" value="<?php echo $projectId; ?>" />
-		<input type="hidden" name="hdnActivity-<?php echo $k; ?>" value="<?php echo $activityId; ?>" />
+			<td class="tableMiddleRight">
+				<input type="hidden" name="hdnProject-<?php echo $k; ?>" value="<?php echo $projectId; ?>" />
+				<input type="hidden" name="hdnActivity-<?php echo $k; ?>" value="<?php echo $activityId; ?>" />
+			</td>
 
 		</tr>
 
@@ -554,6 +554,10 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
   		durationInput.id = 'txtDuration-' + rowNo + '-' + <?php echo $i; ?>;
   		durationInput.maxLength = 5;
   		durationCell.appendChild(durationInput);
+
+  		/* Adding a line break */
+		var lineBreak = document.createElement('br');
+		durationCell.appendChild(lineBreak);
 		
 		/* Adding text area */
 		var durationComment = document.createElement('textarea');
@@ -675,6 +679,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    var pattern = /^\d+.?\d*$/;
 	    var durationFlag = true;
 
+	    /*
 	    for (var i=0; i<gridCount; i++) {
 
 	        for (var j=0; j<datesCount; j++) {
@@ -690,7 +695,17 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 
 	        }
 
-	    }
+	    }*/
+
+	    $('.durationTd input:text').each(function(){
+            duration = $(this).val();
+            if (duration != '' && duration.match(pattern) == null) {
+				durationFlag = false;
+            } else if (duration > 24) {
+                durationFlag = false;
+            }
+	    });
+	    
 
 	    if (!durationFlag) {
 	        alert('<?php echo $lang_Time_Errors_INVALID_DURATION_FAILURE; ?>');
@@ -703,6 +718,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    var activities = new Array();
 	    var duplicates = new Array();
 
+	    
 	    for (var i=0; i<gridCount; i++) {
 
 	    	var projectId = $s('cmbProject-'+i).value;
@@ -731,7 +747,38 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    	}
 
 	    }
+/*
+	    $('#tblTimegrid tbody tr').each(function() {
+	    	//var projectId = $s('cmbProject-'+i).value;
+	    	//var activityId = $s('cmbActivity-'+i).value;
+	    	var projectId = $(this).filter('select:first').val();
+	    	var activityId = $(this).filter('select').filter(function(index){
+		    	return (index == 1);
+		    }).val();
 
+	    	if (projectId > -1 && activityId > -1) { // Checking whether projectId and activityId are not negative
+
+	    		var value = projectId+'-'+activityId;
+
+		    	if (activities.length > 0) {
+
+		    	    for (var j=0; j<i; j++) {
+
+		    	        if (activities[j] == value) {
+		    	        	duplicates[duplicates.length] = value;
+		    	        } else {
+		    	            activities[activities.length] = value;
+		    	        }
+
+		    	    }
+
+		    	} else {
+		    	    activities[activities.length] = value;
+		    	}
+
+	    	}
+		});
+*/
 		if (duplicates.length > 0) {
 		    alert('<?php echo $lang_Time_Errors_DUPLICATE_ROWS; ?>');
 		    return false;
