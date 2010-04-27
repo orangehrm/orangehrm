@@ -1,55 +1,52 @@
 <?php
 /**
- *
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
- * all the essential functionalities required for any enterprise.
- * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
- *
- * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program;
- * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
- *
- */
-
-/**
  * Service Class for Performance Review
  *
- * @author orange
+ * @author Sujith T
  */
 class PerformanceReviewService extends BaseService {
 
-    const EMAIL_TEMPLATE_REVIWER_SUBMIT     =   'performance_submit.txt';
-    const EMAIL_TEMPLATE_HRADMIN_APPROVE    =   'performance_approve.txt';
-    const EMAIL_TEMPLATE_HRADMIN_REJECT     =   'performance_reject.txt';
-    const EMAIL_TEMPLATE_ADD_REVIEW         =   'add-review.txt';
+   private $performanceReviewDao = null;
+   
+   const EMAIL_TEMPLATE_REVIWER_SUBMIT     =   'performance_submit.txt';
+   const EMAIL_TEMPLATE_HRADMIN_APPROVE    =   'performance_approve.txt';
+   const EMAIL_TEMPLATE_HRADMIN_REJECT     =   'performance_reject.txt';
+   const EMAIL_TEMPLATE_ADD_REVIEW         =   'add-review.txt';
 
-    public function savePerformanceReviews($reviews) {
+  /**
+   * Setting the PerformanceReviewDao
+   * @param PerformanceReviewDao dao
+   */
+   public function setPerformanceReviewDao(PerformanceReviewDao $dao) {
+      $this->performanceReviewDao = $dao;
+   }
 
-        try {
+   /**
+    * Return PerformanceReviewDao Instance
+    * @returns PerformanceReviewDao
+    */
+   public function getPerformanceReviewDao() {
+      return $this->performanceReviewDao;
+   }
 
-            $idGeneratorService = new IDGeneratorService();
+   //@todo this need refactoring
+   public function savePerformanceReviews($reviews) {
+      try {
 
-            foreach ($reviews as $review) {
+         $idGeneratorService = new IDGeneratorService();
 
-                $idGeneratorService->setEntity($review);
-                $review->setId($idGeneratorService->getNextID());
-                $review->save();
+         foreach ($reviews as $review) {
 
-            }
+             $idGeneratorService->setEntity($review);
+             $review->setId($idGeneratorService->getNextID());
+             $review->save();
 
-        } catch (Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
-        }
+         }
 
-    }
+      } catch (Exception $e) {
+         throw new PerformanceServiceException($e->getMessage());
+      }
+   }
 
     /**
      * Builds the search query that fetches all the
@@ -407,9 +404,9 @@ class PerformanceReviewService extends BaseService {
         try {
 
             $q = Doctrine_Query::create()
-            ->delete('PerformanceReview')
-            ->whereIn('id', $reviewList);
-            $numDeleted = $q->execute();
+               ->delete('PerformanceReview')
+               ->whereIn('id', $reviewList);
+               $numDeleted = $q->execute();
 
             return true ;
 

@@ -85,4 +85,27 @@ class PerformanceReviewDao extends BaseDao {
             throw new DaoException ( $e->getMessage() );
         }
     }
+
+    /**
+     * Delete PerformanceReview
+     * @param array reviewList
+     * @returns boolean
+     * @throws PerformanceServiceException
+     */
+    public function deletePerformanceReview($reviewList) {
+
+        try {
+
+            $q = Doctrine_Query::create()
+               ->delete('PerformanceReview')
+               ->whereIn('id', $reviewList);
+               $numDeleted = $q->execute();
+            if($numDeleted > 0) {
+               return true ;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new PerformanceServiceException($e->getMessage());
+        }
+    }
 }

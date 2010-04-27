@@ -89,4 +89,14 @@ class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
 		}
 		
 	}
+
+   /**
+    * Test deletePerformanceReview
+    */
+   function testDeletePerformanceReview() {
+      foreach ($this->testCases['PerformanceReview'] as $key=>$testCase) {
+         $result = $this->performanceReviewDao->deletePerformanceReview($testCase['id']);
+         $this->assertTrue($result);
+      }
+   }
 }
