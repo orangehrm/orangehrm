@@ -216,9 +216,9 @@ $formatData['newSeparater'] = '/';
 				 			?>
 			
 				 			<?php if ($link) { ?>
-				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo $review->getEmployee()->getFullName(); ?></a>
+				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo $review->getEmployee()->getFirstName().' '.$review->getEmployee()->getLastName(); ?></a>
 							<?php } else { 
-				 						echo $review->getEmployee()->getFullName();
+				 						echo $review->getEmployee()->getFirstName().' '.$review->getEmployee()->getLastName();
 							} ?>							
 				 			
 				 		</td>
@@ -240,7 +240,7 @@ $formatData['newSeparater'] = '/';
 				 		</td>
 				 		
 				 		<td class="">
-							<?php echo $review->getReviewer()->getFullName(); ?>
+							<?php echo $review->getReviewer()->getFirstName().' '.$review->getReviewer()->getLastName();; ?>
 				 		</td>
 
 					</tr>

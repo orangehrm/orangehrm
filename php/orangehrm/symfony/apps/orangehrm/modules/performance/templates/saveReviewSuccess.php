@@ -137,8 +137,8 @@
 		$("#frmSave").validate({
 			
 			 rules: {
-			 	'txtEmpName-0': { required: true, empIdSet: true, sameAsEmp: true },
-			 	'txtReviewerName-0': { required: true, reviewerIdSet: true, sameAsEmp: true },
+			 	'txtEmpName-0': { required: true, empIdSet: true },
+			 	'txtReviewerName-0': { required: true, reviewerIdSet: true },
 			 	'txtPeriodFromDate-0': { required: true, dateISO: true , validFromDate: true },
 			 	'txtPeriodToDate-0': { required: true, dateISO: true ,validToDate: true },
 			 	'txtDueDate-0': { required: true, dateISO: true ,validDueDate: true }
@@ -146,13 +146,11 @@
 		 	 messages: {
 		 		'txtEmpName-0':{ 
 		 			required:"Employee Name is required",
-                    empIdSet:"Please select an employee",
-                    sameAsEmp:"Employee can not also be the reviewer"
+                    empIdSet:"Please select an employee"
 		 		},
 		 		'txtReviewerName-0':{ 
 		 			required:"Reviewer Name is required",
-                    reviewerIdSet:"Please select a reviewer",
-                    sameAsEmp:"Employee can not also be the reviewer"
+                    reviewerIdSet:"Please select a reviewer"
 		 		},
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"Period From Date is required",
@@ -177,16 +175,6 @@
    			 }
 		 	 
 		});
-
-        /* Checks whether Employee and Reviewer are same */
-        $.validator.addMethod("sameAsEmp", function(value, element) {
-            if ($('#hdnEmpId-0').val() != 0 && $('#hdnReviewerId-0').val() != 0) {
-                return ($('#hdnEmpId-0').val() != $('#hdnReviewerId-0').val());
-            } else {
-                return true;
-            }
-
-        });
 
         /* Checks whether Employee is set */
         $.validator.addMethod("empIdSet", function(value, element) {
