@@ -162,11 +162,7 @@ $formatData['newSeparater'] = '/';
 						<td scope="col">
 							Job Title
 						</td>
-						 
-						<td scope="col">
-							Reviewer
-						</td>
-						
+
 						<td scope="col">
 							Review Period
 						</td>
@@ -174,9 +170,13 @@ $formatData['newSeparater'] = '/';
 						<td scope="col">
 							Due Date
 						</td>
-						
+
 						<td scope="col">
 							Status
+						</td>
+						 
+						<td scope="col">
+							Reviewer
 						</td>
 						
 					</tr>
@@ -200,19 +200,7 @@ $formatData['newSeparater'] = '/';
 						</td>
 						
 						<td class="">
-				 			<?php echo $review->getEmployee()->getFullName(); ?>
-				 		</td>
-				 		
-				 		<td class="">
-				 			<?php echo htmlspecialchars_decode($review->getJobTitle()->getName()); ?>
-				 		</td>
-				 		
-				 		<td class="">
-							<?php echo $review->getReviewer()->getFullName(); ?>
-				 		</td>
-				 		
-				 		<td class="">
-				 			<?php
+	 						<?php
 				 				$link = false;
 				 				if ($loggedEmpId == $review->getEmployeeId()) {
 				 					if ($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED) {
@@ -226,19 +214,33 @@ $formatData['newSeparater'] = '/';
 				 				    $link = true;
 				 				}
 				 			?>
+			
 				 			<?php if ($link) { ?>
-				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo formatDate($review->getperiodFrom(), $formatData).' - '.formatDate($review->getperiodTo(), $formatData); ?></a>
+				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo $review->getEmployee()->getFullName(); ?></a>
 							<?php } else { 
-				 						echo formatDate($review->getperiodFrom(), $formatData).' - '.formatDate($review->getperiodTo(), $formatData);
+				 						echo $review->getEmployee()->getFullName();
 							} ?>							
+				 			
+				 		</td>
+				 		
+				 		<td class="">
+				 			<?php echo htmlspecialchars_decode($review->getJobTitle()->getName()); ?>
+				 		</td>
+
+				 		<td class="">
+							<?php echo formatDate($review->getperiodFrom(), $formatData).' - '.formatDate($review->getperiodTo(), $formatData); ?>							
 				 		</td>
 				 		
 				 		<td class="">
 				 			<?php echo formatDate($review->getDueDate(), $formatData); ?>
 				 		</td>	
-				 		
+
 				 		<td class="">
 				 			<?php echo $review->getTextStatus(); ?>
+				 		</td>
+				 		
+				 		<td class="">
+							<?php echo $review->getReviewer()->getFullName(); ?>
 				 		</td>
 
 					</tr>
