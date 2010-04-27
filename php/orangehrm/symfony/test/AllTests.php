@@ -37,8 +37,17 @@ class AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-
-		//execute core service classes		
+		
+    	// execute action unit tests
+    	$coredir = new DirectoryIterator(dirname(__FILE__). '/actions');
+        while ($coredir->valid()) {
+            if (strpos( $coredir, 'Test.php' ) !== false) {
+                $suite->addTestFile(  dirname(__FILE__). '/actions/'. $coredir );
+            }
+            $coredir->next();
+        }
+        
+        //execute core service classes		
         $coredir = new DirectoryIterator( dirname(__FILE__). '/model/core/service' );
         while($coredir->valid()) {
             if( strpos( $coredir, 'Test.php' ) !== false ) {
