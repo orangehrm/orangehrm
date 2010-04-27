@@ -204,4 +204,26 @@ class PerformanceReviewDao extends BaseDao {
         }
 
     }
+    
+     /**
+     * Update status of performance review
+     * @param array $clues
+     * @param array $offset
+     * @param array $limit
+     * @throws DaoException
+     */
+    public function updatePerformanceReviewStatus( PerformanceReview $performanceReview , $status){
+    	try {
+             $q = Doctrine_Query::create()
+				    ->update('PerformanceReview')
+				    ->set("state='?'", $status)
+				    ->where("id = ?",$performanceReview->getId());
+                $q->execute();
+                
+                return true ;
+			
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

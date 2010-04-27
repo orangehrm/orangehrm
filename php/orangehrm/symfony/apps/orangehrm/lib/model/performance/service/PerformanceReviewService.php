@@ -138,12 +138,17 @@ class PerformanceReviewService extends BaseService {
                         break;
                 }
 
+                return $this->performanceReviewDao->updatePerformanceReviewStatus($performanceReview, $status );
+                
+                /*
                 $performanceReview->setState($status);
                 $savedInstance = $this->performanceReviewDao->savePerformanceReview($performanceReview);
                 if($savedInstance instanceof PerformanceReview) {
                    return true;
                 }
                 return false;
+                */
+                
         } catch (Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }

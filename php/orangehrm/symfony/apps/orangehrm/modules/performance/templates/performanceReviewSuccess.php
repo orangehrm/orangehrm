@@ -210,7 +210,43 @@
 		  }
 		  return valid ;
 	  }
-	  
+
+
+	  //Check save 
+	  function checkSave(){
+		  var valid	=	true ;
+		  var msg	=	'';
+		  $("input.smallInput").each(function() {
+			  max	=	parseFloat($(this).attr('maxscale'));
+			  min =   parseFloat($(this).attr('minscale'));
+			  rate =  parseFloat(this.value) ;
+				
+			  if(!isNaN(this.value)){
+				  if( isNaN(rate)){
+					  valid = false;
+					  $(this).css('background-color', '#ffeeee');
+					  $(this).css('border', 'solid 1px #ffdddd');
+				  }else{
+					  if( (rate > max) || (rate <min) ){
+							$(this).css('background-color', '#ffeeee');
+							$(this).css('border', 'solid 1px #ffdddd');
+							 valid = false;
+
+						}else{
+							$(this).css('background-color', '#ffffff');
+							$(this).css('border', 'solid 1px #000000');	
+						}
+				  }
+					  
+			  }	  
+		  });
+		  if( !valid ){
+			  msg	=	'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
+			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
+			  $("#performanceError").show();
+		  }
+		  return valid ;
+	  }
 		
 	  $(document).ready(function(){ 
 		  	var mode	=	'edit';
@@ -230,6 +266,7 @@
 					{
 						$('#saveMode').val('save');
 						$('#frmSave').submit();
+						
 					}
 				});
 			
