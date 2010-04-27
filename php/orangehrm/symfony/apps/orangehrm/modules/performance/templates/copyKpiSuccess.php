@@ -13,7 +13,7 @@
 				<?php }?>
 				
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __("Copy KPIs")?></h2></div>
+            <div id="formHeading"><h2><?php echo __("Copy Key Performance Indicators")?></h2></div>
 			<form action="#" id="frmSave" class="content_inner" method="post">
 				<input type="hidden" id="txtConfirm" name="txtConfirm" value="0"></input>
 			

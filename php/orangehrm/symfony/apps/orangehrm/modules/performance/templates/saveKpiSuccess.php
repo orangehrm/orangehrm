@@ -8,7 +8,7 @@
 		<?php }?>
 		<?php echo message()?>
         <div class="outerbox">
-            <div id="formHeading"><h2>Add KPI</h2></div>
+            <div id="formHeading"><h2>Add Key Performance Indicator</h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
               <div id="formWrapper">

@@ -63,7 +63,7 @@
 						 
 						</td>
 						<td width="490px" scope="col">
-						<?php echo __("KPI/Question")?> 
+						<?php echo __("Key Performance Indicator")?> 
 						</td>
 						<td scope="col" width="100">
 						 <?php echo __("Min Rate")?>
