@@ -23,6 +23,27 @@
 class performanceActions extends sfActions {
 	
 	private $kpiService ;
+	private $jobService ;
+	private $performanceKpiService;
+	private $performanceReviewService;
+	
+	
+	/**
+	 * Get Job Service 
+	 */
+	public function getJobService(){
+		$this->jobService	=	new JobService();
+		return $this->jobService;
+	}
+	
+	/**
+	 * Set Job Service
+	 * @param JobService $jobService
+	 * @return unknown_type
+	 */
+	public function setJobService(JobService $jobService){
+		$this->jobService	=	$jobService ;
+	}
 	
 	/**
 	 * Get Kpi Service
@@ -42,6 +63,40 @@ class performanceActions extends sfActions {
 	 */
 	public function setKpiService( KpiService $kpiService){
 		$this->kpiService = $kpiService;
+	}
+	
+	/**
+	 * Get Job Service 
+	 */
+	public function getPerformanceKpiService(){
+		$this->performanceKpiService	=	new PerformanceKpiService();
+		return $this->performanceKpiService;
+	}
+	
+	/**
+	 * Set Job Service
+	 * @param JobService $jobService
+	 * @return unknown_type
+	 */
+	public function setPerformanceKpiService(PerformanceKpiService $performanceKpiService){
+		$this->performanceKpiService	=	$performanceKpiService ;
+	}
+	
+	/**
+	 * Get Job Service 
+	 */
+	public function getPerformanceReviewService(){
+		$this->performanceReviewService	=	new PerformanceReviewService();
+		return $this->performanceReviewService;
+	}
+	
+	/**
+	 * Set Job Service
+	 * @param JobService $jobService
+	 * @return unknown_type
+	 */
+	public function setPerformanceReviewService(PerformanceReviewService $performanceReviewService){
+		$this->performanceReviewService	=	$PerformanceReviewService ;
 	}
 	
 	/**
@@ -75,14 +130,10 @@ class performanceActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeListDefineKpi(sfWebRequest $request) {
-		
-	  	//$adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);	
-        //if (!$adminMode) {
-          //  return $this->forward("performance", "unauthorized");
-      	//}
         
-		$jobService				=	new JobService();
+		$jobService				=	$this->getJobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
+		
 		$kpiService 			= 	$this->getKpiService();
 		$this->mode				=	$request->getParameter('mode');
 		
@@ -136,7 +187,7 @@ class performanceActions extends sfActions {
 	 */
 	public function executeSaveKpi(sfWebRequest $request) {
 		
-		$jobService				=	new JobService();
+		$jobService				=	$this->getJobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
 		
 		$kpiService 			= 	$this->getKpiService();
@@ -182,7 +233,7 @@ class performanceActions extends sfActions {
 	 */
 	public function executeUpdateKpi(sfWebRequest $request) {
 		
-		$jobService				=	new JobService();
+		$jobService				=	$this->getJobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
 		$kpiService 			= 	$this->getKpiService();
@@ -231,7 +282,7 @@ class performanceActions extends sfActions {
 
 		$kpiService 			= $this->getKpiService();
 		
-		$jobService				=	new JobService();
+		$jobService				=	$this->getJobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList();
 		$this->listAllJobTitle	=	$jobService->getJobTitleList('job.id','ASC',array(JobTitle::JOB_STATUS_ACTIVE,JobTitle::JOB_STATUS_DELETED));
 		
@@ -285,9 +336,9 @@ class performanceActions extends sfActions {
 		
 			$id = $request->getParameter ( 'id' )	;
 		
-			$performanceReviewService	=	new PerformanceReviewService( );
+			$performanceReviewService	=	$this->getPerformanceReviewService();
 			$performanceReview			=	$performanceReviewService->readPerformanceReview($id);
-			$performanceService			=	new PerformanceKpiService();
+			$performanceService			=	$this->getPerformanceKpiService();
 			
 			
 			
@@ -305,7 +356,7 @@ class performanceActions extends sfActions {
 				
 				$performanceReview->setLatestComment($request->getParameter ( 'txtMainComment' ));
 				if( count($rates)){
-					$performanceKpiService		=	new PerformanceKpiService();
+					$performanceKpiService		=	$this->getPerformanceKpiService();
 					$modifyperformanceKpiList	=	array();
 					
 					foreach( $performanceKpiList as $performanceKpi){
@@ -389,7 +440,7 @@ class performanceActions extends sfActions {
 	
 	protected function isLoggedReviewer($empId) {
 		
-		$performanceReviewService = new PerformanceReviewService();
+		$performanceReviewService = $this->getPerformanceReviewService();
 	    
 	    return $performanceReviewService->isReviewer($empId);
 	    
@@ -404,6 +455,11 @@ class performanceActions extends sfActions {
     	$this->getUser()->setFlash('message', $message);
     }
     
+    /**
+     * Save performance Review
+     * @param $request
+     * @return unknown_type
+     */
 	public function executeSaveReview(sfWebRequest $request) {
 		
 
@@ -432,7 +488,7 @@ class performanceActions extends sfActions {
                     $this->redirect('performance/viewReview');
                 }
 
-                $performanceReviewService = new PerformanceReviewService();
+                $performanceReviewService = $this->getPerformanceReviewService();
                 $review = $performanceReviewService->readPerformanceReview($reviewIds[0]);
                 $this->clues = $this->getReviewSearchClues($review);
                
@@ -473,8 +529,8 @@ class performanceActions extends sfActions {
 		   	    
 		   	}
 
-		   	$kpiService = new DefineKpiService();
-		   	$performanceKpiService = new PerformanceKpiService();
+		   	$kpiService = $this->getKpiService();
+		   	$performanceKpiService = $this->getPerformanceKpiService();
 		   	$kpiList = $kpiService->getKpiForJobTitle($empJobCode);
 		   	
 		   	if (count($kpiList) == 0) {
@@ -484,7 +540,7 @@ class performanceActions extends sfActions {
 		   	    
 		   	}    		
 
-            $performanceReviewService = new PerformanceReviewService();
+            $performanceReviewService = $this->getPerformanceReviewService();
 
             if ($request->getParameter("hdnId-0")) { // Updating an existing one
                 $review = $performanceReviewService->readPerformanceReview($request->getParameter("hdnId-0"));
@@ -529,10 +585,10 @@ class performanceActions extends sfActions {
 		/* Showing Performance Review Search form 
 		 * ====================================== */
 		
-		$performanceReviewService = new PerformanceReviewService();
+		$performanceReviewService = $this->getPerformanceReviewService();
 		
 		/* Job title list */
-		$jobService	= new JobService();
+		$jobService	= $this->getJobService();
 		$this->jobList = $jobService->getJobTitleList('job.id', 'ASC', 
 						 array(JobTitle::JOB_STATUS_DELETED, JobTitle::JOB_STATUS_ACTIVE));
 		
@@ -657,8 +713,8 @@ class performanceActions extends sfActions {
         }
 	    
 		if ($request->isMethod('post')) {
-            $performanceReviewService = new PerformanceReviewService();
-			$performanceReviewService = new PerformanceReviewService();
+            
+			$performanceReviewService = $this->getPerformanceReviewService();
 			$performanceReviewService->deleteReview($request->getParameter('chkReview'));
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully deleted'));
             $this->redirect('performance/viewReview');
