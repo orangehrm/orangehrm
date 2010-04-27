@@ -606,7 +606,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	/* Removing rows from grid */
 
 	function removeRow() {
-		if (!confirm('<?php echo $lang_Time_TimeGrid_RemoveRow_Warning;?>')) {
+		if ($('#tblTimegrid input:checkbox:checked').size() == 0) {
+			alert('<?php echo $lang_Time_TimeGrid_NoRowSelected_Warning; ?>');
+			return;
+		}
+
+		if (!confirm('<?php echo CommonFunctions::escapeForJavascript($lang_Time_TimeGrid_RemoveRow_Warning);?>')) {
 			return;
 		}
 
