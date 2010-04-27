@@ -676,7 +676,8 @@ class performanceActions extends sfActions {
 	        $offset = $this->pager->getOffset();
             $offset = empty($offset)?0:$offset;
 	        $limit = $this->pager->getMaxPerPage();
-			$this->reviews = $performanceReviewService->fetchReviews($this->clues, $offset, $limit);
+			//$this->reviews = $performanceReviewService->fetchReviews($this->clues, $offset, $limit);
+			$this->reviews = $performanceReviewService->searchPerformanceReview($this->clues, $offset, $limit);
 			
 			/* Setting template message */
 			if ($this->getUser()->hasFlash('templateMessage')) {
