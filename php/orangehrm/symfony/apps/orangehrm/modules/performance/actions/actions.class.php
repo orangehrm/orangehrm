@@ -717,7 +717,7 @@ class performanceActions extends sfActions {
 		if ($request->isMethod('post')) {
             
 			$performanceReviewService = $this->getPerformanceReviewService();
-			$performanceReviewService->deleteReview($request->getParameter('chkReview'));
+			$performanceReviewService->deletePerformanceReview($request->getParameter('chkReview'));
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully deleted'));
             $this->redirect('performance/viewReview');
 		}
