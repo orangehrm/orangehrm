@@ -205,6 +205,8 @@ $formatData['newSeparater'] = '/';
 				 				if ($loggedEmpId == $review->getEmployeeId()) {
 				 					if ($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED) {
 				 					    $link = true;
+				 					} elseif ($loggedEmpId == $review->getReviewerId() && $review->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED) {
+				 						$link = true;
 				 					} else {
 				 						$link = false; 
 				 					}
