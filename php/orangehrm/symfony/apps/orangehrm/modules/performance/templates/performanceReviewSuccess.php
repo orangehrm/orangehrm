@@ -139,6 +139,8 @@
                         value="<?php echo __("Approve")?>"  />  
                       <?php }?>
                       
+                      <input type="button" class="savebutton" id="backBtn" value="Back" />
+                      
                 </div>  
               
 			
@@ -291,6 +293,11 @@
 					$('#frmSave :input').removeAttr('disabled');
 					$('#saveMode').val('approve');
 					$('#frmSave').submit();
+				});
+				
+			// Back button
+				$("#backBtn").click(function() {
+					history.back()
 				});
 
 			//Validate search form 
