@@ -1,3 +1,37 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.4
+
+	Feature Requests
+	----------------
+	2981081 - Performance: Need a clear button to clear search Review form
+	2981087 - Performance:Reviewer comments length and width shoud increas
+	2991213 - Per:Avoid using the abbreviation KPI wherever possible
+	2983163 - Have a menu item called Reviews instead of Search Reviews
+	2981093 - Performane: A link to go back to the search results
+	2983166 - Add the link to the Employee Name instead of Review Period
+	
+	Performance Module Bug Fixes
+	----------------------------
+	2971095 - From Date, To Date and Due Date should be validated
+	2974539 - More meaningful comment needed for rating scale validation
+	2981065-  Deleted JobTitle should be shown as 'name(deleted)' in dropdown
+	2981030 - KPI is an acronym,it should be capital
+	2981035 - KPI List->Shows additional characters against special character
+	2981070 - (Security)The performance module is vulnerable toURL Attacks 
+	2981044 - Review edit can't continue employee with middle name
+	2981051 - Rating validation does not work for submit button
+	2980473 - Improve summary of review notification email
+	2981055 - There should be a space after to - in the mail log 
+	2981048 - Autosuggestion includes middle name for reviewer in Search
+	2981049 - Subdivision and subunit - term difference in search review
+	
+	General Bug Fixes
+	-----------------
+	2953384 - Qualification ->Save with (' & ") quote leads to stopper
+	2922760 - Even after un-susbscribing notification mails CC to admin
+	2944412 - Add comment button label should change to Add/view comments
+	2540143 - Drop down menus need to hide automatically.
+	2944390 - Timesheet remove Row: cannot remove already saved data
+
 New & Changed Features for OrangeHRM ver 2.6-beta.3
 
 	Bug Fixes
