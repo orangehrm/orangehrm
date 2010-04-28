@@ -639,52 +639,48 @@ class performanceActions extends sfActions {
 		    $page = $this->clues['pageNo'];
 		}
 
-		if ($request->isMethod('post') || isset($this->clues) || !empty($page)) {
-			
-			/* Preserving search clues */
-			if (!isset($this->clues)) {
-				$this->clues = $this->getReviewSearchClues($request);
-			}
-            $this->getUser()->setAttribute('prSearchClues', $this->clues);
+		/* Preserving search clues */
+		if (!isset($this->clues)) {
+			$this->clues = $this->getReviewSearchClues($request);
+		}
+        $this->getUser()->setAttribute('prSearchClues', $this->clues);
 
-            /* Checking whether wrong seacrch criteria */
-            if ((!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) ||
-                (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName']))
-            ) {
-                $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
-                return;
-            }
-			
-			/* Setting logged in user type */
-			if (!$this->loggedAdmin && $this->loggedReviewer) {
-			    $this->clues['loggedReviewerId'] = $this->loggedEmpId;
-			} elseif (!$this->loggedAdmin && !$this->loggedReviewer) {
-			    $this->clues['loggedEmpId'] = $this->loggedEmpId;
-			}
-			
-			/* Pagination */
-            if (!isset($page)) {
-                $page = 1;
-            }
-			$this->pager = new SimplePager('PerformanceReview', sfConfig::get('app_items_per_page'));
-	        $this->pager->setPage($page);
-	        $this->pager->setNumResults($performanceReviewService->countReviews($this->clues));
-	       	$this->pager->init();
-	       	
-	       	/* Fetching reviews */
-	        $offset = $this->pager->getOffset();
-            $offset = empty($offset)?0:$offset;
-	        $limit = $this->pager->getMaxPerPage();
-			//$this->reviews = $performanceReviewService->fetchReviews($this->clues, $offset, $limit);
-			$this->reviews = $performanceReviewService->searchPerformanceReview($this->clues, $offset, $limit);
-			
-			/* Setting template message */
-			if ($this->getUser()->hasFlash('templateMessage')) {
-			    $this->templateMessage = $this->getUser()->getFlash('templateMessage');
-			} elseif (count($this->reviews) == 0) {
-			    $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
-			}
-
+        /* Checking whether wrong seacrch criteria */
+        if ((!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) ||
+            (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName']))
+        ) {
+            $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
+            return;
+        }
+		
+		/* Setting logged in user type */
+		if (!$this->loggedAdmin && $this->loggedReviewer) {
+		    $this->clues['loggedReviewerId'] = $this->loggedEmpId;
+		} elseif (!$this->loggedAdmin && !$this->loggedReviewer) {
+		    $this->clues['loggedEmpId'] = $this->loggedEmpId;
+		}
+		
+		/* Pagination */
+        if (!isset($page)) {
+            $page = 1;
+        }
+		$this->pager = new SimplePager('PerformanceReview', sfConfig::get('app_items_per_page'));
+        $this->pager->setPage($page);
+        $this->pager->setNumResults($performanceReviewService->countReviews($this->clues));
+       	$this->pager->init();
+       	
+       	/* Fetching reviews */
+        $offset = $this->pager->getOffset();
+        $offset = empty($offset)?0:$offset;
+        $limit = $this->pager->getMaxPerPage();
+		//$this->reviews = $performanceReviewService->fetchReviews($this->clues, $offset, $limit);
+		$this->reviews = $performanceReviewService->searchPerformanceReview($this->clues, $offset, $limit);
+		
+		/* Setting template message */
+		if ($this->getUser()->hasFlash('templateMessage')) {
+		    $this->templateMessage = $this->getUser()->getFlash('templateMessage');
+		} elseif (count($this->reviews) == 0) {
+		    $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
 		}
 	    
 	}

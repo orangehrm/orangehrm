@@ -673,7 +673,7 @@ if ($arrAllRights[Perform]['add'] && ($_SESSION['isAdmin']=='Yes')) {
 	$subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveReview");
 }
 
-$subs[] = new MenuItem('definekpi', 'Search Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview/mode/new");
+$subs[] = new MenuItem('definekpi', 'Reviews', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview/mode/new");
 
 $menuItem->setSubMenuItems($subs);
 
