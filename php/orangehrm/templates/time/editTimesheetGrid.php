@@ -703,36 +703,33 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    var activities = new Array();
 	    var duplicates = new Array();
 
+	    rowCount = 0;
 	    $('#tblTimegrid tbody tr').each(function() {
 		    i = parseInt($(this).attr('id').replace('row-', ''));
 
-	    	var projectId = $s('cmbProject-'+i).value;
-	    	var activityId = $s('cmbActivity-'+i).value;
+		    projectId = $('#cmbProject-' + i).val();
+	    	activityId = $('#cmbActivity-' + i).val();
 
 	    	if (projectId > -1 && activityId > -1) { // Checking whether projectId and activityId are not negative
 
-	    		var value = projectId+'-'+activityId;
+	    		value = projectId + '-' + activityId;
 
 		    	if (activities.length > 0) {
-
-		    	    for (var j = 0; j < i; j++) {
-
+		    	    for (j = 0; j < rowCount; j++) {
 		    	        if (activities[j] == value) {
-		    	        	duplicates[duplicates.length] = value;
+		    	        	duplicates.push(value);
 		    	        } else {
-		    	            activities[activities.length] = value;
+		    	            activities.push(value);
 		    	        }
-
 		    	    }
-
 		    	} else {
-		    	    activities[activities.length] = value;
+		    	    activities.push(value);
 		    	}
-
 	    	}
+	    	rowCount++;
 
 	    }); 
-	    
+
 		if (duplicates.length > 0) {
 		    alert('<?php echo $lang_Time_Errors_DUPLICATE_ROWS; ?>');
 		    return false;

@@ -224,7 +224,14 @@ class EXTRACTOR_TimeEvent {
 		$updateList = array();
 		$addList = array();
 
-		for ($i=0; $i<$gridCount; $i++) {
+		$kyes = array();
+		foreach ($postArr as $key => $value) {
+			if (preg_match('/^cmbProject-/', $key)) {
+				$keys[] = preg_replace('/^cmbProject-/', '', $key);
+			}
+		}		
+
+		foreach ($keys as $i) {
 
 		    for ($j=0; $j<$datesCount; $j++) {
 
