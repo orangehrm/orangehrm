@@ -75,6 +75,7 @@
             <exclude name="Emp5000.txt"/>
         	<exclude name="orangehrm-quick-start-guide.html"/>
         	<exclude name="build/myconf.php"/>
+        	<exclude name="symfony/config/databases.yml"/>
         </fileset>
     </copy>
 	<copy todir="${dist.dir}">
