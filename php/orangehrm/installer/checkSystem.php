@@ -201,7 +201,7 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">OrangeHRM Configuration File Writable</td>
+            <td class="tdComponent">OrangeHRM Configuration File Writable (lib/confs)</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
@@ -216,7 +216,7 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">OrangeHRM Email Log File Writable</td>
+            <td class="tdComponent">OrangeHRM Email Log File Writable (lib/logs)</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
