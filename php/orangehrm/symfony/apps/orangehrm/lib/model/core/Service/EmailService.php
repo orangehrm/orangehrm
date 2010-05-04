@@ -147,7 +147,7 @@ class EmailService extends BaseService{
 	 */
 	public function setFrom( $mailFrom = array())
 	{
-		if($this->mailType == 'smtp')
+		//if($this->mailType == 'smtp')
 		 $this->message->setFrom( $mailFrom );
 	}
 	
