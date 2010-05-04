@@ -86,7 +86,7 @@ $formatData['newSeparater'] = '/';
                 <?php if ($loggedAdmin || $loggedReviewer) { ?>
                 <label for="txtEmpName">Employee</label>
                 <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText" 
-                value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="5" />
+                       value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;',"'",$empJson)?>);"/>
                 <input type="hidden" name="hdnEmpId" id="hdnEmpId" 
                 value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>">
                 <div class="errorDiv"></div>
@@ -96,7 +96,7 @@ $formatData['newSeparater'] = '/';
 				<?php if ($loggedAdmin) { ?>
                 <label for="txtReviewerName">Reviewer</label>
                 <input id="txtReviewerName"  name="txtReviewerName" type="text" class="formInputText" 
-                value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="6" />
+                value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;',"'",$empJson)?>);"/>
                 <input type="hidden" name="hdnReviewerId" id="hdnReviewerId" 
                 value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>">
                 <div class="errorDiv"></div>
@@ -281,6 +281,14 @@ $formatData['newSeparater'] = '/';
 </div> <!-- content: Ends -->
 
 <script type="text/javascript">
+   function autoFill(selector, filler, data) {
+      jQuery.each(data, function(index, item){
+         if(item.name == $("#" + selector).val()) {
+            $("#" + filler).val(item.id);
+            return true;
+         }
+      });
+   }
 
 	$(document).ready(function() {
 

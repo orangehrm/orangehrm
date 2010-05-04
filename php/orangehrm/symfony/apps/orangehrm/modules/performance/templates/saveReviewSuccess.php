@@ -21,17 +21,17 @@
               
 				<label for="txtEmpName-0">Employee Name <span class="required">*</span></label>
 				<input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText" 
-				value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" />
-				<input type="hidden" name="hdnEmpId-0" id="hdnEmpId-0" 
-				value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>">
+                   value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" onchange="autoFill('txtEmpName-0', 'hdnEmpId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
+				<input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
+                   value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="display: none;" />
 				<div class="errorDiv"></div>
              	<br class="clear"/>
 
-              	<label for="txtReviewerName-0">Reviewer Name <span class="required">*</span></label>
+            <label for="txtReviewerName-0">Reviewer Name <span class="required">*</span></label>
 				<input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText" 
-				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" />
-				<input type="hidden" name="hdnReviewerId-0" id="hdnReviewerId-0" 
-				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>">
+				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" onchange="autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
+				<input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
+				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display: none;">
 				<div class="errorDiv"></div>
              	<br class="clear"/>
               
@@ -65,7 +65,7 @@
 				
 				<input type="button" class="savebutton" id="saveBtn" value="Save" tabindex="6" />
                         
-				<input type="button" class="savebutton" id="resetBtn" value="Reset" tabindex="7" />
+				<input type="button" class="savebutton" id="resetBtn" value="<?php if(isset($clues['id'])){ echo 'Reset';}else{echo 'Clear';}?>" tabindex="7" />
                     
 			</div>  
               
@@ -78,7 +78,15 @@
 </div> <!-- content: Ends -->
 
 <script type="text/javascript">
-
+   function autoFill(selector, filler, data) {
+      jQuery.each(data, function(index, item){
+         if(item.name == $("#" + selector).val()) {
+            $("#" + filler).val(item.id);
+            return true;
+         }
+      });
+   }
+   
 	$(document).ready(function() {
 
 		var empdata = <?php echo str_replace('&#039;',"'",$empJson)?>;		
@@ -131,6 +139,8 @@
 		// Clear button
 		$('#resetBtn').click(function(){
 			document.forms[0].reset('');
+         autoFill('txtEmpName-0', 'hdnEmpId-0', empdata);
+         autoFill('txtReviewerName-0', 'hdnReviewerId-0', empdata);
 		});
 		
 		/* Validation */		
