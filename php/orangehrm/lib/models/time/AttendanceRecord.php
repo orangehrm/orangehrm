@@ -342,8 +342,8 @@ class AttendanceRecord {
 					$object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];
                     $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
                     $object->inTime = $date;
-                    
-                    $duration = (intval ($duration)).".".round(((strstr( $duration, '.' ))*60));
+
+                    $duration = number_format ($duration, 2);
                     $object->duration = $duration;
                     
                     $object->multipleDayPunch = true;
@@ -353,11 +353,10 @@ class AttendanceRecord {
 					
 			} else {
 
-				$duration = number_format(((intval($row['duration']/60/60)) + (($row['duration']/60/60) - intval($row['duration']/60/60))/100*60),2);
-
+				$duration = number_format($row['duration']/60/60, 2);
 				$object = new AttendanceReportRow('summary');            
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
-				$object->duration = $duration;
+				$object->duration = LocaleUtil::getInstance()->convertDecimalValueToTime($duration);
                 $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
                 $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
                 $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
@@ -508,7 +507,7 @@ class AttendanceRecord {
 			
 			$durationAsArray = explode(":",$row['duration']);
 			$dur = isset($durationAsArray[1])?$durationAsArray[1]:'00';
-            $attendanceObj->setDuration($durationAsArray[0].":".$dur);
+            $attendanceObj->setDuration($durationAsArray[0].":".$dur/60*100);
 			
 			/* Adjusting time according to the timezone of the place 
 			 * where the record was first entered.
