@@ -320,6 +320,14 @@ all:
       password: $dbOHRMPassword
       port: $dbHostPort
       attributes: { export: tables }
+test:
+  doctrine:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=$dbHost;dbname=test_$dbName'
+      username: $dbOHRMUser
+      password: $dbOHRMPassword
+      port: $dbHostPort
 CONFCONT;
 
 	$filename = ROOT_PATH . '/symfony/config/databases.yml';
