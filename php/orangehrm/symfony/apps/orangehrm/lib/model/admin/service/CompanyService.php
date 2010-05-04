@@ -171,7 +171,7 @@ class CompanyService extends BaseService {
 			   
 			foreach( $employeeList as $employee)
 			{
-				array_push($jsonString,"{name:'".$employee->getFirstName().' '.$employee->getLastName()."',id:'".$employee->getEmpNumber()."'}");
+				array_push($jsonString,"{name:'".$employee->getFullName()."',id:'".$employee->getEmpNumber()."'}");
 			}
 			
 			$jsonStr	=	" [".implode(",",$jsonString)."]";
