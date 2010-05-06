@@ -165,18 +165,18 @@
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"Period From Date is required",
 		 			dateISO:"Period From Date should be YYYY-MM-DD format",
-		 			validFromDate: " Period From Date should be lesser than Period To Date"
+		 			validFromDate: " Period From Date should be lesser than Period To Date/Invalid date"
 		 			
 		 		},
 		 		'txtPeriodToDate-0':{ 
 			 		required:"Period To Date is required",
 			 		dateISO:"Period To Date should be YYYY-MM-DD format",
-			 		validToDate: " Period To Date should be higher than Period From Date"
+			 		validToDate: " Period To Date should be higher than Period From Date/Invalid date"
 		 		},
 		 		'txtDueDate-0':{ 
 			 		required:"Due Date is required",
 			 		dateISO:"To Date should be YYYY-MM-DD format",
-			 		validDueDate:"Due Date should be higher than Period From Date"
+			 		validDueDate:"Due Date should be higher than Period From Date/Invalid date"
 		 		}
 		 	 },
 		 	 errorPlacement: function(error, element) {
@@ -208,9 +208,13 @@
         $.validator.addMethod("validFromDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
+            fromdate = (fromdate).split("-");
+            if(!validateDate(parseInt(fromdate[2]), parseInt(fromdate[1]), parseInt(fromdate[0]))) {
+               return false;
+            }
+            fromdateObj = new Date(parseInt(fromdate[0]), parseInt(fromdate[1]), parseInt(fromdate[2]));
             var todate		=	$('#txtPeriodToDate-0').val();
-            var	todateObj	=	new Date(todate.replace(/-/g,'/')); 
+            var todateObj	=	new Date(todate.replace(/-/g,'/'));
            
 			
 			if( ($('#txtPeriodToDate-0').val() != '') && (fromdateObj >= todateObj)){
@@ -229,7 +233,11 @@
             var fromdate	=	$('#txtPeriodFromDate-0').val();
             var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
             var todate		=	$('#txtPeriodToDate-0').val();
-            var	todateObj	=	new Date(todate.replace(/-/g,'/')); 
+            todate = (todate).split("-");
+            if(!validateDate(parseInt(todate[2]), parseInt(todate[1]), parseInt(todate[0]))) {
+               return false;
+            }
+            var todateObj	=	new Date(parseInt(todate[0]), parseInt(todate[1]), parseInt(todate[2]));
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= todateObj)){
@@ -246,9 +254,13 @@
         $.validator.addMethod("validDueDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
+            var fromdateObj   =	new Date(fromdate.replace(/-/g,'/'));
             var duedate		=	$('#txtDueDate-0').val();
-            var	duedateObj	=	new Date(duedate.replace(/-/g,'/')); 
+            duedate = (duedate).split("-");
+            if(!validateDate(parseInt(duedate[2]), parseInt(duedate[1]), parseInt(duedate[0]))) {
+               return false;
+            }
+            var duedateObj	= new Date(parseInt(duedate[0]), parseInt(duedate[1]), parseInt(duedate[2]));
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj > duedateObj)){
@@ -272,5 +284,31 @@
  		roundBorder('outerbox');
 	}
 
+   function validateDate(day, month, year) {
+      var days31 = new Array(1,3,5,7,8,10,12);
 
+      if(day == 29 && month == 2) {
+         if(year % 4 == 0) {
+            return true;
+         }
+      }
+
+      if(month == 2 && day < 29) {
+         return true;
+      }
+      if(day < 32 && month != 2) {
+         if(day == 31) {
+            flag = false;
+            for(i=0; i < days31.length; i++) {
+               if(days31[i] == month) {
+                  flag = true;
+                  break;
+               }
+            }
+            return flag;
+         }
+         return true;
+      }
+      return false;
+   }
 </script>
