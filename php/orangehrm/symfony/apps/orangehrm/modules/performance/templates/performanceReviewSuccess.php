@@ -297,7 +297,7 @@
 				
 			// Back button
 				$("#backBtn").click(function() {
-					history.back()
+					location.href = "<?php echo url_for('performance/viewReview');?>";
 				});
 
 			//Validate search form 
