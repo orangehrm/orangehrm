@@ -294,7 +294,9 @@ class performanceActions extends sfActions {
 			$confirm			=	$request->getParameter ( 'txtConfirm' );
 			
 			$avaliableKpiList	=	$kpiService->getKpiForJobTitle( $toJobTitle	 );
-			
+         $this->toJobTitle    =	$toJobTitle;
+         $this->fromJobTitle	=	$fromJobTitle;
+         
 			if( count($avaliableKpiList) == 0 || $confirm == '1'){
 				
 				$kpiService->copyKpi( $toJobTitle,$fromJobTitle);
@@ -302,8 +304,6 @@ class performanceActions extends sfActions {
 				$this->setMessage('SUCCESS',array('Successfully Copied'));
 				$this->redirect ( 'performance/listDefineKpi' );
 			}else{
-				$this->toJobTitle	=	$toJobTitle ;
-				$this->fromJobTitle	=	$fromJobTitle ;
 				$this->confirm		=	true ;
 			}
 			
@@ -523,10 +523,7 @@ class performanceActions extends sfActions {
             }
 		   			   	
 		   	if (empty($empJobCode)) {
-		   	    
-		   	    $this->templateMessage = array('WARNING', 'This employee does not have a job title.');
-		   	    return;
-		   	    
+		   	    $empJobCode = $this->getPerformanceReviewService()->readPerformanceReview($request->getParameter("hdnId-0"))->getJobTitleCode();
 		   	}
 
 		   	$kpiService = $this->getKpiService();
