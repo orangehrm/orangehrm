@@ -338,7 +338,7 @@ class PerformanceReviewService extends BaseService {
             	$empId =  $result->getEmployee()->getEmpNumber();
             	
             	if (!in_array($empId, $empIds)) {
- 	            	$empList[$i][0] = $result->getEmployee()->getFullName();
+ 	            	$empList[$i][0] = $result->getEmployee()->getFirstName() . " " . $result->getEmployee()->getLastName();
 	                $empList[$i][1] = $empId;
 	                $empIds[] = $empId;
  	               	$i++;

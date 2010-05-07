@@ -35,14 +35,14 @@
 				<div class="errorDiv"></div>
              	<br class="clear"/>
               
-              	<label for="txtPeriodFromDate-0">From Date <span class="required">*</span></label>
+              	<label for="txtPeriodFromDate-0">From <span class="required">*</span></label>
 				<input id="txtPeriodFromDate-0" name="txtPeriodFromDate-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['from'])?$clues['from']:''; ?>" tabindex="3" />
 				<input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
 				<div class="errorDiv"></div>
              	<br class="clear"/>
 
-              	<label for="txtPeriodToDate-0">To Date <span class="required">*</span></label>
+              	<label for="txtPeriodToDate-0">To <span class="required">*</span></label>
 				<input id="txtPeriodToDate-0" name="txtPeriodToDate-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['to'])?$clues['to']:''; ?>" tabindex="4" />
 				<input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
@@ -178,20 +178,20 @@
                     reviewerIdSet:"Please select a reviewer"
 		 		},
 		 		'txtPeriodFromDate-0':{ 
-		 			required:"Period From Date is required",
-		 			dateISO:"Period From Date should be YYYY-MM-DD format",
-		 			validFromDate: " Period From Date should be lesser than Period To Date/Invalid date"
+		 			required:"From field is required",
+		 			dateISO:"Invalid date. From field should be filled in YYYY-MM-DD format with correct values",
+		 			validFromDate: " From field should be lesser than To field/Invalid date"
 		 			
 		 		},
 		 		'txtPeriodToDate-0':{ 
-			 		required:"Period To Date is required",
-			 		dateISO:"Period To Date should be YYYY-MM-DD format",
-			 		validToDate: " Period To Date should be higher than Period From Date/Invalid date"
+			 		required:"To field is required",
+			 		dateISO:"Invalid date. To field should be filled in YYYY-MM-DD format with correct values",
+			 		validToDate: " To field should be higher than From field/Invalid date"
 		 		},
 		 		'txtDueDate-0':{ 
 			 		required:"Due Date is required",
-			 		dateISO:"To Date should be YYYY-MM-DD format",
-			 		validDueDate:"Due Date should be higher than Period From Date/Invalid date"
+			 		dateISO:"Invalid date. Due Date field should be filled in YYYY-MM-DD format with correct values",
+			 		validDueDate:"Due Date field should be higher than From field/Invalid date"
 		 		}
 		 	 },
 		 	 errorPlacement: function(error, element) {

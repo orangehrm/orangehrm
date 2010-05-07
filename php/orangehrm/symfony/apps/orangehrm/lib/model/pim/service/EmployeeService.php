@@ -82,7 +82,7 @@ class EmployeeService extends BaseService {
 			$employeeList  = $q->execute();
 			$escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
 			foreach( $employeeList as $employee) {
-            $name = $employee->getFullName();
+            $name = $employee->getFirstName() . " " . $employee->getLastName();
             foreach($escapeCharSet as $char) {
                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
             }

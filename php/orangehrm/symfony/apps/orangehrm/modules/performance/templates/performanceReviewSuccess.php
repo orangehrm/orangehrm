@@ -95,8 +95,8 @@
 				 				 <?php echo ($kpi->getMaxRate() !='')?$kpi->getMaxRate():'-'?> 
 				 			</td>
 							<td  >
-								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>"></input>
-								<input type="hidden" name="min<?php echo $kpi->getId()?>" id="min<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMinRate()?>"></input>
+								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>" />
+								<input type="hidden" name="min<?php echo $kpi->getId()?>" id="min<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMinRate()?>" />
 				 				 <input id="txtRate<?php echo $kpi->getId()?>"  name="txtRate[<?php echo $kpi->getId()?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate())?>"  maxscale="<?php echo $kpi->getMaxRate()?>" minscale="<?php echo $kpi->getMinRate()?>" valiadate="1" />
 				 			</td>
 							<td class="">
@@ -243,7 +243,7 @@
 			  }	  
 		  });
 		  if( !valid ){
-			  msg	=	'Please enter a numeric Key Performance Indicator rating within the defined Minimum and Maximum value';
+			  msg	=	'Please enter a numeric Key Performance I rating within the defined Minimum and Maximum value';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -266,9 +266,10 @@
 						mode = 'save';
 					}else
 					{
-						$('#saveMode').val('save');
-						$('#frmSave').submit();
-						
+                  if(checkSubmit()){
+                     $('#saveMode').val('save');
+                     $('#frmSave').submit();
+                  }
 					}
 				});
 			

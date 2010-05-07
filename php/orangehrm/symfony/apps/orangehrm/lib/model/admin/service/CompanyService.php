@@ -171,7 +171,7 @@ class CompanyService extends BaseService {
 			   
 			foreach( $employeeList as $employee)
 			{
-            $name = $employee->getFullName();
+            $name = $employee->getFirstName() . " " . $employee->getLastName();
             foreach($escapeCharSet as $char) {
                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
             }

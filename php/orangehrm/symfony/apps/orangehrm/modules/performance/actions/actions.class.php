@@ -523,7 +523,11 @@ class performanceActions extends sfActions {
             }
 		   			   	
 		   	if (empty($empJobCode)) {
-		   	    $empJobCode = $this->getPerformanceReviewService()->readPerformanceReview($request->getParameter("hdnId-0"))->getJobTitleCode();
+               if(trim($request->getParameter("hdnId-0")) == "") {
+                  $this->templateMessage = array('WARNING', 'Employee is not assigned a job title, cannot add a performance review');
+                  return;
+               }
+		   	   $empJobCode = $this->getPerformanceReviewService()->readPerformanceReview($request->getParameter("hdnId-0"))->getJobTitleCode();
 		   	}
 
 		   	$kpiService = $this->getKpiService();
@@ -741,9 +745,9 @@ class performanceActions extends sfActions {
                 $clues['due'] = $request->getDueDate();
                 $clues['jobCode'] = $request->getJobTitleCode();
                 $clues['divisionId'] = $request->getSubDivisionId();
-                $clues['empName'] = $request->getEmployee()->getFullName();
+                $clues['empName'] = $request->getEmployee()->getFirstName() . " " . $request->getEmployee()->getLastName();
                 $clues['empId'] = $request->getEmployeeId();
-                $clues['reviewerName'] = $request->getReviewer()->getFullName();
+                $clues['reviewerName'] = $request->getReviewer()->getFirstName() . " " . $request->getReviewer()->getLastName();
                 $clues['reviewerId'] = $request->getReviewerId();
                 $clues['id'] = $request->getId();
 
