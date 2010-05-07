@@ -20,7 +20,7 @@
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
-                   <label for="txtDescription"><?php echo __('KPI Description')?><span class="required">*</span></label>
+                   <label for="txtDescription"><?php echo __('Key Performance Indicator')?><span class="required">*</span></label>
                    <textarea id='txtDescription' name='txtDescription' class="formTextArea"
                     rows="3" cols="20" tabindex="2"></textarea>
              		 <br class="clear"/>
@@ -109,6 +109,9 @@
 
 				// when click reset button 
 				$('#resetBtn').click(function(){
+               $("label.error").each(function(i){
+                  $(this).remove();
+               });
 					document.forms[0].reset('');
 				});
 

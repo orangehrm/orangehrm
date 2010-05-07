@@ -23,7 +23,7 @@
 				<input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText" 
                    value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" onchange="autoFill('txtEmpName-0', 'hdnEmpId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
 				<input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
-                   value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="display: none;" />
+                   value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="display:none; "/>
 				<div class="errorDiv"></div>
              	<br class="clear"/>
 
@@ -31,7 +31,7 @@
 				<input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" onchange="autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
 				<input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
-				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display: none;" />
+				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display:none;" />
 				<div class="errorDiv"></div>
              	<br class="clear"/>
               
@@ -131,11 +131,28 @@
 
 		// Save button
 		$('#saveBtn').click(function(){
+         var autoFields = new Array("txtEmpName-0", "txtReviewerName-0");
+         var autoHidden = new Array("hdnEmpId-0", "hdnReviewerId-0");
+
+         for(x=0; x < autoFields.length; x++) {
+            $("#" + autoHidden[x]).val(0);
+            for(i=0; i < empdata.length; i++) {
+               item = empdata[i];
+               if($("#" + autoFields[x]).val() == item.name) {
+                  $("#" + autoHidden[x]).val(item.id);
+                  break;
+               }
+            }
+         }
+             
 			$('#frmSave').submit();
 		});
 
 		// Clear button
 		$('#resetBtn').click(function(){
+         $("label.error").each(function(i){
+            $(this).remove();
+         });
 			document.forms[0].reset('');
          autoFill('txtEmpName-0', 'hdnEmpId-0', empdata);
          autoFill('txtReviewerName-0', 'hdnReviewerId-0', empdata);
@@ -210,13 +227,12 @@
             if(!validateDate(parseInt(fromdate[2]), parseInt(fromdate[1]), parseInt(fromdate[0]))) {
                return false;
             }
-            fromdateObj = new Date(parseInt(fromdate[0]), parseInt(fromdate[1]), parseInt(fromdate[2]));
+            var fromdateObj = new Date(parseInt(fromdate[0]), parseInt(fromdate[1]), parseInt(fromdate[2]));
             var todate		=	$('#txtPeriodToDate-0').val();
-            var todateObj	=	new Date(todate.replace(/-/g,'/'));
-           
+            todate = (todate).split("-");
+            var todateObj	=	new Date(parseInt(todate[0]), parseInt(todate[1]), parseInt(todate[2]));
 			
 			if( ($('#txtPeriodToDate-0').val() != '') && (fromdateObj >= todateObj)){
-				
     			return false;
 			}
     		else{

@@ -532,7 +532,7 @@ class performanceActions extends sfActions {
 		   	
 		   	if (count($kpiList) == 0) {
 		   	    
-		   	    $this->templateMessage = array('WARNING', 'No KPIs were found for the job title of this employee. <a href="saveKpi">Define now</a>');
+		   	    $this->templateMessage = array('WARNING', 'No Key Performance Indicators were found for the job title of this employee. <a href="saveKpi">Define now</a>');
 		   	    return;
 		   	    
 		   	}    		

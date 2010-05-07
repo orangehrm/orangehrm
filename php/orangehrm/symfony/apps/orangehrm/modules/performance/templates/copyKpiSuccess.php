@@ -85,6 +85,9 @@
 
 				// when click reset button 
 				$('#resetBtn').click(function(){
+               $("label.error").each(function(i){
+                  $(this).remove();
+               });
 					document.forms[0].reset('');
 				});
 

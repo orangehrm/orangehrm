@@ -2,7 +2,7 @@
 <div id="content">
 	<div id="contentContainer">
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __('Update KPI')?></h2></div>
+            <div id="formHeading"><h2><?php echo __('Update Key Performance Indicator')?></h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
               <div id="formWrapper">
@@ -14,7 +14,7 @@
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
-                   <label for="txtDescription"><?php echo __('KPI Description')?><span class="required">*</span></label>
+                   <label for="txtDescription"><?php echo __('Key Performance Indicator')?><span class="required">*</span></label>
                    <textarea id='txtDescription' name='txtDescription' class="formTextArea"
                     rows="3" cols="20" tabindex="2"><?php echo $kpi->getDesc()?></textarea>
              		 <br class="clear"/>
@@ -103,6 +103,9 @@
 
 				// when click reset button 
 				$('#resetBtn').click(function(){
+               $("label.error").each(function(i){
+                  $(this).remove();
+               });
 					document.forms[0].reset('');
 				});
 

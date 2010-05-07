@@ -78,7 +78,7 @@
 							<input type="checkbox"  name="allCheck" value="" id="allCheck" />
 						</td>
             			<td scope="col" > 
-						 <?php echo __('KPI')?>
+						 <?php echo __('Key Performance Indicator')?>
 						</td> 
 						<td width="150" scope="col">
 						 <?php echo __('Job Title')?>

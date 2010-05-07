@@ -243,7 +243,7 @@
 			  }	  
 		  });
 		  if( !valid ){
-			  msg	=	'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
+			  msg	=	'Please enter a numeric Key Performance Indicator rating within the defined Minimum and Maximum value';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
