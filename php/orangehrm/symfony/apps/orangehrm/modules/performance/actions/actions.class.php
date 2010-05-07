@@ -133,7 +133,7 @@ class performanceActions extends sfActions {
 	public function executeListDefineKpi(sfWebRequest $request) {
         
 		$jobService				=	$this->getJobService();
-		$this->listJobTitle		=	$jobService->getJobTitleList();
+		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC', array(0,1));
 		
 		$kpiService 			= 	$this->getKpiService();
 		$this->mode				=	$request->getParameter('mode');
