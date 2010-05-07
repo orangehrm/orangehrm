@@ -31,7 +31,7 @@
 				<input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText" 
 				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" onchange="autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
 				<input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
-				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display: none;">
+				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display: none;" />
 				<div class="errorDiv"></div>
              	<br class="clear"/>
               
@@ -62,13 +62,12 @@
 			</div>
 
 			<div id="buttonWrapper">
-				
 				<input type="button" class="savebutton" id="saveBtn" value="Save" tabindex="6" />
                         
 				<input type="button" class="savebutton" id="resetBtn" value="<?php if(isset($clues['id'])){ echo 'Reset';}else{echo 'Clear';}?>" tabindex="7" />
                     
 			</div>  
-              
+
             </form>
             
 		</div> <!-- outerbox: Ends -->
@@ -88,7 +87,6 @@
    }
    
 	$(document).ready(function() {
-
 		var empdata = <?php echo str_replace('&#039;',"'",$empJson)?>;		
 		
 		/* Auto completion of employees */

@@ -6,7 +6,7 @@
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
 			<input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId()?>"></input>
-			<input type="hidden" name="saveMode" id="saveMode" value=""></input>
+			<input type="hidden" name="saveMode" id="saveMode" value="" />
 			
               	<div id="formWrapper">
                      <label class="detailHearder"><?php echo __("Employee")?></label>
@@ -51,7 +51,7 @@
                    <?php }?>
 				   
 				   <div id="tableWrapper">
-				   <input type="hidden" name="validRate" id="validRate" value="1"></input>
+				   <input type="hidden" name="validRate" id="validRate" value="1" />
 				   <div id="performanceError" class="hide">
 				   	<div id='messageBalloon_failure' class='messageBalloon_failure' ><ul></ul></div>
 				   </div>

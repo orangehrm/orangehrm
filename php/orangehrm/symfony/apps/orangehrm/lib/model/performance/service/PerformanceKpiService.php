@@ -57,11 +57,15 @@ class PerformanceKpiService extends BaseService {
 			$xml = simplexml_load_string($xmlStr);
 			
 			$kpis	=	$xml->addChild('kpis');
-			
+			$escapeHtml = array("&#039;" => "\'", "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "&#034;" => '\"');
 			foreach( $performanceKpiList as $performanceKpi){
 				$xmlKpi	=	$kpis->addChild('kpi');
 				$xmlKpi->addChild('id',$performanceKpi->getId());
-				$xmlKpi->addChild('desc',$performanceKpi->getKpi());
+            $desc = $performanceKpi->getKpi();
+            foreach($escapeHtml as $char => $str) {
+               $desc = str_replace($char, $str, $desc);
+            }
+				$xmlKpi->addChild('desc',$desc);
 				$xmlKpi->addChild('min',$performanceKpi->getMinRate());
 				$xmlKpi->addChild('max',$performanceKpi->getMaxRate());
 				$xmlKpi->addChild('rate',($performanceKpi->getRate()=='')?' ':$performanceKpi->getRate());

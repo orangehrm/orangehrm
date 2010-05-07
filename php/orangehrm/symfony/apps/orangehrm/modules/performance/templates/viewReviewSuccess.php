@@ -130,7 +130,6 @@ $formatData['newSeparater'] = '/';
 		<form method="post" action="#" id="frmList" name="frmList" class="content_inner">
 	   		
 		<div class="navigationHearder">
-
             <?php if ($loggedAdmin) { ?>
 	    	<input type="button" class="savebutton" id="addReview" value="Add" tabindex="9" />
             <input type="submit" class="savebutton" name="editReview" id="editReview" value="Edit" tabindex="10" disabled />

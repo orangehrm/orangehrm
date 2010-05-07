@@ -198,7 +198,7 @@ class performanceActions extends sfActions {
 			try{
 				$defineKpi = new DefineKpi ( );
 				$defineKpi->setJobtitlecode ( $request->getParameter ( 'txtJobTitle' ) );
-				$defineKpi->setDesc ( $request->getParameter ( 'txtDescription' ) );
+				$defineKpi->setDesc ($request->getParameter ( 'txtDescription' ));
 				
 				if (trim($request->getParameter ( 'txtMinRate' )) != "" ){ 
 					$defineKpi->setMin ( $request->getParameter ( 'txtMinRate' ) );	

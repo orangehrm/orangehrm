@@ -332,12 +332,13 @@ class PerformanceReviewService extends BaseService {
 
             /* Making sure employee list is unique: Begins */
             $i = 0;
+            $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
             foreach ($resultList as $result) {
             	
             	$empId =  $result->getEmployee()->getEmpNumber();
             	
             	if (!in_array($empId, $empIds)) {
- 	            	$empList[$i][0] = $result->getEmployee()->getFirstName().' '.$result->getEmployee()->getLastName();;
+ 	            	$empList[$i][0] = $result->getEmployee()->getFullName();
 	                $empList[$i][1] = $empId;
 	                $empIds[] = $empId;
  	               	$i++;
@@ -349,11 +350,18 @@ class PerformanceReviewService extends BaseService {
             $jsonList = array();
 
             foreach ($empList as $emp) {
-                $jsonList[] = "{name:'".$emp[0]."',id:'".$emp[1]."'}";
+               foreach($escapeCharSet as $char) {
+                  $emp[0] = str_replace(chr($char), (chr(92) . chr($char)), $emp[0]);
+               }
+                $jsonList[] = "{name:'" . $emp[0] . "',id:'".$emp[1]."'}";
             }
 
             if ($addSelf) {
-                $jsonList[] = "{name:'".$resultList[0]->getReviewer()->getFirstName().' '.$resultList[0]->getReviewer()->getLastName()."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
+               $name = $resultList[0]->getReviewer()->getFullName();
+               foreach($escapeCharSet as $char) {
+                   $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+               }
+                $jsonList[] = "{name:'". $name ."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
             }
 
             $jsonString = "[".implode(",", $jsonList)."]";

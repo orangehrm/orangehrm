@@ -166,12 +166,16 @@ class CompanyService extends BaseService {
            	$jsonString	=	array();
         	$q = Doctrine_Query::create()
 			    ->from('Employee');
-			
+			$escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
 			$employeeList = $q->execute();
 			   
 			foreach( $employeeList as $employee)
 			{
-				array_push($jsonString,"{name:'".$employee->getFullName()."',id:'".$employee->getEmpNumber()."'}");
+            $name = $employee->getFullName();
+            foreach($escapeCharSet as $char) {
+               $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+            }
+				array_push($jsonString,"{name:'". $name ."',id:'".$employee->getEmpNumber()."'}");
 			}
 			
 			$jsonStr	=	" [".implode(",",$jsonString)."]";

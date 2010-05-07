@@ -102,10 +102,6 @@
 						return true;
 				});
 
-				
-
-			
-				
 			// when click Save button 
 				$('#saveBtn').click(function(){
 					$('#frmSave').submit();

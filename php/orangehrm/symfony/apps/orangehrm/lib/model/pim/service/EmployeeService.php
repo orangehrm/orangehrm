@@ -79,10 +79,14 @@ class EmployeeService extends BaseService {
         	$q = Doctrine_Query::create()
 			    ->from('Employee');
 			
-			$employeeList = $q->execute();
-			   
+			$employeeList  = $q->execute();
+			$escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
 			foreach( $employeeList as $employee) {
-				array_push($jsonString,"{name:'".$employee->getFirstName().' '.$employee->getLastName()."',id:'".$employee->getEmpNumber()."'}");
+            $name = $employee->getFullName();
+            foreach($escapeCharSet as $char) {
+               $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+            }
+				array_push($jsonString,"{name:'". $name ."',id:'".$employee->getEmpNumber()."'}");
 			}
 			
 			$jsonStr = " [".implode(",",$jsonString)."]";
