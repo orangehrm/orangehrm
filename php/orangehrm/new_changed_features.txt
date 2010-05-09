@@ -1,3 +1,22 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.5
+
+	Performance Module Bug Fixes
+	----------------------------
+    2996327 - Back Button in Performance Review Does not Refresh the Page
+    2996349 - Cannot edit the reviews of employees with deleted job titles
+    2993995 - If user enter invalid date, system shows 01/01/1970
+    2994542 - Performance->autosuggestion lists not work with single quote
+    2995833 - Special character cause to hide all KPI from review form
+    2996337 - Rating scale validation does not work for save button
+    2996352 - Reset button shows strange behaviour for employee names
+    2980470 - Review notification emailsent without setting "From"
+    2981076 - Autosuggestion textbox is showing strange behaviour
+    2996322 - Avoid Abbreviation KPI wherever possible
+    2996344 - Validation Messages are Still Present Even after the Reset
+    2996355 - Perf Review Note-character length validation not highlighted
+    2996365 - Should be able to search KPIs of deleted job titles
+
+
 New & Changed Features for OrangeHRM ver 2.6-beta.4
 
 	Feature Requests
