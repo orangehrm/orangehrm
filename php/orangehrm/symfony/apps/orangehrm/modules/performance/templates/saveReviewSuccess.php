@@ -106,7 +106,7 @@
 		}).result(function(event, item) {
 		  	$('#hdnReviewerId-0').val(item.id);
 		});
-		
+
 		/* Clearing auto-fill fields */
 		$("#txtEmpName-0").click(function(){ $(this).attr({ value: '' }); $("#hdnEmpId-0").attr({ value: '0' }); });
 		$("#txtReviewerName-0").click(function(){ $(this).attr({ value: '' }); $("#hdnReviewerId-0").attr({ value: '0' }); });
@@ -137,9 +137,9 @@
          for(x=0; x < autoFields.length; x++) {
             $("#" + autoHidden[x]).val(0);
             for(i=0; i < empdata.length; i++) {
-               item = empdata[i];
-               if($("#" + autoFields[x]).val() == item.name) {
-                  $("#" + autoHidden[x]).val(item.id);
+               var data = empdata[i];
+               if($("#" + autoFields[x]).val() == data.name) {
+                  $("#" + autoHidden[x]).val(data.id);
                   break;
                }
             }
