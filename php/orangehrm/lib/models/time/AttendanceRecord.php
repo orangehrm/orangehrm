@@ -507,7 +507,8 @@ class AttendanceRecord {
 			
 			$durationAsArray = explode(":",$row['duration']);
 			$dur = isset($durationAsArray[1])?$durationAsArray[1]:'00';
-            $attendanceObj->setDuration($durationAsArray[0].".". ceil($dur/60*100));
+
+            $attendanceObj->setDuration(number_format($durationAsArray[0] + ($dur/60),2));
 			
 			/* Adjusting time according to the timezone of the place 
 			 * where the record was first entered.
