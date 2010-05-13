@@ -196,7 +196,7 @@ $formatData['newSeparater'] = '/';
 		       			<td class="tdcheckbox">
 							<input type="checkbox" class="innercheckbox" name="chkReview[]" 
 							id="chkReview-<?php echo $i; ?>" value="<?php echo $review->getId(); ?>"
-							<?php echo (($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED) && $loggedAdmin)?'':'disabled'; if(trim($empName) == "") { echo 'disabled';}?> />
+							<?php echo (($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED) && $loggedAdmin && trim($empName) != "")?'':'disabled';?> />
 						</td>
 						
 						<td class="">
