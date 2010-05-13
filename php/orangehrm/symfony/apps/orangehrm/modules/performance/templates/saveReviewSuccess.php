@@ -23,7 +23,7 @@
 				<input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText" 
                    value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" <?php if(isset($clues['id'])) {?>style="display:none;"<?php }?> />
             <?php if(isset($clues['id'])) {?>
-            <label><?php echo $clues['empName'];?></label>
+            <label style="width:auto;"><?php echo $clues['empName'];?></label>
             <?php }?>
 				<input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
                    value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="display:none; "/>
