@@ -21,7 +21,10 @@
               
 				<label for="txtEmpName-0">Employee Name <span class="required">*</span></label>
 				<input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText" 
-                   value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" onchange="autoFill('txtEmpName-0', 'hdnEmpId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
+                   value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="1" <?php if(isset($clues['id'])) {?>style="display:none;"<?php }?> />
+            <?php if(isset($clues['id'])) {?>
+            <label><?php echo $clues['empName'];?></label>
+            <?php }?>
 				<input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
                    value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="display:none; "/>
 				<div class="errorDiv"></div>
@@ -29,7 +32,7 @@
 
             <label for="txtReviewerName-0">Reviewer Name <span class="required">*</span></label>
 				<input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText" 
-				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" onchange="autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);" />
+				value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="2" />
 				<input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
 				value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="display:none;" />
 				<div class="errorDiv"></div>
@@ -107,6 +110,13 @@
 		  	$('#hdnReviewerId-0').val(item.id);
 		});
 
+      $("#txtEmpName-0").change(function(){
+         autoFill('txtEmpName-0', 'hdnEmpId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);
+      });
+
+      $("#txtReviewerName-0").change(function(){
+         autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;',"'",$empJson)?>);
+      });
 		/* Clearing auto-fill fields */
 		$("#txtEmpName-0").click(function(){ $(this).attr({ value: '' }); $("#hdnEmpId-0").attr({ value: '0' }); });
 		$("#txtReviewerName-0").click(function(){ $(this).attr({ value: '' }); $("#hdnReviewerId-0").attr({ value: '0' }); });
@@ -180,18 +190,18 @@
 		 		'txtPeriodFromDate-0':{ 
 		 			required:"From field is required",
 		 			dateISO:"Invalid date. From field should be filled in YYYY-MM-DD format with correct values",
-		 			validFromDate: " From field should be lesser than To field/Invalid date"
+		 			validFromDate: " From field should be lesser than To field or Invalid date"
 		 			
 		 		},
 		 		'txtPeriodToDate-0':{ 
 			 		required:"To field is required",
 			 		dateISO:"Invalid date. To field should be filled in YYYY-MM-DD format with correct values",
-			 		validToDate: " To field should be higher than From field/Invalid date"
+			 		validToDate: " To field should be higher than From field or Invalid date"
 		 		},
 		 		'txtDueDate-0':{ 
 			 		required:"Due Date is required",
 			 		dateISO:"Invalid date. Due Date field should be filled in YYYY-MM-DD format with correct values",
-			 		validDueDate:"Due Date field should be higher than From field/Invalid date"
+			 		validDueDate:"Due Date field should be higher than From field or Invalid date"
 		 		}
 		 	 },
 		 	 errorPlacement: function(error, element) {

@@ -72,8 +72,8 @@
 			 	 messages: {
 			 		txtJobTitle: "<?php echo __('Job Title is required')?>", 
 			 		txtDescription:{ 
-			 			required:"<?php echo __('KPI Description is required')?>",
-			 			maxlength:"<?php echo __('KPI Description length exceed')?>"
+			 			required:"<?php echo __('Key Performance Indicator is required')?>",
+			 			maxlength:"<?php echo __('Key Performance Indicator length exceed')?>"
 			 		},
 			 		txtMinRate:{ 
 				 		number:"<?php echo __("Minimum Rating should be numeric")?>",

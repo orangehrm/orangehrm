@@ -13,13 +13,13 @@
             <div id="formHeading"><h2><?php echo __("Search Key Performance Indicators")?></h2></div>
 			
 			<form action="#" id="frmSearch" name="frmSearch" class="content_inner" method="post">
-			<input type="hidden" name="mode" value="search"></input>
+			<input type="hidden" name="mode" value="search" />
               	<div id="formWrapper">
                        <label for="txtLocationCode"><?php echo __('Job Title')?></label>
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value="all"><?php echo __('All')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getName())?></option>
+	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getName()); if(!$jobTitle->getIsActive()) { echo " (Deleted)"; } ?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>

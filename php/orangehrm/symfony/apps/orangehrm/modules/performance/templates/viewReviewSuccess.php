@@ -188,6 +188,7 @@ $formatData['newSeparater'] = '/';
 	        		foreach ($reviews as $review) {
 	        			
 	        			$rowClass = ($i%2)?'even':'odd';
+                  $empName = $review->getEmployee()->getFirstName().' '.$review->getEmployee()->getLastName();
         		?>
             		
             		<tr class="<?php echo $rowClass; ?>">
@@ -195,7 +196,7 @@ $formatData['newSeparater'] = '/';
 		       			<td class="tdcheckbox">
 							<input type="checkbox" class="innercheckbox" name="chkReview[]" 
 							id="chkReview-<?php echo $i; ?>" value="<?php echo $review->getId(); ?>"
-							<?php echo (($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED) && $loggedAdmin)?'':'disabled'; ?> />
+							<?php echo (($review->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED) && $loggedAdmin)?'':'disabled'; if(trim($empName) == "") { echo 'disabled';}?> />
 						</td>
 						
 						<td class="">
@@ -216,12 +217,14 @@ $formatData['newSeparater'] = '/';
 				 				}
 				 			?>
 			
-				 			<?php if ($link) { ?>
-				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo $review->getEmployee()->getFirstName().' '.$review->getEmployee()->getLastName(); ?></a>
+				 			<?php
+                     if ($link) { ?>
+				 			<a href="<?php echo url_for('performance/performanceReview?id='.$review->getId()) ?>"><?php echo $empName; ?></a>
 							<?php } else { 
-				 						echo $review->getEmployee()->getFirstName().' '.$review->getEmployee()->getLastName();
-							} ?>							
-				 			
+				 						echo $empName;
+							}
+                     if(trim($empName) == "") { echo "<font color='red'>Not Available</font>";}
+                     ?>
 				 		</td>
 				 		
 				 		<td class="">
@@ -241,7 +244,10 @@ $formatData['newSeparater'] = '/';
 				 		</td>
 				 		
 				 		<td class="">
-							<?php echo $review->getReviewer()->getFirstName().' '.$review->getReviewer()->getLastName();; ?>
+							<?php
+                     $reviewer = $review->getReviewer()->getFirstName().' '.$review->getReviewer()->getLastName();
+                     if(trim($reviewer) == "") { $reviewer = "<font color='red'>Not Available</font>";}
+                     echo $reviewer; ?>
 				 		</td>
 
 					</tr>
