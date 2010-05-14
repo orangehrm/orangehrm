@@ -400,9 +400,9 @@ echo '</div>';
         <td class="<?php echo $hasPunchedStyleClass;?>" style="text-align:right;padding-right:80px">
         <?php
         if ($attendanceRow->duration > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" class='".$hasPunchedStyleClass."'  style=\"text-decoration:underline\">{$attendanceRow->duration}</a>";
+        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" class='".$hasPunchedStyleClass."'  style=\"text-decoration:underline\">".str_replace(".",":",$attendanceRow->duration)."</a>";
         } else {
-        	echo $attendanceRow->duration;
+        	echo str_replace(".",":",$attendanceRow->duration);
         }
 
         ?>
