@@ -343,7 +343,7 @@ $count = count($recordsArr);
 
 <?php if ($records['reportView'] == 'summary' && !empty($recordsArr)) { // Summary Table Begins ?>
 
-<div class="outerbox" style="width:300px;text-align:center;">
+<div class="outerbox" style="width:400px;text-align:center;">
 
 <!-- Paging: Begins -->
 <?php if (isset($records['recordsCount']) && $records['recordsCount'] > 50) {
@@ -391,13 +391,13 @@ echo '</div>';
 ?>
     <tr class="<?php echo $className; ?>">
     <?php if($attendanceRow->employeeName == null) {?>
-    			 <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $records['empName'];?></td>
+    			 <td class="<?php echo $hasPunchedStyleClass;?>" ><?php echo $records['empName'];?></td>
     <?php } else { ?>
-    			 <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $attendanceRow->employeeName;?></td>
+    			 <td class="<?php echo $hasPunchedStyleClass;?>" ><?php echo $attendanceRow->employeeName;?></td>
     <?php }?>
        
         <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $attendanceRow->inTime; ?></td>
-        <td class="<?php echo $hasPunchedStyleClass;?>" style="text-align:right;padding-right:80px">
+        <td class="<?php echo $hasPunchedStyleClass;?>">
         <?php
         $durationParts = explode(".",$attendanceRow->duration);
         $duration =sprintf("%02d:%02d", $durationParts [0], $durationParts [1]);
