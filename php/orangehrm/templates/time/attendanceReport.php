@@ -399,10 +399,12 @@ echo '</div>';
         <td class="<?php echo $hasPunchedStyleClass;?>"><?php echo $attendanceRow->inTime; ?></td>
         <td class="<?php echo $hasPunchedStyleClass;?>" style="text-align:right;padding-right:80px">
         <?php
-        if ($attendanceRow->duration > 0) {
-        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" class='".$hasPunchedStyleClass."'  style=\"text-decoration:underline\">".str_replace(".",":",$attendanceRow->duration)."</a>";
-        } else {
-        	echo str_replace(".",":",$attendanceRow->duration);
+        $durationParts = explode(".",$attendanceRow->duration);
+        $duration =sprintf("%02d:%02d", $durationParts [0], $durationParts [1]);
+        if ($attendanceRow->duration > 0) {        	
+        	echo "<a href=\"javascript:showDetailedReport('{$attendanceRow->inTime}',{$attendanceRow->employeeId},'".addcslashes($attendanceRow->employeeName,"'")."')\" class='".$hasPunchedStyleClass."'  style=\"text-decoration:underline\">".str_replace(".",":",$duration)."</a>";
+        } else {        	
+        	echo str_replace(".",":",$duration);
         }
 
         ?>
