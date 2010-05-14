@@ -357,7 +357,7 @@ class AttendanceRecord {
 
 				$object = new AttendanceReportRow('summary');            
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
-				$object->duration = $duration;
+				$object->duration = LocaleUtil::getInstance()->convertDecimalValueToTime($duration);
                 $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
                 $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
                 $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
