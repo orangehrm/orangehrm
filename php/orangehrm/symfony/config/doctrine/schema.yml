@@ -1388,7 +1388,7 @@ DefineKpi:
       class: JobTitle
       local: jobtitlecode
       foreign: id
-      
+
 PerformanceReview:
   tableName: hs_hr_performance_review
   columns:
