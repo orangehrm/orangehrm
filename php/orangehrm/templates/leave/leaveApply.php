@@ -49,6 +49,121 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
 
 ?>
+<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
+<link href="../../themes/orange/css/jquery/jquery.autocomplete.css" rel="stylesheet" type="text/css"/>
+<link href="../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css"/>
+
+
+<link href="../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript" src="../../scripts/jquery/ui/ui.core.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/ui/ui.datepicker.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function(){
+
+   //textbox changes
+   jQuery("#txtLeaveFromDate").change(function() {
+		 var fromDateValue 	= 	trim(jQuery("#txtLeaveFromDate").val());
+		 if(fromDateValue == ''){
+			 jQuery("#txtLeaveFromDate").val('YYYY-mm-DD');
+		 }else{
+          var toDateValue	=	trim(jQuery("#txtLeaveToDate").val());
+          if(toDateValue == "" || toDateValue == "YYYY-mm-DD") {
+             jQuery("#txtLeaveToDate").val(fromDateValue);
+             if(currFromDate != jQuery("#txtLeaveToDate").val()) {
+                prevFromDate = currFromDate;
+                currFromDate = jQuery("#txtLeaveToDate").val();
+             }
+          }
+
+          if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+   });
+
+   //Bind blur event of From Date
+	 jQuery("#txtLeaveFromDate").blur(function() {
+		 var fromDateValue 	= 	trim(jQuery("#txtLeaveFromDate").val());
+		 if(fromDateValue == ''){
+			 jQuery("#txtLeaveFromDate").val('YYYY-mm-DD');
+		 }else{
+          var toDateValue	=	trim(jQuery("#txtLeaveToDate").val());
+          if(toDateValue == "" || toDateValue == "YYYY-mm-DD") {
+             jQuery("#txtLeaveToDate").val(fromDateValue);
+             if(currFromDate != jQuery("#txtLeaveToDate").val()) {
+                prevFromDate = currFromDate;
+                currFromDate = jQuery("#txtLeaveToDate").val();
+             }
+          }
+
+          if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+	 });
+
+    jQuery("#btFromDate").blur(function(){
+      jQuery("#txtLeaveFromDate").focus();
+    });
+
+    jQuery("#btToDate").focus(function() {
+		 var todate 	= 	trim(jQuery("#txtLeaveToDate").val());
+		 if(todate != '' && todate != "YYYY-mm-DD"){
+         if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+    });
+
+    jQuery("#txtLeaveToDate").focus(function() {
+		 var todate 	= 	trim(jQuery("#txtLeaveToDate").val());
+		 if(todate != '' && todate != "YYYY-mm-DD"){
+         if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+	 });
+
+    jQuery("#txtLeaveToDate").blur(function() {
+		 var todate 	= 	trim(jQuery("#txtLeaveToDate").val());
+		 if(todate != '' && todate != "YYYY-mm-DD"){
+         if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+	 });
+
+    jQuery("#txtLeaveToDate").change(function() {
+		 var todate 	= 	trim(jQuery("#txtLeaveToDate").val());
+		 if(todate != '' && todate != "YYYY-mm-DD"){
+         if(trim(jQuery("#txtLeaveToDate").val()) == trim(jQuery("#txtLeaveFromDate").val())){
+             jQuery("#trTime1").show();
+          } else {
+             jQuery("#trTime1").hide();
+          }
+	    }
+	 });
+
+    jQuery("#btToDate").blur(function() {
+      jQuery("#txtLeaveToDate").focus();
+	 });
+});
+
+
+</script>
+
 <script type="text/javascript">
 //<![CDATA[
 	var shiftLength = <?php echo $shiftLength; ?>;
@@ -160,7 +275,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				} else if (fromTime > toTime) {
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
-				} 
+				}
 
 			} else if (($('sltLeaveFromTime').value == '' || $('sltLeaveToTime').value == '') && $('txtLeaveTotalTime').value == '') {
 				err = true;
@@ -169,14 +284,14 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				err = true;
 				msg += " - <?php echo $lang_Error_NonNumericHours; ?>\n"
 			}
-			
+
 			<?php if ($records['isEss']) { ?>
 			if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
 			}
-			<?php } ?>			
-			
+			<?php } ?>
+
 		}
 
 		if ($('txtComments').value.length > <?php echo LeaveRequests::MAX_COMMENT_LENGTH; ?>){
@@ -609,15 +724,15 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
      <?php } ?>
 
         <label for="txtLeaveFromDate"><?php echo $lang_Leave_Common_FromDate; ?><span class="required">*</span></label>
-        <input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+        <input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate" size="10"
             value="<?php echo $prevLeaveFromDate; ?>" class="formDateInput"/>
-          <input type="button" name="Submit" value="  " class="calendarBtn" />
+          <input type="button" name="Submit" value="  " class="calendarBtn" id="btFromDate"/>
         <br class="clear"/>
 
         <label for="txtLeaveToDate"><?php echo $lang_Leave_Common_ToDate; ?><span class="required">*</span></label>
-        <input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+        <input name="txtLeaveToDate" type="text" id="txtLeaveToDate" size="10"
         	value="<?php echo $prevLeaveToDate; ?>" class="formDateInput"/>
-          <input type="button" name="Submit" value="  " class="calendarBtn" />
+          <input type="button" name="Submit" value="  " class="calendarBtn" id="btToDate"/>
         <br class="clear"/>
 
       <div id="trTime1" class="<?php echo $timeElementClass;?>">
