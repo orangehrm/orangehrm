@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * 
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -20,17 +19,7 @@
  * 
  */
 
-class BaseDao extends sfDoctrineRecord {
+class BaseDao
+{
 	
-    protected function addWhere($doctrine, $attribute, $value){
-
-        $whereExist = $this->doctrine->getParams('where');  
-        
-        if($whereExist[1] >0) {
-            return $doctrine->andWhere ($attribute, $value);
-        } else {
-            return $doctrine->where ($attribute, $value);
-        }
-    }
-
 }
