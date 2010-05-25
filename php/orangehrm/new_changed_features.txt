@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.6
+
+	Performance Module Bug Fixes
+	----------------------------
+	3000380 - Employee deletion effected to the Review List
+	3000319 - Module Permissions are Not Implemented
+	2994542 - Performance->auto-suggestion lists not work with single quote
+	2974742 - Search Review brings back wrong results
+
 New & Changed Features for OrangeHRM ver 2.6-beta.5
 
 	Performance Module Bug Fixes
