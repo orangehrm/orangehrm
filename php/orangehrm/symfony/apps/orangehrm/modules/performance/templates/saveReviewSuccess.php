@@ -234,13 +234,13 @@
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
             fromdate = (fromdate).split("-");
-            if(!validateDate(parseInt(fromdate[2]), parseInt(fromdate[1]), parseInt(fromdate[0]))) {
+            if(!validateDate(parseInt(fromdate[2], 10), parseInt(fromdate[1], 10), parseInt(fromdate[0], 10))) {
                return false;
             }
-            var fromdateObj = new Date(parseInt(fromdate[0]), parseInt(fromdate[1]), parseInt(fromdate[2]));
+            var fromdateObj = new Date(parseInt(fromdate[0], 10), parseInt(fromdate[1], 10), parseInt(fromdate[2], 10));
             var todate		=	$('#txtPeriodToDate-0').val();
             todate = (todate).split("-");
-            var todateObj	=	new Date(parseInt(todate[0]), parseInt(todate[1]), parseInt(todate[2]));
+            var todateObj	=	new Date(parseInt(todate[0], 10), parseInt(todate[1], 10), parseInt(todate[2], 10));
 			
 			if( ($('#txtPeriodToDate-0').val() != '') && (fromdateObj >= todateObj)){
     			return false;
@@ -258,10 +258,10 @@
             var	fromdateObj		=	new Date(fromdate.replace(/-/g,'/'));
             var todate		=	$('#txtPeriodToDate-0').val();
             todate = (todate).split("-");
-            if(!validateDate(parseInt(todate[2]), parseInt(todate[1]), parseInt(todate[0]))) {
+            if(!validateDate(parseInt(todate[2], 10), parseInt(todate[1], 10), parseInt(todate[0], 10))) {
                return false;
             }
-            var todateObj	=	new Date(parseInt(todate[0]), parseInt(todate[1]), parseInt(todate[2]));
+            var todateObj	=	new Date(parseInt(todate[0], 10), parseInt(todate[1], 10), parseInt(todate[2], 10));
            
 			
 			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= todateObj)){
@@ -278,16 +278,18 @@
         $.validator.addMethod("validDueDate", function(value, element) {
         	
             var fromdate	=	$('#txtPeriodFromDate-0').val();
-            var fromdateObj   =	new Date(fromdate.replace(/-/g,'/'));
+            fromdate = (fromdate).split("-");
+            var fromdateObj   = new Date(parseInt(fromdate[0], 10), parseInt(fromdate[1], 10), parseInt(fromdate[2], 10));
+               //new Date(fromdate.replace(/-/g,'/'));
             var duedate		=	$('#txtDueDate-0').val();
             duedate = (duedate).split("-");
-            if(!validateDate(parseInt(duedate[2]), parseInt(duedate[1]), parseInt(duedate[0]))) {
+            if(!validateDate(parseInt(duedate[2], 10), parseInt(duedate[1], 10), parseInt(duedate[0], 10))) {
                return false;
             }
-            var duedateObj	= new Date(parseInt(duedate[0]), parseInt(duedate[1]), parseInt(duedate[2]));
+            var duedateObj	= new Date(parseInt(duedate[0], 10), parseInt(duedate[1], 10), parseInt(duedate[2], 10));
            
 			
-			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj > duedateObj)){
+			if( ($('#txtPeriodFromDate-0').val() != '') && (fromdateObj >= duedateObj)){
 				
     			return false;
 			}
