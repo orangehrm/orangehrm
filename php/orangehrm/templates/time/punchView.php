@@ -48,6 +48,10 @@ if ($records['message'] == 'save-success') {
 	$records['message'] = null;
 }
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
@@ -110,7 +114,7 @@ if ($records['message'] == 'save-success') {
 <?php } ?>
 
 <form name="frmPunchTime" id="frmPunchTime" method="post" action="?timecode=Time&action=Save_Punch">
-
+   <input type="text" value="<?php echo $token?>" name="token" />
 	<?php if (!$punchIn) { ?>
 	<input type="hidden" name="hdnAttendanceId" value="<?php echo $records['attRecord'][0]->getAttendanceId(); ?>" />
 	<input type="hidden" name="txtInDate" value="<?php echo $records['attRecord'][0]->getInDate(); ?>" />

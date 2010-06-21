@@ -37,7 +37,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $institute = CommonFunctions::escapeHtml($editData[0][1]);
     $course = CommonFunctions::escapeHtml($editData[0][2]);
 }
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -142,7 +142,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         <?php } ?>
 
             <form name="frmEducation" id="frmEducation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-
+               <input type="hidden" name="token" value="<?php echo $token;?>" />
                 <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
                 <?php if (!$new) { ?>
                     <label for="txtEducationID"><?php echo $lang_Commn_code; ?></label>

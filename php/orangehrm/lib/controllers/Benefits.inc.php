@@ -59,24 +59,32 @@ while (true) {
 											  BenefitsController::viewHspSummary($_GET['year'], $_GET['employeeId']);
 											  break;
 		case 'Save_Hsp_Summary'				: $hspArr = EXTRACTOR_HspSummary::parseHspSaveData($_POST);
-											  if (isset($_GET['empId'])) {
-											      BenefitsController::saveHspSummary($hspArr, $_GET['year'], $_GET['empId']);
-											  } else {
-											      BenefitsController::saveHspSummary($hspArr, $_GET['year']);
-											  }
+                                    $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'Hsp_Summary');
+                                    $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                    $tokenGenerator->setKeyGenerationInput($screenParam);
+                                    $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                    
+                                   if($token == $_POST['token']) {
+                                      if (isset($_GET['empId'])) {
+                                          BenefitsController::saveHspSummary($hspArr, $_GET['year'], $_GET['empId']);
+                                      } else {
+                                          BenefitsController::saveHspSummary($hspArr, $_GET['year']);
+                                      }
+                                   }
 											  break;
-		case 'Search_Hsp_Summary'			: if ((!isset($_POST['txtEmployeeSearchName']) || empty($_POST['txtEmployeeSearchName'])) && isset($_POST['year'])) {
-		    								  	  BenefitsController::viewHspSummary($_POST['year']);
-											  } elseif (isset($_POST['txtEmployeeSearchName']) && isset($_POST['year'])) {
-											      $empId = EXTRACTOR_HspSummary::parseSearchData($_POST);
-											      if ($empId == "") {
-											      	BenefitsController::viewHspSummary($_POST['year'], "leftNull");
-											      } else {
-											        BenefitsController::searchHspSummary($empId, $_POST['year']);
-											      }
-											  } elseif (isset($_GET['empId']) && isset($_GET['year'])) {
-											      BenefitsController::searchHspSummary($_GET['empId'], $_GET['year']);
-											  }
+		case 'Search_Hsp_Summary'			:
+                                      if ((!isset($_POST['txtEmployeeSearchName']) || empty($_POST['txtEmployeeSearchName'])) && isset($_POST['year'])) {
+                                         BenefitsController::viewHspSummary($_POST['year']);
+                                      } elseif (isset($_POST['txtEmployeeSearchName']) && isset($_POST['year'])) {
+                                          $empId = EXTRACTOR_HspSummary::parseSearchData($_POST);
+                                          if ($empId == "") {
+                                             BenefitsController::viewHspSummary($_POST['year'], "leftNull");
+                                          } else {
+                                            BenefitsController::searchHspSummary($empId, $_POST['year']);
+                                          }
+                                      } elseif (isset($_GET['empId']) && isset($_GET['year'])) {
+                                          BenefitsController::searchHspSummary($_GET['empId'], $_GET['year']);
+                                      }
 											  break;
 		case 'Hsp_Not_Defined'				: BenefitsController::HspNotDefined();
 											  break;
@@ -121,9 +129,17 @@ while (true) {
 											  break;
 		case 'Define_Health_Savings_Plans'	: BenefitsController::defineHsp();
 											  break;
-		case 'Save_Health_Savings_Plans'	: $saveHsp = EXTRACTOR_DefineHsp::parseSaveDataHsp($_POST['HspType']);
-											  BenefitsController::checkHspState($saveHsp);
-											  break;
+		case 'Save_Health_Savings_Plans'	: 
+                                    $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'Define_Health_Savings_Plans');
+                                    $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                    $tokenGenerator->setKeyGenerationInput($screenParam);
+                                    $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                    $saveHsp = false;
+                                    if($token == $_POST['token']) {
+                                       $saveHsp = EXTRACTOR_DefineHsp::parseSaveDataHsp($_POST['HspType']);
+                                    }
+                                    BenefitsController::checkHspState($saveHsp);
+                                    break;
 	}
 	break;
 }

@@ -26,6 +26,10 @@ if ($records['messageType'] == 'SUCCESS') {
 	$records['message'] = null;
 }
 
+$token = "";
+if(isset($records['token'])) {
+ $token = $records['token'];
+}
 ?>
 
 <div class="formpage">
@@ -38,6 +42,7 @@ if ($records['messageType'] == 'SUCCESS') {
         <?php } ?>
 
 <form action="?timecode=Time&action=Save_Attendance_Config" method="post" id="attendanceConfig" name="attendanceConfig">
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
 <table width="480" border="0" cellpadding="4" cellspacing="0">
     <tr>
       <td width="470">&nbsp;<?php echo $lang_Time_EmpChangeTime; ?></td>

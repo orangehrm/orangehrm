@@ -37,6 +37,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $disabled = "disabled='disabled'";
 }
 $tabIndex = 1;
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -149,7 +150,8 @@ $tabIndex = 1;
         <?php } ?>
 
             <form name="frmCustomField" id="frmCustomField" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
+               <input type="hidden" name="token" value="<?php echo $token;?>" />
+               <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
                 <label for="txtId"><?php echo $lang_CustomFields_CustomFieldNumber; ?></label>
 
                 <?php if ($new) { ?>

@@ -54,7 +54,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function nextSortOrderInWords($sortOrder) {
         return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
 	}
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -189,6 +189,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <div class="outerbox">
 <form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
 	<div class="mainHeading"><h2><?php echo $headingInfo[3]; ?></h2></div>
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
     <input type="hidden" name="delState" value="" />
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />

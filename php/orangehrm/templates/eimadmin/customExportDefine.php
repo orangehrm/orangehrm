@@ -30,7 +30,7 @@ $assignedFields = $this->popArr['assigned'];
 $name = $this->popArr['exportName'];
 $id = $this->popArr['id'];
 $customExportList = $this->popArr['customExportList'];
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -252,7 +252,8 @@ $customExportList = $this->popArr['customExportList'];
         <?php } ?>
 
   <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>" onsubmit="return <?php echo $btnAction; ?>;">
-        <input type="hidden" name="sqlState" value=""/>
+     <input type="hidden" value="<?php echo $token;?>" name="token" />
+      <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>"

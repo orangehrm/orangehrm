@@ -29,6 +29,16 @@ if (isset($modifier[1])) {
 	$dispYear = $modifier[1];
 }
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+   unset($records['token']);
+}
+
+if(isset($modifier['token'])) {
+   $token = $modifier['token'];
+}
+
 $leaveStatuses = (isset($modifier['leave_statuses'])) ? $modifier['leave_statuses'] : array();
 $fromDate = (isset($modifier['from_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['from_date']) : null;
 $toDate = (isset($modifier['to_date'])) ? LocaleUtil::getInstance()->formatDate($modifier['to_date']) : null;
@@ -379,6 +389,7 @@ label.subLabel {
 <form id="frmCancelLeave" name="frmCancelLeave" method="post"
 	action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>"
 	onsubmit="return validateLeaveRequestList()"><?php   if ($modifier !== "Taken") { ?>
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
 <div class="actionbar">
 <div class="actionbuttons"><?php   if (is_array($records) && (count($records) > 0)) { ?>
 <input type="submit" class="plainbtn" name="Save"

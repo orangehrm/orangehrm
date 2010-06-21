@@ -36,7 +36,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $ethnicRaceId = $editData[0][0];
     $ethnicRaceName = CommonFunctions::escapeHtml($editData[0][1]);
 }
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -134,7 +134,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         <?php } ?>
 
             <form name="frmEthnicRace" id="frmEthnicRace" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-
+               <input type="hidden" value="<?php echo $token;?>" name="token" />
                 <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
                 <?php if (!$new) { ?>
                     <label for="txtEthnicRaceID"><?php echo $lang_Commn_code; ?></label>

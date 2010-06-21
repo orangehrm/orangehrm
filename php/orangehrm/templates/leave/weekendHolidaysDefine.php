@@ -37,7 +37,7 @@
 <?php } ?>
 
 <form id="frmDefineWeekends" name="frmDefineWeekends" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Holiday_Weekend_Edit">
-
+   <input type="hidden" name="token" value="<?php echo $records['token']; ?>" />
   <?php
   	$daysOfTheWeek = array(
   							Weekends::WEEKENDS_MONDAY => $lang_Common_Monday,

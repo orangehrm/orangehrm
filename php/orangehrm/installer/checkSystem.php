@@ -267,6 +267,22 @@ function sysCheckPassed() {
             <td class="tdComponent">Memory allocated for PHP script</td>
             <td align="right" class="tdValues"><?php echo checkMemory()?></td>
           </tr>
+          <tr>
+            <td class="tdComponent">Security key for Cross Site Request Forgery (CSRF) prevention</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               $keyOk = createKeyFile('key.csrf');
+
+               if ($keyOk) {
+                  echo "<font color='green'>OK</font>";
+				} else {
+                   echo "<font color='red'>Unable to create key file at lib/confs/cryptokeys/key.csrf</font>";
+                   $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
           <?php
           	$printMoreInfoLink = false;
 

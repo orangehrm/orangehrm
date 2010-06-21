@@ -32,6 +32,7 @@ require_once ROOT_PATH . '/lib/models/benefits/DefineHsp.php';
 require_once ROOT_PATH . '/lib/logger/Logger.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
+require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
 
 class BenefitsController {
 	private $authorizeObj;
@@ -145,6 +146,11 @@ class BenefitsController {
 	}
 
 	public static function listPayPeriods($year) {
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action'], 'year' => $year);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$payPeriods = HspPayPeriod::listPayPeriods($year);
 
 		$path = "/templates/benefits/listPayPeriods.php";
@@ -152,6 +158,7 @@ class BenefitsController {
 		$tmpOb[0] = $payPeriods;
 		$tmpOb[1] = $year;
 		$tmpOb[2] = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+      $tmpOb['token'] = $token;
 
 		$template = new TemplateMerger($tmpOb, $path);
 
@@ -159,7 +166,11 @@ class BenefitsController {
 	}
 
 	public static function viewAddPayPeriod($year=null) {
-		
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		if ($_SESSION['isAdmin'] == 'No') {
 		    die('You are not authorized to view this page');
 		}
@@ -171,7 +182,7 @@ class BenefitsController {
 		} else {
 			$tmpOb[0] = date('Y');
 		}
-
+      $tmpOb['token'] = $token;
 		$template = new TemplateMerger($tmpOb, $path);
 
 		$template->display();
@@ -179,9 +190,14 @@ class BenefitsController {
 
 	public static function viewEditPayPeriod($year, $id) {
 		$path = "/templates/benefits/editPayPeriods.php";
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action'], 'id' => $_GET['id']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		$tmpOb[0] = $year;
 		$tmpOb[1] = HspPayPeriod::getPayPeriod($id);
+      $tmpOb['token'] = $token;
 		$template = new TemplateMerger($tmpOb, $path);
 
 		$template->display();
@@ -189,9 +205,17 @@ class BenefitsController {
 
 	public static function addPayPeriod($payPeriod) {
 		$msg = 'UPDATE_SUCCESS';
-
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'View_Add_Pay_Period');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		try {
-			$res = $payPeriod->add();
+         $msg = 'UNKNOWN_ERROR_FAILURE';
+         if($token == $_POST['token']) {
+            $res = $payPeriod->add();
+            $msg = 'UPDATE_SUCCESS';
+         }
 		} catch (Exception $e) {
 			$msg = 'UNKNOWN_ERROR_FAILURE';
 		}
@@ -202,8 +226,17 @@ class BenefitsController {
 	public static function editPayPeriod($payPeriod) {
 		$msg = 'UPDATE_SUCCESS';
 
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'View_Edit_Pay_Period', 'id' => $_POST['txtPayPeriodId']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		try {
-			$res = $payPeriod->update();
+         $msg = 'UNKNOWN_ERROR_FAILURE';
+         if($token == $_POST['token']) {
+            $res = $payPeriod->update();
+            $msg = 'UPDATE_SUCCESS';
+         }
 		} catch (Exception $e) {
 			$msg = 'UNKNOWN_ERROR_FAILURE';
 		}
@@ -213,14 +246,23 @@ class BenefitsController {
 
 	public static function deletePayPeriods($payPeriods, $year) {
 		$msg = 'DELETE_SUCCESS';
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'List_Benefits_Schedule', 'year' => $year);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		try {
-			if (count($payPeriods) > 0) {
-				for ($i=0; $i<count($payPeriods); $i++) {
-					$payPeriods[$i]->delete();
-				}
-			} else {
-				$msg = 'NO_PAY_PERIODS';
-			}
+         if($token == $_POST['token']) {
+            if (count($payPeriods) > 0) {
+               for ($i=0; $i<count($payPeriods); $i++) {
+                  $payPeriods[$i]->delete();
+               }
+            } else {
+               $msg = 'NO_PAY_PERIODS';
+            }
+         } else {
+            $msg = 'DELETE_FAILURE';
+         }
 		} catch (PayPeriodException $e) {
 			switch ($e->getCode()) {
 				case PayPeriodException::INVALID_ID : $msg = 'INVALID_ID_FAILURE';
@@ -238,7 +280,10 @@ class BenefitsController {
 
 	public static function viewHspSummary($year, $employeeId=null, $saveSuccess=null) {
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		if (!$authorizeObj->isAdmin()) { // Check whether the Admin
 			if ($employeeId != $_SESSION['empID']) {
@@ -250,10 +295,12 @@ class BenefitsController {
 
 		if (Config::getHspCurrentPlan() == 0) { // Check whether the HSP plan has been defined
 		    $error['hspPlanNotDefined'] = true;
+          $error['token'] = $token;
 		}
 
 		if ($employeeId == "leftNull") {
 		    $error['nonExistedEmployeeSearch'] = true;
+          $error['token'] = $token;
 		}
 
 		if (isset($error)) { // If errors found
@@ -300,6 +347,7 @@ class BenefitsController {
 				$tmpOb[2]=$year;
 				$tmpOb[3]=$pageNo;
 				$tmpOb[4]=HspSummary::recordsCount($year, Config::getHspCurrentPlan());
+            $tmpOb['token'] = $token;
 				if (isset($saveSuccess)) {
 					$tmpOb[5] = $saveSuccess;
 				} else {
@@ -311,6 +359,7 @@ class BenefitsController {
 
 			} catch(Exception $e) {
 					$error['noEmployeeRecords'] = true;
+               $error['token'] = $token;
 			}
 
 			// Setting template paths
@@ -414,7 +463,11 @@ class BenefitsController {
 	public static function searchHspSummary($empId, $year, $saveSuccess=null) {
 
 		$errorFlag = false;
-
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => 'Hsp_Summary');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		//Checking whether records exist for $year
 		try {
 			if (!HspSummary::recordsExist($year)) {
@@ -454,6 +507,7 @@ class BenefitsController {
 		if ($errorFlag) {
 
 			$error['hspNotDefinedESS'] = true;
+         $error['token'] = $token;
 			$template = new TemplateMerger($error, $path);
 			$template->setError(true);
 
@@ -479,7 +533,7 @@ class BenefitsController {
 			}
 			$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
 			$tmpOb[7]=HspSummary::getYears();
-
+         $tmpOb['token'] = $token;
 			$template = new TemplateMerger($tmpOb, $path);
 
 		}
@@ -1076,29 +1130,32 @@ class BenefitsController {
 	}
 
 	public static function checkHspState($hspReqest) {
-
 		if($hspReqest==true){
 			$log = Logger::getInstance();
 			$log->info("HSP Type changed to {$_POST['HspType']} by {$_SESSION['fname']} [{$_SESSION['user']}]");
 			$msg = 'SAVE_SUCCESS';
 		}
 		else{
-			$msg = 'SAVE_FAILIURE';
+			$msg = 'SAVE_FAILURE';
 		}
-		$msg = 'SAVE_SUCCESS';
+		//$msg = 'SAVE_SUCCESS';
 		self::redirect($msg, '?benefitcode=Benefits&action=Define_Health_Savings_Plans');
 	}
 
 
 	public static function defineHsp(){
-		
+      $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		if ($_SESSION['isAdmin'] == 'No') {
 		    die('You are not authorized to view this page');
 		}
 		
 		$path = "/templates/benefits/defineHsp.php";
-
-		$template = new TemplateMerger(null, $path);
+      $param = array('token' => $token);
+		$template = new TemplateMerger($param, $path);
 		$template->display();
 	}
 }

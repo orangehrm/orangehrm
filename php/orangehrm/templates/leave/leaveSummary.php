@@ -34,7 +34,8 @@ if (isset($records['empDetails'])) {
 $rights = $_SESSION['localRights'];
 
 $currentPage = $records['pageNo'] ;
-$allRecords =   $records['leaveCount'] ;
+$allRecords =   $records['leaveCount'];
+$token = $records['token'];
 $deletedLeaveTypesFound = false;
 $auth = $modifier[1];
 $dispYear = $modifier[2];
@@ -362,6 +363,7 @@ function exportSummaryData(pdfData) {
 		<input type="hidden" id="year" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
 		<input type="hidden" id="searchBy" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
 		<input type="hidden" name="pageNO" value="<?php echo $currentPage ?>" />
+      <input type="hidden" name="token" value="<?php echo $token; ?>" />
     <div class="actionbar">
         <div class="actionbuttons">
     <?php

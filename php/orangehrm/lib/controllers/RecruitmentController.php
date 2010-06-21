@@ -208,12 +208,17 @@ class RecruitmentController {
 	 * @param Array $list results (in current page)
 	 */
 	private function _viewList($pageNumber, $count, $list) {
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
         $formCreator = new FormCreator($_GET, $_POST);
         $formCreator->formPath = '/recruitmentview.php';
         $formCreator->popArr['currentPage'] = $pageNumber;
         $formCreator->popArr['list'] = $list;
         $formCreator->popArr['count'] = $count;
+        $formCreator->popArr['token'] = $token;
         $formCreator->display();
 	}
 
@@ -237,10 +242,18 @@ class RecruitmentController {
 	 * @param Array $ids Array with Vacancy ID's to delete
 	 */
     private function _deleteVacancies($ids) {
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'action' => 'List');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		if ($this->authorizeObj->isAdmin()) {
 			try {
-        		$count = JobVacancy::delete($ids);
-        		$message = 'DELETE_SUCCESS';
+            $message = 'DELETE_FAILURE';
+            if($token == $_POST['token']) {
+               $count = JobVacancy::delete($ids);
+               $message = 'DELETE_SUCCESS';
+            }
 			} catch (JobVacancyException $e) {
 				$message = 'DELETE_FAILURE';
 			}
@@ -266,8 +279,12 @@ class RecruitmentController {
      * @param int $id Id of vacancy. If empty, A new vacancy is shown
      */
     private function _viewVacancy($id = null) {
-
 		$path = '/templates/recruitment/jobVacancy.php';
+
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'action' => $_GET['action'], 'id' => $id);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		try {
 			if (empty($id)) {
@@ -285,7 +302,8 @@ class RecruitmentController {
 			$objs['noOfEmployees'] = $empInfo->countEmployee();
 			$objs['employeeSearchList'] = $this->_getEmployeeSearchList();
 			$objs['jobTitles'] = is_array($jobTitles) ? $jobTitles : array();
-
+         $objs['token'] = $token;
+         
 			$template = new TemplateMerger($objs, $path);
 			$template->display();
 		} catch (JobVacancyException $e) {
@@ -299,11 +317,21 @@ class RecruitmentController {
      * @param JobVacancy $vacancy Job Vacancy object to add
      */
     private function _addVacancy($vacancy) {
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'action' => 'ViewAdd', 'id' => $_POST['txtId']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		if ($this->authorizeObj->isAdmin()) {
 			try {
-				$vacancy->save();
-	        	$message = 'ADD_SUCCESS';
-	        	$this->redirect($message, '?recruitcode=Vacancy&action=List');
+            $message = 'ADD_FAILURE';
+            if($_POST['token'] == $token) {
+               $vacancy->save();
+               $message = 'ADD_SUCCESS';
+               $this->redirect($message, '?recruitcode=Vacancy&action=List');
+            } else {
+               $this->redirect($message);
+            }
 			} catch (JobVacancyException $e) {
 				$message = 'ADD_FAILURE';
 	        	$this->redirect($message);
@@ -319,11 +347,22 @@ class RecruitmentController {
      * @param JobVacancy $vacancy Job Vacancy object to add
      */
     private function _updateVacancy($vacancy) {
+
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'action' => 'View', 'id' => $_POST['txtId']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		if ($this->authorizeObj->isAdmin()) {
 			try {
-				$vacancy->save();
-	        	$message = 'UPDATE_SUCCESS';
-	        	$this->redirect($message, '?recruitcode=Vacancy&action=List');
+            $message = 'UPDATE_FAILURE';
+            if($token == $_POST['token']) {
+               $vacancy->save();
+               $message = 'UPDATE_SUCCESS';
+               $this->redirect($message, '?recruitcode=Vacancy&action=List');
+            } else {
+               $this->redirect($message);
+            }
 			} catch (JobVacancyException $e) {
 				$message = 'UPDATE_FAILURE';
 	        	$this->redirect($message);

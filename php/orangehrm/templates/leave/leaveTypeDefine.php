@@ -20,6 +20,7 @@
 $oldLeaveType = $records[0];
 $leaveTypes = $records[1];
 $rights = $records['rights'];
+$token  = $records['token'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -120,6 +121,7 @@ $rights = $records['rights'];
         <?php } ?>
 
     <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Leave_Type_Define">
+       <input type="hidden" value="<?php echo $token;?>" name="token" />
         <?php if($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
             <span class="formLabel"><?php echo $lang_oldLeaveTypeName; ?>
             <span class="formValue"><?php echo $oldLeaveType->getLeaveTypeName(); ?></value>

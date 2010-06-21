@@ -672,7 +672,7 @@ function resetForm() {
 
 <form name="frmEmpRepTo" id="frmEmpRepTo" method="post" action="<?php echo $formAction;?>">
     <input type="hidden" name="sqlState"/>
-
+    <input type="hidden" name="token" value="<?php echo $this->popArr['token'];?>" />
 <label for="txtRepName"><?php echo $lang_repview_ReportName; ?></label>
 <div class="reportName">
 	<input type="text" <?php echo $disabled;?> name="txtRepName" id="txtRepName" value="<?php echo $reportName; ?>"
@@ -955,8 +955,7 @@ function resetForm() {
         <?php } ?>
 <form name="frmEmpRepTo" id="frmEmpRepTo" method="post" action="<?php echo $formAction;?>">
     <input type="hidden" name="sqlState"/>
-
-
+    <input type="hidden" name="token" value="<?php echo $this->popArr['token'];?>" />
     <span class="formLabel"><?php echo $lang_repview_ReportID; ?></span>
     <span class="formValue"><?php echo $reportId; ?></span>
     <input type="hidden" name="txtRepID" value="<?php echo $reportId;?>"/>

@@ -34,6 +34,7 @@ $userEmpId = '';
 $userEmpFirstName = '';
 
 $employeeSearchList = $this->popArr['employeeSearchList'];
+$token = $this->popArr['token'];
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
     $formAction="{$formAction}&amp;id={$this->getArr['id']}&amp;capturemode=updatemode";
@@ -240,7 +241,8 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 
             <?php $tabIndex = 1;?>
             <form name="frmUsers" id="frmUsers" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
+               <input type="hidden" value="<?php echo $token;?>" name="token" />
+               <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
                 <?php if (!$new) { ?>
                     <label for="txtUserID"><?php echo $lang_Commn_code; ?></label>
                     <input type="hidden" id="txtUserID" name="txtUserID" value="<?php echo $userId;?>"/>
@@ -350,8 +352,13 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 			$i = 0;
 
 			foreach ($employeeSearchList as $record) {
+          ?>
+                var empItem = new Array();
+          <?php
+                foreach ($record as $item)
+                $line = CommonFunctions::escapeForJavascript(implode("', '", $record));
 		?>
-			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo $line; ?>');
 		<?php
 			}
 		?>

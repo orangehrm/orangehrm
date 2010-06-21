@@ -19,6 +19,11 @@
  */
 
 require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+   unset($records['token']);
+}
 
 if (isset($errorFlag)) {
 
@@ -331,8 +336,8 @@ if (isset($successMessage)) {  ?>
 
 <!-- Search form begins -->
 <form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
-<input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
 
+<input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
     <div class="searchbox">
     <?php if ($adminUser) { ?>
         <label for="txtEmployeeSearch"><?php echo $lang_Admin_Users_Employee?></label>
@@ -421,6 +426,7 @@ if (!isset($oneEmployee)) {
 </div><br class="clear" />
 <!-- Summary form begins -->
 <form name="hspFullSummary" id="hspFullSummary" action="" method="post">
+   <input type="hidden" name="token" value="<?php echo $token;?>" />
 <input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
 <table border="0" cellspacing="0" cellpadding="0" class="data-table">
 <thead>

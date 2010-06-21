@@ -238,7 +238,6 @@ $locRights['repDef'] = ($ugDet !== null && $ugDet[0][2] == '1') ? true : false;
 $_SESSION['localRights'] = $locRights;
 
 
-
 switch ($moduletype) {
 
 	case 'admin' 	:  // beg. admin module
@@ -1270,7 +1269,7 @@ switch ($moduletype) {
 
 	case 'leave'	:	switch ($_GET['leavecode']) {
 							case 'Leave':	if (isset($_GET['action'])) {
-
+                                    $tokenGenerator = CSRFTokenGenerator::getInstance();
 												$leaveController 	 	 = new LeaveController();
 												$leaveExtractor 	 	 = new EXTRACTOR_Leave();
 												$leaveRequestsExtractor  = new EXTRACTOR_LeaveRequests();
@@ -1379,7 +1378,14 @@ switch ($moduletype) {
 
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
-																						if (isset($objs)) {
+
+                                                                  //we introduce token for the form here
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Edit_Summary');
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                  
+																						if (isset($objs) && ($token == $_POST['token'])) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$mes = $leaveController->saveLeaveQuota();
@@ -1440,15 +1446,32 @@ switch ($moduletype) {
 																						$objs = $leaveExtractor->parseEditData($_POST);
 																						$objx=false;
 																						$numChanged = 0;
-																						if (isset($objs)) {
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => "Leave_FetchDetailsEmployee", 'id' => $_POST['txtEmployeeId'][0]);
+                                                                  
+                                                                  switch ($_GET['actionFlag']) {
+                                                                     case "admin":
+                                                                        $screenParam['action'] = "Leave_FetchDetailsAdmin";
+                                                                        break;
+                                                                     case "supervisor":
+                                                                        $screenParam['action'] = "Leave_FetchDetailsSupervisor";
+                                                                        break;
+                                                                  }
+
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                  
+																						if (isset($objs) && $token == $_POST['token']) {
 																							foreach ($objs as $obj) {
-																								$leaveController->setObjLeave($obj);
-																								$leaveController->setId($obj->getLeaveId());
-																								$mes=$leaveController->changeStatus("change");
-																								if ($mes) {
-																									$numChanged++;
-																									$objx[] = $obj;
-																								}
+                                                                        if($token == $_POST['token']) {
+                                                                           $leaveController->setObjLeave($obj);
+                                                                           $leaveController->setId($obj->getLeaveId());
+                                                                           $mes=$leaveController->changeStatus("change");
+                                                                           if ($mes) {
+                                                                              $numChanged++;
+                                                                              $objx[] = $obj;
+                                                                           }
+                                                                        }
 																							}
 																						}
 																						if ($numChanged > 0) {
@@ -1463,14 +1486,19 @@ switch ($moduletype) {
 													case 'Leave_Request_ChangeStatus':
 																						$objs = $leaveRequestsExtractor->parseEditData($_POST);
 																						$numChanged = 0;
-																						if (isset($objs)){
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_FetchLeaveAdmin');
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                  
+																						if (isset($objs) && $token == $_POST['token']){
             																						foreach ($objs as $obj) {
             																							$leaveController->setObjLeave($obj);
             																							$leaveController->setId($obj->getLeaveId());
             																							$res=$leaveController->changeStatus("change");
-             	                                                                                                                                                                                if ($res) {
-             	                                                                                                                                                                                $numChanged++;
-            																							$leaveController->sendChangedLeaveNotification($obj, true);
+             	                                                                  if ($res) {
+                                                                                    $numChanged++;
+                                                                                    $leaveController->sendChangedLeaveNotification($obj, true);
             																							}
         																						}
         																					}
@@ -1482,8 +1510,14 @@ switch ($moduletype) {
 																						$leaveController->setObjLeave($obj);
 
 																						try {
-																							$mes = $leaveController->addLeave();
-																							$leaveController->redirectToLeaveApplyPage(false, $mes);
+                                                                     $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Apply_view');
+                                                                     $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                     if($token == $_POST['token']) {
+                                                                        $mes = $leaveController->addLeave();
+                                                                        $leaveController->redirectToLeaveApplyPage(false, $mes);
+                                                                     }
 																						} catch (DuplicateLeaveException $e) {
 																							$leaveController->displayLeaveInfo(false, $e);
 																						}
@@ -1499,7 +1533,13 @@ switch ($moduletype) {
 
 																						$leaveController->setObjLeave($obj);
 																						try {
-																							$leaveController->addLeave();
+                                                                     $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Apply_Admin_view');
+                                                                     $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                     if($token == $_POST['token']) {
+                                                                        $leaveController->addLeave();
+                                                                     }
 																							$mes=$leaveController->adminApproveLeave();
 
 																							$id = $leaveController->getObjLeave()->getLeaveRequestId();
@@ -1520,7 +1560,7 @@ switch ($moduletype) {
 
 													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addLeaveType();
+                                                                  $leaveController->addLeaveType();
 																						break;
 
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
@@ -1555,17 +1595,23 @@ switch ($moduletype) {
 													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
-																							foreach ($objs as $obj) {
-																								$leaveController->setObjLeave($obj);
-																								$leaveController->setId($obj->getLeaveRequestId());
+                                                                     $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_FetchLeaveEmployee');
+                                                                     $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                     if($token == $_POST['token']) {
+                                                                        foreach ($objs as $obj) {
+                                                                           $leaveController->setObjLeave($obj);
+                                                                           $leaveController->setId($obj->getLeaveRequestId());
 
-																								if ($obj->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-																								    $mes = $leaveController->changeStatus('change');
-																								} else {
-																								    $mes = $leaveController->changeStatus();
-																								    $leaveController->sendCancelledLeaveNotification($obj, true);
-																								}
-																							}
+                                                                           if ($obj->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+                                                                               $mes = $leaveController->changeStatus('change');
+                                                                           } else {
+                                                                               $mes = $leaveController->changeStatus();
+                                                                               $leaveController->sendCancelledLeaveNotification($obj, true);
+                                                                           }
+                                                                        }
+                                                                     }
 																						}
 																						$leaveController->redirect("");
 																						break;
@@ -1586,7 +1632,11 @@ switch ($moduletype) {
 													case "Holiday_Weekend_List"		:	$leaveController->displayDefineHolidays("weekend");
 																						break;
 													case "Holiday_Weekend_Edit"		:	$objs = $weekendsExtractor->parseEditData($_POST);
-																						if (isset($objs) && is_array($objs)) {
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Holiday_Weekend_List');
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+																						if (isset($objs) && is_array($objs) && ($token == $_POST['token'])) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$mes = $leaveController->editHoliday("weekend");
@@ -1596,14 +1646,26 @@ switch ($moduletype) {
 																						break;
 
 													case "Holiday_Specific_Add"		:	$obj = $holidaysExtractor->parseAddData($_POST);
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Holiday_Specific_View_Add');
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addHoliday();
+                                                                  if($token == $_POST['token']) {
+                                                                     $leaveController->addHoliday();
+                                                                  }
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
 																						break;
 
 													case "Holiday_Specific_Edit"	:	$obj = $holidaysExtractor->parseEditData($_POST);
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Holiday_Specific_View_Edit', 'id' => $_POST['txtId']);
+                                                                  
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->editHoliday();
+                                                                  if($token == $_POST['token']) {
+                                                                     $leaveController->editHoliday();
+                                                                  }
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
 																						break;
 

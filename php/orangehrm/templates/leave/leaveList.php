@@ -21,8 +21,22 @@
  	$dispYear = $modifier[1];
  }
 
- $modifier = $modifier[0];
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+   unset($records['token']);
+}
+ 
+if(isset($modifier['token'])) {
+ $token = $modifier['token'];
+ unset($modifier['token']);
+}
 
+$actionFlag = "";
+if(isset($modifier['actionFlag'])) {
+   $actionFlag = $modifier['actionFlag'];
+   unset($modifier['actionFlag']);
+}
  if (isset($modifier) && ($modifier == "Taken")) {
 
  	$empInfo = $records[count($records)-1][0];
@@ -87,8 +101,9 @@ if ($modifier === "SUP") {
 
 <div class="outerbox">
 <form id="frmCancelLeave" name="frmCancelLeave" method="post"
-	action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>"
+	action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?><?php if($actionFlag != "") {?>&actionFlag=<?php echo $actionFlag; }?>"
 	onsubmit="return validateLeaveList()">
+   <input type="hidden" value="<?php echo $token;?>" name="token"/>
     <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 
     <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -162,7 +177,8 @@ if ($modifier === "SUP") {
    			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveHoliday=> $lang_Leave_Holiday, $record->statusLeaveWeekend=> $lang_Leave_Common_Weekend);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
-
+            $possibleStatusesArr = array();
+            
 			if ($modifier === "MY") {
   				$possibleStatusesArr = $employeeRespArr;
   			} else if ($modifier == "SUP" || $modifier == "ADMIN") {

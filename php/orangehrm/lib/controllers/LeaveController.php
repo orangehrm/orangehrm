@@ -36,6 +36,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/common/Config.php';
+require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
 
 class LeaveController {
 
@@ -151,9 +152,18 @@ class LeaveController {
 				$leaveTypeNames[] = $name;
 			}
 
+         $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Type_Summary');
+         $tokenGenerator = CSRFTokenGenerator::getInstance();
+         $tokenGenerator->setKeyGenerationInput($screenParam);
+         $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+         
 			foreach ($leaveTypes as $leaveType) {
 				$this->setObjLeave($leaveType);
-				$res = $this->editLeaveType();
+            if($token == $_POST['token']) {
+               $res = $this->editLeaveType();
+            } else {
+               $res = false;
+            }
 				if ($res === false) {
 					$this->redirect("LEAVE_TYPE_EDIT_ERROR");
 					return;
@@ -171,7 +181,7 @@ class LeaveController {
 	}
 
 	public function editLeaves($modifier="summary", $year=null, $esp=null, $sortField = null, $sortOrder = null, $pageNO=null) {
-		switch ($modifier) {
+      switch ($modifier) {
 			case "summary" : $this->setObjLeave(new LeaveSummary());
 							 $this->_displayLeaveSummary("edit", $year, $esp, $sortField, $sortOrder, $pageNO);
 							 break;
@@ -225,7 +235,14 @@ class LeaveController {
 
 	private function _viewLeavesEmployee($details) {
 		$tmpObj = $this->getObjLeave();
-
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      if(isset($_GET['id'])) {
+         $screenParam['id'] = $_GET['id'];
+      }
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		if (!$details) {
 			$tmpObj = $tmpObj->retriveLeaveRequestsEmployee($this->getId());
 			$path = "/templates/leave/leaveRequestList.php";
@@ -234,7 +251,7 @@ class LeaveController {
 			$tmpObj = $tmpObj->retrieveLeave($this->getId());
 			$path = "/templates/leave/leaveList.php";
 		}
-
+      $tmpObj['token'] = $token;
 		$template = new TemplateMerger($tmpObj, $path);
 
 		$modifiers[] = "MY";
@@ -372,6 +389,14 @@ class LeaveController {
 		    die('You are not authorized to view this page');
 		}
 
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      if(isset($_GET['id'])) {
+         $screenParam['id'] = $_GET['id'];
+      }
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$tmpObj = $this->getObjLeave();
 
 		/* Show only leave with requested statuses, default to approved leave
@@ -427,10 +452,14 @@ class LeaveController {
 
 		$modifiers[] = "ADMIN";
 		$modifiers['leave_statuses'] = $leaveStatuses;
+      $modifiers['token'] = $token;
 		$modifiers['from_date'] = $fromDate;
 		$modifiers['to_date'] = $toDate;
 		$modifiers['pageNo'] = $pageNo;
 
+      if($_GET['action'] == "Leave_FetchDetailsAdmin") {
+         $modifiers['actionFlag'] = "admin";
+      }
 		$template->display($modifiers);
 
 	}
@@ -460,6 +489,15 @@ class LeaveController {
 			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
 		}
 		$_SESSION['leaveStatusFilters'] = $leaveStatuses;
+
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      if(isset($_GET['id'])) {
+         $screenParam['id'] = $_GET['id'];
+      }
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 
 		$fromDate = isset($_POST['txtFromDate'])?$_POST['txtFromDate']:
 			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:$this->_generateStartEndDate('start'));
@@ -498,7 +536,11 @@ class LeaveController {
 		$modifiers['from_date'] = $fromDate;
 		$modifiers['to_date'] = $toDate;
 		$modifiers['pageNo'] = $pageNo;
-
+      $modifiers['token'] = $token;
+      
+      if($_GET['action'] == "Leave_FetchDetailsSupervisor") {
+         $modifiers['actionFlag'] = "supervisor";
+      }
 		$template->display($modifiers);
 	}
 
@@ -761,6 +803,11 @@ class LeaveController {
 
 		}
 
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $tmpObjs['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$this->setObjLeave($tmpObjs);
 
 		$path = "/templates/leave/leaveApply.php";
@@ -918,10 +965,15 @@ class LeaveController {
 
 		$tmpObjX['leaveCount'] = $leaveCount['leaveCount'];
 
+      //we introduce token for the form here
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $tmpObjX['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$path = "/templates/leave/leaveSummary.php";
 
 		$template = new TemplateMerger($tmpObjX, $path);
-
 		$template->display($modifier);
 	}
 
@@ -993,6 +1045,11 @@ class LeaveController {
 
 		$this->setObjLeave($leaveType);
 
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $tmpObj['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$path = "/templates/leave/leaveTypeDefine.php";
 
 		$tmpObj[0] = $leaveType;
@@ -1009,18 +1066,28 @@ class LeaveController {
 		$tmpObj = $this->getObjLeave();
 		$newName = $tmpObj->getLeaveTypeName();
 
+      //we introduce token for the form here
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Type_View_Define');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$action = "Leave_Type_View_Define";
 
 		if ($tmpObj->getLeaveTypeWithName($newName)) {
 			$message = "NAME_IN_USE_ERROR";
 		} else {
-			$res = $tmpObj->addLeaveType();
-			if ($res) {
-				$action = "Leave_Type_Summary";
-				$message="ADD_SUCCESS";
-			} else {
-				$message="ADD_FAILURE";
-			}
+         if($token == $_POST['token']) {
+            $res = $tmpObj->addLeaveType();
+         } else {
+            $res = false;
+         }
+         if ($res) {
+            $action = "Leave_Type_Summary";
+            $message="ADD_SUCCESS";
+         } else {
+            $message="ADD_FAILURE";
+         }
 		}
 
 		$this->redirect(null, array("?leavecode=Leave&action={$action}&message={$message}"));
@@ -1062,6 +1129,11 @@ class LeaveController {
 
 		$tmpObjArr = $tmpObj->fetchLeaveTypes(true);
 
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Type_Summary');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $tmpObjArr['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$path = "/templates/leave/leaveTypeSummary.php";
 
 		$template = new TemplateMerger($tmpObjArr, $path);
@@ -1098,8 +1170,15 @@ class LeaveController {
 	public function LeaveTypeDelete() {
 
 		$tmpObj = $this->getObjLeave();
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Type_Summary');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
-		$res = $tmpObj->deleteLeaveType();
+      $res = false;
+      if($token == $_POST['token']) {
+         $res = $tmpObj->deleteLeaveType();
+      }
 
 		if ($res) {
 			$message="";
@@ -1282,21 +1361,30 @@ class LeaveController {
 
 			$record = $holidayObj->fetchHoliday($this->getId());
 		}
+      
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      if(isset($_GET['id'])) {
+         $screenParam['id'] = $_GET['id'];
+      }
+      $tokenGenerator->setKeyGenerationInput($screenParam);
 
+      
 		switch ($modifier) {
 			case "specific"	:	$holiday = new Holidays();
  								$record['holidayList'] = $holiday->listHolidays();
-								$path = "/templates/leave/specificHolidaysDefine.php";
+								$path = "/templates/leave/specificHolidaysDefine.php"; 
 								break;
-			case "weekend"	:	$path = "/templates/leave/weekendHolidaysDefine.php";
+			case "weekend"	:	$path = "/templates/leave/weekendHolidaysDefine.php";                                         
 								$weekendsObj = new Weekends();
 								$record = $weekendsObj->fetchWeek();
 								break;
 		}
-
+      
+      $record['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 		$record['rights'] = $_SESSION['localRights'];
 		$record['changeWeekends'] = Leave::isLeaveTableEmpty();
-
+      
 		$template = new TemplateMerger($record, $path);
 
 		$modifier = $edit;

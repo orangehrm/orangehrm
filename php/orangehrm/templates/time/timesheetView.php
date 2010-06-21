@@ -22,6 +22,8 @@
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 
+$token = $records['token'];
+unset($records['token']);
 
 $timeExpenses = $records[0];
 $timesheet = $records[1];
@@ -314,7 +316,7 @@ td {
 </table>
 <p id="controls">
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
-
+<input type="hidden" value="<?php echo $token;?>" name="token" />
 <input type="hidden" id="txtTimesheetId" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 

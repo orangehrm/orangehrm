@@ -97,6 +97,7 @@ function unassignGroup() {
 
 <?php if($locRights['add']) { ?>
             <form name="frmUSG" method="post" action="<?php echo $formAction;?>" >
+               <input type="hidden" value="<?php echo $this->popArr['token'];?>" name="token" />
                 <input type="hidden" name="USG" value=""/>
                 <input type="hidden" name="txtRepID" value="<?php echo $this->getArr['id']?>"/>
                 <input type="hidden" name="dummy"/>
@@ -127,7 +128,7 @@ function unassignGroup() {
 ?>
             <form name="frmRepUserGroup" method="post" action="<?php echo $formAction;?>">
             	<input type="hidden" name="USG" value=""/>
-
+               <input type="hidden" value="<?php echo $this->popArr['token'];?>" name="token" />
                 <div class="subHeading"><h3><?php echo $lang_rep_AssignedUserGroups; ?></h3></div>
                 <div class="actionbar">
                     <div class="actionbuttons">

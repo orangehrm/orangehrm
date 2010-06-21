@@ -147,4 +147,35 @@ function isAtleastPHP4($phpVersion = null) {
 	return false;
 }
 
+/**
+ * Create encryption key with given filename
+ * @param  $fileName File name of key.
+ * @return bool - true if successful, false if not.
+ */
+function createKeyFile($fileName) {
+
+    $result = false;
+
+    $keyDir = ROOT_PATH . '/lib/confs/cryptokeys';
+
+    $filePath = $keyDir . '/' . $fileName;
+
+    if (is_writable($keyDir)) {
+
+        $cryptKey = '';
+        for($i = 0; $i < 4; $i++) {
+            $cryptKey .= md5(rand(10000000, 99999999));
+        }
+        $cryptKey = str_shuffle($cryptKey);
+        $handle = fopen($filePath, 'w');
+        if ($handle) {
+            fwrite($handle, $cryptKey, 128);
+            $result = true;
+        }
+        fclose($handle);
+    }
+
+    return $result;
+}
+
 ?>

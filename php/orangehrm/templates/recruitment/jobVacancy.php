@@ -40,6 +40,11 @@ $manager = $records['manager'];
 $jobTitles = $records['jobTitles'];
 $vacancy = $records['vacancy'];
 $locRights=$_SESSION['localRights'];
+
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -210,6 +215,7 @@ $locRights=$_SESSION['localRights'];
 				$empName = $manager;
 			}
 		?>
+     <input type="hidden" value="<?php echo $token;?>" name="token" />
   		<input type="hidden" name="cmbHiringManager" id="cmbHiringManager" value="<?php echo $prevEmpNum ?>" />
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br class="clear"/>
 		<label for="cmbJobTitle"><?php echo $lang_Recruit_JobTitleName; ?><span class="required">*</span> </label>

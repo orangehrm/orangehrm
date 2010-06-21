@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
 
 /* Setting message: Begins */
-
+$token = $this->popArr['token'];
 if (isset($this->getArr['msg'])) {
 
 	if ($this->getArr['msg'] == 'UPDATE_SUCCESS') {
@@ -84,7 +84,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 		}
 	}
-
+   
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -146,8 +146,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <?php } ?>
 
 <form name="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="return addSave()">
-
-        <input type="hidden" name="sqlState" value=""/>
+     <input type="hidden" name="token" value="<?php echo $token;?>" />
+      <input type="hidden" name="sqlState" value=""/>
 		<input type="hidden" name="refcapturemode" value="<?php echo isset($refcapturemode)? $refcapturemode : ''?>"/>
 		<input type="hidden" name="refid" value="<?php echo isset($refid) ? $refid : ''?>"/>
 		<input type="hidden" name="backtype" value="<?php echo isset($backtype) ? $backtype : 0?>"/>
@@ -523,6 +523,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <?php } ?>
 
 <form name="frmSalGrd" id="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addUpdate();">
+   <input type="hidden" name="token" value="<?php echo $token;?>" />
     <input type="hidden" name="sqlState" value=""/>
     <input type="hidden" name="backtype" value="<?php echo $backtype?>"/>
     <input type="hidden" name="referer" value="<?php echo $referer?>"/>

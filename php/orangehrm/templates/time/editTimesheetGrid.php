@@ -34,6 +34,9 @@ $messageList = array(
 	'row-delete-partial-success' => $lang_Time_TimeGrid_RemoveRow_PartialSuccess
 );
 
+$token = $records['token'];
+unset($records['token']);
+
 if (isset($records['message'])) {
 	$messageKey = $records['message'];
 	$message = isset($messageList[$messageKey]) ? $messageList[$messageKey] : '';
@@ -122,6 +125,7 @@ td {
 </div>
 
 <form id="frmTimegrid" name="frmTimegrid" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=Update_Timeesheet_Grid">
+   <input type="hidden" value="<?php echo $token; ?>" name="token" />
 <table border="0" cellpadding="0" cellspacing="0" width="100%" id="tblTimegrid">
 	<thead>
 

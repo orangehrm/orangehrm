@@ -23,7 +23,8 @@ $maxDispLen = $sysConst->viewDescLen;
 
 $locRights = $_SESSION['localRights'];
 
-$currentPage = $this->popArr['currentPage'];
+$currentPage   = $this->popArr['currentPage'];
+$token         = $this->popArr['token'];
 
 $list = $this->popArr['list'];
 $baseURL = './CentralController.php?recruitcode='. $this->getArr['recruitcode'];
@@ -249,10 +250,10 @@ for ($i = 0; $i < count($valueMap); $i++) {
 <body>
 <div class="outerbox">
 <form name="standardView" id="standardView" method="post" action="<?php echo $baseURL;?>&amp;action=<?php echo $this->getArr['action'];?>&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']];?>">
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
 	<div class="mainHeading" style="padding: 6px;"><h2><?php echo $title; ?></h2></div>
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
-
     <?php
     if (isset($this->getArr['message'])) {
         $expString  = $this->getArr['message'];

@@ -19,6 +19,7 @@
  */
 
 $year = $records[0];
+$token = $records['token'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -89,7 +90,7 @@ YAHOO.OrangeHRM.container.init();
             <div class="mainHeading"><h2><?php echo $lang_Benefits_DefinePayDateForPaySchedule;?></h2></div>
 
 <form action="?benefitcode=Benefits&amp;action=Add_Pay_Period" method="post" name="frmAddPayPeriod" id="frmAddPayPeriod">
-
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
     <label for="txtPayPeriodFromDate"><?php echo $lang_Benefits_PayPeriod; ?></label>
 	<input name="txtPayPeriodFromDate" type="text" id="txtPayPeriodFromDate"  size="10" class="formDateInput"/>
 	<input type="button" name="Date" value="  " class="calendarBtn" />

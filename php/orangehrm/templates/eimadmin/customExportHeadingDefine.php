@@ -26,6 +26,7 @@ $name = $this->popArr['exportName'];
 $id = $this->popArr['id'];
 $numFields = count($assignedFields);
 $tabIndex = 1;
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -132,6 +133,7 @@ $tabIndex = 1;
         <?php } ?>
 
   <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>">
+     <input type="hidden" name="token" value="<?php echo $token;?>" />
     <input type="hidden" name="sqlState" value="">
 	<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 	<input type="hidden" id="txtFieldName" name="txtFieldName" value="<?php echo $name; ?>" />

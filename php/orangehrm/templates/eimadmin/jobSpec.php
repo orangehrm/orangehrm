@@ -29,6 +29,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 $jobSpec = $this->popArr['jobSpec'];
 $jobSpecs = $this->popArr['jobSpecList'];
 $locRights=$_SESSION['localRights'];
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -163,7 +164,7 @@ $locRights=$_SESSION['localRights'];
 		<?php }	?>
 
             <form name="frmJobSpec" id="frmJobSpec" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-
+            <input type="hidden" name="token" value="<?php echo $token;?>" />
 		        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
 				<input type="hidden" id="txtId" name="txtId" value="<?php echo $jobSpec->getId();?>"/><br class="clear"/>
 				<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>

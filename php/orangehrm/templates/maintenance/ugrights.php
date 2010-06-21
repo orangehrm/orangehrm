@@ -24,7 +24,7 @@ $locRights=$_SESSION['localRights'];
 if ($_SESSION['userGroup'] == $this->popArr['ugDet'][0][0]) {
 	$locRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 }
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -118,7 +118,7 @@ function edit() {
     </div>
 
 <form name="frmURights" id="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;uniqcode=<?php echo $this->getArr['uniqcode']?>">
-
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups;?></h2></div>
 

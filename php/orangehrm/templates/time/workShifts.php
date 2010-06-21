@@ -22,6 +22,8 @@ $workshifts = $records[0];
 $rights = $records['rights'];
 
 $disabledAttribute = 'disabled="disabled"';
+$token = $records['token'];
+unset($records['token']);
 ?>
 
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -130,6 +132,7 @@ function doUnCheckAll() {
 <div id="addPanel" class="outerbox" style="width:300px;display:none;">
 <div class="mainHeading"><h2><?php echo $lang_Time_WorkShift_Add;?></h2></div>
 	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&amp;action=">
+      <input type="hidden" name="token" value="<?php echo $token;?>" />
 		<div class="roundbox">
 			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?><span class="required">*</span></label>
 	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" class="formInputText"/>

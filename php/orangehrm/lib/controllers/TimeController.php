@@ -37,6 +37,7 @@ require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 
 require_once ROOT_PATH . '/lib/models/time/AttendanceRecord.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_AttendanceRecord.php';
+require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
 
 class TimeController {
 
@@ -285,6 +286,11 @@ class TimeController {
 
 	public function showPunchView($messageType = null, $message = null) {
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$attendanceObj = new AttendanceRecord();
 		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
 																AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1', true);
@@ -294,7 +300,8 @@ class TimeController {
 		$records['currentDate'] = date('Y-m-d', time()+$timeStampDiff);
 		$records['currentTime'] = date('H:i', time()+$timeStampDiff);
 		$records['messageType'] = $messageType;
-		$records['message'] = $message;
+		$records['message']  = $message;
+      $records['token']    = $token;
 
 		$sysConfObj = new sysConf();
 		$records['timeInputHint'] = $sysConfObj->getTimeInputHint();
@@ -305,6 +312,11 @@ class TimeController {
 	}
 
 	public function savePunch() {
+
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Punch_View');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		$extractor = new EXTRACTOR_AttendanceRecord($_SESSION['userTimeZoneOffset'], round(date('Z')/3600, 1));
 		$attendanceObj = $extractor->parsePunchData($_POST);
@@ -317,7 +329,7 @@ class TimeController {
 
 				$attendanceObj->isOverlapping(); // Would throw an exception on overlapping
 
-				if ($attendanceObj->updateRecord()) {
+				if (($token == $_POST['token']) && $attendanceObj->updateRecord()) {
 					$messageType = 'SUCCESS';
 					$message = 'save-success';
 				} else {
@@ -336,7 +348,7 @@ class TimeController {
 
 				$attendanceObj->isOverlappingInTime(); // Would throw an exception on overlapping
 
-				if ($attendanceObj->addRecord()) {
+				if (($token == $_POST['token']) && $attendanceObj->addRecord()) {
 					$messageType = 'SUCCESS';
 					$message = 'save-success';
 				} else {
@@ -609,6 +621,11 @@ class TimeController {
 
 	public function showAttendanceConfig($messageType = null) {
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		if (Config::getAttendanceEmpChangeTime()) {
 			$records['empChangeTime'] = true;
 		} else {
@@ -628,6 +645,7 @@ class TimeController {
 		}
 
 		$records['messageType'] = $messageType;
+      $records['token'] = $token;
 		$path = '/templates/time/attendanceConfig.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
@@ -637,51 +655,59 @@ class TimeController {
 	public function saveAttendanceConfig() {
 
 		$errorFlag = true;
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Attendance_Config');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
-		/* Employee can change displayed current time when he punches in/out */
-		if (isset($_POST['chkEmpChangeTime'])) {
-			try {
-				Config::setAttendanceEmpChangeTime('Yes');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		} else {
-			try {
-				Config::setAttendanceEmpChangeTime('No');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		}
+      if($token == $_POST['token']) {
+         /* Employee can change displayed current time when he punches in/out */
+         if (isset($_POST['chkEmpChangeTime'])) {
+            try {
+               Config::setAttendanceEmpChangeTime('Yes');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         } else {
+            try {
+               Config::setAttendanceEmpChangeTime('No');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         }
 
-		/* Employee can edit submitted attendance records */
-		if (isset($_POST['chkEmpEditSubmitted'])) {
-			try {
-				Config::setAttendanceEmpEditSubmitted('Yes');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		} else {
-			try {
-				Config::setAttendanceEmpEditSubmitted('No');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		}
+         /* Employee can edit submitted attendance records */
+         if (isset($_POST['chkEmpEditSubmitted'])) {
+            try {
+               Config::setAttendanceEmpEditSubmitted('Yes');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         } else {
+            try {
+               Config::setAttendanceEmpEditSubmitted('No');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         }
 
-		/* Supervisor can edit submitted attendance records of subordinates */
-		if (isset($_POST['chkSupEditSubmitted'])) {
-			try {
-				Config::setAttendanceSupEditSubmitted('Yes');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		} else {
-			try {
-				Config::setAttendanceSupEditSubmitted('No');
-			} catch (Exception $e) {
-				$errorFlag = false;
-			}
-		}
+         /* Supervisor can edit submitted attendance records of subordinates */
+         if (isset($_POST['chkSupEditSubmitted'])) {
+            try {
+               Config::setAttendanceSupEditSubmitted('Yes');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         } else {
+            try {
+               Config::setAttendanceSupEditSubmitted('No');
+            } catch (Exception $e) {
+               $errorFlag = false;
+            }
+         }
+      } else {
+         $errorFlag = false;
+      }
 
 		if ($errorFlag) {
 			$messageType = 'SUCCESS';
@@ -731,6 +757,12 @@ class TimeController {
 	/* Attendance Methods: End */
 
 	public function submitTimesheet() {
+
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Current_Timesheet');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$timesheetObj = $this->objTime;
 
 		/* For checking unfinished timesheets */
@@ -756,8 +788,11 @@ class TimeController {
 			$superior = false;
 		}
 
-		$res=$timesheet->submitTimesheet($superior);
-
+      $res = false;
+      if($token == $_POST['token']) {
+         $res=$timesheet->submitTimesheet($superior);
+      }
+      
 		if ($res) {
 			$_GET['message'] = 'SUBMIT_SUCCESS';
 		} else {
@@ -822,7 +857,16 @@ class TimeController {
 
 		$timesheet->setComment($timesheetObj->getComment());
 
-		$res=$timesheet->approveTimesheet();
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Current_Timesheet');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
+		$res = false;
+      if($_POST['token'] == $token) {
+         $res = $timesheet->approveTimesheet();
+      }
+      
 		if ($res) {
 			$_GET['message'] = 'APPROVE_SUCCESS';
 		} else {
@@ -853,7 +897,16 @@ class TimeController {
 
 		$timesheet->setComment($timesheetObj->getComment());
 
-		$res=$timesheet->rejectTimesheet();
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Current_Timesheet');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
+		$res = false;
+      if($_POST['token'] == $token) {
+         $res = $timesheet->rejectTimesheet();
+      }
+
 		if ($res) {
 			$_GET['message'] = 'REJECT_SUCCESS';
 		} else {
@@ -1337,6 +1390,11 @@ class TimeController {
 
 	public function viewTimesheet($current) {
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Current_Timesheet');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$timesheetObj = $this->objTime;
 
 		if ($timesheetObj->getTimesheetId() != null) {
@@ -1408,6 +1466,7 @@ class TimeController {
 		$dataArr[9]=$activitySum;
 		$dataArr[10]=$totalTime;
 		$dataArr['rights'] = $_SESSION['localRights'];
+      $dataArr['token'] = $token;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -1417,6 +1476,11 @@ class TimeController {
 
 	public function editTimesheetGrid($messageType=null, $message=null, $showComments = 'No') {
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		$timesheet = $this->objTime;
 
 		/* Setting Grid array: Begins */
@@ -1504,6 +1568,7 @@ class TimeController {
 		    $records['message'] = $message;
 		}
 		$records['showComments'] = $showComments;
+      $records['token'] = $token;
 
 		$path='/templates/time/editTimesheetGrid.php';
 		$template = new TemplateMerger($records, $path);
@@ -1511,20 +1576,12 @@ class TimeController {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function updateTimegrid($eventsList) {
+
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Edit_Timesheet_Grid');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		$updateList = $eventsList[0];
 		$addList = $eventsList[1];
@@ -1540,27 +1597,30 @@ class TimeController {
 		    /* Updating time events */
 
 		    $updateFlag = true;
+          $addFlag = true;
 
-		    foreach ($updateList as $update) {
+          if($token == $_POST['token']) {
+             foreach ($updateList as $update) {
 
-		        if (!$update->editTimeEvent()) {
-		            $updateFlag = false;
-		        }
+                 if (!$update->editTimeEvent()) {
+                     $updateFlag = false;
+                 }
 
-		    }
+             }
 
-		    /* Adding time events */
+             /* Adding time events */
 
-		    $addFlag = true;
+             foreach ($addList as $add) {
 
-		    foreach ($addList as $add) {
+                 if (!$add->addTimeEvent()) {
+                     $addFlag = false;
+                 }
 
-		        if (!$add->addTimeEvent()) {
-		            $addFlag = false;
-		        }
-
-		    }
-
+             }
+          } else {
+            $updateFlag = false;
+            $addFlag    = false;
+          }
 		    /* Sending the result back to the UI */
 
 		    if ($updateFlag && $addFlag) {
@@ -2227,10 +2287,16 @@ class TimeController {
 		    die('You are not authorized to view this page');
 		}
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$path = "/templates/time/workShifts.php";
 
 		$objs[] = Workshift::getWorkshifts();
-		$objs['rights'] = $_SESSION['localRights'];
+		$objs['rights']   = $_SESSION['localRights'];
+      $objs['token']    = $token;
 
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
@@ -2243,13 +2309,19 @@ class TimeController {
 	public function viewEditWorkShift($id) {
 		$path = "/templates/time/editWorkShift.php";
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action'], 'id' => $id);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		try {
 			$workshift = Workshift::getWorkshift($id);
 
 			$objs[] = $workshift;
 			$objs[] = $workshift->getAssignedEmployees();
 			$objs[] = $workshift->getEmployeesWithoutWorkshift();
-			$objs['rights'] = $_SESSION['localRights'];
+			$objs['rights']   = $_SESSION['localRights'];
+         $objs['token']    = $token;
 
 			$template = new TemplateMerger($objs, $path);
 			$template->display();
@@ -2271,8 +2343,16 @@ class TimeController {
 	public function saveWorkShift() {
 		$workShift = $this->getObjTime();
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Work_Shifts');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 		try {
-			$res = $workShift->save();
+         $res = false;
+         if($token == $_POST['token']) {
+            $res = $workShift->save();
+         }
 		} catch (WorkshiftException $exception) {
 			$this->redirect('INVALID_WORK_SHIFT_FAILURE', '?timecode=Time&action=View_Work_Shifts');
 		}
@@ -2291,11 +2371,17 @@ class TimeController {
 		$assignedEmployees = $obj[1];
 		$id = $workShift->getWorkshiftId();
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => "View_Edit_Work_Shift", 'id' => $id);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		try {
-			$workShift->save();
-			$workShift->removeAssignedEmployees();
-			$workShift->assignEmployees($assignedEmployees);
-			
+         if($token == $_POST['token']) {
+            $workShift->save();
+            $workShift->removeAssignedEmployees();
+            $workShift->assignEmployees($assignedEmployees);
+         }
 			/* Updating pending leaves accordingly: Begins */
 			
 			$empList = $workShift->getAssignedEmployees();

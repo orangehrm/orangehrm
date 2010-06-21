@@ -1029,6 +1029,11 @@ tableDisplayStyle = "table";
 <form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
 <?php } ?>
 
+<?php
+    $escapedPane = isset($this->postArr['pane']) ? CommonFunctions::escapeHtml($this->postArr['pane']) : '';
+?>
+<input type="hidden" name="empToken" value="<?php  echo isset($this->popArr['empToken'])?$this->popArr['empToken']:'';?>" />
+
 <input type="hidden" name="sqlState" />
 <input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>" />
 <input type="hidden" name="txtShowAddPane" />

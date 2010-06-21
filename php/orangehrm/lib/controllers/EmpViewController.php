@@ -47,6 +47,7 @@ require_once ROOT_PATH . '/lib/common/FormCreator.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/common/Config.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
+require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
 
 class EmpViewController {
 
@@ -1637,7 +1638,14 @@ class EmpViewController {
 								$form_creator->popArr['customFieldList'] = CustomFields::getCustomFieldList();
 
 							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $empinfo->getLastId();
+
+                        //we introduce token for the form here
+                        $tokenGenerator = CSRFTokenGenerator::getInstance();
+                        $tokenGenerator->setKeyGenerationInput($_GET);
+                        $token = $tokenGenerator->getCSRFToken(array_keys($_GET));
+                        $form_creator->popArr['empToken']   = $token;
+
+								$form_creator ->popArr['newID']     = $empinfo->getLastId();
 
 								if($object != null) {
 
@@ -1654,6 +1662,14 @@ class EmpViewController {
 								}
 
 							} elseif($getArr['capturemode'] == 'updatemode') {
+
+                        //we introduce token for the form here
+                        $screenParam = array('id' => $_GET['id'], 'capturemode' => $_GET['capturemode'], 'reqcode' => $_GET['reqcode']);
+                        $tokenGenerator = CSRFTokenGenerator::getInstance();
+                        $tokenGenerator->setKeyGenerationInput($screenParam);
+                        $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                        $form_creator->popArr['empToken']   = $token;
+
 								$form_creator ->popArr['editTaxInfo'] = $empTax->getEmployeeTaxInfo($getArr['id']);
 								$form_creator ->popArr['usStateList'] = $porinfo->getProvinceCodes('US');
 								$form_creator->popArr['empDDAss'] = $ddebit->getEmployeeDirectDebit($getArr['id']);
@@ -2011,20 +2027,30 @@ class EmpViewController {
 
 			switch ($index) {
 
-				case 'EMP'  :		$empinfo = new EmpInfo();
+				case 'EMP'  :  $empinfo = new EmpInfo();
 									$empinfo = $object['EmpInfo'];
-									$res = $empinfo -> addEmpMain();
 
-									/* Get padded empID since most classes expect the empId to
-									 * be left padded with zeros.
-									 */
-									$id = $empinfo->getPaddedEmpId();
+                           //we add this lines to prevent application from CSRF attack
+                           $tokenGenerator = CSRFTokenGenerator::getInstance();
+                           $tokenGenerator->setKeyGenerationInput($_GET);
+                           $token = $tokenGenerator->getCSRFToken(array_keys($_GET));
+                           if($token == $postArr["empToken"]) {
+                              $res = $empinfo -> addEmpMain();
+                          
+                              /* Get padded empID since most classes expect the empId to
+                               * be left padded with zeros.
+                               */
+                              $id = $empinfo->getPaddedEmpId();
 
-									if(isset($object['EmpPhoto']) && $res) {
-										$empphoto = $object['EmpPhoto'];
-                                        $empphoto -> setEmpId($empinfo->getEmpId());
-										$empphoto -> addEmpPic();
-									}
+                              if(isset($object['EmpPhoto']) && $res) {
+                                 $empphoto = $object['EmpPhoto'];
+                                           $empphoto -> setEmpId($empinfo->getEmpId());
+                                 $empphoto -> addEmpPic();
+                              }
+                              $tokenGenerator->clearToken(array_keys($_GET));
+                           } else {
+                              $res = false;
+                           }
 							break;
 			}
 
@@ -2063,59 +2089,66 @@ class EmpViewController {
 			switch ($index) {
 
 				case 'EMP'  :		$empinfo = new EmpInfo();
+                           //we add this lines to prevent application from CSRF attack
+                           $screenParam = array('id' => $_GET['id'], 'capturemode' => $_GET['capturemode'], 'reqcode' => $_GET['reqcode']);
+                           $tokenGenerator = CSRFTokenGenerator::getInstance();
+                           $tokenGenerator->setKeyGenerationInput($screenParam);
+                           $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
-									if(isset($object['EmpMain'])) {
-										$empinfo = $object['EmpMain'];
-										$res = $empinfo -> updateEmpMain();
-										$message = "";
-										if (!$res) {
-											$message = "UPDATE_FAILURE";
-										}
-										$id = $empinfo -> getEmpId();
-									}
+                           if(($token == $_POST['empToken'])) {
+                              if(isset($object['EmpMain'])) {
+                                 $empinfo = $object['EmpMain'];
+                                 $res = $empinfo -> updateEmpMain();
+                                 $message = "";
+                                 if (!$res) {
+                                    $message = "UPDATE_FAILURE";
+                                 }
+                                 $id = $empinfo -> getEmpId();
+                              }
 
-									if(isset($object['EmpPers'])) {
-										$empinfo = $object['EmpPers'];
-										$empinfo -> updateEmpPers();
-									}
+                              if(isset($object['EmpPers'])) {
+                                 $empinfo = $object['EmpPers'];
+                                 $empinfo -> updateEmpPers();
+                              }
 
-									if(isset($object['EmpJobInfo'])) {
-										$empinfo = $object['EmpJobInfo'];
-										/*
-										 * Check if employment status is not terminated and if so
-										 * empty the fields terminated date and terminated reason
-										 */
-										 if ($empinfo->getEmpStatus() != EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
-										 	$empinfo->setEmpTerminatedDate('null');
-										 	$empinfo->setEmpTerminationReason('');
-										 }
-										$empinfo -> updateEmpJobInfo();
-									}
+                              if(isset($object['EmpJobInfo'])) {
+                                 $empinfo = $object['EmpJobInfo'];
+                                 /*
+                                  * Check if employment status is not terminated and if so
+                                  * empty the fields terminated date and terminated reason
+                                  */
+                                  if ($empinfo->getEmpStatus() != EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
+                                    $empinfo->setEmpTerminatedDate('null');
+                                    $empinfo->setEmpTerminationReason('');
+                                  }
+                                 $empinfo -> updateEmpJobInfo();
+                              }
 
-									if(isset($object['EmpCustomInfo'])) {
-										$empinfo = $object['EmpCustomInfo'];
-										$empinfo -> updateEmpCustomInfo();
-									}
+                              if(isset($object['EmpCustomInfo'])) {
+                                 $empinfo = $object['EmpCustomInfo'];
+                                 $empinfo -> updateEmpCustomInfo();
+                              }
 
-									/*if(isset($object['EmpJobStat'])) {
-										$empinfo = $object['EmpJobStat'];
-										$empinfo -> updateEmpJobStat();
-									}*/
+                              /*if(isset($object['EmpJobStat'])) {
+                                 $empinfo = $object['EmpJobStat'];
+                                 $empinfo -> updateEmpJobStat();
+                              }*/
 
-									if(isset($object['EmpTaxInfo'])) {
-										$empinfo = $object['EmpTaxInfo'];
-										$empinfo->updateEmpTax();
-									}
+                              if(isset($object['EmpTaxInfo'])) {
+                                 $empinfo = $object['EmpTaxInfo'];
+                                 $empinfo->updateEmpTax();
+                              }
 
-									/*if(isset($object['EmpWrkStation'])) {
-										$empinfo = $object['EmpWrkStation'];
-										$empinfo -> updateEmpWrkStation();
-									}
-									*/
-									if(isset($object['EmpPermRes'])) {
-										$empinfo = $object['EmpPermRes'];
-										$empinfo -> updateEmpContact();
-									}
+                              /*if(isset($object['EmpWrkStation'])) {
+                                 $empinfo = $object['EmpWrkStation'];
+                                 $empinfo -> updateEmpWrkStation();
+                              }
+                              */
+                              if(isset($object['EmpPermRes'])) {
+                                 $empinfo = $object['EmpPermRes'];
+                                 $empinfo -> updateEmpContact();
+                              }
+                           }
 									break;
 
 				case 'ESS'  :		$empinfo = new EmpInfo();

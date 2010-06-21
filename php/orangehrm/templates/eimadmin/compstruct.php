@@ -113,6 +113,8 @@
     $treeHierarchy = $treeCompStruct->displayTree($_GET['root']);
     $depth=(($treeHierarchy[0][0]['rgt']-$treeHierarchy[0][0]['lft']+1)/2);
     unset($indentor);
+
+    $token = $this->popArr['token'];
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -251,6 +253,7 @@
 
     <!-- Delete Subdivision -->
     <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="validate(); return false;">
+      
 		<input type="hidden" value="" id="del_rgt" name="rgt"/>
 		<input type="hidden" value="" id="lft" name="lft"/>
 		<input type="hidden" value="" name="sqlState"/>
@@ -262,7 +265,7 @@
         <div class="outerbox">
         <div class="subHeading"><h3 id="parnt">&nbsp;</h3></div>
 		<form name="frmAddNode" id="frmAddNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;id=1" onsubmit="validate(); return false;">
-
+         <input type="hidden" value="<?php echo $token;?>" name="token" />
 		<input type="hidden" value="" id="add_rgt" name="rgt"/>
 		<input type="hidden" value=""  name="sqlState"/>
 		<input type="hidden" value="" id="txtParnt" name="txtParnt"/>

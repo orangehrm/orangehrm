@@ -141,6 +141,7 @@
 <?php } ?>
 
     <form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
+        <input type="hidden" value="<?php echo $records['token'];?>" name="token" />
         <input type="hidden" value="<?php echo $id; ?>" name="txtId" />
       	<label for="txtDescription"><?php echo $lang_Leave_Common_NameOfHoliday;?><span class="required">*</span></label>
         <input type="text" id="txtDescription" name="txtDescription" size="30" class="formInputText"

@@ -22,6 +22,7 @@ $delBtnAction = 'deleteProperties()';
 $saveBtnAction = 'saveList()';
 
 $authObj = $this->popArr['authObj'];
+$token = $this->popArr['token'];
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -267,7 +268,7 @@ if (!isset($this->getArr['action'])) {
 <!--Property List section-->
 
   <form action="./CentralController.php?uniqcode=TCP&amp;id=0" method="post" name='propertyList' id = 'propertyList'>
-
+     <input type="hidden" value="<?php echo $token;?>" name="token" />
     <input type="hidden" name="sqlState" id='listSqlState' value="delete"/>
     <input type="hidden" name="pageNo" value="<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>">
 
@@ -360,7 +361,7 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
 
     <input type="hidden" name="sqlState" value="<?php echo $this->getArr['action']=='add'?'NewRecord':'UpdateRecord'; ?>"/>
     <input type="hidden" name="capturemode" value="<?php echo $this->getArr['action']=='edit'?'editprop':'addmode'; ?>"/>
-
+    <input type="hidden" name="token" value="<?php echo $token;?>" />
     <label for="txtPropertyName"><?php echo $lang_Admin_Property_Name;?><span class="required">*</span></label>
     <input type="text" name="txtPropertyName" id ="txtPropertyName" class="formInputText"
         value="<?php echo $this->getArr['action']=='edit'?stripslashes($this->getArr['name']):''; ?>" size="40" maxlength="256"/>

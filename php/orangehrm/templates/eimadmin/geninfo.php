@@ -55,6 +55,7 @@ $skillId = '';
 $skillName = '';
 $skillDesc = '';
 $editArr = $this->popArr['editArr'];
+$token = $this->popArr['token'];
 $disabled = "disabled='disabled'";
 
 ?>
@@ -208,6 +209,7 @@ $disabled = "disabled='disabled'";
         <?php } ?>
 
             <form name="frmGenInfo" id="frmGenInfo" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
+               <input type="hidden" value="<?php echo $token;?>" name="token" />
                 <input type="hidden" name="STAT" value="EDIT"/>
 
                 <label for="txtCompanyName"><?php echo $lang_geninfo_compname; ?><span class="required">*</span></label>

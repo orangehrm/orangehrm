@@ -19,6 +19,8 @@
 
 	/* To check whether active leave types are available: Begins */
 	$sum = 0;
+   $token = $records['token'];
+   unset($records['token']);
 	foreach ($records as $record) {
 		$flag = $record->getLeaveTypeAvailable();
 		if ($flag == 1) {
@@ -271,6 +273,7 @@
 </script>
 <div class="outerbox">
 <form method="post" name="defineLeaveType" id="defineLeaveType" onsubmit="return false;" action="" onreset="window.setTimeout('checkForDuplicates()', 100);">
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
     <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?></h2></div>
 
     <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
@@ -322,7 +325,7 @@ if ($activeTypesAvailable) {
       <td width="50">
         <input type='checkbox' class='checkbox' name='allCheck' id='allCheck' value='' onclick="doHandleAll();" />
       </td>
-      <td><?php echo $lang_Leave_Common_LeaveTypeId?></td>
+      <td><?php echo $lang_Leave_Common_LeaveTypeId;?></td>
       <td><?php echo $lang_Leave_Common_LeaveType;?></td>
     </tr>
   </thead>

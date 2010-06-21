@@ -17,6 +17,10 @@
  * Boston, MA  02110-1301, USA
  *
  */
+$rootPath = realpath(dirname(__FILE__));
+
+define('ROOT_PATH', $rootPath);
+require(ROOT_PATH . '/lib/utils/installUtil.php');
 
 function sockComm($postArr) {
 
@@ -168,24 +172,13 @@ if(isset($_POST['actionResponse']))
 
 						$_SESSION['ENCRYPTION'] = "Inactive";
 						if (isset($_POST['chkEncryption'])) {
-							$filePath = 'lib/confs/cryptokeys/key.ohrm';
-							if (is_writable('lib/confs/cryptokeys')) {
-								$cryptKey = '';
-								for($i = 0; $i < 4; $i++) {
-									$cryptKey .= md5(rand(10000000, 99999999));
-								}
-								$cryptKey = str_shuffle($cryptKey);
-								$handle = fopen($filePath, 'w');
-								if ($handle) {
-									fwrite($handle, $cryptKey, 128);
-									$_SESSION['ENCRYPTION'] = "Active";
-								} else {
-								    $_SESSION['ENCRYPTION'] = "Failed";
-								}
-							    fclose($handle);
-							} else {
-							    $_SESSION['ENCRYPTION'] = "Failed";
-							}
+
+                            $keyResult = createKeyFile('key.ohrm');
+                            if ($keyResult) {
+                                $_SESSION['ENCRYPTION'] = "Active";
+                            } else {
+                                $_SESSION['ENCRYPTION'] = "Failed";
+                            }
 						}
 
 						/* For Data Encryption: Ends */

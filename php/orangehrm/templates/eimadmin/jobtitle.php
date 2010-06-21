@@ -193,7 +193,7 @@ return $objResponse->getXML();
   setcookie('txtJobTitleID', 'null', time()-3600, '/');
 
   $themeDir = '../../themes/' . $styleSheet;
-
+   $token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -486,7 +486,7 @@ return $objResponse->getXML();
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
 		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addSave()">
-
+      <input type="hidden" name="token" value="<?php echo $token;?>" />
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
 
@@ -560,6 +560,7 @@ return $objResponse->getXML();
 <?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode" onsubmit="return addUpdate()">
+      <input type="hidden" name="token" value="<?php echo $token;?>" />
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>" />
 		<label class="formLabel"><?php echo $lang_jobtitle_jobtitid; ?></label>

@@ -31,7 +31,7 @@ $name = $this->popArr['importName'];
 $id = $this->popArr['id'];
 $customImportList = $this->popArr['customImportList'];
 $compulsaryFields = $this->popArr['compulsary_fields'];
-
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -293,6 +293,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
         <?php } ?>
 
   <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>" onsubmit="return <?php echo $btnAction; ?>;">
+     <input type="hidden" name="token" value="<?php echo $token;?>" />
         <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>

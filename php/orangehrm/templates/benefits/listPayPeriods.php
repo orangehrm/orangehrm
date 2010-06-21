@@ -20,6 +20,7 @@
 $payPeriods = $records[0];
 $year = $records[1];
 $auth = $records[2];
+$token = $records['token'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -51,7 +52,7 @@ function returnDelete() {
 
 <div class="outerbox">    
 <form id="frmMain" name="frmMain" method="post" action="">
-
+   <input type="hidden" name="token" value="<?php echo $token;?>" />
     <div class="mainHeading"><h2><?php echo "$lang_Benefits_PayrollSchedule : $year"; ?></h2></div>
     <?php 
     if (isset($_GET['message'])) {  

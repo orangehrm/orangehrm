@@ -46,6 +46,7 @@ if (isset($editArr) && is_array($editArr)) {
 }
 
 $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&amp;id=1";
+$token = $this->popArr['token'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -150,7 +151,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
         <?php } ?>
 
             <form name="mailSubscription" id="mailSubscription" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
-
+               <input type="hidden" name="token" value="<?php echo $token;?>" />
                 <input type="hidden" name="sqlState" value="UpdateRecord"/>
                 <label for="txtMailAddress"><?php echo $lang_Commn_Email; ?><span class="required">*</span></label>
                 <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText"

@@ -20,7 +20,9 @@
 ?>
 
 <?php
-
+ $token = $records['token'];
+ unset($records['token']);
+ 
 	$plans = array(null, $lang_Hsp_Key_Hsa, $lang_Hsp_Key_Hra, $lang_Hsp_Key_Fsa, $lang_Hsp_Key_Hsa_Fsa, $lang_Hsp_Key_Hra_Fsa, $lang_Hsp_Key_Hsa_Hra);
 	$checked = array(null, '', '', '', '', '', '');
 
@@ -83,6 +85,7 @@
         <?php } ?>
                 
 <form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan" onSubmit="return validate()">
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
 <table width="141" border="0" cellpadding="4" cellspacing="0">
     <tr>
       <td width="94">&nbsp;<?php echo $lang_Hsp_Key_Hsa; ?></td>

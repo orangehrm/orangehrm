@@ -21,6 +21,7 @@
 $workshift = $records[0];
 $assignedEmployees = $records[1];
 $availableEmployees = $records[2];
+$token = $records['token'];
 
 $disabled = ($records['rights']['edit']) ? '' : 'disabled="disabled"';
 ?>
@@ -103,6 +104,7 @@ function removeEmployee() {
         <?php } ?>
 
 	<form name="frmEditWorkShift" id="frmEditWorkShift" method="post" action="?timecode=Time&action=">
+      <input type="hidden" value="<?php echo $token;?>" name="token" />
 			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?><span class="required">*</span></label>
 	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" value="<?php echo $workshift->getName(); ?>"
                 class="formInputText"/>

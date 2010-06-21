@@ -47,7 +47,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
  	$exception = $records['exception'];
  }
 
-
+ $token = $records['token'];
 ?>
 <script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
 <link href="../../themes/orange/css/jquery/jquery.autocomplete.css" rel="stylesheet" type="text/css"/>
@@ -648,7 +648,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         <?php } ?>
 
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $modifier; ?>">
-
+<input type="hidden" value="<?php echo $token;?>" name="token" />
 <?php if (isset($confirmDate)) { ?>
 	<input type="hidden" name="confirmDate" value="<?php echo $prevLeaveFromDate; ?>"/>
 <?php } ?>

@@ -188,6 +188,7 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 <body>
 <div class="outerbox">
 <form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&amp;VIEW=MAIN">
+   <input type="hidden" value="<?php echo $this->popArr['token'];?>" name="token" />
 	<div class="mainHeading"><h2><?php echo $heading[3]; ?></h2></div>
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>"/>
     <input type="hidden" name="delState" value=""/>

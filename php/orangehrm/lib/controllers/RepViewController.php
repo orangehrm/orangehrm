@@ -37,6 +37,10 @@ class RepViewController {
 	}
 
 	function viewList($getArr,$postArr) {
+      $screenParam = array('repcode' => $getArr['repcode'], 'VIEW' => $getArr['VIEW']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 		$form_creator = new FormCreator($getArr,$postArr);
 		$form_creator ->formPath ='/repview.php';
@@ -59,18 +63,24 @@ class RepViewController {
 		else
 			$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['repcode']));
 
+      $form_creator ->popArr['token'] = $token;
 		$form_creator->display();
 	}
 
     function delParser($indexCode,$arrList) {
         $this->indexCode=$indexCode;
-
+      $screenParam = array('repcode' => $_GET['repcode'], 'VIEW' => 'MAIN');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
         switch ($this->indexCode)  {
 
         	case 'EMPDEF' :
 
 	            $this->report = new EmpReport();
-	            $this->report->delReports($arrList);
+               if($token == $_POST['token']) {
+                  $this->report->delReports($arrList);
+               }
 	            break;
 		}
     }
@@ -175,13 +185,21 @@ class RepViewController {
 
 	function addData($index,$object) {
 
+      $screenParam = array('repcode' => $_GET['repcode'], 'capturemode' => 'addmode');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      
 			switch ($index) {
 
 				case 'EMPDEF'  :		$report = new EmpReport();
 										$report = $object;
 
-										$res = $report -> addReport();
-
+										$res = false;
+                              if($token == $_POST['token']) {
+                                 $res = $report->addReport();
+                              }
+                              
 										if ($res){
 											$id = $report -> getRepID();
 
@@ -232,12 +250,19 @@ class RepViewController {
 
 
 	function updateData($index,$id,$object) {
+      $screenParam = array('repcode' => 'EMPDEF', 'capturemode' => 'updatemode');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 			switch ($index) {
 
 				case 'EMPDEF'  :		$report = new EmpReport();
 										$report = $object;
-										$res = $report -> updateReport();
+                              $res = false;
+                              if($token == $_POST['token']) {
+                                 $res = $report -> updateReport();
+                              }
 										break;
 			}
 
@@ -268,10 +293,20 @@ class RepViewController {
 	}
 
 	function addUserGroups($repusg) {
-		$repusg -> addRepUserGroup();
+      $screenParam = array('repcode' => 'RUG', 'id' => $_GET['id']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      if($token == $_POST['token']) {
+         $repusg -> addRepUserGroup();
+      }
 	}
 
 	function delUserGroups($postArr,$getArr) {
+      $screenParam = array('repcode' => 'RUG', 'id' => $getArr['id']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
 			$repusg = new EmpRepUserGroup();
 
@@ -282,7 +317,9 @@ class RepViewController {
 		          if($arr[0][$c]!=NULL)
 		             $arr[1][$c]=$getArr['id'];
 
-		      $repusg -> delRepUserGroup($arr);
+         if($token == $_POST['token']) {
+            $repusg -> delRepUserGroup($arr);
+         }  
     }
 
 	function reDirect($getArr,$postArr,$object = null) {
@@ -293,9 +330,12 @@ class RepViewController {
 			trigger_error("Unauthorized access", E_USER_NOTICE);
 		}
 
+      $screenParam = array('repcode' => $getArr['repcode']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      
 		switch ($getArr['repcode']) {
 
-			case 'EMPDEF' : //if ()
+			case 'EMPDEF' : 
 							$form_creator ->formPath = '/templates/report/emprepinfo.php';
 
 							$form_creator->popArr['arrAgeSim'] = array ('Less Than' => '>','Greater Than' =>'<','Range' =>'range');
@@ -310,15 +350,22 @@ class RepViewController {
 							$salgrd = new SalaryGrades();
 							$empstat = new EmploymentStatus();
 							$langObj = new LanguageInfo();
-							$skillObj = new Skills();
-
+							$skillObj = new Skills();     
+                     
+                     if(isset($getArr['capturemode'])) {
+                        $screenParam['capturemode'] = $getArr['capturemode'];
+                     }
+                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                     $tokenGenerator->clearToken(array_keys($screenParam));
+                     
 							$form_creator->popArr['grdlist'] = $salgrd ->getSalGrdCodes();
 							$form_creator->popArr['edulist'] = $edu ->getAllEducation();
 							$form_creator->popArr['deslist'] = $jobtit ->getJobTit();
 							$form_creator->popArr['arrEmpType'] = $empstat ->getEmpStat();
 							$form_creator->popArr['languageList'] = $langObj->getLang();
 							$form_creator->popArr['skillList'] = $skillObj->getSkillCodes();
-
+                     $form_creator->popArr['token'] = $token;
 
 							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $edit = $report->filterReport($getArr['id']);
@@ -403,13 +450,18 @@ class RepViewController {
 							break;
 
 			case 'RUG' :	$form_creator ->formPath = '/templates/report/repusg.php';
-
+                     if(isset($getArr['id'])) {
+                        $screenParam['id'] = $getArr['id'];
+                     }
+                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
                             $report = new EmpReport();
                             $emprepgroup = new EmpRepUserGroup();
 							$form_creator ->popArr['report'] = $report->filterReport($getArr['id']);
 							$form_creator->popArr['usgAll'] = $emprepgroup -> getAllUserGroups();
 							$form_creator ->popArr['repUsgAss'] = $emprepgroup ->getAssignedUserGroup($getArr['id']);
 							$form_creator ->popArr['usgUnAss'] = $emprepgroup ->getUnAssUserGroups($getArr['id']);
+                     $form_creator ->popArr['token'] = $token;
 
 							break;
 
