@@ -24,7 +24,7 @@ $token = $records['token'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var commonAction = '?benefitcode=Benefits&year=<?php echo $year; ?>&action=';
+var commonAction = '?benefitcode=Benefits&year=<?php echo CommonFunctions::escapeHtml($year); ?>&action=';
 
 function returnAdd() {
 	window.location = commonAction+'View_Add_Pay_Period';
@@ -115,7 +115,7 @@ function returnDelete() {
 						<?php
 						if ($auth->isAdmin()) {
 						?>
-						<a href="?benefitcode=Benefits&amp;action=View_Edit_Pay_Period&amp;year=<?php echo $year; ?>&amp;id=<?php echo $payPeriod->getId(); ?>"><?php echo $payPeriod->getCheckDate(); ?></a>
+						<a href="?benefitcode=Benefits&amp;action=View_Edit_Pay_Period&amp;year=<?php echo CommonFunctions::escapeHtml($year); ?>&amp;id=<?php echo $payPeriod->getId(); ?>"><?php echo $payPeriod->getCheckDate(); ?></a>
 						<?php
 						} else {
 							echo $payPeriod->getCheckDate();

@@ -510,6 +510,15 @@ class CommonFunctions {
         return $sanitizedValue;
     }
 
+    public static function cleanIntParam($value) {
+
+        $returnValue = self::cleanParam($value);
+
+        $returnValue = preg_replace("/[^0-9.]/", "", $returnValue);
+
+        return $returnValue;
+    }
+
     /**
      * Is web request from localhost?
      * @static

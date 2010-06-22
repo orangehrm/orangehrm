@@ -25,7 +25,7 @@ $token = $records['token'];
 //<![CDATA[
 
 function goBack() {
-	window.location = '?benefitcode=Benefits&action=List_Benefits_Schedule&year=<?php echo $year; ?>';
+	window.location = '?benefitcode=Benefits&action=List_Benefits_Schedule&year=<?php echo CommonFunctions::escapeHtml($year); ?>';
 }
 
 function addPayPeriod() {
