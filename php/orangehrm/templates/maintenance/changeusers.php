@@ -42,7 +42,7 @@ $objAjax = new xajax();
 $objAjax->registerFunction('chkPassword');
 $objAjax->processRequests();
 
-if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode') && isset($this->popArr['editArr']) && is_array($this->popArr['editArr']) ) {
     $editData = $this->popArr['editArr'];
 
     ?>

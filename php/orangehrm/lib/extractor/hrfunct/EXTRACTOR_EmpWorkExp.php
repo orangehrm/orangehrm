@@ -28,16 +28,16 @@ class EXTRACTOR_EmpWorkExp{
 
 	public function parseData($postArr) {
 
-		$postArr['txtEmpExpFromDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpFromDate']);
-		$postArr['txtEmpExpToDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpToDate']);
+		$postArr['txtEmpExpFromDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpExpFromDate']));
+		$postArr['txtEmpExpToDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpExpToDate']));
 
-		$this->empwrkexp->setEmpId(trim($postArr['txtEmpID']));
-    	$this->empwrkexp->setEmpExpSeqNo($postArr['txtEmpExpID']);
-    	$this->empwrkexp->setEmpExpEmployer(trim($postArr['txtEmpExpEmployer']));
-    	$this->empwrkexp->setEmpExpJobTitle(trim($postArr['txtEmpExpJobTitle']));
+		$this->empwrkexp->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+    	$this->empwrkexp->setEmpExpSeqNo(CommonFunctions::cleanParam($postArr['txtEmpExpID']));
+    	$this->empwrkexp->setEmpExpEmployer(CommonFunctions::cleanParam($postArr['txtEmpExpEmployer'], 100));
+    	$this->empwrkexp->setEmpExpJobTitle(CommonFunctions::cleanParam($postArr['txtEmpExpJobTitle'], 120));
     	$this->empwrkexp->setEmpExpFromDate(self::_handleEmptyDates($postArr['txtEmpExpFromDate']));
     	$this->empwrkexp->setEmpExpToDate(self::_handleEmptyDates($postArr['txtEmpExpToDate']));
-    	$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
+    	$this->empwrkexp->setEmpExpComments(CommonFunctions::cleanParam($postArr['txtEmpExpComments'], 200));
 		$this->empwrkexp->setEmpExpInternal(isset($postArr['chkEmpExpInternal']) ? 1 : 0);
 
 		return $this->empwrkexp;

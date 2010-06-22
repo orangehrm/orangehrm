@@ -37,12 +37,12 @@ class EXTRACTOR_EmpEmergencyCon {
 	function parseData($postArr) {
 			
 			$this->econ->setEmpId($postArr['txtEmpID']);
-			$this->econ->setEmpECSeqNo(trim($postArr['txtECSeqNo']));
-			$this->econ->setEmpEConName(trim($postArr['txtEConName']));
-			$this->econ->setEmpEConRel(trim($postArr['txtEConRel']));
-			$this->econ->setEmpEConHmTel(trim($postArr['txtEConHmTel']));
-			$this->econ->setEmpEConMobile(trim($postArr['txtEConMobile']));
-			$this->econ->setEmpEConWorkTel($postArr['txtEConWorkTel']);
+			$this->econ->setEmpECSeqNo(CommonFunctions::cleanParam($postArr['txtECSeqNo']));
+			$this->econ->setEmpEConName(CommonFunctions::cleanParam($postArr['txtEConName'], 100));
+			$this->econ->setEmpEConRel(CommonFunctions::cleanParam($postArr['txtEConRel'], 100));
+			$this->econ->setEmpEConHmTel(CommonFunctions::cleanParam($postArr['txtEConHmTel'], 100));
+			$this->econ->setEmpEConMobile(CommonFunctions::cleanParam($postArr['txtEConMobile'], 100));
+			$this->econ->setEmpEConWorkTel(CommonFunctions::cleanParam($postArr['txtEConWorkTel'], 100));
 			
 									
 			return $this->econ;
@@ -51,12 +51,12 @@ class EXTRACTOR_EmpEmergencyCon {
 	function reloadData($postArr) {	
 	
 			$this->txtEmpID			=	($postArr['txtEmpID']);
-			$this->txtECSeqNo		=	(trim($postArr['txtECSeqNo']));
-			$this->txtEConName		=	(trim($postArr['txtEConName']));
-			$this->txtEConRel		=	(trim($postArr['txtEConRel']));
-			$this->txtEConHmTel		=	(trim($postArr['txtEConHmTel']));
-			$this->txtEConMobile	=	(trim($postArr['txtEConMobile']));
-			$this->txtEConWorkTel	=	(trim($postArr['txtEConWorkTel']));
+			$this->txtECSeqNo		=	(CommonFunctions::cleanParam($postArr['txtECSeqNo']));
+			$this->txtEConName		=	(CommonFunctions::cleanParam($postArr['txtEConName'], 100));
+			$this->txtEConRel		=	(CommonFunctions::cleanParam($postArr['txtEConRel'], 100));
+			$this->txtEConHmTel		=	(CommonFunctions::cleanParam($postArr['txtEConHmTel'], 100));
+			$this->txtEConMobile	=	(CommonFunctions::cleanParam($postArr['txtEConMobile'], 100));
+			$this->txtEConWorkTel	=	(CommonFunctions::cleanParam($postArr['txtEConWorkTel'], 100));
 			
 			
 			return $this;

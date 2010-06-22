@@ -129,16 +129,16 @@ else
 
     function empSel(empNumber, empName) {
 <?php
-		$reqPath="?reqcode=".$_GET['reqcode'];
+		$reqPath="?reqcode=".CommonFunctions::escapeHtml($_GET['reqcode']);
 		if(isset($_GET['USR'])) {
-			$reqPath.="&USR={$_GET['USR']}";
+			$reqPath.="&USR=" . CommonFunctions::escapeHtml($_GET['USR']);
 ?>
 		getElementByName("cmbUserEmpID", window.opener.document).value = empNumber;
 		getElementByName("txtUserEmpID", window.opener.document).value = empName;
         window.close();
 
 <?php   } else if(isset($_GET['REPORT'])) {
-			$reqPath.="&REPORT={$_GET['REPORT']}";
+			$reqPath.="&REPORT=" . CommonFunctions::escapeHtml($_GET['REPORT']);
 ?>
         window.opener.document.frmEmpRepTo.txtRepEmpID.value = empNumber;
         window.opener.document.frmEmpRepTo.cmbRepEmpID.value =empName;
@@ -162,7 +162,7 @@ else
         window.close();
 
 <?php  } else if(isset($_GET['PROJECT'])) {
-			$reqPath.="&PROJECT={$_GET['PROJECT']}";
+			$reqPath.="&PROJECT=" . CommonFunctions::escapeHtml($_GET['PROJECT']);
 ?>
         window.opener.document.frmProjectAdmins.projAdminID.value = empNumber;
         window.opener.document.frmProjectAdmins.projAdminName.value = empName;
@@ -174,7 +174,7 @@ else
         window.close();
 
 <?php  } else { ?>
-		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + empNumber + "&reqcode=<?php echo $_GET['reqcode']?>";
+		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + empNumber + "&reqcode=<?php echo CommonFunctions::escapeHtml($_GET['reqcode'])?>";
         window.opener.document.standardView.submit();
 		window.close();
 <?php } ?>
@@ -200,8 +200,8 @@ else
     <form name="standardView" method="post" action="" onsubmit="search();">
         <div class="mainHeading"><h2><?php echo $lang_empview_search; ?></h2></div>
 
-        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>"/>
-        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>"/>
+        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?CommonFunctions::escapeHtml($_POST['captureState']):''?>"/>
+        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?CommonFunctions::escapeHtml($_POST['pageNO']):'1'?>"/>
         <input type="hidden" name="empID" value=""/>
 
         <div class="searchbox">
@@ -220,7 +220,7 @@ else
             </select>
 
             <input type="text" size="20" name="loc_name" id="loc_name"
-                value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>" />
+                value="<?php echo isset($_POST['loc_name'])? CommonFunctions::escapeHtml($_POST['loc_name']):''?>" />
             <br class="clear"/>
             <input type="submit" class="plainbtn" name="btnSearch" style="margin:3px 3px 0 5px;"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
@@ -290,10 +290,10 @@ else
 ?>
                 <tr>
                     <td class="<?php echo $cssClass;?>">
-                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empId;?></a>
+                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo CommonFunctions::escapeHtml($empId);?></a>
                     </td>
                     <td>
-                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empName;?></a>
+                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo CommonFunctions::escapeHtml($empName);?></a>
                     </td>
                 </tr>
 

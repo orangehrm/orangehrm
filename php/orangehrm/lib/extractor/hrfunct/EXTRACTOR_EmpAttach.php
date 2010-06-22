@@ -31,14 +31,18 @@ class EXTRACTOR_EmpAttach {
 	}
 
 	function parseData($postArr) {	
-			$this->attachment->setEmpId($postArr['txtEmpID']);
+			$this->attachment->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
 			if (isset($_FILES['ufile']) && ($_FILES['ufile']['size']>0)) {
 					//file info
 					$fileName = $_FILES['ufile']['name'];
 					$tmpName  = $_FILES['ufile']['tmp_name'];
 					$fileSize = $_FILES['ufile']['size'];
 					$fileType = $_FILES['ufile']['type'];
-		
+
+                    if (strlen($fileName) > 100) {
+                        $fileName = substr($fileName, 0, 100);
+                    }
+
 					//file read
 					$fp = fopen($tmpName,'r');
 					$contents = fread($fp,filesize($tmpName));
@@ -52,13 +56,13 @@ class EXTRACTOR_EmpAttach {
 					$this->attachment->setEmpAttSize($fileSize);
 					$this->attachment->setEmpAttachment($contents);
 					$this->attachment->setEmpAttType($fileType);
-					$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID']));					
+					$this->attachment->setEmpAttId($this->attachment->getLastRecord(CommonFunctions::cleanParam($postArr['txtEmpID'])));
 			} elseif($postArr['attSTAT'] == "EDIT") {
-					$this->attachment->setEmpAttId(trim($postArr['seqNO']));					
+					$this->attachment->setEmpAttId(CommonFunctions::cleanParam($postArr['seqNO']));
 			}  else return null;
 				
 				
-				$this->attachment->setEmpAttDesc(trim($postArr['txtAttDesc']));
+				$this->attachment->setEmpAttDesc(CommonFunctions::cleanParam($postArr['txtAttDesc'], 200));
 				
 				return $this->attachment;
 			
@@ -66,9 +70,9 @@ class EXTRACTOR_EmpAttach {
 
 	function reloadData($postArr) {	
 	
-		$this->txtEmpID		=	($postArr['txtEmpID']);
-		$this->txtAttDesc	=	(trim($postArr['txtAttDesc']));
-		$this->seqNO		=	($postArr['seqNO']);
+		$this->txtEmpID		=	CommonFunctions::cleanParam($postArr['txtEmpID']);
+		$this->txtAttDesc	=	CommonFunctions::cleanParam($postArr['txtAttDesc']);
+		$this->seqNO		=	CommonFunctions::cleanParam($postArr['seqNO']);
 		
 		return $this;
 	}

@@ -1,4 +1,4 @@
-<?php
+change<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -117,23 +117,28 @@ function editEContact() {
           <tr>
 			 <td>
 			 	<?php echo $lang_hremp_name; ?> <span class="required">*</span>
-			 	<input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>">
+			 	<input type="hidden" name="txtECSeqNo" value="<?php echo CommonFunctions::escapeHtml($edit[0][1])?>">
 			 </td>
-			 <td><input type="text" name="txtEConName" value="<?php echo $edit[0][2]?>"/></td>
+			 <td><input type="text" name="txtEConName" maxlength="100"
+                        value="<?php echo CommonFunctions::escapeHtml($edit[0][2])?>"/></td>
 			 <td width="50">&nbsp;</td>
 			<td><?php echo $lang_hremp_relationship; ?> <span class="required">*</span></td>
-			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"/></td>
+			 <td><input type="text" name="txtEConRel" maxlength="100"
+                        value="<?php echo CommonFunctions::escapeHtml($edit[0][3])?>"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_hmtele; ?></td>
-			 <td><input type="text"  name="txtEConHmTel" value="<?php echo $edit[0][4]?>"/></td>
+			 <td><input type="text"  name="txtEConHmTel" maxlength="100"
+                        value="<?php echo CommonFunctions::escapeHtml($edit[0][4])?>"/></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?></td>
-			 <td><input type="text" name="txtEConMobile" value="<?php echo $edit[0][5]?>"/></td>
+			 <td><input type="text" name="txtEConMobile" maxlength="100"
+                        value="<?php echo CommonFunctions::escapeHtml($edit[0][5])?>"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_worktele; ?></td>
-			 <td><input type="text" name="txtEConWorkTel" value="<?php echo $edit[0][6]?>"/></td>
+			 <td><input type="text" name="txtEConWorkTel"maxlength="100"
+                        value="<?php echo CommonFunctions::escapeHtml($edit[0][6])?>"/></td>
 			 </tr>
 		</table>
 <?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
@@ -153,22 +158,22 @@ function editEContact() {
 		<table style="height:120px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
 			 <tr>
 			 <td><?php echo $lang_hremp_name; ?> <span class="required">*</span>
-			 	<input type="hidden" name="txtECSeqNo" value="<?php echo $this->popArr['newECID']?>" /></td>
-			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
+			 	<input type="hidden" name="txtECSeqNo" value="<?php echo CommonFunctions::escapeHtml($this->popArr['newECID'])?>" /></td>
+			  <td><input name="txtEConName" maxlength="100" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_relationship; ?> <span class="required">*</span>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
+			 <td><input name="txtEConRel" maxlength="100" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_hmtele; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
+			 <td><input name="txtEConHmTel" maxlength="100" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConMobile" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
+			 <td><input name="txtEConMobile" maxlength="100" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_worktele; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
+			 <td><input name="txtEConWorkTel" maxlength="100" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 		</table>
 <?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
@@ -223,11 +228,11 @@ $rset = $this->popArr['empECAss'];
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $rset[$c][1] ."'/></td>";
 
-            ?> <td><a href="javascript:viewEContact('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][2]?></a></td> <?php
-            echo '<td>' . $rset[$c][3] .'</td>';
-            echo '<td>' . $rset[$c][4] .'</td>';
-            echo '<td>' . $rset[$c][5] .'</td>';
-            echo '<td>' . $rset[$c][6] .'</td>';
+            ?> <td><a href="javascript:viewEContact('<?php echo $rset[$c][1]?>')"><?php echo CommonFunctions::escapeHtml($rset[$c][2])?></a></td> <?php
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][3]) .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][4]) .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][5]) .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][6]) .'</td>';
 
         echo '</tr>';
    		} ?>

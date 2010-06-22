@@ -27,6 +27,9 @@ require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 
 	$arrMStat = $this->popArr['arrMStat'];
 
+$escapedReqCode = CommonFunctions::escapeHtml($this->getArr['reqcode']);
+$escapedId = CommonFunctions::escapeHtml($_GET['id']);
+
 function populateStates($value) {
 
 	$view_controller = new ViewController();
@@ -257,7 +260,11 @@ $objAjax->processRequests();
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php
 $objAjax->printJavascript();
+
+
+
 include ROOT_PATH."/lib/common/calendar.php"; ?>
+
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 
 function MM_findObj(n, d) { //v4.01
@@ -282,7 +289,7 @@ function MM_preloadImages() { //v3.0
 }
 
 
-<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
+<?php	if (($locRights['add']) || ($escapedReqCode === "ESS")) { ?>
 function addEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
@@ -319,11 +326,11 @@ function addEmpMain() {
 
 
 function goBack() {
-	location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN<?php echo (isset($this->getArr['currentPage'])) ? "&pageNO={$this->getArr['currentPage']}" : ""; ?>";
+	location.href = "./CentralController.php?reqcode=<?php echo $escapedReqCode; ?>&VIEW=MAIN<?php echo (isset($this->getArr['currentPage'])) ? "&pageNO=" . CommonFunctions::escapeHtml($this->getArr['currentPage']) : ""; ?>";
 }
 
 function editEmpMain() {
-<?php if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) {?>
+<?php if (($locRights['edit']) || ($escapedReqCode === "ESS")) {?>
 
 	var lockedEl = Array(100);
 	var lockEmpCont = false;
@@ -343,7 +350,7 @@ function editEmpMain() {
 		<?php
 
 			  $supervisorEMPMode = false;
-			  if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
+			  if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($escapedReqCode) && ($escapedReqCode === "EMP")) ) {
 			      $supervisorEMPMode = true;
 			  }
 
@@ -409,7 +416,7 @@ function editEmpMain() {
 		<?php } ?>
 
 
-		<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+		<?php if (isset($escapedReqCode) && ($escapedReqCode === "ESS")) { ?>
 		enableArr = new Array(	'txtEmpFirstName',
 								'txtEmpMiddleName',
 								'txtEmpLastName',
@@ -567,7 +574,7 @@ function updateEmpMain() {
 
 <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
 		function reLoad() {
-			location.href ="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>";
+			location.href ="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $escapedId;?>&capturemode=updatemode&reqcode=<?php echo $escapedReqCode;?>";
 		}
 <?php } ?>
 
@@ -1011,6 +1018,7 @@ tableDisplayStyle = "table";
 	 	$middle = $this->popArr['editMainArr'][0][3];
 	 	$currentEmployeeName = $first . ' ' . $middle . ' ' . $last;
 	 }
+
 ?>
 <div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" alt="" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div>
 
@@ -1021,48 +1029,47 @@ tableDisplayStyle = "table";
 </div>
 
 <?php	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $escapedReqCode;?>&amp;capturemode=<?php echo CommonFunctions::escapeHtml($this->getArr['capturemode'])?>" enctype="multipart/form-data">
 <?php
 	} elseif ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	$edit = $this->popArr['editMainArr'];
 ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $escapedId;?>&amp;reqcode=<?php echo $escapedReqCode;?>&amp;capturemode=<?php echo CommonFunctions::escapeHtml($this->getArr['capturemode'])?>" enctype="multipart/form-data">
 <?php } ?>
 
 <?php
     $escapedPane = isset($this->postArr['pane']) ? CommonFunctions::escapeHtml($this->postArr['pane']) : '';
 ?>
 <input type="hidden" name="empToken" value="<?php  echo isset($this->popArr['empToken'])?$this->popArr['empToken']:'';?>" />
-
 <input type="hidden" name="sqlState" />
-<input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>" />
+<input type="hidden" name="pane" value="<?php echo (isset($escapedPane) && $escapedPane!='')?$escapedPane:''?>" />
 <input type="hidden" name="txtShowAddPane" />
 
-<input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>" />
-<input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>" />
-<input type="hidden" name="jobFlag" value="<?php echo isset($this->postArr['jobFlag'])? $this->postArr['jobFlag'] : '0'?>" />
+<input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? CommonFunctions::escapeHtml($this->postArr['main']) : '0'?>" />
+<input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? CommonFunctions::escapeHtml($this->postArr['personalFlag']) : '0'?>" />
+<input type="hidden" name="jobFlag" value="<?php echo isset($this->postArr['jobFlag'])? CommonFunctions::escapeHtml($this->postArr['jobFlag']) : '0'?>" />
 
-<input type="hidden" name="dependentFlag" value="<?php echo isset($this->postArr['dependentFlag'])? $this->postArr['dependentFlag'] : '0'?>" />
-<input type="hidden" name="childrenFlag" value="<?php echo isset($this->postArr['childrenFlag'])? $this->postArr['childrenFlag'] : '0'?>" />
-<input type="hidden" name="contactFlag" value="<?php echo isset($this->postArr['contactFlag'])? $this->postArr['contactFlag'] : '0'?>" />
-<input type="hidden" name="econtactFlag" value="<?php echo isset($this->postArr['econtactFlag'])? $this->postArr['econtactFlag'] : '0'?>" />
-<input type="hidden" name="cash-benefitsFlag" value="<?php echo isset($this->postArr['cash-benefitsFlag'])? $this->postArr['cash-benefitsFlag'] : '0'?>" />
-<input type="hidden" name="noncash-benefitsFlag" value="<?php echo isset($this->postArr['noncash-benefitsFlag'])? $this->postArr['noncash-benefitsFlag'] : '0'?>" />
-<input type="hidden" name="educationFlag" value="<?php echo isset($this->postArr['educationFlag'])? $this->postArr['educationFlag'] : '0'?>" />
-<input type="hidden" name="immigrationFlag" value="<?php echo isset($this->postArr['immigrationFlag'])? $this->postArr['immigrationFlag'] : '0'?>" />
-<input type="hidden" name="languageFlag" value="<?php echo isset($this->postArr['languageFlag'])? $this->postArr['languageFlag'] : '0'?>" />
-<input type="hidden" name="licenseFlag" value="<?php echo isset($this->postArr['licenseFlag'])? $this->postArr['licenseFlag'] : '0'?>" />
-<input type="hidden" name="membershipFlag" value="<?php echo isset($this->postArr['membershipFlag'])? $this->postArr['membershipFlag'] : '0'?>" />
-<input type="hidden" name="paymentFlag" value="<?php echo isset($this->postArr['paymentFlag'])? $this->postArr['paymentFlag'] : '0'?>" />
-<input type="hidden" name="report-toFlag" value="<?php echo isset($this->postArr['report-toFlag'])? $this->postArr['report-toFlag'] : '0'?>" />
-<input type="hidden" name="skillsFlag" value="<?php echo isset($this->postArr['skillsFlag'])? $this->postArr['skillsFlag'] : '0'?>" />
-<input type="hidden" name="work-experianceFlag" value="<?php echo isset($this->postArr['work-experianceFlag'])? $this->postArr['work-experianceFlag'] : '0'?>" />
-<input type="hidden" name="taxFlag" value="<?php echo isset($this->postArr['taxFlag'])? $this->postArr['taxFlag'] : '0'?>" />
-<input type="hidden" name="direct-debitFlag" value="<?php echo isset($this->postArr['direct-debitFlag'])? $this->postArr['direct-debitFlag'] : '0'?>" />
-<input type="hidden" name="customFlag" value="<?php echo isset($this->postArr['customFlag'])? $this->postArr['customFlag'] : '0'?>" />
-<input type="hidden" name="photoFlag" value="<?php echo isset($this->postArr['photoFlag'])? $this->postArr['photoFlag'] : '0'?>" />
+<input type="hidden" name="dependentFlag" value="<?php echo isset($this->postArr['dependentFlag'])? CommonFunctions::escapeHtml($this->postArr['dependentFlag']) : '0'?>" />
+<input type="hidden" name="childrenFlag" value="<?php echo isset($this->postArr['childrenFlag'])? CommonFunctions::escapeHtml($this->postArr['childrenFlag']) : '0'?>" />
+<input type="hidden" name="contactFlag" value="<?php echo isset($this->postArr['contactFlag'])? CommonFunctions::escapeHtml($this->postArr['contactFlag']) : '0'?>" />
+<input type="hidden" name="econtactFlag" value="<?php echo isset($this->postArr['econtactFlag'])? CommonFunctions::escapeHtml($this->postArr['econtactFlag']) : '0'?>" />
+<input type="hidden" name="cash-benefitsFlag" value="<?php echo isset($this->postArr['cash-benefitsFlag'])? CommonFunctions::escapeHtml($this->postArr['cash-benefitsFlag']) : '0'?>" />
+<input type="hidden" name="noncash-benefitsFlag" value="<?php echo isset($this->postArr['noncash-benefitsFlag'])? CommonFunctions::escapeHtml($this->postArr['noncash-benefitsFlag']) : '0'?>" />
+<input type="hidden" name="educationFlag" value="<?php echo isset($this->postArr['educationFlag'])? CommonFunctions::escapeHtml($this->postArr['educationFlag']) : '0'?>" />
+<input type="hidden" name="immigrationFlag" value="<?php echo isset($this->postArr['immigrationFlag'])? CommonFunctions::escapeHtml($this->postArr['immigrationFlag']) : '0'?>" />
+<input type="hidden" name="languageFlag" value="<?php echo isset($this->postArr['languageFlag'])? CommonFunctions::escapeHtml($this->postArr['languageFlag']) : '0'?>" />
+<input type="hidden" name="licenseFlag" value="<?php echo isset($this->postArr['licenseFlag'])? CommonFunctions::escapeHtml($this->postArr['licenseFlag']) : '0'?>" />
+<input type="hidden" name="membershipFlag" value="<?php echo isset($this->postArr['membershipFlag'])? CommonFunctions::escapeHtml($this->postArr['membershipFlag']) : '0'?>" />
+<input type="hidden" name="paymentFlag" value="<?php echo isset($this->postArr['paymentFlag'])? CommonFunctions::escapeHtml($this->postArr['paymentFlag']) : '0'?>" />
+<input type="hidden" name="report-toFlag" value="<?php echo isset($this->postArr['report-toFlag'])? CommonFunctions::escapeHtml($this->postArr['report-toFlag']) : '0'?>" />
+<input type="hidden" name="skillsFlag" value="<?php echo isset($this->postArr['skillsFlag'])? CommonFunctions::escapeHtml($this->postArr['skillsFlag']) : '0'?>" />
+<input type="hidden" name="work-experianceFlag" value="<?php echo isset($this->postArr['work-experianceFlag'])? CommonFunctions::escapeHtml($this->postArr['work-experianceFlag']) : '0'?>" />
+<input type="hidden" name="taxFlag" value="<?php echo isset($this->postArr['taxFlag'])? CommonFunctions::escapeHtml($this->postArr['taxFlag']) : '0'?>" />
+<input type="hidden" name="direct-debitFlag" value="<?php echo isset($this->postArr['direct-debitFlag'])? CommonFunctions::escapeHtml($this->postArr['direct-debitFlag']) : '0'?>" />
+<input type="hidden" name="customFlag" value="<?php echo isset($this->postArr['customFlag'])? CommonFunctions::escapeHtml($this->postArr['customFlag']) : '0'?>" />
+<input type="hidden" name="photoFlag" value="<?php echo isset($this->postArr['photoFlag'])? CommonFunctions::escapeHtml($this->postArr['photoFlag']) : '0'?>" />
 <input type="hidden" name="attSTAT" value="" />
-<input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>" />
+<input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? CommonFunctions::escapeHtml($this->postArr['EditMode']) : '0'?>" />
 
 <?php
 	if (isset($this->getArr['message'])) {
@@ -1090,23 +1097,23 @@ tableDisplayStyle = "table";
 		<br class="clear"/>
 
 		<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?> <span class="required">*</span></label>
-		<input type="text" name="txtEmpLastName" id="txtEmpLastName" class="formInputText" <?php echo $disabled;?>
-			value="<?php echo isset($this->postArr['txtEmpLastName']) ? $this->postArr['txtEmpLastName']:'';?>"/>
+		<input type="text" name="txtEmpLastName" id="txtEmpLastName" class="formInputText" <?php echo $disabled;?> maxlength="100"
+			value="<?php echo isset($this->postArr['txtEmpLastName']) ? CommonFunctions::escapeHtml($this->postArr['txtEmpLastName']):'';?>"/>
 
 		<label for="txtEmpFirstName" id="txtEmpFirstName"><?php echo $lang_hremp_EmpFirstName?> <span class="required">*</span></label>
-		<input type="text" name="txtEmpFirstName" id="txtEmpFirstName" class="formInputText" <?php echo $disabled;?>
-			value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>" />
+		<input type="text" name="txtEmpFirstName" id="txtEmpFirstName" class="formInputText" <?php echo $disabled;?>  maxlength="100"
+			value="<?php echo (isset($this->postArr['txtEmpFirstName']))?CommonFunctions::escapeHtml($this->postArr['txtEmpFirstName']):''?>" />
 		<br class="clear" />
 
 		<label for="txtEmpMiddleName"><?php echo $lang_hremp_EmpMiddleName; ?></label>
-		<input type="text" name="txtEmpMiddleName" id="txtEmpMiddleName" class="formInputText"
-						<?php echo $disabled; ?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"/>
+		<input type="text" name="txtEmpMiddleName" id="txtEmpMiddleName" class="formInputText"  maxlength="100"
+						<?php echo $disabled; ?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?CommonFunctions::escapeHtml($this->postArr['txtEmpMiddleName']):''?>"/>
 		<label for="txtEmpNickName"><?php echo $lang_hremp_nickname; ?></label>
-		<input type="text" name="txtEmpNickName" id="txtEmpNickName" class="formInputText" <?php echo $disabled;?>
-			value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"/>
+		<input type="text" name="txtEmpNickName" id="txtEmpNickName" class="formInputText" <?php echo $disabled;?>  maxlength="100"
+			value="<?php echo (isset($this->postArr['txtEmpNickName']))?CommonFunctions::escapeHtml($this->postArr['txtEmpNickName']):''?>"/>
 		<label for="photofile" ><?php echo $lang_hremp_photo; ?></label>
 		<input type="file" name="photofile" id="photofile" class="fileselect" <?php echo $disabled;?>
-			value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>" />
+			value="<?php echo (isset($this->postArr['photofile']))?CommonFunctions::escapeHtml($this->postArr['photofile']):''?>" />
 		<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
 		<br class="clear"/>
         <div class="formbuttons">
@@ -1221,7 +1228,7 @@ tableDisplayStyle = "table";
 <?php }
 	$requiredNotice = preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark);
 ?>
-    <div id="personal" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '1') ? ' currentpanel' :'';?>">
+    <div id="personal" class="pimpanel formpage2col<?php echo ($escapedPane == '1') ? ' currentpanel' :'';?>">
 
 	    <div onclick="setUpdate(1)" onkeypress="setUpdate(1)" class="outerbox">
 	    	<div class="mainHeading"><h2><?php echo $lang_pim_PersonalDetails;?></h2></div>
@@ -1231,7 +1238,7 @@ tableDisplayStyle = "table";
 	    <div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
 	</div>
 
-    <div id="job" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '2') ? ' currentpanel' :'';?>">
+    <div id="job" class="pimpanel formpage2col<?php echo ($escapedPane == '2') ? ' currentpanel' :'';?>">
 	    <div onclick="setUpdate(2)" onkeypress="setUpdate(2)" class="outerbox">
 	    	<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Job;?></h2></div>
 <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); ?>
@@ -1242,7 +1249,7 @@ tableDisplayStyle = "table";
 	    <div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
 	</div>
 
-    <div id="dependents" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '3') ? ' currentpanel' :'';?>">
+    <div id="dependents" class="pimpanel formpage2col<?php echo ($escapedPane == '3') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_hremp_dependents;?></h2></div>
     		<div style="width:99%; margin:2px 2px 0px 3px;">
@@ -1255,7 +1262,7 @@ tableDisplayStyle = "table";
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
 
-    <div id="contacts" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '4') ? ' currentpanel' :'';?>">
+    <div id="contacts" class="pimpanel formpage2col<?php echo ($escapedPane == '4') ? ' currentpanel' :'';?>">
     	<div class="outerbox" onclick="setUpdate(4)" onkeypress="setUpdate(4)">
     		<div class="mainHeading"><h2><?php echo  $lang_pim_tabs_Contact; ?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempcontact.php"); ?>
@@ -1264,7 +1271,7 @@ tableDisplayStyle = "table";
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
 
-    <div id="emgcontacts" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '5') ? ' currentpanel' :'';?>">
+    <div id="emgcontacts" class="pimpanel formpage2col<?php echo ($escapedPane == '5') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo  $lang_pim_tabs_EmergencyContacts; ?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempemgcontact.php"); ?>
@@ -1272,7 +1279,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="attachments" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '6') ? ' currentpanel' :'';?>">
+    <div id="attachments" class="pimpanel formpage2col<?php echo ($escapedPane == '6') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Attachments;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempattachment.php"); ?>
@@ -1280,7 +1287,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="education" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '9') ? ' currentpanel' :'';?>">
+    <div id="education" class="pimpanel formpage2col<?php echo ($escapedPane == '9') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Education;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
@@ -1288,7 +1295,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="immigration" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '10') ? ' currentpanel' :'';?>">
+    <div id="immigration" class="pimpanel formpage2col<?php echo ($escapedPane == '10') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Immigration;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempimmigration.php"); ?>
@@ -1296,7 +1303,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="languages" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '11') ? ' currentpanel' :'';?>">
+    <div id="languages" class="pimpanel formpage2col<?php echo ($escapedPane == '11') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Languages;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremplanguage.php"); ?>
@@ -1304,7 +1311,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="licenses" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '12') ? ' currentpanel' :'';?>">
+    <div id="licenses" class="pimpanel formpage2col<?php echo ($escapedPane == '12') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_License;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremplicenses.php"); ?>
@@ -1312,7 +1319,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="memberships" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '13') ? ' currentpanel' :'';?>">
+    <div id="memberships" class="pimpanel formpage2col<?php echo ($escapedPane == '13') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Membership;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempmembership.php"); ?>
@@ -1320,7 +1327,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="payments" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '14') ? ' currentpanel' :'';?>">
+    <div id="payments" class="pimpanel formpage2col<?php echo ($escapedPane == '14') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Payments;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremppayment.php"); ?>
@@ -1328,7 +1335,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="report-to" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '15') ? ' currentpanel' :'';?>">
+    <div id="report-to" class="pimpanel formpage2col<?php echo ($escapedPane == '15') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_ReportTo;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempreportto.php"); ?>
@@ -1336,7 +1343,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="skills" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '16') ? ' currentpanel' :'';?>">
+    <div id="skills" class="pimpanel formpage2col<?php echo ($escapedPane == '16') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Skills;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempskill.php"); ?>
@@ -1344,7 +1351,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="work-experiance" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '17') ? ' currentpanel' :'';?>">
+    <div id="work-experiance" class="pimpanel formpage2col<?php echo ($escapedPane == '17') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_WorkExperience;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempwrkexp.php"); ?>
@@ -1352,7 +1359,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="tax" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '18') ? ' currentpanel' :'';?>">
+    <div id="tax" class="pimpanel formpage2col<?php echo ($escapedPane == '18') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Tax;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremptax.php"); ?>
@@ -1360,7 +1367,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="direct-debit" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '19') ? ' currentpanel' :'';?>">
+    <div id="direct-debit" class="pimpanel formpage2col<?php echo ($escapedPane == '19') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_DirectDebit;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempdirectdebit.php"); ?>
@@ -1368,7 +1375,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="custom" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '20') ? ' currentpanel' :'';?>">
+    <div id="custom" class="pimpanel formpage2col<?php echo ($escapedPane == '20') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Custom;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempcustom.php"); ?>
@@ -1376,7 +1383,7 @@ tableDisplayStyle = "table";
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-    <div id="photo" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '21') ? ' currentpanel' :'';?>">
+    <div id="photo" class="pimpanel formpage2col<?php echo ($escapedPane == '21') ? ' currentpanel' :'';?>">
     	<div class="outerbox">
     		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Photo;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/photohandler.php"); ?>
@@ -1385,10 +1392,10 @@ tableDisplayStyle = "table";
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
 	<div id="photodiv">
-		<img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $this->getArr['id']?>&amp;action=VIEW"
+		<img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $escapedId;?>&amp;action=VIEW"
         	onclick="showPhotoHandler()" alt="<?php echo $lang_pim_ClickToEditPhoto;?>" title="<?php echo $lang_pim_ClickToEditPhoto;?>"/>
         <a href="#" onclick="showPhotoHandler()" title="<?php echo $lang_pim_ClickToEditPhoto;?>">
-        	<span id="empname"><?php echo $currentEmployeeName;?></span>
+        	<span id="empname"><?php echo CommonFunctions::escapeHtml($currentEmployeeName);?></span>
         </a>
 	</div>
 <?php } ?>
@@ -1398,9 +1405,9 @@ tableDisplayStyle = "table";
     	if (document.getElementById && document.createElement) {
  			roundBorder('outerbox');
 		}
-	displayLayer(<?php echo $this->postArr['pane']; ?>);
+	displayLayer(<?php echo $escapedPane; ?>);
 	<?php if (isset($this->postArr['txtShowAddPane']) && !empty($this->postArr['txtShowAddPane'])) { ?>
-	showAddPane('<?php echo $this->postArr['txtShowAddPane']; ?>');
+	showAddPane('<?php echo addslashes($this->postArr['txtShowAddPane']); ?>');
 	<?php } ?>
 	//--><!]]></script>
 	</body>

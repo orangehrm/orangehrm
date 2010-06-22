@@ -149,13 +149,13 @@ div#editPaneEducation #educationLabel {
     				  		<option selected="selected" value="0">--<?php echo $lang_hrEmpMain_SelectEducation; ?>--</option>
 						<?php	$unAssEduCodes = $this->popArr['unAssEduCodes'];
 							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++)
-								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .$unAssEduCodes[$c][1]. ", ".$unAssEduCodes[$c][2]. "</option>";
+								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .CommonFunctions::escapeHtml($unAssEduCodes[$c][1]). ", ".CommonFunctions::escapeHtml($unAssEduCodes[$c][2]). "</option>";
 						 ?>
 					  </select></td>
 					</tr>
                     <tr>
                       <td><?php echo $lang_hrEmpMain_major?></td>
-    				  <td><input class="formInputText" type="text" name="txtEmpEduMajor"/></td>
+    				  <td><input class="formInputText" type="text" name="txtEmpEduMajor" maxlength="100"/></td>
 					</tr>
 					 <tr>
 					<td><?php echo $lang_Leave_Common_Year?></td>
@@ -163,7 +163,7 @@ div#editPaneEducation #educationLabel {
 					 </tr>
 					 <tr>
 					<td><?php echo $lang_hrEmpMain_gpa?></td>
-						<td> <input class="formInputText" type="text" name="txtEmpEduGPA"/></td>
+						<td> <input class="formInputText" type="text" name="txtEmpEduGPA" maxlength="25"/></td>
 					 </tr>
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
@@ -208,23 +208,23 @@ if(isset($this->popArr['editEducationArr'])) {
 				$allEduCodes = $this->popArr['allEduCodes'];
 				for($c=0; $allEduCodes && count($allEduCodes)>$c; $c++) {
 					if($allEduCodes[$c][0] == $edit[0][1]) {
-						 echo $allEduCodes[$c][1] . ", ". $allEduCodes[$c][2];
+						 echo CommonFunctions::escapeHtml($allEduCodes[$c][1]) . ", ". CommonFunctions::escapeHtml($allEduCodes[$c][2]);
 					}
 				}
 			?>
 		</label>
 		<br />
 		<label for="txtEmpEduMajor"><?php echo $lang_hrEmpMain_major; ?></label>
-		<input type="text" name="txtEmpEduMajor" id="txtEmpEduMajor"
-			value="<?php echo $edit[0][2]?>" disabled="disabled" />
+		<input type="text" name="txtEmpEduMajor" id="txtEmpEduMajor" maxlength="100"
+			value="<?php echo CommonFunctions::escapeHtml($edit[0][2])?>" disabled="disabled" />
 		<br />
 		<label for="etxtEmpEduYear"><?php echo $lang_Leave_Common_Year?></label>
 		<input type="text" name="txtEmpEduYear" id="etxtEmpEduYear"
-			value="<?php echo $edit[0][3]?>"  disabled="disabled" />
+			value="<?php echo CommonFunctions::escapeHtml($edit[0][3])?>"  disabled="disabled" />
 		<br />
 		<label for="txtEmpEduGPA"><?php echo $lang_hrEmpMain_gpa; ?></label>
-		<input type="text" name="txtEmpEduGPA" id="txtEmpEduGPA"
-			value="<?php echo $edit[0][4]?>" disabled="disabled" />
+		<input type="text" name="txtEmpEduGPA" id="txtEmpEduGPA" maxlength="25"
+			value="<?php echo CommonFunctions::escapeHtml($edit[0][4])?>" disabled="disabled" />
 		<br />
 		<label for="etxtEmpEduStartDate"><?php echo $lang_hrEmpMain_startdate; ?></label>
 		<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" disabled="disabled" style="float:left"
@@ -286,9 +286,9 @@ if ($rset != null){?>
 				if($allEduCodes[$a][0] == $rset[$c][1])
 				   $lname = $allEduCodes[$a][1] . ", " .$allEduCodes[$a][2];
 
-			?><td><a href="javascript:viewEducation('<?php echo $rset[$c][1]?>')"><?php echo $lname?></a></td><?php
-			echo '<td>'. $rset[$c][3] .'</td>';
-			echo '<td>'. $rset[$c][4] .'</td>';
+			?><td><a href="javascript:viewEducation('<?php echo $rset[$c][1]?>')"><?php echo CommonFunctions::escapeHtml($lname)?></a></td><?php
+			echo '<td>'. CommonFunctions::escapeHtml($rset[$c][3]) .'</td>';
+			echo '<td>'. CommonFunctions::escapeHtml($rset[$c][4]) .'</td>';
 
         echo '</tr>';
         }

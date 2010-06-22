@@ -34,28 +34,28 @@ $customValues = $this->popArr['editCustomInfoArr'];
 		$value = (isset($customValues[$fieldName])) ? $customValues[$fieldName] : "";
 		?>
     <tr>
-		<td><?php echo $customField->getName();?></td>
+		<td><?php echo CommonFunctions::escapeHtml($customField->getName());?></td>
 		<td width="5">&nbsp;</td>
 		<td>
 <?php
 		if ($customField->getFieldType() == CustomFields::FIELD_TYPE_SELECT) {
 			$options = $customField->getOptions();
 ?>
-		<select <?php echo $disabled;?> name="<?php echo $fieldName; ?>" >
+		<select <?php echo $disabled;?> name="<?php echo CommonFunctions::escapeHtml($fieldName); ?>" >
 <?php
 			foreach($options as $option) {
-				$option = trim($option);
+				$option = CommonFunctions::escapeHtml(trim($option));
 				$selected = ($option == $value) ? "selected" : "";
 ?>
-				<option <?php echo $selected; ?> value="<?php echo $option;?>"><?php echo $option;?></option>
+				<option <?php echo $selected; ?> value="<?php echo CommonFunctions::escapeHtml($option);?>"><?php echo CommonFunctions::escapeHtml($option);?></option>
 <?php
 			}
 ?>
 <?php
 		} else {
 ?>
-		<input type="text" size="20" <?php echo $disabled;?> name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>"
-  				value="<?php echo $value;?>"/>
+		<input type="text" size="20" <?php echo $disabled;?> name="<?php echo CommonFunctions::escapeHtml($fieldName); ?>" id="<?php echo CommonFunctions::escapeHtml($fieldName); ?>"
+  				value="<?php echo CommonFunctions::escapeHtml($value);?>"/>
 <?php
 		}
 ?>

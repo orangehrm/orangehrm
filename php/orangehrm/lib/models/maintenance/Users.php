@@ -375,7 +375,7 @@ class Users {
 		$this->sql_builder->flg_update = true;
 
 		$sqlQString = $this->sql_builder->addUpdateRecord1();
-		//echo $sqlQString;
+		
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
@@ -485,7 +485,6 @@ class Users {
 
 	function filterChangeUsers($getID) {
 
-		$this->ID = $getID;
 	    $arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
 		$arrFieldList[2] = 'user_password';
@@ -495,6 +494,7 @@ class Users {
 		$this->sql_builder->flg_select = 'true';
 		$this->sql_builder->arr_select = $arrFieldList;
 
+        $this->ID = $this->sql_builder->quoteCorrect($getID);
 		$sqlQString = $this->sql_builder->selectOneRecordFiltered($this->ID);
 
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function

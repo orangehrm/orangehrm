@@ -158,9 +158,9 @@ function viewSup(sup,rep) {
         <input type="hidden" name="reporttoSTAT" value=""/>
 <?php	if(isset($this->getArr['editIDSup'])) {	?>
 <div id="editPaneReportTo" >
-    <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>"/>
-    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>"/>
-    <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>"/>
+    <input type="hidden" name="txtSupEmpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['editIDSup'])?>"/>
+    <input type="hidden" name="txtSubEmpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['id'])?>"/>
+    <input type="hidden" name="oldRepMethod" value="<?php echo CommonFunctions::escapeHtml($this->getArr['RepMethod'])?>"/>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
@@ -178,8 +178,8 @@ function viewSup(sup,rep) {
 					<tr>
 						<td valign="top"><?php echo $lang_empview_employeename?></td>
 <?php						$empsupid =$this->getArr['editIDSup']; ?>
-						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"/><strong>
-						<?php echo $empInfoObj->getFullName($this->getArr['editIDSup']);?>
+						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['editIDSup'])?>"/><strong>
+						<?php echo CommonFunctions::escapeHtml($empInfoObj->getFullName($this->getArr['editIDSup']));?>
 					</strong></td>
 					  </tr>
 					  <tr>
@@ -211,9 +211,9 @@ function viewSup(sup,rep) {
 </div>
 <?php } else if (isset($this->getArr['editIDSub'])) { ?>
 <div id="editPaneReportTo" >
-	<input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>"/>
-    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>"/>
-  	<input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>"/>
+	<input type="hidden" name="txtSupEmpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['id'])?>"/>
+    <input type="hidden" name="txtSubEmpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['editIDSub'])?>"/>
+  	<input type="hidden" name="oldRepMethod" value="<?php echo CommonFunctions::escapeHtml($this->getArr['RepMethod'])?>"/>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator ?></td>
@@ -226,9 +226,9 @@ function viewSup(sup,rep) {
 					</tr>
 					<tr>
 						<td valign="top"><?php echo $lang_empview_employeename; ?></td>
-						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
+						<?php	$empsubid = CommonFunctions::escapeHtml($this->getArr['editIDSub']);  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"/><strong>
-						<?php echo  $empInfoObj->getFullName($empsubid); ?>
+						<?php echo  CommonFunctions::escapeHtml($empInfoObj->getFullName($empsubid)); ?>
 						</strong></td>
 					  </tr>
 
@@ -367,10 +367,10 @@ if ($rset != null && $empname != null){ ?>
             	echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
            }
 
-				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
+				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo CommonFunctions::escapeHtml($rset[$c][4])?></a></td><?php
 				   for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])
-				     echo '<td>' . $empname[$a][3].' '.$empname[$a][1].'</td>';
+				     echo '<td>' . CommonFunctions::escapeHtml($empname[$a][3]).' '.CommonFunctions::escapeHtml($empname[$a][1]).'</td>';
 				   for($a=0;count($arrRepMethod)>$a;$a++)
 						if($rset[$c][2] == $values[$a])
 				   	echo '<td>' . $keys[$a] .'</td>';
@@ -433,10 +433,10 @@ if ($rset != null && $empname != null){ ?>
             	echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
            }
 				   $subid=$rset[$c][1];
-				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
+				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo CommonFunctions::escapeHtml($rset[$c][4])?></a></td><?php
 				    for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])
-				      echo '<td>' . $empname[$a][3].' '.$empname[$a][1].'</td>';
+				      echo '<td>' . CommonFunctions::escapeHtml($empname[$a][3]).' '.CommonFunctions::escapeHtml($empname[$a][1]).'</td>';
 				   for($a=0;count($arrRepMethod)>$a;$a++)
 						if($rset[$c][2] == $values[$a])
 				     echo '<td>' . $keys[$a] .'</td>';

@@ -40,40 +40,40 @@ class EXTRACTOR_EmpPassPort {
 
 	public function parseData($postArr) {
 
-		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtI9ReviewDat']);
-		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPIssDat']);
-		$postArr['txtPPExpDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPExpDat']);
+		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtI9ReviewDat']));
+		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtPPIssDat']));
+		$postArr['txtPPExpDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtPPExpDat']));
 
-		$this->pport->setEmpId($postArr['txtEmpID']);
-		$this->pport->setEmpPPSeqNo(trim($postArr['txtPPSeqNo']));
-		$this->pport->setEmpPPNo(trim($postArr['txtPPNo']));
+		$this->pport->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+		$this->pport->setEmpPPSeqNo(CommonFunctions::cleanParam($postArr['txtPPSeqNo']));
+		$this->pport->setEmpPPNo(CommonFunctions::cleanParam($postArr['txtPPNo'], 100));
 		$this->pport->setEmpPPIssDat(self::_handleEmptyDates($postArr['txtPPIssDat']));
 		$this->pport->setEmpPPExpDat(self::_handleEmptyDates($postArr['txtPPExpDat']));
-		$this->pport->setEmpPPComment(trim($postArr['txtComments']));
-		$this->pport->setEmppassportflag($postArr['PPType']);
-		$this->pport->setEmpI9Status($postArr['txtI9status']);
+		$this->pport->setEmpPPComment(CommonFunctions::cleanParam($postArr['txtComments'], 255));
+		$this->pport->setEmppassportflag(CommonFunctions::cleanParam($postArr['PPType']));
+		$this->pport->setEmpI9Status(CommonFunctions::cleanParam($postArr['txtI9status'], 100));
 		$this->pport->setEmpI9ReviewDat(self::_handleEmptyDates($postArr['txtI9ReviewDat']));
-		$this->pport->setEmpNationality($postArr['cmbPPCountry']);
+		$this->pport->setEmpNationality(CommonFunctions::cleanParam($postArr['cmbPPCountry'], 6));
 
 		return $this->pport;
 	}
 
 	public function reloadData($postArr) {
 
-		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtI9ReviewDat']);
-		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPIssDat']);
-		$postArr['txtPPExpDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPExpDat']);
+		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtI9ReviewDat']));
+		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtPPIssDat']));
+		$postArr['txtPPExpDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtPPExpDat']));
 
-		$this->txtEmpID		=	($postArr['txtEmpID']);
-		$this->txtPPSeqNo	=	(trim($postArr['txtPPSeqNo']));
-		$this->txtPPNo		=	(trim($postArr['txtPPNo']));
+		$this->txtEmpID		=	CommonFunctions::cleanParam($postArr['txtEmpID']);
+		$this->txtPPSeqNo	=	CommonFunctions::cleanParam($postArr['txtPPSeqNo']);
+		$this->txtPPNo		=	CommonFunctions::cleanParam($postArr['txtPPNo'], 100);
 		$this->txtPPIssDat	=	self::_handleEmptyDates($postArr['txtPPIssDat']);
 		$this->txtPPExpDat	=	self::_handleEmptyDates($postArr['txtPPExpDat']);
-		$this->txtComments	=	(trim($postArr['txtComments']));
-		$this->PPComment	=	(trim($postArr['PPComment']));
-		$this->txtI9status	=	($postArr['txtI9status']);
-		$this->PPType		=	($postArr['PPType']);
-		$this->cmbPPCountry	=	($postArr['cmbPPCountry']);
+		$this->txtComments	=	CommonFunctions::cleanParam($postArr['txtComments'], 255);
+		$this->PPComment	=	CommonFunctions::cleanParam($postArr['PPComment'], 255);
+		$this->txtI9status	=	CommonFunctions::cleanParam($postArr['txtI9status'], 100);
+		$this->PPType		=	CommonFunctions::cleanParam($postArr['PPType']);
+		$this->cmbPPCountry	=	CommonFunctions::cleanParam($postArr['cmbPPCountry'], 6);
 		$this->txtI9ReviewDat	= self::_handleEmptyDates($postArr['txtI9ReviewDat']);
 
 		return $this;

@@ -33,18 +33,18 @@ class EXTRACTOR_EmpBasSalary{
 
 	function parseData($postArr) {
 
-			$this->empbassal->setEmpId(trim($postArr['txtEmpID']));
-			$this->empbassal->setEmpSalGrdCode(trim($postArr['cmbSalaryGrade']));
+			$this->empbassal->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->empbassal->setEmpSalGrdCode(CommonFunctions::cleanParam($postArr['cmbSalaryGrade']));
 			$this->empbassal->setEmpCurrCode($postArr['cmbCurrCode']);
-			$this->empbassal->setEmpBasSal(trim($postArr['txtBasSal']));
-			$payPeriod = trim($postArr['cmbPayPeriod']);
+			$this->empbassal->setEmpBasSal(CommonFunctions::cleanParam($postArr['txtBasSal'], 100));
+			$payPeriod = CommonFunctions::cleanParam($postArr['cmbPayPeriod']);
 			if ($payPeriod > 0) {
 				$this->empbassal->setPayPeriod($payPeriod);
 			}
 			if(isset($postArr['oldSalaryGrade']) && isset($postArr['oldCurrency'])){
 				$oldObject = new EmpBasSalary();
-				$oldObject->setEmpSalGrdCode($postArr['oldSalaryGrade']);
-				$oldObject->setEmpCurrCode($postArr['oldCurrency']);
+				$oldObject->setEmpSalGrdCode(CommonFunctions::cleanParam($postArr['oldSalaryGrade']));
+				$oldObject->setEmpCurrCode(CommonFunctions::cleanParam($postArr['oldCurrency']));
 				$array = array();
 				$array['new'] =  $this->empbassal;
 				$array['old'] = $oldObject;
@@ -56,10 +56,10 @@ class EXTRACTOR_EmpBasSalary{
 
 	function reloadData($postArr) {
 
-			$this->txtEmpID = (trim($postArr['txtEmpID']));
-			$this->txtSalGrdId = (trim($postArr['txtSalGrdId']));
-			$this->cmbCurrCode = $postArr['cmbCurrCode'];
-			$this->txtBasSal = (trim($postArr['txtBasSal']));
+			$this->txtEmpID = (CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->txtSalGrdId = (CommonFunctions::cleanParam($postArr['txtSalGrdId']));
+			$this->cmbCurrCode = CommonFunctions::cleanParam($postArr['cmbCurrCode']);
+			$this->txtBasSal = (CommonFunctions::cleanParam($postArr['txtBasSal'], 100));
 
 			return $this;
 	}

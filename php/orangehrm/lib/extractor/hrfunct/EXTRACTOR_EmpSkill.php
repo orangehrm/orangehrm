@@ -35,10 +35,10 @@ class EXTRACTOR_EmpSkill {
 
 	function parseData($postArr) {	
 			
-			$this->empskil->setEmpId(trim($postArr['txtEmpID']));
-   			$this->empskil->setEmpSkillCode(trim($postArr['cmbSkilCode']));
-   			$this->empskil->setEmpYearsOfExp(trim($postArr['txtEmpYears']));
-   			$this->empskil->setEmpComments(trim($postArr['txtEmpComments']));
+			$this->empskil->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+   			$this->empskil->setEmpSkillCode(CommonFunctions::cleanParam($postArr['cmbSkilCode'], 13));
+   			$this->empskil->setEmpYearsOfExp(CommonFunctions::cleanParam($postArr['txtEmpYears']));
+   			$this->empskil->setEmpComments(CommonFunctions::cleanParam($postArr['txtEmpComments'], 100));
    			
 		
 			return $this->empskil;

@@ -32,13 +32,13 @@ class EXTRACTOR_EmpDirectDebit {
 
 		$dd = new EmpDirectDebit();
 
-		$dd->setEmpNumber($postArr['txtEmpID']);
-		$dd->setDDSeqNo($postArr['DDSeqNo']);
-		$dd->setRoutingNumber($postArr['DDRoutingNumber']);
-		$dd->setAccount($postArr['DDAccount']);
-		$dd->setAmount($postArr['DDAmount']);
-		$dd->setAccountType($postArr['DDAccountType']);
-		$dd->setTransactionType($postArr['cmbTransactionType']);
+		$dd->setEmpNumber(CommonFunctions::cleanParam($postArr['txtEmpID']));
+		$dd->setDDSeqNo(CommonFunctions::cleanParam($postArr['DDSeqNo']));
+		$dd->setRoutingNumber(CommonFunctions::cleanParam($postArr['DDRoutingNumber']));
+		$dd->setAccount(CommonFunctions::cleanParam($postArr['DDAccount'], 100));
+		$dd->setAmount(CommonFunctions::cleanParam($postArr['DDAmount']));
+		$dd->setAccountType(CommonFunctions::cleanParam($postArr['DDAccountType'], 20));
+		$dd->setTransactionType(CommonFunctions::cleanParam($postArr['cmbTransactionType'], 20));
 
 		return $dd;
 	}

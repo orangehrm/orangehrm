@@ -663,6 +663,11 @@
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
 	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
+    $lang_hremp_CommentsShouldBeLimitedTo255Chars = "Comments should be limited to 255 characters";
+    $lang_hremp_CommentsShouldBeLimitedTo200Chars = "Comments should be limited to 200 characters";
+    $lang_hremp_CommentsShouldBeLimitedTo100Chars = "Comments should be limited to 100 characters";
+
+    $lang_hremp_TerminationReasonShouldBeLimitedTo256Chars = "Termination reason should be limited to 256 characters";
 
 	$lang_hremp_ContractExtensionStartDate	= "Contract Extension Start Date";
 	$lang_hremp_ContractExtensionEndDate	= "Contract Extension End Date";

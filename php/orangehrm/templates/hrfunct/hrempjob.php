@@ -338,16 +338,16 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	for ($c=0; $jobtit && count($jobtit)>$c ; $c++)
 		if(isset($this->postArr['cmbJobTitle'])) {
 			if($this->postArr['cmbJobTitle'] == $jobtit[$c][0]) {
-  				echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+  				echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .CommonFunctions::escapeHtml($jobtit[$c][1]). "</option>";
   				$selectedJobTitle = $jobtit[$c][0];
 			} else {
-  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+  				echo "<option value='" . $jobtit[$c][0] . "'>" .CommonFunctions::escapeHtml($jobtit[$c][1]). "</option>";
 			}
 		} elseif($edit1[0][2] == $jobtit[$c][0]) {
-			echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+			echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .CommonFunctions::escapeHtml($jobtit[$c][1]). "</option>";
 			$selectedJobTitle = $jobtit[$c][0];
 		} else {
-			echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+			echo "<option value='" . $jobtit[$c][0] . "'>" .CommonFunctions::escapeHtml($jobtit[$c][1]). "</option>";
 		}
 ?>
 	</select>
@@ -363,22 +363,22 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	for($c=0;count($arrEmpType)>$c;$c++)
 		if(isset($this->postArr['cmbType'])) {
 			if($this->postArr['cmbType']==$arrEmpType[$c][0]) {
-				echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+				echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .CommonFunctions::escapeHtml($arrEmpType[$c][1]). "</option>";
 				$selectedEmpStatusValue = $arrEmpType[$c][0];
 			} else {
-				echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+				echo "<option value='".$arrEmpType[$c][0]."'>" .CommonFunctions::escapeHtml($arrEmpType[$c][1]). "</option>";
 			}
 		} elseif($edit1[0][1]==$arrEmpType[$c][0]) {
-			echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+			echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .CommonFunctions::escapeHtml($arrEmpType[$c][1]). "</option>";
 			$selectedEmpStatusValue = $arrEmpType[$c][0];
 		} else {
-			echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+			echo "<option value='".$arrEmpType[$c][0]."'>" .CommonFunctions::escapeHtml($arrEmpType[$c][1]). "</option>";
 		}
 
 		if(count($arrEmpType) == 0) {
 			$empStatDefault = new  EmploymentStatus();
 			$arrDisplayEmpStat = $empStatDefault->filterEmpStat(EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED);
-			echo "<option value='".$arrDisplayEmpStat[0][0]."'>".$arrDisplayEmpStat[0][1]."</option>";
+			echo "<option value='".$arrDisplayEmpStat[0][0]."'>".CommonFunctions::escapeHtml($arrDisplayEmpStat[0][1])."</option>";
 		}
 ?>
 	</select>
@@ -403,14 +403,14 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	for($c=0;$eeojobcat && count($eeojobcat)>$c;$c++) {
 		if(isset($this->postArr['cmbEEOCat'])) {
 		   if($this->postArr['cmbEEOCat']==$eeojobcat[$c][0]) {
-				echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+				echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . CommonFunctions::escapeHtml($eeojobcat[$c][1]) ."</option>";
 		   } else {
-				echo "<option value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+				echo "<option value='".$eeojobcat[$c][0]. "'>" . CommonFunctions::escapeHtml($eeojobcat[$c][1]) ."</option>";
 		   }
 		} elseif($edit1[0][3]==$eeojobcat[$c][0]) {
-			echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+			echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . CommonFunctions::escapeHtml($eeojobcat[$c][1]) ."</option>";
 		} else {
-			echo "<option value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+			echo "<option value='".$eeojobcat[$c][0]. "'>" . CommonFunctions::escapeHtml($eeojobcat[$c][1]) ."</option>";
 		}
 	}
 ?>
@@ -424,9 +424,9 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	<br class="clear" />
 
 	<label for="txtLocation"><?php echo $lang_hremp_Subdivision; ?></label>
-	<input type="hidden" name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly="readonly" />
+	<input type="hidden" name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? CommonFunctions::escapeHtml($this->postArr['cmbLocation']) : CommonFunctions::escapeHtml($edit1[0][6])?>" readonly="readonly" />
 	<input type="text" name="txtLocation" id="txtLocation" class="formInputText" readonly="readonly"
-		value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" />
+		value="<?php echo isset($this->postArr['txtLocation']) ? CommonFunctions::escapeHtml($this->postArr['txtLocation']) : CommonFunctions::escapeHtml($edit1[0][4])?>" />
 	<label for="txtLocation">
 		<input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo $disabled; ?> class="button" />
 	</label>
@@ -446,7 +446,7 @@ if($_GET['reqcode'] !== "ESS") {
 	<label for="txtTermReason" id="tdTermReasonDisc" <?php echo $terminatinDateStyle; ?>><?php echo $lang_hremp_termination_reason; ?></label>
 	<span id="tdTermReasonValue" <?php echo $terminatinDateStyle; ?>>
 		<textarea rows="3" cols="24" name="txtTermReason" id="txtTermReason"
-			class="formTextArea" <?php echo $disabled; ?>><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea>
+			class="formTextArea" <?php echo $disabled; ?>><?php echo (isset($this->postArr['txtTermReason'])? CommonFunctions::escapeHtml($this->postArr['txtTermReason']):CommonFunctions::escapeHtml($edit1[0][8]));?></textarea>
 	</span>
 	<br class="clear" />
 <?php } ?>
@@ -464,11 +464,11 @@ if (!empty($assignedList)) {
         $locId = $empLoc->getLocation();
 ?>
 	    <tr id="locRow<?php echo $locId;?>" >
-	        <td style="padding-right:10px;"><?php echo $empLoc->getLocationName(); ?></td>
+	        <td style="padding-right:10px;"><?php echo CommonFunctions::escapeHtml($empLoc->getLocationName()); ?></td>
 <?php if ($locRights['delete']) { ?>
 		        <td class="locationDeleteChkBox" style="display:none;">
-		            <a class="locationDeleteLink" id="locDelLink<?php echo $locId;?>"
-		                href="javascript:deleteLocation(this, '<?php echo $locId;?>')"
+		            <a class="locationDeleteLink" id="locDelLink<?php echo CommonFunctions::escapeHtml($locId);?>"
+		                href="javascript:deleteLocation(this, '<?php echo stripslashes($locId);?>')"
 		                title="<?php echo $lang_Admin_Users_delete;?>">X</a>
 				</td>
 <?php } ?>
@@ -492,7 +492,7 @@ if (!empty($assignedList)) {
         <?php
          echo "<option value='0'> -- {$lang_hremp_SelectLocation} -- </option>";
          foreach ($availableList as $loc) {
-              echo "<option value=\"{$loc[0]}\">{$loc[1]}</option>";
+              echo "<option value=\"{$loc[0]}\">" . CommonFunctions::escapeHtml($loc[1]) . "</option>";
          }
         ?>
     </select>

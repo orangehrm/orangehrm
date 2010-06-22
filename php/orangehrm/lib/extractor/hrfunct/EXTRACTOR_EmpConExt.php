@@ -27,13 +27,13 @@ class EXTRACTOR_EmpConExt {
 
 	public function parseData($postArr) {
 
-		$postArr['txtEmpConExtStartDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpConExtStartDat']);
-		$postArr['txtEmpConExtEndDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpConExtEndDat']);
+		$postArr['txtEmpConExtStartDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpConExtStartDat']));
+		$postArr['txtEmpConExtEndDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpConExtEndDat']));
 
-		$this->empconext->setEmpId(trim($postArr['txtEmpID']));
-  		$this->empconext->setEmpConExtId(trim($postArr['txtEmpConExtID']));
-   		$this->empconext->setEmpConExtStartDat(self::_handleEmptyDates(trim($postArr['txtEmpConExtStartDat'])));
-  		$this->empconext->setEmpConExtEndDat(self::_handleEmptyDates(trim($postArr['txtEmpConExtEndDat'])));
+		$this->empconext->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+  		$this->empconext->setEmpConExtId(CommonFunctions::cleanParam($postArr['txtEmpConExtID']));
+   		$this->empconext->setEmpConExtStartDat(self::_handleEmptyDates(CommonFunctions::cleanParam($postArr['txtEmpConExtStartDat'])));
+  		$this->empconext->setEmpConExtEndDat(self::_handleEmptyDates(CommonFunctions::cleanParam($postArr['txtEmpConExtEndDat'])));
 
 		return $this->empconext;
 	}

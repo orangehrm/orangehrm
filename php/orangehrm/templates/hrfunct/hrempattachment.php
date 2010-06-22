@@ -21,7 +21,7 @@
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 
 function dwPopup() {
-        var popup=window.open('../../templates/hrfunct/download.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : ''?>&ATTACH=<?php echo isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : ''?>','Downloads');
+        var popup=window.open('../../templates/hrfunct/download.php?id=<?php echo isset($this->getArr['id']) ? CommonFunctions::escapeHtml($this->getArr['id']) : ''?>&ATTACH=<?php echo isset($this->getArr['ATTACH']) ? CommonFunctions::escapeHtml($this->getArr['ATTACH']) : ''?>','Downloads');
         if(!popup.opener) popup.opener=self;
 }
 
@@ -52,6 +52,13 @@ function addAttach() {
 		alert("<?php echo $lang_hremp_PleaseSelectFile; ?>");
 		return;
 	}
+
+    if (document.frmEmp.txtAttDesc.value.length > 200 ) {
+        alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo200Chars; ?>');
+        document.frmEmp.txtAttDesc.focus();
+        return;
+    }
+
 	document.frmEmp.attSTAT.value="ADD";
 	qCombo(6);
 }
@@ -64,6 +71,13 @@ function viewAttach(att) {
 
 function editAttach() {
 	if ($('btnEditAttach').value == '<?php echo $lang_Common_Save; ?>') {
+
+        if (document.frmEmp.txtAttDesc.value.length > 200 ) {
+            alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo200Chars; ?>');
+            document.frmEmp.txtAttDesc.focus();
+            return;
+        }
+        
 		document.frmEmp.attSTAT.value="EDIT";
 		qCombo(6);
 	} else {
@@ -85,16 +99,16 @@ function editAttach() {
 		 		$disabled = ($locRights['edit']) ? "" : 'disabled="disabled"';
 ?>
 	<div id="editPaneAttachments" >
-       <input type="hidden" name="seqNO" value="<?php echo $edit[0][1]?>">
+       <input type="hidden" name="seqNO" value="<?php echo CommonFunctions::escapeHtml($edit[0][1])?>">
        <table width="352" style="height:120px" border="0" cellpadding="0" cellspacing="0">
               <tr>
               	<td><?php echo $lang_hremp_filename?></td>
-              	<td><?php echo $edit[0][3];?></td>
+              	<td><?php echo CommonFunctions::escapeHtml($edit[0][3]);?></td>
               </tr>
               <tr>
               	<td><?php echo $lang_Commn_description?></td>
               	<td>
-              		<textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="25" disabled="disabled"><?php echo $edit[0][2]?></textarea>
+              		<textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="25" disabled="disabled"><?php echo CommonFunctions::escapeHtml($edit[0][2])?></textarea>
               	</td>
               </tr>
               <tr>
@@ -178,10 +192,11 @@ function editAttach() {
 ?>
 		<tr class="<?php echo $cssClass;?>">
             <td><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]' value="<?php echo $rset[$c][1]; ?>"/></td>
-            <td><a href="#" title="<?php echo $rset[$c][2]; ?>" onmousedown="viewAttach('<?php echo $rset[$c][1]; ?>')" ><?php echo $rset[$c][3]; ?></a></td>
-            <td><?php echo $rset[$c][2]; ?></td>
+            <td><a href="#" title="<?php echo CommonFunctions::escapeHtml($rset[$c][2]); ?>"
+                   onmousedown="viewAttach('<?php echo $rset[$c][1]; ?>')" ><?php echo CommonFunctions::escapeHtml($rset[$c][3]); ?></a></td>
+            <td><?php echo CommonFunctions::escapeHtml($rset[$c][2]); ?></td>
             <td><?php echo CommonFunctions::formatSiUnitPrefix($rset[$c][4]); ?>B</td>
-            <td><?php echo $rset[$c][6]; ?></td>
+            <td><?php echo CommonFunctions::escapeHtml($rset[$c][6]); ?></td>
         </tr>
 <?php
         }

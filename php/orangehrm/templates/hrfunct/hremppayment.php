@@ -155,7 +155,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 	if(isset($this->popArr['editPaymentArr'])) {
 	 	$edit = $this->popArr['editPaymentArr'];
 ?>
-<input type="hidden" id="oldSalaryGrade" name="oldSalaryGrade" value="<?php echo $this->popArr['salGrd']; ?>">
+<input type="hidden" id="oldSalaryGrade" name="oldSalaryGrade" value="<?php echo CommonFunctions::escapeHtml($this->popArr['salGrd']); ?>">
 <input type="hidden" id="oldCurrency" name="oldCurrency" value="<?php echo $edit[0][2]; ?>">
 	<div id="editPanePayments">
  			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
@@ -193,7 +193,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
                                		if('<?php echo $this->popArr['salGrd'] ?>' == payGrade){ 
                                		 	var opt = document.createElement("option");    
                                		 	document.getElementById("cmbCurrCode").options.add(opt);                              		 	
-                               		 	 opt.text = '<?php echo $selectedValue ?>';
+                               		 	 opt.text = '<?php echo CommonFunctions::escapeForJavascript($selectedValue) ?>';
         								 opt.value = '<?php echo $edit[0][2] ?>';       								                             		 	                            		                              		
                                			 opt.setAttribute('selected','selected');
                                		} 
@@ -203,7 +203,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  		<option value="0">-- <?php echo $lang_hremp_SelectPayGrade; ?> --</option>
     				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
-    				    		?><option value="<?php echo $salgradelist[$c][0]; ?>" <?php echo($salgradelist[$c][0] == $this->popArr['salGrd'])? "selected=\"selected\"":"" ?>  > <?php echo $salgradelist[$c][1]; ?> </option>
+    				    		?><option value="<?php echo $salgradelist[$c][0]; ?>" <?php echo($salgradelist[$c][0] == $this->popArr['salGrd'])? "selected=\"selected\"":"" ?>  > <?php echo CommonFunctions::escapeHtml($salgradelist[$c][1]); ?> </option>
     				    		<?php
     				  		}
     				  		?></select>
@@ -225,11 +225,11 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						</strong>
 						<select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?>  onchange="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value); " id='cmbCurrCode' name='cmbCurrCode'>
                        				<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
-                       				<option value="<?php echo $edit[0][2]?>" selected='selected' ><?php echo $selectedValue ?></option>;
+                       				<option value="<?php echo $edit[0][2]?>" selected='selected' ><?php echo CommonFunctions::escapeHtml($selectedValue) ?></option>;
 <?php
 									$curlist= $this->popArr['unAssCurrList'];
 									for($c=0;$curlist && count($curlist)>$c;$c++){ ?>
-											  <option value="<?php echo $curlist[$c][2]?>" <?php echo($edit[0][2] == $curlist[$c][2])?"selected='selected'":"" ?> ><?php echo $curlist[$c][0] ?></option>;
+											  <option value="<?php echo $curlist[$c][2]?>" <?php echo($edit[0][2] == $curlist[$c][2])?"selected='selected'":"" ?> ><?php echo CommonFunctions::escapeHtml($curlist[$c][0]) ?></option>;
 <?php 								}?>
 							</select>
 						
@@ -262,7 +262,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" name="txtBasSal" id="etxtBasSal" value="<?php echo $common_func->formatSciNo($edit[0][3]);?>"/>
+						<td align="left" valign="top"><input type="text" name="txtBasSal" id="etxtBasSal" maxlength="100" value="<?php echo $common_func->formatSciNo($edit[0][3]);?>"/>
 						</td>
 					  </tr>
 					  <tr>
@@ -273,7 +273,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 							<?php
 								foreach ($payPeriodList as $period) {
 									$selected = ($period->getCode() == $edit[0][4])? "selected" : "";
-							    	echo "<option " . $selected . " value='" . $period->getCode() . "'>" . $period->getName() . "</option>";
+							    	echo "<option " . $selected . " value='" . $period->getCode() . "'>" . CommonFunctions::escapeHtml($period->getName()) . "</option>";
 								}
 							?>
 							</select>
@@ -306,7 +306,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
     				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
-    				    			 echo $salgradelist[$c][1];
+    				    			 echo CommonFunctions::escapeHtml($salgradelist[$c][1]);
     				    		}
     				  		} ?>
     				  		<input type="hidden" id="cmbSalaryGrade" name="cmbSalaryGrade" value="<?php echo $this->popArr['salGrd'] ?>">
@@ -331,7 +331,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  		<option value="0">-- <?php echo $lang_hremp_SelectPayGrade; ?> --</option>
     				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
-    				    		?><option value="<?php echo $salgradelist[$c][0]; ?>"> <?php echo $salgradelist[$c][1]; ?> </option>
+    				    		?><option value="<?php echo $salgradelist[$c][0]; ?>"> <?php echo CommonFunctions::escapeHtml($salgradelist[$c][1]); ?> </option>
     				    		<?php
     				  		}
     				  		?></select>
@@ -350,7 +350,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php
 						$curlist= $this->popArr['unAssCurrList'];
 						for($c=0;$curlist && count($curlist)>$c;$c++)
-								   echo "<option value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
+								   echo "<option value=" . $curlist[$c][2] . ">" . CommonFunctions::escapeHtml($curlist[$c][0]) . "</option>";
 ?>
 							</select>
 						</td>
@@ -371,7 +371,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled="disabled"'?> name="txtBasSal"/>
+						<td align="left" valign="top"><input type="text" <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled="disabled"'?> name="txtBasSal" maxlength="100"/>
 						</td>
 					  </tr>
 					  <tr>
@@ -382,7 +382,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					              	<option selected="selected" value="0">-- <?php echo $lang_Common_Select?> --</option>
 							<?php
 								foreach ($payPeriodList as $period) {
-							    	echo "<option value='" . $period->getCode() . "'>" . $period->getName() . "</option>";
+							    	echo "<option value='" . $period->getCode() . "'>" . CommonFunctions::escapeHtml($period->getName()) . "</option>";
 								}
 							?>
 							</select>
@@ -446,7 +446,7 @@ if (($rset != null) && ($currlist != null)) { ?>
             echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($currlist)>$a;$a++)
 			    if($currlist[$a][0]==$rset[$c][2])
-				   $fname=$currlist[$a][1];
+				   $fname=CommonFunctions::escapeHtml($currlist[$a][1]);
             ?><td><a href="javascript:viewPayment('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
             echo '<td>' . $common_func->formatSciNo($rset[$c][3]) .'</td>';
 
@@ -458,7 +458,7 @@ if (($rset != null) && ($currlist != null)) { ?>
 	            	$payFrequency = $payPeriodList[$payPeriodCode]->getName();
             	}
             }
-            echo '<td>' . $payFrequency .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($payFrequency) .'</td>';
         echo '</tr>'; ?>
    <script language='javascript'>
    <?php if($edit[0][2] != $rset[$c][2]){ ?>

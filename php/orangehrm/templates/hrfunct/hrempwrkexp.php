@@ -74,6 +74,12 @@ function addEXTWrkExp() {
 		return false;
 	}
 
+    if (document.frmEmp.txtEmpExpComments.value.length > 200 ) {
+        alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo200Chars; ?>');
+        document.frmEmp.txtEmpExpComments.focus();
+        return;
+    }
+
 	var fromDate = strToDate(document.getElementById('atxtEmpExpFromDate').value, YAHOO.OrangeHRM.calendar.format);
 	var toDate = strToDate(document.getElementById('atxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('atxtEmpExpToDate').value;
@@ -105,6 +111,12 @@ function editEXTWrkExp() {
 		return false;
 	}
 
+    if (document.frmEmp.txtEmpExpComments.value.length > 200 ) {
+        alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo200Chars; ?>');
+        document.frmEmp.txtEmpExpComments.focus();
+        return;
+    }
+    
 	var fromDate = strToDate(document.getElementById('etxtEmpExpFromDate').value, YAHOO.OrangeHRM.calendar.format);
 	var toDate = strToDate(document.getElementById('etxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('etxtEmpExpToDate').value;
@@ -161,11 +173,11 @@ if(isset($this->popArr['editWrkExpArr'])) {
     $edit = $this->popArr['editWrkExpArr'];
 ?>
 <div id="editPaneWorkExperience" >
-      <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>"/>
+      <input type="hidden" name="txtEmpExpID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['WRKEXP'])?>"/>
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_employer?></td>
-    				  <td><input type="text" name="txtEmpExpEmployer" value="<?php echo $edit[0][2]?>"/></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" maxlength="100" value="<?php echo CommonFunctions::escapeHtml($edit[0][2])?>"/></td>
     				  <td width="50">&nbsp;</td>
 					  <td nowrap="nowrap"><?php echo $lang_hrEmpMain_startdate?></td>
 					  <td nowrap="nowrap">
@@ -174,7 +186,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 					</tr>
 					  <tr>
 						<td><?php echo $lang_empview_JobTitle?></td>
-						<td> <input type="text" name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"/></td>
+						<td> <input type="text" name="txtEmpExpJobTitle" value="<?php echo CommonFunctions::escapeHtml($edit[0][3])?>" maxlength="120"/></td>
     				  <td width="50">&nbsp;</td>
 						<td nowrap="nowrap"><?php echo $lang_hrEmpMain_enddate?></td>
 						<td nowrap="nowrap">
@@ -183,7 +195,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $lang_Leave_Common_Comments; ?></td>
-						<td> <textarea name="txtEmpExpComments"  rows="3" cols="25" ><?php echo $edit[0][6]?></textarea></td>
+						<td> <textarea name="txtEmpExpComments"  rows="3" cols="25" ><?php echo CommonFunctions::escapeHtml($edit[0][6])?></textarea></td>
     				  	<td width="50">&nbsp;</td>
 						<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
 						<td width="50"><input type="checkbox" name="chkEmpExpInternal" value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked="checked"' : '' ?>/></td>
@@ -209,11 +221,11 @@ if(isset($this->popArr['editWrkExpArr'])) {
 </div>
 <?php } else { ?>
 <div id="addPaneWorkExperience" class="<?php echo ($this->popArr['rsetWrkExp'] != null)?"addPane":""; ?>" >
-    	<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>"/>
+    	<input type="hidden" name="txtEmpExpID"  value="<?php echo CommonFunctions::escapeHtml($this->popArr['newWrkExpID'])?>"/>
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
             <td><?php echo $lang_hrEmpMain_employer?></td>
-            <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
+            <td><input type="text" name="txtEmpExpEmployer" maxlength="100" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
             <td width="20">&nbsp;</td>
             <td nowrap="nowrap"><?php echo $lang_hrEmpMain_startdate?></td>
             <td nowrap="nowrap">
@@ -222,7 +234,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
           </tr>
           <tr>
             <td><?php echo $lang_empview_JobTitle?></td>
-            <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
+            <td><input type="text" name="txtEmpExpJobTitle" maxlength="120" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
             <td width="20">&nbsp;</td>
             <td nowrap="nowrap"><?php echo $lang_hrEmpMain_enddate?></td>
             <td nowrap="nowrap">
@@ -297,8 +309,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
 	    	echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'/></td>";
             ?><td><a href="javascript:viewWrkExp('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][1]?></a></td><?php
-            echo '<td>' . $rset[$c][2] .'</td>';
-            echo '<td>' . $rset[$c][3] .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][2]) .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][3]) .'</td>';
             $str = explode(" ",$rset[$c][4]);
             echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
             $str = explode(" ",$rset[$c][5]);

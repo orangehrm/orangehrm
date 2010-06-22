@@ -123,19 +123,19 @@ if(isset($this->getArr['LIC'])) {
 							if($this->getArr['LIC']==$allLicenlist[$c][0])
 							     break;
 
-					  			echo $allLicenlist[$c][1];
+					  			echo CommonFunctions::escapeHtml($allLicenlist[$c][1]);
 ?>
 					  </strong></td>
 					</tr>
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="etxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
+							<input type="text" name="txtEmpLicDat" id="etxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpLicDat'])):LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
 							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="etxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+							<input type="text" name="txtEmpreDat" id="etxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpreDat'])):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
 							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 					 <tr>
@@ -165,22 +165,22 @@ if(isset($this->getArr['LIC'])) {
 
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)
 							if(isset($this->popArr['cmbLicCode']) && $this->popArr['cmbLicCode']==$unassLicenlist[$c][0])
-							   echo "<option  value=" . $unassLicenlist[$c][0] . ">" . $unassLicenlist[$c][1] . "</option>";
+							   echo "<option  value=" . $unassLicenlist[$c][0] . ">" . CommonFunctions::escapeHtml($unassLicenlist[$c][1]) . "</option>";
 							 else
-							   echo "<option value=" . $unassLicenlist[$c][0] . ">" . $unassLicenlist[$c][1] . "</option>";
+							   echo "<option value=" . $unassLicenlist[$c][0] . ">" . CommonFunctions::escapeHtml($unassLicenlist[$c][1]) . "</option>";
 ?>
 					  </select></td>
 					</tr>
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input class="formDateInput" type="text" name="txtEmpLicDat" id="atxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):''?>" size="10" />
+							<input class="formDateInput" type="text" name="txtEmpLicDat" id="atxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpLicDat'])):''?>" size="10" />
 							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input class="formDateInput" type="text" name="txtEmpreDat" id="atxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):''?>" size="10" />
+							<input class="formDateInput" type="text" name="txtEmpreDat" id="atxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpreDat'])):''?>" size="10" />
 							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 
@@ -245,7 +245,7 @@ $allLicenlist = $this -> popArr['allLicenlist'];
 			for($a=0;count($allLicenlist)>$a;$a++)
 				if($rset[$c][1] == $allLicenlist[$a][0])
 				   $lname=$allLicenlist[$a][1];
-			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo $lname?></a></td><?php
+			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo CommonFunctions::escapeHtml($lname)?></a></td><?php
             $str = explode(" ",$rset[$c][2]);
             echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
             $str = explode(" ",$rset[$c][3]);

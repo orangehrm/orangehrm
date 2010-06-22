@@ -95,7 +95,7 @@ function viewConExt(pSeq) {
       <table style="height:80px" border="0" cellpadding="0" cellspacing="0">
       <tr>
           <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?>
-          	<input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>"/>
+          	<input type="hidden" name="txtEmpConExtID" value="<?php echo CommonFunctions::escapeHtml($this->getArr['CONEXT'])?>"/>
           </td>
     	  <td>
     	  	<input class="formDateInput" type="text" name="txtEmpConExtStartDat" id="etxtEmpConExtStartDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
@@ -124,7 +124,7 @@ function viewConExt(pSeq) {
 	    <table style="height:80px" border="0" cellpadding="0" cellspacing="0">
 	         <tr>
 	          <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?>
-	          	<input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>"/>
+	          	<input type="hidden" name="txtEmpConExtID"  value="<?php echo CommonFunctions::escapeHtml($this->popArr['newConExtID'])?>"/>
 	          </td>
 			  <td>
 			  	<input class="formDateInput" type="text" value="" name="txtEmpConExtStartDat" id="atxtEmpConExtStartDat" size="12" />

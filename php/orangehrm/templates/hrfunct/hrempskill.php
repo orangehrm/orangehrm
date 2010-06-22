@@ -66,6 +66,12 @@ function addEXTSkill() {
 			return;
 	}
 
+    if(document.frmEmp.txtEmpComments.value.length > 100 ) {
+        alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo100Chars; ?>');
+        document.frmEmp.txtEmpComments.focus();
+        return;
+    }
+
 	document.frmEmp.skillSTAT.value="ADD";
 	qCombo(16);
 }
@@ -94,6 +100,12 @@ function editEXTSkill() {
 			txt.focus();
 			return;
 	}
+
+    if(document.frmEmp.txtEmpComments.value.length > 100 ) {
+        alert('<?php echo $lang_hremp_CommentsShouldBeLimitedTo100Chars; ?>');
+        document.frmEmp.txtEmpComments.focus();
+        return;
+    }    
 
   document.frmEmp.skillSTAT.value="EDIT";
   qCombo(16);
@@ -142,19 +154,20 @@ if(isset($this->popArr['editSkillArr'])) {
 							if($this->getArr['SKILL']==$allSkilllist[$c][0])
 							     break;
 
-					  	echo $allSkilllist[$c][1];
+					  	echo CommonFunctions::escapeHtml($allSkilllist[$c][1]);
 ?>
 					  </strong></td>
 					</tr>
 					  <tr>
                       <td><?php echo $lang_hrEmpMain_yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" id="etxtEmpYears" value="<?php echo isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"/></td>
+    				  <td><input type="text" name="txtEmpYears" id="etxtEmpYears"
+                                 value="<?php echo isset($this->popArr['txtEmpYears']) ? CommonFunctions::escapeHtml($this->popArr['txtEmpYears']) : CommonFunctions::escapeHtml($edit[0][2])?>"/></td>
     				  <td width="50">&nbsp;</td>
 					  </tr>
 
 					  <tr>
 						<td><?php echo $lang_Leave_Common_Comments?></td>
-						<td> <textarea rows="3" cols="25" name="txtEmpComments"><?php echo isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] : $edit[0][3]?></textarea></td>
+						<td> <textarea rows="3" cols="25" name="txtEmpComments"><?php echo isset($this->popArr['txtEmpComments']) ? CommonFunctions::escapeHtml($this->popArr['txtEmpComments']) : CommonFunctions::escapeHtml($edit[0][3])?></textarea></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
                   </table>
@@ -179,18 +192,19 @@ if(isset($this->popArr['editSkillArr'])) {
 <?php
 						$skilllist= $this->popArr['uskilllist'];
 						for($c=0;$skilllist && count($skilllist)>$c;$c++)
-							   echo "<option value='" . $skilllist[$c][0] . "'>" . $skilllist[$c][1] . "</option>";
+							   echo "<option value='" . $skilllist[$c][0] . "'>" . CommonFunctions::escapeHtml($skilllist[$c][1]) . "</option>";
 ?>
 					  </select></td>
 					</tr>
                     <tr>
                       <td><?php echo $lang_hrEmpMain_yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> value="<?php echo isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] :''?>"/></td>
+    				  <td><input type="text" name="txtEmpYears" <?php echo $locRights['add'] ? '':'disabled="disabled"'?>
+                                 value="<?php echo isset($this->popArr['txtEmpYears']) ? CommonFunctions::escapeHtml($this->popArr['txtEmpYears']) :''?>"/></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
 					<td><?php echo $lang_Leave_Common_Comments?></td>
-						<td> <textarea <?php echo $locRights['add'] ? '':'disabled="disabled"'?> rows="3" cols="25" name="txtEmpComments"><?php echo isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] :''?></textarea></td>
+						<td> <textarea <?php echo $locRights['add'] ? '':'disabled="disabled"'?> rows="3" cols="25" name="txtEmpComments"><?php echo isset($this->popArr['txtEmpComments']) ? CommonFunctions::escapeHtml($this->popArr['txtEmpComments']) :''?></textarea></td>
     				  <td width="50">&nbsp;</td>
 						 </tr>
 					  <tr>
@@ -254,8 +268,8 @@ if ($rset != null){ ?>
 			for($a=0;count($allSkilllist)>$a;$a++)
 				if($rset[$c][1] == $allSkilllist[$a][0])
 				   $lname=$allSkilllist[$a][1];
-			?><td><a href="javascript:viewSkill('<?php echo $rset[$c][1]?>')"><?php echo $lname?></a></td><?php
-			echo '<td>'. $rset[$c][2] .'</td>';
+			?><td><a href="javascript:viewSkill('<?php echo $rset[$c][1]?>')"><?php echo CommonFunctions::escapeHtml($lname)?></a></td><?php
+			echo '<td>'. CommonFunctions::escapeHtml($rset[$c][2]) .'</td>';
 
         echo '</tr>';
         }

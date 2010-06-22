@@ -80,11 +80,11 @@ class EXTRACTOR_EmpInfo {
 
 	public function parseAddData($postArr) {
 
-		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
-		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
-		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
-		$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
-		$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
+		$this->parent_empinfo -> setEmployeeID(CommonFunctions::cleanParam($postArr['txtEmployeeId'], 50));
+		$this->parent_empinfo -> setEmpLastName(CommonFunctions::cleanParam($postArr['txtEmpLastName'], 100));
+		$this->parent_empinfo -> setEmpFirstName(CommonFunctions::cleanParam($postArr['txtEmpFirstName'], 100));
+		$this->parent_empinfo -> setEmpNickName(CommonFunctions::cleanParam($postArr['txtEmpNickName'], 100));
+		$this->parent_empinfo -> setEmpMiddleName(CommonFunctions::cleanParam($postArr['txtEmpMiddleName'], 100));
 
 		$objectArr['EmpInfo'] =  $this->parent_empinfo;
 
@@ -102,15 +102,15 @@ class EXTRACTOR_EmpInfo {
 
 		if ($postArr['main']=='1') { // TODO: Check whether this code block is in use. Same content was appended to personalFlag
 
-			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
+			$this->parent_empinfo -> setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
 			if (isset($postArr['txtEmployeeId'])) {
-				$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
+				$this->parent_empinfo -> setEmployeeID(CommonFunctions::cleanParam($postArr['txtEmployeeId'], 50));
 			}
 
-			$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
-			$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
-			$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
-			$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
+			$this->parent_empinfo -> setEmpLastName(CommonFunctions::cleanParam($postArr['txtEmpLastName'], 100));
+			$this->parent_empinfo -> setEmpFirstName(CommonFunctions::cleanParam($postArr['txtEmpFirstName'], 100));
+			$this->parent_empinfo -> setEmpNickName(CommonFunctions::cleanParam($postArr['txtEmpNickName'], 100));
+			$this->parent_empinfo -> setEmpMiddleName(CommonFunctions::cleanParam($postArr['txtEmpMiddleName'], 100));
 
 
 			$objectArr['EmpMain'] = $this->parent_empinfo;
@@ -121,36 +121,38 @@ class EXTRACTOR_EmpInfo {
 		if ($postArr['personalFlag']=='1') {
 			
 			if (isset($postArr['DOB'])) {
-			    $postArr['DOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['DOB']);
-			    $this->parent_empinfo -> setEmpDOB(self::_handleEmptyDates($postArr['DOB']));
+
+                $dob = CommonFunctions::cleanParam($postArr['DOB']);
+			    $dob=LocaleUtil::getInstance()->convertToStandardDateFormat($dob);
+			    $this->parent_empinfo -> setEmpDOB(self::_handleEmptyDates($dob));
 			}
 
 			$postArr['txtLicExpDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtLicExpDate']);
 
-			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
-			$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
-			$this->parent_empinfo -> setEmpSSNNo(trim($postArr['txtNICNo']));
-			$this->parent_empinfo -> setEmpGender(trim($postArr['optGender']));
-			$this->parent_empinfo -> setEmpDriLicNo(($postArr['txtLicenNo']));
-			$this->parent_empinfo -> setEmpNation(($postArr['cmbNation']));
-			$this->parent_empinfo -> setEmpDriLicExpDat(self::_handleEmptyDates($postArr['txtLicExpDate']));
-			$this->parent_empinfo -> setEmpOthID(trim($postArr['txtOtherID']));
+			$this->parent_empinfo -> setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->parent_empinfo -> setEmpSINNo(CommonFunctions::cleanParam($postArr['txtSINNo'], 100));
+			$this->parent_empinfo -> setEmpSSNNo(CommonFunctions::cleanParam($postArr['txtNICNo'], 100));
+			$this->parent_empinfo -> setEmpGender(CommonFunctions::cleanParam($postArr['optGender']));
+			$this->parent_empinfo -> setEmpDriLicNo(CommonFunctions::cleanParam($postArr['txtLicenNo'], 100));
+			$this->parent_empinfo -> setEmpNation(CommonFunctions::cleanParam($postArr['cmbNation']));
+			$this->parent_empinfo -> setEmpDriLicExpDat(self::_handleEmptyDates(CommonFunctions::cleanParam($postArr['txtLicExpDate'])));
+			$this->parent_empinfo -> setEmpOthID(CommonFunctions::cleanParam($postArr['txtOtherID'], 100));
 			$this->parent_empinfo -> setEmpMarital(($postArr['cmbMarital']));
-			$this->parent_empinfo -> setEmpMilitary(trim($postArr['txtMilitarySer']));
+			$this->parent_empinfo -> setEmpMilitary(CommonFunctions::cleanParam($postArr['txtMilitarySer'], 100));
 			$this->parent_empinfo -> setEmpsmoker(isset($postArr['chkSmokeFlag'])?'1':'0');
-			$this->parent_empinfo -> setEmpEthnicRace(($postArr['cmbEthnicRace']));
+			$this->parent_empinfo -> setEmpEthnicRace(CommonFunctions::cleanParam($postArr['cmbEthnicRace']));
 
 			$objectArr['EmpPers'] = $this->parent_empinfo;
 			
-			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
+			$this->parent_empinfo -> setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
 			if (isset($postArr['txtEmployeeId'])) {
-				$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
+				$this->parent_empinfo -> setEmployeeID(CommonFunctions::cleanParam($postArr['txtEmployeeId'], 50));
 			}
 
-			$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
-			$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
-			$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
-			$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
+			$this->parent_empinfo -> setEmpLastName(CommonFunctions::cleanParam($postArr['txtEmpLastName'], 100));
+			$this->parent_empinfo -> setEmpFirstName(CommonFunctions::cleanParam($postArr['txtEmpFirstName'], 100));
+			$this->parent_empinfo -> setEmpNickName(CommonFunctions::cleanParam($postArr['txtEmpNickName'], 100));
+			$this->parent_empinfo -> setEmpMiddleName(CommonFunctions::cleanParam($postArr['txtEmpMiddleName'], 100));
 
 			$objectArr['EmpMain'] = $this->parent_empinfo;
 
@@ -159,38 +161,38 @@ class EXTRACTOR_EmpInfo {
 		//job info
 		if ($postArr['jobFlag']=='1' && !(isset($this->isESS) && $this->isESS)) {
 
-			$postArr['txtJoinedDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtJoinedDate']);
-			$postArr['txtTermDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtTermDate']);
+			$postArr['txtJoinedDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtJoinedDate']));
+			$postArr['txtTermDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtTermDate']));
 
-			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
-			$this->parent_empinfo -> setEmpJobTitle(trim($postArr['cmbJobTitle']));
+			$this->parent_empinfo -> setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->parent_empinfo -> setEmpJobTitle(CommonFunctions::cleanParam($postArr['cmbJobTitle'], 13));
 			if (isset($postArr['cmbType'])) {
-				$this->parent_empinfo -> setEmpStatus(trim($postArr['cmbType']));
+				$this->parent_empinfo -> setEmpStatus(CommonFunctions::cleanParam($postArr['cmbType'], 13));
 			} else {
-			    $this->parent_empinfo -> setEmpStatus(trim($postArr['hidType']));
+			    $this->parent_empinfo -> setEmpStatus(CommonFunctions::cleanParam($postArr['hidType'], 13));
 			}
-			$this->parent_empinfo -> setEmpEEOCat(trim($postArr['cmbEEOCat']));
-			$this->parent_empinfo -> setEmpLocation(($postArr['cmbLocation']));
+			$this->parent_empinfo -> setEmpEEOCat(CommonFunctions::cleanParam($postArr['cmbEEOCat'], 13));
+			$this->parent_empinfo -> setEmpLocation(CommonFunctions::cleanParam($postArr['cmbLocation']));
 			$this->parent_empinfo -> setEmpJoinedDate(self::_handleEmptyDates($postArr['txtJoinedDate']));
 			$this->parent_empinfo ->setEmpTerminatedDate(self::_handleEmptyDates($postArr['txtTermDate']));
-			$this->parent_empinfo ->setEmpTerminationReason(($postArr['txtTermReason']));
+			$this->parent_empinfo ->setEmpTerminationReason(CommonFunctions::cleanParam($postArr['txtTermReason'], 256));
 
 			$objectArr['EmpJobInfo'] = $this->parent_empinfo;
 		}
 
 		if($postArr['contactFlag']=='1') {
-			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
-			$this->parent_empinfo -> setEmpStreet1(trim($postArr['txtStreet1']));
-			$this->parent_empinfo -> setEmpStreet2(trim($postArr['txtStreet2']));
-			$this->parent_empinfo -> setEmpCity(trim($postArr['cmbCity']));
-			$this->parent_empinfo -> setEmpProvince(trim($postArr['cmbProvince']));
-			$this->parent_empinfo -> setEmpCountry(trim($postArr['cmbCountry']));
-			$this->parent_empinfo -> setEmpZipCode(trim($postArr['txtzipCode']));
-			$this->parent_empinfo -> setEmpHomeTelephone(trim($postArr['txtHmTelep']));
-			$this->parent_empinfo -> setEmpMobile(trim($postArr['txtMobile']));
-			$this->parent_empinfo -> setEmpWorkTelephone(trim($postArr['txtWorkTelep']));
-			$this->parent_empinfo -> setEmpWorkEmail(($postArr['txtWorkEmail']));
-			$this->parent_empinfo -> setEmpOtherEmail(($postArr['txtOtherEmail']));
+			$this->parent_empinfo -> setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->parent_empinfo -> setEmpStreet1(CommonFunctions::cleanParam($postArr['txtStreet1'], 100));
+			$this->parent_empinfo -> setEmpStreet2(CommonFunctions::cleanParam($postArr['txtStreet2'], 100));
+			$this->parent_empinfo -> setEmpCity(CommonFunctions::cleanParam($postArr['cmbCity'], 100));
+			$this->parent_empinfo -> setEmpProvince(CommonFunctions::cleanParam($postArr['cmbProvince'], 100));
+			$this->parent_empinfo -> setEmpCountry(CommonFunctions::cleanParam($postArr['cmbCountry'], 100));
+			$this->parent_empinfo -> setEmpZipCode(CommonFunctions::cleanParam($postArr['txtzipCode'], 20));
+			$this->parent_empinfo -> setEmpHomeTelephone(CommonFunctions::cleanParam($postArr['txtHmTelep'], 50));
+			$this->parent_empinfo -> setEmpMobile(CommonFunctions::cleanParam($postArr['txtMobile'], 50));
+			$this->parent_empinfo -> setEmpWorkTelephone(CommonFunctions::cleanParam($postArr['txtWorkTelep'], 50));
+			$this->parent_empinfo -> setEmpWorkEmail(CommonFunctions::cleanParam($postArr['txtWorkEmail'], 50));
+			$this->parent_empinfo -> setEmpOtherEmail(CommonFunctions::cleanParam($postArr['txtOtherEmail'], 50));
 
 
 			$objectArr['EmpPermRes'] = $this->parent_empinfo;
@@ -198,33 +200,33 @@ class EXTRACTOR_EmpInfo {
 
 		if($postArr['taxFlag']=='1') {
 			$taxInfo = new EmpTax();
-			$taxInfo->setEmpNumber(trim($postArr['txtEmpID']));
+			$taxInfo->setEmpNumber(CommonFunctions::cleanParam($postArr['txtEmpID']));
 
-			$federalTaxStatus = trim($postArr['cmbTaxFederalStatus']);
+			$federalTaxStatus = CommonFunctions::cleanParam($postArr['cmbTaxFederalStatus'], 13);
 			if (!empty($federalTaxStatus)) {
 				$taxInfo->setFederalTaxStatus($federalTaxStatus);
 			}
 
-			$taxInfo->setFederalTaxExceptions(trim($postArr['taxFederalExceptions']));
+			$taxInfo->setFederalTaxExceptions(CommonFunctions::cleanParam($postArr['taxFederalExceptions']));
 
-			$taxState = trim($postArr['cmbTaxState']);
+			$taxState = CommonFunctions::cleanParam($postArr['cmbTaxState'], 13);
 			if (!empty($taxState)) {
 				$taxInfo->setTaxState($taxState);
 			}
 
-			$stateTaxStatus = trim($postArr['cmbTaxStateStatus']);
+			$stateTaxStatus = CommonFunctions::cleanParam($postArr['cmbTaxStateStatus'], 13);
 			if (!empty($stateTaxStatus)) {
 				$taxInfo->setStateTaxStatus($stateTaxStatus);
 			}
 
-			$taxInfo->setStateTaxExceptions(trim($postArr['taxStateExceptions']));
+			$taxInfo->setStateTaxExceptions(CommonFunctions::cleanParam($postArr['taxStateExceptions']));
 
-			$unemploymentState = trim($postArr['cmbTaxUnemploymentState']);
+			$unemploymentState = CommonFunctions::cleanParam($postArr['cmbTaxUnemploymentState'], 13);
 			if (!empty($unemploymentState)) {
 				$taxInfo->setTaxUnemploymentState($unemploymentState);
 			}
 
-			$workState = trim($postArr['cmbTaxWorkState']);
+			$workState = CommonFunctions::cleanParam($postArr['cmbTaxWorkState'], 13);
 			if (!empty($workState)) {
 				$taxInfo->setTaxWorkState($workState);
 			}
@@ -235,34 +237,34 @@ class EXTRACTOR_EmpInfo {
 		if($postArr['customFlag']=='1') {
 			$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 			if (isset($postArr['custom1'])) {
-				$this->parent_empinfo->setCustom1(CommonFunctions::escapeHTML(trim($postArr['custom1'])));
+				$this->parent_empinfo->setCustom1(CommonFunctions::cleanParam($postArr['custom1']));
 			}
 			if (isset($postArr['custom2'])) {
-				$this->parent_empinfo->setCustom2(CommonFunctions::escapeHTML(trim($postArr['custom2'])));
+				$this->parent_empinfo->setCustom2(CommonFunctions::cleanParam($postArr['custom2']));
 			}
 			if (isset($postArr['custom3'])) {
-				$this->parent_empinfo->setCustom3(CommonFunctions::escapeHTML(trim($postArr['custom3'])));
+				$this->parent_empinfo->setCustom3(CommonFunctions::cleanParam($postArr['custom3']));
 			}
 			if (isset($postArr['custom4'])) {
-				$this->parent_empinfo->setCustom4(CommonFunctions::escapeHTML(trim($postArr['custom4'])));
+				$this->parent_empinfo->setCustom4(CommonFunctions::cleanParam($postArr['custom4']));
 			}
 			if (isset($postArr['custom5'])) {
-				$this->parent_empinfo->setCustom5(CommonFunctions::escapeHTML(trim($postArr['custom5'])));
+				$this->parent_empinfo->setCustom5(CommonFunctions::cleanParam($postArr['custom5']));
 			}
 			if (isset($postArr['custom6'])) {
-				$this->parent_empinfo->setCustom6(CommonFunctions::escapeHTML(trim($postArr['custom6'])));
+				$this->parent_empinfo->setCustom6(CommonFunctions::cleanParam($postArr['custom6']));
 			}
 			if (isset($postArr['custom7'])) {
-				$this->parent_empinfo->setCustom7(CommonFunctions::escapeHTML(trim($postArr['custom7'])));
+				$this->parent_empinfo->setCustom7(CommonFunctions::cleanParam($postArr['custom7']));
 			}
 			if (isset($postArr['custom8'])) {
-				$this->parent_empinfo->setCustom8(CommonFunctions::escapeHTML(trim($postArr['custom8'])));
+				$this->parent_empinfo->setCustom8(CommonFunctions::cleanParam($postArr['custom8']));
 			}
 			if (isset($postArr['custom9'])) {
-				$this->parent_empinfo->setCustom9(CommonFunctions::escapeHTML(trim($postArr['custom9'])));
+				$this->parent_empinfo->setCustom9(CommonFunctions::cleanParam($postArr['custom9']));
 			}
 			if (isset($postArr['custom10'])) {
-				$this->parent_empinfo->setCustom10(CommonFunctions::escapeHTML(trim($postArr['custom10'])));
+				$this->parent_empinfo->setCustom10(CommonFunctions::cleanParam($postArr['custom10']));
 			}
 			$objectArr['EmpCustomInfo'] = $this->parent_empinfo;
 		}

@@ -111,7 +111,7 @@ if(isset($this->getArr['lanSEQ'])) {
 							if($edit[0][1]==$lanlist[$c][0])
 							     break;
 
-					  			echo $lanlist[$c][1];
+					  			echo CommonFunctions::escapeHtml($lanlist[$c][1]);
 ?>
 					  </strong></td>
 					</tr>
@@ -166,9 +166,9 @@ if(isset($this->getArr['lanSEQ'])) {
 						$lanlist= $this->popArr['lanlist'];
 						for($c=0;$lanlist && count($lanlist)>$c;$c++)
 							if(isset($this->popArr['cmbLanCode']) && $this->popArr['cmbLanCode']==$lanlist[$c][0])
-							   echo "<option  value='" . $lanlist[$c][0] . "'>" . $lanlist[$c][1] . "</option>";
+							   echo "<option  value='" . $lanlist[$c][0] . "'>" . CommonFunctions::escapeHtml($lanlist[$c][1]) . "</option>";
 							 else
-							   echo "<option value='" . $lanlist[$c][0] . "'>" . $lanlist[$c][1] . "</option>";
+							   echo "<option value='" . $lanlist[$c][0] . "'>" . CommonFunctions::escapeHtml($lanlist[$c][1]) . "</option>";
 ?>
 					  </select></td>
 					</tr>
@@ -256,7 +256,7 @@ if(isset($this->getArr['lanSEQ'])) {
 			for($a=0;count($lanlist)>$a;$a++)
 				if($rset[$c][1] == $lanlist[$a][0])
 				   $lname=$lanlist[$a][1];
-            ?> <td><a href="javascript:viewLang('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $lname?></a></td> <?php
+            ?> <td><a href="javascript:viewLang('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo CommonFunctions::escapeHtml($lname)?></a></td> <?php
 
             for($a=0;count($lantype)>$a;$a++)
 				if($rset[$c][2] == $index[$a])

@@ -26,9 +26,9 @@ class EXTRACTOR_EmpJobHistory {
 	public function parseAddData($postArr) {
 
         $type = $postArr['cmbHistoryItemType'];
-        $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpHistoryItemFrom']);
-        $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpHistoryItemTo']);
-        $empNum = trim($postArr['txtEmpID']);
+        $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpHistoryItemFrom']));
+        $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpHistoryItemTo']));
+        $empNum = CommonFunctions::cleanParam($postArr['txtEmpID']);
 
         $history = null;
 
@@ -49,6 +49,8 @@ class EXTRACTOR_EmpJobHistory {
                 break;
         }
 
+        $code = CommonFunctions::cleanParam($code);
+
         $history->setEmpNumber($empNum);
         $history->setCode($code);
         $history->setStartDate($startDate);
@@ -61,7 +63,7 @@ class EXTRACTOR_EmpJobHistory {
 
         $historyItems = array();
 
-        $empNum = trim($postArr['txtEmpID']);
+        $empNum = CommonFunctions::cleanParam($postArr['txtEmpID']);
 
         // Get job title history
         if (isset($postArr['jobTitleHisId'])) {
@@ -73,10 +75,10 @@ class EXTRACTOR_EmpJobHistory {
             for ($i=0; $i<count($jobTitleIds); $i++) {
                 $history = new JobTitleHistory();
 
-                $id = $jobTitleIds[$i];
-                $code = $jobTitleCodes[$i];
-                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat($jobTitleFromDates[$i]);
-                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat($jobTitleToDates[$i]);
+                $id = CommonFunctions::cleanParam($jobTitleIds[$i]);
+                $code = CommonFunctions::cleanParam($jobTitleCodes[$i]);
+                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($jobTitleFromDates[$i]));
+                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($jobTitleToDates[$i]));
 
                 $history->setId($id);
                 $history->setCode($code);
@@ -98,10 +100,10 @@ class EXTRACTOR_EmpJobHistory {
             for ($i=0; $i<count($subDivIds); $i++) {
                 $history = new SubDivisionHistory();
 
-                $id = $subDivIds[$i];
-                $code = $subDivCodes[$i];
-                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat($subDivFromDates[$i]);
-                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat($subDivToDates[$i]);
+                $id = CommonFunctions::cleanParam($subDivIds[$i]);
+                $code = CommonFunctions::cleanParam($subDivCodes[$i]);
+                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($subDivFromDates[$i]));
+                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($subDivToDates[$i]));
 
                 $history->setId($id);
                 $history->setCode($code);
@@ -125,12 +127,12 @@ class EXTRACTOR_EmpJobHistory {
             for ($i=0; $i<count($locIds); $i++) {
                 $history = new LocationHistory();
 
-                $id = $locIds[$i];
-                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat($locFromDates[$i]);
-                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat($locToDates[$i]);
+                $id = CommonFunctions::cleanParam($locIds[$i]);
+                $startDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($locFromDates[$i]));
+                $endDate = LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($locToDates[$i]));
 
                 $history->setId($id);
-                $code = $locCodes[$i];
+                $code = CommonFunctions::cleanParam($locCodes[$i]);
                 $history->setCode($code);
                 $history->setEmpNumber($empNum);
                 $history->setStartDate($startDate);

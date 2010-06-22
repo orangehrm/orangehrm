@@ -28,10 +28,10 @@ class EXTRACTOR_EmpRepTo{
 
 	function parseData($postArr) {
 
-			$this->emprep->setEmpId(trim($postArr['txtEmpID']));
-   			$this->emprep->setEmpSupId(trim($postArr['txtSupEmpID']));
-   			$this->emprep->setEmpSubId(trim($postArr['txtSubEmpID']));
-   			$this->emprep->setEmpRepMod(trim($postArr['cmbRepMethod']));
+			$this->emprep->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+   			$this->emprep->setEmpSupId(CommonFunctions::cleanParam($postArr['txtSupEmpID']));
+   			$this->emprep->setEmpSubId(CommonFunctions::cleanParam($postArr['txtSubEmpID']));
+   			$this->emprep->setEmpRepMod(CommonFunctions::cleanParam($postArr['cmbRepMethod']));
 
 
 			return $this->emprep;

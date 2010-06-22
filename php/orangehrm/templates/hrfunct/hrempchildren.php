@@ -109,7 +109,7 @@ div#addPaneChildren input {
 	<input type="hidden" name="txtCSeqNo" value="<?php echo $edit[0][1]?>" class="hiddenField" />
 	<div id="editPaneChildren" >
 		<label for="txtChiName"><?php echo $lang_hremp_name; ?></label>
-		<input type="text" name="txtChiName" id="txtChiName" value="<?php echo $edit[0][2]?>" />
+		<input type="text" name="txtChiName" id="txtChiName" maxlength="100" value="<?php echo CommonFunctions::escapeHtml($edit[0][2])?>" />
 		<br />
 		<label for="eChiDOB"><?php echo $lang_hremp_dateofbirth; ?></label>
 		<input class="formDateInput" type="text" name="ChiDOB" id="eChiDOB" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
@@ -128,17 +128,17 @@ div#addPaneChildren input {
 		    	onclick="resetChildren()" />
 		    <script type="text/javascript">
 		    dobFieldId = "eChiDOB";
-			originalChildName = "<?php echo $edit[0][2]; ?>";
+			originalChildName = "<?php echo CommonFunctions::escapeHtml($edit[0][2]); ?>";
 			originalChildDOB = "<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>";
 			</script>
 		</div>
 <?php	} ?>
 	</div>
 <?php } else { ?>
-	<input type="hidden" name="txtCSeqNo" value="<?php echo $this->popArr['newCID']?>" class="hiddenField" />
+	<input type="hidden" name="txtCSeqNo" value="<?php echo CommonFunctions::escapeHtml($this->popArr['newCID'])?>" class="hiddenField" />
 	<div id="addPaneChildren" class="<?php echo ($this->popArr['empChiAss'] != null)?"addPane":""; ?>">
 		<label for="txtChiName"><?php echo $lang_hremp_name; ?></label>
-		<input name="txtChiName" id="txtChiName" type="text" />
+		<input name="txtChiName" id="txtChiName" type="text" maxlength="100"/>
 		<br />
 		<label for="aChiDOB"><?php echo $lang_hremp_dateofbirth; ?></label>
 		<input class="formDateInput" type="text" name="ChiDOB" id="aChiDOB" size="10" />
@@ -201,7 +201,7 @@ div#addPaneChildren input {
 ?>
         <tr class="<?php $cssClass; ?>">
 			<td><input type="checkbox" class="checkbox" name="chkchidel[]" value="<?php echo $rset[$c][1]; ?> " /></td>
-			<td><a href="javascript:viewChildren(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td>
+			<td><a href="javascript:viewChildren(<?php echo $rset[$c][1]?>)"><?php echo CommonFunctions::escapeHtml($rset[$c][2])?></a></td>
 			<td><?php echo LocaleUtil::getInstance()->formatDate($rset[$c][3]); ?></td>
 		</tr>
 <?php } ?>

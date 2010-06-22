@@ -35,20 +35,20 @@ class EXTRACTOR_EmpDependents {
 
 	function parseData($postArr) {	
 			
-			$this->dep->setEmpId($postArr['txtEmpID']);
-			$this->dep->setEmpDSeqNo(trim($postArr['txtDSeqNo']));
-			$this->dep->setEmpDepName(trim($postArr['txtDepName']));
-			$this->dep->setEmpDepRel(trim($postArr['txtRelShip']));
+			$this->dep->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+			$this->dep->setEmpDSeqNo(CommonFunctions::cleanParam($postArr['txtDSeqNo']));
+			$this->dep->setEmpDepName(CommonFunctions::cleanParam($postArr['txtDepName'], 100));
+			$this->dep->setEmpDepRel(CommonFunctions::cleanParam($postArr['txtRelShip'], 100));
 												
 			return $this->dep;
 	}
 	
 	function reloadData($postArr) {	
 	
-			$this->txtEmpID		=	($postArr['txtEmpID']);
-			$this->txtDSeqNo	=	(trim($postArr['txtDSeqNo']));
-			$this->txtDepName	=	(trim($postArr['txtDepName']));
-			$this->txtRelShip	=	(trim($postArr['txtRelShip']));
+			$this->txtEmpID		=	CommonFunctions::cleanParam($postArr['txtEmpID']);
+			$this->txtDSeqNo	=	CommonFunctions::cleanParam($postArr['txtDSeqNo']);
+			$this->txtDepName	=	CommonFunctions::cleanParam($postArr['txtDepName'], 100);
+			$this->txtRelShip	=	CommonFunctions::cleanParam($postArr['txtRelShip'], 100);
 						
 			return $this;
 	}

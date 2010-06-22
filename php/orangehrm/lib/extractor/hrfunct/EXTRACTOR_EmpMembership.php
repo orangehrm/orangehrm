@@ -35,14 +35,17 @@ class EXTRACTOR_EmpMembership {
 
 	public function parseData($postArr) {
 
-		$postArr['txtMemCommDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtMemCommDat']);
-		$postArr['txtMemRenDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtMemRenDat']);
+		$postArr['txtMemCommDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtMemCommDat']));
+		$postArr['txtMemRenDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtMemRenDat']));
 
-		$this->empmemship->setEmpId(trim($postArr['txtEmpID']));
-		$this->empmemship->setEmpMemCode(trim($postArr['cmbMemCode']));
-		$this->empmemship->setEmpMemTypeCode(trim($postArr['cmbMemTypeCode']));
-		$this->empmemship->setEmpMemSubOwn(trim($postArr['cmbMemSubOwn']));
-		$this->empmemship->setEmpMemSubAmount(trim($postArr['txtMemSubAmount'])==""?0:trim($postArr['txtMemSubAmount']));
+		$this->empmemship->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+		$this->empmemship->setEmpMemCode(CommonFunctions::cleanParam($postArr['cmbMemCode'], 13));
+		$this->empmemship->setEmpMemTypeCode(CommonFunctions::cleanParam($postArr['cmbMemTypeCode'], 13));
+		$this->empmemship->setEmpMemSubOwn(CommonFunctions::cleanParam($postArr['cmbMemSubOwn'], 20));
+        $subAmount = CommonFunctions::cleanParam($postArr['txtMemSubAmount']);
+		$subAmount = ($subAmount == "") ? 0 : $subAmount;
+
+		$this->empmemship->setEmpMemSubAmount($subAmount);
 		$this->empmemship->setEmpMemCommDat(self::_handleEmptyDates($postArr['txtMemCommDat']));
 		$this->empmemship->setEmpMemRenDat(self::_handleEmptyDates($postArr['txtMemRenDat']));
 
@@ -53,11 +56,12 @@ class EXTRACTOR_EmpMembership {
 
 	public function reloadData($postArr) {
 
-		$this->txtEmpid= (trim($postArr['txtEmpID']));
-		$this->cmbMemCode = $postArr['cmbMemCode'];
-		$this->cmbMemTypeCode = $postArr['cmbMemTypeCode'];
-		$this->cmbMemSubOwn = $postArr['cmbMemSubOwn'];
-		$this->txtMemSubAmount = trim($postArr['txtMemSubAmount'])==""?0:trim($postArr['txtMemSubAmount']);
+		$this->txtEmpid= (CommonFunctions::cleanParam($postArr['txtEmpID']));
+		$this->cmbMemCode = CommonFunctions::cleanParam($postArr['cmbMemCode'], 13);
+		$this->cmbMemTypeCode = CommonFunctions::cleanParam($postArr['cmbMemTypeCode'], 13);
+		$this->cmbMemSubOwn = CommonFunctions::cleanParam($postArr['cmbMemSubOwn'], 20);
+        $subAmount = CommonFunctions::cleanParam($postArr['txtMemSubAmount']);
+		$this->txtMemSubAmount = $subAmount == "" ? 0 : $subAmount;
 		$this->txtMemCommDat = self::_handleEmptyDates($postArr['txtMemCommDat']);
 		$this->txtMemRenDat = self::_handleEmptyDates($postArr['txtMemRenDat']);
 

@@ -25,17 +25,17 @@ class EXTRACTOR_EmpEducation {
 
 		$this->empeducation = new EmpEducation();
 	}
-
+    
 	public function parseData($postArr) {
 
-		$postArr['txtEmpEduStartDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpEduStartDate']);
-		$postArr['txtEmpEduEndDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpEduEndDate']);
+		$postArr['txtEmpEduStartDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpEduStartDate']));
+		$postArr['txtEmpEduEndDate']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpEduEndDate']));
 
-		$this->empeducation->setEmpId(trim($postArr['txtEmpID']));
-   		$this->empeducation->setEduCode(trim($postArr['cmbEduCode']));
-   		$this->empeducation->setEduMajor(trim($postArr['txtEmpEduMajor']));
-   		$this->empeducation->setEduYear(empty($postArr['txtEmpEduYear'])?'null':trim($postArr['txtEmpEduYear']));
-   		$this->empeducation->setEduGPA(trim($postArr['txtEmpEduGPA']));
+		$this->empeducation->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+   		$this->empeducation->setEduCode(CommonFunctions::cleanParam($postArr['cmbEduCode'], 13));
+   		$this->empeducation->setEduMajor(CommonFunctions::cleanParam($postArr['txtEmpEduMajor'], 100));
+   		$this->empeducation->setEduYear(empty($postArr['txtEmpEduYear'])?'null':CommonFunctions::cleanParam($postArr['txtEmpEduYear']));
+   		$this->empeducation->setEduGPA(CommonFunctions::cleanParam($postArr['txtEmpEduGPA'], 25));
    		$this->empeducation->setEduStartDate(self::_handleEmptyDates($postArr['txtEmpEduStartDate']));
    		$this->empeducation->setEduEndDate(self::_handleEmptyDates($postArr['txtEmpEduEndDate']));
 

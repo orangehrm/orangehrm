@@ -178,7 +178,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 			$typlist = $this->popArr['typlist'];
 			for($c=0;count($typlist)>$c;$c++) {
 				if($typlist[$c][0]==$edit[0][2]) {
-				   echo $typlist[$c][1];
+				   echo CommonFunctions::escapeHtml($typlist[$c][1]);
 				}
 			}
 		?>
@@ -189,7 +189,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 			$mship = $this->popArr['mship'];
 			for($c=0;count($mship)>$c;$c++) {
 			    if($mship[$c][1]==$edit[0][1]) {
-					echo $mship[$c][2];
+					echo CommonFunctions::escapeHtml($mship[$c][2]);
 			    }
 			}
 		?>
@@ -209,7 +209,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 		<br />
 		<label for="etxtMemSubAmount"><?php echo $lang_hrEmpMain_subamount?></label>
 		<input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" disabled="disabled"
-			value="<?php echo $edit[0][4]?>" />
+			value="<?php echo CommonFunctions::escapeHtml($edit[0][4])?>" />
 		<br />
 		<label for="etxtMemCommDat"><?php echo $lang_hrEmpMain_subcomdate?></label>
 		<input type="text" name="txtMemCommDat" id="etxtMemCommDat" disabled="disabled"
@@ -243,9 +243,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 							for($c=0;$typlist && count($typlist)>$c;$c++)
 							if(isset($this->popArr['cmbMemTypeCode']) && $this->popArr['cmbMemTypeCode']==$typlist[$c][0])
 
-							   echo "<option selected=\"selected\" value='" . $typlist[$c][0] . "'>" . $typlist[$c][1] . "</option>";
+							   echo "<option selected=\"selected\" value='" . $typlist[$c][0] . "'>" . CommonFunctions::escapeHtml($typlist[$c][1]) . "</option>";
 							else
-							   echo "<option value='" . $typlist[$c][0] . "'>" . $typlist[$c][1] . "</option>";
+							   echo "<option value='" . $typlist[$c][0] . "'>" . CommonFunctions::escapeHtml($typlist[$c][1]) . "</option>";
 
 ?>
 					  </select></td>
@@ -259,7 +259,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 
 						$mship=$this->popArr['mship'];
 						for($c=0;$mship && count($mship)>$c;$c++)
-						    echo "<option value='" . $mship[$c][0] . "'>" . $mship[$c][1] . "</option>";
+						    echo "<option value='" . $mship[$c][0] . "'>" . CommonFunctions::escapeHtml($mship[$c][1]) . "</option>";
 						}
 ?>
 						</select></td>
@@ -355,13 +355,13 @@ if(isset($this->popArr['editMembershipArr'])) {
 			    if($mship[$a][1]==$rset[$c][1])
 				   $fname=$mship[$a][2];
 
-            ?><td><a href="javascript:viewMembership('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
+            ?><td><a href="javascript:viewMembership('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo CommonFunctions::escapeHtml($fname)?></a></td><?php
 
             for($a=0;count($typlist)>$a;$a++)
 			    if($typlist[$a][0]==$rset[$c][2])
 				   $fname=$typlist[$a][1];
-            echo '<td>' . $fname .'</td>';
-            echo '<td>' . $rset[$c][3] .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($fname) .'</td>';
+            echo '<td>' . CommonFunctions::escapeHtml($rset[$c][3]) .'</td>';
             $disStr = explode(" ",$rset[$c][5]);
             echo '<td>' . LocaleUtil::getInstance()->formatDate($disStr[0]) .'</td>';
             $disStr = explode(" ",$rset[$c][6]);

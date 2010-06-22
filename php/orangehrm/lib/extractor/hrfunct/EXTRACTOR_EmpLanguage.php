@@ -34,10 +34,10 @@ class EXTRACTOR_EmpLanguage {
 
 	function parseData($postArr) {	
 			
-			$this->emplan->setEmpId(trim($postArr['txtEmpID']));
-   			$this->emplan->setEmpLangCode(trim($postArr['cmbLanCode']));
-   			$this->emplan->setEmpLangType(trim($postArr['cmbLanType']));
-   			$this->emplan->setEmpLangRatGrd(trim($postArr['cmbRatGrd']));
+			$this->emplan->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+   			$this->emplan->setEmpLangCode(CommonFunctions::cleanParam($postArr['cmbLanCode'], 13));
+   			$this->emplan->setEmpLangType(CommonFunctions::cleanParam($postArr['cmbLanType']));
+   			$this->emplan->setEmpLangRatGrd(CommonFunctions::cleanParam($postArr['cmbRatGrd']));
    			
 		
 			return $this->emplan;

@@ -40,14 +40,16 @@
       </tr>
 		<tr>
 			<td><?php echo $lang_hremp_street1?></td>
-			<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet1" value="<?php echo (isset($this->postArr['txtStreet1']))?$this->postArr['txtStreet1']:$edit[0][1]?>" /></td>
+			<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet1" maxlength="100"
+                       value="<?php echo (isset($this->postArr['txtStreet1']))? CommonFunctions::escapeHtml($this->postArr['txtStreet1']):CommonFunctions::escapeHtml($edit[0][1])?>" /></td>
 			 <td width="60">&nbsp;</td>
 			 <td><?php echo $lang_hremp_street2?></td>
-			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet2" value="<?php echo (isset($this->postArr['txtStreet2']))?$this->postArr['txtStreet2']:$edit[0][2]?>" /></td>
+			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet2" maxlength="100
+                         value="<?php echo (isset($this->postArr['txtStreet2']))?CommonFunctions::escapeHtml($this->postArr['txtStreet2']):CommonFunctions::escapeHtml($edit[0][2])?>" /></td>
 		</tr>
 		 <tr>
 			 <td><?php echo $lang_hremp_city?></td>
-			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" disabled="disabled"/></td>
+			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo CommonFunctions::escapeHtml($edit[0][3])?>" disabled="disabled"  maxlength="100"/></td>
 			<td width="60">&nbsp;</td>
 			<td><?php echo $lang_compstruct_state?></td>
 						  <td><div id="lrState" >
@@ -63,35 +65,43 @@
 							    	?>
 					    	</select>
 							    	<?php } else { ?>
-							    	<input type="text" disabled="disabled" name="txtState" id="txtState" value="<?php echo isset($edit[0][5]) ? $edit[0][5] : ''?>" />
+							    	<input type="text" disabled="disabled" name="txtState" id="txtState"  maxlength="100"
+                                           value="<?php echo isset($edit[0][5]) ? CommonFunctions::escapeHtml($edit[0][5]) : ''?>" />
 							    	<?php } ?>
 							    	</div>
-							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo isset($edit[0][5]) ? $edit[0][5] : ''?>" /></td>
+							    	<input type="hidden" name="cmbProvince" id="cmbProvince"
+                                           value="<?php echo isset($edit[0][5]) ? CommonFunctions::escapeHtml($edit[0][5]) : ''?>" /></td>
 			</tr>
 			<tr>
 			 <td><?php echo $lang_compstruct_ZIP_Code?></td>
-			 <td><input type="text" name="txtzipCode" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> value="<?php echo (isset($this->postArr['txtzipCode']))?$this->postArr['txtzipCode']:$edit[0][6]?>" /></td>
+			 <td><input type="text" name="txtzipCode" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> maxlength="20"
+                        value="<?php echo (isset($this->postArr['txtzipCode']))?CommonFunctions::escapeHtml($this->postArr['txtzipCode']):CommonFunctions::escapeHtml($edit[0][6])?>" /></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_hmtele?></td>
-			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtHmTelep" value="<?php echo (isset($this->postArr['txtHmTelep']))?$this->postArr['txtHmTelep']:$edit[0][7]?>" /></td>
+			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtHmTelep" maxlength="50"
+                        value="<?php echo (isset($this->postArr['txtHmTelep']))?CommonFunctions::escapeHtml($this->postArr['txtHmTelep']):CommonFunctions::escapeHtml($edit[0][7])?>" /></td>
 			 <td width="60">&nbsp;</td>
 			<td><?php echo $lang_hremp_mobile?></td>
-			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtMobile" value="<?php echo (isset($this->postArr['txtMobile']))?$this->postArr['txtMobile']:$edit[0][8]?>" /></td>
+			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtMobile" maxlength="50"
+                        value="<?php echo (isset($this->postArr['txtMobile']))?CommonFunctions::escapeHtml($this->postArr['txtMobile']):CommonFunctions::escapeHtml($edit[0][8])?>" /></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_worktele?></td>
-			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtWorkTelep" value="<?php echo (isset($this->postArr['txtWorkTelep']))?$this->postArr['txtWorkTelep']:$edit[0][9]?>" /></td>
+			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtWorkTelep" maxlength="50"
+                        value="<?php echo (isset($this->postArr['txtWorkTelep']))?CommonFunctions::escapeHtml($this->postArr['txtWorkTelep']):CommonFunctions::escapeHtml($edit[0][9])?>" /></td>
 			 <td width="60">&nbsp;</td>
 			 <td></td>
 			 <td></td>
 			</tr>
 			<tr>
 			 <td><?php echo $lang_hremp_workemail?></td>
-			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtWorkEmail" value="<?php echo (isset($this->postArr['txtWorkEmail']))?$this->postArr['txtWorkEmail']:$edit[0][10]?>" /></td>
+			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtWorkEmail" maxlength="50"
+                        value="<?php echo (isset($this->postArr['txtWorkEmail']))?CommonFunctions::escapeHtml($this->postArr['txtWorkEmail']):CommonFunctions::escapeHtml($edit[0][10])?>" /></td>
 			  <td width="60">&nbsp;</td>
 			 <td><?php echo $lang_hremp_otheremail?></td>
-			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtOtherEmail" value="<?php echo (isset($this->postArr['txtOtherEmail']))?$this->postArr['txtOtherEmail']:$edit[0][11]?>" /></td>
+			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtOtherEmail" maxlength="50"
+                        value="<?php echo (isset($this->postArr['txtOtherEmail']))?CommonFunctions::escapeHtml($this->postArr['txtOtherEmail']):CommonFunctions::escapeHtml($edit[0][11])?>" /></td>
 			 </tr>
 
 </table>

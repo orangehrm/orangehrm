@@ -35,6 +35,10 @@ class EXTRACTOR_EmpPhoto {
 					$fileSize = $_FILES['photofile']['size'];
 					$fileType = $_FILES['photofile']['type'];
 
+                    if (strlen($fileName) > 100) {
+                        $fileName = substr($fileName, 0, 100);
+                    }
+                    
 					//file read
 					$contents = file_get_contents($tmpName);
 

@@ -128,8 +128,8 @@ if (isset ($this->getArr['DDSEQ'])) {
           <tr>
               <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
               <td width="30">&nbsp;</td>
-              <td><input type="text" <?php echo $disabled;?> name="DDAccount"
-              		value="<?php echo $edit->getAccount();?>"/></td>
+              <td><input type="text" <?php echo $disabled;?> name="DDAccount" maxlength="100"
+              		value="<?php echo CommonFunctions::escapeHtml($edit->getAccount());?>"/></td>
           </tr>
           <tr>
 			  <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccountType; ?></td>
@@ -150,7 +150,7 @@ if (isset ($this->getArr['DDSEQ'])) {
               <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber; ?></td>
               <td width="30">&nbsp;</td>
               <td><input type="text" <?php echo $disabled;?> name="DDRoutingNumber"
-              	value="<?php echo $edit->getRoutingNumber(); ?>"/></td>
+              	value="<?php echo CommonFunctions::escapeHtml($edit->getRoutingNumber()); ?>"/></td>
           </tr>
           <tr>
               <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
@@ -311,10 +311,10 @@ if (isset ($this->getArr['DDSEQ'])) {
 			} else if ($ddinfo->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_SAVINGS) {
 				$type = $lang_hrEmpMain_DirectDebitAccountTypeSavings;
 			}
-?> <td><a href="#" onmousedown="viewDirectDebit(<?php echo  $ddinfo->getDDSeqNo();?>)" ><?php echo $ddinfo->getAccount();?></a></td> <?php
+?> <td><a href="#" onmousedown="viewDirectDebit(<?php echo  $ddinfo->getDDSeqNo();?>)" ><?php echo CommonFunctions::escapeHtml($ddinfo->getAccount());?></a></td> <?php
 
 			echo '<td>' . $type . '</td>';
-			echo '<td>' . $ddinfo->getRoutingNumber() . '</td>';
+			echo '<td>' . CommonFunctions::escapeHtml($ddinfo->getRoutingNumber()) . '</td>';
 			echo '<td>' . $ddinfo->getAmount() . '</td>';
 			echo '<td>' . $transactionTypes[$ddinfo->getTransactionType()] . '</td>';
 			echo '</tr>';

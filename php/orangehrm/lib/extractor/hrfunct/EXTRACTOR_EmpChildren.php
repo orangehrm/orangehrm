@@ -32,12 +32,12 @@ class EXTRACTOR_EmpChildren {
 
 	public function parseData($postArr) {
 
-		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['ChiDOB']);
+		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['ChiDOB']));
 
-		$this->chi->setEmpId($postArr['txtEmpID']);
-		$this->chi->setEmpCSeqNo(trim($postArr['txtCSeqNo']));
-		$this->chi->setEmpChiName(trim($postArr['txtChiName']));
-		$this->chi->setEmpDOB(self::_handleEmptyDates($postArr['ChiDOB']));
+		$this->chi->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+		$this->chi->setEmpCSeqNo(CommonFunctions::cleanParam($postArr['txtCSeqNo']));
+		$this->chi->setEmpChiName(CommonFunctions::cleanParam($postArr['txtChiName'], 100));
+		$this->chi->setEmpDOB(self::_handleEmptyDates(CommonFunctions::cleanParam($postArr['ChiDOB'])));
 
 		return $this->chi;
 
@@ -45,12 +45,12 @@ class EXTRACTOR_EmpChildren {
 
 	public function reloadData($postArr) {
 
-		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['ChiDOB']);
+		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['ChiDOB']));
 
-		$this->txtEmpID		=	$postArr['txtEmpID'];
-		$this->txtDSeqNo	=	trim($postArr['txtDSeqNo']);
-		$this->txtChiName	=	trim($postArr['txtChiName']);
-		$this->DOB			=	self::_handleEmptyDates($postArr['ChiDOB']);
+		$this->txtEmpID		=	CommonFunctions::cleanParam($postArr['txtEmpID']);
+		$this->txtDSeqNo	=	CommonFunctions::cleanParam($postArr['txtDSeqNo']);
+		$this->txtChiName	=	CommonFunctions::cleanParam($postArr['txtChiName'], 100);
+		$this->DOB			=	self::_handleEmptyDates(CommonFunctions::cleanParam($postArr['ChiDOB']));
 
 		return $this;
 

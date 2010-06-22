@@ -118,13 +118,13 @@ input.hiddenField {
 <?php if(isset($this->getArr['depSEQ'])) {
 		$edit = $this->popArr['editDepForm'];
 ?>
-	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" class="hiddenField" />
+	<input type="hidden" name="txtDSeqNo" value="<?php echo CommonFunctions::escapeHtml($edit[0][1])?>" class="hiddenField" />
 	<div id="editPaneDependents">
 		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
-		<input type="text" name="txtDepName" id="txtDepName" value="<?php echo $edit[0][2]; ?>" />
+		<input type="text" name="txtDepName" id="txtDepName" maxlength="100" value="<?php echo CommonFunctions::escapeHtml($edit[0][2]); ?>" />
 		<br />
 		<label for="txtRelShip"><?php echo $lang_hremp_relationship; ?></label>
-		<input name="txtRelShip" id="txtRelShip" type="text" value="<?php echo $edit[0][3]?>" />
+		<input name="txtRelShip" id="txtRelShip" type="text" maxlength="100" value="<?php echo CommonFunctions::escapeHtml($edit[0][3])?>" />
 		<br />
 <?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
@@ -137,8 +137,8 @@ input.hiddenField {
 	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 	    	onclick="resetDependants()" />
    		<script type="text/javascript">
-		originalDependantName = "<?php echo $edit[0][2]; ?>";
-		originalDependantRelationship = "<?php echo $edit[0][3]; ?>";
+		originalDependantName = "<?php echo CommonFunctions::escapeHtml($edit[0][2]); ?>";
+		originalDependantRelationship = "<?php echo CommonFunctions::escapeHtml($edit[0][3]); ?>";
 		</script>
 	</div>
 <?php	} ?>
@@ -147,10 +147,10 @@ input.hiddenField {
 	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>" class="hiddenField" />
 	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>">
 		<label for="txtDepName"><?php echo $lang_hremp_name; ?> <span class="required">*</span></label>
-		<input name="txtDepName" id="txtDepName" type="text" />
+		<input name="txtDepName" id="txtDepName" type="text" maxlength="100"/>
 		<br />
 		<label for="txtRelShip"><?php echo $lang_hremp_relationship; ?></label>
-		<input type="text" name="txtRelShip" id="txtRelShip" />
+		<input type="text" name="txtRelShip" id="txtRelShip" maxlength="100"/>
 		<br />
 <?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 	<div class="formbuttons">
@@ -209,8 +209,8 @@ if ($rset != null) { ?>
 ?>
 			<tr class="<?php echo $cssClass; ?>">
             	<td><input type="checkbox" class="checkbox" name="chkdepdel[]" value="<?php echo $rset[$c][1]; ?>" /></td>
-            	<td><a href="javascript:viewDependent(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td>
-				<td><?php echo $rset[$c][3]; ?></td>
+            	<td><a href="javascript:viewDependent(<?php echo $rset[$c][1]?>)"><?php echo CommonFunctions::escapeHtml($rset[$c][2])?></a></td>
+				<td><?php echo CommonFunctions::escapeHtml($rset[$c][3]); ?></td>
 			</tr>
 <?php } ?>
 		</tbody>

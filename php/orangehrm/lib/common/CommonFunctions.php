@@ -481,5 +481,33 @@ class CommonFunctions {
 
         return $value;
     }
+
+    /**
+     * Sanitize user input by optionally trimming, stripping tags and limiting input to maxLen.
+     *
+     * @static
+     *
+     * @param  $value Value to process
+     * @param  $maxLen if greater than 0, value is limited to this length. (any characters after maxLen are removed) 
+     * @param bool $trim If true, value is trimmed of whitespace
+     * @param bool $stripTags if true, html tags are stripped using strip_tags
+     * @return bool|string processed string.
+     */
+    public static function cleanParam($value, $maxLen = -1, $trim = true, $stripTags = true) {
+        $sanitizedValue = $value;
+
+        if ($trim) {
+            $sanitizedValue = trim($sanitizedValue);
+        }
+
+        if ($stripTags) {
+            $sanitizedValue = strip_tags($sanitizedValue);
+        }
+
+        if (($maxLen > 0) && (strlen($sanitizedValue) > $maxLen)) {
+            $sanitizedValue = substr($sanitizedValue, 0, $maxLen);
+        }
+        return $sanitizedValue;
+    }
 }
 ?>

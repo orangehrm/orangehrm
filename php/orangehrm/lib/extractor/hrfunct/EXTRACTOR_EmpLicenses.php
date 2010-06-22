@@ -32,11 +32,11 @@ class EXTRACTOR_EmpLicenses{
 
 	public function parseData($postArr) {
 
-		$postArr['txtEmpLicDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpLicDat']);
-		$postArr['txtEmpreDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpreDat']);
+		$postArr['txtEmpLicDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpLicDat']));
+		$postArr['txtEmpreDat']=LocaleUtil::getInstance()->convertToStandardDateFormat(CommonFunctions::cleanParam($postArr['txtEmpreDat']));
 
-		$this->emplicen->setEmpId(trim($postArr['txtEmpID']));
-    	$this->emplicen->setEmpLicCode(trim($postArr['cmbLicCode']));
+		$this->emplicen->setEmpId(CommonFunctions::cleanParam($postArr['txtEmpID']));
+    	$this->emplicen->setEmpLicCode(CommonFunctions::cleanParam($postArr['cmbLicCode'], 100));
     	$this->emplicen->setEmpLicDat(self::_handleEmptyDates($postArr['txtEmpLicDat']));
     	$this->emplicen->setEmpLicrenewalDat(self::_handleEmptyDates($postArr['txtEmpreDat']));
 

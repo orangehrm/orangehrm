@@ -249,7 +249,7 @@ function editJobHistory() {
                 $jobtit = $this->popArr['jobtit'];
                 if (!empty($jobtit)) {
                     foreach ($jobtit as $jobtitle) {
-                        echo "<option value='" . $jobtitle[0] . "'>" .$jobtitle[1]. "</option>";
+                        echo "<option value='" . $jobtitle[0] . "'>" .CommonFunctions::escapeHtml($jobtitle[1]). "</option>";
                     }
                 }
             ?>
@@ -260,7 +260,7 @@ function editJobHistory() {
                 $locationList = $this->popArr['loc'];
                 if (is_array($locationList)) {
 	                foreach($locationList as $loc) {
-	                    echo "<option value='" . $loc[0] . "'>" .$loc[1]. "</option>";
+	                    echo "<option value='" . $loc[0] . "'>" .CommonFunctions::escapeHtml($loc[1]). "</option>";
 	                }
                 }
             ?>
@@ -335,8 +335,8 @@ function editJobHistory() {
 
 <?php
     foreach ($jobTitleHistory as $jobTitleItem) {
-        $id = $jobTitleItem->getId();
-        $code = $jobTitleItem->getCode();
+        $id = CommonFunctions::escapeHtml($jobTitleItem->getId());
+        $code = CommonFunctions::escapeHtml($jobTitleItem->getCode());
         $name = CommonFunctions::escapeHtml($jobTitleItem->getName());
         $from = LocaleUtil::getInstance()->formatDate($jobTitleItem->getStartDate());
         $to = LocaleUtil::getInstance()->formatDate($jobTitleItem->getEndDate());
@@ -380,7 +380,7 @@ function editJobHistory() {
     foreach ($subDivisionHistory as $subItem) {
         $id = $subItem->getId();
         $name = CommonFunctions::escapeHtml($subItem->getName());
-        $code = $subItem->getCode();
+        $code = CommonFunctions::escapeHtml($subItem->getCode());
         $from = LocaleUtil::getInstance()->formatDate($subItem->getStartDate());
         $to = LocaleUtil::getInstance()->formatDate($subItem->getEndDate());
 ?>
@@ -423,7 +423,7 @@ function editJobHistory() {
 <?php
     foreach ($locationHistory as $locItem) {
         $id = $locItem->getId();
-        $code = $locItem->getCode();
+        $code = CommonFunctions::escapeHtml($locItem->getCode());
         $name = CommonFunctions::escapeHtml($locItem->getName());
         $from = LocaleUtil::getInstance()->formatDate($locItem->getStartDate());
         $to = LocaleUtil::getInstance()->formatDate($locItem->getEndDate());
