@@ -44,7 +44,7 @@
                        value="<?php echo (isset($this->postArr['txtStreet1']))? CommonFunctions::escapeHtml($this->postArr['txtStreet1']):CommonFunctions::escapeHtml($edit[0][1])?>" /></td>
 			 <td width="60">&nbsp;</td>
 			 <td><?php echo $lang_hremp_street2?></td>
-			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet2" maxlength="100
+			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtStreet2" maxlength="100" 
                          value="<?php echo (isset($this->postArr['txtStreet2']))?CommonFunctions::escapeHtml($this->postArr['txtStreet2']):CommonFunctions::escapeHtml($edit[0][2])?>" /></td>
 		</tr>
 		 <tr>

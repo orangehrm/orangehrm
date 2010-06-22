@@ -28,7 +28,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 	$arrMStat = $this->popArr['arrMStat'];
 
 $escapedReqCode = CommonFunctions::escapeHtml($this->getArr['reqcode']);
-$escapedId = CommonFunctions::escapeHtml($_GET['id']);
+if (isset($_GET['id'])) {
+    $escapedId = CommonFunctions::escapeHtml($_GET['id']);
+}
+else
+{
+    $escapedId = '';
+}
 
 function populateStates($value) {
 
