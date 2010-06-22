@@ -166,7 +166,7 @@ class EmailConfiguration {
 				$this->configurationFile=$confObj->emailConfiguration;
 			}
 
-			$this->reWriteConf();
+			$this->reWriteConf(true);
 		}
 
 		include $this->configurationFile;
@@ -174,7 +174,14 @@ class EmailConfiguration {
         $this->originalSendmailPath = $this->sendmailPath;
 	}
 
-	public function reWriteConf() {
+
+    /**
+     * Write email configuration.
+     *
+     * @param bool $force - Force write - disregarding config - only use when copying default configuration!
+     * @return int
+     */
+	public function reWriteConf($force=false) {
         $sysConf = new sysConf();
 
         $sendMailPath = $this->originalSendmailPath;
@@ -182,7 +189,7 @@ class EmailConfiguration {
         /*
          * Only override sendmail path if allowed.
          */
-        if ( CommonFunctions::allowSendmailPathEdit() ) {
+        if ( $force || CommonFunctions::allowSendmailPathEdit() ) {
             $sendMailPath = $this->getSendmailPath();
         }
 

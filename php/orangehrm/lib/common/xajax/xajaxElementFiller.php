@@ -38,8 +38,11 @@ class xajaxElementFiller {
 			$objResponse->addScript("document.".$form.".".$element.".options.length = 1;");
 		}
 
-	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
-	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 3 ? $i+1 : $i)."] = new Option('" .addslashes($fillArr[$i][($fele+1)]). "','".addslashes($fillArr[$i][$fele])."');");
+	 	for ($i=0;$fillArr && count($fillArr)>$i;$i++) {
+            $optionText = CommonFunctions::escapeForJavascript($fillArr[$i][($fele+1)]);
+            $optionValue = CommonFunctions::escapeForJavascript($fillArr[$i][$fele]);
+	 	    $objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 3 ? $i+1 : $i)."] = new Option('" . $optionText . "','". $optionValue ."');");
+        }
 
 		return $objResponse;
 	}
@@ -54,9 +57,11 @@ class xajaxElementFiller {
 			$objResponse->addScript("document.".$form.".".$element.".options.length = 1;");
 		}
 
-	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
-	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" .addslashes($fillArr[$i][($nameIdex)]). "','".addslashes($fillArr[$i][$valueIndex])."');");
-
+	 	for($i=0;$fillArr && count($fillArr)>$i;$i++) {
+            $optionText = CommonFunctions::escapeForJavascript($fillArr[$i][($nameIdex)]);
+            $optionValue = CommonFunctions::escapeForJavascript($fillArr[$i][$valueIndex]);
+	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" .$optionText. "','".$optionValue."');");
+         }
 		return $objResponse;
 	}
 
@@ -68,8 +73,11 @@ class xajaxElementFiller {
 		} else {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = $defSel;");
 		}
-	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
-	 		$objResponse->addScript("document.getElementById('".$element."').options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" . CommonFunctions::escapeForJavascript($fillArr[$i][($fele+1)]). "','".$fillArr[$i][$fele]."');");
+	 	for($i=0;$fillArr && count($fillArr)>$i;$i++) {
+            $optionText = CommonFunctions::escapeForJavascript($fillArr[$i][($fele+1)]);
+            $optionValue = CommonFunctions::escapeForJavascript($fillArr[$i][$fele]);
+	 		$objResponse->addScript("document.getElementById('".$element."').options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" . $optionText. "','".$optionValue."');");
+        }
 
 		return $objResponse;
 	}
