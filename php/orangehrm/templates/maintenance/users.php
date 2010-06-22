@@ -277,9 +277,18 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                 <input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo $userEmpNumber;?>"/>
 		<div>
 		<label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?><span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
+<?php
+  $empDispName = empty($userEmpId)  ? $userEmpNumber : $userEmpId;
+
+  if ( !empty($userEmpFirstName) ) {
+      $empDispName .= " - " . $userEmpFirstName;
+  }
+
+?>
+
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input name="txtUserEmpID" autocomplete="off" class="yui-ac-input" id="txtUserEmpID" type="text" 
- 	 		      	value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>" <?php echo $disabled; ?> 
+ 	 		      	value="<?php echo CommonFunctions::escapeForJavascript($empDispName); ?>" <?php echo $disabled; ?> 
  	 		      	tabindex="<?php echo $tabIndex++;?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
@@ -352,13 +361,12 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 			$i = 0;
 
 			foreach ($employeeSearchList as $record) {
-          ?>
-                var empItem = new Array();
-          <?php
-                foreach ($record as $item)
-                $line = CommonFunctions::escapeForJavascript(implode("', '", $record));
+
+                foreach ($record as $pos => $item) {
+                    $record[$pos] = CommonFunctions::escapeForJavascript($item);
+                }
 		?>
-			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo $line; ?>');
+			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
 		<?php
 			}
 		?>

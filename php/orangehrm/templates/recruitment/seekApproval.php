@@ -274,6 +274,9 @@ $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunct
 			$i = 0;
 
 			foreach ($employeeSearchList as $record) {
+                foreach ($record as $pos => $item) {
+                    $record[$pos] = CommonFunctions::escapeForJavascript($item);
+                }                
 		?>
 			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
 		<?php

@@ -659,7 +659,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         <div>
         <input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo isset($prevEmployeeId) ? $prevEmployeeId : ""; ?>" />
         <div class="yui-ac" id="employeeSearchAC" style="float: left">
-        <input name="txtEmployeeId" autocomplete="off" class="yui-ac-input" id="txtEmployeeId" type="text" value="<?php echo isset($empName) ? $empName : ""; ?>" tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+        <input name="txtEmployeeId" autocomplete="off" class="yui-ac-input" id="txtEmployeeId" type="text" value="<?php echo isset($empName) ? CommonFunctions::escapeHtml($empName) : ""; ?>" tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
               <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
               <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
               <div style="display: none;" class="yui-ac-hd"></div>
@@ -799,6 +799,9 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
             if($employees){
                 $i = 0;
                 foreach ($employees as $record) {
+                    foreach ($record as $pos => $item) {
+                        $record[$pos] = CommonFunctions::escapeForJavascript($item);
+                    }
         ?>
                 employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
         <?php

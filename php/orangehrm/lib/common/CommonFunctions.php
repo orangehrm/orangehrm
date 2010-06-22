@@ -403,6 +403,8 @@ class CommonFunctions {
 	 * Escape string for use in javascript
 	 *
 	 * Escapes characters \, ", ' in the string by adding a \ in front.
+     *
+     * (based on http://code.google.com/p/doctype/wiki/ArticleXSSInJavaScript)
 	 *
 	 * @param String $string String to be escaped
 	 * @return String escaped string
@@ -414,10 +416,10 @@ class CommonFunctions {
 		foreach($charArray as $char) {
 			switch ($char) {
 				case "'":
-					$escapedString .= "\\'";
+					$escapedString .= "\\x27";
 					break;
 				case "\"":
-					$escapedString .= "\\\"";
+					$escapedString .= "\\x22";
 					break;
 				case '\\':
 					$escapedString .= "\\\\";
@@ -428,9 +430,25 @@ class CommonFunctions {
 				case "\r":
 					$escapedString .= "\\r";
 					break;
+                case "\t":
+                    $escapedString .= "\\t";
+                    break;                    
 				case "\f":
 					$escapedString .= "\\f";
 					break;
+                case "&":
+                    $escapedString .= "\\x26";
+					break;
+                case "<":
+                    $escapedString .= "\\x3c";
+					break;
+                case ">": 
+                    $escapedString .= "\\x3e";
+					break;
+                case "=":
+                    $escapedString .= "\\x3d";
+					break;                    
+
 				default :
 					$escapedString .= $char;
 					break;

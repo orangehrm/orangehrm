@@ -234,7 +234,7 @@ if(isset($records['token'])) {
 		<div>
 		<label for="txtHiringManagerSearch"><?php echo $lang_Recruit_HiringManager; ?><span class="required">*</span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo $empName ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo CommonFunctions::escapeHtml($empName) ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>
@@ -299,6 +299,10 @@ if(isset($records['token'])) {
 			$i = 0;
 
 			foreach ($employeeSearchList as $record) {
+                foreach ($record as $pos => $item) {
+                    $record[$pos] = CommonFunctions::escapeForJavascript($item);
+
+                }
 		?>
 			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
 		<?php

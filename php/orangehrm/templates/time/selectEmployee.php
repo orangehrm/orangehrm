@@ -84,7 +84,7 @@ for ($i = 0; $i < $employeeListCount; $i++) {
 	} elseif ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
 		$employeeName = $employeeList[$i][1];
 	}
-	echo "employees[{$i}] = '" . addslashes($employeeName) . "';\n";
+	echo "employees[{$i}] = '" . CommonFunctions::escapeForJavascript($employeeName) . "';\n";
 	echo "ids[{$i}] = \"{$employeeList[$i][0]}\";\n";
 }
 ?>

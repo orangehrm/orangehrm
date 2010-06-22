@@ -114,7 +114,7 @@ if(isset($records['token'])) {
 <?php } ?>
 
 <form name="frmPunchTime" id="frmPunchTime" method="post" action="?timecode=Time&action=Save_Punch">
-   <input type="text" value="<?php echo $token?>" name="token" />
+    <input type="hidden" value="<?php echo $token?>" name="token" />
 	<?php if (!$punchIn) { ?>
 	<input type="hidden" name="hdnAttendanceId" value="<?php echo $records['attRecord'][0]->getAttendanceId(); ?>" />
 	<input type="hidden" name="txtInDate" value="<?php echo $records['attRecord'][0]->getInDate(); ?>" />

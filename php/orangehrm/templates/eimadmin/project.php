@@ -248,7 +248,7 @@ $token = $this->popArr['token'];
 <?php
 $employees = $this->popArr['employeeList'];
 for ($i=0;$i<count($employees);$i++) {
-	echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+	echo "employees[" . $i . "] = '" . CommonFunctions::escapeForJavascript($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
 	echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 }
 ?>

@@ -146,7 +146,7 @@ $count = count($recordsArr);
 	<?php
 	$employees = $records['empList'];
 	for ($i=0;$i<count($employees);$i++) {
-		echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+		echo "employees[" . $i . "] = '" . CommonFunctions::escapeForJavascript($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
 		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 	}
 	echo "employees[" . ++$i . "] = 'All';\n";
@@ -289,7 +289,7 @@ $count = count($recordsArr);
         <div class="yui-skin-sam" style="float:left;margin-right:10px">
             <div id="employeeSearchAC" style="width:135px">
                   <input  id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName"
-                    type="text" value="<?php echo ($records['empName'] != '' ?$records['empName']:"All"); ?>" style="color:#999999;width:135px"/>
+                    type="text" value="<?php echo ($records['empName'] != '' ? CommonFunctions::escapeHtml($records['empName']):"All"); ?>" style="color:#999999;width:135px"/>
                   <div id="employeeSearchACContainer"></div>
             </div>
         </div>

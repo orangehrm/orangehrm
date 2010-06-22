@@ -270,7 +270,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<span class="formLabel"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?><span class="required">*</span></span>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
 			<input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch"
- 	 			type="text" value="<?php echo $empName ?>" tabindex="3"
+ 	 			type="text" value="<?php echo CommonFunctions::escapeHtml($empName) ?>" tabindex="3"
 				onfocus="showAutoSuggestTip(this)" style="color: #999999; postion:relative; left:-10px;" />
 			<div class="yui-ac-container" id="employeeSearchACContainer" style="position:relative; top:16px; left:-10px;">
  	 			<div style="display: none; width: 159px; height: 0px; left: 100em;" class="yui-ac-content">
@@ -329,6 +329,9 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 				$i = 0;
 
 				foreach ($employeeSearchList as $record) {
+                    foreach ($record as $pos => $item) {
+                        $record[$pos] = CommonFunctions::escapeForJavascript($item);
+                    }
 			?>
 				employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
 			<?php
