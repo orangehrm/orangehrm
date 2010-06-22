@@ -299,7 +299,7 @@ $formatData['newSeparater'] = '/';
 
 		<?php if ($loggedAdmin || $loggedReviewer) { ?>
 
-   var empdata = <?php echo strtolower(str_replace('&#039;',"'",$empJson));?>;
+   var empdata = <?php echo str_replace('&#039;',"'",$empJson);?>;
 		
 		/* Auto completion of employees */
 		$("#txtEmpName").autocomplete(empdata, {
