@@ -19,6 +19,7 @@
  */
 
 require_once($lan->getLangPath("full.php"));
+require_once ROOT_PATH.'/lib/confs/sysConf.php';
 
 $locRights  = $_SESSION['localRights'];
 $editArr = $this->popArr['editArr'];
@@ -127,7 +128,7 @@ $token = $this->popArr['token'];
         }
         editMode = true;
 
-        var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost',
+        var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSmtpHost',
         									'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass', 'optAuthNONE',
         									'optAuthLOGIN', 'optSecurityNONE', 'optSecuritySSL', 'optSecurityTLS',
         									'chkTestEmail', 'txtTestEmail');
@@ -135,6 +136,9 @@ $token = $this->popArr['token'];
         for (i in emailConfigControls) {
             $(emailConfigControls[i]).disabled = false;
         }
+<?php if (CommonFunctions::allowSendmailPathEdit()) { ?>
+            $('txtSendmailPath').disabled = false;
+<?php } ?>        
 
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
         $('editBtn').title="<?php echo $lang_Common_Save; ?>";
@@ -238,8 +242,12 @@ $token = $this->popArr['token'];
                 <!-- Sendmail -->
                 <div id="sendmailDetails">
                     <label for="txtSendmailPath"><?php echo $lang_SendmailPath; ?></label>
+<?php if (CommonFunctions::allowSendmailPathEdit()) { ?>
                     <input type="text" name="txtSendmailPath" id="txtSendmailPath" class="formInputText"
                         value="<?php echo $editArr->getSendmailPath();?>" disabled="disabled" />
+<?php } else { ?>
+                    <span class="formValue"><?php echo $editArr->getSendmailPath();?></span>    
+<?php }  ?>
                     <br class="clear"/>
                 </div>
 
@@ -321,6 +329,22 @@ $token = $this->popArr['token'];
         //]]>
         </script>
         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+<?php
+   $securityMsg = '';
+   $sysConf = new sysConf();
+
+    if ($sysConf->allowSendmailPathEdit() ) {
+        if ($sysConf->sendmailPathEditOnlyFromLocalHost()) {
+            $securityMsg = $lang_SmtpPathEditEnabledLocalhost;
+        } else {
+            $securityMsg = $lang_SmtpPathEditEnabled;
+        }
+        $securityMsg = $securityMsg . " " . $lang_SmtpPathHowtoDisable;
+    } else {
+        $securityMsg = $lang_SmtpPathEditDisabled . " " . $lang_SmtpPathEditHowToEnable;
+    }
+?>
+        <div class="requirednotice"><?php echo $securityMsg; ?></div>
     </div>
 </body>
 </html>

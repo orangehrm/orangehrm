@@ -843,6 +843,13 @@
 	$lang_SmtpPassword = "SMTP Password";
 	$lang_Error_Invalid_Port = "Invalid SMTP Port";
 
+    $lang_SmtpPathEditDisabled = "Editing of SMTP Path is disabled. Please edit lib/confs/mailConf.php directly to edit.";
+    $lang_SmtpPathEditHowToEnable = "Enabling editing of SMTP path via a browser is not recommended due to security issues, but can be done by editing lib/confs/sysConf.php";
+
+    $lang_SmtpPathEditEnabledLocalhost = "WARNING! Editing of SMTP Path is enabled for localhost.";
+    $lang_SmtpPathEditEnabled = "WARNING! Editing of SMTP Path is enabled. This is not secure.";
+    $lang_SmtpPathHowtoDisable = "Please disable once configuration is complete by editing lib/confs/sysConf.php";
+
 	//Projects
 	$lang_view_Project_Heading = "Project";
 	$lang_view_ProjectId = "Project Id";

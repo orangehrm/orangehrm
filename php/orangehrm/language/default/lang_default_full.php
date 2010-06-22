@@ -1073,6 +1073,13 @@
 	$lang_SmptTestEmailAddress = "Test Email Address";
 	$lang_Email_SendMail_Instructions = "Please set correct path to sendmail by changing sendmail_path in php.ini";
 
+    $lang_SmtpPathEditDisabled = "Editing of SMTP Path is disabled. Please edit lib/confs/mailConf.php directly to edit.";
+    $lang_SmtpPathEditHowToEnable = "Enabling editing of SMTP path via a browser is not recommended due to security issues, but can be done by editing lib/confs/sysConf.php";
+
+    $lang_SmtpPathEditEnabledLocalhost = "WARNING! Editing of SMTP Path is enabled for localhost.";
+    $lang_SmtpPathEditEnabled = "WARNING! Editing of SMTP Path is enabled. This is not secure.";
+    $lang_SmtpPathHowtoDisable = "Please disable once configuration is complete by editing lib/confs/sysConf.php";
+
 	// Email Configuration Validation
 	$lang_Error_FromEmailEmpty = "'Mail Sent As' cannot be empty. Enter a valid email address";
 	$lang_Error_FromEmailInvalid = "'Mail Sent As' should be a valid email address";

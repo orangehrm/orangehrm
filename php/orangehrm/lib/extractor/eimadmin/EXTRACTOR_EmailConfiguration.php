@@ -18,6 +18,7 @@
  */
 
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
+require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 
 class EXTRACTOR_EmailConfiguration {
 
@@ -62,12 +63,14 @@ class EXTRACTOR_EmailConfiguration {
 				$this->emailConfiguration->setSmtpSecurity($postArr["optSecurity"]);
 			}
 
-			if (isset($postArr["txtSendmailPath"])) {
-				$this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
-			}
+            if (CommonFunctions::allowSendmailPathEdit() ) {
+               
+                if (isset($postArr["txtSendmailPath"])) {
+                    $this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
+                }
+            }
 
 			return $this->emailConfiguration;
-
 	}
 
 	public function parseDeleteData() {}

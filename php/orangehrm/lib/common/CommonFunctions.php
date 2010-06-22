@@ -509,5 +509,38 @@ class CommonFunctions {
         }
         return $sanitizedValue;
     }
+
+    /**
+     * Is web request from localhost?
+     * @static
+     * @return bool - true if request was from same computer as the server. false if not.
+     */
+    public static function isRequestFromLocalhost() {
+
+        // based on check in symfony _dev.php files
+        $local = in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'));
+
+        return $local;
+    }
+
+    /**
+     * Should editing of sendmail path
+     * @static
+     * @return bool
+     */
+    public static function allowSendmailPathEdit() {
+
+        $allow = false;
+        $sysConf = new sysConf();
+
+        /* Allow editing if from localhost or we have allowed editing from outside localhost */        
+        if ($sysConf->allowSendmailPathEdit() &&
+                    (CommonFunctions::isRequestFromLocalhost() || !$sysConf->sendmailPathEditOnlyFromLocalHost()) ) {
+            $allow = true;
+        }
+
+        return $allow;
+    }
+
 }
 ?>

@@ -36,6 +36,22 @@ class sysConf {
   public $javascriptInputHint = "YYYY-MM-DD";
   var $styleSheet;
 
+  /**
+   * Following variable decides if admin users can edit the sendmail path through a web browser.
+   * If set to false, the mailConf.php file has to be edited manually to set sendmail path.
+   *
+   * WARNING: Setting to true is not secure.
+   */
+  protected $allowSendmailPathEdit = false; // Set to true to edit sendmail path through a browser
+
+  /**
+   * Following variable limits sendmail path edit to a browser running on the same computer as OrangeHRM.
+   * Set to false to allow editing from anywhere.
+   *
+   * WARNING: Setting to false is not secure.
+   */
+  protected $sendmailPathEditOnlyFromLocalHost = true; // Set to edit sendmail path from
+
   function sysConf() {
 
     $this->itemsPerPage=50;
@@ -77,6 +93,14 @@ class sysConf {
 
   function getStyleSheet() {
     return $this->styleSheet;
+  }
+
+  public function allowSendmailPathEdit() {
+      return $this->allowSendmailPathEdit;
+  }
+
+  public function sendmailPathEditOnlyFromLocalHost() {
+    return $this->sendmailPathEditOnlyFromLocalHost;
   }
 }
 

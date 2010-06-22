@@ -27,6 +27,8 @@ require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Smtp.php';
 require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Sendmail.php';
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 
 class EmailConfiguration {
 
@@ -49,6 +51,7 @@ class EmailConfiguration {
 	private $mailAddress;
 	private $mailType;
 	private $sendmailPath;
+    private $originalSendmailPath;
 	private $smtpSecurity;
 	private $smtpAuth;
 	private $configurationFile;
@@ -167,22 +170,35 @@ class EmailConfiguration {
 		}
 
 		include $this->configurationFile;
+
+        $this->originalSendmailPath = $this->sendmailPath;
 	}
 
 	public function reWriteConf() {
+        $sysConf = new sysConf();
+
+        $sendMailPath = $this->originalSendmailPath;
+
+        /*
+         * Only override sendmail path if allowed.
+         */
+        if ( CommonFunctions::allowSendmailPathEdit() ) {
+            $sendMailPath = $this->getSendmailPath();
+        }
+
 		$content = '
 <?php
-	$this->smtpHost = \''.$this->getSmtpHost().'\';
-	$this->smtpUser = \''.$this->getSmtpUser().'\';
-	$this->smtpPass = \''.$this->getSmtpPass().'\';
-	$this->smtpPort = \''.$this->getSmtpPort().'\';
+	$this->smtpHost = \''.$this->_safeEscape($this->getSmtpHost()).'\';
+	$this->smtpUser = \''.$this->_safeEscape($this->getSmtpUser()).'\';
+	$this->smtpPass = \''.$this->_safeEscape($this->getSmtpPass()).'\';
+	$this->smtpPort = \''.$this->_safeEscape($this->getSmtpPort()).'\';
 
-	$this->sendmailPath = \''.$this->getSendmailPath().'\';
+	$this->sendmailPath = \''.$this->_safeEscape($sendMailPath).'\';
 
-	$this->mailType = \''.$this->getMailType().'\';
-	$this->mailAddress = \''.$this->getMailAddress().'\';
-	$this->smtpAuth = \''.$this->getSmtpAuth().'\';
-	$this->smtpSecurity = \''.$this->getSmtpSecurity().'\';
+	$this->mailType = \''.$this->_safeEscape($this->getMailType()).'\';
+	$this->mailAddress = \''.$this->_safeEscape($this->getMailAddress()).'\';
+	$this->smtpAuth = \''.$this->_safeEscape($this->getSmtpAuth()).'\';
+	$this->smtpSecurity = \''.$this->_safeEscape($this->getSmtpSecurity()).'\';
 ?>';
 
 		return file_put_contents($this->configurationFile, $content);
@@ -252,5 +268,21 @@ class EmailConfiguration {
 
 	}
 
+    /**
+     * Escape variable to make it safe to include in mailConf.php
+     * Ideally these should go into a configuration file (non executable)
+     * @param  $value
+     * @return mixed
+     */
+    protected function _safeEscape($value) {
+        $value = str_replace("'", "", $value);
+        $value = str_replace("\\", "", $value);
+        $value = str_replace("\n", "", $value);
+        $value = str_replace("\r", "", $value);
+        $value = str_replace("\t", "", $value);
+        $value = str_replace("\f", "", $value);
+
+        return $value;
+    }
 }
 ?>
