@@ -357,11 +357,13 @@ class PerformanceReviewService extends BaseService {
             }
 
             if ($addSelf) {
-               $name = $resultList[0]->getReviewer()->getFullName();
-               foreach($escapeCharSet as $char) {
-                   $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+               $name = $resultList[0]->getReviewer()->getFirstName() . " " . $resultList[0]->getReviewer()->getLastName();
+               if($resultList[0]->getReviewer()->getEmpNumber() != $reviewerId) {
+                  foreach($escapeCharSet as $char) {
+                      $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                  }
+                  $jsonList[] = "{name:'". $name ."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
                }
-                $jsonList[] = "{name:'". $name ."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
             }
 
             $jsonString = "[".implode(",", $jsonList)."]";
