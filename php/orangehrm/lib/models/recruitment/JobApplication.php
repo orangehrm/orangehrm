@@ -470,7 +470,7 @@ class JobApplication {
 
 		$sql .= "VALUES (";
 
-		$values = $this->_getFieldValuesAsArray();
+		$values = $this->_getFieldValuesAsArray(true);
 		$vCount = count($values);
 
 		for ($j=0; $j<$vCount; $j++) {
@@ -603,9 +603,10 @@ class JobApplication {
 	/**
 	 * Returns the db field values as an array
 	 *
+     * @param boolean escape if true, values are escaped
 	 * @return Array Array containing field values in correct order.
 	 */
-	private function _getFieldValuesAsArray() {
+	private function _getFieldValuesAsArray($escape = false) {
 
 		$values[0] = $this->id;
 		$values[1] = $this->vacancyId;
@@ -625,6 +626,12 @@ class JobApplication {
         $values[15] = is_null($this->status) ? self::STATUS_SUBMITTED : $this->status;
         $values[16] = is_null($this->appliedDateTime) ? 'null' : $this->appliedDateTime;
         $values[17] = empty($this->empNumber) ? 'null' : $this->empNumber;
+
+        // Escape all values in array.
+        if ($escape) {
+            $values = array_map(array('CommonFunctions', 'safeEscapeSQL'), $values);
+        }
+
         $values[18] = ($this->resumeData['size'] > 0 || !empty($this->resumeName)) ? $this->_getResumeName($this->id, $this->firstName, $this->lastName) : 'null';
         $values[19] = ($this->resumeData['size'] > 0 || !empty($this->resumeName)) ? $this->_prepareResumeToStore() : 'null';
 

@@ -462,5 +462,24 @@ class CommonFunctions {
 
         return $text;
     }
+
+    /**
+     * Escapes the given string value to make it safe to use in an SQL query.
+     * Checks for and properly handles magic quotes gpc setting.
+     *  
+     * @static
+     * @param  $value
+     * @return string
+     */
+    public static function safeEscapeSQL($value) {
+
+		if (get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
+		}
+
+		$value = mysql_real_escape_string($value);
+
+        return $value;
+    }
 }
 ?>
