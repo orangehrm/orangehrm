@@ -39,8 +39,13 @@ $lan = new Language();
 require_once($lan->getLangPath("full.php"));
 
 $photo = new EmpPicture();
-$employeeId = $_GET['id'];
-$edit = $photo->filterEmpPic($employeeId);
+$employeeId = CommonFunctions::cleanParam($_GET['id']);
+
+if ( CommonFunctions::isValidId($employeeId) ) {
+    $edit = $photo->filterEmpPic($employeeId);
+} else {
+    $edit = null;
+}
 
 $styleSheet = CommonFunctions::getTheme();
 

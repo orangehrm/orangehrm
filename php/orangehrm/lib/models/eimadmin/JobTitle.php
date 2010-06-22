@@ -364,7 +364,9 @@ class JobTitle {
         public function getJobStatusFromTitle($getID){
 
             $this->getID = $getID;
-			
+
+	    	$dbConnection = new DMLFunctions();
+
             if ($this->getID=='0') {                  // if clicked on select
 
                 $selectTable = "`hs_hr_empstat` a";
@@ -380,14 +382,14 @@ class JobTitle {
                 $arrFieldList[1] = "a.`estat_code`";
                 $arrFieldList[2] = "b.`estat_name`";
 
-                $selectConditions[] = "a.`jobtit_code`='{$this->getID}'";
+                // ID should not have quotes, so it's safe to escape without looking at magic quotes setting
+                $selectConditions[] = "a.`jobtit_code`='" . mysql_real_escape_string($this->getID) . "'";
                 $selectConditions[] = "a.`estat_code`=b.`estat_code`";
             }           
 
             $sql_builder = new SQLQBuilder();
             $sqlQString = $sql_builder->simpleSelect($selectTable, $arrFieldList, $selectConditions, $arrFieldList[2], 'ASC');
 
-	    	$dbConnection = new DMLFunctions();
             $result = $dbConnection -> executeQuery($sqlQString); 
 						
 	    	$i=0;

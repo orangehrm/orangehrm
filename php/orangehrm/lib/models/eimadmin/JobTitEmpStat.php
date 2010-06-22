@@ -241,7 +241,7 @@ class JobTitEmpStat {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-        $selectConditions[] = "a.`jobtit_code`='{$value}'";
+        $selectConditions[] = "a.`jobtit_code`='" . mysql_real_escape_string($value) . "'";
         $selectConditions[] = "a.`estat_code`=b.`estat_code`";
          $sqlQString='SELECT ' . $arrFieldList[0] . ',' . $arrFieldList[1] . ' FROM ' . $tableName . ' WHERE '
                  . $selectConditions[0] . ' AND ' . $selectConditions[1] ;

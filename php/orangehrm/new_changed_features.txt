@@ -1,8 +1,9 @@
 New & Changed Features for OrangeHRM ver 2.6-beta.7
 
-	Bug Fixes
+	Bug Fixes (merged from 2.5)
 	---------
-	3000555 - sanitize the input data in jobs.php (merged from 2.5)
+	3000555 - sanitize the input data in jobs.php
+    3003346 - Potential SQL injection vulnerability with ess login
 
 New & Changed Features for OrangeHRM ver 2.6-beta.6
 
