@@ -773,10 +773,10 @@ class performanceActions extends sfActions {
             $nameArray = explode(' ', $name);
 
             if (count($nameArray) == 2 &&
-                $employee->getFirstName().' '.$employee->getLastName() != $name) {
+                strtolower($employee->getFirstName().' '.$employee->getLastName()) != strtolower($name)) {
                 $flag = false;
             } elseif (count($nameArray) == 3 &&
-                      $employee->getFullName() != $name) {
+                      strtolower($employee->getFullName()) != strtolower($name)) {
                 $flag = false;
             }
 

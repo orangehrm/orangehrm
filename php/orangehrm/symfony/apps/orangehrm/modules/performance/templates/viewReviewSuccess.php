@@ -87,8 +87,8 @@ $formatData['newSeparater'] = '/';
                 <label for="txtEmpName">Employee</label>
                 <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText" 
                        value="<?php echo isset($clues['empName'])?$clues['empName']:'Type for hints...'?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;',"'",$empJson)?>);"/>
-                <input type="hidden" name="hdnEmpId" id="hdnEmpId" 
-                value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>">
+                <input type="text" name="hdnEmpId" id="hdnEmpId"
+                       value="<?php echo isset($clues['empId'])?$clues['empId']:'0'?>" style="visibility:hidden;">
                 <div class="errorDiv"></div>
                 <br class="clear"/>
 				<?php } // $loggedAdmin || $loggedReviewer:Ends ?>
@@ -97,8 +97,8 @@ $formatData['newSeparater'] = '/';
                 <label for="txtReviewerName">Reviewer</label>
                 <input id="txtReviewerName"  name="txtReviewerName" type="text" class="formInputText" 
                 value="<?php echo isset($clues['reviewerName'])?$clues['reviewerName']:'Type for hints...'?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;',"'",$empJson)?>);"/>
-                <input type="hidden" name="hdnReviewerId" id="hdnReviewerId" 
-                value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>">
+                <input type="text" name="hdnReviewerId" id="hdnReviewerId"
+                value="<?php echo isset($clues['reviewerId'])?$clues['reviewerId']:'0'?>" style="visibility:hidden;">
                 <div class="errorDiv"></div>
                 <br class="clear"/>
                 <?php } // $loggedAdmin:Ends ?>
@@ -340,7 +340,9 @@ $formatData['newSeparater'] = '/';
 		
 		/* Search button */
 		$('#searchButton').click(function(){
-
+          var autoFields = "txtEmpName";
+          var autoHidden = "hdnEmpId";
+          
             <?php if ($loggedAdmin || $loggedReviewer) { ?>
             if ($('#txtEmpName').val() == 'Type for hints...') {
                 $('#txtEmpName').val('');
@@ -348,15 +350,34 @@ $formatData['newSeparater'] = '/';
             <?php } // $loggedAdmin || $loggedReviewer:Ends ?>
 
             <?php if ($loggedAdmin) { ?>
+            autoFields = autoFields + "|txtReviewerName";
+            autoHidden = autoHidden + "|hdnReviewerId";
             if ($('#txtReviewerName').val() == 'Type for hints...') {
                 $('#txtReviewerName').val('');
             }
             <?php } // $loggedAdmin:Ends ?>
-
+               
+            fillAutoFields(autoFields.split("|"), autoHidden.split("|"));
 			$('#frmSearch').submit();
             
 		});
 
+      function fillAutoFields(autoFields, autoHidden) {
+         //alert(autoHidden.length);
+         //this is to make case insensitive
+         for(x=0; x < autoFields.length; x++) {
+            $("#" + autoHidden[x]).val(0);
+            for(i=0; i < empdata.length; i++) {
+               var data = empdata[i];
+               var fieldValue = $("#" + autoFields[x]).val();
+               fieldValue = fieldValue.toLowerCase();
+               if((data.name).toLowerCase() == fieldValue) {
+                  $("#" + autoHidden[x]).val(data.id);
+                  break;
+               }
+            }
+         }
+      }
         // Clear button
 		$('#clearBtn').click(function(){
 
