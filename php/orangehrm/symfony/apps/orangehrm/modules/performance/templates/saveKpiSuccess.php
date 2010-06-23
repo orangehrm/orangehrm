@@ -79,7 +79,7 @@
 			 		txtJobTitle: "<?php echo __('Job Title is required')?>", 
 			 		txtDescription:{ 
 			 			required:"<?php echo __('Key Performance Indicator is required')?>",
-			 			maxlength:"<?php echo __('Key Performance Indicator length exceed')?>"
+			 			maxlength:"<?php echo __('Key Performance Indicator length exceeded')?>"
 			 		},
 			 		txtMinRate:{ 
 				 		number:"<?php echo __("Minimum Rating should be numeric")?>",
