@@ -431,6 +431,61 @@ $formatData['newSeparater'] = '/';
             $('#editReview').attr('disabled', false);
             $('#deleteReview').attr('disabled', false);
 		});
+
+      //Validate search form 
+    $("#frmSearch").validate({
+       rules: {
+         txtPeriodFromDate: {validdate:true},
+         txtPeriodToDate: {validdate:true}
+       },
+       messages: {
+         txtPeriodFromDate: "Invalid from date",
+         txtPeriodToDate: "Invalid to date"
+       },
+       errorPlacement: function(error, element) {
+         error.appendTo(element.next().next());
+       }
+    });
+
+   $.validator.addMethod("validdate", function(value, element) {
+      if(value == "") {
+         return true;
+      }
+      var dt = value.split("-");
+      return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
+   });
+   
+   function validateDate(day, month, year) {
+      var days31 = new Array(1,3,5,7,8,10,12);
+
+      if(month > 12 || month < 1) {
+         return false;
+      }
+
+      if(day == 29 && month == 2) {
+         if(year % 4 == 0) {
+            return true;
+         }
+      }
+
+      if(month == 2 && day < 29) {
+         return true;
+      }
+      if(day < 32 && month != 2) {
+         if(day == 31) {
+            flag = false;
+            for(i=0; i < days31.length; i++) {
+               if(days31[i] == month) {
+                  flag = true;
+                  break;
+               }
+            }
+            return flag;
+         }
+         return true;
+      }
+      return false;
+   }
 		
 	}); // ready():Ends
 
