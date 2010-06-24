@@ -373,9 +373,14 @@
 
 					//Check Reviwer comment
 					$("#frmSave").delegate("keyup", "textarea.reviwerComment", function(event) {
-						var error = false;
-						var msg ;
-						
+                  validateReviewerComment();
+					});
+
+               function validateReviewerComment() {
+                  var error = false;
+                  var msg ;
+                  var flag = false;
+
 						$("textarea.reviwerComment").each(function() {
 							if(this.value.length >= 2000 ){
 								$(this).css('background-color', '#ffeeee');
@@ -383,20 +388,26 @@
 								error = true;
 							}else{
 								$(this).css('background-color', '#ffffff');
-								$(this).css('border', 'solid 1px #000000');	
+								$(this).css('border', 'solid 1px #000000');
+                        flag = true;
 							}
 						});
 
 						if(error){
 							$("#messageBalloon_failure ul").html('<li>Please make sure that the comment contains less than 2000 characters</li>');
 							$("#performanceError").show();
-							$('#validRate').val('0');									
+							$('#validRate').val('0');
 						}else{
 							$("#performanceError").hide();
 							$('#validRate').val('1');
 						}
-					});
-						
-							
+                  return flag;
+               }
+
+               //make sure all validations are performed before submit
+               $("#frmSave").submit(function() {
+                  flag = validateReviewerComment();
+                  return flag;
+               });
 		}); 
   </script>
