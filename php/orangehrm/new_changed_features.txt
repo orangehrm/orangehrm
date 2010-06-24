@@ -2,7 +2,18 @@ New & Changed Features for OrangeHRM ver 2.6-beta.7
 
 	Bug Fixes (merged from 2.5)
 	---------
-	3000555 - sanitize the input data in jobs.php
+    3010378 - Autosuggestion lists names in lower cases and search fails
+    3010344 - Copy KPI does not overwrite existing KPIs in the JobTitle
+    3010348 - Calendar control validation error for dates on boundary
+    3010407 - User can add reviews with invalid dates
+    3010374 - Autosuggestion shows name twice for self review employee
+    3010424 - Exceeding field length with space character leads to stopper
+    3010403 - Can save a review with length validation issues
+    3010387 - Deleting KPIs breaks updating reviews
+    3010382 - Search Review should be case insensitive
+    2974742 - Search Review brings back wrong results
+    3000286 - Date format should consistence in the Performance module
+    3000555 - sanitize the input data in jobs.php
     3003346 - Potential SQL injection vulnerability with ess login
     3003346 - Potential SQL injection vulnerability with ess login
     3001611 - Ess module is vulenerable to xss
