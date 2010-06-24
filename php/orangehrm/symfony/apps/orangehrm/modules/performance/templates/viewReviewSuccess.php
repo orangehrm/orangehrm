@@ -298,8 +298,8 @@ $formatData['newSeparater'] = '/';
 	$(document).ready(function() {
 
 		<?php if ($loggedAdmin || $loggedReviewer) { ?>
-
-   var empdata = <?php echo str_replace('&#039;',"'",$empJson);?>;
+            
+      var empdata = <?php echo str_replace('&#039;',"'",$empJson);?>;
 		
 		/* Auto completion of employees */
 		$("#txtEmpName").autocomplete(empdata, {
@@ -356,14 +356,15 @@ $formatData['newSeparater'] = '/';
                 $('#txtReviewerName').val('');
             }
             <?php } // $loggedAdmin:Ends ?>
-               
-            fillAutoFields(autoFields.split("|"), autoHidden.split("|"));
+
+            <?php if ($loggedAdmin || $loggedReviewer) { ?>
+               fillAutoFields(autoFields.split("|"), autoHidden.split("|"));
+            <?php } ?>
 			$('#frmSearch').submit();
             
 		});
 
       function fillAutoFields(autoFields, autoHidden) {
-         //alert(autoHidden.length);
          //this is to make case insensitive
          for(x=0; x < autoFields.length; x++) {
             $("#" + autoHidden[x]).val(0);
