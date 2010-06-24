@@ -113,6 +113,8 @@ class PerformanceReviewServiceTest extends PHPUnit_Framework_TestCase {
     */
    public function testChangePerformanceStatus() {
       foreach ($this->testCases['PerformanceReview'] as $k => $v) {
+         $pReviewDao = new PerformanceReviewDao();
+
          $pReview = new PerformanceReview();
     		$pReview->setEmployeeId( $v['employeeId']);
     		$pReview->setReviewerId( $v['reviewerId']);
@@ -120,21 +122,22 @@ class PerformanceReviewServiceTest extends PHPUnit_Framework_TestCase {
     		$pReview->setPeriodTo( date('y-m-d',strtotime($v['periodTo'])));
     		$pReview->setKpis( $v['kpis']);
 
-         $this->pReviewDao  =	$this->getMock('PerformanceReviewDao');
-         $this->pReviewService->setPerformanceReviewDao($this->pReviewDao);
-         $this->pReviewDao->expects($this->any())
-                 ->method('savePerformanceReview')
-                 ->will($this->returnValue($pReview));
+         $pReviewDao->savePerformanceReview($pReview);
 
-         $this->pReviewService->savePerformanceReview($pReview);
 
-         
-         $this->pReviewDao->expects($this->any())
-                 ->method('changePerformanceStatus')
-                 ->will($this->returnValue(true));
+
+              $this->pReviewDao  =	$this->getMock('PerformanceReviewDao');
+         $this->pReviewDao->expects($this->once())
+              ->method('updatePerformanceReviewStatus')
+              ->will($this->returnValue(true));
+        $this->pReviewService->setPerformanceReviewDao($this->pReviewDao);
+
+
+
 
          $result 	=	$this->pReviewService->changePerformanceStatus($pReview, PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED);
          $this->assertTrue($result);
+         $pReviewDao->deletePerformanceReview(array($pReview->getId()));
       }
    }
 
