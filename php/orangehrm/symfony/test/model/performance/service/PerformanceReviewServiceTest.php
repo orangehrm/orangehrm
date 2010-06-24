@@ -124,16 +124,11 @@ class PerformanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
          $pReviewDao->savePerformanceReview($pReview);
 
-
-
-              $this->pReviewDao  =	$this->getMock('PerformanceReviewDao');
+         $this->pReviewDao  =	$this->getMock('PerformanceReviewDao');
          $this->pReviewDao->expects($this->once())
               ->method('updatePerformanceReviewStatus')
               ->will($this->returnValue(true));
-        $this->pReviewService->setPerformanceReviewDao($this->pReviewDao);
-
-
-
+         $this->pReviewService->setPerformanceReviewDao($this->pReviewDao);
 
          $result 	=	$this->pReviewService->changePerformanceStatus($pReview, PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED);
          $this->assertTrue($result);
