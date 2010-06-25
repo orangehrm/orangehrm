@@ -224,7 +224,7 @@ $token = $this->popArr['token'];
                 <input type="hidden" name="sqlState" id="sqlState" value="UpdateRecord"/>
                 <label for="txtMailAddress"><?php echo $lang_MailFrom; ?><span class="required">*</span></label>
                 <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText"
-                    value="<?php echo $editArr->getMailAddress();?>" disabled="disabled" />
+                    value="<?php echo CommonFunctions::escapeHtml($editArr->getMailAddress());?>" disabled="disabled" />
 
                 <label for="txtMailType"><?php echo $lang_MailSendingMethod; ?></label>
                 <select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();"
@@ -244,9 +244,9 @@ $token = $this->popArr['token'];
                     <label for="txtSendmailPath"><?php echo $lang_SendmailPath; ?></label>
 <?php if (CommonFunctions::allowSendmailPathEdit()) { ?>
                     <input type="text" name="txtSendmailPath" id="txtSendmailPath" class="formInputText"
-                        value="<?php echo $editArr->getSendmailPath();?>" disabled="disabled" />
+                        value="<?php echo CommonFunctions::escapeHtml($editArr->getSendmailPath());?>" disabled="disabled" />
 <?php } else { ?>
-                    <span class="formValue"><?php echo $editArr->getSendmailPath();?></span>    
+                    <span class="formValue"><?php echo CommonFunctions::escapeHtml($editArr->getSendmailPath());?></span>
 <?php }  ?>
                     <br class="clear"/>
                 </div>
@@ -255,10 +255,10 @@ $token = $this->popArr['token'];
                 <div id="smtpDetails1">
                     <label for="txtSmtpHost"><?php echo $lang_SmtpHost; ?><span class="required">*</span></label>
                     <input type="text" name="txtSmtpHost" id="txtSmtpHost"  class="formInputText"
-                        value="<?php echo $editArr->getSmtpHost();?>" disabled="disabled" />
+                        value="<?php echo CommonFunctions::escapeHtml($editArr->getSmtpHost());?>" disabled="disabled" />
                     <label for="txtSmtpPort"><?php echo $lang_SmtpPort; ?><span class="required">*</span></label>
                     <input type="text" name="txtSmtpPort" id="txtSmtpPort" class="formInputText"
-                        value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled="disabled" />
+                        value="<?php echo CommonFunctions::escapeHtml($editArr->getSmtpPort());?>" size="4" disabled="disabled" />
                     <br class="clear"/>
                 </div>
 
@@ -277,11 +277,11 @@ $token = $this->popArr['token'];
                 <div id="smtpDetails3">
                     <label for="txtSmtpUser"><?php echo $lang_SmtpUser; ?></label>
                     <input type="text" name="txtSmtpUser" id="txtSmtpUser" class="formInputText"
-                        value="<?php echo $editArr->getSmtpUser();?>" disabled="disabled" />
+                        value="<?php echo CommonFunctions::escapeHtml($editArr->getSmtpUser());?>" disabled="disabled" />
 
                     <label for="txtSmtpPass"><?php echo $lang_SmtpPassword; ?></label>
                     <input type="password" name="txtSmtpPass" id="txtSmtpPass" class="formInputText"
-                        value="<?php echo $editArr->getSmtpPass();?>" disabled="disabled" />
+                        value="<?php echo CommonFunctions::escapeHtml($editArr->getSmtpPass());?>" disabled="disabled" />
                     <br class="clear"/>
                 </div>
 
