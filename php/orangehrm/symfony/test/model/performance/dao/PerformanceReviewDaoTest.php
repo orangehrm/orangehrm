@@ -90,6 +90,37 @@ class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
 		
 	}
 
+    /**
+     * Tests SQL Escaping in searchPerformanceReview. This was added to validate fix for bug:
+     *  3007215 - Ess view performance  review Vulnerable to SQL injection
+     *
+     */
+    public function testSearchPerformanceReviewSqlEscaping() {
+
+        $searchParams = array(array('from' => '2010-06-01', 'to' => '2010-06-17', 'due' => null, 'jobCode' => "'",
+                                    'divisionId' => '0', 'empName' => null, 'empId' => 0, 'reviewerName' => null,
+                                    'reviewerId' =>  0, 'pageNo' => null, 'loggedEmpId' => '1'),
+                              array('from' => "'", 'to' => '2010-06-17', 'due' => null, 'jobCode' => "JOB001",
+                                    'divisionId' => '0', 'empName' => null, 'empId' => 0, 'reviewerName' => null,
+                                    'reviewerId' =>  0, 'pageNo' => null, 'loggedEmpId' => '1'),
+                              array('from' => '2010-06-01', 'to' => "'", 'due' => null, 'jobCode' => "JOB001",
+                                    'divisionId' => '0', 'empName' => null, 'empId' => 0, 'reviewerName' => null,
+                                    'reviewerId' =>  0, 'pageNo' => null, 'loggedEmpId' => '1'),
+                              array('from' => '2010-06-01', 'to' => "2010-06-17", 'due' => null, 'jobCode' => "JOB001",
+                                    'divisionId' => "'", 'empName' => null, 'empId' => 0, 'reviewerName' => null,
+                                    'reviewerId' =>  0, 'pageNo' => null, 'loggedEmpId' => '1'));
+
+        // All queries should succeed without exceptions
+        try {
+            foreach($searchParams as $params) {
+                $results = $this->performanceReviewDao->searchPerformanceReview($params);
+            }
+        } catch (Exception $e) {
+            $this->fail("SQL parameters not properly escaped. Should not throw exception! ");
+        }
+    }
+
+
    /**
     * Test deletePerformanceReview
     */
@@ -101,4 +132,6 @@ class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
       }
       file_put_contents(sfConfig::get('sf_test_dir') . '/fixtures/performance/performanceReview.yml',sfYaml::dump($this->testCases));
    }
+
+
 }

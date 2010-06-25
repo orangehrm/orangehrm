@@ -1,7 +1,8 @@
 New & Changed Features for OrangeHRM ver 2.6-beta.7
 
-	Bug Fixes (merged from 2.5)
+	Bug Fixes
 	---------
+    3007215 - Ess view performance  review Vulnerable to SQL injection 
     3010378 - Autosuggestion lists names in lower cases and search fails
     3010344 - Copy KPI does not overwrite existing KPIs in the JobTitle
     3010348 - Calendar control validation error for dates on boundary

@@ -117,7 +117,6 @@ class PerformanceReviewDao extends BaseDao {
 
         try {
 
-            $where	=	array();
             $from = $clues['from'];
             $to = $clues['to'];
             $jobCode = $clues['jobCode'];
@@ -133,47 +132,43 @@ class PerformanceReviewDao extends BaseDao {
                 $empId = $clues['loggedEmpId'];
             }
 
+            $q = Doctrine_Query::create()
+                 ->from('PerformanceReview');
+
             //$where = "periodFrom >= '$from' AND periodTo <= '$to'";
 
         	if (!empty($from)) {
                 //$where .= " AND employeeId = $empId";
-                array_push($where,"periodFrom >= '$from'");
+                $q->andWhere("periodFrom >= ?", $from);
             }
 
         	if (!empty($to)) {
                 //$where .= " AND employeeId = $empId";
-                array_push($where,"periodTo <= '$to'");
+                $q->andWhere("periodTo <= ?", $to);
             }
 
             if (!empty($empId)) {
                 //$where .= " AND employeeId = $empId";
-                array_push($where,"employeeId = $empId");
+                $q->andWhere("employeeId = ?", $empId);
             }
 
             if (!empty($reviewerId)) {
                 //$where .= " AND reviewerId = $reviewerId";
                 if (empty($empId) && isset($clues['loggedReviewerId'])) {
-                	$wherePart = "(reviewerId = $reviewerId OR employeeId = $reviewerId)";
+                    $q->andWhere("(reviewerId = ? OR employeeId = ?)", $reviewerId, $reviewerId);
                 } else {
-                    $wherePart = "reviewerId = $reviewerId";
+                    $q->andWhere("reviewerId = ?", $reviewerId);
                 }
-                array_push($where, $wherePart);
             }
 
             if (!empty($jobCode)) {
                // $where .= " AND jobTitleCode = '$jobCode'";
-                array_push($where,"jobTitleCode = '$jobCode'");
+                $q->andWhere("jobTitleCode = ?", $jobCode);
             }
 
             if (!empty($divisionId)) {
                // $where .= " AND subDivisionId = $divisionId";
-                array_push($where,"subDivisionId = $divisionId");
-            }
-
-            $q = Doctrine_Query::create()
-                 ->from('PerformanceReview');
-            if (count($where) > 0) {
-            	$q->where(implode(' AND ',$where));
+                $q->andWhere("subDivisionId = ?", $divisionId);
             }
 
             return $q;
