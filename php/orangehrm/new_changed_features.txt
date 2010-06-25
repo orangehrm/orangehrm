@@ -2,6 +2,7 @@ New & Changed Features for OrangeHRM ver 2.6-beta.7
 
 	Bug Fixes
 	---------
+    3006775 - Performance module Save KPI is vulnerable to SQL injection
     3007215 - Ess view performance  review Vulnerable to SQL injection 
     3010378 - Autosuggestion lists names in lower cases and search fails
     3010344 - Copy KPI does not overwrite existing KPIs in the JobTitle
