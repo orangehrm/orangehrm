@@ -66,7 +66,39 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase{
 
     	file_put_contents(sfConfig::get('sf_test_dir') . '/fixtures/performance/kpi.yml',sfYaml::dump($this->testCases));
     }
-    
+
+	/**
+     * Verify fix for bug: 3006775.
+     * Tests that any doctrine validator exceptions are thrown so that the action classes can handle them,
+     * instead of catching them and throwing generic dao exceptions.
+     *
+     */
+    public function testSaveKpiValidation(){
+
+    	foreach ($this->testCases['Kpi'] as $key=>$testCase) {
+			$kpi = new DefineKpi();
+			$kpi->setJobtitlecode("JOB001 '+%7C%7C+'ACUtwoACU'");
+			$kpi->setDesc($testCase['desc']);
+			$kpi->setMin($testCase['min']);
+			$kpi->setMax($testCase['max']);
+			$kpi->setDefault($testCase['default']);
+			$kpi->setIsactive($testCase['isactive']);
+
+            // This save should fail because job title code is too long for the job title field.
+            // Should throw a Doctrine_Validator_Exception
+
+            try {
+			    $kpi = $this->kpiDao->saveKpi($kpi);
+                $this->fail("Validation exception expected.");
+            } catch (Doctrine_Validator_Exception $e) {
+                // expected
+            } catch (Exception $e) {
+                // Should not throw other exception
+                $this->fail("Validation exception expected. Should not throw other exception");
+            }
+    	}
+    }
+
 	/**
 	 * Test Read Kpi
 	 * @return unknown_type

@@ -91,6 +91,9 @@ class KpiService extends BaseService {
 			if($Kpi->getDefault() == 1)
 				$this->getKpiDao()->overRideKpiDefaultRate($Kpi);
 			return $Kpi;
+        } catch ( Doctrine_Validator_Exception $e ) {
+            // propagate validator exceptions
+            throw $e;            
 		} catch ( Exception $e ) {
 			throw new PerformanceServiceException ( $e->getMessage () );
 		}

@@ -43,6 +43,9 @@ class KpiDao extends BaseDao {
 			$Kpi->save ();
 			
 			return $Kpi;
+        } catch ( Doctrine_Validator_Exception $e ) {
+            // propagate validator exceptions
+            throw $e;
 		} catch ( Exception $e ) {
 			throw new DaoException ( $e->getMessage () );
 		}

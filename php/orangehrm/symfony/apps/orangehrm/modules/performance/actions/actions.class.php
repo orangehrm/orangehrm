@@ -222,7 +222,8 @@ class performanceActions extends sfActions {
 				$this->setMessage('SUCCESS',array('Successfully Added <a href="listDefineKpi"> View KPI List</a>'));
 				$this->redirect ( 'performance/saveKpi' );
 			} catch ( Doctrine_Validator_Exception $e ) {
-				$this->errorMessage	=	$e->getMessage;
+                $this->setMessage('WARNING',array($e->getMessage()));
+				$this->errorMessage	=	$e->getMessage();
 			}
 		}
 	}
