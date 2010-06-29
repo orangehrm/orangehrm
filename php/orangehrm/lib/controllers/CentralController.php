@@ -1942,7 +1942,13 @@ switch ($moduletype) {
 																					break;
 													case 'Employee_Report'		:	$obj = $timeEventExtractor->parseReportParams($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->viewEmployeeTimeReport();
+                                                               $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Employee_Report_Define');
+                                                               $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                               $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                               $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                               if($token == $_POST['token']) {
+                                                                  $timeController->viewEmployeeTimeReport();
+                                                               }
 																					break;
 													case 'Project_Report_Define':	$timeController->viewDefineProjectReport();
 																					break;

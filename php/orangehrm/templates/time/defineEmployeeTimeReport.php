@@ -96,6 +96,10 @@ function compareConcatenatedName($a, $b){
     return strcmp($a["concat"], $b["concat"]);
 }
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -234,6 +238,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
         </div>
     <?php } ?>
 <form name="frmEmp" id="frmEmp" method="post" action="?timecode=Time&amp;action=" onsubmit="viewEmployeeTimeReport(); return false;">
+   <input type="hidden" name="token" value="<?php echo $token;?>" />
 <table border="0" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
