@@ -1760,7 +1760,13 @@ switch ($moduletype) {
 																						$obj->setTimesheetId($_GET['id']);
 																					}
 																					$timeController->setObjTime($obj);
-																					$timeController->viewTimesheet($current);
+                                                               $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'View_Select_Employee');
+                                                               $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                               $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                               $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                               if($token == $_POST['token']) {
+                                                                  $timeController->viewTimesheet($current);
+                                                               }
 																					break;
 													case 'View_Edit_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
 																					if (isset($_GET['id']) && !empty($_GET['id'])) {
