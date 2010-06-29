@@ -30,6 +30,10 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
     $csvExportRepotsPluginAvailable = true;
 }
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 
 if (isset($records['recordsArr'])) {
 	$recordsArr = $records['recordsArr'];
@@ -281,7 +285,8 @@ $count = count($recordsArr);
     <input type="hidden" name="hdnEmpNo" id="hdnEmpNo" value="<?php echo $records['empId']; ?>" />
     <input type="hidden" name="hdnEmpName" id="hdnEmpName" value="<?php echo $records['empName']; ?>" />
 	<input type="hidden" name="hdnFromPaging" id="hdnFromPaging" value="No" />
-
+   <input type="hidden" value="<?php echo $token;?>" name="token" />
+   
     <div class="searchbox">
         <?php if ($records['reportType'] == 'Emp') {  ?>
 

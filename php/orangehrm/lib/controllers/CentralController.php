@@ -1892,12 +1892,17 @@ switch ($moduletype) {
 													case 'Generate_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';
 																							$to = $_POST['txtToDate'].' 23:59:59';
 
-																							if ($_POST['optReportView'] == 'summary') {
-																								$timeController->generateAttendanceSummary($_POST['hdnEmpNo'], $from, $to, true);
-																							} elseif ($_POST['optReportView'] == 'detailed') {
-																								$timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to , null, null,true);
-																							}
-
+                                                                     $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Employee_Report');
+                                                                     $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                     $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                     $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                                                                     if($token == $_POST['token']) {
+                                                                        if ($_POST['optReportView'] == 'summary') {
+                                                                           $timeController->generateAttendanceSummary($_POST['hdnEmpNo'], $from, $to, true);
+                                                                        } elseif ($_POST['optReportView'] == 'detailed') {
+                                                                           $timeController->generateAttendanceReport($_POST['hdnEmpNo'], $from, $to , null, null,true);
+                                                                        }
+                                                                     }
 																							break;
 
 													case 'Summary_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';

@@ -389,6 +389,12 @@ class TimeController {
 			$records['empId'] = '';
 		}
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      $records['token'] = $token;
+
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
@@ -474,6 +480,12 @@ class TimeController {
 			$records['noReports'] = true;
 		}
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Employee_Report');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      $records['token'] = $token;
+
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
 		$template->display();
@@ -553,6 +565,12 @@ class TimeController {
 
 		$records['recordsCount'] = $attendanceObj->countRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE);
 		$records['pageNo'] = $pageNo;
+
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Employee_Report');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      $records['token'] = $token;
 
 		$path = '/templates/time/attendanceReport.php';
 		$template = new TemplateMerger($records, $path);
