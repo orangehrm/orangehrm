@@ -556,6 +556,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 </form>
 
 <form name="frmSalCurDet" id="frmSalCurDet" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;capturemode=updatemode">
+   <input type="hidden" name="token" value="<?php echo $token;?>" />
 	  			<input type="hidden" name="STAT"/>
 				<input type="hidden" name="referer" value="<?php echo $referer?>"/>
 				<input type="hidden" name="txtSalGrdID" value="<?php echo $this->getArr['id']?>"/>

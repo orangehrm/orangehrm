@@ -1231,7 +1231,13 @@ class LeaveController {
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 		$role = $authorizeObj->firstRole($roles);
 
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$tmpOb[3] = $role;
+      $tmpOb['token'] = $token;
 
 		$path = "/templates/leave/leaveSelectEmployeeAndYear.php";
 

@@ -1339,8 +1339,16 @@ switch ($moduletype) {
 
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
-																						$leaveController->viewLeaves("summary", $year, $searchBy, $sortBy, $sortOrder, $pageNO);
-																						break;
+
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Select_Employee_Leave_Summary');
+                                                                  $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                                  $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                                  $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));             
+
+                                                                  if($token == $_POST['token']) {
+                                                                     $leaveController->viewLeaves("summary", $year, $searchBy, $sortBy, $sortOrder, $pageNO);
+                                                                  }
+                                                                  break;
 
 													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
@@ -1935,7 +1943,8 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->viewActivityReport();
 																					break;
-													case 'Select_Timesheets_View':	if (isset($_GET['cache'])) {
+													case 'Select_Timesheets_View':
+                                                               if (isset($_GET['cache'])) {
 																						$_SESSION['posted'] = true;
 																					}
 																					$timeController->viewSelectTimesheet();
@@ -1957,7 +1966,14 @@ switch ($moduletype) {
 
 																					$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->viewTimesheetPrintPreview($filterValues);
+                                                               $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Select_Timesheets_View');
+                                                               $tokenGenerator = CSRFTokenGenerator::getInstance();
+                                                               $tokenGenerator->setKeyGenerationInput($screenParam);
+                                                               $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
+                                                               if($token == $_POST['token']) {
+                                                                  $timeController->viewTimesheetPrintPreview($filterValues);
+                                                               }
 																					break;
 													case 'Print_Timesheet_Get_Page':$filterValues = array($_POST['txtEmpID'],
 																										  $_POST['txtLocation'],

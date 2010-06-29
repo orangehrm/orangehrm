@@ -29,6 +29,11 @@ $employmentStatuses = $records[0];
  if (isset($records[1])) {
  $subList = $records[1];
 }
+
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
@@ -173,6 +178,7 @@ label {
 	<div class="outerbox">
 		<div class="mainHeading"><h2><?php echo $lang_Time_SelectTimesheetsTitle;?></h2></div>
 		<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" onsubmit="return validate();">
+         <input type="hidden" name="token" value="<?php echo $token;?>" />
 		<?php if ($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor'] == 'Yes') { ?>
 			<label for="txtUserEmpID"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
 			<div class="yui-skin-sam" style="float:left;margin-right:10px;">

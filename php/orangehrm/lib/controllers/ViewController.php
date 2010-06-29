@@ -1314,7 +1314,7 @@ class ViewController {
 		}
 	}
 
-
+   
 	function addData($index,$object,$noRedirect = false) {
 		try {
 			switch ($index) {
@@ -2794,11 +2794,21 @@ class ViewController {
 									break;
 
 				case 'SGR'  :		$salcud = new SalCurDet();
+                           $screenParam = array('uniqcode' => $_GET['uniqcode'], 'capturemode' => 'updatemode');
+                           if(isset($_GET['id'])) {
+                              $screenParam['id'] = $_GET['id'];
+                           }
+                           $tokenGenerator = CSRFTokenGenerator::getInstance();
+                           $tokenGenerator->setKeyGenerationInput($screenParam);
+                           $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+                           
 									$salcud = $object;
-									if($action == 'ADD')
-										$salcud->addSalCurDet();
-									elseif($action == 'EDIT')
-										$salcud->updateSalCurDet();
+                           if($token == $_POST['token']) {
+                              if($action == 'ADD')
+                                 $salcud->addSalCurDet();
+                              elseif($action == 'EDIT')
+                                 $salcud->updateSalCurDet();
+                           }
 									break;
 
 				case 'RTG'  :		$ratgrd = new RatingGrade();

@@ -35,6 +35,11 @@
  if (isset($records[3])) {
  	$role = $records[3];
  }
+
+ $token = "";
+ if($records['token']) {
+   $token = $records['token'];
+ }
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -126,6 +131,7 @@
 
 <form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="return validate();">
 <input type="hidden" name="searchBy" value="<?php echo ($_GET['action'] == 'Leave_Select_Employee_Leave_Summary') ? 'employee' : 'leaveType' ?>" />
+<input type="hidden" name="token" value="<?php echo $token;?>" />
 <table border="0" cellpadding="2" cellspacing="0" style="margin:0 0 0 0">
   <tbody>
 	<tr>
