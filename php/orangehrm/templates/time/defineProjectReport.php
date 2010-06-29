@@ -69,7 +69,10 @@ $objAjax = new xajax();
 $objAjax->registerFunction('getDeletedProjects');
 $objAjax->processRequests();
 
-
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -210,7 +213,8 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
         </div>  
     <?php } ?>
 <form name="frmReport" id="frmReport" method="post" action="?timecode=Time&action=" onsubmit="viewProjectReport(); return false;">
-<table border="0" cellpadding="5" cellspacing="0">
+<input type="hidden" name="token" value="<?php echo $token;?>" />
+   <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
 		<th></th>

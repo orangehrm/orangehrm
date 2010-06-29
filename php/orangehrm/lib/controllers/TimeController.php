@@ -1880,6 +1880,11 @@ class TimeController {
 
 
 		$dataArr[0] = $projectList;
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      $dataArr['token'] = $token;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
