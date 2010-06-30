@@ -43,12 +43,15 @@ require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobApplication.ph
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobApplicationEvent.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_ScheduleInterview.php';
 
+require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
+
 /**
  * Controller for recruitment module
  */
 class RecruitmentController {
 
 	private $authorizeObj;
+        private $csrfTokenApplyJob;
 
     /**
      * Constructor
@@ -408,6 +411,9 @@ class RecruitmentController {
 			$extractor->removeFromSession();
 		}
 
+                /* Setting CSRF token */
+                $objs['token'] = $this->_getCsrfTokenForApplyJob();
+
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
 	}
@@ -455,22 +461,30 @@ class RecruitmentController {
 
 			try {
 
-			    $jobApplication->save(); // Throws exceptions on failiures
-				$extractor->removeFromSession();
+                            if ($_POST['token'] === $this->_getCsrfTokenForApplyJob()) {
 
-				/* Send mail notifications */
-				$notifier = new RecruitmentMailNotifier();
-				$notifier->sendApplicationReceivedEmailToManager($jobApplication);
+                                $jobApplication->save(); // Throws exceptions on failiures
+                                $extractor->removeFromSession();
 
-				if (!$notifier->sendApplicationReceivedEmailToApplicant($jobApplication)) {
-				    $objs['error']['applicantEmailError'] = 'Emailing applicant failed';
-				}
+                                /* Send mail notifications */
+                                $notifier = new RecruitmentMailNotifier();
+                                $notifier->sendApplicationReceivedEmailToManager($jobApplication);
 
-				$objs['savingStatus'] = true;
+                                if (!$notifier->sendApplicationReceivedEmailToApplicant($jobApplication)) {
+                                    $objs['error']['applicantEmailError'] = 'Emailing applicant failed';
+                                }
+
+                                $objs['savingStatus'] = true;
+
+                            } else {
+
+                                $objs['savingStatus'] = false;
+
+                            }
 
 			} catch (JobApplicationException $e) {
-				$objs['savingStatus'] = false;
-				$extractor->saveToSession($_POST);
+                            $objs['savingStatus'] = false;
+                            $extractor->saveToSession($_POST);
 			}
 
 		}
@@ -1042,4 +1056,27 @@ class RecruitmentController {
     private function _notAuthorized() {
         trigger_error("Not Authorized!", E_USER_NOTICE);
     }
+
+
+    private function _getCsrfTokenForApplyJob() {
+
+        if (!empty($this->csrfTokenApplyJob)) {
+
+            return $this->csrfTokenApplyJob;
+            
+        } else {
+
+            $screenParam = array('recruitcode' => 'ApplicantViewJobs');
+            $tokenGenerator = CSRFTokenGenerator::getInstance();
+            $tokenGenerator->setKeyGenerationInput($screenParam);
+            $this->csrfTokenApplyJob = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
+            return $this->csrfTokenApplyJob;
+
+        }
+
+    }
+
+
+
 }

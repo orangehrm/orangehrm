@@ -326,6 +326,8 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
         <input type="file" id="txtResume" name="txtResume" tabindex="14" class="formFileInput"/><br class="clear"/>
         <div class="formHint" style="padding-left:10px;"><?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?></div>
 
+        <input type="hidden" name="token" value="<?php echo $records['token']; ?>" />
+
         <div class="formbuttons">
             <input type="button" class="savebutton" id="saveBtn" tabindex="15"
                 onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
