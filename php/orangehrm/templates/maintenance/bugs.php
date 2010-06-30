@@ -45,6 +45,8 @@
         $lang_bugtracker_PleaseSpecifyBugSummary = "Please specify the bug summary";
         $lang_bugtracker_PleaseSpecifyBugDescription = "Please specify the bug description";
         $lang_bugtracker_EmailNotVaild = "The email entered is not valid";
+        
+        $token = $this->popArr['token'];
 
 ?>
 
@@ -122,7 +124,7 @@
 
     <form name="frmBugs" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?mtcode=<?php echo $this->getArr['mtcode']?>">
         <input type="hidden" name="sqlState" value=""/>
-
+			<input type="hidden" value="<?php echo $token;?>" name="token" />
             <span class="formLabel"><?php echo $lang_bugtracker_FoundInRelease; ?></span>
             <span class="formValue">2.6-beta.7</span><br class="clear"/>
             <input type="hidden" readonly="readonly" name="artifact_group_id" value="786061"/>

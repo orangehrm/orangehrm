@@ -57,6 +57,7 @@ class Bugs {
 	var $priorityArray = array("low","medium","high","urgent");
 	var $resolutionArray = array("accepted","duplicate","fixed","out of date","invalid","later");
 	var $sourceArray = array("internal","web","forum");
+	var $csrfToken ;
 
 	function Bugs(){
 		$this->sql_builder = new SQLQBuilder();
@@ -142,6 +143,10 @@ class Bugs {
 
 	function setEmail($email) {
 		$this->email = $email;
+	}
+	
+	function setCsrfToken($csrfToken){
+		$this->csrfToken = $csrfToken;
 	}
 
 	function getDate(){
@@ -233,6 +238,9 @@ class Bugs {
 		return $this->module;
 	}
 
+	function getCsrfToken(){
+		return $this->csrfToken ;
+	}
 
 	function getListOfBugs($pageNo,$schStr,$mode){
 
@@ -309,44 +317,54 @@ class Bugs {
 		$arrFieldList[12] = "'". $this->getType() ."'";
 		$arrFieldList[13] = "'". $this->getWorkLog() ."'";
 
-		$sysConst = new sysConf();
-
-		$to = 'koshika@beyondm.net';
-	 	$body = "Reported Date:".date("Y-m-d")."\n"."Name:".$this->getName()."\nModule:" .$this->getModule(). "\n Priority:".$this->getPriority()."\n". "Description:".$this->getDescription(). "\n";
-		$subject = "Bug Reported";
-		$headers = 'From: '. ($this->getEmail() != '') ? $this->getEmail() : 'noname@none.net' . "\r\n" .'Reply-To: ' . ($this->getEmail() != '') ? $this->getEmail() : 'noname@none.net' . "\r\n" ;
-
-		$emailSent = $this->sendMail($to,$subject,$body,$headers);
-
-		$description = "Module: " .$this->getModule(). "\n Description:".$this->getDescription(). "\n Email: ". $this->getEmail();
-
-		$host = 'sourceforge.net';
-		$method = 'POST';
-		$path = '/tracker/?func=add&group_id=156477&atid=799942';
-		$data = "group_id=156477&atid=799942&func=postadd&category_id=" .$this->getSource(). "&artifact_group_id=" . $this->getFoundInrelease(). "&summary=" .$this->getName(). "&details=" .$description ."&priority=" .$this->getPriority();
-
-	    $fp = fsockopen($host, 80);
-
-	    fputs($fp, "POST $path HTTP/1.1\r\n");
-	    fputs($fp, "Host: $host\r\n");
-	    fputs($fp,"Content-type: application/x-www-form-urlencoded\r\n");
-	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
-	    fputs($fp, "Connection: close\r\n\r\n");
-	    fputs($fp, $data);
-
-	    $bugSent = false;
-	    $ostr = '';
-	    while (!feof($fp)) {
-	        $ostr .= fgets($fp,128);
-
-	        if(strstr($ostr, 'Item Successfully Created') !== false) {
-	        	$bugSent = true;
-	        	break;
-	        }
-	    }
-
-	    fclose($fp);
+		$screenParam = array('uniqcode' => 'BUG');
+		$tokenGenerator = CSRFTokenGenerator::getInstance();
+		$tokenGenerator->setKeyGenerationInput($screenParam);
+		$token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+		
+		$bugSent = false;
+		
+		if( $token == $this->getCsrfToken()){
+			                  	
+			$sysConst = new sysConf();
+	
+			$to = 'koshika@beyondm.net';
+		 	$body = "Reported Date:".date("Y-m-d")."\n"."Name:".$this->getName()."\nModule:" .$this->getModule(). "\n Priority:".$this->getPriority()."\n". "Description:".$this->getDescription(). "\n";
+			$subject = "Bug Reported";
+			$headers = 'From: '. ($this->getEmail() != '') ? $this->getEmail() : 'noname@none.net' . "\r\n" .'Reply-To: ' . ($this->getEmail() != '') ? $this->getEmail() : 'noname@none.net' . "\r\n" ;
+	
+			$emailSent = $this->sendMail($to,$subject,$body,$headers);
+	
+			$description = "Module: " .$this->getModule(). "\n Description:".$this->getDescription(). "\n Email: ". $this->getEmail();
+	
+			$host = 'sourceforge.net';
+			$method = 'POST';
+			$path = '/tracker/?func=add&group_id=156477&atid=799942';
+			$data = "group_id=156477&atid=799942&func=postadd&category_id=" .$this->getSource(). "&artifact_group_id=" . $this->getFoundInrelease(). "&summary=" .$this->getName(). "&details=" .$description ."&priority=" .$this->getPriority();
+	
+		    $fp = fsockopen($host, 80);
+	
+		    fputs($fp, "POST $path HTTP/1.1\r\n");
+		    fputs($fp, "Host: $host\r\n");
+		    fputs($fp,"Content-type: application/x-www-form-urlencoded\r\n");
+		    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
+		    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
+		    fputs($fp, "Connection: close\r\n\r\n");
+		    fputs($fp, $data);
+	
+		    
+		    $ostr = '';
+		    while (!feof($fp)) {
+		        $ostr .= fgets($fp,128);
+	
+		        if(strstr($ostr, 'Item Successfully Created') !== false) {
+		        	$bugSent = true;
+		        	break;
+		        }
+		    }
+	
+		    fclose($fp);
+		}
 		return $bugSent;
 	}
 

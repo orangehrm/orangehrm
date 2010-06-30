@@ -35,6 +35,7 @@ class EXTRACTOR_Bugs {
 			$this->new_bug ->setPriority(trim($postArr['priority']));
 			$this->new_bug ->setSource(trim($postArr['category_id']));
 			$this->new_bug ->setEmail(trim($postArr['txtEmail']));
+			$this->new_bug ->setCsrfToken(trim($postArr['token']));
 			
 			return $this->new_bug;
 	}

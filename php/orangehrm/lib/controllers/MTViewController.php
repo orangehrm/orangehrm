@@ -288,11 +288,17 @@ function reDirect($getArr,$object = null) {
 		switch ($getArr['mtcode']) {
 
 
-			case 'BUG' :	$form_creator ->formPath = '/templates/maintenance/bugs.php';
+			case 'BUG' :	
+							$screenParam = array('uniqcode' => 'BUG');
+		                  	$tokenGenerator = CSRFTokenGenerator::getInstance();
+		                  	$tokenGenerator->setKeyGenerationInput($screenParam);
+		                  	$token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+		                  	
+							$form_creator ->formPath = '/templates/maintenance/bugs.php';
 							$bug = new Bugs();
 
 							$form_creator->popArr['module'] = $bug->getAlias('module');
-
+							$form_creator ->popArr['token'] = $token;
 							break;
 
 			case 'DVR' :	$form_creator ->formPath = '/templates/maintenance/dbversions.php';
