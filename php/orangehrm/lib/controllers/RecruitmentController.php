@@ -51,7 +51,6 @@ require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';
 class RecruitmentController {
 
 	private $authorizeObj;
-        private $csrfTokenApplyJob;
 
     /**
      * Constructor
@@ -411,8 +410,8 @@ class RecruitmentController {
 			$extractor->removeFromSession();
 		}
 
-                /* Setting CSRF token */
-                $objs['token'] = $this->_getCsrfTokenForApplyJob();
+      $screenParam = array('recruitcode' => $_GET['recruitcode'], 'id' => $id);
+      $objs['token'] = $this->_getCsrfTokenForJobs($screenParam);
 
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
@@ -460,8 +459,8 @@ class RecruitmentController {
 		if (is_null($correctResume) || $correctResume) { // Try saving only if resume is compatible or no resume has been uploaded
 
 			try {
-
-                            if ($_POST['token'] === $this->_getCsrfTokenForApplyJob()) {
+                            $paramScreen = array('recruitcode' => 'ApplicantViewApplication', 'id' => 4);
+                            if ($_POST['token'] == $this->_getCsrfTokenForJobs($paramScreen)) {
 
                                 $jobApplication->save(); // Throws exceptions on failiures
                                 $extractor->removeFromSession();
@@ -1058,25 +1057,13 @@ class RecruitmentController {
     }
 
 
-    private function _getCsrfTokenForApplyJob() {
-
-        if (!empty($this->csrfTokenApplyJob)) {
-
-            return $this->csrfTokenApplyJob;
-            
-        } else {
-
-            $screenParam = array('recruitcode' => 'ApplicantViewJobs');
-            $tokenGenerator = CSRFTokenGenerator::getInstance();
-            $tokenGenerator->setKeyGenerationInput($screenParam);
-            $this->csrfTokenApplyJob = $tokenGenerator->getCSRFToken(array_keys($screenParam));
-
-            return $this->csrfTokenApplyJob;
-
-        }
-
-    }
-
-
-
+   private function _getCsrfTokenForJobs($screenParam = array()) {
+      $token = "";
+      if(is_array($screenParam)) {
+         $tokenGenerator = CSRFTokenGenerator::getInstance();
+         $tokenGenerator->setKeyGenerationInput($screenParam);
+         $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+      }
+      return $token;
+   }
 }

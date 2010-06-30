@@ -64,7 +64,10 @@ if ($records['retrySubmission'] && isset($records['savedData'])) {
 $formAction = $_SERVER['PHP_SELF'] . '?recruitcode=ApplicantApply';
 
 $iconDir = "../../themes/{$styleSheet}/icons/";
-
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -247,7 +250,7 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
         <?php } ?>
 
   <form name="fromJobApplication" id="fromJobApplication" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
-
+<input type="hidden" name="token" value="<?php echo $token; ?>" />
         <input type="hidden" id="txtVacancyId" name="txtVacancyId" value="<?php echo $vacancy->getId();?>"/>
 
   		<span class="formLabel"><?php echo $lang_Recruit_ApplicationForm_Position;?></span>
@@ -325,9 +328,6 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 		<label for="txtResume"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></label>
         <input type="file" id="txtResume" name="txtResume" tabindex="14" class="formFileInput"/><br class="clear"/>
         <div class="formHint" style="padding-left:10px;"><?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?></div>
-
-        <input type="hidden" name="token" value="<?php echo $records['token']; ?>" />
-
         <div class="formbuttons">
             <input type="button" class="savebutton" id="saveBtn" tabindex="15"
                 onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
