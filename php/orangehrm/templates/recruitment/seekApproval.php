@@ -25,6 +25,10 @@ $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
 $action = JobApplication::ACTION_SEEK_APPROVAL;
 $formAction = $baseURL . '&action=' . $action;
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -222,7 +226,8 @@ $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunct
         <?php } ?>
 
   <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
-  		<input type="hidden" name="cmbDirector" id="cmbDirector" value="-1" />
+  		<input type="hidden" name="token" value="<?php echo $token;?>" />
+     <input type="hidden" name="cmbDirector" id="cmbDirector" value="-1" />
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br />
 		<div>
 		<label for="txtApproverSearch"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>

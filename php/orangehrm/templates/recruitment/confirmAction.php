@@ -50,6 +50,10 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -159,7 +163,8 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <?php } ?>
 
     <form id="frmConfirm" name="frmConfirm" onsubmit="return validate();" method="post" action="<?php echo $actionURL; ?>" >
-        <div class="txtName"><?php echo $lang_Recruit_JobApplicationConfirm_ApplicantName; ?></div>
+       <input type="hidden" value="<?php echo $token;?>" name="token" />
+       <div class="txtName"><?php echo $lang_Recruit_JobApplicationConfirm_ApplicantName; ?></div>
         <div class="txtValue">
             <?php echo CommonFunctions::escapeHtml($application->getFirstName() . ' ' . $application->getLastName());?>
         </div><br/>
