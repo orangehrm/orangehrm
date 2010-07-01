@@ -320,6 +320,7 @@ function exportSummaryData(pdfData) {
 }
 
 <?php
+
 }?>
 //]]>
 </script>

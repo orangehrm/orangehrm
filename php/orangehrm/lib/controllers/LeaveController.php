@@ -966,7 +966,8 @@ class LeaveController {
 		$tmpObjX['leaveCount'] = $leaveCount['leaveCount'];
 
       //we introduce token for the form here
-      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
+      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_Summary');
+      
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $tmpObjX['token'] = $tokenGenerator->getCSRFToken(array_keys($screenParam));

@@ -30,6 +30,10 @@ $pageNo = $records[7];
 $customerObj = new Customer();
 $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
+$token = "";
+if(isset($records['token'])) {
+   $token = $records['token'];
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -135,6 +139,7 @@ function nextPage() {
         <?php } ?>
 
 	<form name="frmActivity" id="frmActivity" method="post" action="" style="padding-left:5px;">
+      <input type="hidden" name="token" value="<?php echo $token;?>" />
     	<input type="hidden" name="cmbProject" value="<?php echo $project->getProjectId(); ?>">
     	<input type="hidden" name="txtFromDate" value="<?php echo $startDate; ?>">
     	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>">

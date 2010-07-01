@@ -1791,10 +1791,16 @@ class TimeController {
 		$report = new ProjectReport();
 		$activityTimeArray = $report->getProjectActivityTime($projectId, $startDate, $endDate);
 
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Project_Report_Define');
+      $tokenGenerator = CSRFTokenGenerator::getInstance();
+      $tokenGenerator->setKeyGenerationInput($screenParam);
+      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
+
 		$dataArr[0] = $project;
 		$dataArr[1] = $startDate;
 		$dataArr[2] = $endDate;
 		$dataArr[3] = $activityTimeArray;
+      $dataArr['token'] = $token;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -1850,6 +1856,9 @@ class TimeController {
 		$dataArr[6] = $time;
 		$dataArr[7] = $pageNo;
 
+      if(isset($_POST['token'])) {
+         $dataArr['token'] = $_POST['token'];
+      }
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}

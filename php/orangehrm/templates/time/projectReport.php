@@ -25,6 +25,7 @@ $endDate = LocaleUtil::getInstance()->formatDate($records[2]);
 $activityTimeArray = $records[3];
 $customerObj = new Customer();
 $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+$token = $records['token'];
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -80,6 +81,7 @@ hr.activitiesSeparator {
         <div id="status"></div>
 
 	<form name="frmActivity" id="frmActivity" method="post" action="" style="padding-left:5px;">
+      <input type="hidden" name="token" value="<?php echo $token;?>" />
     	<input type="hidden" name="cmbProject" value="<?php echo $project->getProjectId(); ?>"/>
     	<input type="hidden" name="txtFromDate" value="<?php echo $startDate; ?>"/>
     	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>"/>
