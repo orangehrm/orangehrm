@@ -389,7 +389,7 @@ class TimeController {
 			$records['empId'] = '';
 		}
 
-      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Show_Employee_Report');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
