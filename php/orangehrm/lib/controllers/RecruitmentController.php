@@ -474,7 +474,7 @@ class RecruitmentController {
 		if (is_null($correctResume) || $correctResume) { // Try saving only if resume is compatible or no resume has been uploaded
 
 			try {
-                            $paramScreen = array('recruitcode' => 'ApplicantViewApplication', 'id' => 4);
+                            $paramScreen = array('recruitcode' => 'ApplicantViewApplication', 'id' => $_POST['txtVacancyId']);
                             if ($_POST['token'] == $this->_getCsrfTokenForJobs($paramScreen)) {
 
                                 $jobApplication->save(); // Throws exceptions on failiures
