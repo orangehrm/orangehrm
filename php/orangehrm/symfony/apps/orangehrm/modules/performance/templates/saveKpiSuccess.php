@@ -11,6 +11,9 @@
             <div id="formHeading"><h2>Add Key Performance Indicator</h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
+
+                        <?php echo $form['_csrf_token']; ?>
+
               <div id="formWrapper">
                        <label for="txtLocationCode"><?php echo __('Job Title')?><span class="required">*</span></label>
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >

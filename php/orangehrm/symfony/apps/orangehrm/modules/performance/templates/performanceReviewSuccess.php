@@ -5,6 +5,9 @@
             <div id="formHeading"><h2><?php echo __("Performance Review")?></h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
+
+                        <?php echo $form['_csrf_token']; ?>
+
 			<input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId()?>"></input>
 			<input type="hidden" name="saveMode" id="saveMode" value="" />
 			

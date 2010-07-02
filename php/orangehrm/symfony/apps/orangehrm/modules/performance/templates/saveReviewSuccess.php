@@ -17,6 +17,8 @@
 
 			<form action="#" id="frmSave" name="frmSave" class="content_inner" method="post">
 
+                        <?php echo $form['_csrf_token']; ?>
+
 			<div id="formWrapper">
 
 				<label for="txtEmpName-0">Employee Name <span class="required">*</span></label>
