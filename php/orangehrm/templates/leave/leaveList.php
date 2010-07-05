@@ -37,7 +37,7 @@ if(isset($modifier['actionFlag'])) {
    $actionFlag = $modifier['actionFlag'];
    unset($modifier['actionFlag']);
 }
- if (isset($modifier) && ($modifier == "Taken")) {
+ if (isset($modifier[0]) && ($modifier[0] == "Taken")) {
 
  	$empInfo = $records[count($records)-1][0];
  	$employeeName = $empInfo[2].' '.$empInfo[1];
@@ -47,15 +47,15 @@ if(isset($modifier['actionFlag'])) {
  	$records = $records[0];
  }
 
-if ($modifier === "SUP") {
+if ($modifier[0] === "SUP") {
  	$employeeName = $records[0]->getEmployeeName();
 	$lang_Title = preg_replace('/#employeeName/', $employeeName, $lang_Leave_Leave_Requestlist_Title1);
-} else if ($modifier === "ADMIN") {
+} else if ($modifier[0] === "ADMIN") {
  	$employeeName = $records[0]->getEmployeeName();
 	$lang_Title = preg_replace('/#employeeName/', $employeeName, $lang_Leave_Leave_Requestlist_Title2);
-} else if ($modifier === "Taken") {
+} else if ($modifier[0] === "Taken") {
  $lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
-} else if ($modifier === "MY") {
+} else if ($modifier[0] === "MY") {
 	$lang_Title = $lang_Leave_Leave_list_TitleMyLeaveList;
 } else {
  $lang_Title = $lang_Leave_Leave_list_Title3;
@@ -63,9 +63,9 @@ if ($modifier === "SUP") {
 
 $action = "Leave_ChangeStatus";
 
-if ($modifier === "SUP") {
+if ($modifier[0] === "SUP") {
 	$backLink = "Leave_FetchLeaveSupervisor";
-} else if ($modifier === "ADMIN") {
+} else if ($modifier[0] === "ADMIN") {
 	$backLink = "Leave_FetchLeaveAdmin";
 } else {
 	$backLink = "Leave_FetchLeaveEmployee";
@@ -75,10 +75,10 @@ if ($modifier === "SUP") {
 <script type="text/javascript">
 //<![CDATA[
 	function goBack () {
-		<?php if ($modifier == "ADMIN") { ?>
+		<?php if ($modifier[0] == "ADMIN") { ?>
 			window.location = "?leavecode=Leave&action=Leave_FetchLeaveAdmin";
 		<?php
-	    } else if ($modifier == "Taken") {
+	    } else if ($modifier[0] == "Taken") {
 		?>
 		window.location = "?leavecode=Leave&action=Leave_Summary&id=<?php echo $_REQUEST['id'];?>";
 		<?php } else { ?>
@@ -122,7 +122,7 @@ if ($modifier === "SUP") {
     <div class="actionbar">
         <div class="actionbuttons">
 
-<?php   if ((is_array($records)) && ($modifier !== "Taken")) { ?>
+<?php   if ((is_array($records)) && ($modifier[0] !== "Taken")) { ?>
 
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
@@ -179,9 +179,9 @@ if ($modifier === "SUP") {
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
             $possibleStatusesArr = array();
             
-			if ($modifier === "MY") {
+			if ($modifier[0] === "MY") {
   				$possibleStatusesArr = $employeeRespArr;
-  			} else if ($modifier == "SUP" || $modifier == "ADMIN") {
+  			} else if ($modifier[0] == "SUP" || $modifier[0] == "ADMIN") {
 		  		$possibleStatusesArr = $suprevisorRespArr;
 
 		  		if ($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) {
@@ -189,8 +189,8 @@ if ($modifier === "SUP") {
 		  		}
 			}
 
-    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
-    			(($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) {
+    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier[0] == "SUP" || $modifier[0] == "ADMIN")) ||
+    			(($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier[0] == "ADMIN"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
     		<?php if (($record->getLeaveLengthHours() != null) && ($record->getLeaveLengthHours() != 0)) { ?>
@@ -243,13 +243,13 @@ if ($modifier === "SUP") {
     ?></td>
     <td class="<?php echo $cssClass; ?>">
 		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) ||
-	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
-	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) { ?>
+	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier[0] == "SUP" || $modifier[0] == "ADMIN")) ||
+	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier[0] == "ADMIN"))) { ?>
 
 
 		<input type="text" name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
-		<?php } else if (($modifier == "MY") || ($modifier == "Taken")) {
+		<?php } else if (($modifier[0] == "MY") || ($modifier[0] == "Taken")) {
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<input type="hidden" name="txtComment[]" id="txtComment_<?php echo $idIndex++; ?>" value="<?php echo $record->getLeaveComments(); ?>" />

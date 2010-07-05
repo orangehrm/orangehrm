@@ -1454,7 +1454,7 @@ switch ($moduletype) {
 																						$objs = $leaveExtractor->parseEditData($_POST);
 																						$objx=false;
 																						$numChanged = 0;
-                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => "Leave_FetchDetailsEmployee", 'id' => $_POST['txtEmployeeId'][0]);
+                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => "Leave_FetchDetailsEmployee", 'id' => $_POST['txtLeaveRequestId'][0]);
                                                                   
                                                                   switch ($_GET['actionFlag']) {
                                                                      case "admin":
