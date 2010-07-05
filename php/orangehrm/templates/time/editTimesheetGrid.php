@@ -701,6 +701,20 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	        return false;
 	    }
 
+        /* inArray function */
+
+        function inArray(string, array) {
+
+            for (var i=0; i<array.length; i++) {
+                if(array[i] == string) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
 	    /* Checking for duplicate rows */
 
 		var duplicateFlag = true;
@@ -719,13 +733,11 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 	    		value = projectId + '-' + activityId;
 
 		    	if (activities.length > 0) {
-		    	    for (j = 0; j < rowCount; j++) {
-		    	        if (activities[j] == value) {
-		    	        	duplicates.push(value);
-		    	        } else {
-		    	            activities.push(value);
-		    	        }
-		    	    }
+                    if (inArray(value, activities)) {
+                        duplicates.push(value);
+                    } else {
+                        activities.push(value);
+                    }
 		    	} else {
 		    	    activities.push(value);
 		    	}
