@@ -655,6 +655,8 @@ class performanceActions extends sfActions {
             /* Showing Performance Review Search form
              * ====================================== */
 
+            $this->form = new ViewReviewForm(array(), array(), true);
+
             $performanceReviewService = $this->getPerformanceReviewService();
 
             /* Job title list */
@@ -770,22 +772,32 @@ class performanceActions extends sfActions {
     
     public function executeDeleteReview(sfWebRequest $request) {
 
+        $this->form = new ViewReviewForm(array(), array(), true);
+
         $delReviews = $request->getParameter('chkReview');
-    $clues = $this->getReviewSearchClues($request);
-    $this->getUser()->setFlash('prClues', $clues);
+        $clues = $this->getReviewSearchClues($request);
+        $this->getUser()->setFlash('prClues', $clues);
 
-    if (empty($delReviews)) {
+        if (empty($delReviews)) {
             $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select reviews to delete.'));
-        $this->redirect('performance/viewReview');
-    }
+            $this->redirect('performance/viewReview');
+        }
 
-            if ($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
 
-                    $performanceReviewService = $this->getPerformanceReviewService();
-                    $performanceReviewService->deletePerformanceReview($request->getParameter('chkReview'));
-        $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully deleted'));
-        $this->redirect('performance/viewReview');
+            $this->form->bind($request->getParameter($this->form->getName()));
+
+            if ($this->form->isValid()) {
+
+                $performanceReviewService = $this->getPerformanceReviewService();
+                $performanceReviewService->deletePerformanceReview($request->getParameter('chkReview'));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully deleted'));
+
             }
+
+        }
+
+        $this->redirect('performance/viewReview');
 
     }
 

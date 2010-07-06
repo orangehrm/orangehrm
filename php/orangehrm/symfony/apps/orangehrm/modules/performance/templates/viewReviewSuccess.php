@@ -128,6 +128,8 @@ $formatData['newSeparater'] = '/';
 	<div class="outerbox">
 	
 		<form method="post" action="#" id="frmList" name="frmList" class="content_inner">
+
+        <?php echo $form['_csrf_token']; ?>
 	   		
 		<div class="navigationHearder">
             <?php if ($loggedAdmin) { ?>
