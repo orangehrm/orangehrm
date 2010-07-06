@@ -66,6 +66,8 @@
 				
 			<?php if($hasKpi){?>
 	   		<form action="<?php echo url_for('performance/deleteDefineKpi') ?>" name="frmList" id="frmList" method="post">
+
+            <?php echo $form['_csrf_token']; ?>
 			
 	   		 <div id="tableWrapper">
 	   		

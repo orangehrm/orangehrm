@@ -131,8 +131,10 @@ class performanceActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeListDefineKpi(sfWebRequest $request) {
+
+        $this->form = new ListKpiForm(array(), array(), true);
         
-		$jobService				=	$this->getJobService();
+		$jobService 				=	$this->getJobService();
 		$this->listJobTitle		=	$jobService->getJobTitleList('job.id','ASC', array(0,1));
 		
 		$kpiService 			= 	$this->getKpiService();
@@ -345,14 +347,23 @@ class performanceActions extends sfActions {
 	 */
 	public function executeDeleteDefineKpi(sfWebRequest $request) {
 
+            $this->form = new ListKpiForm(array(), array(), true);
+
             if ($request->isMethod('post')) {
 
-                $kpiService = $this->getKpiService();
-                $kpiService->deleteKpi($request->getParameter('chkKpiID'));
+                $this->form->bind($request->getParameter($this->form->getName()));
+
+                if ($this->form->isValid()) {
+
+                    $kpiService = $this->getKpiService();
+                    $kpiService->deleteKpi($request->getParameter('chkKpiID'));
+
+                    $this->setMessage('SUCCESS',array('Successfully Deleted'));
+
+                }
 
             }
-
-            $this->setMessage('SUCCESS',array('Successfully Deleted'));
+            
             $this->redirect('performance/listDefineKpi');
 		
 	}
