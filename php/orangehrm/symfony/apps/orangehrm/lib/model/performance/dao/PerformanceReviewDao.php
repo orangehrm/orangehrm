@@ -113,7 +113,7 @@ class PerformanceReviewDao extends BaseDao {
      * Builds the search query that fetches all the
      * records for given search clues
      */
-    private function getSearchReviewQuery($clues) {
+    private function _getSearchReviewQuery($clues) {
 
         try {
 
@@ -135,39 +135,36 @@ class PerformanceReviewDao extends BaseDao {
             $q = Doctrine_Query::create()
                  ->from('PerformanceReview');
 
-            //$where = "periodFrom >= '$from' AND periodTo <= '$to'";
-
-        	if (!empty($from)) {
-                //$where .= " AND employeeId = $empId";
+            if (!empty($from)) {
                 $q->andWhere("periodFrom >= ?", $from);
             }
 
-        	if (!empty($to)) {
-                //$where .= " AND employeeId = $empId";
+            if (!empty($to)) {
                 $q->andWhere("periodTo <= ?", $to);
             }
 
             if (!empty($empId)) {
-                //$where .= " AND employeeId = $empId";
                 $q->andWhere("employeeId = ?", $empId);
             }
 
             if (!empty($reviewerId)) {
-                //$where .= " AND reviewerId = $reviewerId";
+
+                /* $q->andWhere("reviewerId = ?", $reviewerId) throws
+                 * "Invalid parameter number" error.
+                 */
+
                 if (empty($empId) && isset($clues['loggedReviewerId'])) {
-                    $q->andWhere("(reviewerId = ? OR employeeId = ?)", $reviewerId, $reviewerId);
+                    $q->andWhere("(reviewerId = $reviewerId OR employeeId = $reviewerId)");
                 } else {
                     $q->andWhere("reviewerId = ?", $reviewerId);
                 }
             }
 
             if (!empty($jobCode)) {
-               // $where .= " AND jobTitleCode = '$jobCode'";
                 $q->andWhere("jobTitleCode = ?", $jobCode);
             }
 
             if (!empty($divisionId)) {
-               // $where .= " AND subDivisionId = $divisionId";
                 $q->andWhere("subDivisionId = ?", $divisionId);
             }
 
@@ -186,16 +183,40 @@ class PerformanceReviewDao extends BaseDao {
      * @param array $limit
      * @throws DaoException
      */
-    public function searchPerformanceReview($clues = array(), $offset = null, $limit = null) {
+     
+    public function searchPerformanceReview($clues, $offset=null, $limit=null) {
+
         try {
-            $q = $this->getSearchReviewQuery($clues);
-            if(!is_null($offset) && !is_null($limit)) {
-               $q->offset($offset)->limit($limit);
+
+            $q = $this->_getSearchReviewQuery($clues);
+
+            if (isset($offset) && isset($limit)) {
+                $q->offset($offset)->limit($limit);
             }
+            
             return $q->execute();
 
         } catch(Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new PerformanceServiceException($e->getMessage());
+        }
+
+    }
+
+    /**
+     * Returns the count of records
+     * that matched given $clues
+     */
+
+    public function countReviews($clues) {
+
+        try {
+
+            $q = $this->_getSearchReviewQuery($clues);
+
+            return $q->count();
+
+        } catch(Exception $e) {
+            throw new PerformanceServiceException($e->getMessage());
         }
 
     }

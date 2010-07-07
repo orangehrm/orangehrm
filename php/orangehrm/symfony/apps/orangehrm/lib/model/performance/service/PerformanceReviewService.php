@@ -90,12 +90,14 @@ class PerformanceReviewService extends BaseService {
      * @returns Collection
      * @throws PerformanceServiceException
      */
-    public function searchPerformanceReview($searchParam = array(), $offset = null, $limit = null) {
+    public function searchPerformanceReview($clues, $offset=null, $limit=null) {
+
       try {
-         return $this->performanceReviewDao->searchPerformanceReview($searchParam, $offset, $limit);
+         return $this->performanceReviewDao->searchPerformanceReview($clues, $offset, $limit);
       } catch(Exception $e) {
          throw new PerformanceServiceException($e->getMessage());
       }
+
     }
 
     /**
@@ -104,10 +106,10 @@ class PerformanceReviewService extends BaseService {
      * @returns int
      * @throws PerformanceServiceException
      */
-    public function countReviews($searchParam = array()) {
+    public function countReviews($clues) {
+        
         try {
-            $reviews = $this->performanceReviewDao->searchPerformanceReview($searchParam);
-            return count($reviews);
+            return $this->performanceReviewDao->countReviews($clues);
         } catch(Exception $e) {
             throw new PerformanceServiceException($e->getMessage());
         }
