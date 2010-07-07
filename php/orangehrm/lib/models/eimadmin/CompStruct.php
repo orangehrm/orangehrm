@@ -326,7 +326,7 @@ class CompStruct {
 
          if (isset($searchStr) && !empty($searchStr)) {
              $searchStrFiltered = mysql_real_escape_string($searchStr);
-             $selectConditions[0] = " `id` LIKE '" . $searchStrFiltered . "%' ";
+             $selectConditions[0] = " `title` LIKE '" . $searchStrFiltered . "%' ";
          } else {
              $selectConditions = null;
          }
