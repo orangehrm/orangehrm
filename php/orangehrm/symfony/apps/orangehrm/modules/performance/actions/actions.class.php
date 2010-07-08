@@ -531,35 +531,35 @@ class performanceActions extends sfActions {
 
             if ($request->isMethod('post')) {
 
-                $this->form->bind($request->getParameter($this->form->getName()));
+                /* Showing update form: Begins */
 
-                if ($this->form->isValid()) {
+                if ($request->getParameter('editReview') && count($request->getParameter('chkReview')) == 0) {
+                    $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select a review to edit.'));
+                    $this->redirect('performance/viewReview');
+                }
 
-                    /* Showing update form: Begins */
+                if ($request->getParameter('chkReview')) {
 
-                    if ($request->getParameter('editReview') && count($request->getParameter('chkReview')) == 0) {
-                        $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select a review to edit.'));
+                    $reviewIds = $request->getParameter('chkReview');
+
+                    if (count($reviewIds) > 1) {
+                        $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select only one review at a time for editing.'));
                         $this->redirect('performance/viewReview');
                     }
 
-                    if ($request->getParameter('chkReview')) {
+                    $performanceReviewService = $this->getPerformanceReviewService();
+                    $review = $performanceReviewService->readPerformanceReview($reviewIds[0]);
+                    $this->clues = $this->getReviewSearchClues($review);
 
-                        $reviewIds = $request->getParameter('chkReview');
+                    return;
 
-                        if (count($reviewIds) > 1) {
-                            $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select only one review at a time for editing.'));
-                            $this->redirect('performance/viewReview');
-                        }
+                }
 
-                        $performanceReviewService = $this->getPerformanceReviewService();
-                        $review = $performanceReviewService->readPerformanceReview($reviewIds[0]);
-                        $this->clues = $this->getReviewSearchClues($review);
+                /* Showing update form: Ends */
 
-                        return;
+                $this->form->bind($request->getParameter($this->form->getName()));
 
-                    }
-
-                    /* Showing update form: Ends */
+                if ($this->form->isValid()) {
 
                     $clues = $this->getReviewSearchClues($request, '-0');
                     $this->clues = $clues;
