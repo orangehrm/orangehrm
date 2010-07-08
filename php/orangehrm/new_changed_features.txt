@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.8
+
+    Bug Fixes
+    ---------
+    CSRF issues in Performance module
+    3023651 - Cannot update the timesheet with deleted activities
+    3025721 - PIM - search by: subdivision end up with no results
+
+
 New & Changed Features for OrangeHRM ver 2.6-beta.7
 
 	Bug Fixes
