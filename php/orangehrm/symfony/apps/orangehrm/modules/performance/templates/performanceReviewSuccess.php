@@ -1,4 +1,7 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
+
+<?php echo stylesheet_tag('performance/performanceReviewSuccess'); ?>
+
 <div id="content">
 	<div id="performanceReviewcontentContainer">
         <div class="outerbox">
@@ -58,7 +61,7 @@
 				   <div id="performanceError" class="hide">
 				   	<div id='messageBalloon_failure' class='messageBalloon_failure' ><ul></ul></div>
 				   </div>
-				<table cellpadding="0" cellspacing="0" class="data-table" align="center">
+				<table cellpadding="0" cellspacing="0" class="data-table prData" align="center">
 					<thead>
             		<tr>
 
@@ -104,7 +107,7 @@
 				 			</td>
 							<td class="">
 				 				<textarea id='txtComments' class="reviwerComment" name='txtComments[<?php echo $kpi->getId()?>]'
-                    rows="2" cols="40" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
+                    rows="4" cols="76" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
 				 			</td>
 
 				 	</tr>
