@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.9
+
+    Bug Fixes
+    ---------
+    3029533 - Unable to search a reviewer for his own review
+    3029806 - Reviewer Comments should be scrollable all the times
+    3029814 - Height of the Reviewer Comments Textarea should be increased
+
+
 New & Changed Features for OrangeHRM ver 2.6-beta.8
 
     Bug Fixes
