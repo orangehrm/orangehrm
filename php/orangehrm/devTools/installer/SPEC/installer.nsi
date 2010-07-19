@@ -149,7 +149,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
     SectionEnd
 
-    Section "OrangeHRM 2.6-beta.8" SecOrangeHRM
+    Section "OrangeHRM 2.6-beta.9" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
@@ -193,7 +193,7 @@ Section "-Register the application"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "InstallLocation" "$INSTDIR"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "2.2"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" "2"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "2.6-beta.8"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "2.6-beta.9"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "${Organization}"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "HelpLink" "http://orangehrm.com/home/index.php?option=com_content&task=blogsection&id=13&Itemid=87"
@@ -350,7 +350,7 @@ FunctionEnd
   LangString DESC_SecApache ${LANG_ENGLISH} "Apache web server"
   LangString DESC_SecMySQL ${LANG_ENGLISH} "MySQL database server"
   LangString DESC_SecPHP ${LANG_ENGLISH} "PHP Hypertext Preprocessor"
-  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 2.6-beta.8"
+  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 2.6-beta.9"
   LangString DESC_SecGrpExtraComponents ${LANG_ENGLISH} "Extra components to make OrangeHRM better"
 
   LangString DESC_SecSendmail ${LANG_ENGLISH} "Sendmail mail transfer agent"
