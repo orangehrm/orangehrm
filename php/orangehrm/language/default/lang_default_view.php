@@ -144,8 +144,8 @@ switch ($_GET['uniqcode']) {
 	case 'USG' :
 		$srchlist = array( "-$lang_Leave_Common_Select-" , $lang_view_ID , $lang_Commn_name );
 		$headings= array($lang_view_UserGroupID,$lang_view_UserGroupName);
-		$headingInfo = array ($lang_view_UserGroupID,$lang_view_UserGroupName,1, "$lang_view_Users : $lang_view_UserGroups",$lang_view_message34);
-		break;
+		$headingInfo = array ($lang_view_UserGroupID,$lang_view_UserGroupName,1, "$lang_view_Users : $lang_view_UserGroups",$lang_view_DeleteUserGroup);
+                break;
 
 	case 'CUS' :
 		$srchlist = array( "-$lang_Leave_Common_Select-" , $lang_view_ID , $lang_Commn_name );

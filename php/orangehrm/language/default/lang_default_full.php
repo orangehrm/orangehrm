@@ -1039,6 +1039,7 @@
 	$lang_view_UserGroupID 					= "User Group ID";
 	$lang_view_UserGroupName 				= "User Group Name";
 	$lang_view_message35 					= "Deletion could make OrangeHRM unusable";
+        $lang_view_DeleteUserGroup                              = "Users belonging to the group will lose their privileges";
 
 	$lang_view_Users 				= "Users";
 	$lang_view_UserGroups 			= "Admin User Groups";
