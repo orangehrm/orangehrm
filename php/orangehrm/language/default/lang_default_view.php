@@ -38,6 +38,7 @@ $DELETE_SUCCESS = $lang_empview_DELETE_SUCCESS;
 $ADD_FAILURE = $lang_empview_ADD_FAILURE;
 $UPDATE_FAILURE = $lang_empview_UPDATE_FAILURE;
 $DELETE_FAILURE = $lang_empview_DELETE_FAILURE;
+$DELETE_PROHIBITED_FAILURE = $lang_empview_DELETE_PROHIBITED_FAILURE;
 
 switch ($_GET['uniqcode']) {
 

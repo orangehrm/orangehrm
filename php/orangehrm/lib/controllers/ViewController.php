@@ -523,17 +523,29 @@ class ViewController {
 			$this-> usergroups = new UserGroups();
          $res = false;
          if($token == $_POST['token']) {
-            $res = $this-> usergroups -> delUserGroups($arrList);
+
+            if (in_array($_SESSION['userGroup'], $arrList[0])) {
+                $_GET['message']='DELETE_PROHIBITED_FAILURE';
+                $res = false;
+            } else {
+                $res = $this-> usergroups -> delUserGroups($arrList);
+            }
+            
          }
 			break;
 
         }
+
+        if (!(isset($_GET['message']) && $_GET['message'] == 'DELETE_PROHIBITED_FAILURE')) {
 
 		if ($res) {
 			$_GET['message']='DELETE_SUCCESS';
 		} else {
 			$_GET['message']='DELETE_FAILURE';
 		}
+                
+        }
+
     }
 
 	function selectIndexId($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC', $esp = false) {
