@@ -1980,7 +1980,7 @@ switch ($moduletype) {
 																					$_SESSION['txtEndDate'] = $_POST['txtEndDate'];
 
 																					$filterValues = array($_POST['cmbUserEmpID'],
-																										  $_POST['cmbLocation'],
+																										  $_POST['txtLocation'],
 																										  $_POST['txtRepEmpID'],
 																										  $_POST['cmbEmploymentStatus']);
 
