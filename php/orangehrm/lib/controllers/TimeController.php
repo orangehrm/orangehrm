@@ -1500,7 +1500,7 @@ class TimeController {
 
 	public function editTimesheetGrid($messageType=null, $message=null, $showComments = 'No') {
 
-      $screenParam = array('timecode' => $_GET['timecode'], 'action' => $_GET['action']);
+      $screenParam = array('timecode' => 'timecode', 'action' => 'action');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
@@ -1602,7 +1602,7 @@ class TimeController {
 
 	public function updateTimegrid($eventsList) {
 
-      $screenParam = array('timecode' => $_GET['timecode'], 'action' => 'Edit_Timesheet_Grid');
+      $screenParam = array('timecode' => 'timecode', 'action' => 'action');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
