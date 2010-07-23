@@ -552,6 +552,8 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		?>
 
 		durationCell = document.createElement('td');
+                durationCell.setAttribute("class", "durationTd");
+                durationCell.setAttribute("className", "durationTd"); // For IE
 		
 		/* Adding input box */
 		var durationInput = document.createElement('input');
