@@ -71,6 +71,8 @@
 	$lang_Errro_OtherEmailIsNotValid                = "The other email is not valid";
 
 	$lang_Error_DependantNameEmpty					= "Dependent name is empty";
+        $lang_Error_ChildNameEmpty					= "Child name is empty";
+        $lang_Error_ChildDobInvalid                                  = "Date of Birth is either empty or contains invalid entry";
 
 	// Company Structure
 	$lang_Error_Company_General_Undefined 				= "Please define Company General Information first!";

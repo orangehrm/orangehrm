@@ -43,13 +43,13 @@ function delChildren() {
 function addChildren() {
 
 	if(document.frmEmp.txtChiName.value == '') {
-		alert('<?php echo $lang_Common_FieldEmpty; ?>');
+		alert('<?php echo $lang_Error_ChildNameEmpty; ?>');
 		document.frmEmp.txtChiName.focus();
 		return;
 	}
 
 	if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.ChiDOB.value)) {
-		alert('<?php echo $lang_Common_FieldEmpty; ?>');
+		alert('<?php echo $lang_Error_ChildDobInvalid; ?>');
 		document.frmEmp.DOB.focus();
 		return;
 	}
