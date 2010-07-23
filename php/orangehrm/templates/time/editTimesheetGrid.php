@@ -246,7 +246,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				
 				<?php if(isset($value[$i])) { ?>
 				<input type="hidden" name="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>"
-				id="hdnTimeEventId-<?php echo $k; ?>" value="<?php echo $value[$i]['eventId']; ?>" />
+				id="hdnTimeEventId-<?php echo $k.'-'.$dCount; ?>" value="<?php echo $value[$i]['eventId']; ?>" />
 				<input type="hidden" name="hdnDuration-<?php echo $k.'-'.$dCount; ?>"
 				value="<?php echo $value[$i]['duration']; ?>" />
 				<input type="hidden" name="hdntxtComment-<?php echo $k.'-'.$dCount; ?>"
@@ -631,7 +631,15 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		$('#tblTimegrid input:checkbox').each(function(){
 			if ($(this).attr('checked')) {
 				if ($(this).attr('id') != '') {
-					deletionIds.push($('#hdnTimeEventId-' + rowNo).val());
+                                    for (i=0; i<7; i++) {
+
+                                        deleteId = $('#hdnTimeEventId-' + rowNo + '-' + i).val();
+
+                                        if (!isNaN(deleteId)) {
+                                            deletionIds.push(deleteId);
+                                        }
+                                        
+                                    }
 				}
 				$(this).parent().parent().remove();
 			}
