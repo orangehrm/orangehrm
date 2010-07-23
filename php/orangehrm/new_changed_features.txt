@@ -1,3 +1,17 @@
+New & Changed Features for OrangeHRM ver 2.6-beta.10
+
+    Bug Fixes
+    ---------
+    3031638 - Emergency contacts page contains unwanted labells
+    3031455 - Warning message for deleting Admin User Groups needs change
+    3031459 - An admin user can delete his own group while being logged in
+    3032059 - Print Timesheet searching with subdivision end with stopper
+    3032371 - Remove Row removes data one column at a time instead of row
+    3032375 - Update timesheet fails after pressing remove row.
+    3031939 - Invalide date in the Children's DOB gives wrong message
+    3032009 - Employee's picture is misplaced in 1024x768 resolution
+
+
 New & Changed Features for OrangeHRM ver 2.6-beta.9
 
     Bug Fixes
