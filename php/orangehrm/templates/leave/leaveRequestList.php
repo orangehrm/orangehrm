@@ -16,6 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 $_SESSION['moduleType'] = 'leave';
 require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
 require_once ROOT_PATH . '/plugins/PlugInFactory.php';
@@ -401,7 +402,7 @@ label.subLabel {
 						only if the plugin is installed and the label should come from the plugin
 						and not from the language files
 					-->
-    
+  <?php if ($modifier === "ADMIN" || $modifier ==="SUP") { ?>
     <input type="button" name="btnExportData"
 	value="Summary CSV" class="plainbtn"
 	onclick="exportSummaryData(0); return false;"
@@ -415,7 +416,7 @@ label.subLabel {
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
      <input type="button" name="btnExportDePDFData" value="Detailed PDF"
 	class="plainbtn" onclick="exportDetailedData(1); return false;"
-	onmouseover="moverButton(this);" onmouseout="moutButton(this)" /> <?php  } ?>
+	onmouseover="moverButton(this);" onmouseout="moutButton(this)" /> <?php } } ?>
 <?php   } ?></div>
 <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
 
