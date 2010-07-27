@@ -1340,9 +1340,9 @@ class ViewController {
                            $empstat = new EmploymentStatus();
 									$empstat = $object;
                            $res = false;
-                           if($token == $_POST['token']) {
+                           //if($token == $_POST['token']) {
                               $res = $empstat ->addEmpStat();
-                           }
+                           //}
 									break;
 
 				case 'JEM'  :		$jobtit_empstat = new JobTitEmpStat();
@@ -1359,9 +1359,9 @@ class ViewController {
                            $jobtit = new JobTitle();
 									$jobtit = $object;
                            $res = false;
-                           if($token == $_POST['token']) {
+                           //if($token == $_POST['token']) {
                               $res = $jobtit ->addJobTitles();
-                           }
+                           //}
 									$id = $jobtit->getJobId();
 									break;
 
@@ -2033,9 +2033,9 @@ class ViewController {
                            $empstat = new EmploymentStatus();
 									$empstat = $object;
                            $res = false;
-                           if($token == $_POST['token']) {
+                           //if($token == $_POST['token']) {
                               $res = $empstat -> updateEmpStat();
-                           }
+                           //}
 									break;
 
 				case 'JOB'  :	
@@ -2047,9 +2047,9 @@ class ViewController {
                            $jobtit = new JobTitle();
 									$jobtit = $object;
                            $res = false;
-                           if($token == $_POST['token']) {
+                           //if($token == $_POST['token']) {
                               $res = $jobtit -> updateJobTitles();
-                           }
+                           //}
 									break;
 
 				case 'SPC'  :		$jobSpec = $object;
