@@ -1494,7 +1494,7 @@ switch ($moduletype) {
 													case 'Leave_Request_ChangeStatus':
 																						$objs = $leaveRequestsExtractor->parseEditData($_POST);
 																						$numChanged = 0;
-                                                                  $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_FetchLeaveAdmin');
+                                                                  $screenParam = array('leavecode' => 'leave');
                                                                   $tokenGenerator = CSRFTokenGenerator::getInstance();
                                                                   $tokenGenerator->setKeyGenerationInput($screenParam);
                                                                   $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
@@ -1603,7 +1603,7 @@ switch ($moduletype) {
 													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
-                                                                     $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => 'Leave_FetchLeaveEmployee');
+                                                                     $screenParam = array('leavecode' => 'leave');
                                                                      $tokenGenerator = CSRFTokenGenerator::getInstance();
                                                                      $tokenGenerator->setKeyGenerationInput($screenParam);
                                                                      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));

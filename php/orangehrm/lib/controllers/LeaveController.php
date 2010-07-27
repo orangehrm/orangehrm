@@ -235,10 +235,7 @@ class LeaveController {
 
 	private function _viewLeavesEmployee($details) {
 		$tmpObj = $this->getObjLeave();
-      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
-      if(isset($_GET['id'])) {
-         $screenParam['id'] = $_GET['id'];
-      }
+      $screenParam = array('leavecode' => 'leave');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
@@ -389,10 +386,7 @@ class LeaveController {
 		    die('You are not authorized to view this page');
 		}
 
-      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
-      if(isset($_GET['id'])) {
-         $screenParam['id'] = $_GET['id'];
-      }
+      $screenParam = array('leavecode' => 'leave');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
@@ -490,10 +484,7 @@ class LeaveController {
 		}
 		$_SESSION['leaveStatusFilters'] = $leaveStatuses;
 
-      $screenParam = array('leavecode' => $_GET['leavecode'], 'action' => $_GET['action']);
-      if(isset($_GET['id'])) {
-         $screenParam['id'] = $_GET['id'];
-      }
+      $screenParam = array('leavecode' => 'leave');
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
       $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
