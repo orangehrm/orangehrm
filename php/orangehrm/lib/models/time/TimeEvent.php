@@ -557,8 +557,11 @@ class TimeEvent {
 		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
 		$selectFields[0] = "DISTINCT(a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`)";
 
-		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
-		$selectConditions[1] = "((a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$this->getStartTime()}' AND " .  "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` <= '{$this->getEndTime()}')"
+		if (!empty($employeeIds)) {
+                    $selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
+                }
+
+		$selectConditions[] = "((a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$this->getStartTime()}' AND " .  "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` <= '{$this->getEndTime()}')"
 		 .  " OR (a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` >= '{$this->getStartTime()}' AND " . "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` <= '{$this->getEndTime()}'))";
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, NULL , NULL);
