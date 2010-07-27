@@ -135,12 +135,16 @@ document.frmInstall.btnRegister.disabled = true;
         <td class="tdValues_n"><input type="text" name="userEmail" tabindex="4" value="<?php echo isset($_POST['userEmail'])? $_POST['userEmail'] : ''?>"/></td>
       </tr>
       <tr>
+        <td class="tdComponent_n">Telephone</td>
+        <td class="tdValues_n"><input type="text" name="userTp" tabindex="5" value="<?php echo isset($_POST['userTp'])? $_POST['userTp'] : ''?>"/></td>
+      </tr>
+      <tr>
         <td class="tdComponent_n">Comments</td>
-        <td class="tdValues_n"><textarea name="userComments" tabindex="5"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
+        <td class="tdValues_n"><textarea name="userComments" tabindex="6"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Updates/Newsletter</td>
-        <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="5" <?php echo (isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
+        <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="7" <?php echo (isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
       </tr>
       <tr>
         <td>
@@ -162,13 +166,13 @@ document.frmInstall.btnRegister.disabled = true;
 <?php   if(!isset($reqAccept)) { ?>
 
         <div>
-	        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
-	        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
+	        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="9"/>
+	        <input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="8"/>
         </div>
         <?php } elseif($reqAccept) {?>
-        <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
+        <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="10"/>
         <?php } else { ?>
-        <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
+        <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="11"/>
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <?php } 
 ?>

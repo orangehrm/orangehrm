@@ -29,6 +29,7 @@ function sockComm($postArr) {
 	$path = '/registration/registerAcceptor.php';
 	$data = "userName=".$postArr['userName']
 			."&userEmail=".$postArr['userEmail']
+                        ."&userTp=".$postArr['userTp']
 			."&userComments=".$postArr['userComments']
 			."&firstName=".$postArr['firstName']
 			."&company=".$postArr['company']
