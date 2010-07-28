@@ -1981,7 +1981,7 @@ class TimeController {
 		$dataArr[0][5] = $timesheetObj->getEndDate();
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
 		$timesheetsCount = 0;
-		if (!empty($employeeIds)) {
+		if (isset($employeeIds)) {
 
 			$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);
 			$timesheetsCount =count($timsheetIds);
