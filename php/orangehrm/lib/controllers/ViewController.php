@@ -1470,10 +1470,10 @@ class ViewController {
                            $tokenGenerator->setKeyGenerationInput($screenParam);
                            $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
                            $res = false;
-                           if($token == $_POST['token']) {
+                           //if($token == $_POST['token']) {
                               $loc = $object;
                               $res = $loc -> addLocation();
-                           }
+                           //}
 									break;
 
           case 'TCP'  :
