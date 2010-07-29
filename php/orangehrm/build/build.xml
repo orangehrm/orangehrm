@@ -73,9 +73,12 @@
             <exclude name="reset-installation.php"/>
             <exclude name="Emp5000.php"/>
             <exclude name="Emp5000.txt"/>
-        	<exclude name="orangehrm-quick-start-guide.html"/>
-        	<exclude name="build/myconf.php"/>
-        	<exclude name="symfony/config/databases.yml"/>
+            <exclude name="orangehrm-quick-start-guide.html"/>
+            <exclude name="build/myconf.php"/>
+            <exclude name="symfony/config/databases.yml"/>
+            <exclude name="symfony/web/orangehrm_dev.php"/>
+            <exclude name="symfony/test/**"/>
+            <exclude name="symfony/lib/vendor/symfony/test/**"/>
         </fileset>
     </copy>
 	<copy todir="${dist.dir}">
