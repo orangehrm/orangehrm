@@ -324,7 +324,7 @@ $count = count($recordsArr);
             value="<?php echo $lang_Time_Button_Generate;?>" />
         
         
-        <?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
+        <?php  if(isset($csvExportRepotsPluginAvailable) && $records['reportType'] != 'My')  {   ?>
                     <!--
                         this pece of code added to compatible the time module with attendance data exporter
                     -->
