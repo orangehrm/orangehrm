@@ -501,8 +501,13 @@ class EmpInfo {
      *
      * @param String[] fileterValues
      */
-    public function getEmployeeIdsFilterMultiParams($filterValues) {
+    public function getEmployeeIdsFilterMultiParams($filterValues) { //var_dump($filterValues);die;
         //$tableName = 'HS_HR_EMPLOYEE';
+
+        if (isset($filterValues[1]) && $filterValues[1] == 'All') {
+            $filterValues[1] = -1;
+        }
+
         $arrFieldList[0] = "a.`emp_number`";
 
         $filterFields[0] = "a.`emp_number`";
