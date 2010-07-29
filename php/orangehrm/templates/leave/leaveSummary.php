@@ -401,9 +401,9 @@ function exportSummaryData(pdfData) {
 						The value/label of the following button is hardcoded because it is shown
 						only if the plugin is installed and the label should come from the plugin
 						and not from the language files-->
-	<input type="button" name="btnExportData" value="Export To CSV" class="plainbtn" onclick="exportSummaryData(0); return false;"
+	<input type="button" name="btnExportData" value="Export To CSV" class="csvplainbtn" onclick="exportSummaryData(0); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
-    <input type="button" name="btnExportPDFData" value="Export To PDF" class="plainbtn" onclick="exportSummaryData(1); return false;"
+    <input type="button" name="btnExportPDFData" value="Export To PDF" class="csvplainbtn" onclick="exportSummaryData(1); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
 <?php 	
         }
