@@ -189,6 +189,8 @@
 	$lang_Menu_Leave 									= "Leave";
 	$lang_Menu_Leave_PersonalLeaveSummary 				= "Personal Leave Summary";
 	$lang_Menu_Leave_EmployeeLeaveSummary 				= "Employee Leave Summary";
+        $lang_Menu_Leave_EmployeeLeaveSummaryPDF 				= "Summery of Employee Leave list";
+        $lang_Menu_Leave_EmployeeLeaveDetailedPDF 				= "Detailed  Employee Leave list";
 	$lang_Menu_Leave_LeaveSummary 						= "Leave Summary";
 	$lang_Menu_Leave_LeavesList 						= "Leaves List";
 	$lang_Menu_Leave_ApproveLeave 						= "Approve Leave";
