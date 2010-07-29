@@ -404,18 +404,18 @@ label.subLabel {
 					-->
   <?php if ($modifier === "ADMIN" || $modifier ==="SUP") { ?>
     <input type="button" name="btnExportData"
-	value="Summary CSV" class="plainbtn"
+	value="Summary CSV" class="csvplainbtn"
 	onclick="exportSummaryData(0); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
     <input type="button" name="btnExportPDFData"
-	value="Summary PDF" class="plainbtn"
+	value="Summary PDF" class="csvplainbtn"
 	onclick="exportSummaryData(1); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
     <input type="button" name="btnExportData" value="Detailed CSV"
-	class="plainbtn" onclick="exportDetailedData(0); return false;"
+	class="csvplainbtn" onclick="exportDetailedData(0); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" />
      <input type="button" name="btnExportDePDFData" value="Detailed PDF"
-	class="plainbtn" onclick="exportDetailedData(1); return false;"
+	class="csvplainbtn" onclick="exportDetailedData(1); return false;"
 	onmouseover="moverButton(this);" onmouseout="moutButton(this)" /> <?php } } ?>
 <?php   } ?></div>
 <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
