@@ -66,6 +66,19 @@ input.plainbtn {
 	cursor: default;
 }
 
+input.csvplainbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:80px;
+	width: auto;
+	cursor: default;
+}
+
 input.longbtn {
 	background:#999966 none repeat scroll 0 0 !important;
 	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
