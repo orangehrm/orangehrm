@@ -116,6 +116,9 @@
 	$lang_Menu_Home_Support 					= "Support";
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
+    $lang_Menu_Home_Training 					= "Training";
+    $lang_Menu_Home_AddOns 						= "Add-Ons";
+    $lang_Menu_Home_Customizations 				= "Customizations";
 
 	$lang_Menu_Ess								= "ESS";
 	$lang_Menu_Pim 								= "PIM";

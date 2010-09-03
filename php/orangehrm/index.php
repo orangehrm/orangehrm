@@ -764,6 +764,9 @@ $subs[] = new MenuItem("help", $lang_Menu_HelpContents, "help.php", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Support, "http://www.orangehrm.com/subscribe-support.shtml", '_blank');
 $subs[] = new MenuItem("forum", $lang_Menu_Home_Forum, "http://www.orangehrm.com/forum/", '_blank');
 $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/blog/", '_blank');
+$subs[] = new MenuItem("support", $lang_Menu_Home_Training, "http://www.orangehrm.com/training.php?utm_source=application&utm_medium=applink&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("support", $lang_Menu_Home_AddOns, "http://www.orangehrm.com/addon-plans.shtml?utm_source=application&utm_medium=applink&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("support", $lang_Menu_Home_Customizations, "http://www.orangehrm.com/customizations.php?utm_source=application&utm_medium=applink&utm_campaign=orangeapp", '_blank');
 
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
