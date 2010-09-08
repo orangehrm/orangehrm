@@ -150,7 +150,7 @@ class CompStruct {
 		$locCode = $this->_getEscapedLocation();
 
 		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s, dept_id='%s' WHERE ID = %d",
-                                  ($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, mysql_real_escape_string($this->deptId), $this->id );
+                                  mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, mysql_real_escape_string($this->deptId), $this->id );
 
 		$dbConnection = new DMLFunctions();
 
