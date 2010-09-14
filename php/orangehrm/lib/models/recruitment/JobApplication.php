@@ -479,13 +479,13 @@ class JobApplication {
 				if ($values[$j] == 'null') {
 					$sql .= $values[$j].", ";
 				} else {
-					$sql .= "'". mysql_real_escape_string($values[$j])."', ";
+					$sql .= "'". $values[$j]."', ";
 				}
 			} else {
 				if ($values[$j] == 'null') {
 					$sql .= $values[$j].")";
 				} else {
-					$sql .= "'". mysql_real_escape_string($values[$j]) . "')";
+					$sql .= "'". $values[$j] . "')";
 				}
 			}
 
