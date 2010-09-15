@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.0.1
+
+    Bug Fixes
+    ---------
+    3062533 - Uploaded files get corrupted when upload via jobs.php
+
+
 New & Changed Features for OrangeHRM ver 2.6-beta.10
 
     Bug Fixes
