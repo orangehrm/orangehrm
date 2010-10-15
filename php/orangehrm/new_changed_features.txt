@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.0.2
+
+    Bug Fixes
+    ---------
+    3087937 - URI Parameter Should Be Santized
+
+
 New & Changed Features for OrangeHRM ver 2.6.0.1
 
     Bug Fixes
