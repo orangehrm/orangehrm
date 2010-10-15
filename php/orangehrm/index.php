@@ -658,7 +658,7 @@ if ($arrAllRights[Recruit]['view']) {
 
 /* Performance menu start */
 
-$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=./symfony/web/index.php/performance/viewReview/mode/new");
+$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=performance/viewReview/mode/new");
 $menuItem->setCurrent($_GET['menu_no_top']=="perform");
 $enablePerformMenu = false;
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="perform") && isset($_GET['reqcode']) && $arrRights['view'] )  {
@@ -667,13 +667,13 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="perform") && isset(
 $subs = array();
 
 if ($arrAllRights[Perform]['add'] && ($_SESSION['isAdmin']=='Yes')) {
-	$subs[] = new MenuItem('definekpi', $lang_Menu_Define_Kpi, "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/listDefineKpi");
-	$subs[] = new MenuItem('definekpi', 'Add KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveKpi");
-	$subs[] = new MenuItem('definekpi', 'Copy KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/copyKpi");
-	$subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/saveReview");
+	$subs[] = new MenuItem('definekpi', $lang_Menu_Define_Kpi, "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/listDefineKpi");
+	$subs[] = new MenuItem('definekpi', 'Add KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveKpi");
+	$subs[] = new MenuItem('definekpi', 'Copy KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/copyKpi");
+	$subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveReview");
 }
 
-$subs[] = new MenuItem('definekpi', 'Reviews', "index.php?uniqcode=KPI&menu_no_top=performance&uri=./symfony/web/index.php/performance/viewReview/mode/new");
+$subs[] = new MenuItem('definekpi', 'Reviews', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
 
 $menuItem->setSubMenuItems($subs);
 
@@ -790,10 +790,12 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 
 	/* TODO: Remove this pageNo variable */
 	$pageNo = isset($_GET['pageNo'])? '&amp;pageNo=1' : '';
-       if( isset($_GET['uri']))
-            $home = $_GET['uri'];
-       else
+       if( isset($_GET['uri'])) {
+            $uri = (substr($_GET['uri'], 0, 11) == 'performance')?$_GET['uri']:'performance/viewReview/mode/new';
+            $home = './symfony/web/index.php/' . $uri;
+       } else {
             $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+       }
         
 } elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {
 	$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
@@ -823,7 +825,8 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 } elseif ($_GET['menu_no_top']=="recruit") {
 	$home = $recruitHomePage;
 } elseif ($_GET['menu_no_top']=="performance") {
-	$home = $_GET['uri'];
+    $uri = (substr($_GET['uri'], 0, 11) == 'performance')?$_GET['uri']:'performance/viewReview/mode/new';
+	$home = './symfony/web/index.php/' . $uri;
 } else {
 	$rightsCount = 0;
 	foreach ($arrAllRights as $moduleRights) {
