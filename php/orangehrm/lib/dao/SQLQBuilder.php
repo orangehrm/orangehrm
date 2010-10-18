@@ -1201,8 +1201,8 @@ function getCurrencyAssigned($salgrd) {
 
 		/* For Encryption : Begins */
 		$encOn = KeyHandler::KeyExists();
-		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-	    	$changeValues = CryptoQuery::prepareEncryptFields($changeFields, $changeValues);
+		if ($encOn && CryptoQuery::isEncTable($updateTable)) {
+                    $changeValues = CryptoQuery::prepareEncryptFields($changeFields, $changeValues);
 		}
 		/* For Encryption : Ends */	
 
