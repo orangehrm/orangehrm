@@ -13,9 +13,4 @@ class orangehrmConfiguration extends sfApplicationConfiguration
        //$manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, 'hs_hr_%s');
    }
    
-	public function setup()
-	{
-		$this->setPlugins(array('sfDoctrinePlugin'));
-	}
-   
 }
