@@ -366,6 +366,16 @@ class AttendanceRecord {
                 $reportRows [] = $object; 				
 			}
 		}
+
+		foreach ($reportRows as $key=>$reportRow){
+    		foreach ($reportRows as $key1=>$reportRow1){
+                if( ($reportRow1->getInTime() == $reportRow->getInTime()) && ($reportRow1->getEmployeeId() == $reportRow->getEmployeeId()) && ($key != $key1) ){                    
+                    $reportRows [$key1]->setDuration(number_format($reportRow1->getDuration() + $reportRow->getDuration(),2));                    
+                    unset($reportRows[$key]);
+                }
+            }
+		}
+		
 	   return $reportRows;
 	}
 	

@@ -64,18 +64,8 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function tearDown() {
 		
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 2 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 3 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 4 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 5 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 6 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 7 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 8 ;";
-		$sql [] = "DELETE FROM `hs_hr_attendance` WHERE `hs_hr_attendance`.`attendance_id` = 9 ;";
-	  
-	   $sql [] = "DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1 ;";
-	   $sql [] = "DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 2 ;";
-	   $sql [] = "DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 3 ;";
+		$sql [] = "TRUNCATE TABLE `hs_hr_attendance`";
+        $sql [] = "TRUNCATE TABLE `hs_hr_employee`"; 
 	  
 	    $connection = new DMLFunctions();
         foreach ($sql as $sqlStatement) {
@@ -141,6 +131,125 @@ class AttendanceRecordTest extends PHPUnit_Framework_TestCase {
       
 		
 	}
+	
+	   /**
+     * @todo Implement testFetchSummary().
+     */
+    public function testFetchSummary1() {
+        
+         $sql = array();
+         $sql [] = "TRUNCATE TABLE `hs_hr_attendance`";
+         $sql [] = "TRUNCATE TABLE `hs_hr_employee`"; 
+         
+         $sql [] = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`, `emp_middle_name`, `emp_nick_name`, `emp_smoker`, `ethnic_race_code`, `emp_birthday`, `nation_code`, `emp_gender`, `emp_marital_status`, `emp_ssn_num`, `emp_sin_num`, `emp_other_id`, `emp_dri_lice_num`, `emp_dri_lice_exp_date`, `emp_military_service`, `emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, `city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, `emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`, `terminated_date`, `termination_reason`, `custom1`, `custom2`, `custom3`, `custom4`, `custom5`, `custom6`, `custom7`, `custom8`, `custom9`, `custom10`) VALUES
+                (1, '001', 'Abbey', 'Kayla', '', '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
+        
+         $sql [] ="INSERT INTO `hs_hr_attendance` (`attendance_id`, `employee_id`, `punchin_time`, `punchout_time`, `in_note`, `out_note`, `timestamp_diff`, `status`) VALUES
+                (1, 1, '2010-12-07 23:00:00', '2010-12-08 01:00:00', '', '', 0, '1'),
+                (2, 1, '2010-12-08 02:00:00', '2010-12-08 03:00:00', '', '', 0, '1');";
+        
+        $connection = new DMLFunctions();
+        foreach ($sql as $sqlStatement) {
+            $connection->executeQuery(trim($sqlStatement));
+        }          
+          
+       
+        $object = new AttendanceRecord();
+
+        $this->assertEquals(sizeof($object->fetchSummary(1,'2010-12-01','2010-12-10')),2);
+        
+        $attendance =  $object->fetchSummary(1,'2010-12-01','2010-12-10');
+        reset($attendance);
+        $attendance = (next($attendance));
+
+        $this->assertEquals( $attendance->employeeName,'Kayla Abbey');
+        $this->assertEquals( $attendance->duration, 2.00);
+        $this->assertEquals( $attendance->inTime,'2010-12-08');
+        $this->assertEquals( $attendance->outTime,'2010-12-08');    
+        
+    }
+    
+       /**
+     * @todo Implement testFetchSummary().
+     */
+    public function testFetchSummary2() {
+        
+         $sql = array();
+         $sql [] = "TRUNCATE TABLE `hs_hr_attendance`";
+         $sql [] = "TRUNCATE TABLE `hs_hr_employee`"; 
+         
+         $sql [] = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`, `emp_middle_name`, `emp_nick_name`, `emp_smoker`, `ethnic_race_code`, `emp_birthday`, `nation_code`, `emp_gender`, `emp_marital_status`, `emp_ssn_num`, `emp_sin_num`, `emp_other_id`, `emp_dri_lice_num`, `emp_dri_lice_exp_date`, `emp_military_service`, `emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, `city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, `emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`, `terminated_date`, `termination_reason`, `custom1`, `custom2`, `custom3`, `custom4`, `custom5`, `custom6`, `custom7`, `custom8`, `custom9`, `custom10`) VALUES
+                (1, '001', 'Abbey', 'Kayla', '', '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
+        
+         $sql [] ="INSERT INTO `hs_hr_attendance` (`attendance_id`, `employee_id`, `punchin_time`, `punchout_time`, `in_note`, `out_note`, `timestamp_diff`, `status`) VALUES
+                (1, 1, '2010-12-07 08:00:00', '2010-12-07 09:00:00', '', '', 0, '1'),
+                (2, 1, '2010-12-08 02:00:00', '2010-12-08 03:00:00', '', '', 0, '1');";
+        
+        $connection = new DMLFunctions();
+        foreach ($sql as $sqlStatement) {
+            $connection->executeQuery(trim($sqlStatement));
+        }          
+          
+       
+        $object = new AttendanceRecord();
+
+        $this->assertEquals(sizeof($object->fetchSummary(1,'2010-12-01','2010-12-10')),2);
+        
+        $attendance =  $object->fetchSummary(1,'2010-12-01','2010-12-10');
+       
+        reset($attendance);
+        $attendance = (next($attendance));
+
+        $this->assertEquals( $attendance->employeeName,'Kayla Abbey');
+        $this->assertEquals( $attendance->duration, 1.0);
+        $this->assertEquals( $attendance->inTime,'2010-12-08');
+        $this->assertEquals( $attendance->outTime,'2010-12-08');    
+        
+    }
+    
+       /**
+     * @todo Implement testFetchSummary().
+     */
+    public function testFetchSummary3() {
+        
+         $sql = array();
+         $sql [] = "TRUNCATE TABLE `hs_hr_attendance`";
+         $sql [] = "TRUNCATE TABLE `hs_hr_employee`"; 
+         
+         $sql [] = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`, `emp_middle_name`, `emp_nick_name`, `emp_smoker`, `ethnic_race_code`, `emp_birthday`, `nation_code`, `emp_gender`, `emp_marital_status`, `emp_ssn_num`, `emp_sin_num`, `emp_other_id`, `emp_dri_lice_num`, `emp_dri_lice_exp_date`, `emp_military_service`, `emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, `city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, `emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`, `terminated_date`, `termination_reason`, `custom1`, `custom2`, `custom3`, `custom4`, `custom5`, `custom6`, `custom7`, `custom8`, `custom9`, `custom10`) VALUES
+                (1, '001', 'Abbey', 'Kayla', '', '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
+        
+         $sql [] ="INSERT INTO `hs_hr_attendance` (`attendance_id`, `employee_id`, `punchin_time`, `punchout_time`, `in_note`, `out_note`, `timestamp_diff`, `status`) VALUES
+                (1, 1, '2010-12-07 08:00:00', '2010-12-07 09:00:00', '', '', 0, '1'),
+                (2, 1, '2010-12-07 10:00:00', '2010-12-07 12:00:00', '', '', 0, '1'),
+                (3, 1, '2010-12-08 02:00:00', '2010-12-08 03:00:00', '', '', 0, '1');";
+        
+        $connection = new DMLFunctions();
+        foreach ($sql as $sqlStatement) {
+            $connection->executeQuery(trim($sqlStatement));
+        }          
+          
+       
+        $object = new AttendanceRecord();
+
+        $this->assertEquals(sizeof($object->fetchSummary(1,'2010-12-01','2010-12-10')),2);
+        
+        $attendance =  $object->fetchSummary(1,'2010-12-01','2010-12-10');
+
+        reset($attendance);
+        $attendance = (current($attendance));
+
+        $this->assertEquals( $attendance->employeeName,'Kayla Abbey');
+        $this->assertEquals( $attendance->duration, 3.0);
+        $this->assertEquals( $attendance->inTime,'2010-12-07');
+        $this->assertEquals( $attendance->outTime,'2010-12-07');    
+        
+    }
+    
+	
+	
+	
+
 	
 	/**
 	 * @todo Implement testCountRecords().
