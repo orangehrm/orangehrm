@@ -20,17 +20,17 @@
 /**
  * Form class for Performance reviews Admin/Reviewer/Employee
  */
-class ViewPerformanceReviewForm extends sfForm {
+class ViewPerformanceReviewForm extends BaseForm {
             
     public function configure() {
 	
         $this->setWidgets(array(
-           	'ReviewPeriodFrom' => new sfWidgetFormInput(),
-			'ReviewPeriodTo' => new sfWidgetFormInput(),
+           	'ReviewPeriodFrom' => new sfWidgetFormInputText(),
+			'ReviewPeriodTo' => new sfWidgetFormInputText(),
 			'JobTitle' => new sfWidgetFormDoctrineChoice(array('model' => 'JobTitle', 'add_empty' => '- Select -')),
         	'SubUnit' => new sfWidgetFormDoctrineChoice(array('model' => 'CompanyStructure', 'add_empty' => '- Select -')),
-        	'Employee' => new sfWidgetFormInput(array(), array('onkeyup' => 'lookup(this.value);', 'onblur' => 'fill();')),
-			'Reviewer' => new sfWidgetFormInput(),
+        	'Employee' => new sfWidgetFormInputText(array(), array('onkeyup' => 'lookup(this.value);', 'onblur' => 'fill();')),
+			'Reviewer' => new sfWidgetFormInputText(),
         ));
         
         $this->widgetSchema->setNameFormat('viewreview[%s]');

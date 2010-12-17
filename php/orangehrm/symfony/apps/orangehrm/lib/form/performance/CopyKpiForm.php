@@ -20,7 +20,7 @@
 /**
  * Form class for Save Education
  */
-class CopyKpiForm extends sfForm {
+class CopyKpiForm extends BaseForm {
 	
      public function configure() {
 

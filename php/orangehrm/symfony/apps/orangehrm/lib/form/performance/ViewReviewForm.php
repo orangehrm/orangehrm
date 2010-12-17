@@ -20,7 +20,7 @@
 /**
  * Form class for Save Education
  */
-class ViewReviewForm extends sfForm {
+class ViewReviewForm extends BaseForm {
 	
      public function configure() {
 

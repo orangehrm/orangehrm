@@ -20,7 +20,7 @@
 /**
  * Form class for employee define kpi list in Performance
  */
-class EmployeeKpiDefineForm extends sfForm {
+class EmployeeKpiDefineForm extends BaseForm {
             
     public function configure() {
 
@@ -43,8 +43,8 @@ class EmployeeKpiDefineForm extends sfForm {
            	'JobTitle' =>  new sfWidgetFormDoctrineChoice(array('model' => 'JobTitle', 'add_empty' => '- Select -')),
 			'JobTitleFrom' => new sfWidgetFormSelect(array('choices' => $choices)),
 			'KpiDescription' => new sfWidgetFormTextarea(),
-			'MinRate' => new sfWidgetFormInput(),
-			'MaxRate' => new sfWidgetFormInput(),
+			'MinRate' => new sfWidgetFormInputText(),
+			'MaxRate' => new sfWidgetFormInputText(),
 			'DefaultScale' => new sfWidgetFormInputCheckbox (),
 			'isCopy' => new sfWidgetFormInputHidden(),
 			'KpiId' => new sfWidgetFormInputHidden(),

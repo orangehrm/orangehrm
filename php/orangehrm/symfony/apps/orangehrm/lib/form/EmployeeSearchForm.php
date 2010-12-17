@@ -20,7 +20,7 @@
 /**
  * Form class for employee list in PIM
  */
-class EmployeeSearchForm extends sfForm {
+class EmployeeSearchForm extends BaseForm {
 
     protected static $searchFields = array(
             'employeeId' => 'Emp. ID', 
@@ -39,7 +39,7 @@ class EmployeeSearchForm extends sfForm {
 
         $this->setWidgets(array(
             'search_by' => new sfWidgetFormSelect(array('choices' => $choices)),
-            'search_for' => new sfWidgetFormInput(),
+            'search_for' => new sfWidgetFormInputText(),
         ));
         
         $this->widgetSchema->setNameFormat('empsearch[%s]');

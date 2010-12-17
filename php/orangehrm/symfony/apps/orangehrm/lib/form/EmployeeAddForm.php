@@ -20,17 +20,17 @@
 /**
  * Form class for add employee action
  */
-class EmployeeAddForm extends sfForm {
+class EmployeeAddForm extends BaseForm {
 
     public function configure() {
 
         // Note: Widget names were kept from old non-symfony version
         $this->setWidgets(array(
-            'txtEmployeeId' => new sfWidgetFormInput(),
-            'txtEmpFirstName' => new sfWidgetFormInput(),
-			'txtEmpMiddleName' => new sfWidgetFormInput(),
-            'txtEmpLastName' => new sfWidgetFormInput(),
-            'txtEmpNickName' => new sfWidgetFormInput(),
+            'txtEmployeeId' => new sfWidgetFormInputText(),
+            'txtEmpFirstName' => new sfWidgetFormInputText(),
+			'txtEmpMiddleName' => new sfWidgetFormInputText(),
+            'txtEmpLastName' => new sfWidgetFormInputText(),
+            'txtEmpNickName' => new sfWidgetFormInputText(),
 
             // this parameter is for php file upload
             'MAX_FILE_SIZE' => new sfWidgetFormInputHidden(),

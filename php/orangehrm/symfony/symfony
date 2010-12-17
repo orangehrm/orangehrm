@@ -9,6 +9,29 @@
  * file that was distributed with this source code.
  */
 
-chdir(dirname(__FILE__));
-require_once(dirname(__FILE__).'/config/ProjectConfiguration.class.php');
-include(sfCoreAutoload::getInstance()->getBaseDir().'/command/cli.php');
+// project exists?
+if (file_exists('config/ProjectConfiguration.class.php'))
+{
+  require_once('config/ProjectConfiguration.class.php');
+  $dir = sfCoreAutoload::getInstance()->getBaseDir();
+}
+else
+{
+  if (is_readable(dirname(__FILE__).'/../../lib/autoload/sfCoreAutoload.class.php'))
+  {
+    // SVN
+    $dir = realpath(dirname(__FILE__).'/../../lib');
+  }
+  else
+  {
+    // PEAR
+    $dir = '@PEAR-DIR@/symfony';
+
+    if (!is_dir($dir))
+    {
+      throw new Exception('Unable to find symfony libraries');
+    }
+  }
+}
+
+include($dir.'/command/cli.php');

@@ -18,7 +18,7 @@ class EmailService extends BaseService{
 	 */
 	public function __construct(){
 		include_once(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'confs'.DIRECTORY_SEPARATOR.'mailConf.php');
-		require_once sfConfig::get('sf_root_dir').'/lib/vendor/swift/lib/swift_required.php';
+                require_once sfConfig::get('sf_root_dir').'/lib/vendor/symfony/lib/vendor/swiftmailer/swift_required.php';
 		
 		$this->message	=	Swift_Message::newInstance();
 		
