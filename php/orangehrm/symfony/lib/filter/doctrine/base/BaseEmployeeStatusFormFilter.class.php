@@ -1,15 +1,14 @@
 <?php
 
-require_once(sfConfig::get('sf_lib_dir').'/filter/doctrine/BaseFormFilterDoctrine.class.php');
-
 /**
  * EmployeeStatus filter form base class.
  *
- * @package    filters
- * @subpackage EmployeeStatus *
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 11675 2008-09-19 15:21:38Z fabien $
+ * @package    orangehrm
+ * @subpackage filter
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-class BaseEmployeeStatusFormFilter extends BaseFormFilterDoctrine
+abstract class BaseEmployeeStatusFormFilter extends BaseFormFilterDoctrine
 {
   public function setup()
   {
@@ -24,6 +23,8 @@ class BaseEmployeeStatusFormFilter extends BaseFormFilterDoctrine
     $this->widgetSchema->setNameFormat('employee_status_filters[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

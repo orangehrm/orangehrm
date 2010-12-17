@@ -13,7 +13,7 @@ class BaseEmployeeStatForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'estat_code' => new sfWidgetFormInputHidden(),
-      'estat_name' => new sfWidgetFormInput(),
+      'estat_name' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(

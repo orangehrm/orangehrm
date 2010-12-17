@@ -3,24 +3,27 @@
 /**
  * ProjectActivity form base class.
  *
- * @package    form
- * @subpackage project_activity
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method ProjectActivity getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseProjectActivityForm extends BaseFormDoctrine
+abstract class BaseProjectActivityForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'activity_id' => new sfWidgetFormInputHidden(),
-      'project_id'  => new sfWidgetFormDoctrineChoice(array('model' => 'Project', 'add_empty' => false)),
-      'deleted'     => new sfWidgetFormInput(),
-      'name'        => new sfWidgetFormInput(),
+      'project_id'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Project'), 'add_empty' => false)),
+      'deleted'     => new sfWidgetFormInputText(),
+      'name'        => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'activity_id' => new sfValidatorDoctrineChoice(array('model' => 'ProjectActivity', 'column' => 'activity_id', 'required' => false)),
-      'project_id'  => new sfValidatorDoctrineChoice(array('model' => 'Project')),
+      'activity_id' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('activity_id')), 'empty_value' => $this->getObject()->get('activity_id'), 'required' => false)),
+      'project_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Project'))),
       'deleted'     => new sfValidatorInteger(array('required' => false)),
       'name'        => new sfValidatorString(array('max_length' => 100, 'required' => false)),
     ));
@@ -28,6 +31,8 @@ class BaseProjectActivityForm extends BaseFormDoctrine
     $this->widgetSchema->setNameFormat('project_activity[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

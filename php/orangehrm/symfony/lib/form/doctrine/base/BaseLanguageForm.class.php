@@ -3,27 +3,32 @@
 /**
  * Language form base class.
  *
- * @package    form
- * @subpackage language
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method Language getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseLanguageForm extends BaseFormDoctrine
+abstract class BaseLanguageForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'lang_code' => new sfWidgetFormInputHidden(),
-      'lang_name' => new sfWidgetFormInput(),
+      'lang_name' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'lang_code' => new sfValidatorDoctrineChoice(array('model' => 'Language', 'column' => 'lang_code', 'required' => false)),
+      'lang_code' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('lang_code')), 'empty_value' => $this->getObject()->get('lang_code'), 'required' => false)),
       'lang_name' => new sfValidatorString(array('max_length' => 120, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('language[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

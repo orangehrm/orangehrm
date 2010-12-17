@@ -1,35 +1,40 @@
 <?php
 
-require_once(sfConfig::get('sf_lib_dir').'/filter/doctrine/BaseFormFilterDoctrine.class.php');
-
 /**
  * DefineKpi filter form base class.
  *
- * @package    filters
- * @subpackage DefineKpi *
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 11675 2008-09-19 15:21:38Z fabien $
+ * @package    orangehrm
+ * @subpackage filter
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-class BaseDefineKpiFormFilter extends BaseFormFilterDoctrine
+abstract class BaseDefineKpiFormFilter extends BaseFormFilterDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'description'  => new sfWidgetFormFilterInput(),
-      'minrate'      => new sfWidgetFormFilterInput(),
-      'maxrate'      => new sfWidgetFormFilterInput(),
-      'defaultscale' => new sfWidgetFormFilterInput(),
+      'jobtitlecode' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('JobTitle'), 'add_empty' => true)),
+      'desc'         => new sfWidgetFormFilterInput(),
+      'min'          => new sfWidgetFormFilterInput(),
+      'max'          => new sfWidgetFormFilterInput(),
+      'default'      => new sfWidgetFormFilterInput(),
+      'isactive'     => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'description'  => new sfValidatorPass(array('required' => false)),
-      'minrate'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'maxrate'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'defaultscale' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'jobtitlecode' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('JobTitle'), 'column' => 'id')),
+      'desc'         => new sfValidatorPass(array('required' => false)),
+      'min'          => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'max'          => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'default'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'isactive'     => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('define_kpi_filters[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
@@ -43,10 +48,12 @@ class BaseDefineKpiFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'           => 'Number',
-      'description'  => 'Text',
-      'minrate'      => 'Number',
-      'maxrate'      => 'Number',
-      'defaultscale' => 'Number',
+      'jobtitlecode' => 'ForeignKey',
+      'desc'         => 'Text',
+      'min'          => 'Number',
+      'max'          => 'Number',
+      'default'      => 'Number',
+      'isactive'     => 'Number',
     );
   }
 }

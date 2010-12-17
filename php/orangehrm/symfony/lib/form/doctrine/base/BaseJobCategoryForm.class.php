@@ -3,27 +3,32 @@
 /**
  * JobCategory form base class.
  *
- * @package    form
- * @subpackage job_category
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method JobCategory getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseJobCategoryForm extends BaseFormDoctrine
+abstract class BaseJobCategoryForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'eec_code' => new sfWidgetFormInputHidden(),
-      'eec_desc' => new sfWidgetFormInput(),
+      'eec_desc' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'eec_code' => new sfValidatorDoctrineChoice(array('model' => 'JobCategory', 'column' => 'eec_code', 'required' => false)),
+      'eec_code' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('eec_code')), 'empty_value' => $this->getObject()->get('eec_code'), 'required' => false)),
       'eec_desc' => new sfValidatorString(array('max_length' => 50, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('job_category[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

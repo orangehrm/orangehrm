@@ -3,11 +3,14 @@
 /**
  * ReportTo form base class.
  *
- * @package    form
- * @subpackage report_to
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method ReportTo getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseReportToForm extends BaseFormDoctrine
+abstract class BaseReportToForm extends BaseFormDoctrine
 {
   public function setup()
   {
@@ -18,14 +21,16 @@ class BaseReportToForm extends BaseFormDoctrine
     ));
 
     $this->setValidators(array(
-      'supervisorId'  => new sfValidatorDoctrineChoice(array('model' => 'ReportTo', 'column' => 'erep_sup_emp_number', 'required' => false)),
-      'subordinateId' => new sfValidatorDoctrineChoice(array('model' => 'ReportTo', 'column' => 'erep_sub_emp_number', 'required' => false)),
-      'reportingMode' => new sfValidatorDoctrineChoice(array('model' => 'ReportTo', 'column' => 'erep_reporting_mode', 'required' => false)),
+      'supervisorId'  => new sfValidatorChoice(array('choices' => array($this->getObject()->get('supervisorId')), 'empty_value' => $this->getObject()->get('supervisorId'), 'required' => false)),
+      'subordinateId' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('subordinateId')), 'empty_value' => $this->getObject()->get('subordinateId'), 'required' => false)),
+      'reportingMode' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('reportingMode')), 'empty_value' => $this->getObject()->get('reportingMode'), 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('report_to[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

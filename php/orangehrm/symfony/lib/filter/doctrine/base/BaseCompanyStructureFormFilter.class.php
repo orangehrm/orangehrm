@@ -1,25 +1,24 @@
 <?php
 
-require_once(sfConfig::get('sf_lib_dir').'/filter/doctrine/BaseFormFilterDoctrine.class.php');
-
 /**
  * CompanyStructure filter form base class.
  *
- * @package    filters
- * @subpackage CompanyStructure *
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 11675 2008-09-19 15:21:38Z fabien $
+ * @package    orangehrm
+ * @subpackage filter
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-class BaseCompanyStructureFormFilter extends BaseFormFilterDoctrine
+abstract class BaseCompanyStructureFormFilter extends BaseFormFilterDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'title'       => new sfWidgetFormFilterInput(),
-      'description' => new sfWidgetFormFilterInput(),
-      'lft'         => new sfWidgetFormFilterInput(),
-      'rgt'         => new sfWidgetFormFilterInput(),
-      'parnt'       => new sfWidgetFormFilterInput(),
-      'loc_code'    => new sfWidgetFormFilterInput(),
+      'title'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'description' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'lft'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'rgt'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'parnt'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'loc_code'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('location'), 'add_empty' => true)),
       'dept_id'     => new sfWidgetFormFilterInput(),
     ));
 
@@ -29,13 +28,15 @@ class BaseCompanyStructureFormFilter extends BaseFormFilterDoctrine
       'lft'         => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'rgt'         => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'parnt'       => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'loc_code'    => new sfValidatorPass(array('required' => false)),
+      'loc_code'    => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('location'), 'column' => 'loc_code')),
       'dept_id'     => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('company_structure_filters[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
@@ -54,7 +55,7 @@ class BaseCompanyStructureFormFilter extends BaseFormFilterDoctrine
       'rgt'         => 'Number',
       'id'          => 'Number',
       'parnt'       => 'Number',
-      'loc_code'    => 'Text',
+      'loc_code'    => 'ForeignKey',
       'dept_id'     => 'Text',
     );
   }

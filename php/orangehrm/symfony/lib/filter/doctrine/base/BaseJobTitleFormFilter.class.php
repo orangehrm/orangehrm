@@ -1,15 +1,14 @@
 <?php
 
-require_once(sfConfig::get('sf_lib_dir').'/filter/doctrine/BaseFormFilterDoctrine.class.php');
-
 /**
  * JobTitle filter form base class.
  *
- * @package    filters
- * @subpackage JobTitle *
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 11675 2008-09-19 15:21:38Z fabien $
+ * @package    orangehrm
+ * @subpackage filter
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-class BaseJobTitleFormFilter extends BaseFormFilterDoctrine
+abstract class BaseJobTitleFormFilter extends BaseFormFilterDoctrine
 {
   public function setup()
   {
@@ -17,21 +16,25 @@ class BaseJobTitleFormFilter extends BaseFormFilterDoctrine
       'name'          => new sfWidgetFormFilterInput(),
       'description'   => new sfWidgetFormFilterInput(),
       'comments'      => new sfWidgetFormFilterInput(),
-      'salaryGradeId' => new sfWidgetFormFilterInput(),
-      'jobspecId'     => new sfWidgetFormFilterInput(),
+      'salaryGradeId' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('SalaryGrade'), 'add_empty' => true)),
+      'jobspecId'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('JobSpecifications'), 'add_empty' => true)),
+      'isActive'      => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
       'name'          => new sfValidatorPass(array('required' => false)),
       'description'   => new sfValidatorPass(array('required' => false)),
       'comments'      => new sfValidatorPass(array('required' => false)),
-      'salaryGradeId' => new sfValidatorPass(array('required' => false)),
-      'jobspecId'     => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'salaryGradeId' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('SalaryGrade'), 'column' => 'sal_grd_code')),
+      'jobspecId'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('JobSpecifications'), 'column' => 'jobspec_id')),
+      'isActive'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('job_title_filters[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
@@ -48,8 +51,9 @@ class BaseJobTitleFormFilter extends BaseFormFilterDoctrine
       'name'          => 'Text',
       'description'   => 'Text',
       'comments'      => 'Text',
-      'salaryGradeId' => 'Text',
-      'jobspecId'     => 'Number',
+      'salaryGradeId' => 'ForeignKey',
+      'jobspecId'     => 'ForeignKey',
+      'isActive'      => 'Number',
     );
   }
 }

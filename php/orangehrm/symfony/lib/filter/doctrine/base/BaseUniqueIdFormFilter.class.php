@@ -1,33 +1,34 @@
 <?php
 
-require_once(sfConfig::get('sf_lib_dir').'/filter/doctrine/BaseFormFilterDoctrine.class.php');
-
 /**
  * UniqueId filter form base class.
  *
- * @package    filters
- * @subpackage UniqueId *
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 11675 2008-09-19 15:21:38Z fabien $
+ * @package    orangehrm
+ * @subpackage filter
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-class BaseUniqueIdFormFilter extends BaseFormFilterDoctrine
+abstract class BaseUniqueIdFormFilter extends BaseFormFilterDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'last_id'    => new sfWidgetFormFilterInput(),
-      'table_name' => new sfWidgetFormFilterInput(),
-      'field_name' => new sfWidgetFormFilterInput(),
+      'last_id'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'dbTable'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'field_name' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
       'last_id'    => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'table_name' => new sfValidatorPass(array('required' => false)),
+      'dbTable'    => new sfValidatorPass(array('required' => false)),
       'field_name' => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('unique_id_filters[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
@@ -42,7 +43,7 @@ class BaseUniqueIdFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'         => 'Number',
       'last_id'    => 'Number',
-      'table_name' => 'Text',
+      'dbTable'    => 'Text',
       'field_name' => 'Text',
     );
   }

@@ -3,26 +3,29 @@
 /**
  * Country form base class.
  *
- * @package    form
- * @subpackage country
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method Country getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseCountryForm extends BaseFormDoctrine
+abstract class BaseCountryForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'cou_code' => new sfWidgetFormInputHidden(),
-      'name'     => new sfWidgetFormInput(),
-      'cou_name' => new sfWidgetFormInput(),
-      'iso3'     => new sfWidgetFormInput(),
-      'numcode'  => new sfWidgetFormInput(),
+      'name'     => new sfWidgetFormInputText(),
+      'cou_name' => new sfWidgetFormInputText(),
+      'iso3'     => new sfWidgetFormInputText(),
+      'numcode'  => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'cou_code' => new sfValidatorDoctrineChoice(array('model' => 'Country', 'column' => 'cou_code', 'required' => false)),
-      'name'     => new sfValidatorString(array('max_length' => 80)),
-      'cou_name' => new sfValidatorString(array('max_length' => 80)),
+      'cou_code' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('cou_code')), 'empty_value' => $this->getObject()->get('cou_code'), 'required' => false)),
+      'name'     => new sfValidatorString(array('max_length' => 80, 'required' => false)),
+      'cou_name' => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'iso3'     => new sfValidatorString(array('max_length' => 3, 'required' => false)),
       'numcode'  => new sfValidatorInteger(array('required' => false)),
     ));
@@ -30,6 +33,8 @@ class BaseCountryForm extends BaseFormDoctrine
     $this->widgetSchema->setNameFormat('country[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

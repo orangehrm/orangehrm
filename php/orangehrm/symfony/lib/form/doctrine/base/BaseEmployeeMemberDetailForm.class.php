@@ -3,37 +3,42 @@
 /**
  * EmployeeMemberDetail form base class.
  *
- * @package    form
- * @subpackage employee_member_detail
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method EmployeeMemberDetail getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseEmployeeMemberDetailForm extends BaseFormDoctrine
+abstract class BaseEmployeeMemberDetailForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'emp_number'                => new sfWidgetFormInputHidden(),
-      'membship_code'             => new sfWidgetFormInputHidden(),
-      'membtype_code'             => new sfWidgetFormInputHidden(),
-      'ememb_subscript_amount'    => new sfWidgetFormInput(),
-      'ememb_subscript_ownership' => new sfWidgetFormInput(),
-      'ememb_commence_date'       => new sfWidgetFormDateTime(),
-      'ememb_renewal_date'        => new sfWidgetFormDateTime(),
+      'emp_number'    => new sfWidgetFormInputHidden(),
+      'membship_code' => new sfWidgetFormInputHidden(),
+      'membtype_code' => new sfWidgetFormInputHidden(),
+      'subscription'  => new sfWidgetFormInputText(),
+      'ownership'     => new sfWidgetFormInputText(),
+      'commence_date' => new sfWidgetFormDateTime(),
+      'renewal_date'  => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
-      'emp_number'                => new sfValidatorDoctrineChoice(array('model' => 'EmployeeMemberDetail', 'column' => 'emp_number', 'required' => false)),
-      'membship_code'             => new sfValidatorDoctrineChoice(array('model' => 'EmployeeMemberDetail', 'column' => 'membship_code', 'required' => false)),
-      'membtype_code'             => new sfValidatorDoctrineChoice(array('model' => 'EmployeeMemberDetail', 'column' => 'membtype_code', 'required' => false)),
-      'ememb_subscript_amount'    => new sfValidatorNumber(array('required' => false)),
-      'ememb_subscript_ownership' => new sfValidatorString(array('max_length' => 20, 'required' => false)),
-      'ememb_commence_date'       => new sfValidatorDateTime(array('required' => false)),
-      'ememb_renewal_date'        => new sfValidatorDateTime(array('required' => false)),
+      'emp_number'    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('emp_number')), 'empty_value' => $this->getObject()->get('emp_number'), 'required' => false)),
+      'membship_code' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('membship_code')), 'empty_value' => $this->getObject()->get('membship_code'), 'required' => false)),
+      'membtype_code' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('membtype_code')), 'empty_value' => $this->getObject()->get('membtype_code'), 'required' => false)),
+      'subscription'  => new sfValidatorNumber(array('required' => false)),
+      'ownership'     => new sfValidatorString(array('max_length' => 20, 'required' => false)),
+      'commence_date' => new sfValidatorDateTime(array('required' => false)),
+      'renewal_date'  => new sfValidatorDateTime(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('employee_member_detail[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

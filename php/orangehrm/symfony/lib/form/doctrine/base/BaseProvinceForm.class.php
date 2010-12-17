@@ -3,31 +3,36 @@
 /**
  * Province form base class.
  *
- * @package    form
- * @subpackage province
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method Province getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseProvinceForm extends BaseFormDoctrine
+abstract class BaseProvinceForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'id'            => new sfWidgetFormInputHidden(),
-      'province_name' => new sfWidgetFormInput(),
-      'province_code' => new sfWidgetFormInput(),
-      'cou_code'      => new sfWidgetFormInput(),
+      'province_name' => new sfWidgetFormInputText(),
+      'province_code' => new sfWidgetFormInputText(),
+      'cou_code'      => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'            => new sfValidatorDoctrineChoice(array('model' => 'Province', 'column' => 'id', 'required' => false)),
-      'province_name' => new sfValidatorString(array('max_length' => 40)),
-      'province_code' => new sfValidatorString(array('max_length' => 2)),
-      'cou_code'      => new sfValidatorString(array('max_length' => 2)),
+      'id'            => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'province_name' => new sfValidatorString(array('max_length' => 40, 'required' => false)),
+      'province_code' => new sfValidatorString(array('max_length' => 2, 'required' => false)),
+      'cou_code'      => new sfValidatorString(array('max_length' => 2, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('province[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

@@ -3,30 +3,33 @@
 /**
  * Location form base class.
  *
- * @package    form
- * @subpackage location
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method Location getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseLocationForm extends BaseFormDoctrine
+abstract class BaseLocationForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'loc_code'       => new sfWidgetFormInputHidden(),
-      'loc_name'       => new sfWidgetFormInput(),
-      'loc_country'    => new sfWidgetFormInput(),
-      'loc_state'      => new sfWidgetFormInput(),
-      'loc_city'       => new sfWidgetFormInput(),
-      'loc_add'        => new sfWidgetFormInput(),
-      'loc_zip'        => new sfWidgetFormInput(),
-      'loc_phone'      => new sfWidgetFormInput(),
-      'loc_fax'        => new sfWidgetFormInput(),
-      'loc_comments'   => new sfWidgetFormInput(),
-      'employees_list' => new sfWidgetFormDoctrineChoiceMany(array('model' => 'Employee')),
+      'loc_name'       => new sfWidgetFormInputText(),
+      'loc_country'    => new sfWidgetFormInputText(),
+      'loc_state'      => new sfWidgetFormInputText(),
+      'loc_city'       => new sfWidgetFormInputText(),
+      'loc_add'        => new sfWidgetFormInputText(),
+      'loc_zip'        => new sfWidgetFormInputText(),
+      'loc_phone'      => new sfWidgetFormInputText(),
+      'loc_fax'        => new sfWidgetFormInputText(),
+      'loc_comments'   => new sfWidgetFormInputText(),
+      'employees_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Employee')),
     ));
 
     $this->setValidators(array(
-      'loc_code'       => new sfValidatorDoctrineChoice(array('model' => 'Location', 'column' => 'loc_code', 'required' => false)),
+      'loc_code'       => new sfValidatorChoice(array('choices' => array($this->getObject()->get('loc_code')), 'empty_value' => $this->getObject()->get('loc_code'), 'required' => false)),
       'loc_name'       => new sfValidatorString(array('max_length' => 100, 'required' => false)),
       'loc_country'    => new sfValidatorString(array('max_length' => 3, 'required' => false)),
       'loc_state'      => new sfValidatorString(array('max_length' => 50, 'required' => false)),
@@ -36,12 +39,14 @@ class BaseLocationForm extends BaseFormDoctrine
       'loc_phone'      => new sfValidatorString(array('max_length' => 30, 'required' => false)),
       'loc_fax'        => new sfValidatorString(array('max_length' => 30, 'required' => false)),
       'loc_comments'   => new sfValidatorString(array('max_length' => 100, 'required' => false)),
-      'employees_list' => new sfValidatorDoctrineChoiceMany(array('model' => 'Employee', 'required' => false)),
+      'employees_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Employee', 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('location[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
@@ -64,9 +69,9 @@ class BaseLocationForm extends BaseFormDoctrine
 
   protected function doSave($con = null)
   {
-    parent::doSave($con);
-
     $this->saveEmployeesList($con);
+
+    parent::doSave($con);
   }
 
   public function saveEmployeesList($con = null)
@@ -82,7 +87,7 @@ class BaseLocationForm extends BaseFormDoctrine
       return;
     }
 
-    if (is_null($con))
+    if (null === $con)
     {
       $con = $this->getConnection();
     }

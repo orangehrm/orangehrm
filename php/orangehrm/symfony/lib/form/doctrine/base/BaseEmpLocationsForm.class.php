@@ -3,27 +3,32 @@
 /**
  * EmpLocations form base class.
  *
- * @package    form
- * @subpackage emp_locations
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method EmpLocations getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseEmpLocationsForm extends BaseFormDoctrine
+abstract class BaseEmpLocationsForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'emp_number' => new sfWidgetFormInputHidden(),
-      'loc_code'   => new sfWidgetFormInputHidden(),
+      'empNumber' => new sfWidgetFormInputHidden(),
+      'loc_code'  => new sfWidgetFormInputHidden(),
     ));
 
     $this->setValidators(array(
-      'emp_number' => new sfValidatorDoctrineChoice(array('model' => 'EmpLocations', 'column' => 'emp_number', 'required' => false)),
-      'loc_code'   => new sfValidatorDoctrineChoice(array('model' => 'EmpLocations', 'column' => 'loc_code', 'required' => false)),
+      'empNumber' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('empNumber')), 'empty_value' => $this->getObject()->get('empNumber'), 'required' => false)),
+      'loc_code'  => new sfValidatorChoice(array('choices' => array($this->getObject()->get('loc_code')), 'empty_value' => $this->getObject()->get('loc_code'), 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('emp_locations[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

@@ -3,31 +3,36 @@
 /**
  * EmployeeLicenses form base class.
  *
- * @package    form
- * @subpackage employee_licenses
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method EmployeeLicenses getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseEmployeeLicensesForm extends BaseFormDoctrine
+abstract class BaseEmployeeLicensesForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
-      'empNumber'             => new sfWidgetFormInputHidden(),
-      'licenses_code'         => new sfWidgetFormInputHidden(),
-      'licenses_date'         => new sfWidgetFormDate(),
-      'licenses_renewal_date' => new sfWidgetFormDate(),
+      'empNumber'    => new sfWidgetFormInputHidden(),
+      'code'         => new sfWidgetFormInputHidden(),
+      'date'         => new sfWidgetFormDate(),
+      'renewal_date' => new sfWidgetFormDate(),
     ));
 
     $this->setValidators(array(
-      'empNumber'             => new sfValidatorDoctrineChoice(array('model' => 'EmployeeLicenses', 'column' => 'emp_number', 'required' => false)),
-      'licenses_code'         => new sfValidatorDoctrineChoice(array('model' => 'EmployeeLicenses', 'column' => 'licenses_code', 'required' => false)),
-      'licenses_date'         => new sfValidatorDate(array('required' => false)),
-      'licenses_renewal_date' => new sfValidatorDate(array('required' => false)),
+      'empNumber'    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('empNumber')), 'empty_value' => $this->getObject()->get('empNumber'), 'required' => false)),
+      'code'         => new sfValidatorChoice(array('choices' => array($this->getObject()->get('code')), 'empty_value' => $this->getObject()->get('code'), 'required' => false)),
+      'date'         => new sfValidatorDate(array('required' => false)),
+      'renewal_date' => new sfValidatorDate(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('employee_licenses[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }

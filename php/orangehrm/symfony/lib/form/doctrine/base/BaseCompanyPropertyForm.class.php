@@ -3,22 +3,25 @@
 /**
  * CompanyProperty form base class.
  *
- * @package    form
- * @subpackage company_property
- * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 8508 2008-04-17 17:39:15Z fabien $
+ * @method CompanyProperty getObject() Returns the current form's model object
+ *
+ * @package    orangehrm
+ * @subpackage form
+ * @author     Your name here
+ * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-class BaseCompanyPropertyForm extends BaseFormDoctrine
+abstract class BaseCompanyPropertyForm extends BaseFormDoctrine
 {
   public function setup()
   {
     $this->setWidgets(array(
       'prop_id'   => new sfWidgetFormInputHidden(),
-      'prop_name' => new sfWidgetFormInput(),
-      'emp_id'    => new sfWidgetFormInput(),
+      'prop_name' => new sfWidgetFormInputText(),
+      'emp_id'    => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'prop_id'   => new sfValidatorDoctrineChoice(array('model' => 'CompanyProperty', 'column' => 'prop_id', 'required' => false)),
+      'prop_id'   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('prop_id')), 'empty_value' => $this->getObject()->get('prop_id'), 'required' => false)),
       'prop_name' => new sfValidatorString(array('max_length' => 250)),
       'emp_id'    => new sfValidatorInteger(array('required' => false)),
     ));
@@ -26,6 +29,8 @@ class BaseCompanyPropertyForm extends BaseFormDoctrine
     $this->widgetSchema->setNameFormat('company_property[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+    $this->setupInheritance();
 
     parent::setup();
   }
