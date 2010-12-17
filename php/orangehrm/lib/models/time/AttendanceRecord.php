@@ -299,7 +299,19 @@ class AttendanceRecord {
 	
 	public function fetchSummary($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false, $subordinateIds = null) {
 
-		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch, true , $subordinateIds);
+		$result = self::_fetchResult($employeeId, $from, $to, $status, $orderBy, $order, $limit, $punch, false , $subordinateIds);
+
+		$rows = array();
+    	while ($row = mysql_fetch_array($result)) {
+                    $row['punchin_time'] = date('Y-m-d H:i', strtotime($row['punchin_time'])+$row['timestamp_diff']);
+                    
+                    if ($row['punchout_time'] != null) {                        
+                             
+                        $row['punchout_time'] = date('Y-m-d H:i', strtotime($row['punchout_time'])+$row['timestamp_diff']);   
+                    $rows [] =  $row;
+} 
+            
+    	}
 
 		if (mysql_num_rows($result) == 0) {
 			return null;
@@ -307,9 +319,9 @@ class AttendanceRecord {
 
 		$reportRows = array ();
 
-		while ($row = mysql_fetch_array($result)) {	
+		foreach ($rows as $row) {	
 
-			if($row['duration']/60/60  > 24 || (date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])) != date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])))) {
+        if($row['duration']/60/60  > 24 || (date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])) != date("Y-m-d",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])))) {
 				
 				$durationArray  = array();
 				
@@ -352,13 +364,17 @@ class AttendanceRecord {
 				}
 					
 			} else {
-
+			    
+			    $startTimeToStamp = strtotime(date("Y-m-d H:i:s",strtotime($row[self::DB_FIELD_PUNCHIN_TIME])));
+                $endimeToStamp = strtotime(date("Y-m-d H:i:s",strtotime($row[self::DB_FIELD_PUNCHOUT_TIME])));  
+                
+                 $row['duration'] = $endimeToStamp - $startTimeToStamp;
 				$duration = number_format(((intval($row['duration']/60/60)) + (($row['duration']/60/60) - intval($row['duration']/60/60))/100*60),2);
 
 				$minutesPart =  str_replace(".","",strstr( $duration, '.' ));				
 				$object = new AttendanceReportRow('summary');            
                 $object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];     
-				$object->duration = intval($duration).".".(int) $minutesPart;
+				$object->duration = $duration;
                 $object->inTime = date(LocaleUtil::STANDARD_DATE_FORMAT,strtotime($row[self::DB_FIELD_PUNCHIN_TIME]));
                 $object->outTime = date(LocaleUtil::STANDARD_DATE_FORMAT, strtotime($row[self::DB_FIELD_PUNCHOUT_TIME]));
                 $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];    
@@ -370,12 +386,14 @@ class AttendanceRecord {
 		foreach ($reportRows as $key=>$reportRow){
     		foreach ($reportRows as $key1=>$reportRow1){
                 if( ($reportRow1->getInTime() == $reportRow->getInTime()) && ($reportRow1->getEmployeeId() == $reportRow->getEmployeeId()) && ($key != $key1) ){                    
-                    $reportRows [$key1]->setDuration(number_format($reportRow1->getDuration() + $reportRow->getDuration(),2));                    
-                    unset($reportRows[$key]);
+                    if(isset($reportRows [$key])){                        
+                    $reportRows [$key]->setDuration(number_format(LocaleUtil::getTheCorrectTimeTotalValueFromDecimal($reportRow1->getDuration(), $reportRow->getDuration()),2));                    
+                        unset($reportRows[$key1]);
+                     }
                 }
             }
 		}
-		
+
 	   return $reportRows;
 	}
 	

@@ -419,6 +419,23 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 		return $conv;
 	}
+
+    public function getTheCorrectTimeTotalValueFromDecimal($value1, $value2, $operator = "+"){
+       
+        $fractionalPartTotal = ($value1 -  floor(abs($value1))) + ( $value2 - floor(abs($value2))); 
+    
+        $tempValue = sprintf("%05.2f", $fractionalPartTotal);
+        $tempValue = str_replace(".",":", $tempValue);
+        $tempValue = explode(":", $tempValue);  
+
+        if($tempValue [1] >= 60) {          
+            $fianalValue = (intval($value1) + intval($value2) + 1) + ($fractionalPartTotal - 0.60); 
+              
+            return $fianalValue;
+        } else {
+            return ($value1 + $value2);
+        }
+    }
 }
 
 class LocaleException extends Exception {
