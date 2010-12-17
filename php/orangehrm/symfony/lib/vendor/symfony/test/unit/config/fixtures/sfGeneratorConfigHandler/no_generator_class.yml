@@ -1,4 +1,0 @@
-generator:
-  param:
-    model_class:      Article
-    theme:            default

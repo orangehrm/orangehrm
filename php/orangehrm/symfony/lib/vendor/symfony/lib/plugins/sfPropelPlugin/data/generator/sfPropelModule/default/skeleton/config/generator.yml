@@ -1,4 +1,0 @@
-generator:
-  class: sfPropelGenerator
-  param:
-##CONFIG##

@@ -1,5 +1,0 @@
-v 1.0.2 - 2008-08-25
---------------------
-
- * Added sfValidatorSchemaTimeInterval validator
- * Added sfValidatorBlacklist validator
