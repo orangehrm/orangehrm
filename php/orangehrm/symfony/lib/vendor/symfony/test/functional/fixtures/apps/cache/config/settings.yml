@@ -1,0 +1,22 @@
+prod:
+  .settings:
+    logging_enabled: false
+    no_script_name:  false
+
+dev:
+  .settings:
+    # E_ALL | E_STRICT = 4095
+    error_reporting:        4095
+    web_debug:              true
+    cache:                  true
+    no_script_name:         false
+    etag:                   true
+
+test:
+  .settings:
+    # E_ALL | E_STRICT = 4095
+    error_reporting:        4095
+    web_debug:              false
+    cache:                  true
+    no_script_name:         false
+    etag:                   true

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Új</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Szerkesztés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Törlés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Lista</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Mentés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Mentés és új elem</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Mégsem</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Alapértelmezett</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Szűrés</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Nincs találat.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Műveletek</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(oldal %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>növekvő</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>csökkenő</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Első oldal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Előző oldal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Következő oldal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Utolsó oldal</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Az elem létrehozása sikeres volt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Az elem mentése sikeres volt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Az elem létrehozása sikeres volt. Újabb létrehozása az alábbi adatlapon.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Az elem mentése sikeres volt. Újabb létrehozása az alábbi adatlapon.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Az elem mentése hiba miatt sikertelen volt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Az elem törlése sikeres volt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Legalább egy elemet ki kell választani.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Válassza ki a kiválasztott elemeken végrehajtandó műveletet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Probléma lépett fel a kiválasztott elemek törlése közben, valamely elem már eleve nem létezett.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>A kiválasztott elemek törlése sikeres volt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Probléma lépett fel a kiválasztott elemek törlése közben.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

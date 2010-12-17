@@ -1,0 +1,14 @@
+rendering: ~
+security:  ~
+
+# generally, you will want to insert your own filters here
+myFilter:
+  class: myFilter
+
+simpleFilter:
+  class: configFiltersSimpleFilterFilter
+
+
+cache:     ~
+
+execution: ~

@@ -1,0 +1,62 @@
+Book:
+  book_1:
+    name: The definitive guide to symfony
+
+Category:
+  category_1:
+    name: Category 1
+
+  category_2:
+    name: Category 2
+
+Article:
+  article_1:
+    title:       foo title
+    body:        bar body
+    excerpt:     foo excerpt
+    online:      true
+    category_id: category_1
+    created_at:  <?php echo time() ?>
+
+  article_2:
+    title:       foo foo title
+    body:        bar bar body
+    excerpt:     foo excerpt
+    online:      false
+    category_id: category_2
+    created_at:  <?php echo time() ?>
+
+Author:
+  fabien:
+    name: Fabien
+    author_articles: [article_1, article_2]
+  thomas:
+    name: Thomas
+    author_articles: [article_1]
+  helene:
+    name: Hélène
+
+Movie:
+  la_vita_e_bella:
+    director: Roberto Benigni
+
+MovieI18n:
+  la_vita_e_bella_it:
+    id:      la_vita_e_bella
+    culture: it
+    title:   La Vita è bella
+  la_vita_e_bella_fr:
+    id:      la_vita_e_bella
+    culture: fr
+    title:   La Vie est belle
+
+Product:
+  product1:
+    price: 5.00
+    a_primary_string: PRIMARY STRING
+
+ProductI18n:
+  product1_en:
+    id: product1
+    culture: en
+    name: PRIMARY STRING I18N

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Vytvořit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Upravit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Odstranit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Výpis</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Uložit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Uložit a přidat</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Zrušit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Vybrat akci</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+      
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Zrušit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrovat</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Žádné položky</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Akce</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(stránka %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>vzestupně</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>sestupně</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] žádné položky|[1] 1 položka|(1,+Inf] %1% položky</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Jste si jist?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checked</source>
+        <target>Aktivováno</target>
+      </trans-unit>
+      
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>První stránka</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Předchozí stránka</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Další stránka</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Poslední stránka</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Položka byla úspešně vytvořena.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Položka byla úspešně upravena.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Položka byla úspešně vytvořena. Můžete přidat další.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Položka byla úspešne upravena. Můžete přidat další.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Položka nebyla uložena kvůli chybám.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Položka byla úspešně odstraněna.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Zvolte alespoň jednu položku.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Zvolte si akci, která se provede se zvolenými položkami.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Došlo k chybě při odstraňování zvolených položek, některé z nich již neexistují.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Zvolené položky byly úspěšně odstraněny.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Došlo k chybě při odstraňování zvolených položek.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>je prázdný</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>ano nebo ne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>ano</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>ne</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date% to %to_date%]]></source>
+        <target><![CDATA[od %from_date% do %to_date%]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date%<br />to %to_date%]]></source>
+        <target><![CDATA[od %from_date%<br />do %to_date%]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,113 @@
+connection:           propel
+defaultIdMethod:      none
+package:              lib.model
+propel_behaviors:
+  timestampable:
+    boolean:       true
+    create_column: create_date
+
+classes:
+  Group:
+    tableName:        ab_group
+    package:          foo.bar.lib.model
+    columns:
+      id:
+      name:           varchar(50)
+      type:           varchar(50)
+    inheritance:
+      column:         type
+      classes:
+        tight:        Group_Tight
+        loose:        { phpName: Group_Loose, package: some.other.package }
+
+  User:
+    tableName:        cd_user
+    isI18N:           true
+    i18nTable:        cd_user_i18n
+    columns:
+      first_name:     { type: varchar, size: 255, default: "Anonymous" }
+      last_name:      varchar(50)
+      age:            { type: integer, required: true, index: true }
+      ab_group_id:
+      created_at:
+
+  CdUserI18n:
+    tableName:        cd_user_i18n
+    columns:
+      description:    longvarchar
+
+  EfArticle:
+    tableName:       ef_article
+    columns:
+      title:          { type: longvarchar, required: true, index: unique }
+      stripped_title: { type: longvarchar, required: true, primaryKey: true, sequence: my_custom_sequence_name }
+      user_id:
+      my_group:       { type: integer, foreignTable: ab_group, foreignReference: id, onDelete: setnull }
+      my_other_group: { type: integer, foreignTable: ab_group, foreignReference: id, onDelete: setnull, phpName: MyOtherGroupPhpName, fkPhpName: MyOtherGroupFkPhpName, fkRefPhpName: MyOtherGroupFkRefPhpName }
+      created_at:     timestamp
+      updated_at:
+
+  Article:
+    tableName:        ij_article
+    columns:
+      title:          varchar(50)
+      user_id:        { type: integer }
+      created_at:
+    foreignKeys:
+      -
+        foreignTable: cd_user
+        onDelete:     cascade
+        phpName:      SomePhpName
+        refPhpName:   SomeRefPhpName
+        references:
+          - { local: user_id, foreign: id }
+    indexes:
+      my_index:       [title(10), user_id]
+    uniques:
+      my_other_index: [created_at(10)]
+    behaviors:
+      paranoid: { column: deleted_at }
+      act_as_nested_set:
+    propel_behaviors:
+      paranoid: { column: deleted_at }
+      act_as_nested_set:
+
+  KlArticle:
+    tableName:        kl_article
+    columns:
+      title:          varchar(50)
+      user_id:        { type: integer, phpName: AuthorId }
+    foreignKeys:
+      -
+        foreignClass: User
+        phpName: Author
+        references:
+          -  { local: user_id, foreign: id }
+
+  AbGroupI18n:
+    tableName:        ab_group_i18n
+    columns:
+      motto:          longvarchar
+
+  History:
+    tableName:      history
+    columns:
+      id:
+      type:         { type: varchar(64) }
+    inheritance:
+      column:       type
+      classes:
+        new_user:   History_NewUser
+        new_page:   History_NewPage
+
+  myNestedSetNode:
+    tableName: my_nested_sets
+    columns:
+      id:
+      lft: { type: integer, required: true }
+      rgt: { type: integer, required: true }
+      scope: { type: integer, required: true }
+    nestedSet:
+      left: lft
+      right: rgt
+      scope: scope

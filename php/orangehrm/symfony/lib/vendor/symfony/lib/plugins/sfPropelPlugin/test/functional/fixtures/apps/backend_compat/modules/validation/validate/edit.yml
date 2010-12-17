@@ -1,0 +1,13 @@
+methods:
+  post:
+    - "article{title}"
+    - "article{body}"
+
+names:
+  article{title}:
+    required:     true
+    required_msg: required
+
+  article{body}:
+    required:     true
+    required_msg: required

@@ -1,0 +1,233 @@
+---
+Article:
+  actAs:
+    I18n:
+      fields: [title, body, test_column]
+      actAs:
+        Sluggable:
+          fields: [title]
+          uniqueBy: [lang, title]
+    Timestampable:
+  columns:
+    author_id: integer
+    is_on_homepage: boolean
+    title:
+      type: string(255)
+      unique: true
+    body: string(255)
+    test_column: string(255)
+    views: integer
+  relations:
+    Author:
+      foreignAlias: Articles
+
+BlogArticle:
+  inheritance:
+    extends: Article
+    type: column_aggregation
+  relations:
+    Author:
+      class: BlogAuthor
+      foreignAlias: Articles
+
+CamelCase:
+  columns:
+    article_id: integer
+    testCamelCase: string(255)
+  relations:
+    Article:
+      foreignAlias: camelCase
+
+Author:
+  columns:
+    name: string(255)
+
+AuthorInheritance:
+  inheritance:
+    extends: Author
+    type: column_aggregation
+
+BlogAuthor:
+  inheritance:
+    extends: Author
+    type: column_aggregation
+
+AuthorInheritanceConcrete:
+  inheritance:
+    extends: Author
+  columns:
+    additional: string(255)
+
+Subscription:
+  connection: doctrine2
+  columns:
+    name: string(255)
+    status:
+      type: enum
+      values: [New, Active, Pending, Expired]
+
+User:
+  columns:
+    username:
+      type: string(255)
+      unique: true
+    password: string(255)
+    test: string(255)
+  relations:
+    Groups:
+      class: Group
+      refClass: UserGroup
+      foreignAlias: Users
+    Permissions:
+      class: Permission
+      refClass: UserPermission
+      foreignAlias: Users
+
+UniqueTest:
+  columns:
+    unique_test1:
+      type: string(255)
+      unique: true
+    unique_test2: string(255)
+    unique_test3: string(255)
+    unique_test4: string(255)
+  indexes:
+    unique_test:
+      fields: [unique_test1, unique_test2]
+      type: unique
+    unique_test2:
+      fields:
+        unique_test4:
+          sorting: ASC
+          length: 10
+      type: unique
+
+Profile:
+  columns:
+    user_id: integer
+    first_name: string(255)
+    last_name: string(255)
+  relations:
+    User:
+      foreignType: one
+
+Group:
+  tableName: groups
+  columns:
+    name: string(255)
+  relations:
+    Permissions:
+      class: Permission
+      refClass: GroupPermission
+      foreignAlias: Groups
+
+Permission:
+  columns:
+    name: string(255)
+
+UserGroup:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    user_id:
+      type: integer
+      primary: true
+    group_id:
+      type: integer
+      primary: true
+
+UserPermission:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    user_id:
+      type: integer
+      primary: true
+    permission_id:
+      type: integer
+      primary: true
+
+GroupPermission:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    group_id:
+      type: integer
+      primary: true
+    permission_id:
+      type: integer
+      primary: true
+
+FormGeneratorTest:
+  options:
+    symfony:
+      form: true
+      filter: false
+  columns:
+    name: string(255)
+
+FormGeneratorTest2:
+  options:
+    symfony:
+      form: false
+      filter: true
+  columns:
+    name: string(255)
+
+FormGeneratorTest3:
+  options:
+    symfony:
+      form: false
+      filter: false
+  actAs:
+    I18n:
+      fields: [name]
+  columns:
+    name: string(255)  
+
+DefaultValueTest:
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      default: ''
+
+Attachment:
+  columns:
+    file_path: string(255)
+
+ModelWithNumberInColumn:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    column_1: string(255)
+    column2: string(255)
+    column__3: string(255)
+
+ResourceType:
+  columns:
+    id:
+      type: enum
+      values: [type1, type2, type3]
+      primary: true
+    name: string(255)
+
+# tests merge from plugin schema
+Setting:
+  actAs:
+    Timestampable:
+      updated:
+        disabled: true
+  columns:
+    name:
+      notnull: true
+    weight:
+      scale: 4

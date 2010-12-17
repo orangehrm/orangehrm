@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+	  <!-- Translated By Ehsan Chavoshi -->
+      <!-- Actions -->
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>انتخاب عملیات</target>
+      </trans-unit>      
+      <trans-unit>
+        <source>go</source>
+        <target>برو</target>
+      </trans-unit>            
+      <trans-unit>
+        <source>New</source>
+        <target>جديد</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>ویرایش</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>حذف</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>لیست</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+         <target>ذخیره</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>دخیره و افزودن</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>لغو</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show</source>
+        <target>نمایش</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>بازگشت به لیست</target>
+      </trans-unit>
+
+      <!-- Filters -->
+       <trans-unit>
+        <source>Filters</source>
+        <target>فیلترها</target>
+       </trans-unit>
+       <trans-unit>
+        <source>Reset</source>
+        <target>بازنشانی</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>فیلتر</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>بدون نتیجه</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>عملیات</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(%%nb_pages%%/%%page%% صفحه)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>صعودی</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>نزولی</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>عملیاتی را انتخاب کنید</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>انجام</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] بدون نتیجه|[1] 1 نتیجه|(1,+Inf] %1% نتیجه</target>
+      </trans-unit>
+      
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>صفحه اول</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>صفحه قبل</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>صفحه بعد</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>صفحه آخر</target>
+      </trans-unit>
+
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>مورد با موفقیت ایجاد شد.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+       <target>مورد با موفقیت به روز رسانی شد</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>مورد با موفقیت ایجاد شد. میتوانید مورد دیگری را در ادامه اضافه کنید.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>مورد با موفیت به روز رسانی شد. میتوانید مورد دیگری را در ادامه اضافه کنید</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>به علت بروز خطا مورد ذخیره نشد.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>مورد با موفقیت حذف شد.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>شما باید حداقل یک مورد را انتخاب نمایید.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>شما باید عملیاتی را جهت اعمال روی اقلام انتخابی ، انتخاب کنید.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>مشکلی در حذف موارد انتخابی پیش آمد.زیرا بعضی از اقلام انتخابی دیگر وجود ندارند.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>اقلام انتخاب شده با موفقیت حذف گردید.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>مشکلی در حذف اقلام انتخابی پیش آمد.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

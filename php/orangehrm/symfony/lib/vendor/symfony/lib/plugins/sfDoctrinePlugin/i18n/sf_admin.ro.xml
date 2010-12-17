@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+  <!-- This file uses ş and ţ (cedilla below) insted of ș and ț (comma below) for compatibility. -->
+  <!-- Acest fişier foloseşte ş şi ţ (sedilă dedesubt) în loc de ș şi ț (virgulă dedesubt) pentru compatibilitate. -->
+  <!-- ref: http://en.wikipedia.org/wiki/Romanian_alphabet#Comma-below_.28.C8.99_and_.C8.9B.29_versus_cedilla_.28.C5.9F_and_.C5.A3.29 -->
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Nou</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Editare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Ştergere</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Listare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Salvare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Salvare şi adăugare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Anulare</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Resetare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrare</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Nici un rezultat.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Acţiuni</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(pagina %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>asc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>desc</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Prima pagină</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Pagina precedentă</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Pagina următoare</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Ultima pagină</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Obiectul a fost creat cu succes.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Obiectul a fost actualizat cu succes.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Obiectul a fost creat cu succes. Puteţi să mai adăugaţi unul mai jos.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Obiectul a fost actualizat cu succes. Puteţi să mai adăugaţi unul mai jos.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Obiectul n-a putut fi salvat.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Obiectul a fost şters cu succes.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Trebuie să selectaţi cel puţin un obiect.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Trebuie să selectaţi o acţiune ce va fi executată asupra obiectelor selectate.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>A survenit o problemă la ştergerea obiectelor selectate deoarece o parte din acestea nu mai există.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Obiectele selectate au fost şterse cu succes.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>A survenit o problemă la ştergerea obiectelor selectate.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

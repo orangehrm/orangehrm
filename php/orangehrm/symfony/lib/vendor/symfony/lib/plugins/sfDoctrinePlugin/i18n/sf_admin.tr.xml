@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Yeni</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Düzenle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Sil</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Kaydet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Kaydet ve ekle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Vazgeç</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Bir Eylem Seç</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>devam</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>Listeye geri dön</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Temizle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrele</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Kayıt yok.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Eylemler</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(sayfa %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>artan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>azalan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] kayıt yok|[1] 1 sonuç|(1,+Inf] %1% sonuçlar</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>İlk sayfa</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Önceki sayfa</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Sonraki sayfa</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Son sayfa</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Kayıt başarıyla oluşturuldu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Kayıt başarıyla güncellendi.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Kayıt başarıyla oluşturuldu. Aşağıdan yeni bir tane ekleyebilirsiniz.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Kayıt başarıyla güncellendi. Aşağıdan yeni bir tane ekleyebilirsiniz.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Bazı hatalar nedeniyle kayıt oluşturulamadı.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Kayıt başarıyla silindi.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>En az bir kayıt seçmelisiniz.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Seçilen kayıtlar üzerinde çalıştırılmak üzere bir eylem seçmelisiniz.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Seçilen kayıtlar silinirken bir sorun oluştu, bazı kayıtlar artık bulunmuyor.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Seçilen kayıtlar başarıyla silindi.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Seçilen kayıtlar silinirken bir sorun oluştu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>boş mu?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>evet ya da hayır</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>evet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>hayır</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date% to %to_date%]]></source>
+        <target><![CDATA[%from_date% ile %to_date% arası]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date%<br />to %to_date%]]></source>
+        <target><![CDATA[%from_date% ile<br />%to_date% arası]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

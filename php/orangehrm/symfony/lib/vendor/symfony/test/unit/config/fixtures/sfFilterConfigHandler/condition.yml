@@ -1,0 +1,14 @@
+execution:
+  class:  sfExecutionFilter
+  param:
+    type: execution
+
+default:
+  class:     defaultFilterClass
+  param:
+    condition: %DEFAULT_TEST%
+
+rendering:
+  class:  sfRenderingFilter
+  param:
+    type: rendering
