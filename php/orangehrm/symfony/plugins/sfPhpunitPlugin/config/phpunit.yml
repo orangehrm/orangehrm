@@ -1,0 +1,49 @@
+# this options will be accessable throught sfConfig::get with a name prefix: sf_phpunit_*
+
+all:
+  # project test directory
+  dir:                   '%SF_TEST_DIR%/phpunit'
+  
+  # todo 
+  fixture:
+    doctrine:
+    
+    propel:
+    
+    dbunit:
+  
+
+  filter: 
+    - {path: '%SF_LIB_DIR%/vendor', ext: .php}
+    - {path: '%SF_LIB_DIR%/symfony', ext: .php}
+    - {path: '%SF_ROOT_DIR%/plugins', ext: .php}
+    - {path: '%SF_ROOT_DIR%/test', ext: .php}
+        
+  amf:
+    endpoint:            false
+  
+  selenium:
+    collect_coverage: false
+    
+    remote_project_dir:
+    #you can used it in case of the test application and selenium server are run on different computers.
+    #but you have to upload the file stored in fixtures through web page.
+    #You need to mount prj dir to selenium computer and define this option.
+    #From the test case use for example method fixture()->getDirOwnAsRemote()
+            
+    driver:
+      name:              false
+      browser:           '*firefox'
+      browser_url:       false
+      host:              false
+      port:              false
+      timeout:           false
+      http_timeout:      false
+      sleep:             false
+      wait:              false
+  
+  init:
+    apps_test_index:     true
+    base_classes:        true
+    required_dirs:       true
+    test_fixture_dirs:   true
