@@ -1,23 +1,23 @@
 prod:
   .settings:
-    no_script_name:         off
-    logging_enabled:        off
+    no_script_name:         false
+    logging_enabled:        false
 
 dev:
   .settings:
     error_reporting:        <?php echo (E_ALL | E_STRICT)."\n" ?>
-    web_debug:              on
-    cache:                  off
-    no_script_name:         off
-    etag:                   off
+    web_debug:              true
+    cache:                  false
+    no_script_name:         false
+    etag:                   false
 
 test:
   .settings:
     error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_NOTICE)."\n" ?>
-    cache:                  off
-    web_debug:              off
-    no_script_name:         off
-    etag:                   off
+    cache:                  false
+    web_debug:              false
+    no_script_name:         false
+    etag:                   false
 
 all:
   .settings:
@@ -29,14 +29,14 @@ all:
     escaping_method:        ESC_SPECIALCHARS # Function or helper used for escaping. Accepted values: ESC_RAW, ESC_ENTITIES, ESC_JS, ESC_JS_NO_ENTITIES, and ESC_SPECIALCHARS.
 
     # Cache settings
-    lazy_cache_key:         on        # Delays creation of a cache key until after checking whether an action or partial is cacheable
+    lazy_cache_key:         true        # Delays creation of a cache key until after checking whether an action or partial is cacheable
 
-    standard_helpers:       [Partial, Cache, Form, Orange, Url, I18N]
+    standard_helpers:       [Partial, Cache, Orange, Url, I18N]
 
     login_module:           auth
     login_action:           login
 
-    i18n:                   on
+    i18n:                   true
     default_culture: 		en      # Default user culture
 
 #all:
@@ -55,14 +55,14 @@ all:
 #
 #  .settings:
 #    # Optional features. Deactivating unused features boots performance a bit.
-#    use_database:           on        # Enable database manager. Set to off if you don't use a database.
-#    i18n:                   off       # Enable interface translation. Set to off if your application should not be translated.
-#    check_symfony_version:  off       # Enable check of symfony version for every request. Set to on to have symfony clear the cache automatically when the framework is upgraded. Set to off if you always clear the cache after an upgrade.
-#    compressed:             off       # Enable PHP response compression. Set to on to compress the outgoing HTML via the PHP handler.
-#    check_lock:             off       # Enable the application lock system triggered by the clear-cache and disable tasks. Set to on to have all requests to disabled applications redirected to the $sf_symfony_lib_dir/exception/data/unavailable.php page.
+#    use_database:           true        # Enable database manager. Set to off if you don't use a database.
+#    i18n:                   false       # Enable interface translation. Set to off if your application should not be translated.
+#    check_symfony_version:  false       # Enable check of symfony version for every request. Set to on to have symfony clear the cache automatically when the framework is upgraded. Set to off if you always clear the cache after an upgrade.
+#    compressed:             false       # Enable PHP response compression. Set to on to compress the outgoing HTML via the PHP handler.
+#    check_lock:             false       # Enable the application lock system triggered by the clear-cache and disable tasks. Set to on to have all requests to disabled applications redirected to the $sf_symfony_lib_dir/exception/data/unavailable.php page.
 #
 #    # Routing settings
-#    no_script_name:         off       # Enable the front controller name in generated URLs
+#    no_script_name:         false       # Enable the front controller name in generated URLs
 #
 #    # Validation settings, used for error generation by the Validation helper
 #    validation_error_prefix:    ' &darr;&nbsp;'
@@ -71,12 +71,12 @@ all:
 #    validation_error_id_prefix: error_for_
 #
 #    # Cache settings
-#    cache:                  off       # Enable the template cache
-#    etag:                   on        # Enable etag handling
-#    lazy_cache_key:         off       # Delays creation of a cache key until after checking whether an action or partial is cacheable (defaults to false for backward compatibility)
+#    cache:                  false       # Enable the template cache
+#    etag:                   true        # Enable etag handling
+#    lazy_cache_key:         false       # Delays creation of a cache key until after checking whether an action or partial is cacheable (defaults to false for backward compatibility)
 #
 #    # Logging and debugging settings
-#    web_debug:              off       # Enable the web debug toolbar
+#    web_debug:              false       # Enable the web debug toolbar
 #    error_reporting:        <?php echo (E_PARSE | E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR)."\n" ?> # Determines which events are logged.
 #
 #    # Assets paths
@@ -95,11 +95,11 @@ all:
 #    charset:                utf-8
 #
 #    # Miscellaneous
-#    strip_comments:         on         # Remove comments in core framework classes as defined in the core_compile.yml
+#    strip_comments:         true         # Remove comments in core framework classes as defined in the core_compile.yml
 #    max_forwards:           5
 #
 #    # Logging
-#    logging_enabled:        on
+#    logging_enabled:        true
 #
 #    # i18n
 #    default_culture:        en        # Default user culture

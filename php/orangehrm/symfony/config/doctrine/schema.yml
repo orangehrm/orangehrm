@@ -470,6 +470,7 @@ UniqueId:
       unsigned: 1
       notnull: true
     table_name:
+      name: table_name as dbTable
       type: string(50)
       notnull: true
     field_name:
