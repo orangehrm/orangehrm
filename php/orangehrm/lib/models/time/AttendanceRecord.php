@@ -354,8 +354,8 @@ class AttendanceRecord {
 					$object->employeeId = $row[self::DB_FIELD_EMPLOYEE_ID];
                     $object->employeeName = $row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]." ".$row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME];
                     $object->inTime = $date;
-                    
-                    $duration = (intval ($duration)).".".round(((strstr( $duration, '.' ))*60));
+              
+                    $duration = (intval ($duration)).".".str_pad(round(((strstr( $duration, '.' ))*60)), 2, "0", STR_PAD_LEFT);
                     $object->duration = $duration;
                     
                     $object->multipleDayPunch = true;
