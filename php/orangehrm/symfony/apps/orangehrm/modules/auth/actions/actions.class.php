@@ -17,7 +17,7 @@ class authActions extends sfActions {
   */
   public function executeLogin(sfWebRequest $request) {
       
-      sfLoader::loadHelpers('Url');
+      $this->getContext()->getConfiguration()->loadHelpers('Url');
       $this->redirect(public_path('../../login.php'));
   }
   
