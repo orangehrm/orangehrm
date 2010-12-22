@@ -204,6 +204,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		// For testStoreLeaveTaken
 		mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE employee_id = '018'");
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '018'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_weekends`", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_holidays`", $this->connection);
+    	
 	}
 
 	/**
@@ -369,6 +372,159 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][5], "Checking added / applied leave ");
         }
     }
+    
+    public function testApplyLeaveHolidayHalf() {
+
+        
+        mysql_query(" INSERT INTO `hs_hr_weekends` (`day`, `length`) VALUES(1, 4);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-01-04');
+        $this->classLeave->setLeaveLengthHours("2");
+        $this->classLeave->setLeaveLengthDays("0.25");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+
+        $res = $this->classLeave->retrieveLeaveEmployee("012");
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+       
+    }
+    
+    public function testApplyLeaveHolidayHalf1() {
+
+       
+        mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES(3, 'TestHoliday 1', '2010-12-17', 0, 4);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-17');
+        $this->classLeave->setLeaveLengthHours("2");
+        $this->classLeave->setLeaveLengthDays("0.25");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+
+        $res = $this->classLeave->retrieveLeaveEmployee("012");
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+       
+    }
+    
+    public function testApplyLeaveHolidayHalfAndWeekendHalf() {
+
+        mysql_query(" INSERT INTO `hs_hr_weekends` (`day`, `length`) VALUES(1, 4);", $this->connection);
+        mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES(3, 'TestHoliday 1', '2010-12-20', 0, 4);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-20');
+        $this->classLeave->setLeaveLengthHours("2");
+        $this->classLeave->setLeaveLengthDays("0.25");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+        $res = $this->classLeave->retrieveLeaveEmployee("012");    
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+        $this->assertEquals($res[0]->getLeaveLengthHours(), 0);
+       
+    }
+    
+    public function testApplyLeaveHolidayFullDay() {
+
+        mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES(3, 'TestHoliday 1', '2010-12-21', 0, 8);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-21');
+        $this->classLeave->setLeaveLengthHours("8");
+        $this->classLeave->setLeaveLengthDays("1");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+        $res = $this->classLeave->retrieveLeaveEmployee("012");    
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+       
+    }
+    
+    public function testApplyLeaveWeekendFullDay() {
+
+        mysql_query(" INSERT INTO `hs_hr_weekends` (`day`, `length`) VALUES(1, 8);", $this->connection);
+
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-20');
+        $this->classLeave->setLeaveLengthHours("8");
+        $this->classLeave->setLeaveLengthDays("1");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+        $res = $this->classLeave->retrieveLeaveEmployee("012");    
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_WEEKEND);
+       
+    }
+    
+    public function testApplyLeaveWeekendFullDayAndSpecificHolidayComesInSameDay() {
+
+        mysql_query(" INSERT INTO `hs_hr_weekends` (`day`, `length`) VALUES(1, 8);", $this->connection);
+        mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES(3, 'TestHoliday 1', '2010-12-20', 0, 8);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-20');
+        $this->classLeave->setLeaveLengthHours("8");
+        $this->classLeave->setLeaveLengthDays("1");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+        $res = $this->classLeave->retrieveLeaveEmployee("012");    
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_CANCELLED);
+       
+    }
+    
+    
+    public function testApplyLeaveHolidayHalfApplyForMoreThanFourHours() {
+
+       
+        mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES(3, 'TestHoliday 1', '2010-12-17', 0, 4);", $this->connection);        
+        
+        $this->classLeave->setLeaveRequestId("010");
+        $this->classLeave->setEmployeeId("012");
+        $this->classLeave->setLeaveTypeId("LTY010");
+        $this->classLeave->setLeaveDate('2010-12-17');
+        $this->classLeave->setLeaveLengthHours("7");
+        $this->classLeave->setLeaveLengthDays("0.75");
+        $this->classLeave->setLeaveStatus("1");
+        $this->classLeave->setLeaveComments("Leave 1");
+
+        $res = $this->classLeave->applyLeave();
+
+        $res = $this->classLeave->retrieveLeaveEmployee("012");
+
+        $this->assertEquals($res[0]->getLeaveStatus(), Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+        $this->assertEquals($res[0]->getLeaveLengthHours(), Leave::LEAVE_LENGTH_HALF_DAY);
+        $this->assertEquals($res[0]->getLeaveLengthDays(), 0.5);
+       
+    }
+    
 
     public function testApplyLeave2() {
 

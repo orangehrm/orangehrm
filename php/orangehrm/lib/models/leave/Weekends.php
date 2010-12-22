@@ -197,6 +197,7 @@ class Weekends {
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
 		$dbConnection = new DMLFunctions();
+		
 		$result = $dbConnection -> executeQuery($query);
 		$row = $dbConnection->dbObject->getArray($result);
 
@@ -207,6 +208,29 @@ class Weekends {
 		}
 
 	}
+	
+    public static function isHalfDayWeekend($date) {
+
+        $dayNumber = date('N', strtotime($date));
+
+        $selectTable = "`".self::WEEKENDS_TABLE."`";
+        $selectFields[0] = "`".self::WEEKENDS_TABLE_LENGTH."`";
+        $selectConditions[0] = "`".self::WEEKENDS_TABLE_DAY."` = $dayNumber";
+
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+        $dbConnection = new DMLFunctions();
+        
+        $result = $dbConnection -> executeQuery($query);
+        $row = $dbConnection->dbObject->getArray($result);
+
+        if ($row[0] == (self::WEEKENDS_LENGTH_HALF_DAY)) {
+           return (self::WEEKENDS_LENGTH_HALF_DAY);
+        } else {
+            return null;
+        }
+
+    }
 
 	/**
 	 * Builds an array of Weekend objects

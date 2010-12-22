@@ -625,6 +625,7 @@ class Leave {
 		$arrRecordsList[3] = "'". $this->getLeaveLengthDays()."'";
 		$hours = $this->getLeaveLengthHours();
 		$days = $this->getLeaveLengthDays();
+		
 		if ($hours == 0 && $days == 0) {
 		    $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_CANCELLED;
 		} else {
@@ -632,11 +633,29 @@ class Leave {
 		}
         $holidays = new Holidays();
         $weekends = new Weekends();
+        
         if ($weekends->isWeekend($this->getLeaveDate())) {
-        	$arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_WEEKEND;
+             if($days == 1){
+               $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_WEEKEND;
+             }
         } elseif ($holidays->isHoliday($this->getLeaveDate())) {
-        	$arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
+             if($days == 1){
+               $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
+             } 
+             
+            if ($hours == 0 && $days == 0) {
+                $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
+            }
+        } 
+
+        if ($holidays->isHoliday($this->getLeaveDate()) && $weekends->isHalfDayWeekend($this->getLeaveDate())) {   
+               if( ($holidays->isHoliday($this->getLeaveDate()) + $weekends->isHalfDayWeekend($this->getLeaveDate())) == self::LEAVE_LENGTH_FULL_DAY ){
+                   $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
+                   $arrRecordsList[2] = "'0'";
+                   $arrRecordsList[3] = "'0'";
+               }
         }
+
 		$arrRecordsList[5] = "'".$this->getLeaveComments()."'";
 		$arrRecordsList[6] = "'". $this->getLeaveRequestId(). "'";
 		$arrRecordsList[7] = "'".$this->getLeaveTypeId()."'";
