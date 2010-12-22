@@ -158,20 +158,28 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'd.m.Y');
         $this->assertEquals('31.12.1999', $result);
 
-        /* Test for future days for current year */
-        $currentYear = (int) date('Y'); // TODO: Remove this dependancy on getting the system date by using a mock;
-        $nextMonth = date('m');
-        if($nextMonth != 12) {
-            $nextMonth = str_pad(((int) date('m') + 1), 2, '0', STR_PAD_LEFT);
-        }
-        $startDate = 15;
-        $endDate = 14;
+        /* Test for days other than Ja1 1st
+         * (End date should always in next year) */
         
-        $result = $this->leavePeriodService->calculateEndDate($nextMonth, $startDate);
-        $this->assertEquals("{$currentYear}-{$nextMonth}-{$endDate}", $result);
+        $currentYear = date('Y');
+        $nextYear = date('Y')+1;
         
-        $result = $this->leavePeriodService->calculateEndDate($nextMonth, $startDate, $currentYear);
-        $this->assertEquals("{$currentYear}-{$nextMonth}-{$endDate}", $result);
+        $result = $this->leavePeriodService->calculateEndDate(12, 22);
+        $this->assertEquals("$nextYear-12-21", $result);
+        
+        $result = $this->leavePeriodService->calculateEndDate(12, 22, $currentYear);
+        $this->assertEquals("{$nextYear}-12-21", $result);
+
+        /* Test for Ja1 1st
+         * (End date should be same year Dec 31) */
+
+        $currentYear = (int) date('Y');
+
+        $result = $this->leavePeriodService->calculateEndDate(01, 01);
+        $this->assertEquals("$currentYear-12-31", $result);
+
+        $result = $this->leavePeriodService->calculateEndDate(01, 01, $currentYear);
+        $this->assertEquals("$currentYear-12-31", $result);
       
     }
 
