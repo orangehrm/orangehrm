@@ -154,18 +154,6 @@ $styleSheet = CommonFunctions::getTheme();
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 // Default leave home page
-//if ($authorizeObj->isAdmin()){
-//	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1';
-//} else if ($authorizeObj->isSupervisor()) {
-//	if ($authorizeObj->isAdmin()){
-//		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_HomeSupervisor';
-//	} else {
-//		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
-//	}
-//} else if ($authorizeObj->isESS()) {
-//	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
-//}
-
 $leavePeriodDefined = Config::isLeavePeriodDefined();
 if (!$leavePeriodDefined) {
 	if ($authorizeObj->isAdmin()) {
@@ -467,62 +455,6 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 }
 
 /* Start leave menu */
-//if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
-//	$menuItem = new MenuItem("leave", $lang_Menu_Leave ,"./index.php?menu_no_top=leave");
-//	$menuItem->setCurrent($_GET['menu_no_top']=="leave");
-//
-//	$subs = array();
-//	$subsubs = array();
-//
-//	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
-//	if ($authorizeObj->firstRole($allowedRoles)) {
-//
-//		$sub = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "#");
-//
-//		if ($authorizeObj->isESS()) {
-//			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_PersonalLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
-//		}
-//
-//		if ($arrAllRights[Leave]['view'] || $authorizeObj->isSupervisor()) {
-//			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_EmployeeLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary");
-//		}
-//		$sub->setSubMenuItems($subsubs);
-//	} else if ($authorizeObj->isESS()) {
-//		$sub = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
-//	}
-//
-//	$subs[] = $sub;
-//
-//	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
-//		$sub = new MenuItem("daysoff", $lang_Menu_Leave_DefineDaysOff, "#");
-//		$subsubs = array();
-//		$subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_DefineDaysOff_Weekends, "lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List");
-//		$subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_DefineDaysOff_SpecificHolidays, "lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List");
-//		$sub->setSubMenuItems($subsubs);
-//		$subs[] = $sub;
-//
-//		$subs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary");
-//	}
-//
-//	if ($authorizeObj->isESS()) {
-//  		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee");
-//  		$subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view");
-//	}
-//
-//	if (($authorizeObj->isAdmin() && $arrAllRights[Leave]['add']) || $authorizeObj->isSupervisor()) {
-//		$subs[] = new MenuItem("assignleave",$lang_Menu_Leave_Assign, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view");
-//	}
-//	if ($authorizeObj->isSupervisor() && !$authorizeObj->isAdmin()) {
-//  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor");
-//	}
-//	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
-//		$subs[] = new MenuItem("leavelist",$lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1");
-//	}
-//
-//	$menuItem->setSubMenuItems($subs);
-//	$menu[] = $menuItem;
-//}
-
 if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 	$menuItem = new MenuItem("leave", $lang_Menu_Leave ,"./index.php?menu_no_top=leave");
 	$menuItem->setCurrent($_GET['menu_no_top']=="leave");
@@ -534,10 +466,10 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
         $sub = new MenuItem("leavesummary", $lang_Common_Configure, "#");
 
-        $subsubs[] = new MenuItem("leaveperiod",$lang_Menu_Leave_DefineLeavePeriod , './symfony/web/index.php/coreLeave/defineLeavePeriod');
-        $subsubs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , './symfony/web/index.php/coreLeave/leaveTypeList', 'rightMenu');
-        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_WorkWeek, "./symfony/web/index.php/coreLeave/defineWorkWeek", 'rightMenu');
-        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_Holidays , "./symfony/web/index.php/coreLeave/viewHolidayList", 'rightMenu');
+        $subsubs[] = new MenuItem("leaveperiod",$lang_Menu_Leave_DefineLeavePeriod , './symfony/web/index.php/coreLeave/defineLeavePeriod', 'rightMenu');
+        $subsubs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , './symfony/web/index.php/coreLeave/leaveTypeList');
+        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_WorkWeek, "./symfony/web/index.php/coreLeave/defineWorkWeek");
+        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_Holidays , "./symfony/web/index.php/coreLeave/viewHolidayList");
 
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
