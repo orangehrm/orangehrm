@@ -195,7 +195,10 @@ try {
 
 							foreach($subSubItems as $subSub) {
 								$link = $subSub->getLink();
-								$target = (strstr($link, 'CentralController') === false) ? '' : 'target="rightMenu"';
+
+                                $openInRight = (strstr($link, 'CentralController') !== false) || (strstr($link, 'symfony') !== false);
+
+								$target = $openInRight ? 'target="rightMenu"' : '';
 								if (!$subSub->isEnabled()) {
 									$class = 'disabled';
 									$link = '#';
