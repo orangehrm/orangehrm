@@ -8,15 +8,18 @@
  * @property string $user_id
  * @property integer $notification_type_id
  * @property integer $status
+ * @property string $email
  * @property Users $Users
  * 
  * @method string           getUserId()               Returns the current record's "user_id" value
  * @method integer          getNotificationTypeId()   Returns the current record's "notification_type_id" value
  * @method integer          getStatus()               Returns the current record's "status" value
+ * @method string           getEmail()                Returns the current record's "email" value
  * @method Users            getUsers()                Returns the current record's "Users" value
  * @method MailNotification setUserId()               Sets the current record's "user_id" value
  * @method MailNotification setNotificationTypeId()   Sets the current record's "notification_type_id" value
  * @method MailNotification setStatus()               Sets the current record's "status" value
+ * @method MailNotification setEmail()                Sets the current record's "email" value
  * @method MailNotification setUsers()                Sets the current record's "Users" value
  * 
  * @package    orangehrm
@@ -43,6 +46,10 @@ abstract class BaseMailNotification extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'length' => 4,
+             ));
+        $this->hasColumn('email', 'string', 100, array(
+             'type' => 'string',
+             'length' => 100,
              ));
     }
 

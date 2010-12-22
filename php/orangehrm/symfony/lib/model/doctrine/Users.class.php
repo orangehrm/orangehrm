@@ -5,5 +5,7 @@
  */
 class Users extends BaseUsers
 {
-
+    const USER_TYPE_ADMIN = "Admin";
+    const USER_TYPE_EMPLOYEE = "Employee";
+    const USER_TYPE_SUPERVISOR = "Supervisor";
 }

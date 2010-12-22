@@ -6,4 +6,11 @@
 class MailNotification extends BaseMailNotification
 {
 
+    const LEAVE_APPLICATION = 1;
+    const LEAVE_APPROVAL = 2;
+    const LEAVE_CANCELLATION = 0;
+    const LEAVE_REJECTION = -1;
+
+    const STATUS_SUBSCRIBED = 1;
+
 }

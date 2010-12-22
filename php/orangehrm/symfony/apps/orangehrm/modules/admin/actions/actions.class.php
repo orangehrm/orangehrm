@@ -2339,38 +2339,90 @@ class adminActions extends sfActions {
     }
     
     
-    /**
-     * List Mail Configeration
-     * @param sfWebRequest $request
-     * @return unknown_type
-     */
-    public function executeListMailConfigeration(sfWebRequest $request)
-    {
-    	$userService			=	new UserService();
-    	$mailService 			= 	new MailService();
-    	$user					=	$_SESSION['user'] ;
-    	$currentUser			=	$userService->readUser( $user );
-    	if ($request->isMethod('post')) 
-    	{
-    		$mailService->removeMailNotification($user);
-    		foreach( $request->getParameter('notificationMessageStatus') as $notificationTypeId)
-    		{
-    			$mailNotification	=	new MailNotification();
-    			$mailNotification->setUserId( $user );
-    			$mailNotification->setNotificationTypeId( $notificationTypeId );
-    			$mailNotification->setStatus( 1 );
-    			$mailService->saveMailNotification( $mailNotification );
-    		}
-    		
-    		$currentUser->setEmail1($request->getParameter('txtMailAddress'));
-    		$userService->saveUser($currentUser);
-    	}
-    	
-    	$notficationList		=	$mailService->getMailNotificationList( $user );
-    	$this->notficationList	=	$notficationList ;
-		$this->currentUser		=	$currentUser ;
+	/**
+	 * List Mail Configuration
+	 * @param sfWebRequest $request
+	 * @return unknown_type
+	 */
+	public function executeListMailConfiguration(sfWebRequest $request) {
+
+        $emailConfiguration = new EmailConfiguration();
+		 
+		$this->mailAddress = $emailConfiguration->getSentAs();
+		$this->sendMailPath = $emailConfiguration->getSendMailPath();
+		$this->smtpAuth = $emailConfiguration->getSmtpAuthType();
+		$this->smtpSecurity = $emailConfiguration->getSmtpSecurityType();
+		$this->smtpHost = $emailConfiguration->getSmtpHost();
+		$this->smtpPort = $emailConfiguration->getSmtpPort();
+		$this->smtpUser = $emailConfiguration->getSmtpUsername();
+		$this->smtpPass = $emailConfiguration->getSmtpPassword();
+		$this->emailType = $emailConfiguration->getMailType();
+
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			$this->templateMessage = $this->getUser()->getFlash('templateMessage');
+		}
+                
+	}
+
+	/**
+	 * List Mail Subscriptions
+	 * @param sfWebRequest $request
+	 * @return unknown_type
+	 */
+	public function executeListMailSubscriptions(sfWebRequest $request) {
+		$this->form = new EmailSubscriptionsForm(array(), array(), true);
+
+		$mailService 			= 	new MailService();
+		$user					=	$_SESSION['user'] ;
+        $notficationEmail       =   trim($request->getParameter('txtMailAddress'));
+
+        if ($request->isMethod('post')) {
+			$this->form->bind($request->getParameter($this->form->getName()));
+			if ($this->form->isValid()){
+
+				$mailService->removeMailNotification($user);
+				foreach( $request->getParameter('notificationMessageStatus') as $notificationTypeId) {
+					$mailNotification	=	new MailNotification();
+					$mailNotification->setUserId( $user );
+					$mailNotification->setNotificationTypeId( $notificationTypeId );
+					$mailNotification->setStatus( 1 );
+                    $mailNotification->setEmail($notficationEmail);
+					$mailService->saveMailNotification( $mailNotification );
+				}
+
+			}
+		}
+		 
+		$notficationList		=	$mailService->getMailNotificationList( $user );
+		$this->notficationList	=	$notficationList ;
+        $this->notficationEmail =   $notficationEmail;
+
+	}
+
+    public function executeSaveMailConfiguration(sfWebRequest $request) {
+
+        $this->form = new EmailConfigurationForm(array(), array(), true);
+	$this->form->bind($request->getParameter($this->form->getName()));
+
+        $emailConfiguration = $this->form->populateEmailConfiguration($request);
+        $emailConfiguration->save();
+
+        if ($request->getParameter('chkSendTestEmail')) {
+
+            $emailService = new EmailService();
+            $result = $emailService->sendTestEmail($request->getParameter('txtTestEmail'));
+            
+            if ($result) {
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Email configuration was saved. Test email was sent.'));
+            } else {
+                $this->getUser()->setFlash('templateMessage', array('WARNING', "Email configuration was saved. Test email couldn't be sent."));
+            }
+
+        }
+
+        $this->redirect('admin/listMailConfiguration');
+
     }
-    
     
     
     
