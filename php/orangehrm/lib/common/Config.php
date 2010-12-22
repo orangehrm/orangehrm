@@ -30,27 +30,28 @@ require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 
 class Config {
 
-    const DB_TABLE_CONFIG = "hs_hr_config";
-    const DB_FIELD_KEY = "key";
-    const DB_FIELD_VALUE = "value";
-    const KEY_NAME_HSP_ACCRUED_LAST_UPDATED = "hsp_accrued_last_updated";
-    const KEY_NAME_HSP_USED_LAST_UPDATED = "hsp_used_last_updated";
-    const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
-    const KEY_NAME_TIMESHEET_PERIOD_SET = "timesheet_period_set";
-    const KEY_NAME_LEAVE_BROUGHT_FORWARD = "LeaveBroughtForward";
-    const KEY_NAME_EMP_CHANGE_TIME = "attendanceEmpChangeTime";
-    const KEY_NAME_EMP_EDIT_SUBMITTED = "attendanceEmpEditSubmitted";
-    const KEY_NAME_SUP_EDIT_SUBMITTED = "attendanceSupEditSubmitted";
+	const DB_TABLE_CONFIG = "hs_hr_config";
+	const DB_FIELD_KEY = "key";
+	const DB_FIELD_VALUE = "value";
+	const KEY_NAME_HSP_ACCRUED_LAST_UPDATED = "hsp_accrued_last_updated";
+	const KEY_NAME_HSP_USED_LAST_UPDATED = "hsp_used_last_updated";
+	const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
+	const KEY_NAME_TIMESHEET_PERIOD_SET = "timesheet_period_set";
+	const KEY_NAME_LEAVE_BROUGHT_FORWARD = "LeaveBroughtForward";
+	const KEY_NAME_EMP_CHANGE_TIME = "attendanceEmpChangeTime";
+	const KEY_NAME_EMP_EDIT_SUBMITTED = "attendanceEmpEditSubmitted";
+	const KEY_NAME_SUP_EDIT_SUBMITTED = "attendanceSupEditSubmitted";
+	const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
 
-    /**
-     * Sets the 'value' corresponding to 'key'
-     * If the 'key' is already availabe, correponding 'value' would be updated.
-     * If not, a new 'key', 'value' pair would be inserted.
-     * @param string $key 'key' field corresponding to the value to be set
-     * @param string $value 'value' that should be set
-     */
+	/**
+	 * Sets the 'value' corresponding to 'key'
+	 * If the 'key' is already availabe, correponding 'value' would be updated.
+	 * If not, a new 'key', 'value' pair would be inserted.
+	 * @param string $key 'key' field corresponding to the value to be set
+	 * @param string $value 'value' that should be set
+	 */
 
-    private static function _setValue($key, $value) {
+	private static function _setValue($key, $value) {
 
 		$updateFields[0] = "`".self::DB_FIELD_KEY."`";
 		$updateFields[1] = "`".self::DB_FIELD_VALUE."`";
@@ -71,17 +72,17 @@ class Config {
 		$result = $dbConnection->executeQuery($query);
 
 		if (!$result) {
-		    throw new Exception("Value corresponding to $key was not updated");
+			throw new Exception("Value corresponding to $key was not updated");
 		}
 
-    }
+	}
 
-    /**
-     * Outputs the 'value' corresponding to 'key'
-     * @param string $key 'key' field where corresponding 'value' is needed
-     */
+	/**
+	 * Outputs the 'value' corresponding to 'key'
+	 * @param string $key 'key' field where corresponding 'value' is needed
+	 */
 
-    private static function _selectValue($key) {
+	private static function _selectValue($key) {
 
 		$selectTable = "`".self::DB_TABLE_CONFIG."`";
 		$selectFields[0] = "`".self::DB_FIELD_VALUE."`";
@@ -96,269 +97,294 @@ class Config {
 		$result = $dbConnection->executeQuery($query);
 
 		if ($dbConnection->dbObject->numberOfRows($result) != 1) {
-		    throw new Exception("Value corresponding to $key could not be selected");
+			throw new Exception("Value corresponding to $key could not be selected");
 		}
 
 		$resultArray = $dbConnection->dbObject->getArray($result);
 
 		return $resultArray[0];
 
-    }
+	}
+	
+	/**
+	 * Sets the 'value' field correponding to 'hsp_accrued_last_updated'
+	 * 'key' argument is optional.
+	 * If the 'key' is not already set, it can be set via the method.
+	 * @param string $value New date. Should be in yyyy-mm-dd format
+	 */
 
-    /**
-     * Sets the 'value' field correponding to 'hsp_accrued_last_updated'
-     * 'key' argument is optional.
-     * If the 'key' is not already set, it can be set via the method.
-     * @param string $value New date. Should be in yyyy-mm-dd format
-     */
+	public static function setHspAccruedLastUpdated($value, $key=null) {
 
-    public static function setHspAccruedLastUpdated($value, $key=null) {
+		if (!preg_match('/^[\d]{4}-[\d]{2}-[\d]{2}$/i',$value)) {
+			throw new Exception("Given date is not valid. Should be in yyyy-mm-dd format.");
+		}
 
-    	if (!preg_match('/^[\d]{4}-[\d]{2}-[\d]{2}$/i',$value)) {
-    	    throw new Exception("Given date is not valid. Should be in yyyy-mm-dd format.");
-    	}
+		if (isset($key)) {
+			self::_setValue($key, $value);
+		} else {
+			self::_setValue(self::KEY_NAME_HSP_ACCRUED_LAST_UPDATED, $value);
+		}
 
-    	if (isset($key)) {
-    	    self::_setValue($key, $value);
-    	} else {
-    	    self::_setValue(self::KEY_NAME_HSP_ACCRUED_LAST_UPDATED, $value);
-    	}
+	}
 
-    }
+	/**
+	 * Returns the 'value' field correponding to 'hsp_accrued_last_updated'
+	 * @return string 'HSP Accrued' last updated date
+	 */
 
-    /**
-     * Returns the 'value' field correponding to 'hsp_accrued_last_updated'
-     * @return string 'HSP Accrued' last updated date
-     */
+	public static function getHspAccruedLastUpdated() {
 
-    public static function getHspAccruedLastUpdated() {
+		return self::_selectValue(self::KEY_NAME_HSP_ACCRUED_LAST_UPDATED);
 
-    	return self::_selectValue(self::KEY_NAME_HSP_ACCRUED_LAST_UPDATED);
+	}
 
-    }
+	/**
+	 * Sets the 'value' field correponding to 'hsp_used_last_updated'
+	 * 'key' argument is optional.
+	 * If the 'key' is not already set, it can be set via the method.
+	 * @param string $value New date. Should be in yyyy-mm-dd format
+	 */
 
-    /**
-     * Sets the 'value' field correponding to 'hsp_used_last_updated'
-     * 'key' argument is optional.
-     * If the 'key' is not already set, it can be set via the method.
-     * @param string $value New date. Should be in yyyy-mm-dd format
-     */
+	public static function setHspUsedLastUpdated($value, $key=null) {
 
-    public static function setHspUsedLastUpdated($value, $key=null) {
+		if (!preg_match('/^[\d]{4}-[\d]{2}-[\d]{2}$/i',$value)) {
+			throw new Exception("Given date is not valid. Should be in yyyy-mm-dd format.");
+		}
 
-    	if (!preg_match('/^[\d]{4}-[\d]{2}-[\d]{2}$/i',$value)) {
-    	    throw new Exception("Given date is not valid. Should be in yyyy-mm-dd format.");
-    	}
+		if (isset($key)) {
+			self::_setValue($key, $value);
+		} else {
+			self::_setValue(self::KEY_NAME_HSP_USED_LAST_UPDATED, $value);
+		}
 
-    	if (isset($key)) {
-    	    self::_setValue($key, $value);
-    	} else {
-    	    self::_setValue(self::KEY_NAME_HSP_USED_LAST_UPDATED, $value);
-    	}
+	}
 
-    }
+	/**
+	 * Returns the 'value' field correponding to 'hsp_used_last_updated'
+	 * @return string 'HSP Used' last updated date
+	 */
 
-    /**
-     * Returns the 'value' field correponding to 'hsp_used_last_updated'
-     * @return string 'HSP Used' last updated date
-     */
+	public static function getHspUsedLastUpdated() {
 
-    public static function getHspUsedLastUpdated() {
+		return self::_selectValue(self::KEY_NAME_HSP_USED_LAST_UPDATED);
 
-    	return self::_selectValue(self::KEY_NAME_HSP_USED_LAST_UPDATED);
+	}
 
-    }
+	/**
+	 * Sets the 'value' field correponding to 'hsp_current_plan'
+	 * 'key' argument is optional.
+	 * If the 'key' is not already set, it can be set via the method.
+	 * @param string $value HSP value.
+	 */
 
-    /**
-     * Sets the 'value' field correponding to 'hsp_current_plan'
-     * 'key' argument is optional.
-     * If the 'key' is not already set, it can be set via the method.
-     * @param string $value HSP value.
-     */
+	public static function setHspCurrentPlan($value, $key=null) {
 
-    public static function setHspCurrentPlan($value, $key=null) {
+		if (isset($key)) {
+			self::_setValue($key, $value);
+		} else {
+			self::_setValue(self::KEY_NAME_HSP_CURRENT_PLAN, $value);
+		}
 
-    	if (isset($key)) {
-    	    self::_setValue($key, $value);
-    	} else {
-    	    self::_setValue(self::KEY_NAME_HSP_CURRENT_PLAN, $value);
-    	}
+	}
 
-    }
+	/**
+	 * Returns the 'value' field correponding to 'hsp_current_plan'
+	 * @return string 'HSP Selected' current HSP value
+	 */
 
-    /**
-     * Returns the 'value' field correponding to 'hsp_current_plan'
-     * @return string 'HSP Selected' current HSP value
-     */
+	public static function getHspCurrentPlan() {
+		return self::_selectValue(self::KEY_NAME_HSP_CURRENT_PLAN);
+	}
 
-    public static function getHspCurrentPlan() {
-    	return self::_selectValue(self::KEY_NAME_HSP_CURRENT_PLAN);
-    }
+	public static function setHspBroughtForwadYear($value, $key) {
+		self::_setValue($key, $value);
+	}
 
-    public static function setHspBroughtForwadYear($value, $key) {
-    	self::_setValue($key, $value);
-    }
-
-    public static function getHspBroughtForwadYear($key) {
-    	try {
-    		self::_selectValue($key);
-    		return true;
-    	} catch (Exception $e) {
-    		return false;
-    	}
-    }
+	public static function getHspBroughtForwadYear($key) {
+		try {
+			self::_selectValue($key);
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
+	}
 
 	/**
 	 * Method to set Week Starting Day of Timesheets
 	 */
-	 public static function setTimePeriodSet($value) {
-	 	if ($value != 'Yes' && $value != 'No') {
+	public static function setTimePeriodSet($value) {
+		if ($value != 'Yes' && $value != 'No') {
 			throw new Exception("Given value for TimeSheetPeriodSet should be 'Yes' or 'No'");
-	 	}
+		}
 
-    	self::_setValue(self::KEY_NAME_TIMESHEET_PERIOD_SET, $value);
-	 }
+		self::_setValue(self::KEY_NAME_TIMESHEET_PERIOD_SET, $value);
+	}
 
-	 /**
+	/**
 	 * Method to get Week Starting Day of Timesheets
 	 */
-	 public static function getTimePeriodSet() {
-	 	try {
+	public static function getTimePeriodSet() {
+		try {
 			$value = self::_selectValue(self::KEY_NAME_TIMESHEET_PERIOD_SET);
 			return ($value == 'Yes');
-	 	} catch (Exception $e) {
-	 	    return false;
-	 	}
-	 }
+		} catch (Exception $e) {
+			return false;
+		}
+	}
 
-	 /**
-	  * Sets LeaveBroughtForward for given year
-	  * @param year $year
-	  */
-	 public static function setLeaveBroughtForward($year) {
+	/**
+	 * Sets LeaveBroughtForward for given year
+	 * @param year $year
+	 */
+	public static function setLeaveBroughtForward($year) {
 
-	 	try {
-	 	    self::_selectValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year);
-	 	    throw new Exception("LeaveBroughtForward has been already set");
-	 	} catch (Exception $e) {}
+		try {
+			self::_selectValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year);
+			throw new Exception("LeaveBroughtForward has been already set");
+		} catch (Exception $e) {}
 
 		self::_setValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year, "set");
 
-	 }
+	}
 
-	 /**
-	  * Check whether LeaveBroughtForward has been set for given year
-	  * @param year $year
-	  * @return boolean Returns true if LeaveBroughtForward is set, false other wise
-	  */
-	 public static function getLeaveBroughtForward($year) {
+	/**
+	 * Check whether LeaveBroughtForward has been set for given year
+	 * @param year $year
+	 * @return boolean Returns true if LeaveBroughtForward is set, false other wise
+	 */
+	public static function getLeaveBroughtForward($year) {
 
-	 	try {
+		try {
 			self::_selectValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year);
-	 	    return true;
-	 	} catch (Exception $e) {
-	 	    return false;
-	 	}
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
 
-	 }
+	}
 
 	/**
 	 * Set Value: Whether employee can change displayed time in punch in/out form
 	 */
 
-	 public static function setAttendanceEmpChangeTime($value) {
+	public static function setAttendanceEmpChangeTime($value) {
 
-	 	if ($value != 'Yes' && $value != 'No') {
+		if ($value != 'Yes' && $value != 'No') {
 			throw new Exception("Value should be 'Yes' or 'No'");
-	 	}
+		}
 
-    	self::_setValue(self::KEY_NAME_EMP_CHANGE_TIME, $value);
+		self::_setValue(self::KEY_NAME_EMP_CHANGE_TIME, $value);
 
-	 }
+	}
 
 	/**
 	 * Get Value: Whether employee can change displayed time in punch in/out form
 	 */
 
-	 public static function getAttendanceEmpChangeTime() {
+	public static function getAttendanceEmpChangeTime() {
 
-	 	try {
+		try {
 			$val = self::_selectValue(self::KEY_NAME_EMP_CHANGE_TIME);
-	 	    if ($val == 'Yes') {
-	 	    	return true;
-	 	    } else {
-	 	    	return false;
-	 	    }
-	 	} catch (Exception $e) {
-	 	    return false;
-	 	}
+			if ($val == 'Yes') {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception $e) {
+			return false;
+		}
 
-	 }
+	}
 
 	/**
 	 * Set Value: Whether employee can edit submitted attendance records
 	 */
 
-	 public static function setAttendanceEmpEditSubmitted($value) {
+	public static function setAttendanceEmpEditSubmitted($value) {
 
-	 	if ($value != 'Yes' && $value != 'No') {
+		if ($value != 'Yes' && $value != 'No') {
 			throw new Exception("Value should be 'Yes' or 'No'");
-	 	}
+		}
 
-    	self::_setValue(self::KEY_NAME_EMP_EDIT_SUBMITTED, $value);
+		self::_setValue(self::KEY_NAME_EMP_EDIT_SUBMITTED, $value);
 
-	 }
+	}
 
 	/**
 	 * Get Value: Whether employee can edit submitted attendance records
 	 */
 
-	 public static function getAttendanceEmpEditSubmitted() {
+	public static function getAttendanceEmpEditSubmitted() {
 
-	 	try {
+		try {
 			$val = self::_selectValue(self::KEY_NAME_EMP_EDIT_SUBMITTED);
-	 	    if ($val == 'Yes') {
-	 	    	return true;
-	 	    } else {
-	 	    	return false;
-	 	    }
-	 	} catch (Exception $e) {
-	 	    return false;
-	 	}
+			if ($val == 'Yes') {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception $e) {
+			return false;
+		}
 
-	 }
+	}
 
 	/**
 	 * Set Value: Whether supervisor can edit submitted attendance records
 	 */
 
-	 public static function setAttendanceSupEditSubmitted($value) {
+	public static function setAttendanceSupEditSubmitted($value) {
 
-	 	if ($value != 'Yes' && $value != 'No') {
+		if ($value != 'Yes' && $value != 'No') {
 			throw new Exception("Value should be 'Yes' or 'No'");
-	 	}
+		}
 
-    	self::_setValue(self::KEY_NAME_SUP_EDIT_SUBMITTED, $value);
+		self::_setValue(self::KEY_NAME_SUP_EDIT_SUBMITTED, $value);
 
-	 }
+	}
 
 	/**
 	 * Get Value: Whether supervisor can edit submitted attendance records
 	 */
 
-	 public static function getAttendanceSupEditSubmitted() {
+	public static function getAttendanceSupEditSubmitted() {
 
-	 	try {
+		try {
 			$val = self::_selectValue(self::KEY_NAME_SUP_EDIT_SUBMITTED);
-	 	    if ($val == 'Yes') {
-	 	    	return true;
-	 	    } else {
-	 	    	return false;
-	 	    }
-	 	} catch (Exception $e) {
-	 	    return false;
-	 	}
+			if ($val == 'Yes') {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception $e) {
+			return false;
+		}
 
-	 }
+	}
+
+	/**
+	 * Get Value: Whether leave period has been set
+	 * @return bool Returns true if leave period has been set
+	 */
+	public static function isLeavePeriodDefined() {
+		try {
+			$val = self::_selectValue(self::KEY_LEAVE_PERIOD_DEFINED);
+			return ($val == 'Yes');
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Set Value: 'Yes' if the leave period has been set, else 'No'
+	 * @param string $value 'Yes' if the leave period has been set, else 'No'
+	 * @return void
+	 */
+	public static function setIsLeavePriodDefined($value) {
+		if ($value != 'Yes' && $value != 'No') {
+			throw new Exception("Given value for TimeSheetPeriodSet should be 'Yes' or 'No'");
+		}
+		self::_setValue(self::KEY_LEAVE_PERIOD_DEFINED, $value);
+	}
 
 }

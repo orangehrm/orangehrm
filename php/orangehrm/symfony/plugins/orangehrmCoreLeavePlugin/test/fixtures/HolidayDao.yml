@@ -1,0 +1,5 @@
+Holiday:
+  0: {holiday_id: 1, recurring: 1, description: 'Public Holiday', date: '2010-05-27', length: 4}
+  1: {holiday_id: 2, recurring: 0, description: 'Fullmoon Day', date: '2010-05-28', length: 8}
+  2: {holiday_id: 3, recurring: 1, description: 'Home Holiday', date: '2010-06-21', length: 4}
+  3: {holiday_id: 4, recurring: 0, description: 'Personal Holiday', date: '2010-08-28', length: 8}

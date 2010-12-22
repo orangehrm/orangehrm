@@ -506,8 +506,7 @@ VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
  	 	('USG001', 'MOD009', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree`(`title`, `description`, `loc_code`, `lft`, `rgt`, `id`, `parnt`, `dept_id`) VALUES ('', 'Parent Company', null , 1, 2, 1, 0, null);
 
-INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
-INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
+
 
 INSERT INTO `hs_hr_weekends` VALUES (1, 0);
 INSERT INTO `hs_hr_weekends` VALUES (2, 0);
@@ -561,7 +560,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(1, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_pr_salary_grade', 'sal_grd_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_empreport', 'rep_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave', 'leave_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'hs_hr_leavetype', 'leave_type_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leavetype', 'leave_type_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_holidays', 'holiday_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project', 'project_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet', 'timesheet_id');
@@ -583,3 +582,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_attendance', 'attendance_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_kpi', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_performance_review', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave_period', 'leave_period_id');

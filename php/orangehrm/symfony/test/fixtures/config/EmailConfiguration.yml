@@ -1,0 +1,15 @@
+mailType: 'smtp'
+
+sentAs: 'example@example.com'
+
+smtp:
+  host: 'smtp.example.com'
+  port: 222
+  username: 'testUser'
+  password: 'testPassword'
+  authType: 'LOGIN'
+  securityType: 'SSL'
+
+sendmail:
+  path: 'path/to/sendmail'
+

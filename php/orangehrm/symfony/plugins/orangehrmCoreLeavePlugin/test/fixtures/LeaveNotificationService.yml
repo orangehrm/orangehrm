@@ -1,0 +1,18 @@
+Employee:
+  0: {empNumber: '0001', lastName: 'Moyles', firstName: 'Chris', erep_sub_emp_number: 0, erep_sup_emp_number: '0002', emp_work_email: 'chris@test.lk'}
+  1: {empNumber: '0002', lastName: 'Wallshaw', firstName: 'Teena', erep_sub_emp_number: '0001', erep_sup_emp_number: 0, emp_work_email: 'teena@test.lk'}
+  2: {empNumber: '0003', lastName: 'Panther', firstName: 'Allen', erep_sub_emp_number: 0, erep_sup_emp_number: 0, emp_work_email: 'allan@test.lk'}
+
+LeaveRequest:
+  0: {leave_request_id: 1, leave_period_id: 1, leave_type_id: 'LTY001', leave_type_name: 'Casual', date_applied: '2010-08-30', empNumber: '0001'}
+  1: {leave_request_id: 2, leave_period_id: 1, leave_type_id: 'LTY001', leave_type_name: 'Casual', date_applied: '2010-08-02', empNumber: '0002'}
+  2: {leave_request_id: 3, leave_period_id: 1, leave_type_id: 'LTY002', leave_type_name: 'Medical', date_applied: '2010-08-03', empNumber: '0003'}
+
+Leave:
+  0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 1, employee_id: '0001', leave_date: '2010-09-07', leave_status: 1}
+  1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 1, employee_id: '0002', leave_date: '2010-09-08', leave_status: 1}
+  2: {leave_id: 3, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 3, leave_type_id: 1, employee_id: '0003', leave_date: '2010-09-10', leave_status: 2}
+
+Users:
+  0: {id: 1, user_name: 'yummy', is_admin: 1, email1: 'test@yahoo.com', email2: 'test@goole.com'}
+  1: {id: 2, user_name: 'mummy', is_admin: 1, email1: 'fun@yahoo.com', email2: 'fun@goole.com'}

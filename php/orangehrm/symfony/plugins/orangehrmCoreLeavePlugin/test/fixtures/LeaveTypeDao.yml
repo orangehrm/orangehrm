@@ -1,0 +1,8 @@
+LeaveType:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0}
+  3: {leaveTypeId: 'LTY004', leaveTypeName: 'Annual', availableFlag: 1}
+  4: {leaveTypeId: 'LTY005', leaveTypeName: 'Lesure', availableFlag: 0}
+  5: {leaveTypeId: 'LTY006', leaveTypeName: 'Wesak', availableFlag: 1}
+  6: {leaveTypeId: 'LTY007', leaveTypeName: 'Christmas', availableFlag: 1}

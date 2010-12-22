@@ -1,0 +1,8 @@
+Hi %recipientFirstName%,
+
+%performerFullName% has approved your leave request for following days:
+
+%leaveDetails%
+Thank you.
+
+This is an automated notification.

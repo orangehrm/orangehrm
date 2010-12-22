@@ -70,7 +70,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 */
 	 public static function getInstance() {
 
-	 	if (!is_a(self::$instance, 'LocaleUtil')) {
+	 	if (!(self::$instance instanceof LocaleUtil)) {
 	 		self::$instance = new LocaleUtil();
 	 	}
 

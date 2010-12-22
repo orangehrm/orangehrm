@@ -121,4 +121,5 @@ class KeyHandlerException extends Exception {
 	const KEY_DELETION_FAILIURE	= 5;
 
 }
+
 ?>

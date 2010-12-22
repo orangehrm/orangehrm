@@ -197,7 +197,8 @@
 	$lang_Menu_Leave_LeaveSummary 						= "Leave Summary";
 	$lang_Menu_Leave_LeavesList 						= "Leaves List";
 	$lang_Menu_Leave_ApproveLeave 						= "Approve Leave";
-	$lang_Menu_Leave_LeaveTypes 						= "Define Leave Types";
+	$lang_Menu_Leave_DefineLeavePeriod					= "Leave Period";
+	$lang_Menu_Leave_LeaveTypes 						= "Leave Types";
 	$lang_Menu_Leave_Apply 								= "Apply";
 	$lang_Menu_Leave_Assign								= "Assign Leave";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
@@ -205,6 +206,8 @@
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Days Off";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specific Holidays";
+    $lang_Menu_Leave_WorkWeek               			= "Work Week";
+    $lang_Menu_Leave_Holidays 	                        = "Holidays";
 
  	$lang_Leave_Title_Apply_Leave = "Apply Leave";
  	$lang_Leave_Title_Assign_Leave = "Assign Leave";
@@ -293,6 +296,8 @@
 
 	$lang_Common_TEST_EMAIL_SUCCESS = "Test email sent successfully";
 	$lang_Common_TEST_EMAIL_FAILIURE = "Test email failed. This can be due to incorrect configuration details";
+
+    $lang_Common_Configure = "Configure";
 
 	//days
 	$lang_Common_Monday 					= "Monday";

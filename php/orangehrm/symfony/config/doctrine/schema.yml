@@ -1337,6 +1337,8 @@ MailNotification:
     status:
       type: integer(4)
       notnull: true
+    email:
+      type: string(100)
   relations:
     Users:
       local: user_id

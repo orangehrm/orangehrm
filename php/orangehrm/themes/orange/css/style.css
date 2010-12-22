@@ -148,7 +148,7 @@ a.backbutton span {
 
 /* TODO: Rename to pageTitle or formTitle */
 div.mainHeading {
-	padding: 1px 0px 4px 8px;
+	padding: 4px 0px 7px 8px;
 	width:auto;
 	border:0;
 	background-color: #FAD163;
@@ -238,9 +238,9 @@ table.data-table thead {
 }
 
 table.data-table thead td {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	font-size: 11px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	font-size: 13px;
 	color: #444444;
 	font-weight: bold;
 	text-align: left;
@@ -278,7 +278,7 @@ table.data-table tbody tr td {
 table.data-table tbody td a {
 	font-size: 12px;
 	color: #000000;
-	
+	text-decoration: underline;
 }
 
 table.data-table tbody td a:hover {
@@ -405,6 +405,27 @@ div.pimpanel div.actionbar div.actionbuttons {
 	/*height: 100%;*/
 }
 
+    .maincontent ul{
+        padding: 0; margin: 0;
+    }
+    .maincontent ul li{
+        padding: 0; margin: 0;
+        list-style: none;
+    }
+    .maincontent ul li .left{
+        float: left;
+        width: 290px;
+    }
+    .maincontent ul li .right{
+        float: right;
+        width: 290px;
+    }
+    .maincontent .clear{
+        float: none;
+        clear: both;
+    }
+
+    
 .outerbox .top div, .outerbox .bottom div{
 	font-size:0;
 }
@@ -454,6 +475,7 @@ div.fielderror {
 /* Required field notice */
 div.requirednotice {
 	margin-left:16px;
+    margin-top:5px;
 }
 
 div.fieldHint {
@@ -471,12 +493,21 @@ label.sideHint {
 }
 
 /* Form elements */
-label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput,
+select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput,
 input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
 div.wideFormValue, select.formTimeSelect, input.formFileInput {
     display: block;
     float: left;
     margin: 10px 0px 2px 0px;
+}
+
+label
+{
+   width: 10px;
+    display: block;
+    float: left;
+    margin: 10px 0px 2px 0px;	
+   	
 }
 
 input.formRadio, input.formCheckbox {
@@ -506,7 +537,7 @@ span.formFieldContainer {
 label, span.formLabel, span.wideFormLabel {
     text-align: left;
     width: 110px;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 label.optionlabel {
 	width: auto;
@@ -567,7 +598,7 @@ input.formDateInput {
 	margin-left: 10px;
 	padding-left: 4px;
 	padding-right: 4px;
-	width: 120px;
+	width: 150px;
 }
 input.calendarBtn, input[type=button].calendarBtn {
 	display: block;
@@ -584,7 +615,7 @@ input.calendarBtn, input[type=button].calendarBtn {
 
 /* Div with buttons (save, edit, cancel) in form */
 div.formbuttons {
-	text-align: center;
+	text-align: left;
 	width:auto;
 	height:auto;
 	margin-left:5px;
@@ -645,6 +676,9 @@ div.loading span {
 	background-image: url(../icons/contract_hide.png);
 }
 
+div.addPane {
+    display: none;
+}
 
 /* Sub lists in PIM */
 
@@ -1453,19 +1487,18 @@ table.simpleList td {
     }
 
     input[type=text] {
-
-        border-top-width: 0px;
-        border-left: 0px;
-        border-right: 0px;
-        border-bottom: 1px solid #888888;
+        border-color: #888888;
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
     }
 
     form input.formInputText{
-
+		/*
 		border-top-width: 0px;
         border-left: 0px;
         border-right: 0px;
         border-bottom: 1px solid #888888;
+        */
 	}
 
     table.historyTable th {
@@ -1547,4 +1580,73 @@ table.simpleList td {
       font-size:10px;
       color:#999999;
       padding-left:6px;
-    }
+    }   
+	
+	
+	
+	
+	table.report_tabler tr .headerSortUp { 
+	    background-image:  url(../pictures/desc.gif);
+	    background-color: #ffc72f; 
+	} 
+	table.report_tabler th.headerSortDown { 
+	    background-image: url(../pictures/asc.gif); 
+	    background-color: #ffc72f; 
+	} 
+	
+	table.report_table {
+		width: 100%;	
+	}
+	
+	table.report_table thead tr th {
+		background-image: url(../pictures/small.gif);
+		background-color: #e6EEEE;
+		cursor: pointer; 
+	    font-weight: bold; 
+	    background-repeat: no-repeat; 
+	    background-position: center right;	   
+		background-color: #ffe18f;		
+		border-bottom : 1px solid #d5d5d5;
+		border-right : 1px solid #d5d5d5;		
+		font-size: 8pt;
+		padding: 4px;
+		padding-right: 20px;
+	}
+	
+	table.report_table tbody tr td {		
+		padding: 4px;
+		background-color: #ffffff;		
+		border-bottom : 1px solid #d5d5d5;
+		border-right : 1px solid #d5d5d5;
+		vertical-align: top;		
+	}
+	table.report_table tbody tr td li {		
+		margin-left: 20px;			
+	}
+	
+	table.report_table tbody tr.odd td {
+		background-color:#F0F0F6;
+	}
+	
+	table.report_table tbody tr.even td {
+		background-color:#eeeeee;		
+	}
+	table.report_table thead tr .headerSortUp {
+		background-color: #d2a428;
+		background-image: url(../pictures/asc.gif); 
+	}
+	
+	table.report_table thead tr .headerSortDown {
+		background-color: #d2a428;
+		background-image: url(../pictures/desc.gif);
+	}
+	
+	label.valueLabel {
+		width: 160px;
+		font-weight: bold;
+	}
+
+   .outerBorder {
+      width: 600px;
+      border:2px #FAD163 solid;
+	}

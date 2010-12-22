@@ -1,0 +1,19 @@
+set1:
+  0: {leave_request_id: 1, leave_period_id: 1, leave_type_id: 'LTY001', leave_type_name: 'Casual', date_applied: '2010-08-30', empNumber: 1, leave_comments: 'my comment1'}
+
+set2:
+  0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-09-01', leave_status: 1, leave_comments: 'my comment1'}
+  1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-09-02', leave_status: 1, leave_comments: 'my comment2'}
+
+set3:
+  0: {leave_request_id: 1, leave_period_id: 1, leave_type_id: 'LTY001', leave_type_name: 'Casual', date_applied: '2010-12-01', empNumber: 1, leave_comments: 'my comment1'}
+
+set4:
+  0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-12-30', leave_status: 1, leave_comments: 'my comment1'}
+  1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-12-31', leave_status: 1, leave_comments: 'my comment2'}
+  2: {leave_id: 3, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2011-01-01', leave_status: 1, leave_comments: 'my comment3'}
+  3: {leave_id: 4, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2011-01-02', leave_status: 1, leave_comments: 'my comment4'}
+
+set5:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Annual', availableFlag: 1}

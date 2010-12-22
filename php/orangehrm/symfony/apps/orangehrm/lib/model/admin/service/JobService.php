@@ -1,697 +1,515 @@
 <?php
-/* 
- * 
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
- * all the essential functionalities required for any enterprise.
- * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
- *
- * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program;
- * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
- * 
- */
-
 /**
- * Description of CompanyService
+ * JobService Class
+ * @author Sujith T
  *
- * @author orange
  */
 class JobService extends BaseService {
-	
-	/**
-	 * Save Job Category
-	 * @return unknown_type
-	 */
-	public function saveJobCategory( JobCategory $jobCategory)
-	{
-		try
-        {
-	    	if( $jobCategory->getEecCode() == '')
-	    	{
-	        	$idGenService	=	new IDGeneratorService();
-				$idGenService->setEntity($jobCategory);
-				$jobCategory->setEecCode( $idGenService->getNextID());
-	    	}
-        	$jobCategory->save();
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-	}
-	
-	/**
-	 * List Job category
-	 * @return unknown_type
-	 */
-	public function getJobCategoryList( $orderField='eec_code',$orderBy='ASC' )
-	{
-		try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('JobCategory')
-			    ->orderBy($orderField.' '.$orderBy);
-			
-			$jobCategoryList = $q->execute();
-			   
-			return  $jobCategoryList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-	}
-	
-	/**
-	 * Delete Job category
-	 * @return unknown_type
-	 */
-	public function deleteJobCategory( $jobCategoryList)
-	{
-		try
-        {
-	    	if(is_array($jobCategoryList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('JobCategory')
-					    ->whereIn('eec_code', $jobCategoryList );
-					
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-	}
-	
-  /**
-     * 
-     * @param $searchParam
-     * @return unknown_type
-     */
-    public function searchJobCategory( $searchMode, $searchValue )
-    {
-    	try
-        {
-	    	$searchValue	=	trim($searchValue);
-        	$q = Doctrine_Query::create( )
-				    ->from('JobCategory') 
-				   ->where("$searchMode = ?",$searchValue);
-				    
-			$jobCategoryList = $q->execute();
-			
-			return $jobCategoryList;
-			   
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-     /**
-     * Read Job Category
-     * @param $customFieldList
-     * @return void
-     */
-    public function readJobCategory( $id )
-    {
-   	 	try
-        {
-	    	$jobCategory = Doctrine::getTable('JobCategory')->find($id);
-	    	return $jobCategory;
-	    	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-     
-        }
-    } 
-    
-    /**
-     * Save Salery grade
-     * @param SalaryGrade $salaryGrade
-     * @return unknown_type
-     */
-    public function saveSaleryGrade(SalaryGrade $salaryGrade)
-    {
-    	try
-        {
-	    	if( $salaryGrade->getSalGrdCode() == '')
-	    	{
-	        	$idGenService	=	new IDGeneratorService();
-				$idGenService->setEntity($salaryGrade);
-				$salaryGrade->setSalGrdCode( $idGenService->getNextID() );
-	    	}
-        	$salaryGrade->save();
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-    /**
-     * Get Salery Grade
-     * @return unknown_type
-     */
-    public function getSaleryGradeList( $orderField='sal_grd_code',$orderBy='ASC')
-    {
-    	try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('SalaryGrade')
-			    ->orderBy($orderField.' '.$orderBy);
-			
-			$saleryGradeList = $q->execute();
-			   
-			return  $saleryGradeList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-    /**
-     * Delete Salery grade
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-    public function deleteSaleryGrade( $saleryGradeList)
-    {
-   	 	try
-        {
-	    	if(is_array($saleryGradeList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('SalaryGrade')
-					    ->whereIn('sal_grd_code', $saleryGradeList );
-					
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
- 	/**
-     * Search the salery grade 
-     * @param $searchParam
-     * @return unknown_type
-     */
-    public function searchSaleryGrade( $searchMode, $searchValue )
-    {
-    	try
-        {
-	    	$searchValue	=	trim($searchValue);
-        	$q = Doctrine_Query::create( )
-				    ->from('SalaryGrade') 
-				   ->where("$searchMode = ?",$searchValue);
-				    
-			$saleryGradeList = $q->execute();
-			
-			return $saleryGradeList;
-			   
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-   /**
-     * Read SaleryGrade
-     * @param $customFieldList
-     * @return void
-     */
-    public function readSaleryGrade( $id )
-    {
-   	 	try
-        {
-	    	$saleryGrade = Doctrine::getTable('SalaryGrade')->find($id);
-	    	return $saleryGrade;
-	    	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-     
-        }
-    } 
-    
-     /**
-     * Read SaleryGrade
-     * @param $customFieldList
-     * @return void
-     */
-    public function saveSalleryGradeCurrency( SalaryCurrencyDetail $salaryCurrencyDetail )
-    {
-    	try
-        {
-        	if(!$this->isExistingSalleryGradeCurrency($salaryCurrencyDetail))
-        	{
-        		$salaryCurrencyDetail->save();
-        	}else
-        		return false;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-  /**
-     * Read SaleryGrade
-     * @param $customFieldList
-     * @return void
-     */
-    public function isExistingSalleryGradeCurrency( SalaryCurrencyDetail $salaryCurrencyDetail )
-    {
-    	try
-        {
-        	$q = Doctrine_Query::create()
-			    ->from('SalaryCurrencyDetail')
-			    ->where("sal_grd_code='".$salaryCurrencyDetail->getSalGrdCode()."' AND currency_id='".$salaryCurrencyDetail->getCurrencyId()."'");
-			
-			 if($q->count()>0)
-			 	return true ;
-			 else
-			 	return false ;
-			 	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
- 	/**
-     * Get Salery Grade
-     * @return unknown_type
-     */
-    public function getSalleryGradeCurrency( $saleryGradeCode)
-    {
-    	try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('SalaryCurrencyDetail')
-			    ->where("sal_grd_code='$saleryGradeCode'");
-			
-			
-			$saleryGradeCurrencyList = $q->execute();
-			   
-			return  $saleryGradeCurrencyList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-    /**
-     * Delete Salery grade
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-    public function deleteSalleryGradeCurrency( $saleryGradeId,$saleryGradeCurrencyList)
-    {
-   	 	try
-        {
-	    	if(is_array($saleryGradeCurrencyList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('SalaryCurrencyDetail')
-					    ->where("sal_grd_code ='$saleryGradeId'")
-					    ->whereIn('currency_id', $saleryGradeCurrencyList  );
-					
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-   /**
-     * Get Employee stat
-     * @return unknown_type
-     */
-    public function getEmployeeStatusList( $orderField='id',$orderBy='ASC' )
-    {
-    	try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('EmployeeStatus')
-			    ->orderBy($orderField.' '.$orderBy);
-			
-			$employeeStatusList = $q->execute();
-			   
-			return  $employeeStatusList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    } 
-    
-    /**
-     * Save Employee Status
-     * @param SalaryGrade $salaryGrade
-     * @return unknown_type
-     */
-    public function saveEmployeeStatus(EmployeeStatus $employeeStatus)
-    {
-    	try
-        {
-        	if( $employeeStatus->getId()=='')
-        	{
-	        	$idGenService	=	new IDGeneratorService();
-				$idGenService->setEntity($employeeStatus);
-				$employeeStatus->setId( $idGenService->getNextID() );
-        	}
-        	$employeeStatus->save();
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-   /**
-     * Delete Employee status
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-    public function deleteEmployeeStatus( $employeeStatusList)
-    {
-   	 	try
-        {
-	    	if(is_array($employeeStatusList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('EmployeeStatus')
-					    ->whereIn('id', $employeeStatusList );
-					
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-	/**
-     * Search Employee stat
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-  	public function searchEmployeeStatus( $searchMode, $searchValue )
-    {
-    	try
-        {
-	    	$searchValue	=	trim($searchValue);
-        	$q 				= 	Doctrine_Query::create( )
-				   				 ->from('EmployeeStatus') 
-				    			->where("$searchMode = ?",$searchValue);
-				    
-			$employeeStatList = $q->execute();
-			
-			return $employeeStatList;
-			   
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-   /**
-     * Read EmployeeStatus
-     * @return void
-     */
-    public function readEmployeeStatus( $id )
-    {
-   	 	try
-        {
-	    	$employeeStatus = Doctrine::getTable('EmployeeStatus')->find($id);
-	    	return $employeeStatus;
-	    	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-     
-        }
-    }
-    
-   /**
-     * Get Employee stat
-     * @return unknown_type
-     */
-    public function getJobSpecificationsList( $orderField='jobspec_id',$orderBy='ASC' )
-    {
-    	try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('JobSpecifications')
-			    ->orderBy($orderField.' '.$orderBy);
-			
-			$jobSpecificationsList = $q->execute();
-			   
-			return  $jobSpecificationsList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    } 
-    
-    /**
-     * Save Employee Status
-     * @param SalaryGrade $salaryGrade
-     * @return unknown_type
-     */
-    public function saveJobSpecifications(JobSpecifications $jobSpecifications)
-    {
-    	try
-        {
-        	if( $jobSpecifications->getJobspecId() == '') 
-        	{
-	        	$idGenService	=	new IDGeneratorService();
-				$idGenService->setEntity($jobSpecifications);
-				$jobSpecifications->setJobspecId( $idGenService->getNextID() );
-        	}
-        	
-        	$jobSpecifications->save();
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-  /**
-     * Delete Employee status
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-    public function deleteJobSpecifications( $jobSpecificationsList)
-    {
-   	 	try
-        {
-	    	if(is_array($jobSpecificationsList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('JobSpecifications')
-					    ->whereIn('jobspec_id', $jobSpecificationsList );
-					
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-    /**
-     * Search Employee stat
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-  	public function searchJobSpecifications( $searchMode, $searchValue )
-    {
-    	try
-        {
-	    	$searchValue	=	trim($searchValue);
-        	$q 				= 	Doctrine_Query::create( )
-				   				 ->from('JobSpecifications') 
-				    			 ->where("$searchMode = ?",$searchValue);
-				    
-			$jobSpecificationsList = $q->execute();
-			
-			return $jobSpecificationsList;
-			   
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-     /**
-     * Read JobSpecifications
-     * @return void
-     */
-    public function readJobSpecifications( $id )
-    {
-   	 	try
-        {
-	    	$jobSpecifications = Doctrine::getTable('JobSpecifications')->find($id);
-	    	return $jobSpecifications;
-	    	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-     
-        }
-    } 
-    
-      /**
-     * Get Employee stat
-     * @return unknown_type
-     */
-    public function getJobTitleList( $orderField='job.id',$orderBy='ASC', $activeStatus=array(1))
-    {
-    	try
-        {
-	    	$q = Doctrine_Query::create()
-			    ->from('JobTitle job')
-			    ->whereIn('isActive', $activeStatus)
-			    ->orderBy($orderField.' '.$orderBy);
-			
-			$jobTitleList = $q->execute();
-			   
-			return  $jobTitleList ;
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    } 
-    
- 	/**
-     * Save Employee Status
-     * @param SalaryGrade $salaryGrade
-     * @return unknown_type
-     */
-    public function saveJobTitle(JobTitle $jobTitle,$emplymentStatus = array())
-    {
-    	try
-        {
-        	if( $jobTitle->getId() == '')
-        	{
-	        	$idGenService	=	new IDGeneratorService();
-				$idGenService->setEntity($jobTitle);
-				$jobTitle->setId( $idGenService->getNextID() );
-				
-				
-        	}
-        	
-        	if( $jobTitle->getSalaryGradeId() == '-1')
-        		$jobTitle->setSalaryGradeId(new SalaryGrade());
-        	
-        		if( $jobTitle->getJobspecId() == '-1')
-        		$jobTitle->setJobspecId(new JobSpecifications());	
-        		
-			$jobTitle->save();
-        	
-			foreach( $emplymentStatus as $empStatus)
-			{
-				$jobEmpStatus	=	new JobTitleEmployeeStatus();
-    			$jobEmpStatus->setJobtitCode($jobTitle->getId());
-    			$jobEmpStatus->setEstatCode($empStatus->getId());
-    			$jobEmpStatus->save();
-			}
-        	
-			
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
+   private $jobDao;
 
-    
- 
-    
    /**
-     * Delete Employee status
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-    public function deleteJobTitle( $jobTitleList)
-    {
-   	 	try
-        {
-	    	if(is_array($jobTitleList ))
-	    	{
-	        	$q = Doctrine_Query::create()
-					    ->delete('JobTitle')
-					    ->whereIn('id', $jobTitleList );
-	
-					   
-				$numDeleted = $q->execute();
-	    	}
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
-    /**
-     * Search Employee stat
-     * @param $saleryGradeList
-     * @return unknown_type
-     */
-  	public function searchJobTitle( $searchMode, $searchValue )
-    {
-    	try
-        {
-	    	$searchValue	=	trim($searchValue);
-        	$q 				= 	Doctrine_Query::create( )
-				   				 ->from('JobTitle') 
-				    			 ->where("$searchMode = ?",$searchValue);
-				    
-			$jobTitleList = $q->execute();
-			
-			return $jobTitleList;
-			   
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-    
+    * Constructor
+    */
+   public function __construct() {
+      $this->jobDao = new JobDao();
+   }
+
    /**
-     * Read JobTitle
-     * @return void
-     */
-    public function readJobTitle( $id )
-    {
-   	 	try
-        {
-	    	$jobTitle = Doctrine::getTable('JobTitle')->find($id);
-	    	return $jobTitle;
-	    	
-        }catch( Exception $e)
-        {
-            throw new AdminServiceException($e->getMessage());
-     
-        }
-    } 
-    
-   
+    * Set JobDao
+    * @param JobDao $jobDao
+    */
+   public function setJobDao(JobDao $jobDao) {
+      $this->jobDao = $jobDao;
+   }
+
+   /**
+    * Return JobDao
+    * @returns JobDao
+    */
+   public function getJobDao() {
+      return $this->jobDao;
+   }
+
+   /**
+    * Saving Job Category
+    * @param JobCategory $jobCategory
+    * @returns boolean
+    * @throws AdminServiceException, DataDuplicationException
+    */
+   public function saveJobCategory(JobCategory $jobCategory) {
+      try {
+         return $this->jobDao->saveJobCategory($jobCategory);
+      } catch(DataDuplicationException $e) {
+         throw new DuplicateNameException($e->getMessage());
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve Job Category List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getJobCategoryList($orderField = 'eec_code', $orderBy = 'ASC') {
+      try {
+         return $this->jobDao->getJobCategoryList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete Job Category
+    * @param array() $jobCategoryList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteJobCategory($jobCategoryList = array()) {
+      try {
+         return $this->jobDao->deleteJobCategory($jobCategoryList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Searching JobCategory
+    * @param String $searchMode
+    * @param String $searchValue
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function searchJobCategory($searchMode, $searchValue) {
+      try {
+         return $this->jobDao->searchJobCategory($searchMode, $searchValue);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Returns JobCategory by Id. This need to be refactored to retrieve JC object, need to change all references
+    * @param String $id
+    * @returns JobCategory
+    * @throws AdminServiceException
+    */
+   public function readJobCategory($id) {
+      try {
+         return $this->jobDao->readJobCategory($id);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Saves SalaryGrade
+    * @param String $id
+    * @returns SalaryGrade
+    * @throws AdminServiceException
+    */
+   public function saveSalaryGrade(SalaryGrade $salaryGrade) {
+      try {
+         return $this->jobDao->saveSalaryGrade($salaryGrade);
+      } catch(DataDuplicationException $e) {
+         throw $e;
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve SalaryGrade List. need to make the correction in the function name
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getSaleryGradeList($orderField = 'sal_grd_code', $orderBy = 'ASC') {
+      try {
+         return $this->jobDao->getSalaryGradeList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete SalaryGrade
+    * @param array() $saleryGradeList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteSalaryGrade($saleryGradeList = array()){
+      try {
+         return $this->jobDao->deleteSalaryGrade($saleryGradeList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Searching SalaryGrade
+    * @param String $searchMode
+    * @param String $searchValue
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function searchSalaryGrade($searchMode, $searchValue) {
+      try {
+         return $this->jobDao->searchSalaryGrade($searchMode, $searchValue);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Return SalaryGrade from Id
+    * @param String $id
+    * @returns SaleryGrade.
+    * @throws AdminServiceException
+    */
+   public function readSalaryGrade($id) {
+      try {
+         return $this->jobDao->readSalaryGrade($id);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Saving SalaryCurrencyDetail
+    * @param SalaryCurrencyDetail $salaryCurrencyDetail
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function saveSalleryGradeCurrency(SalaryCurrencyDetail $salaryCurrencyDetail) {
+      try {
+         return $this->jobDao->saveSalleryGradeCurrency($salaryCurrencyDetail);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Checks for existing SalaryCurrencyDetail for a given currency
+    * @param SalaryCurrencyDetail $salaryCurrencyDetail
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function isExistingSalleryGradeCurrency(SalaryCurrencyDetail $salaryCurrencyDetail) {
+      try {
+         return $this->jobDao->isExistingSalleryGradeCurrency($salaryCurrencyDetail);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve SalleryGradeCurrency by code, correction to the function name need to be done
+    * @param String $saleryGradeCode
+    * @returns SalleryGradeCurrency/Collection
+    * @throws AdminServiceException
+    */
+   public function getSalleryGradeCurrency($saleryGradeCode) {
+      try {
+         return $this->jobDao->getSalaryGradeCurrency($saleryGradeCode);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete SalleryGradeCurrency, name correction need to be done
+    * @param String $saleryGradeId
+    * @param array() $saleryGradeCurrencyList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteSalleryGradeCurrency($saleryGradeId, $saleryGradeCurrencyList) {
+      try {
+         return $this->jobDao->deleteSalaryGradeCurrency($saleryGradeId, $saleryGradeCurrencyList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve SalaryCurrencyDetail
+    * @param String $saleryGradeId
+    * @param String $currency
+    * @returns SalaryCurrencyDetail
+    * @throws PIMServiceException
+    */
+   public function getSalaryCurrencyDetail($salaryGrade, $currency) {
+      try {
+         return $this->jobDao->getSalaryCurrencyDetail($salaryGrade, $currency);
+      } catch(Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve EmployeeStatus List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getEmployeeStatusList($orderField = 'id', $orderBy = 'ASC') {
+      try {
+         return $this->jobDao->getEmployeeStatusList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve EmployeeStatus for a Job Title
+    * @param String $jobTitleCode
+    * @param array() $asArray
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getEmployeeStatusForJob($jobTitleCode, $asArray = false) {
+      try {
+         return $this->jobDao->getEmployeeStatusForJob($jobTitleCode, $asArray);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Save EmployeeStatus
+    * @param EmployeeStatus $employeeStatus
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function saveEmployeeStatus(EmployeeStatus $employeeStatus) {
+      try {
+         return $this->jobDao->saveEmployeeStatus($employeeStatus);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete EmployeeStatus
+    * @param array() $employeeStatusList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteEmployeeStatus($employeeStatusList = array()) {
+      try {
+         return $this->jobDao->deleteEmployeeStatus($employeeStatusList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Search EmployeeStatus
+    * @param String $searchMode
+    * @param String $searchValue
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+  	public function searchEmployeeStatus($searchMode, $searchValue) {
+      try {
+         return $this->jobDao->searchEmployeeStatus($searchMode, $searchValue);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Search EmployeeStatus by Id
+    * @param String $id
+    * @returns EmployeeStatus
+    * @throws AdminServiceException
+    */
+   public function readEmployeeStatus($id) {
+      try {
+         return $this->jobDao->readEmployeeStatus($id);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve JobSpecifications List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getJobSpecificationsList($orderField = 'jobspec_id', $orderBy = 'ASC') {
+      try {
+         return $this->jobDao->getJobSpecificationsList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Save JobSpecifications
+    * @param JobSpecifications $jobSpecifications
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function saveJobSpecifications(JobSpecifications $jobSpecifications) {
+      try {
+         return $this->jobDao->saveJobSpecifications($jobSpecifications);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete JobSpecifications
+    * @param array() $jobSpecificationsList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteJobSpecifications($jobSpecificationsList = array()) {
+      try {
+         return $this->jobDao->deleteJobSpecifications($jobSpecificationsList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Search JobSpecifications by fields
+    * @param String $searchMode
+    * @param String $searchValue
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function searchJobSpecifications($searchMode, $searchValue) {
+      try {
+         return $this->jobDao->searchJobSpecifications($searchMode, $searchValue);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Return JobSpecifications by Id
+    * @param id $id
+    * @returns JobSpecifications. need to refactor later
+    * @throws AdminServiceException
+    */
+   public function readJobSpecifications($id) {
+      try {
+         return $this->jobDao->readJobSpecifications($id);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Get job specification for given job
+    *
+    * @param id int JobSpec ID
+    * @param asArray bool If true, returns job spec as an array, if false, returns job spec as an object
+    * @return $jobSpecifications object (or null if job has no job specification)
+    * @throws AdminServiceException
+    */
+   public function getJobSpecForJob($jobId, $asArray = false) {
+      try {
+         return $this->jobDao->getJobSpecForJob($jobId, $asArray);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve JobTitle List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getJobTitleList($orderField = 'job.id', $orderBy = 'ASC'){
+      try {
+         return $this->jobDao->getJobTitleList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Save JobTitle
+    * @param JobTitle $jobTitle
+    * @param array() $emplymentStatus
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function saveJobTitle(JobTitle $jobTitle, $emplymentStatus = array()) {
+      try {
+         return $this->jobDao->saveJobTitle($jobTitle, $emplymentStatus);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete JobTitleEmpStstus. Need to change the name later - mispelt
+    * @param JobTitle $jobTitle
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteJobTitleEmpStstus($jobTitle) {
+      try {
+         return $this->jobDao->deleteJobTitleEmpStstus($jobTitle);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete JobTitle
+    * @param array() $jobTitleList
+    * @returns boolean
+    * @throws AdminServiceException
+    */
+   public function deleteJobTitle($jobTitleList = array()) {
+      try {
+         return $this->jobDao->deleteJobTitle($jobTitleList);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Search JobTitle
+    * @param String $searchMode
+    * @param String $searchValue
+    * @returns JobTitle/Collection
+    * @throws AdminServiceException
+    */
+   public function searchJobTitle($searchMode, $searchValue) {
+      try {
+         return $this->jobDao->searchJobTitle($searchMode, $searchValue);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Retrieve JobTitle by Id
+    * @param int $id
+    * @returns JobTitle
+    * @throws AdminServiceException
+    */
+   public function readJobTitle($id) {
+      try {
+         return $this->jobDao->readJobTitle($id);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
 }
+?>

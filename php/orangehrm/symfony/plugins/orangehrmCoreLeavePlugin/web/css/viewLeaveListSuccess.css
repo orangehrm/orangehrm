@@ -1,0 +1,102 @@
+input.checkbox {
+	vertical-align: middle;
+    margin-right: 30px;
+}
+
+input#calFromDate,input#calToDate {
+	float: none;
+	display: inline;
+	margin-right: -10px;
+	margin-left: 8px;
+}
+
+label.mainLabel {
+	font-weight: bold;
+	float: none;
+	display: inline-block;
+	width: 150px;
+}
+
+label.subLabel {
+	float: none;
+	display: inline;
+	width: auto;
+	margin: 4px 6px 4px 4px;
+}
+
+div.actionbuttons {
+	width: 99%;
+	padding: 4px;
+	margin: 0px;
+	display: block;
+	float: none;
+	border-top: solid 1px #ff9900;
+}
+
+table.data-table td {
+	vertical-align: top;
+}
+
+table.data-table thead tr td {
+    font-weight:bold;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+}
+
+table.data-table tbody tr td {
+    padding:4px 4px;
+}
+
+div.navigationHearder {
+    background:none repeat scroll 0 0 #FAD163;
+    border-bottom:2px solid #FFFFFF;
+}
+
+.pagingbar {
+    margin:2px 2px 5px 0;
+}
+
+label.subLabelNew {
+    display:inline;
+    float:none;
+    margin:4px 6px 4px 0px;
+    padding-left: 0px;
+}
+
+input.calendarBtn[type="button"] {
+    margin-right: 30px;
+}
+
+#overQuotaDialog {
+    display: none;
+}
+
+.dialogButtons {
+    text-align: center;
+}
+
+.dialogInvoker {
+    cursor:pointer;
+    width: 16px;
+}
+
+.commentTextArea {
+    border: 1px #888888 solid;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 315px;
+    font-size: 5px;
+    color: #000000;
+}
+
+.highlightRow {
+    background-color:#CDCDCD;
+}
+
+.error {
+    color: #ff0000;
+}

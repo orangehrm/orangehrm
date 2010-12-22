@@ -1,0 +1,132 @@
+.error_list {
+    color: #ff0000;
+}
+
+.outerbox {
+    width: 650px;
+}
+
+.innerSet {
+    padding: 20px;
+    margin: 20px;
+}
+
+p {
+    margin-left: 20px;
+}
+
+select {
+    margin: 0 0 0 20px;
+}
+
+.outerMost {
+    margin-left: 15px;
+    margin-top: 15px;
+    width: 300px;
+}
+
+#groupTable {
+    border-collapse: collapse;
+}
+
+#groupTable td {
+    border: 1px solid #FAD163;
+}
+
+#groupTable th {
+    border: 1px solid #FAD163;
+}
+
+.groupNoTd, .criteriaTd {
+    padding: 20px;
+}
+
+.actionTd {
+    padding: 25px 5px;
+}
+
+.positionTable {
+     border: none;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0px 10px;
+}
+
+.positionUl {
+    display: inline;
+}
+
+.groupStatesPosition, .groupYosPosition {
+    border-top: 1px solid #FAD163;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.groupMetaPosition div, .groupStatesPosition div, .groupYosPosition div {
+    clear: left;
+    margin: 0;
+    padding: 0;
+    padding-top: 0.6em;
+}
+
+.groupMetaPosition label, .groupStatesPosition label, .groupYosPosition label {
+    float: left;
+    margin-top: 0;
+    padding-left: 0;
+}
+
+.groupMetaPosition label {
+    width: 60%;
+}
+
+.groupStatesPosition label {
+    width: 58%;
+}
+
+.groupYosPosition label {
+    width: 60%;
+}
+
+.errorHolder {
+    margin: 10px 0 0 0;
+    color: #ff0000;
+}
+
+.errorHighlight {
+    border: 2px solid #FF0000;
+}
+
+.btnAddEmpGroup, .btnRemoveEmpGroup, .btnToggleEmpGroup {
+    width: 125px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#rulesHelp {
+    font-weight: bold;
+}
+
+#rulesHelpContainer {
+    border: 1px solid #999999;
+    background: #EAEAEA;
+    margin: 22px;
+    padding: 10px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+#undeleteDialog {
+    display: none;
+}
+
+.dialogButtons {
+    text-align: center;
+}
+
+.paddingLeft {
+    padding-left: 10px;
+}

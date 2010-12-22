@@ -23,14 +23,15 @@ div.navigationHearder {
 	
 }
 
-#buttonWrapper {
+.buttonWrapper {
 	padding: 5px 0px 4px 8px;
 	width:auto;
 	border:0;
 	background-color: #FAD163;
+        margin: 10px 0 0 0;
 }
 
-#formHeading {
+.formHeading {
 	padding: 5px 0px 5px 8px;
 	width:auto;
 	border:0;
@@ -38,10 +39,10 @@ div.navigationHearder {
 	color: black;
 	text-align:left;
 }
-#formWrapper{
-	padding: 0px 0px 5px 0px;
+.formWrapper{
+	padding: 0;
 	}
-#tableWrapper{
+.tableWrapper{
 	padding: 3px 0px 0px 0px;
 	}
 	

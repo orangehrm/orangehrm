@@ -69,6 +69,8 @@
  * @property Doctrine_Collection $memberships
  * @property Doctrine_Collection $salary
  * @property Doctrine_Collection $directDebit
+ * @property Doctrine_Collection $EmployeeLeaveEntitlement
+ * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $subordinates
  * @property EmpUsTax $usTax
  * @property Doctrine_Collection $ReportTo
@@ -145,6 +147,8 @@
  * @method Doctrine_Collection getMemberships()              Returns the current record's "memberships" collection
  * @method Doctrine_Collection getSalary()                   Returns the current record's "salary" collection
  * @method Doctrine_Collection getDirectDebit()              Returns the current record's "directDebit" collection
+ * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
+ * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
  * @method EmpUsTax            getUsTax()                    Returns the current record's "usTax" value
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
@@ -220,6 +224,8 @@
  * @method Employee            setMemberships()              Sets the current record's "memberships" collection
  * @method Employee            setSalary()                   Sets the current record's "salary" collection
  * @method Employee            setDirectDebit()              Sets the current record's "directDebit" collection
+ * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
+ * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
  * @method Employee            setUsTax()                    Sets the current record's "usTax" value
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
@@ -523,6 +529,14 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('EmpDirectdebit as directDebit', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
+
+        $this->hasMany('EmployeeLeaveEntitlement', array(
+             'local' => 'empNumber',
+             'foreign' => 'employee_id'));
+
+        $this->hasMany('LeaveRequest', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
 
         $this->hasMany('Employee as subordinates', array(
              'refClass' => 'ReportTo',

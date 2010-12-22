@@ -1,13 +1,33 @@
+label.error2col {
+    color:red;
+    padding-left: 130px;
+}
+label.error1col {
+    color:red;
+}
+
+label.errortd {
+    color:red;
+    width:auto;
+    padding:auto;
+}
+
 label.error {
 	
 	color:red;
 	clear:both;
 	padding-left: 130px;
-	white-space:nowrap;
+	/*white-space:nowrap;*/
 	display: block;
-	
-	
+        font-size: 11px;
+        margin-top: 5px;
+        width: 128px !important;
 }
+
+.single_row_form label.error {
+    white-space:nowrap;
+}
+
 label.valid {
 	background: url('/js/jquery/img/valid.gif') no-repeat;
 	height:21px;
@@ -16,30 +36,31 @@ label.valid {
 	padding-left: 21px;
 }
 
-input.error {
+input.error, input.error2col {
 	border:1px dotted red;
 }
 
-textarea.error{
-	border:1px dotted red;
+textarea.error, textarea.error2col {
+	/*border:1px dotted red;*/
 }
 
-.doterror{
-		border:1px dotted red;
-	}
+div.error {
+	color:red;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 
 div.messageBalloon_regular,
 div.messageBalloon_success,
 div.messageBalloon_failure,
 div.messageBalloon_warning,
 div.messageBalloon_notice {
-        
+        margin: 10px 30px 10px 30px;
         width:auto;
-        height:auto;
-        font-size:12px;
-        font-weight:bold;
-        padding:2px 10px 2px 10px;
-        margin-left: 15px;
+        font-size:14px;
+        padding:8px 8px 8px 20px;
+        font-weight: bold;
 }
 
 div.messageBalloon_regular a,
@@ -48,7 +69,6 @@ div.messageBalloon_failure a,
 div.messageBalloon_warning a,
 div.messageBalloon_notice a {
         font-size:12px;
-         
 }
 
 div.messageBalloon_regular ul,
@@ -57,8 +77,6 @@ div.messageBalloon_failure ul,
 div.messageBalloon_warning ul,
 div.messageBalloon_notice ul {
         margin-bottom:0px;
-        padding: 0 0 0 7px;
-        list-style: disc;
 }
 
 
@@ -68,7 +86,6 @@ div.messageBalloon_failure div,
 div.messageBalloon_warning div,
 div.messageBalloon_notice div{
         text-align:right;
-       
 }
 
 div.messageBalloon_regular {
@@ -86,13 +103,13 @@ div.messageBalloon_success {
 div.messageBalloon_failure {
         border:solid 1px #ffdddd;
         background-color:#ffeeee;
-        color:#660000;
+        color:red;
 }
 
 div.messageBalloon_warning {
         border:solid 1px #ffee99;
         background-color:#ffffee;
-        color:#cc6600;
+        color:#660000;
 }
 
 div.messageBalloon_notice {

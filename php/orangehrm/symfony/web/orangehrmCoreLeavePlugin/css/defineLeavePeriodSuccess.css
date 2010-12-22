@@ -1,0 +1,42 @@
+#divChooseCurrentStartDate {
+	padding: 4px;
+	margin: 8px;
+}
+
+#divChooseCurrentStartDate label {
+	margin-left: -8px;
+}
+
+#spanDateHolder {
+	font-weight: bold;
+}
+
+#comboHolder {
+    padding-left: 20px;
+}
+
+.errorHolder {
+    color: #ff0000;
+}
+
+.tableArrange {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding: 10px inherit;
+}
+
+.tableArrangetr {
+    height: 25px;
+}
+
+.paddingLeft {
+    padding-left: 8px;
+}
+
+.paddingLeftBtn {
+    padding-left: 10px;
+}
+
+.labelTd {
+    width: 150px;
+}

@@ -561,12 +561,15 @@ create table `hs_hr_emprep_usergroup` (
 CREATE TABLE `hs_hr_leave_requests` (
   `leave_request_id` int(11) NOT NULL,
   `leave_type_id` varchar(13) NOT NULL,
-  `leave_type_name` char(20) default NULL,
+  `leave_period_id` int(7) NOT NULL,
+  `leave_type_name` char(50) default NULL,
   `date_applied` date NOT NULL,
   `employee_id` int(7) NOT NULL,
+  `leave_comments` varchar(256) default NULL,
   PRIMARY KEY  (`leave_request_id`,`leave_type_id`,`employee_id`),
   KEY `employee_id` (`employee_id`),
-  KEY `leave_type_id` (`leave_type_id`)
+  KEY `leave_type_id` (`leave_type_id`),
+  KEY `leave_period_id` (`leave_period_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `hs_hr_leave` (
@@ -589,19 +592,20 @@ CREATE TABLE `hs_hr_leave` (
 
 create table `hs_hr_leavetype` (
   `leave_type_id` varchar(13) not null,
-  `leave_type_name` varchar(20) default null,
+  `leave_type_name` varchar(50) default null,
   `available_flag` smallint(6) default null,
   primary key  (`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_employee_leave_quota` (
-  `year` year(4) NOT NULL,
   `leave_type_id` varchar(13) not null,
+  `leave_period_id` int(7) NOT NULL,
   `employee_id` int(7) not null,
   `no_of_days_allotted` decimal(6,2) default null,
   `leave_taken` decimal(6,2) default '0.00',
   `leave_brought_forward` decimal(6,2) default '0.00',
-  primary key  (`leave_type_id`,`employee_id`, `year`)
+  `leave_carried_forward` decimal(6,2) default '0.00',
+   primary key  (`leave_type_id`,`employee_id`,`leave_period_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_holidays` (
@@ -623,6 +627,7 @@ create table `hs_hr_mailnotifications` (
 	`user_id` varchar(36) not null,
 	`notification_type_id` int not null ,
 	`status` int(2) not null,
+    `email` varchar(100) default null,
 	KEY `user_id` (`user_id`),
 	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
@@ -938,6 +943,14 @@ create table `hs_hr_emp_locations` (
   primary key  (`emp_number`, `loc_code`)
 ) engine=innodb default charset=utf8;
 
+CREATE TABLE `hs_hr_leave_period` (
+  `leave_period_id` int(11) NOT NULL,
+  `leave_period_start_date` date NOT NULL,
+  `leave_period_end_date` date NOT NULL,
+  PRIMARY KEY (`leave_period_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 create table `hs_hr_kpi` (
   `id` int(13) not null,
   `job_title_code` varchar(13) default null,
@@ -1225,10 +1238,16 @@ alter table hs_hr_employee_leave_quota
 alter table hs_hr_employee_leave_quota
        add constraint foreign key (employee_id)
        						references hs_hr_employee (emp_number) on delete cascade;
-
+alter table hs_hr_employee_leave_quota
+       add constraint foreign key (leave_period_id)
+       						references hs_hr_leave_period (leave_period_id) on delete cascade;
+       						
 alter table hs_hr_leave_requests
        add constraint foreign key (employee_id)
        						references hs_hr_employee (emp_number) on delete cascade;
+alter table hs_hr_leave_requests
+       add constraint foreign key (leave_period_id)
+       						references hs_hr_leave_period (leave_period_id) on delete cascade;
 
 alter table hs_hr_leave_requests
        add constraint foreign key (leave_type_id)

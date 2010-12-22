@@ -1,0 +1,165 @@
+LeavePeriod:
+  tableName: hs_hr_leave_period
+  columns:
+    leave_period_id:
+      name: leave_period_id as leavePeriodId
+      type: integer
+      primary: true
+    leave_period_start_date:
+      name: leave_period_start_date as startDate
+      type: date
+    leave_period_end_date:
+      name: leave_period_end_date as endDate
+      type: date
+
+EmployeeLeaveEntitlement:
+  tableName: hs_hr_employee_leave_quota
+  columns:
+    leave_type_id:
+      type: string(13)
+      primary: true
+    employee_id:
+      type: integer(4)
+      primary: true
+    leave_period_id:
+      name: leave_period_id
+      type: integer(7)
+      primary: true
+    no_of_days_allotted:
+      type: decimal(6)
+      scale: false
+    leave_taken:
+      type: decimal(6)
+      default: '0.00'
+      scale: false
+    leave_brought_forward:
+      type: decimal(6)
+      default: '0.00'
+      scale: false
+    leave_carried_forward:
+      type: decimal(6)
+      default: '0.00'
+      scale: false
+  relations:
+    LeaveType:
+      local: leave_type_id
+      foreign: leaveTypeId
+      type: one
+    Employee:
+      local: employee_id
+      foreign: empNumber
+      type: one
+    LeavePeriod:
+      local: leave_period_id
+      foreign: leavePeriodId
+      type: one
+
+LeaveRequest:
+  tableName: hs_hr_leave_requests
+  columns:
+    leave_request_id:
+      type: integer(4)
+      primary: true
+    leave_period_id:
+      name: leave_period_id
+      type: integer(7)
+    leave_type_id:
+      type: string(13)
+      primary: true
+    leave_type_name:
+      type: string(50)
+      fixed: true
+    date_applied:
+      type: date(25)
+      notnull: true
+    employee_id:
+      name: employee_id as empNumber
+      type: integer(4)
+      primary: true
+    leave_comments: string(250)
+  relations:
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
+    LeaveType:
+      local: leave_type_id
+      foreign: leaveTypeId
+      type: one
+    LeavePeriod:
+      local: leave_period_id
+      foreign: leavePeriodId
+      type: one
+    Leave:
+      local: leave_request_id
+      foreign: leave_request_id
+      type: many
+
+Leave:
+  tableName: hs_hr_leave
+  columns:
+    leave_id:
+      type: integer(4)
+      primary: true
+    leave_length_hours:
+      type: 'decimal(6, unsigned)'
+      unsigned: 1
+    leave_length_days:
+      type: 'decimal(4, unsigned)'
+      unsigned: 1
+    leave_request_id:
+      type: integer(4)
+      primary: true
+    leave_type_id:
+      type: string(13)
+      primary: true
+    employee_id:
+      type: integer(4)
+      primary: true
+    leave_date: date(25)
+    leave_status: integer(2)
+    leave_comments: string(200)
+    start_time: time(25)
+    end_time: time(25)
+  relations:
+    LeaveRequest:
+      local: leave_request_id
+      foreign: leave_request_id
+      type: one
+
+LeaveType:
+  tableName: hs_hr_leavetype
+  columns:
+    leave_type_id:
+      name: leave_type_id as leaveTypeId
+      type: string(13)
+      primary: true
+    leave_type_name:
+      name: leave_type_name as leaveTypeName
+      type: string(50)
+    available_flag:
+      name: available_flag as availableFlag
+      type: integer(2)
+
+WorkWeek:
+  tableName: hs_hr_weekends
+  columns:
+    day:
+      type: integer(4)
+      primary: true
+    length:
+      type: integer(4)
+      notnull: true
+
+Holiday:
+  tableName: hs_hr_holidays
+  columns:
+    holiday_id:
+      type: integer(4)
+      primary: true
+    recurring:
+      type: integer(1)
+      default: '0'
+    description: string(2147483647)
+    date: date(25)
+    length: integer(4)

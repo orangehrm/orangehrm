@@ -17,15 +17,24 @@
 // Boston, MA  02110-1301, USA
 */
 
-echo link_to_unless($pager->getPage() == 1, __('First'), $url, array('query_string' => 'page=1')).' | ';
+
+if(isset($params)) {	
+	foreach( $params as $parameterSet ) {
+		 $parametrString .= $parameterSet;
+	}   
+} else {
+	$parametrString = '';
+}
+
+echo link_to_unless($pager->getPage() == 1, __('First '), $url, array('query_string' => 'page=1'.$parametrString));
 echo link_to_unless($pager->getPreviousPage() == $pager->getPage(), 
-	__('Previous'), $url, array('query_string' => 'page=' . $pager->getPreviousPage() )).' | ';  
+	__('Previous'), $url, array('query_string' => 'page=' . $pager->getPreviousPage() .$parametrString ));  
 
 foreach ($pager->getLinks() as $page):
-	echo link_to_unless($page == $pager->getPage(), $page, $url, array('query_string' => 'page=' . $page));
+	echo link_to_unless($page == $pager->getPage(), $page, $url, array('query_string' => 'page=' . $page.$parametrString));
 endforeach;
 
-echo '| '.link_to_unless($pager->getNextPage() == $pager->getPage(), 
-	__('Next'), $url, array('query_string' => 'page=' . $pager->getNextPage() )).' | ';
+echo link_to_unless($pager->getNextPage() == $pager->getPage(), 
+	__('Next'), $url, array('query_string' => 'page=' . $pager->getNextPage() .$parametrString ));
 echo link_to_unless($pager->getLastPage() == $pager->getPage(), 
-	__('Last'), $url, array('query_string' => 'page=' . $pager->getLastPage() ));
+	__('Last'), $url, array('query_string' => 'page=' . $pager->getLastPage() .$parametrString ));

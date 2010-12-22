@@ -1,0 +1,10 @@
+Hi,
+
+%performerFullName% has applied for leave. The leave details:
+
+%leaveDetails%
+You were sent this mail, as you have subscribed to OrangeHRM leave applications.
+
+Thank you.
+
+This is an automated notification.

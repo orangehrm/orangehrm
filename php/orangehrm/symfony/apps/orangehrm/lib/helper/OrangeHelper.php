@@ -21,6 +21,7 @@
 /**
  * Helper functions for orangehrm specific actions
  */
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 /**
  * Formats the employee number as expected by other components, by 
@@ -40,8 +41,7 @@ function format_emp_number($empNumber) {
  * 
  * @return String Html
  */
-function message()
-{
+function message() {
 	$html =	'';
 	$user = sfContext::getInstance()->getUser();
 	if($user->hasFlash('messageType') && $user->hasFlash('message') )
@@ -60,10 +60,16 @@ function message()
 			case 'WARNING':
 				$class	=	'messageBalloon_warning';
 			break;
+
+			case 'FAILURE':
+				$class	=	'messageBalloon_failure';
+			break;
+
 		}
 		$html .=	"<div id='".$class."' class='".$class."'>";
 		$html	.=	"<ul>";
-			foreach( $user->getFlash('message') as $message)
+            $messageList = $user->getFlash('message');
+			foreach( $messageList as $message)
 			{
 				$html .= "<li>".$message."</li>";
 			}
@@ -100,21 +106,33 @@ function templateMessage($errors) {
 		} 
 
 		$html .= "<div id='".$class."' class='".$class."'>";
-		$html .= "<ul>";
-			
+
 		$count = count($errors);
-		
-		for ($i=1; $i<$count; $i++) {
-		    $html .= "<li>".htmlspecialchars_decode($errors[$i])."</li>";
-		}
-		
-		$html	.=	"</ul>";
-		$html	.=	"</div>";
+
+                // Only show a list if more than one error
+                if ($count == 2) {
+                    $html .= htmlspecialchars_decode($errors[1]);
+                } else if ($count > 2) {
+                    $html .= "<ul>";
+
+                    $count = count($errors);
+
+                    for ($i=1; $i<$count; $i++) {
+                        $html .= "<li>".htmlspecialchars_decode($errors[$i])."</li>";
+                    }
+
+                    $html .= "</ul>";
+                }
+		$html .= "</div>";
 	    
 	}
 	
 	return $html;
 
+}
+
+function add_si_unit($number) {
+    return CommonFunctions::formatSiUnitPrefix($number);
 }
 
 function formatDate($currentDate, $formatData) {

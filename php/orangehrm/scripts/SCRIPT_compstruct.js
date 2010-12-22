@@ -179,7 +179,12 @@
 		document.getElementById("layerForm").style.visibility="visible";
 	<?php } else { ?>
 
-		<?php if (isset($_GET['locInput'])) { ?>
+		<?php 
+		    if (isset($_GET['locForm']) && isset($_GET['locInput'])) { ?>
+                opener.document.<?php echo $_GET['locForm'];?>.txt<?php echo $_GET['locInput'];?>.value=txt;
+                opener.document.<?php echo $_GET['locForm'];?>.cmb<?php echo $_GET['locInput'];?>.value=id;	    
+        <?php
+		    } else if (isset($_GET['locInput'])) { ?>
 			opener.document.frmEmp.txt<?php echo $_GET['locInput'];?>.value=txt;
 			opener.document.frmEmp.cmb<?php echo $_GET['locInput'];?>.value=id;
 		<?php } else { ?>

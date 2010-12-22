@@ -338,6 +338,46 @@ CONFCONT;
 
 }
 
+function writeEmailConfigFile() {
+
+    $confContent = <<< CONFCONT
+mailType:
+sentAs:
+smtp:
+  host:
+  port:
+  username:
+  password:
+  authType:
+  securityType:
+sendmail:
+  path:
+CONFCONT;
+
+	$filename = ROOT_PATH . '/symfony/apps/orangehrm/config/emailConfiguration.yml';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $confContent);
+
+    fclose($handle);
+
+}
+
+function writeParamConfigFile() {
+
+    $confContent = <<< CONFCONT
+isLeavePeriodStartOnFeb29th: 'No'
+nonLeapYearLeavePeriodStartDate:
+leavePeriodStartDate: 
+CONFCONT;
+
+	$filename = ROOT_PATH . '/symfony/apps/orangehrm/config/parameters.yml';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $confContent);
+
+    fclose($handle);
+
+}
+
 function writeLog() {
 	$Content = "Client Info\n\n";
 
@@ -431,6 +471,8 @@ function writeLog() {
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "installer/log.txt");
 					writeConfFile();
 					writeSymfonyDbConfigFile();
+                    writeEmailConfigFile();
+                    writeParamConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;

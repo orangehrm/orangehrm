@@ -1,0 +1,18 @@
+UniqueId:
+  tableName: hs_hr_unique_id
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_id:
+      type: integer(4)
+      unsigned: 1
+      notnull: true
+    table_name:
+      name: table_name as dbTable
+      type: string(50)
+      notnull: true
+    field_name:
+      type: string(50)
+      notnull: true

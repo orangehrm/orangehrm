@@ -1,0 +1,35 @@
+CompanyStructure:
+  0: {title: 'XYZCompany', description: '', lft: 1, rgt: 2, id: 1, parnt: 0}
+  1: {title: 'Marketing', description: '', lft: 0, rgt: 0, id: 2, parnt: 1}
+  2: {title: 'Production', description: '', lft: 0, rgt: 0, id: 3, parnt: 1}
+  3: {title: 'HR', description: '', lft: 0, rgt: 0, id: 4, parnt: 1}
+
+Location:
+  0: {loc_code: 'LOC001', loc_name: 'Houston', loc_country: 'US', loc_add: 'Houston', loc_zip: 1234}
+  1: {loc_code: 'LOC002', loc_name: 'London', loc_country: 'GB', loc_add: 'London', loc_zip: 9874}
+
+JobTitle:
+  0: {id: 'JOB001', name: 'Marketing Executive', description: 'ME'}
+  1: {id: 'JOB002', name: 'Production Manager', description: 'PM'}
+
+LeaveType:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1, leaveRules: '<leaveRule>1</leaveRule>'}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1, leaveRules: '<leaveRule>2</leaveRule>'}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0, leaveRules: '<leaveRule>3</leaveRule>'}
+
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 2, job_title_code: 'JOB001'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', work_station: 2}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 3, job_title_code: 'JOB002'}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 'JOB001'}
+
+EmpLocation:
+  0: {empNumber: 1, loc_code: 'LOC001'}
+  1: {empNumber: 4, loc_code: 'LOC001'}
+  2: {empNumber: 5, loc_code: 'LOC002'}
+
+ReportTo:
+  0: {supervisorId: 1, subordinateId: 2, reportingMode: 1}
+  1: {supervisorId: 1, subordinateId: 5, reportingMode: 1}
+  2: {supervisorId: 3, subordinateId: 4, reportingMode: 1}

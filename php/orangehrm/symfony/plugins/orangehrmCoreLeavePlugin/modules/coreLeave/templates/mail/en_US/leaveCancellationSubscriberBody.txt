@@ -1,0 +1,10 @@
+Hi,
+
+%performerFullName% has cancelled leave request of %recipientFullName%. The leave details:
+
+%leaveDetails%
+You were sent this mail, as you have subscribed to OrangeHRM leave cancellations.
+
+Thank you.
+
+This is an automated notification.

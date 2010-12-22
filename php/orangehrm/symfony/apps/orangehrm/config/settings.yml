@@ -39,6 +39,8 @@ all:
     i18n:                   true
     default_culture: 		en      # Default user culture
 
+    enabled_modules:        [default, coreLeave]
+    
 #all:
 #  .actions:
 #    error_404_module:       default   # To be called when a 404 error is raised
