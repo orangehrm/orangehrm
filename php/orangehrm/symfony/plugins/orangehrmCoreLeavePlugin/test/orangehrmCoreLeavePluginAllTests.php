@@ -31,8 +31,8 @@ class orangehrmCoreLeavePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/LeaveSummaryServiceTest.php');
 
         /* Action Test Cases */
-        $suite->addTestFile(dirname(__FILE__) . '/actions/ApplyLeaveActionTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/actions/AssignLeaveActionTest.php');
+        //$suite->addTestFile(dirname(__FILE__) . '/actions/ApplyLeaveActionTest.php');
+        //$suite->addTestFile(dirname(__FILE__) . '/actions/AssignLeaveActionTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/actions/ViewLeaveSummaryActionTest.php');
 
         return $suite;
