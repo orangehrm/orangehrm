@@ -1361,6 +1361,44 @@ CurrencyType:
       default: ''
       notnull: true
 
+EmployeeWorkShift:
+  tableName: hs_hr_employee_workshift
+  columns:
+    workshift_id:
+      type: integer(4)
+      primary: true
+    emp_number:
+      type: integer(4)
+      primary: true
+  relations:
+    WorkShift:
+      local: workshift_id
+      foreign: workshift_id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: empNumber
+      type: one
+
+WorkShift:
+  tableName: hs_hr_workshift
+  columns:
+    workshift_id:
+      type: integer(4)
+      primary: true
+    name:
+      type: string(250)
+      notnull: true
+    hours_per_day:
+      type: decimal(4)
+      notnull: true
+      scale: false
+  relations:
+    EmployeeWorkShift:
+      local: workshift_id
+      foreign: workshift_id
+      type: many
+
 DefineKpi:
   tableName: hs_hr_kpi
   columns:
