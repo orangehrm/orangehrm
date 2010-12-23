@@ -62,7 +62,7 @@
 	text-decoration: none;
 	text-transform: capitalize;
 	color: #000000;
-	padding-left: 25px;
+	/*padding-left: 25px;*/
 	/* Disable link outline from clicked links. works only in firefox
 	 * For ie, need: onclick="this.blur();return true" or onfocus="if (this.blur) this.blur();"
 	*/
@@ -152,7 +152,7 @@
 }
 
 #nav li.l1 a.l1_link span.drop {
-	background: url(images/topdrop.gif) top right;
+	/*background: url(images/topdrop.gif) top right;*/
 }
 
 #nav li.l1:hover a.l1_link span.drop, #nav li.hover a.l1_link span.drop {
@@ -178,68 +178,68 @@
 /* Drop down styling */
 #nav ul.l2 li span {
 	background: url(images/dropitem.gif) top right;
-	padding-left: 3px;
+	padding-left: 10px;
 }
 #nav ul.l2 li.l2:hover a.l2_link span, #nav ul.l2 li.hover a.l2_link span {
 	background: url(images/dropitemhov.gif) top right;
-	padding-left: 3px;
+	padding-left: 10px;
 }
 #nav ul.l3 li.l3:hover  span, #nav ul.l3 li.hover span {
 	background: url(images/dropitemhov.gif) top right;
-	padding-left: 3px;
+	padding-left: 10px;
 }
 #nav ul.l2 li a.parent span {
 	background: url(images/dropparent.gif) top right;
-	padding-left: 3px;
+	padding-left: 10px;
 }
 #nav ul.l2 li:hover a.parent span, #nav ul.l2 li.hover a.parent span {
 	background: url(images/dropparenthov.gif) top right;
-	padding-left: 3px;
+	padding-left: 10px;
 }
 
 /* Icons - top level */
 #nav li#admin a.l1_link {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	/*background: transparent url(icons/projects.gif) no-repeat center left;*/
 }
 
 #nav li#pim a.l1_link {
-	background: transparent url(icons/users.gif) no-repeat center left;
+	/*background: transparent url(icons/users.gif) no-repeat center left;*/
 }
 
 #nav li#leave a.l1_link {
-	background: transparent url(icons/leaveList.gif) no-repeat center left;
+	/*background: transparent url(icons/leaveList.gif) no-repeat center left;*/
 }
 
 #nav li#time a.l1_link {
-	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+	/*background: transparent url(icons/leaveSummary.gif) no-repeat center left;*/
 }
 
 #nav li#benefits a.l1_link {
-	background: transparent url(icons/projects.gif) no-repeat center left;
+	/*background: transparent url(icons/projects.gif) no-repeat center left;*/
 }
 
 #nav li#recruit a.l1_link {
-	background: transparent url(icons/customers.gif) no-repeat center left;
+	/*background: transparent url(icons/customers.gif) no-repeat center left;*/
 }
 
 #nav li#perform a.l1_link {
-	background: transparent url(icons/skills.gif) no-repeat center left;
+	/*background: transparent url(icons/skills.gif) no-repeat center left;*/
 }
 
 #nav li#report a.l1_link {
-	background: transparent url(icons/defemprep.gif) no-repeat center left;
+	/*background: transparent url(icons/defemprep.gif) no-repeat center left;*/
 }
 
 #nav li#ess a.l1_link {
-	background: transparent url(icons/users.gif) no-repeat center left;
+	/*background: transparent url(icons/users.gif) no-repeat center left;*/
 }
 
 #nav li#bug a.l1_link {
-	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+	/*background: transparent url(icons/defineLeaveType.gif) no-repeat center left;*/
 }
 
 #nav li#help a.l1_link {
-	background: transparent url(icons/natandrace.gif) no-repeat center left;
+	/*background: transparent url(icons/natandrace.gif) no-repeat center left;*/
 }
 
 /* Drop down menu widths */
@@ -304,188 +304,188 @@
 
 /* help menu icons */
 #nav li.l2 a.help {
-	background: transparent url(newicons/Help-Contents.gif) no-repeat center left;
+	/*background: transparent url(newicons/Help-Contents.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.support {
-	background: transparent url(newicons/Support.gif) no-repeat center left;
+	/*background: transparent url(newicons/Support.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.forum {
-	background: transparent url(newicons/Forum.gif) no-repeat center left;
+	/*background: transparent url(newicons/Forum.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.blog {
-	background: transparent url(newicons/Blog.gif) no-repeat center left;
+	/*background: transparent url(newicons/Blog.gif) no-repeat center left;*/
 }
 
 /* Admin menu icons */
 #nav li.l2 a.companyinfo {
-	background: transparent url(icons/compinfo.gif) no-repeat center left;
+	/*background: transparent url(icons/compinfo.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.job {
-	background: transparent url(icons/job.gif) no-repeat center left;
+	/*background: transparent url(icons/job.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.qualifications {
-	background: transparent url(icons/qualification.gif) no-repeat center left;
+	/*background: transparent url(icons/qualification.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.skills {
-	background: transparent url(icons/skills.gif) no-repeat center left;
+	/*background: transparent url(icons/skills.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.memberships {
-	background: transparent url(icons/memberships.gif) no-repeat center left;
+	/*background: transparent url(icons/memberships.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.natandrace {
-	background: transparent url(icons/natandrace.gif) no-repeat center left;
+	/*background: transparent url(icons/natandrace.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.users {
-	background: transparent url(icons/users.gif) no-repeat center left;
+	/*background: transparent url(icons/users.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.email {
-	background: transparent url(icons/email_notifications.gif) no-repeat center left;
+	/*background: transparent url(icons/email_notifications.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.project {
-	background: transparent url(icons/projects-dd.gif) no-repeat center left;
+	/*background: transparent url(icons/projects-dd.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.importexport {
-	background: transparent url(newicons/DataImport-Export.gif) no-repeat center left;
+	/*background: transparent url(newicons/DataImport-Export.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.customfields {
-	background: transparent url(newicons/Custom-Fields.gif) no-repeat center left;
+	/*background: transparent url(newicons/Custom-Fields.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.ldap {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	/*background: transparent url(icons/approveLeave.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.companyproperty {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	/*background: transparent url(icons/approveLeave.gif) no-repeat center left;*/
 }
 
 /* PIM menu icons */
 #nav li.l2 a.emplist {
-	background: transparent url(newicons/Employee-List-2.gif) no-repeat center left;
+	/*background: transparent url(newicons/Employee-List-2.gif) no-repeat center left;*/
 }
 #nav li.l2 a.empadd {
-	background: transparent url(newicons/Add-Employee.gif) no-repeat center left;
+	/*background: transparent url(newicons/Add-Employee.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.personal {
-	background: transparent url(icons/customers.gif) no-repeat center left;
+	/*background: transparent url(icons/customers.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.employment {
-	background: transparent url(icons/job.gif) no-repeat center left;
+	/*background: transparent url(icons/job.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.pimqualifications {
-	background: transparent url(icons/qualification.gif) no-repeat center left;
+	/*background: transparent url(icons/qualification.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.pimmemberships {
-	background: transparent url(icons/memberships.gif) no-repeat center left;
+	/*background: transparent url(icons/memberships.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.attachments {
-	background: transparent url(icons/qualification.gif) no-repeat center left;
+	/*background: transparent url(icons/qualification.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.custom {
-	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+	/*background: transparent url(icons/approveLeave.gif) no-repeat center left;*/
 }
 
 /* Leave menu icons */
 #nav li.l2 a.leavesummary {
-	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+	/*background: transparent url(icons/leaveSummary.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.daysoff {
-	background: transparent url(newicons/Define-Days-Off.gif) no-repeat center left;
+	/*background: transparent url(newicons/Define-Days-Off.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.leavetypes {
-	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+	/*background: transparent url(icons/defineLeaveType.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.assignleave {
-	background: transparent url(newicons/Assign-Leave.gif) no-repeat center left;
+	/*background: transparent url(newicons/Assign-Leave.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.applyLeave {
-	background: transparent url(icons/applyLeave.gif) no-repeat center left;
+	/*background: transparent url(icons/applyLeave.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.approveLeave {
-    background: transparent url(newicons/Approve-Leave-2.gif) no-repeat center left;
+    /*background: transparent url(newicons/Approve-Leave-2.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.leavelist {
-	background: transparent url(newicons/Leave-List.gif) no-repeat center left;
+	/*background: transparent url(newicons/Leave-List.gif) no-repeat center left;*/
 }
 
 /* Time menu icons */
 #nav li.l2 a.timesheets {
-	background: transparent url(newicons/Timesheets.gif) no-repeat center left;
+	/*background: transparent url(newicons/Timesheets.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.employeereports {
-	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+	/*background: transparent url(icons/leaveSummary.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.projectreports {
-	background: transparent url(newicons/Project-Reports.gif) no-repeat center left;
+	/*background: transparent url(newicons/Project-Reports.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.workshifts {
-	background: transparent url(newicons/Work-Shifts.gif) no-repeat center left;
+	/*background: transparent url(newicons/Work-Shifts.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.punchTime {
-	background: transparent url(newicons/Punch-InOut.gif) no-repeat center left;
+	/*background: transparent url(newicons/Punch-InOut.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.projectTime {
-	background: transparent url(newicons/Project-Time.gif) no-repeat center left;
+	/*background: transparent url(newicons/Project-Time.gif) no-repeat center left;*/
 }
 
 /* Benefits menu icons */
 #nav li.l2 a.hsp {
-	background: transparent url(newicons/Health-savings-plan.gif) no-repeat center left;
+	/*background: transparent url(newicons/Health-savings-plan.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.payrollschedule {
-	background: transparent url(newicons/Payroll-Schedule.gif) no-repeat center left;
+	/*background: transparent url(newicons/Payroll-Schedule.gif) no-repeat center left;*/
 }
 
 /* Recruitment menu icons */
 #nav li.l2 a.vacancies {
-	background: transparent url(newicons/Job-Vacancies.gif) no-repeat center left;
+	/*background: transparent url(newicons/Job-Vacancies.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.applications {
-	background: transparent url(newicons/Applicants.gif) no-repeat center left;
+	/*background: transparent url(newicons/Applicants.gif) no-repeat center left;*/
 }
 
 /* Performance menu icons */
 #nav li.l2 a.definekpi {
-	background: transparent url(icons/defemprep.gif) no-repeat center left;
+	/*background: transparent url(icons/defemprep.gif) no-repeat center left;*/
 }
 
 /* Reports menu icons */
 #nav li.l2 a.viewreports {
-	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+	/*background: transparent url(icons/viewemprep.gif) no-repeat center left;*/
 }
 
 #nav li.l2 a.definereports {
-	background: transparent url(icons/defemprep.gif) no-repeat center left;
+	/*background: transparent url(icons/defemprep.gif) no-repeat center left;*/
 }
