@@ -272,7 +272,7 @@ $searchActionButtons = $form->getSearchActionButtons();
         <input type="hidden" id="leaveOrRequest" />
         <textarea name="leaveComment" id="leaveComment" cols="40" rows="10" class="commentTextArea"></textarea>
         <br class="clear" />
-        <span class="error" id="commentError"></span>
+        <div class="error" id="commentError"></div>
         <div><input type="button" id="commentSave" class="plainbtn" value="Edit" />
             <input type="button" id="commentCancel" class="plainbtn" value="Cancel" /></div>
     </form>
