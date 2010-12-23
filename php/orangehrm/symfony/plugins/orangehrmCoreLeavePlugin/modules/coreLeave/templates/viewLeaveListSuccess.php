@@ -28,12 +28,10 @@ $searchActionButtons = $form->getSearchActionButtons();
 	<?php if (!$form->isDetailed()) { ?>
 	<div class="formWrapper">
 		<form id="frmFilterLeave" name="frmFilterLeave" method="post" action="<?php echo url_for($baseUrl); ?>">
-
-			<label class="mainLabel"><?php echo __("Period");?></label>
-			<?php echo $form['calFromDate']->renderLabel(__("From"), array('class' => 'subLabelNew')); ?>
+            <label class="mainLabel"><?php echo __("From");?></label>
 			<?php echo $form['calFromDate']->render(); ?>
-
-			<?php echo $form['calToDate']->renderLabel(__("To"), array('class' => 'subLabelNew')); ?>
+            <br class="clear" />
+			<label class="mainLabel"><?php echo __("To");?></label>
 			<?php echo $form['calToDate']->render(); ?>
 			<br class="clear" />
 
