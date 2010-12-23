@@ -187,7 +187,7 @@ textarea {
 		}
 
 	#companyLogoHeader{
-		background : url(../pictures/orange3.png) no-repeat 10px 1px;	
+		background : url(../pictures/orange3.png) no-repeat 10px 1px;
 		width: 264px;
 		height: 62px;
 		margin-left: 10px;
@@ -196,7 +196,6 @@ textarea {
 		display:block;
 	}
 	#rightHeaderImage {
-		background : url(../pictures/top_img.jpg) no-repeat top right;
 		width: 300px;
 		height: 62px;
 		float:right;	

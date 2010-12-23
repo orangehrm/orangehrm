@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    /* making all text boxes non editable by default */
+    $('.formInputText').attr("disabled", "disabled");
+
     /* Clearing auto-fill fields */
     $("#leaveSummary_txtEmpName").click(function(){
         $(this).attr('value', '');
@@ -53,13 +56,23 @@ $(document).ready(function(){
 
     /* Save button */
     $('#btnSave').click(function() {
-        var flag = validateInput();
-        //after the validation
-        if(flag) {
-            $('#hdnAction').val('save');
-            $('#frmLeaveSummarySearch').submit();
-        } else {
-            $('#validationMsg').attr('class', "messageBalloon_failure");
+        if($('#btnSave').attr('value') == "Edit") {
+            $('.formInputText').removeAttr("disabled");
+            $('#btnSave').attr('value', "Save");
+            return;
+        }
+
+        if($('#btnSave').attr('value') == "Save") {
+            //$('#btnSave').attr('value', "Edit");
+            var flag = validateInput();
+            //after the validation
+            if(flag) {
+                $('#hdnAction').val('save');
+                $('#frmLeaveSummarySearch').submit();
+            } else {
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+            }
+            return;
         }
     });
 

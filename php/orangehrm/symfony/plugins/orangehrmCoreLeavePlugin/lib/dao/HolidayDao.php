@@ -127,7 +127,7 @@ class HolidayDao extends BaseDao
      * Get Holiday List
      * @return Holiday Collection
      */
-    public function getHolidayList( $year=null, $offset=0,$limit=10)
+    public function getHolidayList($year=null, $offset=0,$limit=10)
     {
 
         try
@@ -149,6 +149,27 @@ class HolidayDao extends BaseDao
 
         }catch( Exception $e)
         {
+            throw new DaoException ( $e->getMessage () );
+        }
+    }
+
+    public function searchHolidays($startDate = null, $endDate = null) {
+
+        $startDateTimeStamp = (is_null($startDate))?strtotime(date("Y-m-d")):strtotime($startDate);
+        $endDateTimeStamp = (is_null($endDate))?strtotime(date("Y-m-d")):strtotime($endDate);
+
+        try {
+            $q = Doctrine_Query::create()
+                ->select('*')
+                ->addSelect("IF( h.recurring=1 && YEAR(h.date) <= " . date("Y", $startDateTimeStamp)
+                        . ", DATE_FORMAT(h.date, '" . date("Y", $startDateTimeStamp) . "-%m-%d'), h.date ) fdate")
+                ->from('Holiday h')
+                ->where("h.recurring = 1 OR h.date BETWEEN '" . date("Y-m-d", $startDateTimeStamp) . "' AND '" . date("Y-m-d", $endDateTimeStamp) . "'")
+                ->orderBy('fdate ASC');
+
+            $holidayList = $q->execute();
+            return  $holidayList ;
+        } catch(Exception $e) {
             throw new DaoException ( $e->getMessage () );
         }
     }

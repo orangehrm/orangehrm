@@ -136,9 +136,9 @@ $searchActionButtons = $form->getSearchActionButtons();
                                         <td><?php echo $datum->getNumberOfDays(); ?></td>
                                         <td><a href="<?php echo $url; ?>"><?php echo $datum->getStatus(); ?></a></td>
                                         <td align="left">
-                                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                            <table cellspacing="0" cellpadding="0" border="0">
                                                 <tr>
-                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
+                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="150"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
                                                     <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="Click here to edit" /></td>
                                                 </tr>
                                             </table>

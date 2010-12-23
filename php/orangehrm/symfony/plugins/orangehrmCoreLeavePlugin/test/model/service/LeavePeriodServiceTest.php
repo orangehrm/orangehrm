@@ -499,5 +499,25 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $retrievedLeavePeriod = $this->leavePeriodService->getCurrentLeavePeriod();
         $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
     }
+
+    /* test readLeavePeriod  */
+
+    public function testReadLeavePeriod() {
+        //mocking LeavePeriodDao
+        $lastLeavePeriod = new LeavePeriod();
+        $lastLeavePeriod->setStartDate("2010-01-01");
+        $lastLeavePeriod->setEndDate("2010-12-31");
+        $lastLeavePeriod->setLeavePeriodId(1);
+
+        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('readLeavePeriod'));
+        $leavePeriodDao->expects($this->once())
+                ->method('readLeavePeriod')
+                ->will($this->returnValue($lastLeavePeriod));
+
+        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
+
+        $retrievedLeavePeriod = $this->leavePeriodService->readLeavePeriod(1);
+        $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
+    }
 }
 ?>

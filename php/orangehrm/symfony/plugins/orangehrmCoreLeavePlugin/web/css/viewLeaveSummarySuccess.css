@@ -15,7 +15,7 @@ table.data-table thead tr td {
 }
 
 table.data-table tbody tr td {
-    padding: 7px 10px;
+    padding-left: 7px;
 }
 
 input[type="text"] {
@@ -47,4 +47,8 @@ div.navigationHearder {
 
 .daysMove {
     margin-left:25px;
+}
+
+.inputBoxRight {
+    text-align: right;
 }

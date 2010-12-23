@@ -413,6 +413,8 @@ class LeavePeriodService extends BaseService {
 
 	}
 
-
+    public function readLeavePeriod($leavePeriodId) {
+        return $this->getLeavePeriodDao()->readLeavePeriod($leavePeriodId);
+    }
 }
 

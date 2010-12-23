@@ -19,13 +19,11 @@
  *
 */
 
-class HolidayDaoTest extends PHPUnit_Framework_TestCase
-{
+class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     private $holidayDao ;
 
-    protected function setUp()
-    {
+    protected function setUp() {
 
         $this->holidayDao	=	new HolidayDao();
 
@@ -33,27 +31,27 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase
     }
 
     /* test readHoliday */
-    
+
     public function testReadHoliday() {
 
-       $holiday = $this->holidayDao->readHoliday(1);
+        $holiday = $this->holidayDao->readHoliday(1);
 
-       $this->assertTrue($holiday instanceof Holiday);
-       $this->assertEquals(1, $holiday->getRecurring());
-       $this->assertEquals("2010-05-27", $holiday->getDate());
-       
+        $this->assertTrue($holiday instanceof Holiday);
+        $this->assertEquals(1, $holiday->getRecurring());
+        $this->assertEquals("2010-05-27", $holiday->getDate());
+
     }
 
 
     /* test getHolidayList */
-  
+
     public function testGetHolidayList() {
-       
+
         $holidayList = $this->holidayDao->getHolidayList(date("Y"));
         foreach($holidayList as $holiday) {
 
             $this->assertTrue($holiday instanceof Holiday);
-            
+
         }
 
     }
@@ -61,7 +59,7 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase
     /* test getHolidayList without passing year */
 
     public function testGetHolidayListWithoutPassingYear() {
-       
+
         $holidayList = $this->holidayDao->getHolidayList();
         foreach($holidayList as $holiday) {
 
@@ -76,76 +74,86 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase
 
         $holidayList = $this->holidayDao->getHolidayList();
         $this->assertEquals(4, count($holidayList));
-        
+
     }
 
-    
+
     /* test saveHoliday */
- 
+
     public function testSaveHoliday() {
 
-      $holiday = TestDataService::fetchObject('Holiday', 1);
+        $holiday = TestDataService::fetchObject('Holiday', 1);
 
-      $holiday->setLength(4);
-      $holiday->setRecurring(0);
-      $holiday->setDate("2010-05-30");
-      
-      $this->holidayDao->saveHoliday($holiday);
-      $savedHoliday = TestDataService::fetchObject('Holiday', $holiday->getHolidayId());
+        $holiday->setLength(4);
+        $holiday->setRecurring(0);
+        $holiday->setDate("2010-05-30");
 
-      $this->assertEquals($holiday->getLength(), $savedHoliday->getLength());
-      $this->assertEquals($holiday->getRecurring(), $savedHoliday->getRecurring());
-      $this->assertEquals($holiday->getDate(), $savedHoliday->getDate());
+        $this->holidayDao->saveHoliday($holiday);
+        $savedHoliday = TestDataService::fetchObject('Holiday', $holiday->getHolidayId());
+
+        $this->assertEquals($holiday->getLength(), $savedHoliday->getLength());
+        $this->assertEquals($holiday->getRecurring(), $savedHoliday->getRecurring());
+        $this->assertEquals($holiday->getDate(), $savedHoliday->getDate());
 
     }
 
 
     /* test saveHoliday without an Id*/
- 
+
     public function testSaveHolidayWithNoId() {
 
-       $holiday = new Holiday();
-       $holiday->setLength(4);
-       $holiday->setDescription("for dummies");
+        $holiday = new Holiday();
+        $holiday->setLength(4);
+        $holiday->setDescription("for dummies");
 
-       $this->holidayDao->saveHoliday($holiday);
+        $this->holidayDao->saveHoliday($holiday);
 
-       $savedHoliday = TestDataService::fetchObject('Holiday', 5);
+        $savedHoliday = TestDataService::fetchObject('Holiday', 5);
 
-       $this->assertEquals(5, $savedHoliday->getHolidayId());
-       $this->assertEquals(4, $savedHoliday->getLength());
-       $this->assertEquals($holiday->getDescription(), $savedHoliday->getDescription());
+        $this->assertEquals(5, $savedHoliday->getHolidayId());
+        $this->assertEquals(4, $savedHoliday->getLength());
+        $this->assertEquals($holiday->getDescription(), $savedHoliday->getDescription());
     }
 
     /* test deleteHoliday */
 
     public function testDeleteHoliday() {
 
-       $this->assertTrue($this->holidayDao->deleteHoliday(array(1,2)));
-       $holiday = TestDataService::fetchObject('Holiday', 2);
+        $this->assertTrue($this->holidayDao->deleteHoliday(array(1,2)));
+        $holiday = TestDataService::fetchObject('Holiday', 2);
 
-       $this->assertFalse($holiday instanceof Holiday);
-       
+        $this->assertFalse($holiday instanceof Holiday);
+
     }
 
     /* test readHolidayByDate */
-    
+
     public function testReadHolidayByDate() {
 
-       $readHoliday = $this->holidayDao->readHolidayByDate("2010-05-27");
-       $this->assertTrue($readHoliday instanceof Holiday);
-       
+        $readHoliday = $this->holidayDao->readHolidayByDate("2010-05-27");
+        $this->assertTrue($readHoliday instanceof Holiday);
+
     }
 
     /* test getFullHolidayList */
 
     public function testGetFullHolidayList() {
-       
+
         $holidayList = $this->holidayDao->getFullHolidayList();
         foreach($holidayList as $holiday) {
 
             $this->assertTrue($holiday instanceof Holiday);
 
+        }
+    }
+    
+
+    /* test SearchHolidays */
+
+    public function testSearchHolidays() {
+        $holidayList = $this->holidayDao->searchHolidays('2010-01-01', '2010-12-31');
+        foreach($holidayList as $holiday) {
+            $this->assertTrue($holiday instanceof Holiday);
         }
     }
 }

@@ -72,11 +72,11 @@
             <?php  echo $form['txtEmpWorkShift']->render();?>
                 <table border="0" cellspacing="0" cellpadding="2" class="tableArrange">
                 <tr>
-                    <td><?php  echo __('Employee Name').'<span class=required>*</span>';?></td>
+                    <td width="120"><?php  echo __('Employee Name').'<span class=required>*</span>';?></td>
                     <td><?php  echo $form['txtEmployee']->render(array('class'=>'formInputText'));?><br class="clear" /></td>
                 </tr>
                 <tr>
-                    <td width="100" valign="top"><?php  echo __('Leave Type').' <span class=required>*</span>';?></td>
+                    <td valign="top"><?php  echo __('Leave Type').' <span class=required>*</span>';?></td>
                     <td><?php  echo $form['txtLeaveType']->render();?><br class="clear" /></td>
                 </tr>
                 <tr>
@@ -112,13 +112,13 @@
                     <td id="trTime4" class="hide" colspan="2"></td>
                 </tr>
                 <tr>
-                    <td><?php echo __('Comment')?></td>
+                    <td valign="top"><?php echo __('Comment')?></td>
                     <td><?php  echo $form['txtComment']->render(array('rows'=>'3','cols'=>'30'));?><br class="clear" /></td>
                 </tr>
             </table>
         <!-- here we have the button -->
         <div class="formbuttons paddingLeft">
-            <input type="button" class="applybutton" id="saveBtn" value="Apply" title="Apply"/>
+            <input type="button" class="applybutton" id="saveBtn" value="Assign" title="Assign"/>
         </div>
 </form>
 </div>

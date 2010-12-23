@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
+<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
 <div id="flash_message_wrapper">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 </div>
@@ -24,9 +25,28 @@
 
 <div id="errorDiv"></div>
 
-<div class="outerbox">
-
+<div class="outerbox" style="width: 600px;">
     <div class="mainHeading"><h2><?php echo __('Holidays'); ?></h2></div>
+    <form method="post" name="frmHolidaySearch" id="frmHolidaySearch" action="<?php echo url_for('coreLeave/viewHolidayList'); ?>">
+        <table border="0" id="holidaySearch">
+            <tr>
+                <td class="labelText"><?php echo __('Leave Period'); ?></td>
+                <td>
+                    <select name="leavePeriod">
+                        <?php foreach($leavePeriods as $k => $v) {?>
+                        <option value="<?php echo $k;?>" <?php if($k == $leavePeriodId) { echo "selected";}?>><?php echo $v;?></option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="formbuttons paddingLeft">
+    <input type="button" name="btnSearch" id="btnSearch" value="Search" class="savebutton" />
+    </div>
+</div>
+
+<div class="outerbox">
 
     <form method="post" name="frmHolidayList" id="frmHolidayList" action="<?php echo url_for('coreLeave/holidayList'); ?>">
 
@@ -53,7 +73,7 @@
                     </td>
                     <td><?php echo __('Name of Holiday'); ?></td>
                     <td><?php echo __('Date'); ?></td>
-                    <td><?php echo __('Ful Day/Half Day'); ?></td>
+                    <td><?php echo __('Full Day/Half Day'); ?></td>
                     <td><?php echo __('Repeats Annually'); ?></td>
                 </tr>
             </thead>
@@ -105,6 +125,10 @@
 <script type="text/javascript"> 
 
     $(document).ready(function() {
+
+        $("#btnSearch").click(function(){
+            $("#frmHolidaySearch").submit();
+        });
 
         // Add button
         $('#btnAdd').click(function(){

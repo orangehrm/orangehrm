@@ -498,7 +498,8 @@ input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideF
 div.wideFormValue, select.formTimeSelect, input.formFileInput {
     display: block;
     float: left;
-    margin: 10px 0px 2px 0px;
+    margin-top: 5px;
+    margin-left: 2px;
 }
 
 label
@@ -959,7 +960,7 @@ textarea {
 		display:block;
 	}
 	#rightHeaderImage {
-		background : url(../pictures/top_img.jpg) no-repeat top right;
+		/*background : url(../pictures/top_img.jpg) no-repeat top right;*/
 		width: 300px;
 		height: 62px;
 		float:right;

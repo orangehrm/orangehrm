@@ -114,10 +114,19 @@ class HolidayService extends BaseService
      */
     public function getHolidayList($year = null,$offset=0,$limit=50)
     {
-
         $holidayList = $this->getHolidayDao()->getHolidayList($year,$offset, $limit);
         return $holidayList;
 
+    }
+
+    /**
+     * Search Holidays within a given leave period
+     * @param String $startDate
+     * @param String $endDate
+     * @return Holidays
+     */
+    public function searchHolidays($startDate = null, $endDate = null) {
+        return $this->getHolidayDao()->searchHolidays($startDate, $endDate);
     }
 
     /**

@@ -78,18 +78,29 @@
 
 
             <div class="formbuttons">
-                <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save'); ?>" />
+                <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Edit'); ?>" />
                 <input type="button" class="clearbutton" onclick="reset();" value="<?php echo __('Reset'); ?>" />
             </div>
-
         </form>
     </div>
     <script type="text/javascript">
         //<![CDATA[
 
-        $(document).ready(function(){
-            $("#saveBtn").click(function(){
-                $("#frmWorkWeek").submit();
+        $(document).ready(function() {
+            $(".formSelect").attr("disabled", "disabled");
+            
+            $("#saveBtn").click(function() {
+                if($("#saveBtn").attr("value") == "Edit") {
+                    $(".formSelect").removeAttr("disabled");
+                    $("#saveBtn").attr("value", "Save");
+                    return;
+                }
+
+                if($("#saveBtn").attr("value") == "Save") {
+                    $("#frmWorkWeek").submit();
+                    $(".formSelect").attr("disabled", "disabled");
+                    return;
+                }
             });
         });
         //]]>

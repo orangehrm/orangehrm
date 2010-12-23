@@ -171,7 +171,7 @@ class coreLeaveActions extends sfActions {
                     $workWeekService->saveWorkWeek($workWeek);
                 }
 
-                $this->templateMessage = array('SUCCESS', 'Successfully Saved Working Days');
+                $this->templateMessage = array('SUCCESS', 'Work Week Successfully Saved');
             }
         }
     }
@@ -182,9 +182,43 @@ class coreLeaveActions extends sfActions {
      */
     public function executeViewHolidayList(sfWebRequest $request) {
 
+        $leavePeriodService = $this->getLeavePeriodService();
+
+        //retrieve current leave period id
+        $leavePeriodId = (!$leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod)?0:$leavePeriodService->getCurrentLeavePeriod()->getLeavePeriodId();
+
+        //generating leave period lists for display in dropdown
+        $leavePeriodList = $leavePeriodService->getLeavePeriodList();
+        $leavePeriods = array();
+        foreach ($leavePeriodList as $leavePeriod) {
+            $leavePeriods[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate().' to '.$leavePeriod->getEndDate();
+        }
+        $this->leavePeriods = $leavePeriods;
+        
+        if (empty($leavePeriods)) {
+            $leavePeriods = array('0' => 'No Leave Periods');
+        }
+
+        $startDate = date("Y-m-d");
+        $endDate = date("Y-m-d");
+        if($leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod) {
+            $startDate = $leavePeriodService->getCurrentLeavePeriod()->getStartDate();
+            $endDate = $leavePeriodService->getCurrentLeavePeriod()->getEndDate();
+        }
+
+        if($request->isMethod('post')) {
+            $leavePeriodId = $request->getParameter("leavePeriod");
+            $leavePeriod = $leavePeriodService->readLeavePeriod($leavePeriodId);
+            if($leavePeriod instanceof LeavePeriod) {
+                $startDate = $leavePeriod->getStartDate();
+                $endDate = $leavePeriod->getEndDate();
+            }
+        }
+
+        $this->leavePeriodId = $leavePeriodId;
         $this->daysLenthList = $this->getWorkWeekEntity()->getDaysLengthList();
         $this->yesNoList = $this->getWorkWeekEntity()->getYesNoList();
-        $this->holidayList = $this->getHolidayService()->getHolidayList();
+        $this->holidayList = $this->getHolidayService()->searchHolidays($startDate, $endDate);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');

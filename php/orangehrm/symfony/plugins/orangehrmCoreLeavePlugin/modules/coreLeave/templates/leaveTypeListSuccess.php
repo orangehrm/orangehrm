@@ -25,7 +25,7 @@
 <?php } ?>
 <div id="errorDiv"></div>
 
-<div class="outerbox">
+<div class="outerbox" style="width:500px;">
 
     <div class="mainHeading"><h2><?php echo __('Leave Types'); ?></h2></div> 
  
@@ -36,7 +36,6 @@
 		<div class="actionbuttons"> 
 
 			<input type="button" class="addbutton" name="btnAdd" id="btnAdd" value="<?php echo __('Add'); ?>" /> 
- 			<input type="button" class="editbutton" name="btnEdit" id="btnEdit" value="<?php echo __('Edit'); ?>" />
 			<input type="button" class="delbutton" name="btnDel" id="btnDel" value="<?php echo __('Delete'); ?>" />
 			<input type="hidden" name="hdnEditId" id="hdnEditId" value="" />
             <!--<input type="reset" class="resetbutton" value="Reset" />--> 
@@ -57,7 +56,6 @@
     	<td width="50"> 
         	<input type="checkbox" class="innercheckbox" name="allCheck" id="allCheck" value="" /> 
       	</td> 
-    	<td><?php echo __('Leave Type Id'); ?></td> 
       	<td><?php echo __('Leave Type'); ?></td> 
     </tr> 
 	</thead> 
@@ -73,9 +71,6 @@
 			<input type="checkbox" class="innercheckbox" name="chkLeaveType[]" value="<?php echo $leaveType->getLeaveTypeId(); ?>" />
     		<!--<input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='LTY001' />-->
     	</td> 
-      	<td>
-      		<?php echo $leaveType->getLeaveTypeId(); ?>
-      	</td> 
         <td>
             <a href="#" class="leaveTypeNames"><?php echo $leaveType->getLeaveTypeName(); ?></a>
         </td> 

@@ -270,60 +270,72 @@ class LeaveSummaryForm extends sfForm {
                 $leaveRemaining = ($leaveEntitled + $leaveBroughtForward) - ($leaveTaken + $leaveScheduled + $leaveCarryForward);
                 $leaveRemaining = number_format($leaveRemaining, 2);
 
-                $html .= "<tr class=\"$class\">\n";
-                $class = $class=='odd'?'even':'odd';
-
-                $html .= "<td>\n";
-                //$html .= content_tag('a', $employeeName, array('href' => "{$baseUrl}employeeId/{$employeeId}")) . "\n";
-                $html .= content_tag('a', $employeeName, array('href' => "../pim/viewEmployee/empNumber/" . $employeeId)) . "\n";
-                $html .= "</td>\n";
-
-                $html .= "<td>\n";
-                $html .= "$leaveType";
-                //content_tag('a', $leaveType, array('href' => "{$baseUrl}employeeId/{$employeeId}/leaveTypeId/{$leaveTypeId}")) . "\n";
-                $html .= "</td>\n";
-
-                $html .= "<td>\n";
-
-                if ($this->isLeaveTypeEditable($leaveTypeId) && $this->userType == 'Admin') {
-                    $html .= "<input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$i\" class=\"formInputText\" value=\"$leaveEntitled\" />\n";
-                    $html .= "<input type=\"hidden\" name=\"hdnEmpId[]\" id=\"hdnEmpId-$i\" value=\"$employeeId\" />\n";
-                    $html .= "<input type=\"hidden\" name=\"hdnLeaveTypeId[]\" id=\"hdnLeaveTypeId-$i\" value=\"$leaveTypeId\" />\n";
-                    $html .= "<input type=\"hidden\" name=\"hdnLeavePeriodId[]\" id=\"hdnLeavePeriodId-$i\" value=\"$leavePeriodId\" />\n";
-                    $html .= "<br />";
-                    $html .= "<div class=\"errorHolder\"></div>\n";
-                    $this->leaveSummaryEditMode = true;
-                } else {
-                    $html .= "$leaveEntitled\n";
+                $rowDisplayFlag = false;
+                //show active leave types
+                if($row['availableFlag'] == 1) {
+                    $rowDisplayFlag = true;
                 }
-                $html .= "</td>\n";
 
-                $html .= "<td>\n";
-                $scheduledStr = $leaveScheduled;
-                if($leaveScheduled > 0) {
-                    $scheduledStr = "<a href='viewLeaveList?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED . "'>" . $scheduledStr . "</a>";
+                //show inactive leave types if any leaveEntitled, leaveTaken, leaveScheduled of them above 0
+                if(($row['availableFlag'] != 1) && ($leaveEntitled > 0 || $leaveTaken > 0 || $leaveScheduled > 0)) {
+                    $rowDisplayFlag = true;
                 }
-                $html .= "$scheduledStr\n";
-                $html .= "</td>\n";
 
-                $takenStr = $leaveTaken;
-                if($takenStr > 0) {
-                    $takenStr = "<a href='viewLeaveList?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN . "'>" .$takenStr . "</a>";
-                }
-                $html .= "<td>\n";
-                $html .= "$takenStr\n";
-                $html .= "</td>\n";
-                
-                $html .= "<td>\n";
-                $html .= "$leaveRemaining\n";
-                $html .= "</td>\n";
+                if($rowDisplayFlag) {
+                    $html .= "<tr class=\"$class\">\n";
+                    $class = $class=='odd'?'even':'odd';
 
-                $html .= "</tr>\n";
+                    $html .= "<td>\n";
+                    //$html .= content_tag('a', $employeeName, array('href' => "{$baseUrl}employeeId/{$employeeId}")) . "\n";
+                    $html .= content_tag('a', $employeeName, array('href' => "../pim/viewEmployee/empNumber/" . $employeeId)) . "\n";
+                    $html .= "</td>\n";
 
-                $i++;
+                    $html .= "<td>\n";
+                    $html .= "$leaveType";
+                    //content_tag('a', $leaveType, array('href' => "{$baseUrl}employeeId/{$employeeId}/leaveTypeId/{$leaveTypeId}")) . "\n";
+                    $html .= "</td>\n";
 
-            } // while ($row = mysql_fetch_array($recordsResult))
+                    $html .= "<td>\n";
 
+                    if ($this->isLeaveTypeEditable($leaveTypeId) && $this->userType == 'Admin') {
+                        $html .= "<input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$i\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" />\n";
+                        $html .= "<input type=\"hidden\" name=\"hdnEmpId[]\" id=\"hdnEmpId-$i\" value=\"$employeeId\" />\n";
+                        $html .= "<input type=\"hidden\" name=\"hdnLeaveTypeId[]\" id=\"hdnLeaveTypeId-$i\" value=\"$leaveTypeId\" />\n";
+                        $html .= "<input type=\"hidden\" name=\"hdnLeavePeriodId[]\" id=\"hdnLeavePeriodId-$i\" value=\"$leavePeriodId\" />\n";
+                        $html .= "<br />";
+                        $html .= "<div class=\"errorHolder\"></div>\n";
+                        $this->leaveSummaryEditMode = true;
+                    } else {
+                        $html .= "$leaveEntitled\n";
+                    }
+                    $html .= "</td>\n";
+
+                    $html .= "<td>\n";
+                    $scheduledStr = $leaveScheduled;
+                    if($leaveScheduled > 0) {
+                        $scheduledStr = "<a href='viewLeaveList?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED . "'>" . $scheduledStr . "</a>";
+                    }
+                    $html .= "<div class='daysMove'>$scheduledStr</div>\n";
+                    $html .= "</td>\n";
+
+                    $takenStr = $leaveTaken;
+                    if($takenStr > 0) {
+                        $takenStr = "<a href='viewLeaveList?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN . "'>" .$takenStr . "</a>";
+                    }
+                    $html .= "<td>\n";
+                    $html .= "<div class='daysMove'>$takenStr</div>\n";
+                    $html .= "</td>\n";
+
+                    $html .= "<td>\n";
+                    $html .= "<div class='daysMove'>$leaveRemaining</div>\n";
+                    $html .= "</td>\n";
+
+                    $html .= "</tr>\n";
+
+                    $i++;
+
+                } // while ($row = mysql_fetch_array($recordsResult))
+            }
             $html .= "</tbody>\n";
 
         } // if ($count > 0)

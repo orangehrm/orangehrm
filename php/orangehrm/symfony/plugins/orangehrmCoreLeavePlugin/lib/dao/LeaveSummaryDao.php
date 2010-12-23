@@ -50,7 +50,7 @@ class LeaveSummaryDao extends BaseDao {
         
         $q = "SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
-              b.leave_type_name AS leaveTypeName FROM
+              b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag FROM
               (hs_hr_employee a, hs_hr_leavetype b)";
 
         if (!empty($clues['cmbLocation'])) {
@@ -81,9 +81,10 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
         }
 
-        $where[] = "b.available_flag = 1";
-
-        $q .= ' WHERE '.implode(' AND ',$where);
+        //$where[] = "b.available_flag = 1";
+        if(count($where) > 0) {
+            $q .= ' WHERE '.implode(' AND ',$where);
+        }
 
         $q .= " ORDER By a.emp_number, b.leave_type_id";
 
@@ -125,9 +126,10 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
         }
 
-        $where[] = "b.available_flag = 1";
-
-        $q .= ' WHERE '.implode(' AND ',$where);
+        //$where[] = "b.available_flag = 1";
+        if(count($where) > 0) {
+            $q .= ' WHERE '.implode(' AND ',$where);
+        }
 
         $row = mysql_fetch_array(mysql_query($q));
 

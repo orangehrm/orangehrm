@@ -23,7 +23,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
 
             $leaveTypeService->deleteLeaveType($request->getParameter('chkLeaveType'));
 
-            $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Leave Type Successfully deleted'));
+            $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Leave Type Successfully Deleted'));
             $this->redirect('coreLeave/leaveTypeList');
         }
     }
@@ -34,7 +34,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
         $leaveType->setLeaveTypeName($form->getValue('txtLeaveTypeName'));
         $leaveType->setAvailableFlag(1); // TODO: Replace 1 with a constant
         $this->getLeaveTypeService()->saveLeaveType($leaveType);
-        $this->form->setMessage('success', 'Leave type was successfully saved');
+        $this->form->setMessage('success', 'Leave Type Successfully Saved');
         
     }
 

@@ -57,7 +57,7 @@ class viewLeaveSummaryAction extends sfAction {
         $this->form->setRecordsLimitDefaultValue();
 
         if ($request->isMethod('post')) {
-
+            $this->searchFlag = 1;
             $this->form->bind($request->getParameter($this->form->getName()));
 
             if ($this->form->isValid()) {

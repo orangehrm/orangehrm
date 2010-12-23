@@ -70,8 +70,12 @@ This is a deleted leave type. Reactivate it?
 
 $(document).ready(function(){
     if($('#leaveType_hdnSavingMode').val() == "update") {
-        $("#editStatus").html("Update");
+        $("#editStatus").html("Edit");
     }
+
+    $("#resetButton").click(function() {
+        
+    });
 
     $('#saveButton').click(function(){
 
@@ -126,6 +130,10 @@ $(document).ready(function(){
         errorDisplay.append(errorMessage);
 
     }
+
+    $("#resetButton").click(function() {
+        $(".error").empty();
+    });
 
     $('#backButton').click(function(){
         window.location.href = '<?php echo url_for('coreLeave/leaveTypeList'); ?>';

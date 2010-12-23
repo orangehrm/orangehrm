@@ -21,11 +21,11 @@
 
 <link href="<?php echo public_path('../../themes/orange/css/jquery/jquery.autocomplete.css')?>" rel="stylesheet" type="text/css"/>
 
-<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess'); ?>
+<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess');?>
 
-<?php //if (isset($form->recordsCount) && $form->recordsCount == 0) { ?>
-<!--<div class="messageBalloon_warning"><?php echo __('No results found for this criteria'); ?></div>-->
-<?php //} ?>
+<?php if (isset($form->recordsCount) && $form->recordsCount == 0 && isset($searchFlag) && $searchFlag == 1) { ?>
+<div class="messageBalloon_warning"><?php echo __('No results found for this criteria'); ?></div>
+<?php } ?>
 
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('coreLeave/viewLeaveSummary'); ?>">
 <div class="outerbox" style="width: 800px;">
@@ -136,7 +136,7 @@
 
 <?php if ($form->leaveSummaryEditMode) { ?>
 <div class="formbuttons">
-   <input type="button" class="savebutton" id="btnSave" value="Save"/>
+   <input type="button" class="savebutton" id="btnSave" value="Edit"/>
 <input type="reset" class="resetbutton" value="Reset" id="summaryReset" />
 </div>
 <?php } // if ($form->leaveSummaryEditMode) ?>
