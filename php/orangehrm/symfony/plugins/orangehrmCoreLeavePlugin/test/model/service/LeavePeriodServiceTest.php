@@ -197,20 +197,15 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->leavePeriodService->calculateStartDate(8, 1, 2006);
         $this->assertEquals("2006-08-01", $result);
 
-        /* Test for future days for current year */
-        $currentYear = (int) date('Y'); // TODO: Remove this dependancy on getting the system date by using a mock;
-        $previousYear = $currentYear - 1;
-        $nextMonth = date('m');
-        if($nextMonth != 12) {
-            $nextMonth = str_pad(((int) date('m') + 1), 2, '0', STR_PAD_LEFT);
-        }
-        $startDate = 15;
-        
-        $result = $this->leavePeriodService->calculateStartDate($nextMonth, $startDate);
-        $this->assertEquals("{$previousYear}-{$nextMonth}-{$startDate}", $result);
-        
-        $result = $this->leavePeriodService->calculateStartDate($nextMonth, $startDate, $currentYear);
-        $this->assertEquals("{$previousYear}-{$nextMonth}-{$startDate}", $result);
+        $currentYear = date('Y');
+
+        $result = $this->leavePeriodService->calculateStartDate(05, 12);
+        $exprected = $currentYear . "-05-12";
+        $this->assertEquals($exprected, $result);
+
+        $result = $this->leavePeriodService->calculateStartDate(05, 12, $currentYear);
+        $exprected = $currentYear . "-05-12";
+        $this->assertEquals($exprected, $result);
       
     }
 
