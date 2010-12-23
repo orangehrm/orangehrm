@@ -509,10 +509,10 @@ class coreLeaveActions extends sfActions {
             $this->page = $page;
             $this->recordCount = $recordCount;
 
-            /*if ($recordCount == 0) {
-                $message = 'No records found';
+            if ($recordCount == 0 && $request->isMethod("post")) {
+                $message = 'No Records Found';
                 $messageType = 'notice';
-            }*/
+            }
 
         } else {
 
