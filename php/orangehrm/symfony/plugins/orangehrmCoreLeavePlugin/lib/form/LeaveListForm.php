@@ -26,6 +26,7 @@ class LeaveListForm extends sfForm {
     private $loggedUserId;
     private $leaveRequest;
     private $empJson;
+    private $leavePeriodService;
 
     public function __construct($mode = null, $leavePeriod = null, $employee = null, $requestData = null, $loggedUserId = null, $leaveRequest = null) {
 
@@ -102,6 +103,15 @@ class LeaveListForm extends sfForm {
             'btnSearch' => new ohrmWidgetButton('btnSearch', 'Search', array('class' => 'searchbutton')),
             'btnReset' => new ohrmWidgetButton('btnReset', 'Reset', array('class' => 'clearbutton')),
         );
+    }
+
+    public function getLeavePeriodService() {
+        if(is_null($this->leavePeriodService)) {
+            $leavePeriodService = new LeavePeriodService();
+            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
+            $this->leavePeriodService = $leavePeriodService;
+        }
+        return $this->leavePeriodService;
     }
 
     /**
@@ -189,8 +199,21 @@ class LeaveListForm extends sfForm {
 
     private function _init() {
 
-        $this->getWidget('calFromDate')->setDefault($this->requestData->getParameter('calFromDate'));
-        $this->getWidget('calToDate')->setDefault($this->requestData->getParameter('calToDate'));
+        $startDate = $this->requestData->getParameter('calFromDate');
+        $endDate = $this->requestData->getParameter('calToDate');
+        
+        if(empty($startDate) && empty($endDate)) {
+            $leavePeriodService = $this->getLeavePeriodService();
+            $leavePeriod = $leavePeriodService->getCurrentLeavePeriod();
+
+            if($leavePeriod instanceof LeavePeriod) {
+                $startDate = $leavePeriod->getStartDate();
+                $endDate = $leavePeriod->getEndDate();
+            }
+        }
+        
+        $this->getWidget('calFromDate')->setDefault($startDate);
+        $this->getWidget('calToDate')->setDefault($endDate);
 
         if ($this->mode != self::MODE_MY_LEAVE_LIST && $this->mode != self::MODE_MY_LEAVE_DETAILED_LIST) {
 
