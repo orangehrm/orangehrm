@@ -100,3 +100,7 @@ input.calendarBtn[type="button"] {
 .error {
     color: #ff0000;
 }
+
+.numberLabel {
+    margin-left: 40px;
+}

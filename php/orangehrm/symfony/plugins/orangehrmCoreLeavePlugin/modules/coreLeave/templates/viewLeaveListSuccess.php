@@ -130,7 +130,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 						<?php echo ((bool) $datum->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
 					</td>
                     <input type="hidden" name="leaveRequest[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveRequest-<?php echo $datum->getLeaveRequestId(); ?>" value="" class="requestIdHolder" />
-                                        <td><?php echo $datum->getNumberOfDays(); ?></td>
+                    <td><div class="numberLabel"><?php echo $datum->getNumberOfDays(); ?></div></td>
                                         <td><a href="<?php echo $url; ?>"><?php echo $datum->getStatus(); ?></a></td>
                                         <td align="left">
                                             <table cellspacing="0" cellpadding="0" border="0">
@@ -187,7 +187,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 						<?php echo $datum->getLeaveRequest()->getLeaveType()->getLeaveTypeName(); ?>
 						<?php echo ((bool) $datum->getLeaveRequest()->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
 					</td>
-					<td><?php echo $datum->getLeaveLengthHours(); ?></td>
+                    <td><div class="numberLabel"><?php echo $datum->getLeaveLengthHours(); ?></div></td>
                     <td><?php echo $datum->getTextLeaveStatus(); ?></td>
                     <td valign="top"><table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tr>
