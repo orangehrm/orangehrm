@@ -1,0 +1,27 @@
+/* 
+    Document   : module.report
+    Created on : Apr 27, 2010, 10:32:28 AM
+    Author     : poojitha
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.msg_head {
+	padding: 5px 10px;
+	cursor: pointer;
+	position: relative;
+	background-color:#EEEEEE;
+	margin:1px;
+}
+.msg_body {
+	padding: 5px 10px 15px;
+}
+.main_sec {
+    margin-top: 5px;
+    height: 35px;
+}

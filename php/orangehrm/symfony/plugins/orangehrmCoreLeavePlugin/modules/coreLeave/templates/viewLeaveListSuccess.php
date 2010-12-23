@@ -138,7 +138,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                                         <td align="left">
                                             <table cellspacing="0" cellpadding="0" border="0">
                                                 <tr>
-                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="150"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
+                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="200"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
                                                     <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="Click here to edit" /></td>
                                                 </tr>
                                             </table>
@@ -486,8 +486,8 @@ leave balance for this leave type. Do you want to continue?
                 $('#frmFilterLeave')[0].reset();
             });
 
-            $('#btnBack').click(function(){
-                history.back();
+            $('#btnBack').click(function() {
+                window.location = "coreLeave/viewLeaveList";
             });
 
             $('#btnSave').click(function() {
