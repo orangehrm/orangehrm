@@ -27,9 +27,6 @@ $searchActionButtons = $form->getSearchActionButtons();
 	<div class="mainHeading"><h2><?php echo $form->getTitle(); ?></h2></div>
 	<?php if (!$form->isDetailed()) { ?>
 	<div class="formWrapper">
-
-        <br class="clear" />
-
 		<form id="frmFilterLeave" name="frmFilterLeave" method="post" action="<?php echo url_for($baseUrl); ?>">
 
 			<label class="mainLabel"><?php echo __("Period");?></label>
@@ -55,7 +52,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 				<?php echo $form['cmbSubunit']->renderLabel(__("Sub Unit"), array('class' => 'mainLabel')); ?>
 				<?php echo $form['cmbSubunit']->render(); ?>
 			<?php } ?>
-            <br class="clear" /><br class="clear" />
+            <br class="clear" />
                         <div class="buttonWrapper">
 			<?php foreach ($searchActionButtons as $id => $button) {
 				echo $button->render($id), "\n";
@@ -237,7 +234,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                     <td></td>
                     <td><?php echo __('Non Working Day'); ?></td>
                     <td></td>
-                    <td></td>
+                    <td style="height: 32px;">&nbsp;</td>
                     <?php endif; ?>
 				</tr>
 				<?php
