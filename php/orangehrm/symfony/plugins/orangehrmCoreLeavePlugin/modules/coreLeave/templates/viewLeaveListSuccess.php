@@ -72,6 +72,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 <div id="msgPlace"></div>
 <!-- end of ajax message place -->
 
+<?php if(count($leaveData) > 0) {?>
 <div class="outerbox">
 
     <?php if ($form->isPaginated()) { ?>
@@ -261,6 +262,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 	</form>
 </div>
+<?php }?>
 
 <!-- comment dialog -->
 
