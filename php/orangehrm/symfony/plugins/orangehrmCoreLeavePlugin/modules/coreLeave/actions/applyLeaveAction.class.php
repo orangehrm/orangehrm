@@ -272,7 +272,7 @@ class applyLeaveAction extends sfAction {
 
                 $this->templateMessage = array('SUCCESS', 'Leave Request Successfully Submitted');
             } catch(Exception $e) {
-                $this->templateMessage = array('WARNING', "Leave Period Does Not Exists");
+                $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
             }
         } else {
             $this->templateMessage = array('WARNING', "Leave Request Made on Holiday(s), Submission Failed");
