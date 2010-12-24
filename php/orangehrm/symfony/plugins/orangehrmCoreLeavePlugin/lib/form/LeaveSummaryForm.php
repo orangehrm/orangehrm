@@ -271,6 +271,7 @@ class LeaveSummaryForm extends sfForm {
                 $leaveRemaining = number_format($leaveRemaining, 2);
 
                 $rowDisplayFlag = false;
+                $deletedFlag = false;
                 //show active leave types
                 if($row['availableFlag'] == 1) {
                     $rowDisplayFlag = true;
@@ -279,6 +280,7 @@ class LeaveSummaryForm extends sfForm {
                 //show inactive leave types if any leaveEntitled, leaveTaken, leaveScheduled of them above 0
                 if(($row['availableFlag'] != 1) && ($leaveEntitled > 0 || $leaveTaken > 0 || $leaveScheduled > 0)) {
                     $rowDisplayFlag = true;
+                    $deletedFlag = true;
                 }
 
                 if($rowDisplayFlag) {
@@ -292,6 +294,9 @@ class LeaveSummaryForm extends sfForm {
 
                     $html .= "<td>\n";
                     $html .= "$leaveType";
+                    if($deletedFlag) {
+                        $html .= " (deleted)";
+                    }
                     //content_tag('a', $leaveType, array('href' => "{$baseUrl}employeeId/{$employeeId}/leaveTypeId/{$leaveTypeId}")) . "\n";
                     $html .= "</td>\n";
 
