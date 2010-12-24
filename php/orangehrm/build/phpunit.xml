@@ -9,7 +9,6 @@
       <directory suffix=".php">symfony/apps/orangehrm/modules/admin/actions</directory>
       <directory suffix=".php">symfony/apps/orangehrm/modules/auth/actions</directory>
       <directory suffix=".php">symfony/apps/orangehrm/modules/default/actions</directory>
-      <directory suffix=".php">symfony/apps/orangehrm/modules/leave/actions</directory>
       <directory suffix=".php">symfony/apps/orangehrm/modules/pim/actions</directory>
       <directory suffix=".php">symfony/apps/orangehrm/modules/report/actions</directory>
       <directory suffix=".php">symfony/plugins/orangehrmCoreLeavePlugin/lib</directory>
