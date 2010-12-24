@@ -254,7 +254,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriod->setEndDate("2010-12-31");
         $leavePeriod->setLeavePeriodId(1);
         $leavePeriodService = $this->getMock('LeavePeriodService', array('getCurrentLeavePeriod'));
-        $leavePeriodService->expects($this->once())
+        $leavePeriodService->expects($this->exactly(2))
                 ->method('getCurrentLeavePeriod')
                 ->will($this->returnValue($leavePeriod));
         $this->leaveRequestService->setLeavePeriodService($leavePeriodService);
@@ -267,9 +267,96 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         foreach($result as $leaveType) {
             $this->assertTrue($leaveType instanceof LeaveType);
         }
+
+        // Test handling of exceptions
+        // Replace LeaveTypeService with mock that throws an exception
+        $leaveTypeService = $this->getMock('LeaveTypeService', array('getLeaveTypeList'));
+        $leaveTypeService->expects($this->once())
+                ->method('getLeaveTypeList')
+                ->will($this->throwException(new LeaveServiceException()));
+        $this->leaveRequestService->setLeaveTypeService($leaveTypeService);
+
+        try {
+            $this->leaveRequestService->getEmployeeAllowedToApplyLeaveTypes($employee);
+            $this->fail("Expected exception");
+        } catch (LeaveServiceException $e) {
+            // expected
+        }
+
+    }
+
+    public function testGetOverlappingLeave() {
+
+        $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getOverlappingLeave'));
+        $leaveRequestDao->expects($this->once())
+                ->method('getOverlappingLeave')
+                ->with('2010-02-03', '2010-02-05', 12)
+                ->will($this->returnValue($leaveList));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+        $returnVal = $this->leaveRequestService->getOverlappingLeave('2010-02-03', '2010-02-05', 12);
+        $this->assertTrue($returnVal == $leaveList);
+    }
+
+    public function testSaveLeave() {
+
+        $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
+        $leave = $leaveList[0];
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('saveLeave'));
+        $leaveRequestDao->expects($this->once())
+                ->method('saveLeave')
+                ->with($leave)
+                ->will($this->returnValue(true));
+        
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+        $this->assertTrue($this->leaveRequestService->saveLeave($leave));
+    }
+
+    public function testReadLeave() {
+
+        $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
+        $leave = $leaveList[0];
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('readLeave'));
+        $leaveRequestDao->expects($this->once())
+                ->method('readLeave')
+                ->with($leave->leave_id)
+                ->will($this->returnValue($leave));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+        $leaveReturned = $this->leaveRequestService->readLeave($leave->leave_id);
+
+        $this->assertEquals($leaveReturned->toArray(), $leave->toArray());
+
+    }
+
+    public function testGetLeaveNotificationService() {
+        $service = $this->leaveRequestService->getLeaveNotificationService();
+        $this->assertTrue(is_a($service, LeaveNotificationService) );
+    }
+
+    public function testGetLeaveEntitlementService() {
+        $service = $this->leaveRequestService->getLeaveEntitlementService();
+        $this->assertTrue(is_a($service, LeaveEntitlementService) );
+    }
+
+    public function testGetLeaveTypeService() {
+        $service = $this->leaveRequestService->getLeaveTypeService();
+        $this->assertTrue(is_a($service, LeaveTypeService) );
+    }
+
+    public function testGetLeavePeriodService() {
+        $service = $this->leaveRequestService->getLeavePeriodService();
+        $this->assertTrue(is_a($service, LeavePeriodService) );
     }
 
 
+    //getLeaveRequestStatus
+
+    //adjustLeavePeriodOverlapLeaves
 }
 
 

@@ -305,7 +305,6 @@ class AssignLeaveForm extends sfForm {
      */
     public function isHoliday($day) {
         $holidayService	=	new HolidayService();
-        $holidayService->setHolidayDao(new HolidayDao());
 
         return $holidayService->isHoliday($day);
     }
@@ -320,7 +319,6 @@ class AssignLeaveForm extends sfForm {
         $workWeekService->setWorkWeekDao(new WorkWeekDao());
 
         $holidayService	=	new HolidayService();
-        $holidayService->setHolidayDao(new HolidayDao());
 
         //this is to check weekday half days
         $flag = $holidayService->isHalfDay($day);
@@ -338,8 +336,6 @@ class AssignLeaveForm extends sfForm {
      */
     public function isHalfdayHoliday($day) {
         $holidayService	=	new HolidayService();
-        $holidayService->setHolidayDao(new HolidayDao());
-
         return $holidayService->isHalfdayHoliday($day);
     }
     /**

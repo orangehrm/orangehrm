@@ -21,15 +21,17 @@
 class HolidayService extends BaseService
 {
     // Holiday Data Access Object
-    private $HolidayDao ;
+    private $holidayDao;
 
     /**
      * Get the Holiday Data Access Object
      * @return HolidayDao
      */
-    public function getHolidayDao()
-    {
-        return $this->HolidayDao;
+    public function getHolidayDao() {
+        if (is_null($this->holidayDao)) {
+            $this->holidayDao = new HolidayDao();
+        }
+        return $this->holidayDao;
     }
 
     /**
@@ -39,7 +41,7 @@ class HolidayService extends BaseService
      */
     public function setHolidayDao( HolidayDao $HolidayDao)
     {
-        $this->HolidayDao = $HolidayDao;
+        $this->holidayDao = $HolidayDao;
     }
 
     /**

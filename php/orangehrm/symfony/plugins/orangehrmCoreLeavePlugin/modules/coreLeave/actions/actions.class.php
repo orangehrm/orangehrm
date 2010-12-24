@@ -36,7 +36,6 @@ class coreLeaveActions extends sfActions {
     public function getHolidayService() {
         if (is_null($this->holidayService)) {
             $this->holidayService = new HolidayService();
-            $this->holidayService->setHolidayDao(new HolidayDao());
         }
         return $this->holidayService;
     }

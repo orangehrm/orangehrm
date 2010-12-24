@@ -92,10 +92,7 @@ class HolidayForm extends sfForm
      *
      */
     public function setHolidayService(){
-
         $this->holidayService = new HolidayService();
-        $this->holidayService->setHolidayDao(new HolidayDao());
-
     }
 
     /**

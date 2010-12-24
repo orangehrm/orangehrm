@@ -86,7 +86,7 @@ class LeaveRequestService extends BaseService {
      */
     public function getLeaveTypeService() {
         if(is_null($this->leaveTypeService)) {
-            $this->leaveTypeService	=	new LeaveTypeService();
+            $this->leaveTypeService = new LeaveTypeService();
             $this->leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
         }
         return $this->leaveTypeService;
@@ -305,7 +305,6 @@ class LeaveRequestService extends BaseService {
     public function getLeaveRequestStatus( $day ) {
         try {
             $holidayService	=	new HolidayService();
-            $holidayService->setHolidayDao(new HolidayDao());
             $holiday		=	$holidayService->readHolidayByDate($day);
             if ($holiday != null) {
                 return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
