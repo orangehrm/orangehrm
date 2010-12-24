@@ -28,11 +28,14 @@
   	public $leaveType ;
   	public $leavePeriod ;
   	public $employee ;
+        private $fixture;
  	
  	protected function setUp() {
 
             $this->leaveRequestDao	=	new LeaveRequestDao();
-            TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/LeaveRequestDao.yml');
+            $fixtureFile = sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/LeaveRequestDao.yml';
+            TestDataService::populate($fixtureFile);
+            $this->fixture = sfYaml::load($fixtureFile);
     	
     }
     
@@ -726,15 +729,86 @@
     }
 
 
+    /**
+     * Test the readLeave() function
+     */
+    public function testReadLeave() {
+
+        //
+        // Unavailable leave id
+        //
+        Doctrine_Query::create()
+		->delete('*')
+		->from('Leave l')
+		->where('leave_id = 999');
+
+        $leave = $this->leaveRequestDao->readLeave(999);
+
+        $this->assertFalse($leave, 'should return false for unavailable leave id');
+
+        //
+        // Available leave id
+        //
+        $leaveFixture = $this->fixture['Leave'][1];
+
+        $savedLeave = $this->leaveRequestDao->readLeave($leaveFixture['leave_id']);
+
+        // Compare leave id
+        $this->assertEquals($savedLeave->leave_id, $leaveFixture['leave_id'], 'leave id should match');
+        
+        // Compare other properties
+        foreach ($leaveFixture as $property => $value) {
+            $this->assertEquals($savedLeave->$property, $value, $property . ' should match ');
+        }
+    }
+
+    public function testSaveLeave() {
+
+        // Try and save leave with id that exists - should throw error
+        $existingLeave = new Leave();
+        $existingLeave->fromArray($this->fixture['Leave'][1]);
+
+        try {
+            $this->leaveRequestDao->saveLeave($existingLeave);
+            $this->fail("Dao exception expected");
+        } catch (DaoException $e) {
+            // expected
+        }
+
+        // Try to save new leave (without id)
+        $leaveRequestId = $this->fixture['LeaveRequest'][1]['leave_request_id'];
+        $leave = new Leave();
+        $leave->leave_length_hours = 8;
+        $leave->leave_length_days = 1;
+        $leave->leave_request_id = $leaveRequestId;
+        $leave->leave_type_id = $this->fixture['LeaveType'][0]['leaveTypeId'];
+        $leave->employee_id = $this->fixture['Employee'][0]['empNumber'];
+        $leave->leave_date = '2010-09-09';
+        $leave->leave_status = 1;
+        $this->leaveRequestDao->saveLeave($leave);
+
+        // Verify id assigned
+        $this->assertTrue(!empty($leave->leave_id));
 
 
+        // Verify saved by retrieving
+        $result = Doctrine_Query::create()
+                                    ->select()
+                                    ->from('Leave l')
+                                    ->where('leave_id = ?', $leave->leave_id)
+                                    ->execute();
+        $this->assertTrue($result->count() == 1);
+        $this->assertTrue(is_a($result[0], Leave));
+
+        $origAsArray = $leave->toArray();
+        $savedAsArray = $result[0]->toArray();
+
+        $this->assertEquals($origAsArray, $savedAsArray);        
+    }
 
     
  }
 
-
-
- 
 
  class ParameterStub {
 
