@@ -19,7 +19,6 @@
         <!-- temporarily added to prevent problems due to class name conflicts with old LocaleUtil -->
         <file>symfony/apps/orangehrm/lib/utility/LocaleUtil.php</file>
         <file>symfony/apps/orangehrm/lib/utility/Auth.php</file>
-        <file>symfony/apps/orangehrm/lib/utility/KeyHandler.php</file>
         <file>symfony/lib/model/doctrine/Customer.class.php</file>
       </exclude>
   </whitelist>
