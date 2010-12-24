@@ -353,10 +353,85 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(is_a($service, LeavePeriodService) );
     }
 
+    public function testGetHolidayService() {
+        $service = $this->leaveRequestService->getHolidayService();
+        $this->assertTrue(is_a($service, HolidayService) );
+    }
 
-    //getLeaveRequestStatus
+    public function testGetLeaveRequestStatus() {
 
-    //adjustLeavePeriodOverlapLeaves
+        $leaveDate = '2010-03-29';
+        $holidayService = $this->getMock('HolidayService', array('readHolidayByDate'));
+        $holidayService->expects($this->once())
+                ->method('readHolidayByDate')
+                ->with($leaveDate)
+                ->will($this->returnValue(null));
+
+        $this->leaveRequestService->setHolidayService($holidayService);
+        $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
+
+        $this->assertEquals($status, Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+
+        $holidayService = $this->getMock('HolidayService', array('readHolidayByDate'));
+        $holidayService->expects($this->once())
+                ->method('readHolidayByDate')
+                ->with($leaveDate)
+                ->will($this->returnValue(new Holiday()));
+
+        $status = $this->leaveRequestService->setHolidayService($holidayService);
+        $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
+
+        $this->assertEquals($status, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+
+        // Test exception case
+        $holidayService = $this->getMock('HolidayService', array('readHolidayByDate'));
+        $holidayService->expects($this->once())
+                ->method('readHolidayByDate')
+                ->with($leaveDate)
+                ->will($this->throwException(new LeaveServiceException()));
+
+        $status = $this->leaveRequestService->setHolidayService($holidayService);
+
+        try {
+            $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
+            $this->fail("Expected exception");
+        } catch (LeaveServiceException $e) {
+            // Expected
+        }
+
+    }
+
+    public function testAdjustLeavePeriodOverlapLeaves() {
+        $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
+
+        $leavePeriod = new LeavePeriod();
+        $leavePeriod->setLeavePeriodId(11);
+        $leavePeriod->setStartDate("2008-01-31");
+        $leavePeriod->setEndDate("2009-01-31");
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao',
+                array('getLeavePeriodOverlapLeaves', 'fetchLeave', 'modifyOverlapLeaveRequest'));
+        
+        $leaveRequestDao->expects($this->once())
+                ->method('getLeavePeriodOverlapLeaves')
+                ->with($leavePeriod)
+                ->will($this->returnValue(array($leaveList[0])));
+
+        $leaveRequestDao->expects($this->once())
+                ->method('fetchLeave')
+                ->with($leaveRequestId)
+                ->will($this->returnValue($leaveList));
+
+        $leaveRequestDao->expects($this->once())
+                ->method('modifyOverlapLeaveRequest')
+                ->with($leaveList[0]->getLeaveRequest(), $leaveList, $leavePeriod);
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+
+        $this->leaveRequestService->adjustLeavePeriodOverlapLeaves($leavePeriod);
+
+
+    }
 }
 
 

@@ -24,6 +24,7 @@ class LeaveRequestService extends BaseService {
     private $leaveTypeService;
     private $leaveEntitlementService;
     private $leavePeriodService;
+    private $holidayService;
 
     private $leaveNotificationService;
 
@@ -126,6 +127,25 @@ class LeaveRequestService extends BaseService {
      */
     public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
+    }
+
+    /**
+     * Returns HolidayService
+     * @return HolidayService
+     */
+    public function getHolidayService() {
+        if(is_null($this->holidayService)) {
+            $this->holidayService = new HolidayService();
+        }
+        return $this->holidayService;
+    }
+
+    /**
+     * Sets HolidayService
+     * @param HolidayService $holidayService
+     */
+    public function setHolidayService(HolidayService $holidayService) {
+        $this->holidayService = $holidayService;
     }
 
     /**
@@ -304,8 +324,8 @@ class LeaveRequestService extends BaseService {
      */
     public function getLeaveRequestStatus( $day ) {
         try {
-            $holidayService	=	new HolidayService();
-            $holiday		=	$holidayService->readHolidayByDate($day);
+            $holidayService = $this->getHolidayService();
+            $holiday = $holidayService->readHolidayByDate($day);
             if ($holiday != null) {
                 return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
             }
