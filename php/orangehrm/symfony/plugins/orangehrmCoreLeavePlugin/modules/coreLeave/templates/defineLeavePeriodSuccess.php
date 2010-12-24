@@ -59,6 +59,7 @@
                 </span>
             </td>
         </tr>
+        <tr><td></td><td id="inlineErrorHolder2" class="errorHolder"></td></tr>
         <tr class="datesForNonLeapYears tableArrangetr" >
             <td align="left"><?php echo __("End Date"); ?></td>
             <td><span id="lblEndDateForNonLeapYears" class="valueLabel">-</span>&nbsp;<span id="lblNonLeapYearFollowingYear" class="valueLabel"></span></td>
@@ -317,6 +318,11 @@
             return false;
 		}
 
+        if($('#leaveperiod_cmbStartMonth').val() == 2 && $("#leaveperiod_cmbStartMonthForNonLeapYears").val() == 0) {
+            $("#inlineErrorHolder2").append("Start month for non-leap year is required");
+            return false;
+        }
+
         return true;
 
     }
@@ -327,6 +333,8 @@
 
     function eraseErrorMessages() {
         $('#inlineErrorHolder').empty();
+        $('#inlineErrorHolder2').empty();
+
     }
 
 
