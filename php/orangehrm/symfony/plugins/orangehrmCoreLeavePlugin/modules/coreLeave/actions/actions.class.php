@@ -287,7 +287,7 @@ class coreLeaveActions extends sfActions {
 
                 // Error will not return if the date if not in the correct format
                 if(!$allowToAdd && !is_null($date)) {
-                    $this->templateMessage = array('WARNING', 'Holiday Date is in Use');
+                    $this->templateMessage = array('WARNING', 'The Date Is Already Assigned to Another Holiday');
                 } else {
                     $holidayObject = $this->getHolidayService()->readHoliday($post['hdnHolidayId']);
                     $holidayObject->setDescription($post['txtDescription']);
