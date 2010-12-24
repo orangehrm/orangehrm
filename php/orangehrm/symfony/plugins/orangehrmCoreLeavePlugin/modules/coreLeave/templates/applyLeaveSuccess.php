@@ -260,7 +260,7 @@
 			        'applyleave[txtLeaveType]':{required: true },
 			 		'applyleave[txtFromDate]': { required: true , dateISO: true, validDateFormat: true, validFromDate: true},
 			 		'applyleave[txtToDate]': { required: true ,dateISO: true,validDateFormat: true },
-			 		'applyleave[txtComment]': {maxlength: 200},
+			 		'applyleave[txtComment]': {maxlength: 250},
 			 		'applyleave[txtLeaveTotalTime]':{ required: false , number: true , min: 0.01, validWorkShift : true,validTotalTime : true},
 			 		'applyleave[txtToTime]': {validToTime: true}
 			 	 },
@@ -282,7 +282,7 @@
 			 			
 			 		},
 			 		'applyleave[txtComment]':{ 
-			 			maxlength:"Comment length should be less than 200 characters"	
+			 			maxlength:"Comment length should be less than 250 characters"
 			 		},
 			 		'applyleave[txtLeaveTotalTime]':{ 
 			 			number:"Total time is numeric value",

@@ -280,7 +280,7 @@
 			        'assignleave[txtLeaveType]':{required: true },
 			 		'assignleave[txtFromDate]': { required: true , dateISO: true, validFromDateFormat: true, validFromDate: true},
 			 		'assignleave[txtToDate]': { required: true ,dateISO: true, validToDateFormat:true},
-			 		'assignleave[txtComment]': {maxlength: 200},
+			 		'assignleave[txtComment]': {maxlength: 250},
 			 		'assignleave[txtLeaveTotalTime]':{ required: false , number: true , min: 0.01, validWorkShift : true,validTotalTime : true},
 			 		'assignleave[txtToTime]': {validToTime: true}
 			 	 },
@@ -303,7 +303,7 @@
                         validToDateFormat: "Invalid to date"
 			 		},
 			 		'assignleave[txtComment]':{
-			 			maxlength:"Comment length should be less than 200 characters"
+			 			maxlength:"Comment length should be less than 250 characters"
 			 		},
 			 		'assignleave[txtLeaveTotalTime]':{
 			 			number:"Total time is numeric value",
