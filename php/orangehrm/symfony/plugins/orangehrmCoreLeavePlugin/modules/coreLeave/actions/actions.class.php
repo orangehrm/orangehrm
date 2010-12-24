@@ -320,7 +320,7 @@ class coreLeaveActions extends sfActions {
 
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully Deleted'));
         } else {
-            $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select at least One Holiday to Delete'));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please Select at Least One Holiday to Delete'));
         }
 
 
