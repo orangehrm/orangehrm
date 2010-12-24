@@ -24,7 +24,7 @@
             <table class="outerMost">
         <tr valign="top">
             <td width="70">
-        <?php echo __('Name'); ?>
+        <?php echo __('Name') . " <span class=required>*</span>"; ?>
         </td>
         <td>
             <?php echo $form['txtLeaveTypeName']->render(); ?>
@@ -50,7 +50,7 @@
 
     </div>
 </div>
-
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
 <div id="undeleteDialog" title="OrangeHRM - Confirmation Required"  style="display:none;">
 
 This is a deleted leave type. Reactivate it?

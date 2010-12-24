@@ -130,3 +130,8 @@ legend {
 .paddingLeft {
     padding-left: 10px;
 }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+}
