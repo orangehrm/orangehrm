@@ -270,7 +270,7 @@ class assignLeaveAction extends sfAction {
                 $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
             }
         } else {
-            $this->templateMessage = array('WARNING', "Leave Request Made on Holiday(s), Submission Failed");
+            $this->templateMessage = array('WARNING', "Make Sure Leave Request Contains Work Days");
         }
     }
 }
