@@ -36,7 +36,6 @@ class coreLeaveActions extends sfActions {
     public function getHolidayService() {
         if (is_null($this->holidayService)) {
             $this->holidayService = new HolidayService();
-            $this->holidayService->setHolidayDao(new HolidayDao());
         }
         return $this->holidayService;
     }
@@ -260,11 +259,11 @@ class coreLeaveActions extends sfActions {
                 $post = $this->form->getValues();
                 // save holiday
 
-                /*if ($post['hdnHolidayId'] != "") {
-                    $this->templateMessage = array('SUCCESS', 'Holiday Successfully Updated');
+                if ($post['hdnHolidayId'] != "") {
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Holiday Successfully Updated'));
                 } else {
-                    $this->templateMessage = array('SUCCESS', 'Holiday Successfully Saved');
-                }*/
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Holiday Successfully Saved'));
+                }
 
                 $date = $post['txtDate'];
                 $hid  = $post['hdnHolidayId'];
