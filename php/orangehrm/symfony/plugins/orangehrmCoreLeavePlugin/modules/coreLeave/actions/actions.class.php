@@ -546,14 +546,17 @@ class coreLeaveActions extends sfActions {
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {
             $employeeList = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
         }
-
+        $employeeUnique = array();
         foreach($employeeList as $employee) {
-            $name = $employee->getFirstName() . " " . $employee->getLastName();
+            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+                $name = $employee->getFirstName() . " " . $employee->getLastName();
 
-            foreach($escapeCharSet as $char) {
-                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                foreach($escapeCharSet as $char) {
+                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                }
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
             }
-            array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
         }
 
         $jsonString = " [".implode(",",$jsonArray)."]";

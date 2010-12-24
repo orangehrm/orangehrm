@@ -384,17 +384,17 @@ class LeaveSummaryForm extends sfForm {
             array_push($employeeList, $loggedInEmployee);
 
         }
-
+        $employeeUnique = array();
         foreach($employeeList as $employee) {
+            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+                $name = $employee->getFirstName() . " " . $employee->getLastName();
 
-            $name = $employee->getFirstName() . " " . $employee->getLastName();
-
-            foreach($escapeCharSet as $char) {
-                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                foreach($escapeCharSet as $char) {
+                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                }
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
             }
-
-            array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
-
         }
 
         array_push($jsonArray,"{name:\"All\",id:\"0\"}"); // Including All

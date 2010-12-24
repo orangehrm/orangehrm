@@ -423,24 +423,28 @@ class AssignLeaveForm extends sfForm {
 
         }
 
+        $employeeUnique = array();
         foreach($employeeList as $employee) {
             $workShiftLength = 0;
 
-            $employeeWorkShift = $employeeService->getWorkShift($employee->getEmpNumber());
-            if ($employeeWorkShift != null) {
-                $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();
-            } else
-                $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
+            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+                $employeeWorkShift = $employeeService->getWorkShift($employee->getEmpNumber());
+                if ($employeeWorkShift != null) {
+                    $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();
+                } else
+                    $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
 
 
 
-            $name = $employee->getFirstName() . " " . $employee->getLastName();
+                $name = $employee->getFirstName() . " " . $employee->getLastName();
 
-            foreach($escapeCharSet as $char) {
-                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                foreach($escapeCharSet as $char) {
+                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                }
+
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\",workShift:\"" . $workShiftLength . "\"}");
             }
-
-            array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\",workShift:\"" . $workShiftLength . "\"}");
 
         }
 

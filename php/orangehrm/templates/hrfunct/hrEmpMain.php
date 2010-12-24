@@ -744,7 +744,11 @@ function showHideSubMenu(link) {
 
 	link.className = newClass;
 }
-
+function formSubmission(formId) {
+//$("#" + formId).submit();
+//document.frmLeaveList.submit();
+document.getElementById(formId).submit();
+}
 tableDisplayStyle = "table";
 //--><!]]></script>
 <!--[if IE]>
@@ -1209,6 +1213,23 @@ tableDisplayStyle = "table";
 						<span><?php echo $lang_pim_tabs_License;?></span></a></li>
 				</ul>
 		</li>
+        <!-- adding leave section here -->
+        <!--<li class="l1 parent">
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo "Leave";?></span></a>
+			<ul class="l2">
+                <li class="l2"><form method="post" action="../../symfony/web/index.php/coreLeave/viewLeaveSummary" id="frmLeaveList" name="frmLeaveList"><input type="hidden" name="txtEmpID" value="<?php echo $escapedId;?>"/></form>
+					<a href="javascript:formSubmission('frmLeaveList');">
+						<span><?php echo "Leave Summary";?></span>
+					</a>
+				</li>
+                <li class="l2"><form method="post" action="../../symfony/web/index.php/coreLeave/viewLeaveList" id="frmLeaveList" name="frmLeaveList"><input type="hidden" name="txtEmpID" value="<?php echo $escapedId;?>"/></form>
+					<a href="javascript:formSubmission('frmLeaveList');">
+						<span><?php echo "Leave List";?></span>
+					</a>
+				</li>
+			</ul>
+		</li>-->
+        <!-- end of leave section -->
 		<li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
 			<ul class="l2">
