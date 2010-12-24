@@ -314,7 +314,7 @@ class LeaveListForm extends sfForm {
             $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
         }*/
 
-        //removing back button if it is self view and nnot details
+        // showing back button only on details
         if($this->isDetailed()) {
             $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
         }
