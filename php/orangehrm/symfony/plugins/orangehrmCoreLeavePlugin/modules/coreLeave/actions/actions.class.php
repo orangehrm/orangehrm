@@ -36,6 +36,7 @@ class coreLeaveActions extends sfActions {
     public function getHolidayService() {
         if (is_null($this->holidayService)) {
             $this->holidayService = new HolidayService();
+            $this->holidayService->setHolidayDao(new HolidayDao());
         }
         return $this->holidayService;
     }
@@ -410,7 +411,7 @@ class coreLeaveActions extends sfActions {
             if (empty($employeeId)) {
 
                 if ((!Auth::instance()->hasRole(Auth::ADMIN_ROLE)) && (Auth::instance()->hasRole(Auth::SUPERVISOR_ROLE))) {
-                        $employeeFilter = $employeeService->getSupervisorEmployeeList(Auth::instance()->getEmployeeNumber());
+                        $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
                 }
 
                 $employeeFilter = $employeeService->filterEmployeeListBySubUnit($employeeFilter, $subunitId);
