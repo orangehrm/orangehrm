@@ -131,7 +131,7 @@ $(document).ready(function(){
 
         errorDisplay = element.siblings('div');
         errorDisplay.empty();
-        errorDisplay.attr('class', "error");
+        errorDisplay.attr('class', "error errMessageMargine");
         errorDisplay.append(errorMessage);
 
     }

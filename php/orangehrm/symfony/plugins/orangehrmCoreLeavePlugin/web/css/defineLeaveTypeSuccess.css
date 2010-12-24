@@ -135,3 +135,7 @@ legend {
     padding-left: 15px;
     padding-top: 5px;
 }
+
+.errMessageMargine {
+    margin-top: 2px;
+}
