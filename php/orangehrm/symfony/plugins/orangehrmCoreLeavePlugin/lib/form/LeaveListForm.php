@@ -310,14 +310,14 @@ class LeaveListForm extends sfForm {
             $this->actionButtons['btnSave'] = new ohrmWidgetButton('btnSave', "Save", array('class' => 'savebutton'));
         }
 
-        if ($this->mode != self::MODE_DEFAULT_LIST || $this->showBackButton) {
+        /*if ($this->mode != self::MODE_DEFAULT_LIST || $this->showBackButton) {
             $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
-        }
+        }*/
 
         //removing back button if it is self view and nnot details
-        if($this->mode == self::MODE_MY_LEAVE_LIST && !$this->isDetailed()) {
+        /*if($this->mode == self::MODE_MY_LEAVE_LIST && !$this->isDetailed()) {
             unset($this->actionButtons['btnBack']);
-        }
+        }*/
         
         return $this->actionButtons;
 
