@@ -219,6 +219,12 @@ class assignLeaveAction extends sfAction {
     protected function hasOverlapLeave(sfForm $form) {
         $post   =	$form->getValues();
 
+        //check whether employee exists
+        if(empty($post['txtEmpID'])) {
+            $this->templateMessage = array('WARNING', "Employee Does Not Exist");
+            return false;
+        }
+
         //find duplicate leaves
         $overlapLeaves  = $this->getLeaveRequestService()->getOverlappingLeave($post['txtFromDate'],$post['txtToDate'],
                 $post['txtEmpID']);

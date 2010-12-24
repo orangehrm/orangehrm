@@ -419,9 +419,23 @@
 	        });
 
 	//Click Submit button
-		$('#saveBtn').click(function(){
+		$('#saveBtn').click(function() {
 			$('#frmLeaveApply').submit();
 		});
+
+        $("#assignleave_txtEmployee").change(function(){
+            autoFill('assignleave_txtEmployee', 'assignleave_txtEmpID', data);
+        });
+
+        function autoFill(selector, filler, data) {
+            $("#" + filler).val("");
+            $.each(data, function(index, item){
+                if(item.name.toLowerCase() == $("#" + selector).val().toLowerCase()) {
+                    $("#" + filler).val(item.id);
+                    return true;
+                }
+            });
+        }
  });
 
  function showTimepaneFromDate(theDate,dateFormat){

@@ -51,8 +51,9 @@ class AssignLeaveForm extends sfForm {
                 'txtLeaveTotalTime' => new sfWidgetFormInput(),
         ));
 
+
         $this->setValidators(array(
-                'txtEmpID' => new sfValidatorString(array('required' => true),array('required'=>'Employee Id is required')),
+                'txtEmpID' => new sfValidatorString(array('required' => false)),
                 'txtEmployee' => new sfValidatorString(array('required' => true),array('required'=>'Employee name is required')),
                 'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
                 'txtLeaveType' => new sfValidatorString(array('required' => true),array('required'=>'Leave Type is required')),

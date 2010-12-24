@@ -90,6 +90,11 @@ $(document).ready(function(){
         
     });
 
+    $('#leaveType_txtLeaveTypeName').change(function() {
+        $(".error").empty();
+        validate();
+    });
+    
     function validate() {
 
         var errorMessage;
