@@ -40,10 +40,12 @@
     <mkdir dir="${reports.dir}" />
     <mkdir dir="${test.reports.dir}" />
     <mkdir dir="${test.coverage.dir}" />
+    <mkdir dir="${test.coverage.dir}/symfony" />
+    <mkdir dir="${test.coverage.dir}/lib" />
     <mkdir dir="${apidocs.dir}" />
   </target>
 
-  <target name="build" depends="prepare">
+  <target name="build" depends="prepare,clear.symfony.cache">
     <echo>Copying files...</echo>
     <copy todir="${package.dir}">
         <fileset dir="${project.dir}">
@@ -137,6 +139,10 @@
     <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" checkreturn="true" />
   </target>
 
+  <target name="clear.symfony.cache">
+      <exec command="${project.dir}/symfony/symfony cc"/>
+  </target>
+
   <target name="dist.win" depends="build">
   	<phingcall target="dist.bin.win" />
   </target>
@@ -152,94 +158,50 @@
   	<echo message="Creating the directories..." />
   </target>
 
-  <target name="clean">
+  <target name="clean" depends="clear.symfony.cache">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
   </target>
 
-  <target name="test" depends="prepare">
-      <phpunit2 haltonfailure="false" haltonerror="true" printsummary="true">
-	  	  <formatter type="plain" usefile="false"/>
-          <batchtest>
-              <fileset dir="${project.dir}/lib">
-                  <include name="**/*Test.php"/>
-              </fileset>
-          </batchtest>
-      </phpunit2>
-      <phingcall target="fix-ids"/>
+  <!-- Target run by continuous integration server -->
+  <target name="build-ci" depends="clean, coverage-symfony">
   </target>
 
-  <target name="test.report" depends="prepare">
-      <phpunit2>
-          <formatter todir="${test.reports.dir}" type="xml" outfile="testreport.xml"/>
-          <batchtest>
-              <fileset dir="${project.dir}/lib">
-                  <include name="**/*Test.php"/>
-              </fileset>
-          </batchtest>
-      </phpunit2>
-      <phingcall target="fix-ids"/>
-      <phpunit2report infile="${test.reports.dir}/testreport.xml"
-          format="frames" todir="${test.reports.dir}" styledir="report-styles"/>
+  <target name="test" depends="test-lib,test-symfony">
   </target>
 
-  <!-- Coverage task that uses phpunit's built in coverage feature -->
-  <target name="coverage" depends="prepare">
-	<exec command="phpunit --report ${test.coverage.dir} AllTests ${project.dir}/lib/AllTests.php"
+  <!-- Unit Tests for old classes -->
+  <target name="test-lib" depends="prepare">
+      <exec command="phpunit ${project.dir}/lib/AllTests.php"
 		checkreturn="true" dir="${project.basedir}" passthru="true"/>
         <phingcall target="fix-ids"/>
   </target>
 
-  <!-- The coverage target will not work if the php XDebug extension is not installed -->
-  <target name="coverage.phing" depends="prepare">
-
-      <coverage-setup database="${test.coverage.dir}/coverage.db">
-          <fileset dir=".">
-              <include name="testConf.php"/>
-          </fileset>
-          <fileset dir="${project.dir}/lib">
-              <include name="**/*.php"/>
-              <exclude name="**/*Test.php"/>
-
-	      <!-- exclude 3rd party classes. -->
-              <exclude name="common/xajax/**"/>
-              <exclude name="common/htmlMimeMail5/**"/>
-
-              <!-- excluded because these classes conflict with phing class names.
-                   we really need to use package names
-              -->
-              <exclude name="models/eimadmin/Location.php"/>
-              <exclude name="models/eimadmin/Education.php"/>
-
-	      <!-- exclude files not containing any classes. -->
-              <exclude name="controllers/CentralController.php"/>
-              <exclude name="confs/mailConf.php"/>
-              <exclude name="confs/Conf-auto.php"/>
-
-              <!-- Not sure why these don't work ?. Prob because they depend on excluded classes. -->
-              <exclude name="controllers/ViewController.php"/>
-              <exclude name="extractor/eimadmin/EXTRACTOR_Location.php"/>
-              <exclude name="extractor/eimadmin/EXTRACTOR_Qualifications.php"/>
-
-              <!-- unused file? -->
-              <exclude name="extractor/eimadmin/EXTRACTOR_QualificationType.php"/>
-
-          </fileset>
-      </coverage-setup>
-
-      <phpunit2 codecoverage="true">
-          <batchtest>
-              <fileset dir="${project.dir}/lib">
-                  <include name="**/*Test.php"/>
-              </fileset>
-          </batchtest>
-      </phpunit2>
+  <!-- Unit Tests for symfony classes -->
+  <target name="test-symfony" depends="prepare">
+      <exec command="phpunit symfony/test/AllTests.php"
+		checkreturn="true" dir="${project.dir}" passthru="true"/>
         <phingcall target="fix-ids"/>
+  </target>
 
-      <coverage-report outfile="${test.coverage.dir}/coverage.xml">
-          <report todir="${test.coverage.dir}" styledir="report-styles"/>
-      </coverage-report>
+ 
+  <!-- Coverage task that uses phpunit's built in coverage feature -->
+  <target name="coverage" depends="coverage-lib, coverage-symfony">
+  </target>
+
+  <!-- Test coverage for old classes -->
+  <target name="coverage-lib" depends="prepare">
+      <exec command="phpunit --coverage-html ${test.coverage.dir}/lib ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+  </target>
+
+  <!-- Test coverage for symfony classes -->
+  <target name="coverage-symfony" depends="prepare">
+      <exec command="phpunit --configuration ${project.basedir}/phpunit.xml --log-junit ${test.reports.dir}/junit.xml --coverage-clover ${test.coverage.dir}/symfony/clover.xml --coverage-html ${test.coverage.dir}/symfony symfony/test/AllTests.php"
+		checkreturn="true" dir="${project.dir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
   </target>
 
   <!-- Copies the default language files to the en directory -->
