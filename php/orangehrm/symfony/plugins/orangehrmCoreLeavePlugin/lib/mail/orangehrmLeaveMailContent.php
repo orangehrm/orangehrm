@@ -150,12 +150,12 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
 
         if ($this->performer instanceof Employee) {
             $this->replacements['performerFirstName'] = $this->performer->getFirstName();
-            $this->replacements['performerFullName'] = $this->performer->getFullName();
+            $this->replacements['performerFullName'] = $this->performer->getFirstAndLastNames();
         }
 
         if ($this->recipient instanceof Employee) {
             $this->replacements['recipientFirstName'] = $this->recipient->getFirstName();
-            $this->replacements['recipientFullName'] = $this->recipient->getFullName();
+            $this->replacements['recipientFullName'] = $this->recipient->getFirstAndLastNames();
         }
 
         $this->_populateLeaveReplacements();    
