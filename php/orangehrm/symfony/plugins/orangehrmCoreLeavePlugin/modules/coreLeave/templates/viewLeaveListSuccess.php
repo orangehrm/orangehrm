@@ -118,12 +118,17 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 					if (!$form->isDetailed()) {
 						$url = url_for($baseUrl) . '/id/' . $datum->getLeaveRequestId();
-
+                        $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $datum->getEmployee()->getEmpNumber() . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
+                        $target = "_self";
+                        if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
+                            $pimLink = public_path("../../index.php?menu_no_top=ess");
+                            $target = "_parent";
+;                        }
 				?>
 				<tr class="r1 <?php echo $class; ?>">
                                 <?php $class = $class=='odd'?'even':'odd'; ?>
 					<td><a href="<?php echo $url; ?>"><?php echo $form->getLeaveDateRange($datum->getLeaveRequestId()); ?></a></td>
-					<td><a href="../pim/viewEmployee/empNumber/<?php echo $datum->getEmployee()->getEmpNumber(); ?>"><?php echo $datum->getEmployee()->getFullName(); ?></a></td>
+                    <td><a href="<?php echo $pimLink;?>" target="<?php echo $target;?>"><?php echo $datum->getEmployee()->getFullName(); ?></a></td>
 					<td>
 						<?php echo $datum->getLeaveType()->getLeaveTypeName(); ?>
 						<?php echo ((bool) $datum->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
