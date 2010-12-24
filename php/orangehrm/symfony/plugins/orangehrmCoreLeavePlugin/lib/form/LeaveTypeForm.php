@@ -21,7 +21,7 @@ class LeaveTypeForm extends orangehrmForm {
 
     protected function loadInitialWidgets() {
 
-        $this->setWidget('txtLeaveTypeName', new sfWidgetFormInput());
+        $this->setWidget('txtLeaveTypeName', new sfWidgetFormInput(array(), array('size' => 30)));
         $this->setValidator('txtLeaveTypeName', new sfValidatorPass());
 
         $this->setWidget('hdnSavingMode', new sfWidgetFormInputHidden(array('default' => self::SAVING_MODE_NEW)));
