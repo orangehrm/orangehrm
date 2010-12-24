@@ -14,7 +14,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
         if ($request->isMethod('post')) {
 
             if (count($request->getParameter('chkLeaveType')) == 0) {
-                $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please Select at least One Leave Type to Delete'));
+                $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please Select at Least One Leave Type to Delete'));
                 $this->redirect('coreLeave/leaveTypeList');
             }
 

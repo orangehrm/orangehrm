@@ -182,7 +182,6 @@ class assignLeaveAction extends sfAction {
         $userDetails = $this->getLoggedInUserDetails();
         if(count($leaveTypes) == 1) {
             $this->templateMessage = array('WARNING', 'No Leave Types Defined to Assign Leave');
-            return;
         }
         $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
                 'loggedUserId' => $userDetails['loggedUserId']);
