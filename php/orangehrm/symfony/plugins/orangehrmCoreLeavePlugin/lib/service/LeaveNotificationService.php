@@ -465,7 +465,7 @@ class LeaveNotificationService extends BaseService
      * @param <type> $requestType
      */
     public function approve($leaveList, $performerType, $performerId, $requestType) {
-        $leaveApprovalMailer = new LeaveApprovalMailer($approvals, $changedByUserType, $changedUserId, $requestType);
+        $leaveApprovalMailer = new LeaveApprovalMailer($leaveList, $performerType, $performerId, $requestType);
         $leaveApprovalMailer->send();
     }
 
@@ -478,7 +478,7 @@ class LeaveNotificationService extends BaseService
      * @param <type> $requestType
      */
     public function reject($leaveList, $performerType, $performerId, $requestType) {
-        $leaveRejectionMailer = new LeaveRejectionMailer($rejections, $changedByUserType, $changedUserId, $requestType);
+        $leaveRejectionMailer = new LeaveRejectionMailer($leaveList, $performerType, $performerId, $requestType);
         $leaveRejectionMailer->send();
     }
 
@@ -491,7 +491,7 @@ class LeaveNotificationService extends BaseService
      * @param <type> $requestType
      */
     public function cancel($leaveList, $performerType, $performerId, $requestType) {
-        $leaveCancellationMailer = new LeaveCancellationMailer($cancellations, $changedByUserType, $changedUserId, $requestType);
+        $leaveCancellationMailer = new LeaveCancellationMailer($leaveList, $performerType, $performerId, $requestType);
         $leaveCancellationMailer->send();
     }
 
@@ -504,7 +504,7 @@ class LeaveNotificationService extends BaseService
      * @param <type> $requestType
      */
     public function cancelEmployee($leaveList, $performerType, $performerId, $requestType) {
-        $leaveCancellationMailer = new LeaveEmployeeCancellationMailer($cancellations, $changedByUserType, $changedUserId, $requestType);
+        $leaveCancellationMailer = new LeaveEmployeeCancellationMailer($leaveList, $performerType, $performerId, $requestType);
         $leaveCancellationMailer->send();
     }
 
