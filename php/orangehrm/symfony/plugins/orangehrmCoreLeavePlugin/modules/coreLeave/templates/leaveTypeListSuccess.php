@@ -19,7 +19,7 @@
 ?>
 
 <?php if(!empty($messageType))  {?>
-<div id="messagebar" class="messageBalloon_<?php echo $messageType;?>" style="margin-left: 16px;">
+<div id="messagebar" class="messageBalloon_<?php echo $messageType;?>" style="margin-left: 16px;width: 470px;">
 	<span style="font-weight: bold;"><?php echo $message; ?></span>
 </div>
 <?php } ?>
