@@ -135,11 +135,14 @@ class LeaveEmployeeCancellationMailer extends orangehrmLeaveMailer {
 
     public function send() {
 
-        $this->sendToSupervisors();
-        $this->sendToSubscribers();
+        if (!empty($this->mailer)) {
+
+            $this->sendToSupervisors();
+            $this->sendToSubscribers();
+
+        }
 
     }
     
-
 }
 

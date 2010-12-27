@@ -124,11 +124,14 @@ class LeaveCancellationMailer extends orangehrmLeaveMailer {
 
     public function send() {
 
-        $this->sendToApplicant();
-        $this->sendToSubscribers();
+        if (!empty($this->mailer)) {
+
+            $this->sendToApplicant();
+            $this->sendToSubscribers();
+
+        }
 
     }
     
-
 }
 

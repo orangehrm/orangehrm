@@ -82,10 +82,13 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
 
     public function send() {
 
-        $this->sendToAssignee();
+        if (!empty($this->mailer)) {
+
+            $this->sendToAssignee();
+
+        }
 
     }
     
-
 }
 

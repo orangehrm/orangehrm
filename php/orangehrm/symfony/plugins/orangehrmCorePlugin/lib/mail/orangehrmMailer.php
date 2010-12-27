@@ -62,7 +62,7 @@ abstract class orangehrmMailer {
 
         $orangehrmMailTransport = new orangehrmMailTransport();
         $this->transport = $orangehrmMailTransport->getTransport();
-        $this->mailer = Swift_Mailer::newInstance($this->transport);
+        $this->mailer = empty($this->transport)?null:Swift_Mailer::newInstance($this->transport);
         $this->message = Swift_Message::newInstance();
         $this->logPath = ROOT_PATH . '/lib/logs/notification_mails.log';
 
