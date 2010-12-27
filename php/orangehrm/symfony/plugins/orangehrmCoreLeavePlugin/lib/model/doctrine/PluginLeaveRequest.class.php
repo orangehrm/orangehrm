@@ -109,16 +109,21 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
             }
 
             $this->leaveDuration += $hourLength;
-            $this->numberOfDays += $dayLength;
+
+            //if($hourLength > 0) {
+                $this->numberOfDays += $dayLength;
+            //}
 
             // Populating status counter
             $key = $leave->getTextLeaveStatus();
             $statusDayLength = ($dayLength != 0) ? $dayLength : 1;
             if (!empty($key)) {
-                if (array_key_exists($key, $this->statusCounter)) {
-                    $this->statusCounter[$key]+= $statusDayLength;
-                } else {
-                    $this->statusCounter[$key] = $statusDayLength;
+                if($hourLength > 0) {
+                    if (array_key_exists($key, $this->statusCounter)) {
+                        $this->statusCounter[$key]+= $statusDayLength;
+                    } else {
+                        $this->statusCounter[$key] = $statusDayLength;
+                    }
                 }
             }
 
