@@ -17,8 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/common/authorize.php';
-
 /**
  * OrangeHRM Authentication & Authorization library. Taken from insurance branch.
  */
@@ -33,6 +31,7 @@ class Auth {
     const TIME_MODULE = 'MOD006';
     const BENEFIT_MODULE = 'MOD007';
     const RECRUITMENT_MODULE = 'MOD008';
+    const PERFORMANCE_MODULE = 'MOD009';
 
     /** Roles defined in OrangeHRM */
     const ADMIN_ROLE = 'Admin';
@@ -44,8 +43,8 @@ class Auth {
     const INTERVIEWER = 'Acceptor'; // Someone involved with interview events (called ACCEPTOR in authorize.php)
     const HIRINGMANAGER_ROLE = 'Offerer'; // Called Offerer in authorize.php		 
 
-	/** Is current user logged in */
-	private $loggedIn = false;
+    /** Is current user logged in */
+    private $loggedIn = false;
 	
     /** Current user's roles */
     private $roles = array ();
@@ -68,8 +67,8 @@ class Auth {
 
     	if (isset($_SESSION['fname'])) {
     		$this->loggedIn = true;
-            $this->empNumber = $_SESSION['empID']; 
-	        $orangeAuth = new authorize($this->empNumber, $_SESSION['isAdmin']);
+                $this->empNumber = $_SESSION['empID']; 
+	        $orangeAuth = new AuthorizeService($this->empNumber, $_SESSION['isAdmin']);
 	        
 	        $roleList = $orangeAuth->getRoles();
 	        if (!empty($roleList)) {
