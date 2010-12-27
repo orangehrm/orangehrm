@@ -750,6 +750,10 @@ function leaveFormSubmission(redirect) {
 //document.getElementById(formId).submit();
     var frm = document.getElementById("frmEmp");
     var input = document.createElement("input");
+    var empId = "";
+    <?php if (!empty($escapedId)) {?>
+            empId = <?php echo $escapedId;?>;
+    <?php }?>
     input.setAttribute("type", "hidden");
     frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveList";
     input.setAttribute("name", "txtEmpID");
@@ -758,7 +762,7 @@ function leaveFormSubmission(redirect) {
         frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveSummary";
         input.setAttribute("name", "employeeId");
     }
-    input.setAttribute("value", <?php echo $escapedId;?>);
+    input.setAttribute("value", empId);
     frm.appendChild(input);
     frm.submit();
 }
