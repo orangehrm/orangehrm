@@ -23,11 +23,11 @@
 <project name="OrangeHRM" basedir="." default="dist">
 
   <property name="version" value="2.6.0.2"/>
-  <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm-${version}"/>
-  <property name="dist.dir" value="dist"/>
+  <resolvepath propertyName="project.dir" file=".."/>
+  <resolvepath propertyName="dist.dir" file="dist"/>
   <property name="package.dir" value="${dist.dir}/${package.name}"/>
-  <property name="reports.dir" value="reports"/>
+  <property name="reports.dir" value="${project.basedir}/reports"/>
   <property name="test.reports.dir" value="${reports.dir}/tests"/>
   <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
   <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
