@@ -744,10 +744,23 @@ function showHideSubMenu(link) {
 
 	link.className = newClass;
 }
-function formSubmission(formId) {
+function leaveFormSubmission(redirect) {
 //$("#" + formId).submit();
 //document.frmLeaveList.submit();
-document.getElementById(formId).submit();
+//document.getElementById(formId).submit();
+    var frm = document.getElementById("frmEmp");
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveList";
+    input.setAttribute("name", "txtEmpID");
+
+    if(redirect == "leaveSummary") {
+        frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveSummary";
+        input.setAttribute("name", "employeeId");
+    }
+    input.setAttribute("value", <?php echo $escapedId;?>);
+    frm.appendChild(input);
+    frm.submit();
 }
 tableDisplayStyle = "table";
 //--><!]]></script>
@@ -1214,21 +1227,21 @@ tableDisplayStyle = "table";
 				</ul>
 		</li>
         <!-- adding leave section here -->
-        <!--<li class="l1 parent">
+        <li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo "Leave";?></span></a>
 			<ul class="l2">
-                <li class="l2"><form method="post" action="../../symfony/web/index.php/coreLeave/viewLeaveSummary" id="frmLeaveList" name="frmLeaveList"><input type="hidden" name="txtEmpID" value="<?php echo $escapedId;?>"/></form>
-					<a href="javascript:formSubmission('frmLeaveList');">
+                <li class="l2">
+					<a href="javascript:leaveFormSubmission('leaveSummary');">
 						<span><?php echo "Leave Summary";?></span>
 					</a>
 				</li>
-                <li class="l2"><form method="post" action="../../symfony/web/index.php/coreLeave/viewLeaveList" id="frmLeaveList" name="frmLeaveList"><input type="hidden" name="txtEmpID" value="<?php echo $escapedId;?>"/></form>
-					<a href="javascript:formSubmission('frmLeaveList');">
+                <li class="l2">
+					<a href="javascript:leaveFormSubmission('leaveList');">
 						<span><?php echo "Leave List";?></span>
 					</a>
 				</li>
 			</ul>
-		</li>-->
+		</li>
         <!-- end of leave section -->
 		<li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
