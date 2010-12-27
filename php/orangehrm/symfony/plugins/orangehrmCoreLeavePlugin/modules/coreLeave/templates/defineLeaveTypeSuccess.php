@@ -124,6 +124,12 @@ $(document).ready(function(){
             }
         }
 
+if((element.val().trim()).length > 30) {
+            errorMessage = '<?php echo __("Leave type name can\'t exceed 30 characters"); ?>';
+            showErrorMessages(element, errorMessage);
+            return false;
+        }
+
         return true;        
     }
 
