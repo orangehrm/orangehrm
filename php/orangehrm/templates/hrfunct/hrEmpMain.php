@@ -755,8 +755,16 @@ function leaveFormSubmission(redirect) {
             empId = <?php echo $escapedId;?>;
     <?php }?>
     input.setAttribute("type", "hidden");
-    frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveList";
-    input.setAttribute("name", "txtEmpID");
+
+    if(redirect == "leaveList") {
+        frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveList";
+
+        //any user tries accesses his own information
+        <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $escapedId) {?>
+        frm.action = "../../symfony/web/index.php/coreLeave/viewMyLeaveList";
+        <?php }?>
+        input.setAttribute("name", "txtEmpID");
+    }
 
     if(redirect == "leaveSummary") {
         frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveSummary";
