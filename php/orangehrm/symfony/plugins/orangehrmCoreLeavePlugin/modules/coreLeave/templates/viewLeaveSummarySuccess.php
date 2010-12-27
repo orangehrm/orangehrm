@@ -24,7 +24,7 @@
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess');?>
 
 <?php if (isset($form->recordsCount) && $form->recordsCount == 0 && isset($searchFlag) && $searchFlag == 1) { ?>
-<div class="messageBalloon_warning"><?php echo __('No results found for this criteria'); ?></div>
+<div class="messageBalloon_warning"><?php echo __('No Results Found for This Criteria'); ?></div>
 <?php } ?>
 
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('coreLeave/viewLeaveSummary'); ?>">
