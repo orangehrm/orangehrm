@@ -289,8 +289,13 @@ class LeaveSummaryForm extends sfForm {
 
                     $html .= "<td>\n";
                     //$html .= content_tag('a', $employeeName, array('href' => "{$baseUrl}employeeId/{$employeeId}")) . "\n";
-                    $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $employeeId . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
-                    $html .= content_tag('a', $employeeName, array('href' => $pimLink)) . "\n";
+
+                    if($_SESSION['empID'] != $employeeId) {
+                        $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $employeeId . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
+                        $html .= content_tag('a', $employeeName, array('href' => $pimLink)) . "\n";
+                    } else {
+                        $html .= $employeeName;
+                    }
                     $html .= "</td>\n";
 
                     $html .= "<td>\n";
