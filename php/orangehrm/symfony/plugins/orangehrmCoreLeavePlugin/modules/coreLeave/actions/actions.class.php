@@ -398,7 +398,7 @@ class coreLeaveActions extends sfActions {
         $employee = null;
         $overrideShowBackButton = false;
         $leaveRequest = null;
-        
+ 
         $id = (int) $request->getParameter('id');
 
         if (empty($id)) {
@@ -591,9 +591,10 @@ class coreLeaveActions extends sfActions {
             }
 
             $changedByUserType = Users::USER_TYPE_EMPLOYEE;
-            if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
+            if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
                 $changedByUserType = Users::USER_TYPE_ADMIN;
-            } elseif (Auth::instance()->hasRole(Auth::SUPERVISOR_ROLE)) {
+            }
+            if ($_SESSION['isSupervisor']) {
                 $mode = $request->getPostParameter('hdnMode', null);
                 if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST && $mode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {
                     $changedByUserType = Users::USER_TYPE_SUPERVISOR;
