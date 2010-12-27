@@ -455,6 +455,59 @@ class LeaveNotificationService extends BaseService
         }
     }
 
+    /**
+     *
+     * Send leave approval email.
+     *
+     * @param <type> $leaveList
+     * @param <type> $performerType
+     * @param <type> $performerId
+     * @param <type> $requestType
+     */
+    public function approve($leaveList, $performerType, $performerId, $requestType) {
+        $leaveApprovalMailer = new LeaveApprovalMailer($approvals, $changedByUserType, $changedUserId, $requestType);
+        $leaveApprovalMailer->send();
+    }
+
+    /**
+     * Send Leave rejection email.
+     *
+     * @param <type> $leaveList
+     * @param <type> $performerType
+     * @param <type> $performerId
+     * @param <type> $requestType
+     */
+    public function reject($leaveList, $performerType, $performerId, $requestType) {
+        $leaveRejectionMailer = new LeaveRejectionMailer($rejections, $changedByUserType, $changedUserId, $requestType);
+        $leaveRejectionMailer->send();
+    }
+
+    /**
+     * Send leave cancellation email.
+     *
+     * @param <type> $leaveList
+     * @param <type> $performerType
+     * @param <type> $performerId
+     * @param <type> $requestType
+     */
+    public function cancel($leaveList, $performerType, $performerId, $requestType) {
+        $leaveCancellationMailer = new LeaveCancellationMailer($cancellations, $changedByUserType, $changedUserId, $requestType);
+        $leaveCancellationMailer->send();
+    }
+
+    /**
+     * Send leave cancellation email for employee.
+     *
+     * @param <type> $leaveList
+     * @param <type> $performerType
+     * @param <type> $performerId
+     * @param <type> $requestType
+     */
+    public function cancelEmployee($leaveList, $performerType, $performerId, $requestType) {
+        $leaveCancellationMailer = new LeaveEmployeeCancellationMailer($cancellations, $changedByUserType, $changedUserId, $requestType);
+        $leaveCancellationMailer->send();
+    }
+
     private function sendMail($debugErrorMessage="") {
 
         $to = $this->getEmailAdddress();

@@ -27,6 +27,7 @@ class LeaveRequestService extends BaseService {
     private $holidayService;
 
     private $leaveNotificationService;
+    private $leaveStateManager;
 
     const LEAVE_CHANGE_TYPE_LEAVE = 'change_leave';
     const LEAVE_CHANGE_TYPE_LEAVE_REQUEST = 'change_leave_request';
@@ -50,10 +51,20 @@ class LeaveRequestService extends BaseService {
 
     /**
      *
+     * @return <type>
+     */
+    public function setLeaveNotificationService(LeaveNotificationService $leaveNotificationService) {
+        $this->leaveNotificationService = $leaveNotificationService;
+    }
+
+    /**
+     *
      * @return LeaveNotificationService
      */
     public function getLeaveNotificationService() {
-        $this->leaveNotificationService = new LeaveNotificationService();
+        if(is_null($this->leaveNotificationService)) {
+            $this->leaveNotificationService = new LeaveNotificationService();
+        }
         return $this->leaveNotificationService;
     }
 
@@ -146,6 +157,22 @@ class LeaveRequestService extends BaseService {
      */
     public function setHolidayService(HolidayService $holidayService) {
         $this->holidayService = $holidayService;
+    }
+
+    /**
+     * Set leave state manager. Only use for unit testing.
+     * 
+     * @param LeaveStateManager $leaveStateManager
+     */
+    public function setLeaveStateManager(LeaveStateManager $leaveStateManager) {
+        $this->leaveStateManager = $leaveStateManager;
+    }
+
+    public function getLeaveStateManager() {
+        if(is_null($this->leaveStateManager)) {
+            $this->leaveStateManager = LeaveStateManager::instance();
+        }
+        return $this->leaveStateManager;
     }
 
     /**
@@ -294,7 +321,7 @@ class LeaveRequestService extends BaseService {
                 $endDateTimeStamp = strtotime($leavePeriodService->getCurrentLeavePeriod()->getEndDate());
                 $borderDays = date("d", ($endDateTimeStamp - strtotime($leaveRequest->getDateApplied())));
                 if($borderDays > $leaveBalance || $nextYearLeaveBalance < ($applyDays - $borderDays)) {
-                    throw new Exception("leave balance exceed", 102);
+                    throw new Exception("leave balance exceed:", 102);
                 }
             }
 
@@ -419,20 +446,20 @@ class LeaveRequestService extends BaseService {
             $rejectionIds = array_keys(array_filter($changes, array($this, '_filterRejections')));
             $cancellationIds = array_keys(array_filter($changes, array($this, '_filterCancellations')));
 
+            $leaveNotificationService = $this->getLeaveNotificationService();
 
             if ($changeType == 'change_leave_request') {
                 foreach ($approvalIds as $leaveRequestId) {
                     $approvals = $this->searchLeave($leaveRequestId);
                     $this->_approveLeave($approvals, $changeComments[$leaveRequestId]);
-                    $leaveApprovalMailer = new LeaveApprovalMailer($approvals, $changedByUserType, $changedUserId, 'request');
-                    $leaveApprovalMailer->send();
+
+                    $leaveNotificationService->approve($approvals, $changedByUserType, $changedUserId, 'request');
                 }
 
                 foreach ($rejectionIds as $leaveRequestId) {
                     $rejections = $this->searchLeave($leaveRequestId);
                     $this->_rejectLeave($rejections, $changeComments[$leaveRequestId]);
-                    $leaveRejectionMailer = new LeaveRejectionMailer($rejections, $changedByUserType, $changedUserId, 'request');
-                    $leaveRejectionMailer->send();
+                    $leaveNotificationService->reject($rejections, $changedByUserType, $changedUserId, 'request');
                 }
 
                 foreach ($cancellationIds as $leaveRequestId) {
@@ -440,12 +467,10 @@ class LeaveRequestService extends BaseService {
                     $this->_cancelLeave($cancellations, $changedByUserType);
                     
                     if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
-                        $leaveCancellationMailer = new LeaveEmployeeCancellationMailer($cancellations, $changedByUserType, $changedUserId, 'request');
+                        $leaveNotificationService->cancelEmployee($cancellations, $changedByUserType, $changedUserId, 'request');
                     } else {
-                        $leaveCancellationMailer = new LeaveCancellationMailer($cancellations, $changedByUserType, $changedUserId, 'request');
-                    }
-                    
-                    $leaveCancellationMailer->send();
+                        $leaveNotificationService->cancel($cancellations, $changedByUserType, $changedUserId, 'request');
+                    }                    
                 }
 
             } elseif ($changeType == 'change_leave') {
@@ -457,8 +482,7 @@ class LeaveRequestService extends BaseService {
                 $this->_approveLeave($approvals, $changeComments);
 
                 foreach ($approvals as $approval) {
-                    $leaveApprovalMailer = new LeaveApprovalMailer(array($approval), $changedByUserType, $changedUserId, 'single');
-                    $leaveApprovalMailer->send();
+                    $leaveNotificationService->approve(array($approval), $changedByUserType, $changedUserId, 'single');
                 }
 
                 $rejections = array();
@@ -468,8 +492,7 @@ class LeaveRequestService extends BaseService {
                 $this->_rejectLeave($rejections, $changeComments);
 
                 foreach ($rejections as $rejection) {
-                    $leaveRejectionMailer = new LeaveRejectionMailer(array($rejection), $changedByUserType, $changedUserId, 'single');
-                    $leaveRejectionMailer->send();
+                    $leaveNotificationService->reject(array($rejection), $changedByUserType, $changedUserId, 'single');
                 }
 
                 $cancellations = array();
@@ -481,12 +504,10 @@ class LeaveRequestService extends BaseService {
                 foreach ($cancellations as $cancellation) {
 
                     if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
-                        $leaveCancellationMailer = new LeaveEmployeeCancellationMailer(array($cancellation), $changedByUserType, $changedUserId, 'single');
+                        $leaveNotificationService->cancelEmployee(array($cancellation), $changedByUserType, $changedUserId, 'single');
                     } else {
-                        $leaveCancellationMailer = new LeaveCancellationMailer(array($cancellation), $changedByUserType, $changedUserId, 'single');
+                        $leaveNotificationService->cancel(array($cancellation), $changedByUserType, $changedUserId, 'single');
                     }
-                    
-                    $leaveCancellationMailer->send();
                 }
 
             } else {
@@ -499,7 +520,7 @@ class LeaveRequestService extends BaseService {
     }
 
     private function _approveLeave($leave, $comments, $changeType = null) {
-        $leaveStateManager = LeaveStateManager::instance();
+        $leaveStateManager = $this->getLeaveStateManager();
 
         $leaveRequests = array();
         foreach ($leave as $approval) {
@@ -517,7 +538,7 @@ class LeaveRequestService extends BaseService {
     }
 
     private function _rejectLeave($leave, $comments, $changeType = null) {
-        $leaveStateManager = LeaveStateManager::instance();
+        $leaveStateManager = $this->getLeaveStateManager();
 
         $leaveRequests = array();
         foreach ($leave as $rejection) {
@@ -535,7 +556,7 @@ class LeaveRequestService extends BaseService {
     }
 
     private function _cancelLeave($leave, $changeType = null) {
-        $leaveStateManager = LeaveStateManager::instance();
+        $leaveStateManager = $this->getLeaveStateManager();
 
         $leaveRequests = array();
         foreach ($leave as $cancellation) {

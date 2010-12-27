@@ -28,7 +28,7 @@ class LeaveStateManager implements LeaveStateManagerInterface {
 		$this->leaveEntitlementService = new LeaveEntitlementService();
 	}
 	
-	public function instance() {
+	public static function instance() {
 
 		if (!(self::$instance instanceof LeaveStateManager)) {
 			self::$instance = new LeaveStateManager();

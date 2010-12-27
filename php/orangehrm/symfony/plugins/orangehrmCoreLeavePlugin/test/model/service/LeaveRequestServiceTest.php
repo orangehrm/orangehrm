@@ -610,9 +610,64 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         
     }
 
-    public function testChangeLeaveStatusErrors() {
-        
+    public function testChangeLeaveStatus() {
 
+        $leave = new Leave();
+        $leaveRequest = new LeaveRequest();
+        $leaveRequest->setLeaveRequestId(1);
+        
+        $changes = array(1 =>'markedForApproval',
+                         21 => 'markedForRejection',
+                         31 => 'markedForCancellation');
+        
+        $changeType = 'change_leave_request';
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('fetchLeave'));
+
+        $leaveRequestDao->expects($this->any())
+                ->method('fetchLeave')
+                ->will($this->returnValue(array($leave)));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+
+        $mockLeaveStateManager = new MockLeaveStateManager();
+        $this->leaveRequestService->setLeaveStateManager($mockLeaveStateManager);
+
+        $leaveNotificationService = $this->getMock('LeaveNotificationService', array('approve', 'cancel', 'reject', 'cancelEmployee'));
+        $this->leaveRequestService->setLeaveNotificationService($leaveNotificationService);
+
+        $this->leaveRequestService->changeLeaveStatus($changes, $changeType);
+    }
+
+    public function testChangeLeaveStatusForLeave() {
+        
+        $leaveRequest = new LeaveRequest();
+        $leaveRequest->setLeaveRequestId(1);
+
+        $leave = new Leave();
+        $leave->setLeaveRequest($leaveRequest);
+
+        $changes = array(1 =>'markedForApproval',
+                         21 => 'markedForRejection',
+                         31 => 'markedForCancellation');
+
+        $changeType = 'change_leave';
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getLeaveById'));
+
+        $leaveRequestDao->expects($this->any())
+                ->method('getLeaveById')
+                ->will($this->returnValue($leave));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+
+        $mockLeaveStateManager = new MockLeaveStateManager();
+        $this->leaveRequestService->setLeaveStateManager($mockLeaveStateManager);
+
+        $leaveNotificationService = $this->getMock('LeaveNotificationService', array('approve', 'cancel', 'reject', 'cancelEmployee'));
+        $this->leaveRequestService->setLeaveNotificationService($leaveNotificationService);
+
+        $this->leaveRequestService->changeLeaveStatus($changes, $changeType);
     }
 
     public function testChangeLeaveStatusErrors() {
@@ -624,6 +679,24 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         } catch (LeaveServiceException $e) {
             // expected - check code thrown in LeaveRequestService
         }
+        
+    }
+}
+
+class MockLeaveStateManager extends LeaveStateManager {
+
+    public function __construct() {
+
+    }
+    public function approve() {
+
+    }
+
+    public function reject() {
+
+    }
+
+    public function cancel() {
         
     }
 }
