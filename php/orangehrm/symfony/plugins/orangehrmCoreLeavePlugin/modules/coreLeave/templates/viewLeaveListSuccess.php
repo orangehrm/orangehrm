@@ -120,7 +120,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 						$url = url_for($baseUrl) . '/id/' . $datum->getLeaveRequestId();
                         $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $datum->getEmployee()->getEmpNumber() . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
                         $target = "_self";
-                        if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
+                        if ((isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) || (isset($_SESSION['empID']) && $_SESSION['empID'] == $datum->getEmployee()->getEmpNumber())) {
                             $pimLink = public_path("../../index.php?menu_no_top=ess");
                             $target = "_parent";
 ;                        }
