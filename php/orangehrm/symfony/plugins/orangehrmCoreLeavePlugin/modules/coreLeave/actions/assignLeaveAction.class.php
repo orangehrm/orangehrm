@@ -187,7 +187,7 @@ class assignLeaveAction extends sfAction {
         $leaveTypes = $this->getLeaveTypes();
         $userDetails = $this->getLoggedInUserDetails();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', 'Leave Types should be defined prior to using this module. Please contact HR Admin');
+            $this->templateMessage = array('WARNING', 'Leave Types Should Be Defined Prior to Using This Module. Please Contact HR Admin');
         }
         $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
                 'loggedUserId' => $userDetails['loggedUserId']);
@@ -272,7 +272,7 @@ class assignLeaveAction extends sfAction {
 
                 $this->templateMessage = array('SUCCESS', 'Leave Successfully Assigned');
             } catch(Exception $e) {
-                $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
+                $this->templateMessage = array('WARNING', "Leave Period Should Be Defined Prior to Using This Module. Please Contact HR Admin");
             }
         } else {
             $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
