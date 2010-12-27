@@ -140,7 +140,7 @@
   </target>
 
   <target name="clear.symfony.cache">
-      <exec command="${project.dir}/symfony/symfony cc"/>
+      <exec command="./symfony cc" dir="${project.dir}/symfony" />
   </target>
 
   <target name="dist.win" depends="build">
