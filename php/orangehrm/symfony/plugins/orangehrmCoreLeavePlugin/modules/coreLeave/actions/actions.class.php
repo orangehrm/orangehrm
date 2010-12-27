@@ -280,9 +280,10 @@ class coreLeaveActions extends sfActions {
                     }
                 } else {
                     // days already added can not be selected to add
-                    if($date == $holidayObjectDate->getDate()) {
+                    if($date == $holidayObjectDate->getDate() || $holidayObjectDate->getRecurring() == 1) {
                         $allowToAdd = false;
                     }
+
                 }
 
                 // Error will not return if the date if not in the correct format
