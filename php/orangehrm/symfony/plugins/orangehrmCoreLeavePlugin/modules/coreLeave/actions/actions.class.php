@@ -689,4 +689,13 @@ class coreLeaveActions extends sfActions {
         }
     }
 
+	/**
+	 * Displays a warning for non admin users if Leave Period is not defined
+	 *
+	 * @param sfWebRequest $request
+	 */
+	public function executeShowLeavePeriodNotDefinedWarning(sfWebRequest $request) {
+
+	}
+
 }

@@ -159,7 +159,7 @@ if (!$leavePeriodDefined) {
 	if ($authorizeObj->isAdmin()) {
     	$leaveHomePage = './symfony/web/index.php/coreLeave/defineLeavePeriod';
 	} else {
-	    $leaveHomePage = './symfony/web/index.php/leave/showLeavePeriodNotDefinedWarning';
+	    $leaveHomePage = './symfony/web/index.php/coreLeave/showLeavePeriodNotDefinedWarning';
 	}
 } else {
 	if ($authorizeObj->isAdmin()){
