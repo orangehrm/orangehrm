@@ -152,7 +152,13 @@ class assignLeaveAction extends sfAction {
         if($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if($this->form->isValid()) {
-                if(!$this->hasOverlapLeave($this->form)) {
+                $post   =	$form->getValues();
+                //check whether employee exists
+                if(empty($post['txtEmpID'])) {
+                    $this->templateMessage = array('WARNING', "Employee Does Not Exist");
+                }
+                
+                if(!empty($post['txtEmpID']) && !$this->hasOverlapLeave($this->form)) {
                     $this->saveLeaveRequest($this->form);
                 }
             }
@@ -217,13 +223,7 @@ class assignLeaveAction extends sfAction {
      */
     protected function hasOverlapLeave(sfForm $form) {
         $post   =	$form->getValues();
-
-        //check whether employee exists
-        if(empty($post['txtEmpID'])) {
-            $this->templateMessage = array('WARNING', "Employee Does Not Exist");
-            return false;
-        }
-
+        
         //find duplicate leaves
         $overlapLeaves  = $this->getLeaveRequestService()->getOverlappingLeave($post['txtFromDate'],$post['txtToDate'],
                 $post['txtEmpID']);
