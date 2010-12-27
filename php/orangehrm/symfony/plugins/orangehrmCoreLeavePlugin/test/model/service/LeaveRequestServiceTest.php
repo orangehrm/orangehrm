@@ -432,8 +432,201 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
 
     }
-}
 
+    public function testIsEmployeeHavingLeaveBalance() {
+
+        $empId = 1;
+        $leaveTypeId = "LT001";
+        $leaveRequest = "";
+        $leavePeriodId = 11;
+        $dateApplied = '2010-09-11';
+        $applyDays = 2;
+        $leaveRequest = new LeaveRequest();
+        $leaveRequest->setDateApplied($dateApplied);
+        $leaveRequest->setLeavePeriodId($leavePeriodId);
+
+        $entitledDays = 5;
+        $availableLeave = 3;
+        $leaveEntitlement = new EmployeeLeaveEntitlement();
+        $leaveEntitlement->setLeaveBroughtForward(2);
+        $leaveBalance = 22;
+        $currentLeavePeriod = new LeavePeriod();
+        $currentLeavePeriod->setStartDate('2010-01-01');
+        $currentLeavePeriod->setEndDate('2010-12-31');
+        
+        $nextLeavePeriod = new LeavePeriod();
+        $nextLeavePeriod->setStartDate('2011-01-01');
+        $nextLeavePeriod->setEndDate('2011-12-31');
+
+        $leaveEntitlementService = $this->getMock('LeaveEntitlementService',
+                array('getEmployeeLeaveEntitlementDays',
+                      'readEmployeeLeaveEntitlement',
+                      'getLeaveBalance',
+                    ));
+
+        $leaveEntitlementService->expects($this->once())
+                ->method('getEmployeeLeaveEntitlementDays')
+                ->with($empId, $leaveTypeId, $leavePeriodId)
+                ->will($this->returnValue($entitledDays));
+
+        $leaveEntitlementService->expects($this->once())
+                ->method('readEmployeeLeaveEntitlement')
+                ->with($empId, $leaveTypeId, $leavePeriodId)
+                ->will($this->returnValue($leaveEntitlement));
+
+        $leaveEntitlementService->expects($this->exactly(2))
+                ->method('getLeaveBalance')
+                //->with($empId, $leaveTypeId, $leavePeriodId) not checking parameters since called twice
+                ->will($this->returnValue($leaveBalance));
+
+
+        $this->leaveRequestService->setLeaveEntitlementService($leaveEntitlementService);
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getNumOfAvaliableLeave'));
+
+        $leaveRequestDao->expects($this->once())
+                ->method('getNumOfAvaliableLeave')
+                ->with($empId, $leaveTypeId)
+                ->will($this->returnValue($availableLeave));
+        
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+
+        $leavePeriodService = $this->getMock('LeavePeriodService',
+                array('getLeavePeriod',
+                      'createNextLeavePeriod',
+                      'getCurrentLeavePeriod',
+                    ));
+
+        $leavePeriodService->expects($this->once())
+                ->method('getLeavePeriod')
+                ->with(strtotime($leaveRequest->getDateApplied()))
+                ->will($this->returnValue($currentLeavePeriod));
+
+        $leavePeriodService->expects($this->once())
+                ->method('createNextLeavePeriod')
+                ->with(date('Y-m-d', strtotime('2010-09-13')))
+                ->will($this->returnValue($nextLeavePeriod));
+
+        $leavePeriodService->expects($this->once())
+                ->method('getCurrentLeavePeriod')
+                ->will($this->returnValue($currentLeavePeriod));
+
+        $this->leaveRequestService->setLeavePeriodService($leavePeriodService);
+
+
+        $retVal = $this->leaveRequestService->isEmployeeHavingLeaveBalance($empId, $leaveTypeId, $leaveRequest, $applyDays);
+        $this->assertTrue($retVal);
+    }
+
+
+    public function testIsEmployeeHavingLeaveBalanceErrorCases() {
+
+        $empId = 1;
+        $leaveTypeId = "LT001";
+        $leaveRequest = "";
+        $leavePeriodId = 11;
+        $dateApplied = '2010-09-11';
+        $applyDays = 2;
+        $leaveRequest = new LeaveRequest();
+        $leaveRequest->setDateApplied($dateApplied);
+        $leaveRequest->setLeavePeriodId($leavePeriodId);
+
+        $entitledDays = 5;
+        $availableLeave = 3;
+        $leaveEntitlement = new EmployeeLeaveEntitlement();
+        $leaveEntitlement->setLeaveBroughtForward(2);
+        $leaveBalance = 0;
+        $currentLeavePeriod = new LeavePeriod();
+        $currentLeavePeriod->setStartDate('2010-01-01');
+        $currentLeavePeriod->setEndDate('2010-12-31');
+
+        $nextLeavePeriod = new LeavePeriod();
+        $nextLeavePeriod->setStartDate('2011-01-01');
+        $nextLeavePeriod->setEndDate('2011-12-31');
+
+        $leaveEntitlementService = $this->getMock('LeaveEntitlementService',
+                array('getEmployeeLeaveEntitlementDays',
+                      'readEmployeeLeaveEntitlement',
+                      'getLeaveBalance',
+                    ));
+
+        $leaveEntitlementService->expects($this->any())
+                ->method('getEmployeeLeaveEntitlementDays')
+                ->with($empId, $leaveTypeId, $leavePeriodId)
+                ->will($this->returnValue($entitledDays));
+
+        $leaveEntitlementService->expects($this->any())
+                ->method('readEmployeeLeaveEntitlement')
+                ->with($empId, $leaveTypeId, $leavePeriodId)
+                ->will($this->returnValue($leaveEntitlement));
+
+        $leaveEntitlementService->expects($this->any())
+                ->method('getLeaveBalance')
+                //->with($empId, $leaveTypeId, $leavePeriodId) not checking parameters since called twice
+                ->will($this->returnValue($leaveBalance));
+
+
+        $this->leaveRequestService->setLeaveEntitlementService($leaveEntitlementService);
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getNumOfAvaliableLeave'));
+
+        $leaveRequestDao->expects($this->any())
+                ->method('getNumOfAvaliableLeave')
+                ->with($empId, $leaveTypeId)
+                ->will($this->returnValue($availableLeave));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+
+        $leavePeriodService = $this->getMock('LeavePeriodService',
+                array('getLeavePeriod',
+                      'createNextLeavePeriod',
+                      'getCurrentLeavePeriod',
+                    ));
+
+        $leavePeriodService->expects($this->any())
+                ->method('getLeavePeriod')
+                ->with(strtotime($leaveRequest->getDateApplied()))
+                ->will($this->returnValue($currentLeavePeriod));
+
+        $leavePeriodService->expects($this->any())
+                ->method('createNextLeavePeriod')
+                ->with(date('Y-m-d', strtotime('2010-09-13')))
+                ->will($this->returnValue($nextLeavePeriod));
+
+        $leavePeriodService->expects($this->any())
+                ->method('getCurrentLeavePeriod')
+                ->will($this->returnValue($currentLeavePeriod));
+
+        $this->leaveRequestService->setLeavePeriodService($leavePeriodService);
+
+        // Trigger leave balance exceeded
+        try {
+            $retVal = $this->leaveRequestService->isEmployeeHavingLeaveBalance($empId, $leaveTypeId, $leaveRequest, $applyDays);
+            $this->fail("Exception expected");
+        } catch (LeaveServiceException $e) {
+
+            // expected - check code thrown in LeaveRequestService
+        }
+        
+    }
+
+    public function testChangeLeaveStatusErrors() {
+        
+
+    }
+
+    public function testChangeLeaveStatusErrors() {
+
+        // 1. Call with empty changes list
+        try {
+            $retVal = $this->leaveRequestService->changeLeaveStatus(null, 'change_leave_request');
+            $this->fail("Exception expected");
+        } catch (LeaveServiceException $e) {
+            // expected - check code thrown in LeaveRequestService
+        }
+        
+    }
+}
 
 class ParameterStubService {
 
