@@ -489,7 +489,12 @@ leave balance for this leave type. Do you want to continue?
             });
 
             $('#btnBack').click(function() {
-                window.location = "coreLeave/viewLeaveList";
+                var url = "../../../coreLeave/viewLeaveList";
+                
+                <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {?>
+                        url = "../viewMyLeaveList";
+                <?php }?>
+                window.location = url;
             });
 
             $('#btnSave').click(function() {
