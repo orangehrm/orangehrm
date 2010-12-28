@@ -799,10 +799,7 @@ tableDisplayStyle = "table";
 	}
 
 	input[type=text] {
-		border-top: 0px;
-		border-left: 0px;
-		border-right: 0px;
-		border-bottom: 1px solid #888888;
+        border: 1px solid #888888;
 	}
 
     table.historyTable th {
