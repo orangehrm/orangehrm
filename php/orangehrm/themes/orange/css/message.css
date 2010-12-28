@@ -112,7 +112,7 @@ div.messageBalloon_warning {
 }
 
 div.messageBalloon_notice {
-        border:solid 1px #ddddff;
-        background-color:#eeeeff;
-        color:#000066;
+        border:solid 1px #575454;
+        background-color:#DBDBDB;
+        color:#6e6a6a;
 }
