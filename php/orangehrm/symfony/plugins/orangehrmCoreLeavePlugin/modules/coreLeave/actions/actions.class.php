@@ -409,8 +409,9 @@ class coreLeaveActions extends sfActions {
             $employeeFilter = null;
 
             if (trim($employeeId) == "") {
-
-                if ((!Auth::instance()->hasRole(Auth::ADMIN_ROLE)) && (Auth::instance()->hasRole(Auth::SUPERVISOR_ROLE))) {
+                $this->_setLoggedInUserDetails();
+                
+                if ($this->userType == "Supervisor") {
                         $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
                 }
 
