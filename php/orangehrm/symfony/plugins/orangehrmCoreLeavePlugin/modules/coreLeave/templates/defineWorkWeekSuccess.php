@@ -17,10 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<div class="formpageNarrow">
-
+<div style="width:380px;">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
-
+</div>
+<div class="formpageNarrow">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo __('Work Week'); ?></h2></div>
 

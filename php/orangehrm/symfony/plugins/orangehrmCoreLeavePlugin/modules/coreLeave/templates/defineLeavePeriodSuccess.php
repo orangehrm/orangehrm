@@ -17,7 +17,7 @@
 <div class="navigation"></div>
 <div id="status"></div>
 <?php echo message()?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;">
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 450px;">
 	<span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 <div class="outerbox">

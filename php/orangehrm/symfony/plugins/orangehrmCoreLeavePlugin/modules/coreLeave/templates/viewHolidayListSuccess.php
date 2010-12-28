@@ -18,7 +18,7 @@
  */
 ?>
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
-<div id="flash_message_wrapper">
+<div id="flash_message_wrapper" style="width: 630px;">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 </div>
 <div id="errorDiv"></div>
