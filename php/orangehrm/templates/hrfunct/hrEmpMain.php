@@ -1146,7 +1146,8 @@ tableDisplayStyle = "table";
 		<label for="txtEmpNickName"><?php echo $lang_hremp_nickname; ?></label>
 		<input type="text" name="txtEmpNickName" id="txtEmpNickName" class="formInputText" <?php echo $disabled;?>  maxlength="100"
 			value="<?php echo (isset($this->postArr['txtEmpNickName']))?CommonFunctions::escapeHtml($this->postArr['txtEmpNickName']):''?>"/>
-		<label for="photofile" ><?php echo $lang_hremp_photo; ?></label>
+		<br class="clear"/>
+        <label for="photofile" ><?php echo $lang_hremp_photo; ?></label>
 		<input type="file" name="photofile" id="photofile" class="fileselect" <?php echo $disabled;?>
 			value="<?php echo (isset($this->postArr['photofile']))?CommonFunctions::escapeHtml($this->postArr['photofile']):''?>" />
 		<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
