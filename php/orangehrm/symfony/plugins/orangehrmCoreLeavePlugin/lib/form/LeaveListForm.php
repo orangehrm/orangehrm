@@ -220,10 +220,11 @@ class LeaveListForm extends sfForm {
             $companyService = new CompanyService();
 
             $subUnitList = array(0 => "All");
-            $list = $companyService->getCompanyStructureHierarchy();
-            unset($list['maxDepth']);
+            //$list = $companyService->getCompanyStructureList();
+            $list = $companyService->getCompanyStructureList();
+            //unset($list['maxDepth']);
             foreach($list as $k => $v) {
-                $children = $list[$k];
+                /*$children = $list[$k];
                 foreach($children as $parents => $child) {
                     $depth = count(explode("|", $parents));
                     $space = "";
@@ -231,6 +232,9 @@ class LeaveListForm extends sfForm {
                         $space .= "&nbsp;&nbsp;&nbsp;&nbsp;";
                     }
                     $subUnitList[$child->getId()] = $space . $child->getTitle();
+                }*/
+                if($v->getId() != 1) {
+                    $subUnitList[$v->getId()] = $v->getTitle();
                 }
             }
 
