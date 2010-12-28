@@ -52,3 +52,12 @@ div.navigationHearder {
 .inputBoxRight {
     text-align: right;
 }
+
+.boxAlignRight {
+    margin-left: 20px;
+}
+
+.textAlignRight {
+    width: 60px;
+    text-align: right;
+}

@@ -119,8 +119,8 @@
 
 <thead>
 <tr>
-<td><?php echo __('Employee Name'); ?></td>
-<td><?php echo __('Leave Type'); ?></td>
+    <td valign="top"><?php echo __('Employee Name'); ?></td>
+    <td valign="top"><?php echo __('Leave Type'); ?></td>
 <td><?php echo __('Leave Entitled'); ?><div class="daysMove">(Days)</div></td>
 <td><?php echo __('Leave Scheduled'); ?><div class="daysMove">(Days)</div></td>
 <td><?php echo __('Leave Taken'); ?><div class="daysMove">(Days)</div></td>

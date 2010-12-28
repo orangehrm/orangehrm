@@ -193,7 +193,7 @@ class LeaveSummaryForm extends sfForm {
                     $space .= "&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
                 $subUnitList[$child->getId()] = $space . $child->getTitle();
-            }
+            } 
         }
 //print_r($subUnitList);
         $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));
@@ -309,7 +309,7 @@ class LeaveSummaryForm extends sfForm {
                     $html .= "<td>\n";
 
                     if ($this->isLeaveTypeEditable($leaveTypeId) && $this->userType == 'Admin') {
-                        $html .= "<input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$i\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" />\n";
+                        $html .= "<div class='boxAlignRight'><input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$i\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" /></div>\n";
                         $html .= "<input type=\"hidden\" name=\"hdnEmpId[]\" id=\"hdnEmpId-$i\" value=\"$employeeId\" />\n";
                         $html .= "<input type=\"hidden\" name=\"hdnLeaveTypeId[]\" id=\"hdnLeaveTypeId-$i\" value=\"$leaveTypeId\" />\n";
                         $html .= "<input type=\"hidden\" name=\"hdnLeavePeriodId[]\" id=\"hdnLeavePeriodId-$i\" value=\"$leavePeriodId\" />\n";
@@ -331,7 +331,7 @@ class LeaveSummaryForm extends sfForm {
                         $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED;
                         $scheduledStr = "<a href='" . $url . "'>" . $scheduledStr . "</a>";
                     }
-                    $html .= "<div class='daysMove'>$scheduledStr</div>\n";
+                    $html .= "<div class='textAlignRight'>$scheduledStr</div>\n";
                     $html .= "</td>\n";
 
                     $takenStr = $leaveTaken;
@@ -344,11 +344,11 @@ class LeaveSummaryForm extends sfForm {
                         $takenStr = "<a href='" . $url . "'>" .$takenStr . "</a>";
                     }
                     $html .= "<td>\n";
-                    $html .= "<div class='daysMove'>$takenStr</div>\n";
+                    $html .= "<div class='textAlignRight'>$takenStr</div>\n";
                     $html .= "</td>\n";
 
                     $html .= "<td>\n";
-                    $html .= "<div class='daysMove'>$leaveRemaining</div>\n";
+                    $html .= "<div class='textAlignRight'>$leaveRemaining</div>\n";
                     $html .= "</td>\n";
 
                     $html .= "</tr>\n";
