@@ -2432,26 +2432,6 @@ class TimeController {
             $workShift->removeAssignedEmployees();
             $workShift->assignEmployees($assignedEmployees);
          }
-			/* Updating pending leaves accordingly: Begins */
-			
-			$empList = $workShift->getAssignedEmployees();
-			
-			if (!empty($empList)) {
-				
-				foreach ($empList as $emp) {
-				    $empIdList[] = $emp[Workshift::DB_FIELD_EMP_NUMBER];
-				}
-				
-			    $duration = $workShift->getHoursPerDay();
-			    $leaveObj = new Leave();
-			    
-			    if (!$leaveObj->adjustLeaveToWorkshift($duration, $empIdList)) {
-			        throw new Exception('Updating pending leaves failed for new workshift value');
-			    }
-			    
-			}
-			
-			/* Updating pending leaves accordingly: Ends */
 
 		} catch (WorkshiftException $exception) {
 			$this->redirect('UPDATE_FAILURE', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
