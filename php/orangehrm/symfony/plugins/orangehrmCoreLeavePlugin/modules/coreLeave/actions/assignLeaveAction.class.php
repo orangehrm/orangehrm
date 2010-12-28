@@ -276,7 +276,7 @@ class assignLeaveAction extends sfAction {
 
                 $this->templateMessage = array('SUCCESS', 'Leave Successfully Assigned');
             } catch(Exception $e) {
-                $this->templateMessage = array('WARNING', "Leave Period Should Be Defined Prior to Using This Module. Please Contact HR Admin");
+                $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
             }
         } else {
             $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
