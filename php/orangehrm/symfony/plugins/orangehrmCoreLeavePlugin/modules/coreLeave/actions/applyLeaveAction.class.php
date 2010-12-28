@@ -191,7 +191,7 @@ class applyLeaveAction extends sfAction {
         //Check for available leave types
         $leaveTypes = $this->getElegibleLeaveTypes();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', 'No Eligible Leave types to apply for leave');
+            $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Apply for Leave');
         }
         $form = new ApplyLeaveForm(array(), array('leaveTypes' => $leaveTypes), true);
 
