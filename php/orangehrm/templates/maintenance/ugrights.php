@@ -193,7 +193,7 @@ function edit() {
 <?php
 		$modlist = $this->popArr['modlistUnAss'];
 		for($c=0;$modlist && count($modlist)>$c;$c++) {
-         if($modlist[$c][0] != "MOD009") {
+         if($modlist[$c][0] != "MOD009" && $modlist[$c][0] != "MOD005") {
             echo "<option value='". $modlist[$c][0] . "'>". $modlist[$c][1] . "</option>";
          }
         }
