@@ -129,7 +129,7 @@ function doUnCheckAll() {
 
 //]]>
 </script>
-<div id="addPanel" class="outerbox" style="width:300px;display:none;">
+<div id="addPanel" class="outerbox" style="width:350px;display:none;">
 <div class="mainHeading"><h2><?php echo $lang_Time_WorkShift_Add;?></h2></div>
 	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&amp;action=">
       <input type="hidden" name="token" value="<?php echo $token;?>" />
