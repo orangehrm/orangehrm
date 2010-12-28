@@ -840,7 +840,7 @@ tableDisplayStyle = "table";
 		margin-top:19px;
 	    float:left;
 	    text-align:center;
-	    margin-left: 700px;
+	    margin-left: 730px;
 	    padding: 2px;
 	    border: 1px solid #FAD163;
 	}
