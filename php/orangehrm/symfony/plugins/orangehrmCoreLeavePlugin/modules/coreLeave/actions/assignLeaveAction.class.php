@@ -265,6 +265,10 @@ class assignLeaveAction extends sfAction {
             try {
                 $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
 
+                if($this->form->isOverlapLeaveRequest()){
+                    $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                }
+                
                 //send notification to the when leave is assigned
 
                 $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);

@@ -264,6 +264,10 @@ class applyLeaveAction extends sfAction {
             try {
                 $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
 
+                if($this->form->isOverlapLeaveRequest()){
+                    $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                }
+
                 //sending leave apply notification
 
                 $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
