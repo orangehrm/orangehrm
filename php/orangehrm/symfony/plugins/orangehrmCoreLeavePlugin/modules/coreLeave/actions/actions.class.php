@@ -408,7 +408,7 @@ class coreLeaveActions extends sfActions {
             $employeeService = $this->getEmployeeService();
             $employeeFilter = null;
 
-            if (empty($employeeId)) {
+            if (trim($employeeId) == "") {
 
                 if ((!Auth::instance()->hasRole(Auth::ADMIN_ROLE)) && (Auth::instance()->hasRole(Auth::SUPERVISOR_ROLE))) {
                         $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
@@ -418,6 +418,11 @@ class coreLeaveActions extends sfActions {
 
             } else {
                 $employeeFilter = $employeeService->getEmployee($employeeId);
+                //this is a dirty workaround but witout modyfying searchLeaveRequests of Dao it is difficult
+                if(!$employeeFilter instanceof Employee) {
+                    $employeeFilter = new Employee();
+                    $employeeFilter->setEmpNumber(0);
+                }
                 $employee = $employeeFilter;
                 if(!empty($subunitId) && $subunitId > 0) {
                     $employeeFilter = $employeeService->filterEmployeeListBySubUnit(array(0 => $employee), $subunitId);

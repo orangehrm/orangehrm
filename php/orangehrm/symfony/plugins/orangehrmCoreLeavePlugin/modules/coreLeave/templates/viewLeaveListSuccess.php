@@ -341,17 +341,17 @@ leave balance for this leave type. Do you want to continue?
         });
 
         function autoFill(selector, filler, data) {
-            $("#" + filler).val("");
+            $("#" + filler).val(0);
+            if($("#" + selector).val().trim() == "") {
+                $("#" + filler).val("");
+            }
+            
             $.each(data, function(index, item){
                 if(item.name.toLowerCase() == $("#" + selector).val().toLowerCase()) {
                     $("#" + filler).val(item.id);
                     return true;
                 }
             });
-
-            if($("#" + filler).val() == "") {
-                $("#" + selector).val("");
-            }
         }
 
          //dissabling dialog by default
