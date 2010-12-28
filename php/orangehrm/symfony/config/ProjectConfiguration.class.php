@@ -17,7 +17,9 @@ class ProjectConfiguration extends sfProjectConfiguration
                                'orangehrmCorePlugin',
                                'orangehrmCoreLeavePlugin'));
 
-    // Set up logging
-    Logger::configure(dirname(__FILE__) . '/log4php.properties');
+    // Set up logging - use different config for test environment
+    $logConfig = (sfConfig::get('sf_environment') == 'test') ? 'log4php_test.properties' : 'log4php.properties';
+
+    Logger::configure(dirname(__FILE__) . '/' . $logConfig, 'OrangeHRMLogConfigurator');
   }
 }

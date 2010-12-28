@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * NOTE:
+ * Changes done for OrangeHRM:
+ *
+ * 2010-12-27: Function doConfigureProperties was made protected (was private).
+ * 
  * @package log4php
  */
 
@@ -296,8 +301,10 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @see doConfigure().
 	 * @param array $properties
 	 * @param LoggerHierarchy $hierarchy
+         *
+         * NOTE: Change by OrangeHRM. function was made protected, was private
 	 */
-	private function doConfigureProperties($properties, LoggerHierarchy $hierarchy) {
+	protected function doConfigureProperties($properties, LoggerHierarchy $hierarchy) {
 		$thresholdStr = @$properties[self::THRESHOLD_PREFIX];
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
 		$this->configureRootCategory($properties, $hierarchy);
