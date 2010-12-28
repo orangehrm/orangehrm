@@ -605,8 +605,8 @@ input.calendarBtn, input[type=button].calendarBtn {
 	display: block;
 	float: left;
 	border: 0;
-	margin-top: 10px;
-	margin-left: 10px;
+	margin-top: 6px;
+	margin-left: 6px;
 	width: 16px;
 	height: 16px;
 	background-image: url(../icons/calendar.gif);
