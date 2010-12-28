@@ -220,12 +220,8 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 </head>
 
 <body class="yui-skin-sam">
-    <div class="formpage2col" style="width:650px;">
-        <div class="navigation">
-            <input type="button" class="savebutton"
-            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            value="<?php echo $lang_Common_Back;?>" />
-        </div>
+    <div class="formpage2col" style="width:700px;">
+
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_view_Users; ?> : <?php echo ($adminUser == 'Yes') ? $lang_view_HRAdmin : $lang_view_ESS; ?> <?php echo $lang_view_Users; ?></h2></div>
 
@@ -346,6 +342,9 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="<?php echo $tabIndex++;?>"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Reset;?>" />
+                    <input type="button" class="savebutton"
+                                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                                value="<?php echo $lang_Common_Back;?>" />
 <?php } ?>
                 </div>
             </form>
