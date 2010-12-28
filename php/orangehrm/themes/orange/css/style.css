@@ -1488,18 +1488,11 @@ table.simpleList td {
     }
 
     input[type=text] {
-        border-color: #888888;
-        border-style: solid;
-        border-width: 1px 1px 1px 1px;
+        border: 1px solid #888888;
     }
 
     form input.formInputText{
-		/*
-		border-top-width: 0px;
-        border-left: 0px;
-        border-right: 0px;
-        border-bottom: 1px solid #888888;
-        */
+        border: 1px solid #888888;
 	}
 
     table.historyTable th {
@@ -1568,10 +1561,7 @@ table.simpleList td {
     }
 
    form input.loginText {
-      border-top-width: 0px;
-      border-left: 0px;
-      border-right: 0px;
-      border-bottom: 1px solid #888888;
+      border: 1px solid #888888;
       width:6em;
       vertical-align:middle;
       height:14px;
