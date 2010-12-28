@@ -483,6 +483,8 @@ class coreLeaveActions extends sfActions {
         $page = $request->getParameter('page', 1);
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
+        $leaveTypeId = trim($request->getParameter('leaveTypeId'));
+        $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
 
         $leavePeriod = null;
         $employeeService = $this->getEmployeeService();
@@ -501,6 +503,10 @@ class coreLeaveActions extends sfActions {
                 'statuses' => $statuses,
                 'employeeFilter' => $employee
             ));
+
+            if(!empty($leaveTypeId)) {
+                $searchParams->setParameter('leaveType', $leaveTypeId);
+            }
 
             $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
             $list = $result['list'];
