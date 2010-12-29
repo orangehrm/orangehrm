@@ -1,3 +1,13 @@
+New & Changed Features for OrangeHRM ver 2.6.1-beta.1
+
+	New Features
+	------------
+    Ability to have fiscal years.
+    Enhanced leave summary.
+    Enhanced leave list.
+    Improved email notifications.
+
+
 New & Changed Features for OrangeHRM ver 2.6.0.2
 
     Bug Fixes
