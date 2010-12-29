@@ -80,6 +80,7 @@
  * @property EthnicRace $EthnicRace
  * @property Doctrine_Collection $ProjectAdmin
  * @property Doctrine_Collection $Users
+ * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $PerformanceReview
  * @property Doctrine_Collection $PerformanceReviewComment
  * 
@@ -158,6 +159,7 @@
  * @method EthnicRace          getEthnicRace()               Returns the current record's "EthnicRace" value
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "ProjectAdmin" collection
  * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
+ * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
  * @method Employee            setEmpNumber()                Sets the current record's "empNumber" value
@@ -235,6 +237,7 @@
  * @method Employee            setEthnicRace()               Sets the current record's "EthnicRace" value
  * @method Employee            setProjectAdmin()             Sets the current record's "ProjectAdmin" collection
  * @method Employee            setUsers()                    Sets the current record's "Users" collection
+ * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
  * 
@@ -573,6 +576,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
 
         $this->hasMany('Users', array(
              'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
+        $this->hasMany('EmployeeWorkShift', array(
+             'local' => 'empNumber',
              'foreign' => 'emp_number'));
 
         $this->hasMany('PerformanceReview', array(

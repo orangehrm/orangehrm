@@ -2392,10 +2392,16 @@ class adminActions extends sfActions {
 
 			}
 		}
-		 
-		$notficationList		=	$mailService->getMailNotificationList( $user );
-		$this->notficationList	=	$notficationList ;
-        $this->notficationEmail =   $notficationEmail;
+
+		$this->notficationList	=	$mailService->getMailNotificationList($user);
+
+        $notficationFullList = $mailService->getMailNotificationFullList();
+
+        if (!empty($notficationFullList)) {
+           $this->notficationEmail = $notficationFullList[0]->getEmail();
+        } else {
+            $this->notficationEmail = '';
+        }
 
 	}
 
