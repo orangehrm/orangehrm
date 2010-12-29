@@ -127,7 +127,7 @@ function viewFullsize(image) {
 </style>
 
 
-<div class="addPane" >
+<div class="addPane" style="display:block;">
 	<input type="hidden" name="STAT" id="actionStatus" />
 	<input type="hidden" name="imageChange" id="imageChange" value="0" />
 	<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
