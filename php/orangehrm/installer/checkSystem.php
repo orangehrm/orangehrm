@@ -201,11 +201,56 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">OrangeHRM Configuration File Writable (lib/confs)</td>
+            <td class="tdComponent">Write Permissions for "lib/confs"</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
                if(is_writable(ROOT_PATH . '/lib/confs')) {
+                  echo "<b><font color='green'>OK</font></b>";
+				} else {
+                  echo "<b><font color='red'>Not Writeable</font>";
+                  echo "<b><font color='red'><sup>*</sup></font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
+            <td class="tdComponent">Write Permissions for "symfony/apps/orangehrm/config"</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(is_writable(ROOT_PATH . '/symfony/apps/orangehrm/config')) {
+                  echo "<b><font color='green'>OK</font></b>";
+				} else {
+                  echo "<b><font color='red'>Not Writeable</font>";
+                  echo "<b><font color='red'><sup>*</sup></font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
+            <td class="tdComponent">Write Permissions for "symfony/cache"</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(is_writable(ROOT_PATH . '/symfony/cache')) {
+                  echo "<b><font color='green'>OK</font></b>";
+				} else {
+                  echo "<b><font color='red'>Not Writeable</font>";
+                  echo "<b><font color='red'><sup>*</sup></font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
+            <td class="tdComponent">Write Permissions for "symfony/log"</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(is_writable(ROOT_PATH . '/symfony/log')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font>";
