@@ -1,0 +1,10 @@
+Hi #subordinate,
+
+You are hereby notified that the following leave applied by you were rejected by your supervisor;
+
+Applied Date(s)	Type of Leave	Duration (hours)	Comments
+#{#date	#type		#duration		#comments}
+
+Thanks,
+
+OrangeHRM
