@@ -1,1 +1,0 @@
-Leave Notification - Cancelled leave for #leavecount day(s)
