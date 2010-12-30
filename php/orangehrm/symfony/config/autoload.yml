@@ -1,5 +1,10 @@
 autoload:
   # project
+  orange_plugin_actions:
+    name:           orangehrm plugin action classes
+    path:           %SF_PLUGINS_DIR%/orangehrm*/modules/*/actions
+    recursive:      false
+    #exclude:        [actions]
   log4j_lib:
     path:          %SF_LIB_DIR%/vendor/log4php
     recursive: true
