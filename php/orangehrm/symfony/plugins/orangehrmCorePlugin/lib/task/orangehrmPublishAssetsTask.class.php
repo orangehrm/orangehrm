@@ -37,10 +37,11 @@ EOF;
         $pluginName = "orangehrmCoreLeavePlugin";
 
         //check for enabled plugins
-        if(in_array($pluginName, $this->configuration->getPlugins())) {
-            $pluginPath = $plugins[$pluginName];
+        foreach ($this->configuration->getPlugins() as $plugin)
+        if (stripos($plugin, 'orangehrm') !== FALSE) {
+            $pluginPath = $plugins[$plugin];
             $this->logSection('plugin', 'Configuring plugin - ' . $pluginPath);
-            $this->copyWebAssets($pluginName, $pluginPath);  
+            $this->copyWebAssets($plugin, $pluginPath);
         }
     }
 
