@@ -99,13 +99,19 @@
     <zip destfile="${dist.dir}/${base.name}.zip">
         <fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
-        	<include name="orangehrm-quick-start-guide.html"/>
+            <include name="orangehrm-quick-start-guide.html"/>
+            <exclude name="*.zip"/>
+            <exclude name="*.tar.gz"/>
+            <exclude name="apidocs"/>
         </fileset>
     </zip>
     <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
     	<fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
-    		<include name="orangehrm-quick-start-guide.html"/>
+    	    <include name="orangehrm-quick-start-guide.html"/>
+            <exclude name="*.zip"/>
+            <exclude name="*.tar.gz"/>
+            <exclude name="apidocs"/>
         </fileset>
     </tar>
   </target>
