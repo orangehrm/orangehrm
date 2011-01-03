@@ -219,8 +219,13 @@ class coreLeaveActions extends sfActions {
         $this->yesNoList = $this->getWorkWeekEntity()->getYesNoList();
         $this->holidayList = $this->getHolidayService()->searchHolidays($startDate, $endDate);
 
+        if($request->isMethod('post') && count($this->holidayList) == 0) {
+            $this->getUser()->setFlash('templateMessage', array('NOTICE', 'No Records Found'));
+        }
+
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
+            $this->getUser()->setFlash('templateMessage', array());
         }
     }
 
@@ -293,6 +298,12 @@ class coreLeaveActions extends sfActions {
                 if(!$allowToAdd && !is_null($date)) {
                     $this->templateMessage = array('WARNING', 'The Date Is Already Assigned to Another Holiday');
                 } else {
+                    
+                    //first creating the leave period if the date belongs to next leave period
+                    if($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($post['txtDate']))) {
+                        $this->getLeavePeriodService()->createNextLeavePeriod($post['txtDate']);
+                    }
+                    
                     $holidayObject = $this->getHolidayService()->readHoliday($post['hdnHolidayId']);
                     $holidayObject->setDescription($post['txtDescription']);
                     $holidayObject->setDate($post['txtDate']);
