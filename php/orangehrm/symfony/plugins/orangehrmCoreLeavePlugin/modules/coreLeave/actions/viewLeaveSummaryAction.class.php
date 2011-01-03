@@ -85,6 +85,12 @@ class viewLeaveSummaryAction extends sfAction {
             $userDetails['loggedUserId'] = 0; // Means default admin
         }
 
+        if (!empty($_SESSION['empID'])) {
+            $userDetails['empId'] = $_SESSION['empID'];
+        } else {
+            $userDetails['empId'] = 0; // Means default admin
+        }
+
         if ($_SESSION['isSupervisor']) {
             $userDetails['userType'] = 'Supervisor';
         }
@@ -95,7 +101,7 @@ class viewLeaveSummaryAction extends sfAction {
         return $userDetails;
     }
 
-    private function _setLeaveSummaryRecordsLimit($request) {
+    protected function _setLeaveSummaryRecordsLimit($request) {
 
         $params = $request->getParameter('leaveSummary');
 
