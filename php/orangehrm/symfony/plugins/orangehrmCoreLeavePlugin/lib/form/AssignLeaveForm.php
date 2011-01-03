@@ -191,26 +191,35 @@ class AssignLeaveForm extends sfForm {
      */
     public function calculateDateDeference($isWeekend,$isHoliday,$isHalfday,$isHalfDayHoliday) {
         $posts	=	$this->getValues();
-        if($isWeekend)
-            $dayDeference	=	0;
-        elseif($isHoliday) {
-            if($isHalfDayHoliday) {
-                $dayDeference	=  0.5 ;
-            }else
-                $dayDeference	=	0;
-        }elseif($isHalfday) {
+		if($isWeekend)
+			$dayDeference	=	0;
+		elseif($isHoliday){
+			if($isHalfDayHoliday){
+				if($posts['txtToDate'] == $posts['txtFromDate']){
+				if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
+					$dayDeference	=	0.5;
+				else
+					$dayDeference	= number_format($posts['txtLeaveTotalTime']/$posts['txtEmpWorkShift'],3);
+				}else
+					$dayDeference	=	0.5;
+			}else
+				$dayDeference	=	0;
+		}elseif($isHalfday){
 
-            $dayDeference	=  0.5 ;
-        }else {
-            if($posts['txtToDate'] == $posts['txtFromDate'])
-                if($posts['txtHalfDay'] == '1')
-                    $dayDeference	=  0.5 ;
-                else
-                    $dayDeference	=	1;
-            else
-            //$dayDeference	=	floor((strtotime($posts['txtToDate'])-strtotime($posts['txtFromDate']))/86400)+1;
-                $dayDeference	=	1 ;
-        }
+			if($posts['txtToDate'] == $posts['txtFromDate']){
+				if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
+					$dayDeference	=	0.5;
+				else
+					$dayDeference	= number_format($posts['txtLeaveTotalTime']/$posts['txtEmpWorkShift'],3);
+			}else
+				$dayDeference	=	0.5;
+		}else{
+	    	if($posts['txtToDate'] == $posts['txtFromDate'])
+	    		$dayDeference	= number_format($posts['txtLeaveTotalTime']/$posts['txtEmpWorkShift'],3);
+	    	else
+	    		//$dayDeference	=	floor((strtotime($posts['txtToDate'])-strtotime($posts['txtFromDate']))/86400)+1;
+	    		$dayDeference	=	1 ;
+		}
 
         return $dayDeference;
     }
@@ -218,37 +227,34 @@ class AssignLeaveForm extends sfForm {
 
     public function calculateTimeDeference($isWeekend,$isHoliday,$isHalfday,$isHalfDayHoliday) {
         $posts	=	$this->getValues();
-        if($isWeekend) {
-            $timeDeference	=	0;
-        }elseif( $isHoliday) {
-            if($isHalfDayHoliday) {
-                if($posts['txtToDate'] == $posts['txtFromDate']) {
-                    if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
-                        $timeDeference	= number_format($posts['txtEmpWorkShift']/2,3) ;
-                    else
-                        $timeDeference	= $posts['txtLeaveTotalTime'];
-                }else
-                    $timeDeference	=	number_format($posts['txtEmpWorkShift']/2,3) ;
-            }else
-                $timeDeference	=	0;
-        }elseif($isHalfday) {
-            if($posts['txtToDate'] == $posts['txtFromDate'] && $posts['txtLeaveTotalTime'] > 0) {
-                if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
-                    $timeDeference	= number_format($posts['txtEmpWorkShift']/2,3) ;
-                else
-                    $timeDeference	= $posts['txtLeaveTotalTime'];
-            }else
-                $timeDeference	=	number_format($posts['txtEmpWorkShift']/2,3) ;
-        }else {
-            if($posts['txtToDate'] == $posts['txtFromDate'])
-                if($posts['txtHalfDay'] == '1')
-                    $timeDeference	= number_format($posts['txtEmpWorkShift']/2,3);
-                else
-                    $timeDeference	= number_format($posts['txtEmpWorkShift'],3);
-            else
+        if($isWeekend){
+			$timeDeference	=	0;
+		}elseif( $isHoliday){
+			if($isHalfDayHoliday){
+				if($posts['txtToDate'] == $posts['txtFromDate']){
+				if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
+					$timeDeference	= number_format($posts['txtEmpWorkShift']/2,3) ;
+				else
+					$timeDeference	= $posts['txtLeaveTotalTime'];
+				}else
+					$timeDeference	=	number_format($posts['txtEmpWorkShift']/2,3) ;
+			}else
+				$timeDeference	=	0;
+		}elseif($isHalfday){
+			if($posts['txtToDate'] == $posts['txtFromDate'] && $posts['txtLeaveTotalTime'] > 0){
+				if( $posts['txtEmpWorkShift']/2 <= $posts['txtLeaveTotalTime'])
+					$timeDeference	= number_format($posts['txtEmpWorkShift']/2,3) ;
+				else
+					$timeDeference	= $posts['txtLeaveTotalTime'];
+			}else
+				$timeDeference	=	number_format($posts['txtEmpWorkShift']/2,3) ;
+		}else{
+	    	if($posts['txtToDate'] == $posts['txtFromDate'])
+	    		$timeDeference	= $posts['txtLeaveTotalTime'];
+	    	else
 
-                $timeDeference	=	$this->getWorkShiftLength() ;
-        }
+	    		$timeDeference	=	$this->getWorkShiftLength() ;
+		}	
 
         return $timeDeference;
     }

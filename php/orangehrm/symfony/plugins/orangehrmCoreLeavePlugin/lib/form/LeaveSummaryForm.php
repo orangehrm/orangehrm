@@ -209,8 +209,7 @@ class LeaveSummaryForm extends sfForm {
 
     private function _setSubDivisionWidgets() {
 
-        $companyService = new CompanyService();
-        $companyService->setCompanyDao(new CompanyDao());
+        $companyService = $this->getCompanyService();
 
         $subUnitList = array(0 => "All");
         $list = $companyService->getCompanyStructureList();
