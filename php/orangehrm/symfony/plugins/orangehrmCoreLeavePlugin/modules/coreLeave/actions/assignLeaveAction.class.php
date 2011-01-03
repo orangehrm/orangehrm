@@ -243,7 +243,7 @@ class assignLeaveAction extends sfAction {
         $leaveRequest	=	$form->getLeaveRequest();
         $leaveType		=	$this->getLeaveTypeService()->readLeaveType($post['txtLeaveType']);
         $leaveRequest->setLeaveTypeName($leaveType->getLeaveTypeName());
-        $leaveRequest->setDateApplied(date('Y-m-d'));
+        //$leaveRequest->setDateApplied(date('Y-m-d'));
 
         if(is_null($leaveRequest->getLeavePeriodId())) {
             if($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($leaveRequest->getDateApplied()))) {
