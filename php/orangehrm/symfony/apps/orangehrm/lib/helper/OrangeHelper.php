@@ -153,3 +153,11 @@ function formatDate($currentDate, $formatData) {
     return implode($formatData['newSeparater'], $nDate);
     
 }
+
+
+/**
+ * @see CommonFunctions::escapeForJavascript
+ */
+function escapeForJavascript($string) {
+    return CommonFunctions::escapeForJavascript($string);
+}

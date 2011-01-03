@@ -157,7 +157,7 @@ $(document).ready(function(){
     <?php
 
     for ($i=0; $i<count($form->activeTypesArray); $i++) {
-        echo "activeLeaveTypes[$i] = \"".str_replace('"', '\"', $form->activeTypesArray[$i])."\";";
+        echo "activeLeaveTypes[$i] = '". escapeForJavascript($form->activeTypesArray[$i]) ."';";
     }
 
     ?>
@@ -203,7 +203,7 @@ $(document).ready(function(){
     <?php
     for ($i = 0; $i < count($form->deletedTypesArray); $i++) {
         echo "deletedTypeIds[$i] = '" . $form->deletedTypesArray[$i]['id'] . "';";
-        echo "deletedTypeNames[$i] = \"" . str_replace('"', '\"', $form->deletedTypesArray[$i]['name']) . "\";";
+        echo "deletedTypeNames[$i] = '" . escapeForJavascript($form->deletedTypesArray[$i]['name']) . "';";
     }
     ?>
 
