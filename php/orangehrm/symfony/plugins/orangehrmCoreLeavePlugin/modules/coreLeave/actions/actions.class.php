@@ -275,7 +275,10 @@ class coreLeaveActions extends sfActions {
                 if($this->editMode) {
                     $holidayObject = $this->getHolidayService()->readHoliday($hid);
                     // if the selected date is already in a holiday not allow to add
-                    if(($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate()) || $holidayObjectDate->getRecurring() == 1) {
+                    /*if(($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate()) || $holidayObjectDate->getRecurring() == 1) {
+                        $allowToAdd = false;
+                    }*/
+                    if($date != $holidayObjectDate->getDate() && $holidayObjectDate->getRecurring()) {
                         $allowToAdd = false;
                     }
                 } else {
