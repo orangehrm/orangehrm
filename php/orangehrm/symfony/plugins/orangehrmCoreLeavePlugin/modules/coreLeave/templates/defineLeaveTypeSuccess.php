@@ -24,7 +24,7 @@
             <table class="outerMost">
         <tr valign="top">
             <td width="70">
-        <?php echo __('Name') . " <span class=required>*</span>"; ?>
+        <?php echo __('Name');?> <span class="required">*</span>
         </td>
         <td>
             <?php echo $form['txtLeaveTypeName']->render(); ?>
@@ -67,7 +67,7 @@ This is a deleted leave type. Reactivate it?
 </div> <!-- undeleteDialog -->
 
 <script type="text/javascript">
-
+//<![CDATA[
 $(document).ready(function(){
     if($('#leaveType_hdnSavingMode').val() == "update") {
         $("#editStatus").html("Edit");
@@ -254,5 +254,5 @@ $(document).ready(function(){
 
 
 });
-
+//]]>
 </script>
