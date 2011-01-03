@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.1-beta.2
+
+    Bug Fixes
+    ---------
+    3148496 - Back slash cause to stop  leave type forms functionality
+    3148505 - Leave list comments not support for the special characters
+
 New & Changed Features for OrangeHRM ver 2.6.1-beta.1
 
 	New Features

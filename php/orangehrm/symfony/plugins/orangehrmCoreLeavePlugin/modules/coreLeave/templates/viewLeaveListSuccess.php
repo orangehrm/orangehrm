@@ -118,7 +118,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 					if (!$form->isDetailed()) {
 						$url = url_for($baseUrl) . '/id/' . $datum->getLeaveRequestId();
-                        $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $datum->getEmployee()->getEmpNumber() . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
+                        $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=" . $datum->getEmployee()->getEmpNumber() . "&amp;capturemode=updatemode&amp;reqcode=EMP&amp;currentPage=1");
                         $target = "_self";
                         if ((isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) || (isset($_SESSION['empID']) && $_SESSION['empID'] == $datum->getEmployee()->getEmpNumber())) {
                             $pimLink = public_path("../../index.php?menu_no_top=ess");
@@ -132,18 +132,24 @@ $searchActionButtons = $form->getSearchActionButtons();
 					<td>
 						<?php echo $datum->getLeaveType()->getLeaveTypeName(); ?>
 						<?php echo ((bool) $datum->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
-					</td>
-                    <input type="hidden" name="leaveRequest[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveRequest-<?php echo $datum->getLeaveRequestId(); ?>" value="" class="requestIdHolder" />
+                                                <input type="hidden" name="leaveRequest[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveRequest-<?php echo $datum->getLeaveRequestId(); ?>" value="" class="requestIdHolder" />
+					</td>                    
                     <td><div class="numberLabel"><?php echo $datum->getNumberOfDays(); ?></div></td>
                                         <td><a href="<?php echo $url; ?>"><?php echo $datum->getStatus(); ?></a></td>
                                         <td align="left">
                                             <table cellspacing="0" cellpadding="0" border="0">
                                                 <tr>
-                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="200"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
-                                                    <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="Click here to edit" /></td>
+                                                    <?php
+                                                       $comments = trim($datum->getLeaveComments());
+                                                       if (strlen($comments) > 25) {
+                                                           $comments = substr($comments, 0, 25) . "...";
+                                                       }
+                                                    ?>
+                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="200"><?php echo htmlspecialchars($comments);?></td>
+                                                    <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="<?php echo __("Click here to edit");?>" alt=""/></td>
                                                 </tr>
                                             </table>
-                                            <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveComments-<?php echo $datum->getLeaveRequestId(); ?>" value="<?php echo $datum->getLeaveComments(); ?>" />
+                                            <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveComments-<?php echo $datum->getLeaveRequestId(); ?>" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" />
                                         </td>
 					<td class="actions">
                                             <?php if (count($datum->getStatusCounter()) > 1): ?>
