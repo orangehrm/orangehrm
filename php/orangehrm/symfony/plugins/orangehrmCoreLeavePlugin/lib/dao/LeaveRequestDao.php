@@ -105,7 +105,8 @@ class LeaveRequestDao extends BaseDao {
 					    	$nextLeaveRequest->setLeavePeriodId( $nextLeavePeriod->getLeavePeriodId());
 							$nextLeaveRequest->setLeaveTypeName($leaveRequest->getLeaveTypeName());
 					    	$nextLeaveRequest->setEmpNumber( $leaveRequest->getEmpNumber());
-					    	
+					    	$nextLeaveRequest->setLeaveComments($leaveRequest->getLeaveComments());
+                            
 					    	$nextLeaveRequest->save();
 						}
 						
