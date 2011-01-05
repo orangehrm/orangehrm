@@ -231,6 +231,26 @@
         if($("#leaveperiod_cmbStartMonth").val() == 0) {
             $("#endDateDiv").hide();
         }
+
+        /* removing error messages if reset button got clicked */
+        $("#btnReset").click(function() {
+            $(".errorHolder").empty();
+        });
+
+        /* these are validation messages on any dropdown changes */
+        $("#leaveperiod_cmbStartMonthForNonLeapYears").change(function() {
+            $("#inlineErrorHolder2").empty();
+            if($("#leaveperiod_cmbStartMonthForNonLeapYears").val() == 0) {
+                $("#inlineErrorHolder2").append("Start month for non-leap year is required");
+            }
+        });
+
+        $("#leaveperiod_cmbStartMonth").change(function() {
+            $("#inlineErrorHolder").empty();
+            if($("#leaveperiod_cmbStartMonth").val() == 0) {
+                $("#inlineErrorHolder").append("Start month is required");
+            }
+        });
 	});
 	
 	function loadEndDate_Regular() {
