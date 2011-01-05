@@ -264,7 +264,7 @@ if(isset($records['token'])) {
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
         <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"
         	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" />
-        <br class="cleasadsdsr"/>
+        <br class="clear"/>
 
 		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
         <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText"
