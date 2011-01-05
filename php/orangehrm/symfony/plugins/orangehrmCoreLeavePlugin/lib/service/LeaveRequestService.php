@@ -434,6 +434,29 @@ class LeaveRequestService extends BaseService {
 
     }
 
+    public function adjustLeaveRequestForLeavePeriod(LeavePeriod $leavePeriod) {
+        $leaveList = $this->leaveRequestDao->getLeavesForLeavePeriod($leavePeriod);
+
+        if (count($leaveList) > 0) {
+            foreach($leaveList as $leave) {
+                $leaveRequest	=	$leave->getLeaveRequest();
+                $leaves		=	$this->leaveRequestDao->fetchLeave($leaveRequest->getLeaveRequestId());
+                $flag = true;
+                foreach($leaves as $leaveObj) {
+                    if($leaveObj->getLeaveDate() > $leavePeriod->getEndDate()) {
+                        $flag = false;
+                        break;
+                    }
+                }
+
+                if($flag) {
+                    $leaveRequest->setLeavePeriodId($leavePeriod->getLeavePeriodId());
+                    $this->leaveRequestDao->saveLeaveRequest($leaveRequest, $leaves);
+                }
+            }
+        }
+    }
+
     /**
      *
      * @param array $changes

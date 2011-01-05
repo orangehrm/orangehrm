@@ -25,6 +25,8 @@
 class defineLeavePeriodAction extends sfAction {
 
     private $leavePeriodService;
+    private $leaveRequestService;
+
 
     public function getLeavePeriodService() {
 
@@ -35,6 +37,17 @@ class defineLeavePeriodAction extends sfAction {
         }
 
         return $this->leavePeriodService;
+    }
+
+    /**
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService() {
+        if(is_null($this->leaveRequestService)) {
+            $this->leaveRequestService = new LeaveRequestService();
+            $this->leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+        }
+        return $this->leaveRequestService;
     }
 
     /**
@@ -101,6 +114,12 @@ class defineLeavePeriodAction extends sfAction {
                     $leavePeriod->setEndDate($fullEndDate);
                     $leavePeriodService->saveLeavePeriod($leavePeriod);
                 }
+
+                //first retrieving current leave period
+                $currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriod();
+                $leaveRequestService = $this->getLeaveRequestService();
+                $leaveRequestService->adjustLeaveRequestForLeavePeriod($currentLeavePeriod);
+
                 $this->redirect('coreLeave/defineLeavePeriod');
             }
         }
