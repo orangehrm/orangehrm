@@ -18,7 +18,7 @@
 	
 	                  <label for="txtSkillName"><?php echo __("Leave Applications")?></label>
 	           
-	            <input type="checkbox"  class="formCheckbox" value="1" name="notificationMessageStatus[]" <?php if(isset($notficationList[1]) && $notficationList[1]==1){ echo "checked='checked'";}?>"/>
+	            <input type="checkbox"  class="formCheckbox" value="1" name="notificationMessageStatus[]" <?php if(isset($notficationList[1]) && $notficationList[1]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
 	                  <label for="txtSkillName"><?php echo __("Leave Approvals")?></label>
 	            
