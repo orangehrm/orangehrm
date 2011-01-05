@@ -32,32 +32,6 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    private function _connectToMySql() {
-
-        $configuration = ProjectConfiguration::getApplicationConfiguration(SF_APP_NAME, SF_ENV, true);
-
-        $databases = include($configuration->getConfigCache()->checkConfig('config/databases.yml'));
-        $this->assertTrue(isset($databases['doctrine']), "database not configured for test env in databases.yml");
-        $doctrineConfig = $databases['doctrine'];
-
-        $dsn = $doctrineConfig->getParameter('dsn');
-        $dsnSplit = explode(';dbname=', $dsn);
-
-        $this->assertTrue(count($dsnSplit) >= 2, 'DSN not well formed');
-        $host = str_replace('mysql:host=', '', $dsnSplit[0]);
-        $dbName = $dsnSplit[1];
-
-        $user = $doctrineConfig->getParameter('username');
-        $password = $doctrineConfig->getParameter('password');
-
-        $link = mysql_connect($host, $user, $password);
-        $this->assertTrue($link !== FALSE, 'mysql_connect failed!');
-
-        $result = mysql_select_db($dbName);
-        $this->assertTrue($result, 'mysql_select_db failed!');
-
-    }
-
     public function testFetchRawLeaveSummaryRecordsAllRecords() {
 
         $clues['cmbEmpId'] = '';
@@ -68,18 +42,17 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(15, mysql_num_rows($result));
         $this->assertEquals(15, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+        $this->assertEquals(15, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -105,18 +78,17 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(5, mysql_num_rows($result));
         $this->assertEquals(5, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+        $this->assertEquals(5, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -142,18 +114,18 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(3, mysql_num_rows($result));
         $this->assertEquals(3, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+
+        $this->assertEquals(3, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -179,18 +151,17 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(6, mysql_num_rows($result));
         $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+        $this->assertEquals(6, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -216,18 +187,17 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(6, mysql_num_rows($result));
         $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+        $this->assertEquals(6, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -254,18 +224,17 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = 'LOC001';
         $clues['subordinates'] = '';
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(6, mysql_num_rows($result));
         $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+        $this->assertEquals(6, count($rows));
 
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
@@ -292,18 +261,18 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = array(2, 5);
 
-        $this->_connectToMySql();
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
 
         /* Checking records count */
-        $this->assertEquals(6, mysql_num_rows($result));
         $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
 
         /* Checking values and order */
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = $result->fetch()) {
             $rows[] = $row;
         }
+
+        $this->assertEquals(6, count($rows));
 
         $this->assertEquals(2, $rows[0]['empNumber']);
         $this->assertEquals('Ashley', $rows[0]['empFirstName']);

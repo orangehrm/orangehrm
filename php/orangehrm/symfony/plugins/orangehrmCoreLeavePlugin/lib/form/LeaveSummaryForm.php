@@ -268,7 +268,7 @@ class LeaveSummaryForm extends sfForm {
 
             $i = 0;
 
-            while ($row = mysql_fetch_array($recordsResult)) {
+            while ($row = $recordsResult->fetch()) {
 
                 $employeeName = $row['empFirstName'].' '.$row['empLastName'];
                 $employeeId = $row['empNumber'];

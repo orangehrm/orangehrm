@@ -23,7 +23,6 @@ class LeaveSummaryDao extends BaseDao {
     private static $doneSyncingLeaveEntitlements = false;
 
     public function __construct() {
-        $this->_connectToMySql();
     }
 
     /**
@@ -90,7 +89,10 @@ class LeaveSummaryDao extends BaseDao {
 
         $q .= " LIMIT $offset,$limit";
 
-        return mysql_query($q);
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        $res = $pdo->query($q);
+        
+        return $res;
 
     }
 
@@ -131,17 +133,13 @@ class LeaveSummaryDao extends BaseDao {
             $q .= ' WHERE '.implode(' AND ',$where);
         }
 
-        $row = mysql_fetch_array(mysql_query($q));
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        $res = $pdo->query($q);
+        
+        $row = $res->fetch();
 
         return $row[0];
 
     }
 
-    private function _connectToMySql() {
-
-        $ohrmConfObj = OrangeConfig::getInstance()->getConf();
-        mysql_connect("{$ohrmConfObj->dbhost}:{$ohrmConfObj->dbport}", "{$ohrmConfObj->dbuser}", "{$ohrmConfObj->dbpass}");
-        mysql_select_db("{$ohrmConfObj->dbname}");
-
-    }
 }
