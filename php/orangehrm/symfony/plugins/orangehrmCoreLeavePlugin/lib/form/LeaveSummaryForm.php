@@ -212,21 +212,15 @@ class LeaveSummaryForm extends sfForm {
         $companyService = $this->getCompanyService();
 
         $subUnitList = array(0 => "All");
-        $list = $companyService->getCompanyStructureList();
-        //unset($list['maxDepth']);
-        foreach($list as $k => $v) {
-            if($v->getId() != 1) {
-                $subUnitList[$v->getId()] = $v->getTitle();
+        $tree = $companyService->getSubDivisionTree();
+
+        foreach($tree as $node) {
+
+            // Add nodes, indenting correctly. Skip root node
+            if ($node->getId() != 1) {
+                $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
+                $subUnitList[$node->getId()] = $indent . $node->getTitle();
             }
-            /*$children = $list[$k];
-            foreach($children as $parents => $child) {
-                $depth = count(explode("|", $parents));
-                $space = "";
-                for($i = 1; $i < $depth; $i++) {
-                    $space .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-                }
-                $subUnitList[$child->getId()] = $space . $child->getTitle();
-            }*/
         }
 
         $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));

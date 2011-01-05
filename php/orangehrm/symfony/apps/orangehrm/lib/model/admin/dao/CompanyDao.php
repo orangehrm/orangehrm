@@ -349,6 +349,7 @@ class CompanyDao extends BaseDao {
       }
    }
 
+    
    /**
     * Delete CompanyStructure Object
     * @param int $id
@@ -384,5 +385,90 @@ class CompanyDao extends BaseDao {
          throw new DaoException($e->getMessage());
       }
    }
+
+   /**
+    * Get subdivision tree based on given $startNode node.
+    *
+    * The tree depth is set to the member variable $depth
+    *
+    * Code is based on old CompStruct.php which in turn is based on
+    * "Modified Preorder Tree Traversal".
+    * See: <http://www.sitepoint.com/article/hierarchical-data-database/2>
+    *
+    * When we move everything to doctrine, we can use the "Nested Set" behaviour.
+    * http://www.doctrine-project.org/documentation/manual/1_2/nl/hierarchical-data
+    *
+    * But this will require an additional field in the database (level).
+    *
+    * @return array of subdivision objects with depth properly set and ordered in
+    *         correct hierachiachal order.
+    */
+    public function getSubdivisionTree($startNode = null) {
+
+        $tree = false;
+
+        $q = Doctrine_Query::create()
+             ->select('c.lft AS lft, c.rgt AS rgt')
+             ->from('CompanyStructure c');
+
+        // If $startNode defined, start from given node
+        if (!empty($startNode)) {
+
+            $q->where('c.title = ?', $startNode);
+        } else {
+            
+            // Otherwise, start from top level root
+            $q->where('c.id = ?', 1);
+        }
+
+        $rootNode = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SCALAR);
+//var_dump($rootNode);die;
+        if (!$rootNode) {
+            return false;
+        };
+
+        $right = array();
+
+        $q = Doctrine_Query::create()
+             ->from('CompanyStructure')
+             ->where('lft BETWEEN ? AND ?', array($rootNode['c_lft'], $rootNode['c_rgt']))
+             ->orderBy('lft ASC');
+
+        $results = $q->execute();
+
+        foreach ( $results as $node) {
+
+            /*
+             * only check stack if there is one
+             */
+            if (count($right) > 0) {
+
+                /*
+                 * check if we should remove a node from the stack
+                 *
+                 */
+                while ($right[count($right) - 1] < $node->rgt) {
+                    $rx = array_pop($right);
+                }
+            }
+
+            /*
+             *
+             * display indented node title
+             *
+             */
+            $node->depth = count($right);
+
+            $tree[] = $node;
+
+            /*
+             * add this node to the stack
+             */
+            $right[] = $node->rgt;
+        }
+
+        return $tree;
+    }
+        
 }
 ?>
