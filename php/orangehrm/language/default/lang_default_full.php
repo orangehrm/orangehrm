@@ -1913,3 +1913,7 @@
 	include 'lang_default_benefits.php';
 
 	$lang_Common_To = "to";
+
+    // Leave Calendar
+
+    $plugin_leave_Calendar = 'Leave Calendar';
