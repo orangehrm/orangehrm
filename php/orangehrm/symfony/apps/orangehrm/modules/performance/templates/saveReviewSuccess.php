@@ -13,7 +13,7 @@
 
 		<div class="outerbox">
 
-            <div id="formHeading"><h2><?php echo isset($clues['id'])?__('Edit Performance Review'):__('Add Performance Review'); ?></h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo isset($clues['id'])?__('Edit Performance Review'):__('Add Performance Review'); ?></h2></div>
 
 			<form action="#" id="frmSave" name="frmSave" class="content_inner" method="post">
 
@@ -66,7 +66,7 @@
 
 			</div>
 
-			<div id="buttonWrapper">
+			<div id="buttonWrapper" class="formbuttons">
 				<input type="button" class="savebutton" id="saveBtn" value="Save" tabindex="6" />
 
 				<input type="button" class="savebutton" id="resetBtn" value="<?php if(isset($clues['id'])){ echo 'Reset';}else{echo 'Clear';}?>" tabindex="7" />

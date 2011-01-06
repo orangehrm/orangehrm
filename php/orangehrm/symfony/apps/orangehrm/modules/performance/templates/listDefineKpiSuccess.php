@@ -10,7 +10,7 @@
 		<?php }?>
 		<?php echo message()?>
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __("Search Key Performance Indicators")?></h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __("Search Key Performance Indicators")?></h2></div>
 			
 			<form action="#" id="frmSearch" name="frmSearch" class="content_inner" method="post">
 			<input type="hidden" name="mode" value="search" />
@@ -24,7 +24,7 @@
                      </select>
                    <br class="clear"/>
                 </div>
-				<div id="buttonWrapper">
+				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="searchBtn"
                         value="Search" tabindex="2" />
                 </div>  
@@ -40,7 +40,7 @@
    
    	<div id="contentContainer">
 	   <div  class="outerbox">
-	   			<div id="formHeading"><h2><?php echo __("Key Performance Indicators for Job Title:")?> <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getName());}?></h2></div>
+	   			<div id="formHeading" class="mainHeading"><h2><?php echo __("Key Performance Indicators for Job Title:")?> <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getName());}?></h2></div>
 				<div class="navigationHearder">
 	                   <?php if ($pager->haveToPaginate()) { ?>
 

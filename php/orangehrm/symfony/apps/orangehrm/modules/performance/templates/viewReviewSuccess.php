@@ -22,7 +22,7 @@ $formatData['newSeparater'] = '/';
 	
 		<div class="outerbox">
 
-            <div id="formHeading"><h2>Search Performance Reviews</h2></div>
+            <div id="formHeading" class="mainHeading"><h2>Search Performance Reviews</h2></div>
 			
 			<form method="post" action="#" id="frmSearch" name="frmSearch" class="content_inner">
 			
@@ -105,7 +105,7 @@ $formatData['newSeparater'] = '/';
                 
 			</div> <!-- formWrapper:Ends -->
 				
-			<div id="buttonWrapper">
+			<div id="buttonWrapper" class="formbuttons">
                 <input type="button" class="savebutton" id="searchButton" value="Search" tabindex="7" />
                 <input type="button" class="savebutton" id="clearBtn" value="Clear" tabindex="8" />
             </div>  

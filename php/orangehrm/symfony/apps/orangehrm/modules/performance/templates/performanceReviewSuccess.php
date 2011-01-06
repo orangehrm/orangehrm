@@ -5,7 +5,7 @@
 <div id="content">
 	<div id="performanceReviewcontentContainer">
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __("Performance Review")?></h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __("Performance Review")?></h2></div>
 
 			<form action="#" id="frmSave" class="content_inner" method="post">
 
@@ -124,7 +124,7 @@
                  <?php }?>
                </div>
             </form>
-				<div id="buttonWrapper">&nbsp;
+				<div id="buttonWrapper" class="formbuttons">&nbsp;
                     <?php if(($isReviwer && ($performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState()==PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>
                     <input type="button" class="savebutton" id="saveBtn"
                         value="<?php echo __("Edit")?>"  />

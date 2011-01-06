@@ -8,7 +8,7 @@
 		<?php }?>
 		<?php echo message()?>
         <div class="outerbox">
-            <div id="formHeading"><h2>Add Key Performance Indicator</h2></div>
+            <div id="formHeading" class="mainHeading"><h2>Add Key Performance Indicator</h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
 
@@ -37,7 +37,7 @@
                     <input type="checkbox"  name="chkDefaultScale" id="chkDefaultScale" class="alignCheckbox" tabindex="5"  value="1"></input>
              		 <br class="clear"/>
              	</div>
-				<div id="buttonWrapper">
+				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
                         value="Save" tabindex="6" />
                         
@@ -49,7 +49,7 @@
             </form>
         </div>
  	</div>
-
+</div>
 
  	   <script type="text/javascript">
 

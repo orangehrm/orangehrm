@@ -2,7 +2,7 @@
 <div id="content">
 	<div id="contentContainer">
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __('Update Key Performance Indicator')?></h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __('Update Key Performance Indicator')?></h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
               <div id="formWrapper">
@@ -28,7 +28,7 @@
                     <input type="checkbox" name="chkDefaultScale" id="chkDefaultScale" class="alignCheckbox"  value="1"  <?php if($kpi->getDefault()){?>checked="checked" <?php }?> tabindex="5" ></input>
              		 <br class="clear"/>
              	</div>
-				<div id="buttonWrapper">
+				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
                         value="Save" tabindex="6" />
                         

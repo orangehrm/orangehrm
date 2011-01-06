@@ -13,7 +13,7 @@
 				<?php }?>
 				
         <div class="outerbox">
-            <div id="formHeading"><h2><?php echo __("Copy Key Performance Indicators")?></h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __("Copy Key Performance Indicators")?></h2></div>
 			<form action="#" id="frmSave" class="content_inner" method="post">
 
                         <?php echo $form['_csrf_token']; ?>
@@ -39,7 +39,7 @@
                    <br class="clear"/>
              		 <br class="clear"/>
              </div>
-			<div id="buttonWrapper">
+			<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
                         value="Save" tabindex="6" />
                         
