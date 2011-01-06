@@ -17,6 +17,10 @@ class leaveActions extends sfActions {
     private $workWeekEntity;
     private $employeeService;
 
+    /**
+     * Returns Leave Period
+     * @return LeavePeriodService
+     */
     public function getLeavePeriodService() {
 
         if (is_null($this->leavePeriodService)) {
@@ -408,7 +412,12 @@ class leaveActions extends sfActions {
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
-        $leavePeriod = null;
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        if(trim($leavePeriodId) != "") {
+            $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
+        } else {
+            $leavePeriodId = $leavePeriod->getLeavePeriodId();
+        }
         $employee = null;
         $overrideShowBackButton = false;
         $leaveRequest = null;
@@ -506,7 +515,12 @@ class leaveActions extends sfActions {
         $leaveTypeId = trim($request->getParameter('leaveTypeId'));
         $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
 
-        $leavePeriod = null;
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        if(trim($leavePeriodId) != "") {
+            $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
+        } else {
+            $leavePeriodId = $leavePeriod->getLeavePeriodId();
+        }
         $employeeService = $this->getEmployeeService();
         $employee = $employeeService->getEmployee(Auth::instance()->getEmployeeNumber());
 

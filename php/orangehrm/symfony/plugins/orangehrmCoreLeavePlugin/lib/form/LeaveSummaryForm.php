@@ -413,7 +413,7 @@ class LeaveSummaryForm extends sfForm {
             if($employeeId == $this->empId) {
                 $url = "viewMyLeaveList";
             }
-            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED;
+            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED . "&leavePeriodId=" . $this->_getLeavePeriod();
             $scheduledStr = "<a href='" . $url . "'>" . $scheduledStr . "</a>";
         }
         $html .= "<div class='textAlignRight'>$scheduledStr</div>\n";
@@ -435,7 +435,7 @@ class LeaveSummaryForm extends sfForm {
             if($employeeId == $this->empId) {
                 $url = "viewMyLeaveList";
             }
-            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN;
+            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN . "&leavePeriodId=" . $this->_getLeavePeriod();
             $takenStr = "<a href='" . $url . "'>" .$takenStr . "</a>";
         }
         $html = "<td>\n";

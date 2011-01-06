@@ -203,12 +203,10 @@ class LeaveListForm extends sfForm {
         $endDate = $this->requestData->getParameter('calToDate');
         
         if(empty($startDate) && empty($endDate)) {
-            $leavePeriodService = $this->getLeavePeriodService();
-            $leavePeriod = $leavePeriodService->getCurrentLeavePeriod();
 
-            if($leavePeriod instanceof LeavePeriod) {
-                $startDate = $leavePeriod->getStartDate();
-                $endDate = $leavePeriod->getEndDate();
+            if($this->leavePeriod instanceof LeavePeriod) {
+                $startDate = $this->leavePeriod->getStartDate();
+                $endDate = $this->leavePeriod->getEndDate();
             }
         }
         
