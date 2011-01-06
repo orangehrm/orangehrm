@@ -148,19 +148,6 @@ class LeaveRequestDao extends BaseDao {
 		}
 	}
 
-    public function getLeavesForLeavePeriod(LeavePeriod $leavePeriod) {
-        try {
-			$q = Doctrine_Query::create()
-                ->from('Leave l')
-                ->where('l.leave_date >= ?',$leavePeriod->getStartDate())
-                ->andWhere('l.leave_date <= ?',$leavePeriod->getEndDate());
-            
-            return $q->execute();
-        } catch(Exception $e) {
-            throw new DaoException( $e->getMessage());
-        }
-    }
-
 	/**
 	 * Count leave records in the Leave table
 	 * @return integer $count

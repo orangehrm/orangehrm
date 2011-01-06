@@ -115,11 +115,6 @@ class defineLeavePeriodAction extends sfAction {
                     $leavePeriodService->saveLeavePeriod($leavePeriod);
                 }
 
-                //first retrieving current leave period
-                $currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriod();
-                $leaveRequestService = $this->getLeaveRequestService();
-                $leaveRequestService->adjustLeaveRequestForLeavePeriod($currentLeavePeriod);
-
                 $this->redirect('leave/defineLeavePeriod');
             }
         }
