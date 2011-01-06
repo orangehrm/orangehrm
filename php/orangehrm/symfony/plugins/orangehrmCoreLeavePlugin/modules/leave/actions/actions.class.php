@@ -505,7 +505,7 @@ class leaveActions extends sfActions {
     public function executeViewMyLeaveList(sfWebRequest $request) {
 
         $this->setTemplate('viewLeaveList');
-
+        $leavePeriodId = $request->getParameter('leavePeriodId', null);
         $fromDate = $request->getPostParameter('calFromDate', null);
         $toDate = $request->getPostParameter('calToDate', null);
         $statuses = $request->getPostParameter('chkSearchFilter', array());
@@ -535,6 +535,7 @@ class leaveActions extends sfActions {
             $searchParams = new ParameterObject(array(
                 'dateRange' => $dateRange,
                 'statuses' => $statuses,
+                'leavePeriod' => $leavePeriodId,
                 'employeeFilter' => $employee
             ));
 
