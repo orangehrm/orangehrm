@@ -25,7 +25,7 @@ function welcomeSubmit() {
 }
 </script>
 	<div id="content">
-		<h2>Welcome to the OrangeHRM ver 2.6.1-beta.1 Setup Wizard</h2>
+		<h2>Welcome to the OrangeHRM ver 2.6.1-rc.1 Setup Wizard</h2>
 
 
 		<p>This installer creates the OrangeHRM database tables and sets the
