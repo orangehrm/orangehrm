@@ -342,7 +342,7 @@ leave balance for this leave type. Do you want to continue?
             formatItem: function(item) {
                 return item.name;
             }
-                ,matchContains:true
+                ,matchContains:"word"
             }).result(function(event, item) {
                 $('#txtEmpID').val(item.id);
             }
