@@ -248,7 +248,7 @@ $count = count($recordsArr);
 	width: 135px;
 }
 #detailed-table input {
-	width: 110px;
+	width: 100px;
 	text-align: center;
 }
 
