@@ -201,11 +201,17 @@ $searchActionButtons = $form->getSearchActionButtons();
                     <td><?php echo $datum->getTextLeaveStatus(); ?></td>
                     <td valign="top"><table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tr>
-                                <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" align="left"><?php if(strlen(trim($datum->getLeaveComments())) > 25) {echo substr($datum->getLeaveComments(), 0, 25) . "..."; } else { echo $datum->getLeaveComments(); }?></td>
+                                <?php
+                                   $comments = trim($datum->getLeaveComments());
+                                   if (strlen($comments) > 25) {
+                                       $comments = substr($comments, 0, 25) . "...";
+                                   }
+                               ?>
+                                <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" align="left"><?php echo htmlspecialchars($comments); ?></td>
                                 <td class="dialogInvoker" id="pen_leave_<?php echo $datum->getLeaveId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="Click here to edit" /></td>
                             </tr>
                         </table>
-                        <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveId(); ?>]" value="<?php echo $datum->getLeaveComments(); ?>" id="leaveComments-<?php echo $datum->getLeaveId(); ?>"/></td>
+                        <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveId(); ?>]" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" id="leaveComments-<?php echo $datum->getLeaveId(); ?>"/></td>
 					<td class="actions">
                                              <?php
 
@@ -456,12 +462,12 @@ leave balance for this leave type. Do you want to continue?
                     <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) {?>
                         url = "../updateComment";
                     <?php } ?>
-                    var data = "leaveRequestId=" + $("#leaveId").val() + "&leaveComment=" + comment;
+                    var data = "leaveRequestId=" + $("#leaveId").val() + "&leaveComment=" + encodeURIComponent(comment);
 
                     //this is specially for detailed view
                     if($("#leaveOrRequest").val() == "leave") {
                         url = "../../updateComment"
-                        data = "leaveId=" + $("#leaveId").val() + "&leaveComment=" + comment;
+                        data = "leaveId=" + $("#leaveId").val() + "&leaveComment=" + encodeURIComponent(comment);
                     }
 
                     $.ajax({
