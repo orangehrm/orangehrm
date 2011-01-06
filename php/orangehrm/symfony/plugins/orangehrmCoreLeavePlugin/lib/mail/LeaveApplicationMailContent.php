@@ -38,7 +38,7 @@ class LeaveApplicationMailContent extends orangehrmLeaveMailContent {
         if (empty($this->subjectReplacements)) {
 
             $this->subjectReplacements = array('performerFullName' => $this->replacements['performerFullName'],
-                                               'numberOfDays' => $this->replacements['numberOfDays'],
+                                               'numberOfDays' => round($this->replacements['numberOfDays'], 2),
                                                'leaveType' => $this->replacements['leaveType']
                                                );
 
