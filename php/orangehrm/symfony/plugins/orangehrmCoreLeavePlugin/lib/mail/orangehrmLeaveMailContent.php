@@ -232,6 +232,7 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
 
             if ($leaveDuration > 0) {
 
+                $leaveDuration = $this->_fromatDuration($leaveDuration);
                 $details .= "$leaveDate            $leaveDuration";
                 $details .= "\n";
 
@@ -257,6 +258,14 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
         }
 
         return $details;
+
+    }
+
+    private function _fromatDuration($duration) {
+
+        $formattedDuration = number_format($duration, 2);
+
+        return $formattedDuration;
 
     }
     
