@@ -228,7 +228,7 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
         foreach ($this->leaveList as $leave) {
 
             $leaveDate = $leave->getLeaveDate();
-            $leaveDuration = $leave->getLeaveLengthHours();
+            $leaveDuration = round($leave->getLeaveLengthHours(), 2);
 
             if ($leaveDuration > 0) {
 
