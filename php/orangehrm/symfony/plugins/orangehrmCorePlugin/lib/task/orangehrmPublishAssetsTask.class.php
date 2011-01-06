@@ -27,14 +27,13 @@ class orangehrmPublishAssetsTask extends sfBaseTask {
         $this->detailedDescription = <<<EOF
 The [plugin:publish-assets|INFO] Task will publish web assets of OrangeHRM plugins.
 
-  [./symfony coreleave:publish-assets|INFO]
+  [./symfony orangehrm:publish-assets|INFO]
 EOF;
     }
 
     protected function execute($arguments = array(), $options = array()) {
         //only enabled plugins are here
         $plugins    = $this->configuration->getAllPluginPaths();
-        $pluginName = "orangehrmCoreLeavePlugin";
 
         //check for enabled plugins
         foreach ($this->configuration->getPlugins() as $plugin)

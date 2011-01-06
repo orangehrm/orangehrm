@@ -27,7 +27,7 @@
 
 <div class="outerbox" style="width: 600px;">
     <div class="mainHeading"><h2><?php echo __('Holidays'); ?></h2></div>
-    <form method="post" name="frmHolidaySearch" id="frmHolidaySearch" action="<?php echo url_for('coreLeave/viewHolidayList'); ?>">
+    <form method="post" name="frmHolidaySearch" id="frmHolidaySearch" action="<?php echo url_for('leave/viewHolidayList'); ?>">
         <table border="0" id="holidaySearch">
             <tr>
                 <td class="labelText"><?php echo __('Leave Period'); ?></td>
@@ -48,7 +48,7 @@
 
 <div class="outerbox">
 
-    <form method="post" name="frmHolidayList" id="frmHolidayList" action="<?php echo url_for('coreLeave/holidayList'); ?>">
+    <form method="post" name="frmHolidayList" id="frmHolidayList" action="<?php echo url_for('leave/holidayList'); ?>">
 
         <div class="actionbar">
 
@@ -93,7 +93,7 @@
                         <input type="checkbox" class="innercheckbox" name="chkHolidayId[]" value="<?php echo $holiday->getHolidayId(); ?>" />
                     </td>
                     <td>
-                       <a href="<?php echo url_for('coreLeave/defineHoliday/?hdnEditId=' . $holiday->getHolidayId());?>"><?php echo $holiday->getDescription(); ?></a>
+                       <a href="<?php echo url_for('leave/defineHoliday/?hdnEditId=' . $holiday->getHolidayId());?>"><?php echo $holiday->getDescription(); ?></a>
                     </td>
                     <td>
                             <?php echo $holiday->getFdate(); ?>
@@ -132,13 +132,13 @@
 
         // Add button
         $('#btnAdd').click(function(){
-            window.location.href = '<?php echo url_for('coreLeave/defineHoliday'); ?>';
+            window.location.href = '<?php echo url_for('leave/defineHoliday'); ?>';
         });
 
         /* Delete button */
         $('#btnDel').click(function(){
 
-            $('#frmHolidayList').attr('action', '<?php echo url_for('coreLeave/deleteHoliday'); ?>');
+            $('#frmHolidayList').attr('action', '<?php echo url_for('leave/deleteHoliday'); ?>');
             $('#frmHolidayList').submit();
 
         });
@@ -178,7 +178,7 @@
             if (checkedCount == 1) {
                 $('#hdnEditId').val(holidayId);
                 $('#frmHolidayList').attr('method', 'get');
-                $('#frmHolidayList').attr('action', '<?php echo url_for('coreLeave/defineHoliday'); ?>');
+                $('#frmHolidayList').attr('action', '<?php echo url_for('leave/defineHoliday'); ?>');
                 $('#frmHolidayList').submit();
             }
 

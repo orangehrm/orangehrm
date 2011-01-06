@@ -82,7 +82,7 @@ $searchActionButtons = $form->getSearchActionButtons();
     </div>
     <?php } ?>
 
-	<form id="frmSaveLeave" name="frmSaveLeave" method="post" action="<?php echo url_for('coreLeave/changeLeaveStatus/'); ?>">
+	<form id="frmSaveLeave" name="frmSaveLeave" method="post" action="<?php echo url_for('leave/changeLeaveStatus/'); ?>">
 		<table border="0" cellpadding="0" cellspacing="0" class="data-table">
 			<thead>
 				<?php if (!$form->isDetailed()) { ?>
@@ -495,7 +495,7 @@ leave balance for this leave type. Do you want to continue?
             });
 
             $('#btnBack').click(function() {
-                var url = "../../../coreLeave/viewLeaveList";
+                var url = "../../../leave/viewLeaveList";
                 
                 <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {?>
                         url = "../viewMyLeaveList";

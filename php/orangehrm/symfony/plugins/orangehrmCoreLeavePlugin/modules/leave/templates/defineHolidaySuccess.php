@@ -44,7 +44,7 @@
     <?php }?>
 
 
-        <form id="frmHoliday" name="frmHoliday" method="post" action="<?php echo url_for('coreLeave/defineHoliday') ?>" >
+        <form id="frmHoliday" name="frmHoliday" method="post" action="<?php echo url_for('leave/defineHoliday') ?>" >
             <?php echo $form['_csrf_token']?>
             <?php if ($editMode)
             { ?>
@@ -152,7 +152,7 @@
         
         // Back button
         $('#btnBack').click(function(){            
-            window.location.href = '<?php echo url_for('coreLeave/viewHolidayList'); ?>';
+            window.location.href = '<?php echo url_for('leave/viewHolidayList'); ?>';
         });
 
         $("#saveBtn").click(function(){

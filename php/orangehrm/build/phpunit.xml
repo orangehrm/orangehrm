@@ -11,7 +11,7 @@
       <directory suffix=".php">symfony/apps/orangehrm/modules/default/actions</directory>
       <directory suffix=".php">symfony/apps/orangehrm/modules/pim/actions</directory>
       <directory suffix=".php">symfony/plugins/orangehrmCoreLeavePlugin/lib</directory>
-      <directory suffix=".php">symfony/plugins/orangehrmCoreLeavePlugin/modules/coreLeave/actions</directory>
+      <directory suffix=".php">symfony/plugins/orangehrmCoreLeavePlugin/modules/leave/actions</directory>
       <exclude>
         <directory suffix=".php">symfony/lib/model/doctrine/base</directory>
         <directory suffix=".php">symfony/lib/model/doctrine/orangehrmCoreLeavePlugin/base</directory>

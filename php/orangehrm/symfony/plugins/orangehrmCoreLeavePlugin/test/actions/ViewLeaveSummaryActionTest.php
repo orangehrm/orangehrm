@@ -19,7 +19,7 @@
 
 require_once sfConfig::get('sf_test_dir') . '/util/MockContext.class.php';
 require_once sfConfig::get('sf_test_dir') . '/util/MockWebRequest.class.php';
-require_once sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/modules/coreLeave/actions/viewLeaveSummaryAction.class.php';
+require_once sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/modules/leave/actions/viewLeaveSummaryAction.class.php';
 
 /**
  * Testing ViewLeaveSummaryAction
@@ -67,7 +67,7 @@ class ViewLeaveSummaryActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "coreLeave", "execute");
+        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "leave", "execute");
         $viewLeaveSummary->setUserDetails('isAdmin', 'Yes');
 
         //mocking the form
@@ -103,7 +103,7 @@ class ViewLeaveSummaryActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "coreLeave", "execute");
+        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "leave", "execute");
         $viewLeaveSummary->setUserDetails('isSupervisor', 1);
 
         //mocking the form
@@ -138,7 +138,7 @@ class ViewLeaveSummaryActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "coreLeave", "execute");
+        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "leave", "execute");
         $viewLeaveSummary->setUserDetails('empNumber', '0001');
 
         //mocking the form
@@ -182,7 +182,7 @@ class ViewLeaveSummaryActionTest extends PHPUnit_Framework_TestCase {
         $request->setPostParameters($parameters);
         $request->setMethod(sfRequest::POST);
 
-        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "coreLeave", "execute");
+        $viewLeaveSummary = new viewLeaveSummaryAction($this->context, "leave", "execute");
         $viewLeaveSummary->setUserDetails('isAdmin', 'Yes');
 
         //mocking the form

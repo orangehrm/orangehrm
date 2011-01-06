@@ -157,21 +157,21 @@ $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 $leavePeriodDefined = Config::isLeavePeriodDefined();
 if (!$leavePeriodDefined) {
 	if ($authorizeObj->isAdmin()) {
-    	$leaveHomePage = './symfony/web/index.php/coreLeave/defineLeavePeriod';
+    	$leaveHomePage = './symfony/web/index.php/leave/defineLeavePeriod';
 	} else {
-	    $leaveHomePage = './symfony/web/index.php/coreLeave/showLeavePeriodNotDefinedWarning';
+	    $leaveHomePage = './symfony/web/index.php/leave/showLeavePeriodNotDefinedWarning';
 	}
 } else {
 	if ($authorizeObj->isAdmin()){
-		$leaveHomePage = './symfony/web/index.php/coreLeave/viewLeaveList';
+		$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
 	} else if ($authorizeObj->isSupervisor()) {
 		if ($authorizeObj->isAdmin()){
-			$leaveHomePage = './symfony/web/index.php/coreLeave/viewLeaveList';
+			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
 		} else {
-			$leaveHomePage = './symfony/web/index.php/coreLeave/viewLeaveList';
+			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
 		}
 	} else if ($authorizeObj->isESS()) {
-		$leaveHomePage = './symfony/web/index.php/coreLeave/viewMyLeaveList';
+		$leaveHomePage = './symfony/web/index.php/leave/viewMyLeaveList';
 	}
 }
 
@@ -466,32 +466,32 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
         $sub = new MenuItem("leavesummary", $lang_Common_Configure, "#");
 
-        $subsubs[] = new MenuItem("leaveperiod",$lang_Menu_Leave_DefineLeavePeriod , './symfony/web/index.php/coreLeave/defineLeavePeriod', 'rightMenu');
-        $subsubs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , './symfony/web/index.php/coreLeave/leaveTypeList');
-        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_WorkWeek, "./symfony/web/index.php/coreLeave/defineWorkWeek");
-        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_Holidays , "./symfony/web/index.php/coreLeave/viewHolidayList");
+        $subsubs[] = new MenuItem("leaveperiod",$lang_Menu_Leave_DefineLeavePeriod , './symfony/web/index.php/leave/defineLeavePeriod', 'rightMenu');
+        $subsubs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , './symfony/web/index.php/leave/leaveTypeList');
+        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_WorkWeek, "./symfony/web/index.php/leave/defineWorkWeek");
+        $subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_Holidays , "./symfony/web/index.php/leave/viewHolidayList");
 
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
 
 	}
 
-    $subs[] = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "./symfony/web/index.php/coreLeave/viewLeaveSummary", 'rightMenu');
+    $subs[] = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "./symfony/web/index.php/leave/viewLeaveSummary", 'rightMenu');
 
 	if ($authorizeObj->isSupervisor() && !$authorizeObj->isAdmin()) {
-  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/coreLeave/viewLeaveList', 'rightMenu');
+  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList', 'rightMenu');
 	}
 	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
-		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/coreLeave/viewLeaveList', 'rightMenu');
+		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList', 'rightMenu');
 	}
 
 	if (($authorizeObj->isAdmin() && $arrAllRights[Leave]['add']) || $authorizeObj->isSupervisor()) {
-        $subs[] = new MenuItem("assignleave", $lang_Menu_Leave_Assign, "./symfony/web/index.php/coreLeave/assignLeave",'rightMenu');
+        $subs[] = new MenuItem("assignleave", $lang_Menu_Leave_Assign, "./symfony/web/index.php/leave/assignLeave",'rightMenu');
 	}
 
 	if ($authorizeObj->isESS()) {
-  		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, './symfony/web/index.php/coreLeave/viewMyLeaveList/','rightMenu');
-        $subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "./symfony/web/index.php/coreLeave/applyLeave",'rightMenu');
+  		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, './symfony/web/index.php/leave/viewMyLeaveList/','rightMenu');
+        $subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "./symfony/web/index.php/leave/applyLeave",'rightMenu');
 	}
 
     if (file_exists('symfony/plugins/ohrmLeaveCalendarPlugin/config/ohrmLeaveCalendarPluginConfiguration.class.php')) {//if plugin is installed

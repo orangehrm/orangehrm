@@ -8,7 +8,7 @@
  * @author     sujith
  * @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
  */
-class coreLeaveActions extends sfActions {
+class leaveActions extends sfActions {
 
     private $leaveRequestService;
     private $leavePeriodService;
@@ -313,7 +313,7 @@ class coreLeaveActions extends sfActions {
 
                     $holidayObject->setLength($post['selLength']);
                     $this->getHolidayService()->saveHoliday($holidayObject);
-                    $this->redirect('coreLeave/viewHolidayList');
+                    $this->redirect('leave/viewHolidayList');
                 }
             }
         }
@@ -339,7 +339,7 @@ class coreLeaveActions extends sfActions {
         }
 
 
-        $this->forward('coreLeave', 'viewHolidayList');
+        $this->forward('leave', 'viewHolidayList');
     }
 
     public function executeGetHolidayAjax(sfWebRequest $request) {
@@ -490,7 +490,7 @@ class coreLeaveActions extends sfActions {
         $this->mode = $mode;
         $this->message = $message;
         $this->messageType = $messageType;
-        $this->baseUrl = 'coreLeave/viewLeaveList';
+        $this->baseUrl = 'leave/viewLeaveList';
     }
    
     public function executeViewMyLeaveList(sfWebRequest $request) {
@@ -555,7 +555,7 @@ class coreLeaveActions extends sfActions {
         $this->mode = $mode;
         $this->message = $message;
         $this->messageType = $messageType;
-        $this->baseUrl = 'coreLeave/viewMyLeaveList';
+        $this->baseUrl = 'leave/viewMyLeaveList';
 
     }
 
@@ -640,9 +640,9 @@ class coreLeaveActions extends sfActions {
         }
 
         if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
-            $this->forward('coreLeave', 'viewMyLeaveList');
+            $this->forward('leave', 'viewMyLeaveList');
         } else {
-            $url = "coreLeave/viewLeaveList";
+            $url = "leave/viewLeaveList";
             if(trim($request->getParameter("id")) != "") {
                 $url = $url . "?id=" . $request->getParameter("id");
             }

@@ -29,7 +29,7 @@
 
     <div class="mainHeading"><h2><?php echo __('Leave Types'); ?></h2></div> 
  
-	<form method="post" name="frmLeaveTypeList" id="frmLeaveTypeList" action="<?php echo url_for('coreLeave/leaveTypeList'); ?>">
+	<form method="post" name="frmLeaveTypeList" id="frmLeaveTypeList" action="<?php echo url_for('leave/leaveTypeList'); ?>">
     
 	<div class="actionbar"> 
 	
@@ -114,12 +114,12 @@
 		
 		// Add button
 		$('#btnAdd').click(function(){
-			window.location.href = '<?php echo url_for('coreLeave/defineLeaveType'); ?>';
+			window.location.href = '<?php echo url_for('leave/defineLeaveType'); ?>';
 		});
 		
 		/* Delete button */
 		$('#btnDel').click(function(){
-			$('#frmLeaveTypeList').attr('action', '<?php echo url_for('coreLeave/deleteLeaveType'); ?>');
+			$('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/deleteLeaveType'); ?>');
 			$('#frmLeaveTypeList').submit();
 		});
 		
@@ -165,7 +165,7 @@
 		    if (checkedCount == 1) {
 				$('#hdnEditId').val(leaveTypeId);
 				$('#frmLeaveTypeList').attr('method', 'get');
-				$('#frmLeaveTypeList').attr('action', '<?php echo url_for('coreLeave/defineLeaveType'); ?>');
+				$('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/defineLeaveType'); ?>');
 				$('#frmLeaveTypeList').submit();
 		    }
 
@@ -175,7 +175,7 @@
 
             $('#hdnEditId').val($(this).parent().siblings().children(':checkbox').val());
             $('#frmLeaveTypeList').attr('method', 'get');
-            $('#frmLeaveTypeList').attr('action', '<?php echo url_for('coreLeave/defineLeaveType'); ?>');
+            $('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/defineLeaveType'); ?>');
             $('#frmLeaveTypeList').submit();
 
         });

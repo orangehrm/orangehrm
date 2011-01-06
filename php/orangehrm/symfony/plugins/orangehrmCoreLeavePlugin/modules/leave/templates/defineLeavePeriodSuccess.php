@@ -103,7 +103,7 @@
                 eraseErrorMessages();
             }
 
-			url = '<?php echo url_for('coreLeave/loadDatesforMonth'); ?>/month/' + $(this).val();
+			url = '<?php echo url_for('leave/loadDatesforMonth'); ?>/month/' + $(this).val();
 			$.getJSON(url, function(dates) {
 		    	populateDateSelector($('#leaveperiod_cmbStartDate'), dates);
 	            loadEndDate_Regular();
@@ -111,14 +111,14 @@
 			});
 		});
 		
-		url = '<?php echo url_for('coreLeave/loadDatesforMonth'); ?>/month/2/isLeapYear/false';
+		url = '<?php echo url_for('leave/loadDatesforMonth'); ?>/month/2/isLeapYear/false';
 		$.getJSON(url, function(dates) {
 	    	populateDateSelector($('#leaveperiod_cmbStartDateForNonLeapYears'), dates);
             loadEndDate_NonLeapYears();
 		});
 
         $("#leaveperiod_cmbStartMonthForNonLeapYears").change(function() {
-            url = '<?php echo url_for('coreLeave/loadDatesforMonth'); ?>/month/' + $("#leaveperiod_cmbStartMonthForNonLeapYears").val() + '/isLeapYear/false';
+            url = '<?php echo url_for('leave/loadDatesforMonth'); ?>/month/' + $("#leaveperiod_cmbStartMonthForNonLeapYears").val() + '/isLeapYear/false';
             $.getJSON(url, function(dates) {
                 populateDateSelector($('#leaveperiod_cmbStartDateForNonLeapYears'), dates);
                 loadEndDate_NonLeapYears();
@@ -190,7 +190,7 @@
             	var selectedDate = new Date(dateValues[0], dateValues[1] - 1, dateValues[2]);
             	
 
-            	url = '<?php echo url_for('coreLeave/loadLeavePeriodEndDate'); ?>/month/' + $('#leaveperiod_cmbStartMonth').val() + '/date/' + $('#leaveperiod_cmbStartDate').val() + '/format/Y-m-d';
+            	url = '<?php echo url_for('leave/loadLeavePeriodEndDate'); ?>/month/' + $('#leaveperiod_cmbStartMonth').val() + '/date/' + $('#leaveperiod_cmbStartDate').val() + '/format/Y-m-d';
         	    $.ajax({
         	        type: 'get',
         	        url: url,
@@ -272,7 +272,7 @@
 	}
 	
 	function loadEndDate(startMonth, startDate, displayLabel) {
-	    url = '<?php echo url_for('coreLeave/loadLeavePeriodEndDate'); ?>/month/' + startMonth + '/date/' + startDate;
+	    url = '<?php echo url_for('leave/loadLeavePeriodEndDate'); ?>/month/' + startMonth + '/date/' + startDate;
 	    $.ajax({
 	        type: 'get',
 	        url: url,
@@ -311,7 +311,7 @@
 		if (!isLeavePeriodDefined) {
 			startMonth = $('#leaveperiod_cmbStartMonth').val();
 			startDate = $('#leaveperiod_cmbStartDate').val();
-		    url = '<?php echo url_for('coreLeave/getCurrentStartDate'); ?>/month/' + startMonth + '/date/' + startDate;
+		    url = '<?php echo url_for('leave/getCurrentStartDate'); ?>/month/' + startMonth + '/date/' + startDate;
 		    $.ajax({
 		        type: 'get',
 		        url: url,

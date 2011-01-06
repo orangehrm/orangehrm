@@ -140,7 +140,7 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
         $this->leaveRequest = $leaveRequest;
         $this->leaveList = $leaveList;
         $this->requestType = $requestType;
-        $this->templateDirectoryPath = sfConfig::get('sf_root_dir')."/plugins/orangehrmCoreLeavePlugin/modules/coreLeave/templates/mail/en_US/";
+        $this->templateDirectoryPath = sfConfig::get('sf_root_dir')."/plugins/orangehrmCoreLeavePlugin/modules/leave/templates/mail/en_US/";
 
         $this->populateReplacements();
 

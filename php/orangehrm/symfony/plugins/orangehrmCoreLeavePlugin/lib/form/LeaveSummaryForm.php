@@ -256,7 +256,7 @@ class LeaveSummaryForm extends sfForm {
         $leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
 
         $class = 'odd';
-        $baseUrl = url_for('coreLeave/viewLeaveList') . '/leavePeriodId/%s/';
+        $baseUrl = url_for('leave/viewLeaveList') . '/leavePeriodId/%s/';
         $html = "<tbody>\n";
         if ($this->recordsCount > 0) {
 

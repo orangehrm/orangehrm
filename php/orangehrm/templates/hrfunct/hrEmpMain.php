@@ -757,17 +757,17 @@ function leaveFormSubmission(redirect) {
     input.setAttribute("type", "hidden");
 
     if(redirect == "leaveList") {
-        frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveList";
+        frm.action = "../../symfony/web/index.php/leave/viewLeaveList";
 
         //any user tries accesses his own information
         <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $escapedId) {?>
-        frm.action = "../../symfony/web/index.php/coreLeave/viewMyLeaveList";
+        frm.action = "../../symfony/web/index.php/leave/viewMyLeaveList";
         <?php }?>
         input.setAttribute("name", "txtEmpID");
     }
 
     if(redirect == "leaveSummary") {
-        frm.action = "../../symfony/web/index.php/coreLeave/viewLeaveSummary";
+        frm.action = "../../symfony/web/index.php/leave/viewLeaveSummary";
         input.setAttribute("name", "employeeId");
     }
     input.setAttribute("value", empId);

@@ -120,7 +120,7 @@ class defineLeavePeriodAction extends sfAction {
                 $leaveRequestService = $this->getLeaveRequestService();
                 $leaveRequestService->adjustLeaveRequestForLeavePeriod($currentLeavePeriod);
 
-                $this->redirect('coreLeave/defineLeavePeriod');
+                $this->redirect('leave/defineLeavePeriod');
             }
         }
     }

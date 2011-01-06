@@ -27,7 +27,7 @@
 <div class="messageBalloon_notice" style="width:730px;"><?php echo __('No Results Found for This Criteria'); ?></div>
 <?php } ?>
 
-<form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('coreLeave/viewLeaveSummary'); ?>">
+<form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('leave/viewLeaveSummary'); ?>">
 <div class="outerbox" style="width: 800px;">
 <div class="mainHeading"><h2>Leave Summary</h2></div>
 

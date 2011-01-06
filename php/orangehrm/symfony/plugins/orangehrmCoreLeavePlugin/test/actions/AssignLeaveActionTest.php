@@ -21,7 +21,7 @@
 
 require_once sfConfig::get('sf_test_dir') . '/util/MockContext.class.php';
 require_once sfConfig::get('sf_test_dir') . '/util/MockWebRequest.class.php';
-require_once sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/modules/coreLeave/actions/assignLeaveAction.class.php';
+require_once sfConfig::get('sf_plugins_dir') . '/orangehrmcoreLeavePlugin/modules/leave/actions/assignLeaveAction.class.php';
 
 /**
  * Test of AssignLeaveAction
@@ -58,7 +58,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $leaveRequestService = $assignLeaveAction->getLeaveRequestService();
         $this->assertTrue($leaveRequestService instanceof LeaveRequestService);
     }
@@ -71,7 +71,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $employeeService = $assignLeaveAction->getEmployeeService();
         $this->assertTrue($employeeService instanceof EmployeeService);
     }
@@ -83,7 +83,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $leavePeriodService = $assignLeaveAction->getLeavePeriodService();
         $this->assertTrue($leavePeriodService instanceof LeavePeriodService);
     }
@@ -95,7 +95,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
         $request = $this->context->request;
         $request->setMethod(sfRequest::GET);
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $leaveNotificationService = $assignLeaveAction->getLeaveNotificationService();
         $this->assertTrue($leaveNotificationService instanceof LeaveNotificationService);
     }
@@ -130,7 +130,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
                 ->method('getLeaveTypeList')
                 ->will($this->returnValue($leaveTypes));
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $assignLeaveAction->setLeaveRequestService($leaveRequestService);
         $assignLeaveAction->setLeaveTypeService($leaveTypeService);
 
@@ -209,7 +209,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
                 ->method('createNextLeavePeriod')
                 ->will($this->returnValue($leavePeriod));
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $assignLeaveAction->setLeaveRequestService($leaveRequestService);
         $assignLeaveAction->setLeaveTypeService($leaveTypeService);
         $assignLeaveAction->setLeavePeriodService($leavePeriodService);
@@ -294,7 +294,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
                 ->method('createNextLeavePeriod')
                 ->will($this->returnValue($leavePeriod));
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $assignLeaveAction->setLeaveRequestService($leaveRequestService);
         $assignLeaveAction->setLeaveTypeService($leaveTypeService);
         $assignLeaveAction->setLeavePeriodService($leavePeriodService);
@@ -375,7 +375,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
                 ->method('createNextLeavePeriod')
                 ->will($this->returnValue($leavePeriod));
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $assignLeaveAction->setLeaveRequestService($leaveRequestService);
         $assignLeaveAction->setLeaveTypeService($leaveTypeService);
         $assignLeaveAction->setLeavePeriodService($leavePeriodService);
@@ -422,7 +422,7 @@ class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
                 ->method('getLeaveTypeList')
                 ->will($this->returnValue($leaveTypes));
 
-        $assignLeaveAction = new assignLeaveAction($this->context, "coreLeave", "execute");
+        $assignLeaveAction = new assignLeaveAction($this->context, "leave", "execute");
         $assignLeaveAction->setLeaveTypeService($leaveTypeService);
 
         try {

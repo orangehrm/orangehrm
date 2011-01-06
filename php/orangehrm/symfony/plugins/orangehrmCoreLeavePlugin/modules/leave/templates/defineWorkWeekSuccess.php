@@ -42,7 +42,7 @@
 
 ?>
 
-        <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('coreLeave/defineWorkWeek') ?>" >
+        <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >
 <?php echo $form['_csrf_token']->render()?>
             <?php echo $form['select_1']->renderLabel(); ?>
 <?php echo $form['select_1']->render(array("class" => "formSelect")); ?>

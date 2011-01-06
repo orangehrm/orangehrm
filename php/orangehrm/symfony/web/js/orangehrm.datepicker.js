@@ -6,8 +6,8 @@
 function DayMarker(optionList){
     
     var options = {
-        holidayListAjax : '/coreLeave/getHolidayAjax',
-        daysOffListAjax : '/coreLeave/getWorkWeekAjax',
+        holidayListAjax : '/leave/getHolidayAjax',
+        daysOffListAjax : '/leave/getWorkWeekAjax',
         autoFetchHolidays: true,
         autoFetchDaysOff: true,
         requestUrl: false // is request url defined

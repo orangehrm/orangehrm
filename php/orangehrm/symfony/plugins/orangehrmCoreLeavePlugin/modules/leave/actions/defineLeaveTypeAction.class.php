@@ -23,7 +23,7 @@ class defineLeaveTypeAction extends orangehrmAction {
                 } elseif ($savingMode == 'undelete') {
                     $this->undeleteLeaveType($this->form);
                 }
-                $this->redirect("coreLeave/leaveTypeList");
+                $this->redirect("leave/leaveTypeList");
             }
         }
         else {
@@ -71,7 +71,7 @@ class defineLeaveTypeAction extends orangehrmAction {
         
         $message = 'Leave Type "' . $leaveTypeName . '" Successfully Undeleted';
         $this->getUser()->setFlash('templateMessage', array('success', $message));
-        $this->redirect('coreLeave/leaveTypeList');
+        $this->redirect('leave/leaveTypeList');
     }
 
 

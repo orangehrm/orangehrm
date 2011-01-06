@@ -147,7 +147,7 @@ $(document).ready(function(){
     });
 
     $('#backButton').click(function(){
-        window.location.href = '<?php echo url_for('coreLeave/leaveTypeList'); ?>';
+        window.location.href = '<?php echo url_for('leave/leaveTypeList'); ?>';
     });
 
     /* Populating available leave types array */

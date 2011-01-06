@@ -15,7 +15,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
 
             if (count($request->getParameter('chkLeaveType')) == 0) {
                 $this->getUser()->setFlash('templateMessage', array('NOTICE', 'Please Select at Least One Leave Type to Delete'));
-                $this->redirect('coreLeave/leaveTypeList');
+                $this->redirect('leave/leaveTypeList');
             }
 
             $leaveTypeService = $this->getLeaveTypeService();
@@ -24,7 +24,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
             $leaveTypeService->deleteLeaveType($request->getParameter('chkLeaveType'));
 
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Leave Type Successfully Deleted'));
-            $this->redirect('coreLeave/leaveTypeList');
+            $this->redirect('leave/leaveTypeList');
         }
     }
 
