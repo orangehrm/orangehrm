@@ -38,6 +38,7 @@ class LeaveSummaryForm extends sfForm {
     private $employeeService;
     private $leaveTypeService;
     private $companyService;
+    private $jobService;
 
     public function configure() {
 
@@ -218,6 +219,9 @@ class LeaveSummaryForm extends sfForm {
 
             // Add nodes, indenting correctly. Skip root node
             if ($node->getId() != 1) {
+                if($node->depth == "") {
+                    $node->depth = 1;
+                }
                 $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
                 $subUnitList[$node->getId()] = $indent . $node->getTitle();
             }
@@ -228,10 +232,21 @@ class LeaveSummaryForm extends sfForm {
 
     }
 
+    public function getJobService() {
+        if(is_null($this->jobService)) {
+            $this->jobService = new JobService();
+            $this->jobService->setJobDao(new JobDao());
+        }
+        return $this->jobService;
+    }
+
+    public function setJobService(JobService $jobService) {
+        $this->jobService = $jobService;
+    }
+
     private function _setJobTitleWidgets() {
 
-        $jobService = new JobService();
-        $jobService->setJobDao(new JobDao());
+        $jobService = $this->getJobService();
         $jobList = $jobService->getJobTitleList();
         $choices = array('0' => 'All');
 
