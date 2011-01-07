@@ -413,6 +413,7 @@ class leaveActions extends sfActions {
         $messageType = $this->getUser()->getFlash('messageType', '');
 
         $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        
         if(trim($leavePeriodId) != "") {
             $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
         } else {

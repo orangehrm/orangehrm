@@ -296,7 +296,7 @@ class LeaveRequestDao extends BaseDao {
 		    }
 		}
 
-		if (!empty($leavePeriod)) {
+		if (trim($fromDate) == "" && trim($toDate) == "" && !empty($leavePeriod)) {
 		    $leavePeriodId = ($leavePeriod instanceof LeavePeriod) ? $leavePeriod->getLeavePeriodId() : $leavePeriod;
 		    $q->andWhere('lr.leave_period_id = ?', (int) $leavePeriodId);
 		}
