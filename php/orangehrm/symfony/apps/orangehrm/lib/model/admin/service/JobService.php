@@ -254,12 +254,13 @@ class JobService extends BaseService {
     * Retrieve EmployeeStatus List
     * @param String $orderField
     * @param String $orderBy
+    * @param bool $includeTerminated - Include the Terminated state
     * @returns Collection
     * @throws AdminServiceException
     */
-   public function getEmployeeStatusList($orderField = 'id', $orderBy = 'ASC') {
+   public function getEmployeeStatusList($orderField = 'id', $orderBy = 'ASC', $includeTerminated = true) {
       try {
-         return $this->jobDao->getEmployeeStatusList($orderField, $orderBy);
+         return $this->jobDao->getEmployeeStatusList($orderField, $orderBy, $includeTerminated);
       } catch(Exception $e) {
          throw new AdminServiceException($e->getMessage());
       }
