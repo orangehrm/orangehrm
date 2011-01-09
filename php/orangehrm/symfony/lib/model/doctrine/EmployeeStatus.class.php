@@ -5,6 +5,8 @@
  */
 class EmployeeStatus extends BaseEmployeeStatus
 {
+    const TERMINATED_STATUS = 'EST000';
+    
     public function __toString() {
         return $this->name;
     }  
