@@ -39,6 +39,8 @@ class LeaveSummaryForm extends sfForm {
     private $leaveTypeService;
     private $companyService;
     private $jobService;
+    private $leaveSummaryService;
+    private $leaveEntitlementService;
 
     public function configure() {
 
@@ -510,8 +512,7 @@ class LeaveSummaryForm extends sfForm {
 
         $jsonArray	=	array();
         $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
+        $employeeService = $this->getEmployeeService();
 
         if ($this->userType == 'Admin') {
             $employeeList = $employeeService->getEmployeeList();
@@ -570,14 +571,38 @@ class LeaveSummaryForm extends sfForm {
 
     public function getLeaveSummaryRecordsCount() {
 
-        $leaveSummaryService = new LeaveSummaryService();
-        $leaveSummaryService->setLeaveSummaryDao(new LeaveSummaryDao());
+        $leaveSummaryService = $this->getLeaveSummaryService();
         $recordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($this->_getSearchClues());
 
         return $recordsCount;
 
     }
 
+    public function getLeaveSummaryService() {
+        if(is_null($this->leaveSummaryService)) {
+            $this->leaveSummaryService = new LeaveSummaryService();
+            $this->leaveSummaryService->setLeaveSummaryDao(new LeaveSummaryDao());
+        }
+        return $this->leaveSummaryService;
+    }
+
+    public function setLeaveSummaryService(LeaveSummaryService $leaveSummaryService) {
+        $this->leaveSummaryService = $leaveSummaryService;
+    }
+
+
+    public function setLeaveEntitlementService(LeaveEntitlementService $leaveEntitlementService) {
+        $this->leaveEntitlementService = $leaveEntitlementService;
+    }
+
+    public function getLeaveEntitlementService() {
+        if(is_null($this->leaveEntitlementService)) {
+            $this->leaveEntitlementService = new LeaveEntitlementService();
+            $this->leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
+        }
+        return $this->leaveEntitlementService;
+    }
+    
     public function saveEntitlements($request) {
 
         $hdnEmpId = $request->getParameter('hdnEmpId');
@@ -586,8 +611,7 @@ class LeaveSummaryForm extends sfForm {
         $txtLeaveEntitled = $request->getParameter('txtLeaveEntitled');
         $count = count($txtLeaveEntitled);
 
-        $leaveEntitlementService = new LeaveEntitlementService();
-        $leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
+        $leaveEntitlementService = $this->getLeaveEntitlementService();
 
         for ($i=0; $i<$count; $i++) {
 
