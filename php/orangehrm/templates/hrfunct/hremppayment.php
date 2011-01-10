@@ -242,7 +242,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'/>";
+						    	echo "<input type='hidden' id='txtMinCurrency' name='txtMinCurrency' value='" .$currlist[$c][3]. "'/>";
 						    	echo "<div id='divMinCurrency'>".$common_func->formatSciNo($currlist[$c][3])."<div>";
 						    }
 ?>
@@ -254,7 +254,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'/>";
+						    	echo "<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency' value='" .$currlist[$c][5]. "'/>";
 						    	echo "<div id='divMaxCurrency'>".$common_func->formatSciNo($currlist[$c][5])."<div>";
 						    }
 ?>
