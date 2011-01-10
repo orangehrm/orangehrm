@@ -991,7 +991,53 @@ class TimeController {
                 $customerObj = new Customer();
                 $projectArr[]= array(0=>"-1",1=>"{$lang_Time_Common_All}"); //this is the first element
 
-                if ($includeDeleted == 1) {
+                if($includeDeleted == 1) {
+                    
+                    //this is for admin
+                    if ($this->authorizeObj->isAdmin()) {
+                        $allProjects = $projectsObj->fetchProjects();
+                    }
+
+                    //this is for project admin
+                    if ($this->authorizeObj->isProjectAdmin()) {
+                        $gw = new ProjectAdminGateway();
+                        $allProjects = $gw->getProjectsForAdmin($_SESSION['empID'] , TRUE);
+                    }
+                    
+                    if (isset($allProjects)) {
+                        foreach ($allProjects as $prj) {
+                            $customerDet = $customerObj->fetchCustomer($prj->getCustomerId(), true);
+                            $tmpArr[0] = $prj->getProjectId();
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $prj->getProjectName();
+                            if($prj->getDeleted()) {
+                                $tmpArr[1] = $tmpArr[1] . ' (Deleted)';
+                            }
+                            $projectArr[] = $tmpArr;
+                        }
+                    }
+                } else {
+                    //this is for admin
+                    if ($this->authorizeObj->isAdmin()) {
+                        $projectsObj->setDeleted(0);
+                        $ActiveProj = $projectsObj->fetchProjects();
+                    }
+
+                    //this is for project admin
+                    if ($this->authorizeObj->isProjectAdmin()) {
+                        $gw = new ProjectAdminGateway();
+                        $ActiveProj = $gw->getProjectsForAdmin($_SESSION['empID'] , false);
+                    }
+
+                    if (isset($ActiveProj)) {
+                        foreach ($ActiveProj as $DeProj) {
+                            $customerDet = $customerObj->fetchCustomer($DeProj->getCustomerId(), true);
+                            $tmpArr[0] = $DeProj->getProjectId();
+                            $tmpArr[1] = $customerDet->getCustomerName() . ' - ' . $DeProj->getProjectName();
+                            $projectArr[] = $tmpArr;
+                        }
+                    }
+                }
+                /*if ($includeDeleted == 1) {
                     $projectsObj->setDeleted(1);
                     $DeletedProj = $projectsObj->fetchProjects();
 
@@ -1028,7 +1074,7 @@ class TimeController {
                             $projectArr[] = $tmpArr;                           
                         }
                     }
-                }
+                }*/
 
                 return $projectArr;
         }
