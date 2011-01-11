@@ -989,7 +989,7 @@ class TimeController {
 
                 $projectsObj = new Projects();
                 $customerObj = new Customer();
-                $projectArr[]= array(0=>"-1",1=>"{$lang_Time_Common_All}"); //this is the first element
+                $projectArr[]= array(0=>"-1",1=>"Select"); //this is the first element
 
                 if($includeDeleted == 1) {
                     
@@ -1823,7 +1823,7 @@ class TimeController {
 
 		$projectId = $timeEventObj->getProjectId();
 
-		if ((!$this->authorizeObj->isAdmin()) && (!$this->authorizeObj->isProjectAdminOf($projectId))) {
+		if ($projectId != -1 && (!$this->authorizeObj->isAdmin()) && (!$this->authorizeObj->isProjectAdminOf($projectId))) {
 			$this->redirect('UNAUTHORIZED_FAILURE');
 		}
 
