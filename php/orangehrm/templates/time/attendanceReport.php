@@ -543,8 +543,8 @@ echo '</div>';
         <input type="text" name="txtNewOutNote-<?php echo $i; ?>" id="txtNewOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
         <input type="hidden" name="hdnOldOutNote-<?php echo $i; ?>" value="<?php echo $outNote; ?>" />
         </td>
-        <td>
-        <input type="text" name="txtDuration-<?php echo $i; ?>" id="txtDuration-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getDuration(); ?>" read />
+        <td><?php echo $recordsArr[$i]->getDuration(); ?>
+        <!--<input type="text" name="txtDuration-<?php echo $i; ?>" id="txtDuration-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getDuration(); ?>" read />-->
         <input type="hidden" name="hdnDuration-<?php echo $i; ?>" value="<?php echo $recordsArr[$i]->getDuration(); ?>" />
         </td>
         <td>
