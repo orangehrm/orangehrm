@@ -28,6 +28,7 @@ $pages = ceil($timesheetsCount/$recordPerPage);
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/event/event-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/connection/connection-min.js"></script>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
+
 <script type="text/javascript">
 currPage=1;
 commonAction="?timecode=Time&action=";
@@ -209,7 +210,8 @@ function init() {
 			$backButton = '<input type="button" class="backbutton" value="' . $lang_Common_Back . '"' .
 					'onmouseout="moutButton(this)" onmouseover="moverButton(this)"  onclick="goBack()" />';
 		?>
-		$("printPanel").innerHTML = '<?php echo "<br /><br/>" . CommonFunctions::escapeForJavascript($lang_Error_NoRecordsFound) . "<br /><br />{$backButton}"; ?>';
+        $("printPanel").className = "notice";
+		$("printPanel").innerHTML = '<b><?php echo CommonFunctions::escapeForJavascript($lang_Error_NoRecordsFound) . "<br /><br />{$backButton}"; ?></b>';
 		return false;
 	}
 	loadPage(1, false);
@@ -229,6 +231,10 @@ YAHOO.util.Event.addListener(window, "load", init);
 <style type="text/css">
 div#nonPrintPanel, div#printIframePanel {
 	margin: 8px;
+}
+.notice {
+    color:#6e6a6a;
+	font-size:16px;
 }
 </style>
 
@@ -256,7 +262,7 @@ div#nonPrintPanel, div#printIframePanel {
 		<input type="hidden" name="txtEndDate" id="txtEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>" />
 	</form>
 
-	<div id="printPanel">
+    <div id="printPanel" style="width:700px;">
 		<?php for ($i=0; $i<$pages; $i++) { ?>
 			<div id="page<?php echo $i+1; ?>" style="display:none;"></div>
 		<?php } ?>
