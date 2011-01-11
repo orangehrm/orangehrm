@@ -181,7 +181,7 @@ class EXTRACTOR_TimeEvent {
 			$tmpObj->setProjectId($postArr['cmbProject']);
 		}
 
-		if ($postArr['cmbActivity'] > -1) {
+		if (isset($postArr['cmbActivity']) && $postArr['cmbActivity'] > -1) {
 			$tmpObj->setActivityId($postArr['cmbActivity']);
 		}
 
