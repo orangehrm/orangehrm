@@ -241,7 +241,10 @@ switch ($moduletype) {
 					$view_controller = new ViewController();
 
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
-							    $arrList[0]=$_POST['chkLocID'];
+							    $arrList[0] = array();
+                                if(isset($_POST['chkLocID'])) {
+                                    $arrList[0] = $_POST['chkLocID'];
+                                }
 							    $view_controller->delParser(trim($_GET['uniqcode']),$arrList);
 						}
 
