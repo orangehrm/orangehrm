@@ -88,6 +88,10 @@ td {
     width:70px;
 }
 
+.highlightError {
+    background-color:#FFDFDF;
+}
+
 .selectTd {
     width:120px;
 }
@@ -807,7 +811,20 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 		        return false;
 		    }
 		}
-		
+        var commentErrorFlag = true;
+        $(".commentBox").each(function() {
+            var comment = $(this).val().trim();
+            $(this).attr('class', "commentBox");
+            if(comment.length > 240) {
+                $(this).attr('class', "commentBox highlightError");
+                commentErrorFlag = false;
+            }
+        });
+
+        if(!commentErrorFlag) {
+            alert("Comment length can't exceed 240 characters, exceeded ones are highlighted");
+            return false;
+        }
 		return true;
 
 	}
