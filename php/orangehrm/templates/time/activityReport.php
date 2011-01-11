@@ -157,9 +157,9 @@ function nextPage() {
 			echo "$totalTime $lang_Time_Timesheet_DurationUnits"; ?>
 		<br/>
 
-		<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/>
+        <hr style="width:420px;float:left;margin:15px 0px 15px 0px" align="left" />
   <?php if (empty($empTimeArray)) { ?>
-		<br/><div class="notice" style="float:left"><?php echo $lang_Time_Activity_Report_NoEvents; ?></div>
+		<br/><div class="notice" style="float:left; padding-top: 5px;"><?php echo $lang_Time_Activity_Report_NoEvents; ?></div>
   <?php } else { ?>
 		<div class="paging">
 		<?php
@@ -168,7 +168,7 @@ function nextPage() {
 		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 		echo $pageStr;
 		?>
-		</div></br>
+		</div><br />
 
       <div style="float:left">
 		<table width="250" class="simpleList" style="margin:0 0 5px 4px;">
