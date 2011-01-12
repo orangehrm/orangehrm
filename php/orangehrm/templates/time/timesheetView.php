@@ -127,6 +127,12 @@ function actionReject() {
 		$('txtComment').focus();
 		return false;
 	}
+
+    if(($('txtComment').value.trim()).length > 240) {
+        alert("Comment length can't exceed more than 240 characters");
+        return false;
+    }
+    
 	$("frmTimesheet").action= initialAction+"Reject_Timesheet";
 	$("frmTimesheet").submit();
 }
@@ -137,6 +143,11 @@ function actionApprove() {
 		$('txtComment').focus();
 		return false;
 	}
+
+    if(($('txtComment').value.trim()).length > 240) {
+        alert("Comment length can't exceed more than 240 characters");
+        return false;
+    }
 	$("frmTimesheet").action= initialAction+"Approve_Timesheet";
 	$("frmTimesheet").submit();
 }
