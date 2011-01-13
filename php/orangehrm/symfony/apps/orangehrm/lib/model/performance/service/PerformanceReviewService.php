@@ -196,10 +196,10 @@ class PerformanceReviewService extends BaseService {
                 $mailBody   =   strtr($content, $varibles);
                 $email      =   ( $userEmail != '')?$userEmail:$workEmail;
                 $mailService    = new EmailService();
-                $mailService->setTo(array($email));
-                $mailService->setSubject("Performance Review Submitted");
-                $mailService->setMailBody($mailBody);
-                @$mailService->sendMail();
+                $mailService->setMessageTo(array($email));
+                $mailService->setMessageSubject("Performance Review Submitted");
+                $mailService->setMessageBody($mailBody);
+                @$mailService->sendEmail();
             }
             return true ;
         } catch( Exception $e) {
@@ -224,10 +224,10 @@ class PerformanceReviewService extends BaseService {
                 $mailBody   =   strtr($content, $varibles);
 
                 $mailService    = new EmailService();
-                $mailService->setTo(array($email));
-                $mailService->setSubject("Performance Review Rejected");
-                $mailService->setMailBody($mailBody);
-                @$mailService->sendMail();
+                $mailService->setMessageTo(array($email));
+                $mailService->setMessageSubject("Performance Review Rejected");
+                $mailService->setMessageBody($mailBody);
+                @$mailService->sendEmail();
             }
             return true ;
         } catch (Exception $e) {
@@ -251,10 +251,10 @@ class PerformanceReviewService extends BaseService {
             $mailBody   =   strtr($content, $varibles);
 
             $mailService    = new EmailService();
-            $mailService->setTo(array($email));
-            $mailService->setSubject("Performance Review Approved");
-            $mailService->setMailBody($mailBody);
-            @$mailService->sendMail();
+            $mailService->setMessageTo(array($email));
+            $mailService->setMessageSubject("Performance Review Approved");
+            $mailService->setMessageBody($mailBody);
+            @$mailService->sendEmail();
         }
             return true ;
         } catch ( Exception $e) {
@@ -285,11 +285,11 @@ class PerformanceReviewService extends BaseService {
                 $mailBody = strtr($content, $varibles);
 
                 $mailService = new EmailService();
-                $mailService->setTo(array($reviewerEmail));
-                $mailService->setFrom(array("admin@orangehrm"));
-                $mailService->setSubject("You Have Been Assigned a New Performance Review");
-                $mailService->setMailBody($mailBody);
-                @$mailService->sendMail();
+                $mailService->setMessageTo(array($reviewerEmail));
+                $mailService->setMessageFrom(array("admin@orangehrm"));
+                $mailService->setMessageSubject("You Have Been Assigned a New Performance Review");
+                $mailService->setMessageBody($mailBody);
+                @$mailService->sendEmail();
             }
             return true;
         } catch (Exception $e) {
