@@ -109,7 +109,7 @@ if(isset($records['token'])) {
 						'<?php echo $lang_Recruit_ApplicationForm_Qualifications;?>');
 
 		// compulsary fields
-		var compFields = new Array(0, 2, 3, 5, 6, 7, 8, 11, 12);
+		var compFields = new Array(0, 2, 3, 5, 6, 7, 11, 12);
 		var emailFields = new Array();
 		emailFields[0] = 11;
 		var phoneFields = new Array();
@@ -177,12 +177,12 @@ if(isset($records['token'])) {
                 alert("Qualification can't exceed more than 5000 characters");
                 return false;
             }
-			if (!numbers($('txtZip'))) {
+			/*if (!numbers($('txtZip'))) {
 	            if (!confirm('<?php echo $lang_Recruit_ZipContainsNonNumericChars; ?>')) {
 	                $('txtZip').focus();
 	                return false;
 	            }
-			}
+			}*/
 
 			return true;
 		}
@@ -306,7 +306,7 @@ if(isset($records['token'])) {
         <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"
                                value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" maxlength="50" /></div>
 
-		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?><span class="required">*</span></label>
+		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?></label>
         <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"
                value="<?php echo (isset($txtZip)) ? $txtZip : ''; ?>" maxlength="20" />
         <br class="clear"/>
