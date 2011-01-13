@@ -206,12 +206,12 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 $heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunctions::escapeHtml($applicantName);
 ?>
 <body class="yui-skin-sam">
+    <div class="navigation">
+        <input type="button" class="savebutton"
+            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Back;?>" />
+    </div><br />
     <div class="formpage">
-        <div class="navigation">
-	    	<input type="button" class="savebutton"
-		        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-		        value="<?php echo $lang_Common_Back;?>" />
-        </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
 
