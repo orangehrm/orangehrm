@@ -168,7 +168,7 @@ class applyLeaveAction extends sfAction {
     /**
      * Retrieve Eligible Leave Type
      */
-    protected function getElegibleLeaveTypes() {
+    protected function getEligibleLeaveTypes() {
         $leaveTypeChoices	=	array();
         $empId				=	$this->getEmployeeNumber() ;
         $employeeService	= 	$this->getEmployeeService();
@@ -189,7 +189,7 @@ class applyLeaveAction extends sfAction {
      */
     protected function getApplyLeaveForm() {
         //Check for available leave types
-        $leaveTypes = $this->getElegibleLeaveTypes();
+        $leaveTypes = $this->getEligibleLeaveTypes();
         if(count($leaveTypes) == 1) {
             $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Apply for Leave');
         }
@@ -261,25 +261,36 @@ class applyLeaveAction extends sfAction {
 
         //this is to see whether employee applies leave only during weekends or standard holidays
         if($holidayCount != count($leaves)) {
-            try {
-                $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
+            if($this->isEmployeeAllowedToApply($leaveType)) {
+                try {
+                    $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
 
-                if($this->form->isOverlapLeaveRequest()){
-                    $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                    if($this->form->isOverlapLeaveRequest()){
+                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                    }
+
+                    //sending leave apply notification
+
+                    $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
+                    $leaveApplicationMailer->send();
+
+                    $this->templateMessage = array('SUCCESS', 'Leave Request Successfully Submitted');
+                } catch(Exception $e) {
+                    $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
                 }
-
-                //sending leave apply notification
-
-                $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
-                $leaveApplicationMailer->send();
-
-                $this->templateMessage = array('SUCCESS', 'Leave Request Successfully Submitted');
-            } catch(Exception $e) {
-                $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
             }
         } else {
             $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
         }
+    }
+
+    /**
+     * isEmployeeAllowedToApply
+     * @param LeaveType $leaveType
+     * @returns boolean
+     */
+    protected function isEmployeeAllowedToApply(LeaveType $leaveType) {
+        return true;
     }
 }
 ?>

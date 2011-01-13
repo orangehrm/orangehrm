@@ -33,7 +33,7 @@ class LeaveEntitlementDao extends BaseDao{
                     ->where('ele.employee_id = ?',$empId)
                     ->andWhere('ele.leave_type_id = ?',$leaveTypeId)
                     ->andWhere('ele.leave_period_id = ?',$leavePeriodId);
-				
+
 			   $employeeLeaveEntitlement = $q->fetchOne();
 			   
 			   return $employeeLeaveEntitlement;

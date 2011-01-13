@@ -223,7 +223,7 @@ class LeaveRequestService extends BaseService {
      * @param LeaveType $leaveType
      * @return boolean
      */
-    /*public function isApplyToMoreThanCurrent(LeaveType $leaveType){
+    public function isApplyToMoreThanCurrent(LeaveType $leaveType){
 		try{
 			$leaveRuleEligibilityProcessor	=	new LeaveRuleEligibilityProcessor();
 			return $leaveRuleEligibilityProcessor->allowApplyToMoreThanCurrent($leaveType);
@@ -231,7 +231,7 @@ class LeaveRequestService extends BaseService {
 		}catch( Exception $e){
 			throw new LeaveServiceException($e->getMessage());
 		}
-	}*/
+	}
 
     /**
      *
@@ -310,7 +310,7 @@ class LeaveRequestService extends BaseService {
             if(strtotime($currentLeavePeriod->getStartDate()) < strtotime($leaveRequest->getDateApplied()) &&
                     strtotime($currentLeavePeriod->getEndDate()) > $leaveAppliedEndDateTimeStamp) {
                 if($leaveBalance < $applyDays) {
-                    throw new Exception('leave balance exceed',102);
+                    throw new Exception('Leave Balance Exceeded',102);
                 }
             }
 
@@ -321,7 +321,7 @@ class LeaveRequestService extends BaseService {
                 $endDateTimeStamp = strtotime($leavePeriodService->getCurrentLeavePeriod()->getEndDate());
                 $borderDays = date("d", ($endDateTimeStamp - strtotime($leaveRequest->getDateApplied())));
                 if($borderDays > $leaveBalance || $nextYearLeaveBalance < ($applyDays - $borderDays)) {
-                    throw new Exception("leave balance exceed:", 102);
+                    throw new Exception("Leave Balance Exceeded", 102);
                 }
             }
 
