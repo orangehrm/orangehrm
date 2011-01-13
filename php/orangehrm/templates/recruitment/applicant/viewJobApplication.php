@@ -172,6 +172,11 @@ if(isset($records['token'])) {
 			alert(msg);
 			return false;
 		} else {
+            //validation for qualification field
+            if(($('txtQualifications').value.trim()).length > 5000) {
+                alert("Qualification can't exceed more than 5000 characters");
+                return false;
+            }
 			if (!numbers($('txtZip'))) {
 	            if (!confirm('<?php echo $lang_Recruit_ZipContainsNonNumericChars; ?>')) {
 	                $('txtZip').focus();
@@ -259,30 +264,30 @@ if(isset($records['token'])) {
 
 		<label for="txtFirstName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?><span class="required">*</span></label>
         <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"
-        	value="<?php echo (isset($txtFirstName)) ? $txtFirstName : ''; ?>" />
+               value="<?php echo (isset($txtFirstName)) ? $txtFirstName : ''; ?>" maxlength="30" />
 
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
         <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"
-        	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" />
+        	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" maxlength="30" />
         <br class="clear"/>
 
 		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
         <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText"
-        	value="<?php echo (isset($txtLastName)) ? $txtLastName : ''; ?>" />
+               value="<?php echo (isset($txtLastName)) ? $txtLastName : ''; ?>" maxlength="30"/>
         <br class="clear"/>
 
 		<label for="txtStreet1"><?php echo $lang_Recruit_ApplicationForm_Street1; ?><span class="required">*</span></label>
         <input type="text" id="txtStreet1" name="txtStreet1" tabindex="4" class="formInputText"
-        	value="<?php echo (isset($txtStreet1)) ? $txtStreet1 : ''; ?>" />
+               value="<?php echo (isset($txtStreet1)) ? $txtStreet1 : ''; ?>" maxlength="50" />
 
 		<label for="txtStreet2"><?php echo $lang_Recruit_ApplicationForm_Street2; ?></label>
         <input type="text" id="txtStreet2" name="txtStreet2" tabindex="5" class="formInputText"
-        	value="<?php echo (isset($txtStreet2)) ? $txtStreet2 : ''; ?>" />
+               value="<?php echo (isset($txtStreet2)) ? $txtStreet2 : ''; ?>" maxlength="50" />
         <br class="clear"/>
 
 		<label for="txtCity"><?php echo $lang_Recruit_ApplicationForm_City; ?><span class="required">*</span></label>
         <input type="text" id="txtCity" name="txtCity" tabindex="6" class="formInputText"
-        	value="<?php echo (isset($txtCity)) ? $txtCity : ''; ?>" />
+               value="<?php echo (isset($txtCity)) ? $txtCity : ''; ?>" maxlength="50" />
 
 		<label for="txtCountry"><?php echo $lang_Recruit_ApplicationForm_Country; ?><span class="required">*</span></label>
 		<select  id="txtCountry" name="txtCountry" tabindex="7" class="formSelect"
@@ -299,25 +304,25 @@ if(isset($records['token'])) {
 
 		<label for="txtProvince"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?><span class="required">*</span></label>
         <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"
-        	value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" /></div>
+                               value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" maxlength="50" /></div>
 
 		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?><span class="required">*</span></label>
         <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"
-        	value="<?php echo (isset($txtZip)) ? $txtZip : ''; ?>" />
+               value="<?php echo (isset($txtZip)) ? $txtZip : ''; ?>" maxlength="20" />
         <br class="clear"/>
 
 		<label for="txtPhone"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></label>
         <input type="text" id="txtPhone" name="txtPhone" tabindex="10" class="formInputText"
-        	value="<?php echo (isset($txtPhone)) ? $txtPhone : ''; ?>" />
+               value="<?php echo (isset($txtPhone)) ? $txtPhone : ''; ?>" maxlength="20"/>
 
 		<label for="txtMobile"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></label>
         <input type="text" id="txtMobile" name="txtMobile" tabindex="11" class="formInputText"
-        	value="<?php echo (isset($txtMobile)) ? $txtMobile : ''; ?>" />
+               value="<?php echo (isset($txtMobile)) ? $txtMobile : ''; ?>" maxlength="20" />
         <br class="clear"/>
 
 		<label for="txtEmail"><?php echo $lang_Recruit_ApplicationForm_Email; ?><span class="required">*</span></label>
         <input type="text" id="txtEmail" name="txtEmail" tabindex="12" class="formInputText"
-        	value="<?php echo (isset($txtEmail)) ? $txtEmail : ''; ?>" />
+               value="<?php echo (isset($txtEmail)) ? $txtEmail : ''; ?>" maxlength="50" />
         <br class="clear"/>
 
 		<label for="txtQualifications"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?><span class="required">*</span></label>
