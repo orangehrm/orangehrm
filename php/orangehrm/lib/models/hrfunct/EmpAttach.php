@@ -163,7 +163,7 @@ class EmpAttach {
 		$this->getEmpId();
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpAttId() . "'";
-		$arrFieldList[2] = "'". $this->getEmpAttDesc() . "'";
+		$arrFieldList[2] = "'". mysql_real_escape_string($this->getEmpAttDesc()) . "'";
 		$arrFieldList[3] = "'". $this->getEmpAttFilename() . "'";
 		$arrFieldList[4] = "'". $this->getEmpAttSize() . "'";
 		$arrFieldList[5] = "'". $this->getEmpAttachment() . "'";
