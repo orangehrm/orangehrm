@@ -144,8 +144,8 @@ class EmpDependents {
 		
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpDSeqNo() . "'";
-		$arrFieldList[2] = "'". $this->getEmpDepName() . "'";
-		$arrFieldList[3] = "'". $this->getEmpDepRel() . "'";
+		$arrFieldList[2] = "'". mysql_real_escape_string($this->getEmpDepName()) . "'";
+		$arrFieldList[3] = "'". mysql_real_escape_string($this->getEmpDepRel()) . "'";
 		
 			
 		$tableName = 'HS_HR_EMP_DEPENDENTS';
@@ -169,8 +169,8 @@ class EmpDependents {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEmpDSeqNo() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpDepName() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpDepRel() . "'";
+		$arrRecordsList[2] = "'". mysql_real_escape_string($this->getEmpDepName()) . "'";
+		$arrRecordsList[3] = "'". mysql_real_escape_string($this->getEmpDepRel()) . "'";
 				
 
 		$tableName = 'HS_HR_EMP_DEPENDENTS';
