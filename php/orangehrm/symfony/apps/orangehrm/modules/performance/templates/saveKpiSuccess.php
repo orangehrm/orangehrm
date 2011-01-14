@@ -24,8 +24,8 @@
                      </select>
                    <br class="clear"/>
                    <label for="txtDescription"><?php echo __('Key Performance Indicator')?><span class="required">*</span></label>
-                   <textarea id='txtDescription' name='txtDescription' class="formTextArea"
-                    rows="3" cols="20" tabindex="2"></textarea>
+                   <textarea id='txtDescription' name='txtDescription'
+                    rows="4" cols="40" tabindex="2"></textarea>
              		 <br class="clear"/>
              		 <label for="txtMinRate"><?php echo __('Minimum Rating')?></label>
                     <input id="txtMinRate"  name="txtMinRate" type="text"  class="formInputText" value="<?php echo $defaultRate['min']?>" tabindex="3" />
