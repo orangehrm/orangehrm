@@ -38,10 +38,10 @@ function populateStates($country) {
 		$xajaxFiller = new xajaxElementFiller();
 		$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 		$objResponse->addAssign('state','innerHTML',
-				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8" class="formSelect"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
+				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8" class="formSelect" maxlength="50"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse, $provinceList, 1, 'fromJobApplication.state', 'txtProvince');
 	} else {
-		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText">');
+		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" maxlength="50" class="formInputText">');
 	}
 	$objResponse->addScript('_changeToSavedProvince();hideLoading();formJobApplication.txtProvince.focus();');
 	return $objResponse->getXML();
@@ -264,16 +264,16 @@ if(isset($records['token'])) {
 
 		<label for="txtFirstName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?><span class="required">*</span></label>
         <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"
-               value="<?php echo (isset($txtFirstName)) ? $txtFirstName : ''; ?>" maxlength="30" />
+               value="<?php echo (isset($txtFirstName)) ? $txtFirstName : ''; ?>" maxlength="50" />
 
 		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
         <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"
-        	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" maxlength="30" />
+        	value="<?php echo (isset($txtMiddleName)) ? $txtMiddleName : ''; ?>" maxlength="50" />
         <br class="clear"/>
 
 		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
         <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText"
-               value="<?php echo (isset($txtLastName)) ? $txtLastName : ''; ?>" maxlength="30"/>
+               value="<?php echo (isset($txtLastName)) ? $txtLastName : ''; ?>" maxlength="50"/>
         <br class="clear"/>
 
 		<label for="txtStreet1"><?php echo $lang_Recruit_ApplicationForm_Street1; ?><span class="required">*</span></label>
@@ -303,8 +303,8 @@ if(isset($records['token'])) {
          <br class="clear"/>
 
 		<label for="txtProvince"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?><span class="required">*</span></label>
-        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"
-                               value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" maxlength="50" /></div>
+        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText" maxlength="50"
+                               value="<?php echo (isset($txtProvince)) ? $txtProvince : ''; ?>" /></div>
 
 		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?></label>
         <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"
