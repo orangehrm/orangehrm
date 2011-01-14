@@ -53,7 +53,7 @@ $arrTaxStatus = array (EmpTax::TAX_STATUS_MARRIED => $lang_hrEmpMain_TaxStatusMa
 		<td width="60">&nbsp;</td>
 		<td><?php echo $lang_hrEmpMain_TaxExemptions; ?></td>
   		<td><input type="text" size="5" <?php echo $disabled;?> name="taxFederalExceptions" id="taxFederalExceptions"
-  				value="<?php echo (isset($this->postArr['taxFederalExceptions'])) ? CommonFunctions::escapeHtml($this->postArr['taxFederalExceptions']):CommonFunctions::escapeHtml($editTaxInfo['tax_federal_exceptions']);?>"/>
+                   value="<?php echo (isset($this->postArr['taxFederalExceptions'])) ? CommonFunctions::escapeHtml($this->postArr['taxFederalExceptions']):CommonFunctions::escapeHtml($editTaxInfo['tax_federal_exceptions']);?>" maxlength="8" />
   		</td>
 	</tr>
     <tr>
@@ -94,7 +94,7 @@ $arrTaxStatus = array (EmpTax::TAX_STATUS_MARRIED => $lang_hrEmpMain_TaxStatusMa
 		<tr>
 		<td><?php echo $lang_hrEmpMain_TaxExemptions?></td>
 		<td><input type="text" size="5" <?php echo $disabled;?> name="taxStateExceptions" id="taxStateExceptions"
-			value="<?php echo (isset($this->postArr['taxStateExceptions']))?CommonFunctions::escapeHtml($this->postArr['taxStateExceptions']):CommonFunctions::escapeHtml($editTaxInfo['tax_state_exceptions']);?>"/>
+                   value="<?php echo (isset($this->postArr['taxStateExceptions']))?CommonFunctions::escapeHtml($this->postArr['taxStateExceptions']):CommonFunctions::escapeHtml($editTaxInfo['tax_state_exceptions']);?>" maxlength="8"/>
 		</td>
 		</tr>
 		<tr>
