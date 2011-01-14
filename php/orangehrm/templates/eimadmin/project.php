@@ -331,7 +331,7 @@ for ($i=0;$i<count($employees);$i++) {
 
 			<label for="txtName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>"
-            	tabindex="2" class="formInputText" <?php echo $disabled; ?> />
+                   tabindex="2" class="formInputText" <?php echo $disabled; ?>  maxlength="60"/>
             <br class="clear"/>
 
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>

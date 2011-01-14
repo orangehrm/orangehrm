@@ -200,7 +200,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 </script>
 <div id="status"></div>
 <div class="formpage">
-    <div class="outerbox">
+    <div class="outerbox" style="width:600px;">
         <div class="mainHeading"><h2><?php echo $lang_Time_ProjectReportTitle;?></h2></div>
     
     <?php if (isset($_GET['message'])) {    

@@ -377,7 +377,7 @@ if (!empty($projectId)) {
                         
 			<div id ="addActivityLayer" style="display:none;">
 		    	<label for="activityName"><?php echo $lang_Admin_Activity; ?></label>
-	            <input type="text" name="activityName" id="activityName" value="" class="formInputText"/>
+                <input type="text" name="activityName" id="activityName" value="" class="formInputText" maxlength="60" />
                 <br class="clear"/>
                                 
                  <div class="formbuttons">

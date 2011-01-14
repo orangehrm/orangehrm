@@ -225,7 +225,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 </style>
 <div id="status"></div>
 <div class="formpage">
-    <div class="outerbox">
+    <div class="outerbox" style="width:600px;">
         <div class="mainHeading"><h2><?php echo $lang_Time_EmployeeTimeReportTitle;?></h2></div>
 
     <?php if (isset($_GET['message'])) {
@@ -246,7 +246,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
-				<div class="yui-skin-sam" style="float:left;margin-right:10px;">
+				<div class="yui-skin-sam" style="float:left;">
 		            <div id="employeeSearchAC" style="width:150px;">
 						<input type="text" name="cmbRepEmpID" id="cmbRepEmpID" style="margin:0px 0px 2px 0px; color:#999999" autocomplete="off"
 							value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="formatAutoCompleteField(this)" />
@@ -281,8 +281,15 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 				<?php } ?>
 				</select>
 			</td>
-			<td><label><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)"> Show Deleted</label></td>
+			<td>&nbsp;</td>
 		</tr>
+        <tr>
+            <td></td>
+			<td>&nbsp;</td>
+			<td ></td>
+            <td><input type="checkbox" id="cbxDeleted" name="cbxDeleted" onClick="getProjectlist(this.checked)">Show Deleted</td>
+            <td>&nbsp;</td>
+        </tr>
 		<tr>
 			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Activity; ?></td>
