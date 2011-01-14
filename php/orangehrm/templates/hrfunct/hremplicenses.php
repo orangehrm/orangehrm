@@ -55,6 +55,24 @@ function addEXTLicense() {
 		return;
 	}
 
+    var cnt = document.frmEmp.atxtEmpLicDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.atxtEmpreDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
+
 	if(toDate <= fromDate){
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 		return;
@@ -69,6 +87,24 @@ function editEXTLicense() {
 
 	var fromDate = strToDate(document.getElementById('etxtEmpLicDat').value, YAHOO.OrangeHRM.calendar.format);
 	var toDate = strToDate(document.getElementById('etxtEmpreDat').value, YAHOO.OrangeHRM.calendar.format);
+
+    var cnt = document.frmEmp.etxtEmpLicDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.etxtEmpreDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
 
 	if(fromDate >= toDate){
 		alert('<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>');

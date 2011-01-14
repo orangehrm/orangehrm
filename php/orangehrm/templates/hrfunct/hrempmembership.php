@@ -70,6 +70,24 @@ function addEXTMembership() {
 
 	}
 
+    var cnt = document.frmEmp.atxtMemCommDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Commence Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.atxtMemRenDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Renewal Date");
+            return;
+        }
+    }
+
 	var commDate = strToDate(document.getElementById('atxtMemCommDat').value, YAHOO.OrangeHRM.calendar.format);
 	var renDate = strToDate(document.getElementById('atxtMemRenDat').value, YAHOO.OrangeHRM.calendar.format);
 
@@ -93,6 +111,24 @@ function editEXTMembership() {
 
 	var commDate = strToDate(document.getElementById('etxtMemCommDat').value, YAHOO.OrangeHRM.calendar.format);
 	var renDate = strToDate(document.getElementById('etxtMemRenDat').value, YAHOO.OrangeHRM.calendar.format);
+
+    var cnt = document.frmEmp.etxtMemCommDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Commence Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.etxtMemRenDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Renewal Date");
+            return;
+        }
+    }
 
 	if(commDate >= renDate) {
 		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");

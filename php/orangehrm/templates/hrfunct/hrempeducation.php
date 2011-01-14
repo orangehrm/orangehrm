@@ -49,6 +49,24 @@ function addEXTEducation() {
 			return;
 	}
 
+    var cnt = document.frmEmp.atxtEmpEduStartDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.atxtEmpEduEndDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
+
 	startDate = strToDate(document.getElementById('atxtEmpEduStartDate').value, YAHOO.OrangeHRM.calendar.format);
 	endDate = strToDate(document.getElementById('atxtEmpEduEndDate').value, YAHOO.OrangeHRM.calendar.format);
 
@@ -69,6 +87,24 @@ function editEXTEducation() {
 			txt.focus();
 			return;
 	}
+
+    var cnt = document.frmEmp.etxtEmpEduStartDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.etxtEmpEduEndDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
 
 	startDate = strToDate(document.getElementById('etxtEmpEduStartDate').value, YAHOO.OrangeHRM.calendar.format);
 	endDate = strToDate(document.getElementById('etxtEmpEduEndDate').value, YAHOO.OrangeHRM.calendar.format);

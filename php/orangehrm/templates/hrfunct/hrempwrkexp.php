@@ -84,6 +84,24 @@ function addEXTWrkExp() {
 	var toDate = strToDate(document.getElementById('atxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('atxtEmpExpToDate').value;
 
+    var cnt = document.frmEmp.atxtEmpExpFromDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.atxtEmpExpToDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
+
 	if (toDate && (fromDate > toDate)) {
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 
@@ -121,6 +139,23 @@ function editEXTWrkExp() {
 	var toDate = strToDate(document.getElementById('etxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('etxtEmpExpToDate').value;
 
+    var cnt = document.frmEmp.etxtEmpExpFromDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Start Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.etxtEmpExpToDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid End Date");
+            return;
+        }
+    }
 
 ///////////To validate the date fields
 
