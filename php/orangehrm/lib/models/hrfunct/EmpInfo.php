@@ -905,10 +905,10 @@ class EmpInfo {
         $this->empId = UniqueIDGenerator :: getInstance()->getNextID($tableName, 'EMP_NUMBER');
 
         $arrRecordsList[0] = "'" . $this->getEmpId() . "'";
-        $arrRecordsList[1] = "'" . $this->getEmpLastName() . "'";
-        $arrRecordsList[2] = "'" . $this->getEmpFirstName() . "'";
-        $arrRecordsList[3] = "'" . $this->getEmpNickName() . "'";
-        $arrRecordsList[4] = "'" . $this->getEmpMiddleName() . "'";
+        $arrRecordsList[1] = "'" . mysql_real_escape_string($this->getEmpLastName()) . "'";
+        $arrRecordsList[2] = "'" . mysql_real_escape_string($this->getEmpFirstName()) . "'";
+        $arrRecordsList[3] = "'" . mysql_real_escape_string($this->getEmpNickName()) . "'";
+        $arrRecordsList[4] = "'" . mysql_real_escape_string($this->getEmpMiddleName()) . "'";
         $arrRecordsList[5] = "'" . $this->getEmployeeId() . "'";
 
         $arrFieldList[0] = 'EMP_NUMBER';
@@ -937,10 +937,10 @@ class EmpInfo {
     function updateEmpMain() {
 
         $arrRecordsList[0] = "'" . $this->getEmpId() . "'";
-        $arrRecordsList[1] = "'" . $this->getEmpLastName() . "'";
-        $arrRecordsList[2] = "'" . $this->getEmpFirstName() . "'";
-        $arrRecordsList[3] = "'" . $this->getEmpNickName() . "'";
-        $arrRecordsList[4] = "'" . $this->getEmpMiddleName() . "'";
+        $arrRecordsList[1] = "'" . mysql_real_escape_string($this->getEmpLastName()) . "'";
+        $arrRecordsList[2] = "'" . mysql_real_escape_string($this->getEmpFirstName()) . "'";
+        $arrRecordsList[3] = "'" . mysql_real_escape_string($this->getEmpNickName()) . "'";
+        $arrRecordsList[4] = "'" . mysql_real_escape_string($this->getEmpMiddleName()) . "'";
 
         $tableName = 'HS_HR_EMPLOYEE';
 
