@@ -191,7 +191,7 @@ class EmpAttach {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEmpAttId() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpAttDesc() . "'";
+		$arrRecordsList[2] = "'". mysql_real_escape_string($this->getEmpAttDesc()) . "'";
 	
 		$tableName = 'HS_HR_EMP_ATTACHMENT';
 		$arrFieldList[0] = 'EMP_NUMBER';
