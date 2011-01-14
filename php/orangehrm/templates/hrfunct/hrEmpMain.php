@@ -272,6 +272,39 @@ $objAjax->printJavascript();
 include ROOT_PATH."/lib/common/calendar.php"; ?>
 
 <script type="text/javascript"><!--//--><![CDATA[//><!--
+function validateDate(day, month, year) {
+   var days31 = new Array(1,3,5,7,8,10,12);
+
+   if(month > 12 || month < 1) {
+      return false;
+   }
+
+   if(day == 29 && month == 2) {
+      if(year % 4 == 0) {
+         return true;
+      }
+   }
+
+   if(month == 2 && day < 29) {
+      return true;
+   }
+
+   if(day < 32 && month != 2) {
+      if(day == 31) {
+         flag = false;
+         for(i=0; i < days31.length; i++) {
+            if(days31[i] == month) {
+               flag = true;
+               break;
+            }
+         }
+         return flag;
+      }
+      return true;
+   }
+   return false;
+}
+
 
 function MM_findObj(n, d) { //v4.01
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -441,7 +474,7 @@ function editEmpMain() {
 								"txtLicExpDate",
 								"txtState",
 								"cmbCity",
-								"txtHmTelep",
+								"txtHmTelep"
 								"txtWorkTelep",
 								"txtOtherEmail",
 								"txtStreet1",
@@ -481,7 +514,7 @@ function editEmpMain() {
         editButtons[i].title="<?php echo $lang_Common_Save; ?>";
         editButtons[i].className = "savebutton";
     }
-
+  
 	document.frmEmp.EditMode.value='1';
 
 <?php } else { ?>
@@ -509,6 +542,24 @@ function updateEmpMain() {
 		cnt.focus();
 		return;
 	}
+
+    var cnt = document.frmEmp.DOB;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Date of Birth");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.txtLicExpDate;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Licence Expiry Date");
+            return;
+        }
+    }
 
 	var cnt = document.frmEmp.txtEmpMiddleName;
 

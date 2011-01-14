@@ -48,11 +48,20 @@ function addChildren() {
 		return;
 	}
 
-	if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.ChiDOB.value)) {
+	/*if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.ChiDOB.value)) {
 		alert('<?php echo $lang_Error_ChildDobInvalid; ?>');
 		document.frmEmp.DOB.focus();
 		return;
-	}
+	}*/
+
+    var cnt = document.frmEmp.ChiDOB;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("<?php echo $lang_Error_ChildDobInvalid; ?>");
+            return;
+        }
+    }
 
 	document.frmEmp.childrenSTAT.value="ADD";
 	qCombo(3);
@@ -66,6 +75,15 @@ function viewChildren(cSeq) {
 
 function editChildren() {
 	document.frmEmp.childrenSTAT.value="EDIT";
+
+    var cnt = document.frmEmp.ChiDOB;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("<?php echo $lang_Error_ChildDobInvalid; ?>");
+            return;
+        }
+    }
 	qCombo(3);
 }
 

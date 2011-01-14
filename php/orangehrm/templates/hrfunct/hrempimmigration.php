@@ -68,6 +68,24 @@ function addPassport() {
 	startDate = strToDate(document.getElementById('atxtPPIssDat').value, YAHOO.OrangeHRM.calendar.format);
 	endDate = strToDate(document.getElementById('atxtPPExpDat').value, YAHOO.OrangeHRM.calendar.format);
 
+    var cnt = document.frmEmp.atxtI9ReviewDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid I9 Review Date");
+            return;
+        }
+    }
+
+    var cnt = document.frmEmp.atxtPPIssDat;
+    if(cnt.value.length > 0 && cnt.value != 'YYYY-mm-DD') {
+        var dt = cnt.value.split("-");
+        if(!validateDate(dt[2], dt[1], dt[0])) {
+            alert("Invalid Issued Date");
+            return;
+        }
+    }
+
 	if(startDate >= endDate) {
 		alert("<?php echo $lang_hremp_IssedDateShouldBeBeforeExp; ?>");
 		return;

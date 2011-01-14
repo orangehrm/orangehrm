@@ -75,7 +75,7 @@
 		value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$ssnNumber;?>"/>
 
 <?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-		<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$ssnNumber;?>" />
+		<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$ssnNumber;?>" maxlength="100" />
 <?php } ?>
 
 	<label for="cmbNation"><?php echo $lang_hremp_nationality?></label>
