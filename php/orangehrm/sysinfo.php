@@ -120,7 +120,7 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$ohrmVersion = "2.6.1-rc.1";
+$ohrmVersion = "2.6.1-rc.2";
 
 if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
 	$conf = new Conf();
