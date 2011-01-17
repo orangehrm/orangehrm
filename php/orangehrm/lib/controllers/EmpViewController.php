@@ -1823,8 +1823,9 @@ class EmpViewController {
 
 							}
 
+                            $form_creator->popArr['salGrdCurrList'] = $empbassal->getAllCurrCodesForSalaryGrade($salGrd);
 							$form_creator->popArr['unAssCurrList'] = $empbassal->getUnAssCurrCodes($salGrd,$getArr['id']);
-
+//assigned basic salary
 							$form_creator->popArr['rsetPayment'] = $empbassal->getAssEmpBasSal($getArr['id']);
 						    $form_creator->popArr['currAlllist'] = $currTyp->getAllCurrencyCodes();
 

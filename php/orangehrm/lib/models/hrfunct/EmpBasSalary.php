@@ -436,6 +436,37 @@ class EmpBasSalary {
 		}
 	}
 
+	function getAllCurrCodesForSalaryGrade($salGrd) {
+
+		$sqlQString = "SELECT b.CURRENCY_NAME, a.* FROM HS_PR_SALARY_CURRENCY_DETAIL a, HS_HR_CURRENCY_TYPE b WHERE a.SAL_GRD_CODE = '" . $salGrd . "'";
+		$sqlQString = strtolower($sqlQString);
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+            $currency = $line[2];
+	    	$arrayDispList[$currency][1] = $line[1];
+	    	$arrayDispList[$currency][2] = $line[2];
+	    	$arrayDispList[$currency][3] = $line[3];
+	    	$arrayDispList[$currency][4] = $line[4];
+	    	$arrayDispList[$currency][5] = $line[5];
+	     }
+
+	     if (isset($arrayDispList)) {
+
+			return $arrayDispList;
+
+		} else {
+
+			$arrayDispList = '';
+			return $arrayDispList;
+
+		}
+	}
+
 
 }
 
