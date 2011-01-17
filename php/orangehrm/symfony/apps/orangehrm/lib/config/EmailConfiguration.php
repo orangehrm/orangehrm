@@ -155,6 +155,32 @@ class EmailConfiguration {
 
         file_put_contents($this->confPath, sfYaml::dump($confData));
 
+        // TODO: This should be removed after every module is converted into Symfony
+        $this->_saveOldEmailConfiguration();
+
+    }
+
+    private function _saveOldEmailConfiguration() {
+
+		$content = '
+<?php
+	$this->smtpHost = \''.$this->smtpHost.'\';
+	$this->smtpUser = \''.$this->smtpUsername.'\';
+	$this->smtpPass = \''.$this->smtpPassword.'\';
+	$this->smtpPort = \''.$this->smtpPort.'\';
+
+	$this->sendmailPath = \''.$this->sendmailPath.'\';
+
+	$this->mailType = \''.$this->mailType.'\';
+	$this->mailAddress = \''.$this->sentAs.'\';
+	$this->smtpAuth = \''.$this->smtpAuthType.'\';
+	$this->smtpSecurity = \''.$this->smtpSecurityType.'\';
+?>';
+
+        $oldConfigPath = ROOT_PATH . '/lib/confs/mailConf.php';
+
+		return file_put_contents($oldConfigPath, $content);
+
     }
 
 }
