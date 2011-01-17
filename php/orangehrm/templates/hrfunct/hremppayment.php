@@ -228,6 +228,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
                        				<option value="<?php echo $edit[0][2]?>" selected='selected' ><?php echo CommonFunctions::escapeHtml($selectedValue) ?></option>;
 <?php
 									$curlist= $this->popArr['unAssCurrList'];
+                                    $currenciesAvailable = array();
 									for($c=0;$curlist && count($curlist)>$c;$c++){ ?>
 											  <option value="<?php echo $curlist[$c][2]?>" <?php echo($edit[0][2] == $curlist[$c][2])?"selected='selected'":"" ?> ><?php echo CommonFunctions::escapeHtml($curlist[$c][0]) ?></option>;
 <?php 								}?>
@@ -439,10 +440,11 @@ if (($rset != null) && ($currlist != null)) { ?>
 		</thead>
 		<tbody>
 <?php
-
+    $currenciesAvailable = $this->popArr['salGrdCurrList'];
     for($c=0; $rset && $c < count($rset); $c++) {
 		$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
+        if(isset($currenciesAvailable[$rset[$c][2]])) {
             echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($currlist)>$a;$a++)
 			    if($currlist[$a][0]==$rset[$c][2])
@@ -459,7 +461,9 @@ if (($rset != null) && ($currlist != null)) { ?>
             	}
             }
             echo '<td>' . CommonFunctions::escapeHtml($payFrequency) .'</td>';
-        echo '</tr>'; ?>
+        echo '</tr>';
+        }
+        ?>
    <script language='javascript'>
    <?php if($edit[0][2] != $rset[$c][2]){ ?>
    			currency[<?php echo $c ?>] = '<?php echo $rset[$c][2];?>';
