@@ -166,12 +166,14 @@ if(isset($this->getArr['LIC'])) {
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="etxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpLicDat'])):LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
-							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
+                            <input type="text" name="txtEmpLicDat" class="formDateInput" id="etxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpLicDat'])):LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" maxlength="10" />
+							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" />
+
+                        </td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="etxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpreDat'])):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+							<input type="text" name="txtEmpreDat" id="etxtEmpreDat" class="formDateInput" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate(CommonFunctions::escapeHtml($this->popArr['txtEmpreDat'])):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" maxlength="10"/>
 							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 					 <tr>
