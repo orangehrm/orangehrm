@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.6.1-rc.2
+
+    Bug Fixes
+    ---------
+    Bug fixes in Admin, PIM, Time, Recruitment and Performance modules.
+
 New & Changed Features for OrangeHRM ver 2.6.1-rc.1
 
     Bug Fixes
