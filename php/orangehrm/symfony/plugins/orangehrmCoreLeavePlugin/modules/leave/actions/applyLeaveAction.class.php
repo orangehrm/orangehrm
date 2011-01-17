@@ -168,7 +168,7 @@ class applyLeaveAction extends sfAction {
     /**
      * Retrieve Eligible Leave Type
      */
-    protected function getEligibleLeaveTypes() {
+    protected function getElegibleLeaveTypes() {
         $leaveTypeChoices	=	array();
         $empId				=	$this->getEmployeeNumber() ;
         $employeeService	= 	$this->getEmployeeService();
@@ -189,7 +189,7 @@ class applyLeaveAction extends sfAction {
      */
     protected function getApplyLeaveForm() {
         //Check for available leave types
-        $leaveTypes = $this->getEligibleLeaveTypes();
+        $leaveTypes = $this->getElegibleLeaveTypes();
         if(count($leaveTypes) == 1) {
             $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Apply for Leave');
         }

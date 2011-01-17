@@ -168,7 +168,7 @@ class assignLeaveAction extends sfAction {
     /**
      * Retrieve Leave Type List
      */
-    protected function getLeaveTypes() {
+    protected function getElegibleLeaveTypes() {
         $leaveTypeChoices =	array();
         $leaveTypeList =	$this->getLeaveTypeService()->getLeaveTypeList();
 
@@ -184,10 +184,10 @@ class assignLeaveAction extends sfAction {
      */
     protected function getAssignLeaveForm() {
         //making the optional parameters to create the form
-        $leaveTypes = $this->getLeaveTypes();
+        $leaveTypes = $this->getElegibleLeaveTypes();
         $userDetails = $this->getLoggedInUserDetails();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', 'Leave Types Should Be Defined Prior to Using This Module. Please Contact HR Admin');
+            $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Assign Leave, Please contact HR Admin');
         }
         $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
                 'loggedUserId' => $userDetails['loggedUserId']);
@@ -262,25 +262,35 @@ class assignLeaveAction extends sfAction {
 
         //this is to see whether employee applies leave only during weekends or standard holidays
         if($holidayCount != count($leaves)) {
-            try {
-                $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
+            if($this->isEmployeeAllowedToApply($leaveType)) {
+                try {
+                    $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
 
-                if($this->form->isOverlapLeaveRequest()){
-                    $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                    if($this->form->isOverlapLeaveRequest()){
+                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                    }
+
+                    //send notification to the when leave is assigned
+                    $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);
+                    $leaveAssignmentMailer->send();
+
+                    $this->templateMessage = array('SUCCESS', 'Leave Successfully Assigned');
+                } catch(Exception $e) {
+                    $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
                 }
-                
-                //send notification to the when leave is assigned
-
-                $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);
-                $leaveAssignmentMailer->send();
-
-                $this->templateMessage = array('SUCCESS', 'Leave Successfully Assigned');
-            } catch(Exception $e) {
-                $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
             }
         } else {
             $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
         }
+    }
+
+    /**
+     * isEmployeeAllowedToApply
+     * @param LeaveType $leaveType
+     * @returns boolean
+     */
+    protected function isEmployeeAllowedToApply(LeaveType $leaveType) {
+        return true;
     }
 }
 ?>
