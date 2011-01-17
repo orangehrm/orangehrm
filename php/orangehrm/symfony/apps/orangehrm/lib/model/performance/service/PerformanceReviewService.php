@@ -198,8 +198,6 @@ class PerformanceReviewService extends BaseService {
 
                     $to = $subscription->getEmail();
 
-                    echo $to; die;
-
                     $content    =   file_get_contents(sfConfig::get('sf_root_dir')."/apps/orangehrm/templates/mail/".self::EMAIL_TEMPLATE_REVIWER_SUBMIT);
                     $varibles   =   array('#reviwer'=>$performanceReview->getReviewer()->getFirstName().' '.$performanceReview->getReviewer()->getLastName(),
                                           '#employee'=>$performanceReview->getEmployee()->getFirstName().' '.$performanceReview->getEmployee()->getLastName());
