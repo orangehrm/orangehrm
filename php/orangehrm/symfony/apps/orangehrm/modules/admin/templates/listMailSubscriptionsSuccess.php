@@ -36,15 +36,15 @@
 	          
 	            <input type="checkbox"  class="formCheckbox" value="4" name="notificationMessageStatus[]" <?php if(isset($notficationList[4]) && $notficationList[4]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
-	                  <label for="txtSkillName"><?php echo __("New employee hire approval requests")?></label>
+	                  <label for="txtSkillName"><?php echo __("New Employee Hire Approval Requests")?></label>
 	           
 	            <input type="checkbox"  class="formCheckbox" value="5" name="notificationMessageStatus[]" <?php if(isset($notficationList[5]) && $notficationList[5]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
-	                  <label for="txtSkillName"><?php echo __("Tasks sent on hiring of employee")?></label>
+	                  <label for="txtSkillName"><?php echo __("Tasks Sent on Hiring of Employee")?></label>
 	          
 	            <input type="checkbox"  class="formCheckbox" value="6" name="notificationMessageStatus[]" <?php if(isset($notficationList[6]) && $notficationList[6]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
-	                  <label for="txtSkillName"><?php echo __("Notifications of hiring new employees")?></label>
+	                  <label for="txtSkillName"><?php echo __("Notifications of Hiring New Employees")?></label>
 	            
 	            <input type="checkbox"  class="formCheckbox" value="7" name="notificationMessageStatus[]" <?php if(isset($notficationList[7]) && $notficationList[7]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
@@ -52,7 +52,10 @@
 	            
 	            <input type="checkbox"  class="formCheckbox" value="3" name="notificationMessageStatus[]" <?php if(isset($notficationList[3]) && $notficationList[3]==1){ echo "checked='checked'";}?>/>
 	            <br class="clear"/>
-	      
+	                  <label for="txtSkillName"><?php echo __("Performance Review Submissions")?></label>
+
+	            <input type="checkbox"  class="formCheckbox" value="8" name="notificationMessageStatus[]" <?php if(isset($notficationList[8]) && $notficationList[8]==1){ echo "checked='checked'";}?>/>
+	            <br class="clear"/>
 	
 	                <div class="formbuttons">
 	                    <input type="button" value="<?php echo __("Edit")?>"   id="editBtn" class="editbutton"/>

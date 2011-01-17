@@ -10,6 +10,7 @@ class MailNotification extends BaseMailNotification
     const LEAVE_APPROVAL = 2;
     const LEAVE_CANCELLATION = 0;
     const LEAVE_REJECTION = -1;
+    const PERFORMANCE_SUBMISSION = 8;
 
     const STATUS_SUBSCRIBED = 1;
 

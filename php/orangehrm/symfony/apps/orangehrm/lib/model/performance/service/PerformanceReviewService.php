@@ -185,23 +185,37 @@ class PerformanceReviewService extends BaseService {
      * PerformanceReview $performanceReview
      * @return boolean
      */
-    public function sendReviwerSubmitEmail( PerformanceReview $performanceReview ){
+    public function sendReviwerSubmitEmail(PerformanceReview $performanceReview ){
+
         try{
-            $userEmail  =   $performanceReview->getCreator()->getEmail1();
-            $workEmail  =   ($performanceReview->getCreator()->getEmployee() instanceof Employee )?$performanceReview->getCreator()->getEmployee()->getEmpWorkEmail():'';
-            if ($userEmail !='' || $workEmail !='') {
-                $content    =   file_get_contents(sfConfig::get('sf_root_dir')."/apps/orangehrm/templates/mail/".self::EMAIL_TEMPLATE_REVIWER_SUBMIT);
-                $varibles   =   array('#reviwer'=>$performanceReview->getReviewer()->getFirstName().' '.$performanceReview->getReviewer()->getLastName(),
-                                      '#employee'=>$performanceReview->getEmployee()->getFirstName().' '.$performanceReview->getEmployee()->getLastName());
-                $mailBody   =   strtr($content, $varibles);
-                $email      =   ( $userEmail != '')?$userEmail:$workEmail;
-                $mailService    = new EmailService();
-                $mailService->setMessageTo(array($email));
-                $mailService->setMessageSubject("Performance Review Submitted");
-                $mailService->setMessageBody($mailBody);
-                @$mailService->sendEmail();
+
+            $mailNotificationService = new MailService();
+            $subscription = $mailNotificationService->getSubscription(MailNotification::PERFORMANCE_SUBMISSION);
+
+            if ($subscription instanceof MailNotification) {
+
+                if ($subscription->getStatus() == MailNotification::STATUS_SUBSCRIBED) {
+
+                    $to = $subscription->getEmail();
+
+                    echo $to; die;
+
+                    $content    =   file_get_contents(sfConfig::get('sf_root_dir')."/apps/orangehrm/templates/mail/".self::EMAIL_TEMPLATE_REVIWER_SUBMIT);
+                    $varibles   =   array('#reviwer'=>$performanceReview->getReviewer()->getFirstName().' '.$performanceReview->getReviewer()->getLastName(),
+                                          '#employee'=>$performanceReview->getEmployee()->getFirstName().' '.$performanceReview->getEmployee()->getLastName());
+                    $mailBody   =   strtr($content, $varibles);
+                    $mailService    = new EmailService();
+                    $mailService->setMessageTo(array($to));
+                    $mailService->setMessageSubject("Performance Review Submitted");
+                    $mailService->setMessageBody($mailBody);
+                    @$mailService->sendEmail();
+
+                }
+
             }
-            return true ;
+
+            return true;
+
         } catch( Exception $e) {
             throw new AdminServiceException($e->getMessage());
         }
