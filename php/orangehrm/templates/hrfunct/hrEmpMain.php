@@ -795,36 +795,6 @@ function showHideSubMenu(link) {
 
 	link.className = newClass;
 }
-function leaveFormSubmission(redirect) {
-//$("#" + formId).submit();
-//document.frmLeaveList.submit();
-//document.getElementById(formId).submit();
-    var frm = document.getElementById("frmEmp");
-    var input = document.createElement("input");
-    var empId = "";
-    <?php if (!empty($escapedId)) {?>
-            empId = <?php echo $escapedId;?>;
-    <?php }?>
-    input.setAttribute("type", "hidden");
-
-    if(redirect == "leaveList") {
-        frm.action = "../../symfony/web/index.php/leave/viewLeaveList";
-
-        //any user tries accesses his own information
-        <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $escapedId) {?>
-        frm.action = "../../symfony/web/index.php/leave/viewMyLeaveList";
-        <?php }?>
-        input.setAttribute("name", "txtEmpID");
-    }
-
-    if(redirect == "leaveSummary") {
-        frm.action = "../../symfony/web/index.php/leave/viewLeaveSummary";
-        input.setAttribute("name", "employeeId");
-    }
-    input.setAttribute("value", empId);
-    frm.appendChild(input);
-    frm.submit();
-}
 tableDisplayStyle = "table";
 //--><!]]></script>
 <!--[if IE]>
@@ -1288,6 +1258,38 @@ tableDisplayStyle = "table";
 				</ul>
 		</li>
         <!-- adding leave section here -->
+<script language="javascript">
+function leaveFormSubmission(redirect) {
+//$("#" + formId).submit();
+//document.frmLeaveList.submit();
+//document.getElementById(formId).submit();
+    var frm = document.getElementById("frmEmp");
+    var input = document.createElement("input");
+    var empId = "";
+    <?php if (!empty($escapedId)) {?>
+            empId = <?php echo $escapedId;?>;
+    <?php }?>
+    input.setAttribute("type", "hidden");
+
+    if(redirect == "leaveList") {
+        frm.action = "../../symfony/web/index.php/leave/viewLeaveList";
+
+        //any user tries accesses his own information
+        <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $escapedId) {?>
+        frm.action = "../../symfony/web/index.php/leave/viewMyLeaveList";
+        <?php }?>
+        input.setAttribute("name", "txtEmpID");
+    }
+
+    if(redirect == "leaveSummary") {
+        frm.action = "../../symfony/web/index.php/leave/viewLeaveSummary";
+        input.setAttribute("name", "employeeId");
+    }
+    input.setAttribute("value", empId);
+    frm.appendChild(input);
+    frm.submit();
+}
+</script>
         <li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo "Leave";?></span></a>
 			<ul class="l2">
