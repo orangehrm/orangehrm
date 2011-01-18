@@ -362,9 +362,9 @@ class LeaveSummaryForm extends sfForm {
 
         if($this->empId != $employeeId) {
             $pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $employeeId . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
-            $html .= content_tag('a', $employeeName, array('href' => $pimLink)) . "\n";
+            $html .= "&nbsp;<a href='" . $pimLink . "'>". $employeeName . "</a>\n";
         } else {
-            $html .= $employeeName;
+            $html .= "&nbsp;". $employeeName;
         }
         $html .= "</td>\n";
         return $html;
@@ -398,10 +398,10 @@ class LeaveSummaryForm extends sfForm {
      * @returns String
      */
     protected function getLeaveEntitledColumnHtml($leaveTypeId, $leaveEntitled, $rowId, $employeeId, $leavePeriodId) {
-        $html = "<td>\n";
+        $html = "<td align='center'>\n";
 
         if ($this->isLeaveTypeEditable($leaveTypeId) && $this->userType == 'Admin') {
-            $html .= "<div class='boxAlignRight'><input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$rowId\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" /></div>\n";
+            $html .= "<div class='textAlignRight'><input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$rowId\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" /></div>\n";
             $html .= "<input type=\"hidden\" name=\"hdnEmpId[]\" id=\"hdnEmpId-$rowId\" value=\"$employeeId\" />\n";
             $html .= "<input type=\"hidden\" name=\"hdnLeaveTypeId[]\" id=\"hdnLeaveTypeId-$rowId\" value=\"$leaveTypeId\" />\n";
             $html .= "<input type=\"hidden\" name=\"hdnLeavePeriodId[]\" id=\"hdnLeavePeriodId-$rowId\" value=\"$leavePeriodId\" />\n";
@@ -423,7 +423,7 @@ class LeaveSummaryForm extends sfForm {
      * @returns String
      */
     protected function getScheduledColumnHtml($leaveScheduled, $employeeId, $leaveTypeId) {
-        $html = "<td>\n";
+        $html = "<td align='center'>\n";
         $scheduledStr = $leaveScheduled;
         if($leaveScheduled > 0) {
             $url = "viewLeaveList";
@@ -455,7 +455,7 @@ class LeaveSummaryForm extends sfForm {
             $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN . "&leavePeriodId=" . $this->_getLeavePeriod();
             $takenStr = "<a href='" . $url . "'>" .$takenStr . "</a>";
         }
-        $html = "<td>\n";
+        $html = "<td align='center'>\n";
         $html .= "<div class='textAlignRight'>$takenStr</div>\n";
         $html .= "</td>\n";
         return $html;
@@ -467,7 +467,7 @@ class LeaveSummaryForm extends sfForm {
      * @returns String
      */
     protected function getLeaveRemainingColumnHtml($leaveRemaining) {
-        $html = "<td>\n";
+        $html = "<td align='center'>\n";
         $html .= "<div class='textAlignRight'>$leaveRemaining</div>\n";
         $html .= "</td>\n";
         $html .= "</tr>\n";

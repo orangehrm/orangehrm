@@ -119,12 +119,12 @@
 
 <thead>
 <tr>
-    <td valign="top"><?php echo __('Employee Name'); ?></td>
+    <td valign="top">&nbsp;<?php echo __('Employee Name'); ?></td>
     <td valign="top"><?php echo __('Leave Type'); ?></td>
-<td><?php echo __('Leave Entitled'); ?><div class="daysMove">(Days)</div></td>
-<td><?php echo __('Leave Scheduled'); ?><div class="daysMove">(Days)</div></td>
-<td><?php echo __('Leave Taken'); ?><div class="daysMove">(Days)</div></td>
-<td><?php echo __('Leave Balance'); ?><div class="daysMove">(Days)</div></td>
+    <td align="center"><?php echo __('Leave Entitled'); ?><div>(Days)</div></td>
+<td align="center"><?php echo __('Leave Scheduled'); ?><div>(Days)</div></td>
+<td align="center"><?php echo __('Leave Taken'); ?><div>(Days)</div></td>
+<td align="center"><?php echo __('Leave Balance'); ?><div>(Days)</div></td>
 </tr>
 </thead>
 

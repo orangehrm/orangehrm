@@ -9,12 +9,12 @@
     vertical-align:text-top;
 }
 
-table.data-table thead tr td {
+table.data-table1 thead tr td {
     padding: 7px 10px 7px 8px;
     font-weight: bold;
 }
 
-table.data-table tbody tr td {
+table.data-table1 tbody tr td {
     padding-left: 7px;
 }
 
@@ -58,6 +58,7 @@ div.navigationHearder {
 }
 
 .textAlignRight {
-    width: 60px;
+    width: 55px;
+    padding-right: 6px;
     text-align: right;
 }
