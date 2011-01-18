@@ -118,7 +118,7 @@ Leave:
       primary: true
     leave_date: date(25)
     leave_status: integer(2)
-    leave_comments: string(200)
+    leave_comments: string(250)
     start_time: time(25)
     end_time: time(25)
   relations:

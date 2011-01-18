@@ -93,9 +93,9 @@ abstract class BaseLeave extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 2,
              ));
-        $this->hasColumn('leave_comments', 'string', 200, array(
+        $this->hasColumn('leave_comments', 'string', 250, array(
              'type' => 'string',
-             'length' => 200,
+             'length' => 250,
              ));
         $this->hasColumn('start_time', 'time', 25, array(
              'type' => 'time',
