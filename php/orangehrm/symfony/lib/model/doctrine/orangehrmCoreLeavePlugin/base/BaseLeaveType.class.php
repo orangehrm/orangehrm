@@ -8,17 +8,23 @@
  * @property string $leaveTypeId
  * @property string $leaveTypeName
  * @property integer $availableFlag
+ * @property string $leaveRules
+ * @property Doctrine_Collection $EmployeeLeaveAccrual
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * 
  * @method string              getLeaveTypeId()              Returns the current record's "leaveTypeId" value
  * @method string              getLeaveTypeName()            Returns the current record's "leaveTypeName" value
  * @method integer             getAvailableFlag()            Returns the current record's "availableFlag" value
+ * @method string              getLeaveRules()               Returns the current record's "leaveRules" value
+ * @method Doctrine_Collection getEmployeeLeaveAccrual()     Returns the current record's "EmployeeLeaveAccrual" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method LeaveType           setLeaveTypeId()              Sets the current record's "leaveTypeId" value
  * @method LeaveType           setLeaveTypeName()            Sets the current record's "leaveTypeName" value
  * @method LeaveType           setAvailableFlag()            Sets the current record's "availableFlag" value
+ * @method LeaveType           setLeaveRules()               Sets the current record's "leaveRules" value
+ * @method LeaveType           setEmployeeLeaveAccrual()     Sets the current record's "EmployeeLeaveAccrual" collection
  * @method LeaveType           setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method LeaveType           setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * 
@@ -45,11 +51,18 @@ abstract class BaseLeaveType extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 2,
              ));
+        $this->hasColumn('leave_rules as leaveRules', 'string', null, array(
+             'type' => 'string',
+             ));
     }
 
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('EmployeeLeaveAccrual', array(
+             'local' => 'leaveTypeId',
+             'foreign' => 'leave_type_id'));
+
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'leaveTypeId',
              'foreign' => 'leave_type_id'));
