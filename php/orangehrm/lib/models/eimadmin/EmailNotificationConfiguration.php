@@ -103,6 +103,7 @@ class EmailNotificationConfiguration {
 		$arrFields[0] = '`user_id`';
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
+        $arrFields[3] = '`email`';
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
@@ -150,6 +151,7 @@ class EmailNotificationConfiguration {
 		$arrFields[0] = '`user_id`';
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
+        $arrFields[3] = '`email`';
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
@@ -248,10 +250,7 @@ class EmailNotificationConfiguration {
 
 			$tmpEmailNotificationConf->setNotifcationTypeId($row['notification_type_id']);
 			$tmpEmailNotificationConf->setNotificationStatus($row['status']);
-
-			$email = $userObj->fetchUserEmail($row['user_id']);
-
-			$tmpEmailNotificationConf->setEmail($email);
+            $tmpEmailNotificationConf->setEmail($row['email']);
 
 			$objArr[] = $tmpEmailNotificationConf;
 		}
