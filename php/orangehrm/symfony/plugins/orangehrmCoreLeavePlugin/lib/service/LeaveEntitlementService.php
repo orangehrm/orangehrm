@@ -159,7 +159,7 @@ class LeaveEntitlementService extends BaseService {
         if ($leaveEntitlementObj instanceof EmployeeLeaveEntitlement) {
             $leaveEntitled = $leaveEntitlementObj->getNoOfDaysAllotted();
             $leaveBroughtForward = $leaveEntitlementObj->getLeaveBroughtForward();
-            $leaveTaken = $leaveEntitlementObj->getLeaveTaken();
+            $leaveTaken = $this->getLeaveRequestService()->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
             $leaveCarryForward = $leaveEntitlementObj->getLeaveCarriedForward();
         } else {
             $leaveEntitled = '0.00';
