@@ -950,18 +950,6 @@ CREATE TABLE `hs_hr_leave_period` (
   PRIMARY KEY (`leave_period_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `hs_hr_emp_leave_accrual` (
-  `acc_id` int(11) not null auto_increment,
-  `leave_type_id` varchar(13) NOT NULL,
-  `leave_period_id` int(7) NOT NULL,
-  `employee_id` int(7) NOT NULL,
-  `acc_time` date NOT NULL,
-  `acc_days` decimal(4,2) default NULL,
-  PRIMARY KEY (`acc_id`),
-  key  `leave_period_id` (`leave_period_id`),
-  key  `employee_id` (`employee_id`),
-  key  `leave_type_id` (`leave_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_kpi` (
   `id` int(13) not null,
@@ -1329,18 +1317,6 @@ alter table `hs_hr_emp_jobtitle_history`
 alter table `hs_hr_emp_subdivision_history`
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
-
-alter table `hs_hr_emp_leave_accrual`
-       add constraint foreign key (employee_id)
-       						references `hs_hr_employee` (`emp_number`) on delete cascade;
-
-alter table `hs_hr_emp_leave_accrual`
-       add constraint foreign key (`leave_period_id`)
-       						references `hs_hr_leave_period` (`leave_period_id`) on delete cascade;
-
-alter table `hs_hr_emp_leave_accrual`
-       add constraint foreign key (`leave_type_id`)
-       						references `hs_hr_leavetype` (`leave_type_id`) on delete cascade;
 
 alter table `hs_hr_emp_location_history`
     add constraint foreign key (`emp_number`)
