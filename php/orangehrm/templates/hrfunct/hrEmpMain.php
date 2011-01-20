@@ -474,7 +474,7 @@ function editEmpMain() {
 								"txtLicExpDate",
 								"txtState",
 								"cmbCity",
-								"txtHmTelep"
+								"txtHmTelep",
 								"txtWorkTelep",
 								"txtOtherEmail",
 								"txtStreet1",
