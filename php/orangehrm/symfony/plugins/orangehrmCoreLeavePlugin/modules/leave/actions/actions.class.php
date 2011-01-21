@@ -392,7 +392,7 @@ class leaveActions extends sfActions {
     /**
      * Display a list of leaves for HR Admins, supervisors and ESS users
      */
-    public function executeViewLeaveList(sfWebRequest $request) {
+    /*public function executeViewLeaveList(sfWebRequest $request) {
 
         $this->setTemplate('viewLeaveList');
 
@@ -501,7 +501,7 @@ class leaveActions extends sfActions {
         $this->message = $message;
         $this->messageType = $messageType;
         $this->baseUrl = 'leave/viewLeaveList';
-    }
+    }*/
    
     public function executeViewMyLeaveList(sfWebRequest $request) {
 

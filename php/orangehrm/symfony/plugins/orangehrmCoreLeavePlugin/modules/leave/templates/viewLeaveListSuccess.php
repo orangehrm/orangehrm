@@ -159,6 +159,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
                                                 $actions = $form->renderItemActions($datum);
                                                 if (count($actions['select_options']) > 1) {
+                                                    //echo select_tag('select_leave_action_' . $datum->getLeaveId(), options_for_select( $actions['select_options'], ''), array('class'=>"select_action{$form->getQuotaClass($datum->getLeaveTypeId())}"));
                                                     $selectId = 'select_leave_action_' . $datum->getLeaveRequestId();
                                                     $selectClass = "select_action{$form->getQuotaClass($datum->getLeaveType()->getLeaveTypeId())}";
 
@@ -171,7 +172,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                                                         $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . $optionValue . '</option>';
                                                     }
                                             ?>
-                                            <select class="<?php echo $selectClass;?>" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
+                                            <select class="<?php echo $selectClass;?> quotaSelect" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
                                                 <?php echo $selectOptions;?>
                                             </select>
                                             <?php

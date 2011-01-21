@@ -343,7 +343,7 @@ class LeaveListForm extends sfForm {
 
     }
 
-    private function _isOverQuotaAllowed($leaveTypeId) {
+    protected function _isOverQuotaAllowed($leaveTypeId) {
 
         $leaveTypeService = new LeaveTypeService();
         $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
@@ -353,14 +353,7 @@ class LeaveListForm extends sfForm {
             return false;
         }
 
-        $leaveRequestService = new LeaveRequestService();
-        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-
-        //if ($leaveRequestService->isApplyToMoreThanCurrent($leaveType)) {
-            return true;
-        //} else {
-        //    return false;
-        //}
+        return true;
 
     }
 
