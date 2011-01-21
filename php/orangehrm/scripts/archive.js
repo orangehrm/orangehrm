@@ -187,7 +187,9 @@
 	 * Trim whitespace from a string.
 	 */
 	function trim(s) {
-		return s.trim();
+		if(s != undefined) {
+            return s.trim();
+        }
 	}
 
 	String.prototype.trim = function () {
