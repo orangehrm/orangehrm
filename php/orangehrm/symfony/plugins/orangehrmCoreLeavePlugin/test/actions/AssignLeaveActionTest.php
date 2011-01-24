@@ -21,7 +21,7 @@
 
 require_once sfConfig::get('sf_test_dir') . '/util/MockContext.class.php';
 require_once sfConfig::get('sf_test_dir') . '/util/MockWebRequest.class.php';
-require_once sfConfig::get('sf_plugins_dir') . '/orangehrmcoreLeavePlugin/modules/leave/actions/assignLeaveAction.class.php';
+require_once sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/modules/leave/actions/assignLeaveAction.class.php';
 
 /**
  * Test of AssignLeaveAction
