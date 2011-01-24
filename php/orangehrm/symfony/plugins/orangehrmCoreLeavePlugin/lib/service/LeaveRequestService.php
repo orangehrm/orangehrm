@@ -282,7 +282,7 @@ class LeaveRequestService extends BaseService {
             $entitledDays += $leaveBoughtForward;
 
             if($entitledDays == 0)
-                throw new Exception('Leave Quota not allocated',102);
+                throw new Exception('Leave Entitlements Not Allocated',102);
 
             //this is for border period leave apply - days splitting
             $leavePeriodService = $this->getLeavePeriodService();
