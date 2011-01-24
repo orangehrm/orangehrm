@@ -834,7 +834,7 @@ switch ($moduletype) {
 
 							/* Don't allow if trying to view own details or trying to view details of non-subordinate
 							 */
-							if ((isset($_GET['id']) && ($_GET['id'] === $_SESSION['empID'])) || (!$authorize->isTheSupervisor($_GET['id']))) {
+							if ((isset($_GET['id']) && ($_GET['id'] === $_SESSION['empID']))) {
 
 								trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
 							}
