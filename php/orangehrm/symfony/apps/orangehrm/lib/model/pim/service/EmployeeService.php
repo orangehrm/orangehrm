@@ -972,4 +972,36 @@ class EmployeeService extends BaseService {
        }
 
    }
+
+   public function getEmployeeYearsOfService($employeeId, $currentDate) {
+       $employee = $this->getEmployee($employeeId);
+       return $this->getDurationInYears($employee->getJoinedDate(), $currentDate);
+   }
+
+   public function getDurationInYears($fromDate, $toDate) {
+       $years = 0;
+       $secondsOfYear = 60 * 60 * 24 * 365;
+       $secondsOfMonth = 60 * 60 * 24 * 30;
+
+       if($fromDate != "" && $toDate != "") {
+            $fromDateTimeStamp = strtotime($fromDate);
+            $toDateTimeStamp = strtotime($toDate);
+
+            $timeStampDiff = 0;
+            if($toDateTimeStamp > $fromDateTimeStamp) {
+                $timeStampDiff = $toDateTimeStamp - $fromDateTimeStamp;
+
+                $years = floor($timeStampDiff/$secondsOfYear);
+                
+                //adjusting the months
+                $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
+                $months = round($remainingMonthsTimeStamp/$secondsOfMonth);
+                $yearByMonth = ($months > 0)? ($months/12):0;
+
+                $years = $years + $yearByMonth;
+            }
+
+       }
+       return $years;
+   }
 }
