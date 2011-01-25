@@ -79,11 +79,20 @@ class AllTests {
             }
             $dir->next();
         }        
-        
+
+        $dir = new DirectoryIterator( dirname(__FILE__). '/model/pim/service' );
+        while($dir->valid()) {
+            if( strpos( $dir, 'Test.php' ) !== false ) {
+                $suite->addTestFile(  dirname(__FILE__). '/model/pim/service/'. $dir );
+
+            }
+            $dir->next();
+        }
+
         //
         // Add Plugin tests
         //
-        $suite->addTestFile(dirname(__FILE__) . '/PluginAllTests.php');
+        //$suite->addTestFile(dirname(__FILE__) . '/PluginAllTests.php');
         
         return $suite;
     }
