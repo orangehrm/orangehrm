@@ -333,7 +333,7 @@ class JobDao extends BaseDao {
             ->from('EmployeeStatus e');
 
          if ( !$includeTerminated ) {
-             $q->where('e.id != ?', TERMINATED_STATUS);
+             $q->where('e.id != ?', EmployeeStatus::TERMINATED_STATUS);
          }
 
          $q->orderBy($orderField.' '.$orderBy);
