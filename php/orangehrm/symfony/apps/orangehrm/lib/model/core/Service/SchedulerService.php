@@ -48,7 +48,7 @@ class SchedulerService
      * @param string $methodName
      * @param array $params
      */
-    public function addSchedule($className, $methodName, $params=null)
+    public function addSchedule($className, $methodName, $params=array())
     {
         $this->scheduleCollector[] = array("class" => $className, "method"=>$methodName, "params" => $params);
     }
