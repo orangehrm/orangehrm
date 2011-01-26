@@ -997,12 +997,13 @@ class EmployeeService extends BaseService {
                 $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
                 $months = round($remainingMonthsTimeStamp/$secondsOfMonth);
                 $yearByMonth = ($months > 0)? $months/12:0;
-
+                
                 if(floor($years + $yearByMonth) == ($years + $yearByMonth)) {
-                    $yearByMonth = $this->getBorderPeriodMonths($fromDate, $toDate);
+                    $years = $this->getBorderPeriodMonths($fromDate, $toDate);
+                } else {
+                    $years = $years + $yearByMonth;
                 }
-                $years = $years + $yearByMonth;
-
+                
             }
 
         }
@@ -1017,15 +1018,39 @@ class EmployeeService extends BaseService {
         $numberOfMonths = 12;
 
         $timeStampDiff = strtotime($toDate) - strtotime($fromDate);
-        $years = floor($timeStampDiff/$secondsOfYear);
+        $noOfDays = floor($timeStampDiff/$secondsOfDay);
+        $fromYear = date("Y", strtotime($fromDate));
+        $toYear = date("Y", strtotime($toDate));
+        $ctr = $fromYear;
+        $daysCount = 0;
+
+        while($ctr < $toYear) {
+            $daysCount = $daysCount + $numberOfDaysInYear;
+            //this is for leap year
+            if($ctr % 4 == 0) {
+                $daysCount++;
+            }
+            if($noOfDays < $daysCount) {
+                $daysCount = $daysCount - $numberOfDaysInYear;
+                if($ctr % 4 == 0) {
+                    $daysCount--;
+                }
+                break;
+            }
+
+            $years++;
+            $ctr++;
+        }
+
+        /*$years = floor($timeStampDiff/$secondsOfYear);
         
-        //adjusting the months
         $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-        $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;
+        $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;*/
+        $remainingDays = $noOfDays - $daysCount;
 
         $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
         $yearByMonth = ($months > 0)? ($months/12):0;
-        
-        return $yearByMonth;
+        $years = $years + $yearByMonth;
+        return $years;
     }
 }
