@@ -1024,33 +1024,43 @@ class EmployeeService extends BaseService {
         $ctr = $fromYear;
         $daysCount = 0;
 
-        while($ctr < $toYear) {
+        list($fY, $fM, $fD) = explode("-", $fromDate);
+        list($tY, $tM, $tD) = explode("-", $toDate);
+        $years = $tY - $fY;
+
+        if (($tM - $fM) < 0) {
+          $years--;
+        } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
+            $years--;
+        }
+        //this sections commented off if there is a need to extend it further
+        /*while($ctr < $toYear) {
             $daysCount = $daysCount + $numberOfDaysInYear;
             //this is for leap year
             if($ctr % 4 == 0) {
-                $daysCount++;
+                $daysCount = $daysCount + 1;
             }
             if($noOfDays < $daysCount) {
                 $daysCount = $daysCount - $numberOfDaysInYear;
                 if($ctr % 4 == 0) {
-                    $daysCount--;
+                    $daysCount = $daysCount - 1;
                 }
                 break;
             }
 
             $years++;
             $ctr++;
-        }
+        }*/
 
         /*$years = floor($timeStampDiff/$secondsOfYear);
         
         $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
         $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;*/
-        $remainingDays = $noOfDays - $daysCount;
+        /*$remainingDays = $noOfDays - $daysCount;
 
         $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
         $yearByMonth = ($months > 0)? ($months/12):0;
-        $years = $years + $yearByMonth;
+        $years = $years + $yearByMonth;*/
         return $years;
     }
 }
