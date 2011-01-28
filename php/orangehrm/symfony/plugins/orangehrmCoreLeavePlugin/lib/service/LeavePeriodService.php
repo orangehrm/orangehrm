@@ -58,6 +58,7 @@ class LeavePeriodService extends BaseService {
 	 * @return array Array of month names
 	 */
 	public function getListOfMonths() {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
 		$monthNames = array();
 		for ($i = 1; $i <= 12; $i ++) {
 			$monthNames[] = __(date('F', mktime(0, 0, 0, ($i + 1), 0, 0)));
