@@ -1027,8 +1027,9 @@ class EmployeeService extends BaseService {
         list($fY, $fM, $fD) = explode("-", $fromDate);
         list($tY, $tM, $tD) = explode("-", $toDate);
         $years = $tY - $fY;
-
-        $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($fromDate)));
+        
+        $temp = date("Y"). "-". $fM. "-". $fD ;
+        $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($temp)));
         $toMonthDay = date("m-d");
 
         if($newFromMonthDay != $toMonthDay) {
