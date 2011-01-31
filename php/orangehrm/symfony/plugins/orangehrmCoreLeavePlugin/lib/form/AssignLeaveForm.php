@@ -56,7 +56,7 @@ class AssignLeaveForm extends sfForm {
                 'txtEmpID' => new sfValidatorString(array('required' => false)),
                 'txtEmployee' => new sfValidatorString(array('required' => true),array('required'=>'Employee name is required')),
                 'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
-                'txtLeaveType' => new sfValidatorString(array('required' => true),array('required'=>'Leave Type is required')),
+                'txtLeaveType' => new sfValidatorChoice(array('choices' => array_keys($this->leaveTypeList))),
                 'txtFromDate' => new sfValidatorString(array('required' => true),array('required'=>'From Date field is required')),
                 'txtToDate' => new sfValidatorString(array('required' => true),array('required'=>'To Date field is required')),
                 'txtComment' => new sfValidatorString(array('required' => false,'trim' => true, 'max_length' => 1000)),
