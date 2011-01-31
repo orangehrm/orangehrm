@@ -1028,10 +1028,15 @@ class EmployeeService extends BaseService {
         list($tY, $tM, $tD) = explode("-", $toDate);
         $years = $tY - $fY;
 
-        if (($tM - $fM) < 0) {
-          $years--;
-        } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
-            $years--;
+        $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($fromDate)));
+        $toMonthDay = date("m-d");
+
+        if($newFromMonthDay != $toMonthDay) {
+            if (($tM - $fM) < 0) {
+              $years--;
+            } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
+                $years--;
+            }
         }
         //this sections commented off if there is a need to extend it further
         /*while($ctr < $toYear) {
