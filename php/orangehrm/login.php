@@ -418,7 +418,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.1-rc.2 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</td>
 </tr>
 </table>
 
