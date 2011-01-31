@@ -29,6 +29,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 	<div class="formWrapper">
 		<form id="frmFilterLeave" name="frmFilterLeave" method="post" action="<?php echo url_for($baseUrl); ?>">
             <label class="mainLabel"><?php echo __("From");?></label>
+            <?php echo $form['_csrf_token']; ?>
 			<?php echo $form['calFromDate']->render(); ?>
             <br class="clear" />
 			<label class="mainLabel"><?php echo __("To");?></label>

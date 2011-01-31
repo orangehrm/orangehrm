@@ -158,9 +158,14 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDefineWorkWeek(sfWebRequest $request) {
-
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
         $this->setForm(new WorkWeekForm()); // get the Work Week form object
         $workWeekService = $this->getWorkWeekService(); // workweek service object
+
+        //authentication
+        if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
 
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -174,7 +179,7 @@ class leaveActions extends sfActions {
                     $workWeekService->saveWorkWeek($workWeek);
                 }
 
-                $this->templateMessage = array('SUCCESS', 'Work Week Successfully Saved');
+                $this->templateMessage = array('SUCCESS', __('Work Week Successfully Saved'));
             }
         }
     }
@@ -184,6 +189,13 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeViewHolidayList(sfWebRequest $request) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+
+        //authentication
+        if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
 
         $leavePeriodService = $this->getLeavePeriodService();
 
@@ -194,12 +206,12 @@ class leaveActions extends sfActions {
         $leavePeriodList = $leavePeriodService->getLeavePeriodList();
         $leavePeriods = array();
         foreach ($leavePeriodList as $leavePeriod) {
-            $leavePeriods[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate().' to '.$leavePeriod->getEndDate();
+            $leavePeriods[$leavePeriod->getLeavePeriodId()] = format_date($leavePeriod->getStartDate()) . " " . __('to') . " " . format_date($leavePeriod->getEndDate());
         }
         $this->leavePeriods = $leavePeriods;
         
         if (empty($leavePeriods)) {
-            $leavePeriods = array('0' => 'No Leave Periods');
+            $leavePeriods = array('0' => __('No Leave Periods'));
         }
 
         $startDate = date("Y-m-d");
@@ -224,7 +236,7 @@ class leaveActions extends sfActions {
         $this->holidayList = $this->getHolidayService()->searchHolidays($startDate, $endDate);
 
         if($request->isMethod('post') && count($this->holidayList) == 0) {
-            $this->getUser()->setFlash('templateMessage', array('NOTICE', 'No Records Found'));
+            $this->getUser()->setFlash('templateMessage', array('NOTICE', __('No Records Found')));
         }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -238,7 +250,7 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDefineHoliday(sfWebRequest $request) {
-
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
         $this->setForm(new HolidayForm());
         $editId = $request->getParameter('hdnEditId');
 
@@ -269,9 +281,9 @@ class leaveActions extends sfActions {
                 // save holiday
 
                 if ($post['hdnHolidayId'] != "") {
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Holiday Successfully Updated'));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Updated')));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Holiday Successfully Saved'));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Saved')));
                 }
 
                 $date = $post['txtDate'];
@@ -300,7 +312,7 @@ class leaveActions extends sfActions {
 
                 // Error will not return if the date if not in the correct format
                 if(!$allowToAdd && !is_null($date)) {
-                    $this->templateMessage = array('WARNING', 'The Date Is Already Assigned to Another Holiday');
+                    $this->templateMessage = array('WARNING', __('The Date Is Already Assigned to Another Holiday'));
                 } else {
                     
                     //first creating the leave period if the date belongs to next leave period
@@ -328,7 +340,7 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDeleteHoliday(sfWebRequest $request) {
-
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
         $holidayIds = $request->getPostParameter('chkHolidayId[]');
 
         if (!empty($holidayIds)) {
@@ -337,9 +349,9 @@ class leaveActions extends sfActions {
                 $this->getHolidayService()->deleteHoliday($id);
             }
 
-            $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully Deleted'));
+            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully Deleted')));
         } else {
-            $this->getUser()->setFlash('templateMessage', array('NOTICE', 'Please Select at Least One Holiday to Delete'));
+            $this->getUser()->setFlash('templateMessage', array('NOTICE', __('Please Select at Least One Holiday to Delete')));
         }
 
 

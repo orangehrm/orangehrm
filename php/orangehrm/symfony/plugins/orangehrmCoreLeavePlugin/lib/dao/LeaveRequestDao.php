@@ -262,8 +262,8 @@ class LeaveRequestDao extends BaseDao {
 		$leavePeriod = $searchParameters->getParameter('leavePeriod');
 		$leaveType = $searchParameters->getParameter('leaveType');
 
-		$fromDate = $dateRange->getFromDate();
-		$toDate = $dateRange->getToDate();
+		$fromDate = mysql_real_escape_string($dateRange->getFromDate());
+		$toDate = mysql_real_escape_string($dateRange->getToDate());
 
 		if ((!empty($fromDate) && !empty($toDate)) || !empty($statuses)) {
 			$q->innerJoin("lr.Leave l");

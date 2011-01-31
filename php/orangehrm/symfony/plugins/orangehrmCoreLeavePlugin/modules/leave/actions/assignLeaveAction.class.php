@@ -148,6 +148,12 @@ class assignLeaveAction extends sfAction {
         $this->setForm($form);
         $this->overlapLeaves = 0;
 
+        //authentication
+        $userDetails = $this->getLoggedInUserDetails();
+        if($userDetails['userType'] == 'ESS') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
+        
         //this section is to save leave request
         if($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));

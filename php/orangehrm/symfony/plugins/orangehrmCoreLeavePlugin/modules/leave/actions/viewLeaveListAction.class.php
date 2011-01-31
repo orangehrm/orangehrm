@@ -44,7 +44,12 @@ class viewLeaveListAction extends sfAction {
     
     public function execute($request) {
         $this->setTemplate('viewLeaveList');
+        $this->_setLoggedInUserDetails();
 
+        if($this->userType == 'ESS') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
+        
         $fromDate = $request->getPostParameter('calFromDate', null);
         $toDate = $request->getPostParameter('calToDate', null);
         $subunitId = $request->getPostParameter('cmbSubunit', null);
@@ -82,7 +87,6 @@ class viewLeaveListAction extends sfAction {
             $employeeFilter = null;
 
             if (trim($employeeId) == "") {
-                $this->_setLoggedInUserDetails();
 
                 if ($this->userType == "Supervisor") {
                         $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
@@ -122,7 +126,7 @@ class viewLeaveListAction extends sfAction {
             $this->recordCount = $recordCount;
 
             if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = 'No Records Found';
+                $message = __('No Records Found');
                 $messageType = 'notice';
             }
 
