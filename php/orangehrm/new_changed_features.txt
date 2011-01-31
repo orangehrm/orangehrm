@@ -1,8 +1,16 @@
+New & Changed Features for OrangeHRM ver 2.6.1
+
+    Bug Fixes
+    ---------
+    Security fixes in Leave module.
+
+
 New & Changed Features for OrangeHRM ver 2.6.1-rc.2
 
     Bug Fixes
     ---------
     Bug fixes in Admin, PIM, Time, Recruitment and Performance modules.
+
 
 New & Changed Features for OrangeHRM ver 2.6.1-rc.1
 
@@ -10,6 +18,7 @@ New & Changed Features for OrangeHRM ver 2.6.1-rc.1
     ---------
     3148496 - Back slash cause to stop  leave type forms functionality
     3148505 - Leave list comments not support for the special characters
+
 
 New & Changed Features for OrangeHRM ver 2.6.1-beta.1
 
