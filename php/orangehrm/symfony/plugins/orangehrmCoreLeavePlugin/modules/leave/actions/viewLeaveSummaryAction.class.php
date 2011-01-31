@@ -66,11 +66,10 @@ class viewLeaveSummaryAction extends sfAction {
                     $this->form->saveEntitlements($request);
                 }
 
-                $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
-
             }
         }
 
+        $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
         $this->form->setPager($request);
         
     }
