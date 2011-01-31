@@ -2,7 +2,8 @@ rendering: ~
 security:  ~
 
 # insert your own filters here
-
+exceptionCatcherFilter:
+  class: ExceptionCatcherFilter
 cache:     ~
 common:
   class: sfCommonFilter
