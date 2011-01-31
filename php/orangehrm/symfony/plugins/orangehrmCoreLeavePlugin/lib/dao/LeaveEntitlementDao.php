@@ -71,19 +71,36 @@ class LeaveEntitlementDao extends BaseDao{
 	 */
 	public function overwriteEmployeeLeaveEntitlement($employeeId, $leaveTypeId, $leavePeriodId, $adjustment) {
 		try {
-			$q = Doctrine_Query::create()
-				->update('EmployeeLeaveEntitlement le')
-				->set('le.no_of_days_allotted', "({$adjustment})")
-				->where('le.leave_type_id = ?', $leaveTypeId)
-				->andWhere('le.leave_period_id = ?', $leavePeriodId)
-				->andWhere('le.employee_id = ?', $employeeId);
-			$q->execute();
+
+            if ($this->_isValidAdjustment($adjustment)) {
+
+                $q = Doctrine_Query::create()
+                    ->update('EmployeeLeaveEntitlement le')
+                    ->set('le.no_of_days_allotted', "({$adjustment})")
+                    ->where('le.leave_type_id = ?', $leaveTypeId)
+                    ->andWhere('le.leave_period_id = ?', $leavePeriodId)
+                    ->andWhere('le.employee_id = ?', $employeeId);
+                $q->execute();
+
+            }
 			
 			return true ;
 		} catch( Exception $e) {
             throw new DaoException( $e->getMessage());
         }
 	}
+
+    private function _isValidAdjustment($adjustment) {
+
+        if (!is_numeric($adjustment)) {
+            return false;
+        } elseif ($adjustment > 365) {
+            return false;
+        }
+
+        return true;
+
+    }
 	
 	/**
 	 * 
