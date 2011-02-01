@@ -206,7 +206,7 @@ class leaveActions extends sfActions {
         $leavePeriodList = $leavePeriodService->getLeavePeriodList();
         $leavePeriods = array();
         foreach ($leavePeriodList as $leavePeriod) {
-            $leavePeriods[$leavePeriod->getLeavePeriodId()] = format_date($leavePeriod->getStartDate()) . " " . __('to') . " " . format_date($leavePeriod->getEndDate());
+            $leavePeriods[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate() . " " . __('to') . " " . $leavePeriod->getEndDate();
         }
         $this->leavePeriods = $leavePeriods;
         
@@ -251,6 +251,12 @@ class leaveActions extends sfActions {
      */
     public function executeDefineHoliday(sfWebRequest $request) {
         sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+
+        //authentication
+        if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
+        
         $this->setForm(new HolidayForm());
         $editId = $request->getParameter('hdnEditId');
 
