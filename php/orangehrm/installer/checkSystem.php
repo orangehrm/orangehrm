@@ -312,6 +312,12 @@ function sysCheckPassed() {
             <td class="tdComponent">Memory allocated for PHP script</td>
             <td align="right" class="tdValues"><?php echo checkMemory()?></td>
           </tr>
+
+          <tr>
+            <td class="tdComponent">Web server allows .htaccess files</td>
+            <td align="right" class="tdValues"><strong><b id="htaccess" class="pending">Checking...</b></strong></td>
+          </tr>
+
           <?php
           	$printMoreInfoLink = false;
 
@@ -339,5 +345,43 @@ function sysCheckPassed() {
 		<br />
         <input class="button" type="button" value="Back" onclick="back();" tabindex="4">
 		<input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();" tabindex="3">
-		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?php echo  ($error_found) ? 'disabled' : '' ?> tabindex="2">
+		<input class="button" id="nextButton" type="button" value="Next" onclick="sysCheckPassed();" <?php echo  ($error_found) ? 'disabled' : '' ?> tabindex="2">
 </div>
+
+<script type="text/javascript">
+//<![CDATA[
+    /**
+     * Tries to acesss installer/images/dummy.jpg which should be blocked
+     * by the .htaccess file in install/images directory.
+     *
+     * if file was loaded successfully, .htaccess files are not enabled in apache
+     * else htaccess files are enabled.
+     */
+    function checkHTAccessFiles() {
+        var testImage = new Image();
+        testImage.src = "images/dummy.jpg";
+        testImage.onload = htAcessDisabled;
+        testImage.onerror = htAccessEnabled;
+        
+    }
+
+    function htAccessEnabled() {
+        var element = document.getElementById("htaccess");
+        element.innerHTML = "OK";
+        element.className = "done";
+    }
+
+    function htAcessDisabled() {
+        var element = document.getElementById("htaccess");
+        element.innerHTML = ".htaccess files are not enabled!";
+        element.className = "error";
+
+        var nextButton = document.getElementById("nextButton");
+        nextButton.disabled = true;
+    }
+
+
+    checkHTAccessFiles();
+
+//]]>
+</script>
