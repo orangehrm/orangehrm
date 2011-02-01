@@ -54,7 +54,7 @@ class HolidayForm extends sfForm
                 'txtDescription' => new sfValidatorString(array('required' => true, 'max_length'=>200),array('required'=>'Holiday Name is required', 'max_length'=>'Name of Holiday length exceeded')),
                 'txtDate' => new sfValidatorRegex(array('pattern'=>"/^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/",'required'=>true),array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')),
 
-                'selLength' => new sfValidatorChoice(array('choices' => $this->getDaysLengthList()))
+                'selLength' => new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())))
         ));
 
         $this->validatorSchema->setOption('allow_extra_fields', true);
