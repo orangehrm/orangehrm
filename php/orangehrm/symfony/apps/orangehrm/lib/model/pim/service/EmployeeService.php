@@ -975,6 +975,9 @@ class EmployeeService extends BaseService {
 
     public function getEmployeeYearsOfService($employeeId, $currentDate) {
         $employee = $this->getEmployee($employeeId);
+        if (! ($employee instanceof Employee) ) {
+            throw new PIMServiceException("Employee with employeeId " . $employeeId . " not found!");
+        }
         return $this->getDurationInYears($employee->getJoinedDate(), $currentDate);
     }
 
