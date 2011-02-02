@@ -573,6 +573,17 @@ class EmpInfo {
         return $arrayDispList;
     }
 
+    /* this is a hack but will be improving it during symfony conversion */
+    public function getLeavePeriodsCount() {
+        $dbConnection = new DMLFunctions();
+        $q = "SELECT COUNT(*) FROM `hs_hr_leave_period`";
+        $result = $dbConnection->executeQuery($q);
+
+        $resultSet = mysql_fetch_array($result, MYSQL_NUM);
+        $count = $resultSet[0];
+        return $count;
+    }
+
     /////////////
     function getListofEmployee($pageNO = 0, $schStr = '', $mode = -1, $sortField = 4, $sortOrder = 'ASC', $supervisorId = null) {
 

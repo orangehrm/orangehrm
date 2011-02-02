@@ -257,6 +257,7 @@ $objAjax->registerFunction('assignLocation');
 $objAjax->registerFunction('removeLocation');
 
 $objAjax->processRequests();
+$leavePeriodCount = isset($this->popArr['leavePeriodCount'])? $this->popArr['leavePeriodCount']:0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -1290,6 +1291,7 @@ function leaveFormSubmission(redirect) {
     frm.submit();
 }
 </script>
+        <?php if($leavePeriodCount > 0) {?>
         <li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo "Leave";?></span></a>
 			<ul class="l2">
@@ -1306,6 +1308,7 @@ function leaveFormSubmission(redirect) {
 			</ul>
 		</li>
         <!-- end of leave section -->
+        <?php }?>
 		<li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
 			<ul class="l2">

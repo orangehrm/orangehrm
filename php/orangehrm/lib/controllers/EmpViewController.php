@@ -1636,7 +1636,8 @@ class EmpViewController {
 								$form_creator->popArr['cntlist'] = $countrylist = $countryinfo->getCountryCodes();
 								$form_creator->popArr['ppcntlist'] = $countrylist;
 								$form_creator->popArr['customFieldList'] = CustomFields::getCustomFieldList();
-
+                                $form_creator->popArr['leavePeriodCount'] = $empinfo->getLeavePeriodsCount();
+                                
 							if($getArr['capturemode'] == 'addmode') {
 
                         //we introduce token for the form here
