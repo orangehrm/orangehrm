@@ -126,7 +126,7 @@ class viewLeaveListAction extends sfAction {
             $this->recordCount = $recordCount;
 
             if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = __('No Records Found');
+                $message = 'No Records Found';
                 $messageType = 'notice';
             }
 
@@ -137,8 +137,6 @@ class viewLeaveListAction extends sfAction {
             $list = $this->getLeaveRequestService()->searchLeave($id);
             $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($id);
         }
-
-        $this->_setLoggedInUserDetails();
 
         $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $request, $this->loggedUserId, $leaveRequest);
 
