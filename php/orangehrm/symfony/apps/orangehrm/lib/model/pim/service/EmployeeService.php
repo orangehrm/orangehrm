@@ -1030,10 +1030,10 @@ class EmployeeService extends BaseService {
         list($fY, $fM, $fD) = explode("-", $fromDate);
         list($tY, $tM, $tD) = explode("-", $toDate);
         $years = $tY - $fY;
-        
+
         $temp = date("Y"). "-". $fM. "-". $fD ;
         $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($temp)));
-        $toMonthDay = date("m-d");
+        $toMonthDay = $tM . "-"  . $tD;
 
         if($newFromMonthDay != $toMonthDay) {
             if (($tM - $fM) < 0) {
@@ -1062,7 +1062,7 @@ class EmployeeService extends BaseService {
         }*/
 
         /*$years = floor($timeStampDiff/$secondsOfYear);
-        
+
         $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
         $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;*/
         /*$remainingDays = $noOfDays - $daysCount;
