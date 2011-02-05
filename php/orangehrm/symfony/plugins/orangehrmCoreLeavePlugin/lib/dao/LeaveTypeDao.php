@@ -23,6 +23,19 @@
 class LeaveTypeDao extends BaseDao {
 
     /**
+     * Get Logger instance. Creates if not already created.
+     *
+     * @return Logger
+     */
+    protected function getLogger() {
+        if (is_null($this->logger)) {
+            $this->logger = Logger::getLogger('leave.LeaveTypeDao');
+        }
+
+        return($this->logger);
+    }
+
+    /**
      *
      * @param LeaveType $leaveType
      * @return boolean
@@ -40,6 +53,7 @@ class LeaveTypeDao extends BaseDao {
 
             return true;
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in saveLeaveType:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -64,6 +78,7 @@ class LeaveTypeDao extends BaseDao {
             }
             return false;
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in deleteLeaveType:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -83,6 +98,7 @@ class LeaveTypeDao extends BaseDao {
 
             return $leaveTypeList;
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in getLeaveTypeList:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -98,6 +114,7 @@ class LeaveTypeDao extends BaseDao {
 
             return $leaveTypeList;
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in getDeletedLeaveTypeList:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -110,6 +127,7 @@ class LeaveTypeDao extends BaseDao {
         try {
             return Doctrine::getTable('LeaveType')->find($leaveTypeId);
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in readLeaveType:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -125,6 +143,7 @@ class LeaveTypeDao extends BaseDao {
 
             return $leaveTypeCollection[0];
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in readLeaveTypeByName:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
@@ -146,6 +165,7 @@ class LeaveTypeDao extends BaseDao {
 
             return false;
         } catch (Exception $e) {
+            $this->getLogger()->error("Exception in undeleteLeaveType:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
