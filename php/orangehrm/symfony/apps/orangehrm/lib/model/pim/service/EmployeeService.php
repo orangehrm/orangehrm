@@ -982,94 +982,38 @@ class EmployeeService extends BaseService {
     }
 
     public function getDurationInYears($fromDate, $toDate) {
-        $years = 0;
-        $secondsOfYear = 60 * 60 * 24 * 365;
-        $secondsOfMonth = 60 * 60 * 24 * 30;
 
         if($fromDate != "" && $toDate != "") {
             $fromDateTimeStamp = strtotime($fromDate);
             $toDateTimeStamp = strtotime($toDate);
 
-            $timeStampDiff = 0;
-            if($toDateTimeStamp > $fromDateTimeStamp) {
-                $timeStampDiff = $toDateTimeStamp - $fromDateTimeStamp;
 
-                $years = floor($timeStampDiff/$secondsOfYear);
+            list($fY, $fM, $fD) = explode("-", $fromDate);
+            list($tY, $tM, $tD) = explode("-", $toDate);
+            $years = $tY - $fY;
 
-                //adjusting the months
-                $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-                $months = round($remainingMonthsTimeStamp/$secondsOfMonth);
-                $yearByMonth = ($months > 0)? $months/12:0;
-                
-                if(floor($years + $yearByMonth) == ($years + $yearByMonth)) {
-                    $years = $this->getBorderPeriodMonths($fromDate, $toDate);
-                } else {
-                    $years = $years + $yearByMonth;
-                }
-                
+            $temp = date("Y", strtotime($toDate)). "-". $fM. "-". $fD ;
+            $temp = strtotime("-1 day", strtotime($temp));
+
+            if(date("m-d",$temp) != date("m-d",strtotime($toDate))) {
+
+                if (($tM - $fM) < 0) {
+                    return --$years;
+                } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
+                    return --$years;
+                }else
+                    return $years;
+
+            }else {
+                //handle border condition
+
+                if($temp < strtotime($toDate))
+                    return ++$years;
+                else
+                    return $years;
             }
-
+            return -200; //This line will never get executed. Returns an error if executed.
         }
-        return $years;
-    }
-
-    private function getBorderPeriodMonths($fromDate, $toDate) {
-        $years = 0;
-        $secondsOfDay = 60 * 60 * 24;
-        $numberOfDaysInYear = 365;
-        $secondsOfYear = $secondsOfDay * $numberOfDaysInYear;
-        $numberOfMonths = 12;
-
-        $timeStampDiff = strtotime($toDate) - strtotime($fromDate);
-        $noOfDays = floor($timeStampDiff/$secondsOfDay);
-        $fromYear = date("Y", strtotime($fromDate));
-        $toYear = date("Y", strtotime($toDate));
-        $ctr = $fromYear;
-        $daysCount = 0;
-
-        list($fY, $fM, $fD) = explode("-", $fromDate);
-        list($tY, $tM, $tD) = explode("-", $toDate);
-        $years = $tY - $fY;
-
-        $temp = date("Y"). "-". $fM. "-". $fD ;
-        $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($temp)));
-        $toMonthDay = $tM . "-"  . $tD;
-
-        if($newFromMonthDay != $toMonthDay) {
-            if (($tM - $fM) < 0) {
-              $years--;
-            } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
-                $years--;
-            }
-        }
-        //this sections commented off if there is a need to extend it further
-        /*while($ctr < $toYear) {
-            $daysCount = $daysCount + $numberOfDaysInYear;
-            //this is for leap year
-            if($ctr % 4 == 0) {
-                $daysCount = $daysCount + 1;
-            }
-            if($noOfDays < $daysCount) {
-                $daysCount = $daysCount - $numberOfDaysInYear;
-                if($ctr % 4 == 0) {
-                    $daysCount = $daysCount - 1;
-                }
-                break;
-            }
-
-            $years++;
-            $ctr++;
-        }*/
-
-        /*$years = floor($timeStampDiff/$secondsOfYear);
-
-        $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-        $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;*/
-        /*$remainingDays = $noOfDays - $daysCount;
-
-        $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
-        $yearByMonth = ($months > 0)? ($months/12):0;
-        $years = $years + $yearByMonth;*/
-        return $years;
+        return -300;//This line will never get executed. Returns an error if executed.
     }
 }
