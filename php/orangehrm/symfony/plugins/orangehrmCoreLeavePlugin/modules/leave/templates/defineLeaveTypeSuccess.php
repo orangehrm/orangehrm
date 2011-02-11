@@ -51,18 +51,17 @@
     </div>
 </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
-<div id="undeleteDialog" title="OrangeHRM - Confirmation Required"  style="display:none;">
-
-This is a deleted leave type. Reactivate it?
+<div id="undeleteDialog" title="OrangeHRM - <?php echo __('Confirmation Required')?>"  style="display:none;">
+<?php echo __('This is a deleted leave type. Reactivate it?'); ?>
 <br /><br />
-<strong>Yes</strong> - Leave type will be undeleted<br />
-<strong>No</strong> - A new leave type will be created with same name<br />
-<strong>Cancel</strong> - Will take no action
+<strong><?php echo __('Yes');?></strong> - <?php echo __('Leave type will be undeleted'); ?><br />
+<strong><?php echo __('No');?></strong> - <?php echo __('A new leave type will be created with same name'); ?><br />
+<strong><?php echo __('Cancel');?></strong> - <?php echo __('Will take no action'); ?>
 <br /><br />
 <div class="dialogButtons">
-<input type="button" id="undeleteYes" class="savebutton" value="Yes" />
-<input type="button" id="undeleteNo" class="savebutton" value="No" />
-<input type="button" id="undeleteCancel" class="savebutton" value="Cancel" />
+<input type="button" id="undeleteYes" class="savebutton" value="<?php echo __('Yes');?>" />
+<input type="button" id="undeleteNo" class="savebutton" value="<?php echo __('No');?>" />
+<input type="button" id="undeleteCancel" class="savebutton" value="<?php echo __('Cancel');?>" />
 </div>
 </div> <!-- undeleteDialog -->
 
@@ -70,7 +69,7 @@ This is a deleted leave type. Reactivate it?
 //<![CDATA[
 $(document).ready(function(){
     if($('#leaveType_hdnSavingMode').val() == "update") {
-        $("#editStatus").html("Edit");
+        $("#editStatus").html("<?php echo __('Edit'); ?>");
     }
 
     $("#resetButton").click(function() {

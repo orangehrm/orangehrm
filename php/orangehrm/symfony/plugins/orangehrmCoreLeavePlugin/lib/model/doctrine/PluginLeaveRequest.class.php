@@ -54,7 +54,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         $statusStrings = array();
         foreach ($this->statusCounter as $status => $count) {
             if (!empty($status)) {
-                $statusStrings[] = "{$status} ({$count})";
+                $statusStrings[] = __($status) . "(". $count . ")";
             }
         }
 

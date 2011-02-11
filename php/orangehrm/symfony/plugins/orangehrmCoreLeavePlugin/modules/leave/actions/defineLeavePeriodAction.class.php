@@ -70,7 +70,8 @@ class defineLeavePeriodAction extends sfAction {
         $this->isLeavePeriodDefined = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_LEAVE_PERIOD_DEFINED);
         $this->currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         if ($this->isLeavePeriodDefined) {
-            $endDate = $this->currentLeavePeriod->getEndDateFormatted('F d');
+            $endDateElements = explode(' ', $this->currentLeavePeriod->getEndDateFormatted('F d'));
+            $endDate = __($endDateElements[0]) . ' ' . $endDateElements[1];
             $nextPeriodStartDateTimestamp = strtotime('+1 day', strtotime($this->currentLeavePeriod->getEndDate()));
             $startMonthValue = (int) date('m', $nextPeriodStartDateTimestamp);
             $startDateValue = (int) date('d', $nextPeriodStartDateTimestamp);
@@ -103,7 +104,7 @@ class defineLeavePeriodAction extends sfAction {
                 $fullEndDate = $leavePeriodService->generateEndDate($leavePeriodDataHolder);
                 $currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriod();
                 
-                $this->getUser()->setFlash('templateMessage', array('success', 'Leave Period Was Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', __('Leave Period Saved Successfully')));
 
                 if (!is_null($currentLeavePeriod)) {
                     $leavePeriodService->adjustCurrentLeavePeriod($fullEndDate);

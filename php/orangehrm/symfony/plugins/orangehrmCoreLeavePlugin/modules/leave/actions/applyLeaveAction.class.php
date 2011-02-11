@@ -177,7 +177,7 @@ class applyLeaveAction extends sfAction {
         $leaveRequestService	=	$this->getLeaveRequestService();
         $leaveTypeList			=	$leaveRequestService->getEmployeeAllowedToApplyLeaveTypes($employee);
 
-        $leaveTypeChoices['']	=	"Select a Leave Type";
+        $leaveTypeChoices['']	=	__('Select a Leave Type');
         foreach( $leaveTypeList as $leaveType) {
             $leaveTypeChoices[$leaveType->getLeaveTypeId()]	=	$leaveType->getLeaveTypeName();
         }
@@ -191,7 +191,7 @@ class applyLeaveAction extends sfAction {
         //Check for available leave types
         $leaveTypes = $this->getElegibleLeaveTypes();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Apply for Leave');
+            $this->templateMessage = array('WARNING', __('No Eligible Leave Types to Apply for Leave'));
         }
         $form = new ApplyLeaveForm(array(), array('leaveTypes' => $leaveTypes), true);
 
@@ -274,13 +274,13 @@ class applyLeaveAction extends sfAction {
                     $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
                     $leaveApplicationMailer->send();
 
-                    $this->templateMessage = array('SUCCESS', 'Leave Request Successfully Submitted');
+                    $this->templateMessage = array('SUCCESS', __('Leave Request Successfully Submitted'));
                 } catch(Exception $e) {
-                    $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
+                    $this->templateMessage = array('WARNING', __('Leave Period Does Not Exist'));
                 }
             }
         } else {
-            $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
+            $this->templateMessage = array('WARNING', __('Make Sure Leave Request Contain Work Days'));
         }
     }
 

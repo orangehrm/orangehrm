@@ -58,10 +58,9 @@ class LeavePeriodService extends BaseService {
 	 * @return array Array of month names
 	 */
 	public function getListOfMonths() {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
 		$monthNames = array();
 		for ($i = 1; $i <= 12; $i ++) {
-			$monthNames[] = __(date('F', mktime(0, 0, 0, ($i + 1), 0, 0)));
+			$monthNames[] = date('F', mktime(0, 0, 0, ($i + 1), 0, 0));
 		}
 
 		return $monthNames;
@@ -115,7 +114,6 @@ class LeavePeriodService extends BaseService {
 	 */
 
 	public function calculateEndDate($month, $date, $year = null, $format = 'Y-m-d') {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
 		$year = empty($year) ? date('Y') : $year;
 
 		/* TODO: Add validations of paramerter combinations creating invalid dates */
@@ -126,9 +124,6 @@ class LeavePeriodService extends BaseService {
 		$timeCalculationString = ($startDateTimestamp > $currentTimestamp) ? '-1 day' : '+1 year, -1 day';
 
 		$endDateTimestamp = strtotime($timeCalculationString, $startDateTimestamp);
-        if($format == "F d") {
-            return __(date("F", $endDateTimestamp)) . " " . date("d", $endDateTimestamp);
-        }
 		return date($format, $endDateTimestamp);
 	}
 

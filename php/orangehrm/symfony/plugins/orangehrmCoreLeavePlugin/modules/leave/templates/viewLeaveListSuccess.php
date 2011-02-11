@@ -24,7 +24,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
 <?php }?>
 <div class="outerbox">
-	<div class="mainHeading"><h2><?php echo $form->getTitle(); ?></h2></div>
+	<div class="mainHeading"><h2><?php echo __($form->getTitle()); ?></h2></div>
 	<?php if (!$form->isDetailed()) { ?>
 	<div class="formWrapper">
 		<form id="frmFilterLeave" name="frmFilterLeave" method="post" action="<?php echo url_for($baseUrl); ?>">
@@ -136,7 +136,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                                                 <input type="hidden" name="leaveRequest[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveRequest-<?php echo $datum->getLeaveRequestId(); ?>" value="" class="requestIdHolder" />
 					</td>                    
                     <td><div class="numberLabel"><?php echo $datum->getNumberOfDays(); ?></div></td>
-                                        <td><a href="<?php echo $url; ?>"><?php echo $datum->getStatus(); ?></a></td>
+                                        <td><a href="<?php echo $url; ?>"><?php echo __($datum->getStatus()); ?></a></td>
                                         <td align="left">
                                             <table cellspacing="0" cellpadding="0" border="0">
                                                 <tr>
@@ -170,7 +170,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
                                                         $selected = $optionValue == "" ? 'selected="selected"' : '';
 
-                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . $optionValue . '</option>';
+                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . __($optionValue) . '</option>';
                                                     }
                                             ?>
                                             <select class="<?php echo $selectClass;?> quotaSelect" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
@@ -200,7 +200,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 						<?php echo ((bool) $datum->getLeaveRequest()->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
 					</td>
                     <td><div class="numberLabel"><?php echo $datum->getLeaveLengthHours(); ?></div></td>
-                    <td><?php echo $datum->getTextLeaveStatus(); ?></td>
+                    <td><?php echo __($datum->getTextLeaveStatus()); ?></td>
                     <td valign="top"><table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tr>
                                 <?php
@@ -230,7 +230,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
                                                         $selected = $optionValue == "" ? 'selected="selected"' : '';
 
-                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . $optionValue . '</option>';
+                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . __($optionValue) . '</option>';
                                                     }
                                             ?>
                                             <select class="<?php echo $selectClass;?>" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
@@ -283,27 +283,27 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 <!-- comment dialog -->
 
-<div id="commentDialog" title="Leave Comment">
+<div id="commentDialog" title="<?php echo __('Leave Comment'); ?>">
     <form action="updateComment" method="post" id="frmCommentSave">
         <input type="hidden" id="leaveId" />
         <input type="hidden" id="leaveOrRequest" />
         <textarea name="leaveComment" id="leaveComment" cols="40" rows="10" class="commentTextArea"></textarea>
         <br class="clear" />
         <div class="error" id="commentError"></div>
-        <div><input type="button" id="commentSave" class="plainbtn" value="Edit" />
-            <input type="button" id="commentCancel" class="plainbtn" value="Cancel" /></div>
+        <div><input type="button" id="commentSave" class="plainbtn" value="<?php echo __('Edit'); ?>" />
+            <input type="button" id="commentCancel" class="plainbtn" value="<?php echo __('Cancel'); ?>" /></div>
     </form>
 </div>
 
 <!-- end of comment dialog-->
 
-<div id="overQuotaDialog" title="OrangeHRM - Confirmation Required" style="display: none;">
-Approving this leave will exceed this employee's<br />
-leave balance for this leave type. Do you want to continue?
+<div id="overQuotaDialog" title="OrangeHRM - <?php echo __('Confirmation Required');?>" style="display: none;">
+<?php echo __("Approving this leave will exceed this employee's"); ?><br />
+<?php echo __("leave balance for this leave type. Do you want to continue?"); ?>
 <br /><br />
 <div class="dialogButtons">
-<input type="button" id="overQuotaYes" class="savebutton" value="Yes" />
-<input type="button" id="overQuotaNo" class="savebutton" value="No" />
+<input type="button" id="overQuotaYes" class="savebutton" value="<?php echo __('Yes') ?>" />
+<input type="button" id="overQuotaNo" class="savebutton" value="<?php echo __('No') ?>" />
 </div>
 </div>
 
@@ -411,7 +411,7 @@ leave balance for this leave type. Do you want to continue?
                 //removing errors message in the comment box
                 $("#commentError").html("");
                 
-                $("#commentSave").attr("value", "Edit");
+                $("#commentSave").attr("value", "<?php echo __('Edit'); ?>");
 
                 //extracting the request id
                 var ids = ($(this).attr("id")).split("_");
@@ -430,17 +430,17 @@ leave balance for this leave type. Do you want to continue?
 
             //on clicking on save button
             $("#commentSave").click(function() {
-                if($("#commentSave").attr("value") == "Edit") {
+                if($("#commentSave").attr("value") == "<?php echo __('Edit'); ?>") {
                     $("#leaveComment").removeAttr("disabled");
-                    $("#commentSave").attr("value", "Save");
+                    $("#commentSave").attr("value", "<?php echo __('Save'); ?>");
                     return;
                 }
 
-                if($("#commentSave").attr("value") == "Save") {
+                if($("#commentSave").attr("value") == "<?php echo __('Save'); ?>") {
                     $("#commentError").html("");
                     var comment = $("#leaveComment").val().trim();
                     if(comment.length > 250) {
-                        $("#commentError").html("Comment length should be less than 250 characters");
+                        $("#commentError").html("<?php echo __('Comment length should be less than 250 characters'); ?>");
                         return;
                     }
 
@@ -483,7 +483,7 @@ leave balance for this leave type. Do you want to continue?
                             if(flag == 1) {
                                 $("#commentLabel_" + $("#leaveId").val()).html(commentLabel);
                                 $("#msgPlace").attr("class", "messageBalloon_success");
-                                $("#msgPlace").html("Comment Successfully Saved");
+                                $("#msgPlace").html("<?php echo __('Comment Successfully Saved'); ?>");
                             }
                         }
                     });
@@ -547,7 +547,7 @@ leave balance for this leave type. Do you want to continue?
             $("#overQuotaDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                width: 325,
+                width: 350,
                 height: 90,
                 position: 'middle'
             });

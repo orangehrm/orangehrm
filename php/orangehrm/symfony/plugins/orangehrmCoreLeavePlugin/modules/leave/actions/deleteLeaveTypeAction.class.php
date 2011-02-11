@@ -14,7 +14,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
         if ($request->isMethod('post')) {
 
             if (count($request->getParameter('chkLeaveType')) == 0) {
-                $this->getUser()->setFlash('templateMessage', array('NOTICE', 'Please Select at Least One Leave Type to Delete'));
+                $this->getUser()->setFlash('templateMessage', array('NOTICE', __('Please Select at Least One Leave Type to Delete')));
                 $this->redirect('leave/leaveTypeList');
             }
 
@@ -23,7 +23,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
 
             $leaveTypeService->deleteLeaveType($request->getParameter('chkLeaveType'));
 
-            $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Leave Type Successfully Deleted'));
+            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Leave Type Successfully Deleted')));
             $this->redirect('leave/leaveTypeList');
         }
     }
@@ -34,7 +34,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
         $leaveType->setLeaveTypeName($form->getValue('txtLeaveTypeName'));
         $leaveType->setAvailableFlag(1); // TODO: Replace 1 with a constant
         $this->getLeaveTypeService()->saveLeaveType($leaveType);
-        $this->form->setMessage('success', 'Leave Type Successfully Saved');
+        $this->form->setMessage('success', __('Leave Type Successfully Saved'));
         
     }
 

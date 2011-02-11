@@ -87,12 +87,17 @@ class WorkWeekForm extends sfForm {
         $formDefaults = array();
         $formLabels = array();
 
+        //making compatible with i18n
         $workWeekList = $this->getWorkWeekService()->getWorkWeekList(0,7); // only 7 days a week
+        $dayLength = $this->getWorkWeekEntity()->getDaysLengthList();
+        foreach($dayLength as $k => $v) {
+            $dayLength[$k] = __($v);
+        }
 
         foreach ($workWeekList as $key => $workWeek) {
 
             // set form widget Array
-            $formWidgets["select_" . $workWeek->getDay()] = new sfWidgetFormSelect( array('choices' => $this->getWorkWeekEntity()->getDaysLengthList()) );
+            $formWidgets["select_" . $workWeek->getDay()] = new sfWidgetFormSelect( array('choices' => $dayLength) );
 
             // set form validation array
             $formValidators["select_" .$workWeek->getDay()] = new sfValidatorChoice( array('choices'=>array_keys( $this->getWorkWeekEntity()->getDaysLengthList())), array('invalid'=> "Invalid work week for ". $this->getWorkWeekEntity()->getDayById($workWeek->getDay()) ) );
@@ -101,7 +106,7 @@ class WorkWeekForm extends sfForm {
             $formDefaults["select_" . $workWeek->getDay()] = $workWeek->getLength();
 
             // set Label texts
-            $formLabels["select_" . $workWeek->getDay()] = $this->getWorkWeekEntity()->getDayById($workWeek->getDay());
+            $formLabels["select_" . $workWeek->getDay()] = __($this->getWorkWeekEntity()->getDayById($workWeek->getDay()));
 
         }
 

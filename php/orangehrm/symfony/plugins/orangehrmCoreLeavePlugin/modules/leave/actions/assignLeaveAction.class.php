@@ -161,7 +161,7 @@ class assignLeaveAction extends sfAction {
                 $post   =	$form->getValues();
                 //check whether employee exists
                 if(empty($post['txtEmpID'])) {
-                    $this->templateMessage = array('WARNING', "Employee Does Not Exist");
+                    $this->templateMessage = array('WARNING', __("Employee Does Not Exist"));
                 }
                 
                 if(!empty($post['txtEmpID']) && !$this->hasOverlapLeave($this->form)) {
@@ -178,7 +178,7 @@ class assignLeaveAction extends sfAction {
         $leaveTypeChoices =	array();
         $leaveTypeList =	$this->getLeaveTypeService()->getLeaveTypeList();
 
-        $leaveTypeChoices[''] =	"Select a Leave Type";
+        $leaveTypeChoices[''] =	__("Select a Leave Type");
         foreach( $leaveTypeList as $leaveType) {
             $leaveTypeChoices[$leaveType->getLeaveTypeId()]	=	$leaveType->getLeaveTypeName();
         }
@@ -193,7 +193,7 @@ class assignLeaveAction extends sfAction {
         $leaveTypes = $this->getElegibleLeaveTypes();
         $userDetails = $this->getLoggedInUserDetails();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', 'No Eligible Leave Types to Assign Leave, Please contact HR Admin');
+            $this->templateMessage = array('WARNING', __('No Eligible Leave Types to Assign Leave, Please contact HR Admin'));
         }
         $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
                 'loggedUserId' => $userDetails['loggedUserId']);
@@ -280,13 +280,13 @@ class assignLeaveAction extends sfAction {
                     $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);
                     $leaveAssignmentMailer->send();
 
-                    $this->templateMessage = array('SUCCESS', 'Leave Successfully Assigned');
+                    $this->templateMessage = array('SUCCESS', __('Leave Successfully Assigned'));
                 } catch(Exception $e) {
-                    $this->templateMessage = array('WARNING', "Leave Period Does Not Exist");
+                    $this->templateMessage = array('WARNING', __("Leave Period Does Not Exist"));
                 }
             }
         } else {
-            $this->templateMessage = array('WARNING', "Make Sure Leave Request Contain Work Days");
+            $this->templateMessage = array('WARNING', __("Make Sure Leave Request Contain Work Days"));
         }
     }
 

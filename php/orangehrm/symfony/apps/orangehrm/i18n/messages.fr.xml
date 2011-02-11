@@ -5,456 +5,876 @@
     <header/>
     <body>
       <trans-unit id="1">
-        <source>Company Name</source>
-        <target>A propos de Jobeet</target>
+        <source>Leave Period</source>
+        <target>FR_Leave Period</target>
       </trans-unit>
       <trans-unit id="2">
-        <source>First </source>
-        <target/>
+        <source>For Leap Years</source>
+        <target>FR_For Leap Years</target>
       </trans-unit>
       <trans-unit id="3">
-        <source>Previous</source>
-        <target/>
+        <source>Start Date</source>
+        <target>FR_Start Date</target>
       </trans-unit>
       <trans-unit id="4">
-        <source>Next</source>
-        <target/>
+        <source>End Date</source>
+        <target>FR_End Date</target>
       </trans-unit>
       <trans-unit id="5">
-        <source>Last</source>
-        <target/>
+        <source>For Non-Leap Years</source>
+        <target>FR_For Non-Leap Years</target>
       </trans-unit>
       <trans-unit id="6">
-        <source>Job : Employment Status</source>
-        <target/>
+        <source>Current Leave Period</source>
+        <target>FR_Current Leave Period</target>
       </trans-unit>
       <trans-unit id="7">
-        <source>Search By</source>
-        <target/>
+        <source>Edit</source>
+        <target>FR_Edit</target>
       </trans-unit>
       <trans-unit id="8">
-        <source>--Select--</source>
-        <target/>
+        <source>Save</source>
+        <target>FR_Save</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Reset</source>
+        <target>FR_Reset</target>
       </trans-unit>
       <trans-unit id="9">
-        <source>ID</source>
-        <target/>
+        <source>Fields marked with an asterisk</source>
+        <target>FR_Fields marked with an asterisk</target>
       </trans-unit>
       <trans-unit id="10">
-        <source>Name</source>
-        <target/>
+        <source>are required.</source>
+        <target>FR_are required.</target>
       </trans-unit>
       <trans-unit id="11">
-        <source>Search</source>
-        <target/>
+        <source>Month</source>
+        <target>FR_Month</target>
       </trans-unit>
       <trans-unit id="12">
-        <source>Reset</source>
-        <target/>
+        <source>Date</source>
+        <target>FR_Date</target>
       </trans-unit>
       <trans-unit id="13">
-        <source>Add</source>
-        <target/>
+        <source>January</source>
+        <target>FR_January</target>
       </trans-unit>
       <trans-unit id="14">
-        <source>Delete</source>
-        <target/>
+        <source>February</source>
+        <target>FR_February</target>
       </trans-unit>
       <trans-unit id="15">
-        <source>Employment Status ID</source>
-        <target/>
+        <source>March</source>
+        <target>FR_March</target>
       </trans-unit>
       <trans-unit id="16">
-        <source>Employment Status Name</source>
-        <target/>
+        <source>April</source>
+        <target>FR_April</target>
       </trans-unit>
       <trans-unit id="17">
-        <source>Back</source>
-        <target/>
+        <source>May</source>
+        <target>FR_May</target>
       </trans-unit>
       <trans-unit id="18">
-        <source>Qualification : Licenses</source>
-        <target/>
+        <source>June</source>
+        <target>FR_June</target>
       </trans-unit>
       <trans-unit id="19">
-        <source>Code</source>
-        <target/>
+        <source>July</source>
+        <target>FR_July</target>
       </trans-unit>
       <trans-unit id="20">
-        <source>Description</source>
-        <target/>
+        <source>August</source>
+        <target>FR_August</target>
       </trans-unit>
       <trans-unit id="21">
-        <source>Edit</source>
-        <target/>
+        <source>September</source>
+        <target>FR_September</target>
       </trans-unit>
       <trans-unit id="22">
-        <source>Fields marked with an asterisk #star are required.</source>
-        <target/>
+        <source>October</source>
+        <target>FR_October</target>
       </trans-unit>
       <trans-unit id="23">
-        <source>Memberships : Membership</source>
-        <target/>
+        <source>November</source>
+        <target>FR_November</target>
       </trans-unit>
       <trans-unit id="24">
-        <source>Membership Type</source>
-        <target/>
+        <source>December</source>
+        <target>FR_December</target>
       </trans-unit>
       <trans-unit id="25">
-        <source>Job : EEO Job Category</source>
-        <target/>
+        <source>Following Year</source>
+        <target>FR_Following Year</target>
       </trans-unit>
       <trans-unit id="26">
-        <source>Title</source>
-        <target/>
+        <source>Leave Period Saved Successfully</source>
+        <target>FR_Leave Period Saved Successfully</target>
       </trans-unit>
       <trans-unit id="27">
-        <source>Skills : Skills</source>
-        <target/>
+        <source>to</source>
+        <target>FR_to</target>
       </trans-unit>
       <trans-unit id="28">
-        <source>Save</source>
-        <target/>
+        <source>Work Week</source>
+        <target>FR_Work Week</target>
       </trans-unit>
       <trans-unit id="29">
-        <source>Qualification : Education</source>
-        <target/>
+        <source>Monday</source>
+        <target>FR_Monday</target>
       </trans-unit>
       <trans-unit id="30">
-        <source>Education ID</source>
-        <target/>
+        <source>Tuesday</source>
+        <target>FR_Tuesday</target>
       </trans-unit>
       <trans-unit id="31">
-        <source>Course</source>
-        <target/>
+        <source>Wednesday</source>
+        <target>FR_Wednesday</target>
       </trans-unit>
       <trans-unit id="32">
-        <source>Institute</source>
-        <target/>
+        <source>Thursday</source>
+        <target>FR_Thursday</target>
       </trans-unit>
       <trans-unit id="33">
-        <source>Company Info : General</source>
-        <target/>
+        <source>Friday</source>
+        <target>FR_Friday</target>
       </trans-unit>
       <trans-unit id="34">
-        <source>Number of Employees</source>
-        <target/>
+        <source>Saturday</source>
+        <target>FR_Saturday</target>
       </trans-unit>
       <trans-unit id="35">
-        <source>Tax ID</source>
-        <target/>
+        <source>Sunday</source>
+        <target>FR_Sunday</target>
       </trans-unit>
       <trans-unit id="36">
-        <source>NAICS</source>
-        <target/>
+        <source>Full Day</source>
+        <target>FR_Full Day</target>
       </trans-unit>
       <trans-unit id="37">
-        <source>Phone</source>
-        <target/>
+        <source>Half Day</source>
+        <target>FR_Half Day</target>
       </trans-unit>
       <trans-unit id="38">
-        <source>Fax</source>
-        <target/>
+        <source>Non-working Day</source>
+        <target>FR_Non-working Day</target>
       </trans-unit>
       <trans-unit id="39">
-        <source>Country</source>
-        <target/>
+        <source>Work Week Successfully Saved</source>
+        <target>FR_Work Week Successfully Saved</target>
       </trans-unit>
       <trans-unit id="40">
-        <source>Address1</source>
-        <target/>
+        <source>Holidays</source>
+        <target>FR_Holidays</target>
       </trans-unit>
       <trans-unit id="41">
-        <source>Address2</source>
-        <target/>
+        <source>Search</source>
+        <target>FR_Search</target>
       </trans-unit>
       <trans-unit id="42">
-        <source>City</source>
-        <target/>
+        <source>Add</source>
+        <target>FR_Add</target>
       </trans-unit>
       <trans-unit id="43">
-        <source>State / Province</source>
-        <target/>
+        <source>Delete</source>
+        <target>FR_Delete</target>
       </trans-unit>
       <trans-unit id="44">
-        <source>ZIP Code</source>
-        <target/>
+        <source>Name of Holiday</source>
+        <target>FR_Name of Holiday</target>
       </trans-unit>
       <trans-unit id="45">
-        <source>Comments</source>
-        <target/>
+        <source>Name of Holiday</source>
+        <target>FR_Name of Holiday</target>
       </trans-unit>
       <trans-unit id="46">
-        <source>Duties</source>
-        <target/>
+        <source>Repeats Annually</source>
+        <target>FR_Repeats Annually</target>
       </trans-unit>
       <trans-unit id="47">
-        <source>Memberships : Membership Types</source>
-        <target/>
+        <source>Yes</source>
+        <target>FR_Yes</target>
       </trans-unit>
       <trans-unit id="48">
-        <source>Membership Type ID</source>
-        <target/>
+        <source>No</source>
+        <target>FR_No</target>
       </trans-unit>
       <trans-unit id="49">
-        <source>Membership Name</source>
-        <target/>
+        <source>Holiday</source>
+        <target>FR_Holiday</target>
       </trans-unit>
       <trans-unit id="50">
-        <source>Company Info: Company Property</source>
-        <target/>
+        <source>Name</source>
+        <target>FR_Name</target>
       </trans-unit>
       <trans-unit id="51">
-        <source>Property Name</source>
-        <target/>
+        <source>Back</source>
+        <target>FR_Back</target>
       </trans-unit>
       <trans-unit id="52">
-        <source>Project</source>
-        <target/>
+        <source>Holiday Successfully Updated</source>
+        <target>FR_Holiday Successfully Updated</target>
       </trans-unit>
       <trans-unit id="53">
-        <source>Customer Name</source>
-        <target/>
+        <source>Holiday Successfully Saved</source>
+        <target>FR_Holiday Successfully Saved</target>
       </trans-unit>
       <trans-unit id="54">
-        <source>Memberships : Membership Type</source>
-        <target/>
+        <source>The Date Is Already Assigned to Another Holiday</source>
+        <target>FR_The Date Is Already Assigned to Another Holiday</target>
       </trans-unit>
       <trans-unit id="55">
-        <source>Customer</source>
-        <target/>
+        <source>Successfully Deleted</source>
+        <target>FR_Successfully Deleted</target>
       </trans-unit>
       <trans-unit id="56">
-        <source>Nationality &amp; Race : Nationality</source>
-        <target/>
+        <source>Successfully Deleted</source>
+        <target>FR_Successfully Deleted</target>
       </trans-unit>
       <trans-unit id="57">
-        <source>Custom Fields</source>
-        <target/>
+        <source>Please Select at Least One Holiday to Delete</source>
+        <target>FR_Please Select at Least One Holiday to Delete</target>
       </trans-unit>
       <trans-unit id="58">
-        <source>Field Number</source>
-        <target/>
+        <source>No Records Found</source>
+        <target>FR_No Records Found</target>
       </trans-unit>
       <trans-unit id="59">
-        <source>Field Name</source>
-        <target/>
+        <source>No Results Found for This Criteria</source>
+        <target>FR_No Results Found for This Criteria</target>
       </trans-unit>
       <trans-unit id="60">
-        <source>Type</source>
-        <target/>
+        <source>Leave Summary</source>
+        <target>FR_Leave Summary</target>
       </trans-unit>
       <trans-unit id="61">
-        <source>String</source>
-        <target/>
+        <source>Leave Type</source>
+        <target>FR_Leave Type</target>
       </trans-unit>
       <trans-unit id="62">
-        <source>Drop Down</source>
-        <target/>
+        <source>Leave Type</source>
+        <target>FR_Leave Type</target>
       </trans-unit>
       <trans-unit id="63">
-        <source>Company Info : Locations</source>
-        <target/>
-      </trans-unit>
+        <source>Employee</source>
+        <target>FR_Employee</target>
+      </trans-unit>      
       <trans-unit id="64">
-        <source>Address</source>
-        <target/>
+        <source>Type for hints</source>
+        <target>FR_Type for hints</target>
       </trans-unit>
       <trans-unit id="65">
-        <source>Job : Pay Grade</source>
-        <target/>
+        <source>Type for hints</source>
+        <target>FR_Type for hints</target>
       </trans-unit>
       <trans-unit id="66">
-        <source>Job : Job Title</source>
-        <target/>
+        <source>Job Title</source>
+        <target>FR_Job Title</target>
       </trans-unit>
       <trans-unit id="67">
-        <source>Job Title ID</source>
-        <target/>
+        <source>Job Title</source>
+        <target>FR_Location</target>
       </trans-unit>
       <trans-unit id="68">
-        <source>Job Title Name</source>
-        <target/>
+        <source>Sub Unit</source>
+        <target>FR_Sub Unit</target>
       </trans-unit>
       <trans-unit id="69">
-        <source>Job Description</source>
-        <target/>
+        <source>Records Per Page</source>
+        <target>FR_Records Per Page</target>
       </trans-unit>
       <trans-unit id="70">
-        <source>Job Title Comments</source>
-        <target/>
+        <source>Location</source>
+        <target>FR_Location</target>
       </trans-unit>
       <trans-unit id="71">
-        <source>Pay Grade</source>
-        <target/>
+        <source>Leave Entitlements Successfully Saved</source>
+        <target>FR_Leave Entitlements Successfully Saved</target>
       </trans-unit>
       <trans-unit id="72">
-        <source>Job : Pay Grades</source>
-        <target/>
+        <source>Employee Name</source>
+        <target>FR_Employee Name</target>
       </trans-unit>
       <trans-unit id="73">
-        <source>Search For:</source>
-        <target/>
+        <source>Leave Entitled</source>
+        <target>FR_Leave Entitled</target>
       </trans-unit>
       <trans-unit id="74">
-        <source>Pay Grade ID </source>
-        <target/>
+        <source>Days</source>
+        <target>FR_Days</target>
       </trans-unit>
       <trans-unit id="75">
-        <source>Pay Grade Name</source>
-        <target/>
+        <source>Leave Scheduled</source>
+        <target>FR_Leave Scheduled</target>
       </trans-unit>
       <trans-unit id="76">
-        <source>License ID</source>
-        <target/>
+        <source>Leave Taken</source>
+        <target>FR_Leave Taken</target>
       </trans-unit>
       <trans-unit id="77">
-        <source>License Description</source>
-        <target/>
+        <source>Leave Balance</source>
+        <target>FR_Leave Balance</target>
       </trans-unit>
       <trans-unit id="78">
-        <source>Nationality &amp; Race :Ethnic Races</source>
-        <target/>
+        <source>Leave Carry Forward</source>
+        <target>FR_Leave Carry Forward</target>
       </trans-unit>
       <trans-unit id="79">
-        <source>Ethnic Race ID</source>
-        <target/>
+        <source>Leave Brought Forward</source>
+        <target>FR_Leave Brought Forward</target>
       </trans-unit>
       <trans-unit id="80">
-        <source>Ethnic Race Name </source>
-        <target/>
+        <source>From Last Leave Period</source>
+        <target>FR_From Last Leave Period</target>
       </trans-unit>
       <trans-unit id="81">
-        <source>Skill ID</source>
-        <target/>
+        <source>To Next Leave Period</source>
+        <target>FR_To Next Leave Period</target>
       </trans-unit>
       <trans-unit id="82">
-        <source>Skill Name</source>
-        <target/>
-      </trans-unit>
-      <trans-unit id="83">
-        <source>EEO Job Category Id</source>
-        <target/>
+        <source>Search</source>
+        <target>FR_Search</target>
       </trans-unit>
       <trans-unit id="84">
-        <source>EEO Job Category Name</source>
-        <target/>
+        <source>Reset</source>
+        <target>FR_Reset</target>
       </trans-unit>
       <trans-unit id="85">
-        <source>Memberships : Memberships</source>
-        <target/>
+        <source>All</source>
+        <target>FR_All</target>
       </trans-unit>
       <trans-unit id="86">
-        <source>Property Name </source>
-        <target/>
+        <source>Enter a Positive Number Less Than 365 with Two Decimal Places</source>
+        <target>FR_Enter a Positive Number Less Than 365 with Two Decimal Places</target>
       </trans-unit>
       <trans-unit id="87">
-        <source>Project Administrators</source>
-        <target/>
+        <source>Leave List</source>
+        <target>FR_Leave List</target>
       </trans-unit>
       <trans-unit id="88">
-        <source>Customers</source>
-        <target/>
+        <source>From</source>
+        <target>FR_From</target>
       </trans-unit>
       <trans-unit id="89">
-        <source>Customer Id</source>
-        <target/>
+        <source>To</source>
+        <target>FR_To</target>
       </trans-unit>
       <trans-unit id="90">
-        <source>Job : Job Specifications</source>
-        <target/>
+        <source>Show Leave with Status</source>
+        <target>FR_Show Leave with Status</target>
       </trans-unit>
       <trans-unit id="91">
-        <source>Nationality ID</source>
-        <target/>
+        <source>Rejected</source>
+        <target>FR_Rejected</target>
       </trans-unit>
       <trans-unit id="92">
-        <source>Nationality Name </source>
-        <target/>
+        <source>Canceled</source>
+        <target>FR_Canceled</target>
       </trans-unit>
       <trans-unit id="93">
-        <source>Projects</source>
-        <target/>
+        <source>Pending Approval</source>
+        <target>FR_Pending Approval</target>
       </trans-unit>
       <trans-unit id="94">
-        <source>Project Id</source>
-        <target/>
+        <source>Scheduled</source>
+        <target>FR_Scheduled</target>
       </trans-unit>
       <trans-unit id="95">
-        <source>Project Name</source>
-        <target/>
+        <source>Taken</source>
+        <target>FR_Taken</target>
       </trans-unit>
       <trans-unit id="96">
-        <source>Skills : Languages</source>
-        <target/>
+        <source>Number of Days</source>
+        <target>FR_Number of Days</target>
       </trans-unit>
       <trans-unit id="97">
-        <source>Custom Field Id</source>
-        <target/>
+        <source>Status</source>
+        <target>FR_Status</target>
       </trans-unit>
       <trans-unit id="98">
-        <source>Custom Field Name </source>
-        <target/>
+        <source>Comments</source>
+        <target>FR_Comments</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>Language ID</source>
-        <target/>
+        <source>Actions</source>
+        <target>FR_Actions</target>
       </trans-unit>
       <trans-unit id="100">
-        <source>Language Name </source>
-        <target/>
+        <source>Go to Detailed View</source>
+        <target>FR_Go to Detailed View</target>
       </trans-unit>
       <trans-unit id="101">
-        <source>City Name</source>
-        <target/>
+        <source>Approve</source>
+        <target>FR_Approve</target>
       </trans-unit>
       <trans-unit id="102">
-        <source>Location ID</source>
-        <target/>
+        <source>Reject</source>
+        <target>FR_Reject</target>
       </trans-unit>
       <trans-unit id="103">
-        <source>Location Name</source>
-        <target/>
+        <source>Cancel</source>
+        <target>FR_Cancel</target>
       </trans-unit>
       <trans-unit id="104">
-        <source>Please select a field to search</source>
-        <target/>
+        <source>deleted</source>
+        <target>FR_deletedl</target>
       </trans-unit>
       <trans-unit id="105">
-        <source>Select at least one record to delete</source>
-        <target/>
+        <source>Leave Comment</source>
+        <target>FR_Leave Comment</target>
       </trans-unit>
       <trans-unit id="106">
-        <source>Employee Information</source>
-        <target/>
+        <source>Comment length should be less than 250 characters</source>
+        <target>FR_Comment length should be less than 250 characters</target>
       </trans-unit>
       <trans-unit id="107">
-        <source>Search For</source>
-        <target/>
+        <source>Comment Successfully Saved</source>
+        <target>FR_Comment Successfully Saved</target>
       </trans-unit>
       <trans-unit id="108">
-        <source>Employee Id</source>
-        <target/>
+        <source>Confirmation Required</source>
+        <target>FR_Confirmation Required</target>
       </trans-unit>
       <trans-unit id="109">
-        <source>Employee Name</source>
-        <target/>
+        <source>Approving this leave will exceed this employee's</source>
+        <target>FR_Approving this leave will exceed this employee's</target>
       </trans-unit>
       <trans-unit id="110">
-        <source>Job Title</source>
-        <target/>
+        <source>leave balance for this leave type. Do you want to continue?</source>
+        <target>FR_leave balance for this leave type. Do you want to continue?</target>
       </trans-unit>
       <trans-unit id="111">
-        <source>Employment Status</source>
-        <target/>
+        <source>Non Working Day</source>
+        <target>FR_Non Working Day</target>
       </trans-unit>
       <trans-unit id="112">
-        <source>Sub-Division</source>
-        <target/>
+        <source>Leave Request</source>
+        <target>FR_Leave Request</target>
       </trans-unit>
       <trans-unit id="113">
-        <source>Supervisor</source>
-        <target/>
+        <source>Duration</source>
+        <target>FR_Duration</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Hours</source>
+        <target>FR_Hours</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>My Leave List</source>
+        <target>FR_My Leave List</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>My Leave Details</source>
+        <target>FR_My Leave Details</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</source>
+        <target>FR_The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>No of Hours</source>
+        <target>FR_No of Hours</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Assign Leave</source>
+        <target>FR_Assign Leave</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>From Date</source>
+        <target>FR_From Date</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>To Date</source>
+        <target>FR_To Date</target>
+      </trans-unit>
+      <trans-unit id="122">
+        <source>Total Hours</source>
+        <target>FR_Total Hours</target>
+      </trans-unit>
+      <trans-unit id="123">
+        <source>Assign</source>
+        <target>FR_Assign</target>
+      </trans-unit>
+      <trans-unit id="124">
+        <source>Employee Does Not Exist</source>
+        <target>FR_Employee Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="125">
+        <source>Employee Does Not Exist</source>
+        <target>FR_Employee Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="126">
+        <source>Leave Successfully Assigned</source>
+        <target>FR_Leave Successfully Assigned</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Leave Period Does Not Exist</source>
+        <target>FR_Leave Period Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Make Sure Leave Request Contain Work Days</source>
+        <target>FR_Make Sure Leave Request Contain Work Days</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
+        <target>FR_No Eligible Leave Types to Assign Leave, Please contact HR Admin</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Select a Leave Type</source>
+        <target>FR_Select a Leave Type</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>Comment</source>
+        <target>FR_Comment</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>Employee Name is required</source>
+        <target>FR_Employee Name is required</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>Leave Type is required</source>
+        <target>FR_Leave Type is required</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>From Date is required</source>
+        <target>FR_From Date is required</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>From Date should be filled in YYYY-MM-DD format</source>
+        <target>FR_From Date should be filled in YYYY-MM-DD format</target>
+      </trans-unit>
+      <trans-unit id="135">
+        <source>Invalid from date</source>
+        <target>FR_Invalid from date</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>From date should be before to date</source>
+        <target>FR_From date should be before to date</target>
+      </trans-unit>
+      <trans-unit id="137">
+        <source>From date should be before to date</source>
+        <target>FR_From date should be before to date</target>
+      </trans-unit>
+      <trans-unit id="138">
+        <source>To Date is required</source>
+        <target>FR_To Date is required</target>
+      </trans-unit>
+      <trans-unit id="139">
+        <source>To Date should be filled in YYYY-MM-DD format</source>
+        <target>FR_To Date should be filled in YYYY-MM-DD format</target>
+      </trans-unit>
+      <trans-unit id="140">
+        <source>Invalid to date</source>
+        <target>FR_Invalid to date</target>
+      </trans-unit>
+      <trans-unit id="141">
+        <source>Comment length should be less than 250 characters</source>
+        <target>FR_Comment length should be less than 250 characters</target>
+      </trans-unit>
+      <trans-unit id="142">
+        <source>Total time is a numeric value</source>
+        <target>FR_Total time is a numeric value</target>
+      </trans-unit>
+      <trans-unit id="143">
+        <source>Total time should be greater than 0.01</source>
+        <target>FR_Total time should be greater than 0.01</target>
+      </trans-unit>
+      <trans-unit id="144">
+        <source>Total time should be lesser than 24</source>
+        <target>FR_Total time should be lesser than 24</target>
+      </trans-unit>
+      <trans-unit id="145">
+        <source>Invalid total time</source>
+        <target>FR_Invalid total time</target>
+      </trans-unit>
+      <trans-unit id="146">
+        <source>Total time is greater than the shift length</source>
+        <target>FR_Total time is greater than the shift length</target>
+      </trans-unit>
+      <trans-unit id="147">
+        <source>From time should be lesser than To time</source>
+        <target>FR_From time should be lesser than To time</target>
+      </trans-unit>
+      <trans-unit id="148">
+        <source>Apply Leave</source>
+        <target>FR_Apply Leave</target>
+      </trans-unit>
+      <trans-unit id="149">
+        <source>From Time</source>
+        <target>FR_From Time</target>
+      </trans-unit>
+      <trans-unit id="150">
+        <source>To Time</source>
+        <target>FR_To Time</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Apply</source>
+        <target>FR_Apply</target>
+      </trans-unit>
+      <trans-unit id="152">
+        <source>This is a deleted leave type. Reactivate it?</source>
+        <target>FR_This is a deleted leave type. Reactivate it?</target>
+      </trans-unit>
+      <trans-unit id="153">
+        <source>Leave type will be undeleted</source>
+        <target>FR_Leave type will be undeleted</target>
+      </trans-unit>
+      <trans-unit id="154">
+        <source>A new leave type will be created with same name</source>
+        <target>FR_A new leave type will be created with same name</target>
+      </trans-unit>
+      <trans-unit id="155">
+        <source>Please provide a leave type name</source>
+        <target>FR_Please provide a leave type name</target>
+      </trans-unit>
+      <trans-unit id="156">
+        <source>This leave type exists</source>
+        <target>FR_This leave type exists</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Leave type name should be less than 30 characters</source>
+        <target>FR_Leave type name should be less than 30 characters</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Leave Type Successfully Saved</source>
+        <target>FR_Leave Type Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="159">
+        <source>Leave Type "%1%" Successfully Updated</source>
+        <target>FR_Leave Type "%1%" Successfully Updated</target>
+      </trans-unit>
+      <trans-unit id="160">
+        <source>Leave Type "%1%" Successfully Undeleted</source>
+        <target>FR_Leave Type "%1%" Successfully Undeleted</target>
+      </trans-unit>
+      <trans-unit id="161">
+        <source>Define Leave Type</source>
+        <target>FR_Define Leave Type</target>
+      </trans-unit>
+      <trans-unit id="162">
+        <source>Employee Applies, Supervisor or Admin Approves</source>
+        <target>FR_Employee Applies, Supervisor or Admin Approves</target>
+      </trans-unit>
+      <trans-unit id="163">
+        <source>Admin or Supervisor Assigns Leave to Employee</source>
+        <target>FR_Admin or Supervisor Assigns Leave to Employee</target>
+      </trans-unit>
+      <trans-unit id="164">
+        <source>Elegibility</source>
+        <target>FR_Elegibility</target>
+      </trans-unit>
+      <trans-unit id="165">
+        <source>Employee Selection Rule</source>
+        <target>FR_Employee Selection Rule</target>
+      </trans-unit>
+      <trans-unit id="166">
+        <source>Select Years of Service</source>
+        <target>FR_Select Years of Service</target>
+      </trans-unit>
+      <trans-unit id="167">
+        <source>Years</source>
+        <target>FR_Years</target>
+      </trans-unit>
+      <trans-unit id="168">
+        <source>Restrictions Against Applying</source>
+        <target>FR_Restrictions Against Applying</target>
+      </trans-unit>
+      <trans-unit id="169">
+        <source>Don't allow more than current leave balance</source>
+        <target>FR_Don't allow more than current leave balance</target>
+      </trans-unit>
+      <trans-unit id="170">
+        <source>Add advanced leave rules</source>
+        <target>FR_Add advanced leave rules</target>
+      </trans-unit>
+      <trans-unit id="171">
+        <source>You can define rules for accruing and carrying forward leave below. For the rules to be effective, you have to schedule file located at "symfony/web/scheduler.php" daily (Recommended time is 12am).</source>
+        <target>FR_You can define rules for accruing and carrying forward leave below. For the rules to be effective, you have to schedule file located at "symfony/web/scheduler.php" daily (Recommended time is 12am).</target>
+      </trans-unit>
+      <trans-unit id="172">
+        <source>Flow</source>
+        <target>FR_Flow</target>
+      </trans-unit>
+      <trans-unit id="173">
+        <source>Full Time Contract</source>
+        <target>FR_Full Time Contract</target>
+      </trans-unit>
+      <trans-unit id="174">
+        <source>Full Time Internship</source>
+        <target>FR_Full Time Internship</target>
+      </trans-unit>
+      <trans-unit id="175">
+        <source>Full Time Permanent</source>
+        <target>FR_Full Time Permanent</target>
+      </trans-unit>
+      <trans-unit id="176">
+        <source>Part Time Contract</source>
+        <target>FR_Part Time Contract</target>
+      </trans-unit>
+      <trans-unit id="177">
+        <source>Part Time Internship</source>
+        <target>FR_Part Time Internship</target>
+      </trans-unit>
+      <trans-unit id="178">
+        <source>Part Time Permanent</source>
+        <target>FR_Part Time Permanent</target>
+      </trans-unit>
+      <trans-unit id="179">
+        <source>Elegible</source>
+        <target>FR_Elegible</target>
+      </trans-unit>
+      <trans-unit id="180">
+        <source>Not Elegible</source>
+        <target>FR_Not Elegible</target>
+      </trans-unit>
+      <trans-unit id="181">
+        <source>Help</source>
+        <target>FR_Help</target>
+      </trans-unit>
+      <trans-unit id="182">
+        <source>Leave Entitlements</source>
+        <target>FR_Leave Entitlements</target>
+      </trans-unit>
+      <trans-unit id="183">
+        <source>Admin adds/adjusts leave entitlements</source>
+        <target>FR_Admin adds/adjusts leave entitlements</target>
+      </trans-unit>
+      <trans-unit id="184">
+        <source>Accrue leave</source>
+        <target>FR_Accrue leave</target>
+      </trans-unit>
+      <trans-unit id="185">
+        <source>Accrual Frequency</source>
+        <target>FR_Accrual Frequency</target>
+      </trans-unit>
+      <trans-unit id="186">
+        <source>Day of Crediting to Employee</source>
+        <target>FR_Day of Crediting to Employee</target>
+      </trans-unit>
+      <trans-unit id="187">
+        <source>Add Group</source>
+        <target>FR_Add Group</target>
+      </trans-unit>
+      <trans-unit id="188">
+        <source>Expand All</source>
+        <target>FR_Expand All</target>
+      </trans-unit>
+      <trans-unit id="189">
+        <source>Collapse All</source>
+        <target>FR_Collapse All</target>
+      </trans-unit>
+      <trans-unit id="190">
+        <source>Employee Group</source>
+        <target>FR_Employee Group</target>
+      </trans-unit>
+      <trans-unit id="191">
+        <source>Group Name</source>
+        <target>FR_Group Name</target>
+      </trans-unit>
+      <trans-unit id="192">
+        <source>Number of Days of Leave Accrued</source>
+        <target>FR_Number of Days of Leave Accrued</target>
+      </trans-unit>
+      <trans-unit id="193">
+        <source>Remove Group</source>
+        <target>FR_Remove Group</target>
+      </trans-unit>
+      <trans-unit id="194">
+        <source>Maximum number of days of leave accrued per leave period</source>
+        <target>FR_Maximum number of days of leave accrued per leave period</target>
+      </trans-unit>
+      <trans-unit id="195">
+        <source>Leave Carried Forward</source>
+        <target>FR_Leave Carried Forward</target>
+      </trans-unit>
+      <trans-unit id="196">
+        <source>Leave can be carried forward to next year</source>
+        <target>FR_Leave can be carried forward to next year</target>
+      </trans-unit>
+      <trans-unit id="196">
+        <source>Carry forward date</source>
+        <target>FR_Carry forward date</target>
+      </trans-unit>
+      <trans-unit id="197">
+        <source>Annual</source>
+        <target>FR_Annual</target>
+      </trans-unit>
+      <trans-unit id="198">
+        <source>Monthly</source>
+        <target>FR_Monthly</target>
+      </trans-unit>
+      <trans-unit id="199">
+        <source>First Day of Leave Period</source>
+        <target>FR_First Day of Leave Period</target>
+      </trans-unit>
+      <trans-unit id="200">
+        <source>Last Day of Leave Period</source>
+        <target>FR_Last Day of Leave Period</target>
+      </trans-unit>
+      <trans-unit id="201">
+        <source>Hired Date</source>
+        <target>FR_Hired Date</target>
+      </trans-unit>
+      <trans-unit id="202">
+        <source>First Day of Month</source>
+        <target>FR_First Day of Month</target>
+      </trans-unit>
+      <trans-unit id="203">
+        <source>Last Day of Month</source>
+        <target>FR_Last Day of Month</target>
+      </trans-unit>
+      <trans-unit id="204">
+        <source>"Group name" cannot be empty</source>
+        <target>FR_"Group name" cannot be empty</target>
+      </trans-unit>
+      <trans-unit id="205">
+        <source>Number of leave to accrue should be positive decimal number</source>
+        <target>FR_Number of leave to accrue should be positive decimal number</target>
+      </trans-unit>
+      <trans-unit id="206">
+        <source>Please specify a number with no decimal points</source>
+        <target>FR_Please specify a number with no decimal points</target>
+      </trans-unit>
+      <trans-unit id="207">
+        <source>Number of years of service "From" should be less than "To"</source>
+        <target>FR_Number of years of service "From" should be less than "To"</target>
+      </trans-unit>
+      <trans-unit id="208">
+        <source>Maximum number of leave to carry forward</source>
+        <target>FR_Maximum number of leave to carry forward</target>
+      </trans-unit>
+      <trans-unit id="209">
+        <source>Please Select at Least One Leave Type to Delete</source>
+        <target>FR_Please Select at Least One Leave Type to Delete</target>
+      </trans-unit>
+      <trans-unit id="210">
+        <source>Leave Type Successfully Deleted</source>
+        <target>FR_Leave Type Successfully Deleted</target>
+      </trans-unit>
+      <trans-unit id="211">
+        <source>Successfully Leave Type Updated</source>
+        <target>FR_Successfully Leave Type Updated</target>
+      </trans-unit>
+      <trans-unit id="212">
+        <source>Successfully Leave Type Saved</source>
+        <target>FR_Successfully Leave Type Saved</target>
+      </trans-unit>
+      <trans-unit id="213">
+        <source>Leave Types</source>
+        <target>FR_Leave Types</target>
+      </trans-unit>
+      <trans-unit id="214">
+        <source>Select Action</source>
+        <target>FR_Select Action</target>
+      </trans-unit>
+      <trans-unit id="215">
+        <source>No Eligible Leave Types to Apply for Leave</source>
+        <target>FR_No Eligible Leave Types to Apply for Leave</target>
+      </trans-unit>
+      <trans-unit id="216">
+        <source>Leave Request Successfully Submitted</source>
+        <target>FR_Leave Request Successfully Submitted</target>
       </trans-unit>
     </body>
   </file>

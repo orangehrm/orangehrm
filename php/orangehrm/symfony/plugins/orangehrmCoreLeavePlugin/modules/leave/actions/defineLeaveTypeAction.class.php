@@ -49,7 +49,7 @@ class defineLeaveTypeAction extends orangehrmAction {
         $leaveType->setLeaveTypeName($form->getValue('txtLeaveTypeName'));
         $leaveType->setAvailableFlag(1); // TODO: Replace 1 with a constant
         $this->getLeaveTypeService()->saveLeaveType($leaveType);
-        $this->getUser()->setFlash('templateMessage', array('success', 'Leave Type Successfully Saved'));
+        $this->getUser()->setFlash('templateMessage', array('success', __('Leave Type Successfully Saved')));
         
     }
 
@@ -61,7 +61,8 @@ class defineLeaveTypeAction extends orangehrmAction {
         $leaveType->setLeaveTypeName($form->getValue('txtLeaveTypeName'));
         $leaveTypeService->saveLeaveType($leaveType);
 
-        $this->getUser()->setFlash('templateMessage', array('success', 'Leave Type "' . $leaveType->getLeaveTypeName() . '" Successfully Updated'));
+        $message = __('Leave Type "%1%" Successfully Updated', array('%1%' => $leaveType->getLeaveTypeName()));
+        $this->getUser()->setFlash('templateMessage', array('success', $message));
     }
 
     protected function undeleteLeaveType($form) {
@@ -73,7 +74,7 @@ class defineLeaveTypeAction extends orangehrmAction {
         }
         $leaveTypeName = $form->getValue('txtLeaveTypeName');
         
-        $message = 'Leave Type "' . $leaveTypeName . '" Successfully Undeleted';
+        $message = __('Leave Type "%1%" Successfully Undeleted', array('%1%' => $leaveTypeName));
         $this->getUser()->setFlash('templateMessage', array('success', $message));
         $this->redirect('leave/leaveTypeList');
     }

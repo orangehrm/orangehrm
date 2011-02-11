@@ -137,7 +137,9 @@ class leaveActions extends sfActions {
 		$format = $request->getParameter('format', 'F d');
 
 		@ob_clean();
-		echo trim($this->getLeavePeriodService()->calculateEndDate($month, $date, null, $format));
+        $endDateElements = explode(' ', $this->getLeavePeriodForm()->calculateEndDate($month, $date, null, $format));
+        $endDate = __($endDateElements[0]) . ' ' . $endDateElements[1];
+        echo trim($endDate);
 		exit;
 	}
 
@@ -158,7 +160,7 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDefineWorkWeek(sfWebRequest $request) {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+
         $this->setForm(new WorkWeekForm()); // get the Work Week form object
         $workWeekService = $this->getWorkWeekService(); // workweek service object
 
@@ -189,8 +191,6 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeViewHolidayList(sfWebRequest $request) {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
 
         //authentication
         if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
@@ -250,7 +250,6 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDefineHoliday(sfWebRequest $request) {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
 
         //authentication
         if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
@@ -346,7 +345,7 @@ class leaveActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeDeleteHoliday(sfWebRequest $request) {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+
         $holidayIds = $request->getPostParameter('chkHolidayId[]');
 
         if (!empty($holidayIds)) {

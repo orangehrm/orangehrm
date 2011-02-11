@@ -70,19 +70,19 @@ class LeaveListForm extends sfForm {
         } elseif ($this->mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
             $str = "";
             if($this->leaveRequest instanceof LeaveRequest) {
-                $str .= "(" . $this->getLeaveDateRange($this->leaveRequest->getLeaveRequestId()) . ") of ";
+                $str .= "(" . $this->getLeaveDateRange($this->leaveRequest->getLeaveRequestId()) . ") - ";
             }
             $str .= $this->employee->getFullName();
-            $title = 'Leave Request %s';
+            $title = __('Leave Request') . ' %s';
             $replacements = array($str);
         } elseif ($this->mode === self::MODE_TAKEN_LEAVE_LIST) {
             $title = 'Leave Taken by %s in %s';
             $replacements = array($this->employee->getFullName(), $this->leavePeriod->getDescription());
         } elseif ($this->mode === self::MODE_MY_LEAVE_LIST) {
-            $title = 'My Leave List';
+            $title = __('My Leave List');
             $replacements = null;
         } elseif($this->mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
-            $title = 'My Leave Details';
+            $title = __('My Leave Details');
             $replacements = null;
         } else {
             $title = 'Leave List';
@@ -334,7 +334,7 @@ class LeaveListForm extends sfForm {
         } else {
 
             $range = $leaveList[0]->getLeaveDate();
-            $range .= ' to ';
+            $range .= " " . __('to') . " ";
             $range .= $leaveList[$count-1]->getLeaveDate();
 
             return $range;

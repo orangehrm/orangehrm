@@ -29,7 +29,7 @@
 
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('leave/viewLeaveSummary'); ?>">
 <div class="outerbox" style="width: 800px;">
-<div class="mainHeading"><h2>Leave Summary</h2></div>
+<div class="mainHeading"><h2><?php echo __('Leave Summary') ?></h2></div>
 
 <div class="searchbar">
 <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
@@ -44,7 +44,7 @@
 <tr>
     <td><?php echo __('Employee'); ?></td>
     <td><?php echo $form['txtEmpName']->render(); ?>
-        <div class="typeHint"><?php echo __('Type for hints...'); ?></div>
+        <div class="typeHint"><?php echo __('Type for hints'); ?>...</div>
         <?php echo $form['cmbEmpId']->render(); ?>
     </td>
     <td><?php echo __('Job Title'); ?></td>
@@ -64,8 +64,8 @@
     <div class="formbuttons">
     <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
     <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-    <input type="button" name="btnSearch" id="btnSearch" value="Search" class="savebutton" />
-    <input type="reset" value="Reset" class="savebutton" />
+    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
+    <input type="reset" value="<?php echo __('Reset') ?>" class="savebutton" />
         </div>
 <?php } elseif ($form->userType == 'ESS') { ?>
     <table id="tblSearchCriteria" border="0">
@@ -83,7 +83,7 @@
 <div class="formbuttons">
     <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
     <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-    <input type="button" name="btnSearch" id="btnSearch" value="Search" class="savebutton" />
+    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
         </div>
 <?php } // Search criteria table ?>
 
@@ -121,10 +121,10 @@
 <tr>
     <td valign="top">&nbsp;<?php echo __('Employee Name'); ?></td>
     <td valign="top"><?php echo __('Leave Type'); ?></td>
-    <td align="center"><?php echo __('Leave Entitled'); ?><div>(Days)</div></td>
-<td align="center"><?php echo __('Leave Scheduled'); ?><div>(Days)</div></td>
-<td align="center"><?php echo __('Leave Taken'); ?><div>(Days)</div></td>
-<td align="center"><?php echo __('Leave Balance'); ?><div>(Days)</div></td>
+    <td align="center"><?php echo __('Leave Entitled'); ?><div>(<?php echo __('Days') ?>)</div></td>
+<td align="center"><?php echo __('Leave Scheduled'); ?><div>(<?php echo __('Days') ?>)</div></td>
+<td align="center"><?php echo __('Leave Taken'); ?><div>(<?php echo __('Days') ?>)</div></td>
+<td align="center"><?php echo __('Leave Balance'); ?><div>(<?php echo __('Days') ?>)</div></td>
 </tr>
 </thead>
 
@@ -136,8 +136,8 @@
 
 <?php if ($form->leaveSummaryEditMode) { ?>
 <div class="formbuttons">
-   <input type="button" class="savebutton" id="btnSave" value="Edit"/>
-<input type="reset" class="resetbutton" value="Reset" id="summaryReset" />
+   <input type="button" class="savebutton" id="btnSave" value="<?php echo __('Edit') ?>"/>
+<input type="reset" class="resetbutton" value="<?php echo __('Reset') ?>" id="summaryReset" />
 </div>
 <?php } // if ($form->leaveSummaryEditMode) ?>
 
@@ -171,7 +171,8 @@ function submitPage(pageNo) {
 
 }
 
-
+var editButtonCaption = "<?php echo __('Edit');?>";
+var saveButtonCaption = "<?php echo __('Save');?>";
 </script>
 
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>

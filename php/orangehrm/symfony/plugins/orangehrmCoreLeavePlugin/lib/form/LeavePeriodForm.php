@@ -5,10 +5,13 @@
 class LeavePeriodForm extends sfForm {
 
 	public function configure() {
+        
 		$leavePeriodService = new LeavePeriodService();
-		$monthsChoiceList = array('-- Month --');
+        $month = "-- " . __("Month") . " --";
+        $date = "-- " . __("Date") . " --";
+		$monthsChoiceList = array($month);
 		$monthsChoiceList = array_merge($monthsChoiceList, $leavePeriodService->getListOfMonths());
-		$datesChoiceList = array('--Date--');
+		$datesChoiceList = array($date);
 			
 		$currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriod();
 		if (!is_null($currentLeavePeriod)) {
@@ -51,6 +54,6 @@ class LeavePeriodForm extends sfForm {
         ));
 
         $this->widgetSchema->setNameFormat('leaveperiod[%s]');
-	} 
-
-}
+	}
+    
+        }

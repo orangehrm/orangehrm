@@ -90,13 +90,13 @@
             $(".formSelect").attr("disabled", "disabled");
             
             $("#saveBtn").click(function() {
-                if($("#saveBtn").attr("value") == "Edit") {
+                if($("#saveBtn").attr("value") == "<?php echo __("Edit") ?>") {
                     $(".formSelect").removeAttr("disabled");
-                    $("#saveBtn").attr("value", "Save");
+                    $("#saveBtn").attr("value", "<?php echo __("Save") ?>");
                     return;
                 }
 
-                if($("#saveBtn").attr("value") == "Save") {
+                if($("#saveBtn").attr("value") == "<?php echo __("Save") ?>") {
                     $("#frmWorkWeek").submit();
                     $(".formSelect").attr("disabled", "disabled");
                     return;

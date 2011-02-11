@@ -142,7 +142,7 @@
 		    $('#lblEndDate').html(initValues.endDate);
             var followingYearText = "";
             if(initValues.startMonth > 1 || initValues.startDate > 1) {
-                followingYearText = "(Following Year)";
+                followingYearText = "(" + "<?php echo __('Following Year') ?>" + ")";
             }
             $('#lblEndDateFollowingYear').html(followingYearText);
 		    $('.datesForNonLeapYears').hide();
@@ -280,14 +280,14 @@
                 //this is for end date on leap year
                 var followingYearText = "";
                 if($("#leaveperiod_cmbStartMonth").val() > 1 || $('#leaveperiod_cmbStartDate').val() > 1) {
-                    followingYearText = "(Following Year)";
+                    followingYearText = "(" + "<?php echo __('Following Year') ?>" + ")";
                 }
                 $("#lblEndDateFollowingYear").html(followingYearText);
 
                 //this is for end date on non leap year
                 followingYearText = "";
                 if($("#leaveperiod_cmbStartMonthForNonLeapYears").val() > 1 || $('#leaveperiod_cmbStartDateForNonLeapYears').val() > 1) {
-                    followingYearText = "(Following Year)";
+                    followingYearText = "(" + "<?php echo __('Following Year') ?>" + ")";
                 }
                 $("#lblNonLeapYearFollowingYear").html(followingYearText);
 	            displayLabel.html(html);

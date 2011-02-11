@@ -56,13 +56,13 @@ $(document).ready(function(){
 
     /* Save button */
     $('#btnSave').click(function() {
-        if($('#btnSave').attr('value') == "Edit") {
+        if($('#btnSave').attr('value') == editButtonCaption) {
             $('.formInputText').removeAttr("disabled");
-            $('#btnSave').attr('value', "Save");
+            $('#btnSave').attr('value', saveButtonCaption);
             return;
         }
 
-        if($('#btnSave').attr('value') == "Save") {
+        if($('#btnSave').attr('value') == saveButtonCaption) {
             //$('#btnSave').attr('value', "Edit");
             var flag = validateInput();
             //after the validation

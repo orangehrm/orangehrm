@@ -83,7 +83,7 @@ class LeaveSummaryForm extends sfForm {
             $this->formValidators['cmbEmpId'] = new sfValidatorString(array('required' => false));
 
             $employeeId = 0;
-            $empName = "All";
+            $empName = __("All");
             if(!is_null($this->searchParam['employeeId'])) {
                 $employeeId = $this->searchParam['employeeId'];
                 $employeeService = $this->getEmployeeService();
@@ -129,7 +129,7 @@ class LeaveSummaryForm extends sfForm {
 
         foreach ($leavePeriodList as $leavePeriod) {
 
-            $choices[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate().' to '.$leavePeriod->getEndDate();
+            $choices[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate() . " " .  __('to') . " " . $leavePeriod->getEndDate();
 
         }
 
@@ -159,7 +159,7 @@ class LeaveSummaryForm extends sfForm {
         $leaveTypeService = $this->getLeaveTypeService();
         $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
         $leaveTypeList = $leaveTypeService->getLeaveTypeList();
-        $choices = array('0' => 'All');
+        $choices = array('0' => __('All'));
 
         foreach ($leaveTypeList as $leaveType) {
 
@@ -197,7 +197,7 @@ class LeaveSummaryForm extends sfForm {
 
         $companyService = $this->getCompanyService();
         $locationList = $companyService->getCompanyLocation();
-        $choices = array('0' => 'All');
+        $choices = array('0' => __('All'));
 
         foreach ($locationList as $location) {
 
@@ -214,7 +214,7 @@ class LeaveSummaryForm extends sfForm {
 
         $companyService = $this->getCompanyService();
 
-        $subUnitList = array(0 => "All");
+        $subUnitList = array(0 => __("All"));
         $tree = $companyService->getSubDivisionTree();
 
         foreach($tree as $node) {
@@ -250,7 +250,7 @@ class LeaveSummaryForm extends sfForm {
 
         $jobService = $this->getJobService();
         $jobList = $jobService->getJobTitleList();
-        $choices = array('0' => 'All');
+        $choices = array('0' => __('All'));
 
         foreach ($jobList as $job) {
 

@@ -2,8 +2,8 @@
 
 class orangehrmConfiguration extends sfApplicationConfiguration
 {
-  public function configure()
-  {
+  public function configure() {
+      ProjectConfiguration::getActive()->loadHelpers(array('I18N'));
   }
   
   /**

@@ -42,7 +42,7 @@
         </table>
     </form>
     <div class="formbuttons paddingLeft">
-    <input type="button" name="btnSearch" id="btnSearch" value="Search" class="savebutton" />
+    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __("Search") ?>" class="savebutton" />
     </div>
 </div>
 
@@ -73,7 +73,7 @@
                     </td>
                     <td><?php echo __('Name of Holiday'); ?></td>
                     <td><?php echo __('Date'); ?></td>
-                    <td><?php echo __('Full Day/Half Day'); ?></td>
+                    <td><?php echo __('Full Day') . "/" . __('Half Day'); ?></td>
                     <td><?php echo __('Repeats Annually'); ?></td>
                 </tr>
             </thead>
@@ -100,10 +100,10 @@
                     </td>
 
                     <td>
-                            <?php echo $daysLenthList[$holiday->getLength()]; ?>
+                            <?php echo __($daysLenthList[$holiday->getLength()]); ?>
                     </td>
                     <td>
-                            <?php echo $yesNoList[$holiday->getRecurring()]; ?>
+                            <?php echo __($yesNoList[$holiday->getRecurring()]); ?>
                     </td>
                         <?php $rowClass = $rowClass=='odd'?'even':'odd'; ?>
 

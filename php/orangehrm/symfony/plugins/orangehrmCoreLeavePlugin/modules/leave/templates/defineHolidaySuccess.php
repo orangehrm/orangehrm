@@ -31,7 +31,7 @@
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 
     <div class="outerbox">
-        <div class="mainHeading"><h2><?php echo ($editMode) ? __('Edit Holiday') : __('Add Holiday'); ?></h2></div>
+        <div class="mainHeading"><h2><?php echo ($editMode) ? __('Edit') . " " . __('Holiday') : __('Add') . " ".  __('Holiday'); ?></h2></div>
 
         <div id="errorDiv"> </div>
         <?php if($form->hasErrors())
@@ -69,7 +69,7 @@
 <?php echo $form['chkRecurring']->render( array('class'=>'formCheckbox')); ?>
             <br class="clear"/>
 
-            <?php echo $form['selLength']->renderLabel(__('Full Day/Half Day')); ?>
+            <?php echo $form['selLength']->renderLabel(__('Full Day') . '/' . __('Half Day')); ?>
 <?php echo $form['selLength']->render(array("class" => "formSelect")); ?>
             <br class="clear"/>
 

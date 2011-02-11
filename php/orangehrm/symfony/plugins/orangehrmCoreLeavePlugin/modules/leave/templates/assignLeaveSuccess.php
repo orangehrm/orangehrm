@@ -19,8 +19,7 @@
 <?php if(!empty($overlapLeaves)){?>
 <div id="duplicateWarning" class="confirmBox" style="margin-left:18px;">
  	<div class="confirmInnerBox">
-	<?php echo __('The following leave requests are on the same day as the current leave request<br>
-	Please cancel the existing leave requests and submit again  or change the leave period if needed.')?>
+	<?php echo __('The following leave requests are on the same day as the current leave request<br />Please cancel the existing leave requests and submit again  or change the leave period if needed.')?>
 		</div>
 </div>
 
@@ -42,7 +41,7 @@
 		<td class="odd"><?php echo $leave->getLeaveLengthHours()?></td>
 		<td class="odd"><?php echo $leave->getLeaveRequest()->getLeavePeriod()->getStartDate()?></td>
 		<td class="odd"><?php echo $leave->getLeaveRequest()->getLeaveTypeName()?></td>
-		<td class="odd"><?php echo $leave->getTextLeaveStatus()?></td>
+		<td class="odd"><?php echo __($leave->getTextLeaveStatus());?></td>
 		<td class="odd"><?php echo $leave->getLeaveComments()?></td>
 	</tr>
 <?php }?>
@@ -118,7 +117,7 @@
             </table>
         <!-- here we have the button -->
         <div class="formbuttons paddingLeft">
-            <input type="button" class="applybutton" id="saveBtn" value="Assign" title="Assign"/>
+            <input type="button" class="applybutton" id="saveBtn" value="<?php echo __('Assign'); ?>" title="<?php echo __('Assign'); ?>"/>
         </div>
 </form>
 </div>
@@ -286,34 +285,34 @@
 			 	 },
 			 	 messages: {
 			 		'assignleave[txtEmployee]':{
-			 			required:"Employee Name is required"
+			 			required:"<?php echo __('Employee Name is required');?>"
 			 		},
 			 		'assignleave[txtLeaveType]':{
-			 			required:"Leave Type is required"
+			 			required:"<?php echo __('Leave Type is required'); ?>"
 			 		},
 				 	'assignleave[txtFromDate]':{
-			 			required:"From Date is required",
-			 			dateISO:"From Date should be filled in YYYY-MM-DD format ",
-                        validFromDateFormat:"Invalid from date",
-			 			validFromDate: "From date should be before to date"
+			 			required:"<?php echo __('From Date is required'); ?>",
+			 			dateISO:"<?php echo __('From Date should be filled in YYYY-MM-DD format'); ?>",
+                        validFromDateFormat:"<?php echo __('Invalid from date') ?>",
+			 			validFromDate: "<?php echo __('From date should be before to date') ?>"
 			 		},
 			 		'assignleave[txtToDate]':{
-			 			required:"To Date is required",
-			 			dateISO:"To Date should be filled in YYYY-MM-DD format ",
-                        validToDateFormat: "Invalid to date"
+			 			required:"<?php echo __('To Date is required'); ?>",
+			 			dateISO:"<?php echo __('To Date should be filled in YYYY-MM-DD format'); ?>",
+                        validToDateFormat: "<?php echo __('Invalid to date'); ?>"
 			 		},
 			 		'assignleave[txtComment]':{
-			 			maxlength:"Comment length should be less than 250 characters"
+			 			maxlength:"<?php echo __('Comment length should be less than 250 characters'); ?>"
 			 		},
 			 		'assignleave[txtLeaveTotalTime]':{
-			 			number:"Total time is numeric value",
-			 			min : "Total time should be greater than 0.01",
-			 			max : "Total time should be lesser than 24"	,
-			 			validTotalTime : "Invalid total time",
-			 			validWorkShift : "Total time is greater than the shift length"
+			 			number:"<?php echo __('Total time is a numeric value'); ?>",
+			 			min : "<?php echo __('Total time should be greater than 0.01'); ?>",
+			 			max : "<?php echo __('Total time should be lesser than 24'); ?>"	,
+			 			validTotalTime : "<?php echo __('Invalid total time'); ?>",
+			 			validWorkShift : "<?php echo __('Total time is greater than the shift length'); ?>"
 			 		},
 			 		'assignleave[txtToTime]':{
-			 			validToTime:"From time should be lesser than To time"
+			 			validToTime:"<?php echo __('From time should be lesser than To time'); ?>"
 			 		}
 			 	 },
                 errorElement : 'div',
