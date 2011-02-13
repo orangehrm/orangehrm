@@ -332,21 +332,20 @@ class LeaveRequestService extends BaseService {
 
         $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         $currentLeavePeriodEndDate = $currentLeavePeriod->getEndDate();
+        $currentLeavePeriodEndDateTimeStamp = strtotime($currentLeavePeriodEndDate);
+        $lastLeave = end($leaveList);
+        $lastLeaveTimeStamp = strtotime($lastLeave->getLeaveDate());
 
-        $nextLeavePeriod = $this->getLeavePeriodService()->getNextLeavePeriodByCurrentEndDate($currentLeavePeriodEndDate);
+        /* Proceed only if there is leave on next leave period */
+        if ($lastLeaveTimeStamp > $currentLeavePeriodEndDateTimeStamp) {
 
-        if (is_null($nextLeavePeriod)) {
+            $nextLeavePeriod = $this->getLeavePeriodService()->getNextLeavePeriodByCurrentEndDate($currentLeavePeriodEndDate);
 
-            return false;
-            
-        } else {
+            if (is_null($nextLeavePeriod)) {
 
-            $currentLeavePeriodEndDateTimeStamp = strtotime($currentLeavePeriodEndDate);
-            $lastLeave = end($leaveList);
-            $lastLeaveTimeStamp = strtotime($lastLeave->getLeaveDate());
-
-            /* Proceed only if there is leave on next leave period */
-            if ($lastLeaveTimeStamp > $currentLeavePeriodEndDateTimeStamp) {
+                return false;
+                
+            } else {
 
                 /* Generating leave length on next leave period */
 
@@ -373,7 +372,12 @@ class LeaveRequestService extends BaseService {
 
             }
 
+        } else {
+
+            return true;
+
         }
+
 
     }
 
