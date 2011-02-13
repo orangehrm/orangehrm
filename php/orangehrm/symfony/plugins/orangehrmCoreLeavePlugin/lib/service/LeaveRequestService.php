@@ -364,7 +364,7 @@ class LeaveRequestService extends BaseService {
                 $leaveEntitlementService = $this->getLeaveEntitlementService();
                 $nextLeavePeriodBalance = $leaveEntitlementService->getLeaveBalance($employeeId, $leaveTypeId, $nextLeavePeriod->getLeavePeriodId());
 
-                if ($leaveLengthOnNextLeavePeriod < $nextLeavePeriodBalance) {
+                if ($leaveLengthOnNextLeavePeriod <= $nextLeavePeriodBalance) {
                     return true;
                 }
 
