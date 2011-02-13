@@ -137,7 +137,7 @@ class leaveActions extends sfActions {
 		$format = $request->getParameter('format', 'F d');
 
 		@ob_clean();
-        $endDateElements = explode(' ', $this->getLeavePeriodForm()->calculateEndDate($month, $date, null, $format));
+        $endDateElements = explode(' ', $this->getLeavePeriodService()->calculateEndDate($month, $date, null, $format));
         $endDate = __($endDateElements[0]) . ' ' . $endDateElements[1];
         echo trim($endDate);
 		exit;
