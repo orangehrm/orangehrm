@@ -263,7 +263,7 @@ class LeaveRequestService extends BaseService {
      * @param $leaveTypeId
      * @return bool
      */
-    public function isEmployeeHavingLeaveBalance( $empId, $leaveTypeId ,$leaveRequest, $applyDays, $leaveList = null) {
+    public function isEmployeeHavingLeaveBalance( $empId, $leaveTypeId ,$leaveRequest,$applyDays) {
         try {
             $leaveEntitlementService = $this->getLeaveEntitlementService();
             $entitledDays	=	$leaveEntitlementService->getEmployeeLeaveEntitlementDays($empId, $leaveTypeId,$leaveRequest->getLeavePeriodId());
@@ -314,11 +314,15 @@ class LeaveRequestService extends BaseService {
                 }
             }
 
-            /* This is for leave request that span on two leave periods
-             *  Ex: 2011-12-30 to 2012-01-02
-             */
-            if (!$this->_isAllowedToApplyForNextLeavePeriod($empId, $leaveTypeId, $leaveList)) {
-                throw new Exception("Leave Balance Exceeded", 102);
+            //this is to verify whether leave applied within border period
+            if($nextLeavePeriod instanceof LeavePeriod && strtotime($currentLeavePeriod->getStartDate()) < strtotime($leaveRequest->getDateApplied()) &&
+                    strtotime($nextLeavePeriod->getEndDate()) > $leaveAppliedEndDateTimeStamp) {
+
+                $endDateTimeStamp = strtotime($leavePeriodService->getCurrentLeavePeriod()->getEndDate());
+                $borderDays = date("d", ($endDateTimeStamp - strtotime($leaveRequest->getDateApplied())));
+                if($borderDays > $leaveBalance || $nextYearLeaveBalance < ($applyDays - $borderDays)) {
+                    throw new Exception("Leave Balance Exceeded", 102);
+                }
             }
 
             return true ;
@@ -328,56 +332,73 @@ class LeaveRequestService extends BaseService {
         }
     }
 
-    private function _isAllowedToApplyForNextLeavePeriod($employeeId, $leaveTypeId, $leaveList) {
+    public function isLeaveRequestWithinLeaveBalance($employeeId, $leaveTypeId, $leaveList) {
 
         $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         $currentLeavePeriodEndDate = $currentLeavePeriod->getEndDate();
         $currentLeavePeriodEndDateTimeStamp = strtotime($currentLeavePeriodEndDate);
-        $lastLeave = end($leaveList);
-        $lastLeaveTimeStamp = strtotime($lastLeave->getLeaveDate());
 
-        /* Proceed only if there is leave on next leave period */
-        if ($lastLeaveTimeStamp > $currentLeavePeriodEndDateTimeStamp) {
+        $leaveEntitlementService = $this->getLeaveEntitlementService();
 
-            $nextLeavePeriod = $this->getLeavePeriodService()->getNextLeavePeriodByCurrentEndDate($currentLeavePeriodEndDate);
+        $leaveLengthOnCurrentLeavePeriod = 0;
+        $leaveLengthOnNextLeavePeriod = 0;
 
-            if (is_null($nextLeavePeriod)) {
+        $canApplyForCurrentLeavePeriod = true;
+        $canApplyForNextLeavePeriod = true;
 
-                return false;
-                
+        foreach ($leaveList as $leave) {
+
+            if (strtotime($leave->getLeaveDate()) <= $currentLeavePeriodEndDateTimeStamp) {
+
+                $leaveLengthOnCurrentLeavePeriod += $leave->getLeaveLengthDays();
+
             } else {
 
-                /* Generating leave length on next leave period */
-
-                $leaveLengthOnNextLeavePeriod = 0;
-
-                foreach ($leaveList as $leave) {
-
-                    if (strtotime($leave->getLeaveDate()) > $currentLeavePeriodEndDateTimeStamp) {
-
-                        $leaveLengthOnNextLeavePeriod += $leave->getLeaveLengthDays();
-
-                    }
-
-                }
-
-                $leaveEntitlementService = $this->getLeaveEntitlementService();
-                $nextLeavePeriodBalance = $leaveEntitlementService->getLeaveBalance($employeeId, $leaveTypeId, $nextLeavePeriod->getLeavePeriodId());
-
-                if ($leaveLengthOnNextLeavePeriod <= $nextLeavePeriodBalance) {
-                    return true;
-                }
-
-                return false;
+                $leaveLengthOnNextLeavePeriod += $leave->getLeaveLengthDays();
 
             }
 
-        } else {
+        }
 
-            return true;
+        if ($leaveLengthOnCurrentLeavePeriod > 0) {
+
+            $currentLeaveBalance = $leaveEntitlementService->getLeaveBalance($employeeId, $leaveTypeId, $currentLeavePeriod->getLeavePeriodId());
+
+            if ($leaveLengthOnCurrentLeavePeriod > $currentLeaveBalance) {
+
+                $canApplyForCurrentLeavePeriod = false;
+
+            }
 
         }
 
+        if ($leaveLengthOnNextLeavePeriod > 0) {
+
+            $nextLeavePeriod = $this->getLeavePeriodService()->getNextLeavePeriodByCurrentEndDate($currentLeavePeriodEndDate);
+
+            if ($nextLeavePeriod instanceof LeavePeriod) {
+
+                $nextLeaveBalance = $leaveEntitlementService->getLeaveBalance($employeeId, $leaveTypeId, $nextLeavePeriod->getLeavePeriodId());
+
+                if ($leaveLengthOnNextLeavePeriod > $nextLeaveBalance) {
+
+                    $canApplyForNextLeavePeriod = false;
+
+                }
+
+            } else {
+
+                $canApplyForNextLeavePeriod = false;
+
+            }
+
+        }
+
+        if ($canApplyForCurrentLeavePeriod && $canApplyForNextLeavePeriod) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
