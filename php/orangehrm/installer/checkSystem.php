@@ -373,11 +373,11 @@ function sysCheckPassed() {
 
     function htAcessDisabled() {
         var element = document.getElementById("htaccess");
-        element.innerHTML = ".htaccess files are not enabled!";
+        element.innerHTML = "Not enabled! This makes OrangeHRM vulnerable to security attacks.";
         element.className = "error";
 
         var nextButton = document.getElementById("nextButton");
-        nextButton.disabled = true;
+        //nextButton.disabled = true;
     }
 
 
