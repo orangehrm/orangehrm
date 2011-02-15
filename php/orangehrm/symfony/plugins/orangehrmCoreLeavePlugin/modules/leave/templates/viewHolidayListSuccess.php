@@ -33,9 +33,26 @@
                 <td class="labelText"><?php echo __('Leave Period'); ?></td>
                 <td>
                     <select name="leavePeriod">
-                        <?php foreach($leavePeriods as $k => $v) {?>
-                        <option value="<?php echo $k;?>" <?php if($k == $leavePeriodId) { echo "selected";}?>><?php echo $v;?></option>
-                        <?php } ?>
+                        <?php 
+                            if (empty($leavePeriods)) {                            
+                        ?>
+                        <option value="0"><?php echo __('No Leave Periods');?></option>
+                        <?php                       
+                            } else {
+
+                            foreach($leavePeriods as $leavePeriod) {
+                                $id = $leavePeriod->getLeavePeriodId();
+                                $selected = ($id == $leavePeriodId) ? 'selected="selected"' : '';
+                        ?>
+
+                        <option value="<?php echo $id;?>" <?php echo $selected;?>>
+                            <?php echo ohrm_format_date($leavePeriod->getStartDate()) . " " . __("to") . " " . ohrm_format_date($leavePeriod->getEndDate());?>
+                        </option>
+
+                        <?php
+                            }
+                        }
+                        ?>
                     </select>
                 </td>
             </tr>
@@ -96,7 +113,7 @@
                        <a href="<?php echo url_for('leave/defineHoliday/?hdnEditId=' . $holiday->getHolidayId());?>"><?php echo $holiday->getDescription(); ?></a>
                     </td>
                     <td>
-                            <?php echo $holiday->getFdate(); ?>
+                            <?php echo ohrm_format_date($holiday->getFdate()); ?>
                     </td>
 
                     <td>

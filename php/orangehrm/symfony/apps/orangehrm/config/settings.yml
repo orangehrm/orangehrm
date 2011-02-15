@@ -31,7 +31,7 @@ all:
     # Cache settings
     lazy_cache_key:         true        # Delays creation of a cache key until after checking whether an action or partial is cacheable
 
-    standard_helpers:       [Partial, Cache, Orange, Url, I18N]
+    standard_helpers:       [Partial, Cache, Orange, OrangeDate, Url, I18N]
 
     login_module:           auth
     login_action:           login

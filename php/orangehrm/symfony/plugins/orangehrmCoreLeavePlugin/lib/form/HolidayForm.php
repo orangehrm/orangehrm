@@ -46,13 +46,17 @@ class HolidayForm extends sfForm
                 'txtDate' => new sfWidgetFormInput(),
                 'chkRecurring' => new sfWidgetFormInputCheckbox(),
                 'selLength' => new sfWidgetFormSelect( array('choices'=>$this->getDaysLengthList()), array('add_empty'=>false)),
+
         ));
+
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         $this->setValidators(array(
                 'hdnHolidayId' => new sfValidatorString(array('required' => false)),
                 'chkRecurring' => new sfValidatorString(array('required' => false)),
                 'txtDescription' => new sfValidatorString(array('required' => true, 'max_length'=>200),array('required'=>'Holiday Name is required', 'max_length'=>'Name of Holiday length exceeded')),
-                'txtDate' => new sfValidatorRegex(array('pattern'=>"/^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/",'required'=>true),array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')),
+                'txtDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true),
+                                                   array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')),
 
                 'selLength' => new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())))
         ));
@@ -132,7 +136,9 @@ class HolidayForm extends sfForm
 
             $this->setDefault('hdnHolidayId', $holidayObject->getHolidayId());
             $this->setDefault('txtDescription', $holidayObject->getDescription());
-            $this->setDefault('txtDate', $holidayObject->getDate());
+
+            sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
+            $this->setDefault('txtDate', ohrm_format_date($holidayObject->getDate()));
             $chkRecurring = $holidayObject->getRecurring()=='1'?true:false;
             $this->setDefault('chkRecurring', $chkRecurring);
             $this->setDefault('selLength', $holidayObject->getLength());
@@ -150,6 +156,7 @@ class HolidayForm extends sfForm
     public function checkHolidayRules($validator, $values)
     {
         $date = $values['txtDate'];
+
         $hid = $values['hdnHolidayId'];
         // read the holiday by date
         $holidayObjectDate = $this->getHolidayService()->readHolidayByDate($date);

@@ -2,7 +2,45 @@
 
 //class myUser extends sfBasicSecurityUser
 class myUser extends sfUser implements sfSecurityUser {
-    
+
+  private $dateFormat;
+
+  private $timeFormat;
+
+  /**
+   * Get date format for user
+   *
+   * @return String Date Format string. (see sfDateFormat)
+   */
+  public function getDateFormat() {
+      return $this->dateFormat;
+  }
+
+  /**
+   * Set date format for user
+   * @param String Date Format string. (see sfDateFormat)
+   * @return
+   */
+  public function setDateFormat($dateFormat) {
+      $this->dateFormat = $dateFormat;
+  }
+
+  /**
+   * Get time format for user
+   * @return String Time Format string. (see sfDateFormat)
+   */
+  public function getTimeFormat() {
+      return $this->timeFormat;
+  }
+
+  /**
+   * Set time format for user
+   * @param String Time Format string. (see sfDateFormat)
+   * @return
+   */
+  public function setTimeFormat($timeFormat) {
+      $this->timeFormat = $timeFormat;
+  }
 
   /**
    * Add a credential to this user.

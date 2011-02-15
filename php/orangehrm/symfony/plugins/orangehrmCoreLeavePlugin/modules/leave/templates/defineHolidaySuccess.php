@@ -88,7 +88,8 @@
     
     $(document).ready(function() {
         
-        var dateFormat	=	'YYYY-MM-DD';
+        var dateFormat	= '<?php echo $sf_user->getDateFormat();?>';
+        var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
 
         //Load default Mask if empty
         var hDate 	= 	trim($("#holiday_txtDate").val());
@@ -99,14 +100,17 @@
         //Validation
         $("#frmHoliday").validate({
             rules: {
-                'holiday[txtDate]': { required: true , dateISO: true, validDate: true},
+                'holiday[txtDate]': { 
+                    required: true,
+                    valid_date: function(){ return {format:jsDateFormat} }
+                    },
                 'holiday[txtDescription]': {required: true, maxlength: 200}
             },
             messages: {
                 'holiday[txtDate]':{
                     required:  "<?php echo __("Date is required"); ?>",
-                    dateISO:"<?php echo __("Date should be filled in") ?> "+ dateFormat + " <?php echo __("format"); ?>",
-                    validDate: "<?php echo __("Invalid Date") ?> "
+                    valid_date: "<?php echo __("Date should be in the format: %format%", 
+                             array('%format%'=>$sf_user->getDateFormat())) ?>"
                 },
                 'holiday[txtDescription]':{
                     required:  "<?php echo __("Name is required"); ?>",
@@ -128,23 +132,14 @@
             $("#holiday_txtDate").attr("class", "formDateInput hasDatepicker");
             $(".errorContainer").html("");
         });
-
-        /* Valid From Date */
-        $.validator.addMethod("validDate", function(value, element) {
-        	
-            var holiday	=	$('#holiday_txtDate').val();
-            holiday = (holiday).split("-");
-            if(!validateDate(parseInt(holiday[2],10), parseInt(holiday[1],10), parseInt(holiday[0],10))) {
-               return false;
-            }else
-            	return true;
-
-        });
         
         //Bind date picker
-        daymarker.bindElement("#holiday_txtDate", {onSelect: function(date){
+        daymarker.bindElement("#holiday_txtDate",
+            {onSelect: function(date){
                 $("#holiday_txtDate").valid();
-        }});
+                },
+            dateFormat:jsDateFormat
+            });
 
         $('#DateBtn').click(function(){
            daymarker.show("#holiday_txtDate");

@@ -4,20 +4,50 @@
  *
  * @author sujith
  **/
-jQuery.validator.addMethod("valid_date",
+
+/**
+ * valid_date validator method.
+ *
+ * validates that date matches given format.
+ * Supports validating according to format used by jquery datepicker
+ * Needs JQuery UI datePicker to work.
+ *
+ * @param value string - Value to check
+ * @param element DOM Element - Element (not used in validator)
+ * @param params Properties object.
+ *
+ * Required Params: format - date format string.
+ *
+ * @return boolean true if validated, false if not
+ */
+$.validator.addMethod("valid_date",
     function(value, element, params) {
-        var hint = params[0];
-        var format = params[1];
-        
 
-        if (hint == value) {
-            return true;
+    var valid = false;
+    var format = params.format;
+
+    try {
+        var parsedDate = $.datepicker.parseDate(format, value);
+        if (parsedDate) {
+            var formattedDate = $.datepicker.formatDate(format, parsedDate);
+            if ($.trim(value) == formattedDate) {
+                var year = parsedDate.getFullYear();
+
+                // Additional validation, since datePicker.parseDate
+                // accepts 3 digit years or very 4 or more digit years.
+                if (year > 1000 & year < 9999) {
+                    valid = true;
+                }
+            }
         }
-        var d = strToDate(value, format);
+    } catch (error) {
+        valid = false;
+    }
 
-        return (d != false);
-    }, ""
-);
+    return valid;
+
+});
+
 
 //this is to check for valid alpha characters only texts no numbers or symbols
 $.validator.addMethod("alpha", function(value, element) {

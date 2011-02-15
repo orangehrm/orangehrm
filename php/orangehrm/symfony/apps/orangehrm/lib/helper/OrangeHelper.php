@@ -161,3 +161,13 @@ function formatDate($currentDate, $formatData) {
 function escapeForJavascript($string) {
     return CommonFunctions::escapeForJavascript($string);
 }
+
+/**
+ * Escapes any special characters to html entities and make it safe for including into a web page.
+ *
+ * @param string $value Value to escape
+ * @return string Escaped value
+ */
+function escapeHtml($value) {
+    return htmlspecialchars($value, ENT_QUOTES);
+}

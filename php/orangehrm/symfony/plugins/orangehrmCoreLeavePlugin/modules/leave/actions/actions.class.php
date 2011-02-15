@@ -203,16 +203,7 @@ class leaveActions extends sfActions {
         $leavePeriodId = (!$leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod)?0:$leavePeriodService->getCurrentLeavePeriod()->getLeavePeriodId();
 
         //generating leave period lists for display in dropdown
-        $leavePeriodList = $leavePeriodService->getLeavePeriodList();
-        $leavePeriods = array();
-        foreach ($leavePeriodList as $leavePeriod) {
-            $leavePeriods[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate() . " " . __('to') . " " . $leavePeriod->getEndDate();
-        }
-        $this->leavePeriods = $leavePeriods;
-        
-        if (empty($leavePeriods)) {
-            $leavePeriods = array('0' => __('No Leave Periods'));
-        }
+        $this->leavePeriods = $leavePeriodService->getLeavePeriodList();
 
         $startDate = date("Y-m-d");
         $endDate = date("Y-m-d");
@@ -271,13 +262,6 @@ class leaveActions extends sfActions {
             $this->form->editMode = true;
         }
 
-        //var_dump($request->getParameter('hdnEditMode'));
-
-        /*
-          if ($request->getParameter('hdnEditMode') == 'yes') {
-          $this->form->editMode = true;
-          }
-         */
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));

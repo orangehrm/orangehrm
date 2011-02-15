@@ -40,7 +40,16 @@ class AllTests {
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-		
+
+        // execute validator unit tests
+    	$coredir = new DirectoryIterator(dirname(__FILE__). '/validator');
+        while ($coredir->valid()) {
+            if (strpos( $coredir, 'Test.php' ) !== false) {
+                $suite->addTestFile(  dirname(__FILE__). '/validator/'. $coredir );
+            }
+            $coredir->next();
+        }
+
     	// execute action unit tests
     	$coredir = new DirectoryIterator(dirname(__FILE__). '/actions');
         while ($coredir->valid()) {
