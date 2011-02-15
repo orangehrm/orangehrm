@@ -15,6 +15,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins(array('sfDoctrinePlugin',
                                'sfPhpunitPlugin',
                                'orangehrmCorePlugin',
+                               'orangehrmPimPlugin',
                                'orangehrmCoreLeavePlugin'));
 
     // Set up logging - use different config for test environment

@@ -1,0 +1,3 @@
+Employee:
+  E_001: { firstName: myname1, lastName: last1 }
+  E_002: { firstName: myname2, lastName: last2 }

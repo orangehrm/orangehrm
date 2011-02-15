@@ -88,13 +88,18 @@ class OrangeConfig {
 	}
 	
 	public function getAppConfValue($key) {
-		
+
 		$this->loadAppConf();
 		
 		switch ($key) {
 			case Config :: KEY_LEAVE_PERIOD_DEFINED:
 				return Config::isLeavePeriodDefined();
 				break;
+
+            case Config::KEY_PIM_SHOW_DEPRECATED:
+                return Config::showPimDeprecatedFields();
+                break;
+
 			default:
 				throw new Exception("Getting {$key} is not implemented yet");
 				break;
@@ -109,6 +114,10 @@ class OrangeConfig {
 			case Config :: KEY_LEAVE_PERIOD_DEFINED:
 				Config::setIsLeavePriodDefined($value);
 				break;
+
+            case Config::KEY_PIM_SHOW_DEPRECATED:
+                Config::setShowPimDeprecatedFields($value);
+                break;
 			default:
 				throw new Exception("Setting {$key} is not implemented yet");
 				break;

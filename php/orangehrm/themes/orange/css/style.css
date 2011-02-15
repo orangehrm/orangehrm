@@ -1641,3 +1641,8 @@ table.simpleList td {
       width: 600px;
       border:2px #FAD163 solid;
 	}
+
+    .smallHelpText {
+       font-size: 8pt;
+       color:black;
+    }

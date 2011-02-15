@@ -39,7 +39,7 @@ class OrangeI18NFilter extends sfFilter {
         //
 
         $userCulture = $this->getContext()->getUser()->getCulture();
-        $datePattern = 'dd-MM-yyyy';
+        $datePattern = 'yyyy-MM-dd';
 
         $user = $this->getContext()->getUser();
         $user->setCulture($userCulture);

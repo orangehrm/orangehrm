@@ -876,6 +876,174 @@
         <source>Leave Request Successfully Submitted</source>
         <target>FR_Leave Request Successfully Submitted</target>
       </trans-unit>
+      <trans-unit id="217">
+        <source>Personal</source>
+        <target>FR_Personal</target>
+      </trans-unit>
+      <trans-unit id="218">
+        <source>Personal Details</source>
+        <target>FR_Personal Details</target>
+      </trans-unit>
+      <trans-unit id="219">
+        <source>Contact Details</source>
+        <target>FR_Contact Details</target>
+      </trans-unit>
+      <trans-unit id="220">
+        <source>Emergency Contact(s)</source>
+        <target>FR_Emergency Contact(s)</target>
+      </trans-unit>
+      <trans-unit id="221">
+        <source>Dependents</source>
+        <target>FR_Dependents</target>
+      </trans-unit>
+      <trans-unit id="222">
+        <source>Immigration</source>
+        <target>FR_Immigration</target>
+      </trans-unit>
+      <trans-unit id="223">
+        <source>Photograph</source>
+        <target>FR_Photograph</target>
+      </trans-unit>
+      <trans-unit id="224">
+        <source>Employment</source>
+        <target>FR_Employment</target>
+      </trans-unit>
+      <trans-unit id="225">
+        <source>Job</source>
+        <target>FR_Job</target>
+      </trans-unit>
+      <trans-unit id="226">
+        <source>Salary</source>
+        <target>FR_Salary</target>
+      </trans-unit>
+      <trans-unit id="227">
+        <source>Tax Exemptions</source>
+        <target>FR_Tax Exemptions</target>
+      </trans-unit>
+      <trans-unit id="228">
+        <source>Direct Deposit</source>
+        <target>FR_Direct Deposit</target>
+      </trans-unit>
+      <trans-unit id="229">
+        <source>Report-to</source>
+        <target>FR_Report-to</target>
+      </trans-unit>
+      <trans-unit id="230">
+        <source>Qualifications</source>
+        <target>FR_Qualifications</target>
+      </trans-unit>
+      <trans-unit id="231">
+        <source>Work experience</source>
+        <target>FR_Work experience</target>
+      </trans-unit>
+      <trans-unit id="232">
+        <source>Education</source>
+        <target>FR_Education</target>
+      </trans-unit>
+      <trans-unit id="233">
+        <source>Skills</source>
+        <target>FR_Skills</target>
+      </trans-unit>
+      <trans-unit id="234">
+        <source>Languages</source>
+        <target>FR_Languages</target>
+      </trans-unit>
+      <trans-unit id="235">
+        <source>License</source>
+        <target>FR_License</target>
+      </trans-unit>
+      <trans-unit id="236">
+        <source>Membership</source>
+        <target>FR_Membership</target>
+      </trans-unit>
+      <trans-unit id="237">
+        <source>Attachments</source>
+        <target>FR_Attachments</target>
+      </trans-unit>
+      <trans-unit id="238">
+        <source>Custom</source>
+        <target>FR_Custom</target>
+      </trans-unit>
+      <trans-unit id="239">
+        <source>First Name</source>
+        <target>FR_First Name</target>
+      </trans-unit>
+      <trans-unit id="240">
+        <source>Middle Name</source>
+        <target>FR_Middle Name</target>
+      </trans-unit>
+      <trans-unit id="241">
+        <source>Last Name</source>
+        <target>FR_Last Name</target>
+      </trans-unit>
+      <trans-unit id="242">
+        <source>Employee Id</source>
+        <target>FR_Employee Id</target>
+      </trans-unit>
+      <trans-unit id="243">
+        <source>SSN Number</source>
+        <target>FR_SSN Number</target>
+      </trans-unit>
+       <trans-unit id="244">
+        <source>Other Id</source>
+        <target>FR_Other Id</target>
+      </trans-unit>
+      <trans-unit id="245">
+        <source>SIN Number</source>
+        <target>FR_SIN Number</target>
+      </trans-unit>
+      <trans-unit id="246">
+        <source>Driver's License Number</source>
+        <target>FR_Driver's License Number</target>
+      </trans-unit>
+      <trans-unit id="247">
+        <source>Driver's License Number</source>
+        <target>FR_Driver's License Number</target>
+      </trans-unit>
+      <trans-unit id="248">
+        <source>License Expiry Date</source>
+        <target>FR_License Expiry Date</target>
+      </trans-unit>
+      <trans-unit id="249">
+        <source>Gender</source>
+        <target>FR_Gender</target>
+      </trans-unit>
+      <trans-unit id="250">
+        <source>Marital Status</source>
+        <target>FR_Marital Status</target>
+      </trans-unit>
+      <trans-unit id="251">
+        <source>Nationality</source>
+        <target>FR_Nationality</target>
+      </trans-unit>
+      <trans-unit id="252">
+        <source>Ethinical Race</source>
+        <target>FR_Ethinical Race</target>
+      </trans-unit>
+      <trans-unit id="253">
+        <source>Date of Birth</source>
+        <target>FR_Date of Birth</target>
+      </trans-unit>
+      <trans-unit id="254">
+        <source>Nick Name</source>
+        <target>FR_Nick Name</target>
+      </trans-unit>
+      <trans-unit id="255">
+        <source>Smoker</source>
+        <target>FR_Smoker</target>
+      </trans-unit>
+      <trans-unit id="256">
+        <source>Military Service</source>
+        <target>FR_Military Service</target>
+      </trans-unit>
+      <trans-unit id="257">
+        <source>First Name is required</source>
+        <target>FR_First Name is required</target>
+      </trans-unit>
+      <trans-unit id="258">
+        <source>Last Name is required</source>
+        <target>FR_Last Name is required</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

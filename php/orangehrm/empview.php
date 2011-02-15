@@ -393,7 +393,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 									<td ><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
 
 									<td >
-										<a target="_self" href="./CentralController.php?menu_no_top=hr&amp;id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;currentPage=<?php echo $currentPage; ?>">
+										<!--<a target="_self" href="./CentralController.php?menu_no_top=hr&amp;id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;currentPage=<?php echo $currentPage; ?>">-->
+<a target="_self" href="../../symfony/web/index.php/pim/personalDetails?empNumber=<?php echo $emplist[$j][2]?>">
 										<?php echo $descField?></a> </td>
 									<td ><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
 									<td ><?php echo (!empty($emplist[$j][6]))?$emplist[$j][6]:"-"; ?></td>

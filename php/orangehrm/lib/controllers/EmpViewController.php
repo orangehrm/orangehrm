@@ -2189,7 +2189,7 @@ class EmpViewController {
 			header("Location: ./CentralController.php?reqcode=ESS&id=$empid&capturemode=updatemode$message");
 		} else {
 			$reqcode = $index;
-			$pane = $_POST['pane'];
+			$pane = (isset($_POST['pane']))?$_POST['pane']:$_GET['pane'];
 			header("Location: ./CentralController.php?reqcode=$reqcode&id=$id&capturemode=updatemode&pane=$pane$message");
 		}
 	}

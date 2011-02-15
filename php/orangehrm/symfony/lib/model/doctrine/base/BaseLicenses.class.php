@@ -7,14 +7,14 @@
  * 
  * @property string $licenses_code
  * @property string $licenses_desc
- * @property Doctrine_Collection $EmployeeLicenses
+ * @property Doctrine_Collection $EmployeeLicense
  * 
- * @method string              getLicensesCode()     Returns the current record's "licenses_code" value
- * @method string              getLicensesDesc()     Returns the current record's "licenses_desc" value
- * @method Doctrine_Collection getEmployeeLicenses() Returns the current record's "EmployeeLicenses" collection
- * @method Licenses            setLicensesCode()     Sets the current record's "licenses_code" value
- * @method Licenses            setLicensesDesc()     Sets the current record's "licenses_desc" value
- * @method Licenses            setEmployeeLicenses() Sets the current record's "EmployeeLicenses" collection
+ * @method string              getLicensesCode()    Returns the current record's "licenses_code" value
+ * @method string              getLicensesDesc()    Returns the current record's "licenses_desc" value
+ * @method Doctrine_Collection getEmployeeLicense() Returns the current record's "EmployeeLicense" collection
+ * @method Licenses            setLicensesCode()    Sets the current record's "licenses_code" value
+ * @method Licenses            setLicensesDesc()    Sets the current record's "licenses_desc" value
+ * @method Licenses            setEmployeeLicense() Sets the current record's "EmployeeLicense" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -40,7 +40,7 @@ abstract class BaseLicenses extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmployeeLicenses', array(
+        $this->hasMany('EmployeeLicense', array(
              'local' => 'licenses_code',
              'foreign' => 'licenses_code'));
     }

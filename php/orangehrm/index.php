@@ -400,8 +400,11 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 		$enablePimMenu = true;
 	}
 	$subs = array();
-
-	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC");
+    if($_SESSION['isAdmin']=='Yes') {
+        $subs[] = new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configPim", "rightMenu");
+    }
+    
+	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC");  
 	if ($arrAllRights[PIM]['add']) {
 		$subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./lib/controllers/CentralController.php?reqcode=EMP&capturemode=addmode");
 	}

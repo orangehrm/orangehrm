@@ -42,6 +42,7 @@ class Config {
 	const KEY_NAME_EMP_EDIT_SUBMITTED = "attendanceEmpEditSubmitted";
 	const KEY_NAME_SUP_EDIT_SUBMITTED = "attendanceSupEditSubmitted";
 	const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
+    const KEY_PIM_SHOW_DEPRECATED = "pim_show_deprecated_fields";
 
 	/**
 	 * Sets the 'value' corresponding to 'key'
@@ -373,6 +374,35 @@ class Config {
 		} catch (Exception $e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Show PIM Deprecated Fields
+	 * @return bool
+	 */
+	public static function showPimDeprecatedFields() {
+		try {
+			$val = self::_selectValue(self::KEY_PIM_SHOW_DEPRECATED);
+			return ($val == 1);
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Set Value: 'Yes' if the leave period has been set, else 'No'
+	 * @param boolean $value
+	 * @return void
+	 */
+	public static function setShowPimDeprecatedFields($value) {
+		if ($value != true && $value != false) {
+			throw new Exception("Given value for ShowPimDeprecatedFields should be true or false");
+		}
+        $flag = 0;
+        if($value) {
+            $flag = 1;
+        }
+		self::_setValue(self::KEY_PIM_SHOW_DEPRECATED, $flag);
 	}
 
 	/**

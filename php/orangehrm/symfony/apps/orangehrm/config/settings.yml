@@ -39,7 +39,7 @@ all:
     i18n:                   true
     default_culture: 		en      # Default user culture
 
-    enabled_modules:        [default, leave]
+    enabled_modules:        [default, leave, pim]
     
 #all:
 #  .actions:
