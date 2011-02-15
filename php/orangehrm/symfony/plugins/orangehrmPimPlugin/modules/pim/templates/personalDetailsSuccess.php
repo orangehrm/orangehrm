@@ -15,7 +15,7 @@
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php require_once 'leftMenu.php';?></td>
+        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
         <td valign="top">
             <table cellspacing="0" cellpadding="0" border="0" width="90%">
                 <tr>
@@ -94,16 +94,22 @@
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
-                                                    <tr <?php if(!$showDeprecatedFields) { echo "class='hideTr'"; }?> >
+                                                    <tr <?php if(!$showDeprecatedFields) {
+    echo "class='hideTr'";
+}?> >
                                                         <td colspan="4"><br /> <div class="hrLine" >&nbsp;</div></td>
                                                     </tr>
-                                                    <tr <?php if(!$showDeprecatedFields) { echo "class='hideTr'"; }?> >
+                                                    <tr <?php if(!$showDeprecatedFields) {
+    echo "class='hideTr'";
+}?> >
                                                         <td><?php echo __("Nick Name"); ?></td>
                                                         <td><?php echo $form['txtEmpNickName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                         <td><?php echo __('Smoker'); ?>&nbsp;<?php echo $form['chkSmokeFlag']->render(); ?></td>
                                                         <td>&nbsp;</td>
                                                     </tr>
-                                                    <tr <?php if(!$showDeprecatedFields) {echo "class='hideTr'";}?> >
+                                                    <tr <?php if(!$showDeprecatedFields) {
+    echo "class='hideTr'";
+}?> >
                                                         <td><?php echo __("Military Service"); ?></td>
                                                         <td><?php echo $form['txtMilitarySer']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                         <td>&nbsp;</td>
@@ -122,8 +128,15 @@
                         <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
                     </td>
                     <td valign="top" align="center">
-                        <!-- include photo -->
-                        <?php require_once 'photo.php';?>
+                        <div id="currentImage">
+                            <center>
+                                <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&capturemode=updatemode&reqcode=EMP&pane=21">
+                                    <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
+                                </a>
+                                <br />
+                                <span class="smallHelpText"><strong><?php echo $form->fullName; ?></strong></span>
+                            </center>
+                        </div>
                     </td>
                 </tr>
             </table>

@@ -1044,6 +1044,14 @@
         <source>Last Name is required</source>
         <target>FR_Last Name is required</target>
       </trans-unit>
+      <trans-unit id="259">
+        <source>Other</source>
+        <target>FR_Other</target>
+      </trans-unit>
+      <trans-unit id="260">
+        <source>Leave</source>
+        <target>FR_Leave</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
