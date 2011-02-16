@@ -70,13 +70,19 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     /* count getHolidayList */
 
-    public function testCountGetHolidayList() {
+    public function testCountGetHolidayListWithYear() {
 
-        $holidayList = $this->holidayDao->getHolidayList();
+        $holidayList = $this->holidayDao->getHolidayList($year="2010");
         $this->assertEquals(4, count($holidayList));
 
     }
 
+    public function testCountGetHolidayListWithoutYear() {
+
+        $holidayList = $this->holidayDao->getHolidayList();
+        $this->assertEquals(2, count($holidayList));
+
+    }
 
     /* test saveHoliday */
 
