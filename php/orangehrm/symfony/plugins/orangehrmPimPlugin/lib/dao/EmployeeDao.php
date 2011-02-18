@@ -225,7 +225,7 @@ class EmployeeDao extends BaseDao{
     */
    public function saveContactDetails(Employee $employee) {
       try {
-         $countryCode = $employee->getCountryCode();
+         $countryCode = $employee->country;
          $q = Doctrine_Query::create()->update('Employee')
                  ->set('street1', '?', $employee->getStreet1())
                  ->set('street2', '?', $employee->getStreet2())
@@ -238,10 +238,10 @@ class EmployeeDao extends BaseDao{
                  ->set('emp_work_email', '?', $employee->getEmpWorkEmail())
                  ->set('emp_oth_email', '?', $employee->getEmpOthEmail());
 
-         if (trim($employee->getCountryCode()) == "") {
-            $q->set('coun_code', '?', 'NULL');
+         if (trim($employee->country) == "") {
+            $q->set('country', '?', 'NULL');
          } else {
-            $q->set('coun_code', '?', $employee->getCountryCode());
+            $q->set('country', '?', $employee->country);
          }
          $q->where('empNumber = ?', $employee->getEmpNumber());
          $q->execute();
