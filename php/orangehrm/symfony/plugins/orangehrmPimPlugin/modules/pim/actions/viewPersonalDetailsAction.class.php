@@ -20,7 +20,7 @@
  * personalDetailsAction
  *
  */
-class personalDetailsAction extends sfAction {
+class viewPersonalDetailsAction extends sfAction {
 
     private $employeeService;
     
@@ -63,11 +63,6 @@ class personalDetailsAction extends sfAction {
 
         // TODO: Improve
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        if (!$adminMode) {
-            $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
-        } else {
-            $supervisorMode = false;
-        }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
@@ -88,7 +83,7 @@ class personalDetailsAction extends sfAction {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
                 $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
-                $this->redirect('pim/personalDetails?empNumber='. $empNumber);
+                $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
             }
         }
     }
