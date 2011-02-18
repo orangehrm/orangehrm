@@ -1052,6 +1052,34 @@
         <source>Leave</source>
         <target>FR_Leave</target>
       </trans-unit>
+      <trans-unit id="261">
+        <source>Personal Details Saved Successfully</source>
+        <target>FR_Personal Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="262">
+        <source>Contact Details Saved Successfully</source>
+        <target>FR_Contact Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="263">
+        <source>Invalid telephone number</source>
+        <target>FR_Invalid telephone number</target>
+      </trans-unit>
+      <trans-unit id="264">
+        <source>Invalid mobile number</source>
+        <target>FR_Invalid mobile number</target>
+      </trans-unit>
+      <trans-unit id="265">
+        <source>Invalid work phone number</source>
+        <target>FR_Invalid work phone number</target>
+      </trans-unit>
+      <trans-unit id="266">
+        <source>Incorrect work email</source>
+        <target>FR_Incorrect work email</target>
+      </trans-unit>
+      <trans-unit id="267">
+        <source>Incorrect work email</source>
+        <target>FR_Incorrect other email</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
