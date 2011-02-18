@@ -69,13 +69,17 @@ class personalDetailsAction extends sfAction {
             $supervisorMode = false;
         }
 
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
         OrangeConfig::getInstance()->loadAppConf();
         $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
-        
+
         $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
         if ($request->isMethod('post')) {
 
@@ -83,6 +87,7 @@ class personalDetailsAction extends sfAction {
             if ($this->form->isValid()) {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
+                $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
                 $this->redirect('pim/personalDetails?empNumber='. $empNumber);
             }
         }
