@@ -163,7 +163,11 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         
         $currentYear = date('Y');
         $nextYear = date('Y')+1;
-        
+
+        if (strtotime("$currentYear-12-22") > strtotime(date('Y-m-d'))) {
+            $nextYear = $currentYear;
+        }
+
         $result = $this->leavePeriodService->calculateEndDate(12, 22);
         $this->assertEquals("$nextYear-12-21", $result);
         
@@ -198,6 +202,10 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("2006-08-01", $result);
 
         $currentYear = date('Y');
+
+        if (strtotime("$currentYear-05-12") > strtotime(date('Y-m-d'))) {
+            $currentYear = $currentYear - 1;
+        }
 
         $result = $this->leavePeriodService->calculateStartDate(05, 12);
         $exprected = $currentYear . "-05-12";
