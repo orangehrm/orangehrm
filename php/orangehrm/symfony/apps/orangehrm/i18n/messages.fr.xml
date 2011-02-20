@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="7">
+        <source>Edit</source>
+        <target>FR_Edit</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Save</source>
+        <target>FR_Save</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Reset</source>
+        <target>FR_Reset</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>Search</source>
+        <target>FR_Search</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Add</source>
+        <target>FR_Add</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>Delete</source>
+        <target>FR_Delete</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>Back</source>
+        <target>FR_Back</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>All</source>
+        <target>FR_All</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>From</source>
+        <target>FR_From</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>To</source>
+        <target>FR_To</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Fields marked with an asterisk</source>
+        <target>FR_Fields marked with an asterisk</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>are required.</source>
+        <target>FR_are required.</target>
+      </trans-unit>
+      <trans-unit id="173">
+        <source>Full Time Contract</source>
+        <target>FR_Full Time Contract</target>
+      </trans-unit>
+      <trans-unit id="174">
+        <source>Full Time Internship</source>
+        <target>FR_Full Time Internship</target>
+      </trans-unit>
+      <trans-unit id="175">
+        <source>Full Time Permanent</source>
+        <target>FR_Full Time Permanent</target>
+      </trans-unit>
+      <trans-unit id="176">
+        <source>Part Time Contract</source>
+        <target>FR_Part Time Contract</target>
+      </trans-unit>
+      <trans-unit id="177">
+        <source>Part Time Internship</source>
+        <target>FR_Part Time Internship</target>
+      </trans-unit>
+      <trans-unit id="178">
+        <source>Part Time Permanent</source>
+        <target>FR_Part Time Permanent</target>
+      </trans-unit>
+      <trans-unit id="179">
+        <source>Eligible</source>
+        <target>FR_Eligible</target>
+      </trans-unit>
+      <trans-unit id="180">
+        <source>Not Eligible</source>
+        <target>FR_Not Eligible</target>
+      </trans-unit>
+      <trans-unit id="181">
+        <source>Help</source>
+        <target>FR_Help</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Month</source>
+        <target>FR_Month</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Date</source>
+        <target>FR_Date</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>January</source>
+        <target>FR_January</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>February</source>
+        <target>FR_February</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>March</source>
+        <target>FR_March</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>April</source>
+        <target>FR_April</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>May</source>
+        <target>FR_May</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>June</source>
+        <target>FR_June</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>July</source>
+        <target>FR_July</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>August</source>
+        <target>FR_August</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>September</source>
+        <target>FR_September</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>October</source>
+        <target>FR_October</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>November</source>
+        <target>FR_November</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>December</source>
+        <target>FR_December</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>to</source>
+        <target>FR_to</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Monday</source>
+        <target>FR_Monday</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Tuesday</source>
+        <target>FR_Tuesday</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Wednesday</source>
+        <target>FR_Wednesday</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Thursday</source>
+        <target>FR_Thursday</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Friday</source>
+        <target>FR_Friday</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Saturday</source>
+        <target>FR_Saturday</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Sunday</source>
+        <target>FR_Sunday</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Yes</source>
+        <target>FR_Yes</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>No</source>
+        <target>FR_No</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>Name</source>
+        <target>FR_Name</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>Successfully Deleted</source>
+        <target>FR_Successfully Deleted</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>No Records Found</source>
+        <target>FR_No Records Found</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Employee</source>
+        <target>FR_Employee</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>Type for hints</source>
+        <target>FR_Type for hints</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Job Title</source>
+        <target>FR_Job Title</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Job Title</source>
+        <target>FR_Location</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Sub Unit</source>
+        <target>FR_Sub Unit</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Records Per Page</source>
+        <target>FR_Records Per Page</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Location</source>
+        <target>FR_Location</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Employee Name</source>
+        <target>FR_Employee Name</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Days</source>
+        <target>FR_Days</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Status</source>
+        <target>FR_Status</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Comments</source>
+        <target>FR_Comments</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
