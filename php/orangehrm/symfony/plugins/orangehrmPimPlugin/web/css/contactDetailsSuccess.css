@@ -1,0 +1,17 @@
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 40px;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+}
