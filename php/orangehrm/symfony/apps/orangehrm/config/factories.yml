@@ -34,6 +34,7 @@ all:
     class: sfSessionStorage
     param:
       session_name: PHPSESSID
+      session_cache_limiter: nocache
 
 #all:
 #  controller:
