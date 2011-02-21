@@ -120,39 +120,41 @@ class leaveActions extends sfActions {
 	 * @return array Array of days for the given month
 	 */
 	public function executeLoadDatesforMonth(sfWebRequest $request) {
+        
 		$month = (int) $request->getParameter('month');
 		$isLeapYear = ($request->getParameter('isLeapYear') !== 'false');
 
-		@ob_clean();
-		echo json_encode($this->getLeavePeriodService()->getListOfDates($month, $isLeapYear));
-		exit;
+        $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
+        return $this->renderText(json_encode($this->getLeavePeriodService()->getListOfDates($month, $isLeapYear)));
+
 	}
 
 	/**
 	 * Gets the end date of the leave period given the start month and start date
 	 */
 	public function executeLoadLeavePeriodEndDate(sfWebRequest $request) {
-		$month = (int) $request->getParameter('month');
+
+        $month = (int) $request->getParameter('month');
 		$date = (int) $request->getParameter('date');
 		$format = $request->getParameter('format', 'F d');
 
-		@ob_clean();
         $endDateElements = explode(' ', $this->getLeavePeriodService()->calculateEndDate($month, $date, null, $format));
         $endDate = __($endDateElements[0]) . ' ' . $endDateElements[1];
-        echo trim($endDate);
-		exit;
+
+        return $this->renderText($endDate);
+
 	}
 
 	/**
 	 * Checks whether the start date of the current leave period will be a past date, given the start month and start date
 	 */
 	public function executeGetCurrentStartDate(sfWebRequest $request) {
+        
 		$month = (int) $request->getParameter('month');
 		$date = (int) $request->getParameter('date');
 
-		@ob_clean();
-		echo trim($this->getLeavePeriodService()->calculateStartDate($month, $date, null));
-		exit;
+        return $this->renderText($this->getLeavePeriodService()->calculateStartDate($month, $date, null));
+
 	}
 
     /**
@@ -719,8 +721,8 @@ class leaveActions extends sfActions {
             $flag = $leaveRequestService->saveLeave($leave);
         }
 
-        echo $flag;
-        exit();
+        return $this->renderText($flag);
+
     }
 
     /**
