@@ -172,6 +172,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <script type="text/javascript">
     //<![CDATA[
 
+    // Move to separate js after completing initial work
+    
     function clearAddForm() {
         $('#emgcontacts_seqNo').val('');
         $('#emgcontacts_name').val('');
@@ -259,32 +261,32 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         $("#frmEmpEmgContact").validate({
 
             rules: {
-                name : {required:true, maxlength:100},
-                relationship : {required: true, maxlength:100},
-                homePhone : {phone: true, validContactPhone:true, maxlength:100},
-                mobilePhone : {phone: true, maxlength:100},
-                WorkPhone : {phone: true, maxlength:100}
+                'emgcontacts[name]' : {required:true, maxlength:100},
+                'emgcontacts[relationship]' : {required: true, maxlength:100},
+                'emgcontacts[homePhone]' : {phone: true, validContactPhone:true, maxlength:100},
+                'emgcontacts[mobilePhone]' : {phone: true, maxlength:100},
+                'emgcontacts[WorkPhone]' : {phone: true, maxlength:100}
             },
             messages: {
-                name: {
+                'emgcontacts[name]': {
                     required:'<?php echo __("Name is required") ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Name') ?>'
                 },
-                relationship: {
+                'emgcontacts[relationship]': {
                     required:'<?php echo __("Relationship is required") ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Relationship') ?>'
                 },
-                homePhone : {
+                'emgcontacts[homePhone]' : {
                     phone:'<?php echo __("Home Telephone") . " : " . __("Not a valid phone/fax number"); ?>',
                     validContactPhone:'<?php echo __("Please specify at least one phone number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Home Telephone') ?>'
                 },
-                mobilePhone : {
+                'emgcontacts[mobilePhone]' : {
                     phone:'<?php echo __("Mobile") . " : " . __("Not a valid phone/fax number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
 
                 },
-                WorkPhone : {
+                'emgcontacts[WorkPhone]' : {
                     phone:'<?php echo __("Work Telephone") . " : " . __("Not a valid phone/fax number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
