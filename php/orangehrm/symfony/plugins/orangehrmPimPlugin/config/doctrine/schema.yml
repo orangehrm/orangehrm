@@ -318,3 +318,31 @@ EmpEmergencyContact:
       local: emp_number
       foreign: emp_number
       type: one
+
+EmpPassport:
+  tableName: hs_hr_emp_passport
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ep_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ep_passport_num as number:
+      type: string(100)
+      default: ''
+      notnull: true
+    ep_i9_status as i9_status:
+      type: string(100)
+      default: ''
+    ep_passportissueddate as passport_issue_date: timestamp(25)
+    ep_passportexpiredate as passport_expire_date: timestamp(25)
+    ep_comments as comments: string(255)
+    ep_passport_type_flg as type_flag : integer(2)
+    ep_i9_review_date as i9_review_date: date(25)
+    cou_code as country: string(6)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
