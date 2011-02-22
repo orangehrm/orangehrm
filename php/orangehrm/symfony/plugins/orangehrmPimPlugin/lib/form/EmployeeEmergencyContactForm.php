@@ -21,10 +21,34 @@
  * Form class for employee contact detail
  */
 class EmployeeEmergencyContactForm extends BaseForm {
+    public $fullName;
+    private $employeeService;
+    
+    /**
+     * Get EmployeeService
+     * @returns EmployeeService
+     */
+    public function getEmployeeService() {
+        if(is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+            $this->employeeService->setEmployeeDao(new EmployeeDao());
+        }
+        return $this->employeeService;
+    }
 
+    /**
+     * Set EmployeeService
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService) {
+        $this->employeeService = $employeeService;
+    }
+    
     public function configure() {
 
         $empNumber = $this->getOption('empNumber');
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $this->fullName = $employee->getFullName();
         
         // Note: Widget names were kept from old non-symfony version
         $this->setWidgets(array(
