@@ -1192,13 +1192,13 @@ tableDisplayStyle = "table";
                 <span class="parent personal"><?php echo $lang_pim_tabs_Personal;?></span></a>
 			<ul class="l2">
 				<li class="l2">
-					<a href="../../symfony/web/index.php/pim/personalDetails?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="p">
+					<a href="../../symfony/web/index.php/pim/viewPersonalDetails?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="p">
 						<span><?php echo $lang_pim_PersonalDetails;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(4)" id="contactsLink" class="personal" accesskey="c">
 						<span><?php echo $lang_pim_tabs_Contact;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(5)" id="emgcontactsLink" class="personal"  accesskey="e">
+					<a href="../../symfony/web/index.php/pim/viewEmergencyContacts?empNumber=<?php echo $escapedId;?>" id="emgcontactsLink" class="personal"  accesskey="e">
 						<span><?php echo $lang_pim_tabs_EmergencyContacts;?></span></a></li>
 
 				<li class="l2">

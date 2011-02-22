@@ -1236,7 +1236,7 @@
 
 	$lang_pim_tabs_Personal = "Personal";
 	$lang_pim_tabs_Contact = "Contact Details";
-	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
+	$lang_pim_tabs_EmergencyContacts = "Emergency Contacts";
 	$lang_pim_tabs_Dependents = "Dependents";
 	$lang_pim_tabs_Immigration = "Immigration";
 	$lang_pim_tabs_Job = "Job";
