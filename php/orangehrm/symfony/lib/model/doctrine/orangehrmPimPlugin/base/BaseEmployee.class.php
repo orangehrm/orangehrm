@@ -505,7 +505,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
-        $this->hasMany('EmpEmergencyContacts as emergencyContacts', array(
+        $this->hasMany('EmpEmergencyContact as emergencyContacts', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

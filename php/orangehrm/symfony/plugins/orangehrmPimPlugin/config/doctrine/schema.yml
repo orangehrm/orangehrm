@@ -140,7 +140,7 @@ Employee:
       foreign: emp_number
       type: many
     emergencyContacts:
-      class: EmpEmergencyContacts
+      class: EmpEmergencyContact
       local: emp_number
       foreign: emp_number
       type: many
@@ -283,6 +283,36 @@ EmpSubdivisionHistory:
     name: string(250)
     start_date: timestamp(25)
     end_date: timestamp(25)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+
+EmpEmergencyContact:
+  tableName: hs_hr_emp_emergency_contacts
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    eec_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    eec_name as name:
+      type: string(100)
+      default: ''
+    eec_relationship as relationship:
+      type: string(100)
+      default: ''
+    eec_home_no as home_phone:
+      type: string(100)
+      default: ''
+    eec_mobile_no as mobile_phone:
+      type: string(100)
+      default: ''
+    eec_office_no as office_phone:
+      type: string(100)
+      default: ''
   relations:
     Employee:
       local: emp_number
