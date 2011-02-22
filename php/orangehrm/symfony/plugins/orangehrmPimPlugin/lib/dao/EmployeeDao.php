@@ -1011,6 +1011,23 @@ class EmployeeDao extends BaseDao{
       }
    }
 
+    /**
+     * Get Emergency contacts for given employee
+     * @param int $empNumber Employee Number
+     * @return array Emergency Contacts as array
+     */
+    public function getEmergencyContacts($empNumber) {
+
+        try {
+            $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
+                            ->where('ec.emp_number = ?', $empNumber);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+
    /**
     * Delete Emergency contacts
     * @param int $empNumber

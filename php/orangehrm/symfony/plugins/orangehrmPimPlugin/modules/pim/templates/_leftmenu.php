@@ -400,23 +400,23 @@
             <ul class="l2">
                 <li class="l2">
 
-                    <a href="<?php echo url_for('pim/personalDetails?empNumber=' . $empNumber); ?>" id="personalLink" class="personal" accesskey="p">
+                    <a href="<?php echo url_for('pim/viewPersonalDetails?empNumber=' . $empNumber); ?>" id="personalLink" class="personal" accesskey="p">
                         <span><?php echo __("Personal Details");?></span></a></li>
                 <li class="l2">
                     <a href="<?php echo url_for('pim/contactDetails?empNumber=' . $empNumber); ?>" id="contactsLink" class="personal" accesskey="c">
                         <span><?php echo __("Contact Details");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=5" id="emgcontactsLink" class="personal"  accesskey="e">
-                        <span><?php echo __("Emergency Contact(s)");?></span></a></li>
+                    <a href="<?php echo url_for('pim/viewEmergencyContacts?empNumber=' . $empNumber); ?>" id="emgcontactsLink" class="personal"  accesskey="e">
+                        <span><?php echo __("Emergency Contacts");?></span></a></li>
 
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=3" id="dependentsLink" class="personal"  accesskey="d">
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=3" id="dependentsLink" class="personal"  accesskey="d">
                         <span><?php echo __("Dependents");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=10" id="immigrationLink" class="personal" accesskey="i" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=10" id="immigrationLink" class="personal" accesskey="i" >
                         <span><?php echo __("Immigration");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=21" id="photoLink" class="personal" accesskey="f" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=21" id="photoLink" class="personal" accesskey="f" >
                         <span><?php echo __("Photograph");?></span></a></li>
             </ul>
         </li>
@@ -425,21 +425,21 @@
                     <?php echo __("Employment");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=2" id="jobLink" accesskey="j" class="employment"  >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=2" id="jobLink" accesskey="j" class="employment"  >
 
                         <span><?php echo __("Job");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=14" id="paymentsLink" class="employment" accesskey="s" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=14" id="paymentsLink" class="employment" accesskey="s" >
                         <span><?php echo __("Salary");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=18" id="taxLink" class="employment" accesskey="t" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=18" id="taxLink" class="employment" accesskey="t" >
                         <span><?php echo __("Tax Exemptions");?></span></a></li>
 
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=19" id="direct-debitLink" class="employment" accesskey="o" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=19" id="direct-debitLink" class="employment" accesskey="o" >
                         <span><?php echo __("Direct Deposit");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=15" id="report-toLink" class="employment" accesskey="r" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=15" id="report-toLink" class="employment" accesskey="r" >
                         <span><?php echo __("Report-to");?></span></a></li>
             </ul>
         </li>
@@ -448,21 +448,21 @@
                 <span class="parent pimqualifications"><?php echo __("Qualifications");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=17" id="work_experienceLink" class="pimqualifications" accesskey="w" >
+                    <a href=".<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=17" id="work_experienceLink" class="pimqualifications" accesskey="w" >
 
                         <span><?php echo __("Work experience");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=9" id="educationLink" class="pimqualifications" accesskey="n" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=9" id="educationLink" class="pimqualifications" accesskey="n" >
                         <span><?php echo __("Education");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=16" id="skillsLink" class="pimqualifications" accesskey="k" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=16" id="skillsLink" class="pimqualifications" accesskey="k" >
                         <span><?php echo __("Skills");?></span></a></li>
 
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=11" id="languagesLink" class="pimqualifications" accesskey="g" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=11" id="languagesLink" class="pimqualifications" accesskey="g" >
                         <span><?php echo __("Languages");?></span></a></li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=12" id="licensesLink" class="pimqualifications" accesskey="l" >
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=12" id="licensesLink" class="pimqualifications" accesskey="l" >
                         <span><?php echo __("License");?></span></a></li>
             </ul>
         </li>
@@ -519,17 +519,17 @@
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo __("Other");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=13" id="membershipsLink" class="pimmemberships" accesskey="m">
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=13" id="membershipsLink" class="pimmemberships" accesskey="m">
                         <span><?php echo __("Membership");?></span>
                     </a>
                 </li>
                 <li class="l2">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=6" id="attachmentsLink" class="attachments" accesskey="a">
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=6" id="attachmentsLink" class="attachments" accesskey="a">
                         <span><?php echo __("Attachments");?></span>
                     </a>
                 </li>
                 <li class="l1">
-                    <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=20" id="customLink" class="l1_link custom" accesskey="u">
+                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=20" id="customLink" class="l1_link custom" accesskey="u">
                         <span><?php echo __("Custom");?></span>
                     </a>
                 </li>

@@ -610,6 +610,19 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Get Emergency contacts for given employee
+     * @param int $empNumber Employee Number
+     * @return array Emergency Contacts as array
+     */
+    public function getEmergencyContacts($empNumber) {
+        try {
+            return $this->employeeDao->getEmergencyContacts($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
      * Delete Emergency contacts
      * @param int $empNumber
      * @param array() $emergencyContactsToDelete

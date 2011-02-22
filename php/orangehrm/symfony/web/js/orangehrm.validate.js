@@ -108,3 +108,9 @@ $.validator.addMethod("isFutureDate", function(value, element) {
     }
     return true;
 });
+
+$.validator.addMethod("phone", function(value, element) {
+        return (checkPhone(element));
+    },
+    ""
+);

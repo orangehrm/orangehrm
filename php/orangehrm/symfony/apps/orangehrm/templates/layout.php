@@ -21,7 +21,10 @@
     <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js')?>"></script>
     <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.form.js')?>"></script>
     <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.tablesorter.js')?>"></script>
-    <?php echo javascript_include_tag('orangehrm.validate.js'); ?>     
+    <?php echo javascript_include_tag('orangehrm.validate.js'); ?>
+
+    <?php echo include_javascripts();?>
+    <?php echo include_stylesheets();?>
   </head>
   <body>
   
