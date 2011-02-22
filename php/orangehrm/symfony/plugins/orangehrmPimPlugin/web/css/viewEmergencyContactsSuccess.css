@@ -2,3 +2,11 @@ div.messageBar {
     margin: 5px 15px 5px 15px;
 
 }
+
+table#emgcontact_list td.check {
+    width: 30px;
+}
+
+table#emgcontact_list td.emgContactName {
+    padding-left: 8px;
+}

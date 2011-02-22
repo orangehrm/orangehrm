@@ -122,8 +122,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="emgcontact_list">
         <thead>
             <tr>
-                <td width="50" class="check">&nbsp;</td>
-                <td><?php echo __("Name"); ?></td>
+                <td class="check">&nbsp;</td>
+                <td class="emgContactName"><?php echo __("Name"); ?></td>
                 <td><?php echo __("Relationship"); ?></td>
                 <td><?php echo __("Home Telephone"); ?></td>
                 <td><?php echo __("Mobile"); ?></td>
@@ -138,7 +138,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 echo '<tr class="' . $cssClass . '">';
                 echo "<td class='check'><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $contact->seqno . "'/></td>";
 ?>
-            <td class="editLink"><a href="#"><?php echo $contact->name; ?></a></td>
+            <td class="emgContactName"><a href="#"><?php echo $contact->name; ?></a></td>
             <?php
                 echo '<td>' . $contact->relationship . '</td>';
                 echo '<td>' . $contact->home_phone . '</td>';
@@ -182,11 +182,11 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     function addEditLinks() {
-        $('#emgcontact_list td.editLink').wrapInner('<a href="#"/>');
+        $('#emgcontact_list tbody td.emgContactName').wrapInner('<a href="#"/>');
     }
 
     function removeEditLinks() {
-        $('#emgcontact_list td.editLink').each(function(index) {
+        $('#emgcontact_list tbody td.emgContactName').each(function(index) {
             var linkContent = $(this).find('a').html();
             $(this).html(linkContent);
 
@@ -246,6 +246,16 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#addPaneEmgContact').css('display', 'block');
         });
 
+        /* Valid Contact Phone */
+        $.validator.addMethod("validContactPhone", function(value, element) {
+
+            if ( $('#emgcontacts_homePhone').val() == '' && $('#emgcontacts_mobilePhone').val() == '' &&
+                    $('#emgcontacts_workPhone').val() == '' )
+                return false;
+            else
+                return true
+        });
+        
         $("#frmEmpEmgContact").validate({
 
             rules: {
@@ -282,16 +292,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         });
 
-
-        /* Valid Contact Phone */
-        $.validator.addMethod("validContactPhone", function(value, element) {
-
-            if ( $('#emgcontacts_homePhone').val() == '' && $('#emgcontacts_mobilePhone').val() == '' &&
-                    $('#emgcontacts_workPhone').val() == '' )
-                return false;
-            else
-                return true
-        });
         
         $('#delContactsBtn').click(function() {
             var checked = $('#frmEmpDelEmgContacts input:checked').length;
