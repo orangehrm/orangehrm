@@ -27,7 +27,7 @@
                         <div class="outerbox">
                             <div class="mainHeading"><h2><?php echo __('Personal Details'); ?></h2></div>
                             <div>
-                                <form id="frmEmpPersonalDetails" method="post" action="<?php echo url_for('pim/personalDetails'); ?>">
+                                <form id="frmEmpPersonalDetails" method="post" action="<?php echo url_for('pim/viewPersonalDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
                                     <table cellspacing="0" cellpadding="0" border="0" class="tableArrange">
                                         <?php echo $form['txtEmpID']->render(); ?>
