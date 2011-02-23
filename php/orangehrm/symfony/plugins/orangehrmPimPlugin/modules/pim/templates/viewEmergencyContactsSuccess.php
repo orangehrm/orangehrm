@@ -63,10 +63,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php echo $form["seqNo"]->render(); ?>
 
     <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
+    <div class="inputContainer">
     <?php echo $form['name']->render(array("class" => "formInputText")); ?>
+    </div>
 
     <?php echo $form['relationship']->renderLabel(__('Relationship') . ' <span class="required">*</span>'); ?>
+    <div class="inputContainer">
     <?php echo $form['relationship']->render(array("class" => "formInputText")); ?>
+    </div>
     <br class="clear"/>
 
     <?php echo $form['homePhone']->renderLabel(__('Home Telephone')); ?>
@@ -179,8 +183,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         $('#emgcontacts_name').val('');
         $('#emgcontacts_relationship').val('');
         $('#emgcontacts_homePhone').val('');
-        $('#emgcontacts_MobilePhone').val('');
-        $('#emgcontacts_WorkPhone').val('');
+        $('#emgcontacts_mobilePhone').val('');
+        $('#emgcontacts_workPhone').val('');
+        $('div#addPaneEmgContact label.error').hide();
+        $('div#messagebar').hide();
     }
 
     function addEditLinks() {
@@ -215,6 +221,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#emgcontacts_mobilePhone').val(mobilePhone);
             $('#emgcontacts_workPhone').val(workPhone);
 
+            $('div#messagebar').hide();
             // hide validation error messages
 
             $('#listActions').hide();
@@ -223,16 +230,17 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         });
 
-        // Add a emergency contact
+        // Cancel in add pane
         $('#btnCancel').click(function() {
             clearAddForm();
             $('#addPaneEmgContact').css('display', 'none');
             $('#listActions').show();
             $('#emgcontact_list td.check').show();
             addEditLinks();
+            $('div#messagebar').hide();
         });
 
-        // Cancel in Add pane
+        // Add a emergency contact
         $('#btnAddContact').click(function() {
 
             clearAddForm();
@@ -241,6 +249,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#listActions').hide();
             $('#emgcontact_list td.check').hide();
             removeEditLinks();
+            $('div#messagebar').hide();
 
             //
             //            // hide validation error messages

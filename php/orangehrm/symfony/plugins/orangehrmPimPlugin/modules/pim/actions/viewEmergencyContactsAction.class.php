@@ -58,8 +58,8 @@ class viewEmergencyContactsAction extends sfAction {
 
         $this->showBackButton = true;
         
-        $personal = $request->getParameter('emgcontacts');
-        $empNumber = (isset($personal['empNumber']))?$personal['empNumber']:$request->getParameter('empNumber');
+        $contacts = $request->getParameter('emgcontacts');
+        $empNumber = (isset($contacts['empNumber']))?$contacts['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);

@@ -32,14 +32,22 @@ class updateEmergencyContactAction extends sfAction {
      */
     public function execute($request) {
 
-        $this->form = new EmployeeEmergencyContactForm(array(), array(), true);
+        $contacts = $request->getParameter('emgcontacts');
+        $empNumber = (isset($contacts['empNumber']))?$contacts['empNumber']:$request->getParameter('empNumber');
+        $this->empNumber = $empNumber;
+
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        
+        $this->form = new EmployeeEmergencyContactForm(array(), $param, true);
 
         if ($this->getRequest()->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', 'Emergency Contact Saved Successfully'));
             }
         }
 

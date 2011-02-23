@@ -10,3 +10,7 @@ table#emgcontact_list td.check {
 table#emgcontact_list td.emgContactName {
     padding-left: 8px;
 }
+
+div.input_container {
+    float:left;
+}
