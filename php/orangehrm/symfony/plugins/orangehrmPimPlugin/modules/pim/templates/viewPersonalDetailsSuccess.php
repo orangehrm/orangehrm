@@ -5,7 +5,7 @@
 <?php echo javascript_include_tag('orangehrm.datepicker.js')?>
 
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewPersonalDetailsSuccess'); ?>
-<?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess'); ?>
+
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
@@ -155,3 +155,5 @@
     var lastNameRequired = "<?php echo __("Last Name is required"); ?>";
     //]]>
 </script>
+
+<?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess'); ?>
