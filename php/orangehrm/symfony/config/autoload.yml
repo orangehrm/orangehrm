@@ -8,3 +8,6 @@ autoload:
   log4j_lib:
     path:          %SF_LIB_DIR%/vendor/log4php
     recursive: true
+  phpseclib_lib:
+    path:          %SF_LIB_DIR%/vendor/phpseclib
+    recursive: true
