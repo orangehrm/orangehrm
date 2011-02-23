@@ -11,6 +11,15 @@ table#emgcontact_list td.emgContactName {
     padding-left: 8px;
 }
 
-div.input_container {
-    float:left;
+form#frmEmpEmgContact label {
+    position: relative;
+}
+
+form#frmEmpEmgContact label label.error {
+    color:red;
+    display: block;
+    font-weight: normal;
+    overflow:visible;
+    width:270px !important; /* Need to overide important in messages.css */
+    padding-left:0px;
 }

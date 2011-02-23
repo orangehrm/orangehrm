@@ -63,14 +63,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php echo $form["seqNo"]->render(); ?>
 
     <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-    <div class="inputContainer">
     <?php echo $form['name']->render(array("class" => "formInputText")); ?>
-    </div>
 
     <?php echo $form['relationship']->renderLabel(__('Relationship') . ' <span class="required">*</span>'); ?>
-    <div class="inputContainer">
     <?php echo $form['relationship']->render(array("class" => "formInputText")); ?>
-    </div>
     <br class="clear"/>
 
     <?php echo $form['homePhone']->renderLabel(__('Home Telephone')); ?>
@@ -299,7 +295,11 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     phone:'<?php echo __("Work Telephone") . " : " . __("Not a valid phone/fax number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
-            }
+            },
+            errorPlacement: function(error, element) {
+                    error.appendTo( element.prev('label') );
+                }
+
 
         });
 

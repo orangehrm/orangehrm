@@ -21,13 +21,14 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
    private $testCase;
    private $employeeDao;
    private $employeeService;
+   private $fixture;
 
 	/**
 	 * Set up method
 	 */
 	protected function setUp() {
-		$this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
-      $this->employeeService = new EmployeeService();
+            $this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
+            $this->employeeService = new EmployeeService();
 	}
 
 	/**
@@ -587,5 +588,51 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
          $this->assertEquals($result, 1);
       }
    }
+
+   /**
+     * Test GetEmergencyContacts
+     */
+    public function testGetEmergencyContacts() {
+
+        // TODO: Load from fixture
+        $contacts = array();
+        $contacts[0] = new EmpEmergencyContact();
+        $contacts[1] = new EmpEmergencyContact();
+
+        $empNumber = 2;
+        
+        $emergencyContactList = array();
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                    ->method('getEmergencyContacts')
+                    ->with($empNumber)
+                    ->will($this->returnValue($contacts));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $emgContacts = $this->employeeService->getEmergencyContacts($empNumber);
+        $this->assertEquals(count($contacts), count($emgContacts));
+        $this->assertEquals($emgContacts, $contacts);
+
+
+        // Test exception
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                    ->method('getEmergencyContacts')
+                    ->with($empNumber)
+                    ->will($this->throwException(new DaoException('test')));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        try {
+            $emgContacts = $this->employeeService->getEmergencyContacts($empNumber);
+            $this->fail('DaoException expected');
+        } catch (PIMServiceException $e) {
+            // expected
+        }
+    }
 }
 ?>
