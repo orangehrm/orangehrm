@@ -86,7 +86,7 @@
                                                     <tr>
                                                         <td><?php echo __("Nationality"); ?></td>
                                                         <td><?php echo $form['cmbNation']->render(array("class" => "formInputText")); ?></td>
-                                                        <td><?php echo __('Ethinical Race'); ?></td>
+                                                        <td><?php echo __('Ethinic Race'); ?></td>
                                                         <td><?php echo $form['cmbEthnicRace']->render(array("class" => "formInputText")); ?></td>
                                                     </tr>
                                                     <tr>
