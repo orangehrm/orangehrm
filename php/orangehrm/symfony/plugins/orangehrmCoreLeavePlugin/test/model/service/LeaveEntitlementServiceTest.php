@@ -204,15 +204,21 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
                                 ->with(1, 'LTY001', 1)
                                 ->will($this->returnValue($employeeLeaveEntitlement));
 
-        $leaveRequestService = $this->getMock('LeaveRequestService', array('getScheduledLeavesSum'));
+        $leaveRequestService = $this->getMock('LeaveRequestService', array('getScheduledLeavesSum', 'getTakenLeaveSum'));
+
         $leaveRequestService->expects($this->once())
                             ->method('getScheduledLeavesSum')
                             ->with(1, 'LTY001', 1)
                             ->will($this->returnValue(3));
 
+        $leaveRequestService->expects($this->once())
+                            ->method('getTakenLeaveSum')
+                            ->with(1, 'LTY001', 1)
+                            ->will($this->returnValue(2));
+
         $leaveEntitlementService->setLeaveRequestService($leaveRequestService);
 
-        $this->assertEquals(8, $leaveEntitlementService->getLeaveBalance(1, 'LTY001', 1));        
+        $this->assertEquals(6, $leaveEntitlementService->getLeaveBalance(1, 'LTY001', 1));
 
     }
 
