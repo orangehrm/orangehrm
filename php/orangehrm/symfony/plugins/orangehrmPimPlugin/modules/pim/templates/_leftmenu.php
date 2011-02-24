@@ -407,7 +407,7 @@
                     <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=3" id="dependentsLink" class="personal"  accesskey="d">
                         <span><?php echo __("Dependents");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=10" id="immigrationLink" class="personal" accesskey="i" >
+                    <a href="<?php echo url_for('pim/viewImmigration?empNumber=' . $empNumber); ?>" id="immigrationLink" class="personal" accesskey="i" >
                         <span><?php echo __("Immigration");?></span></a></li>
                 <li class="l2">
                     <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=21" id="photoLink" class="personal" accesskey="f" >

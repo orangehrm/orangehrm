@@ -208,6 +208,78 @@
         <source>Incorrect work email</source>
         <target>FR_Incorrect other email</target>
       </trans-unit>
+      <trans-unit id="52">
+        <source>Issued Date is required</source>
+        <target>FR_Issued Date is required</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Date of expiry is required</source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>Issued date should be before expiration date</source>
+        <target>FR_Issued date should be before expiration date</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>Document</source>
+        <target>FR_Document</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>Document No</source>
+        <target>FR_Document No</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Issued By</source>
+        <target>FR_Issued By</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Issued Date</source>
+        <target>FR_Issued Date</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Date of Expiry</source>
+        <target>FR_Date of Expiry</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Assigned Immigration Documents</source>
+        <target>FR_Assigned Immigration Documents</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Immigration Details Saved Successfully</source>
+        <target>FR_Immigration Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Document number is required</source>
+        <target>FR_Document number is required</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Issued date is required</source>
+        <target>FR_Issued date is required</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>Expiry date is required</source>
+        <target>FR_Expiry date is required</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Eligible Review Date</source>
+        <target>FR_Eligible Review Date</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Eligible Status</source>
+        <target>FR_Eligible Status</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Immigration Details Deleted Successfully</source>
+        <target>FR_Immigration Details Deleted Successfully</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Country is required</source>
+        <target>FR_Country is required</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Review date required</source>
+        <target>FR_Review date required</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
