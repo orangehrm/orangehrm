@@ -675,11 +675,13 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
+
         try {
             return $this->employeeDao->deleteImmigration($empNumber, $entriesToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
+        
     }
 
     /**
@@ -785,6 +787,25 @@ class EmployeeService extends BaseService {
         }
     }
 
+    /**
+     * save immigration
+     * @param EmpPassport $empPassport
+     * @returns boolean
+     */
+    public function saveEmployeePassport(EmpPassport $empPassport) {
+        return $this->employeeDao->saveEmployeePassport($empPassport);
+    }
+
+    /**
+     * Get EmpPassport
+     * @param int $empNumber
+     * @param int $sequenceNo
+     * @returns Collection/EmpPassport
+     */
+    public function getEmployeePassport($empNumber, $sequenceNo = null) {
+        return $this->employeeDao->getEmployeePassport($empNumber, $sequenceNo);
+    }
+    
     /**
      * Returns EmployeePicture by Emp Number
      * @param int $empNumber
