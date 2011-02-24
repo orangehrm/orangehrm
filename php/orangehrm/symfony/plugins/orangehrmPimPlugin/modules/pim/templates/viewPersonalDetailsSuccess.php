@@ -72,14 +72,16 @@
                                                         <td><?php echo $form['txtLicenNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                         <td><?php echo __('License Expiry Date'); ?></td>
                                                         <td><?php echo $form['txtLicExpDate']->render(array('size'=>'10','class'=>'formInputText', "maxlength" => 11)); ?>
-                                                            <input id="licExpDateBtn" type="button" name="Submit" value="  " class="calendarBtn" /></td>
+                                                            <input id="licExpDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                                            <br class="clear" />
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="4"><br /> <div class="hrLine" >&nbsp;</div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><?php echo __("Gender"); ?></td>
-                                                        <td valign="top"><?php echo $form['optGender']->render(); ?></td>
+                                                        <td valign="top"><?php echo $form['optGender']->render(); ?> <br class="clear" /></td>
                                                         <td><?php echo __('Marital Status'); ?></td>
                                                         <td><?php echo $form['cmbMarital']->render(array("class" => "formInputText")); ?></td>
                                                     </tr>
@@ -93,6 +95,7 @@
                                                         <td><?php echo __("Date of Birth"); ?></td>
                                                         <td><?php echo $form['DOB']->render(array("class" => "formInputText", "maxlength" => 11)); ?>
                                                             <input id="dateOfBirthBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                                            <br class="clear" />
                                                         </td>
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
@@ -151,8 +154,11 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var firstNameRequired = "<?php echo __("First Name is required"); ?>";
-    var lastNameRequired = "<?php echo __("Last Name is required"); ?>";
+    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
+    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
+    var lang_invalidDateOfBirth = "<?php echo __("Invalid date of birth"); ?>";
+    var lang_invalidLicenseExpDate = "<?php echo __("Invalid license expiry date"); ?>";
+    var lang_selectGender = "<?php echo __("Select a gender"); ?>";
     //]]>
 </script>
 

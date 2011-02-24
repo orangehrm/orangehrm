@@ -70,7 +70,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $ess = $this->getOption('ESS', false);
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        $this->gender = ($employee->emp_gender != "")?$employee->emp_gender:Employee::GENDER_MALE;
+        $this->gender = ($employee->emp_gender != "")?$employee->emp_gender:"";
         $this->fullName = $employee->getFullName();
 
         //initializing the components
@@ -173,7 +173,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
     private function getNationalityList() {
         $nationalityService = $this->getNationalityService();
         $nationalities = $nationalityService->getNationalityList();
-        $list = array(0 => 'Select Nationality');
+        $list = array(0 => "--" . __('Select') . "--");
         
         foreach($nationalities as $nationality) {
             $list[$nationality->getNatCode()] = $nationality->getNatName();
@@ -184,7 +184,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
     private function getEthnicalRaceList() {
         $nationalityService = $this->getNationalityService();
         $races = $nationalityService->getEthnicRaceList();
-        $list = array(0 => 'Select Ethnic Race');
+        $list = array(0 => "--" . __('Select') . "--");
 
         foreach($races as $race) {
             $list[$race->getEthnicRaceCode()] = $race->getEthnicRaceDesc();
