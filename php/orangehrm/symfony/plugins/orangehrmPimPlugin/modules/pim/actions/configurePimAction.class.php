@@ -20,7 +20,7 @@
  * configPimAction
  *
  */
-class configPimAction extends sfAction {
+class configurePimAction extends sfAction {
 
     /**
      * @param sfForm $form
@@ -58,7 +58,7 @@ class configPimAction extends sfAction {
                 }
                 OrangeConfig::getInstance()->setAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED, $flag);
                 $this->getUser()->setFlash('templateMessage', array('success', 'PIM Configuration Saved Successfully'));
-                $this->redirect('pim/configPim');
+                $this->redirect('pim/configurePim');
             }
         }
     }

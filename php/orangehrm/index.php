@@ -401,7 +401,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	}
 	$subs = array();
     if($_SESSION['isAdmin']=='Yes') {
-        $subs[] = new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configPim", "rightMenu");
+        $subs[] = new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configurePim", "rightMenu");
     }
     
 	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC");  

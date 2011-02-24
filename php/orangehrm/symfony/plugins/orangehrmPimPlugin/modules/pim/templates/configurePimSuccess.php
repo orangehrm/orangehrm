@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-echo stylesheet_tag('../orangehrmPimPlugin/css/configPimSuccess'); ?>
+echo stylesheet_tag('../orangehrmPimPlugin/css/configurePimSuccess'); ?>
 
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 470px;">
 	<span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
@@ -26,8 +26,11 @@ echo stylesheet_tag('../orangehrmPimPlugin/css/configPimSuccess'); ?>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Configure PIM'); ?></h2></div>
     <div>
-        <form id="frmConfigPim" name="frmConfigPim" method="post" action="<?php echo url_for('pim/configPim') ?>" >
+        <form id="frmConfigPim" name="frmConfigPim" method="post" action="<?php echo url_for('pim/configurePim') ?>" >
             <table cellspacing="0" cellpadding="0" border="0" class="tableArrange">
+                <tr>
+                    <td colspan="2"><p><span class="required">*</span> <?php echo __('Nick Name, Smoker, Military Service fields are considered as deprecated fields'); ?></p></td>
+                </tr>
                 <tr>
                     <td width="40%"><?php echo __('Show Deprecated Fields'); ?></td>
                     <td><?php echo $form['chkDeprecateFields']->render(); ?></td>
