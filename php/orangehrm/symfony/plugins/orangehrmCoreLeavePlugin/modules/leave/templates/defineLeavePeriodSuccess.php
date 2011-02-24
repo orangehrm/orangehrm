@@ -67,7 +67,9 @@
         <?php if ($isLeavePeriodDefined) { ?>
         <tr class="tableArrangetr">
             <td align="left"><?php echo __("Current Leave Period"); ?></td>
-            <td class="valueLabel"><?php echo $currentLeavePeriod->getDescription();?></td>
+            <td class="valueLabel">
+            <?php echo ohrm_format_date($currentLeavePeriod->getStartDate()) . " " . __("to") . " " . ohrm_format_date($currentLeavePeriod->getEndDate());?>
+            </td>
         </tr>
         <?php } ?>
     </table>

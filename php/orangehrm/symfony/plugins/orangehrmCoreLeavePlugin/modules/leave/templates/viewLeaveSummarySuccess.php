@@ -128,7 +128,7 @@
 </tr>
 </thead>
 
-<?php echo $form->getLeaveSummaryTbodyHtml($employeeId);?>
+<?php echo $form->getLeaveSummaryTbodyHtml();?>
 
 </table>
 

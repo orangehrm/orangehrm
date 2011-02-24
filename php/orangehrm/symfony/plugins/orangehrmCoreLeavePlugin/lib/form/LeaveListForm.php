@@ -321,6 +321,8 @@ class LeaveListForm extends sfForm {
 
     public function getLeaveDateRange($leaveRequestId) {
 
+        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
+
         $leaveRequestService = new LeaveRequestService();
         $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
 
@@ -329,13 +331,13 @@ class LeaveListForm extends sfForm {
 
         if ($count == 1) {
 
-            return $leaveList[0]->getLeaveDate();
+            return ohrm_format_date($leaveList[0]->getLeaveDate());
 
         } else {
 
-            $range = $leaveList[0]->getLeaveDate();
+            $range = ohrm_format_date($leaveList[0]->getLeaveDate());
             $range .= " " . __('to') . " ";
-            $range .= $leaveList[$count-1]->getLeaveDate();
+            $range .= ohrm_format_date($leaveList[$count-1]->getLeaveDate());
 
             return $range;
 

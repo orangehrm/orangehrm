@@ -193,7 +193,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 				<?php } else {  ?>
 				<tr class="<?php echo $class; ?>">
                                 <?php $class = $class=='odd'?'even':'odd'; ?>
-					<td><?php echo $datum->getLeaveDate(); ?></td>
+					<td><?php echo ohrm_format_date($datum->getLeaveDate()); ?></td>
                     <?php if ($datum->getTextLeaveStatus() != ''): ?>
 					<td>
 						<?php echo $datum->getLeaveRequest()->getLeaveType()->getLeaveTypeName(); ?>

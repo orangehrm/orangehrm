@@ -127,9 +127,13 @@ class LeaveSummaryForm extends sfForm {
         $leavePeriodList = $leavePeriodService->getLeavePeriodList();
         $choices = array();
 
+        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
+
         foreach ($leavePeriodList as $leavePeriod) {
 
-            $choices[$leavePeriod->getLeavePeriodId()] = $leavePeriod->getStartDate() . " " .  __('to') . " " . $leavePeriod->getEndDate();
+            $choices[$leavePeriod->getLeavePeriodId()] = ohrm_format_date($leavePeriod->getStartDate())
+                                                         . " " .  __('to') . " "
+                                                         . ohrm_format_date($leavePeriod->getEndDate());
 
         }
 
