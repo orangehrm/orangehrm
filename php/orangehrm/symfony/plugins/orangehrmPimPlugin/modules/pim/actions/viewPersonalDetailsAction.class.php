@@ -55,6 +55,7 @@ class viewPersonalDetailsAction extends sfAction {
     }
 
     public function execute($request) {
+       try{
         $this->showBackButton = true;
         
         $personal = $request->getParameter('personal');
@@ -80,12 +81,16 @@ class viewPersonalDetailsAction extends sfAction {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
                 $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
                 $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
             }
         }
+       }catch( Exception $e){
+           print( $e->getMessage());
+       }
     }
 }
 ?>
