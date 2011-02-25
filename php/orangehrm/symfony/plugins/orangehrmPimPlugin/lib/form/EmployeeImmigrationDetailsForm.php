@@ -99,7 +99,7 @@ class EmployeeImmigrationDetailsForm extends sfForm {
      * @return array
      */
     private function getCountryList() {
-        $list = array("" => __('Select Country'));
+        $list = array("" => "-- " . __('Select') . " --");
         $countries = $this->getCountryService()->getCountryList();
         foreach($countries as $country) {
             $list[$country->cou_code] = $country->cou_name;
