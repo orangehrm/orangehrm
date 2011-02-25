@@ -17,6 +17,9 @@ require_once 'PHPUnit/Framework.php';
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+require_once  sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
 class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     private $testCase;
     private $employeeDao;
@@ -27,6 +30,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
         $this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
         $this->employeeDao = new EmployeeDao();
+        TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml');
     }
 
     /**
@@ -538,6 +542,76 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
             unset($this->testCase['Employee'][$k]['id']);
         }
         file_put_contents(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml', sfYaml::dump($this->testCase));
+    }
+
+    /**
+     * Test saving EmployeePassport without sequence number
+     */
+    public function testSaveEmployeePassport1() {
+
+        $empPassport = new EmpPassPort();
+        $empPassport->setEmpNumber(1);
+        $empPassport->country = 'LK';
+        $result = $this->employeeDao->saveEmployeePassport($empPassport);
+        $this->assertTrue($result);
+        $this->assertEquals(1, $empPassport->seqno);
+
+    }
+
+    /**
+     * Test saving EmployeePassport
+     */
+    public function testSaveEmployeePassport2() {
+
+        $empPassport = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+        $empNumbers = array(1 => 1, 2 => 2);
+
+        foreach($empPassport as $passport) {
+            
+            $this->assertTrue($passport instanceof EmpPassPort);
+            $this->assertEquals($empNumbers[$passport->getEmpNumber()], $passport->getEmpNumber());
+            $comment = "I add more comments";
+            $passport->comments = $comment;
+            $result = $this->employeeDao->saveEmployeePassport($passport);
+            $this->assertTrue($result);
+
+            $savedPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
+            $this->assertEquals($comment, $savedPassport->comments);
+            $this->assertEquals($savedPassport, $passport);
+
+        }
+    }
+
+    /**
+     * Test saving getEmployeePassport returns object
+     */
+    public function testGetEmployeePassport1() {
+
+        $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+
+        foreach($empPassports as $passport) {
+
+            $empPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
+            $this->assertEquals($passport, $empPassport);
+
+        }
+
+    }
+    
+    /**
+     * Test saving getEmployeePassport returns Collection
+     */
+    public function testGetEmployeePassport2() {
+
+        $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+
+        foreach($empPassports as $passport) {
+
+            $collection = $this->employeeDao->getEmployeePassport($passport->getEmpNumber());
+            $this->assertTrue($collection instanceof Doctrine_Collection);
+            
+        }
+        
     }
 }
 ?>
