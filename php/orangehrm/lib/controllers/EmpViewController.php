@@ -2043,7 +2043,6 @@ class EmpViewController {
                                * be left padded with zeros.
                                */
                               $id = $empinfo->getPaddedEmpId();
-
                               if(isset($object['EmpPhoto']) && $res) {
                                  $empphoto = $object['EmpPhoto'];
                                            $empphoto -> setEmpId($empinfo->getEmpId());
@@ -2066,7 +2065,8 @@ class EmpViewController {
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
 
 				$reqcode = $index;
-				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
+				//header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
+                header("Location: ../../symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $id);
 			} else {
 
 				$errCode = mysql_errno();

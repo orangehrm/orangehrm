@@ -30,6 +30,7 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
             error.insertAfter(element.next(".clear"));
             error.insertAfter(element.next().next(".clear"));
+            error.insertAfter(element.parent().parent().next(".clear"));
         }
     });
 
