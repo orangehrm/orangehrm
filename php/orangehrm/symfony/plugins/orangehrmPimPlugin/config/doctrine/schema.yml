@@ -71,6 +71,7 @@ Employee:
     employee_id:
       name: employee_id as employeeId
       type: string(50)
+      default: ''
     ethnic_race_code: string(13)
     emp_birthday: date(25)
     nation_code: string(13)

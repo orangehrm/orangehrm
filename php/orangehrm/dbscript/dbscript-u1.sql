@@ -348,8 +348,7 @@ create table `hs_hr_employee` (
   `custom8` varchar(250) default null,
   `custom9` varchar(250) default null,
   `custom10` varchar(250) default null,
-  primary key  (`emp_number`),
-  unique key `employee_id` (`employee_id`)
+  primary key  (`emp_number`)
 ) engine=innodb default charset=utf8;
 
 

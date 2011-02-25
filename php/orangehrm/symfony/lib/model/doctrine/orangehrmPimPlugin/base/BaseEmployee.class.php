@@ -348,6 +348,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              ));
         $this->hasColumn('employee_id as employeeId', 'string', 50, array(
              'type' => 'string',
+             'default' => '',
              'length' => 50,
              ));
         $this->hasColumn('ethnic_race_code', 'string', 13, array(
