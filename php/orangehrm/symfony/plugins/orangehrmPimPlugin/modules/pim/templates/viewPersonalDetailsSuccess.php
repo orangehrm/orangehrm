@@ -37,9 +37,9 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td><?php echo __('Full Name'); ?></td>
-                                                        <td><?php echo $form['txtEmpFirstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
-                                                        <td><?php echo $form['txtEmpMiddleName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td><?php echo $form['txtEmpLastName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
+                                                        <td valign="top"><?php echo $form['txtEmpFirstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
+                                                        <td valign="top"><?php echo $form['txtEmpMiddleName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
+                                                        <td valign="top"><?php echo $form['txtEmpLastName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
