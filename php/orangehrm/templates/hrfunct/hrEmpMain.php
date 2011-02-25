@@ -1195,7 +1195,7 @@ tableDisplayStyle = "table";
 					<a href="../../symfony/web/index.php/pim/viewPersonalDetails?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="p">
 						<span><?php echo $lang_pim_PersonalDetails;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(4)" id="contactsLink" class="personal" accesskey="c">
+					<a href="../../symfony/web/index.php/pim/contactDetails?empNumber=<?php echo $escapedId;?>" id="contactsLink" class="personal" accesskey="c">
 						<span><?php echo $lang_pim_tabs_Contact;?></span></a></li>
 				<li class="l2">
 					<a href="../../symfony/web/index.php/pim/viewEmergencyContacts?empNumber=<?php echo $escapedId;?>" id="emgcontactsLink" class="personal"  accesskey="e">
@@ -1205,7 +1205,7 @@ tableDisplayStyle = "table";
 					<a href="javascript:displayLayer(3)" id="dependentsLink" class="personal"  accesskey="d">
 						<span><?php echo $lang_pim_tabs_Dependents;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(10)" id="immigrationLink" class="personal" accesskey="i" >
+					<a href="../../symfony/web/index.php/pim/viewImmigration?empNumber=<?php echo $escapedId;?>" id="immigrationLink" class="personal" accesskey="i" >
 						<span><?php echo $lang_pim_tabs_Immigration;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(21)" id="photoLink" class="personal" accesskey="f" >
