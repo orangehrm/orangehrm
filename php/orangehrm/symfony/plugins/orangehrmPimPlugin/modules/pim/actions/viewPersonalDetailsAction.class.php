@@ -23,7 +23,7 @@
 class viewPersonalDetailsAction extends sfAction {
 
     private $employeeService;
-    
+
     /**
      * Get EmployeeService
      * @returns EmployeeService
@@ -43,7 +43,7 @@ class viewPersonalDetailsAction extends sfAction {
     public function setEmployeeService(EmployeeService $employeeService) {
         $this->employeeService = $employeeService;
     }
-    
+
     /**
      * @param sfForm $form
      * @return
@@ -55,42 +55,42 @@ class viewPersonalDetailsAction extends sfAction {
     }
 
     public function execute($request) {
-       try{
-        $this->showBackButton = true;
-        
-        $personal = $request->getParameter('personal');
-        $empNumber = (isset($personal['txtEmpID']))?$personal['txtEmpID']:$request->getParameter('empNumber');
-        $this->empNumber = $empNumber;
+        try {
+            $this->showBackButton = true;
 
-        // TODO: Improve
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+            $personal = $request->getParameter('personal');
+            $empNumber = (isset($personal['txtEmpID']))?$personal['txtEmpID']:$request->getParameter('empNumber');
+            $this->empNumber = $empNumber;
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
+            // TODO: Improve
+            $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
-
-        OrangeConfig::getInstance()->loadAppConf();
-        $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
-
-        $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
-        if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                
-                $employee = $this->form->getEmployee();
-                $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
-                $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
-                $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+            if ($this->getUser()->hasFlash('templateMessage')) {
+                list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
             }
+
+            $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+            $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
+            $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+
+            OrangeConfig::getInstance()->loadAppConf();
+            $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
+
+            $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
+            if ($request->isMethod('post')) {
+
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+
+                    $employee = $this->form->getEmployee();
+                    $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
+                    $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
+                    $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+                }
+            }
+        } catch( Exception $e) {
+            print( $e->getMessage());
         }
-       }catch( Exception $e){
-           print( $e->getMessage());
-       }
     }
 }
 ?>
