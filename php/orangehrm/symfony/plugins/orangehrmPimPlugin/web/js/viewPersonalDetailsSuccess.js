@@ -15,15 +15,15 @@ $(document).ready(function() {
         rules: {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
-            'personal[DOB]': { validdate: true },
-            'personal[txtLicExpDate]': { validdate: true },
+            'personal[DOB]': { dateISO: true, validdate: true },
+            'personal[txtLicExpDate]': { dateISO: true, validdate: true },
             'personal[optGender]': { required: true }
         },
         messages: {
             'personal[txtEmpFirstName]': { required: lang_firstNameRequired },
             'personal[txtEmpLastName]': { required: lang_lastNameRequired },
-            'personal[DOB]': {validdate: lang_invalidDateOfBirth },
-            'personal[txtLicExpDate]': { validdate: lang_invalidLicenseExpDate },
+            'personal[DOB]': {dateISO: land_invalidDateFormat, validdate: lang_invalidDateOfBirth },
+            'personal[txtLicExpDate]': { dateISO: land_invalidDateFormat, validdate: lang_invalidLicenseExpDate },
             'personal[optGender]': { required: lang_selectGender }
         },
         errorElement : 'div',

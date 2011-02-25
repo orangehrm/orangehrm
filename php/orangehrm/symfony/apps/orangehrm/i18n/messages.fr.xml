@@ -240,6 +240,10 @@
         <source>Comments</source>
         <target>FR_Comments</target>
       </trans-unit>
+      <trans-unit id="99">
+        <source>Date format should be YYYY-MM-DD</source>
+        <target>FR_Date format should be YYYY-MM-DD</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

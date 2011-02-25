@@ -159,6 +159,8 @@
     var lang_invalidDateOfBirth = "<?php echo __("Invalid date of birth"); ?>";
     var lang_invalidLicenseExpDate = "<?php echo __("Invalid license expiry date"); ?>";
     var lang_selectGender = "<?php echo __("Select a gender"); ?>";
+    var land_invalidDateFormat = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
+    
     //]]>
 </script>
 
