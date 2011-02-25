@@ -83,7 +83,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'optGender' => new sfWidgetFormChoice(array('expanded' => true, 'choices'  => array(1 => "Male", 2 => "Female"))),
             'cmbNation' => new sfWidgetFormSelect(array('choices' => $this->getNationalityList())),
             'txtOtherID' => new sfWidgetFormInputText(),
-            'cmbMarital' => new sfWidgetFormSelect(array('choices'=>array(0 => __('--Select--'), 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other')))),
+            'cmbMarital' => new sfWidgetFormSelect(array('choices'=>array(0 => __('-- Select --'), 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other')))),
             'chkSmokeFlag' => new sfWidgetFormInputCheckbox(),
             'txtLicExpDate' => new sfWidgetFormInputText(),
             'txtMilitarySer' => new sfWidgetFormInputText(),
@@ -173,7 +173,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
     private function getNationalityList() {
         $nationalityService = $this->getNationalityService();
         $nationalities = $nationalityService->getNationalityList();
-        $list = array(0 => "--" . __('Select') . "--");
+        $list = array(0 => "-- " . __('Select') . " --");
         
         foreach($nationalities as $nationality) {
             $list[$nationality->getNatCode()] = $nationality->getNatName();
@@ -184,7 +184,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
     private function getEthnicalRaceList() {
         $nationalityService = $this->getNationalityService();
         $races = $nationalityService->getEthnicRaceList();
-        $list = array(0 => "--" . __('Select') . "--");
+        $list = array(0 => "-- " . __('Select') . " --");
 
         foreach($races as $race) {
             $list[$race->getEthnicRaceCode()] = $race->getEthnicRaceDesc();
