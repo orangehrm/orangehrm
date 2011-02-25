@@ -390,7 +390,11 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 								<?php } else { ?>
 									<td ></td>
 								<?php } ?>
-									<td ><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
+									<td >
+                                <!-- if employee id removed we dont show it -->
+                                <?php //echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]
+                                    echo (!empty($emplist[$j][0]))?$emplist[$j][0]:"";
+                                ?></td>
 
 									<td >
 										<!--<a target="_self" href="./CentralController.php?menu_no_top=hr&amp;id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;currentPage=<?php echo $currentPage; ?>">-->
