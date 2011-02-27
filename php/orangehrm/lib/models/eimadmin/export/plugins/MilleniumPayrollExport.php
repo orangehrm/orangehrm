@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/export/CSVExportPlugin.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpDirectDebit.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 
 /**
  * Class to generate CSV file for export to Millenium Payroll
@@ -76,8 +76,8 @@ class MilleniumPayrollExport implements CSVExportPlugin {
 		" LEFT JOIN hs_hr_compstructtree comp on (hs_hr_employee.work_station = comp.id) " .
 		" LEFT JOIN hs_hr_location loc on (comp.loc_code = loc.loc_code) ";
 		
-		if (KeyHandler::keyExists()) {
-			$key = KeyHandler::readKey();
+		if (KeyHandlerOld::keyExists()) {
+			$key = KeyHandlerOld::readKey();
 			$sql = str_replace("emp_ssn_num", "IF(`emp_ssn_num` IS NOT NULL, AES_DECRYPT(emp_ssn_num, '$key'), '') AS `emp_ssn_num`", $sql);
 			$sql = str_replace("sal.ebsal_basic_salary", "IF(`ebsal_basic_salary` IS NOT NULL, AES_DECRYPT(ebsal_basic_salary, '$key'), '') AS `ebsal_basic_salary`", $sql);
 		}

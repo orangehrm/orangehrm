@@ -10,7 +10,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 require_once 'testConf.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once 'MilleniumPayrollExport.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 
 /**
  * Test class for MilleniumPayrollExport.
@@ -65,8 +65,8 @@ class MilleniumPayrollExportTest extends PHPUnit_Framework_TestCase {
     				"'', '', '', NULL, " .
     				"NULL, '1997-12-11', NULL)";
 
-    	if (KeyHandler::keyExists()) {
-    		$key = KeyHandler::readKey();
+    	if (KeyHandlerOld::keyExists()) {
+    		$key = KeyHandlerOld::readKey();
     		$sql = str_replace("'987654320'", "AES_ENCRYPT('987654320', '$key')", $sql);
     	}
 

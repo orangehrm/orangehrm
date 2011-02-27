@@ -19,7 +19,7 @@
 
 require_once ROOT_PATH . '/lib/common/Config.php';
 
-class KeyHandler {
+class KeyHandlerOld {
 
 	private static $filePath = '/lib/confs/cryptokeys/key.ohrm';
 	private static $key;
@@ -28,7 +28,7 @@ class KeyHandler {
     public static function createKey() {
 
 		if (self::keyExists()) {
-			throw new KeyHandlerException('Key already exists', KeyHandlerException::KEY_ALREADY_EXISTS);
+			throw new KeyHandlerOldException('Key already exists', KeyHandlerOldException::KEY_ALREADY_EXISTS);
 		}
 
 		// Creating the key
@@ -48,7 +48,7 @@ class KeyHandler {
 
 		} catch (Exception $e) {
 
-			throw new KeyHandlerException('Failed to create the key file', KeyHandlerException::KEY_CREATION_FAILIURE);
+			throw new KeyHandlerOldException('Failed to create the key file', KeyHandlerOldException::KEY_CREATION_FAILIURE);
 
 		}
 
@@ -64,13 +64,13 @@ class KeyHandler {
 
 		if (!self::keyExists()) {
 
-			throw new KeyHandlerException('Key file does not exist', KeyHandlerException::KEY_DOES_NOT_EXIST);
+			throw new KeyHandlerOldException('Key file does not exist', KeyHandlerOldException::KEY_DOES_NOT_EXIST);
 
 		}
 
 		if (!is_readable(ROOT_PATH . self::$filePath)) {
 
-			throw new KeyHandlerException('Key is not readable', KeyHandlerException::KEY_NOT_READABLE);
+			throw new KeyHandlerOldException('Key is not readable', KeyHandlerOldException::KEY_NOT_READABLE);
 
 		}
 
@@ -86,14 +86,14 @@ class KeyHandler {
     public static function deleteKey() {
 
 		if (!self::keyExists()) {
-			throw new KeyHandlerException('Key does not exist', KeyHandlerException::KEY_DOES_NOT_EXIST);
+			throw new KeyHandlerOldException('Key does not exist', KeyHandlerOldException::KEY_DOES_NOT_EXIST);
 		}
 
 		// Deleting
 		try {
 			@unlink(ROOT_PATH . self::$filePath);
 		} catch (Exception $e) {
-			throw new KeyHandlerException('Failed to delete the key file', KeyHandlerException::KEY_DELETION_FAILIURE);
+			throw new KeyHandlerOldException('Failed to delete the key file', KeyHandlerOldException::KEY_DELETION_FAILIURE);
 		}
 
 		if (!self::keyExists()) {
@@ -112,7 +112,7 @@ class KeyHandler {
 
 }
 
-class KeyHandlerException extends Exception {
+class KeyHandlerOldException extends Exception {
 
 	const KEY_DOES_NOT_EXIST		= 1;
 	const KEY_NOT_READABLE			= 2;

@@ -11,7 +11,7 @@ require_once "testConf.php";
 require_once 'CustomizableCSVExport.php';
 require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpDirectDebit.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 
 /**
  * Test class for CustomizableCSVExport.
@@ -73,8 +73,8 @@ class CustomizableCSVExportTest extends PHPUnit_Framework_TestCase {
     				"'c6', 'c7', 'c8', 'c9', 'c10'" .
     				")";
 
-    	if (KeyHandler::keyExists()) {
-    		$key = KeyHandler::readKey();
+    	if (KeyHandlerOld::keyExists()) {
+    		$key = KeyHandlerOld::readKey();
     		$sql = str_replace("'987654320'", "AES_ENCRYPT('987654320', '$key')", $sql);
     	}
 

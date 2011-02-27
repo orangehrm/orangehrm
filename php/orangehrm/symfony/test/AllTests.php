@@ -50,6 +50,8 @@ class AllTests {
             $coredir->next();
         }
 
+        $suite->addTestFile(dirname(__FILE__) . '/lib/utility/EncryptionListenerTest.php');
+
     	// execute action unit tests
     	$coredir = new DirectoryIterator(dirname(__FILE__). '/actions');
         while ($coredir->valid()) {

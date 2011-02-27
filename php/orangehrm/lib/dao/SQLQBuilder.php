@@ -21,7 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 require_once ROOT_PATH . '/lib/dao/CryptoQuery.php';
 
 class SQLQBuilder {
@@ -311,7 +311,7 @@ class SQLQBuilder {
 	function addNewRecordFeature1($quoteCorrect = true) {
 		
 		/* For Encryption : Begins */
-		$encOn = KeyHandler::KeyExists();
+		$encOn = KeyHandlerOld::KeyExists();
 		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
     		$this->arr_insert = CryptoQuery::prepareEncryptFields($this->arr_insertfield, $this->arr_insert);
 		}
@@ -373,7 +373,7 @@ class SQLQBuilder {
 			}
 
 			/* For Encryption : Begins */
-			$encOn = KeyHandler::KeyExists();
+			$encOn = KeyHandlerOld::KeyExists();
 			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 				$arrayRecordList = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordList);
 			}
@@ -515,7 +515,7 @@ class SQLQBuilder {
 			$arrayFieldList = $this->arr_select; //assign the sql_format->arr_select instance variable to arrayFieldList
 			
 			/* For Encryption : Begins */
-			$encOn = KeyHandler::KeyExists();
+			$encOn = KeyHandlerOld::KeyExists();
 			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 				$arrayFieldList = CryptoQuery::prepareDecryptFields($arrayFieldList);
 			}
@@ -650,7 +650,7 @@ function filterNotEqualRecordSet($filID) {
 			}
 			
 			/* For Encryption : Begins */
-			$encOn = KeyHandler::KeyExists();
+			$encOn = KeyHandlerOld::KeyExists();
 			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 				$arrayRecordSet = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordSet);
 			}
@@ -1173,7 +1173,7 @@ function getCurrencyAssigned($salgrd) {
 			}
 		} else {
 			/* For Encryption : Begins */
-			$encOn = KeyHandler::KeyExists();
+			$encOn = KeyHandlerOld::KeyExists();
 			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 	    		$insertFields = CryptoQuery::prepareEncryptFields($insertFields, $insertValues);
 			}
@@ -1200,7 +1200,7 @@ function getCurrencyAssigned($salgrd) {
 		}
 
 		/* For Encryption : Begins */
-		$encOn = KeyHandler::KeyExists();
+		$encOn = KeyHandlerOld::KeyExists();
 		if ($encOn && CryptoQuery::isEncTable($updateTable)) {
                     $changeValues = CryptoQuery::prepareEncryptFields($changeFields, $changeValues);
 		}
@@ -1214,7 +1214,7 @@ function getCurrencyAssigned($salgrd) {
 	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
 
 		/* For Encryption : Begins */
-		$encOn = KeyHandler::KeyExists();
+		$encOn = KeyHandlerOld::KeyExists();
 		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 	    	$selectFields = CryptoQuery::prepareDecryptFields($selectFields);
 		}

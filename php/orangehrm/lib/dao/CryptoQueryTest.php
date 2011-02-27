@@ -8,7 +8,7 @@ require_once "testConf.php";
 require_once 'PHPUnit/Framework.php';
 require_once 'CryptoQuery.php';
 
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php'; 
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 
 /**
@@ -56,7 +56,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
         
         if (!file_exists($keyFilePath)) {
             $this->keyFileExists = false; // Means a key file has not been been created at the installer
-            KeyHandler::createKey();
+            KeyHandlerOld::createKey();
         }
         
     }
@@ -88,7 +88,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareDecryptFields() {
         
-        $key = KeyHandler::readKey();
+        $key = KeyHandlerOld::readKey();
         
         $fields[]		= 'emp_ssn_num';
 		$fields[]		= 'ebsal_basic_salary';
@@ -108,7 +108,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
     
     public function testPrepareEncryptFields() {
 
-		$key = KeyHandler::readKey();
+		$key = KeyHandlerOld::readKey();
 		
 		$values[]		= '123456';
         $values[]		= 'abcd';

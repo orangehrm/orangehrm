@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
 
 class CryptoQuery {
 
@@ -32,10 +32,10 @@ class CryptoQuery {
 	}
 
 	public static function prepareDecryptFields($decryptFieldsArray) {
-		$encOn = KeyHandler::KeyExists();
+		$encOn = KeyHandlerOld::KeyExists();
 		foreach ($decryptFieldsArray as $field) { 
 			if ($encOn && self::isEncField($field)) {
-				$key = KeyHandler::readKey();
+				$key = KeyHandlerOld::readKey();
 			    $fieldsArray[] = "AES_DECRYPT(`$field`, '$key')";
 			} else {
 			    $fieldsArray[] = $field;
@@ -45,7 +45,7 @@ class CryptoQuery {
 	}
 	
 	public static function prepareEncryptFields($encryptFieldsArray, $encryptValuesArray) {
-		$encOn = KeyHandler::KeyExists();
+		$encOn = KeyHandlerOld::KeyExists();
 		
 		$valuesArray = array();
 		
@@ -54,7 +54,7 @@ class CryptoQuery {
 		for ($i = 0; $i < $encryptFieldsArrayCount; $i++) { 
 			if ($encOn && self::isEncField($encryptFieldsArray[$i])) {
 				
-				$key = KeyHandler::readKey();
+				$key = KeyHandlerOld::readKey();
 				
 				if ($encryptValuesArray[$i] == null)
 					$valuesArray[$i] = null;
