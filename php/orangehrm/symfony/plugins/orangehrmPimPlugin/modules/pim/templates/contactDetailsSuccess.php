@@ -10,7 +10,7 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
         <td width="5">&nbsp;</td>
-        <td colspan="2" height="30">&nbsp;</td>
+        <td colspan="2" height="30">&nbsp;<?php if($showBackButton) {?><input type="button" class="backbutton" value="<?php echo __("Back") ?>" onclick="goBack();" /><?php }?></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -84,12 +84,12 @@
                                     <div class="hrLine" >&nbsp;</div>
                                     <div>
                                         <?php echo $form['emp_work_email']->renderLabel(__("Work Email")); ?>
-                                        <?php echo $form['emp_work_email']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
+                                        <?php echo $form['emp_work_email']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
                                         <?php echo $form['emp_oth_email']->renderLabel(__("Other Email")); ?>
-                                        <?php echo $form['emp_oth_email']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
+                                        <?php echo $form['emp_oth_email']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div class="formbuttons">
@@ -123,7 +123,7 @@
     var invalidHomePhoneNumber = "<?php echo __("Invalid telephone number"); ?>";
     var invalidMobilePhoneNumber = "<?php echo __("Invalid mobile number"); ?>";
     var invalidWorkPhoneNumber = "<?php echo __("Invalid work phone number"); ?>";
-    var incorrectWorkEmail = "<?php echo __("Invalid work email");?>";
-    var incorrectOtherEmail = "<?php echo __("Invalid other email");?>";
+    var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
+    var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
     //]]>
 </script>

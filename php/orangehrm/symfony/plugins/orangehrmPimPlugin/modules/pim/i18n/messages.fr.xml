@@ -280,6 +280,14 @@
         <source>Review date required</source>
         <target>FR_Review date required</target>
       </trans-unit>
+      <trans-unit id="70">
+        <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+        <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+        <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

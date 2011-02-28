@@ -51,6 +51,7 @@ class contactDetailsAction extends sfAction {
     }
     
     public function execute($request) {
+        $this->showBackButton = true;
         
         $contact = $request->getParameter('contact');
         $empNumber = (isset($contact['empNumber']))?$contact['empNumber']:$request->getParameter('empNumber');
