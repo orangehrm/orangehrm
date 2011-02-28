@@ -30,12 +30,17 @@ $(document).ready(function() {
 
     //on form loading
     $(".formInputText").attr("disabled", "disabled");
+    $(".txtBox").attr("disabled", "disabled");
+    $(".drpDown").attr("disabled", "disabled");
+
     setCountryState();
 
     $("#btnSave").click(function() {
         //if user clicks on Edit make all fields editable
         if($("#btnSave").attr('value') == edit) {
             $(".formInputText").removeAttr("disabled");
+            $(".txtBox").removeAttr("disabled");
+            $(".drpDown").removeAttr("disabled");
             $("#btnSave").attr('value', save);
             return;
         }
