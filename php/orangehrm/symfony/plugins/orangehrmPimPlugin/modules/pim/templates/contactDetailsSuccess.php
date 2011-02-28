@@ -30,25 +30,26 @@
                                 <form id="frmEmpContactDetails" method="post" action="<?php echo url_for('pim/contactDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
                                     <?php echo $form['empNumber']->render();?>
+                                    <br />
                                     <div>
                                         <?php echo $form['street1']->renderLabel(__("Address Street 1")); ?>
-                                        <?php echo $form['street1']->render(array("class" => "formInputText", "maxlength" => 70)); ?>
+                                        <?php echo $form['street1']->render(array("class" => "txtBox", "maxlength" => 70, 'size' => 35)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
                                         <?php echo $form['street2']->renderLabel(__("Address Street 2")); ?>
-                                        <?php echo $form['street2']->render(array("class" => "formInputText", "maxlength" => 70)); ?>
+                                        <?php echo $form['street2']->render(array("class" => "txtBox", "maxlength" => 70, 'size' => 35)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
                                         <?php echo $form['city']->renderLabel(__("City")); ?>
-                                        <?php echo $form['city']->render(array("class" => "formInputText", "maxlength" => 70)); ?>
+                                        <?php echo $form['city']->render(array("class" => "txtBox", "maxlength" => 70)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
                                         <?php echo $form['province']->renderLabel(__("State/Province")); ?>
-                                        <?php echo $form['province']->render(array("class" => "formInputText", "maxlength" => 70)); ?>
-                                        <?php echo $form['state']->render(array("class" => "formInputText")); ?>
+                                        <?php echo $form['province']->render(array("class" => "txtBox", "maxlength" => 70)); ?>
+                                        <?php echo $form['state']->render(array("class" => "drpDown")); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
@@ -58,9 +59,10 @@
                                     </div>
                                     <div>
                                         <?php echo $form['country']->renderLabel(__("Country")); ?>
-                                        <?php echo $form['country']->render(array("class" => "formInputText")); ?>
+                                        <?php echo $form['country']->render(array("class" => "drpDown")); ?>
                                         <br class="clear" />
                                     </div>
+                                    <br />
                                     <div class="hrLine" >&nbsp;</div>
                                     <div>
                                         <?php echo $form['emp_hm_telephone']->renderLabel(__("Home Telephone")); ?>
@@ -78,6 +80,7 @@
                                         <?php echo $form['emp_work_telephone']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
                                         <br class="clear" />
                                     </div>
+                                    <br />
                                     <div class="hrLine" >&nbsp;</div>
                                     <div>
                                         <?php echo $form['emp_work_email']->renderLabel(__("Work Email")); ?>
@@ -95,7 +98,6 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
                     </td>
                     <td valign="top" align="left">
                         <div id="currentImage" style="width:100px;">
@@ -121,7 +123,7 @@
     var invalidHomePhoneNumber = "<?php echo __("Invalid telephone number"); ?>";
     var invalidMobilePhoneNumber = "<?php echo __("Invalid mobile number"); ?>";
     var invalidWorkPhoneNumber = "<?php echo __("Invalid work phone number"); ?>";
-    var incorrectWorkEmail = "<?php echo __("Incorrect work email");?>";
-    var incorrectOtherEmail = "<?php echo __("Incorrect other email");?>";
+    var incorrectWorkEmail = "<?php echo __("Invalid work email");?>";
+    var incorrectOtherEmail = "<?php echo __("Invalid other email");?>";
     //]]>
 </script>

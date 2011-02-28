@@ -15,3 +15,15 @@
     border-top:1px solid #FAD163;
     display:block;
 }
+
+form input.txtBox {
+  border: 1px solid #888888;
+  width:25em;
+  vertical-align:middle;
+  height:14px;
+  margin-top: 5px;
+}
+
+.drpDown {
+  margin-top: 5px;
+}

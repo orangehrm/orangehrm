@@ -54,12 +54,12 @@ $(document).ready(function() {
         var hide = "display:none;";
         var show = "display:block;";
 
-        $("#contact_state").attr('style', hide);
-        $("#contact_province").attr('style', show);
+        $("#contact_state").hide();
+        $("#contact_province").show();
 
         if($("#contact_country").attr('value') == 'US') {
-            $("#contact_state").attr('style', show);
-            $("#contact_province").attr('style', hide);
+            $("#contact_state").show();
+            $("#contact_province").hide();
         }
     }
 });
