@@ -3,17 +3,17 @@ $(document).ready(function() {
     //form validation
     $("#frmEmpContactDetails").validate({
         rules: {
-            'contact[emp_hm_telephone]': { phone: true },
-            'contact[emp_mobile]': { phone: true },
-            'contact[emp_work_telephone]': { phone: true },
+            'contact[emp_hm_telephone]': {phone: true},
+            'contact[emp_mobile]': {phone: true},
+            'contact[emp_work_telephone]': {phone: true},
             'contact[emp_work_email]' : {email: true},
             'contact[emp_oth_email]': {email: true}
 
         },
         messages: {
-            'contact[emp_hm_telephone]': { phone: invalidHomePhoneNumber },
-            'contact[emp_mobile]' : { phone: invalidMobilePhoneNumber },
-            'contact[emp_work_telephone]' : { phone: invalidWorkPhoneNumber },
+            'contact[emp_hm_telephone]': {phone: invalidHomePhoneNumber},
+            'contact[emp_mobile]' : {phone: invalidMobilePhoneNumber},
+            'contact[emp_work_telephone]' : {phone: invalidWorkPhoneNumber},
             'contact[emp_work_email]' : {email: incorrectWorkEmail},
             'contact[emp_oth_email]': {email: incorrectOtherEmail}
         },
@@ -32,6 +32,7 @@ $(document).ready(function() {
     $(".formInputText").attr("disabled", "disabled");
     $(".txtBox").attr("disabled", "disabled");
     $(".drpDown").attr("disabled", "disabled");
+    $(".txtBoxSmall").attr("disabled", "disabled");
 
     setCountryState();
 
@@ -41,6 +42,7 @@ $(document).ready(function() {
             $(".formInputText").removeAttr("disabled");
             $(".txtBox").removeAttr("disabled");
             $(".drpDown").removeAttr("disabled");
+            $(".txtBoxSmall").removeAttr("disabled");
             $("#btnSave").attr('value', save);
             return;
         }
