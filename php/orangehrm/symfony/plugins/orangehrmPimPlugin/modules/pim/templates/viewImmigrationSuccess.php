@@ -15,6 +15,9 @@
     var lang_reviewDateRequired = "<?php echo __('Review date required');?>";
     var lang_invalidReviewDate = "<?php echo __('Invalid review date'); ?>";
     var lang_issuedGreaterExpiry = "<?php echo __('Issued date should be less than expiry date'); ?>";
+    var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
+    var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
+    
     //]]>
 </script>
 
@@ -41,7 +44,7 @@
                         <div class="formpage2col">
                             <div id="immigrationDataPane">
                                 <div class="outerbox">
-                                    <div class="mainHeading"><h2><?php echo __('Immigration'); ?></h2></div>
+                                    <div class="mainHeading"><h2 id="immigrationHeading"><?php echo __('Add Immigration'); ?></h2></div>
                                     <form name="frmEmpImmigration" id="frmEmpImmigration" method="post" action="<?php echo url_for('pim/viewImmigration'); ?>">
                                         <?php echo $form['_csrf_token']; ?>
                                         <?php echo $form['emp_number']->render();?>
@@ -52,7 +55,7 @@
                                             <br class="clear" />
 
                                             <?php echo $form['number']->renderLabel(__('Number') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $form['number']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+                                            <?php echo $form['number']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
                                             <br class="clear" />
 
                                             <?php echo $form['passport_issue_date']->renderLabel(__('Issued Date') . ' <span class="required">*</span>'); ?>
@@ -66,7 +69,7 @@
                                             <br class="clear" />
 
                                             <?php echo $form['i9_status']->renderLabel(__('Eligible Status')); ?>
-                                            <?php echo $form['i9_status']->render(array("class" => "formInputText")); ?>
+                                            <?php echo $form['i9_status']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
                                             <br class="clear" />
 
                                             <?php echo $form['country']->renderLabel(__('Issued By') . ' <span class="required">*</span>'); ?>

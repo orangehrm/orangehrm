@@ -26,14 +26,14 @@ $(document).ready(function() {
             'immigration[passport_issue_date]': {required: true, dateISO: true, validdate: true, validIssuedDate: true},
             'immigration[passport_expire_date]' : {required: true, dateISO: true, validdate:true},
             'immigration[country]' : {required: true},
-            'immigration[i9_review_date]' : { required: true, dateISO: true, validdate: true}
+            'immigration[i9_review_date]' : {required: true, dateISO: true, validdate: true}
         },
         messages: {
             'immigration[number]': {required: lang_numberRequired},
             'immigration[passport_issue_date]': {required: lang_issueDateRequird, dateISO: lang_dateFormatIssue, validdate: lang_invalidIssueDate, validIssuedDate: lang_issuedGreaterExpiry},
             'immigration[passport_expire_date]' : {required: lang_expireDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate},
             'immigration[country]' : {required: lang_countryRequired},
-            'immigration[i9_review_date]' : { required: lang_reviewDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate}
+            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate}
         },
 
         errorElement : 'label',
@@ -49,15 +49,20 @@ $(document).ready(function() {
     //enable, dissable views on loading
     //this is to findout whether passport details already entered
     if($(".check").length > 0) {
+        $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
     } else {
         $("#btnCancel").hide();
+        $("#immigrationHeading").text(lang_addImmigrationHeading);
+        $(".paddingLeftRequired").show();
         $("#immigrationDataPane").show();
         $("#immidrationList").hide();
     }
 
     //on clicking of add button
     $("#btnAdd").click(function(){
+        $("#immigrationHeading").text(lang_addImmigrationHeading);
+        $(".paddingLeftRequired").show();
         $("#immigrationDataPane").show();
         $("#btnAdd").hide();
     });
@@ -71,6 +76,7 @@ $(document).ready(function() {
             $("#immigration_" + controls[i]).val("");
         }
 
+        $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
         $("#btnAdd").show();
     });
@@ -125,6 +131,8 @@ function fillDataToImmigrationDataPane(seqno) {
     var typeFlag = $("#type_flag_" + seqno).val();
     $("#immigration_type_flag_" + typeFlag).attr("checked", "checked");
 
+    $(".paddingLeftRequired").show();
+    $("#immigrationHeading").text(lang_editImmigrationHeading);
     $("#btnAdd").hide();
     $("#immigrationDataPane").show();
 }
