@@ -6,10 +6,15 @@
 <script type="text/javascript">
     //<![CDATA[
     var lang_numberRequired = "<?php echo __('Document number is required');?>";
-    var lang_issueDateRequired = "<?php echo __('Issued date is required'); ?>";
+    var lang_issueDateRequird = "<?php echo __('Issued date is required'); ?>";
+    var lang_dateFormatIssue = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
+    var lang_invalidIssueDate = "<?php echo __('Invalid issued date'); ?>";
     var lang_expireDateRequired = "<?php echo __('Expiry date is required');?>";
+    var lang_invalidExpireDate = "<?php echo __('Invalid expiry date'); ?>";
     var lang_countryRequired = "<?php echo __('Country is required');?>";
     var lang_reviewDateRequired = "<?php echo __('Review date required');?>";
+    var lang_invalidReviewDate = "<?php echo __('Invalid review date'); ?>";
+    var lang_issuedGreaterExpiry = "<?php echo __('Issued date should be less than expiry date'); ?>";
     //]]>
 </script>
 
@@ -119,11 +124,16 @@
                                                 <!-- we make data available in hidden fields -->
                                                 <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
                                                 <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo $passport->number; ?>" />
-                                                <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport->passport_issue_date; ?>" />
-                                                <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport->passport_expire_date; ?>" />
+                                                <?php
+                                                    $passport_issue_date = date("Y-m-d", strtotime($passport->passport_issue_date));
+                                                    $passport_expire_date = date("Y-m-d", strtotime($passport->passport_expire_date));
+                                                    $i9_review_date = date("Y-m-d", strtotime($passport->i9_review_date));
+                                                ?>
+                                                <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
+                                                <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />
                                                 <input type="hidden" id="i9_status_<?php echo $passport->seqno;?>" value="<?php echo $passport->i9_status; ?>" />
                                                 <input type="hidden" id="country_<?php echo $passport->seqno;?>" value="<?php echo $passport->country; ?>" />
-                                                <input type="hidden" id="i9_review_date_<?php echo $passport->seqno;?>" value="<?php echo $passport->i9_review_date; ?>" />
+                                                <input type="hidden" id="i9_review_date_<?php echo $passport->seqno;?>" value="<?php echo $i9_review_date; ?>" />
                                                 <input type="hidden" id="comments_<?php echo $passport->seqno;?>" value="<?php echo $passport->comments; ?>" />
 
                                                 <!-- end of all data hidden fields -->
@@ -131,8 +141,8 @@
                                                 <td><a href="javascript: fillDataToImmigrationDataPane(<?php echo $passport->seqno;?>);"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
                                                 <td><?php echo $passport->number;?></td>
                                                 <td><?php echo $countries[$passport->country];?></td>
-                                                <td><?php echo $passport->passport_issue_date;?></td>
-                                                <td><?php echo $passport->passport_expire_date;?></td>
+                                                <td><?php echo $passport_issue_date;?></td>
+                                                <td><?php echo $passport_expire_date;?></td>
                                             </tr>
                                             <?php $row++; } ?>
                                         </tbody>
