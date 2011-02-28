@@ -17,6 +17,8 @@
     var lang_issuedGreaterExpiry = "<?php echo __('Issued date should be less than expiry date'); ?>";
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
+    var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
+    var lang_deleteErrorMsg = "<?php echo __('Please Select at least One Record to Delete');?>";
     
     //]]>
 </script>

@@ -26,14 +26,16 @@ $(document).ready(function() {
             'immigration[passport_issue_date]': {required: true, dateISO: true, validdate: true, validIssuedDate: true},
             'immigration[passport_expire_date]' : {required: true, dateISO: true, validdate:true},
             'immigration[country]' : {required: true},
-            'immigration[i9_review_date]' : {required: true, dateISO: true, validdate: true}
+            'immigration[i9_review_date]' : {required: true, dateISO: true, validdate: true},
+            'immigration[comments]': {maxlength: 250}
         },
         messages: {
             'immigration[number]': {required: lang_numberRequired},
             'immigration[passport_issue_date]': {required: lang_issueDateRequird, dateISO: lang_dateFormatIssue, validdate: lang_invalidIssueDate, validIssuedDate: lang_issuedGreaterExpiry},
             'immigration[passport_expire_date]' : {required: lang_expireDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate},
             'immigration[country]' : {required: lang_countryRequired},
-            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate}
+            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate},
+            'immigration[comments]': {maxlength: lang_commentLength }
         },
 
         errorElement : 'label',
@@ -83,7 +85,15 @@ $(document).ready(function() {
 
     //on clicking of delete button
     $("#btnDelete").click(function() {
-        $("#frmImmigrationDelete").submit();
+        var ticks = $('input[@class=check]:checked').length;
+
+        if(ticks > 1) {
+            $("#frmImmigrationDelete").submit();
+            return;
+        }
+        $("#messagebar").attr("class", "messageBalloon_notice");
+        $("#messagebar").text(lang_deleteErrorMsg);
+
     });
 
     $.validator.addMethod("validdate", function(value, element) {
