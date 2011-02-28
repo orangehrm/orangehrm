@@ -18,7 +18,15 @@
 
 form input.txtBox {
   border: 1px solid #888888;
-  width:25em;
+  width:240px;
+  vertical-align:middle;
+  height:14px;
+  margin-top: 5px;
+}
+
+form input.txtBoxSmall {
+  border: 1px solid #888888;
+  width:70px;
   vertical-align:middle;
   height:14px;
   margin-top: 5px;
@@ -26,4 +34,5 @@ form input.txtBox {
 
 .drpDown {
   margin-top: 5px;
+  width: 250px;
 }

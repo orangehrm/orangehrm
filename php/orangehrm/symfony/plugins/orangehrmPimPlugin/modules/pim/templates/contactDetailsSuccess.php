@@ -54,7 +54,7 @@
                                     </div>
                                     <div>
                                         <?php echo $form['emp_zipcode']->renderLabel(__("Zip/Postal Code")); ?>
-                                        <?php echo $form['emp_zipcode']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
+                                        <?php echo $form['emp_zipcode']->render(array("class" => "txtBoxSmall", "maxlength" => 10)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
