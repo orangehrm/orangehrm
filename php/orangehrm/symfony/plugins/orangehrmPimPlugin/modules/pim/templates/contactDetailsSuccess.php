@@ -85,6 +85,7 @@
                                     <div>
                                         <?php echo $form['emp_work_email']->renderLabel(__("Work Email")); ?>
                                         <?php echo $form['emp_work_email']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                        
                                         <br class="clear" />
                                     </div>
                                     <div>
