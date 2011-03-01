@@ -64,6 +64,7 @@ class viewPersonalDetailsAction extends sfAction {
 
             // TODO: Improve
             $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+            $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
@@ -72,6 +73,12 @@ class viewPersonalDetailsAction extends sfAction {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
             $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+
+            if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+                //shud b redirected 2 ESS user view
+                echo("this should be redirected to ESS view, under construction");die();
+                //$this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
+            }
 
             OrangeConfig::getInstance()->loadAppConf();
             $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);

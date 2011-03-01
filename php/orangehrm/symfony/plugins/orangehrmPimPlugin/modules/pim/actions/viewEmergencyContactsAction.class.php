@@ -63,6 +63,13 @@ class viewEmergencyContactsAction extends sfAction {
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+
+        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+            //shud b redirected 2 ESS user view
+            $this->redirect('pim/viewEmergencyContacts?empNumber='. $loggedInEmpNum);
+        }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

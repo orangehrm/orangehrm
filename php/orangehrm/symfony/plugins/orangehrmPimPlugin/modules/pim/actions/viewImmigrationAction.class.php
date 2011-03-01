@@ -60,6 +60,15 @@ class viewImmigrationAction extends sfAction {
         $param = array('empNumber' => $empNumber);
         $this->setForm(new EmployeeImmigrationDetailsForm(array(), $param, true));
 
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+
+        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+            //shud b redirected 2 ESS user view
+            $this->redirect('pim/viewImmigration?empNumber='. $loggedInEmpNum);
+        }
+        
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }

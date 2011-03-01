@@ -57,6 +57,16 @@ class contactDetailsAction extends sfAction {
         $empNumber = (isset($contact['empNumber']))?$contact['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+
+        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+            //shud b redirected 2 ESS user view
+            //echo("this should be redirected to ESS view, under construction");die();
+            $this->redirect('pim/contactDetails?empNumber='. $loggedInEmpNum);
+        }
+
         $param = array('empNumber' => $empNumber);
         $this->setForm(new EmployeeConactDetailsForm(array(), $param, true));
 
