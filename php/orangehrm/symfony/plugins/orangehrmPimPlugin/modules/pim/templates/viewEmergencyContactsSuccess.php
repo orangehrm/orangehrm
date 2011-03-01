@@ -55,7 +55,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
-    
+
 <div id="addPaneEmgContact" style="display:none;" >
 <div class="outerbox">
 
@@ -297,7 +297,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 'emgcontacts[relationship]' : {required: true, maxlength:100},
                 'emgcontacts[homePhone]' : {phone: true, validContactPhone:true, maxlength:100},
                 'emgcontacts[mobilePhone]' : {phone: true, maxlength:100},
-                'emgcontacts[WorkPhone]' : {phone: true, maxlength:100}
+                'emgcontacts[workPhone]' : {phone: true, maxlength:100}
             },
             messages: {
                 'emgcontacts[name]': {
@@ -318,7 +318,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
 
                 },
-                'emgcontacts[WorkPhone]' : {
+                'emgcontacts[workPhone]' : {
                     phone:'<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
