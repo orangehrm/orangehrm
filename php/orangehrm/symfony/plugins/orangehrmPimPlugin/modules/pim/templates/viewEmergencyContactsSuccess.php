@@ -52,6 +52,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         <td valign="top">
 
 <div class="formpage2col">
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
+    
 <div id="addPaneEmgContact" style="display:none;" >
 <div class="outerbox">
 
@@ -93,11 +97,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div>
 </div>
 
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-
 <div class="outerbox" id="listEmegrencyContact">
 <form name="frmEmpDelEmgContacts" id="frmEmpDelEmgContacts" method="post" action="<?php echo url_for('pim/deleteEmergencyContacts?empNumber=' . $empNumber); ?>">
 <?php echo $deleteForm['_csrf_token']->render(); ?>
@@ -138,12 +137,12 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 echo '<tr class="' . $cssClass . '">';
                 echo "<td class='check'><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $contact->seqno . "'/></td>";
 ?>
-            <td class="emgContactName"><a href="#"><?php echo $contact->name; ?></a></td>
+        <td class="emgContactName" valign="top"><a href="#"><?php echo $contact->name; ?></a></td>
             <?php
-                echo '<td>' . $contact->relationship . '</td>';
-                echo '<td>' . $contact->home_phone . '</td>';
-                echo '<td>' . $contact->mobile_phone . '</td>';
-                echo '<td>' . $contact->office_phone . '</td>';
+                echo "<td valigh='top'>" . $contact->relationship . "</td>";
+                echo "<td valigh='top'>" . $contact->home_phone . '</td>';
+                echo "<td valigh='top'>" . $contact->mobile_phone . '</td>';
+                echo "<td valigh='top'>" . $contact->office_phone . '</td>';
                 echo '</tr>';
                 $row++;
             } ?>
@@ -310,17 +309,17 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Relationship') ?>'
                 },
                 'emgcontacts[homePhone]' : {
-                    phone:'<?php echo __("Home Telephone") . " : " . __("can contains only numbers, + , -"); ?>',
+                    phone:'<?php echo __('Home telephone can contains only space, numbers, "+", and "-"'); ?>',
                     validContactPhone:'<?php echo __("Please specify at least one phone number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Home Telephone') ?>'
                 },
                 'emgcontacts[mobilePhone]' : {
-                    phone:'<?php echo __("Mobile") . " : " . __("can contains only numbers, + , -"); ?>',
+                    phone:'<?php echo __('Mobile can contains only space, numbers, "+", and "-"'); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
 
                 },
                 'emgcontacts[WorkPhone]' : {
-                    phone:'<?php echo __("Work Telephone") . " : " . __("can contains only numbers, + , -"); ?>',
+                    phone:'<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
             },
@@ -339,7 +338,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 $("#messagebar").attr("class", "messageBalloon_notice");
                 $("#messagebar").text("<?php echo __("Select at least One Record to Delete"); ?>");
             } else {
-                //$('#frmEmpDelEmgContacts').submit();
+                $('#frmEmpDelEmgContacts').submit();
             }
         });
 
