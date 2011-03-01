@@ -121,9 +121,9 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var invalidHomePhoneNumber = "<?php echo __("Invalid telephone number"); ?>";
-    var invalidMobilePhoneNumber = "<?php echo __("Invalid mobile number"); ?>";
-    var invalidWorkPhoneNumber = "<?php echo __("Invalid work phone number"); ?>";
+    var invalidHomePhoneNumber = '<?php echo __('Home telephone can contains only space, numbers, "+", and "-"'); ?>';
+    var invalidMobilePhoneNumber = '<?php echo __('Mobile can contains only space, numbers, "+", and "-"'); ?>';
+    var invalidWorkPhoneNumber = '<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>';
     var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
     var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
     //]]>
