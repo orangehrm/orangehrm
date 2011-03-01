@@ -63,21 +63,21 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php echo $form["seqNo"]->render(); ?>
 
     <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-    <?php echo $form['name']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
 
     <?php echo $form['relationship']->renderLabel(__('Relationship') . ' <span class="required">*</span>'); ?>
-    <?php echo $form['relationship']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['relationship']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
     <br class="clear"/>
 
     <?php echo $form['homePhone']->renderLabel(__('Home Telephone')); ?>
-    <?php echo $form['homePhone']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['homePhone']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
 
     <?php echo $form['mobilePhone']->renderLabel(__('Mobile')); ?>
-    <?php echo $form['mobilePhone']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['mobilePhone']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
     <br class="clear"/>
 
     <?php echo $form['workPhone']->renderLabel(__('Work Telephone')); ?>
-    <?php echo $form['workPhone']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['workPhone']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
     <br class="clear"/>
     
     <?php if (($allowEdit)) { ?>
@@ -98,7 +98,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div>
 
 
-<div class="outerbox">
+<div class="outerbox" id="listEmegrencyContact">
 <form name="frmEmpDelEmgContacts" id="frmEmpDelEmgContacts" method="post" action="<?php echo url_for('pim/deleteEmergencyContacts?empNumber=' . $empNumber); ?>">
 <?php echo $deleteForm['_csrf_token']->render(); ?>
 <?php echo $deleteForm['empNumber']->render(); ?>
@@ -122,7 +122,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="emgcontact_list">
         <thead>
             <tr>
-                <td class="check"><input type='checkbox' class='checkbox' id='checkAll' /></td>
+                <td class="check"><input type='checkbox' id='checkAll' class="checkbox" /></td>
                 <td class="emgContactName"><?php echo __("Name"); ?></td>
                 <td><?php echo __("Relationship"); ?></td>
                 <td><?php echo __("Home Telephone"); ?></td>
@@ -152,7 +152,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     </form>
 </div>
 </div>
-
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
 
             </td>
             <!-- To be moved to layout file -->
@@ -198,7 +198,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     $(document).ready(function() {
-
+   
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {
                 $(".checkbox").attr('checked', 'checked');
@@ -206,6 +206,16 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 $(".checkbox").removeAttr('checked');
             }
         });
+
+        if($(".checkbox").length > 1) {
+            $(".paddingLeftRequired").hide();
+            $("#addPaneEmgContact").hide();
+        } else {
+            $("#btnCancel").hide();
+            $(".paddingLeftRequired").show();
+            $("#addPaneEmgContact").show();
+            $("#listEmegrencyContact").hide();
+        }
 
         // Edit a emergency contact in the list
         $('#frmEmpDelEmgContacts a').live('click', function() {
@@ -225,6 +235,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#emgcontacts_mobilePhone').val(mobilePhone);
             $('#emgcontacts_workPhone').val(workPhone);
 
+            $(".paddingLeftRequired").show();
             $("#emergencyContactHeading").text("<?php echo __("Edit Emergency Contact");?>");
             $('div#messagebar').hide();
             // hide validation error messages
@@ -243,11 +254,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#emgcontact_list td.check').show();
             addEditLinks();
             $('div#messagebar').hide();
+            $(".paddingLeftRequired").hide();
         });
 
         // Add a emergency contact
         $('#btnAddContact').click(function() {
             $("#emergencyContactHeading").text("<?php echo __("Add Emergency Contact");?>");
+            $(".paddingLeftRequired").show();
             clearAddForm();
 
             // Hide list action buttons and checkbox
@@ -291,17 +304,17 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Relationship') ?>'
                 },
                 'emgcontacts[homePhone]' : {
-                    phone:'<?php echo __("Home Telephone") . " : " . __("Not a valid phone/fax number"); ?>',
+                    phone:'<?php echo __("Home Telephone") . " : " . __("can contains only numbers, + , -"); ?>',
                     validContactPhone:'<?php echo __("Please specify at least one phone number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Home Telephone') ?>'
                 },
                 'emgcontacts[mobilePhone]' : {
-                    phone:'<?php echo __("Mobile") . " : " . __("Not a valid phone/fax number"); ?>',
+                    phone:'<?php echo __("Mobile") . " : " . __("can contains only numbers, + , -"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
 
                 },
                 'emgcontacts[WorkPhone]' : {
-                    phone:'<?php echo __("Work Telephone") . " : " . __("Not a valid phone/fax number"); ?>',
+                    phone:'<?php echo __("Work Telephone") . " : " . __("can contains only numbers, + , -"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
             },
@@ -317,7 +330,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             var checked = $('#frmEmpDelEmgContacts input:checked').length;
 
             if (checked == 0) {
-                alert('<?php echo __("Select at least one record to delete"); ?>');
+                $("#messagebar").attr("class", "messageBalloon_notice");
+                $("#messagebar").text("<?php echo __("Select at least One Record to Delete"); ?>");
             } else {
                 $('#frmEmpDelEmgContacts').submit();
             }

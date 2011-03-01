@@ -47,7 +47,7 @@ class deleteEmergencyContactsAction extends sfAction {
                 if ($emergencyContactsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Emergency Contact(s) Deleted')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Emergency Contact/s Deleted Successfully')));
                 }
         }
 

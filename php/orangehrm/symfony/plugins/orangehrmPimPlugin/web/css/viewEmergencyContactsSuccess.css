@@ -23,3 +23,9 @@ form#frmEmpEmgContact label label.error {
     width:270px !important; /* Need to overide important in messages.css */
     padding-left:0px;
 }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
