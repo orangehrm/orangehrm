@@ -217,6 +217,12 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $("#listEmegrencyContact").hide();
         }
 
+        $(".checkbox").click(function() {
+            $("#checkAll").removeAttr('checked');
+            if(($(".checkbox").length - 1) == $(".checkbox:checked").length) {
+                $("#checkAll").attr('checked', 'checked');
+            }
+        });
         // Edit a emergency contact in the list
         $('#frmEmpDelEmgContacts a').live('click', function() {
 
@@ -333,7 +339,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 $("#messagebar").attr("class", "messageBalloon_notice");
                 $("#messagebar").text("<?php echo __("Select at least One Record to Delete"); ?>");
             } else {
-                $('#frmEmpDelEmgContacts').submit();
+                //$('#frmEmpDelEmgContacts').submit();
             }
         });
 
