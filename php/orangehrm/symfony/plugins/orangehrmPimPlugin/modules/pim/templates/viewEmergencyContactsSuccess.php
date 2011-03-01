@@ -122,7 +122,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="emgcontact_list">
         <thead>
             <tr>
-                <td class="check">&nbsp;</td>
+                <td class="check"><input type='checkbox' class='checkbox' id='checkAll' /></td>
                 <td class="emgContactName"><?php echo __("Name"); ?></td>
                 <td><?php echo __("Relationship"); ?></td>
                 <td><?php echo __("Home Telephone"); ?></td>
@@ -198,6 +198,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     $(document).ready(function() {
+
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").attr('value') == 'on') {
+                $(".checkbox").attr('checked', 'checked');
+            } else {
+                $(".checkbox").removeAttr('checked');
+            }
+        });
 
         // Edit a emergency contact in the list
         $('#frmEmpDelEmgContacts a').live('click', function() {
