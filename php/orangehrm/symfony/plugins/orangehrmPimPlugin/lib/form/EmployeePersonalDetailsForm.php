@@ -142,11 +142,11 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $this->setValidators(array(
             'txtEmpID' => new sfValidatorString(array('required' => true)),
             'txtEmployeeId' => new sfValidatorString(array('required' => false)),
-            'txtEmpFirstName' => new sfValidatorString(array('required' => true),
-                   array('required' => 'First Name Empty!')),
-            'txtEmpMiddleName' => new sfValidatorString(array('required' => false)),
-            'txtEmpLastName' => new sfValidatorString(array('required' => true),
-                   array('required' => 'Last Name Empty!')),
+            'txtEmpFirstName' => new sfValidatorString(array('required' => true, 'max_length' => 30),
+                   array('required' => 'First Name Empty!', 'max_length' => 'First Name Length exceeded 30 characters')),
+            'txtEmpMiddleName' => new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'Middle Name Length exceeded 30 characters')),
+            'txtEmpLastName' => new sfValidatorString(array('required' => true, 'max_length' => 30),
+                   array('required' => 'Last Name Empty!', 'max_length' => 'Last Name Length exceeded 30 characters')),
             'txtEmpNickName' => new sfValidatorString(array('required' => false)),
             'optGender' => new sfValidatorChoice(array('required' => false,
                                                        'choices' => array(Employee::GENDER_MALE, Employee::GENDER_FEMALE),
@@ -162,7 +162,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
         ));
         if (!$ess) {
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
-            $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false)));
+            $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
             $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('DOB', new sfValidatorString(array('required' => false)));
         }
