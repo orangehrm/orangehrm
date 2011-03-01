@@ -55,7 +55,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <div id="addPaneEmgContact" style="display:none;" >
 <div class="outerbox">
 
-    <div class="mainHeading"><h2><?php echo __('Add Emergency Contact'); ?></h2></div>
+    <div class="mainHeading"><h2 id="emergencyContactHeading"><?php echo __('Add Emergency Contact'); ?></h2></div>
     <form name="frmEmpEmgContact" id="frmEmpEmgContact" method="post" action="<?php echo url_for('pim/updateEmergencyContact?empNumber=' . $empNumber); ?>">
 
     <?php echo $form['_csrf_token']; ?>
@@ -76,7 +76,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php echo $form['mobilePhone']->render(array("class" => "formInputText")); ?>
     <br class="clear"/>
 
-    <?php echo $form['workPhone']->renderLabel(__('Mobile')); ?>
+    <?php echo $form['workPhone']->renderLabel(__('Work Telephone')); ?>
     <?php echo $form['workPhone']->render(array("class" => "formInputText")); ?>
     <br class="clear"/>
     
@@ -217,6 +217,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#emgcontacts_mobilePhone').val(mobilePhone);
             $('#emgcontacts_workPhone').val(workPhone);
 
+            $("#emergencyContactHeading").text("<?php echo __("Edit Emergency Contact");?>");
             $('div#messagebar').hide();
             // hide validation error messages
 
@@ -238,7 +239,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         // Add a emergency contact
         $('#btnAddContact').click(function() {
-
+            $("#emergencyContactHeading").text("<?php echo __("Add Emergency Contact");?>");
             clearAddForm();
 
             // Hide list action buttons and checkbox
