@@ -151,13 +151,13 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'optGender' => new sfValidatorChoice(array('required' => false,
                                                        'choices' => array(Employee::GENDER_MALE, Employee::GENDER_FEMALE),
                                                        'multiple' => false)),
-            'cmbNation' => new sfValidatorString(array('required' => false)),
+            'cmbNation' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getNationalityList()))),
             'txtOtherID' => new sfValidatorString(array('required' => false)),
             'cmbMarital' => new sfValidatorString(array('required' => false)),
             'chkSmokeFlag' => new sfValidatorString(array('required' => false)),
             'txtLicExpDate' => new sfValidatorString(array('required' => false)),
             'txtMilitarySer' => new sfValidatorString(array('required' => false)),
-            'cmbEthnicRace' => new sfValidatorString(array('required' => false)),
+            'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
 
         ));
         if (!$ess) {
