@@ -110,9 +110,11 @@ class EmployeePersonalDetailsForm extends BaseForm {
         if($employee->smoker) {
             $this->widgets['chkSmokeFlag']->setAttribute('checked', 'checked');
         }
+
+        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
         
         $this->widgets['chkSmokeFlag']->setAttribute('value', 1);
-        $this->widgets['txtLicExpDate']->setAttribute('value', $employee->emp_dri_lice_exp_date);
+        $this->widgets['txtLicExpDate']->setAttribute('value', ohrm_format_date($employee->emp_dri_lice_exp_date));
         $this->widgets['txtMilitarySer']->setAttribute('value', $employee->militaryService);
         $this->widgets['optGender']->setDefault($this->gender);
         $this->widgets['txtOtherID']->setAttribute('value', $employee->otherId);
@@ -138,6 +140,8 @@ class EmployeePersonalDetailsForm extends BaseForm {
         
         $this->setWidgets($this->widgets);
 
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
         //setting server side validators
         $this->setValidators(array(
             'txtEmpID' => new sfValidatorString(array('required' => true)),
@@ -155,7 +159,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'txtOtherID' => new sfValidatorString(array('required' => false)),
             'cmbMarital' => new sfValidatorString(array('required' => false)),
             'chkSmokeFlag' => new sfValidatorString(array('required' => false)),
-            'txtLicExpDate' => new sfValidatorString(array('required' => false)),
+            'txtLicExpDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
             'txtMilitarySer' => new sfValidatorString(array('required' => false)),
             'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
 
@@ -213,10 +217,8 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $employee->emp_marital_status = $this->getValue('cmbMarital');
         $employee->smoker = $this->getValue('chkSmokeFlag');
         $employee->emp_gender = $this->getValue('optGender');
-        
 
-        $employee->emp_dri_lice_exp_date =
-                LocaleUtil::getInstance()->convertToStandardDateFormat($this->getValue('txtLicExpDate'));
+        $employee->emp_dri_lice_exp_date = $this->getValue('txtLicExpDate');
 
         $employee->militaryService = $this->getValue('txtMilitarySer');
 

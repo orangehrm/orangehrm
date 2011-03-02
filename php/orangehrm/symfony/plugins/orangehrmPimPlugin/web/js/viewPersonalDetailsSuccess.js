@@ -1,9 +1,8 @@
 $(document).ready(function() {
 
-    daymarker.bindElement("#personal_txtLicExpDate", function() {});
-    $('#licExpDateBtn').click(function(){
-        daymarker.show("#personal_txtLicExpDate");
-    });
+    //daymarker.bindElement("#personal_txtLicExpDate", function() {});
+
+
 
     daymarker.bindElement("#personal_DOB", function() {});
     $('#dateOfBirthBtn').click(function(){
@@ -16,14 +15,14 @@ $(document).ready(function() {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
             'personal[DOB]': { dateISO: true, validdate: true },
-            'personal[txtLicExpDate]': { dateISO: true, validdate: true },
+            'personal[txtLicExpDate]': { valid_date: function(){ return {format:jsDateFormat} }},
             'personal[optGender]': { required: true }
         },
         messages: {
             'personal[txtEmpFirstName]': { required: lang_firstNameRequired },
             'personal[txtEmpLastName]': { required: lang_lastNameRequired },
-            'personal[DOB]': {dateISO: land_invalidDateFormat, validdate: lang_invalidDateOfBirth },
-            'personal[txtLicExpDate]': { dateISO: land_invalidDateFormat, validdate: lang_invalidLicenseExpDate },
+            'personal[DOB]': {dateISO: lang_invalidDateFormat, validdate: lang_invalidDateOfBirth },
+            'personal[txtLicExpDate]': { valid_date: lang_invalidDate},
             'personal[optGender]': { required: lang_selectGender }
         },
         errorElement : 'div',
@@ -32,6 +31,17 @@ $(document).ready(function() {
             error.insertAfter(element.next().next(".clear"));
             error.insertAfter(element.parent().parent().next(".clear"));
         }
+    });
+
+    daymarker.bindElement("#personal_txtLicExpDate",
+        {onSelect: function(date){
+            $("#personal_txtLicExpDate").valid();
+            },
+        dateFormat:jsDateFormat
+        });
+
+    $('#licExpDateBtn').click(function(){
+        daymarker.show("#personal_txtLicExpDate");
     });
 
     //on form loading

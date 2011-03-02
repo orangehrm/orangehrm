@@ -159,7 +159,11 @@
     var lang_invalidDateOfBirth = "<?php echo __("Invalid date of birth"); ?>";
     var lang_invalidLicenseExpDate = "<?php echo __("Invalid license expiry date"); ?>";
     var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var land_invalidDateFormat = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
+    var lang_invalidDateFormat = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
+    var lang_invalidDate = "<?php echo __("Should be a valid date in the format: %format%", array('%format%'=>$sf_user->getDateFormat())) ?>";
+
+    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
+    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
     
     //]]>
 </script>
