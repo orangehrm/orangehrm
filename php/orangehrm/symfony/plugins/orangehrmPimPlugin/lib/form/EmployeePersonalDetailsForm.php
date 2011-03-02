@@ -132,7 +132,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $this->widgets['txtSINNo']->setAttribute('value', $employee->sin);
 
             $this->widgets['DOB'] = new sfWidgetFormInputText();
-            $this->widgets['DOB']->setAttribute('value', $employee->emp_birthday);
+            $this->widgets['DOB']->setAttribute('value', ohrm_format_date($employee->emp_birthday));
             
             $this->widgets['txtLicenNo'] = new sfWidgetFormInputText();
             $this->widgets['txtLicenNo']->setAttribute('value', $employee->licenseNo);
@@ -168,7 +168,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
             $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false)));
-            $this->setValidator('DOB', new sfValidatorString(array('required' => false)));
+            $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")));
         }
 
         $this->widgetSchema->setNameFormat('personal[%s]');
@@ -231,7 +231,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $employee->employeeId = $this->getValue('txtEmployeeId');
             $employee->ssn = $this->getValue('txtNICNo');
             $employee->sin = $this->getValue('txtSINNo');
-            $employee->emp_birthday = LocaleUtil::getInstance()->convertToStandardDateFormat($this->getValue('DOB'));
+            $employee->emp_birthday = $this->getValue('DOB');
             $employee->licenseNo = $this->getValue('txtLicenNo');
         }
 

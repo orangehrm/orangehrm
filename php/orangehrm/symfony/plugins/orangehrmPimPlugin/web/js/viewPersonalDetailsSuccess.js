@@ -1,28 +1,33 @@
 $(document).ready(function() {
 
-    //daymarker.bindElement("#personal_txtLicExpDate", function() {});
+    //Load default Mask if empty
 
+    var licenseExpiryDate = $("#personal_txtLicExpDate");
 
+    if(trim(licenseExpiryDate.val()) == ''){
+        licenseExpiryDate.val(dateFormat);
+    }
 
-    daymarker.bindElement("#personal_DOB", function() {});
-    $('#dateOfBirthBtn').click(function(){
-        daymarker.show("#personal_DOB");
-    });
+    var dateOfBirth = $("#personal_DOB");
+
+    if(trim(dateOfBirth.val()) == ''){
+        dateOfBirth.val(dateFormat);
+    }
 
     //form validation
     $("#frmEmpPersonalDetails").validate({
         rules: {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
-            'personal[DOB]': { dateISO: true, validdate: true },
-            'personal[txtLicExpDate]': { valid_date: function(){ return {format:jsDateFormat} }},
+            'personal[DOB]': { required: false, valid_date: function(){ return {format:jsDateFormat} } },
+            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:jsDateFormat} } },
             'personal[optGender]': { required: true }
         },
         messages: {
             'personal[txtEmpFirstName]': { required: lang_firstNameRequired },
             'personal[txtEmpLastName]': { required: lang_lastNameRequired },
-            'personal[DOB]': {dateISO: lang_invalidDateFormat, validdate: lang_invalidDateOfBirth },
-            'personal[txtLicExpDate]': { valid_date: lang_invalidDate},
+            'personal[DOB]': { valid_date: lang_invalidDate },
+            'personal[txtLicExpDate]': { valid_date: lang_invalidDate },
             'personal[optGender]': { required: lang_selectGender }
         },
         errorElement : 'div',
@@ -44,7 +49,18 @@ $(document).ready(function() {
         daymarker.show("#personal_txtLicExpDate");
     });
 
-    //on form loading
+    daymarker.bindElement("#personal_DOB",
+        {onSelect: function(date){
+            $("#personal_DOB").valid();
+            },
+        dateFormat:jsDateFormat
+        });
+
+    $('#dateOfBirthBtn').click(function(){
+        daymarker.show("#personal_DOB");
+    });
+
+//on form loading
     var list = new Array('.formInputText', '#licExpDateBtn', '#dateOfBirthBtn', '#personal_optGender_1', '#personal_optGender_2', '#personal_chkSmokeFlag');
     for(i=0; i < list.length; i++) {
         $(list[i]).attr("disabled", "disabled");
@@ -73,35 +89,3 @@ $(document).ready(function() {
         return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
     });
 });
-
-function validateDate(day, month, year) {
-    var days31 = new Array(1,3,5,7,8,10,12);
-
-    if(month > 12 || month < 1) {
-        return false;
-    }
-
-    if(day == 29 && month == 2) {
-        if(year % 4 == 0) {
-            return true;
-        }
-    }
-
-    if(month == 2 && day < 29) {
-        return true;
-    }
-    if(day < 32 && month != 2) {
-        if(day == 31) {
-            flag = false;
-            for(i=0; i < days31.length; i++) {
-                if(days31[i] == month) {
-                    flag = true;
-                    break;
-                }
-            }
-            return flag;
-        }
-        return true;
-    }
-    return false;
-}
