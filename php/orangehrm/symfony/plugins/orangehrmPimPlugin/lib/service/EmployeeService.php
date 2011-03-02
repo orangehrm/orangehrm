@@ -685,6 +685,19 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Get dependents for given employee
+     * @param int $empNumber Employee Number
+     * @return array Dependents as array
+     */
+    public function getDependents($empNumber) {
+        try {
+            return $this->employeeDao->getDependents($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
      * Delete Dependents
      * @param int $empNumber
      * @param array() $entriesToDelete

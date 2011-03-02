@@ -1,0 +1,25 @@
+div.messageBar {
+    margin: 5px 15px 5px 15px;
+
+}
+
+table#dependent_list td.check {
+    width: 30px;
+}
+
+table#dependent_list td.emgContactName {
+    padding-left: 8px;
+}
+
+form#frmEmpDependent label {
+    position: relative;
+}
+
+form#frmEmpDependent label label.error {
+    color:red;
+    display: block;
+    font-weight: normal;
+    overflow:visible;
+    width:270px !important; /* Need to overide important in messages.css */
+    padding-left:0px;
+}

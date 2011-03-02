@@ -18,13 +18,13 @@
  */
 
 /**
- * Actions class for PIM module updateEmergencyContact
+ * Actions class for PIM module updateDependentAction
  */
 
-class updateEmergencyContactAction extends sfAction {
+class updateDependentAction extends sfAction {
 
     /**
-     * Add / update employee emergencyContact
+     * Add / update employee dependent
      *
      * @param int $empNumber Employee number
      *
@@ -32,29 +32,30 @@ class updateEmergencyContactAction extends sfAction {
      */
     public function execute($request) {
 
-        $contacts = $request->getParameter('emgcontacts');
-        $empNumber = (isset($contacts['empNumber']))?$contacts['empNumber']:$request->getParameter('empNumber');
+        $dependent = $request->getParameter('dependent');var_dump($dependent);
+        $empNumber = (isset($dependent['empNumber']))?$dependent['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
         
-        $this->form = new EmployeeEmergencyContactForm(array(), $param, true);
+        $this->form = new EmployeeDependentForm(array(), $param, true);
 
         if ($this->getRequest()->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', 'Emergency Contact Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', 'Dependent Saved Successfully'));
             }
         }
 
         $empNumber = $request->getParameter('empNumber');
 
-        $this->redirect('pim/viewEmergencyContacts?empNumber='. $empNumber);
+        $this->redirect('pim/viewDependents?empNumber='. $empNumber);
     }
 
 }

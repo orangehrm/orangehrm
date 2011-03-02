@@ -131,12 +131,7 @@ Employee:
       refClass: EmpLocations
       foreignAlias: employees
     dependents:
-      class: EmpDependents
-      local: emp_number
-      foreign: emp_number
-      type: many
-    children:
-      class: EmpChildren
+      class: EmpDependent
       local: emp_number
       foreign: emp_number
       type: many
@@ -342,6 +337,31 @@ EmpPassport:
     ep_passport_type_flg as type_flag : integer(2)
     ep_i9_review_date as i9_review_date: date(25)
     cou_code as country: string(6)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+
+EmpDependent:
+  tableName: hs_hr_emp_dependents
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ed_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ed_name as name:
+      type: string(100)
+      default: ''
+    ed_relationship_type as relationship_type:
+      type: enum
+      values: [child, other]
+    ed_relationship as relationship:
+      type: string(100)
+      default: ''
+    ed_date_of_birth as date_of_birth: date(25)
   relations:
     Employee:
       local: emp_number

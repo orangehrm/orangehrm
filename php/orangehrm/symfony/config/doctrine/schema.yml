@@ -6,28 +6,7 @@ EmpLocations:
       primary: true
     loc_code:
       type: string(13)
-      primary: true
-      
-EmpDependents:
-  tableName: hs_hr_emp_dependents
-  columns:
-    emp_number:
-      type: integer(4)
-      primary: true
-    ed_seqno as seqno:
-      type: decimal(2)
-      primary: true
-    ed_name as name:
-      type: string(100)
-      default: ''
-    ed_relationship as relationship:
-      type: string(100)
-      default: ''
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
+      primary: true      
 
 EmpChildren:
   tableName: hs_hr_emp_children

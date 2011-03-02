@@ -1181,6 +1181,21 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
+     * Get dependents for given employee
+     * @param int $empNumber Employee Number
+     * @return array Dependents as array
+     */
+    public function getDependents($empNumber) {
+        try {
+            $q = Doctrine_Query:: create()->from('EmpDependent ed')
+                    ->where('ed.emp_number = ?', $empNumber);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
      * Delete Dependents
      * @param int $empNumber
      * @param array() $entriesToDelete

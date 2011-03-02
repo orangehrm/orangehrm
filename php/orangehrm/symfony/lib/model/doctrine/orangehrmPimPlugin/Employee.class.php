@@ -112,27 +112,6 @@ class Employee extends PluginEmployee {
     }
 
     /**
-     * Returns child with given sequence no, or null if not found.
-     *
-     * @param int $seqNo Sequence no
-     *
-     * @return EmpChild Child with given sequence no.
-     */
-    public function getChild($seqNo) {
-
-        $child = null;
-
-        foreach ($this->children as $currentChild) {
-            if ($currentChild->seqno == $seqNo) {
-                $child = $currentChild;
-                break;
-            }
-        }
-
-        return ($child);
-    }
-
-    /**
      * Returns immigration document with given sequence no, or null if not found.
      *
      * @param int $seqNo Sequence no

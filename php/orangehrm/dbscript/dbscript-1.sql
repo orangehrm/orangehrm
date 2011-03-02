@@ -184,7 +184,9 @@ create table `hs_hr_emp_dependents` (
   `emp_number` int(7) not null default 0,
   `ed_seqno` decimal(2,0) not null default '0',
   `ed_name` varchar(100) default '',
+  `ed_relationship_type` ENUM('child', 'other'),
   `ed_relationship` varchar(100) default '',
+  `ed_date_of_birth` date null default null,
   primary key  (`emp_number`,`ed_seqno`)
 ) engine=innodb default charset=utf8;
 

@@ -11,6 +11,8 @@ class orangehrmConfiguration extends sfApplicationConfiguration
    */
    public function configureDoctrine(Doctrine_Manager $manager) {
 	$manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
+        $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
+
 
         //
         // If using encryption, enable dql callbacks. Needed by EncryptionListener

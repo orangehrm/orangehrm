@@ -58,7 +58,6 @@
  * @property Doctrine_Collection $supervisors
  * @property Doctrine_Collection $locations
  * @property Doctrine_Collection $dependents
- * @property Doctrine_Collection $children
  * @property Doctrine_Collection $emergencyContacts
  * @property Doctrine_Collection $immigrationDocuments
  * @property Doctrine_Collection $workExperience
@@ -76,6 +75,7 @@
  * @property Doctrine_Collection $EmpSubdivisionHistory
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
+ * @property Doctrine_Collection $EmpChildren
  * @property EmpUsTax $usTax
  * @property Doctrine_Collection $ReportTo
  * @property JobCategory $JobCategory
@@ -141,7 +141,6 @@
  * @method Doctrine_Collection getSupervisors()              Returns the current record's "supervisors" collection
  * @method Doctrine_Collection getLocations()                Returns the current record's "locations" collection
  * @method Doctrine_Collection getDependents()               Returns the current record's "dependents" collection
- * @method Doctrine_Collection getChildren()                 Returns the current record's "children" collection
  * @method Doctrine_Collection getEmergencyContacts()        Returns the current record's "emergencyContacts" collection
  * @method Doctrine_Collection getImmigrationDocuments()     Returns the current record's "immigrationDocuments" collection
  * @method Doctrine_Collection getWorkExperience()           Returns the current record's "workExperience" collection
@@ -159,6 +158,7 @@
  * @method Doctrine_Collection getEmpSubdivisionHistory()    Returns the current record's "EmpSubdivisionHistory" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
+ * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
  * @method EmpUsTax            getUsTax()                    Returns the current record's "usTax" value
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
@@ -223,7 +223,6 @@
  * @method Employee            setSupervisors()              Sets the current record's "supervisors" collection
  * @method Employee            setLocations()                Sets the current record's "locations" collection
  * @method Employee            setDependents()               Sets the current record's "dependents" collection
- * @method Employee            setChildren()                 Sets the current record's "children" collection
  * @method Employee            setEmergencyContacts()        Sets the current record's "emergencyContacts" collection
  * @method Employee            setImmigrationDocuments()     Sets the current record's "immigrationDocuments" collection
  * @method Employee            setWorkExperience()           Sets the current record's "workExperience" collection
@@ -241,6 +240,7 @@
  * @method Employee            setEmpSubdivisionHistory()    Sets the current record's "EmpSubdivisionHistory" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
+ * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
  * @method Employee            setUsTax()                    Sets the current record's "usTax" value
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
@@ -498,11 +498,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'loc_code'));
 
-        $this->hasMany('EmpDependents as dependents', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpChildren as children', array(
+        $this->hasMany('EmpDependent as dependents', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
@@ -574,6 +570,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('LeaveRequest', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
+
+        $this->hasMany('EmpChildren', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
 
         $this->hasOne('EmpUsTax as usTax', array(
              'local' => 'emp_number',

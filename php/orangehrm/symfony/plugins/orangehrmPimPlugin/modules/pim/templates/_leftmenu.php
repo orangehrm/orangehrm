@@ -44,12 +44,12 @@
         color:#444444;
     }
 
-    input[type=text] {
+    /*input[type=text] {
         border-top: 0px;
         border-left: 0px;
         border-right: 0px;
         border-bottom: 1px solid #888888;
-    }
+    }*/
 
     table.historyTable th {
         border-width: 0px;
@@ -404,7 +404,7 @@
                         <span><?php echo __("Emergency Contacts");?></span></a></li>
 
                 <li class="l2">
-                    <a href="<?php echo WPATH;?>lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&amp;capturemode=updatemode&amp;reqcode=EMP&pane=3" id="dependentsLink" class="personal"  accesskey="d">
+                    <a href="<?php echo url_for('pim/viewDependents?empNumber=' . $empNumber); ?>" id="dependentsLink" class="personal"  accesskey="d">
                         <span><?php echo __("Dependents");?></span></a></li>
                 <li class="l2">
                     <a href="<?php echo url_for('pim/viewImmigration?empNumber=' . $empNumber); ?>" id="immigrationLink" class="personal" accesskey="i" >
