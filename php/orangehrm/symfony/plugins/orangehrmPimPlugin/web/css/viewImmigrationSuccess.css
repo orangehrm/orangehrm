@@ -1,0 +1,64 @@
+.tableArrange {
+    width: 100%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+ul.radio_list { list-style: none; }
+ul.radio_list li { display: inline; }
+ul.radio_list li label { display: inline; padding-left:5px; width:50px;}
+ul.radio_list li input { float:left; margin-top:10px; }
+
+.hideTr {
+    display:none;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 40px;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+}
+.tableArrange {
+    width: 100%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+ul.radio_list { list-style: none; }
+ul.radio_list li { display: inline; }
+ul.radio_list li label { display: inline; padding-left:5px; width:80px;}
+ul.radio_list li input { float:left; margin-top:10px; }
+
+.hideTr {
+    display:none;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 40px;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+}
