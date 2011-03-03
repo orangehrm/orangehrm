@@ -288,6 +288,22 @@
         <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
         <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
       </trans-unit>
+      <trans-unit id="72">
+        <source>Configure PIM</source>
+        <target>FR_Configure PIM</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Nick Name, Smoker, Military Service fields are considered as deprecated fields</source>
+        <target>FR_Nick Name, Smoker, Military Service fields are considered as deprecated fields</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Show Deprecated Fields</source>
+        <target>FR_Show Deprecated Fields</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>PIM Configuration Saved Successfully</source>
+        <target>FR_PIM Configuration Saved Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
