@@ -75,9 +75,8 @@ class viewPersonalDetailsAction extends sfAction {
             $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
             if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-                //shud b redirected 2 ESS user view
-                echo("this should be redirected to ESS view, under construction");die();
-                //$this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
+                header("Location:../../../../index.php");
+                exit();
             }
 
             OrangeConfig::getInstance()->loadAppConf();
