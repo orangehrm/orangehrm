@@ -139,7 +139,7 @@
                                                 <input type="hidden" id="i9_status_<?php echo $passport->seqno;?>" value="<?php echo $passport->i9_status; ?>" />
                                                 <input type="hidden" id="country_<?php echo $passport->seqno;?>" value="<?php echo $passport->country; ?>" />
                                                 <input type="hidden" id="i9_review_date_<?php echo $passport->seqno;?>" value="<?php echo $i9_review_date; ?>" />
-                                                <input type="hidden" id="comments_<?php echo $passport->seqno;?>" value="<?php echo $passport->comments; ?>" />
+                                                <input type="hidden" id="comments_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->comments); ?>" />
 
                                                 <!-- end of all data hidden fields -->
                                                 <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $passport->seqno;?>' /></td>
@@ -165,7 +165,7 @@
                                     <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
                                 </a>
                                 <br />
-                                <span class="smallHelpText"><strong><?php echo $form->fullName; ?></strong></span>
+                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
                             </center>
                         </div>
                     </td>
