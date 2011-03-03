@@ -1,19 +1,24 @@
 $(document).ready(function() {
 
-    daymarker.bindElement("#immigration_passport_issue_date", function() {});
-    $('#passportIssueDateBtn').click(function() {
-        daymarker.show("#immigration_passport_issue_date");
-    });
+    //Load default Mask if empty
 
-    daymarker.bindElement("#immigration_passport_expire_date", function() {});
-    $('#passportExpireDateBtn').click(function() {
-        daymarker.show("#immigration_passport_expire_date");
-    });
-
-    daymarker.bindElement("#immigration_i9_review_date", function() {});
-    $('#i9ReviewDateBtn').click(function() {
-        daymarker.show("#immigration_i9_review_date");
-    });
+//    var passportIssueDate = $("#immigration_passport_issue_date");
+//
+//    if(trim(passportIssueDate.val()) == ''){
+//        passportIssueDate.val(dateDisplayFormat);
+//    }
+//
+//    var passportExpireDate = $("#immigration_passport_expire_date");
+//
+//    if(trim(passportExpireDate.val()) == ''){
+//        passportExpireDate.val(dateDisplayFormat);
+//    }
+//
+//    var i9ReviewDate = $("#immigration_i9_review_date");
+//
+//    if(trim(i9ReviewDate.val()) == ''){
+//        i9ReviewDate.val(dateDisplayFormat);
+//    }
 
     $("#btnSave").click(function() {
         $("#frmEmpImmigration").submit();
@@ -23,18 +28,18 @@ $(document).ready(function() {
     $("#frmEmpImmigration").validate({
         rules: {
             'immigration[number]': {required: true},
-            'immigration[passport_issue_date]': {required: true, dateISO: true, validdate: true, validIssuedDate: true},
-            'immigration[passport_expire_date]' : {required: true, dateISO: true, validdate:true},
+            'immigration[passport_issue_date]': {required: true, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'immigration[passport_expire_date]' : {required: true, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'immigration[country]' : {required: true},
-            'immigration[i9_review_date]' : {required: true, dateISO: true, validdate: true},
+            'immigration[i9_review_date]' : {required: true, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'immigration[comments]': {maxlength: 250}
         },
         messages: {
             'immigration[number]': {required: lang_numberRequired},
-            'immigration[passport_issue_date]': {required: lang_issueDateRequird, dateISO: lang_dateFormatIssue, validdate: lang_invalidIssueDate, validIssuedDate: lang_issuedGreaterExpiry},
-            'immigration[passport_expire_date]' : {required: lang_expireDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate},
+            'immigration[passport_issue_date]': {required: lang_issueDateRequird, valid_date: lang_invalidDate},
+            'immigration[passport_expire_date]' : {required: lang_expireDateRequired, valid_date: lang_invalidDate},
             'immigration[country]' : {required: lang_countryRequired},
-            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, dateISO: lang_dateFormatIssue, validdate: lang_invalidExpireDate},
+            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, valid_date: lang_invalidDate},
             'immigration[comments]': {maxlength: lang_commentLength }
         },
 
@@ -46,6 +51,39 @@ $(document).ready(function() {
             //these are specially for date boxes
             error.insertBefore(element.next().next(".clear"));
         }
+    });
+
+    daymarker.bindElement("#immigration_passport_issue_date",
+        {onSelect: function(date){
+            $("#immigration_passport_issue_date").valid();
+            },
+        dateFormat:jsDateFormat
+        });
+
+    $('#passportIssueDateBtn').click(function() {
+        daymarker.show("#immigration_passport_issue_date");
+    });
+
+    daymarker.bindElement("#immigration_passport_expire_date",
+        {onSelect: function(date){
+            $("#immigration_passport_expire_date").valid();
+            },
+        dateFormat:jsDateFormat
+        });
+
+    $('#passportExpireDateBtn').click(function() {
+        daymarker.show("#immigration_passport_expire_date");
+    });
+
+    daymarker.bindElement("#immigration_i9_review_date",
+        {onSelect: function(date){
+            $("#immigration_i9_review_date").valid();
+            },
+        dateFormat:jsDateFormat
+        });
+
+    $('#i9ReviewDateBtn').click(function() {
+        daymarker.show("#immigration_i9_review_date");
     });
 
     //enable, dissable views on loading
@@ -104,28 +142,6 @@ $(document).ready(function() {
         return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
     });
 
-    /* Valid From Date */
-    $.validator.addMethod("validIssuedDate", function(value, element) {
-
-        var fromdate	=	$('#immigration_passport_issue_date').val();
-        fromdate = (fromdate).split("-");
-        if(!validateDate(parseInt(fromdate[2],10), parseInt(fromdate[1],10), parseInt(fromdate[0],10))) {
-           return false;
-        }
-        var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-        var todate		=	$('#immigration_passport_expire_date').val();
-        todate = (todate).split("-");
-        var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-        if(fromdateObj > todateObj){
-            return false;
-        }
-        else{
-            return true;
-        }
-
-    });
-
 });
 
 //function to load data for updating
@@ -145,36 +161,4 @@ function fillDataToImmigrationDataPane(seqno) {
     $("#immigrationHeading").text(lang_editImmigrationHeading);
     $("#btnAdd").hide();
     $("#immigrationDataPane").show();
-}
-
-function validateDate(day, month, year) {
-    var days31 = new Array(1,3,5,7,8,10,12);
-
-    if(month > 12 || month < 1) {
-        return false;
-    }
-
-    if(day == 29 && month == 2) {
-        if(year % 4 == 0) {
-            return true;
-        }
-    }
-
-    if(month == 2 && day < 29) {
-        return true;
-    }
-    if(day < 32 && month != 2) {
-        if(day == 31) {
-            flag = false;
-            for(i=0; i < days31.length; i++) {
-                if(days31[i] == month) {
-                    flag = true;
-                    break;
-                }
-            }
-            return flag;
-        }
-        return true;
-    }
-    return false;
 }

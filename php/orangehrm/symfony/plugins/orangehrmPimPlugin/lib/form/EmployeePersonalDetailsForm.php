@@ -111,8 +111,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $this->widgets['chkSmokeFlag']->setAttribute('checked', 'checked');
         }
 
-        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
-  
         $this->widgets['chkSmokeFlag']->setAttribute('value', 1);
         $this->widgets['txtLicExpDate']->setAttribute('value', ohrm_format_date($employee->emp_dri_lice_exp_date));
         $this->widgets['txtMilitarySer']->setAttribute('value', $employee->militaryService);
@@ -159,7 +157,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'txtOtherID' => new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'Last Name Length exceeded 30 characters')),
             'cmbMarital' => new sfValidatorString(array('required' => false)),
             'chkSmokeFlag' => new sfValidatorString(array('required' => false)),
-            'txtLicExpDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
+            'txtLicExpDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
             'txtMilitarySer' => new sfValidatorString(array('required' => false)),
             'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
 
@@ -168,7 +166,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
             $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'License No length exceeded 30 characters')));
-            $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")));
+            $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")));
         //}
 
         $this->widgetSchema->setNameFormat('personal[%s]');

@@ -19,6 +19,11 @@
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
     var lang_deleteErrorMsg = "<?php echo __('Please Select at least One Record to Delete');?>";
+    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
+
+    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
+    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
+    var dateDisplayFormat = dateFormat.toUpperCase();
     
     //]]>
 </script>
@@ -130,9 +135,9 @@
                                                 <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
                                                 <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->number); ?>" />
                                                 <?php
-                                                    $passport_issue_date = date("Y-m-d", strtotime($passport->passport_issue_date));
-                                                    $passport_expire_date = date("Y-m-d", strtotime($passport->passport_expire_date));
-                                                    $i9_review_date = date("Y-m-d", strtotime($passport->i9_review_date));
+                                                    $passport_issue_date = ohrm_format_date(date("Y-m-d", strtotime($passport->passport_issue_date)));
+                                                    $passport_expire_date = ohrm_format_date(date("Y-m-d", strtotime($passport->passport_expire_date)));
+                                                    $i9_review_date = ohrm_format_date(date("Y-m-d", strtotime($passport->i9_review_date)));
                                                 ?>
                                                 <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
                                                 <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />

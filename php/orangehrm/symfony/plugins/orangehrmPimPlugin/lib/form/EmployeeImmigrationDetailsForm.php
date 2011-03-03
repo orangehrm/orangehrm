@@ -66,6 +66,8 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'comments' => new sfWidgetFormTextarea(),
         ));
 
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
         $this->setValidators(array(
                 'emp_number' => new sfValidatorNumber(array('required' => false)),
                 'seqno' => new sfValidatorNumber(array('required' => false)),
@@ -74,9 +76,9 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'country' => new sfValidatorString(array('required' => false)),
                 'number' => new sfValidatorString(array('required' => true, 'trim'=>true)),
                 'i9_status' => new sfValidatorString(array('required' => false, 'trim'=>true)),
-                'passport_issue_date' => new sfValidatorString(array('required' => true, 'trim'=>true)),
-                'passport_expire_date' => new sfValidatorString(array('required' => true, 'trim'=>true)),
-                'i9_review_date' => new sfValidatorString(array('required' => false)),
+                'passport_issue_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
+                'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
+                'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
                 'comments' => new sfValidatorString(array('required' => false))
         ));
 

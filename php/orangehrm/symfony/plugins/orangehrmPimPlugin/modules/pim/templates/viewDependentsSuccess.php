@@ -339,7 +339,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     maxlength:'<?php echo __("Maximum character limit exceeded.");?>'
                 },
                 'dependent[dateOfBirth]' : {
-                    valid_date: '<?php echo __("Please enter a valid date in the format: %format%", array('%format%'=>  strtoupper($sf_user->getDateFormat()) )) ?>'
+                    valid_date: '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
                 }
             },
             errorPlacement: function(error, element) {

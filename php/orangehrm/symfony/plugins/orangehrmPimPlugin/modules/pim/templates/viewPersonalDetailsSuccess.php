@@ -157,7 +157,7 @@
     var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
     var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = "<?php echo __("Should be a valid date in the format: %format%", array('%format%'=>$sf_user->getDateFormat())) ?>";
+    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
