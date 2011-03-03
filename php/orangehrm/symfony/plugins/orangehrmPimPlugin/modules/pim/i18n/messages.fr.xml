@@ -424,6 +424,70 @@
         <source>Emergency Contact/s Deleted Successfully</source>
         <target>FR_Emergency Contact/s Deleted Successfully</target>
       </trans-unit>
+      <trans-unit id="106">
+        <source>Add Immigration</source>
+        <target>FR_Add Immigration</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Passport</source>
+        <target>FR_Passport</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Visa</source>
+        <target>FR_Visa</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Immigration Details Saved Successfully</source>
+        <target>FR_Immigration Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Immigration Details Deleted Successfully</source>
+        <target>FR_Immigration Details Deleted Successfully</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Number</source>
+        <target>FR_Number</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Add Dependent</source>
+        <target>FR_Add Dependent</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Assigned Dependents</source>
+        <target>FR_Assigned Dependents</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>child</source>
+        <target>FR_child</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>other</source>
+        <target>FR_other</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>Dependent Saved Successfully</source>
+        <target>FR_Dependent Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Please Sepecify</source>
+        <target>FR_Please Sepecify</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>Relationship is required</source>
+        <target>FR_Relationship is required</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Please specify the relationship</source>
+        <target>FR_Please specify the relationship</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>Edit Dependent</source>
+        <target>FR_Edit Dependent</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Dependent/s Deleted Successfully</source>
+        <target>FR_Dependent/s Deleted Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

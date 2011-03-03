@@ -49,7 +49,7 @@ class updateDependentAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', 'Dependent Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', __('Dependent Saved Successfully')));
             }
         }
 

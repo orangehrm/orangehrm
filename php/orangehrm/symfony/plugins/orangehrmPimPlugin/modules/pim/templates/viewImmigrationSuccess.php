@@ -18,7 +18,7 @@
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
-    var lang_deleteErrorMsg = "<?php echo __('Please Select at least One Record to Delete');?>";
+    var lang_deleteErrorMsg = "<?php echo __('Select at least One Record to Delete');?>";
     var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
@@ -28,7 +28,7 @@
     //]]>
 </script>
 
-<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewPersonalDetailsSuccess'); ?>
+<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewImmigrationSuccess'); ?>
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewImmigrationSuccess'); ?>
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -88,7 +88,7 @@
                                             <input id="i9ReviewDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
 
-                                            <?php echo $form['comments']->renderLabel(__('Comment')); ?>
+                                            <?php echo $form['comments']->renderLabel(__('Comments')); ?>
                                             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
                                             <br class="clear" />
                                         </div>

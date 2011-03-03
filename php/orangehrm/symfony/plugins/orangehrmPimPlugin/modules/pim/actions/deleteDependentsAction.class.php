@@ -47,7 +47,7 @@ class deleteDependentsAction extends sfAction {
                 if ($dependentsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteDependents($empNumber, $dependentsToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', $count . ' Dependent(s) Deleted'));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Dependent/s Deleted Successfully')));
                 }
         }
 

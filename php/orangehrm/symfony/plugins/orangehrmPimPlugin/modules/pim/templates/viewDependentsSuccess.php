@@ -62,7 +62,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <div id="addPaneDependent" style="display:none;" >
 <div class="outerbox">
 
-    <div class="mainHeading"><h2><?php echo __('Add Dependent'); ?></h2></div>
+    <div class="mainHeading"><h2 id="heading"><?php echo __('Add Dependent'); ?></h2></div>
     <form name="frmEmpDependent" id="frmEmpDependent" method="post" action="<?php echo url_for('pim/updateDependent?empNumber=' . $empNumber); ?>">
 
     <?php echo $form['_csrf_token']; ?>
@@ -147,7 +147,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 ?>
             <td class="dependentName"><a href="#"><?php echo $dependent->name; ?></a></td>
             <?php
-                echo '<td>' . $dependent->relationship_type . '</td>';
+                echo '<td>' . __($dependent->relationship_type) . '</td>';
                 if ($dependent->relationship_type == 'other') {
                     echo '<td>' . $dependent->relationship . '</td>';
                 } else {
@@ -229,7 +229,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         
         // Edit a emergency contact in the list
         $('#frmEmpDelDependents a').live('click', function() {
-
+            $("#heading").text("<?php echo __("Edit Dependent");?>");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
             var name = $(this).text();
@@ -285,7 +285,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         // Add a emergency contact
         $('#btnAddDependent').click(function() {
-
+            $("#heading").text("<?php echo __("Add Dependent");?>");
             clearAddForm();
 
             // Hide list action buttons and checkbox
@@ -335,7 +335,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     required:'<?php echo __("Relationship is required") ?>'
                 },
                 'dependent[relationship]': {
-                    required:'<?php echo __("Please Specify relationship") ?>',
+                    required:'<?php echo __("Please specify the relationship") ?>',
                     maxlength:'<?php echo __("Maximum character limit exceeded.");?>'
                 },
                 'dependent[dateOfBirth]' : {

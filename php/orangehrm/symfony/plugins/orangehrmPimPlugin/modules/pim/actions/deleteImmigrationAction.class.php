@@ -47,7 +47,7 @@ class deleteImmigrationAction extends sfAction {
             $empNumber = $request->getParameter('empNumber');
 
             $this->getEmployeeService()->deleteImmigration($empNumber, $deleteIds);
-            $this->getUser()->setFlash('templateMessage', array('success', 'Immigration Details Deleted Successfully'));
+            $this->getUser()->setFlash('templateMessage', array('success', __('Immigration Details Deleted Successfully')));
             $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
             
         }
