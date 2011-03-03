@@ -131,7 +131,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="dependent_list">
         <thead>
             <tr>
-                <td class="check">&nbsp;</td>
+                <td class="check"><input type='checkbox' id='checkAll' class="checkbox" /></td>
                 <td class="dependentName"><?php echo __("Name"); ?></td>
                 <td colspan="2"><?php echo __("Relationship"); ?></td>
                 <td><?php echo __("Date of Birth"); ?></td>
@@ -226,7 +226,22 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $("#addPaneDependent").show();
             $("#listing").hide();
         }
-        
+
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").attr('value') == 'on') {
+                $(".checkbox").attr('checked', 'checked');
+            } else {
+                $(".checkbox").removeAttr('checked');
+            }
+        });
+
+        $(".checkbox").click(function() {
+            $("#checkAll").removeAttr('checked');
+            if(($(".checkbox").length - 1) == $(".checkbox:checked").length) {
+                $("#checkAll").attr('checked', 'checked');
+            }
+        });
+
         //Load default Mask if empty
         var hDate = trim($("#dependent_dateOfBirth").val());
         if (hDate == '') {
