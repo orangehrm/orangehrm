@@ -304,6 +304,30 @@
         <source>PIM Configuration Saved Successfully</source>
         <target>FR_PIM Configuration Saved Successfully</target>
       </trans-unit>
+      <trans-unit id="76">
+        <source>Ethnic Race</source>
+        <target>FR_Ethnic Race</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Single</source>
+        <target>FR_Single</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Married</source>
+        <target>FR_Married</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Personal Details Saved Successfully</source>
+        <target>FR_Personal Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Select a gender</source>
+        <target>FR_Select a gender</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Should be a valid date in the format: %format%</source>
+        <target>FR_Should be a valid date in the format: %format%</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

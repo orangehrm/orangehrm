@@ -88,6 +88,22 @@
         <source>Help</source>
         <target>FR_Help</target>
       </trans-unit>
+      <trans-unit id="182">
+        <source>Full Name</source>
+        <target>FR_Full Name</target>
+      </trans-unit>
+      <trans-unit id="183">
+        <source>Male</source>
+        <target>FR_Male</target>
+      </trans-unit>
+      <trans-unit id="184">
+        <source>Female</source>
+        <target>FR_Female</target>
+      </trans-unit>
+      <trans-unit id="185">
+        <source>Select</source>
+        <target>FR_Select</target>
+      </trans-unit>
       <trans-unit id="11">
         <source>Month</source>
         <target>FR_Month</target>

@@ -91,7 +91,7 @@ class viewPersonalDetailsAction extends sfAction {
 
                     $employee = $this->form->getEmployee();
                     $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
-                    $this->getUser()->setFlash('templateMessage', array('success', 'Personal Details Saved Successfully'));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Personal Details Saved Successfully')));
                     $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
                 }
             }
