@@ -48,9 +48,20 @@ class ohrmDateValidator extends sfValidatorBase {
 
         $date = null;
         $valid = false;
+
+        $trimmedValue = trim($value);
+        $pattern = $this->getOption('date_format');
+
+        //
+        // If not required and empty or the format pattern, return valid.
+        //
+        if ( !$this->getOption('required') && 
+                ( ($trimmedValue == '') || (strcasecmp($trimmedValue, $pattern) == 0 ) )) {
+            return null;
+        }
         
         // check date format
-        if (is_string($value) && $pattern = $this->getOption('date_format')) {
+        if (is_string($value) && $pattern) {
 
             $dateFormat = new sfDateFormat();
             try {

@@ -17,6 +17,8 @@
  * @param params Properties object.
  *
  * Required Params: format - date format string.
+ *                  displayFormat - date display format
+ * Optional Params: required - is value required. Defaults to false.
  *
  * @return boolean true if validated, false if not
  */
@@ -25,18 +27,33 @@ $.validator.addMethod("valid_date",
 
     var valid = false;
     var format = params.format;
+    var displayFormat = params.displayFormat;
+    
+    var required = false;
+    
+    if (typeof params.required != 'undefined') {
+        required = params.required;
+    }
 
     try {
-        var parsedDate = $.datepicker.parseDate(format, value);
-        if (parsedDate) {
-            var formattedDate = $.datepicker.formatDate(format, parsedDate);
-            if ($.trim(value) == formattedDate) {
-                var year = parsedDate.getFullYear();
+        var trimmedValue = $.trim(value);
 
-                // Additional validation, since datePicker.parseDate
-                // accepts 3 digit years or very 4 or more digit years.
-                if (year > 1000 & year < 9999) {
-                    valid = true;
+        // If not required, empty or format is ok.
+        if (!required && ((trimmedValue == '') || (trimmedValue == displayFormat)) ) {
+            valid = true;
+        }
+        else {
+            var parsedDate = $.datepicker.parseDate(format, trimmedValue);
+            if (parsedDate) {
+                var formattedDate = $.datepicker.formatDate(format, parsedDate);
+                if (trimmedValue == formattedDate) {
+                    var year = parsedDate.getFullYear();
+
+                    // Additional validation, since datePicker.parseDate
+                    // accepts 3 digit years or very 4 or more digit years.
+                    if (year > 1000 & year < 9999) {
+                        valid = true;
+                    }
                 }
             }
         }
