@@ -5,13 +5,13 @@ $(document).ready(function() {
     var licenseExpiryDate = $("#personal_txtLicExpDate");
 
     if(trim(licenseExpiryDate.val()) == ''){
-        licenseExpiryDate.val(dateFormat);
+        licenseExpiryDate.val(dateDisplayFormat);
     }
 
     var dateOfBirth = $("#personal_DOB");
 
     if(trim(dateOfBirth.val()) == ''){
-        dateOfBirth.val(dateFormat);
+        dateOfBirth.val(dateDisplayFormat);
     }
 
     //form validation
@@ -19,8 +19,8 @@ $(document).ready(function() {
         rules: {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
-            'personal[DOB]': { required: false, valid_date: function(){ return {format:jsDateFormat} } },
-            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:jsDateFormat} } },
+            'personal[DOB]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'personal[optGender]': { required: true }
         },
         messages: {

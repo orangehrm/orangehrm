@@ -161,6 +161,7 @@
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
+    var dateDisplayFormat = dateFormat.toUpperCase();
     
     //]]>
 </script>
