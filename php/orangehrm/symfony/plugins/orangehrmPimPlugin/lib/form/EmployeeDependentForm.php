@@ -72,7 +72,7 @@ class EmployeeDependentForm extends BaseForm {
             'seqNo' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'name' => new sfValidatorString(array('required' => true, 'trim'=>true, 'max_length'=>100)),
             'relationshipType' => new sfValidatorChoice(array('choices' => array_keys($relationshipChoices))),
-            'relationship' => new sfValidatorString(array('required' => false, 'trim'=>true)),
+            'relationship' => new sfValidatorString(array('required' => false, 'trim'=>true, 'max_length'=>100)),
             'dateOfBirth' =>  new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false),
                               array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
 
