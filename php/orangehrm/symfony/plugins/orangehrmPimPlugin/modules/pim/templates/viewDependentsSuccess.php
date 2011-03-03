@@ -70,7 +70,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php echo $form["seqNo"]->render(); ?>
 
     <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-    <?php echo $form['name']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
     <br class="clear"/>
 
     <?php echo $form['relationshipType']->renderLabel(__('Relationship') . ' <span class="required">*</span>'); ?>
@@ -79,7 +79,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     <div id="relationshipDesc">
     <?php echo $form['relationship']->renderLabel(__('Please Sepecify') . ' <span class="required">*</span>'); ?>
-    <?php echo $form['relationship']->render(array("class" => "formInputText")); ?>
+    <?php echo $form['relationship']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
     <br class="clear"/>
     </div>
 
