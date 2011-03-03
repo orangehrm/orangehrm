@@ -107,7 +107,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div>
 
 
-<div class="outerbox">
+<div class="outerbox" id="listing">
 <form name="frmEmpDelDependents" id="frmEmpDelDependents" method="post" action="<?php echo url_for('pim/deleteDependents?empNumber=' . $empNumber); ?>">
 <?php echo $deleteForm['_csrf_token']->render(); ?>
 <?php echo $deleteForm['empNumber']->render(); ?>
@@ -218,7 +218,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     $(document).ready(function() {
-
+        //alert($(".checkbox").length);
+        if($(".checkbox").length > 0) {
+            $("#addPaneDependent").hide();
+            $("#listing").show();
+        } else {
+            $("#addPaneDependent").show();
+            $("#listing").hide();
+        }
+        
         //Load default Mask if empty
         var hDate = trim($("#dependent_dateOfBirth").val());
         if (hDate == '') {
