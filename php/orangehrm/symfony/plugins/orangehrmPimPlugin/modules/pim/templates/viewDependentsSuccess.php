@@ -323,7 +323,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 'dependent[dateOfBirth]' : {valid_date: function() {
                         return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}
                     }
-                }
+                },
+                maxlength:100
             },
             messages: {
                 'dependent[name]': {
@@ -334,7 +335,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     required:'<?php echo __("Relationship is required") ?>'
                 },
                 'dependent[relationship]': {
-                    required:'<?php echo __("Please specify relationship") ?>'
+                    required:'<?php echo __("Please Specify relationship") ?>',
+                    maxlength:'<?php echo __("Maximum character limit exceeded.");?>'
                 },
                 'dependent[dateOfBirth]' : {
                     valid_date: '<?php echo __("Please enter a valid date in the format: %format%", array('%format%'=>  strtoupper($sf_user->getDateFormat()) )) ?>'
