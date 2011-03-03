@@ -64,13 +64,14 @@ class viewPersonalDetailsAction extends sfAction {
 
             // TODO: Improve
             $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-            $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
             }
 
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+            $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
+
             $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
             $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
@@ -98,5 +99,22 @@ class viewPersonalDetailsAction extends sfAction {
             print( $e->getMessage());
         }
     }
+
+    private function isSupervisor($loggedInEmpNum, $empNumber) {
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }
 ?>
