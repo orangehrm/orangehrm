@@ -328,6 +328,102 @@
         <source>Should be a valid date in the format: %format%</source>
         <target>FR_Should be a valid date in the format: %format%</target>
       </trans-unit>
+      <trans-unit id="82">
+        <source>Address Street 1</source>
+        <target>FR_Address Street 1</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>Address Street 2</source>
+        <target>FR_Address Street 2</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>City</source>
+        <target>FR_City</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>State/Province</source>
+        <target>FR_State/Province</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Zip/Postal Code</source>
+        <target>FR_Zip/Postal Code</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Home Telephone</source>
+        <target>FR_Home Telephone</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Mobile</source>
+        <target>FR_Mobile</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Work Telephone</source>
+        <target>FR_Work Telephone</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Work Email</source>
+        <target>FR_Work Email</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Other Email</source>
+        <target>FR_Other Email</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Home telephone can contains only space, numbers, "+", and "-"</source>
+        <target>FR_Home telephone can contains only space, numbers, "+", and "-"</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Mobile can contains only space, numbers, "+", and "-"</source>
+        <target>FR_Mobile can contains only space, numbers, "+", and "-"</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Work telephone can contains only space, numbers, "+", and "-"</source>
+        <target>FR_Work telephone can contains only space, numbers, "+", and "-"</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+        <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+        <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Contact Details Saved Successfully</source>
+        <target>FR_Contact Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Emergency Contacts</source>
+        <target>FR_Emergency Contacts</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Add Emergency Contact</source>
+        <target>FR_Add Emergency Contact</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Relationship</source>
+        <target>FR_Relationship</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Emergency Contact Saved Successfully</source>
+        <target>FR_Emergency Contact Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Assigned Emergency Contacts</source>
+        <target>FR_Assigned Emergency Contacts</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Edit Emergency Contact</source>
+        <target>FR_Edit Emergency Contact</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Name is required</source>
+        <target>FR_Name is required</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Emergency Contact/s Deleted Successfully</source>
+        <target>FR_Emergency Contact/s Deleted Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

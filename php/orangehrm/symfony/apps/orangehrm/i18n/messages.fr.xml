@@ -104,6 +104,18 @@
         <source>Select</source>
         <target>FR_Select</target>
       </trans-unit>
+      <trans-unit id="186">
+        <source>Country</source>
+        <target>FR_Country</target>
+      </trans-unit>
+      <trans-unit id="187">
+        <source>Cancel</source>
+        <target>FR_Cancel</target>
+      </trans-unit>
+      <trans-unit id="188">
+        <source>Select at least One Record to Delete</source>
+        <target>FR_Select at least One Record to Delete</target>
+      </trans-unit>
       <trans-unit id="11">
         <source>Month</source>
         <target>FR_Month</target>

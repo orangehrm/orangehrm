@@ -48,7 +48,7 @@ class updateEmergencyContactAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', 'Emergency Contact Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', __('Emergency Contact Saved Successfully')));
             }
         }
 

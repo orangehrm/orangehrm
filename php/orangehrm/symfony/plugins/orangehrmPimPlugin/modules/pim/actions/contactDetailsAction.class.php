@@ -80,7 +80,7 @@ class contactDetailsAction extends sfAction {
             if ($this->form->isValid()) {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->saveContactDetails($employee, false);
-                $this->getUser()->setFlash('templateMessage', array('success', 'Contact Details Saved Successfully'));
+                $this->getUser()->setFlash('templateMessage', array('success', __('Contact Details Saved Successfully')));
                 $this->redirect('pim/contactDetails?empNumber='. $empNumber);
             }
         }
