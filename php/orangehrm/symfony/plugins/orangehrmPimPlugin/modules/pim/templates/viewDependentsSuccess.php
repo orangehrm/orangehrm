@@ -218,7 +218,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     $(document).ready(function() {
-        //alert($(".checkbox").length);
+        
         if($(".checkbox").length > 0) {
             $("#addPaneDependent").hide();
             $("#listing").show();
