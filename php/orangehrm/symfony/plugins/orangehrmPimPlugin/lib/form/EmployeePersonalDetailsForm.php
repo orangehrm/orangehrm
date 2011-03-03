@@ -112,15 +112,15 @@ class EmployeePersonalDetailsForm extends BaseForm {
         }
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
-        
+  
         $this->widgets['chkSmokeFlag']->setAttribute('value', 1);
         $this->widgets['txtLicExpDate']->setAttribute('value', ohrm_format_date($employee->emp_dri_lice_exp_date));
         $this->widgets['txtMilitarySer']->setAttribute('value', $employee->militaryService);
         $this->widgets['optGender']->setDefault($this->gender);
         $this->widgets['txtOtherID']->setAttribute('value', $employee->otherId);
-        
+      
         // Widgets for non-ess mode only
-        if (!$ess) {
+        //if (!$ess) {
             //initializing and setting default values
             $this->widgets['txtEmployeeId'] = new sfWidgetFormInputText();
             $this->widgets['txtEmployeeId']->setAttribute('value', $employee->employeeId);
@@ -136,7 +136,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             
             $this->widgets['txtLicenNo'] = new sfWidgetFormInputText();
             $this->widgets['txtLicenNo']->setAttribute('value', $employee->licenseNo);
-        }
+        //}
         
         $this->setWidgets($this->widgets);
 
@@ -164,12 +164,12 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
 
         ));
-        if (!$ess) {
+        //if (!$ess) {
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
             $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'License No length exceeded 30 characters')));
             $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")));
-        }
+        //}
 
         $this->widgetSchema->setNameFormat('personal[%s]');
     }

@@ -76,7 +76,7 @@ class viewPersonalDetailsAction extends sfAction {
             $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
             if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-                header("Location:../../../../index.php");
+                $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
                 exit();
             }
 
