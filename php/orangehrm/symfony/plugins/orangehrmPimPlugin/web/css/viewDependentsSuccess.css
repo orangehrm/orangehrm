@@ -7,7 +7,7 @@ table#dependent_list td.check {
     width: 30px;
 }
 
-table#dependent_list td.emgContactName {
+table#dependent_list td.dependentName {
     padding-left: 8px;
 }
 
