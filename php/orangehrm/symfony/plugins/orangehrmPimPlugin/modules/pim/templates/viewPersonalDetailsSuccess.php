@@ -140,7 +140,7 @@
                                     <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
                                 </a>
                                 <br />
-                                <span class="smallHelpText"><strong><?php echo $form->fullName; ?></strong></span>
+                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
                             </center>
                         </div>
                     </td>
