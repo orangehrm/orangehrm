@@ -32,7 +32,7 @@ class updateDependentAction extends sfAction {
      */
     public function execute($request) {
 
-        $dependent = $request->getParameter('dependent');var_dump($dependent);
+        $dependent = $request->getParameter('dependent');
         $empNumber = (isset($dependent['empNumber']))?$dependent['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
