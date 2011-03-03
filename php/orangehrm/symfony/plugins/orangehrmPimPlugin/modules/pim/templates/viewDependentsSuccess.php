@@ -58,6 +58,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
         <td valign="top">
 
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
+            
 <div class="formpage2col">
 <div id="addPaneDependent" style="display:none;" >
 <div class="outerbox">
@@ -101,11 +105,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     </form>
 </div>
 </div>
-
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
 
 <div class="outerbox" id="listing">
 <form name="frmEmpDelDependents" id="frmEmpDelDependents" method="post" action="<?php echo url_for('pim/deleteDependents?empNumber=' . $empNumber); ?>">
@@ -219,7 +218,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     $(document).ready(function() {
         
-        if($(".checkbox").length > 0) {
+        if($(".checkbox").length > 1) {
             $("#addPaneDependent").hide();
             $("#listing").show();
         } else {
