@@ -128,7 +128,7 @@
                                             <tr class="<?php echo $cssClass;?>">
                                                 <!-- we make data available in hidden fields -->
                                                 <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
-                                                <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo $passport->number; ?>" />
+                                                <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->number); ?>" />
                                                 <?php
                                                     $passport_issue_date = date("Y-m-d", strtotime($passport->passport_issue_date));
                                                     $passport_expire_date = date("Y-m-d", strtotime($passport->passport_expire_date));
@@ -136,7 +136,7 @@
                                                 ?>
                                                 <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
                                                 <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />
-                                                <input type="hidden" id="i9_status_<?php echo $passport->seqno;?>" value="<?php echo $passport->i9_status; ?>" />
+                                                <input type="hidden" id="i9_status_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->i9_status); ?>" />
                                                 <input type="hidden" id="country_<?php echo $passport->seqno;?>" value="<?php echo $passport->country; ?>" />
                                                 <input type="hidden" id="i9_review_date_<?php echo $passport->seqno;?>" value="<?php echo $i9_review_date; ?>" />
                                                 <input type="hidden" id="comments_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->comments); ?>" />
