@@ -362,7 +362,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             var checked = $('#frmEmpDelDependents input:checked').length;
 
             if (checked == 0) {
-                alert('<?php echo __("Select at least one record to delete"); ?>');
+                $("#messagebar").attr('class', "messageBalloon_notice");
+                $("#messagebar").text('<?php echo __("Select at least One Record to Delete"); ?>');
             } else {
                 $('#frmEmpDelDependents').submit();
             }
