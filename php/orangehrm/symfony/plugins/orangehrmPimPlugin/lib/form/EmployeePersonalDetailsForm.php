@@ -156,7 +156,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
                                                        'choices' => array(Employee::GENDER_MALE, Employee::GENDER_FEMALE),
                                                        'multiple' => false)),
             'cmbNation' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getNationalityList()))),
-            'txtOtherID' => new sfValidatorString(array('required' => false)),
+            'txtOtherID' => new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'Last Name Length exceeded 30 characters')),
             'cmbMarital' => new sfValidatorString(array('required' => false)),
             'chkSmokeFlag' => new sfValidatorString(array('required' => false)),
             'txtLicExpDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
