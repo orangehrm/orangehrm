@@ -167,7 +167,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
         if (!$ess) {
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
-            $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false)));
+            $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'License No length exceeded 30 characters')));
             $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")));
         }
 
