@@ -222,6 +222,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $("#addPaneDependent").hide();
             $("#listing").show();
         } else {
+            $("#btnCancel").hide();
             $("#addPaneDependent").show();
             $("#listing").hide();
         }
