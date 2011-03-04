@@ -168,7 +168,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             <td valign="top" style="text-align:left;">
 <div id="currentImage" >
     <center>
-        <a href="../../../../lib/controllers/CentralController.php?menu_no_top=hr&id=<?php echo $empNumber;?>&capturemode=updatemode&reqcode=EMP&pane=21">
+        <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
             <img style="width:100px; height:120px;" alt="<?php echo __("Employee Photo");?>" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
         </a>
         <br />

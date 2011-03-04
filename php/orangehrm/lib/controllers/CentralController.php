@@ -845,9 +845,10 @@ switch ($moduletype) {
 							$supervisor = true;
 
 						} else if ($authorize->isESS()) {
-
-							/* Deny access to ESS users. */
-							trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
+                            if($_GET['id'] != $_SESSION['empID']) {
+                                /* Deny access to ESS users. */
+                                trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
+                            }
 						}
 					}
 
