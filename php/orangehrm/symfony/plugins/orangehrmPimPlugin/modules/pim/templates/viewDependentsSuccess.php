@@ -161,7 +161,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     </form>
 </div>
 </div>
-
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
 
             </td>
             <!-- To be moved to layout file -->
@@ -221,10 +221,12 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         if($(".checkbox").length > 1) {
             $("#addPaneDependent").hide();
             $("#listing").show();
+            $(".paddingLeftRequired").hide();
         } else {
             $("#btnCancel").hide();
             $("#addPaneDependent").show();
             $("#listing").hide();
+            $(".paddingLeftRequired").show();
         }
 
         $("#checkAll").click(function(){
@@ -278,6 +280,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#dependent_list td.check').hide();
             $('#addPaneDependent').css('display', 'block');
 
+            $(".paddingLeftRequired").show();
+
         });
 
         //Bind date picker
@@ -304,6 +308,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#dependent_list td.check').show();
             addEditLinks();
             $('div#messagebar').hide();
+            $(".paddingLeftRequired").hide();
         });
 
         // Add a emergency contact
@@ -323,6 +328,9 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             //            // hide validation error messages
             //            $("label.errortd[generated='true']").css('display', 'none');
             $('#addPaneDependent').css('display', 'block');
+
+            $(".paddingLeftRequired").show();
+
         });
 
         /* Valid Contact Phone */
