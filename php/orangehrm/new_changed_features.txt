@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.6.2
+
+	New Features
+	------------
+    Usability improvements to "Personal Details", "Contact Details", "Emergency Contacts", "Dependents" and "Immigration" in PIM.
+
 New & Changed Features for OrangeHRM ver 2.6.1
 
     Bug Fixes
