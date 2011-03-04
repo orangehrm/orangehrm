@@ -55,7 +55,7 @@ class viewDependentsAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         
         $dependentParams = $request->getParameter('dependent');
@@ -68,7 +68,12 @@ class viewDependentsAction extends sfAction {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        //hiding the back button if its self ESS view
+        if($loggedInEmpNum == $empNumber) {
+
+            $this->showBackButton = false;
+        }
+        
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 

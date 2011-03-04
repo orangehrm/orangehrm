@@ -55,7 +55,7 @@ class viewEmergencyContactsAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         
         $contacts = $request->getParameter('emgcontacts');
@@ -64,8 +64,13 @@ class viewEmergencyContactsAction extends sfAction {
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        
+        //hiding the back button if its self ESS view
+        if($loggedInEmpNum == $empNumber) {
 
+            $this->showBackButton = false;
+        }
+        
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
             //shud b redirected 2 ESS user view
             $this->redirect('pim/viewEmergencyContacts?empNumber='. $loggedInEmpNum);
@@ -75,7 +80,6 @@ class viewEmergencyContactsAction extends sfAction {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 

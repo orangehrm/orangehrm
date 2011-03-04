@@ -52,6 +52,7 @@ class contactDetailsAction extends sfAction {
     
     public function execute($request) {
         $this->showBackButton = true;
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         
         $contact = $request->getParameter('contact');
         $empNumber = (isset($contact['empNumber']))?$contact['empNumber']:$request->getParameter('empNumber');
@@ -59,8 +60,13 @@ class contactDetailsAction extends sfAction {
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        
+        //hiding the back button if its self ESS view
+        if($loggedInEmpNum == $empNumber) {
 
+            $this->showBackButton = false;
+        }
+        
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
             //shud b redirected 2 ESS user view
             //echo("this should be redirected to ESS view, under construction");die();

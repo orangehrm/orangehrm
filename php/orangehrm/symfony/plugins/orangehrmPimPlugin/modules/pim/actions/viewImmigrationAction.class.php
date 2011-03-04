@@ -51,18 +51,23 @@ class viewImmigrationAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         $immigration = $request->getParameter('immigration');
         $empNumber = (isset($immigration['emp_number']))?$immigration['emp_number']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        //hiding the back button if its self ESS view
+        if($loggedInEmpNum == $empNumber) {
+
+            $this->showBackButton = false;
+        }
+        
         $param = array('empNumber' => $empNumber);
         $this->setForm(new EmployeeImmigrationDetailsForm(array(), $param, true));
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
             //shud b redirected 2 ESS user view

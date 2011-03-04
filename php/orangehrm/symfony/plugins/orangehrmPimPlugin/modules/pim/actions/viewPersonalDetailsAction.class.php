@@ -56,20 +56,26 @@ class viewPersonalDetailsAction extends sfAction {
 
     public function execute($request) {
         try {
+            $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $this->showBackButton = true;
 
             $personal = $request->getParameter('personal');
             $empNumber = (isset($personal['txtEmpID']))?$personal['txtEmpID']:$request->getParameter('empNumber');
             $this->empNumber = $empNumber;
 
+            //hiding the back button if its self ESS view
+            if($loggedInEmpNum == $empNumber) {
+                
+                $this->showBackButton = false;
+            }
+            
             // TODO: Improve
             $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
             }
-
-            $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+            
             $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
             $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
