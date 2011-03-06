@@ -492,7 +492,7 @@ if($empNumber == $_SESSION['empID']) {
                 var input = document.createElement("input");
                 var empId = "";
 <?php if (!empty($empNumber)) {?>
-                    empId = <?php echo $empNumber;?>;
+                    empId = parseInt("<?php echo $empNumber;?>", 10);
     <?php }?>
                     input.setAttribute("type", "hidden");
 

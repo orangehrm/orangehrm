@@ -1268,7 +1268,7 @@ function leaveFormSubmission(redirect) {
     var input = document.createElement("input");
     var empId = "";
     <?php if (!empty($escapedId)) {?>
-            empId = <?php echo $escapedId;?>;
+            empId = parseInt("<?php echo $escapedId;?>", 10);
     <?php }?>
     input.setAttribute("type", "hidden");
 
