@@ -1665,7 +1665,7 @@ class EmpViewController {
 							} elseif($getArr['capturemode'] == 'updatemode') {
 
                                 if(!isset($_GET['pane'])) {
-                                    header("Location: ../../symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_SESSION['empID']);
+                                    header("Location: ../../symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id']);
                                 }
                         //we introduce token for the form here
                         $screenParam = array('id' => $_GET['id'], 'capturemode' => $_GET['capturemode'], 'reqcode' => $_GET['reqcode']);
