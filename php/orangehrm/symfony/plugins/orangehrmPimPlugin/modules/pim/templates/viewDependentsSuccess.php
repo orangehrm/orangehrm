@@ -145,13 +145,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 echo "<td class='check'><input type='checkbox' class='checkbox' name='chkdependentdel[]' value='" . $dependent->seqno . "'/></td>";
 ?>
             <td class="dependentName"><a href="#"><?php echo $dependent->name; ?></a></td>
+            <input type="hidden" id="relationType_<?php echo  $dependent->seqno;?>" value="<?php echo $dependent->relationship_type;?>" />
+            <input type="hidden" id="relationship_<?php echo  $dependent->seqno;?>" value="<?php echo $dependent->relationship;?>" />
+            <input type="hidden" id="dateOfBirth_<?php echo  $dependent->seqno;?>" value="<?php echo ohrm_format_date($dependent->date_of_birth);?>" />
+            <td>
+                <?php if ($dependent->relationship_type != 'other') { echo __($dependent->relationship_type); ?>
+                <?php } else { echo $dependent->relationship; } ?>
+            </td>
+            <td></td>
             <?php
-                echo '<td>' . __($dependent->relationship_type) . '</td>';
-                if ($dependent->relationship_type == 'other') {
-                    echo '<td>' . $dependent->relationship . '</td>';
-                } else {
-                    echo '<td></td>';
-                }
                 echo '<td>' . ohrm_format_date($dependent->date_of_birth) .  '</td>';
                 echo '</tr>';
                 $row++;
@@ -258,9 +260,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
             var name = $(this).text();
-            var relationshipType = row.find("td:nth-child(3)").text();
-            var relationship = row.find("td:nth-child(4)").text();
-            var dateOfBirth = row.find("td:nth-child(5)").text();
+
+            var relationshipType = $("#relationType_" + seqNo).val();
+            var relationship = $("#relationship_" + seqNo).val();
+            var dateOfBirth = $("#dateOfBirth_" + seqNo).val();
 
             $('#dependent_seqNo').val(seqNo);
             $('#dependent_name').val(name);
