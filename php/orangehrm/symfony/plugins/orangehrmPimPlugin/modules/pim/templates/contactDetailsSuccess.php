@@ -66,18 +66,18 @@
                                     <div class="hrLine" >&nbsp;</div>
                                     <div>
                                         <?php echo $form['emp_hm_telephone']->renderLabel(__("Home Telephone")); ?>
-                                        <?php echo $form['emp_hm_telephone']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
+                                        <?php echo $form['emp_hm_telephone']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
                                         <br class="clear" />
                                     </div>
                                     
                                     <div>
                                         <?php echo $form['emp_mobile']->renderLabel(__("Mobile")); ?>
-                                        <?php echo $form['emp_mobile']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
+                                        <?php echo $form['emp_mobile']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
                                         <br class="clear" />
                                     </div>
                                     <div>
                                         <?php echo $form['emp_work_telephone']->renderLabel(__("Work Telephone")); ?>
-                                        <?php echo $form['emp_work_telephone']->render(array("class" => "formInputText", "maxlength" => 15)); ?>
+                                        <?php echo $form['emp_work_telephone']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
                                         <br class="clear" />
                                     </div>
                                     <br />
