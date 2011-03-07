@@ -211,7 +211,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     function hideShowRelationshipOther() {
-        if ($('#dependent_relationshipType').val() == 'child') {
+        if ($('#dependent_relationshipType').val() == 'child' || $('#dependent_relationshipType').val() == '') {
             $('#relationshipDesc').hide();
         } else {
             $('#relationshipDesc').show();
@@ -230,7 +230,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $("#listing").hide();
             $(".paddingLeftRequired").show();
         }
-
+        hideShowRelationshipOther();
+        
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {
                 $(".checkbox").attr('checked', 'checked');
