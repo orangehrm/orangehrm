@@ -63,7 +63,7 @@ class viewEmergencyContactsAction extends sfAction {
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
         
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
@@ -87,5 +87,21 @@ class viewEmergencyContactsAction extends sfAction {
         $this->deleteForm = new EmployeeEmergencyContactsDeleteForm(array(), $param, true);
 
         $this->emergencyContacts = $this->getEmployeeService()->getEmergencyContacts($this->empNumber);
+    }
+
+    private function isSupervisor($loggedInEmpNum, $empNumber) {
+
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

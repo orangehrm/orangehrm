@@ -67,7 +67,7 @@ class viewImmigrationAction extends sfAction {
         $this->setForm(new EmployeeImmigrationDetailsForm(array(), $param, true));
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
             //shud b redirected 2 ESS user view
@@ -89,6 +89,22 @@ class viewImmigrationAction extends sfAction {
                 $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
             }
         }
+    }
+
+    private function isSupervisor($loggedInEmpNum, $empNumber) {
+
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 }
