@@ -230,7 +230,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $("#listing").hide();
             $(".paddingLeftRequired").show();
         }
-        hideShowRelationshipOther();
         
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {
