@@ -467,6 +467,7 @@ if($empNumber == $_SESSION['empID']) {
             </ul>
         </li>
         <!-- start of leave section -->
+        <?php if(isset ($_SESSION['leavePeriodDefined']) && $_SESSION['leavePeriodDefined'] == 1) { ?>
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo __("Leave");?></span></a>
             <ul class="l2"><form id="frmEmp"></form>
@@ -482,6 +483,7 @@ if($empNumber == $_SESSION['empID']) {
 				</li>
             </ul>
         </li>
+        <?php } ?>
         <!-- end of leave section -->
        <script type="text/javascript">
             function leaveFormSubmission(redirect) {

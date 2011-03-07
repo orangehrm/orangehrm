@@ -58,6 +58,7 @@ class viewPersonalDetailsAction extends sfAction {
         try {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $this->showBackButton = true;
+            $this->isLeavePeriodDefined();
 
             $personal = $request->getParameter('personal');
             $empNumber = (isset($personal['txtEmpID']))?$personal['txtEmpID']:$request->getParameter('empNumber');
@@ -107,6 +108,7 @@ class viewPersonalDetailsAction extends sfAction {
     }
 
     private function isSupervisor($loggedInEmpNum, $empNumber) {
+        
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
@@ -121,6 +123,19 @@ class viewPersonalDetailsAction extends sfAction {
         return false;
     }
 
+    private function isLeavePeriodDefined() {
+
+        $leavePeriodService = new LeavePeriodService();
+        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
+        $leavePeriod = $leavePeriodService->getLeavePeriod(strtotime(date("Y-m-d")));
+        $flag = 0;
+        
+        if($leavePeriod instanceof LeavePeriod) {
+            $flag = 1;
+        }
+
+        $_SESSION['leavePeriodDefined'] = $flag;
+    }
 
 }
 ?>
