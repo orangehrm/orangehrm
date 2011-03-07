@@ -202,8 +202,8 @@ if(!is_array($locRights) && $locRights == false)
 if($_SESSION['isAdmin'] != 'Yes')
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> true);
 
-if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id']) && 
-   ($_GET['id'] !== $_SESSION['empID']) && ($_SESSION['isAdmin'] != 'Yes' && !$_SESSION['isSupervisor']))) {
+if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id']) &&
+   ($_GET['id'] != $_SESSION['empID']) && ($_SESSION['isAdmin'] != 'Yes' && !$_SESSION['isSupervisor']))) {
 	trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
 }
 
