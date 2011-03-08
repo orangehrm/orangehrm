@@ -496,6 +496,14 @@
         <source>Comment length cannot exceed 250 characters</source>
         <target>FR_Comment length cannot exceed 250 characters</target>
       </trans-unit>
+      <trans-unit id="124">
+        <source>Child</source>
+        <target>FR_Child</target>
+      </trans-unit>
+      <trans-unit id="125">
+        <source>Expiry Date</source>
+        <target>FR_Expiry Date</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
