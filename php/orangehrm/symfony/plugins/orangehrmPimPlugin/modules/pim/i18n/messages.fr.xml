@@ -488,6 +488,14 @@
         <source>Dependent/s Deleted Successfully</source>
         <target>FR_Dependent/s Deleted Successfully</target>
       </trans-unit>
+      <trans-unit id="122">
+        <source>Please specify at least one phone number</source>
+        <target>FR_Please specify at least one phone number</target>
+      </trans-unit>
+      <trans-unit id="123">
+        <source>Comment length cannot exceed 250 characters</source>
+        <target>FR_Comment length cannot exceed 250 characters</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -272,6 +272,22 @@
         <source>Date format should be YYYY-MM-DD</source>
         <target>FR_Date format should be YYYY-MM-DD</target>
       </trans-unit>
+      <trans-unit id="100">
+        <source>Please enter a valid date in %format% format</source>
+        <target>FR_Please enter a valid date in %format% format</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Edit Immigration</source>
+        <target>FR_Edit Immigration</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Leave Summary</source>
+        <target>FR_Leave Summary</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Leave List</source>
+        <target>FR_Leave List</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
