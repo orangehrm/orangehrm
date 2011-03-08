@@ -499,17 +499,19 @@ if($empNumber == $_SESSION['empID']) {
                     input.setAttribute("type", "hidden");
 
                     if(redirect == "leaveList") {
-                        frm.action = "../leave/viewLeaveList";
+                        //frm.action = "../leave/viewLeaveList";
+                        frm.action = "<?php echo url_for('leave/viewLeaveList');?>";
 
                         //any user tries accesses his own information
 <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $empNumber) {?>
-                            frm.action = "../leave/viewMyLeaveList";
+                            frm.action = "<?php echo url_for('leave/viewMyLeaveList');?>";
     <?php }?>
                             input.setAttribute("name", "txtEmpID");
                         }
 
                         if(redirect == "leaveSummary") {
-                            frm.action = "../leave/viewLeaveSummary";
+                            //frm.action = "../leave/viewLeaveSummary";
+                            frm.action = "<?php echo url_for('leave/viewLeaveSummary');?>";
                             input.setAttribute("name", "employeeId");
                         }
                         input.setAttribute("value", empId);
