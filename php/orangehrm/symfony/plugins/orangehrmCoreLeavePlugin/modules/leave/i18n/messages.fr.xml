@@ -440,6 +440,10 @@
         <source>Leave Request Successfully Submitted</source>
         <target>FR_Leave Request Successfully Submitted</target>
       </trans-unit>
+      <trans-unit id="217">
+        <source>Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</source>
+        <target>FR_Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
