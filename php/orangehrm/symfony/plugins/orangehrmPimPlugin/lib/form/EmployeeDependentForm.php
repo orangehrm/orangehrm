@@ -53,7 +53,7 @@ class EmployeeDependentForm extends BaseForm {
         // Note: Widget names were kept from old non-symfony version
         $i18nHelper = sfContext::getInstance()->getI18N();
 
-        $relationshipChoices = array('child'=> $i18nHelper->__('Child'), 'other'=> $i18nHelper->__('Other'));
+        $relationshipChoices = array('' => "-- " . __('Select') . " --", 'child'=> $i18nHelper->__('Child'), 'other'=> $i18nHelper->__('Other'));
 
         $this->setWidgets(array(
             'empNumber' => new sfWidgetFormInputHidden(array(),
@@ -66,7 +66,7 @@ class EmployeeDependentForm extends BaseForm {
         ));
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-
+        unset($relationshipChoices['']);
         $this->setValidators(array(
             'empNumber' => new sfValidatorNumber(array('required' => true, 'min'=> 0)),
             'seqNo' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),

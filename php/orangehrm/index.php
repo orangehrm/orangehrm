@@ -705,7 +705,8 @@ if ($_SESSION['isAdmin']=='Yes' && $arrAllRights[Report]['view']) {
 /* Start ESS menu */
 if ($_SESSION['isAdmin']!='Yes') {
 	$menuItem = new MenuItem("ess", $lang_Menu_Ess ,"./index.php?menu_no_top=ess");
-    //$menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID']);
+    //$menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "_self");
+    //new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configurePim", "rightMenu");
    
 	$menuItem->setCurrent($_GET['menu_no_top']=="ess");
 	$enableEssMenu = false;
@@ -827,7 +828,8 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 	$repcode = isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW';
 	$home = "./lib/controllers/CentralController.php?repcode={$repcode}&amp;VIEW=MAIN";
 } elseif ($_GET['menu_no_top']=="ess") {
-	$home = "./lib/controllers/CentralController.php?reqcode=ESS&amp;id={$_SESSION['empID']}&amp;capturemode=updatemode";
+	//$home = "./lib/controllers/CentralController.php?reqcode=ESS&amp;id={$_SESSION['empID']}&amp;capturemode=updatemode";
+     $home = './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'];
 } elseif ($_GET['menu_no_top']=="leave") {
 	$home = $leaveHomePage;
 } elseif ($_GET['menu_no_top']=="time") {
