@@ -86,7 +86,8 @@ class viewPersonalDetailsAction extends sfAction {
                 $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
                 exit();
             }
-
+            $this->essMode = $essMode;
+            
             OrangeConfig::getInstance()->loadAppConf();
             $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
 

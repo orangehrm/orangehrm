@@ -72,6 +72,16 @@ $(document).ready(function() {
             for(i=0; i < list.length; i++) {
                 $(list[i]).removeAttr("disabled");
             }
+
+            //making readonly fields for ESS users
+            if(readonlyFlag) {
+                $("#personal_txtEmployeeId").attr('disabled', 'disabled');
+                $("#personal_txtNICNo").attr('disabled', 'disabled');
+                $("#personal_txtSINNo").attr('disabled', 'disabled');
+                $("#personal_txtLicenNo").attr('disabled', 'disabled');
+                $("#personal_DOB").attr('disabled', 'disabled');
+            }
+
             $("#btnSave").attr('value', save);
             return;
         }
