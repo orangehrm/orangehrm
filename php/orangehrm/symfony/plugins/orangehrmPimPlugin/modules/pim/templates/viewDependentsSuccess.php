@@ -50,7 +50,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <table cellspacing="0" cellpadding="0" border="0" >
     <tr>
         <td width="5">&nbsp;</td>
-        <td colspan="2" height="30"><?php if($showBackButton) {?><input type="button" class="backbutton" value="<?php echo __("Back") ?>" onclick="navigateUrl('../../../../../../lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC');" /><?php }?></td>
+        <td colspan="2" height="30"><?php if($showBackButton) {?><input type="button" class="backbutton" value="<?php echo __("Back") ?>" onclick="navigateUrl('<?php echo public_path('../../lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC');?>');" /><?php }?></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
