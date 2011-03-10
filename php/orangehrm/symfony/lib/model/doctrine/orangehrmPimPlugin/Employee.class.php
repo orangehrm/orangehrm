@@ -53,6 +53,19 @@ class Employee extends PluginEmployee {
     }
 
     /**
+    * Returns the first and last names of employee
+    *
+    * @return String
+    */
+    public function getFirstAndLastNames() {
+
+        $fullName = trim($this->firstName) . " " . trim($this->lastName);
+
+        return $fullName;
+
+    }
+
+    /**
      * Gets the names of all the supervisors of this employee as a comma separated string
      * Only the first and last name are used.
      *
