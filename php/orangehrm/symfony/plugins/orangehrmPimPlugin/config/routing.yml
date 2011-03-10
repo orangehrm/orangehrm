@@ -1,0 +1,5 @@
+employee_list:
+  url:   /pim/viewEmployeeList/*
+  param: { module:pim, action: viewEmployeeList }
+  with_wildcard_routes: true
+
