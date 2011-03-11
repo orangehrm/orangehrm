@@ -1208,7 +1208,7 @@ tableDisplayStyle = "table";
 					<a href="../../symfony/web/index.php/pim/viewImmigration?empNumber=<?php echo $escapedId;?>" id="immigrationLink" class="personal" accesskey="i" >
 						<span><?php echo $lang_pim_tabs_Immigration;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(21)" id="photoLink" class="personal" accesskey="f" >
+					<a href="../../symfony/web/index.php/pim/viewPhotograph?empNumber=<?php echo $escapedId;?>" id="photoLink" class="personal" accesskey="f" >
 						<span><?php echo $lang_pim_tabs_Photo;?></span></a></li>
 			</ul>
 		</li>

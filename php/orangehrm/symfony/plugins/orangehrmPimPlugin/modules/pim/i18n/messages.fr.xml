@@ -504,6 +504,30 @@
         <source>Expiry Date</source>
         <target>FR_Expiry Date</target>
       </trans-unit>
+      <trans-unit id="126">
+        <source>Employee Photograph Uploaded Successfully</source>
+        <target>FR_Employee Photograph Uploaded Successfully</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Select a Photograph</source>
+        <target>FR_Select a Photograph</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Photograph Size Should Be Less Than 1MB</source>
+        <target>FR_Photograph Size Should be Less Than 1MB</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Photograph is required</source>
+        <target>FR_Photograph is required</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>Are you sure you want to delete the photograph?</source>
+        <target>FR_Are you sure you want to delete the photograph?</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>Employee Photograph Deleted Successfully</source>
+        <target>FR_Employee Photograph Deleted Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -288,6 +288,10 @@
         <source>Leave List</source>
         <target>FR_Leave List</target>
       </trans-unit>
+      <trans-unit id="104">
+        <source>OrangeHRM - Confirmation Required</source>
+        <target>FR_OrangeHRM - Confirmation Required</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

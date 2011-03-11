@@ -1,0 +1,7 @@
+.formFields label {
+    width: 160px;
+}
+
+div .error {
+    padding-left: 20px;
+}
