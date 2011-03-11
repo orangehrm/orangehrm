@@ -505,26 +505,70 @@
         <target>FR_Expiry Date</target>
       </trans-unit>
       <trans-unit id="126">
+        <source>Create Login Details</source>
+        <target>FR_Create Login Details</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>User Name</source>
+        <target>FR_User Name</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Password</source>
+        <target>FR_Password</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Confirm Password</source>
+        <target>FR_Confirm Password</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>UserName should be at least 5 characters long</source>
+        <target>FR_UserName should be at least 5 characters long</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>Password should be at least 4 characters long</source>
+        <target>FR_Password should be at least 4 characters long</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>Enter the same password entered in password field</source>
+        <target>FR_Enter the same password entered in password field</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>Please select a status</source>
+        <target>FR_Please select a status</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>Adding Employee Failed Due to Photograph Size Exceeded 1MB</source>
+        <target>FR_Adding Employee Failed Due to Photograph Size Exceeded 1MB</target>
+      </trans-unit>
+      <trans-unit id="135">
+        <source>Username Already Exists, Adding Employee Failed</source>
+        <target>FR_Username Already Exists, Adding Employee Failed</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>Add Employee</source>
+        <target>FR_Add Employee</target>
+      </trans-unit>
+      <trans-unit id="137">
         <source>Employee Photograph Uploaded Successfully</source>
         <target>FR_Employee Photograph Uploaded Successfully</target>
       </trans-unit>
-      <trans-unit id="127">
+      <trans-unit id="138">
         <source>Select a Photograph</source>
         <target>FR_Select a Photograph</target>
       </trans-unit>
-      <trans-unit id="128">
+      <trans-unit id="139">
         <source>Photograph Size Should Be Less Than 1MB</source>
         <target>FR_Photograph Size Should be Less Than 1MB</target>
       </trans-unit>
-      <trans-unit id="129">
+      <trans-unit id="140">
         <source>Photograph is required</source>
         <target>FR_Photograph is required</target>
       </trans-unit>
-      <trans-unit id="130">
+      <trans-unit id="141">
         <source>Are you sure you want to delete the photograph?</source>
         <target>FR_Are you sure you want to delete the photograph?</target>
       </trans-unit>
-      <trans-unit id="131">
+      <trans-unit id="142">
         <source>Employee Photograph Deleted Successfully</source>
         <target>FR_Employee Photograph Deleted Successfully</target>
       </trans-unit>

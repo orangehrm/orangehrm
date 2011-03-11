@@ -1,0 +1,35 @@
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+div.outerbox {
+    width: 700px;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 40px;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+label {
+    margin-top: 4px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 6px;
+}
+
+#chkLoginLbl {
+    width: 150px;
+}

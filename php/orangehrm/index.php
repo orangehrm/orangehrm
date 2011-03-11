@@ -407,7 +407,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	//$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
     $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList ,"./index.php?menu_no_top=hr");
 	if ($arrAllRights[PIM]['add']) {
-		$subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./lib/controllers/CentralController.php?reqcode=EMP&capturemode=addmode");
+        $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
 	}
 
 	if (PIM_MENU_TYPE == 'dropdown') {

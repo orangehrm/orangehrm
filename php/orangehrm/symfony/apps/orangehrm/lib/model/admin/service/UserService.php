@@ -185,7 +185,22 @@ class UserService extends BaseService {
             throw new AdminServiceException($e->getMessage());
         }
     }
-    
+
+    public function getUserByUserName($userName) {
+
+    	try {
+        	$q = Doctrine_Query::create( )
+				   				 ->from('Users u')
+				    			 ->where('u.user_name=?', $userName);
+
+			return $q->fetchOne();
+
+        } catch( Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+
+    }
+
    /**
      * Delete User
      * @param $skillList
