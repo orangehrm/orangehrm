@@ -16,9 +16,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-$baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
-$action = $_GET['action'];
+$baseURL = "{$_SERVER['PHP_SELF']}?recruitcode=" . CommonFunctions::escapeHtml($_GET['recruitcode']);
+$action = CommonFunctions::escapeHtml($_GET['action']);
 
 if ($action == 'ViewAdd') {
 	$new = true;
