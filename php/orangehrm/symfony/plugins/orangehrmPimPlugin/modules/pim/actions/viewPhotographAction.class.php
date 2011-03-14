@@ -64,10 +64,6 @@ class viewPhotographAction extends sfAction {
             $this->showBackButton = false;
         }
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         //as part of making users childish by hiding delete button
         $employeeService = $this->getEmployeeService();
         $empPicture = $employeeService->getPicture($empNumber);
@@ -79,6 +75,9 @@ class viewPhotographAction extends sfAction {
 
         $param = array('empNumber' => $empNumber);
         $this->setForm(new EmployeePhotographForm(array(), $param, true));
+        $this->fileModify = 0;
+        $this->newWidth = 0;
+        $this->newHeight = 0;
 
         //this is for saving a picture
         if ($request->isMethod('post')) {
@@ -88,16 +87,24 @@ class viewPhotographAction extends sfAction {
 
             //in case if file size exceeds 1MB
             if($photoFile['photofile']['size'] == 0) {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Photograph Size Should Be Less Than 1MB')));
+                
+                $this->messageType = "warning";
+                $this->message = __('Photograph Size Should Be Less Than 1MB');
             }
             
             if ($this->form->isValid()) {
 
-                $this->saveEmployeePicture($empNumber, $photoFile);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Employee Photograph Uploaded Successfully')));
+                list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
+
+                //flags from server
+                $this->fileModify = 1;
+                $this->showDeleteButton = 1;
                 
+                $this->pictureSizeAdjust($height, $width);
+                $this->saveEmployeePicture($empNumber, $photoFile);
+                $this->messageType = "success";
+                $this->message = __('Employee Photograph Uploaded Successfully');
             }
-            $this->redirect("pim/viewPhotograph?empNumber=" . $empNumber);
         }
 
         //this is for deleting a picture
@@ -105,8 +112,16 @@ class viewPhotographAction extends sfAction {
 
             $employeeService = $this->getEmployeeService();
             $employeeService->deletePhoto($empNumber);
-            $this->getUser()->setFlash('templateMessage', array('success', __('Employee Photograph Deleted Successfully')));
-            $this->redirect("pim/viewPhotograph?empNumber=" . $empNumber);
+
+            $this->showDeleteButton = 0;
+            $this->fileModify = 1;
+
+            //set default picture size
+            $this->newWidth = 150;
+            $this->newHeight = 176;
+
+            $this->messageType = "success";
+            $this->message = __('Employee Photograph Deleted Successfully');
         }
     }
 
@@ -126,6 +141,32 @@ class viewPhotographAction extends sfAction {
         $empPicture->size = $file['photofile']['size'];
         $empPicture->save();
         
+    }
+
+    private function pictureSizeAdjust($imgHeight, $imgWidth) {
+        
+        $newHeight = 0;
+        $newWidth = 0;
+
+        //algorithm for image resizing
+        //resizing by width - assuming width = 150,
+        //resizing by height - assuming height = 180
+
+        $propHeight = floor(($imgHeight/$imgWidth) * 150);
+        $propWidth = floor(($imgWidth/$imgHeight) * 180);
+
+        if($propHeight <= 180) {
+            $newHeight = $propHeight;
+            $newWidth = 150;
+        }
+
+        if($propWidth <= 150) {
+            $newWidth = $propWidth;
+            $newHeight = 180;
+        }
+
+        $this->newWidth = $newWidth;
+        $this->newHeight = $newHeight;
     }
 }
 ?>

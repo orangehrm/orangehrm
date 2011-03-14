@@ -12,7 +12,10 @@
     var save = "<?php echo __("Save"); ?>";
     var lang_photoRequired = "<?php echo __('Photograph is required');?>";
     var deleteUrl = "<?php echo url_for('pim/viewPhotograph?option=delete&empNumber=' . $empNumber); ?>";
-    var showDeteleButton = <?php echo $showDeleteButton; ?>
+    var showDeteleButton = "<?php echo $showDeleteButton; ?>";
+    var fileModified = "<?php echo $fileModify;?>";
+    var newImgWidth = "<?php echo $newWidth; ?>";
+    var newImgHeight = "<?php echo $newHeight; ?>";
 
     //]]>
 </script>

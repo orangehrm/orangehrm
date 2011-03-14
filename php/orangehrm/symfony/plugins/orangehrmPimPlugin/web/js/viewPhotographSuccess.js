@@ -24,6 +24,11 @@ $(document).ready(function() {
         newHeight = 180;
     }
 
+    if(fileModified == 1) {
+        newWidth = newImgWidth;
+        newHeight = newImgHeight;
+    }
+
     $("#empPic").attr("height", newHeight);
     $("#empPic").attr("width", newWidth);
 
