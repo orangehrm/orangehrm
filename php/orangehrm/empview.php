@@ -101,7 +101,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 <?php if($this->getArr['reqcode']=='EMP') { ?>
 	function returnAdd() {
 
-		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=addmode";
+		//location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=addmode";
+        location.href = "../../symfony/web/index.php/pim/addEmployee";
 
 	}
 
