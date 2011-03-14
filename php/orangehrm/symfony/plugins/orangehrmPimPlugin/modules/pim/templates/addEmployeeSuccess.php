@@ -22,7 +22,7 @@
         <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" enctype="multipart/form-data">
             <?php echo $form['_csrf_token']; ?> 
             <?php echo $form['empNumber']->render(); ?>
-            <table width="100%" border="0">
+            <table width="97%" border="0" align="center">
                 <tr>
                     <td>&nbsp;&nbsp;<?php echo __('Full Name'); ?></td>
                     <td valign="top"><?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
@@ -55,14 +55,14 @@
                 <tr>
                     <td><?php echo __('User Name'); ?></td>
                     <td><?php echo $form['user_name']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Password'); ?></td>
-                    <td><?php echo $form['user_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                </tr>
-                <tr>
-                    <td><?php echo __('Confirm Password'); ?></td>
-                    <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
                     <td><?php echo __('Status'); ?></td>
                     <td><?php echo $form['status']->render(array("class" => "formInputText")); ?><br class="clear" /></td>
+                </tr>
+                <tr>
+                    <td><?php echo __('Password'); ?></td>
+                    <td><?php echo $form['user_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
+                    <td><?php echo __('Confirm Password'); ?></td>
+                    <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td> 
                 </tr>
             </table>
 

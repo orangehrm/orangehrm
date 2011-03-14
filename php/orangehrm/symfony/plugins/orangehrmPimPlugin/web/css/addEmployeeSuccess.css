@@ -33,3 +33,11 @@ label {
 #chkLoginLbl {
     width: 150px;
 }
+
+.mainHeading h2 {
+    margin-left: 10px;
+}
+
+#btnSave {
+    margin-left: 15px;
+}
