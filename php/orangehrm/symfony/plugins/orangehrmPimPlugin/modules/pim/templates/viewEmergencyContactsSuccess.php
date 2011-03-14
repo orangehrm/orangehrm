@@ -39,6 +39,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 ?>
 </span>
 <?php endif; ?>
+<script type="text/javascript">
+//<![CDATA[
+
+var fileModified = 0;
+
+//]]>
+</script>
 <?php // To be moved into layout ?>
 <table cellspacing="0" cellpadding="0" border="0" >
     <tr>
@@ -156,15 +163,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">
-<div id="currentImage" >
-    <center>
-        <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
-            <img style="width:100px; height:120px;" alt="<?php echo __("Employee Photo");?>" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
-        </a>
-        <br />
-        <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-    </center>
-</div>
+            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
             </td>
     </tr>
 </table>

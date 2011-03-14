@@ -6,6 +6,29 @@
 
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewPersonalDetailsSuccess'); ?>
 
+<script type="text/javascript">
+    //<![CDATA[
+    //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
+    var edit = "<?php echo __("Edit"); ?>";
+    var save = "<?php echo __("Save"); ?>";
+    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
+    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
+    var lang_selectGender = "<?php echo __("Select a gender"); ?>";
+    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
+
+    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
+    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
+    var dateDisplayFormat = dateFormat.toUpperCase();
+    var readonlyFlag = 0;
+    <?php if($essMode) { ?>
+        readonlyFlag = 1;
+    <?php } ?>
+
+    var fileModified = 0;
+
+    //]]>
+</script>
+
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
@@ -134,39 +157,11 @@
                         <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
                     </td>
                     <td valign="top" align="center">
-                        <div id="currentImage">
-                            <center>
-                                <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
-                                    <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
-                                </a>
-                                <br />
-                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-                            </center>
-                        </div>
+                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
 </table>
-<script type="text/javascript">
-    //<![CDATA[
-    //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
-    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
-    var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
-
-    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
-    var readonlyFlag = 0;
-    <?php if($essMode) { ?>
-        readonlyFlag = 1;
-    <?php } ?>
-    //]]>
-</script>
-
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess'); ?>

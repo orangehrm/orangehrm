@@ -66,15 +66,7 @@
                         </div>
                     </td>
                     <td valign="top" align="left">
-                        <div id="currentImage">
-                            <center>
-                                <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber); ?>">
-                                    <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" />
-                                </a>
-                                <div class="smallHelpText">[Dimensions 150x180]</div>
-                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-                            </center>
-                        </div>
+                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
                     </td>
                 </tr>
             </table>

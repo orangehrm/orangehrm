@@ -6,6 +6,23 @@
 
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/contactDetailsSuccess'); ?>
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/contactDetailsSuccess'); ?>
+
+<script type="text/javascript">
+
+    //<![CDATA[
+    //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
+    var edit = "<?php echo __("Edit"); ?>";
+    var save = "<?php echo __("Save"); ?>";
+    var invalidHomePhoneNumber = '<?php echo __('Home telephone can contains only space, numbers, "+", and "-"'); ?>';
+    var invalidMobilePhoneNumber = '<?php echo __('Mobile can contains only space, numbers, "+", and "-"'); ?>';
+    var invalidWorkPhoneNumber = '<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>';
+    var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
+    var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
+    var fileModified = 0;
+
+    //]]>
+</script>
+
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
@@ -101,30 +118,10 @@
                         </div>
                     </td>
                     <td valign="top" align="left">
-                        <div id="currentImage" style="width:140px;">
-                            <center>
-                                <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
-                                    <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
-                                </a>
-                                <br />
-                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-                            </center>
-                        </div>
+                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
 </table>
-<script type="text/javascript">
-    //<![CDATA[
-    //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var invalidHomePhoneNumber = '<?php echo __('Home telephone can contains only space, numbers, "+", and "-"'); ?>';
-    var invalidMobilePhoneNumber = '<?php echo __('Mobile can contains only space, numbers, "+", and "-"'); ?>';
-    var invalidWorkPhoneNumber = '<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>';
-    var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
-    var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
-    //]]>
-</script>

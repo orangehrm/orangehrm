@@ -21,7 +21,13 @@
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js')?>"></script>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
+<script type="text/javascript">
+//<![CDATA[
 
+var fileModified = 0;
+
+//]]>
+</script>
 <?php
 
 use_stylesheet('../orangehrmPimPlugin/css/viewDependentsSuccess');
@@ -168,15 +174,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">
-<div id="currentImage" >
-    <center>
-        <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
-            <img style="width:100px; height:120px;" alt="<?php echo __("Employee Photo");?>" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
-        </a>
-        <br />
-        <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-    </center>
-</div>
+            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
             </td>
     </tr>
 </table>

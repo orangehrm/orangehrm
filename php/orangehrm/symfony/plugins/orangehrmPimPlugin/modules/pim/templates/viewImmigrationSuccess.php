@@ -24,7 +24,8 @@
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
     var dateDisplayFormat = dateFormat.toUpperCase();
-    
+    var fileModified = 0;
+
     //]]>
 </script>
 
@@ -164,15 +165,7 @@
                         </div>
                     </td>
                     <td valign="top" align="left">
-                        <div id="currentImage">
-                            <center>
-                                <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=EMP&pane=21');?>">
-                                    <img style="width:100px; height:120px;" alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0"/>
-                                </a>
-                                <br />
-                                <span class="smallHelpText"><strong><?php echo htmlentities($form->fullName); ?></strong></span>
-                            </center>
-                        </div>
+                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
                     </td>
                 </tr>
             </table>
