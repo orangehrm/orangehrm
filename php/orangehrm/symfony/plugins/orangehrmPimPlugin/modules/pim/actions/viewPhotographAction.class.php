@@ -86,17 +86,17 @@ class viewPhotographAction extends sfAction {
             $photoFile = $request->getFiles();
 
             //in case if file size exceeds 1MB
-            if($photoFile['photofile']['size'] == 0) {
+            if($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
                 
                 $this->messageType = "warning";
                 $this->message = __('Upload Failed. File size should be less than IMB');
             }
-            
+
             if ($this->form->isValid()) {
                 
                 $fileType = $photoFile['photofile']['type'];
 
-                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/gif") {
+                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png") {
                     
                     $this->messageType = "warning";
                     $this->message = __('Only types jpg, png, and gif are supported');
