@@ -529,8 +529,8 @@
         <target>FR_Password should be at least 4 characters long</target>
       </trans-unit>
       <trans-unit id="132">
-        <source>Enter the same password entered in password field</source>
-        <target>FR_Enter the same password entered in password field</target>
+        <source>Password and confirm password should be same</source>
+        <target>FR_Password and confirm password should be same</target>
       </trans-unit>
       <trans-unit id="133">
         <source>Please select a status</source>

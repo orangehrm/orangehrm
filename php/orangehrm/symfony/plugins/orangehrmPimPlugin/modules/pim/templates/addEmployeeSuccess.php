@@ -9,8 +9,10 @@
     var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
     var lang_userNameRequired = "<?php echo __("UserName should be at least 5 characters long"); ?>";
     var lang_passwordRequired = "<?php echo __("Password should be at least 4 characters long"); ?>";
-    var lang_unMatchingPassword = "<?php echo __("Enter the same password entered in password field"); ?>";
+    var lang_unMatchingPassword = "<?php echo __("Password and confirm password should be same"); ?>";
     var lang_statusRequired = "<?php echo __("Please select a status");?>";
+    //var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
+
     //]]>
 </script>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
