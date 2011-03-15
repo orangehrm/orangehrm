@@ -11,7 +11,7 @@
     var lang_passwordRequired = "<?php echo __("Password should have at least 4 characters"); ?>";
     var lang_unMatchingPassword = "<?php echo __("Password and confirm password should be same"); ?>";
     var lang_statusRequired = "<?php echo __("Please select a status");?>";
-    //var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
+    var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
 
     //]]>
 </script>
