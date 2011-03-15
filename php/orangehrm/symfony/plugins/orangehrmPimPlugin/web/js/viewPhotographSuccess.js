@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $(".formInputText").attr('disabled', 'disabled');
+    $("#photofile").attr('disabled', 'disabled');
 
     if(showDeteleButton == 0) {
         $("#btnDelete").hide();
@@ -9,7 +9,7 @@ $(document).ready(function() {
     $("#btnSave").click(function() {
         //if user clicks on Edit make all fields editable
         if($("#btnSave").attr('value') == edit) {
-            $(".formInputText").removeAttr("disabled");
+            $("#photofile").removeAttr("disabled");
             $("#btnSave").attr('value', save);
             return;
         }
