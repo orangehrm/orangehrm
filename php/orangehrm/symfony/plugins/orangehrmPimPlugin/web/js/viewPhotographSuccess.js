@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         errorElement : 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element.next(".clear"));
+            error.insertAfter(element.next().next(".clear"));
 
         }
     });
