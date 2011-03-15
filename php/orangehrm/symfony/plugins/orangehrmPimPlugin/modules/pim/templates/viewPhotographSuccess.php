@@ -16,7 +16,7 @@
     var fileModified = "<?php echo $fileModify;?>";
     var newImgWidth = "<?php echo $newWidth; ?>";
     var newImgHeight = "<?php echo $newHeight; ?>";
-    var fileFormatError = "<?php echo __('Only types jpg, png, and gif are supported');?>";
+    var fileFormatError = "<?php echo __('Only Types jpg, png, and gif Are Supported');?>";
 
     //]]>
 </script>
