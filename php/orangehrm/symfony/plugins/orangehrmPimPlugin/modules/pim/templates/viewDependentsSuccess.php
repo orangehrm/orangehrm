@@ -396,6 +396,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         $('#btnSaveDependent').click(function() {
             $('#frmEmpDependent').submit();
         });
+
+        imageResize();
 });
 //]]>
 </script>

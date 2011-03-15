@@ -69,4 +69,6 @@ $(document).ready(function() {
             $("#contact_province").hide();
         }
     }
+
+    imageResize();
 });

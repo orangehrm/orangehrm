@@ -196,7 +196,9 @@ var fileModified = 0;
     }
 
     $(document).ready(function() {
-   
+
+        imageResize();
+        
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {
                 $(".checkbox").attr('checked', 'checked');
