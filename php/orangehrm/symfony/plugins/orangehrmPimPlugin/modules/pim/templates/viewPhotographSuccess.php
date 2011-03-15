@@ -16,7 +16,7 @@
     var fileModified = "<?php echo $fileModify;?>";
     var newImgWidth = "<?php echo $newWidth; ?>";
     var newImgHeight = "<?php echo $newHeight; ?>";
-    var fileFormatError = "<?php echo __('Only .jpg, .jpeg, .png, .gif types supported');?>";
+    var fileFormatError = "<?php echo __('Only types jpg, png, and gif are supported');?>";
 
     //]]>
 </script>
@@ -53,8 +53,8 @@
                                         <br class="clear" />
                                         <div class="formFields">
                                             <?php echo $form['photofile']->renderLabel(__('Select a Photograph')); ?>
-                                            <?php echo $form['photofile']->render(array("class" => "formInputText")); ?><br class="clear" />
-                                            <div class="helpText">(.jpg, .jpeg, .png, .gif formats supported. Max 1MB allowed)</div>
+                                            <?php echo $form['photofile']->render(); ?><span class="helpText"><?php echo __("Maximum File Size: 1 MB"); ?></span><br class="clear" />
+                                            
                                             
                                         </div>
                                         <div class="formbuttons">

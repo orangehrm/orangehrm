@@ -93,17 +93,26 @@ class viewPhotographAction extends sfAction {
             }
             
             if ($this->form->isValid()) {
-
-                list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
-
-                //flags from server
-                $this->fileModify = 1;
-                $this->showDeleteButton = 1;
                 
-                $this->pictureSizeAdjust($height, $width);
-                $this->saveEmployeePicture($empNumber, $photoFile);
-                $this->messageType = "success";
-                $this->message = __('Employee Photograph Uploaded Successfully');
+                $fileType = $photoFile['photofile']['type'];
+
+                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/gif") {
+                    
+                    $this->messageType = "warning";
+                    $this->message = __('Only types jpg, png, and gif are supported');
+                } else {
+                
+                    list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
+
+                    //flags from server
+                    $this->fileModify = 1;
+                    $this->showDeleteButton = 1;
+
+                    $this->pictureSizeAdjust($height, $width);
+                    $this->saveEmployeePicture($empNumber, $photoFile);
+                    $this->messageType = "success";
+                    $this->message = __('Employee Photograph Uploaded Successfully');
+                }
             }
         }
 

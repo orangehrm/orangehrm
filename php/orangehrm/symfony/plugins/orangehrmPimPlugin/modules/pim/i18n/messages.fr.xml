@@ -573,8 +573,12 @@
         <target>FR_Employee Photograph Deleted Successfully</target>
       </trans-unit>
       <trans-unit id="143">
-        <source>Only .jpg, .jpeg, .png, .gif types supported</source>
-        <target>FR_Only .jpg, .jpeg, .png, .gif types supported</target>
+        <source>Maximum File Size: 1 MB</source>
+        <target>FR_Maximum File Size: 1 MB</target>
+      </trans-unit>
+      <trans-unit id="144">
+        <source>Only types jpg, png, and gif are supported</source>
+        <target>FR_Only types jpg, png, and gif are supported</target>
       </trans-unit>
     </body>
   </file>
