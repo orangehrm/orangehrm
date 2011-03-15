@@ -577,8 +577,8 @@
         <target>FR_Maximum File Size: 1 MB</target>
       </trans-unit>
       <trans-unit id="144">
-        <source>Only types jpg, png, and gif are supported</source>
-        <target>FR_Only types jpg, png, and gif are supported</target>
+        <source>Only Types jpg, png, and gif Are Supported</source>
+        <target>FR_Only Types jpg, png, and gif Are Supported</target>
       </trans-unit>
     </body>
   </file>
