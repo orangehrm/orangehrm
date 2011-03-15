@@ -521,12 +521,12 @@
         <target>FR_Confirm Password</target>
       </trans-unit>
       <trans-unit id="130">
-        <source>UserName should be at least 5 characters long</source>
-        <target>FR_UserName should be at least 5 characters long</target>
+        <source>User Name should have at least 5 characters</source>
+        <target>FR_User Name should have at least 5 characters</target>
       </trans-unit>
       <trans-unit id="131">
-        <source>Password should be at least 4 characters long</source>
-        <target>FR_Password should be at least 4 characters long</target>
+        <source>Password should have at least 4 characters</source>
+        <target>FR_Password should have at least 4 characters</target>
       </trans-unit>
       <trans-unit id="132">
         <source>Password and confirm password should be same</source>

@@ -7,8 +7,8 @@
     var save = "<?php echo __("Save"); ?>";
     var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
-    var lang_userNameRequired = "<?php echo __("UserName should be at least 5 characters long"); ?>";
-    var lang_passwordRequired = "<?php echo __("Password should be at least 4 characters long"); ?>";
+    var lang_userNameRequired = "<?php echo __("User Name should have at least 5 characters"); ?>";
+    var lang_passwordRequired = "<?php echo __("Password should have at least 4 characters"); ?>";
     var lang_unMatchingPassword = "<?php echo __("Password and confirm password should be same"); ?>";
     var lang_statusRequired = "<?php echo __("Please select a status");?>";
     //var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
@@ -55,15 +55,15 @@
             <!-- create login section starts here -->
             <table width="95%" border="0" id="loginSection" align="center">
                 <tr>
-                    <td><?php echo __('User Name'); ?></td>
+                    <td><?php echo __('User Name'); ?><span class="required">*</span></td>
                     <td><?php echo $form['user_name']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Status'); ?></td>
+                    <td><?php echo __('Status'); ?><span class="required">*</span></td>
                     <td><?php echo $form['status']->render(array("class" => "formInputText")); ?><br class="clear" /></td>
                 </tr>
                 <tr>
-                    <td><?php echo __('Password'); ?></td>
+                    <td><?php echo __('Password'); ?><span class="required">*</span></td>
                     <td><?php echo $form['user_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Confirm Password'); ?></td>
+                    <td><?php echo __('Confirm Password'); ?><span class="required">*</span></td>
                     <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td> 
                 </tr>
             </table>
