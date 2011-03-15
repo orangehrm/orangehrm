@@ -541,8 +541,8 @@
         <target>FR_Adding Employee Failed Due to Photograph Size Exceeded 1MB</target>
       </trans-unit>
       <trans-unit id="135">
-        <source>Adding Employee Failed, User Name Already Exists</source>
-        <target>FR_Adding Employee Failed, User Name Already Exists</target>
+        <source>Adding Employee Failed. User Name Already Exists</source>
+        <target>FR_Adding Employee Failed. User Name Already Exists</target>
       </trans-unit>
       <trans-unit id="136">
         <source>Add Employee</source>
@@ -557,8 +557,8 @@
         <target>FR_Select a Photograph</target>
       </trans-unit>
       <trans-unit id="139">
-        <source>Photograph Size Should Be Less Than 1MB</source>
-        <target>FR_Photograph Size Should be Less Than 1MB</target>
+        <source>Upload Failed. File size should be less than IMB</source>
+        <target>FR_Upload Failed. File size should be less than IMB</target>
       </trans-unit>
       <trans-unit id="140">
         <source>Photograph is required</source>
@@ -571,6 +571,10 @@
       <trans-unit id="142">
         <source>Employee Photograph Deleted Successfully</source>
         <target>FR_Employee Photograph Deleted Successfully</target>
+      </trans-unit>
+      <trans-unit id="143">
+        <source>Only .jpg, .jpeg, .png, .gif types supported</source>
+        <target>FR_Only .jpg, .jpeg, .png, .gif types supported</target>
       </trans-unit>
     </body>
   </file>

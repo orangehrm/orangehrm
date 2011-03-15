@@ -89,7 +89,7 @@ class viewPhotographAction extends sfAction {
             if($photoFile['photofile']['size'] == 0) {
                 
                 $this->messageType = "warning";
-                $this->message = __('Photograph Size Should Be Less Than 1MB');
+                $this->message = __('Upload Failed. File size should be less than IMB');
             }
             
             if ($this->form->isValid()) {

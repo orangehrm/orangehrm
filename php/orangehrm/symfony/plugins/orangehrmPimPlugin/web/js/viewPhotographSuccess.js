@@ -22,15 +22,27 @@ $(document).ready(function() {
     //form validation
     $("#frmPhoto").validate({
         rules: {
-            'photofile': {required: true}},
+            'photofile': {required: true, fileformat: true}},
         messages: {
-            'photofile': {required: lang_photoRequired}},
+            'photofile': {required: lang_photoRequired, fileformat: fileFormatError }},
 
         errorElement : 'div',
         errorPlacement: function(error, element) {
             error.insertAfter(element.next(".clear"));
 
         }
+    });
+
+    $.validator.addMethod("fileformat", function(value, element) {
+        var dotPosition = value.lastIndexOf(".");
+        var strLength = value.length;
+        var fileExtension = value.substr(dotPosition, (strLength - dotPosition));
+
+        if(fileExtension != ".jpeg" && fileExtension != ".jpg" && fileExtension != ".png" && fileExtension != ".gif") {
+
+            return false;
+        }
+        return true;
     });
 
     $("#deleteConfirmation").dialog({
