@@ -541,8 +541,8 @@
         <target>FR_Adding Employee Failed Due to Photograph Size Exceeded 1MB</target>
       </trans-unit>
       <trans-unit id="135">
-        <source>Employee Adding Failed, User Name Already Exists</source>
-        <target>FR_Employee Adding Failed, User Name Already Exists</target>
+        <source>Adding Employee Failed, User Name Already Exists</source>
+        <target>FR_Adding Employee Failed, User Name Already Exists</target>
       </trans-unit>
       <trans-unit id="136">
         <source>Add Employee</source>
