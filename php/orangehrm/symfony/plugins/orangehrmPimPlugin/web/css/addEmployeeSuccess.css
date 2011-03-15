@@ -41,3 +41,14 @@ label {
 #btnSave {
     margin-left: 15px;
 }
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 20px;
+}
+
+.duplexBox {
+    margin-top: 7px;
+    border: 1px solid #888888;
+}

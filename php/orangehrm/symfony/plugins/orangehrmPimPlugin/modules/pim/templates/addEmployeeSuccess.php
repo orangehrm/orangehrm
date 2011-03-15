@@ -45,7 +45,7 @@
                 <br class="clear" />
 
                 <?php echo $form['photofile']->renderLabel(__('Photograph')); ?>
-                <?php echo $form['photofile']->render(array("class" => "formInputText")); ?>
+                <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __("Maximum File Size: 1 MB"); ?></span>
                 <br class="clear" />
             </div>
             <input type="checkbox" id="chkLogin" /> <label id="chkLoginLbl"><?php echo __('Create Login Details');?></label>

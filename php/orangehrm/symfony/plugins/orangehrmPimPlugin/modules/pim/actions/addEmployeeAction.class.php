@@ -74,7 +74,7 @@ class addEmployeeAction extends sfAction {
             $photoFile = $request->getFiles();
 
             //in case if file size exceeds 1MB
-            if($photoFile['photofile']['name'] != "" && $photoFile['photofile']['size'] == 0) {
+            if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000)) {
                 $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed Due to Photograph Size Exceeded 1MB')));
                 $this->redirect('pim/addEmployee');
             }
@@ -87,17 +87,25 @@ class addEmployeeAction extends sfAction {
             if($user instanceof Users) {
 
                 $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. User Name Already Exists')));
-                $this->redirect('pim/addEmployee');
+                
             }
 
             //if everything seems ok save employee and create a user account
             if ($this->form->isValid()) {
                 
                 try {
+                    $fileType = $photoFile['photofile']['type'];
+                    
+                    if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png") {
 
-                    $empNumber = $this->saveEmployee($this->form);
-                    $this->saveUser($this->form, $empNumber);
-                    $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+                        $this->getUser()->setFlash('templateMessage', array('warning', __('Only Types jpg, png, and gif Are Supported')));
+                        $this->redirect('pim/addEmployee');
+                        
+                    } else {
+                        $empNumber = $this->saveEmployee($this->form);
+                        $this->saveUser($this->form, $empNumber);
+                        $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+                    }
 
                 } catch(Exception $e) {
                     print($e->getMessage());
