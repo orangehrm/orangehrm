@@ -86,7 +86,7 @@ class addEmployeeAction extends sfAction {
 
             if($user instanceof Users) {
 
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Username Already Exists, Adding Employee Failed')));
+                $this->getUser()->setFlash('templateMessage', array('warning', __('Employee Adding Failed, User Name Already Exists')));
                 $this->redirect('pim/addEmployee');
             }
 
