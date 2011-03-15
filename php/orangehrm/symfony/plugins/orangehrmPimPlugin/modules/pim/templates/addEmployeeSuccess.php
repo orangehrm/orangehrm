@@ -26,7 +26,7 @@
             <?php echo $form['empNumber']->render(); ?>
             <table width="97%" border="0" align="center">
                 <tr>
-                    <td>&nbsp;&nbsp;<?php echo __('Full Name'); ?></td>
+                    <td width="123">&nbsp;&nbsp;<?php echo __('Full Name'); ?></td>
                     <td valign="top"><?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
                     <td valign="top"><?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                     <td valign="top"><?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
@@ -43,7 +43,7 @@
                 <?php echo $form['employeeId']->renderLabel(__('Employee Id')); ?>
                 <?php echo $form['employeeId']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
                 <br class="clear" />
-                
+
                 <?php echo $form['photofile']->renderLabel(__('Photograph')); ?>
                 <?php echo $form['photofile']->render(array("class" => "formInputText")); ?>
                 <br class="clear" />
@@ -55,7 +55,7 @@
             <!-- create login section starts here -->
             <table width="95%" border="0" id="loginSection" align="center">
                 <tr>
-                    <td><?php echo __('User Name'); ?><span class="required">*</span></td>
+                    <td width="115"><?php echo __('User Name'); ?><span class="required">*</span></td>
                     <td><?php echo $form['user_name']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
                     <td><?php echo __('Status'); ?><span class="required">*</span></td>
                     <td><?php echo $form['status']->render(array("class" => "formInputText")); ?><br class="clear" /></td>
