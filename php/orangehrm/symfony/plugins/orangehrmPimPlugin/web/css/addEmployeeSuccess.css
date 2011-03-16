@@ -51,6 +51,7 @@ label {
 .duplexBox {
     margin-top: 7px;
     border: 1px solid #888888;
+    width: 243px;
 }
 
 #chkLogin {
