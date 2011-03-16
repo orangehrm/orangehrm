@@ -3,6 +3,7 @@ $(document).ready(function() {
     //dissabling all fields by default
     $(".formInputText").attr("disabled", "disabled");
     $("#chkLogin").attr("disabled", "disabled");
+    $(".duplexBox").attr("disabled", "disabled");
 
     //hiding login section by default
     $("#lineSeperator").hide();
@@ -14,6 +15,7 @@ $(document).ready(function() {
         if($("#btnSave").attr('value') == edit) {
             $(".formInputText").removeAttr("disabled");
             $("#chkLogin").removeAttr("disabled");
+            $(".duplexBox").removeAttr("disabled");
             $("#btnSave").attr('value', save);
 
         } else {
@@ -30,7 +32,7 @@ $(document).ready(function() {
         $("#user_password").val("");
         $("#re_password").val("");
         $("#status").val("");
-        
+
         if($("#chkLogin").attr('checked') == true) {
             $("#lineSeperator").show();
             $("#loginSection").show();
