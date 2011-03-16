@@ -75,7 +75,7 @@ class addEmployeeAction extends sfAction {
 
             //in case if file size exceeds 1MB
             if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000)) {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed Due to Photograph Size Exceeded 1MB')));
+                $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. Photograph Size Exceeded 1MB')));
                 $this->redirect('pim/addEmployee');
             }
 
