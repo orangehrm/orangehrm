@@ -15,3 +15,8 @@ div .error {
 label {
     margin: 2px;
 }
+
+.duplexBox {
+    border: 1px solid #888888;
+    width: 243px;
+}
