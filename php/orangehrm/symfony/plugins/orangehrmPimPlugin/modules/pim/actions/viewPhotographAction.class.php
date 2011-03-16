@@ -96,7 +96,7 @@ class viewPhotographAction extends sfAction {
                 
                 $fileType = $photoFile['photofile']['type'];
 
-                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png") {
+                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png" && $fileType != "image/pjpeg") {
                     
                     $this->messageType = "warning";
                     $this->message = __('Only Types jpg, png, and gif Are Supported');
