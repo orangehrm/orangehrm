@@ -27,9 +27,9 @@ $(document).ready(function() {
     //form validation
     $("#frmPhoto").validate({
         rules: {
-            'photofile': {required: true, fileformat: true}},
+            'photofile': {required: true}},
         messages: {
-            'photofile': {required: lang_photoRequired, fileformat: fileFormatError }},
+            'photofile': {required: lang_photoRequired }},
 
         errorElement : 'div',
         errorPlacement: function(error, element) {
