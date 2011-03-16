@@ -98,7 +98,7 @@ class addEmployeeAction extends sfAction {
                     
                     if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png" && $fileType != "image/pjpeg") {
 
-                        $this->getUser()->setFlash('templateMessage', array('warning', __('Only Types jpg, png, and gif Are Supported')));
+                        $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. Image File Should Be in One of the Supported Image Format.(Example: jpg, png, gif, etc...)')));
                         $this->redirect('pim/addEmployee');
                         
                     } else {

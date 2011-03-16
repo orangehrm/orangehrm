@@ -577,8 +577,12 @@
         <target>FR_Maximum File Size: 1 MB</target>
       </trans-unit>
       <trans-unit id="144">
-        <source>Only Types jpg, png, and gif Are Supported</source>
-        <target>FR_Only Types jpg, png, and gif Are Supported</target>
+        <source>Adding Employee Failed. Image File Should Be in One of the Supported Image Format.(Example: jpg, png, gif, etc...)</source>
+        <target>FR_Adding Employee Failed. Image File Should Be in One of the Supported Image Format.(Example: jpg, png, gif, etc...)</target>
+      </trans-unit>
+      <trans-unit id="145">
+        <source>Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</source>
+        <target>FR_Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</target>
       </trans-unit>
     </body>
   </file>
