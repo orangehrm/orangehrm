@@ -7,6 +7,11 @@ $(document).ready(function() {
     }
 
     $("#btnSave").click(function() {
+
+        //remove any status msg
+        $("#messagebar").text("");
+        $("#messagebar").removeAttr("class");
+
         //if user clicks on Edit make all fields editable
         if($("#btnSave").attr('value') == edit) {
             $("#photofile").removeAttr("disabled");
@@ -54,6 +59,10 @@ $(document).ready(function() {
     });
 
     $("#btnDelete").click(function() {
+        //remove any status msg
+        $("#messagebar").text("");
+        $("#messagebar").removeAttr("class");
+
         $("#deleteConfirmation").dialog('open');
     });
 
