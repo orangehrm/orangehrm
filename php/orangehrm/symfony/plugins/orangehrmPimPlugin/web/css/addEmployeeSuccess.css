@@ -52,3 +52,7 @@ label {
     margin-top: 7px;
     border: 1px solid #888888;
 }
+
+#chkLogin {
+    margin-top: 5px;
+}
