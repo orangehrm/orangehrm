@@ -28,53 +28,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      * Set up method
      */
     protected function setUp() {
-        $this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
         $this->employeeDao = new EmployeeDao();
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml');
-    }
-
-    /**
-     * Testing addEmployee
-     */
-    public function testAddEmployee() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $employee	=	new Employee();
-            $employee->setLastName($v['lastName']);
-            $employee->setFirstName($v['firstName']);
-            $result		=	$this->employeeDao->addEmployee($employee);
-            $this->assertTrue($result);
-            $this->testCase['Employee'][$k]['id'] = $employee->getEmpNumber();
-        }
-        file_put_contents(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml', sfYaml::dump($this->testCase));
-    }
-
-    /**
-     * Testing Adding Employee Picture
-     */
-    public function testAddEmployeePicture() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $pic = new EmpPicture();
-            $pic->setEmpNumber($v['id']);
-            $pic->setFilename("pic_" . rand(0, 1000));
-            $result = $this->employeeDao->saveEmployeePicture($pic);
-            $this->assertTrue($result);
-        }
-    }
-
-    /**
-     * Testing Manipulation of Employee Picture
-     */
-    public function testManipulateEmployeePicture() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $pic = $this->employeeDao->readEmployeePicture($v['id']);
-            $this->assertTrue($pic instanceof EmpPicture);
-
-            $pic = $this->employeeDao->getPicture($v['id']);
-            $this->assertTrue($pic instanceof EmpPicture);
-
-            $result = $this->employeeDao->deletePhoto($v['id']);
-            $this->assertTrue($result);
-        }
     }
 
     /**
@@ -83,21 +38,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetEmployeeListAsJson() {
         $result = $this->employeeDao->getEmployeeListAsJson();
         $this->assertTrue(!empty($result));
-    }
-
-    /**
-     * Testing deleteEmployee and all associated domain classes
-     */
-    public function testDeleteEmployee() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $employee = $this->employeeDao->getEmployee($v['id']);
-            $this->assertTrue($employee instanceof Employee);
-
-            $result = $this->employeeDao->deleteEmployee(array($v['id']));
-            $this->assertEquals($result, 1);
-            unset($this->testCase['Employee'][$k]['id']);
-        }
-        file_put_contents(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml', sfYaml::dump($this->testCase));
     }
 
     /**
