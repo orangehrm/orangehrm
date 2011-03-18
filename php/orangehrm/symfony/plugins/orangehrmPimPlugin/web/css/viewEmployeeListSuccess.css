@@ -1,0 +1,18 @@
+.hoverOverEmp {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+div#advancedSearchOptions {
+   clear: both;
+}
+
+/*form#search_form select,
+form#search_form input {
+    width:150px;
+}
+
+form#search_form label {
+    width: 100px;
+}
+*/

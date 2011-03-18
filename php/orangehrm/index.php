@@ -405,7 +405,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
     }
     
 	//$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
-    $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList ,"./index.php?menu_no_top=hr");
+    $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList ,"./symfony/web/index.php/pim/viewEmployeeList", "rightMenu");
 	if ($arrAllRights[PIM]['add']) {
         $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
 	}
@@ -809,15 +809,13 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
        }
         
 } elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {
-	$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
+	//$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 	
-	$home = "./lib/controllers/CentralController.php?reqcode={$reqCode}&VIEW=MAIN&sortField=0&sortOrder0=ASC";
+	$home = "./symfony/web/index.php/pim/viewEmployeeList";
 	if (isset($_GET['uri'])) {
-        $home = $_GET['uri'];
-    } elseif (isset($_GET['id'])) {
-    	$home .= "&amp;id={$_GET['id']}&amp;capturemode=updatemode";
-   	} else {
-        $home .= "&amp;VIEW=MAIN";
+            $home = $_GET['uri'];
+        } elseif (isset($_GET['id'])) {
+            $home = "./symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id'];
 	}
 } elseif (($_GET['menu_no_top']=="ldap") && $arrRights['view']) {
 	$uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : '';

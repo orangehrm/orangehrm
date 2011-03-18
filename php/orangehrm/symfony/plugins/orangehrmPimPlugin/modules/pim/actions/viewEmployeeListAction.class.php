@@ -91,6 +91,7 @@ class viewEmployeeListAction extends sfAction {
             if ($this->form->isValid()) {
                 $this->setFilters($this->form->getValues());
             } else {
+                return;
                 echo "INVALID";
                 die;
             }
@@ -100,6 +101,7 @@ class viewEmployeeListAction extends sfAction {
 
         $sort = $this->sorter->getSort();
         $filters = $this->getFilters();
+
         $search = array();
         $this->filterApply = 0;
         if (isset($filters['search_by']) && isset($filters['search_for'])) {
@@ -113,7 +115,7 @@ class viewEmployeeListAction extends sfAction {
 
 
         $table = Doctrine::getTable('Employee');
-        $count = $table->getEmployeeCount($search);
+        $count = $table->getEmployeeCount($filters);
 
         $this->pager = new SimplePager('Employee', sfConfig::get('app_items_per_page'));
 
@@ -125,7 +127,7 @@ class viewEmployeeListAction extends sfAction {
         $offset = $this->pager->getOffset();
         $limit = $this->pager->getMaxPerPage();
 
-        $this->employee_list = $table->getEmployeeList($sort[0], $sort[1], $search, $offset, $limit);
+        $this->employee_list = $table->getEmployeeList($sort[0], $sort[1], $filters, $offset, $limit);
     }
 
     /**

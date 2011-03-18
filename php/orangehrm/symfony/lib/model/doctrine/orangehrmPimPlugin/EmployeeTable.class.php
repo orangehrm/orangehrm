@@ -22,13 +22,13 @@ class EmployeeTable extends PluginEmployeeTable {
      */
     protected static $searchMapping = array(
             'employeeId' => 'e.employee_id',
-            'firstName' => 'e.emp_firstname',
+            'employee_name' => 'concat_ws(\' \', e.emp_firstname,e.emp_middle_name,e.emp_lastname)',
             'middleName' => 'e.emp_middle_name',
             'lastName' => 'e.emp_lastName',
             'jobTitle' => 'j.jobtit_name',
             'employeeStatus' => 'es.estat_name',
-            'subDivision' => 'cs.title',
-            'supervisor' => 's.emp_firstname',
+            'sub_unit' => 'cs.title',
+            'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
             'supervisorId' => 's.emp_firstname',
     );
 
@@ -153,7 +153,7 @@ class EmployeeTable extends PluginEmployeeTable {
         $orderBy = '';
 
         $this->_getEmployeeListQuery($select, $query, $bindParams, $orderBy, null, null, $filters);
-
+//var_dump($query);die;
         $countQuery = 'SELECT COUNT(*) FROM (' . $select . ' ' . $query . ' ) AS countqry';
 
         if (sfConfig::get('sf_logging_enabled')) {
@@ -222,13 +222,19 @@ class EmployeeTable extends PluginEmployeeTable {
 
             $filterCount = 0;
 
+            // { ["employee_name"]=> string(3) "Abc"
+            // ["supervisor_name"]=> string(3) "def"
+            // ["id"]=> string(0) "" ["job_title"]=> string(0) ""
+            // ["employee_status"]=> string(0) ""
+            // ["sub_unit"]=> string(0) "" }
+
             foreach ($filters as $searchField=>$searchBy ) {
                 if (!empty($searchField) && !empty($searchBy)
                         && array_key_exists($searchField, self::$searchMapping) ) {
                     $field = self::$searchMapping[$searchField];
                     $value = '%' . $searchBy . '%';
 
-                    if ($searchField == 'subDivision') {
+                    if ($searchField == 'sub_unit') {
 
                         /*
                          * Not efficient if searching substations by more than one value, but
@@ -241,13 +247,22 @@ class EmployeeTable extends PluginEmployeeTable {
                     } else if ($searchField == 'supervisorId') {
                         $conditions[] = ' s.emp_number = ? ';
                         $bindParams[] = $searchBy;
-                    } else {
+                    } else if ($searchField == 'supervisor_name') {
                         $conditions[] = $field . ' LIKE ? ';
+                        // Replace multiple spaces in string with wildcards
+                        $value = preg_replace('!\s+!', '%', $value);
+
+                        $bindParams[] = $value;
+                    } else if ($searchField == 'employee_name') {
+                        $conditions[] = $field . ' LIKE ? ';
+                        // Replace multiple spaces in string with wildcards
+                        $value = preg_replace('!\s+!', '%', $value);
+
                         $bindParams[] = $value;
                     }
                     $filterCount++;
 
-                    if ($searchField == 'employeeStatus') {
+                    if ($searchField == 'employee_status') {
                         $searchByStatus = true;
                     }
                 }
@@ -291,7 +306,7 @@ class EmployeeTable extends PluginEmployeeTable {
         }
 
         /* Default sort by emp_number, makes resulting order predictable, useful for testing */
-        $order['e.emp_number'] = 'asc';
+        $order['e.emp_lastname'] = 'asc';
 
         /* Sort subordinates direct first, then indirect, then by supervisor name */
         $order['rt.erep_reporting_mode'] = 'asc';

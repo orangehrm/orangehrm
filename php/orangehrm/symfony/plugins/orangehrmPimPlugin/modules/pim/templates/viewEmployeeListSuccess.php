@@ -18,73 +18,22 @@
  */
 
 ?>
-<script type="text/javascript">
-//<![CDATA[
-	function onSearch() {
 
-		var selectObj = $('#empsearch_search_by');
+<?php
+use_stylesheet('../orangehrmPimPlugin/css/viewEmployeeListSuccess');
+?>
+<?php if ($form->hasErrors()): ?>
+<span class="error">
+<?php
+echo $form->renderGlobalErrors();
 
-		if (selectObj.val() == -1) {
+foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
+  echo $form[$widgetName]->renderError();
+}
+?>
+</span>
+<?php endif; ?>
 
-			alert('<?php echo __("Please select a field to search")?>');
-			selectObj.focus();
-			return false;
-		} else {
-			$('#search_form').submit();
-			return true;
-		}
-	}
-
-	function onReset() {
-		location.href = "<?php echo url_for('pim/index')?>?_reset=1";
-	}
-
-<?php if (true) { //if($this->getArr['reqcode']=='EMP') { ?>
-	function onAdd() {
-
-		location.href = "<?php echo url_for('pim/addEmployee') ?>";
-
-	}
-
-	function onDelete() {
-
-		var checkboxes = document.getElementsByName('ids[]');
-		var recordSelected = false;
-		var checkboxCount = checkboxes.length;
-
-		for (var i=0; i < checkboxCount; i++) {
-			if (checkboxes[i].checked) {
-				recordSelected = true;
-				break;
-			}
-		}
-
-		if (recordSelected) {
-			return true;
-		} else {
-         $("#clientError").text("Select at least one record to delete");
-			return false;
-		}
-	}
-
-<?php } else { ?>
-	//function onAdd() {
-    //    var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?php //echo $this->getArr['reqcode']?>','Employees','height=450,width=400,scrollbars=1');
-    //    if(!popup.opener) popup.opener=self;
-	//}
-<?php } ?>
-
-//]]>
-</script>
-
-<style type="text/css">
-
-   .hoverOverEmp {
-        background-color: #ccc;
-        cursor: pointer;
-   }
-
-</style>
 <div class="outerbox">
 
 <div class="mainHeading">
@@ -105,31 +54,56 @@
 </div>
 <?php }?>
 <div class="searchbox">
-<form id="search_form" method="post" action="<?php echo url_for('pim/index'); ?>">
+<form id="search_form" method="post" action="<?php echo url_for('@employee_list'); ?>">
     <?php echo $form['_csrf_token'];
-	      echo $form['search_by']->renderLabel(__("Search By").":");
-          echo $form['search_by']->render();
-          echo $form['search_for']->renderLabel(__("Search For").":");
-          echo $form['search_for']->render(); ?>
+	  echo $form['employee_name']->renderLabel(__("Employee Name"));
+          echo $form['employee_name']->render();
+          echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
+          echo $form['supervisor_name']->render();
+    ?>
+    <div id="advancedSearchOptions" style="display:none">
+    <?php
+          echo $form['id']->renderLabel(__("Id"));
+          echo $form['id']->render();           
+          echo $form['job_title']->renderLabel(__("Job Title"));
+          echo $form['job_title']->render();        
+    ?>
+        <br class="clear"/>
+    <?php
+          echo $form['employee_status']->renderLabel(__("Employee Status"));
+          echo $form['employee_status']->render();
+          echo $form['sub_unit']->renderLabel(__("Sub Unit"));
+          echo $form['sub_unit']->render();
 
-    <input
-    	type="button" class="plainbtn" onclick="onSearch()"
-    	onmouseover="this.className='plainbtn plainbtnhov'"
-    	onmouseout="this.className='plainbtn'" value="<?php echo __("Search")?>" name="_search" />
-    <input
-    	type="button" class="plainbtn"
-    	onmouseover="this.className='plainbtn plainbtnhov'" onclick="onReset()"
-    	onmouseout="this.className='plainbtn'" value="<?php echo __("Reset")?>" name="_reset" />
+    ?>
+    </div>
+
+    <div class="actionbar">
+    <div class="actionbuttons">
+        <input
+            type="button" class="plainbtn" id="searchBtn"
+            onmouseover="this.className='plainbtn plainbtnhov'"
+            onmouseout="this.className='plainbtn'" value="<?php echo __("Search")?>" name="_search" />
+        <input
+            type="button" class="plainbtn"
+            onmouseover="this.className='plainbtn plainbtnhov'" id="advancedBtn"
+            onmouseout="this.className='plainbtn'" value="<?php echo __("Advanced Options")?>" name="_advanced" />
+
+    </div>
+    <br class="clear" />
+    </div>
     <br class="clear" />
 </form>
 </div>
+</div> <!-- outerbox -->
 
-<form method="post" action="<?php echo url_for('pim/delete');?>" onsubmit="return onDelete()" id="frmDelete" >
+<div class="outerbox">
+<form method="post" action="<?php echo url_for('pim/delete');?>" id="frmDelete" >
 
 <div class="actionbar">
 <div class="actionbuttons">
 <?php if ($sf_user->hasCredential(Auth::ADMIN_ROLE)) { ?>    
-    <input type="button" class="plainbtn" onclick="onAdd();"
+    <input type="button" class="plainbtn" id="addBtn"
     	onmouseover="this.className='plainbtn plainbtnhov'"
 	    onmouseout="this.className='plainbtn'" value="<?php echo __("Add")?>" />
 <?php } ?>
@@ -159,11 +133,12 @@
                <input type="checkbox" id="allCheck" class="checkbox" style="margin-left:1px" />
                <?php } ?>
 			</td>
-			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Employee Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('fullName', __('Employee Name'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('fullName', __('First Name'), '@employee_list', ESC_RAW); ?></td>
+                        <td scope="col"><?php echo $sorter->sortLink('fullName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('subDivision', __('Sub-Division'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('subDivision', __('Sub Unit'), '@employee_list', ESC_RAW); ?></td>
 			<?php
     			/* Show supervisor only for admin users, not for supervisors */
     			if ($sf_user->hasCredential(Auth::ADMIN_ROLE)) {
@@ -211,10 +186,13 @@
 			    echo link_to($employee->getFullName(), public_path('../../index.php'),
 			                 array('query_string'=> http_build_query($params)) );
 */
-			    echo link_to($employee->getFullName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
+			    echo link_to($employee->getFirstName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
 
 			?>
 			</td>
+                        <td>
+                            <?php echo link_to($employee->getLastName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());?>
+                        </td>
 			<td><?php echo $employee->getJobTitle()->getName(); ?></td>
 			<td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
 			<td><?php echo $employee->getSubDivision()->getTitle() ?></td>
@@ -233,7 +211,8 @@
 
 <script type="text/javascript">
 
-    
+    var advancedOptionsText = '<?php echo __("Advanced Options")?>';
+    var basicOptionsText = '<?php echo __("Basic Options")?>'
 
     $(document).ready(function() {
         $('#allCheck').click(function() {
@@ -252,7 +231,42 @@
             }
         });
 
-        
+	$('#searchBtn').click(function() {
+            $('#search_form').submit();
+	});
+
+        $('#advancedBtn').click(function() {
+            $('#advancedSearchOptions').toggle();
+            var buttonText = $('#advancedBtn').attr('value');
+            var newText = buttonText == advancedOptionsText ? basicOptionsText : advancedOptionsText;
+            $('#advancedBtn').attr('value', newText);
+        });
+
+        $('#addBtn').click(function() {
+            location.href = "<?php echo url_for('pim/addEmployee') ?>";
+        });
+
+	$('#frmDelete').submit(function() {
+
+            var checkboxes = document.getElementsByName('ids[]');
+            var recordSelected = false;
+            var checkboxCount = checkboxes.length;
+
+            for (var i=0; i < checkboxCount; i++) {
+                if (checkboxes[i].checked) {
+                    recordSelected = true;
+                    break;
+                }
+            }
+
+            if (recordSelected) {
+                return true;
+            } else {
+                 $("#clientError").text("Select at least one record to delete");
+                return false;
+            }
+	});
+
 
         $('#emp_list tbody tr').hover(function() {  // highlight on mouse over
             colorbg = $(this).css('backgroundColor');

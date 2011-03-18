@@ -3,10 +3,7 @@ homepage:
   url:   /
   param: { module: default, action: index }
 
-employee_list:
-  url:   /pim/list/*  
-  param: { module:pim, action: index }
-  with_wildcard_routes: true
+
  
 location_list:
   url:   /admin/listCompanylocation/*  

@@ -23,35 +23,27 @@
  */
 class EmployeeSearchForm extends BaseForm {
 
-    protected static $searchFields = array(
-        'employeeId' => 'Emp. ID',
-        'firstName' => 'Emp. First Name',
-        'middleName' => 'Emp. Middle Name',
-        'lastName' => 'Emp. Last Name',
-        'jobTitle' => 'Job Title',
-        'employeeStatus' => 'Employment Status',
-        'subDivision' => 'Sub-Division',
-        'supervisor' => 'Supervisor',
-    );
-
     public function configure() {
 
-        $choices = array('-1' => '- Select -') + self::$searchFields;
-
         $this->setWidgets(array(
-            'search_by' => new sfWidgetFormSelect(array('choices' => $choices)),
-            'search_for' => new sfWidgetFormInputText(),
+            'employee_name' => new sfWidgetFormInputText(),
+            'supervisor_name' => new sfWidgetFormInputText(),
+            'id' => new sfWidgetFormInputText(),
+            'job_title' => new sfWidgetFormSelect(array('choices'=>array())),
+            'employee_status' => new sfWidgetFormSelect(array('choices'=>array())),
+            'sub_unit' => new sfWidgetFormSelect(array('choices'=>array())),
+
         ));
 
         $this->widgetSchema->setNameFormat('empsearch[%s]');
 
         $this->setValidators(array(
-            'search_by' => new sfValidatorChoice(
-                    array('choices' => array_keys(self::$searchFields),
-                          'required' => true),
-                    array('required' => 'Please select a field to search',
-                        'invalid' => 'Please select a field to search')),
-            'search_for' => new sfValidatorString(array('required' => false)),
+            'employee_name' => new sfValidatorString(array('required' => false)),
+            'supervisor_name' => new sfValidatorString(array('required' => false)),
+            'id' => new sfValidatorString(array('required' => false)),
+            'job_title' => new sfValidatorString(array('required' => false)),
+            'employee_status' => new sfValidatorString(array('required' => false)),
+            'sub_unit' => new sfValidatorString(array('required' => false)),
         ));
     }
 
