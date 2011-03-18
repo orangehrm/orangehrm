@@ -68,10 +68,10 @@
                     <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td> 
                 </tr>
             </table>
-
+            
 
             <div class="formbuttons">
-                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>"  />
+                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>"  />
                 <input type="button" class="savebutton" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
             </div>
         </form>
