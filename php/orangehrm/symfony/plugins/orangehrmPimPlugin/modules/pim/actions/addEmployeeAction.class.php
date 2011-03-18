@@ -114,9 +114,7 @@ class addEmployeeAction extends sfAction {
                 
                 try {
                     $fileType = $photoFile['photofile']['type'];
-                    if($fileType != "") {
-                        $fileType = mime_content_type($photoFile['photofile']['tmp_name']);
-                    }
+
                     $allowedTypes = array("", "image/gif", "image/jpeg", "image/jpg", "image/png", "image/pjpeg");
 
                     if(!in_array($fileType, $allowedTypes)) {

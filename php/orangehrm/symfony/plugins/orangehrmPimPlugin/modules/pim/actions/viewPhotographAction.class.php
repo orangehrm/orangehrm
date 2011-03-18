@@ -94,8 +94,7 @@ class viewPhotographAction extends sfAction {
 
             if ($this->form->isValid()) {
                 
-                //$fileType = $photoFile['photofile']['type'];
-                $fileType = mime_content_type($photoFile['photofile']['tmp_name']);
+                $fileType = $photoFile['photofile']['type'];
 
                 if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png" && $fileType != "image/pjpeg") {
                     
