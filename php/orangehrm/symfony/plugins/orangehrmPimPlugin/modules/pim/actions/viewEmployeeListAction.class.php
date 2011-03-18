@@ -53,11 +53,13 @@ class viewEmployeeListAction extends sfAction {
     public function execute($request) {
 
         // Check if admin mode or supervisor mode
+        $userType = 'Admin';
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
 
         if (!$adminMode) {
             $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+            $userType = 'Supervisor';
         } else {
             $supervisorMode = false;
         }
@@ -83,7 +85,8 @@ class viewEmployeeListAction extends sfAction {
             $this->setFilters(array());
         }
 
-        $this->form = new EmployeeSearchForm($this->getFilters());
+        $params = array('userType'=> $userType, 'loggedInUserId'=>$this->getUser()->getEmployeeNumber());
+        $this->form = new EmployeeSearchForm($this->getFilters(), $params);
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));

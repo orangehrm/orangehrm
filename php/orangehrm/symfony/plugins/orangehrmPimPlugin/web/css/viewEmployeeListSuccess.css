@@ -7,6 +7,10 @@ div#advancedSearchOptions {
    clear: both;
 }
 
+div.searchbox div.actionbar {
+    border-top: 1px solid #FAD163;
+    margin-top: 3px;
+}
 /*form#search_form select,
 form#search_form input {
     width:150px;

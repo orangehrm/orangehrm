@@ -23,8 +23,14 @@
  */
 class EmployeeSearchForm extends BaseForm {
 
+    private $userType;
+    private $loggedInUserId;
+    
     public function configure() {
 
+        $this->userType =  $this->getOption('userType');
+        $this->loggedInUserId =  $this->getOption('loggedInUserId');
+        
         $this->setWidgets(array(
             'employee_name' => new sfWidgetFormInputText(),
             'supervisor_name' => new sfWidgetFormInputText(),
@@ -45,6 +51,45 @@ class EmployeeSearchForm extends BaseForm {
             'employee_status' => new sfValidatorString(array('required' => false)),
             'sub_unit' => new sfValidatorString(array('required' => false)),
         ));
+    }
+
+    public function getEmployeeListAsJson() {
+
+        $jsonArray	=	array();
+        $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
+        $employeeService = new EmployeeService();
+        $employeeService->setEmployeeDao(new EmployeeDao());
+
+        if ($this->userType == 'Admin') {
+            $employeeList = $employeeService->getEmployeeList();
+        } elseif ($this->userType == 'Supervisor') {
+
+            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
+
+        }
+
+        $employeeUnique = array();
+        foreach($employeeList as $employee) {
+
+            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+
+                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
+                $name = trim(trim($name) . " " . $employee->getLastName());
+
+                foreach($escapeCharSet as $char) {
+                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                }
+
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
+            }
+
+        }
+
+        $jsonString = json_encode($jsonArray);
+
+        return $jsonString;
+
     }
 
 }

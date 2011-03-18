@@ -20,8 +20,14 @@
 ?>
 
 <?php
+use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
+use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
 use_stylesheet('../orangehrmPimPlugin/css/viewEmployeeListSuccess');
+use_javascript('../../../scripts/jquery/ui/ui.core.js');
+use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 ?>
+
+
 <?php if ($form->hasErrors()): ?>
 <span class="error">
 <?php
@@ -215,6 +221,28 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     var basicOptionsText = '<?php echo __("Basic Options")?>'
 
     $(document).ready(function() {
+
+        var data = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
+        
+	//Auto complete
+        $("#empsearch_employee_name").autocomplete(data, {
+          formatItem: function(item) {
+            return item.name;
+          }
+          ,matchContains:true
+        }).result(function(event, item) {
+        }
+        );
+
+        $("#empsearch_supervisor_name").autocomplete(data, {
+          formatItem: function(item) {
+            return item.name;
+          }
+          ,matchContains:true
+        }).result(function(event, item) {
+        }
+        );
+
         $('#allCheck').click(function() {
             var check = $(this).attr('checked');
             $('input[type=checkbox].checkbox').attr('checked', check);
