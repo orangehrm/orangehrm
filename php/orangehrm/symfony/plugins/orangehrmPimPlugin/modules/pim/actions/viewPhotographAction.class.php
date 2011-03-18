@@ -158,10 +158,6 @@ class viewPhotographAction extends sfAction {
         $newHeight = 0;
         $newWidth = 0;
 
-        //algorithm for image resizing
-        //resizing by width - assuming width = 150,
-        //resizing by height - assuming height = 180
-
         $propHeight = floor(($imgHeight/$imgWidth) * 150);
         $propWidth = floor(($imgWidth/$imgHeight) * 180);
 
