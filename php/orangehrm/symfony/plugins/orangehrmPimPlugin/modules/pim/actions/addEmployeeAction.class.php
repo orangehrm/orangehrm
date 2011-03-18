@@ -62,15 +62,35 @@ class addEmployeeAction extends sfAction {
             $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
         }
 
-        $this->setForm(new AddEmployeeForm(array(), array(), true));
+        //this is to preserve post value if any error occurs
+        $postArray = array();
+        $this->createUserAccount = 0;
+
+        if($request->isMethod('post')) {
+            $postArray = $request->getPostParameters();
+            unset($postArray['_csrf_token']);
+            $_SESSION['addEmployeePost'] = $postArray;
+        }
+
+        if(isset ($_SESSION['addEmployeePost'])) {
+            $postArray = $_SESSION['addEmployeePost'];
+
+            if(trim($postArray['user_name']) != "") {
+                $this->createUserAccount = 1;
+            }
+        }
+        
+        $this->setForm(new AddEmployeeForm(array(), $postArray, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
+            unset($_SESSION['addEmployeePost']);
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getPostParameters(), $request->getFiles());
+            $posts = $this->form->getValues();
             $photoFile = $request->getFiles();
 
             //in case if file size exceeds 1MB
@@ -80,14 +100,13 @@ class addEmployeeAction extends sfAction {
             }
 
             //in case a user already exists with same user name
-            $posts = $this->form->getValues();
             $userService = $this->getUserService();
             $user = $userService->getUserByUserName($posts['user_name']);
 
             if($user instanceof Users) {
 
                 $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. User Name Already Exists')));
-                
+                $this->redirect('pim/addEmployee');
             }
 
             //if everything seems ok save employee and create a user account
@@ -102,6 +121,7 @@ class addEmployeeAction extends sfAction {
                         $this->redirect('pim/addEmployee');
                         
                     } else {
+                        unset($_SESSION['addEmployeePost']);
                         $empNumber = $this->saveEmployee($this->form);
                         $this->saveUser($this->form, $empNumber);
                         $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);

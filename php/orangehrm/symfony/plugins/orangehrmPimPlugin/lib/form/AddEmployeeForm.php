@@ -65,6 +65,13 @@ class AddEmployeeForm extends sfForm {
 
         $this->widgets['empNumber']->setDefault($empNumber);
         $this->widgets['employeeId']->setDefault($employeeId);
+        $this->widgets['firstName']->setDefault($this->getOption('firstName'));
+        $this->widgets['middleName']->setDefault($this->getOption('middleName'));
+        $this->widgets['lastName']->setDefault($this->getOption('lastName'));
+        $this->widgets['user_name']->setDefault($this->getOption('user_name'));
+        $this->widgets['user_password']->setDefault($this->getOption('user_password'));
+        $this->widgets['re_password']->setDefault($this->getOption('re_password'));
+        $this->widgets['status']->setDefault($this->getOption('status'));
 
         $this->setWidgets($this->widgets);
 
