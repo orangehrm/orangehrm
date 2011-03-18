@@ -4,10 +4,15 @@ $(document).ready(function() {
     $(".formInputText").attr("disabled", "disabled");
     $("#chkLogin").attr("disabled", "disabled");
     $(".duplexBox").attr("disabled", "disabled");
+    $("#chkLogin").attr("checked", "checked");
 
-    //hiding login section by default
-    $("#lineSeperator").hide();
-    $("#loginSection").hide();
+    if(createUserAccount == 0) {
+        //hiding login section by default
+        $("#lineSeperator").hide();
+        $("#loginSection").hide();
+
+        $("#chkLogin").removeAttr("checked");
+    }
 
     //default edit button behavior
     $("#btnSave").click(function() {
