@@ -140,8 +140,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                <?php } ?>
 			</td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('fullName', __('First Name'), '@employee_list', ESC_RAW); ?></td>
-                        <td scope="col"><?php echo $sorter->sortLink('fullName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('firstName', __('First Name'), '@employee_list', ESC_RAW); ?></td>
+                        <td scope="col"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('subDivision', __('Sub Unit'), '@employee_list', ESC_RAW); ?></td>
