@@ -91,4 +91,8 @@ $(document).ready(function() {
         }
         return true;
     });
+
+    $("#btnCancel").click(function(){
+        navigateUrl(cancelNavigateUrl);
+    });
 });
