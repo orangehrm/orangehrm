@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-    //dissabling all fields by default
-    $(".formInputText").attr("disabled", "disabled");
-    $("#chkLogin").attr("disabled", "disabled");
-    $(".duplexBox").attr("disabled", "disabled");
     $("#chkLogin").attr("checked", "checked");
 
     if(createUserAccount == 0) {
@@ -17,15 +13,7 @@ $(document).ready(function() {
     //default edit button behavior
     $("#btnSave").click(function() {
 
-        if($("#btnSave").attr('value') == edit) {
-            $(".formInputText").removeAttr("disabled");
-            $("#chkLogin").removeAttr("disabled");
-            $(".duplexBox").removeAttr("disabled");
-            $("#btnSave").attr('value', save);
-
-        } else {
-            $("#frmAddEmp").submit();
-        }
+        $("#frmAddEmp").submit();
 
     });
 
