@@ -295,6 +295,35 @@ class EmployeeService extends BaseService {
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         return $this->employeeDao->getEmployeePassport($empNumber, $sequenceNo);
     }
+
+    /**
+     * save WorkExperience
+     * @param EmpWorkExperience $empWorkExp
+     * @returns boolean
+     */
+    public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
+        return $this->employeeDao->saveWorkExperience($empWorkExp);
+    }
+
+    /**
+     * Get WorkExperience
+     * @param int $empNumber
+     * @param int $sequenceNo
+     * @returns Collection/WorkExperience
+     */
+    public function getWorkExperience($empNumber, $sequenceNo = null) {
+        return $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
+    }
+
+   /**
+    * Delete WorkExperiences
+    * @param int $empNumber
+    * @param array() $workExperienceToDelete
+    * @returns boolean
+    */
+   public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
+       return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
+   }
     
     /**
      * Returns EmployeePicture by Emp Number

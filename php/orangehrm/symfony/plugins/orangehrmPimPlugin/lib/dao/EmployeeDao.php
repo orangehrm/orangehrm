@@ -284,6 +284,82 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
+     * Get WorkExperience
+     * @param int $empNumber
+     * @param int $sequenceNo
+     * @returns Collection/WorkExperience
+     * @throws DaoException
+     */
+    public function getWorkExperience($empNumber, $sequenceNo = null) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('EmpWorkExperience w')
+                    ->where('w.emp_number = ?', $empNumber);
+
+            if(!is_null($sequenceNo)) {
+                $q->andwhere('w.seqno = ?', $sequenceNo);
+                return $q->fetchOne();
+            }
+            
+            return $q->execute();
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * save WorkExperience
+     * @param EmpWorkExperience $empWorkExp
+     * @returns boolean
+     */
+    public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
+        try {
+
+            $sequenceNo = 1;
+
+            if(trim($empWorkExp->getSeqno()) == "") {
+                $q = Doctrine_Query::create()
+                        ->select('MAX(w.seqno)')
+                        ->from('EmpWorkExperience w')
+                        ->where('w.emp_number = ?', $empWorkExp->getEmpNumber());
+                $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+                $sequenceNo = $result[0]['MAX'] + 1;
+                $empWorkExp->setSeqno($sequenceNo);
+
+            }
+
+            $empWorkExp->save();
+            return true;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+   /**
+    * Delete WorkExperiences
+    * @param int $empNumber
+    * @param array() $workExperienceToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
+      try {
+         if(is_array($workExperienceToDelete)) {
+            // Delete work experience
+            $q = Doctrine_Query :: create()->delete('EmpWorkExperience ec')
+              ->whereIn('seqno', $workExperienceToDelete)
+              ->andwhere('emp_number = ?', $empNumber);
+            $result = $q->execute();
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
+    /**
      * Get dependents for given employee
      * @param int $empNumber Employee Number
      * @return array Dependents as array

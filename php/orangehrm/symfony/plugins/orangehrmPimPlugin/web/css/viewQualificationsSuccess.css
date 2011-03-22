@@ -1,0 +1,25 @@
+#mainDiv {
+    width: 700px;
+}
+
+.sectionDiv {
+    width: 650px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+h3 {
+    color: #000000;
+}
+
+.sectionDiv .outerbox {
+    margin-left: 0px;
+}
+
+.sectionDiv .outerbox form {
+    margin-left: 7px;
+}
+
+div .error{
+    margin-left: 140px;
+}

@@ -584,6 +584,54 @@
         <source>Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</source>
         <target>FR_Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</target>
       </trans-unit>
+      <trans-unit id="146">
+        <source>Work Experience</source>
+        <target>FR_Work Experience</target>
+      </trans-unit>
+      <trans-unit id="147">
+        <source>Add Work Experience</source>
+        <target>FR_Add Work Experience</target>
+      </trans-unit>
+      <trans-unit id="148">
+        <source>Company</source>
+        <target>FR_Company</target>
+      </trans-unit>
+      <trans-unit id="149">
+        <source>Job Title</source>
+        <target>FR_Job Title</target>
+      </trans-unit>
+      <trans-unit id="150">
+        <source>From</source>
+        <target>FR_From</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>To</source>
+        <target>FR_To</target>
+      </trans-unit>
+      <trans-unit id="152">
+        <source>Comment</source>
+        <target>FR_Comment</target>
+      </trans-unit>
+      <trans-unit id="153">
+        <source>Edit Work Experience</source>
+        <target>FR_Edit Work Experience</target>
+      </trans-unit>
+      <trans-unit id="154">
+        <source>Company is required</source>
+        <target>FR_Company is required</target>
+      </trans-unit>
+      <trans-unit id="155">
+        <source>Job Title is required</source>
+        <target>FR_Job Title is required</target>
+      </trans-unit>
+      <trans-unit id="156">
+        <source>Work Experience Details Saved Successfully</source>
+        <target>FR_Work Experience Details Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Work Experience(s) Deleted Successfully</source>
+        <target>FR_Work Experience(s) Deleted Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
