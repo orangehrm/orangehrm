@@ -62,6 +62,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <?php }?>
 <div class="searchbox">
 <form id="search_form" method="post" action="<?php echo url_for('@employee_list'); ?>">
+    <div id="basicSearchOptions">
     <?php echo $form['_csrf_token'];
           echo $form['search_mode'];
 	  echo $form['employee_name']->renderLabel(__("Employee Name"));
@@ -72,6 +73,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
           }
 
     ?>
+    </div>
     <div id="advancedSearchOptions" style="display:none">
     <?php
           echo $form['id']->renderLabel(__("Id"));

@@ -11,12 +11,25 @@ div.searchbox div.actionbar {
     border-top: 1px solid #FAD163;
     margin-top: 3px;
 }
-/*form#search_form select,
-form#search_form input {
+form#search_form div#basicSearchOptions select,
+form#search_form div#basicSearchOptions input,
+form#search_form div#advancedSearchOptions select,
+form#search_form div#advancedSearchOptions input {
+    padding-left:4px;
+    padding-right:0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
     width:150px;
+    margin-bottom: 5px;
 }
 
-form#search_form label {
-    width: 100px;
+form#search_form div#basicSearchOptions select,
+form#search_form div#advancedSearchOptions select {
+    width:156px;
 }
-*/
+
+form#search_form div#basicSearchOptions label,
+form#search_form div#advancedSearchOptions label {
+    width: 100px;
+    margin-bottom: 5px;
+}
