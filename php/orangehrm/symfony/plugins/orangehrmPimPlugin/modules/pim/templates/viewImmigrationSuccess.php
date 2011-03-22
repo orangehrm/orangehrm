@@ -165,7 +165,7 @@
                         </div>
                     </td>
                     <td valign="top" align="left">
-                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
+                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
                     </td>
                 </tr>
             </table>

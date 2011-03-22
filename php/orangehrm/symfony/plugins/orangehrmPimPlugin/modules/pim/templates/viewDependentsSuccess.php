@@ -174,7 +174,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">
-            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlentities($form->fullName)));?>
+            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
             </td>
     </tr>
 </table>
