@@ -54,21 +54,24 @@ class viewEmployeeListAction extends sfAction {
 
         // Check if admin mode or supervisor mode
         $userType = 'Admin';
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-
-
-        if (!$adminMode) {
-            $supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
-            $userType = 'Supervisor';
-        } else {
-            $supervisorMode = false;
+        $this->adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        if (!$adminMode && !$supervisorMode) {
+        if (!$this->adminMode) {
+            $this->supervisorMode = $this->getUser()->hasCredential(Auth::SUPERVISOR_ROLE);
+            $userType = 'Supervisor';
+        } else {
+            $this->supervisorMode = false;
+        }
+
+        if (!$this->adminMode && !$this->supervisorMode) {
             return $this->forward("pim", "unauthorized");
         }
 
-        $this->sorter = new ListSorter('emplist.sort', 'pim_module', $this->getUser(), array('employeeId', ListSorter::ASCENDING));
+        $this->sorter = new ListSorter('emplist.sort', 'pim_module', $this->getUser(), array('lastName', ListSorter::ASCENDING));
 
         // Sorting
         if ($request->getParameter('sort')) {
@@ -112,7 +115,7 @@ class viewEmployeeListAction extends sfAction {
             $this->filterApply = 1;
         }
 
-        if ($supervisorMode) {
+        if ($this->supervisorMode) {
             $search['supervisorId'] = $this->getUser()->getEmployeeNumber();
         }
 

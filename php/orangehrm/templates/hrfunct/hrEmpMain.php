@@ -366,7 +366,7 @@ function addEmpMain() {
 
 
 function goBack() {
-	location.href = "./CentralController.php?reqcode=<?php echo $escapedReqCode; ?>&VIEW=MAIN<?php echo (isset($this->getArr['currentPage'])) ? "&pageNO=" . CommonFunctions::escapeHtml($this->getArr['currentPage']) : ""; ?>";
+	location.href = "../../symfony/web/index.php/pim/viewEmployeeList";
 }
 
 function editEmpMain() {

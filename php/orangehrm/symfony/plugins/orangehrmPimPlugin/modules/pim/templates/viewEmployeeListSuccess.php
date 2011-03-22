@@ -39,14 +39,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 ?>
 </span>
 <?php endif; ?>
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
 
 <div class="outerbox">
 
 <div class="mainHeading">
 	<h2><?php echo __("Employee Information") ?></h2>
 </div>
-<!-- this is for client side error indicator -->
-<div class="error" id="clientError"></div>
 
 <?php if ($form->hasErrors() || $sf_user->hasFlash('success') || $sf_user->hasFlash('error')): ?>
 <div class="messagebar">
@@ -62,10 +63,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <div class="searchbox">
 <form id="search_form" method="post" action="<?php echo url_for('@employee_list'); ?>">
     <?php echo $form['_csrf_token'];
+          echo $form['search_mode'];
 	  echo $form['employee_name']->renderLabel(__("Employee Name"));
           echo $form['employee_name']->render();
-          echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
-          echo $form['supervisor_name']->render();
+          if ($adminMode) {
+              echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
+              echo $form['supervisor_name']->render();
+          }
+
     ?>
     <div id="advancedSearchOptions" style="display:none">
     <?php
@@ -94,6 +99,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             type="button" class="plainbtn"
             onmouseover="this.className='plainbtn plainbtnhov'" id="advancedBtn"
             onmouseout="this.className='plainbtn'" value="<?php echo __("Advanced Options")?>" name="_advanced" />
+        <input
+            type="button" class="plainbtn"
+            onmouseover="this.className='plainbtn plainbtnhov'" id="resetBtn"
+            onmouseout="this.className='plainbtn'" value="<?php echo __("Reset")?>" name="_reset" />
 
     </div>
     <br class="clear" />
@@ -104,7 +113,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div> <!-- outerbox -->
 
 <div class="outerbox">
-<form method="post" action="<?php echo url_for('pim/delete');?>" id="frmDelete" >
+<form method="post" action="<?php echo url_for('pim/deleteEmployees');?>" id="frmDelete" >
 
 <div class="actionbar">
 <div class="actionbuttons">
@@ -223,6 +232,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     $(document).ready(function() {
 
         var data = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
+
+        if ($('#empsearch_search_mode').val() == 'advanced') {
+            toggleOptions();
+        }
         
 	//Auto complete
         $("#empsearch_employee_name").autocomplete(data, {
@@ -233,7 +246,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         }).result(function(event, item) {
         }
         );
-
+<?php if ($adminMode) { ?>
         $("#empsearch_supervisor_name").autocomplete(data, {
           formatItem: function(item) {
             return item.name;
@@ -242,7 +255,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         }).result(function(event, item) {
         }
         );
-
+<?php } ?>
         $('#allCheck').click(function() {
             var check = $(this).attr('checked');
             $('input[type=checkbox].checkbox').attr('checked', check);
@@ -264,11 +277,41 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 	});
 
         $('#advancedBtn').click(function() {
-            $('#advancedSearchOptions').toggle();
-            var buttonText = $('#advancedBtn').attr('value');
-            var newText = buttonText == advancedOptionsText ? basicOptionsText : advancedOptionsText;
-            $('#advancedBtn').attr('value', newText);
+            toggleOptions();
         });
+        
+	$('#resetBtn').click(function() {
+            $("#empsearch_employee_name").val('');
+            $("#empsearch_supervisor_name").val('');
+            resetAdvancedFields();
+	});
+
+        function resetAdvancedFields() {
+            $("#empsearch_id").val('');
+            $("#empsearch_job_title").val('0');
+            $("#empsearch_employee_status").val('0');
+            $("#empsearch_sub_unit").val('0');
+        }
+
+        function toggleOptions() {
+            $('#advancedSearchOptions').toggle();
+            var buttonText = $('#advancedBtn').val();
+            var newText;
+
+            if (buttonText == advancedOptionsText) {
+                // switching to advanced mode
+
+                newText = basicOptionsText;
+                $("#empsearch_search_mode").val('advanced');
+
+            } else {
+                newText = advancedOptionsText;
+                resetAdvancedFields();
+                $("#empsearch_search_mode").val('basic');
+            }
+
+            $('#advancedBtn').val(newText);
+        }
 
         $('#addBtn').click(function() {
             location.href = "<?php echo url_for('pim/addEmployee') ?>";
@@ -276,21 +319,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
 	$('#frmDelete').submit(function() {
 
-            var checkboxes = document.getElementsByName('ids[]');
-            var recordSelected = false;
-            var checkboxCount = checkboxes.length;
-
-            for (var i=0; i < checkboxCount; i++) {
-                if (checkboxes[i].checked) {
-                    recordSelected = true;
-                    break;
-                }
-            }
-
-            if (recordSelected) {
+            var checked = $('#frmDelete input:checked').length;
+            
+            if (checked > 0) {
                 return true;
             } else {
-                 $("#clientError").text("Select at least one record to delete");
+                $("#messagebar").attr('class', "messageBalloon_notice");
+                $("#messagebar").text('<?php echo __("Select At Least One Employee To Delete"); ?>');
                 return false;
             }
 	});

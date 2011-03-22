@@ -21,12 +21,12 @@ class EmployeeTable extends PluginEmployeeTable {
      * @var array
      */
     protected static $searchMapping = array(
-            'employeeId' => 'e.employee_id',
+            'id' => 'e.employee_id',
             'employee_name' => 'concat_ws(\' \', e.emp_firstname,e.emp_middle_name,e.emp_lastname)',
             'middleName' => 'e.emp_middle_name',
             'lastName' => 'e.emp_lastName',
-            'jobTitle' => 'j.jobtit_name',
-            'employeeStatus' => 'es.estat_name',
+            'job_title' => 'j.jobtit_name',
+            'employee_status' => 'es.estat_name',
             'sub_unit' => 'cs.title',
             'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
             'supervisorId' => 's.emp_firstname',
@@ -153,7 +153,7 @@ class EmployeeTable extends PluginEmployeeTable {
         $orderBy = '';
 
         $this->_getEmployeeListQuery($select, $query, $bindParams, $orderBy, null, null, $filters);
-//var_dump($query);die;
+
         $countQuery = 'SELECT COUNT(*) FROM (' . $select . ' ' . $query . ' ) AS countqry';
 
         if (sfConfig::get('sf_logging_enabled')) {
@@ -232,7 +232,6 @@ class EmployeeTable extends PluginEmployeeTable {
                 if (!empty($searchField) && !empty($searchBy)
                         && array_key_exists($searchField, self::$searchMapping) ) {
                     $field = self::$searchMapping[$searchField];
-                    $value = '%' . $searchBy . '%';
 
                     if ($searchField == 'sub_unit') {
 
@@ -242,23 +241,32 @@ class EmployeeTable extends PluginEmployeeTable {
                         */
                         $conditions[] =  'e.work_station IN (SELECT n.id FROM hs_hr_compstructtree n ' .
                                 'INNER JOIN hs_hr_compstructtree p WHERE n.lft >= p.lft ' .
-                                'AND n.rgt <= p.rgt AND p.title LIKE ? )';
-                        $bindParams[] = $value;
+                                'AND n.rgt <= p.rgt AND p.id = ? )';
+                        $bindParams[] = $searchBy;
+                    } else if ($searchField == 'id') {
+                        $conditions[] = ' e.employee_id LIKE ? ';
+                        $bindParams[] = $searchBy;
+                        //$bindParams[] = '%' . $searchBy . '%';
+                    } else if ($searchField == 'job_title') {
+                        $conditions[] = ' j.jobtit_code = ? ';
+                        $bindParams[] = $searchBy;
+                    } else if ($searchField == 'employee_status') {
+                        $conditions[] = ' es.estat_code = ? ';
+                        $bindParams[] = $searchBy;
                     } else if ($searchField == 'supervisorId') {
                         $conditions[] = ' s.emp_number = ? ';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'supervisor_name') {
                         $conditions[] = $field . ' LIKE ? ';
                         // Replace multiple spaces in string with wildcards
-                        $value = preg_replace('!\s+!', '%', $value);
+                        $value = preg_replace('!\s+!', '%', $searchBy);
+                        $bindParams[] = '%' . $value . '%';
 
-                        $bindParams[] = $value;
                     } else if ($searchField == 'employee_name') {
                         $conditions[] = $field . ' LIKE ? ';
                         // Replace multiple spaces in string with wildcards
-                        $value = preg_replace('!\s+!', '%', $value);
-
-                        $bindParams[] = $value;
+                        $value = preg_replace('!\s+!', '%', $searchBy);
+                        $bindParams[] = '%' . $value . '%';
                     }
                     $filterCount++;
 
