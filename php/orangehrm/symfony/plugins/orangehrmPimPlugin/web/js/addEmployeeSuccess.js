@@ -93,6 +93,6 @@ $(document).ready(function() {
     });
 
     $("#btnCancel").click(function(){
-        navigateUrl(cancelNavigateUrl);
+       navigateUrl("viewEmployeeList");
     });
 });
