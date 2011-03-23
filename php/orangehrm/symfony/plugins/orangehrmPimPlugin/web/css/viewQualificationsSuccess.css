@@ -23,3 +23,8 @@ h3 {
 div .error{
     margin-left: 140px;
 }
+
+.smallText {
+    font-size: 8pt;
+    margin-top: 5px;
+}

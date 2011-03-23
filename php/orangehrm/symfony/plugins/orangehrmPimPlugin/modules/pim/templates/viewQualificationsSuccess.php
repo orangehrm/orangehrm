@@ -86,6 +86,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <div class="smallText" id="workExpRequiredNote"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
                                     <br />
                                     <div id="actionWorkExperience">
                                         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addWorkExperience" />&nbsp;

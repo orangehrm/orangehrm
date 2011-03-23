@@ -3,6 +3,7 @@ $(document).ready(function() {
 
     //hide add work experience section
     $("#changeWorkExperience").hide();
+    $("#workExpRequiredNote").hide();
 
     //hiding the data table if records are not available
     if($(".chkbox1").length == 0) {
@@ -43,6 +44,7 @@ $(document).ready(function() {
 
         //show add work experience form
         $("#changeWorkExperience").show();
+        $("#workExpRequiredNote").show();
     });
 
     //clicking of delete button
@@ -58,6 +60,7 @@ $(document).ready(function() {
         $("#actionWorkExperience").show();
 
         $("#changeWorkExperience").hide();
+        $("#workExpRequiredNote").hide();
     });
 
     $("#btnWorkExpSave").click(function() {
@@ -410,4 +413,5 @@ function fillDataToWorkExperienceDataPane(seqno) {
     $("#experience_to_date").val($("#toDate_" + seqno).val());
     $("#experience_comments").val($("#comment_" + seqno).val());
 
+    $("#workExpRequiredNote").show();
 }
