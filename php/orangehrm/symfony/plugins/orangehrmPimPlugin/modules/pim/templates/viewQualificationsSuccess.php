@@ -16,6 +16,7 @@
     var lang_jobTitleRequired = "<?php echo __("Job Title is required");?>";
     var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
+    var lang_fromDateLessToDate = "<?php echo __('From date should be before to date');?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';

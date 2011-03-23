@@ -67,19 +67,39 @@ $(document).ready(function() {
         $("#frmWorkExperience").submit();
     });
 
+    /* Valid From Date */
+    $.validator.addMethod("validFromDate", function(value, element) {
+
+        var fromdate	=	$('#experience_from_date').val();
+        fromdate = (fromdate).split("-");
+
+        var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
+        var todate		=	$('#experience_to_date').val();
+        todate = (todate).split("-");
+        var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
+
+        if(fromdateObj > todateObj){
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    });
+
     //form validation
     $("#frmWorkExperience").validate({
         rules: {
             'experience[employer]': {required: true},
             'experience[jobtitle]': {required: true},
-            'experience[from_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
+            'experience[from_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate:true},
             'experience[to_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
             'experience[comments]': {maxlength: 250}
         },
         messages: {
             'experience[employer]': {required: lang_companyRequired},
             'experience[jobtitle]': {required: lang_jobTitleRequired},
-            'experience[from_date]': {valid_date: lang_invalidDate},
+            'experience[from_date]': {valid_date: lang_invalidDate, validFromDate: lang_fromDateLessToDate},
             'experience[to_date]': {valid_date: lang_invalidDate},
             'experience[comments]': {maxlength: lang_commentLength}
         },
