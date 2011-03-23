@@ -28,3 +28,7 @@ div .error{
     font-size: 8pt;
     margin-top: 5px;
 }
+
+textarea.formInputText {
+    margin-top: 5px;
+}
