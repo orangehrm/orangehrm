@@ -51,7 +51,13 @@ $(document).ready(function() {
 
     //clicking of delete button
     $("#delWorkExperience").click(function(){
-        $("#frmDelWorkExperience").submit();
+
+        if($(".chkbox1:checked").length > 0) {
+            $("#frmDelWorkExperience").submit();
+        }
+
+        $("#messagebar").attr('class', 'messageBalloon_notice');
+        $("#messagebar").text(lang_selectWrkExprToDelete);
 
     });
 

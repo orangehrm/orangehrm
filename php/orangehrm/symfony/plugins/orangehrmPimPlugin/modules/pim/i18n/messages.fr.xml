@@ -636,6 +636,10 @@
         <source>From date should be before to date</source>
         <target>FR_From date should be before to date</target>
       </trans-unit>
+      <trans-unit id="159">
+        <source>Select Work Experience From The List To Delete</source>
+        <target>FR_Select Work Experience From The List To Delete</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
