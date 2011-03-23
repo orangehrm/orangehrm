@@ -632,6 +632,10 @@
         <source>Work Experience(s) Deleted Successfully</source>
         <target>FR_Work Experience(s) Deleted Successfully</target>
       </trans-unit>
+      <trans-unit id="158">
+        <source>From date should be before to date</source>
+        <target>FR_From date should be before to date</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
