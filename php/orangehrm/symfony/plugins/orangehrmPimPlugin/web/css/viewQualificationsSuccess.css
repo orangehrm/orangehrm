@@ -32,3 +32,11 @@ div .error{
 textarea.formInputText {
     margin-top: 5px;
 }
+
+#experience_employer {
+    width: 220px;
+}
+
+#experience_jobtitle {
+    width: 220px;
+}
