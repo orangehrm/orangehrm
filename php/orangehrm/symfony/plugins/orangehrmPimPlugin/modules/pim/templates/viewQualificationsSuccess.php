@@ -94,8 +94,8 @@
                                     </div>
 
                                     <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
-                                        <div class="outerbox">
-                                            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblWorkExperience" border="0">
+                                        <div class="outerbox" id="tblWorkExperience">
+                                            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                                                 <thead>
                                                     <tr>
                                                         <td><input type="checkbox" id="workCheckAll" /></td>
@@ -219,7 +219,7 @@
                                 </div>
                                 <!-- this is skills section -->
                                 <div class="sectionDiv" id="sectionSkills">
-                                    <div><h3><?php echo __('Education'); ?></h3></div>
+                                    <div><h3><?php echo __('Skills'); ?></h3></div>
 
                                     <div class="outerbox" id="changeSkills" style="width:500px;">
                                         <div class="mainHeading"><h2 id="headChangeSkills"><?php echo __('Add Skills'); ?></h2></div>
