@@ -31,6 +31,8 @@ $(document).ready(function() {
     $("#addWorkExperience").click(function() {
         //changing the headings
         $("#headChangeWorkExperience").text(lang_addWorkExperience);
+        $(".chkbox1").hide();
+        $("#workCheckAll").hide();
 
         //hiding action button section
         $("#actionWorkExperience").hide();
@@ -61,6 +63,9 @@ $(document).ready(function() {
 
         $("#changeWorkExperience").hide();
         $("#workExpRequiredNote").hide();
+
+        $(".chkbox1").show();
+        $("#workCheckAll").show();
     });
 
     $("#btnWorkExpSave").click(function() {
@@ -84,7 +89,6 @@ $(document).ready(function() {
         else{
             return true;
         }
-
     });
 
     //form validation
@@ -434,4 +438,7 @@ function fillDataToWorkExperienceDataPane(seqno) {
     $("#experience_comments").val($("#comment_" + seqno).val());
 
     $("#workExpRequiredNote").show();
+
+    $(".chkbox1").hide();
+    $("#workCheckAll").hide();
 }
