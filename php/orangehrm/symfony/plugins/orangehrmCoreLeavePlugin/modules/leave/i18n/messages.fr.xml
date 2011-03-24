@@ -444,6 +444,14 @@
         <source>Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</source>
         <target>FR_Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</target>
       </trans-unit>
+      <trans-unit id="218">
+        <source>Start month is required</source>
+        <target>FR_Start month is required</target>
+      </trans-unit>
+      <trans-unit id="219">
+        <source>Start month for non-leap year is required</source>
+        <target>FR_Start month for non-leap year is required</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -91,6 +91,9 @@
 	var isEditMode = <?php echo ($isLeavePeriodDefined) ? 'false' : 'true' ?>;
 	var initValues = null;
 
+    var lang_StartMonthIsRequired = "<?php echo __(""); ?>";
+    var lang_StartMonthForNonLeapYearIsRequired = "<?php echo __(""); ?>";
+
 	$(document).ready(function() {
 
 		$('#leaveperiod_cmbStartMonth').change(function(){
@@ -243,14 +246,14 @@
         $("#leaveperiod_cmbStartMonthForNonLeapYears").change(function() {
             $("#inlineErrorHolder2").empty();
             if($("#leaveperiod_cmbStartMonthForNonLeapYears").val() == 0) {
-                $("#inlineErrorHolder2").append("Start month for non-leap year is required");
+                $("#inlineErrorHolder2").append(lang_StartMonthForNonLeapYearIsRequired);
             }
         });
 
         $("#leaveperiod_cmbStartMonth").change(function() {
             $("#inlineErrorHolder").empty();
             if($("#leaveperiod_cmbStartMonth").val() == 0) {
-                $("#inlineErrorHolder").append("Start month is required");
+                $("#inlineErrorHolder").append(lang_StartMonthIsRequired);
             }
         });
 	});
