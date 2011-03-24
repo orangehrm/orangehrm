@@ -292,6 +292,22 @@
         <source>OrangeHRM - Confirmation Required</source>
         <target>FR_OrangeHRM - Confirmation Required</target>
       </trans-unit>
+      <trans-unit id="105">
+        <source>Date is required</source>
+        <target>FR_Date is required</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Date should be in the format: %format%</source>
+        <target>FR_Date should be in the format: %format%</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Name is required</source>
+        <target>FR_Name is required</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Name should be less than %length% characters</source>
+        <target>FR_Name should be less than %length% characters</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

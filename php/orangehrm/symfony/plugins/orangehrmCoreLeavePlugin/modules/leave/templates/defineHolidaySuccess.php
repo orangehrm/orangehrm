@@ -91,6 +91,11 @@
         var dateFormat	= '<?php echo $sf_user->getDateFormat();?>';
         var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
 
+        var lang_DateIsRequired = "<?php echo __("Date is required"); ?>";
+        var lang_DateFormatIsWrong = "<?php echo __("Date should be in the format: %format%", array('%format%' => $sf_user->getDateFormat())); ?>";
+        var lang_NameIsRequired = "<?php echo __("Name is required"); ?>";
+        var lang_NameIsOverLimit = "<?php echo __("Name should be less than %length% characters", array('%length%' => 200)); ?>";
+
         //Load default Mask if empty
         var hDate 	= 	trim($("#holiday_txtDate").val());
         if(hDate == ''){
@@ -108,13 +113,12 @@
             },
             messages: {
                 'holiday[txtDate]':{
-                    required:  "<?php echo __("Date is required"); ?>",
-                    valid_date: "<?php echo __("Date should be in the format: %format%", 
-                             array('%format%'=>$sf_user->getDateFormat())) ?>"
+                    required:  lang_DateIsRequired,
+                    valid_date: lang_DateFormatIsWrong
                 },
                 'holiday[txtDescription]':{
-                    required:  "<?php echo __("Name is required"); ?>",
-                    maxlength:"<?php echo __("Name should be less than 200 characters"); ?>"
+                    required: lang_NameIsRequired,
+                    maxlength: lang_NameIsOverLimit
                 }
             },
             errorPlacement: function(error, element) {
