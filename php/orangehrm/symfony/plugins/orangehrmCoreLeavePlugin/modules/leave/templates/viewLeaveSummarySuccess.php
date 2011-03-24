@@ -76,7 +76,7 @@
     <td width="75"><?php echo $form['cmbLeaveType']->render(); ?></td>
 </tr>
 <tr>
-    <td><?php echo __('Records per page'); ?></td>
+    <td><?php echo __('Records Per Page'); ?></td>
     <td colspan="3"><?php echo $form['cmbRecordsCount']->render(); ?></td>
 </tr>
 </table>
