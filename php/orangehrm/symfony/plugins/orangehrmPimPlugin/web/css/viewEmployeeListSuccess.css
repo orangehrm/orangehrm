@@ -2,19 +2,12 @@
     background-color: #ccc;
     cursor: pointer;
 }
-
-div#advancedSearchOptions {
-   clear: both;
-}
-
 div.searchbox div.actionbar {
     border-top: 1px solid #FAD163;
     margin-top: 3px;
 }
-form#search_form div#basicSearchOptions select,
-form#search_form div#basicSearchOptions input,
-form#search_form div#advancedSearchOptions select,
-form#search_form div#advancedSearchOptions input {
+form#search_form div#formcontent select,
+form#search_form div#formcontent input {
     padding-left:4px;
     padding-right:0px;
     padding-top: 1px;
@@ -23,13 +16,16 @@ form#search_form div#advancedSearchOptions input {
     margin-bottom: 5px;
 }
 
-form#search_form div#basicSearchOptions select,
-form#search_form div#advancedSearchOptions select {
+form#search_form div#formcontent label {
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent select {
     width:156px;
 }
 
-form#search_form div#basicSearchOptions label,
-form#search_form div#advancedSearchOptions label {
-    width: 100px;
-    margin-bottom: 5px;
+input#empsearch_employee_name,
+input#empsearch_supervisor_name {
+    width: 250px;
 }

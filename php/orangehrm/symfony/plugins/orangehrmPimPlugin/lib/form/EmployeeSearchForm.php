@@ -36,10 +36,7 @@ class EmployeeSearchForm extends BaseForm {
         $this->setWidgets(array(
             'employee_name' => new sfWidgetFormInputText(),            
             'id' => new sfWidgetFormInputText(),
-            'search_mode' => new sfWidgetFormInputHidden(),
         ));
-
-        $this->setDefault('search_mode', 'basic');
 
         /* Setting job titles */
         $this->_setJobTitleWidget();
@@ -56,7 +53,6 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->setValidator('employee_name', new sfValidatorString(array('required' => false)));
         $this->setValidator('id', new sfValidatorString(array('required' => false)));
-        $this->setValidator('search_mode', new sfValidatorString(array('required' => false)));
         
         $this->widgetSchema->setNameFormat('empsearch[%s]');
     }
@@ -107,36 +103,24 @@ class EmployeeSearchForm extends BaseForm {
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
-        if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList();
-        } elseif ($this->userType == 'Supervisor') {
+        $employeeList = $employeeService->getSupervisorList();
 
-            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
-
-        }
-
-        $employeeUnique = array();
         foreach($employeeList as $employee) {
 
-            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+            $name = $employee->getFirstName() . " " . $employee->getMiddleName();
+            $name = trim(trim($name) . " " . $employee->getLastName());
 
-                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-                $name = trim(trim($name) . " " . $employee->getLastName());
-
-                foreach($escapeCharSet as $char) {
-                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-                }
-
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
+            foreach($escapeCharSet as $char) {
+                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
             }
+
+            $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
 
         }
 
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;
-
     }
 
     public function getJobService() {

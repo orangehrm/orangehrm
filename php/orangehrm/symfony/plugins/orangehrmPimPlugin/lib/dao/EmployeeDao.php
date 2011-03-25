@@ -484,6 +484,27 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
+     * Returns list of supervisors (employees having at least one subordinate)
+     *
+     * @returns Collection
+     * @throws DaoException
+     */
+    public function getSupervisorList() {
+        try {
+            $q = Doctrine_Query :: create()
+            ->select('e.firstName, e.lastName, e.empNumber, s.empNumber')
+            ->from('Employee e')
+            ->innerJoin('e.subordinates s')
+            ->orderBy('e.lastName DESC');
+
+            return $q->execute();
+
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
      * Search Employee
      * @param String $field
      * @param String $value

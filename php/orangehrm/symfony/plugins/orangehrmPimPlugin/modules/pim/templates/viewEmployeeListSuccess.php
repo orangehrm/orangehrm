@@ -62,45 +62,37 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <?php }?>
 <div class="searchbox">
 <form id="search_form" method="post" action="<?php echo url_for('@employee_list'); ?>">
-    <div id="basicSearchOptions">
+    <div id="formcontent">
     <?php echo $form['_csrf_token'];
-          echo $form['search_mode'];
 	  echo $form['employee_name']->renderLabel(__("Employee Name"));
           echo $form['employee_name']->render();
-          if ($adminMode) {
-              echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
-              echo $form['supervisor_name']->render();
-          }
 
-    ?>
-    </div>
-    <div id="advancedSearchOptions" style="display:none">
-    <?php
           echo $form['id']->renderLabel(__("Id"));
-          echo $form['id']->render();           
-          echo $form['job_title']->renderLabel(__("Job Title"));
-          echo $form['job_title']->render();        
-    ?>
-        <br class="clear"/>
-    <?php
+          echo $form['id']->render();
+
           echo $form['employee_status']->renderLabel(__("Employee Status"));
           echo $form['employee_status']->render();
+
+    ?>
+    <br class="clear"/>
+    <?php
+          echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
+          echo $form['supervisor_name']->render();
+
+          echo $form['job_title']->renderLabel(__("Job Title"));
+          echo $form['job_title']->render();
+
           echo $form['sub_unit']->renderLabel(__("Sub Unit"));
           echo $form['sub_unit']->render();
 
     ?>
     </div>
-
     <div class="actionbar">
     <div class="actionbuttons">
         <input
             type="button" class="plainbtn" id="searchBtn"
             onmouseover="this.className='plainbtn plainbtnhov'"
             onmouseout="this.className='plainbtn'" value="<?php echo __("Search")?>" name="_search" />
-        <input
-            type="button" class="plainbtn"
-            onmouseover="this.className='plainbtn plainbtnhov'" id="advancedBtn"
-            onmouseout="this.className='plainbtn'" value="<?php echo __("Advanced Options")?>" name="_advanced" />
         <input
             type="button" class="plainbtn"
             onmouseover="this.className='plainbtn plainbtnhov'" id="resetBtn"
@@ -228,19 +220,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
 <script type="text/javascript">
 
-    var advancedOptionsText = '<?php echo __("Advanced Options")?>';
-    var basicOptionsText = '<?php echo __("Basic Options")?>'
-
     $(document).ready(function() {
 
-        var data = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
-
-        if ($('#empsearch_search_mode').val() == 'advanced') {
-            toggleOptions();
-        }
+        var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
+        var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
         
 	//Auto complete
-        $("#empsearch_employee_name").autocomplete(data, {
+        $("#empsearch_employee_name").autocomplete(employees, {
           formatItem: function(item) {
             return item.name;
           }
@@ -248,8 +234,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         }).result(function(event, item) {
         }
         );
-<?php if ($adminMode) { ?>
-        $("#empsearch_supervisor_name").autocomplete(data, {
+
+        $("#empsearch_supervisor_name").autocomplete(supervisors, {
           formatItem: function(item) {
             return item.name;
           }
@@ -257,7 +243,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         }).result(function(event, item) {
         }
         );
-<?php } ?>
+
         $('#allCheck').click(function() {
             var check = $(this).attr('checked');
             $('input[type=checkbox].checkbox').attr('checked', check);
@@ -277,43 +263,16 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 	$('#searchBtn').click(function() {
             $('#search_form').submit();
 	});
-
-        $('#advancedBtn').click(function() {
-            toggleOptions();
-        });
-        
+       
 	$('#resetBtn').click(function() {
             $("#empsearch_employee_name").val('');
             $("#empsearch_supervisor_name").val('');
-            resetAdvancedFields();
-	});
-
-        function resetAdvancedFields() {
             $("#empsearch_id").val('');
             $("#empsearch_job_title").val('0');
             $("#empsearch_employee_status").val('0');
             $("#empsearch_sub_unit").val('0');
-        }
-
-        function toggleOptions() {
-            $('#advancedSearchOptions').toggle();
-            var buttonText = $('#advancedBtn').val();
-            var newText;
-
-            if (buttonText == advancedOptionsText) {
-                // switching to advanced mode
-
-                newText = basicOptionsText;
-                $("#empsearch_search_mode").val('advanced');
-
-            } else {
-                newText = advancedOptionsText;
-                resetAdvancedFields();
-                $("#empsearch_search_mode").val('basic');
-            }
-
-            $('#advancedBtn').val(newText);
-        }
+            $('#search_form').submit();
+	});
 
         $('#addBtn').click(function() {
             location.href = "<?php echo url_for('pim/addEmployee') ?>";

@@ -353,6 +353,20 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Returns list of supervisors (employees having at least one subordinate)
+     *
+     * @returns Collection
+     * @throws DaoException
+     */
+    public function getSupervisorList() {
+        try {
+            return $this->employeeDao->getSupervisorList();
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+    
+    /**
      * Search Employee
      * @param String $field
      * @param String $value
