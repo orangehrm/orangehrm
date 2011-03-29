@@ -128,7 +128,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                <?php } ?>
 			</td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('firstName', __('First Name'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('firstMiddleName', __('First (&Middle) Name'), '@employee_list', ESC_RAW); ?></td>
                         <td scope="col"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
@@ -179,8 +179,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 /*
 			    echo link_to($employee->getFullName(), public_path('../../index.php'),
 			                 array('query_string'=> http_build_query($params)) );
-*/
-			    echo link_to($employee->getFirstName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
+*/                          $firstAndMiddle = trim($employee->getFirstName() . ' ' . $employee->getMiddleName());
+			    echo link_to($firstAndMiddle, "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
 
 			?>
 			</td>
@@ -218,8 +218,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
         var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
-        var deleteButtonLabel = '<?php echo __("Delete");?>';
-        var cancelButtonLabel = '<?php echo __("Cancel");?>';
 
 	//Auto complete
         $("#empsearch_employee_name").autocomplete(employees, {

@@ -40,6 +40,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'employeeId' => 'e.employee_id',
             'firstName' => 'e.emp_firstname',
             'middleName' => 'e.emp_middle_name',
+            'firstMiddleName' => array('e.emp_firstname','e.emp_middle_name'),
             'lastName' => 'e.emp_lastName',
             'fullName' => array('e.emp_firstname', 'e.emp_middle_name', 'e.emp_lastName'),
             'jobTitle' => 'j.jobtit_name',
