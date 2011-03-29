@@ -83,11 +83,6 @@ class viewEmployeeListAction extends sfAction {
             $this->setPage($request->getParameter('page'));
         }
 
-        // Reset filters if requested to
-        if ($request->hasParameter('_reset')) {
-            $this->setFilters(array());
-        }
-
         $params = array('userType'=> $userType, 'loggedInUserId'=>$this->getUser()->getEmployeeNumber());
         $this->form = new EmployeeSearchForm($this->getFilters(), $params);
         if ($request->isMethod('post')) {
@@ -97,35 +92,32 @@ class viewEmployeeListAction extends sfAction {
             if ($this->form->isValid()) {
                 $this->setFilters($this->form->getValues());
             } else {
-                return;
-                echo "INVALID";
-                die;
+                $this->setFilters(array());
             }
 
             $this->setPage(1);
         }
 
+        // Reset filters if requested to
+        if ($request->hasParameter('_reset')) {
+            $this->setFilters(array());
+        }
+
         $sort = $this->sorter->getSort();
         $filters = $this->getFilters();
 
-        $search = array();
-        $this->filterApply = 0;
-        if (isset($filters['search_by']) && isset($filters['search_for'])) {
-            $search = array($filters['search_by'] => $filters['search_for']);
-            $this->filterApply = 1;
-        }
+        $this->filterApply = !empty($filters);
+
 
         if ($this->supervisorMode) {
-            $search['supervisorId'] = $this->getUser()->getEmployeeNumber();
+            $filters['supervisorId'] = $this->getUser()->getEmployeeNumber();
         }
-
 
         $table = Doctrine::getTable('Employee');
         $count = $table->getEmployeeCount($filters);
 
         $this->pager = new SimplePager('Employee', sfConfig::get('app_items_per_page'));
 
-        //$this->pager->setQuery($query);
         $this->pager->setPage($this->getPage('page'));
         $this->pager->setNumResults($count);
         $this->pager->init();
@@ -134,6 +126,18 @@ class viewEmployeeListAction extends sfAction {
         $limit = $this->pager->getMaxPerPage();
 
         $this->employee_list = $table->getEmployeeList($sort[0], $sort[1], $filters, $offset, $limit);
+        
+        if (count($this->employee_list) == 0) {
+            $this->messageType = "warning";
+
+            // Supervisor Mode only lists subordinates.
+            if ($this->filterApply || $this->supervisorMode) {
+                $this->message = __("No Matching Employees Found.");
+            } else {
+                $this->message = __("No Employees Available.");
+            }
+
+        }
     }
 
     /**

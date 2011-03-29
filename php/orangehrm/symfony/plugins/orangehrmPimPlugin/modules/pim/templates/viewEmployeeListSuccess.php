@@ -24,29 +24,12 @@ use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
 use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
 use_stylesheet('../orangehrmPimPlugin/css/viewEmployeeListSuccess');
 use_javascript('../../../scripts/jquery/ui/ui.core.js');
+use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 ?>
 
-
-<?php if ($form->hasErrors()): ?>
-<span class="error">
-<?php
-echo $form->renderGlobalErrors();
-
-foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
-  echo $form[$widgetName]->renderError();
-}
-?>
-</span>
-<?php endif; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div class="outerbox">
-
-<div class="mainHeading">
-	<h2><?php echo __("Employee Information") ?></h2>
 </div>
 
 <?php if ($form->hasErrors() || $sf_user->hasFlash('success') || $sf_user->hasFlash('error')): ?>
@@ -55,11 +38,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <?php include_partial('global/flash_messages', array('sf_user' => $sf_user));?>
 </div>
 <?php endif; ?>
-<?php if($filterApply) {?>
-<div class="messagebar">
-   <?php echo __("This result set has filters applied to it. To clear the filters use the Reset button"); ?>
+
+<div class="outerbox">
+
+<div class="mainHeading">
+	<h2><?php echo __("Employee Information") ?></h2>
 </div>
-<?php }?>
+
 <div class="searchbox">
 <form id="search_form" method="post" action="<?php echo url_for('@employee_list'); ?>">
     <div id="formcontent">
@@ -107,7 +92,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div> <!-- outerbox -->
 
 <div class="outerbox">
-<form method="post" action="<?php echo url_for('pim/deleteEmployees');?>" id="frmDelete" >
+<form method="post" action="<?php echo url_for('pim/deleteEmployees');?>" id="frmDelete" name="frmDelete">
 
 <div class="actionbar">
 <div class="actionbuttons">
@@ -218,13 +203,24 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </form>
 </div>
 
+<!-- confirmation box -->
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required');?>" style="display: none;">
+    <?php echo __("Are you sure you want to delete multiple employees?");?>
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete');?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel');?>" />
+    </div
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function() {
 
         var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
         var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
-        
+        var deleteButtonLabel = '<?php echo __("Delete");?>';
+        var cancelButtonLabel = '<?php echo __("Cancel");?>';
+
 	//Auto complete
         $("#empsearch_employee_name").autocomplete(employees, {
           formatItem: function(item) {
@@ -249,8 +245,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('input[type=checkbox].checkbox').attr('checked', check);
         });
 
+        $('#emp_list tbody input:checkbox').click(function(){
+            var check = $(this).attr('checked');
+            if (!check) {
+                $('#allCheck').attr('checked', false);
+            }
+        });
+
         $('#emp_list td').click(function() {
-            
+            var href = false;
             if(!$(this).find("input").is('input:checkbox')) { // check if check box is clicked
                  href = $(this).parent().find("a").attr("href");
             }
@@ -281,16 +284,39 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 	$('#frmDelete').submit(function() {
 
             var checked = $('#frmDelete input:checked').length;
+
+            $("#messagebar").text("");
             
-            if (checked > 0) {
+            // Confirm if multiple employees selected.
+            if (checked == 1) {
                 return true;
+            } else if (checked > 1) {
+                $('#deleteConfirmation').dialog('open');
+                return false;
             } else {
                 $("#messagebar").attr('class', "messageBalloon_notice");
-                $("#messagebar").text('<?php echo __("Select At Least One Employee To Delete"); ?>');
+                $("#messagebar").text('<?php echo __("Please Select At Least One Employee To Delete"); ?>');
                 return false;
             }
 	});
 
+        $("#deleteConfirmation").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 325,
+            height: 50,
+            position: 'middle',
+            open: function() {
+              $('#dialogCancelBtn').focus();
+            }
+        });
+
+        $('#dialogDeleteBtn').click(function() {
+            document.frmDelete.submit();
+        });
+        $('#dialogCancelBtn').click(function() {
+            $("#deleteConfirmation").dialog("close");
+        });
 
         $('#emp_list tbody tr').hover(function() {  // highlight on mouse over
             colorbg = $(this).css('backgroundColor');
