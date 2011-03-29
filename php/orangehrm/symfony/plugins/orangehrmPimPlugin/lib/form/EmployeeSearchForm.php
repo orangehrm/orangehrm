@@ -46,10 +46,9 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->_setEmployeeStatusWidget();
 
-        if ($this->userType == 'Admin') {
-            $this->setWidget('supervisor_name', new sfWidgetFormInputText());
-            $this->setValidator('supervisor_name', new sfValidatorString(array('required' => false)));
-        }
+        $this->setWidget('supervisor_name', new sfWidgetFormInputText());
+        $this->setValidator('supervisor_name', new sfValidatorString(array('required' => false)));
+
 
         $this->setValidator('employee_name', new sfValidatorString(array('required' => false)));
         $this->setValidator('id', new sfValidatorString(array('required' => false)));

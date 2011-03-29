@@ -46,11 +46,31 @@ class AuthorizeService extends BaseService {
     public $roleAcceptor 		= "Acceptor";
     public $roleOfferer 		= "Offerer";
 
-    
+        private $employeeService;
 
 	private $employeeID;
 	private $isAdmin;
 	private $roles;
+
+        /**
+         * Get EmployeeService
+         * @returns EmployeeService
+         */
+        public function getEmployeeService() {
+            if (is_null($this->employeeService)) {
+                $this->employeeService = new EmployeeService();
+                $this->employeeService->setEmployeeDao(new EmployeeDao());
+            }
+            return $this->employeeService;
+        }
+
+        /**
+         * Set EmployeeService
+         * @param EmployeeService $employeeService
+         */
+        public function setEmployeeService(EmployeeService $employeeService) {
+            $this->employeeService = $employeeService;
+        }
 
 	public function setEmployeeId($employeeId) {
 		$this->employeeID = $employeeId;
@@ -127,8 +147,14 @@ class AuthorizeService extends BaseService {
 	 * @return boolean
 	 */
 	private function _checkIsSupervisor() {
+                $isSupervisor = false;
 
-		return false;
+                if (!empty($this->employeeID)) {
+                    $isSupervisor = $this->getEmployeeService()->isSupervisor($this->employeeID);
+                }
+
+                return $isSupervisor;
+
 	}
 
 	/**

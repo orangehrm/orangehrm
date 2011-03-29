@@ -505,6 +505,28 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
+     * Check if employee with given empNumber is a supervisor
+     * @param int $empNumber
+     * @return bool - True if given employee is a supervisor, false if not
+     */
+    public function isSupervisor($empNumber) {
+        try {
+            $q = Doctrine_Query :: create()
+            ->select('COUNT(*)')
+            ->from('ReportTo r')
+            ->where('r.supervisorId = ?', $empNumber);
+
+            $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+            
+            return ($count > 0);
+
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+
+    /**
      * Search Employee
      * @param String $field
      * @param String $value

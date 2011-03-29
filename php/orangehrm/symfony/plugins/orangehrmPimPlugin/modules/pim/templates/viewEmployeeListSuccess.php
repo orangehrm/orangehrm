@@ -133,12 +133,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('subDivision', __('Sub Unit'), '@employee_list', ESC_RAW); ?></td>
-			<?php
-    			/* Show supervisor only for admin users, not for supervisors */
-    			if ($sf_user->hasCredential(Auth::ADMIN_ROLE)) {
-            ?>
 			<td scope="col"><?php echo $sorter->sortLink('supervisor', __('Supervisor'), '@employee_list', ESC_RAW); ?></td>
-			<?php } ?>
 		</tr>
 	</thead>
 
@@ -190,11 +185,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 			<td><?php echo $employee->getJobTitle()->getName(); ?></td>
 			<td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
 			<td><?php echo $employee->getSubDivision()->getTitle() ?></td>
-
-			<?php /* Show supervisor only for admin users, not for supervisors */
-			if ($sf_user->hasCredential(Auth::ADMIN_ROLE)): ?>
-				<td><?php echo $employee->getSupervisorNames() ?></td>
-			<?php endif; ?>
+        		<td><?php echo $employee->getSupervisorNames() ?></td>
 		</tr>
 		<?php endforeach; ?>
 

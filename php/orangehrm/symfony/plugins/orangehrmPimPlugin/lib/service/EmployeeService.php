@@ -235,6 +235,19 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Check if employee with given empNumber is a supervisor
+     * @param int $empNumber
+     * @return bool - True if given employee is a supervisor, false if not
+     */
+    public function isSupervisor($empNumber) {
+        try {
+            return $this->employeeDao->isSupervisor($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
      * Delete Subordinates
      * @param int $empNumber
      * @param array() $subordinatesToDelete
