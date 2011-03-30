@@ -124,7 +124,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		<tr>
 			<td width="50">
                <?php if ($sf_user->hasCredential(Auth::ADMIN_ROLE) && (count($employee_list) > 0)) { ?>
-               <input type="checkbox" id="allCheck" class="checkbox" style="margin-left:1px" />
+               <input type="checkbox" id="allCheck" class="checkbox"/>
                <?php } ?>
 			</td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>

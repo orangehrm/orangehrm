@@ -34,3 +34,29 @@ input#empsearch_employee_name,
 input#empsearch_supervisor_name {
     width: 250px;
 }
+
+/* Move to style.css */
+table.data-table thead td {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table thead td a {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table tbody td {
+    font-size: 12px;
+    height: 24px;
+}
+table.data-table tbody td a {
+    font-size: 12px;
+}
+
+table.data-table tbody td input.checkbox,
+table.data-table thead td input.checkbox{
+    margin-left:5px;
+}
