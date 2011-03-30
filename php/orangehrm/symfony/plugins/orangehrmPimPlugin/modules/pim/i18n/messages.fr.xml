@@ -573,16 +573,16 @@
         <target>FR_Employee Photograph Deleted Successfully</target>
       </trans-unit>
       <trans-unit id="143">
-        <source>Maximum File Size: 1 MB</source>
-        <target>FR_Maximum File Size: 1 MB</target>
+        <source>.jpg, .pnf or .gif file with maximum size of 1MB</source>
+        <target>FR_.jpg, .pnf or .gif file with maximum size of 1MB</target>
       </trans-unit>
       <trans-unit id="144">
-        <source>Adding Employee Failed. Image File Should Be in One of the Supported Image Format.(Example: jpg, png, gif, etc...)</source>
-        <target>FR_Adding Employee Failed. Image File Should Be in One of the Supported Image Format.(Example: jpg, png, gif, etc...)</target>
+        <source>Adding Employee Failed - Invalid File Type</source>
+        <target>FR_Adding Employee Failed - Invalid File Type</target>
       </trans-unit>
       <trans-unit id="145">
-        <source>Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</source>
-        <target>FR_Image File Should Be in One of the Supported Image Format.(Example: jpg, png, etc...)</target>
+        <source>Invalid File Type</source>
+        <target>FR_Invalid File Type</target>
       </trans-unit>
       <trans-unit id="146">
         <source>Work Experience</source>
