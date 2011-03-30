@@ -6,6 +6,11 @@ div.searchbox div.actionbar {
     border-top: 1px solid #FAD163;
     margin-top: 3px;
 }
+
+div.searchbox {
+    border-bottom: 0px;
+}
+
 form#search_form div#formcontent select,
 form#search_form div#formcontent input {
     padding-left:4px;
