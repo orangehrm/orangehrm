@@ -420,26 +420,33 @@ if($empNumber == $_SESSION['empID']) {
                         <span><?php echo __("Photograph");?></span></a></li>
             </ul>
         </li>
+<?php
+    // Old links require empNumber padded with 0's
+    $idLength = OrangeConfig::getInstance()->getSysConf()->getEmployeeIdLength();
+
+    $paddedEmpNumber = str_pad($empNumber, $idLength, "0", STR_PAD_LEFT);
+?>
+
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">
                     <?php echo __("Employment");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=2');?>" id="jobLink" accesskey="j" class="employment"  >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=2');?>" id="jobLink" accesskey="j" class="employment"  >
 
                         <span><?php echo __("Job");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=14');?>" id="paymentsLink" class="employment" accesskey="s" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=14');?>" id="paymentsLink" class="employment" accesskey="s" >
                         <span><?php echo __("Salary");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=18');?>" id="taxLink" class="employment" accesskey="t" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=18');?>" id="taxLink" class="employment" accesskey="t" >
                         <span><?php echo __("Tax Exemptions");?></span></a></li>
 
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=19');?>" id="direct-debitLink" class="employment" accesskey="o" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=19');?>" id="direct-debitLink" class="employment" accesskey="o" >
                         <span><?php echo __("Direct Deposit");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=15');?>" id="report-toLink" class="employment" accesskey="r" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=15');?>" id="report-toLink" class="employment" accesskey="r" >
                         <span><?php echo __("Report-to");?></span></a></li>
             </ul>
         </li>
@@ -448,21 +455,21 @@ if($empNumber == $_SESSION['empID']) {
                 <span class="parent pimqualifications"><?php echo __("Qualifications");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=17');?>" id="work_experienceLink" class="pimqualifications" accesskey="w" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=17');?>" id="work_experienceLink" class="pimqualifications" accesskey="w" >
 
                         <span><?php echo __("Work experience");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=9');?>" id="educationLink" class="pimqualifications" accesskey="n" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=9');?>" id="educationLink" class="pimqualifications" accesskey="n" >
                         <span><?php echo __("Education");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=16');?>" id="skillsLink" class="pimqualifications" accesskey="k" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=16');?>" id="skillsLink" class="pimqualifications" accesskey="k" >
                         <span><?php echo __("Skills");?></span></a></li>
 
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=11');?>" id="languagesLink" class="pimqualifications" accesskey="g" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=11');?>" id="languagesLink" class="pimqualifications" accesskey="g" >
                         <span><?php echo __("Languages");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=12');?>" id="licensesLink" class="pimqualifications" accesskey="l" >
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=12');?>" id="licensesLink" class="pimqualifications" accesskey="l" >
                         <span><?php echo __("License");?></span></a></li>
             </ul>
         </li>
@@ -523,17 +530,17 @@ if($empNumber == $_SESSION['empID']) {
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo __("Other");?></span></a>
             <ul class="l2">
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
                         <span><?php echo __("Membership");?></span>
                     </a>
                 </li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=6');?>" id="attachmentsLink" class="attachments" accesskey="a">
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=6');?>" id="attachmentsLink" class="attachments" accesskey="a">
                         <span><?php echo __("Attachments");?></span>
                     </a>
                 </li>
                 <li class="l1">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $empNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=20');?>" id="customLink" class="l1_link custom" accesskey="u">
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&id=' . $paddedEmpNumber . '&capturemode=updatemode&reqcode=' . $empMode . '&pane=20');?>" id="customLink" class="l1_link custom" accesskey="u">
                         <span><?php echo __("Custom");?></span>
                     </a>
                 </li>

@@ -40,6 +40,8 @@ table.data-table thead td {
     font-weight: bold;
     font-size: 13px;
     height: 26px;
+    padding-left:1px;
+    padding-right:1px;
 }
 
 table.data-table thead td a {
