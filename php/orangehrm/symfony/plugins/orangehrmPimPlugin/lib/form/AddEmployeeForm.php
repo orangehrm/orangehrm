@@ -43,7 +43,7 @@ class AddEmployeeForm extends sfForm {
 
     public function configure() {
 
-        $status = array('' => "-- " . __('Select') . " --" , 'Enabled' => __('Enabled'), 'Disabled' => __('Disabled'));
+        $status = array('Enabled' => __('Enabled'), 'Disabled' => __('Disabled'));
 
         $idGenService = new IDGeneratorService();
         $idGenService->setEntity(new Employee());
