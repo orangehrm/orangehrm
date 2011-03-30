@@ -53,7 +53,7 @@
                                         <br class="clear" />
                                         <div class="formFields">
                                             <?php echo $form['photofile']->renderLabel(__('Select a Photograph')); ?>
-                                            <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(".jpg, .pnf or .gif file with maximum size of 1MB"); ?></span><br class="clear" />
+                                            <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(".jpg, .png or .gif file with maximum size of 1MB"); ?></span><br class="clear" />
                                             
                                             
                                         </div>

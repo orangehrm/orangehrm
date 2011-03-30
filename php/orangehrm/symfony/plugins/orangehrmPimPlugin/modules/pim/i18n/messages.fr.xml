@@ -573,8 +573,8 @@
         <target>FR_Employee Photograph Deleted Successfully</target>
       </trans-unit>
       <trans-unit id="143">
-        <source>.jpg, .pnf or .gif file with maximum size of 1MB</source>
-        <target>FR_.jpg, .pnf or .gif file with maximum size of 1MB</target>
+        <source>.jpg, .png or .gif file with maximum size of 1MB</source>
+        <target>FR_.jpg, .png or .gif file with maximum size of 1MB</target>
       </trans-unit>
       <trans-unit id="144">
         <source>Adding Employee Failed - Invalid File Type</source>
