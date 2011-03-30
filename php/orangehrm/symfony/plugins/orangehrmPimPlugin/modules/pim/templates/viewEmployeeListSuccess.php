@@ -128,7 +128,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                <?php } ?>
 			</td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('firstMiddleName', __('First (&Middle) Name'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col"><?php echo $sorter->sortLink('firstMiddleName', __('First (&amp; Middle) Name'), '@employee_list', ESC_RAW); ?></td>
                         <td scope="col"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
@@ -200,7 +200,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete');?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel');?>" />
-    </div
+    </div>
 </div>
 
 <script type="text/javascript">
