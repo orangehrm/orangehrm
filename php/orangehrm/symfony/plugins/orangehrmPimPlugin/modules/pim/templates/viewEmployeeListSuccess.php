@@ -211,10 +211,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
 
         // Handle hints
-        /*if ($("#empsearch_id").val() == '') {
+        if ($("#empsearch_id").val() == '') {
             $("#empsearch_id").val('<?php echo __("Enter Exact Id");?>')
                               .addClass("inputFormatHint");
         }
+
 
         if ($("#empsearch_employee_name").val() == '') {
             $("#empsearch_employee_name").val('<?php echo __("Type For Hints...");?>')
@@ -229,9 +230,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             if ($(this).hasClass("inputFormatHint")) {
                 $(this).val("");
-                $(this).removeclass("inputFormatHint");
+                $(this).removeClass("inputFormatHint");
             }
-         });*/
+         });
 
 	//Auto complete
         $("#empsearch_employee_name").autocomplete(employees, {
@@ -276,7 +277,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         });
 
 	$('#searchBtn').click(function() {
-            //$('#search_form input.inputFormatHint').val('');
+            $('#search_form input.inputFormatHint').val('');
             $('#search_form').submit();
 	});
        
