@@ -299,6 +299,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             var checked = $('#frmDelete input:checked').length;
 
             $("#messagebar").text("");
+            $("#messagebar").attr('class', "");
             
             // Confirm if multiple employees selected.
             if (checked >= 1) {
