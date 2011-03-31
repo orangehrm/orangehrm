@@ -22,7 +22,7 @@
 -->
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.6.2"/>
+  <property name="version" value="2.6.3"/>
   <property name="package.name" value="orangehrm-${version}"/>
   <resolvepath propertyName="project.dir" file=".."/>
   <resolvepath propertyName="dist.dir" file="dist"/>
