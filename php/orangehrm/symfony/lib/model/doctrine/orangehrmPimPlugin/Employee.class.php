@@ -79,7 +79,7 @@ class Employee extends PluginEmployee {
             $supervisorNames[] = trim($supervisor->firstName . ' ' . $supervisor->lastName);
         }
 
-        return implode(',', $supervisorNames);
+        return implode(', ', $supervisorNames);
     }
 
     /**

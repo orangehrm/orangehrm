@@ -80,8 +80,8 @@ class EmployeeTest extends PHPUnit_Framework_TestCase {
         $names = array_slice($this->testCases, 1, 2);
         $this->_setSupervisors($names);        
         
-        $expected = $this->_getFirstAndLastName($this->testCases[0]) . ',' 
-                    . $this->_getFirstAndLastName($this->testCases[1]) . ',' 
+        $expected = $this->_getFirstAndLastName($this->testCases[0]) . ', '
+                    . $this->_getFirstAndLastName($this->testCases[1]) . ', '
                     . $this->_getFirstAndLastName($this->testCases[2]);
          
         $this->assertEquals($expected, $this->employee->getSupervisorNames());                
