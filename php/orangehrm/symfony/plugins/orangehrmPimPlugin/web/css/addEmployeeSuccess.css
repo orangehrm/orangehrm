@@ -45,7 +45,7 @@ label {
 .helpText {
    font-size: 8pt;
    color:#888888;
-   padding-left: 0;
+   padding-left: 10px;
 }
 
 .duplexBox {
