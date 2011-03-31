@@ -360,6 +360,14 @@
         <source>Last</source>
         <target>FR_Last</target>
       </trans-unit>
+      <trans-unit id="122">
+        <source>Terminated</source>
+        <target>FR_Terminated</target>
+      </trans-unit>
+      <trans-unit id="123">
+        <source>Dimensions</source>
+        <target>FR_Dimensions</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

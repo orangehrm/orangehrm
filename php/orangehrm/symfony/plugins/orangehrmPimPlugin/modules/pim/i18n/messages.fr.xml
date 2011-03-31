@@ -664,6 +664,14 @@
         <source>Are you sure you want to delete selected employee(s)</source>
         <target>FR_Are you sure you want to delete selected employee(s)</target>
       </trans-unit>
+      <trans-unit id="166">
+        <source>Are No Employees Available in System</source>
+        <target>FR_No Employees Available in System</target>
+      </trans-unit>
+      <trans-unit id="167">
+        <source>No Matching Employees Found</source>
+        <target>FR_No Matching Employees Found</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
