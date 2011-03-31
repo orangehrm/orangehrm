@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.6.3
+
+	New Features
+	------------
+    Usability improvements to "Employee List", "Add Employee" and "Photograph".
+
 New & Changed Features for OrangeHRM ver 2.6.2
 
 	New Features
