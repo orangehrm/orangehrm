@@ -58,6 +58,9 @@ class viewPhotographAction extends sfAction {
         $empNumber = (isset($picture['emp_number']))?$picture['emp_number']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        // Cheking authorization
+        $this->_checkAuthorization($empNumber, $loggedInEmpNum);
+
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
             
@@ -181,5 +184,33 @@ class viewPhotographAction extends sfAction {
         $this->newWidth = $newWidth;
         $this->newHeight = $newHeight;
     }
+
+    private function isSupervisor($loggedInEmpNum, $empNumber) {
+
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private function _checkAuthorization($empNumber, $loggedInEmpNumber) {
+
+        $supervisorMode = $this->isSupervisor($loggedInEmpNumber, $empNumber);
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+
+        if($empNumber != $loggedInEmpNumber && (!$supervisorMode && !$adminMode)) {
+            $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
+        }
+
+    }
+
 }
 ?>
