@@ -96,10 +96,18 @@ class viewPhotographAction extends sfAction {
                 
                 $fileType = $photoFile['photofile']['type'];
 
-                if($fileType != "image/gif" && $fileType != "image/jpeg" && $fileType != "image/jpg" && $fileType != "image/png" && $fileType != "image/pjpeg") {
+                $allowedImageTypes[] = "image/gif";
+                $allowedImageTypes[] = "image/jpeg";
+                $allowedImageTypes[] = "image/jpg";
+                $allowedImageTypes[] = "image/pjpeg";
+                $allowedImageTypes[] = "image/png";
+                $allowedImageTypes[] = "image/x-png";
+
+                if (!in_array($fileType, $allowedImageTypes)) {
                     
                     $this->messageType = "warning";
                     $this->message = __('Invalid File Type');
+
                 } else {
                 
                     list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
