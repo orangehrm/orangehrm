@@ -200,14 +200,19 @@ class EmployeeTable extends PluginEmployeeTable {
 	     * Using direct SQL since it is difficult to use Doctrine DQL or RawSQL to get an efficient
 	     * query taht searches the company structure tree and supervisors.
         */
+        $supervisorNameSubQuery = '(SELECT GROUP_CONCAT(emp_firstname, \' \', emp_lastname) ' .
+                ' FROM hs_hr_employee WHERE emp_number IN (SELECT erep_sup_emp_number ' . 
+                ' FROM hs_hr_emp_reportto where erep_sub_emp_number = e.emp_number))';
+        
         $select = 'SELECT e.emp_number AS empNumber, e.employee_id AS employeeId, ' .
                 'e.emp_firstname AS firstName, e.emp_lastname AS lastName, ' .
                 'e.emp_middle_name AS middleName, ' .
                 'cs.title AS subDivision, cs.id AS subDivisionId,' .
                 'j.jobtit_name AS jobTitle, j.jobtit_code AS jobTitleId, ' .
                 'es.estat_name AS employeeStatus, es.estat_code AS employeeStatusId, ' .
-                'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
-                ' AS supervisors ';
+                //'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
+                //' AS supervisors ';
+                $supervisorNameSubQuery . ' AS supervisors';
 
         $query = 'FROM hs_hr_employee e ' .
                 '  LEFT JOIN hs_hr_compstructtree cs ON cs.id = e.work_station ' .
