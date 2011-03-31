@@ -623,4 +623,20 @@ class EmployeeService extends BaseService {
         $years = $years + $yearByMonth;*/
         return $years;
     }
+
+    /**
+     * Retrieve Workshift for a given employee number
+     * @param int $empNumber
+     * @returns EmployeeWorkShift
+     * @throws PIMServiceException
+     */
+    public function getWorkShift($empNumber) {
+        try {
+            return $this->employeeDao->getWorkShift($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }    
+
+
 }

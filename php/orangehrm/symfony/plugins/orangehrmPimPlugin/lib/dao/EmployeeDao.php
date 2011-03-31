@@ -711,4 +711,22 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+    /**
+     * Retrieve Workshift for a given employee number
+     * @param int $empNumber
+     * @returns EmployeeWorkShift
+     * @throws DaoException
+     */
+    public function getWorkShift($empNumber) {
+        try {
+            $q = Doctrine_Query::create()->from('EmployeeWorkShift ews')
+                    ->where('ews.emp_number =?', $empNumber);
+
+            return $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+
 }
