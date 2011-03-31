@@ -212,7 +212,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         // Handle hints
         if ($("#empsearch_id").val() == '') {
-            $("#empsearch_id").val('<?php echo __("Enter Exact Id");?>')
+            $("#empsearch_id").val('<?php echo __("Type Employee Id...");?>')
                               .addClass("inputFormatHint");
         }
 
