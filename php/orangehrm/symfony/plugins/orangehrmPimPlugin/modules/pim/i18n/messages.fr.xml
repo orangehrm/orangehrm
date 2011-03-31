@@ -665,7 +665,7 @@
         <target>FR_Are you sure you want to delete selected employee(s)</target>
       </trans-unit>
       <trans-unit id="166">
-        <source>Are No Employees Available in System</source>
+        <source>No Employees Available in System</source>
         <target>FR_No Employees Available in System</target>
       </trans-unit>
       <trans-unit id="167">
