@@ -308,6 +308,58 @@
         <source>Name should be less than %length% characters</source>
         <target>FR_Name should be less than %length% characters</target>
       </trans-unit>
+      <trans-unit id="109">
+        <source>Enabled</source>
+        <target>FR_Enabled</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Disabled</source>
+        <target>FR_Disabled</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Id</source>
+        <target>FR_Id</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Employment Status</source>
+        <target>FR_Employment Status</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Supervisor</source>
+        <target>FR_Supervisor</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Supervisor Name</source>
+        <target>FR_Supervisor Name</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>Type for hints</source>
+        <target>FR_Type for hintsr</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>Type Employee Id</source>
+        <target>FR_Type Employee Id</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>First</source>
+        <target>FR_First</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>Middle</source>
+        <target>FR_Middle</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Previous</source>
+        <target>FR_Previous</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>Next</source>
+        <target>FR_Next</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Last</source>
+        <target>FR_Last</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

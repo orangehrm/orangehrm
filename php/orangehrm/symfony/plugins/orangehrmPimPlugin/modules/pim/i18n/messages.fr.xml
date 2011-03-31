@@ -640,6 +640,30 @@
         <source>Select Work Experience From The List To Delete</source>
         <target>FR_Select Work Experience From The List To Delete</target>
       </trans-unit>
+      <trans-unit id="160">
+        <source>Create Login Details</source>
+        <target>FR_Create Login Details</target>
+      </trans-unit>
+      <trans-unit id="161">
+        <source>Employee Information</source>
+        <target>FR_Employee Information</target>
+      </trans-unit>
+      <trans-unit id="162">
+        <source>Please Select at Least One Employee to Delete</source>
+        <target>FR_Please Select at Least One Employee to Delete</target>
+      </trans-unit>
+      <trans-unit id="163">
+        <source>Selected Employee(s) Were Deleted Successfully</source>
+        <target>FR_Selected Employee(s) Were Deleted Successfully</target>
+      </trans-unit>
+      <trans-unit id="164">
+        <source>A Problem Occured When Deleting The Selected Employees</source>
+        <target>FR_A Problem Occured When Deleting The Selected Employees</target>
+      </trans-unit>
+      <trans-unit id="165">
+        <source>Are you sure you want to delete selected employee(s)</source>
+        <target>FR_Are you sure you want to delete selected employee(s)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

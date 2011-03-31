@@ -55,7 +55,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
           echo $form['id']->renderLabel(__("Id"));
           echo $form['id']->render();
 
-          echo $form['employee_status']->renderLabel(__("Employee Status"));
+          echo $form['employee_status']->renderLabel(__("Employment Status"));
           echo $form['employee_status']->render();
 
     ?>
@@ -128,7 +128,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                <?php } ?>
 			</td>
 			<td scope="col" class="emp_id"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col" class="emp_first"><?php echo $sorter->sortLink('firstMiddleName', __('First (&amp; Middle) Name'), '@employee_list', ESC_RAW); ?></td>
+            <?php
+                $firstMiddleName = __('First') . ' (&amp ' . __('Middle') . ") " . __('Name');
+
+            ?>
+			<td scope="col" class="emp_first"><?php echo $sorter->sortLink('firstMiddleName', $firstMiddleName, '@employee_list', ESC_RAW); ?></td>
                         <td scope="col" class="emp_last"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
@@ -196,7 +200,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required');?>" style="display: none;">
-    <?php echo __("Are you sure you want to delete selected employee(s)?");?>
+    <?php echo __("Are you sure you want to delete selected employee(s)") . "?";?>
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete');?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel');?>" />
@@ -212,17 +216,17 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         // Handle hints
         if ($("#empsearch_id").val() == '') {
-            $("#empsearch_id").val('<?php echo __("Type Employee Id...");?>')
+            $("#empsearch_id").val('<?php echo __("Type Employee Id") . "...";?>')
                               .addClass("inputFormatHint");
         }
 
 
         if ($("#empsearch_employee_name").val() == '') {
-            $("#empsearch_employee_name").val('<?php echo __("Type For Hints...");?>')
+            $("#empsearch_employee_name").val('<?php echo __("Type for hints") . "...";?>')
                                          .addClass("inputFormatHint");
         }
         if ($("#empsearch_supervisor_name").val() == '') {
-            $("#empsearch_supervisor_name").val('<?php echo __("Type For Hints...");?>')
+            $("#empsearch_supervisor_name").val('<?php echo __("Type for hints") . "...";?>')
                                            .addClass("inputFormatHint");
         }
 
@@ -307,8 +311,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 $('#deleteConfirmation').dialog('open');
                 return false;
             } else {
-                $("#messagebar").attr('class', "messageBalloon_notice");
-                $("#messagebar").text('<?php echo __("Please Select At Least One Employee To Delete"); ?>');
+                $("#messagebar").attr('class', "messageBalloon_warning");
+                $("#messagebar").text('<?php echo __("Please Select at Least One Employee to Delete"); ?>');
                 return false;
             }
 	});

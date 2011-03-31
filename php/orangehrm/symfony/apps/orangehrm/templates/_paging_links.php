@@ -26,7 +26,7 @@ if(isset($params)) {
 	$parametrString = '';
 }
 
-echo link_to_unless($pager->getPage() == 1, __('First '), $url, array('query_string' => 'page=1'.$parametrString));
+echo link_to_unless($pager->getPage() == 1, __('First') . " ", $url, array('query_string' => 'page=1'.$parametrString));
 echo link_to_unless($pager->getPreviousPage() == $pager->getPage(), 
 	__('Previous'), $url, array('query_string' => 'page=' . $pager->getPreviousPage() .$parametrString ));  
 

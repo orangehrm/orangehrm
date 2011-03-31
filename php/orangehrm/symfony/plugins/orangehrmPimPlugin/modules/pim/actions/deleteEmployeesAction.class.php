@@ -63,9 +63,9 @@ class deleteEmployeesAction extends sfAction {
         $count = $employeeService->deleteEmployee($ids);
 
         if ($count == count($ids)) {
-            $this->getUser()->setFlash('templateMessage', array('success', __('The Selected Employee(s) Were Deleted Successfully.')));
+            $this->getUser()->setFlash('templateMessage', array('success', __('Selected Employee(s) Were Deleted Successfully')));
         } else {
-            $this->getUser()->setFlash('templateMessage', array('failure', __('A Problem Occured When Deleting The Selected Employees.')));
+            $this->getUser()->setFlash('templateMessage', array('failure', __('A Problem Occured When Deleting The Selected Employees')));
         }
 
         $this->redirect('pim/viewEmployeeList');
