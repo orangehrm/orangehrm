@@ -123,7 +123,7 @@ class addEmployeeAction extends sfAction {
                     $allowedImageTypes[] = "image/png";
                     $allowedImageTypes[] = "image/x-png";
 
-                    if(!in_array($fileType, $allowedImageTypes)) {
+                    if(!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
                         $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed - Invalid File Type')));
                         $this->redirect('pim/addEmployee');
                         
