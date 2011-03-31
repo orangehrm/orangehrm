@@ -161,11 +161,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 			<?php
 			$empId = $employee->getEmployeeId();
 
-			if (empty($empId)) {
-			    $empId = str_pad($employee->getEmpNumber(), IDGeneratorService::MIN_LENGTH, "0", STR_PAD_LEFT);
+			if (!empty($empId)) {
+			    echo link_to($empId, "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
 			}
 
-			echo link_to($empId, "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber());
 			?>
 			</td>
 			<td>
