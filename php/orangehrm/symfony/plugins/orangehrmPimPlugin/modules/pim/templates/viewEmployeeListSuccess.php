@@ -122,14 +122,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <table cellspacing="0" cellpadding="0" class="data-table" id="emp_list">
 	<thead>
 		<tr>
-			<td width="50">
+			<td class="emp_select" >
                <?php if ($sf_user->hasCredential(Auth::ADMIN_ROLE) && (count($employee_list) > 0)) { ?>
                <input type="checkbox" id="allCheck" class="checkbox"/>
                <?php } ?>
 			</td>
-			<td scope="col"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
-			<td scope="col"><?php echo $sorter->sortLink('firstMiddleName', __('First (&amp; Middle) Name'), '@employee_list', ESC_RAW); ?></td>
-                        <td scope="col"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col" class="emp_id"><?php echo $sorter->sortLink('employeeId', __('Id'), '@employee_list', ESC_RAW); ?></td>
+			<td scope="col" class="emp_first"><?php echo $sorter->sortLink('firstMiddleName', __('First (&amp; Middle) Name'), '@employee_list', ESC_RAW); ?></td>
+                        <td scope="col" class="emp_last"><?php echo $sorter->sortLink('lastName', __('Last Name'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('jobTitle', __('Job Title'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('employeeStatus', __('Employment Status'), '@employee_list', ESC_RAW); ?></td>
 			<td scope="col"><?php echo $sorter->sortLink('subDivision', __('Sub Unit'), '@employee_list', ESC_RAW); ?></td>
@@ -196,7 +196,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required');?>" style="display: none;">
-    <?php echo __("Are you sure you want to delete multiple employees?");?>
+    <?php echo __("Are you sure you want to delete selected employee(s)?");?>
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete');?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel');?>" />
@@ -209,6 +209,29 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
         var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
+
+        // Handle hints
+        /*if ($("#empsearch_id").val() == '') {
+            $("#empsearch_id").val('<?php echo __("Enter Exact Id");?>')
+                              .addClass("inputFormatHint");
+        }
+
+        if ($("#empsearch_employee_name").val() == '') {
+            $("#empsearch_employee_name").val('<?php echo __("Type For Hints...");?>')
+                                         .addClass("inputFormatHint");
+        }
+        if ($("#empsearch_supervisor_name").val() == '') {
+            $("#empsearch_supervisor_name").val('<?php echo __("Type For Hints...");?>')
+                                           .addClass("inputFormatHint");
+        }
+
+        $("#empsearch_id, #empsearch_employee_name, #empsearch_supervisor_name").one('focus', function() {
+
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeclass("inputFormatHint");
+            }
+         });*/
 
 	//Auto complete
         $("#empsearch_employee_name").autocomplete(employees, {
@@ -253,6 +276,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         });
 
 	$('#searchBtn').click(function() {
+            //$('#search_form input.inputFormatHint').val('');
             $('#search_form').submit();
 	});
        
@@ -277,9 +301,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             $("#messagebar").text("");
             
             // Confirm if multiple employees selected.
-            if (checked == 1) {
-                return true;
-            } else if (checked > 1) {
+            if (checked >= 1) {
                 $('#deleteConfirmation').dialog('open');
                 return false;
             } else {

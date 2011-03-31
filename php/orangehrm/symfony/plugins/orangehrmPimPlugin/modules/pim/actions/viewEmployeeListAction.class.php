@@ -126,15 +126,18 @@ class viewEmployeeListAction extends sfAction {
         $limit = $this->pager->getMaxPerPage();
 
         $this->employee_list = $table->getEmployeeList($sort[0], $sort[1], $filters, $offset, $limit);
-        
-        if (count($this->employee_list) == 0) {
+
+        // Show message if list is empty, and we don't already have a message.
+        if (empty($this->message) && (count($this->employee_list) == 0)) {
+
+            // Check to see if we have any employees in system
+            $employeeCount = $this->getEmployeeService()->getEmployeeCount();
             $this->messageType = "warning";
 
-            // Supervisor Mode only lists subordinates.
-            if ($this->filterApply || $this->supervisorMode) {
-                $this->message = __("No Matching Employees Found.");
+            if (empty($employeeCount)) {
+                $this->message = __("No Employees Available in System.");
             } else {
-                $this->message = __("No Employees Available.");
+                $this->message = __("No Matching Employees Found.");
             }
 
         }

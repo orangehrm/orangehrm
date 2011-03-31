@@ -9,6 +9,7 @@ div.searchbox div.actionbar {
 
 div.searchbox {
     border-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 form#search_form div#formcontent select,
@@ -62,3 +63,20 @@ table.data-table tbody td input.checkbox,
 table.data-table thead td input.checkbox{
     margin-left:5px;
 }
+
+table.data-table td.emp_check {
+    width: 50px;
+}
+
+table.data-table td.emp_id {
+    width: 50px;
+}
+
+table.data-table td.emp_first {
+    min-width: 150px;
+}
+
+table.data-table td.emp_last {
+    min-width: 100px;
+}
+
