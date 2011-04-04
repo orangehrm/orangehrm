@@ -25,10 +25,7 @@ class OrangeHRMLogConfigurator extends LoggerConfiguratorIni {
         const ROOT_DIR_MARKER = '{ROOT_PATH}';
         
 	public function configure(LoggerHierarchy $hierarchy, $url = '') {
-                $propertiesFile = @file_get_contents($url);
-                $propertiesFile = str_replace(self::ROOT_DIR_MARKER, ROOT_PATH, $propertiesFile);
-                
-		$properties = @parse_ini_string($propertiesFile);
+		$properties = @parse_ini_file($url);
 		if ($properties === false || count($properties) == 0) {
 			$error = error_get_last();
 		    throw new LoggerException("LoggerConfiguratorIni: ".$error['message']);
