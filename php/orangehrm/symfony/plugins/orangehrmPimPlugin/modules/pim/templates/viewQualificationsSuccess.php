@@ -122,8 +122,9 @@
                                                     $row = 0;
                                                     foreach ($workExperiences as $workExperience) {
                                                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                                                        $fromDate = ohrm_format_date(date("Y-m-d", strtotime($workExperience->from_date)));
-                                                        $toDate = ohrm_format_date(date("Y-m-d", strtotime($workExperience->to_date)));
+                                                        //empty($workExperience->from_date)
+                                                        $fromDate = ohrm_format_date($workExperience->from_date);
+                                                        $toDate = ohrm_format_date($workExperience->to_date);
                                                         ?>
                                                     <tr class="<?php echo $cssClass;?>">
                                                 <td><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />

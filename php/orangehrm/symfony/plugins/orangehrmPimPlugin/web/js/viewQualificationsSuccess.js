@@ -1,3 +1,8 @@
+function clearMessageBar() {
+    $("#messagebar").text("");
+    $("#messagebar").attr('class', "");
+}
+
 $(document).ready(function() {
     //--this section is for work experience
 
@@ -29,6 +34,9 @@ $(document).ready(function() {
     });
 
     $("#addWorkExperience").click(function() {
+
+        clearMessageBar();
+
         //changing the headings
         $("#headChangeWorkExperience").text(lang_addWorkExperience);
         $(".chkbox1").hide();
@@ -52,6 +60,8 @@ $(document).ready(function() {
     //clicking of delete button
     $("#delWorkExperience").click(function(){
 
+        clearMessageBar();
+        
         if($(".chkbox1:checked").length > 0) {
             $("#frmDelWorkExperience").submit();
         }
@@ -62,6 +72,8 @@ $(document).ready(function() {
     });
 
     $("#btnWorkExpSave").click(function() {
+        clearMessageBar();
+        
         $("#frmWorkExperience").submit();
     });
 
@@ -111,6 +123,8 @@ $(document).ready(function() {
     });
     
     $("#btnWorkExpCancel").click(function() {
+        clearMessageBar();
+        
         workExperienceValidator.resetForm();
 
         $(".chkbox1").removeAttr("checked");
@@ -431,6 +445,8 @@ $(document).ready(function() {
 
 function fillDataToWorkExperienceDataPane(seqno) {
 
+    clearMessageBar();
+    
     //changing the headings
     $("#headChangeWorkExperience").text(lang_editWorkExperience);
 
