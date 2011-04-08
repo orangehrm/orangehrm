@@ -58,30 +58,32 @@ class saveDeleteWorkExperienceAction extends sfAction {
         $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
 
         //this is to save work experience
-        if ($request->isMethod('post') && $request->getParameter('option') == "save") {
+        if ($request->isMethod('post')) {
+            if ( $request->getParameter('option') == "save") {
 
-            $this->workExperienceForm->bind($request->getParameter($this->workExperienceForm->getName()));
+                $this->workExperienceForm->bind($request->getParameter($this->workExperienceForm->getName()));
 
-            if ($this->workExperienceForm->isValid()) {
-                
-                $workExperience = $this->getWorkExperience($this->workExperienceForm);
-                $this->getEmployeeService()->saveWorkExperience($workExperience);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience Details Saved Successfully')));
-                $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+                if ($this->workExperienceForm->isValid()) {
+                    $workExperience = $this->getWorkExperience($this->workExperienceForm);
+                    $this->getEmployeeService()->saveWorkExperience($workExperience);
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience Details Saved Successfully')));
+                } else {
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                }
+            }
+
+            //this is to delete work experience
+            if ($request->getParameter('option') == "delete") {
+                $deleteIds = $request->getParameter('delWorkExp');
+
+                if(count($deleteIds) > 0) {
+                    $this->getEmployeeService()->deleteWorkExperience($empNumber, $request->getParameter('delWorkExp'));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience(s) Deleted Successfully')));
+                }
             }
         }
 
-        //this is to delete work experience
-        if ($request->isMethod('post') && $request->getParameter('option') == "delete") {
-            $deleteIds = $request->getParameter('delWorkExp');
-            
-            if(count($deleteIds) > 0) {
-                $this->getEmployeeService()->deleteWorkExperience($empNumber, $request->getParameter('delWorkExp'));
-                $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience(s) Deleted Successfully')));
-            }
-            $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
-            
-        }
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
     }
 
     private function getWorkExperience(sfForm $form) {

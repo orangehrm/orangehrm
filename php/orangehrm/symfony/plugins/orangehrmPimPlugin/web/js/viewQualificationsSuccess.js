@@ -61,19 +61,6 @@ $(document).ready(function() {
 
     });
 
-    $("#btnWorkExpCancel").click(function() {
-        $(".chkbox1").removeAttr("checked");
-
-        //hiding action button section
-        $("#actionWorkExperience").show();
-
-        $("#changeWorkExperience").hide();
-        $("#workExpRequiredNote").hide();
-
-        $(".chkbox1").show();
-        $("#workCheckAll").show();
-    });
-
     $("#btnWorkExpSave").click(function() {
         $("#frmWorkExperience").submit();
     });
@@ -98,17 +85,18 @@ $(document).ready(function() {
     });
 
     //form validation
-    $("#frmWorkExperience").validate({
+    var workExperienceValidator =
+        $("#frmWorkExperience").validate({
         rules: {
-            'experience[employer]': {required: true},
-            'experience[jobtitle]': {required: true},
+            'experience[employer]': {required: true, maxlength: 100},
+            'experience[jobtitle]': {required: true, maxlength: 120},
             'experience[from_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate:true},
             'experience[to_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
-            'experience[comments]': {maxlength: 250}
+            'experience[comments]': {maxlength: 200}
         },
         messages: {
-            'experience[employer]': {required: lang_companyRequired},
-            'experience[jobtitle]': {required: lang_jobTitleRequired},
+            'experience[employer]': {required: lang_companyRequired, maxlength: lang_companyMaxLength},
+            'experience[jobtitle]': {required: lang_jobTitleRequired, maxlength: lang_jobTitleMaxLength},
             'experience[from_date]': {valid_date: lang_invalidDate, validFromDate: lang_fromDateLessToDate},
             'experience[to_date]': {valid_date: lang_invalidDate},
             'experience[comments]': {maxlength: lang_commentLength}
@@ -121,6 +109,22 @@ $(document).ready(function() {
 
         }
     });
+    
+    $("#btnWorkExpCancel").click(function() {
+        workExperienceValidator.resetForm();
+
+        $(".chkbox1").removeAttr("checked");
+
+        //hiding action button section
+        $("#actionWorkExperience").show();
+
+        $("#changeWorkExperience").hide();
+        $("#workExpRequiredNote").hide();
+
+        $(".chkbox1").show();
+        $("#workCheckAll").show();
+    });
+
 
     daymarker.bindElement("#experience_from_date", {
         onSelect: function(date){

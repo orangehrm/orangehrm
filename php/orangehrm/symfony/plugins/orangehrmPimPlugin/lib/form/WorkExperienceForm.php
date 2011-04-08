@@ -55,21 +55,33 @@ class WorkExperienceForm extends sfForm {
             'seqno' => new sfWidgetFormInputHidden(),
             'employer' => new sfWidgetFormInputText(),
             'jobtitle' => new sfWidgetFormInputText(),
-			'from_date' => new sfWidgetFormInputText(),
+            'from_date' => new sfWidgetFormInputText(),
             'to_date' => new sfWidgetFormInputText(),
             'comments' => new sfWidgetFormTextarea()
         );
 
         $this->widgets['emp_number']->setDefault($empNumber);
         $this->setWidgets($this->widgets);
-         
+
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        
         $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
         $this->setValidator('seqno', new sfValidatorString(array('required' => false)));
-        $this->setValidator('employer', new sfValidatorString(array('required' => true)));
-        $this->setValidator('jobtitle', new sfValidatorString(array('required' => true)));
-        $this->setValidator('from_date', new sfValidatorString(array('required' => false)));
-        $this->setValidator('to_date', new sfValidatorString(array('required' => false)));
-        $this->setValidator('comments', new sfValidatorString(array('required' => false)));
+        $this->setValidator('employer', new sfValidatorString(array('required' => true,
+            'max_length' => 100)));
+        $this->setValidator('jobtitle', new sfValidatorString(array('required' => true,
+            'max_length' => 120)));
+
+        $this->setValidator('from_date', new ohrmDateValidator(
+                array('date_format'=>$inputDatePattern, 'required' => false),
+                array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')));
+
+        $this->setValidator('to_date', new ohrmDateValidator(
+                array('date_format'=>$inputDatePattern, 'required' => false),
+                array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')));
+
+        $this->setValidator('comments', new sfValidatorString(array('required' => false,
+            'max_length' => 200)));
 
         $this->workExperiences = $this->getEmployeeService()->getWorkExperience($empNumber);
         $this->widgetSchema->setNameFormat('experience[%s]');

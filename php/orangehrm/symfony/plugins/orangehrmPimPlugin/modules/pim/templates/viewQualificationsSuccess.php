@@ -15,9 +15,11 @@
     var lang_companyRequired = "<?php echo __("Company is required");?>";
     var lang_jobTitleRequired = "<?php echo __("Job Title is required");?>";
     var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
-    var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
+    var lang_commentLength = "<?php echo __('Comment length cannot exceed 200 characters');?>";
     var lang_fromDateLessToDate = "<?php echo __('From date should be before to date');?>";
     var lang_selectWrkExprToDelete = "<?php echo __('Select Work Experience From The List To Delete');?>";
+    var lang_jobTitleMaxLength = "<?php echo __('Job Title length cannot exceed 120 characters');?>";
+    var lang_companyMaxLength = "<?php echo __('Job Title length cannot exceed 100 characters');?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
@@ -30,7 +32,12 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
         <td width="5">&nbsp;</td>
-        <td colspan="2" height="30">&nbsp;<?php if($showBackButton) {?><input type="button" class="backbutton" value="<?php echo __("Back") ?>" onclick="navigateUrl('<?php echo public_path('../../lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC');?>');" /><?php }?></td>
+        <td colspan="2" height="30">&nbsp;
+            <?php if($showBackButton) {?>
+            <input type="button" class="backbutton"
+            value="<?php echo __("Back") ?>" onclick="navigateUrl('<?php echo url_for('pim/viewEmployeeList');?>');" />
+            <?php }?>
+        </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -61,11 +68,11 @@
                                             <?php echo $workExperienceForm["seqno"]->render(); ?>
 
                                             <?php echo $workExperienceForm['employer']->renderLabel(__('Company') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $workExperienceForm['employer']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
+                                            <?php echo $workExperienceForm['employer']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['jobtitle']->renderLabel(__('Job Title') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $workExperienceForm['jobtitle']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
+                                            <?php echo $workExperienceForm['jobtitle']->render(array("class" => "formInputText", "maxlength" => 120)); ?>
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['from_date']->renderLabel(__('From')); ?>
@@ -119,13 +126,13 @@
                                                         $toDate = ohrm_format_date(date("Y-m-d", strtotime($workExperience->to_date)));
                                                         ?>
                                                     <tr class="<?php echo $cssClass;?>">
-                                                <input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
+                                                <td><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
                                                 <input type="hidden" id="jobtitle_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->jobtitle); ?>" />
                                                 <input type="hidden" id="fromDate_<?php echo $workExperience->seqno;?>" value="<?php echo $fromDate; ?>" />
                                                 <input type="hidden" id="toDate_<?php echo $workExperience->seqno;?>" value="<?php echo $toDate; ?>" />
                                                 <input type="hidden" id="comment_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->comments); ?>" />
 
-                                                <td><input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/></td>
+                                                <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/></td>
                                                 <td><a href="javascript: fillDataToWorkExperienceDataPane(<?php echo $workExperience->seqno;?>);"><?php echo htmlspecialchars($workExperience->employer);?></a></td>
                                                 <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
                                                 <td><?php echo $fromDate;?></td>
@@ -147,7 +154,7 @@
 
                                     <div class="outerbox" id="changeEducation" style="width:500px;">
                                         <div class="mainHeading"><h2 id="headChangeEducation"><?php echo __('Add Education'); ?></h2></div>
-                                        <form id="frmEducation">
+                                        <form id="frmEducation" action="">
                                             <table border="0">
                                                 <tr>
                                                     <td width="150">Education</td>
@@ -175,7 +182,7 @@
                                                 </tr>
                                             </table>
                                             <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>" />
+                                                <input type="button" class="savebutton" id="btnEducationSave" value="<?php echo __("Save"); ?>" />
                                                 <input type="button" class="savebutton" id="btnEducationCancel" value="<?php echo __("Cancel"); ?>" />
                                             </div>
                                         </form>
@@ -226,7 +233,7 @@
 
                                     <div class="outerbox" id="changeSkills" style="width:500px;">
                                         <div class="mainHeading"><h2 id="headChangeSkills"><?php echo __('Add Skills'); ?></h2></div>
-                                        <form id="frmSkills">
+                                        <form id="frmSkills" action="">
                                             <table border="0">
                                                 <tr>
                                                     <td width="150">Skill</td>
@@ -246,7 +253,7 @@
                                                 </tr>
                                             </table>
                                             <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>" />
+                                                <input type="button" class="savebutton" id="btnSkillsSave" value="<?php echo __("Save"); ?>" />
                                                 <input type="button" class="savebutton" id="btnSkillsCancel" value="<?php echo __("Cancel"); ?>" />
                                             </div>
                                         </form>
@@ -291,7 +298,7 @@
 
                                     <div class="outerbox" id="changeLang" style="width:500px;">
                                         <div class="mainHeading"><h2 id="headChangeLang"><?php echo __('Add Languages'); ?></h2></div>
-                                        <form id="frmSkills">
+                                        <form id="frmLangs" action="">
                                             <table border="0">
                                                 <tr>
                                                     <td width="150">Language</td>
@@ -325,7 +332,7 @@
                                                 </tr>
                                             </table>
                                             <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>" />
+                                                <input type="button" class="savebutton" id="btnLangSave" value="<?php echo __("Save"); ?>" />
                                                 <input type="button" class="savebutton" id="btnLangCancel" value="<?php echo __("Cancel"); ?>" />
                                             </div>
                                         </form>
@@ -376,7 +383,7 @@
 
                                     <div class="outerbox" id="changeLicenses" style="width:500px;">
                                         <div class="mainHeading"><h2 id="headChangeLicenses"><?php echo __('Add Licenses'); ?></h2></div>
-                                        <form id="frmLicenses">
+                                        <form id="frmLicenses" action="">
                                             <table border="0">
                                                 <tr>
                                                     <td width="150">Licenses</td>
@@ -396,7 +403,7 @@
                                                 </tr>
                                             </table>
                                             <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>" />
+                                                <input type="button" class="savebutton" id="btnLicensesSave" value="<?php echo __("Save"); ?>" />
                                                 <input type="button" class="savebutton" id="btnLicensesCancel" value="<?php echo __("Cancel"); ?>" />
                                             </div>
                                         </form>
