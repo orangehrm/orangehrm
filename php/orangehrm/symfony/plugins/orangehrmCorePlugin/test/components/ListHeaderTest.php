@@ -73,6 +73,30 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->isSortable());
     }
 
+    public function testGetSortOrder() {
+        $sortOrder = 'ASC';
+        $this->object->setSortOrder($sortOrder);
+        $this->assertEquals($sortOrder, $this->object->getSortOrder());
+    }
+
+    public function testSetSortOrder_Default() {
+        $sortOrder = 'ASC';
+        $this->object->setSortOrder($sortOrder);
+        $this->assertEquals($sortOrder, $this->object->getSortOrder());
+
+        $sortOrder = 'DESC';
+        $this->object->setSortOrder($sortOrder);
+        $this->assertEquals($sortOrder, $this->object->getSortOrder());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testSetSortOrder_Invalid() {
+        $sortOrder = 'abc';
+        $this->object->setSortOrder($sortOrder);
+    }
+
     public function testGetElementType() {
         $this->assertEquals('label', $this->object->getElementType());
 

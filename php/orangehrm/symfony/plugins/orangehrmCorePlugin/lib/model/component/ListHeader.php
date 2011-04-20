@@ -20,6 +20,7 @@ class ListHeader extends ComponentProperty {
 
     protected $name;
     protected $isSortable;
+    protected $sortOrder;
     protected $elementType;
     protected $elementProperty;
     protected $width;
@@ -37,6 +38,18 @@ class ListHeader extends ComponentProperty {
             return (bool) $this->isSortable;
         } else {
             $this->isSortable = (bool) $isSortable;
+        }
+    }
+
+    public function getSortOrder() {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder($sortOrder) {
+        if (preg_match('/(A|DE)SC/', $sortOrder)) {
+            $this->sortOrder = $sortOrder;
+        } else {
+            throw new Exception('Tried to assign an invalid sort order');
         }
     }
 
