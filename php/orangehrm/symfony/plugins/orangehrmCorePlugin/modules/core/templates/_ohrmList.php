@@ -16,28 +16,91 @@
                 }
                 ?>
 
-                <?php foreach ($columns as $columnLabel => $getterMethod): ?>
-                    <th><?php echo __($columnLabel); ?></th>
-                <?php endforeach; ?>
+                <?php
+                foreach ($columns as $header) {
+                    if ($header->isSortable()) {
+                        $nextSortOrder = ($header->getSortOrder() === 'ASC') ? 'DESC' : 'ASC';
+                        $sortOrderStyle = ($header->getSortOrder() == '') ? 'null' : $header->getSortOrder();
+
+                        $actionName = sfContext::getInstance()->getActionName();
+
+                        $sortUrl = 'index.php/' .
+                                sfContext::getInstance()->getModuleName() . '/' .
+                                $actionName . '/' .
+                                'sortField/' . 'field' . '/' .
+                                'sortOrder/' . $nextSortOrder;
+
+                        $request = sfContext::getInstance()->getRequest();
+                        if ($request->isMethod('post') && $request->getParameter('cmbSearchBy', null) !== null) {
+                            $searchBy = $request->getParameter('cmbSearchBy');
+                            $searchFor = $request->getParameter('txtSearchFor');
+                            $sortUrl .= '/isSearch/yes' .
+                                    '/searchBy/' . $request->getParameter('cmbSearchBy') .
+                                    '/searchFor/' . $request->getParameter('txtSearchFor');
+                        }
+
+                        $headerHtml = content_tag('a', __($header->getName()), array(
+                                    'href' => public_path($sortUrl),
+                                    'class' => $sortOrderStyle,
+                                ));
+                    }
+                ?>
+                    <th><?php echo $headerHtml; ?></th>
+                <?php } ?>
             </tr>
         </thead>
 
         <tbody>
-            <tr class="odd">
-                <td><input type="checkbox" id="ohrmList_chkSelectRecord_NAT001" value="NAT001" name="chkSelectRow[]" /></td>		<td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT001">NAT001</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT001">American</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT001">999</a></td>
-            </tr>
-            <tr class="even">
-                <td><input type="checkbox" id="ohrmList_chkSelectRecord_NAT002" value="NAT002" name="chkSelectRow[]" /></td>		<td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT002">NAT002</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT002">British</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT002">999</a></td>
-            </tr>
-            <tr class="odd">
-                <td><input type="checkbox" id="ohrmList_chkSelectRecord_NAT003" value="NAT003" name="chkSelectRow[]" /></td>		<td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT003">NAT003</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT003">Chinese</a></td>
-                <td><a href="/people_manager/web/index.php/nus_admin/viewNationality/id/NAT003">999</a></td>
-            </tr>
+            <?php
+                if ($data->count() > 0) {
+                    $rowCssClass = 'even';
+
+                    foreach ($data as $object) {
+                        $idValue = 0;
+                        $rowCssClass = ($rowCssClass === 'odd') ? 'even' : 'odd';
+            ?>
+                        <tr class="<?php echo $rowCssClass; ?>">
+                <?php
+                        if ($hasSelectableRows) {
+                            $selectCheckobxTag = (/*in_array($idValue, $unselectableRowIds)*/ false) ? '&nbsp;' : tag('input', array(
+                                        'type' => 'checkbox',
+                                        'id' => "ohrmList_chkSelectRecord_{$idValue}",
+                                        'value' => $idValue,
+                                        'name' => 'chkSelectRow[]'
+                                    ));
+                            echo content_tag('td', $selectCheckobxTag);
+                        }
+
+                        foreach ($columns as $header) {
+                            $cellHtml = '';
+                            $getter = $header->getElementProperty();
+                            $cellHtml = $object->$getter();
+
+                            if ($header->getElementType() === 'link') {
+                                $cellHtml = content_tag('a', $cellHtml, array(
+                                    'href' => '#',
+                                ));
+                            }
+                ?>
+                            <td><?php echo $cellHtml; ?></td>
+                <?php
+                        }
+                ?>
+                    </tr>
+            <?php
+                    }
+                } else {
+                    $colspan = count($columns);
+                    if ($hasSelectableRows) {
+                        $colspan++;
+                    }
+            ?>
+                    <tr>
+                        <td colspan="<?php echo $colspan; ?>"><?php echo __('No records to display'); ?></td>
+                    </tr>
+            <?php
+                }
+            ?>
         </tbody>
     </table>
 </div>
