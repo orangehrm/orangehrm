@@ -11,7 +11,6 @@ class orangehrmCorePluginAllTests {
         $suite = new PHPUnit_Framework_TestSuite('orangehrmCorePluginAllTest');
 
         /* Component Test Cases */
-        $suite->addTestFile(dirname(__FILE__) . '/components/ohrmListComponentTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/ListHeaderTest.php');
 
         return $suite;
