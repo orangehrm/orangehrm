@@ -139,8 +139,6 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $elementProperty = array($object1, $object2);
         $this->object->setElementProperty($elementProperty);
         $this->assertEquals($elementProperty, $this->object->getElementProperty());
-
-
     }
 
     public function testGetWidth() {
@@ -187,13 +185,31 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $this->object->setWidth($width);
     }
 
-
     public function testGetElementTypes() {
         $elementTypes = $this->object->getElementTypes();
         $this->assertTrue(is_array($elementTypes));
         $this->assertFalse(empty($elementTypes));
         $this->assertContains('label', $elementTypes);
         $this->assertContains('link', $elementTypes);
+    }
+
+    public function testPopulateFromArray() {
+        $properties = array(
+            'name' => 'Full Name',
+            'isSortable' => true,
+            'sortOrder' => 'DESC',
+            'elementType' => 'link',
+            'elementProperty' => 'getFullName',
+            'width' => 100,
+        );
+
+        $this->object->populateFromArray($properties);
+
+        $this->assertEquals($properties['name'], $this->object->getName());
+        $this->assertEquals($properties['isSortable'], $this->object->isSortable());
+        $this->assertEquals($properties['elementType'], $this->object->getElementType());
+        $this->assertEquals($properties['elementProperty'], $this->object->getElementProperty());
+        $this->assertEquals($properties['width'], $this->object->getWidth());
     }
 
 }
