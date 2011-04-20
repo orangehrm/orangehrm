@@ -1,0 +1,10 @@
+Default:
+  hasSelectableRows: false
+  unselectableRowIds: []
+  title: 'OrangeHRM List'
+  buttons: []
+Sample:
+  hasSelectableRows: true
+  unselectableRowIds: []
+  title: 'Nationality & Race : Nationality'
+  buttons: []
