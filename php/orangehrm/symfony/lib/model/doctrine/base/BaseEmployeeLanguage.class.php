@@ -9,6 +9,7 @@
  * @property string $code
  * @property integer $lang_type
  * @property integer $competency
+ * @property string $comments
  * @property Employee $Employee
  * @property Language $Language
  * 
@@ -16,12 +17,14 @@
  * @method string           getCode()       Returns the current record's "code" value
  * @method integer          getLangType()   Returns the current record's "lang_type" value
  * @method integer          getCompetency() Returns the current record's "competency" value
+ * @method string           getComments()   Returns the current record's "comments" value
  * @method Employee         getEmployee()   Returns the current record's "Employee" value
  * @method Language         getLanguage()   Returns the current record's "Language" value
  * @method EmployeeLanguage setEmpNumber()  Sets the current record's "emp_number" value
  * @method EmployeeLanguage setCode()       Sets the current record's "code" value
  * @method EmployeeLanguage setLangType()   Sets the current record's "lang_type" value
  * @method EmployeeLanguage setCompetency() Sets the current record's "competency" value
+ * @method EmployeeLanguage setComments()   Sets the current record's "comments" value
  * @method EmployeeLanguage setEmployee()   Sets the current record's "Employee" value
  * @method EmployeeLanguage setLanguage()   Sets the current record's "Language" value
  * 
@@ -54,6 +57,10 @@ abstract class BaseEmployeeLanguage extends sfDoctrineRecord
              'type' => 'integer',
              'default' => '0',
              'length' => 2,
+             ));
+        $this->hasColumn('comments', 'string', 100, array(
+             'type' => 'string',
+             'length' => 100,
              ));
     }
 

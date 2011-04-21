@@ -99,6 +99,7 @@ class saveDeleteLanguageAction extends sfAction {
         $language->code = $post['code'];
         $language->lang_type = $post['lang_type'];
         $language->competency = $post['competency'];
+        $language->comments = $post['comments'];
 
         return $language;
     }

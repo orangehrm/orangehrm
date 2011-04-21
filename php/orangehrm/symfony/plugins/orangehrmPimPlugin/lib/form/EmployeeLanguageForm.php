@@ -70,6 +70,7 @@ class EmployeeLanguageForm extends sfForm {
             'code' => new sfWidgetFormSelect(array('choices' => $availableLanguageList)),
             'lang_type' => new sfWidgetFormSelect(array('choices' => $this->langTypeList)),
             'competency' => new sfWidgetFormSelect(array('choices' => $this->competencyList)),
+            'comments' => new sfWidgetFormTextarea()
         );
 
         $this->widgets['emp_number']->setDefault($empNumber);
@@ -81,6 +82,7 @@ class EmployeeLanguageForm extends sfForm {
         $this->setValidator('code', new sfValidatorChoice(array('choices' => array_keys($availableLanguageList))));
         $this->setValidator('lang_type', new sfValidatorChoice(array('choices' => array_keys($this->langTypeList))));
         $this->setValidator('competency', new sfValidatorChoice(array('choices' => array_keys($this->competencyList))));
+        $this->setValidator('comments', new sfValidatorString(array('max_length' => 100)));
 
         $this->widgetSchema->setNameFormat('language[%s]');
     }

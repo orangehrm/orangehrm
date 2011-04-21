@@ -24,6 +24,10 @@
             <?php echo $form['competency']->renderLabel(__('Competency') . ' <span class="required">*</span>'); ?>
             <?php echo $form['competency']->render(array("class" => "formSelect")); ?>
             <br class="clear"/>
+            
+            <?php echo $form['comments']->renderLabel(__('Comments')); ?>
+            <?php echo $form['comments']->render(array("class" => "formSelect")); ?>
+            <br class="clear"/>
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnLanguageSave" value="<?php echo __("Save"); ?>" />
@@ -49,6 +53,7 @@
                     <td><?php echo __('Language');?></td>
                     <td><?php echo __('Fluency');?></td>
                     <td><?php echo __('Competency');?></td>                    
+                    <td><?php echo __('Comments');?></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,15 +66,16 @@
                         $languageName = $language->getLanguage()->getLangName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td><input type="hidden" id="code_<?php echo $language->code;?>" value="<?php echo htmlspecialchars($language->code); ?>" />
-                <input type="hidden" id="language_name_<?php echo $language->code;?>" value="<?php echo htmlspecialchars($languageName); ?>" />
-                <input type="hidden" id="lang_type_<?php echo $language->code;?>" value="<?php echo htmlspecialchars($language->lang_type); ?>" />
-                <input type="hidden" id="competency_<?php echo $language->code;?>" value="<?php echo htmlspecialchars($language->competency); ?>" />
+                <td><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->code); ?>" />
+                <input type="hidden" class="language_name" value="<?php echo htmlspecialchars($languageName); ?>" />
+                <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->lang_type); ?>" />
+                <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
 
                 <input type="checkbox" class="chkbox" value="<?php echo $language->code;?>" name="delLanguage[]"/></td>
                 <td><a href="#" class="edit"><?php echo $languageName;?></a></td>
                 <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->lang_type));?></td>
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
+                <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
                 </tr>
                     <?php $row++;
                 }?>
@@ -223,16 +229,20 @@ $(document).ready(function() {
 
         //show add form
         $("#changeLanguage").show();
-        var code = $(this).closest("tr").find('input.chkbox:first').val();
-        var langType = $("#lang_type_" + code).val();
+        var parentRow = $(this).closest("tr");
+                                
+        var code = parentRow.find('input.chkbox:first').val();
+        var langType = parentRow.find('input.lang_type').val();
+        var comments = $(this).closest("tr").find('td:last').html();
         
-        $('#static_language_code').html($("#language_name_" + code).val()).show();
+        $('#static_language_code').html(parentRow.find('input.language_name').val()).show();
         $('#static_lang_type').html(langType).show();
 
         $('#language_code').hide().val(code);
 
         $("#language_lang_type").hide().val(langType);
-        $("#language_competency").val($("#competency_" + code).val());
+        $("#language_competency").val(parentRow.find('input.competency').val());
+        $('#language_comments').val(comments);
 
         $("#languageRequiredNote").show();
 

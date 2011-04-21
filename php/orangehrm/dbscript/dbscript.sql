@@ -146,6 +146,7 @@ create table `hs_hr_emp_language` (
   `lang_code` varchar(13) not null default '',
   `elang_type` smallint(6) default '0',
   `competency` smallint default '0',
+  `comments` varchar(100),
   primary key  (`emp_number`,`lang_code`,`elang_type`)
 ) engine=innodb default charset=utf8;
 
