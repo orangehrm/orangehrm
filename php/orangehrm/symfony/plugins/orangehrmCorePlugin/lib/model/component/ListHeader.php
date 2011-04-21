@@ -1,7 +1,5 @@
 <?php
 
-require_once 'ComponentProperty.php';
-
 class ListHeader extends ComponentProperty {
 
     const DEFAULT_ELEMENT_TYPE = 'label';
