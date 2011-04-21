@@ -1235,29 +1235,6 @@ tableDisplayStyle = "table";
 						<span><?php echo $lang_pim_tabs_ReportTo;?></span></a></li>
 			</ul>
 		</li>
-		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);">
-                <span class="parent pimqualifications"><?php echo $lang_pim_Qualifications;?></span></a>
-			<ul class="l2">
-				<li class="l2">
-					<a href="javascript:displayLayer(17)" id="work_experienceLink" class="pimqualifications" accesskey="w" >
-
-						<span><?php echo $lang_pim_tabs_WorkExperience;?></span></a></li>
-				<li class="l2">
-					<a href="javascript:displayLayer(9)" id="educationLink" class="pimqualifications" accesskey="n" >
-						<span><?php echo $lang_pim_tabs_Education;?></span></a></li>
-				<li class="l2">
-					<a href="javascript:displayLayer(16)" id="skillsLink" class="pimqualifications" accesskey="k" >
-						<span><?php echo $lang_pim_tabs_Skills;?></span></a></li>
-
-				<li class="l2">
-					<a href="javascript:displayLayer(11)" id="languagesLink" class="pimqualifications" accesskey="g" >
-						<span><?php echo $lang_pim_tabs_Languages;?></span></a></li>
-				<li class="l2">
-					<a href="javascript:displayLayer(12)" id="licensesLink" class="pimqualifications" accesskey="l" >
-						<span><?php echo $lang_pim_tabs_License;?></span></a></li>
-				</ul>
-		</li>
         <!-- adding leave section here -->
 <script language="javascript">
 function leaveFormSubmission(redirect) {
@@ -1312,6 +1289,9 @@ function leaveFormSubmission(redirect) {
 		<li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
 			<ul class="l2">
+				<li class="l2">
+					<a href="../../symfony/web/index.php/pim/viewQualifications?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="q">
+						<span><?php echo $lang_pim_Qualifications;?></span></a></li>                            
 				<li class="l2">
 					<a href="javascript:displayLayer(13)" id="membershipsLink" class="pimmemberships" accesskey="m">
 						<span><?php echo $lang_pim_tabs_Membership;?></span>

@@ -451,29 +451,6 @@ if($empNumber == $_SESSION['empID']) {
                         <span><?php echo __("Report-to");?></span></a></li>
             </ul>
         </li>
-        <li class="l1 parent">
-            <a href="#" class="expanded" onclick="showHideSubMenu(this);">
-                <span class="parent pimqualifications"><?php echo __("Qualifications");?></span></a>
-            <ul class="l2">
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=17');?>" id="work_experienceLink" class="pimqualifications" accesskey="w" >
-
-                        <span><?php echo __("Work experience");?></span></a></li>
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=9');?>" id="educationLink" class="pimqualifications" accesskey="n" >
-                        <span><?php echo __("Education");?></span></a></li>
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=16');?>" id="skillsLink" class="pimqualifications" accesskey="k" >
-                        <span><?php echo __("Skills");?></span></a></li>
-
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=11');?>" id="languagesLink" class="pimqualifications" accesskey="g" >
-                        <span><?php echo __("Languages");?></span></a></li>
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=12');?>" id="licensesLink" class="pimqualifications" accesskey="l" >
-                        <span><?php echo __("License");?></span></a></li>
-            </ul>
-        </li>
         <!-- start of leave section -->
         <?php if(isset ($_SESSION['leavePeriodDefined']) && $_SESSION['leavePeriodDefined'] == 1) { ?>
         <li class="l1 parent">
@@ -495,6 +472,11 @@ if($empNumber == $_SESSION['empID']) {
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo __("Other");?></span></a>
             <ul class="l2">
+                <li class="l2">
+
+                    <a href="<?php echo url_for('pim/viewQualifications?empNumber=' . $empNumber); ?>" id="personalLink" class="personal" accesskey="p">
+                        <span><?php echo __("Qualifications");?></span></a></li>
+                
                 <li class="l2">
                     <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
                         <span><?php echo __("Membership");?></span>
