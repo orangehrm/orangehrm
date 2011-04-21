@@ -1,10 +1,17 @@
 Default:
   hasSelectableRows: false
   unselectableRowIds: []
+  idValueGetter: getId
   title: 'OrangeHRM List'
   buttons: []
 Sample:
   hasSelectableRows: true
   unselectableRowIds: []
+  idValueGetter: getNatCode
   title: 'Nationality & Race : Nationality'
-  buttons: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
