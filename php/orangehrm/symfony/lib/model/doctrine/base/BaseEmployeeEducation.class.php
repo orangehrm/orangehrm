@@ -84,7 +84,7 @@ abstract class BaseEmployeeEducation extends sfDoctrineRecord
              'foreign' => 'emp_number'));
 
         $this->hasOne('Education', array(
-             'local' => 'eduCode',
-             'foreign' => 'eduCode'));
+             'local' => 'edu_code',
+             'foreign' => 'edu_code'));
     }
 }

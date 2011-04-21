@@ -40,3 +40,13 @@ textarea.formInputText {
 #experience_jobtitle {
     width: 220px;
 }
+
+span#static_skill_code,
+span#static_education_code,
+span#static_language_code,
+span#static_lang_type {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    padding: 1px 4px;
+}

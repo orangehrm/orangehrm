@@ -49,6 +49,46 @@ class viewQualificationsAction extends sfAction {
             $this->workExperienceForm = $form;
         }
     }
+
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setEducationForm(sfForm $form) {
+        if (is_null($this->educationForm)) {
+            $this->educationForm = $form;
+        }
+    }
+    
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setSkillForm(sfForm $form) {
+        if (is_null($this->skillForm)) {
+            $this->skillForm = $form;
+        }
+    }    
+    
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setLanguageForm(sfForm $form) {
+        if (is_null($this->languageForm)) {
+            $this->languageForm = $form;
+        }
+    } 
+    
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setLicenseForm(sfForm $form) {
+        if (is_null($this->licenseForm)) {
+            $this->licenseForm = $form;
+        }
+    } 
     
     public function execute($request) {
         
@@ -76,7 +116,10 @@ class viewQualificationsAction extends sfAction {
         }
 
         $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
-        
+        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
+        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
+        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
+        //$this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
         
     }
 

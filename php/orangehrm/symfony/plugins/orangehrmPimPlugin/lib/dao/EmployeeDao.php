@@ -360,6 +360,204 @@ class EmployeeDao extends BaseDao {
    }
 
     /**
+     * Get Education
+     * @param int $empNumber
+     * @param int $eduCode
+     * @returns Collection/Education
+     * @throws DaoException
+     */
+    public function getEducation($empNumber, $eduCode = null) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('EmployeeEducation w')
+                    ->where('w.emp_number = ?', $empNumber);
+
+            if(!is_null($eduCode)) {
+                $q->andwhere('w.edu_code = ?', $eduCode);
+                return $q->fetchOne();
+            }
+
+            return $q->execute();
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * save Education
+     * @param EmpEducation $empEdu
+     * @returns boolean
+     */
+    public function saveEducation(EmployeeEducation $empEdu) {
+        try {
+            $empEdu->save();
+            return true;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+   /**
+    * Delete Educations
+    * @param int $empNumber
+    * @param array() $educationToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteEducation($empNumber, $educationToDelete) {
+      try {
+         if(is_array($educationToDelete)) {
+            // Delete work experience
+            $q = Doctrine_Query :: create()->delete('EmployeeEducation ec')
+              ->whereIn('edu_code', $educationToDelete)
+              ->andwhere('emp_number = ?', $empNumber);
+            
+            $result = $q->execute();         
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
+    /**
+     * Get Language
+     * @param int $empNumber
+     * @param int $langCode
+     * @returns Collection/Language
+     * @throws DaoException
+     */
+    public function getLanguage($empNumber, $langCode = null, $langType = null) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('EmployeeLanguage l')
+                    ->where('l.emp_number = ?', $empNumber);
+            $fetchOne = false;
+            
+            if(!is_null($langCode)) {
+                $q->andwhere('l.lang_code = ?', $langCode);
+            }
+            
+            if(!is_null($langType)) {
+                $q->andwhere('l.lang_type = ?', $langType);
+            }
+            
+            if (!is_null($langCode) && !is_null($langType)) {
+                return $q->fetchOne();                
+            } else {            
+                return $q->execute();
+            }
+            
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * save Language
+     * @param EmpLanguage $empLang
+     * @returns boolean
+     */
+    public function saveLanguage(EmployeeLanguage $empLang) {
+        try {
+            $empLang->save();
+            return true;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+   /**
+    * Delete Languages
+    * @param int $empNumber
+    * @param array() $languageToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteLanguage($empNumber, $langCodes, $langTypes) {
+      try {
+         if (is_array($langCodes) and is_array($langTypes)) {
+            // Delete work experience
+            $q = Doctrine_Query :: create()->delete('EmployeeLanguage el')
+              ->whereIn('lang_code', $langCodes)
+              ->andWhereIn('lang_type', $langTypes)
+              ->andwhere('emp_number = ?', $empNumber);
+            $result = $q->execute();         
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+   
+    /**
+     * Get Skill
+     * @param int $empNumber
+     * @param int $SkillCode
+     * @returns Collection/Skill
+     * @throws DaoException
+     */
+    public function getSkill($empNumber, $skillCode = null) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('EmployeeSkill w')
+                    ->where('w.emp_number = ?', $empNumber);
+
+            if(!is_null($skillCode)) {
+                $q->andwhere('w.skill_code = ?', $skillCode);
+                return $q->fetchOne();
+            }
+
+            return $q->execute();
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * save Skill
+     * @param EmployeeSkill $empSkill
+     * @returns boolean
+     */
+    public function saveSkill(EmployeeSkill $empSkill) {
+        try {
+            $empSkill->save();
+            return true;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+   /**
+    * Delete Skills
+    * @param int $empNumber
+    * @param array() $skillToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteSkill($empNumber, $skillToDelete) {
+      try {
+         if(is_array($skillToDelete)) {
+            // Delete work experience
+            $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
+              ->whereIn('skill_code', $skillToDelete)
+              ->andwhere('emp_number = ?', $empNumber);
+            
+            $result = $q->execute();         
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }   
+
+    /**
      * Get dependents for given employee
      * @param int $empNumber Employee Number
      * @return array Dependents as array

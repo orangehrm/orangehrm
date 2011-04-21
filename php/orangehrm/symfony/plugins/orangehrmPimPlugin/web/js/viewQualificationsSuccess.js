@@ -1,6 +1,9 @@
 function clearMessageBar() {
-    $("#messagebar").text("");
-    $("#messagebar").attr('class', "");
+    $("#workExpMessagebar").text("").attr('class', "");
+    $("#educationMessagebar").text("").attr('class', "");
+    $("#skillMessagebar").text("").attr('class', "");
+    $("#languageMessagebar").text("").attr('class', "");
+    $("#licenseMessagebar").text("").attr('class', "");
 }
 
 $(document).ready(function() {
@@ -45,6 +48,8 @@ $(document).ready(function() {
         //hiding action button section
         $("#actionWorkExperience").hide();
 
+        $('div#changeWorkExperience label.error').hide();
+
         $("#experience_seqno").val("");
         $("#experience_employer").val("");
         $("#experience_jobtitle").val("");
@@ -66,8 +71,7 @@ $(document).ready(function() {
             $("#frmDelWorkExperience").submit();
         }
 
-        $("#messagebar").attr('class', 'messageBalloon_notice');
-        $("#messagebar").text(lang_selectWrkExprToDelete);
+        $("#workExpMessagebar").attr('class', 'messageBalloon_notice').text(lang_selectWrkExprToDelete);
 
     });
 
@@ -126,6 +130,8 @@ $(document).ready(function() {
         clearMessageBar();
         
         workExperienceValidator.resetForm();
+        
+        $('div#changeWorkExperience label.error').hide();
 
         $(".chkbox1").removeAttr("checked");
 
@@ -162,284 +168,6 @@ $(document).ready(function() {
         daymarker.show("#experience_to_date");
     });
 
-    //--this section is for education
-
-    //hide add education section
-    $("#changeEducation").hide();
-
-    //hiding the data table if records are not available
-    if($(".chkbox2").length == 0) {
-        $("#tblEducation").hide();
-        $("#editEducation").hide();
-        $("#delEducation").hide();
-    }
-
-    //if check all button clicked
-    $("#educationCheckAll").click(function() {
-        $(".chkbox2").removeAttr("checked");
-        if($("#educationCheckAll").attr("checked")) {
-            $(".chkbox2").attr("checked", "checked");
-        }
-    });
-
-    //remove tick from the all button if any checkbox unchecked
-    $(".chkbox2").click(function() {
-        $("#educationCheckAll").removeAttr('checked');
-        if($(".chkbox2").length == $(".chkbox2:checked").length) {
-            $("#educationCheckAll").attr('checked', 'checked');
-        }
-    });
-
-    $("#addEducation").click(function() {
-        //changing the headings
-        $("#headChangeEducation").text("Add Education");
-
-        //hiding action button section
-        $("#actionEducation").hide();
-
-        $("#education").val("");
-        $("#major").val("");
-        $("#score").val("");
-        $("#startDate").val("");
-        $("#endDate").val("");
-
-        //show add education form
-        $("#changeEducation").show();
-    });
-
-    $("#btnEducationCancel").click(function() {
-        $(".chkbox2").removeAttr("checked");
-
-        //hiding action button section
-        $("#actionEducation").show();
-
-        $("#changeEducation").hide();
-    });
-
-    $("#editEducation").click(function() {
-        //changing the headings
-        $("#headChangeEducation").text("Edit Education");
-
-        //hiding action button section
-        $("#actionEducation").hide();
-
-        //show add work experience form
-        $("#changeEducation").show();
-
-        $("#education").val(1);
-        $("#major").val("Applied Math");
-        $("#score").val("4.2");
-        $("#startDate").val("2009-01-01");
-        $("#endDate").val("2009-12-31");
-
-    });
-
-    //--this section is for skills
-    //-------------------------------
-
-    //hide add education section
-    $("#changeSkills").hide();
-
-    //hiding the data table if records are not available
-    if($(".chkbox3").length == 0) {
-        $("#tblSkills").hide();
-        $("#editSkills").hide();
-        $("#delSkills").hide();
-    }
-
-    //if check all button clicked
-    $("#skillsCheckAll").click(function() {
-        $(".chkbox3").removeAttr("checked");
-        if($("#skillsCheckAll").attr("checked")) {
-            $(".chkbox3").attr("checked", "checked");
-        }
-    });
-
-    //remove tick from the all button if any checkbox unchecked
-    $(".chkbox3").click(function() {
-        $("#skillsCheckAll").removeAttr('checked');
-        if($(".chkbox3").length == $(".chkbox3:checked").length) {
-            $("#skillsCheckAll").attr('checked', 'checked');
-        }
-    });
-
-    $("#addSkills").click(function() {
-        //changing the headings
-        $("#headChangeSkills").text("Add Skills");
-
-        //hiding action button section
-        $("#actionSkills").hide();
-
-        $("#skills").val("");
-        $("#experience").val("");
-        $("#skillcomment").val("");
-
-        //show add education form
-        $("#changeSkills").show();
-    });
-
-    $("#btnSkillsCancel").click(function() {
-        $(".chkbox3").removeAttr("checked");
-
-        //hiding action button section
-        $("#actionSkills").show();
-
-        $("#changeSkills").hide();
-    });
-
-    $("#editSkills").click(function() {
-        //changing the headings
-        $("#headChangeSkills").text("Edit Skills");
-
-        //hiding action button section
-        $("#actionSkills").hide();
-
-        //show add work experience form
-        $("#changeSkills").show();
-
-        $("#skills").val("Flying Kite");
-        $("#experience").val("3");
-        $("#skillcomment").val("Young for Ever");
-
-    });
-
-    //--this section is for language
-    //-------------------------------
-
-    //hide add education section
-    $("#changeLang").hide();
-
-    //hiding the data table if records are not available
-    if($(".chkbox4").length == 0) {
-        $("#tblLang").hide();
-        $("#editLang").hide();
-        $("#delLang").hide();
-    }
-
-    //if check all button clicked
-    $("#langCheckAll").click(function() {
-        $(".chkbox4").removeAttr("checked");
-        if($("#langCheckAll").attr("checked")) {
-            $(".chkbox4").attr("checked", "checked");
-        }
-    });
-
-    //remove tick from the all button if any checkbox unchecked
-    $(".chkbox4").click(function() {
-        $("#langCheckAll").removeAttr('checked');
-        if($(".chkbox4").length == $(".chkbox4:checked").length) {
-            $("#langCheckAll").attr('checked', 'checked');
-        }
-    });
-
-    $("#addLang").click(function() {
-        //changing the headings
-        $("#headChangeLang").text("Add Language");
-
-        //hiding action button section
-        $("#actionLang").hide();
-
-        $("#language").val("");
-        $("#fluency").val("");
-        $("#competency").val("0");
-
-        //show add education form
-        $("#changeLang").show();
-    });
-
-    $("#btnLangCancel").click(function() {
-        $(".chkbox4").removeAttr("checked");
-
-        //hiding action button section
-        $("#actionLang").show();
-
-        $("#changeLang").hide();
-    });
-
-    $("#editLang").click(function() {
-        //changing the headings
-        $("#headChangeLang").text("Edit Language");
-
-        //hiding action button section
-        $("#actionLang").hide();
-
-        //show add form
-        $("#changeLang").show();
-
-        $("#language").val("1");
-        $("#fluency").val("3");
-        $("#competency").val("3");
-
-    });
-
-    //--this section is for licenses
-    //-------------------------------
-
-    //hide add education section
-    $("#changeLicenses").hide();
-
-    //hiding the data table if records are not available
-    if($(".chkbox5").length == 0) {
-        $("#tblLicenses").hide();
-        $("#editLicenses").hide();
-        $("#delLicenses").hide();
-    }
-
-    //if check all button clicked
-    $("#licensesCheckAll").click(function() {
-        $(".chkbox5").removeAttr("checked");
-        if($("#licensesCheckAll").attr("checked")) {
-            $(".chkbox5").attr("checked", "checked");
-        }
-    });
-
-    //remove tick from the all button if any checkbox unchecked
-    $(".chkbox5").click(function() {
-        $("#licensesCheckAll").removeAttr('checked');
-        if($(".chkbox5").length == $(".chkbox5:checked").length) {
-            $("#licensesCheckAll").attr('checked', 'checked');
-        }
-    });
-
-    $("#addLicenses").click(function() {
-        //changing the headings
-        $("#headChangeLicenses").text("Add License");
-
-        //hiding action button section
-        $("#actionLicenses").hide();
-
-        $("#license").val("");
-        $("#startDate").val("");
-        $("#endDate").val("");
-
-        //show add education form
-        $("#changeLicenses").show();
-    });
-
-    $("#btnLicensesCancel").click(function() {
-        $(".chkbox5").removeAttr("checked");
-
-        //hiding action button section
-        $("#actionLicenses").show();
-
-        $("#changeLicenses").hide();
-    });
-
-    $("#editLicenses").click(function() {
-        //changing the headings
-        $("#headChangeLicenses").text("Edit Language");
-
-        //hiding action button section
-        $("#actionLicenses").hide();
-
-        //show add form
-        $("#changeLicenses").show();
-
-        $("#license").val("1");
-        $("#licStartDate").val("2007-06-12");
-        $("#licEndDate").val("2011-06-21");
-
-    });
     imageResize();
 });
 
@@ -450,6 +178,8 @@ function fillDataToWorkExperienceDataPane(seqno) {
     //changing the headings
     $("#headChangeWorkExperience").text(lang_editWorkExperience);
 
+    $('div#changeWorkExperience label.error').hide();
+    
     //hiding action button section
     $("#actionWorkExperience").hide();
 

@@ -337,6 +337,93 @@ class EmployeeService extends BaseService {
    public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
        return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
    }
+
+    /**
+     * Get Education
+     * @param int $empNumber
+     * @param int $eduCode
+     * @returns Collection/Education
+     */
+    public function getEducation($empNumber, $eduCode = null) {
+        return $this->employeeDao->getEducation($empNumber, $eduCode);
+    }
+
+   /**
+    * Delete Education
+    * @param int $empNumber
+    * @param array() $educationToDelete
+    * @returns boolean
+    */
+   public function deleteEducation($empNumber, $educationToDelete) {
+       return $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
+   }
+   
+    /**
+     * save Education
+     * @param EmployeeEducation $education
+     * @returns boolean
+     */
+    public function saveEducation(EmployeeEducation $education) {
+        return $this->employeeDao->saveEducation($education);
+    }   
+
+    /**
+     * Get Skill
+     * @param int $empNumber
+     * @param int $eduCode
+     * @returns Collection/Skill
+     */
+    public function getSkill($empNumber, $skillCode = null) {
+        return $this->employeeDao->getSkill($empNumber, $skillCode);
+    }
+
+   /**
+    * Delete Skill
+    * @param int $empNumber
+    * @param array() $skillToDelete
+    * @returns boolean
+    */
+   public function deleteSkill($empNumber, $skillToDelete) {
+       return $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
+   }
+   
+    /**
+     * save Skill
+     * @param EmployeeSkill $skill
+     * @returns boolean
+     */
+    public function saveSkill(EmployeeSkill $skill) {
+        return $this->employeeDao->saveSkill($skill);
+    }   
+    
+    /**
+     * Get Language
+     * @param int $empNumber
+     * @param int $eduCode
+     * @returns Collection/Language
+     */
+    public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
+        return $this->employeeDao->getLanguage($empNumber, $languageCode, $languageType);
+    }
+
+   /**
+    * Delete Language
+    * @param int $empNumber
+    * @param array() $languageToDelete
+    * @returns boolean
+    */
+   public function deleteLanguage($empNumber, $langCodes, $langTypes) {
+       return $this->employeeDao->deleteLanguage($empNumber, $langCodes, $langTypes);
+   }
+   
+    /**
+     * save Language
+     * @param EmployeeLanguage $language
+     * @returns boolean
+     */
+    public function saveLanguage(EmployeeLanguage $language) {
+        return $this->employeeDao->saveLanguage($language);
+    }
     
     /**
      * Returns EmployeePicture by Emp Number

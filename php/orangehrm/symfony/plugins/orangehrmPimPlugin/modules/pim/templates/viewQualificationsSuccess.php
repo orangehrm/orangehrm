@@ -48,14 +48,15 @@
                 <tr>
                     <td valign="top">
                         <!-- this space is for contents -->
-                        <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-                            <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-                        </div>
                         <div id="mainDiv">
                             <div class="outerbox">
                                 <div class="mainHeading"><h2><?php echo __('Qualifications'); ?></h2></div>
 
                                 <!-- this is work experience section -->
+                                <div id="workExpMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
+                                    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+                                </div>
+                                
                                 <div class="sectionDiv" id="sectionWorkExperience">
                                     <div><h3><?php echo __('Work Experience'); ?></h3></div>
 
@@ -148,236 +149,18 @@
                                     </form>
 
                                 </div>
-
                                 <!-- this is education section -->
-                                <div class="sectionDiv" id="sectionEducation">
-                                    <div><h3><?php echo __('Education'); ?></h3></div>
+                                <?php include_partial('education',
+                                        array('empNumber'=>$empNumber, 'form'=>$educationForm));?>
 
-                                    <div class="outerbox" id="changeEducation" style="width:500px;">
-                                        <div class="mainHeading"><h2 id="headChangeEducation"><?php echo __('Add Education'); ?></h2></div>
-                                        <form id="frmEducation" action="">
-                                            <table border="0">
-                                                <tr>
-                                                    <td width="150">Education</td>
-                                                    <td><select id="education">
-                                                            <option value="">-- Select --</option>
-                                                            <option value="1">B.SC In Mathematics</option>
-                                                            <option value="2">B.SC In Psycology</option>
-                                                        </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Major/Specialization</td>
-                                                    <td><input type="text" class="formInputText" id="major"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>GPA/Score</td>
-                                                    <td><input type="text" class="formInputText" id="score" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Start Date</td>
-                                                    <td><input type="text" class="formInputText" id="startDate" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>End Date</td>
-                                                    <td><input type="text" class="formInputText" id="endDate" /></td>
-                                                </tr>
-                                            </table>
-                                            <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnEducationSave" value="<?php echo __("Save"); ?>" />
-                                                <input type="button" class="savebutton" id="btnEducationCancel" value="<?php echo __("Cancel"); ?>" />
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
-                                    <div id="actionEducation">
-                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addEducation" />&nbsp;
-                                        <input type="button" value="<?php echo __("Edit");?>" class="savebutton" id="editEducation" />&nbsp;
-                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delEducation" />
-                                        <br /><br />
-                                    </div>
-                                    <div class="outerbox">
-                                        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblEducation">
-                                            <thead>
-                                                <tr>
-                                                    <td><input type="checkbox" id="educationCheckAll" /></td>
-                                                    <td><?php echo __('Education');?></td>
-                                                    <td><?php echo __('Major/Specialization');?></td>
-                                                    <td><?php echo __('Score');?></td>
-                                                    <td><?php echo __('Start Date');?></td>
-                                                    <td><?php echo __('End Date');?></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd">
-                                                    <td><input type="checkbox" class="chkbox2" /></td>
-                                                    <td>B.SC In Mathematics</td>
-                                                    <td>Applied Math</td>
-                                                    <td>3.5</td>
-                                                    <td>2008-01-01</td>
-                                                    <td>2008-12-31</td>
-                                                </tr>
-                                                <tr class="even">
-                                                    <td><input type="checkbox" class="chkbox2" /></td>
-                                                    <td>B.SC In Psycology</td>
-                                                    <td>Child Psycology</td>
-                                                    <td>4.3</td>
-                                                    <td>2009-01-01</td>
-                                                    <td>2009-12-31</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                                 <!-- this is skills section -->
-                                <div class="sectionDiv" id="sectionSkills">
-                                    <div><h3><?php echo __('Skills'); ?></h3></div>
-
-                                    <div class="outerbox" id="changeSkills" style="width:500px;">
-                                        <div class="mainHeading"><h2 id="headChangeSkills"><?php echo __('Add Skills'); ?></h2></div>
-                                        <form id="frmSkills" action="">
-                                            <table border="0">
-                                                <tr>
-                                                    <td width="150">Skill</td>
-                                                    <td><select id="skills">
-                                                            <option value="">-- Select --</option>
-                                                            <option value="1">Driving Plane</option>
-                                                            <option value="2">Flying Kite</option>
-                                                        </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Years of Experience</td>
-                                                    <td><input type="text" class="formInputText" id="experience"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="top">Comment</td>
-                                                    <td><textarea class="formInputText" cols="35" rows="5" id="skillcomment"></textarea></td>
-                                                </tr>
-                                            </table>
-                                            <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnSkillsSave" value="<?php echo __("Save"); ?>" />
-                                                <input type="button" class="savebutton" id="btnSkillsCancel" value="<?php echo __("Cancel"); ?>" />
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
-                                    <div id="actionSkills">
-                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSkills" />&nbsp;
-                                        <input type="button" value="<?php echo __("Edit");?>" class="savebutton" id="editSkills" />&nbsp;
-                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSkills" />
-                                        <br /><br />
-                                    </div>
-                                    <div class="outerbox">
-                                        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblSkills">
-                                            <thead>
-                                                <tr>
-                                                    <td><input type="checkbox" id="skillsCheckAll" /></td>
-                                                    <td><?php echo __('Skills');?></td>
-                                                    <td><?php echo __('Years of Experience');?></td>
-                                                    <td><?php echo __('Comment');?></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd">
-                                                    <td><input type="checkbox" class="chkbox3" /></td>
-                                                    <td>Driving Plane</td>
-                                                    <td>3</td>
-                                                    <td>Starts way you looking me</td>
-                                                </tr>
-                                                <tr class="even">
-                                                    <td><input type="checkbox" class="chkbox3" /></td>
-                                                    <td>Flying Kites</td>
-                                                    <td>4</td>
-                                                    <td>Young for Ever</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                <?php include_partial('skill',
+                                        array('empNumber'=>$empNumber, 'form'=>$skillForm));?>
+                                
                                 <!-- this is Languages section -->
-                                <div class="sectionDiv" id="sectionLang">
-                                    <div><h3><?php echo __('Languages'); ?></h3></div>
+                                <?php include_partial('language',
+                                        array('empNumber'=>$empNumber, 'form'=>$languageForm));?>
 
-                                    <div class="outerbox" id="changeLang" style="width:500px;">
-                                        <div class="mainHeading"><h2 id="headChangeLang"><?php echo __('Add Languages'); ?></h2></div>
-                                        <form id="frmLangs" action="">
-                                            <table border="0">
-                                                <tr>
-                                                    <td width="150">Language</td>
-                                                    <td><select id="language">
-                                                            <option value="">-- Select --</option>
-                                                            <option value="1">English</option>
-                                                            <option value="2">Sinhala</option>
-                                                            <option value="3">Tamil</option>
-                                                        </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Fluency</td>
-                                                    <td><select id="fluency">
-                                                            <option value="">-- Select --</option>
-                                                            <option value="1">Writing</option>
-                                                            <option value="2">Speaking</option>
-                                                            <option value="3">Reading</option>
-                                                        </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="top">Competency</td>
-                                                    <td>
-                                                        <select id="competency">
-                                                            <option value="0">-- Select --</option>
-                                                            <option value="1">Poor</option>
-                                                            <option value="2">Basic</option>
-                                                            <option value="3">Good</option>
-                                                            <option value="4">Mother Tongue</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnLangSave" value="<?php echo __("Save"); ?>" />
-                                                <input type="button" class="savebutton" id="btnLangCancel" value="<?php echo __("Cancel"); ?>" />
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
-                                    <div id="actionLang">
-                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLang" />&nbsp;
-                                        <input type="button" value="<?php echo __("Edit");?>" class="savebutton" id="editLang" />&nbsp;
-                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLang" />
-                                        <br /><br />
-                                    </div>
-                                    <div class="outerbox">
-                                        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblLang">
-                                            <thead>
-                                                <tr>
-                                                    <td><input type="checkbox" id="langCheckAll" /></td>
-                                                    <td><?php echo __('Language');?></td>
-                                                    <td><?php echo __('Fluency');?></td>
-                                                    <td><?php echo __('Competency');?></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd">
-                                                    <td><input type="checkbox" class="chkbox4" /></td>
-                                                    <td>English</td>
-                                                    <td>Writing</td>
-                                                    <td>Good</td>
-                                                </tr>
-                                                <tr class="even">
-                                                    <td><input type="checkbox" class="chkbox4" /></td>
-                                                    <td>English</td>
-                                                    <td>Reading</td>
-                                                    <td>Good</td>
-                                                </tr>
-                                                <tr class="odd">
-                                                    <td><input type="checkbox" class="chkbox4" /></td>
-                                                    <td>English</td>
-                                                    <td>Speaking</td>
-                                                    <td>Good</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                                 <!-- this is Licenses section -->
                                 <div class="sectionDiv" id="sectionLicenses">
                                     <div><h3><?php echo __('Licenses'); ?></h3></div>
