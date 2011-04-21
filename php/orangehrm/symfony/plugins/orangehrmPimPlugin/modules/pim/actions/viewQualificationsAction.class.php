@@ -119,7 +119,7 @@ class viewQualificationsAction extends sfAction {
         $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
         $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
         $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
-        //$this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
+        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
         
     }
 

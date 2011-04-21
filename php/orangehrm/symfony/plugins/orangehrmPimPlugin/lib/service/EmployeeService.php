@@ -426,6 +426,35 @@ class EmployeeService extends BaseService {
     }
     
     /**
+     * Get License
+     * @param int $empNumber
+     * @param int $eduCode
+     * @returns Collection/License
+     */
+    public function getLicense($empNumber, $licenseCode = null) {
+        return $this->employeeDao->getLicense($empNumber, $licenseCode);
+    }
+
+   /**
+    * Delete License
+    * @param int $empNumber
+    * @param array() $licenseToDelete
+    * @returns boolean
+    */
+   public function deleteLicense($empNumber, $licenseToDelete) {
+       return $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
+   }
+   
+    /**
+     * save License
+     * @param EmployeeLicense $license
+     * @returns boolean
+     */
+    public function saveLicense(EmployeeLicense $license) {
+        return $this->employeeDao->saveLicense($license);
+    }   
+    
+    /**
      * Returns EmployeePicture by Emp Number
      * @param int $empNumber
      * @returns EmpPicture

@@ -558,6 +558,69 @@ class EmployeeDao extends BaseDao {
    }   
 
     /**
+     * Get License
+     * @param int $empNumber
+     * @param int $LicenseCode
+     * @returns Collection/License
+     * @throws DaoException
+     */
+    public function getLicense($empNumber, $licenseCode = null) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('EmployeeLicense l')
+                    ->where('l.emp_number = ?', $empNumber);
+
+            if(!is_null($licenseCode)) {
+                $q->andwhere('l.code = ?', $licenseCode);
+                return $q->fetchOne();
+            }
+
+            return $q->execute();
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * save License
+     * @param EmployeeLicense $empLicense
+     * @returns boolean
+     */
+    public function saveLicense(EmployeeLicense $empLicense) {
+        try {
+            $empLicense->save();
+            return true;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+
+    }
+
+   /**
+    * Delete Licenses
+    * @param int $empNumber
+    * @param array() $licenseToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteLicense($empNumber, $licenseToDelete) {
+      try {
+         if(is_array($licenseToDelete)) {
+            // Delete work experience
+            $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
+              ->whereIn('l.code', $licenseToDelete)
+              ->andwhere('l.emp_number = ?', $empNumber);
+            
+            $result = $q->execute();         
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }   
+   
+    /**
      * Get dependents for given employee
      * @param int $empNumber Employee Number
      * @return array Dependents as array

@@ -35,7 +35,7 @@ abstract class BaseEmployeeLicense extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('hs_hr_emp_licenses');
-        $this->hasColumn('emp_number as empNumber', 'integer', 4, array(
+        $this->hasColumn('emp_number as emp_number', 'integer', 4, array(
              'type' => 'integer',
              'primary' => true,
              'length' => 4,

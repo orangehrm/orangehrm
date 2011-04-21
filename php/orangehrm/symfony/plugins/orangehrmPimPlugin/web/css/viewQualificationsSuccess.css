@@ -44,7 +44,8 @@ textarea.formInputText {
 span#static_skill_code,
 span#static_education_code,
 span#static_language_code,
-span#static_lang_type {
+span#static_lang_type,
+span#static_license_code {
     display: block;
     float: left;
     margin-top: 10px;

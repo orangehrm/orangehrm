@@ -162,64 +162,8 @@
                                         array('empNumber'=>$empNumber, 'form'=>$languageForm));?>
 
                                 <!-- this is Licenses section -->
-                                <div class="sectionDiv" id="sectionLicenses">
-                                    <div><h3><?php echo __('Licenses'); ?></h3></div>
-
-                                    <div class="outerbox" id="changeLicenses" style="width:500px;">
-                                        <div class="mainHeading"><h2 id="headChangeLicenses"><?php echo __('Add Licenses'); ?></h2></div>
-                                        <form id="frmLicenses" action="">
-                                            <table border="0">
-                                                <tr>
-                                                    <td width="150">Licenses</td>
-                                                    <td><select id="license">
-                                                            <option value="">-- Select --</option>
-                                                            <option value="1">Driving License</option>
-                                                            <option value="2">Pilot License</option>
-                                                        </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Start Date</td>
-                                                    <td><input type="text" class="formInputText" id="licStartDate"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="top">End Date</td>
-                                                    <td><input type="text" class="formInputText" id="licEndDate"/></td>
-                                                </tr>
-                                            </table>
-                                            <div class="formbuttons">
-                                                <input type="button" class="savebutton" id="btnLicensesSave" value="<?php echo __("Save"); ?>" />
-                                                <input type="button" class="savebutton" id="btnLicensesCancel" value="<?php echo __("Cancel"); ?>" />
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
-                                    <div id="actionLicenses">
-                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicenses" />&nbsp;
-                                        <input type="button" value="<?php echo __("Edit");?>" class="savebutton" id="editLicenses" />&nbsp;
-                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicenses" />
-                                        <br /><br />
-                                    </div>
-                                    <div class="outerbox">
-                                        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblLicenses">
-                                            <thead>
-                                                <tr>
-                                                    <td><input type="checkbox" id="licensesCheckAll" /></td>
-                                                    <td><?php echo __('Licenses');?></td>
-                                                    <td><?php echo __('Start Date');?></td>
-                                                    <td><?php echo __('End Date');?></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="even">
-                                                    <td><input type="checkbox" class="chkbox5" /></td>
-                                                    <td>Driving License</td>
-                                                    <td>2007-06-12</td>
-                                                    <td>2011-06-21</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                <?php include_partial('license',
+                                        array('empNumber'=>$empNumber, 'form'=>$licenseForm));?>
                                 <br />
                             </div>
                         </div>
