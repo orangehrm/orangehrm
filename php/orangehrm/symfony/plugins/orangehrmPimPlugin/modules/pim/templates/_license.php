@@ -16,9 +16,9 @@
             <span id="static_license_code" style="display:none;"></span>
             <br class="clear"/>
 
-            <?php //echo $form['license_no']->renderLabel(__('License Number')); ?>
-            <?php //echo $form['license_no']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
-            <!-- <br class="clear"/> -->
+            <?php echo $form['license_no']->renderLabel(__('License Number')); ?>
+            <?php echo $form['license_no']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
+            <br class="clear"/>
 
             <?php echo $form['date']->renderLabel(__('Date')); ?>
             <?php echo $form['date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
@@ -72,7 +72,7 @@
                     <tr class="<?php echo $cssClass;?>">
                 <td><input type="hidden" id="code_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->code); ?>" />
                 <input type="hidden" id="code_desc_<?php echo $license->code;?>" value="<?php echo $licenseDesc; ?>" />
-                <!--<input type="hidden" id="license_no_<?php //echo $license->code;?>" value="<?php //echo htmlspecialchars($license->license_no); ?>" /> -->
+                <input type="hidden" id="license_no_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->license_no); ?>" />
                 <input type="hidden" id="start_date_<?php echo $license->code;?>" value="<?php echo $startDate; ?>" />
                 <input type="hidden" id="end_date_<?php echo $license->code;?>" value="<?php echo $endDate; ?>" />
 
@@ -210,13 +210,13 @@ $(document).ready(function() {
         $("#frmLicense").validate({
         rules: {
             'license[code]': {required: true},
-            //'license[license_no]': {required: false, maxlength: 50},
+            'license[license_no]': {required: false, maxlength: 50},
             'license[date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate3:true},
             'license[renewal_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}}
         },
         messages: {
             'license[code]': {required: lang_licenseRequired},
-            //'license[license_no]': {maxlength: lang_licenseNoMaxLength},
+            'license[license_no]': {maxlength: lang_licenseNoMaxLength},
             'license[date]': {valid_date: lang_invalidDate, validFromDate3: lang_startDateAfterEndDate},
             'license[renewal_date]': {valid_date: lang_invalidDate}
         },
@@ -302,9 +302,7 @@ $(document).ready(function() {
 
         $('#license_code').val(code);
 
-        $("#license_major").val($("#major_" + code).val());
-        $("#license_year").val($("#year_" + code).val());
-        $("#license_gpa").val($("#gpa_" + code).val());
+        $("#license_license_no").val($("#license_no_" + code).val());
         $("#license_date").val($("#start_date_" + code).val());
         $("#license_renewal_date").val($("#end_date_" + code).val());
 

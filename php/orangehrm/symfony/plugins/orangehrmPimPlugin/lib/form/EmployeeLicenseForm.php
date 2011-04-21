@@ -55,7 +55,7 @@ class EmployeeLicenseForm extends sfForm {
         $this->widgets = array(
             'emp_number' => new sfWidgetFormInputHidden(),
             'code' => new sfWidgetFormSelect(array('choices' => $this->_getLicenseList())),
-            //'license_no' => new sfWidgetFormInputText(),
+            'license_no' => new sfWidgetFormInputText(),
             'date' => new sfWidgetFormInputText(),
             'renewal_date' => new sfWidgetFormInputText(),
         );
@@ -68,8 +68,8 @@ class EmployeeLicenseForm extends sfForm {
         $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
         $this->setValidator('code', new sfValidatorString(array('required' => true,
             'max_length' => 13)));
-        //$this->setValidator('license_no', new sfValidatorString(array('required' => false,
-        //    'max_length' => 50)));
+        $this->setValidator('license_no', new sfValidatorString(array('required' => false,
+            'max_length' => 50)));
 
         $this->setValidator('date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),

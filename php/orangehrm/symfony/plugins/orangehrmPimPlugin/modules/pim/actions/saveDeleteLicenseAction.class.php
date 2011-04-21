@@ -97,7 +97,7 @@ class saveDeleteLicenseAction extends sfAction {
 
         $license->emp_number = $post['emp_number'];
         $license->code = $post['code'];
-        //$license->license_no = $post['license_no'];
+        $license->license_no = $post['license_no'];
         $license->date = $post['date'];
         $license->renewal_date = $post['renewal_date'];
 

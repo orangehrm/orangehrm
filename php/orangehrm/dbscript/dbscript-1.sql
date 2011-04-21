@@ -214,6 +214,7 @@ create table `hs_hr_emp_history_of_ealier_pos` (
 create table `hs_hr_emp_licenses` (
   `emp_number` int(7) not null default 0,
   `licenses_code` varchar(100) not null default '',
+  `license_no` varchar(50) default null,
   `licenses_date` date null default null,
   `licenses_renewal_date` date null default null,
   primary key  (`emp_number`,`licenses_code`)
