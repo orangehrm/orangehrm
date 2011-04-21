@@ -31,9 +31,6 @@ class ButtonTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement test__toString().
-     */
     public function test__toString_WithoutProperties() {
         $this->button->setIdentifier('Save');
         $expectedAttributes = array(
