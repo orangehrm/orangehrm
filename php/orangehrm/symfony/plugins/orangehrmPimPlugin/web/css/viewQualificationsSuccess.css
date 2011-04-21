@@ -51,3 +51,16 @@ span#static_license_code {
     margin-top: 10px;
     padding: 1px 4px;
 }
+
+div#changeWorkExperience,
+div#changeEducation,
+div#changeLanguage,
+div#changeSkill,
+div#changeLicense,
+div#workExpRequiredNote,
+div#educationRequiredNote,
+div#languageRequiredNote,
+div#skillRequiredNote,
+div#LicenseRequiredNote {
+    display:none;
+}
