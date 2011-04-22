@@ -88,3 +88,8 @@ div.dialogButtons {
     text-align: center;
     vertical-align: bottom;
 }
+
+.trHover {
+    background-color: #ccc;
+    cursor: pointer;
+}
