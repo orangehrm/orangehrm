@@ -55,7 +55,8 @@ var fileModified = 0;
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
+        <td width="200" valign="top">
+        <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
         <td valign="top">
 
 <div class="formpage2col">
@@ -163,7 +164,6 @@ var fileModified = 0;
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">
-            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
             </td>
     </tr>
 </table>
@@ -196,8 +196,6 @@ var fileModified = 0;
     }
 
     $(document).ready(function() {
-
-        imageResize();
         
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {

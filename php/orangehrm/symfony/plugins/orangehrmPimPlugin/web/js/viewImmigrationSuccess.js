@@ -142,8 +142,6 @@ $(document).ready(function() {
         return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
     });
 
-    imageResize();
-
 });
 
 //function to load data for updating

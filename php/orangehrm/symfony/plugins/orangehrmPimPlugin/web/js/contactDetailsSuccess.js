@@ -70,5 +70,4 @@ $(document).ready(function() {
         }
     }
 
-    imageResize();
 });

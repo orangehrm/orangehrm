@@ -40,7 +40,8 @@
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
+        <td width="200" valign="top">
+        <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
         <td valign="top">
             <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
@@ -165,7 +166,6 @@
                         </div>
                     </td>
                     <td valign="top" align="left">
-                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
                     </td>
                 </tr>
             </table>

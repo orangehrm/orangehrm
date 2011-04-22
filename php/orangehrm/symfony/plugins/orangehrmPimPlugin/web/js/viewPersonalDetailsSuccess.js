@@ -98,6 +98,4 @@ $(document).ready(function() {
         var dt = value.split("-");
         return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
     });
-
-    imageResize();
 });

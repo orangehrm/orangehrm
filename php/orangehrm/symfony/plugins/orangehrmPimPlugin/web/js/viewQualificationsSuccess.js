@@ -168,7 +168,6 @@ $(document).ready(function() {
         daymarker.show("#experience_to_date");
     });
 
-    imageResize();
 });
 
 function fillDataToWorkExperienceDataPane(seqno) {

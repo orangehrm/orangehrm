@@ -152,7 +152,7 @@
         float: left;
         background: #FFFBED;
         padding: 2px 2px 2px 2px;
-        margin: 10px 0px 0px 5px;
+        margin: 0px 0px 0px 5px;
     }
     #pimleftmenu ul {
         list-style-type: none;
@@ -362,7 +362,7 @@
     }
 
     div#editPaneMemberships #membershipTypeLabel,
-    div#editPaneMemberships #membershipLabel, {
+    div#editPaneMemberships #membershipLabel {
         display:inline;
         font-weight:bold;
         padding-left:2px;
@@ -371,7 +371,7 @@
     /* photo */
     #currentImage {
         padding: 2px;
-        margin: 14px 4px 14px 20px;
+        margin: 5px 4px 14px 2px;
         border: 1px solid #FAD163;
         cursor:pointer;
     }
@@ -394,6 +394,7 @@ if($empNumber == $_SESSION['empID']) {
 ?>
 <form id="frmEmp" action=""></form>
 <div id="pimleftmenu">
+    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
     <ul class="pimleftmenu">
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);">

@@ -40,5 +40,8 @@
         $("#empPic").attr("height", newHeight);
         $("#empPic").attr("width", newWidth);
     }
+    
+    imageResize();
+    
     //]]>
 </script>

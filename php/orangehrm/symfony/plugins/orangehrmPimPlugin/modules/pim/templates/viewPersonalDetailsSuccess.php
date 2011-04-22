@@ -38,7 +38,8 @@
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
+        <td width="200" valign="top">
+        <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
         <td valign="top">
             <table cellspacing="0" cellpadding="0" border="0" width="90%">
                 <tr>
@@ -157,7 +158,6 @@
                         <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
                     </td>
                     <td valign="top" align="center">
-                    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
                     </td>
                 </tr>
             </table>

@@ -74,6 +74,4 @@ $(document).ready(function() {
         $("#deleteConfirmation").dialog('close');
         navigateUrl(deleteUrl);
     });
-
-    imageResize();
 });

@@ -61,7 +61,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber));?></td>
+        <td width="200" valign="top">
+        <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
         <td valign="top">
 
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
@@ -174,7 +175,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">
-            <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
             </td>
     </tr>
 </table>
@@ -396,8 +396,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         $('#btnSaveDependent').click(function() {
             $('#frmEmpDependent').submit();
         });
-
-        imageResize();
 });
 //]]>
 </script>
