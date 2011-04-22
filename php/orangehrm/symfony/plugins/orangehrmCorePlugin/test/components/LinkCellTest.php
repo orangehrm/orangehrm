@@ -36,7 +36,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase
     {
         $dataObject = new LinkCellTestDataObject();
 
-        $this->linkCell->setDataobject($dataObject);
+        $this->linkCell->setDataObject($dataObject);
         $this->linkCell->setProperties(array(
             'labelGetter' => 'getLabel',
             'placeholderGetters' => array(

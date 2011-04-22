@@ -25,7 +25,7 @@ abstract class Cell implements PopulatableFromArray {
         return $this->dataObject;
     }
 
-    public function setDataobject($dataObject) {
+    public function setDataObject($dataObject) {
         $this->dataObject = $dataObject;
     }
 
