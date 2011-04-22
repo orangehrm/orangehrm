@@ -1,10 +1,8 @@
 <?php
 
-abstract class ComponentProperty {
+abstract class ComponentProperty implements PopulatableFromArray {
     public function populateFromArray(array $properties) {
-        foreach ($properties as $property => $value) {
-            $this->$property = $value;
-        }
+        PropertyPopulator::populateFromArray($this, $properties);
     }
 }
 

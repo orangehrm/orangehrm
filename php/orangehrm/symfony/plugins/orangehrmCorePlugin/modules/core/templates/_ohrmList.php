@@ -2,17 +2,32 @@
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
 
-    <table style="border-collapse: collapse; width: 100%;  text-align: left;" class="data-table">
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <?php
+            foreach ($buttons as $key => $buttonProperties) {
+                $button = new Button();
+                $button->setProperties($buttonProperties);
+                $button->setIdentifier($key);
+                echo $button->__toString(), "\n";
+            }
+            ?>
+        </div>
+        <br class="clear" />
+    </div>
+
+    <table style="border-collapse: collapse; width: 100%; text-align: left;" class="data-table">
         <thead>
             <tr>
                 <?php
                 if ($hasSelectableRows) {
-                    $selectAllCheckobxTag = tag('input', array(
-                                'type' => 'checkbox',
-                                'id' => 'ohrmList_chkSelectAll',
-                                'name' => 'chkSelectAll'
-                            ));
-                    echo content_tag('th', $selectAllCheckobxTag);
+                    $selectAllCheckobx = new Checkbox();
+                    $selectAllCheckobx->setProperties(array(
+                        'id' => 'ohrmList_chkSelectAll',
+                        'name' => 'chkSelectAll'
+                    ));
+                    $selectAllCheckobx->setIdentifier('Select_All');
+                    echo content_tag('th', $selectAllCheckobx->__toString());
                 }
                 ?>
 
@@ -39,13 +54,21 @@
                                     '/searchFor/' . $request->getParameter('txtSearchFor');
                         }
 
-                        $headerHtml = content_tag('a', __($header->getName()), array(
-                                    'href' => public_path($sortUrl),
-                                    'class' => $sortOrderStyle,
-                                ));
+                        $headerCell = new SortableHeaderCell();
+                        $headerCell->setProperties(array(
+                            'label' => __($header->getName()),
+                            'sortUrl' => $sortUrl,
+                            'currentSortOrder' => $sortOrderStyle,
+                        ));
+                    } else {
+                        $headerCell = new HeaderCell();
+                        $headerCell->setProperties(array(
+                            'label' => __($header->getName()),
+                            )
+                        );
                     }
                 ?>
-                    <th><?php echo $headerHtml; ?></th>
+                    <th><?php echo $headerCell->__toString(); ?></th>
                 <?php } ?>
             </tr>
         </thead>
@@ -56,33 +79,38 @@
                     $rowCssClass = 'even';
 
                     foreach ($data as $object) {
-                        $idValue = 0;
+                        $idValue = $object->$idValueGetter();
                         $rowCssClass = ($rowCssClass === 'odd') ? 'even' : 'odd';
             ?>
                         <tr class="<?php echo $rowCssClass; ?>">
                 <?php
                         if ($hasSelectableRows) {
-                            $selectCheckobxTag = (/*in_array($idValue, $unselectableRowIds)*/ false) ? '&nbsp;' : tag('input', array(
-                                        'type' => 'checkbox',
-                                        'id' => "ohrmList_chkSelectRecord_{$idValue}",
-                                        'value' => $idValue,
-                                        'name' => 'chkSelectRow[]'
-                                    ));
-                            echo content_tag('td', $selectCheckobxTag);
+                            if (false) { /* in_array($idValue, $unselectableRowIds) */
+                                $selectCellHtml = '&nbsp;';
+                            } else {
+                                $selectCheckobx = new Checkbox();
+                                $selectCheckobx->setProperties(array(
+                                    'id' => "ohrmList_chkSelectRecord_{$idValue}",
+                                    'value' => $idValue,
+                                    'name' => 'chkSelectRow[]'
+                                ));
+
+                                $selectCellHtml = $selectCheckobx->__toString();
+                            }
+
+                            echo content_tag('td', $selectCellHtml);
                         }
 
                         foreach ($columns as $header) {
                             $cellHtml = '';
-                            $getter = $header->getElementProperty();
-                            $cellHtml = $object->$getter();
+                            $cellClass = ucfirst($header->getElementType()) . 'Cell';
+                            $properties = $header->getElementProperty();
 
-                            if ($header->getElementType() === 'link') {
-                                $cellHtml = content_tag('a', $cellHtml, array(
-                                    'href' => '#',
-                                ));
-                            }
+                            $cell = new $cellClass;
+                            $cell->setProperties($properties);
+                            $cell->setDataObject($object);
                 ?>
-                            <td><?php echo $cellHtml; ?></td>
+                            <td><?php echo $cell->__toString(); ?></td>
                 <?php
                         }
                 ?>
@@ -104,3 +132,21 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript">
+    /* FIXME: This script was added to preseve existing functionality */
+    $(document).ready(function() {
+        $('.data-table tbody tr').hover(function() {  // highlight on mouse over
+            $(this).removeClass();
+            $(this).addClass("trHover");
+        });
+
+        $('.data-table tbody tr').mouseout(function() { // redraw table raws with alternate colors
+           var even = true;
+           $('.data-table tbody tr').each(function() {
+               $(this).addClass((even) ? 'odd' : 'even');
+               even = !even;
+            });
+        });
+    });
+</script>

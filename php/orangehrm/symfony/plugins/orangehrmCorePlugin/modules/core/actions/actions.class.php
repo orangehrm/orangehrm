@@ -11,16 +11,19 @@ class coreActions extends sfActions {
 
         $header1->populateFromArray(array(
             'name' => 'Id',
-            'isSortable' => true,
-            'elementType' => 'label',
-            'elementProperty' => 'getNatCode',
+            'isSortable' => false,
+            'elementType' => 'link',
+            'elementProperty' => array(
+                'labelGetter' => 'getNatCode',
+                'placeholderGetters' => array('id' => 'getNatCode'),
+                'urlPattern' => '../../../lib/controllers/CentralController.php?id={id}&uniqcode=NAT&capturemode=updatemode'),
         ));
 
         $header2->populateFromArray(array(
             'name' => 'Name',
             'isSortable' => true,
-            'elementType' => 'link',
-            'elementProperty' => 'getNatName',
+            'elementType' => 'label',
+            'elementProperty' => array('getter' => 'getNatName'),
         ));
 
         $params = $defs['Sample'];

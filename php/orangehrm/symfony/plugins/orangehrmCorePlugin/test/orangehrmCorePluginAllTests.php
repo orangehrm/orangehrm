@@ -12,6 +12,15 @@ class orangehrmCorePluginAllTests {
 
         /* Component Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/components/ListHeaderTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/PropertyPopulatorTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/LinkCellTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/ButtonTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/LabelCellTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/SortableHeaderCellTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/ListHeaderTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/CheckboxTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/HeaderCellTest.php');
+
 
         return $suite;
 
