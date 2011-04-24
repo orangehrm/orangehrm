@@ -93,3 +93,9 @@ div.dialogButtons {
     background-color: #ccc;
     cursor: pointer;
 }
+
+table.data-table th {
+    width: auto;
+    text-align: left;
+    padding-left: 2px;
+}
