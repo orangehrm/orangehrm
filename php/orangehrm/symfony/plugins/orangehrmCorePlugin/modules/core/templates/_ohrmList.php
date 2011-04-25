@@ -17,6 +17,14 @@
     </div>
 
     <table style="border-collapse: collapse; width: 100%; text-align: left;" class="data-table">
+        <colgroup>
+            <?php if ($hasSelectableRows) { ?>
+            <col width="50" />
+            <?php } ?>
+            <?php foreach ($columns as $header) { ?>
+            <col width="<?php echo $header->getWidth(); ?>" />
+            <?php } ?>
+        </colgroup>
         <thead>
             <tr>
                 <?php

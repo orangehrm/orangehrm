@@ -11,6 +11,7 @@ class coreActions extends sfActions {
 
         $header1->populateFromArray(array(
             'name' => 'Id',
+            'width' => '45%',
             'isSortable' => false,
             'elementType' => 'link',
             'elementProperty' => array(
