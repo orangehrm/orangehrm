@@ -765,6 +765,7 @@ create table `hs_hr_custom_fields` (
   `field_num` int(11) not null,
   `name` varchar(250) not null,
   `type` int(11) not null,
+  `screen` varchar(100),
   `extra_data` varchar(250) default null,
   primary key  (`field_num`),
   key `emp_number` (`field_num`)

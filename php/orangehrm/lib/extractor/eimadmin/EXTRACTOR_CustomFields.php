@@ -26,6 +26,7 @@
 			$field->setFieldNumber(trim($postArr['txtId']));
 			$field->setName(trim($postArr['txtFieldName']));
 			$field->setFieldType(trim($postArr['cmbFieldType']));
+                        $field->setScreen(trim($postArr['cmbScreen']));
 			if ($field->getFieldType() == CustomFields::FIELD_TYPE_SELECT) {
 				$field->setExtraData(trim($postArr['txtExtra']));
 			}
@@ -41,6 +42,7 @@
 			$field->setFieldNumber(trim($postArr['txtId']));
 			$field->setName(trim($postArr['txtFieldName']));
 			$field->setFieldType(trim($postArr['cmbFieldType']));
+                        $field->setScreen(trim($postArr['cmbScreen']));
 			if ($field->getFieldType() == CustomFields::FIELD_TYPE_SELECT) {
 				$field->setExtraData(trim($postArr['txtExtra']));
 			}

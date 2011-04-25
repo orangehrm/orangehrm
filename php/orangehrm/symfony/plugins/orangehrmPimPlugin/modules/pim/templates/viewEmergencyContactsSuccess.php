@@ -160,7 +160,7 @@ var fileModified = 0;
 </div>
 </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
-
+<?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'emergency'));?>
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">

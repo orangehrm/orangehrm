@@ -38,6 +38,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 }
 $tabIndex = 1;
 $token = $this->popArr['token'];
+
+$screens = array('personal'=>'Personal Details',
+                 'contact' => 'Contact Details',
+                 'emergency' => 'Emergency Contacts',
+                 'dependents' => 'Dependents',
+                 'immigration' => 'Immigration',
+                 'Qualifications' => 'Qualifications');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -177,6 +184,19 @@ $token = $this->popArr['token'];
                     value="<?php echo $customField->getName(); ?>" tabindex="<?php echo $tabIndex++;?>"/>
                 <br class="clear"/>
 
+                <label for="cmbScreen"><?php echo 'Screen'; ?><span class="required">*</span>
+                </label>
+                <select name="cmbScreen" id="cmbScreen" class="formSelect" tabindex="<?php echo $tabIndex++;?>"
+                        onchange="hideextra();" <?php echo $disabled;?>>
+                    <?php foreach ($screens as $key=>$screen) {
+                            $selected = ($customField->getScreen() == $key)? 'selected="selected"' : '';
+                    ?>
+                    <option <?php echo $selected; ?> value="<?php echo $key;?>"><?php echo $screen;?></option>
+                    <?php } ?>
+                </select>
+                <br class="clear"/>
+
+                
                 <label for="cmbFieldType"><?php echo $lang_customeFields_Type; ?><span class="required">*</span>
                 </label>
                 <select name="cmbFieldType" id="cmbFieldType" class="formSelect" tabindex="<?php echo $tabIndex++;?>"

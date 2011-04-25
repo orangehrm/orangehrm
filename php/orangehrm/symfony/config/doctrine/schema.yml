@@ -874,6 +874,9 @@ CustomFields:
     type:
       type: integer(4)
       notnull: true
+    screen:
+      type: string(100)
+      notnull: false
     extra_data: string(250)
  
 JobTitleEmployeeStatus:

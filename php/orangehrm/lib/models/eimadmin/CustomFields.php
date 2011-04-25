@@ -34,6 +34,7 @@ class CustomFields {
 	const DB_FIELDS_NUM = 'field_num';
 	const DB_FIELDS_NAME = 'name';
 	const DB_FIELDS_TYPE = 'type';
+        const DB_FIELDS_SCREEN = 'screen';
 	const DB_FIELDS_EXTRA_DATA = 'extra_data';
 
 	const FIELD_TYPE_STRING = 0;
@@ -46,7 +47,9 @@ class CustomFields {
 	private $fieldNumber;
 	private $name;
 	private $fieldType = self::FIELD_TYPE_STRING;
+        private $screen;
 	private $extraData;
+        
 
 	/**
 	 *	Setter method followed by getter method for each
@@ -83,7 +86,14 @@ class CustomFields {
 	public function getExtraData() {
 		return $this->extraData;
 	}
+        
+	public function setScreen($screen) {
+		return $this->screen = $screen;
+	}
 
+	public function getScreen() {
+		return $this->screen;
+	}
 	public function getOptions() {
 		$options = array();
 
@@ -109,12 +119,14 @@ class CustomFields {
 		$fields[0] = self::DB_FIELDS_NUM;
 		$fields[1] = self::DB_FIELDS_NAME;
 		$fields[2] = self::DB_FIELDS_TYPE;
-		$fields[3] = self::DB_FIELDS_EXTRA_DATA;
+                $fields[3] = self::DB_FIELDS_SCREEN;                
+		$fields[4] = self::DB_FIELDS_EXTRA_DATA;
 
 		$values[0] = $this->fieldNumber;
 		$values[1] = "'{$this->name}'";
 		$values[2] = "'{$this->fieldType}'";
-		$values[3] = "'{$this->extraData}'";
+                $values[3] = "'{$this->screen}'";
+		$values[4] = "'{$this->extraData}'";
 
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
@@ -144,12 +156,15 @@ class CustomFields {
 		$fields[0] = self::DB_FIELDS_NUM;
 		$fields[1] = self::DB_FIELDS_NAME;
 		$fields[2] = self::DB_FIELDS_TYPE;
-		$fields[3] = self::DB_FIELDS_EXTRA_DATA;
+                $fields[3] = self::DB_FIELDS_SCREEN;                
+		$fields[4] = self::DB_FIELDS_EXTRA_DATA;
+
 
 		$values[0] = $this->fieldNumber;
 		$values[1] = "'{$this->name}'";
 		$values[2] = "'{$this->fieldType}'";
-		$values[3] = "'{$this->extraData}'";
+                $values[3] = "'{$this->screen}'";
+		$values[4] = "'{$this->extraData}'";
 
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
@@ -286,7 +301,8 @@ class CustomFields {
 		$fields[0] = self::DB_FIELDS_NUM;
 		$fields[1] = self::DB_FIELDS_NAME;
 		$fields[2] = self::DB_FIELDS_TYPE;
-		$fields[3] = self::DB_FIELDS_EXTRA_DATA;
+                $fields[3] = self::DB_FIELDS_SCREEN;                
+		$fields[4] = self::DB_FIELDS_EXTRA_DATA;
 
 		$sqlBuilder = new SQLQBuilder();
 		$sql = $sqlBuilder->simpleSelect(self::TABLE_NAME, $fields, $selectCondition);
@@ -315,6 +331,7 @@ class CustomFields {
 		$tmp->setFieldNumber($row[self::DB_FIELDS_NUM]);
 		$tmp->setName($row[self::DB_FIELDS_NAME]);
 		$tmp->setFieldType($row[self::DB_FIELDS_TYPE]);
+                $tmp->setScreen($row[self::DB_FIELDS_SCREEN]);                
 		$tmp->setExtraData($row[self::DB_FIELDS_EXTRA_DATA]);
 		return $tmp;
 	}

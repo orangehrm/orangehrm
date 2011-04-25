@@ -356,9 +356,6 @@ if ($_SESSION['isAdmin']=='Yes' || $arrAllRights[Admin]['view']) {
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
 
-	$sub = new MenuItem("customfields",$lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
-	$subs[] = $sub;
-
   	if ($_SESSION['ldap'] == "enabled") {
   		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
   	}
@@ -401,7 +398,14 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	}
 	$subs = array();
     if($_SESSION['isAdmin']=='Yes') {
-        $subs[] = new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configurePim", "rightMenu");
+        
+	$sub = new MenuItem("configure", "Configure",   "#");
+	$subsubs = array();        
+        $subsubs[] = new MenuItem("pimconfig", "Optional Fields", "./symfony/web/index.php/pim/configurePim", "rightMenu");
+	$subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
+	$sub->setSubMenuItems($subsubs);        
+	$subs[] = $sub;
+        
     }
     
 	//$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");

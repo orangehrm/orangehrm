@@ -8,15 +8,18 @@
  * @property integer $field_num
  * @property string $name
  * @property integer $type
+ * @property string $screen
  * @property string $extra_data
  * 
  * @method integer      getFieldNum()   Returns the current record's "field_num" value
  * @method string       getName()       Returns the current record's "name" value
  * @method integer      getType()       Returns the current record's "type" value
+ * @method string       getScreen()     Returns the current record's "screen" value
  * @method string       getExtraData()  Returns the current record's "extra_data" value
  * @method CustomFields setFieldNum()   Sets the current record's "field_num" value
  * @method CustomFields setName()       Sets the current record's "name" value
  * @method CustomFields setType()       Sets the current record's "type" value
+ * @method CustomFields setScreen()     Sets the current record's "screen" value
  * @method CustomFields setExtraData()  Sets the current record's "extra_data" value
  * 
  * @package    orangehrm
@@ -43,6 +46,11 @@ abstract class BaseCustomFields extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'length' => 4,
+             ));
+        $this->hasColumn('screen', 'string', 100, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 100,
              ));
         $this->hasColumn('extra_data', 'string', 250, array(
              'type' => 'string',
