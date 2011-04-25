@@ -428,8 +428,8 @@ EmployeeEducation:
       foreign: emp_number
       type: one
     Education:
-      local: eduCode
-      foreign: eduCode
+      local: edu_code
+      foreign: edu_code
       type: one
 
 Licenses:
@@ -449,12 +449,14 @@ EmployeeLicense:
   tableName: hs_hr_emp_licenses
   columns:
     emp_number:
-      name: emp_number as empNumber
+      name: emp_number as emp_number
       type: integer(4)
       primary: true
     licenses_code as code:
       type: string(100)
       primary: true
+    license_no:
+      type: string(50)      
     licenses_date as date: date(25)
     licenses_renewal_date as renewal_date: date(25)
   relations:
@@ -541,6 +543,8 @@ EmployeeLanguage:
     competency:
       type: integer(2)
       default: '0'
+    comments:
+      type: string(100)
   relations:
     Employee:
       local: emp_number
