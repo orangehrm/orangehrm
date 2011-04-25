@@ -144,3 +144,37 @@
 </div>
 
 <?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>
+
+<?php
+    $asseestPath = '../orangehrmCorePlugin/';
+    foreach ($assets as $asset) {
+        $assetType = substr($asset, strrpos($asset, '.') + 1);
+
+        if ($assetType == 'js') {
+            echo javascript_include_tag($asseestPath . 'js/' . $asset);
+        } elseif ($assetType == 'css') {
+            echo stylesheet_tag($asseestPath . 'css/' . $asset);
+        } else {
+            echo $assetType;
+        }
+    }
+?>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        ohrmList_init();
+
+<?php
+    foreach ($buttons as $key => $buttonProperties) {
+        $button = new Button();
+        $button->setProperties($buttonProperties);
+        $button->setIdentifier($key);
+        if (!empty($buttonProperties['function'])) {
+            echo "\t\$('#{$button->getId()}').click({$buttonProperties['function']});", "\n";
+        }
+    }
+?>
+    });
+
+</script>

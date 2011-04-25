@@ -1,4 +1,4 @@
-$(document).ready(function() {
+function ohrmList_init() {
     $('.data-table tbody tr').hover(function() {  // highlight on mouse over
         $(this).removeClass();
         $(this).addClass("trHover");
@@ -21,6 +21,5 @@ $(document).ready(function() {
         var isAllChecked = (selectorCheckboxes.size() == selectorCheckboxes.filter(':checked').size());
         $('#ohrmList_chkSelectAll').attr('checked', isAllChecked);
     });
-});
-
+};
 

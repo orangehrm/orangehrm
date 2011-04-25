@@ -6,6 +6,8 @@ Default:
   buttons: []
   formMethod: post
   formAction: '#'
+  assets: []
+
 Sample:
   hasSelectableRows: true
   unselectableRowIds: []
@@ -14,8 +16,12 @@ Sample:
   buttons:
     Add:
       label: Add
+      function: addNationality
     Delete:
       label: Delete
       type: submit
   formMethod: post
   formAction: '#'
+  assets:
+    - nationality.js
+    - nationality.css

@@ -4,7 +4,7 @@ class Button extends Control {
 
     public function __toString() {
         $label = $this->getPropertyValue('label', $this->identifier);
-        $id = $this->getPropertyValue('id', 'btn' . ucfirst($label));
+        $id = $this->getId();
         $class = $this->getPropertyValue('class', 'plainbtn');
 
         return tag('input', array(
@@ -19,5 +19,9 @@ class Button extends Control {
         );
     }
 
-}
+    public function getId() {
+        $label = $this->getPropertyValue('label', $this->identifier);
+        return $this->getPropertyValue('id', 'btn' . ucfirst($label));
+    }
 
+}
