@@ -4,6 +4,8 @@ Default:
   idValueGetter: getId
   title: 'OrangeHRM List'
   buttons: []
+  formMethod: post
+  formAction: '#'
 Sample:
   hasSelectableRows: true
   unselectableRowIds: []
@@ -15,3 +17,5 @@ Sample:
     Delete:
       label: Delete
       type: submit
+  formMethod: post
+  formAction: '#'
