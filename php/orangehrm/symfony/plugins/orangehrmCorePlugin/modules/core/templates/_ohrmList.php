@@ -141,20 +141,4 @@
     </table>
 </div>
 
-<script type="text/javascript">
-    /* FIXME: This script was added to preseve existing functionality */
-    $(document).ready(function() {
-        $('.data-table tbody tr').hover(function() {  // highlight on mouse over
-            $(this).removeClass();
-            $(this).addClass("trHover");
-        });
-
-        $('.data-table tbody tr').mouseout(function() { // redraw table raws with alternate colors
-           var even = true;
-           $('.data-table tbody tr').each(function() {
-               $(this).addClass((even) ? 'odd' : 'even');
-               even = !even;
-            });
-        });
-    });
-</script>
+<?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>
