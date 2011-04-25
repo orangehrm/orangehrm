@@ -22,12 +22,12 @@
         var propHeight = Math.floor((imgHeight/imgWidth) * 150);
         var propWidth = Math.floor((imgWidth/imgHeight) * 180);
 
-        if(propHeight <= 180) {
+        if (isNaN(propHeight) || (propHeight <= 180)) {
             newHeight = propHeight;
             newWidth = 150;
         }
 
-        if(propWidth <= 150) {
+        if (isNaN(propWidth) || (propWidth <= 150)) {
             newWidth = propWidth;
             newHeight = 180;
         }
@@ -41,7 +41,9 @@
         $("#empPic").attr("width", newWidth);
     }
     
-    imageResize();
+    $(document).ready(function() {
+        imageResize();
+    });
     
     //]]>
 </script>

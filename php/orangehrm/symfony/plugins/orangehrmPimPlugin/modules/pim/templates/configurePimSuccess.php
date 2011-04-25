@@ -27,15 +27,29 @@ echo stylesheet_tag('../orangehrmPimPlugin/css/configurePimSuccess'); ?>
     <div class="mainHeading"><h2><?php echo __('Configure PIM'); ?></h2></div>
     <div>
         <form id="frmConfigPim" name="frmConfigPim" method="post" action="<?php echo url_for('pim/configurePim') ?>" >
-            <table cellspacing="0" cellpadding="0" border="0" class="tableArrange">
-                <tr>
-                    <td colspan="2"><p><span class="required">*</span> <?php echo __('Nick Name, Smoker, Military Service fields are considered as deprecated fields'); ?></p></td>
-                </tr>
-                <tr>
-                    <td width="40%"><?php echo __('Show Deprecated Fields'); ?></td>
-                    <td><?php echo $form['chkDeprecateFields']->render(); ?></td>
-                </tr>
-            </table>
+            <h3><?php echo __('Show Deprecated Fields'); ?></h3>
+            
+            <?php echo $form['chkDeprecateFields']->render(array("class" => "formCheckbox")); ?>
+            <?php echo $form['chkDeprecateFields']->renderLabel(__('Show Nick Name, Smoker and Military Service in Personal Details'),
+                     array('class' => 'chkboxLabel')); ?>                        
+            <br class="clear" />
+            
+            <h3><?php echo __('Country Specific Information'); ?></h3>
+            <?php echo $form['chkShowSSN']->render(array("class" => "formCheckbox")); ?>
+            <?php echo $form['chkShowSSN']->renderLabel(__('Show SSN field in Personal Details'),
+                     array('class' => 'chkboxLabel')); ?>                        
+            <br class="clear" />
+
+            <?php echo $form['chkShowSIN']->render(array("class" => "formCheckbox")); ?>
+            <?php echo $form['chkShowSIN']->renderLabel(__('Show SIN field in Personal Details'),
+                     array('class' => 'chkboxLabel')); ?>                        
+            <br class="clear" />
+
+            <?php echo $form['chkShowTax']->render(array("class" => "formCheckbox")); ?>
+            <?php echo $form['chkShowTax']->renderLabel(__('Show US Tax Excemptions menu'),
+                     array('class' => 'chkboxLabel')); ?>                        
+            <br class="clear" />
+        
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
             </div>
@@ -48,11 +62,18 @@ echo stylesheet_tag('../orangehrmPimPlugin/css/configurePimSuccess'); ?>
 //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
 $(document).ready(function() {
     $("#configPim_chkDeprecateFields").attr('disabled', 'disabled');
+    $("#configPim_chkShowSSN").attr('disabled', 'disabled');
+    $("#configPim_chkShowSIN").attr('disabled', 'disabled');
+    $("#configPim_chkShowTax").attr('disabled', 'disabled');
     
     $("#btnSave").click(function() {
         if($("#btnSave").attr('value') == "<?php echo __("Edit"); ?>") {
             $("#btnSave").attr('value', "<?php echo __("Save"); ?>");
             $("#configPim_chkDeprecateFields").removeAttr('disabled');
+            $("#configPim_chkShowSSN").removeAttr('disabled');
+            $("#configPim_chkShowSIN").removeAttr('disabled');
+            $("#configPim_chkShowTax").removeAttr('disabled');
+            
             return;
         }
 

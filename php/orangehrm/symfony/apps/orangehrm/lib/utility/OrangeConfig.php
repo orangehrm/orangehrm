@@ -1,20 +1,21 @@
 <?php
+
 /*
- // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
- // all the essential functionalities required for any enterprise.
- // Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+  // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+  // all the essential functionalities required for any enterprise.
+  // Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
 
- // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
- // the GNU General Public License as published by the Free Software Foundation; either
- // version 2 of the License, or (at your option) any later version.
+  // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+  // the GNU General Public License as published by the Free Software Foundation; either
+  // version 2 of the License, or (at your option) any later version.
 
- // OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- // without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- // See the GNU General Public License for more details.
+  // OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  // without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  // See the GNU General Public License for more details.
 
- // You should have received a copy of the GNU General Public License along with this program;
- // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- // Boston, MA  02110-1301, USA
+  // You should have received a copy of the GNU General Public License along with this program;
+  // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+  // Boston, MA  02110-1301, USA
  */
 
 /**
@@ -22,106 +23,122 @@
  */
 class OrangeConfig {
 
-	private $sysConf = null;
+    private $sysConf = null;
+    private $conf = null;
+    private $appConf = null;
+    private static $instance = null;
 
-	private $conf = null;
+    /**
+     * Private constructor. Use the getInstance() method to get object instance
+     */
+    private function __construct() {
+        
+    }
 
-	private $appConf = null;
+    /**
+     * Returns an instance of this class
+     *
+     * @return OrangeConfig
+     */
+    public static function getInstance() {
 
-	private static $instance = null;
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 
-	/**
-	 * Private constructor. Use the getInstance() method to get object instance
-	 */
-	private function __construct() {
+    /**
+     * Get orangehrm's sysConf configuration object
+     *
+     * @return sysConf object
+     */
+    public function getSysConf() {
+        if (is_null($this->sysConf)) {
 
-	}
+            require_once sfConfig::get('sf_root_dir') . '/../lib/confs/sysConf.php';
+            $this->sysConf = new sysConf();
+        }
 
-	/**
-	 * Returns an instance of this class
-	 *
-	 * @return OrangeConfig
-	 */
-	public static function getInstance() {
+        return $this->sysConf;
+    }
 
-		if ( ! isset(self::$instance) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+    /**
+     * Get orangehrm's Conf configuration object
+     *
+     * @return Conf object
+     */
+    public function getConf() {
+        if (is_null($this->conf)) {
 
-	/**
-	 * Get orangehrm's sysConf configuration object
-	 *
-	 * @return sysConf object
-	 */
-	public function getSysConf() {
-		if (is_null($this->sysConf)) {
+            require_once sfConfig::get('sf_root_dir') . '/../lib/confs/Conf.php';
+            $this->conf = new Conf();
+        }
 
-			require_once sfConfig::get('sf_root_dir') . '/../lib/confs/sysConf.php';
-			$this->sysConf = new sysConf();
-		}
+        return $this->conf;
+    }
 
-		return $this->sysConf;
-	}
+    /*
+     * TODO: Create new class for getting and setting app configs
+     */
 
-	/**
-	 * Get orangehrm's Conf configuration object
-	 *
-	 * @return Conf object
-	 */
-	public function getConf() {
-		if (is_null($this->conf)) {
+    public function loadAppConf() {
+        require_once sfConfig::get('sf_root_dir') . '/../lib/common/Config.php';
+    }
 
-			require_once sfConfig::get('sf_root_dir') . '/../lib/confs/Conf.php';
-			$this->conf = new Conf();
-		}
+    public function getAppConfValue($key) {
 
-		return $this->conf;
-	}
+        $this->loadAppConf();
 
-	/*
-	 * TODO: Create new class for getting and setting app configs
-	 */
-	public function loadAppConf() {
-		require_once sfConfig::get('sf_root_dir') . '/../lib/common/Config.php';
-	}
-	
-	public function getAppConfValue($key) {
-
-		$this->loadAppConf();
-		
-		switch ($key) {
-			case Config :: KEY_LEAVE_PERIOD_DEFINED:
-				return Config::isLeavePeriodDefined();
-				break;
+        switch ($key) {
+            case Config :: KEY_LEAVE_PERIOD_DEFINED:
+                return Config::isLeavePeriodDefined();
+                break;
 
             case Config::KEY_PIM_SHOW_DEPRECATED:
                 return Config::showPimDeprecatedFields();
                 break;
+            case Config::KEY_PIM_SHOW_SSN:
+                return Config::showPimSSN();
+                break;
+            case Config::KEY_PIM_SHOW_SIN:
+                return Config::showPimSIN();
+                break;
+            case Config::KEY_PIM_SHOW_TAX_EXEMPTIONS:
+                return Config::showPimTaxExemptions();
+                break;
 
-			default:
-				throw new Exception("Getting {$key} is not implemented yet");
-				break;
-		}
-	}
+            default:
+                throw new Exception("Getting {$key} is not implemented yet");
+                break;
+        }
+    }
 
-	public function setAppConfValue($key, $value) {
-		
-		$this->loadAppConf();
-		
-		switch ($key) {
-			case Config :: KEY_LEAVE_PERIOD_DEFINED:
-				Config::setIsLeavePriodDefined($value);
-				break;
+    public function setAppConfValue($key, $value) {
+
+        $this->loadAppConf();
+
+        switch ($key) {
+            case Config :: KEY_LEAVE_PERIOD_DEFINED:
+                Config::setIsLeavePriodDefined($value);
+                break;
 
             case Config::KEY_PIM_SHOW_DEPRECATED:
                 Config::setShowPimDeprecatedFields($value);
                 break;
-			default:
-				throw new Exception("Setting {$key} is not implemented yet");
-				break;
-		}
-	}
+            case Config::KEY_PIM_SHOW_SSN:
+                return Config::setShowPimSSN($value);
+                break;
+            case Config::KEY_PIM_SHOW_SIN:
+                return Config::setShowPimSIN($value);
+                break;
+            case Config::KEY_PIM_SHOW_TAX_EXEMPTIONS:
+                return Config::setShowPimTaxExemptions($value);
+                break;            
+            default:
+                throw new Exception("Setting {$key} is not implemented yet");
+                break;
+        }
+    }
 
 }

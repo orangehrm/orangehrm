@@ -540,6 +540,9 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceEmpChangeTime', 'No
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceEmpEditSubmitted', 'No');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceSupEditSubmitted', 'No');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('pim_show_deprecated_fields', 0);
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showSSN', 0);
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showSIN', 0);
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showTaxExemptions', 0);
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');

@@ -16,3 +16,14 @@
     margin-left: 10px;
     margin-top: 10px;
 }
+
+h3 {
+    color: black;
+}
+form#frmConfigPim {
+    padding-left: 10px;
+}
+
+form#frmConfigPim label.chkboxLabel {
+    width:400px;
+}

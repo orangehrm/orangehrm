@@ -26,15 +26,40 @@ class ConfigPimForm extends sfForm {
     private $formWidgets = array();
 
     public function configure() {
-        $showDeprecatedFields = $this->getOption('showDeprecatedFields');
+        $orangeConfig = $this->getOption('orangeconfig');
+        
+        $showDeprecatedFields = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
+        $showSSN = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_SSN);
+        $showSIN = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_SIN);
+        $showTax = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+        
         $this->formWidgets['chkDeprecateFields'] = new sfWidgetFormInputCheckbox();
-        if($showDeprecatedFields) {
+        $this->formWidgets['chkShowSSN'] = new sfWidgetFormInputCheckbox();
+        $this->formWidgets['chkShowSIN'] = new sfWidgetFormInputCheckbox();
+        $this->formWidgets['chkShowTax'] = new sfWidgetFormInputCheckbox();
+        
+        
+        if ($showDeprecatedFields) {
             $this->formWidgets['chkDeprecateFields']->setAttribute('checked', 'checked');
         }
+        if ($showSSN) {
+            $this->formWidgets['chkShowSSN']->setAttribute('checked', 'checked');
+        }
+        if ($showSIN) {
+            $this->formWidgets['chkShowSIN']->setAttribute('checked', 'checked');
+        }
+        if ($showTax) {
+            $this->formWidgets['chkShowTax']->setAttribute('checked', 'checked');
+        }
+            
         $this->setWidgets($this->formWidgets);
 
         $this->setValidators(array(
-                'chkDeprecateFields' => new sfValidatorString(array('required' => false))));
+                'chkDeprecateFields' => new sfValidatorString(array('required' => false)),
+                'chkShowSSN' => new sfValidatorString(array('required' => false)),
+                'chkShowSIN' => new sfValidatorString(array('required' => false)),
+                'chkShowTax' => new sfValidatorString(array('required' => false)),            
+            ));
 
         $this->widgetSchema->setNameFormat('configPim[%s]');
     }

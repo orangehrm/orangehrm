@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,6 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 /**
  * configPimAction
  *
@@ -34,35 +36,52 @@ class configurePimAction extends sfAction {
 
     public function execute($request) {
         //authentication
-        if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
+        if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'Yes') {
             $this->forward('leave', 'viewMyLeaveList');
         }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
-        
+
         OrangeConfig::getInstance()->loadAppConf();
 
-        $param = array('showDeprecatedFields' => OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED));
+        $param = array('orangeconfig' => OrangeConfig::getInstance());
 
-        
-        $this->setForm(new ConfigPimForm(array(),$param,false));
+
+        $this->setForm(new ConfigPimForm(array(), $param, false));
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $post = $this->form->getValues();
-                $flag = false;
-                if(isset($post['chkDeprecateFields']) && $post['chkDeprecateFields'] == 'on') {
-                    $flag = true;
-                }
-                OrangeConfig::getInstance()->setAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED, $flag);
+
+                $this->_saveConfigValue($post, 'chkDeprecateFields', Config::KEY_PIM_SHOW_DEPRECATED);
+                $this->_saveConfigValue($post, 'chkShowSSN', Config::KEY_PIM_SHOW_SSN);
+                $this->_saveConfigValue($post, 'chkShowSIN', Config::KEY_PIM_SHOW_SIN);
+                $this->_saveConfigValue($post, 'chkShowTax', Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+
                 $this->getUser()->setFlash('templateMessage', array('success', __('PIM Configuration Saved Successfully')));
                 $this->redirect('pim/configurePim');
             }
         }
     }
-    
+
+    /**
+     *
+     * @param type $post array of POST variables
+     * @param type $postVar Post variable containing config value
+     * @param type $configKey Key used in config table
+     */
+    private function _saveConfigValue($post, $postVar, $configKey) {
+
+        $value = false;
+        if (isset($post[$postVar]) && $post[$postVar] == 'on') {
+            $value = true;
+        }
+        OrangeConfig::getInstance()->setAppConfValue($configKey, $value);
+    }
+
 }
+
 ?>

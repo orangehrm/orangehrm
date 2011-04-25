@@ -90,6 +90,8 @@ class viewPersonalDetailsAction extends sfAction {
             
             OrangeConfig::getInstance()->loadAppConf();
             $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
+            $this->showSSN = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_SSN);
+            $this->showSIN = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_SIN);
 
             $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
             if ($request->isMethod('post')) {

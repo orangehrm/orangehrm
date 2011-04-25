@@ -82,14 +82,16 @@
                                                     <tr>
                                                         <td><?php echo __('Employee Id'); ?></td>
                                                         <td><?php echo $form['txtEmployeeId']->render(array("class" => "formInputText", "maxlength" => 10)); ?></td>
-                                                        <td><?php echo __('SSN Number'); ?></td>
-                                                        <td><?php echo $form['txtNICNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
+                                                        <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo __('SSN Number'); ?></td>
+                                                        <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo $form['txtNICNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                     </tr>
                                                     <tr>
                                                         <td><?php echo __('Other Id'); ?></td>
                                                         <td><?php echo $form['txtOtherID']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td><?php echo __('SIN Number'); ?></td>
-                                                        <td><?php echo $form['txtSINNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
+                                                        
+                                                        <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo __('SIN Number'); ?></td>
+                                                        <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo $form['txtSINNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <td><?php echo __("Driver's License Number"); ?></td>
