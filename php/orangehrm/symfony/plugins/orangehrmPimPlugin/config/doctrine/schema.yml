@@ -389,6 +389,8 @@ EmployeeAttachment:
     eattach_filename as filename: string(100)
     eattach_attachment as attachment: blob(2147483647)
     eattach_type as file_type: string(50)
+    screen:
+      type: string(100)
     attached_by:
       type: integer(4)
       default: null

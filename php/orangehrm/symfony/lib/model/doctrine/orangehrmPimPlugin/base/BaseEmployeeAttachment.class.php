@@ -12,6 +12,7 @@
  * @property string $filename
  * @property blob $attachment
  * @property string $file_type
+ * @property string $screen
  * @property integer $attached_by
  * @property string $attached_by_name
  * @property timestamp $attached_time
@@ -24,6 +25,7 @@
  * @method string             getFilename()         Returns the current record's "filename" value
  * @method blob               getAttachment()       Returns the current record's "attachment" value
  * @method string             getFileType()         Returns the current record's "file_type" value
+ * @method string             getScreen()           Returns the current record's "screen" value
  * @method integer            getAttachedBy()       Returns the current record's "attached_by" value
  * @method string             getAttachedByName()   Returns the current record's "attached_by_name" value
  * @method timestamp          getAttachedTime()     Returns the current record's "attached_time" value
@@ -35,6 +37,7 @@
  * @method EmployeeAttachment setFilename()         Sets the current record's "filename" value
  * @method EmployeeAttachment setAttachment()       Sets the current record's "attachment" value
  * @method EmployeeAttachment setFileType()         Sets the current record's "file_type" value
+ * @method EmployeeAttachment setScreen()           Sets the current record's "screen" value
  * @method EmployeeAttachment setAttachedBy()       Sets the current record's "attached_by" value
  * @method EmployeeAttachment setAttachedByName()   Sets the current record's "attached_by_name" value
  * @method EmployeeAttachment setAttachedTime()     Sets the current record's "attached_time" value
@@ -80,6 +83,10 @@ abstract class BaseEmployeeAttachment extends sfDoctrineRecord
         $this->hasColumn('eattach_type as file_type', 'string', 50, array(
              'type' => 'string',
              'length' => 50,
+             ));
+        $this->hasColumn('screen', 'string', 100, array(
+             'type' => 'string',
+             'length' => 100,
              ));
         $this->hasColumn('attached_by', 'integer', 4, array(
              'type' => 'integer',
