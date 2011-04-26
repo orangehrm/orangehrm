@@ -595,6 +595,64 @@ class EmployeeDao extends BaseDao {
         }
 
     }
+    
+    /**
+     * Get attachment
+     * @param type $empNumber - employee number
+     * @param type $screen - screen attached to
+     */
+    public function getAttachments($empNumber, $screen) {
+        try {
+            $q = Doctrine_Query:: create()
+                    ->from('EmployeeAttachment a')
+                    ->where('a.emp_number = ?', $empNumber)
+                    ->andWhere('a.screen = ?', $screen);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }   
+    
+   /**
+    * Retrieve Attachment
+    * @param int $empNumber
+    * @returns Collection
+    * @throws DaoException
+    */
+   public function getAttachment($empNumber, $attachId) {
+      try {
+         return Doctrine :: getTable('EmployeeAttachment')->find(array(
+            'emp_number' => $empNumber,
+            'attach_id' => $attachId
+         ));
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete Attachments
+    * @param int $empNumber
+    * @param array $attachmentsToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteAttachments($empNumber, $attachmentsToDelete = array()) {
+      try {
+         if (count($attachmentsToDelete) > 0) {
+            // Delete attachments
+            $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
+               ->whereIn('attach_id', $attachmentsToDelete)
+               ->andwhere('emp_number = ?', $empNumber);
+            $result = $q->execute();
+            return true;
+         }
+         return false;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+   
 
    /**
     * Delete Licenses

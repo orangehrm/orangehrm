@@ -455,6 +455,49 @@ class EmployeeService extends BaseService {
     }   
     
     /**
+     * Get attachment
+     * @param type $empNumber - employee number
+     * @param type $screen - screen attached to
+     */
+    public function getAttachments($empNumber, $screen) {
+        try {
+            return $this->employeeDao->getAttachments($empNumber, $screen);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+    
+   /**
+    * Delete Attachments
+    * @param int $empNumber
+    * @param array $attachmentsToDelete
+    * @returns boolean
+    * @throws PIMServiceException
+    */
+   public function deleteAttachments($empNumber, $attachmentsToDelete) {
+      try {
+         return $this->employeeDao->deleteAttachments($empNumber, $attachmentsToDelete);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+   
+   /**
+    * Retrieve Attachment
+    * @param int $empNumber
+    * @returns Collection
+    * @throws PIMServiceException
+    */
+   public function getAttachment($empNumber, $attachId) {
+      try {
+         return $this->employeeDao->getAttachment($empNumber, $attachId);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+    
+    
+    /**
      * Returns EmployeePicture by Emp Number
      * @param int $empNumber
      * @returns EmpPicture
