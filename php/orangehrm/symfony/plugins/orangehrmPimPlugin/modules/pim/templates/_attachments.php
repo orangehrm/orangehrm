@@ -93,7 +93,7 @@ $locRights['delete'] = true;
         <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
 
         <div class="subHeading"></div>
-        <div class="actionbar">
+        <div class="actionbar" id="attachmentActions">
             <div class="actionbuttons">
                                <?php if ($locRights['add'])
                                { ?>
@@ -194,6 +194,7 @@ $locRights['delete'] = true;
 
             // hide validation error messages
             $("label.error1col[generated='true']").css('display', 'none');
+            $('#attachmentActions').hide();
             $('#addPaneAttachments').show();
         });
 
@@ -216,13 +217,14 @@ $locRights['delete'] = true;
             $("label.error1col[generated='true']").css('display', 'none');
             
             $('#ufile').removeAttr("disabled");
-
+            $('#attachmentActions').hide();
             $('#addPaneAttachments').show();
         });
         
         $('#cancelButton').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
             $('#addPaneAttachments').hide();
+            $('#attachmentActions').show();
             $('#ufile').val('');
             $('#txtAttDesc').val('');
         });
