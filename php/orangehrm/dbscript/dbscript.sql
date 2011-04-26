@@ -170,10 +170,12 @@ create table `hs_hr_emp_attachment` (
   `eattach_size` int(11) default '0',
   `eattach_attachment` mediumblob,
   `eattach_type` varchar(50) default null,
+  `screen` varchar(100) default '',
   `attached_by` int default null,
   `attached_by_name` varchar(200),
   `attached_time` timestamp default now(),
-  primary key  (`emp_number`,`eattach_id`)
+  primary key  (`emp_number`,`eattach_id`),
+  key screen (`screen`)
 ) engine=innodb default charset=utf8;
 
 
@@ -768,10 +770,11 @@ create table `hs_hr_custom_fields` (
   `field_num` int(11) not null,
   `name` varchar(250) not null,
   `type` int(11) not null,
-  `screen` varchar(100),
+  `screen` varchar(100) default '',
   `extra_data` varchar(250) default null,
   primary key  (`field_num`),
-  key `emp_number` (`field_num`)
+  key `emp_number` (`field_num`),
+  key screen (`screen`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_custom_export` (
