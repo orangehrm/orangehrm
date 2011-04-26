@@ -165,6 +165,9 @@ create table `hs_hr_emp_attachment` (
   `eattach_size` int(11) default '0',
   `eattach_attachment` mediumblob,
   `eattach_type` varchar(50) default null,
+  `attached_by` int default null,
+  `attached_by_name` varchar(200),
+  `attached_time` timestamp default now(),
   primary key  (`emp_number`,`eattach_id`)
 ) engine=innodb default charset=utf8;
 

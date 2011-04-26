@@ -185,6 +185,11 @@ Employee:
       local: emp_number
       foreign: emp_number
       type: many
+    attachments:
+      class: EmployeeAttachment
+      local: emp_number
+      foreign: emp_number
+      type: many      
 
 EmpPicture:
   tableName: hs_hr_emp_picture
@@ -367,3 +372,30 @@ EmpDependent:
       local: emp_number
       foreign: emp_number
       type: one
+
+EmployeeAttachment:
+  tableName: hs_hr_emp_attachment
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    eattach_id as attach_id:
+      type: decimal(10)
+      primary: true
+    eattach_size as size:
+      type: integer(4)
+      default: '0'
+    eattach_desc as description: string(200)
+    eattach_filename as filename: string(100)
+    eattach_attachment as attachment: blob(2147483647)
+    eattach_type as file_type: string(50)
+    attached_by:
+      type: integer(4)
+      default: null
+    attached_by_name: string(200)
+    attached_time: timestamp
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one      
