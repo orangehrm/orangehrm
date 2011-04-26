@@ -33,6 +33,9 @@ $locRights['delete'] = true;
 
 ?>
     //--><!]]></script>
+<div id="attachmentsMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Attachments'); ?></h2></div>
 <div id="parentPaneAttachments" >
@@ -170,7 +173,7 @@ $locRights['delete'] = true;
 
         // Edit a emergency contact in the list
         $('#frmEmpDelAttachments a').click(function() {
-
+            $("#attachmentsMessagebar").text("").attr('class', "");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
             var fileName = $(this).text();
@@ -196,7 +199,7 @@ $locRights['delete'] = true;
 
         // Add a emergency contact
         $('#btnAddAttachment').click(function() {
-
+            $("#attachmentsMessagebar").text("").attr('class', "");
             $('#seqNO').val('');
             $('#fileNameRow .label_result_element').text('');
             $('#fileNameRow').css('display', 'none');
@@ -218,6 +221,7 @@ $locRights['delete'] = true;
         });
         
         $('#cancelButton').click(function() {
+            $("#attachmentsMessagebar").text("").attr('class', "");
             $('#addPaneAttachments').hide();
             $('#ufile').val('');
             $('#txtAttDesc').val('');
@@ -250,12 +254,13 @@ $locRights['delete'] = true;
         });
 
 
-        $('#btnDeleteAttachment').click(function() {
+        $('#btnDeleteAttachment').click(function() {            
+            
             var checked = $('#frmEmpDelAttachments input:checked').length;
 
             if ( checked == 0 )
             {
-                alert('<?php echo __("Select at least one Attachment to Delete"); ?>');
+                $("#attachmentsMessagebar").attr('class', 'messageBalloon_notice').text('<?php echo __("Select at least one Attachment to Delete"); ?>');
             }
             else
             {

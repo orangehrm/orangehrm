@@ -487,16 +487,6 @@ if($empNumber == $_SESSION['empID']) {
                         <span><?php echo __("Membership");?></span>
                     </a>
                 </li>
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=6');?>" id="attachmentsLink" class="attachments" accesskey="a">
-                        <span><?php echo __("Attachments");?></span>
-                    </a>
-                </li>
-                <li class="l1">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=20');?>" id="customLink" class="l1_link custom" accesskey="u">
-                        <span><?php echo __("Custom");?></span>
-                    </a>
-                </li>
             </ul>
         </li>
     </ul>

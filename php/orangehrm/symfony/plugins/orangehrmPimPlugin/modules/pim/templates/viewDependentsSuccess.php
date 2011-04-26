@@ -172,6 +172,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
 <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'dependents'));?>
+<?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'dependents'));?>
             </td>
             <!-- To be moved to layout file -->
             <td valign="top" style="text-align:left;">

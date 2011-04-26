@@ -169,6 +169,7 @@
                             </div>
                         </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'qualifications'));?>
+                        <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'qualifications'));?>
                     </td>
                     <td valign="top" align="left">
                     </td>
