@@ -78,7 +78,6 @@ $locRights['delete'] = true;
 
             
             <div class="formbuttons">
-                <input type="button" class="plainbtn" value="<?php echo __("Show File"); ?>" id="showFileBtn" style="display:none"/>
                 <input type="button" class="savebutton" name="btnSaveAttachment" id="btnSaveAttachment"
                        value="<?php echo __("Save");?>"
                        title="<?php echo __("Save");?>"
@@ -121,6 +120,7 @@ $locRights['delete'] = true;
                     <td><?php echo __("Type")?></td>
                     <td><?php echo __("Date Added")?></td>
                     <td><?php echo __("Added By")?></td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -135,7 +135,9 @@ $locRights['delete'] = true;
                 <tr class="<?php echo $cssClass;?>">
                     <td><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
                                value="<?php echo $attachment->attach_id; ?>"/></td>
-                    <td><a href="#" title="<?php echo $attachment->description; ?>" ><?php echo $attachment->filename; ?></a></td>
+                    <td><a title="<?php echo $attachment->description; ?>" target="_blank"
+                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">                            
+                        <?php echo $attachment->filename; ?></a></td>
                     <td>
                         <?php echo $attachment->description; ?>
                     </td>
@@ -143,6 +145,7 @@ $locRights['delete'] = true;
                     <td><?php echo $attachment->file_type; ?></td>
                     <td><?php echo ohrm_format_date($attachment->attached_time); ?></td>
                     <td><?php echo $attachment->attached_by_name; ?></td>
+                    <td><a href="#" class="editLink"><?php echo __("Edit"); ?></a></td>
                 </tr>
             <?php   $row++;
             }
@@ -165,14 +168,8 @@ $locRights['delete'] = true;
 
         $("#frmEmpAttachment").data('add_mode', true);
 
-        $('#showFileBtn').click(function() {
-            var url = '<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=');?>' + $('#seqNO').val();
-            var popup=window.open(url, 'Downloads');
-            if(!popup.opener) popup.opener=self;
-        });
-
         // Edit a emergency contact in the list
-        $('#frmEmpDelAttachments a').click(function() {
+        $('#frmEmpDelAttachments a.editLink').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
@@ -185,7 +182,6 @@ $locRights['delete'] = true;
             $('#fileNameRow').css('display', '');
             $('#fileUploadRow').css('display', 'none');
             $('#txtAttDesc').val(description);
-            $('#showFileBtn').css('display', '');
 
             $("#frmEmpAttachment").data('add_mode', false);
 
@@ -206,7 +202,6 @@ $locRights['delete'] = true;
             $('#fileNameRow').css('display', 'none');
             $('#fileUploadRow').css('display', '');
             $('#txtAttDesc').val('');
-            $('#showFileBtn').css('display', 'none');
 
             $("#frmEmpAttachment").data('add_mode', true);
 
