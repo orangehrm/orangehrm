@@ -71,7 +71,7 @@
                 <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->lang_type); ?>" />
                 <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $language->code;?>" name="delLanguage[]"/></td>
+                <input type="checkbox" class="chkbox" value="<?php echo $language->code . "_" . $language->lang_type;?>" name="delLanguage[]"/></td>
                 <td><a href="#" class="edit"><?php echo $languageName;?></a></td>
                 <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->lang_type));?></td>
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
@@ -231,16 +231,18 @@ $(document).ready(function() {
         $("#changeLanguage").show();
         var parentRow = $(this).closest("tr");
                                 
-        var code = parentRow.find('input.chkbox:first').val();
+        var code = parentRow.find('input.code:first').val();
+
         var langType = parentRow.find('input.lang_type').val();
         var comments = $(this).closest("tr").find('td:last').html();
         
-        $('#static_language_code').html(parentRow.find('input.language_name').val()).show();
-        $('#static_lang_type').html(langType).show();
-
         $('#language_code').hide().val(code);
-
         $("#language_lang_type").hide().val(langType);
+        var langTypeText = $("#language_lang_type option:selected").text();
+        
+        $('#static_language_code').html(parentRow.find('input.language_name').val()).show();
+        $('#static_lang_type').html(langTypeText).show();
+        
         $("#language_competency").val(parentRow.find('input.competency').val());
         $('#language_comments').val(comments);
 

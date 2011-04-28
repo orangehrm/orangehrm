@@ -74,9 +74,18 @@ class saveDeleteLanguageAction extends sfAction {
             //this is to delete 
             if ($request->getParameter('option') == "delete") {
                 $deleteIds = $request->getParameter('delLanguage');
+                $languagesToDelete = array();
+                
+                foreach ($deleteIds as $value) {
+                    $parts = explode("_", $value, 2);
+                    if (count($parts) == 2) {
+                        $languagesToDelete[$parts[0]] = $parts[1]; 
+                    }
+                }
 
-                if(count($deleteIds) > 0) {var_dump($request->getParameter('delLanguage'));die;
-                    $this->getEmployeeService()->deleteLanguage($empNumber, $request->getParameter('delLanguage'), $request->getParameter('lang_type'));
+                if (count($languagesToDelete) > 0) {
+
+                    $this->getEmployeeService()->deleteLanguage($empNumber, $languagesToDelete);
                     $this->getUser()->setFlash('templateMessage', array('success', __('Language Details(s) Deleted Successfully')));
                 }
             }

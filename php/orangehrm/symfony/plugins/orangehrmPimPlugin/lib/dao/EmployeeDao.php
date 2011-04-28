@@ -474,19 +474,23 @@ class EmployeeDao extends BaseDao {
     * Delete Languages
     * @param int $empNumber
     * @param array() $languageToDelete
-    * @returns boolean
+    * @return int - number of records deleted. False if did not delete anything.
     * @throws DaoException
     */
-   public function deleteLanguage($empNumber, $langCodes, $langTypes) {
+   public function deleteLanguage($empNumber, $languagesToDelete) {
       try {
-         if (is_array($langCodes) and is_array($langTypes)) {
+         if (is_array($languagesToDelete)) {
             // Delete work experience
-            $q = Doctrine_Query :: create()->delete('EmployeeLanguage el')
-              ->whereIn('lang_code', $langCodes)
-              ->andWhereIn('lang_type', $langTypes)
-              ->andwhere('emp_number = ?', $empNumber);
+            $q = Doctrine_Query::create();
+            $q->delete('EmployeeLanguage el');
+            
+            foreach ($languagesToDelete as $code => $type) {
+                $q->orWhere('(lang_code = ? and lang_type = ?)', array($code, $type));
+            }
+            //var_dump($q->getSqlQuery());die;
+  
             $result = $q->execute();         
-            return true;
+            return $result;
          }
          return false;
       } catch (Exception $e) {

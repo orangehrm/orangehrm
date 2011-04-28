@@ -409,11 +409,11 @@ class EmployeeService extends BaseService {
    /**
     * Delete Language
     * @param int $empNumber
-    * @param array() $languageToDelete
-    * @returns boolean
+    * @param array() $languageToDelete (array of langCode->LangType)
+    * @return int - number of records deleted. False if did not delete anything.
     */
-   public function deleteLanguage($empNumber, $langCodes, $langTypes) {
-       return $this->employeeDao->deleteLanguage($empNumber, $langCodes, $langTypes);
+   public function deleteLanguage($empNumber, $languagesToDelete) {
+       return $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
    }
    
     /**

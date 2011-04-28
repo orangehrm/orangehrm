@@ -56,7 +56,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <table cellspacing="0" cellpadding="0" border="0" >
     <tr>
         <td width="5">&nbsp;</td>
-        <td colspan="2" height="30">&nbsp;<?php if($showBackButton) {?><input type="button" class="backbutton" value="<?php echo __("Back") ?>" onclick="navigateUrl('<?php echo url_for('pim/viewEmployeeList');?>')" /><?php }?></td>
+        <td colspan="2"></td>
     </tr>
     <tr>
         <td>&nbsp;</td>

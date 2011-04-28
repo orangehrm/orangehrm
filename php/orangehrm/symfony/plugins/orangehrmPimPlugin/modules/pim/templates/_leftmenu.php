@@ -417,9 +417,6 @@ if($empNumber == $_SESSION['empID']) {
                 <li class="l2">
                     <a href="<?php echo url_for('pim/viewImmigration?empNumber=' . $empNumber); ?>" id="immigrationLink" class="personal" accesskey="i" >
                         <span><?php echo __("Immigration");?></span></a></li>
-                <li class="l2">
-                    <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber);?>" id="photoLink" class="personal" accesskey="f" >
-                        <span><?php echo __("Photograph");?></span></a></li>
             </ul>
         </li>
 <?php

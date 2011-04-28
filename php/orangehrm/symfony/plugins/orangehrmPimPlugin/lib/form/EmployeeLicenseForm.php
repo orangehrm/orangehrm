@@ -85,7 +85,7 @@ class EmployeeLicenseForm extends sfForm {
     private function _getLicenseList() {
         $educationService = new EducationService();
         $licenseList = $educationService->getLicensesList();
-        $list = array("" => "-- " . __('Select License') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($licenseList as $license) {
             $list[$license->getLicensesCode()] = $license->getLicensesDesc();

@@ -54,11 +54,11 @@ class EmployeeLanguageForm extends sfForm {
         $i18nHelper = sfContext::getInstance()->getI18N();
         
         $availableLanguageList = $this->_getLanguageList();
-        $this->langTypeList = array( "" => $i18nHelper->__('-- Select Fluency --'),
+        $this->langTypeList = array("" => '-- ' . $i18nHelper->__('Select') . ' --',
                                1 => $i18nHelper->__('Writing'),
                                2 => $i18nHelper->__('Speaking'),
                                3 => $i18nHelper->__('Reading'));
-        $this->competencyList = array( "" => $i18nHelper->__('-- Select Rating --'),
+        $this->competencyList = array("" => '-- ' . $i18nHelper->__('Select') . ' --',
                                  1 => $i18nHelper->__('Poor'),
                                  2 => $i18nHelper->__('Basic'),
                                  3 => $i18nHelper->__('Good'),
@@ -82,7 +82,7 @@ class EmployeeLanguageForm extends sfForm {
         $this->setValidator('code', new sfValidatorChoice(array('choices' => array_keys($availableLanguageList))));
         $this->setValidator('lang_type', new sfValidatorChoice(array('choices' => array_keys($this->langTypeList))));
         $this->setValidator('competency', new sfValidatorChoice(array('choices' => array_keys($this->competencyList))));
-        $this->setValidator('comments', new sfValidatorString(array('max_length' => 100)));
+        $this->setValidator('comments', new sfValidatorString(array('required' => false, 'max_length' => 100)));
 
         $this->widgetSchema->setNameFormat('language[%s]');
     }
@@ -106,7 +106,7 @@ class EmployeeLanguageForm extends sfForm {
     private function _getLanguageList() {
         $skillService = new SkillService();
         $languageList = $skillService->getLanguageList();
-        $list = array("" => "-- " . __('Select Language') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($languageList as $language) {
             $list[$language->getLangCode()] = $language->getLangName();
