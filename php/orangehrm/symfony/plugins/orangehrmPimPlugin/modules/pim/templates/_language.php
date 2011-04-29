@@ -49,7 +49,7 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td><input type="checkbox" id="languageCheckAll" /></td>
+                    <td class="check"><input type="checkbox" id="languageCheckAll" /></td>
                     <td><?php echo __('Language');?></td>
                     <td><?php echo __('Fluency');?></td>
                     <td><?php echo __('Competency');?></td>                    
@@ -66,7 +66,7 @@
                         $languageName = $language->getLanguage()->getLangName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->code); ?>" />
+                <td class="check"><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->code); ?>" />
                 <input type="hidden" class="language_name" value="<?php echo htmlspecialchars($languageName); ?>" />
                 <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->lang_type); ?>" />
                 <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />

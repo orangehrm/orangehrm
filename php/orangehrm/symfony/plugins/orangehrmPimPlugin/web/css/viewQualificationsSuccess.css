@@ -64,3 +64,8 @@ div#skillRequiredNote,
 div#LicenseRequiredNote {
     display:none;
 }
+
+td.check {
+    width:30px;
+    padding: 2px 1px;
+}

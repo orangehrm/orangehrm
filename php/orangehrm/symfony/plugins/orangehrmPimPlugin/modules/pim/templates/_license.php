@@ -51,7 +51,7 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td><input type="checkbox" id="licenseCheckAll" /></td>
+                    <td class="check"><input type="checkbox" id="licenseCheckAll" /></td>
                     <td><?php echo __('License Type');?></td>
                     <td><?php echo __('Start Date');?></td>                    
                     <td><?php echo __('End Date');?></td>
@@ -70,7 +70,7 @@
                         $licenseDesc = htmlspecialchars($license->license->licenses_desc);
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td><input type="hidden" id="code_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->code); ?>" />
+                <td class="check"><input type="hidden" id="code_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->code); ?>" />
                 <input type="hidden" id="code_desc_<?php echo $license->code;?>" value="<?php echo $licenseDesc; ?>" />
                 <input type="hidden" id="license_no_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->license_no); ?>" />
                 <input type="hidden" id="start_date_<?php echo $license->code;?>" value="<?php echo $startDate; ?>" />

@@ -44,7 +44,7 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td><input type="checkbox" id="skillCheckAll" /></td>
+                    <td class="check"><input type="checkbox" id="skillCheckAll" /></td>
                     <td><?php echo __('Skill');?></td>
                     <td><?php echo __('Years of Experience');?></td>
                 </tr>
@@ -59,7 +59,7 @@
                         $skillName = $skill->getSkill()->getSkillName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td><input type="hidden" id="code_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->code); ?>" />
+                <td class="check"><input type="hidden" id="code_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->code); ?>" />
                     <input type="hidden" id="skill_name_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skillName); ?>" />
                 <input type="hidden" id="years_of_exp_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->years_of_exp); ?>" />
                 <input type="hidden" id="comments_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />

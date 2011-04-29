@@ -59,9 +59,7 @@ class updateCustomFieldsAction extends sfAction {
         }                    
 
                     
-        $empNumber = $request->getParameter('empNumber');
-
-        $this->redirect('pim/viewPersonalDetails?empNumber=' . $empNumber);
+        $this->redirect($this->getRequest()->getReferer());
     }
 
 }

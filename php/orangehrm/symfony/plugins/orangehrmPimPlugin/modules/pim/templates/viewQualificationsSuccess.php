@@ -105,7 +105,7 @@
                                             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                                                 <thead>
                                                     <tr>
-                                                        <td><input type="checkbox" id="workCheckAll" /></td>
+                                                        <td class="check"><input type="checkbox" id="workCheckAll" /></td>
                                                         <td><?php echo __('Company');?></td>
                                                         <td><?php echo __('Job Title');?></td>
                                                         <td><?php echo __('From');?></td>
@@ -124,7 +124,7 @@
                                                         $toDate = ohrm_format_date($workExperience->to_date);
                                                         ?>
                                                     <tr class="<?php echo $cssClass;?>">
-                                                <td><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
+                                                <td class="check"><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
                                                 <input type="hidden" id="jobtitle_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->jobtitle); ?>" />
                                                 <input type="hidden" id="fromDate_<?php echo $workExperience->seqno;?>" value="<?php echo $fromDate; ?>" />
                                                 <input type="hidden" id="toDate_<?php echo $workExperience->seqno;?>" value="<?php echo $toDate; ?>" />

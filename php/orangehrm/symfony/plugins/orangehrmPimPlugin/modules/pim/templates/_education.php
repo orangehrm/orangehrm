@@ -59,7 +59,7 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td><input type="checkbox" id="educationCheckAll" /></td>
+                    <td class="check"><input type="checkbox" id="educationCheckAll" /></td>
                     <td><?php echo __('Program');?></td>
                     <td><?php echo __('Year');?></td>
                     <td><?php echo __('GPA/Score');?></td>
@@ -78,7 +78,7 @@
                         $eduDesc = htmlspecialchars($education->Education->edu_uni . ", " . $education->Education->edu_deg);
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td><input type="hidden" id="code_<?php echo $education->code;?>" value="<?php echo htmlspecialchars($education->code); ?>" />
+                <td class="check"><input type="hidden" id="code_<?php echo $education->code;?>" value="<?php echo htmlspecialchars($education->code); ?>" />
                 <input type="hidden" id="code_desc_<?php echo $education->code;?>" value="<?php echo $eduDesc; ?>" />
                 <input type="hidden" id="major_<?php echo $education->code;?>" value="<?php echo htmlspecialchars($education->major); ?>" />
                 <input type="hidden" id="year_<?php echo $education->code;?>" value="<?php echo htmlspecialchars($education->year); ?>" />
