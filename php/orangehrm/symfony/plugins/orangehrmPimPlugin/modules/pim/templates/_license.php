@@ -20,12 +20,12 @@
             <?php echo $form['license_no']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
             <br class="clear"/>
 
-            <?php echo $form['date']->renderLabel(__('Date')); ?>
+            <?php echo $form['date']->renderLabel(__('Issued Date')); ?>
             <?php echo $form['date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
             <input id="licenseStartDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
             <br class="clear"/>
 
-            <?php echo $form['renewal_date']->renderLabel(__('End Date')); ?>
+            <?php echo $form['renewal_date']->renderLabel(__('Expiry Date')); ?>
             <?php echo $form['renewal_date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
             <input id="licenseEndDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
             <br class="clear"/>
@@ -53,8 +53,8 @@
                 <tr>
                     <td class="check"><input type="checkbox" id="licenseCheckAll" /></td>
                     <td><?php echo __('License Type');?></td>
-                    <td><?php echo __('Start Date');?></td>                    
-                    <td><?php echo __('End Date');?></td>
+                    <td><?php echo __('Issued Date');?></td>                    
+                    <td><?php echo __('Expiry Date');?></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -97,7 +97,7 @@
     var lang_editLicense = "<?php echo __('Edit License');?>";
     var lang_licenseRequired = "<?php echo __("License Type is required");?>";
     var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
-    var lang_startDateAfterEndDate = "<?php echo __('Start date should be before end date');?>";
+    var lang_startDateAfterEndDate = "<?php echo __('Issued date should be before expiry date');?>";
     var lang_selectLicenseToDelete = "<?php echo __('Please Select At Least One License Item To Delete');?>";
     var lang_licenseNoMaxLength = "<?php echo __('License number cannot exceed 50 characters in length');?>";
 
