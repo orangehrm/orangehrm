@@ -135,7 +135,7 @@
                                                 <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
                                                 <td><?php echo $fromDate;?></td>
                                                 <td><?php echo $toDate;?></td>
-                                                <td><?php echo htmlspecialchars($workExperience->comments);?></td>
+                                                <td class="comments"><?php echo htmlspecialchars($workExperience->comments);?></td>
                                                 </tr>
                                                     <?php $row++;
                                                 }?>

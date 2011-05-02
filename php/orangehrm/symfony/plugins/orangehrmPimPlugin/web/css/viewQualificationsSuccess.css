@@ -82,3 +82,8 @@ select#education_code {
 input#education_major {
     width: 310px;
 }
+
+div#tblWorkExperience td.comments,
+div#tblLanguage td.comments{
+    max-width: 200px;
+}

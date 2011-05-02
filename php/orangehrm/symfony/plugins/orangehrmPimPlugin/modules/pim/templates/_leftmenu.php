@@ -158,14 +158,13 @@
         list-style-type: none;
         padding-left: 0;
         margin-left: 0;
-        width: 150px;
+        width: 156px;
     }
 
     #pimleftmenu ul.pimleftmenu li {
         list-style-type:none;
         margin-left: 0;
         margin-bottom: 1px;
-        padding-left:5px;
     }
 
     #pimleftmenu ul li.parent {
@@ -391,7 +390,13 @@ $empMode = "EMP";
 if($empNumber == $_SESSION['empID']) {
     $empMode = "ESS";
 }
+
+    // Old links require empNumber padded with 0's
+    $idLength = OrangeConfig::getInstance()->getSysConf()->getEmployeeIdLength();
+
+    $paddedEmpNumber = str_pad($empNumber, $idLength, "0", STR_PAD_LEFT);
 ?>
+
 <form id="frmEmp" action=""></form>
 <div id="pimleftmenu">
     <?php include_partial('photo', array('empNumber' => $empNumber, 
@@ -419,19 +424,6 @@ if($empNumber == $_SESSION['empID']) {
                 <li class="l2">
                     <a href="<?php echo url_for('pim/viewImmigration?empNumber=' . $empNumber); ?>" id="immigrationLink" class="personal" accesskey="i" >
                         <span><?php echo __("Immigration");?></span></a></li>
-            </ul>
-        </li>
-<?php
-    // Old links require empNumber padded with 0's
-    $idLength = OrangeConfig::getInstance()->getSysConf()->getEmployeeIdLength();
-
-    $paddedEmpNumber = str_pad($empNumber, $idLength, "0", STR_PAD_LEFT);
-?>
-
-        <li class="l1 parent">
-            <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">
-                    <?php echo __("Employment");?></span></a>
-            <ul class="l2">
                 <li class="l2">
                     <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=2');?>" id="jobLink" accesskey="j" class="employment"  >
 
@@ -452,9 +444,20 @@ if($empNumber == $_SESSION['empID']) {
                         <span><?php echo __("Direct Deposit");?></span></a></li>
                 <li class="l2">
                     <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=15');?>" id="report-toLink" class="employment" accesskey="r" >
-                        <span><?php echo __("Report-to");?></span></a></li>
+                        <span><?php echo __("Report-to");?></span></a></li>   
+                <li class="l2">
+
+                    <a href="<?php echo url_for('pim/viewQualifications?empNumber=' . $empNumber); ?>" id="personalLink" class="personal" accesskey="p">
+                        <span><?php echo __("Qualifications");?></span></a></li>
+                
+                <li class="l2">
+                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
+                        <span><?php echo __("Membership");?></span>
+                    </a>
+                </li>                        
             </ul>
         </li>
+
         <!-- start of leave section -->
         <?php if(isset ($_SESSION['leavePeriodDefined']) && $_SESSION['leavePeriodDefined'] == 1) { ?>
         <li class="l1 parent">
@@ -473,21 +476,7 @@ if($empNumber == $_SESSION['empID']) {
             </ul>
         </li>
         <?php } ?>
-        <li class="l1 parent">
-            <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo __("Other");?></span></a>
-            <ul class="l2">
-                <li class="l2">
 
-                    <a href="<?php echo url_for('pim/viewQualifications?empNumber=' . $empNumber); ?>" id="personalLink" class="personal" accesskey="p">
-                        <span><?php echo __("Qualifications");?></span></a></li>
-                
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
-                        <span><?php echo __("Membership");?></span>
-                    </a>
-                </li>
-            </ul>
-        </li>
     </ul>
 </div>
 
