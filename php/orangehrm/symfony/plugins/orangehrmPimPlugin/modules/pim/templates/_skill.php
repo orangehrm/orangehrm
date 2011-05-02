@@ -36,7 +36,6 @@
     <div id="actionSkill">
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSkill" />&nbsp;
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSkill" />
-        <br /><br />
     </div>
 
     <form id="frmDelSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">

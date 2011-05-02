@@ -97,7 +97,6 @@
                                     <div id="actionWorkExperience">
                                         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addWorkExperience" />&nbsp;
                                         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delWorkExperience" />
-                                        <br /><br />
                                     </div>
 
                                     <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">

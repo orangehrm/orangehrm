@@ -41,7 +41,6 @@
     <div id="actionLanguage">
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLanguage" />&nbsp;
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLanguage" />
-        <br /><br />
     </div>
 
     <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">

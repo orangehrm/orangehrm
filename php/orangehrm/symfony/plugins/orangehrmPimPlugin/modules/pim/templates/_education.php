@@ -51,7 +51,6 @@
     <div id="actionEducation">
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addEducation" />&nbsp;
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delEducation" />
-        <br /><br />
     </div>
 
     <form id="frmDelEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">

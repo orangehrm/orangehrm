@@ -43,7 +43,6 @@
     <div id="actionLicense">
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicense" />&nbsp;
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicense" />
-        <br /><br />
     </div>
 
     <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
