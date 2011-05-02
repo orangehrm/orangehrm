@@ -85,6 +85,7 @@
     var lang_selectSkillToDelete = "<?php echo __('Please Select At Least One Skill Item To Delete');?>";
     var lang_commentsMaxLength = "<?php echo __('Comments cannot exceed 100 characters in length');?>";
     var lang_yearsOfExpShouldBeNumber = "<?php echo __('Years of Experience should be a number');?>";
+    var lang_yearsOfExpMax = "<?php echo __('Years of Experience should be less than 100');?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
@@ -176,12 +177,12 @@ $(document).ready(function() {
         $("#frmSkill").validate({
         rules: {
             'skill[code]': {required: true},
-            'skill[years_of_exp]': {required: false, digits: true},
+            'skill[years_of_exp]': {required: false, digits: true, max: 99},
             'skill[comments]': {required: false, maxlength:100}
         },
         messages: {
             'skill[code]': {required: lang_skillRequired},
-            'skill[years_of_exp]': {digits: lang_yearsOfExpShouldBeNumber},
+            'skill[years_of_exp]': {digits: lang_yearsOfExpShouldBeNumber, max: lang_yearsOfExpMax},
             'skill[comments]': {maxlength: lang_commentsMaxLength}
         },
 

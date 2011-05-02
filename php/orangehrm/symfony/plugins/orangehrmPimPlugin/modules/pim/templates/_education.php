@@ -86,7 +86,7 @@
                 <input type="hidden" id="end_date_<?php echo $education->code;?>" value="<?php echo $endDate; ?>" />
 
                 <input type="checkbox" class="chkbox" value="<?php echo $education->code;?>" name="delEdu[]"/></td>
-                <td><a href="#" class="edit"><?php echo $eduDesc;?></a></td>
+                <td class="program"><a href="#" class="edit"><?php echo $eduDesc;?></a></td>
                 <td><?php echo htmlspecialchars($education->year);?></td>
                 <td><?php echo htmlspecialchars($education->gpa);?></td>
                 </tr>

@@ -67,7 +67,7 @@ class EmployeeSkillForm extends sfForm {
         $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
         $this->setValidator('code', new sfValidatorString(array('required' => true,
             'max_length' => 13)));
-        $this->setValidator('years_of_exp', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('years_of_exp', new sfValidatorNumber(array('required' => false, 'max' => 99)));
         $this->setValidator('comments', new sfValidatorString(array('required' => false,
             'max_length' => 100)));
 

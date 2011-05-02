@@ -87,3 +87,7 @@ div#tblWorkExperience td.comments,
 div#tblLanguage td.comments{
     max-width: 200px;
 }
+
+div#tblEducation td.program {
+    max-width: 300px;
+}
