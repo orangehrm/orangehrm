@@ -60,7 +60,6 @@ $allowDel = true;
            value="<?php echo $editMode ? __("Save") : __("Edit");?>"
            title="<?php echo $editMode ? __("Save") : __("Edit");?>"
            onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-    <input type="reset" class="resetbutton" value="<?php echo __("Reset"); ?>" />
             <?php } ?>
 </div>
         <?php }

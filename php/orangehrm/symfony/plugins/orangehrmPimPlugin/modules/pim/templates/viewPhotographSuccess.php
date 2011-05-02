@@ -31,7 +31,9 @@
     <tr>
         <td>&nbsp;</td>
         <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top"><?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
+        <td width="200" valign="top">
+        <?php include_partial('leftmenu', 
+                array('empNumber' => $empNumber, 'form' => $form, 'editPhotoMode' => true));?></td>
         <td valign="top">
             <table cellspacing="0" cellpadding="0" border="0">
                 <tr>

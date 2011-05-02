@@ -3,7 +3,9 @@
         <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber); ?>">
             <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" />
         </a>
+<?php if ($editMode) { ?>        
         <div class="smallHelpText">[<?php echo __('Dimensions'); ?> 150x180]</div>
+<?php } ?>        
         <span class="smallHelpText"><strong><?php echo $fullName;?></strong></span>
     </center>
 </div>

@@ -46,7 +46,7 @@ echo stylesheet_tag('../orangehrmPimPlugin/css/configurePimSuccess'); ?>
             <br class="clear" />
 
             <?php echo $form['chkShowTax']->render(array("class" => "formCheckbox")); ?>
-            <?php echo $form['chkShowTax']->renderLabel(__('Show US Tax Excemptions menu'),
+            <?php echo $form['chkShowTax']->renderLabel(__('Show US Tax Exemptions menu'),
                      array('class' => 'chkboxLabel')); ?>                        
             <br class="clear" />
         

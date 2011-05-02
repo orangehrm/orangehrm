@@ -24,7 +24,7 @@ $locRights=$_SESSION['localRights'];
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $available = $this->popArr['available'];
 $fieldTypes = array(CustomFields::FIELD_TYPE_STRING => $lang_customeFields_StringType,
-    CustomFields::FIELD_TYPE_SELECT => $lang_customeFields_SelectType);
+    CustomFields::FIELD_TYPE_SELECT => 'Text or Number');
 
 $new = true;
 $disabled = '';

@@ -150,7 +150,7 @@
     #pimleftmenu {
         display:block;
         float: left;
-        background: #FFFBED;
+        /*background: #FFFBED;*/
         padding: 2px 2px 2px 2px;
         margin: 0px 0px 0px 5px;
     }
@@ -158,7 +158,7 @@
         list-style-type: none;
         padding-left: 0;
         margin-left: 0;
-        width: 12em;
+        width: 150px;
     }
 
     #pimleftmenu ul.pimleftmenu li {
@@ -394,7 +394,9 @@ if($empNumber == $_SESSION['empID']) {
 ?>
 <form id="frmEmp" action=""></form>
 <div id="pimleftmenu">
-    <?php include_partial('photo', array('empNumber' => $empNumber, 'fullName' => htmlspecialchars($form->fullName)));?>
+    <?php include_partial('photo', array('empNumber' => $empNumber, 
+        'editMode' => isset($editPhotoMode) ? $editPhotoMode : false,
+        'fullName' => htmlspecialchars($form->fullName)));?>
     <ul class="pimleftmenu">
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);">
