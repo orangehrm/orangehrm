@@ -25,7 +25,7 @@
             <br class="clear"/>
 
             <?php echo $form['gpa']->renderLabel(__('GPA/Score')); ?>
-            <?php echo $form['gpa']->render(array("class" => "formInputText")); ?>
+            <?php echo $form['gpa']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
             <br class="clear"/>
 
             <?php echo $form['start_date']->renderLabel(__('Start Date')); ?>
@@ -221,9 +221,9 @@ $(document).ready(function() {
         $("#frmEducation").validate({
         rules: {
             'education[code]': {required: true},
-            'education[major]': {required: false, maxlength: 120},
+            'education[major]': {required: false, maxlength: 100},
             'education[year]': {required: false, digits: true},
-            'education[gpa]': {required: false, maxlength:25},
+            'education[gpa]': {required: false, maxlength: 25},
             'education[start_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate2:true},
             'education[end_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}}
         },
