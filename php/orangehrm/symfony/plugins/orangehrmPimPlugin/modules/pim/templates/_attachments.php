@@ -163,6 +163,8 @@ $locRights['delete'] = true;
 
 <script type="text/javascript">
     //<![CDATA[
+    
+    var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true';?>;
 
     $(document).ready(function() {
 
@@ -214,6 +216,11 @@ $locRights['delete'] = true;
             $('#ufile').removeAttr("disabled");
             $('#attachmentActions').hide();
             $('#addPaneAttachments').show();
+            
+            if (hideAttachmentListOnAdd) {
+                $('#frmEmpDelAttachments').hide();
+            }
+            
         });
         
         $('#cancelButton').click(function() {
@@ -222,6 +229,7 @@ $locRights['delete'] = true;
             $('#attachmentActions').show();
             $('#ufile').val('');
             $('#txtAttDesc').val('');
+            $('#frmEmpDelAttachments').show();
         });
 
         jQuery.validator.addMethod("attachment",
