@@ -1202,15 +1202,6 @@ tableDisplayStyle = "table";
 					<a href="../../symfony/web/index.php/pim/viewImmigration?empNumber=<?php echo $escapedId;?>" id="immigrationLink" class="personal" accesskey="i" >
 						<span><?php echo $lang_pim_tabs_Immigration;?></span></a></li>
 				<li class="l2">
-					<a href="../../symfony/web/index.php/pim/viewPhotograph?empNumber=<?php echo $escapedId;?>" id="photoLink" class="personal" accesskey="f" >
-						<span><?php echo $lang_pim_tabs_Photo;?></span></a></li>
-			</ul>
-		</li>
-		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">
-                <?php echo $lang_pim_Employment;?></span></a>
-			<ul class="l2">
-				<li class="l2">
 					<a href="javascript:displayLayer(2)" id="jobLink" accesskey="j" class="employment"  >
 
 						<span><?php echo $lang_pim_tabs_Job;?></span></a></li>
@@ -1227,8 +1218,17 @@ tableDisplayStyle = "table";
 				<li class="l2">
 					<a href="javascript:displayLayer(15)" id="report-toLink" class="employment" accesskey="r" >
 						<span><?php echo $lang_pim_tabs_ReportTo;?></span></a></li>
+				<li class="l2">
+					<a href="../../symfony/web/index.php/pim/viewQualifications?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="q">
+						<span><?php echo $lang_pim_Qualifications;?></span></a></li>                            
+				<li class="l2">
+					<a href="javascript:displayLayer(13)" id="membershipsLink" class="pimmemberships" accesskey="m">
+						<span><?php echo $lang_pim_tabs_Membership;?></span>
+					</a>
+				</li>                                                        
 			</ul>
 		</li>
+
         <!-- adding leave section here -->
 <script language="javascript">
 function leaveFormSubmission(redirect) {
@@ -1280,29 +1280,6 @@ function leaveFormSubmission(redirect) {
 		</li>
         <!-- end of leave section -->
         <?php }?>
-		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
-			<ul class="l2">
-				<li class="l2">
-					<a href="../../symfony/web/index.php/pim/viewQualifications?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="q">
-						<span><?php echo $lang_pim_Qualifications;?></span></a></li>                            
-				<li class="l2">
-					<a href="javascript:displayLayer(13)" id="membershipsLink" class="pimmemberships" accesskey="m">
-						<span><?php echo $lang_pim_tabs_Membership;?></span>
-					</a>
-				</li>
-				<li class="l2">
-					<a href="javascript:displayLayer(6)" id="attachmentsLink" class="attachments" accesskey="a">
-						<span><?php echo $lang_pim_tabs_Attachments;?></span>
-					</a>
-				</li>
-				<li class="l1">
-					<a href="javascript:displayLayer(20)" id="customLink" class="l1_link custom" accesskey="u">
-						<span><?php echo $lang_pim_tabs_Custom;?></span>
-					</a>
-				</li>
-			</ul>
-		</li>
 	</ul>
 </div>
 <?php }
