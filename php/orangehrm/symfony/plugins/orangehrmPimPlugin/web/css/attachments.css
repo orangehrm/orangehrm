@@ -17,6 +17,7 @@ span#attachmentEditNote {
     padding-left: 5px;
 }
 
-#btnCommentOnly {
-    width:200px;
+/* Using !important to override !important in IE_Only css */
+input#btnCommentOnly {
+    width:120px!important;
 }
