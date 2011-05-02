@@ -67,11 +67,11 @@ $(document).ready(function() {
 
         clearMessageBar();
         
-        if($(".chkbox1:checked").length > 0) {
+        if ($(".chkbox1:checked").length > 0) {
             $("#frmDelWorkExperience").submit();
+        } else {
+            $("#workExpMessagebar").attr('class', 'messageBalloon_notice').text(lang_selectWrkExprToDelete);
         }
-
-        $("#workExpMessagebar").attr('class', 'messageBalloon_notice').text(lang_selectWrkExprToDelete);
 
     });
 
