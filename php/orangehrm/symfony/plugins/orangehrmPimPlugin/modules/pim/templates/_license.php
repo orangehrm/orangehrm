@@ -5,14 +5,14 @@
     <div><h3><?php echo __('License'); ?></h3></div>
 
     <div class="outerbox" id="changeLicense" style="width:500px;">
-        <div class="mainHeading"><h2 id="headChangeLicense"><?php echo __('Add License'); ?></h2></div>
+        <div class="mainHeading"><h4 id="headChangeLicense"><?php echo __('Add License'); ?></h4></div>
         <form id="frmLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form['emp_number']->render(); ?>
 
             <?php echo $form['code']->renderLabel(__('License Type') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['code']->render(array("class" => "formInputText")); ?>
+            <?php echo $form['code']->render(array("class" => "formSelect")); ?>
             <span id="static_license_code" style="display:none;"></span>
             <br class="clear"/>
 

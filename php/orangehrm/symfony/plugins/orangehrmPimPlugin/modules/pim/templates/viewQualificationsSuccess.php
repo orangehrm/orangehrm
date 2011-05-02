@@ -57,7 +57,7 @@
                                     <div><h3><?php echo __('Work Experience'); ?></h3></div>
 
                                     <div class="outerbox" id="changeWorkExperience" style="width:500px;">
-                                        <div class="mainHeading"><h2 id="headChangeWorkExperience"><?php echo __('Add Work Experience'); ?></h2></div>
+                                        <div class="mainHeading"><h4 id="headChangeWorkExperience"><?php echo __('Add Work Experience'); ?></h4></div>
                                         <form id="frmWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
                                             <?php echo $workExperienceForm['_csrf_token']; ?>

@@ -5,7 +5,7 @@
     <div><h3><?php echo __('Languages'); ?></h3></div>
 
     <div class="outerbox" id="changeLanguage" style="width:500px;">
-        <div class="mainHeading"><h2 id="headChangeLanguage"><?php echo __('Add Language'); ?></h2></div>
+        <div class="mainHeading"><h4 id="headChangeLanguage"><?php echo __('Add Language'); ?></h4></div>
         <form id="frmLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
             <?php echo $form['_csrf_token']; ?>

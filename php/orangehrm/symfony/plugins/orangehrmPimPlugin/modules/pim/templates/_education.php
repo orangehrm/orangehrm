@@ -5,14 +5,14 @@
     <div><h3><?php echo __('Education'); ?></h3></div>
 
     <div class="outerbox" id="changeEducation" style="width:500px;">
-        <div class="mainHeading"><h2 id="headChangeEducation"><?php echo __('Add Education'); ?></h2></div>
+        <div class="mainHeading"><h4 id="headChangeEducation"><?php echo __('Add Education'); ?></h4></div>
         <form id="frmEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form['emp_number']->render(); ?>
 
             <?php echo $form['code']->renderLabel(__('Program') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['code']->render(array("class" => "formInputText")); ?>
+            <?php echo $form['code']->render(array("class" => "formSelect")); ?>
             <span id="static_education_code" style="display:none;"></span>
             <br class="clear"/>
 
