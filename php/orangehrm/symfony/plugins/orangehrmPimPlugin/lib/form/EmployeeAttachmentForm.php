@@ -32,6 +32,7 @@ class EmployeeAttachmentForm extends BaseForm {
             'ufile' => new sfWidgetFormInputFile(),
             'txtAttDesc' => new sfWidgetFormInputText(),
             'screen' => new sfWidgetFormInputHidden(),
+            'commentOnly' => new sfWidgetFormInputHidden(),
         ));
 
         $this->setValidators(array(
@@ -41,6 +42,7 @@ class EmployeeAttachmentForm extends BaseForm {
             'ufile' => new sfValidatorFile(array('required' => false, 'max_size'=>1000000)),
             'txtAttDesc' => new sfValidatorString(array('required' => false)),            
             'screen' => new sfValidatorString(array('required' => true)),
+            'commentOnly' => new sfValidatorString(array('required' => false)),
         ));
 
         // set up your post validator method
@@ -54,16 +56,17 @@ class EmployeeAttachmentForm extends BaseForm {
     public function postValidate($validator, $values) {
 
         // If seqNo given, ufile should not be given.
-        // If seqNo not given, ufile should be given
+        // If seqNo not given and commentsonly was clicked, ufile should be given
         $attachId = $values['seqNO'];
         $file = $values['ufile'];
+        $commentOnly = $this->getValue('commentOnly') == "1";        
 
         if (empty($attachId) && empty($file)) {
-            $message = sfContext::getInstance()->getI18N()->__('Invalid input');
+            $message = sfContext::getInstance()->getI18N()->__('Upload file missing');
             $error = new sfValidatorError($validator, $message);
             throw new sfValidatorErrorSchema($validator, array('' => $error));
-        } else if (!empty($attachId) && !empty($file)) {
-            $message = sfContext::getInstance()->getI18N()->__('Upload file missing');
+        } else if (!empty($attachId) && $commentOnly && !empty($file)) {
+            $message = sfContext::getInstance()->getI18N()->__('Invalid input');
             $error = new sfValidatorError($validator, $message);
             throw new sfValidatorErrorSchema($validator, array('' => $error));
         }
@@ -107,16 +110,22 @@ class EmployeeAttachmentForm extends BaseForm {
                 throw new PIMServiceException('Invalid attachment');
             }
         }
-
+        
         //
         // New file upload
         //
+        $newFile = false;
+        
         if ($empAttachment === false) {
 
             $empAttachment = new EmployeeAttachment();
             $empAttachment->emp_number = $empNumber;
             $empAttachment->attach_id = $attachId;
-
+            $newFile = true;
+        }
+        
+        $commentOnly = $this->getValue('commentOnly');        
+        if ($newFile || ($commentOnly == '0')) {
             $file = $this->getValue('ufile');
             $tempName = $file->getTempName();
 
@@ -131,9 +140,6 @@ class EmployeeAttachmentForm extends BaseForm {
             // emp_id and name
         }
 
-        //
-        // Only description can be updated when editing attachment
-        //
         $empAttachment->description = $this->getValue('txtAttDesc');
 
         $empAttachment->save();

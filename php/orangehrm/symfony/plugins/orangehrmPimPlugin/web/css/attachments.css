@@ -1,0 +1,22 @@
+h3#attachmentSubHeading {
+    display:block;
+    float:left;
+    color: #000000;
+    margin-left: 10px;
+}
+
+div#attachmentSubHeadingDiv {
+    display:block;
+    float:left;
+    clear:both;
+}
+span#attachmentEditNote {
+    display: block;
+    float: left;    
+    margin-top:18px;
+    padding-left: 5px;
+}
+
+#btnCommentOnly {
+    width:200px;
+}

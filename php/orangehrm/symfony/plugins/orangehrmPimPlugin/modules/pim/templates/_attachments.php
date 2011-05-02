@@ -18,7 +18,7 @@
  *
  */
 ?>
-
+<?php use_stylesheet('../orangehrmPimPlugin/css/attachments'); ?>
 <script type="text/javaScript"><!--//--><![CDATA[//><!--
 
 <?php
@@ -45,43 +45,38 @@ $locRights['delete'] = true;
         <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
         <input type="hidden" name="seqNO" id="seqNO" value=""/>
         <input type="hidden" name="screen" value="<?php echo $screen;?>" />
+        <input type="hidden" name="commentOnly" id="commentOnly" value="0" />
 
         <div id="addPaneAttachments" style="display:none" >
+            <div id="attachmentSubHeadingDiv"><h3 id="attachmentSubHeading" style="float:left;"><?php echo __('Add Attachment'); ?></h3><span id="attachmentEditNote"></span></div>
+            <br class="clear"/>
             <ul class="single_row_form">
                 <li id="fileUploadRow">
-                    <label class="sizeM"><?php echo __("Path")?> <span class="required">*</span></label>
+                    <label class="sizeM"><?php echo __("Select File")?> <span class="required">*</span></label>
                     <div class="input_container input_file">
                         <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-                        <input type="file" name="ufile" id="ufile" class="formInputText" style="width: 100%"/>
+                        <input type="file" name="ufile" id="ufile" class="formInputText" style="width:100%;"/>
                         <p style="float: none; width: 100%; font-size: 11px;">[<?php echo __("1M Max, any larger attachments will be ignored")?>]</p>
                     </div>
                     
                     <div class="clear"></div>
                 </li>
-                <li id="fileNameRow" style="display:none">
-                    <label class="sizeM"><?php echo __("File Name")?></label>
-                    <div class="input_container">
-                        <div class="label_result_element"></div>
-                    </div>
-                    <div class="clear"></div>
-                </li>
                 <li>
-                    <label class="sizeM"><?php echo __("Description")?></label>
+                    <label class="sizeM"><?php echo __("Comment")?></label>
                     <div class="input_container">
                         <textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="35" style="margin-top: 10px;" ></textarea>
                     </div>
                     <div class="clear"></div>
                 </li>
             </ul>
-            <input type="hidden" id="attachFields" value="ufile|txtAttDesc" />
-            <input type="hidden" id="attachValues" value="|" />
 
             
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSaveAttachment" id="btnSaveAttachment"
-                       value="<?php echo __("Save");?>"
-                       title="<?php echo __("Save");?>"
+                       value="<?php echo __("Upload File");?>"
+                       title="<?php echo __("Upload File");?>"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                <input type="button" class="plainbtn" id="btnCommentOnly" value="<?php echo __("Save Comment Only"); ?>" />
                 <input type="button" class="plainbtn" id="cancelButton" value="<?php echo __("Cancel"); ?>" />
             </div>
         </div>
@@ -135,7 +130,7 @@ $locRights['delete'] = true;
                 <tr class="<?php echo $cssClass;?>">
                     <td><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
                                value="<?php echo $attachment->attach_id; ?>"/></td>
-                    <td><a title="<?php echo $attachment->description; ?>" target="_blank"
+                    <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
                            href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">                            
                         <?php echo $attachment->filename; ?></a></td>
                     <td>
@@ -165,7 +160,11 @@ $locRights['delete'] = true;
     //<![CDATA[
     
     var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true';?>;
-
+    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment :") ?>";
+    var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
+    var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
+    var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
+    
     $(document).ready(function() {
 
         $("#frmEmpAttachment").data('add_mode', true);
@@ -175,24 +174,25 @@ $locRights['delete'] = true;
             $("#attachmentsMessagebar").text("").attr('class', "");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
-            var fileName = $(this).text();
+            var fileName = row.find('a.fileLink').text();
             var description = row.find("td:nth-child(3)").text();
             description = jQuery.trim(description);
 
             $('#seqNO').val(seqNo);
-            $('#fileNameRow .label_result_element').text(fileName);
-            $('#fileNameRow').css('display', '');
-            $('#fileUploadRow').css('display', 'none');
+            $('#attachmentEditNote').html(lang_EditAttachmentReplaceFile + ' <b>' + fileName + '</b> ' + lang_EditAttachmentWithNewFile);
+            $('#ufile').removeAttr("disabled");
+            
             $('#txtAttDesc').val(description);
 
             $("#frmEmpAttachment").data('add_mode', false);
 
-            $('#attachFields').val("txtAttDesc");
-            $('#attachValues').val(description);
+            $('#btnCommentOnly').show();
 
             // hide validation error messages
             $("label.error1col[generated='true']").css('display', 'none');
             $('#attachmentActions').hide();
+            
+            $('h3#attachmentSubHeading').text(lang_EditAttachmentHeading);
             $('#addPaneAttachments').show();
         });
 
@@ -200,21 +200,18 @@ $locRights['delete'] = true;
         $('#btnAddAttachment').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
             $('#seqNO').val('');
-            $('#fileNameRow .label_result_element').text('');
-            $('#fileNameRow').css('display', 'none');
-            $('#fileUploadRow').css('display', '');
+            $('#attachmentEditNote').text('');
             $('#txtAttDesc').val('');
 
             $("#frmEmpAttachment").data('add_mode', true);
-
-            $('#attachFields').val("ufile|txtAttDesc");
-            $('#attachValues').val("|");
+            $('#btnCommentOnly').hide();
 
             // hide validation error messages
             $("label.error1col[generated='true']").css('display', 'none');
             
             $('#ufile').removeAttr("disabled");
             $('#attachmentActions').hide();
+            $('h3#attachmentSubHeading').text(lang_AddAttachmentHeading);
             $('#addPaneAttachments').show();
             
             if (hideAttachmentListOnAdd) {
@@ -274,6 +271,12 @@ $locRights['delete'] = true;
         });
 
         $('#btnSaveAttachment').click(function() {
+            $('#frmEmpAttachment').submit();
+        });
+        
+        $('#btnCommentOnly').click(function() {
+            $("#frmEmpAttachment").data('add_mode', true);
+            $('#commentOnly').val('1');
             $('#frmEmpAttachment').submit();
         });
         
