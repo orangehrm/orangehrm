@@ -94,6 +94,7 @@
     var lang_languageTypeRequired = "<?php echo __("Fluency is required");?>";
     var lang_competencyRequired = "<?php echo __("Competency is required");?>";
     var lang_selectLanguageToDelete = "<?php echo __('Please Select At Least One Language Item To Delete');?>";
+    var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
     //]]>
 </script>
 
@@ -179,12 +180,14 @@ $(document).ready(function() {
         rules: {
             'language[code]': {required: true},
             'language[lang_type]': {required: true},
-            'language[competency]': {required: true}
+            'language[competency]': {required: true},
+            'language[comments]' : {required: false, maxlength:100}
         },
         messages: {
             'language[code]': {required: lang_languageRequired},
             'language[lang_type]': {required: lang_languageTypeRequired},
-            'language[competency]': {required: lang_competencyRequired}
+            'language[competency]': {required: lang_competencyRequired},
+            'language[comments]' : {maxlength: lang_commentsMaxLength}
         },
 
         errorElement : 'div',
