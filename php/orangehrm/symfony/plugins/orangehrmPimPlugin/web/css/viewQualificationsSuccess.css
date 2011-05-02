@@ -74,3 +74,11 @@ td.check {
     width:30px;
     padding: 2px 1px;
 }
+
+select#education_code {
+    width: 320px;
+}
+
+input#education_major {
+    width: 310px;
+}
