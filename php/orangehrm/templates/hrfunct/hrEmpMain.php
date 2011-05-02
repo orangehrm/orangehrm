@@ -21,6 +21,7 @@
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
+require_once ROOT_PATH . '/lib/common/Config.php';
 
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
@@ -939,14 +940,13 @@ tableDisplayStyle = "table";
 	    list-style-type: none;
 	    padding-left: 0;
 	    margin-left: 0;
-	    width: 12em;
+	    width: 156px;
 	}
 
 	#pimleftmenu ul.pimleftmenu li {
 	    list-style-type:none;
 	    margin-left: 0;
 	    margin-bottom: 1px;
-		padding-left:5px;
 	}
 
 	#pimleftmenu ul li.parent {
@@ -1033,6 +1033,24 @@ tableDisplayStyle = "table";
 	    float:left;
 	    width: 50%;
 	}
+        
+        /* photo */
+        #currentImage {
+            padding: 2px;
+            margin: 5px 4px 14px 2px;
+            border: 1px solid #FAD163;
+            cursor:pointer;
+        }
+
+        #imageSizeRule {
+            width:200px;
+        }
+
+        #imageHint {
+            font-size:10px;
+            color:#999999;
+            padding-left:8px;
+        }        
     -->
 </style>
 <!--[if IE]>
@@ -1180,6 +1198,16 @@ tableDisplayStyle = "table";
 
 <?php if ($_SESSION['PIM_MENU_TYPE']=='left') { ?>
 <div id="pimleftmenu">
+<div id="currentImage" style="width:150px;">
+    <center>
+        <a href="../../symfony/web/index.php/pim/viewPhotograph?empNumber=<?php echo $escapedId;?>"
+            <img alt="Employee Photo" 
+                 src="../../symfony/web/index.php/pim/viewPhoto?empNumber=<?php echo $escapedId;?>" border="0" id="empPic" />
+        </a>
+        <span class="smallHelpText"><strong><?php echo CommonFunctions::escapeHtml($currentEmployeeName);?></strong></span>
+    </center>
+</div>
+    
 	<ul class="pimleftmenu">
 		<li class="l1 parent">
 			<a href="#" class="expanded" onclick="showHideSubMenu(this);">
@@ -1208,10 +1236,13 @@ tableDisplayStyle = "table";
 				<li class="l2">
 					<a href="javascript:displayLayer(14)" id="paymentsLink" class="employment" accesskey="s" >
 						<span><?php echo $lang_pim_tabs_Payments;?></span></a></li>
+<?php
+    $config = new Config();
+    if ($config->showPimTaxExemptions()) { ?>
 				<li class="l2">
 					<a href="javascript:displayLayer(18)" id="taxLink" class="employment" accesskey="t" >
 						<span><?php echo $lang_pim_tabs_Tax;?></span></a></li>
-
+<?php } ?>
 				<li class="l2">
 					<a href="javascript:displayLayer(19)" id="direct-debitLink" class="employment" accesskey="o" >
 						<span><?php echo $lang_pim_tabs_DirectDebit;?></span></a></li>
@@ -1448,13 +1479,6 @@ function leaveFormSubmission(redirect) {
     	<br class="clear"/>
     	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
     </div>
-	<div id="photodiv">
-		<img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $escapedId;?>&amp;action=VIEW"
-        	onclick="showPhotoHandler()" alt="<?php echo $lang_pim_ClickToEditPhoto;?>" title="<?php echo $lang_pim_ClickToEditPhoto;?>"/>
-        <a href="#" onclick="showPhotoHandler()" title="<?php echo $lang_pim_ClickToEditPhoto;?>">
-        	<span id="empname"><?php echo CommonFunctions::escapeHtml($currentEmployeeName);?></span>
-        </a>
-	</div>
 <?php } ?>
 
 	</form>
@@ -1466,6 +1490,47 @@ function leaveFormSubmission(redirect) {
 	<?php if (isset($this->postArr['txtShowAddPane']) && !empty($this->postArr['txtShowAddPane'])) { ?>
 	showAddPane('<?php echo addslashes($this->postArr['txtShowAddPane']); ?>');
 	<?php } ?>
+            
+    function imageResize() {
+        var image = document.getElementById('empPic');
+        
+        var imgHeight = image.height;
+        var imgWidth = image.width;
+        var newHeight = 0;
+        var newWidth = 0;
+        var fileModified = false;
+
+        //algorithm for image resizing
+        //resizing by width - assuming width = 150,
+        //resizing by height - assuming height = 180
+
+        var propHeight = Math.floor((imgHeight/imgWidth) * 150);
+        var propWidth = Math.floor((imgWidth/imgHeight) * 180);
+
+        if (isNaN(propHeight) || (propHeight <= 180)) {
+            fileModified = true;
+            newHeight = propHeight;
+            newWidth = 150;
+        }
+
+        if (isNaN(propWidth) || (propWidth <= 150)) {
+            fileModified = true;
+            newWidth = propWidth;
+            newHeight = 180;
+        }
+
+        /*if(fileModified == 1) {
+            newWidth = newImgWidth;
+            newHeight = newImgHeight;
+        }*/
+
+        image.height = newHeight;
+        image.width = newWidth;
+    }
+
+    imageResize();
+
+    
 	//--><!]]></script>
 	</body>
 </html>
