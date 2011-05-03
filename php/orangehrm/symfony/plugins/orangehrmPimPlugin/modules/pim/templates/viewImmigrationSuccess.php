@@ -163,9 +163,10 @@
                             </div>
 
                             <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
-                        </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
+                            
+                        </div>
                     </td>
                     <td valign="top" align="left">
                     </td>

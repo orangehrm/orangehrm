@@ -67,7 +67,6 @@ $allowDel = true;
 ?>
 </form>
 </div>
-</div>
 
 
 <script type="text/javascript">

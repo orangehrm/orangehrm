@@ -161,9 +161,10 @@
                                         array('empNumber'=>$empNumber, 'form'=>$licenseForm));?>
                                 <br />
                             </div>
-                        </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'qualifications'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'qualifications'));?>
+                            
+                        </div>
                     </td>
                     <td valign="top" align="left">
                     </td>
