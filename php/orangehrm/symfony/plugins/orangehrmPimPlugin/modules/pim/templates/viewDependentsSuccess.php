@@ -89,7 +89,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <br class="clear"/>
 
     <div id="relationshipDesc">
-    <?php echo $form['relationship']->renderLabel(__('Please Sepecify') . ' <span class="required">*</span>'); ?>
+    <?php echo $form['relationship']->renderLabel(__('Please Specify') . ' <span class="required">*</span>'); ?>
     <?php echo $form['relationship']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
     <br class="clear"/>
     </div>

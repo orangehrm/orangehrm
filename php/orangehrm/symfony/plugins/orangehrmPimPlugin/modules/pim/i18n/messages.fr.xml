@@ -469,8 +469,8 @@
         <target>FR_Dependent Saved Successfully</target>
       </trans-unit>
       <trans-unit id="117">
-        <source>Please Sepecify</source>
-        <target>FR_Please Sepecify</target>
+        <source>Please Specify</source>
+        <target>FR_Please Specify</target>
       </trans-unit>
       <trans-unit id="118">
         <source>Relationship is required</source>
