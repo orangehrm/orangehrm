@@ -21,3 +21,7 @@ span#attachmentEditNote {
 input#btnCommentOnly {
     width:120px!important;
 }
+
+div#parentPaneAttachments td.comments {
+    max-width: 200px;
+}

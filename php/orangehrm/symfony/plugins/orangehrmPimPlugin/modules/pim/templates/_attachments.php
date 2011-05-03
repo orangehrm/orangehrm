@@ -133,7 +133,7 @@ $locRights['delete'] = true;
                     <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
                            href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">                            
                         <?php echo $attachment->filename; ?></a></td>
-                    <td>
+                    <td class="comments">
                         <?php echo $attachment->description; ?>
                     </td>
                     <td><?php echo add_si_unit($attachment->size); ?></td>
@@ -164,14 +164,46 @@ $locRights['delete'] = true;
     var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
     var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
     var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
+    var lang_PleaseSelectAFile = "<?php echo __("Please select a file");?>";
+    var lang_CommentsMaxLength = "<?php echo __("Comment cannot exceed 200 characters in length");?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";
     
     $(document).ready(function() {
 
         $("#frmEmpAttachment").data('add_mode', true);
 
+        jQuery.validator.addMethod("attachment",
+        function() {
+
+            var addMode = $("#frmEmpAttachment").data('add_mode');
+            if (!addMode) {
+                return true;
+            } else {
+                var file = $('#ufile').val();
+                return file != "";
+            }
+        }, ""
+    );
+    var attachmentValidator =
+        $("#frmEmpAttachment").validate({
+
+            rules: {
+                ufile : {attachment:true},
+                txtAttDesc: {maxlength: 200}
+            },
+            messages: {
+                ufile: lang_PleaseSelectAFile,
+                txtAttDesc: {maxlength: lang_CommentsMaxLength}
+            }
+            
+        });
+
         // Edit a emergency contact in the list
         $('#frmEmpDelAttachments a.editLink').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
+            
+            attachmentValidator.resetForm();
+            
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
             var fileName = row.find('a.fileLink').text();
@@ -222,47 +254,22 @@ $locRights['delete'] = true;
         
         $('#cancelButton').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
+            
+            attachmentValidator.resetForm();
             $('#addPaneAttachments').hide();
             $('#attachmentActions').show();
             $('#ufile').val('');
             $('#txtAttDesc').val('');
             $('#frmEmpDelAttachments').show();
         });
-
-        jQuery.validator.addMethod("attachment",
-        function() {
-
-            var addMode = $("#frmEmpAttachment").data('add_mode');
-            if (!addMode) {
-                return true;
-            } else {
-                var file = $('#ufile').val();
-                return file != "";
-            }
-        }, ""
-    );
-
-        $("#frmEmpAttachment").validate({
-
-            rules: {
-                ufile : {attachment:true},
-                txtAttDesc: {maxlength: 200}
-            },
-            messages: {
-                ufile: '<?php echo __("Please select a file.")?>',
-                txtAttDesc: {maxlength: '<?php echo __('Maximum character limit exceeded for')?> <?php echo __('Description')?>'}
-            }
-            
-        });
-
-
+        
         $('#btnDeleteAttachment').click(function() {            
             
             var checked = $('#frmEmpDelAttachments input:checked').length;
 
             if ( checked == 0 )
             {
-                $("#attachmentsMessagebar").attr('class', 'messageBalloon_notice').text('<?php echo __("Select at least one Attachment to Delete"); ?>');
+                $("#attachmentsMessagebar").attr('class', 'messageBalloon_notice').text(lang_SelectAtLeastOneAttachment);
             }
             else
             {
@@ -271,11 +278,12 @@ $locRights['delete'] = true;
         });
 
         $('#btnSaveAttachment').click(function() {
+            $("#frmEmpAttachment").data('add_mode', true);
             $('#frmEmpAttachment').submit();
         });
         
         $('#btnCommentOnly').click(function() {
-            $("#frmEmpAttachment").data('add_mode', true);
+            $("#frmEmpAttachment").data('add_mode', false);
             $('#commentOnly').val('1');
             $('#frmEmpAttachment').submit();
         });
