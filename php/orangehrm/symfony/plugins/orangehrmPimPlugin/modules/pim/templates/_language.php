@@ -147,7 +147,7 @@ $(document).ready(function() {
         $('#static_language_code').hide().val("");        
         $('#static_lang_type').hide().val("");
         $("#language_code").show().val("");
-        $("#language_lang_type").val("");
+        $("#language_lang_type").show().val("");
         $("#language_comptency").val("");
 
         //show add form
