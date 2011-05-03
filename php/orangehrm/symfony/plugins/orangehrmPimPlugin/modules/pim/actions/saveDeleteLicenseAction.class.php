@@ -16,29 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class saveDeleteLicenseAction extends sfAction {
-
-    private $employeeService;
-    
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
+class saveDeleteLicenseAction extends basePimAction {
     
     /**
      * @param sfForm $form
@@ -55,6 +33,12 @@ class saveDeleteLicenseAction extends sfAction {
         $license = $request->getParameter('license');
         $empNumber = (isset($license['emp_number']))?$license['emp_number']:$request->getParameter('empNumber');
 
+        if (!$this->isAdminSupervisorOrEssUser($empNumber)) {
+            $this->getUser()->setFlash('templateMessage', array('warning', __('Access Denied!')));
+            $this->redirect($this->getRequest()->getReferer());
+            return;
+        }
+        
         $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
 
         if ($request->isMethod('post')) {

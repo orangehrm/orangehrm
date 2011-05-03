@@ -16,29 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewQualificationsAction extends sfAction {
-
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
+class viewQualificationsAction extends basePimAction {
     
     /**
      * @param sfForm $form
@@ -92,51 +70,25 @@ class viewQualificationsAction extends sfAction {
     
     public function execute($request) {
         
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $this->showBackButton = true;
+        $this->showBackButton = false;
         $empNumber = $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
-        //hiding the back button if its self ESS view
-        if($loggedInEmpNum == $empNumber) {
-
-            $this->showBackButton = false;
-        }
-
-         if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        if (!$this->isAdminSupervisorOrEssUser($empNumber)) {
+            $this->getUser()->setFlash('templateMessage', array('warning', __('Access Denied!')));
+            $this->redirect($this->getRequest()->getReferer());
+            return;
         }
         
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
-
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            //shud b redirected 2 ESS user view
-            $this->redirect('pim/viewQualifications?empNumber='. $loggedInEmpNum);
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
         $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
         $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
         $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
         $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
-        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
-        
-    }
-
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));        
     }
 }
 ?>
