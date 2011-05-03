@@ -73,6 +73,32 @@ class ButtonTest extends PHPUnit_Framework_TestCase {
             $this->assertRegExp("/{$attribute}/", $html);
         }
     }
+    
+    public function testPopulateFromArray() {
+        $properties = array(
+            'identifier' => 'btnSave',
+        );
+
+        $this->button->populateFromArray($properties);
+
+        $this->assertEquals($properties['identifier'], $this->button->getIdentifier());
+    }
+    
+    public function testGetProperties() {
+        $properties = array(
+            'identifier' => 'btnSave',
+        );
+        $this->button->setProperties($properties);
+        $this->assertEquals($properties, $this->button->getProperties());
+    }
+    
+    public function testSetProperties() {
+        $properties = array(
+            'identifier' => 'btnSave',
+        );
+        $this->button->setProperties($properties);
+        $this->assertEquals($properties, $this->button->getProperties());        
+    }
 
 }
 
