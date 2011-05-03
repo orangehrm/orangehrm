@@ -289,7 +289,7 @@ $(document).ready(function() {
         $("#changeLicense").show();
         var code = $(this).closest("tr").find('input.chkbox:first').val();
         
-        $('#static_license_code').html($("#code_desc_" + code).val()).show();
+        $('#static_license_code').text($("#code_desc_" + code).val()).show();
 
         // remove any options already in use
         $("#license_code option[class='added']").remove();

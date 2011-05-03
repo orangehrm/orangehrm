@@ -305,7 +305,7 @@ $(document).ready(function() {
         $("#changeEducation").show();
         var code = $(this).closest("tr").find('input.chkbox:first').val();
         
-        $('#static_education_code').html($("#code_desc_" + code).val()).show();
+        $('#static_education_code').text($("#code_desc_" + code).val()).show();
 
         // remove any options already in use
         $("#education_code option[class='added']").remove();

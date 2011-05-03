@@ -64,7 +64,7 @@
                 <input type="hidden" id="comments_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />
 
                 <input type="checkbox" class="chkbox" value="<?php echo $skill->code;?>" name="delSkill[]"/></td>
-                <td><a href="#" class="edit"><?php echo $skillName;?></a></td>
+                <td><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
                 <td><?php echo htmlspecialchars($skill->years_of_exp);?></td>
                 </tr>
                     <?php $row++;
@@ -254,7 +254,7 @@ $(document).ready(function() {
         $("#changeSkill").show();
         var code = $(this).closest("tr").find('input.chkbox:first').val();
 
-        $('#static_skill_code').html($("#skill_name_" + code).val()).show();
+        $('#static_skill_code').text($("#skill_name_" + code).val()).show();
         
         
 
