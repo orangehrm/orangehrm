@@ -120,7 +120,8 @@
                                                     <tr>
                                                         <td><?php echo __("Date of Birth"); ?></td>
                                                         <td><?php echo $form['DOB']->render(array("class" => "formInputText", "maxlength" => 11)); ?>
-                                                            <input id="dateOfBirthBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                                            <input id="dateOfBirthBtn" type="button" name="Submit" value="  " class="calendarBtn" 
+                                                                   <?php echo $essMode ? 'disabled="disabled"' : '';?> />
                                                             <br class="clear" />
                                                         </td>
                                                         <td>&nbsp;</td>

@@ -80,6 +80,7 @@ $(document).ready(function() {
                 $("#personal_txtSINNo").attr('disabled', 'disabled');
                 $("#personal_txtLicenNo").attr('disabled', 'disabled');
                 $("#personal_DOB").attr('disabled', 'disabled');
+                $('#dateOfBirthBtn').attr('disabled', 'disabled');
             }
 
             $("#btnSave").attr('value', save);
