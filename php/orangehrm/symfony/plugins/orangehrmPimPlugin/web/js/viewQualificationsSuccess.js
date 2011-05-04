@@ -1,4 +1,5 @@
 function clearMessageBar() {
+    $("#mainMessagebar").text("").attr('class', "");
     $("#workExpMessagebar").text("").attr('class', "");
     $("#educationMessagebar").text("").attr('class', "");
     $("#skillMessagebar").text("").attr('class', "");

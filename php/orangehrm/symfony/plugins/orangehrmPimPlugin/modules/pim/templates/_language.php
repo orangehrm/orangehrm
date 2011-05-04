@@ -1,6 +1,5 @@
-<div id="languageMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
+<div id="languageMessagebar"></div>
+
 <div class="sectionDiv" id="sectionLanguage">
     <div><h3><?php echo __('Languages'); ?></h3></div>
 

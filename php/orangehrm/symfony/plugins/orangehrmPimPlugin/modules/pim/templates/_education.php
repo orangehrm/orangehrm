@@ -1,6 +1,5 @@
-<div id="educationMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
+<div id="educationMessagebar"></div>
+
 <div class="sectionDiv" id="sectionEducation">
     <div><h3><?php echo __('Education'); ?></h3></div>
 

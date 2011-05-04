@@ -45,13 +45,14 @@
                     <td valign="top">
                         <!-- this space is for contents -->
                         <div id="mainDiv">
+                            <div id="mainMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>">
+                                <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+                            </div>                            
                             <div class="outerbox">
                                 <div class="mainHeading"><h2><?php echo __('Qualifications'); ?></h2></div>
 
                                 <!-- this is work experience section -->
-                                <div id="workExpMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-                                    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-                                </div>
+                                <div id="workExpMessagebar"></div>
                                 
                                 <div class="sectionDiv" id="sectionWorkExperience">
                                     <div><h3><?php echo __('Work Experience'); ?></h3></div>

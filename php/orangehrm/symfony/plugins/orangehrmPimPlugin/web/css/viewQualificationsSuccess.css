@@ -91,3 +91,13 @@ div#tblLanguage td.comments{
 div#tblEducation td.program {
     max-width: 300px;
 }
+
+div#mainMessagebar,
+div#workExpMessagebar,
+div#educationMessagebar,
+div#skillMessagebar,
+div#languageMessagebar,
+div#licenseMessagebar {
+    margin-left: 16px;
+    width: 630px;
+}
