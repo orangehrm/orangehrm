@@ -186,14 +186,14 @@ var fileModified = 0;
     }
 
     function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
         $('#emgcontact_list tbody td.emgContactName').wrapInner('<a href="#"/>');
     }
 
     function removeEditLinks() {
-        $('#emgcontact_list tbody td.emgContactName').each(function(index) {
-            var linkContent = $(this).find('a').html();
-            $(this).html(linkContent);
-
+        $('#emgcontact_list tbody td.emgContactName a').each(function(index) {
+            $(this).parent().html($(this).text());
         });
     }
 

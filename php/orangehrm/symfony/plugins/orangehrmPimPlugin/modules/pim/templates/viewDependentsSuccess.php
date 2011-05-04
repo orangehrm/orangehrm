@@ -200,14 +200,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     }
 
     function addEditLinks() {
+        removeEditLinks();
         $('#dependent_list tbody td.dependentName').wrapInner('<a href="#"/>');
     }
 
     function removeEditLinks() {
-        $('#dependent_list tbody td.dependentName').each(function(index) {
-            var linkContent = $(this).find('a').html();
-            $(this).html(linkContent);
-
+        $('#dependent_list tbody td.dependentName a').each(function(index) {
+            $(this).parent().html($(this).text());
         });
     }
 
