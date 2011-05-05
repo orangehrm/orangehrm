@@ -92,6 +92,26 @@ div#tblEducation td.program {
     max-width: 300px;
 }
 
+table.data-table tbody tr {
+    height: 16px;
+}
+
+table.data-table tbody tr td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    height: 16px;
+}
+
+table.data-table tbody tr td input {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+table.data-table tbody tr td.check {
+    /*padding-top: 6px;*/
+}
+
 div#mainMessagebar,
 div#workExpMessagebar,
 div#educationMessagebar,
