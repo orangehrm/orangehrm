@@ -149,7 +149,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                                                        }
                                                     ?>
                                                     <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="200"><?php echo htmlspecialchars($comments);?></td>
-                                                    <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="<?php echo __("Click here to edit");?>" alt=""/></td>
+                                                    <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="<?php echo __("Click here to edit");?>" alt=""/></td>
                                                 </tr>
                                             </table>
                                             <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveComments-<?php echo $datum->getLeaveRequestId(); ?>" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" />
@@ -212,7 +212,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                                    }
                                ?>
                                 <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" align="left"><?php echo htmlspecialchars($comments); ?></td>
-                                <td class="dialogInvoker" id="pen_leave_<?php echo $datum->getLeaveId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout.png')?>" title="Click here to edit" /></td>
+                                <td class="dialogInvoker" id="pen_leave_<?php echo $datum->getLeaveId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="Click here to edit" /></td>
                             </tr>
                         </table>
                         <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveId(); ?>]" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" id="leaveComments-<?php echo $datum->getLeaveId(); ?>"/></td>
