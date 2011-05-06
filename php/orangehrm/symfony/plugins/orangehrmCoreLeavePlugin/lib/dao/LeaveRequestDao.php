@@ -328,8 +328,7 @@ class LeaveRequestDao extends BaseDao {
 		$q = Doctrine_Query::create()
 		->select('*')
 		->from('Leave l')
-		->where('leave_request_id = ?', $leaveRequestId)
-        ->orderBy('l.leave_date DESC');
+		->where('leave_request_id = ?', $leaveRequestId);
 
 		return $q->execute();
 	}

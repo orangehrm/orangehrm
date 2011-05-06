@@ -67,16 +67,16 @@
 
         $this->assertEquals(2, count($leaveList));
 
-        $this->assertEquals(2, $leaveList[0]->getLeaveId());
+        $this->assertEquals(1, $leaveList[0]->getLeaveId());
         $this->assertEquals('LTY001', $leaveList[0]->getLeaveTypeId());
         $this->assertEquals(1, $leaveList[0]->getEmployeeId());
-        $this->assertEquals('2010-09-02', $leaveList[0]->getLeaveDate());
+        $this->assertEquals('2010-09-01', $leaveList[0]->getLeaveDate());
         $this->assertEquals(1, $leaveList[0]->getLeaveStatus());
 
-        $this->assertEquals(1, $leaveList[1]->getLeaveId());
+        $this->assertEquals(2, $leaveList[1]->getLeaveId());
         $this->assertEquals('LTY001', $leaveList[1]->getLeaveTypeId());
         $this->assertEquals(1, $leaveList[1]->getEmployeeId());
-        $this->assertEquals('2010-09-01', $leaveList[1]->getLeaveDate());
+        $this->assertEquals('2010-09-02', $leaveList[1]->getLeaveDate());
         $this->assertEquals(1, $leaveList[1]->getLeaveStatus());
 
     }
