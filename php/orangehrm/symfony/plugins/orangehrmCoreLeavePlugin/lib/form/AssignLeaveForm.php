@@ -443,7 +443,7 @@ class AssignLeaveForm extends sfForm {
 
 
 
-                $name = $employee->getFirstName() . " " . $employee->getLastName();
+                $name = $employee->getFullName();
 
                 foreach($escapeCharSet as $char) {
                     $name = str_replace(chr($char), (chr(92) . chr($char)), $name);

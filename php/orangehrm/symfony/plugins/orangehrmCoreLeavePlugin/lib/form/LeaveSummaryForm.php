@@ -531,7 +531,7 @@ class LeaveSummaryForm extends sfForm {
         $employeeUnique = array();
         foreach($employeeList as $employee) {
             if(!isset($employeeUnique[$employee->getEmpNumber()])) {
-                $name = $employee->getFirstName() . " " . $employee->getLastName();
+                $name = $employee->getFullName();
 
                 foreach($escapeCharSet as $char) {
                     $name = str_replace(chr($char), (chr(92) . chr($char)), $name);

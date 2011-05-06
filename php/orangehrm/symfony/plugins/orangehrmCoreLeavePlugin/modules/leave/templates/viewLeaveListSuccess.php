@@ -346,7 +346,7 @@ $searchActionButtons = $form->getSearchActionButtons();
             formatItem: function(item) {
                 return item.name;
             }
-
+            ,matchContains:true
             }).result(function(event, item) {
                 $('#txtEmpID').val(item.id);
             }

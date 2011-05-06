@@ -13,7 +13,7 @@ $(document).ready(function(){
     $("#leaveSummary_txtEmpName").autocomplete(empdata, {
         formatItem: function(item) {
             return item.name;
-        }, matchContains:"word"
+        }, matchContains:true
     }).result(function(event, item) {
         $('#leaveSummary_cmbEmpId').val(item.id);
     });
