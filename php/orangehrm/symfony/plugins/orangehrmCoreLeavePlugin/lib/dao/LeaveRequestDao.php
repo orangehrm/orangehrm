@@ -254,7 +254,8 @@ class LeaveRequestDao extends BaseDao {
 
 		$q = Doctrine_Query::create()
 		->select('lr.*')
-		->from('LeaveRequest lr');
+		->from('LeaveRequest lr')
+        ->leftJoin('lr.Leave l');
 
 		$dateRange = $searchParameters->getParameter('dateRange');
 		$statuses = $searchParameters->getParameter('statuses');
@@ -262,11 +263,10 @@ class LeaveRequestDao extends BaseDao {
 		$leavePeriod = $searchParameters->getParameter('leavePeriod');
 		$leaveType = $searchParameters->getParameter('leaveType');
 
-		$fromDate = mysql_real_escape_string($dateRange->getFromDate());
-		$toDate = mysql_real_escape_string($dateRange->getToDate());
+		$fromDate = $dateRange->getFromDate();
+		$toDate = $dateRange->getToDate();
 
 		if ((!empty($fromDate) && !empty($toDate)) || !empty($statuses)) {
-			$q->innerJoin("lr.Leave l");
 			
 			if (!empty($fromDate) && !empty($toDate)) {
 				$q->andWhere("l.leave_date >= '{$fromDate}'");
@@ -306,6 +306,8 @@ class LeaveRequestDao extends BaseDao {
 		    $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
 		}
 
+        $q->orderBy('l.leave_date DESC');
+
 		$count = $q->count();
 
 		$q->limit($limit)
@@ -326,7 +328,8 @@ class LeaveRequestDao extends BaseDao {
 		$q = Doctrine_Query::create()
 		->select('*')
 		->from('Leave l')
-		->where('leave_request_id = ?', $leaveRequestId);
+		->where('leave_request_id = ?', $leaveRequestId)
+        ->orderBy('l.leave_date DESC');
 
 		return $q->execute();
 	}
