@@ -144,11 +144,11 @@ $searchActionButtons = $form->getSearchActionButtons();
                                                 <tr>
                                                     <?php
                                                        $comments = trim($datum->getLeaveComments());
-                                                       if (strlen($comments) > 25) {
-                                                           $comments = substr($comments, 0, 25) . "...";
+                                                       if (strlen($comments) > 35) {
+                                                           $comments = substr($comments, 0, 35) . "...";
                                                        }
                                                     ?>
-                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" align="left" width="200"><?php echo htmlspecialchars($comments);?></td>
+                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" class="commentContainerLong"><?php echo htmlspecialchars($comments);?></td>
                                                     <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="<?php echo __("Click here to edit");?>" alt=""/></td>
                                                 </tr>
                                             </table>
@@ -207,11 +207,11 @@ $searchActionButtons = $form->getSearchActionButtons();
                             <tr>
                                 <?php
                                    $comments = trim($datum->getLeaveComments());
-                                   if (strlen($comments) > 25) {
-                                       $comments = substr($comments, 0, 25) . "...";
+                                   if (strlen($comments) > 35) {
+                                       $comments = substr($comments, 0, 35) . "...";
                                    }
                                ?>
-                                <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" align="left"><?php echo htmlspecialchars($comments); ?></td>
+                                <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" class="commentContainerShort"><?php echo htmlspecialchars($comments); ?></td>
                                 <td class="dialogInvoker" id="pen_leave_<?php echo $datum->getLeaveId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="Click here to edit" /></td>
                             </tr>
                         </table>
@@ -447,8 +447,8 @@ $searchActionButtons = $form->getSearchActionButtons();
                     }
 
                     //setting the comment in the label
-                    var commentLabel = comment.substr(0, 25);
-                    if(comment.length > 25) {
+                    var commentLabel = comment.substr(0, 35);
+                    if(comment.length > 35) {
                         commentLabel += "...";
                     }
 

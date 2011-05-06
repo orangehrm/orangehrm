@@ -104,3 +104,13 @@ input.calendarBtn[type="button"] {
 .numberLabel {
     margin-left: 40px;
 }
+
+td.commentContainerLong {
+    width: 210px;
+    text-align: left;
+}
+
+td.commentContainerShort {
+    width: 100px;
+    text-align: left;
+}
