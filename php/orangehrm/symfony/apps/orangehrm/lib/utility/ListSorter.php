@@ -87,7 +87,18 @@ class ListSorter {
 		} 
 		$title = empty($displayName) ? $fieldName : $displayName;
 		
-		$attributes['class'] = $class;		
+                $i18n = sfContext::getInstance()->getI18N();
+                if ($nextOrder == self::ASCENDING ) {
+                    $toolTip = $i18n->__('Sort in Ascending Order');
+                } else {
+                    $toolTip = $i18n->__('Sort in Descending Order');
+                }
+                        
+                $attributes['title'] = $toolTip;
+		$attributes['class'] = $class;
+                
+                        
+                
 		$url .= '?sort=' . $fieldName . '&order=' . $nextOrder;	
 		if($extraParam !='')
 			$url .= '&'.$extraParam;	
