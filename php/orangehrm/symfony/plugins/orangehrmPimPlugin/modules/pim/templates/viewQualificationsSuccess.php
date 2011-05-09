@@ -52,6 +52,7 @@
                                 <div class="mainHeading"><h2><?php echo __('Qualifications'); ?></h2></div>
 
                                 <!-- this is work experience section -->
+                                <a name="workexperience"/>
                                 <div id="workExpMessagebar"></div>
                                 
                                 <div class="sectionDiv" id="sectionWorkExperience">
@@ -146,18 +147,22 @@
 
                                 </div>
                                 <!-- this is education section -->
+                                <a name="education"/>
                                 <?php include_partial('education',
                                         array('empNumber'=>$empNumber, 'form'=>$educationForm));?>
 
                                 <!-- this is skills section -->
+                                <a name="skills"/>
                                 <?php include_partial('skill',
                                         array('empNumber'=>$empNumber, 'form'=>$skillForm));?>
                                 
                                 <!-- this is Languages section -->
+                                <a name="language"/>
                                 <?php include_partial('language',
                                         array('empNumber'=>$empNumber, 'form'=>$languageForm));?>
 
                                 <!-- this is Licenses section -->
+                                <a name="license"/>
                                 <?php include_partial('license',
                                         array('empNumber'=>$empNumber, 'form'=>$licenseForm));?>
                                 <br />

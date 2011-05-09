@@ -157,8 +157,8 @@ $(document).ready(function() {
         $("#license_major").val("");
         $("#license_year").val("");
         $("#license_gpa").val("");
-        $("#license_date").val("");
-        $("#license_renewal_date").val("");
+        $("#license_date").val(dateDisplayFormat);
+        $("#license_renewal_date").val(dateDisplayFormat);
 
         //show add form
         $("#changeLicense").show();
@@ -303,6 +303,13 @@ $(document).ready(function() {
         $("#license_license_no").val($("#license_no_" + code).val());
         $("#license_date").val($("#start_date_" + code).val());
         $("#license_renewal_date").val($("#end_date_" + code).val());
+        
+        if ($("#license_date").val() == '') {
+            $("#license_date").val(dateDisplayFormat);
+        }
+        if ($("#license_renewal_date").val() == '') {
+            $("#license_renewal_date").val(dateDisplayFormat);
+        }        
 
         $("#licenseRequiredNote").show();
 

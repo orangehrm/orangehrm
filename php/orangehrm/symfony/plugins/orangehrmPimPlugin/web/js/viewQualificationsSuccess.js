@@ -44,7 +44,7 @@ $(document).ready(function() {
         //changing the headings
         $("#headChangeWorkExperience").text(lang_addWorkExperience);
         $(".chkbox1").hide();
-        $("#workCheckAll").hide();
+        $("#workCheckAll").hide();        
 
         //hiding action button section
         $("#actionWorkExperience").hide();
@@ -54,8 +54,8 @@ $(document).ready(function() {
         $("#experience_seqno").val("");
         $("#experience_employer").val("");
         $("#experience_jobtitle").val("");
-        $("#experience_from_date").val("");
-        $("#experience_to_date").val("");
+        $("#experience_from_date").val(dateDisplayFormat);
+        $("#experience_to_date").val(dateDisplayFormat);
         $("#experience_comments").val("");
 
         //show add work experience form
@@ -193,6 +193,13 @@ function fillDataToWorkExperienceDataPane(seqno) {
     $("#experience_to_date").val($("#toDate_" + seqno).val());
     $("#experience_comments").val($("#comment_" + seqno).val());
 
+    if ($("#experience_from_date").val() == '') {
+        $("#experience_from_date").val(dateDisplayFormat);
+    }
+    if ($("#experience_to_date").val() == '') {
+        $("#experience_to_date").val(dateDisplayFormat);
+    }
+    
     $("#workExpRequiredNote").show();
 
     $(".chkbox1").hide();

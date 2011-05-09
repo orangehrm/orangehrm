@@ -74,11 +74,13 @@ class WorkExperienceForm extends sfForm {
 
         $this->setValidator('from_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')));
+                array('required'=>'Date field is required', 
+                      'invalid'=>'Date format should be ' . strtoupper($inputDatePattern))));
 
         $this->setValidator('to_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')));
+                array('required'=>'Date field is required', 
+                      'invalid'=>'Date format should be ' . strtoupper($inputDatePattern))));
 
         $this->setValidator('comments', new sfValidatorString(array('required' => false,
             'max_length' => 200)));

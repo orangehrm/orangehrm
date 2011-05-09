@@ -169,8 +169,8 @@ $(document).ready(function() {
         $("#education_major").val("");
         $("#education_year").val("");
         $("#education_gpa").val("");
-        $("#education_start_date").val("");
-        $("#education_end_date").val("");
+        $("#education_start_date").val(dateDisplayFormat);
+        $("#education_end_date").val(dateDisplayFormat);
 
         //show add form
         $("#changeEducation").show();
@@ -321,7 +321,14 @@ $(document).ready(function() {
         $("#education_gpa").val($("#gpa_" + code).val());
         $("#education_start_date").val($("#start_date_" + code).val());
         $("#education_end_date").val($("#end_date_" + code).val());
-
+        
+        if ($("#education_start_date").val() == '') {
+            $("#education_start_date").val(dateDisplayFormat);
+        }
+        if ($("#education_end_date").val() == '') {
+            $("#education_end_date").val(dateDisplayFormat);
+        }
+        
         $("#educationRequiredNote").show();
 
         $("div#tblEducation .chkbox").hide();
