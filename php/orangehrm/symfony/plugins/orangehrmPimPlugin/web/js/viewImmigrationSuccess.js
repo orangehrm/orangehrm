@@ -88,7 +88,7 @@ $(document).ready(function() {
 
     //enable, dissable views on loading
     //this is to findout whether passport details already entered
-    if($(".check").length > 0) {
+    if($("form#frmImmigrationDelete table tbody input.checkbox").length > 0) {
         $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
     } else {
