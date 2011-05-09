@@ -61,7 +61,7 @@ class saveDeleteEducationAction extends basePimAction {
 
                 if(count($deleteIds) > 0) {
                     $this->getEmployeeService()->deleteEducation($empNumber, $request->getParameter('delEdu'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Education Details(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Education Detail(s) Deleted Successfully')));
                 }
             }
         }

@@ -90,7 +90,7 @@ class EmployeeEducationForm extends sfForm {
     private function _getEducationList() {
         $educationService = new EducationService();
         $educationList = $educationService->getEducationList();
-        $list = array("" => "-- " . __('Select Education') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($educationList as $education) {
             $list[$education->getEduCode()] = $education->getEduDeg() . ", " . $education->getEduUni();
