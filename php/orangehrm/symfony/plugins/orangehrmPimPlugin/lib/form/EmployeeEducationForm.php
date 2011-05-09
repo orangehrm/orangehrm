@@ -72,7 +72,7 @@ class EmployeeEducationForm extends sfForm {
             'max_length' => 13)));
         $this->setValidator('major', new sfValidatorString(array('required' => false,
             'max_length' => 100)));
-        $this->setValidator('year', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('year', new sfValidatorNumber(array('required' => false, 'max'=>9999, 'min'=>0)));
         $this->setValidator('gpa', new sfValidatorString(array('required' => false,
             'max_length' => 25)));
 
