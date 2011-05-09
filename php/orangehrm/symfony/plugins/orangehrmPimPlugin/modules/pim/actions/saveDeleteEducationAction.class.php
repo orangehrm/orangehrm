@@ -65,8 +65,8 @@ class saveDeleteEducationAction extends basePimAction {
                 }
             }
         }
-
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+        $this->getUser()->setFlash('qualificationSection', 'education');
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#education');
     }
 
     private function getEducation(sfForm $form) {

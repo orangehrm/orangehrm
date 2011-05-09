@@ -74,8 +74,8 @@ class saveDeleteLanguageAction extends basePimAction {
                 }
             }
         }
-
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+        $this->getUser()->setFlash('qualificationSection', 'language');
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#language');
     }
 
     private function getLanguage(sfForm $form) {

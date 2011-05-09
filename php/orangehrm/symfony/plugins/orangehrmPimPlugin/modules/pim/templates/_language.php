@@ -1,4 +1,16 @@
-<div id="languageMessagebar"></div>
+<?php  
+if (($section == 'language') && isset($message) && isset($messageType)) {
+    $tmpMsgClass = "messageBalloon_{$messageType}";
+    $tmpMsg = $message;
+} else {
+    $tmpMsgClass = '';
+    $tmpMsg = '';
+}
+?>
+<div id="languageMessagebar" class="<?php echo $tmpMsgClass; ?>">
+    <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
+</div>                                 
+
 
 <div class="sectionDiv" id="sectionLanguage">
     <div><h3><?php echo __('Languages'); ?></h3></div>

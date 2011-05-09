@@ -45,15 +45,36 @@
                     <td valign="top">
                         <!-- this space is for contents -->
                         <div id="mainDiv">
-                            <div id="mainMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>">
-                                <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+                            <?php  
+                            if (($section == '') && isset($message) && isset($messageType)) {
+                                $tmpMsgClass = "messageBalloon_{$messageType}";
+                                $tmpMsg = $message;
+                            } else {
+                                $tmpMsgClass = '';
+                                $tmpMsg = '';
+                            }
+                            ?>
+                            <div id="mainMessagebar" class="<?php echo $tmpMsgClass; ?>">
+                                <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
                             </div>                            
+                            
                             <div class="outerbox">
                                 <div class="mainHeading"><h2><?php echo __('Qualifications'); ?></h2></div>
 
                                 <!-- this is work experience section -->
-                                <a name="workexperience"/>
-                                <div id="workExpMessagebar"></div>
+                                <a name="workexperience"></a>
+                                <?php  
+                                if (($section == 'workexperience') && isset($message) && isset($messageType)) {
+                                    $tmpMsgClass = "messageBalloon_{$messageType}";
+                                    $tmpMsg = $message;
+                                } else {
+                                    $tmpMsgClass = '';
+                                    $tmpMsg = '';
+                                }
+                                ?>
+                                <div id="workExpMessagebar" class="<?php echo $tmpMsgClass; ?>">
+                                    <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
+                                </div>                                 
                                 
                                 <div class="sectionDiv" id="sectionWorkExperience">
                                     <div><h3><?php echo __('Work Experience'); ?></h3></div>
@@ -147,24 +168,33 @@
 
                                 </div>
                                 <!-- this is education section -->
-                                <a name="education"/>
+                                <a name="education"></a>
                                 <?php include_partial('education',
-                                        array('empNumber'=>$empNumber, 'form'=>$educationForm));?>
+                                        array('empNumber'=>$empNumber, 'form'=>$educationForm,
+                                              'message'=>$message, 'messageType'=>$messageType,
+                                              'section'=>$section));?>
 
                                 <!-- this is skills section -->
-                                <a name="skills"/>
+                                <a name="skill"></a>
                                 <?php include_partial('skill',
-                                        array('empNumber'=>$empNumber, 'form'=>$skillForm));?>
+                                        array('empNumber'=>$empNumber, 'form'=>$skillForm,
+                                              'message'=>$message, 'messageType'=>$messageType,
+                                              'section'=>$section));?>
                                 
                                 <!-- this is Languages section -->
-                                <a name="language"/>
+                                <a name="language"></a>
                                 <?php include_partial('language',
-                                        array('empNumber'=>$empNumber, 'form'=>$languageForm));?>
+                                        array('empNumber'=>$empNumber, 'form'=>$languageForm,
+                                              'message'=>$message, 'messageType'=>$messageType,
+                                              'section'=>$section));?>
 
                                 <!-- this is Licenses section -->
-                                <a name="license"/>
+                                <a name="license"></a>
                                 <?php include_partial('license',
-                                        array('empNumber'=>$empNumber, 'form'=>$licenseForm));?>
+                                        array('empNumber'=>$empNumber, 'form'=>$licenseForm,
+                                              'message'=>$message, 'messageType'=>$messageType,
+                                              'section'=>$section));?>
+                                
                                 <br />
                             </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'qualifications'));?>

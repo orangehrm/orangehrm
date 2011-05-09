@@ -79,16 +79,28 @@ class viewQualificationsAction extends basePimAction {
             $this->redirect($this->getRequest()->getReferer());
             return;
         }
-        
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
+
+        $this->_setMessage();
 
         $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
         $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
         $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
         $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
         $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));        
+    }
+    
+    protected function _setMessage() {
+        $this->section = '';
+        $this->message = '';
+        $this->messageType = '';
+        
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            if ($this->getUser()->hasFlash('qualificationSection')) {
+                $this->section = $this->getUser()->getFlash('qualificationSection');
+            }
+            
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }        
     }
 }
 ?>

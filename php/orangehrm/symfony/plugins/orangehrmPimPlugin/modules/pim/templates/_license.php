@@ -1,4 +1,15 @@
-<div id="licenseMessagebar"></div>
+<?php  
+if (($section == 'license') && isset($message) && isset($messageType)) {
+    $tmpMsgClass = "messageBalloon_{$messageType}";
+    $tmpMsg = $message;
+} else {
+    $tmpMsgClass = '';
+    $tmpMsg = '';
+}
+?>
+<div id="licenseMessagebar" class="<?php echo $tmpMsgClass; ?>">
+    <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
+</div>
 
 <div class="sectionDiv" id="sectionLicense">
     <div><h3><?php echo __('License'); ?></h3></div>

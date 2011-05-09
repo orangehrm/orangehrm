@@ -65,8 +65,8 @@ class saveDeleteSkillAction extends basePimAction {
                 }
             }
         }
-
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+        $this->getUser()->setFlash('qualificationSection', 'skill');
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#skill');
     }
 
     private function getSkill(sfForm $form) {

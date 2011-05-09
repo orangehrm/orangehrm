@@ -66,8 +66,8 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                 }
             }
         }
-
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+        $this->getUser()->setFlash('qualificationSection', 'workexperience');
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#workexperience');
     }
 
     private function getWorkExperience(sfForm $form) {

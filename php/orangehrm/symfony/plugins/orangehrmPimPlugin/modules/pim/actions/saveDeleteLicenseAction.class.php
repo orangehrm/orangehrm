@@ -65,8 +65,8 @@ class saveDeleteLicenseAction extends basePimAction {
                 }
             }
         }
-
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber);
+        $this->getUser()->setFlash('qualificationSection', 'license');
+        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#license');
     }
 
     private function getLicense(sfForm $form) {
