@@ -77,7 +77,7 @@ class EmployeeSkillForm extends sfForm {
     private function _getSkillList() {
         $skillService = new SkillService();
         $skillList = $skillService->getSkillList();
-        $list = array("" => "-- " . __('Select Skill') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($skillList as $skill) {
             $list[$skill->getSkillCode()] = $skill->getSkillName();
