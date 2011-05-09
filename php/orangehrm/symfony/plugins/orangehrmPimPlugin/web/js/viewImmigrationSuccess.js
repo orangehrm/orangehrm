@@ -104,7 +104,10 @@ $(document).ready(function() {
         $("#immigrationHeading").text(lang_addImmigrationHeading);
         $(".paddingLeftRequired").show();
         $("#immigrationDataPane").show();
-        $("#btnAdd").hide();
+        $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
+        $("form#frmImmigrationDelete div.actionbar").hide();
+        removeEditLinks();
+        $("#messagebar").attr("class", "").text('');                
     });
 
     //on clicking cancel button
@@ -118,7 +121,10 @@ $(document).ready(function() {
 
         $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
-        $("#btnAdd").show();
+        $('form#frmImmigrationDelete table.data-table input.checkbox').show();
+        $("form#frmImmigrationDelete div.actionbar").show();
+        addEditLinks();
+        $("#messagebar").attr("class", "").text('');                
     });
 
     //on clicking of delete button
@@ -141,6 +147,43 @@ $(document).ready(function() {
         var dt = value.split("-");
         return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
     });
+    
+     $('form#frmImmigrationDelete td.document a').live('click', function() {
+        var code = $(this).closest("tr").find('input.checkbox:first').val();
+        fillDataToImmigrationDataPane(code);
+        $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
+        $("form#frmImmigrationDelete div.actionbar").hide();
+        $("#messagebar").attr("class", "").text('');        
+     });
+     
+    //if check all button clicked
+    $("#immigrationCheckAll").click(function() {
+        $("form#frmImmigrationDelete table tbody .checkbox").removeAttr("checked");
+        if($("#immigrationCheckAll").attr("checked")) {
+            $("form#frmImmigrationDelete table tbody .checkbox").attr("checked", "checked");
+        }
+    });
+
+    //remove tick from the all button if any checkbox unchecked
+    $("form#frmImmigrationDelete table tbody .checkbox").click(function() {
+        $("#immigrationCheckAll").removeAttr('checked');
+        if($("form#frmImmigrationDelete table tbody .checkbox").length == $("form#frmImmigrationDelete table tbody .checkbox:checked").length) {
+            $("#immigrationCheckAll").attr('checked', 'checked');
+        }
+    });     
+    
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('form#frmImmigrationDelete table tbody td.document').wrapInner('<a href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('form#frmImmigrationDelete table tbody td.document a').each(function(index) {
+            $(this).parent().html($(this).text());
+        });
+    }
+    
 
 });
 
@@ -159,6 +202,5 @@ function fillDataToImmigrationDataPane(seqno) {
 
     $(".paddingLeftRequired").show();
     $("#immigrationHeading").text(lang_editImmigrationHeading);
-    $("#btnAdd").hide();
     $("#immigrationDataPane").show();
 }

@@ -117,7 +117,7 @@
                                     <table width="550" cellspacing="0" cellpadding="0" class="data-table">
                                         <thead>
                                             <tr>
-                                                <td>&nbsp;</td>
+                                                <td class="check"><input type="checkbox" id="immigrationCheckAll" class="checkbox"/></td>
                                                 <td><?php echo __('Document');?></td>
                                                 <td><?php echo __('Document No');?></td>
                                                 <td><?php echo __('Issued By');?></td>
@@ -150,7 +150,7 @@
 
                                                 <!-- end of all data hidden fields -->
                                                 <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $passport->seqno;?>' /></td>
-                                                <td><a href="javascript: fillDataToImmigrationDataPane(<?php echo $passport->seqno;?>);"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
+                                                <td class="document"><a href="#"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
                                                 <td><?php echo $passport->number;?></td>
                                                 <td><?php echo $countries[$passport->country];?></td>
                                                 <td><?php echo $passport_issue_date;?></td>
