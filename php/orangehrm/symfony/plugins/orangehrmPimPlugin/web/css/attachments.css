@@ -25,3 +25,10 @@ input#btnCommentOnly {
 div#parentPaneAttachments td.comments {
     max-width: 200px;
 }
+
+div#parentPaneAttachments table.data-table tbody tr td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    height: 16px;
+}
