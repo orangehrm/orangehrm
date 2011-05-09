@@ -32,3 +32,7 @@ div#parentPaneAttachments table.data-table tbody tr td {
     padding-bottom: 3px;
     height: 16px;
 }
+div#parentPaneAttachments table.data-table tbody tr td.check {
+    width: 30px;
+}
+
