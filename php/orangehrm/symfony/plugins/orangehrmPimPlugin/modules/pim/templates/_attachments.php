@@ -105,10 +105,10 @@ $locRights['delete'] = true;
             </div>
         </div>
         <?php if ($hasAttachments) { ?>
-        <table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblAttachments">
             <thead>
                 <tr>
-                    <td></td>
+                    <td class="check"><input type="checkbox" id="attachmentsCheckAll" class="checkbox"/></td>
                     <td><?php echo __("File Name")?></td>
                     <td><?php echo __("Description")?></td>
                     <td><?php echo __("Size")?></td>
@@ -128,7 +128,7 @@ $locRights['delete'] = true;
             $cssClass = ($row%2) ? 'even' : 'odd';
             ?>
                 <tr class="<?php echo $cssClass;?>">
-                    <td><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
+                    <td class="check"><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
                                value="<?php echo $attachment->attach_id; ?>"/></td>
                     <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
                            href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">                            
@@ -198,6 +198,21 @@ $locRights['delete'] = true;
             
         });
 
+        //if check all button clicked
+        $("#attachmentsCheckAll").click(function() {
+            $("table#tblAttachments tbody input.checkbox").removeAttr("checked");
+            if($("#attachmentsCheckAll").attr("checked")) {
+                $("table#tblAttachments tbody input.checkbox").attr("checked", "checked");
+            }
+        });
+
+        //remove tick from the all button if any checkbox unchecked
+        $("table#tblAttachments tbody input.checkbox").click(function() {
+            $("#attachmentsCheckAll").removeAttr('checked');
+            if($("table#tblAttachments tbody input.checkbox").length == $("table#tblAttachments tbody input.checkbox:checked").length) {
+                $("#attachmentsCheckAll").attr('checked', 'checked');
+            }
+        });
         // Edit a emergency contact in the list
         $('#frmEmpDelAttachments a.editLink').click(function() {
             $("#attachmentsMessagebar").text("").attr('class', "");
@@ -224,6 +239,8 @@ $locRights['delete'] = true;
             $("label.error1col[generated='true']").css('display', 'none');
             $('#attachmentActions').hide();
             
+            $("table#tblAttachments input.checkbox").hide();
+            
             $('h3#attachmentSubHeading').text(lang_EditAttachmentHeading);
             $('#addPaneAttachments').show();
         });
@@ -246,6 +263,9 @@ $locRights['delete'] = true;
             $('h3#attachmentSubHeading').text(lang_AddAttachmentHeading);
             $('#addPaneAttachments').show();
             
+            $("table#tblAttachments input.checkbox").hide();
+            $("table#tblAttachments a.editLink").hide();
+            
             if (hideAttachmentListOnAdd) {
                 $('#frmEmpDelAttachments').hide();
             }
@@ -261,6 +281,8 @@ $locRights['delete'] = true;
             $('#ufile').val('');
             $('#txtAttDesc').val('');
             $('#frmEmpDelAttachments').show();
+            $("table#tblAttachments input.checkbox").show();
+            $("table#tblAttachments a.editLink").show();            
         });
         
         $('#btnDeleteAttachment').click(function() {            

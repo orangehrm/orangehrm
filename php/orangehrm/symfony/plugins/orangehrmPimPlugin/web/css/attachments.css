@@ -32,7 +32,12 @@ div#parentPaneAttachments table.data-table tbody tr td {
     padding-bottom: 3px;
     height: 16px;
 }
-div#parentPaneAttachments table.data-table tbody tr td.check {
+div#parentPaneAttachments table.data-table tr td.check {
     width: 30px;
+    padding: 2px 1px;
 }
 
+div#parentPaneAttachments table.data-table input.checkbox {
+    margin-left: 4px;
+    margin-right: 3px;
+}
