@@ -20,7 +20,7 @@
             <br class="clear"/>
 
             <?php echo $form['year']->renderLabel(__('Year')); ?>
-            <?php echo $form['year']->render(array("class" => "formInputText")); ?>
+            <?php echo $form['year']->render(array("class" => "formInputText", "maxlength" => 4)); ?>
             <br class="clear"/>
 
             <?php echo $form['gpa']->renderLabel(__('GPA/Score')); ?>
