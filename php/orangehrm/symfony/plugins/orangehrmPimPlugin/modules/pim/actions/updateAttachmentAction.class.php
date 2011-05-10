@@ -66,8 +66,8 @@ class updateAttachmentAction extends sfAction {
                 $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
             }
         }
-
-        $this->redirect($this->getRequest()->getReferer());
+       
+        $this->redirect($this->getRequest()->getReferer() . '#attachments');
     }
 
 }

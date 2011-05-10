@@ -49,7 +49,7 @@ class deleteAttachmentsAction extends sfAction {
             }
         }
 
-        $this->redirect($this->getRequest()->getReferer());
+        $this->redirect($this->getRequest()->getReferer(). '#attachments');
     }
 
 }
