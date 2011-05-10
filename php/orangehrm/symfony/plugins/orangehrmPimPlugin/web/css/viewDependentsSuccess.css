@@ -13,6 +13,7 @@ table#dependent_list td.dependentName {
 
 form#frmEmpDependent label {
     position: relative;
+    margin-top: 5px;    
 }
 
 form#frmEmpDependent label label.error {

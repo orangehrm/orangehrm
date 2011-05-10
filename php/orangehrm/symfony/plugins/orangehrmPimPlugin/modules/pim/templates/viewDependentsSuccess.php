@@ -85,7 +85,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     <br class="clear"/>
 
     <?php echo $form['relationshipType']->renderLabel(__('Relationship') . ' <span class="required">*</span>'); ?>
-    <?php echo $form['relationshipType']->render(array("class" => "formInputSelect")); ?>
+    <?php echo $form['relationshipType']->render(array("class" => "formSelect")); ?>
     <br class="clear"/>
 
     <div id="relationshipDesc">
