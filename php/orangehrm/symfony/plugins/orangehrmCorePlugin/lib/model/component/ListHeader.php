@@ -19,6 +19,7 @@ class ListHeader extends ComponentProperty {
     protected $name;
     protected $isSortable;
     protected $sortOrder;
+    protected $sortField;
     protected $elementType;
     protected $elementProperty;
     protected $width;
@@ -49,6 +50,17 @@ class ListHeader extends ComponentProperty {
         } else {
             throw new Exception('Tried to assign an invalid sort order');
         }
+    }
+
+    public function getSortField() {
+        return $this->sortField;
+    }
+    
+    public function setSortField($sortField) {
+        if (is_numeric($sortField)) {
+            throw new Exception('Tried to assign a numeric value to sort field');
+        }
+        $this->sortField = $sortField;
     }
 
     public function getElementType() {

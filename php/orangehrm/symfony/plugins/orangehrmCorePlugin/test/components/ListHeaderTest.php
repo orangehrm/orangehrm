@@ -94,6 +94,32 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $sortOrder = 'abc';
         $this->object->setSortOrder($sortOrder);
     }
+    
+    public function testGetSortField() {
+        $sortField = 'id';
+        $this->object->setSortField($sortField);
+        $this->assertEquals($sortField, $this->object->getSortField());
+    }
+    
+    public function testSetSortField_Default() {
+        $sortField = 'id';
+        $this->object->setSortField($sortField);
+        $this->assertEquals($sortField, $this->object->getSortField());
+    }
+    
+    /**
+     * @expectedException Exception
+     */
+    public function testSetSortField_Numeric() {
+        $this->object->setSortField(123.12);
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testSetSortField_IvalidString() {
+        $this->object->setSortField(123);
+    }
 
     public function testGetElementType() {
         $this->assertEquals('label', $this->object->getElementType());
