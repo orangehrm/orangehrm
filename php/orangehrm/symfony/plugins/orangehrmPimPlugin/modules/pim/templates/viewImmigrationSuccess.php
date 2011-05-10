@@ -82,7 +82,7 @@
                                             <br class="clear" />
 
                                             <?php echo $form['country']->renderLabel(__('Issued By') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $form['country']->render(array("class" => "formInputText")); ?>
+                                            <?php echo $form['country']->render(array("class" => "formSelect")); ?>
                                             <br class="clear" />
 
                                             <?php echo $form['i9_review_date']->renderLabel(__('Eligible Review Date') . '<span class="required">*</span>'); ?>
