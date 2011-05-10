@@ -51,9 +51,19 @@ class updateAttachmentAction extends sfAction {
                 // save data
 
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Attachment Updated Successfully')));                
+                $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment Updated Successfully')));                
             } else {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Attachment Form Validation Failed.')));
+
+                $validationMsg = '';
+                foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
+                    if($this->form[$widgetName]->hasError()) {
+                        $validationMsg .= __($this->form[$widgetName]->getError()->getMessageFormat());
+                    }
+                }
+
+                $this->getUser()->setFlash('attachmentMessage', array('warning', $validationMsg));
+                $this->getUser()->setFlash('attachmentComments', $request->getParameter('txtAttDesc'));
+                $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
             }
         }
 

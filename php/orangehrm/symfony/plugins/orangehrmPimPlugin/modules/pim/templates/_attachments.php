@@ -33,8 +33,8 @@ $locRights['delete'] = true;
 
 ?>
     //--><!]]></script>
-<div id="attachmentsMessagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+<div id="attachmentsMessagebar" class="<?php echo isset($attachmentMessageType) ? "messageBalloon_{$attachmentMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
+    <span style="font-weight: bold;"><?php echo isset($attachmentMessage) ? $attachmentMessage : ''; ?></span>
 </div>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Attachments'); ?></h2></div>
@@ -166,7 +166,9 @@ $locRights['delete'] = true;
     var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
     var lang_PleaseSelectAFile = "<?php echo __("Please select a file");?>";
     var lang_CommentsMaxLength = "<?php echo __("Comment cannot exceed 200 characters in length");?>";
-    var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";  
+
+    var clearAttachmentMessages = true;
     
     $(document).ready(function() {
 
@@ -215,7 +217,9 @@ $locRights['delete'] = true;
         });
         // Edit a emergency contact in the list
         $('#frmEmpDelAttachments a.editLink').click(function() {
-            $("#attachmentsMessagebar").text("").attr('class', "");
+            if (clearAttachmentMessages) {
+                $("#attachmentsMessagebar").text("").attr('class', "");
+            }
             
             attachmentValidator.resetForm();
             
@@ -247,7 +251,9 @@ $locRights['delete'] = true;
 
         // Add a emergency contact
         $('#btnAddAttachment').click(function() {
-            $("#attachmentsMessagebar").text("").attr('class', "");
+            if (clearAttachmentMessages) {
+                $("#attachmentsMessagebar").text("").attr('class', "");
+            }
             $('#seqNO').val('');
             $('#attachmentEditNote').text('');
             $('#txtAttDesc').val('');
@@ -309,6 +315,24 @@ $locRights['delete'] = true;
             $('#commentOnly').val('1');
             $('#frmEmpAttachment').submit();
         });
+        
+<?php if ($attEditPane) { ?>
+        clearAttachmentMessages = false;
+<?php    if ($attSeqNO === false) { ?>
+    
+        $('#btnAddAttachment').trigger('click');
+        
+<?php } else { ?>
+    
+        $('table#tblAttachments input.checkbox[value="<?php echo $attSeqNO;?>"]').
+            closest('tr').find('a.editLink').trigger('click');
+        
+<?php } ?>
+    
+       $('#txtAttDesc').val('<?php echo $attComments;?>');
+        clearAttachmentMessages = true;       
+<?php } ?>
+      
         
     });
     //]]>

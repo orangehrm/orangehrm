@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
 
     //on form loading
-    $(".formInputText").attr("disabled", "disabled");
+    $("form#frmEmpContactDetails .formInputText").attr("disabled", "disabled");
     $(".txtBox").attr("disabled", "disabled");
     $(".drpDown").attr("disabled", "disabled");
     $(".txtBoxSmall").attr("disabled", "disabled");

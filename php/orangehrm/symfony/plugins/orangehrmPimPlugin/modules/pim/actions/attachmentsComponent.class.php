@@ -48,6 +48,34 @@ class attachmentsComponent extends sfComponent {
      */
     public function execute($request) {       
 
+        $this->attEditPane = false;
+        $this->attSeqNO = false;
+        $this->attComments = '';
+        
+        if ($this->getUser()->hasFlash('attachmentMessage')) {  
+
+            list($this->attachmentMessageType, $this->attachmentMessage) = $this->getUser()->getFlash('attachmentMessage');
+                       
+            if ($this->attachmentMessageType == 'warning') {
+                $this->attEditPane = true;
+                if ( $this->getUser()->hasFlash('attachmentComments') ) {
+                    $this->attComments = $this->getUser()->getFlash('attachmentComments');
+                }
+                
+                if ( $this->getUser()->hasFlash('attachmentSeqNo')) {
+                    $tmpNo = $this->getUser()->getFlash('attachmentSeqNo');
+                    $tmpNo = trim($tmpNo);
+                    if (!empty($tmpNo)) {
+                        $this->attSeqNO = $tmpNo;
+                    }
+                }
+            }
+        } else {
+            $this->attachmentMessageType = '';
+            $this->attachmentMessage = '';
+        }
+
+        
         $this->employee = $this->getEmployeeService()->getEmployee($this->empNumber);
         $this->attachmentList = $this->getEmployeeService()->getAttachments($this->empNumber, $this->screen);          
         $this->form = new EmployeeAttachmentForm(array(),  array(), true);  

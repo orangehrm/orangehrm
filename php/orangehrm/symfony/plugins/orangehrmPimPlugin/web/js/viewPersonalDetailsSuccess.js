@@ -61,7 +61,7 @@ $(document).ready(function() {
     });
 
 //on form loading
-    var list = new Array('.formInputText', '#licExpDateBtn', '#dateOfBirthBtn', '#personal_optGender_1', '#personal_optGender_2', '#personal_chkSmokeFlag');
+    var list = new Array('form#frmEmpPersonalDetails .formInputText', '#licExpDateBtn', '#dateOfBirthBtn', '#personal_optGender_1', '#personal_optGender_2', '#personal_chkSmokeFlag');
     for(i=0; i < list.length; i++) {
         $(list[i]).attr("disabled", "disabled");
     }
