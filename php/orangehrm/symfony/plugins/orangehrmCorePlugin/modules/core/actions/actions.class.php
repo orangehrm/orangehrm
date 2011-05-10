@@ -34,7 +34,7 @@ class coreActions extends sfActions {
         );
         $params['data'] = $nationalityService->getNationalityList();
 
-        $this->listParams = $params;
+        $this->parmetersForListCompoment = $params;
     }
 
 }
