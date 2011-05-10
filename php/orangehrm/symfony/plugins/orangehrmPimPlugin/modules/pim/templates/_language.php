@@ -37,7 +37,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
             <br class="clear"/>
             
             <?php echo $form['comments']->renderLabel(__('Comments')); ?>
-            <?php echo $form['comments']->render(array("class" => "formSelect")); ?>
+            <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
             <div class="formbuttons">

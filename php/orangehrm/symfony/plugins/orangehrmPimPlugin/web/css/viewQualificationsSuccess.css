@@ -121,3 +121,7 @@ div#licenseMessagebar {
     margin-left: 16px;
     width: 630px;
 }
+
+label {
+    margin-top: 5px;
+}
