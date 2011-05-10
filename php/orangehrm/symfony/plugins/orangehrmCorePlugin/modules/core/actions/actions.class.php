@@ -2,7 +2,7 @@
 
 class coreActions extends sfActions {
 
-    public function executeIndex(sfWebRequest $request) {
+    public function executeIndex(sfWebRequest $request) {        
         $nationalityService = new NationalityService();
         $defs = sfYaml::load(sfConfig::get('sf_root_dir') . '/plugins/orangehrmCorePlugin/config/list_component.yml');
 
@@ -12,7 +12,8 @@ class coreActions extends sfActions {
         $header1->populateFromArray(array(
             'name' => 'Id',
             'width' => '45%',
-            'isSortable' => false,
+            'isSortable' => true,
+            'sortField' => 'nat_code',
             'elementType' => 'link',
             'elementProperty' => array(
                 'labelGetter' => 'getNatCode',
@@ -23,6 +24,7 @@ class coreActions extends sfActions {
         $header2->populateFromArray(array(
             'name' => 'Name',
             'isSortable' => true,
+            'sortField' => 'nat_name',
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getNatName'),
         ));
@@ -33,6 +35,9 @@ class coreActions extends sfActions {
             $header2,
         );
         $params['data'] = $nationalityService->getNationalityList();
+        
+        $params['currentSortField'] = $request->getParameter('sortField', '');
+        $params['currentSortOrder'] = $request->getParameter('sortOrder', '');
 
         $this->parmetersForListCompoment = $params;
     }

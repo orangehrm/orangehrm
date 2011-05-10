@@ -43,25 +43,15 @@
                     <?php
                     foreach ($columns as $header) {
                         if ($header->isSortable()) {
-                            $nextSortOrder = ($header->getSortOrder() === 'ASC') ? 'DESC' : 'ASC';
+                            $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
+                            $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
+                            
                             $sortOrderStyle = ($header->getSortOrder() == '') ? 'null' : $header->getSortOrder();
 
-                            $actionName = sfContext::getInstance()->getActionName();
+                            $currentModule = sfContext::getInstance()->getModuleName();
+                            $currentAction = sfContext::getInstance()->getActionName();
 
-                            $sortUrl = 'index.php/' .
-                                    sfContext::getInstance()->getModuleName() . '/' .
-                                    $actionName . '/' .
-                                    'sortField/' . 'field' . '/' .
-                                    'sortOrder/' . $nextSortOrder;
-
-                            $request = sfContext::getInstance()->getRequest();
-                            if ($request->isMethod('post') && $request->getParameter('cmbSearchBy', null) !== null) {
-                                $searchBy = $request->getParameter('cmbSearchBy');
-                                $searchFor = $request->getParameter('txtSearchFor');
-                                $sortUrl .= '/isSearch/yes' .
-                                        '/searchBy/' . $request->getParameter('cmbSearchBy') .
-                                        '/searchFor/' . $request->getParameter('txtSearchFor');
-                            }
+                            $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}/sortField/{$header->getSortField()}/sortOrder/{$nextSortOrder}", true);
 
                             $headerCell = new SortableHeaderCell();
                             $headerCell->setProperties(array(
