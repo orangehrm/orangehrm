@@ -41,3 +41,11 @@ div#parentPaneAttachments table.data-table input.checkbox {
     margin-left: 4px;
     margin-right: 3px;
 }
+
+form#frmEmpAttachment label {
+    margin-top: 5px;
+}
+
+form#frmEmpAttachment #txtAttDesc {
+    margin-top: 5px;
+}

@@ -65,7 +65,7 @@ $locRights['delete'] = true;
                 <li>
                     <label class="sizeM"><?php echo __("Comment")?></label>
                     <div class="input_container">
-                        <textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="35" style="margin-top: 10px;" ></textarea>
+                        <textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="35" ></textarea>
                     </div>
                     <div class="clear"></div>
                 </li>
