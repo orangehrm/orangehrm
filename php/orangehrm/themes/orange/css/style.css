@@ -245,16 +245,19 @@ table.data-table thead td {
 	font-weight: bold;
 }
 
-table.data-table thead td a.null {
+table.data-table thead td a.null,
+table.data-table thead th a.null {
 	background: url(../icons/null.png) no-repeat right center;
 	padding-right: 10px;
 }
 
-table.data-table thead td a.ASC {
+table.data-table thead td a.ASC,
+table.data-table thead th a.ASC {
 	background: url(../icons/ASC.png) no-repeat right center;
 	padding-right: 10px;
 }
-table.data-table thead td a.DESC {
+table.data-table thead td a.DESC,
+table.data-table thead th a.DESC {
 	background: url(../icons/DESC.png) no-repeat right center;
 	padding-right: 10px;
 }
