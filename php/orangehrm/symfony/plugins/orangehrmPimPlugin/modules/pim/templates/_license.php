@@ -282,7 +282,8 @@ $(document).ready(function() {
         daymarker.show("#license_renewal_date");
     });
     
-    $('form#frmDelLicense a.edit').click(function() {
+    $('form#frmDelLicense a.edit').click(function(event) {
+        event.preventDefault();
         clearMessageBar();
 
         //changing the headings

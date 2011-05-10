@@ -247,7 +247,8 @@ $(document).ready(function() {
         daymarker.show("#skill_end_date");
     });
     
-    $('form#frmDelSkill a.edit').click(function() {
+    $('form#frmDelSkill a.edit').click(function(event) {
+        event.preventDefault();
         clearMessageBar();
 
         //changing the headings

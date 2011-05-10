@@ -217,7 +217,9 @@ $locRights['delete'] = true;
             }
         });
         // Edit a emergency contact in the list
-        $('#frmEmpDelAttachments a.editLink').click(function() {
+        $('#frmEmpDelAttachments a.editLink').click(function(event) {
+            event.preventDefault();
+            
             if (clearAttachmentMessages) {
                 $("#attachmentsMessagebar").text("").attr('class', "");
             }

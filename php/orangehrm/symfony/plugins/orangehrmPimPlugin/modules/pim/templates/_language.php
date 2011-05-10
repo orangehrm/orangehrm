@@ -227,7 +227,8 @@ $(document).ready(function() {
         $('#static_lang_type').hide().val("");
     });
     
-    $('form#frmDelLanguage a.edit').click(function() {
+    $('form#frmDelLanguage a.edit').click(function(event) {
+        event.preventDefault();
         clearMessageBar();
 
         //changing the headings

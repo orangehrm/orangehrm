@@ -204,4 +204,5 @@ function fillDataToWorkExperienceDataPane(seqno) {
 
     $(".chkbox1").hide();
     $("#workCheckAll").hide();
+    return false;
 }

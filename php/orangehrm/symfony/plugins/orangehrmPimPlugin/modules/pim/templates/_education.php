@@ -299,7 +299,8 @@ $(document).ready(function() {
         daymarker.show("#education_end_date");
     });
     
-    $('form#frmDelEducation a.edit').click(function() {
+    $('form#frmDelEducation a.edit').click(function(event) {
+        event.preventDefault();
         clearMessageBar();
 
         //changing the headings
