@@ -1,4 +1,5 @@
 <?php 
+use_stylesheet('../orangehrmPimPlugin/css/customFields');
 
 if (!empty($customFieldList) && (count($customFieldList) > 0)) {
 $editMode = false;
