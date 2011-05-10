@@ -70,7 +70,7 @@ class saveDeleteLanguageAction extends basePimAction {
                 if (count($languagesToDelete) > 0) {
 
                     $this->getEmployeeService()->deleteLanguage($empNumber, $languagesToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Language Details(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Language Detail(s) Deleted Successfully')));
                 }
             }
         }
