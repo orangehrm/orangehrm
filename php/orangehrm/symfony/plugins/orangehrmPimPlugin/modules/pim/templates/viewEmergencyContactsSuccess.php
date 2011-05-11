@@ -310,17 +310,17 @@ var fileModified = 0;
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Relationship') ?>'
                 },
                 'emgcontacts[homePhone]' : {
-                    phone:'<?php echo __('Home telephone can contains only space, numbers, "+", and "-"'); ?>',
+                    phone:'<?php echo __('Home telephone can contain only space, numbers, "+", and "-"'); ?>',
                     validContactPhone:'<?php echo __("Please specify at least one phone number"); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Home Telephone') ?>'
                 },
                 'emgcontacts[mobilePhone]' : {
-                    phone:'<?php echo __('Mobile can contains only space, numbers, "+", and "-"'); ?>',
+                    phone:'<?php echo __('Mobile can contain only space, numbers, "+", and "-"'); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
 
                 },
                 'emgcontacts[workPhone]' : {
-                    phone:'<?php echo __('Work telephone can contains only space, numbers, "+", and "-"'); ?>',
+                    phone:'<?php echo __('Work telephone can contain only space, numbers, "+", and "-"'); ?>',
                     maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
                 }
             },
