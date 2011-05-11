@@ -106,7 +106,7 @@
                                                         <td colspan="4"><br /> <div class="hrLine" >&nbsp;</div></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><?php echo __("Gender"); ?></td>
+                                                        <td><?php echo __("Gender"); ?><span class="required">*</span></td>
                                                         <td valign="top"><?php echo $form['optGender']->render(); ?> <br class="clear" /></td>
                                                         <td><?php echo __('Marital Status'); ?></td>
                                                         <td><?php echo $form['cmbMarital']->render(array("class" => "formInputText")); ?></td>
