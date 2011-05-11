@@ -193,7 +193,7 @@ var fileModified = 0;
 
     function removeEditLinks() {
         $('#emgcontact_list tbody td.emgContactName a').each(function(index) {
-            $(this).parent().html($(this).text());
+            $(this).parent().text($(this).text());
         });
     }
 

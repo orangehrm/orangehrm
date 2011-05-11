@@ -185,7 +185,7 @@ $(document).ready(function() {
 
     function removeEditLinks() {
         $('form#frmImmigrationDelete table tbody td.document a').each(function(index) {
-            $(this).parent().html($(this).text());
+            $(this).parent().text($(this).text());
         });
     }
     

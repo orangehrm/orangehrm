@@ -206,7 +206,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     function removeEditLinks() {
         $('#dependent_list tbody td.dependentName a').each(function(index) {
-            $(this).parent().html($(this).text());
+            $(this).parent().text($(this).text());
         });
     }
 
