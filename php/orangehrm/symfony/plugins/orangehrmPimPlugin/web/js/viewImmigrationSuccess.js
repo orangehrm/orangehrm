@@ -101,6 +101,7 @@ $(document).ready(function() {
 
     //on clicking of add button
     $("#btnAdd").click(function(){
+        $('div#immigrationDataPane label.error').hide();
         $("#immigrationHeading").text(lang_addImmigrationHeading);
         $(".paddingLeftRequired").show();
         $("#immigrationDataPane").show();
@@ -112,6 +113,8 @@ $(document).ready(function() {
 
     //on clicking cancel button
     $("#btnCancel").click(function() {
+        $('div#immigrationDataPane label.error').hide();
+        
         //clearing all entered values
         var controls = new Array("number", "passport_issue_date", "seqno", "passport_expire_date", "i9_status", "country", "i9_review_date", "comments");
         $("#immigration_type_flag_1").attr("checked", "checked");
@@ -149,6 +152,8 @@ $(document).ready(function() {
     });
     
      $('form#frmImmigrationDelete td.document a').live('click', function() {
+        $('div#immigrationDataPane label.error').hide();
+        
         var code = $(this).closest("tr").find('input.checkbox:first').val();
         fillDataToImmigrationDataPane(code);
         $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
