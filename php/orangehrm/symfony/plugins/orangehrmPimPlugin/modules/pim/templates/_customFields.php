@@ -6,6 +6,7 @@ $editMode = false;
 $allowEdit = true;
 $allowDel = true;
 ?>
+<a name="custom"> </a>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Custom Fields'); ?></h2></div>
 <form name="frmEmpCustomFields" id="frmEmpCustomFields" method="post" 

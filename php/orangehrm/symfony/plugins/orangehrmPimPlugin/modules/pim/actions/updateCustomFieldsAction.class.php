@@ -59,7 +59,7 @@ class updateCustomFieldsAction extends sfAction {
         }                    
 
                     
-        $this->redirect($this->getRequest()->getReferer());
+        $this->redirect($this->getRequest()->getReferer() . '#custom');
     }
 
 }
