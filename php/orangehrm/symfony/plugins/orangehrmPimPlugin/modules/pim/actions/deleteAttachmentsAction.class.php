@@ -45,7 +45,7 @@ class deleteAttachmentsAction extends sfAction {
             if ($attachmentsToDelete) {
                 $service = new EmployeeService();
                 $service->deleteAttachments($empId, $attachmentsToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Attachment(s) Deleted Successfully')));
+                $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment(s) Deleted Successfully')));
             }
         }
 

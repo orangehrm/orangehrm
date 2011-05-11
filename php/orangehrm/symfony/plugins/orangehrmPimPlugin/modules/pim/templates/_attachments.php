@@ -33,7 +33,8 @@ $locRights['delete'] = true;
 
 ?>
     //--><!]]></script>
-<a name="attachments"></a>
+
+<a name="attachments">&nbsp;</a>
 <div id="attachmentsMessagebar" class="<?php echo isset($attachmentMessageType) ? "messageBalloon_{$attachmentMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
     <span style="font-weight: bold;"><?php echo isset($attachmentMessage) ? $attachmentMessage : ''; ?></span>
 </div>
@@ -153,7 +154,6 @@ $locRights['delete'] = true;
         <?php } ?>
     </form>
 
-</div>
 </div>
 </div>
 
