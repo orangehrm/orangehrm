@@ -29,3 +29,7 @@ form#frmEmpEmgContact label label.error {
     padding-top: 5px;
     font-size: 8pt;
 }
+
+label {
+    margin-top: 5px;
+}

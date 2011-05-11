@@ -46,3 +46,7 @@ label.error {
 br.clear1 {
 	clear:left;
 }
+
+label {
+    margin-top: 5px;
+}
