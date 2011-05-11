@@ -82,7 +82,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
                 <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
 
                 <input type="checkbox" class="chkbox" value="<?php echo $language->code . "_" . $language->lang_type;?>" name="delLanguage[]"/></td>
-                <td><a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a></td>
+                <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a></td>
                 <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->lang_type));?></td>
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
                 <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
@@ -114,6 +114,18 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
 
 $(document).ready(function() {
 
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('form#frmDelLanguage table tbody td.name').wrapInner('<a class="edit" href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('form#frmDelLanguage table tbody td.name a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }
+    
     //hide add section
     $("#changeLanguage").hide();
     $("#languageRequiredNote").hide();
@@ -142,7 +154,7 @@ $(document).ready(function() {
     });
 
     $("#addLanguage").click(function() {
-
+        removeEditLinks();
         clearMessageBar();
         $('div#changeLanguage label.error').hide();        
         
@@ -211,7 +223,7 @@ $(document).ready(function() {
 
     $("#btnLanguageCancel").click(function() {
         clearMessageBar();
-
+        addEditLinks();
         languageValidator.resetForm();
         
         $('div#changeLanguage label.error').hide();
@@ -227,7 +239,7 @@ $(document).ready(function() {
         $('#static_lang_type').hide().val("");
     });
     
-    $('form#frmDelLanguage a.edit').click(function(event) {
+    $('form#frmDelLanguage a.edit').live('click', function(event) {
         event.preventDefault();
         clearMessageBar();
 

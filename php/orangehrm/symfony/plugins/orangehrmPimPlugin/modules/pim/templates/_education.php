@@ -163,6 +163,7 @@ $(document).ready(function() {
 
     $("#addEducation").click(function() {
 
+        removeEditLinks();
         clearMessageBar();
         $('div#changeEducation label.error').hide();        
         
@@ -254,10 +255,23 @@ $(document).ready(function() {
 
         }
     });
+    
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('div#tblEducation table tbody td.program').wrapInner('<a class="edit" href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('div#tblEducation table tbody td.program a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }    
 
     $("#btnEducationCancel").click(function() {
         clearMessageBar();
 
+        addEditLinks();
         educationValidator.resetForm();
         
         $('div#changeEducation label.error').hide();
@@ -299,7 +313,7 @@ $(document).ready(function() {
         daymarker.show("#education_end_date");
     });
     
-    $('form#frmDelEducation a.edit').click(function(event) {
+    $('form#frmDelEducation a.edit').live('click', function(event) {
         event.preventDefault();
         clearMessageBar();
 

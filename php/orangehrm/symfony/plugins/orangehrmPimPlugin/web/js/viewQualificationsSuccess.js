@@ -10,6 +10,19 @@ function clearMessageBar() {
 $(document).ready(function() {
     //--this section is for work experience
 
+    
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('form#frmDelWorkExperience table tbody td.name').wrapInner('<a class="edit" href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('form#frmDelWorkExperience table tbody td.name a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }
+    
     //hide add work experience section
     $("#changeWorkExperience").hide();
     $("#workExpRequiredNote").hide();
@@ -39,6 +52,7 @@ $(document).ready(function() {
 
     $("#addWorkExperience").click(function() {
 
+        removeEditLinks();
         clearMessageBar();
 
         //changing the headings
@@ -129,6 +143,7 @@ $(document).ready(function() {
     
     $("#btnWorkExpCancel").click(function() {
         clearMessageBar();
+        addEditLinks();
         
         workExperienceValidator.resetForm();
         
@@ -168,41 +183,48 @@ $(document).ready(function() {
     $('#toDateBtn').click(function() {
         daymarker.show("#experience_to_date");
     });
+    
+    $('form#frmDelWorkExperience table a.edit').live('click', function(event) {
+        event.preventDefault();
+
+        var seqno = $(this).closest("tr").find('input.chkbox1:first').val();
+        clearMessageBar();
+
+        //changing the headings
+        $("#headChangeWorkExperience").text(lang_editWorkExperience);
+
+        $('div#changeWorkExperience label.error').hide();
+
+        //hiding action button section
+        $("#actionWorkExperience").hide();
+
+        //show add work experience form
+        $("#changeWorkExperience").show();
+
+        $("#experience_seqno").val(seqno);
+        $("#experience_employer").val($("#employer_" + seqno).val());
+        $("#experience_jobtitle").val($("#jobtitle_" + seqno).val());
+        $("#experience_from_date").val($("#fromDate_" + seqno).val());
+        $("#experience_to_date").val($("#toDate_" + seqno).val());
+        $("#experience_comments").val($("#comment_" + seqno).val());
+
+        if ($("#experience_from_date").val() == '') {
+            $("#experience_from_date").val(dateDisplayFormat);
+        }
+        if ($("#experience_to_date").val() == '') {
+            $("#experience_to_date").val(dateDisplayFormat);
+        }
+
+        $("#workExpRequiredNote").show();
+
+        $(".chkbox1").hide();
+        $("#workCheckAll").hide();       
+    });
 
 });
 
 function fillDataToWorkExperienceDataPane(seqno) {
 
-    clearMessageBar();
-    
-    //changing the headings
-    $("#headChangeWorkExperience").text(lang_editWorkExperience);
 
-    $('div#changeWorkExperience label.error').hide();
-    
-    //hiding action button section
-    $("#actionWorkExperience").hide();
-
-    //show add work experience form
-    $("#changeWorkExperience").show();
-
-    $("#experience_seqno").val(seqno);
-    $("#experience_employer").val($("#employer_" + seqno).val());
-    $("#experience_jobtitle").val($("#jobtitle_" + seqno).val());
-    $("#experience_from_date").val($("#fromDate_" + seqno).val());
-    $("#experience_to_date").val($("#toDate_" + seqno).val());
-    $("#experience_comments").val($("#comment_" + seqno).val());
-
-    if ($("#experience_from_date").val() == '') {
-        $("#experience_from_date").val(dateDisplayFormat);
-    }
-    if ($("#experience_to_date").val() == '') {
-        $("#experience_to_date").val(dateDisplayFormat);
-    }
-    
-    $("#workExpRequiredNote").show();
-
-    $(".chkbox1").hide();
-    $("#workCheckAll").hide();
     return false;
 }

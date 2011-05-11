@@ -74,7 +74,7 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
                 <input type="hidden" id="comments_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />
 
                 <input type="checkbox" class="chkbox" value="<?php echo $skill->code;?>" name="delSkill[]"/></td>
-                <td><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
+                <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
                 <td><?php echo htmlspecialchars($skill->years_of_exp);?></td>
                 </tr>
                     <?php $row++;
@@ -108,6 +108,19 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
 
 $(document).ready(function() {
 
+    
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('form#frmDelSkill table tbody td.name').wrapInner('<a class="edit" href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('form#frmDelSkill table tbody td.name a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }
+    
     //hide add section
     $("#changeSkill").hide();
     $("#skillRequiredNote").hide();
@@ -137,6 +150,7 @@ $(document).ready(function() {
 
     $("#addSkill").click(function() {
 
+        removeEditLinks();
         clearMessageBar();
         $('div#changeSkill label.error').hide();        
         
@@ -206,6 +220,7 @@ $(document).ready(function() {
 
     $("#btnSkillCancel").click(function() {
         clearMessageBar();
+        addEditLinks();
 
         skillValidator.resetForm();
         
@@ -247,7 +262,7 @@ $(document).ready(function() {
         daymarker.show("#skill_end_date");
     });
     
-    $('form#frmDelSkill a.edit').click(function(event) {
+    $('form#frmDelSkill a.edit').live('click', function(event) {
         event.preventDefault();
         clearMessageBar();
 
