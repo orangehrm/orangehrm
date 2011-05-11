@@ -68,6 +68,13 @@ class customFieldsComponent extends sfComponent {
      */
     public function execute($request) {       
 
+        $this->customFieldsMessageType = '';
+        $this->customFieldsMessage = '';
+        
+        if ($this->getUser()->hasFlash('customFieldsMessage')) {  
+            list($this->customFieldsMessageType, $this->customFieldsMessage) = $this->getUser()->getFlash('customFieldsMessage');
+        }
+        
         $this->employee = $this->getEmployeeService()->getEmployee($this->empNumber);
         $this->customFieldList = $this->getCustomFieldsService()->getCustomFieldList($this->screen);          
         $this->form = new EmployeeCustomFieldsForm(array(),  array('customFields'=>$this->customFieldList), true);  

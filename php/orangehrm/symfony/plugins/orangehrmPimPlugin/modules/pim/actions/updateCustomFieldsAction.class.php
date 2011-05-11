@@ -52,9 +52,9 @@ class updateCustomFieldsAction extends sfAction {
                 // save data
 
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Custom Fields Updated Successfully')));                
+                $this->getUser()->setFlash('customFieldsMessage', array('success', __('Custom Fields Updated Successfully')));                
             } else {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Custom Fields Form Validation Failed.')));
+                $this->getUser()->setFlash('customFieldsMessage', array('warning', __('Custom Fields Form Validation Failed.')));
             }
         }                    
 

@@ -7,6 +7,9 @@ $allowEdit = true;
 $allowDel = true;
 ?>
 <a name="custom"> </a>
+<div id="customFieldsMessagebar" class="<?php echo isset($customFieldsMessageType) ? "messageBalloon_{$customFieldsMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
+    <span style="font-weight: bold;"><?php echo isset($customFieldsMessage) ? $customFieldsMessage : ''; ?></span>
+</div>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Custom Fields'); ?></h2></div>
 <form name="frmEmpCustomFields" id="frmEmpCustomFields" method="post" 
