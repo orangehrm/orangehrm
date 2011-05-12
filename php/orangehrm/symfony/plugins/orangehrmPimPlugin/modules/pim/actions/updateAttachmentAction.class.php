@@ -33,7 +33,7 @@ class updateAttachmentAction extends sfAction {
     public function execute($request) {
         
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $loggedInUserName = "Admin";
+        $loggedInUserName = $_SESSION['fname'];
         
         $this->form = new EmployeeAttachmentForm(array(), 
                 array('loggedInUser' => $loggedInEmpNum,
