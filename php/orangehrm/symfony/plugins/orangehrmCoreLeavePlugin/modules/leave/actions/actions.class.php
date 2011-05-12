@@ -575,6 +575,13 @@ class leaveActions extends sfActions {
         $this->message = $message;
         $this->messageType = $messageType;
         $this->baseUrl = 'leave/viewMyLeaveList';
+        $this->pagingUrl = '@my_leave_request_list';
+
+        $this->pager = new SimplePager('MyLeaveList', sfConfig::get('app_items_per_page'));
+
+        $this->pager->setPage($page);
+        $this->pager->setNumResults($recordCount);
+        $this->pager->init();
 
     }
 

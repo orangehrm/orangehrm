@@ -79,7 +79,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
             <?php if ($pager->haveToPaginate()): ?>
             <div class="pagingbar">
-                <?php include_partial('global/paging_links', array('pager' => $pager, 'url'=>'@leave_request_list'));?>
+                <?php include_partial('global/paging_links', array('pager' => $pager, 'url'=> $pagingUrl));?>
             </div>
             <?php endif; ?>
 
