@@ -74,6 +74,7 @@ $screens = array('personal'=>'Personal Details',
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="../../themes/<?php echo $styleSheet;?>/css/message.css" rel="stylesheet" type="text/css"/>
 <!--[if lte IE 6]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
@@ -98,19 +99,31 @@ $screens = array('personal'=>'Personal Details',
             onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Back;?>" />
         </div>
+        <?php 
+            
+            $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $cssClass = 'messageBalloon_' . $messageType;
+                
+                if ( $message == 'DUP_USERS_FAILURE') {
+                    $message = 'Field Name Is In Use';
+                } else {
+                    $message = "lang_Common_" . $message;
+                    $message = $$message;
+                }
+            } else {
+                $message = '';
+                $cssClass = '';
+            }
+        ?>
+        <div id="messagebar" class="<?php echo $cssClass;?>">
+            <?php echo $message; ?>
+        </div>
+        
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_customeFields_Heading;?></h2></div>
-
-        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
-            if (isset($message)) {
-                $messageType = CommonFunctions::getCssClassForMessage($message);
-                $message = "lang_Common_" . $message;
-        ?>
-            <div class="messagebar">
-                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>
-        <?php } ?>
-
             <form name="frmCustomField" id="frmCustomField" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
                <input type="hidden" name="token" value="<?php echo $token;?>" />
                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>

@@ -70,6 +70,9 @@ $token = $this->popArr['token'];
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
+
+<?php $customFieldsView = ($this->getArr['uniqcode'] == 'CTM'); ?>
+
 <script type="text/javascript">
 //<![CDATA[
 	function nextPage() {
@@ -184,25 +187,57 @@ $token = $this->popArr['token'];
 	}
 //]]>
 </script>
+<?php if ($customFieldsView) { ?>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/message.css" rel="stylesheet" type="text/css"/>
+
+<style type="text/css">
+    
+</style>    
+<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.validate.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.form.js"></script>
+
+<script type="text/javascript" src="../../scripts/jquery/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="../../symfony/web/js/orangehrm.validate.js"></script>
+
+<?php }?>
 </head>
 <body>
+<?php if ($customFieldsView) { 
+        $cssClass = '';
+        $messageText = '';
+        
+        if (isset($this->getArr['message'])) {
+            $expString  = $this->getArr['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
+            $cssClass = 'messageBalloon_' . $messageType;
+            $messageText = $$expString;
+        }
+        ?>
+        <div id="messagebar" class="<?php echo $cssClass;?>">
+            <?php echo $messageText; ?>
+        </div>    
+<?php   
+  } ?>
+    
 <div class="outerbox">
-<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
+<form name="standardView" id="standardViewForm" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
 	<div class="mainHeading"><h2><?php echo $headingInfo[3]; ?></h2></div>
    <input type="hidden" value="<?php echo $token;?>" name="token" />
     <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
     <input type="hidden" name="delState" value="" />
     <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
 
-    <?php
-    if (isset($this->getArr['message'])) {
-        $expString  = $this->getArr['message'];
-        $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
-    ?>
-    <div class="messagebar">
-        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
-    </div>
-    <?php
+    <?php if (!$customFieldsView) { 
+        if (isset($this->getArr['message'])) {
+            $expString  = $this->getArr['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
+        ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+        </div>
+        <?php
+        }
     }
     ?>
 
@@ -238,7 +273,8 @@ $token = $this->popArr['token'];
     <?php
      }
     ?>
-
+<?php $deleteFunction = $customFieldsView ? '' : 'onclick="returnDelete();"'; ?>
+    
     <div class="actionbar">
         <div class="actionbuttons">
         <?php if (!$readOnlyView) { ?>
@@ -248,8 +284,8 @@ $token = $this->popArr['token'];
                 value="<?php echo $lang_Common_Add;?>" />
 
             <?php if($headingInfo[2]==1) { ?>
-                <input type="button" class="plainbtn"
-                <?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
+                <input type="button" class="plainbtn" id="delButton"
+                <?php echo ($locRights['delete']) ? $deleteFunction : 'disabled'; ?>
                     onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                     value="<?php echo $lang_Common_Delete;?>" />
         <?php     }
@@ -373,5 +409,26 @@ $token = $this->popArr['token'];
         }
     -->
 </script>
+<?php if ($customFieldsView) { ?>
+<script type="text/javascript">
+    //<![CDATA[    
+    $('#delButton').click(function(event) {
+        event.preventDefault();
+        
+        if ( $('#standardViewForm input.checkbox:checked').length == 0) {
+            $('#messagebar').text("Please Select At Least One Custom Field To Delete").attr('class', 'messageBalloon_notice');
+        } else {
+            $('#messagebar').text('').attr('class', '');
+            document.standardView.delState.value = 'DeleteMode';
+            document.standardView.pageNO.value=1;
+            document.standardView.submit();                    
+        }
+    });
+    
+    //]]>    
+</script>
+    
+<?php }  ?>
+    
 </body>
 </html>
