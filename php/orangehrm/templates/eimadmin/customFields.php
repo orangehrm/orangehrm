@@ -149,7 +149,7 @@ $screens = array('personal'=>'Personal Details',
                 <label for="txtFieldName"><?php echo $lang_customeFields_FieldName; ?><span class="required">*</span>
                 </label>
                 <input type="text" id="txtFieldName" name="txtFieldName" class="formInputText" <?php echo $disabled;?>
-                    value="<?php echo $customField->getName(); ?>" tabindex="<?php echo $tabIndex++;?>"/>
+                       value="<?php echo CommonFunctions::escapeHtml($customField->getName()); ?>" tabindex="<?php echo $tabIndex++;?>"/>
                 <br class="clear"/>
 
                 <label for="cmbScreen"><?php echo 'Screen'; ?><span class="required">*</span>
@@ -181,7 +181,7 @@ $screens = array('personal'=>'Personal Details',
                 <label id="extraLbl" for="txtExtra"><?php echo $lang_customeFields_SelectOptions; ?> <span class="required">*</span>
                 </label>
                 <input type="text" id="txtExtra" name="txtExtra" tabindex="<?php echo $tabIndex++;?>"
-                    class="formInputText" value="<?php echo $customField->getExtraData();?>" <?php echo $disabled;?>/>
+                    class="formInputText" value="<?php echo CommonFunctions::escapeHtml($customField->getExtraData());?>" <?php echo $disabled;?>/>
                 <div class="fieldHint" id="fieldHint"><?php echo $lang_Admin_CustomeFields_SelectOptionsHint; ?></div>
                 <br class="clear"/>
 

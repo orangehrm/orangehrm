@@ -115,18 +115,19 @@ class CustomFields {
 		if ($this->_isDuplicateName()) {
 			throw new CustomFieldsException("Duplicate name", 1);
 		}
-		
+		$conn = new DMLFunctions();
+                
 		$fields[0] = self::DB_FIELDS_NUM;
 		$fields[1] = self::DB_FIELDS_NAME;
 		$fields[2] = self::DB_FIELDS_TYPE;
                 $fields[3] = self::DB_FIELDS_SCREEN;                
 		$fields[4] = self::DB_FIELDS_EXTRA_DATA;
 
-		$values[0] = $this->fieldNumber;
-		$values[1] = "'{$this->name}'";
-		$values[2] = "'{$this->fieldType}'";
-                $values[3] = "'{$this->screen}'";
-		$values[4] = "'{$this->extraData}'";
+		$values[0] = mysql_real_escape_string($this->fieldNumber);
+		$values[1] = "'" . mysql_real_escape_string($this->name) . "'";
+		$values[2] = "'" . mysql_real_escape_string($this->fieldType) . "'";
+                $values[3] = "'" . mysql_real_escape_string($this->screen) . "'";
+		$values[4] = "'" . mysql_real_escape_string($this->extraData) . "'";
 
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
@@ -135,8 +136,6 @@ class CustomFields {
 		$sqlBuilder->arr_insertfield = $fields;
 
 		$sql = $sqlBuilder->addNewRecordFeature2();
-
-		$conn = new DMLFunctions();
 
 		$result = $conn->executeQuery($sql);
 		if (!$result || (mysql_affected_rows() != 1)) {
@@ -152,20 +151,25 @@ class CustomFields {
 		if ($this->_isDuplicateName(true)) {
 			throw new CustomFieldsException("Duplicate name", 1);
 		}
-		
+		$conn = new DMLFunctions();
+                
 		$fields[0] = self::DB_FIELDS_NUM;
 		$fields[1] = self::DB_FIELDS_NAME;
 		$fields[2] = self::DB_FIELDS_TYPE;
                 $fields[3] = self::DB_FIELDS_SCREEN;                
 		$fields[4] = self::DB_FIELDS_EXTRA_DATA;
 
-
 		$values[0] = $this->fieldNumber;
 		$values[1] = "'{$this->name}'";
 		$values[2] = "'{$this->fieldType}'";
                 $values[3] = "'{$this->screen}'";
 		$values[4] = "'{$this->extraData}'";
-
+		$values[0] = mysql_real_escape_string($this->fieldNumber);
+		$values[1] = "'" . mysql_real_escape_string($this->name) . "'";
+		$values[2] = "'" . mysql_real_escape_string($this->fieldType) . "'";
+                $values[3] = "'" . mysql_real_escape_string($this->screen) . "'";
+		$values[4] = "'" . mysql_real_escape_string($this->extraData) . "'";
+                
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
 		$sqlBuilder->flg_update = 'true';
@@ -174,7 +178,6 @@ class CustomFields {
 
 		$sql = $sqlBuilder->addUpdateRecord1(0);
 
-		$conn = new DMLFunctions();
 		$result = $conn->executeQuery($sql);
 
 		// Here we don't check mysql_affected_rows because update may be called
@@ -352,17 +355,17 @@ class CustomFields {
 	}
 	
 	public function filterExistingCustomFields() {
-
+        $dbConnection = new DMLFunctions();
+        
 		$selectFields[] = self::DB_FIELDS_NUM; 
         $selectFields[] = self::DB_FIELDS_NAME;
 	    $selectTable = self::TABLE_NAME;
 
-        $selectConditions[] = "`".self::DB_FIELDS_NAME. "` = '".$this->getName()."'";	       
+        $selectConditions[] = "`".self::DB_FIELDS_NAME. "` = '".mysql_real_escape_string($this->getName())."'";	       
          
         $sqlBuilder = new SQLQBuilder();
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
          
-        $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($query);
 
         $cnt = 0;
