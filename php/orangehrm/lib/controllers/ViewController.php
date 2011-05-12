@@ -3953,7 +3953,9 @@ class ViewController {
 							if ($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = CustomFields::getCustomField($getArr['id']);
 							} else {
-							    $form_creator ->popArr['editArr'] = new CustomFields();
+                                                            $emptyField = new CustomFields();
+                                                            $emptyField->setFieldType(-1);
+							    $form_creator ->popArr['editArr'] = $emptyField;
 							}
                      $form_creator ->popArr['token'] = $token;
 							break;

@@ -52,6 +52,14 @@ $screens = array('personal'=>'Personal Details',
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.validate.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.form.js"></script>
+
+<script type="text/javascript" src="../../scripts/jquery/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="../../symfony/web/js/orangehrm.validate.js"></script>
+
+    
 <script type="text/javascript">
 //<![CDATA[
 
@@ -61,68 +69,6 @@ $screens = array('personal'=>'Personal Details',
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
 
-    function hideextra() {
-        if (document.frmCustomField.cmbFieldType.value == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
-            $('selectOptions').className = 'show';
-        } else {
-            $('selectOptions').className = 'hide';
-        }
-    }
-
-    function validate() {
-        var err = false;
-        var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
-
-        var name = trim($('txtFieldName').value);
-
-        if (name == '') {
-            err = true;
-            msg += "\t- <?php echo $lang_Admin_CustomeFields_PleaseSpecifyCustomFieldName; ?>\n";
-        }
-
-        if ($('cmbFieldType').value == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
-            if (trim($('txtExtra').value) == '') {
-                err = true;
-                msg += "\t- <?php echo $lang_Admin_CustomeFields_PleaseSpecifySelectOptions; ?>\n";
-            }
-        }
-
-        if (err) {
-            alert(msg);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    function resetForm() {
-        $('frmCustomField').reset();
-        hideextra();
-    }
-
-    function edit() {
-
-<?php if($locRights['edit']) { ?>
-        if (editMode) {
-            if (validate()) {
-                $('frmCustomField').submit();
-            }
-            return;
-        }
-        editMode = true;
-        var frm = $('frmCustomField');
-
-        for (var i=0; i < frm.elements.length; i++) {
-            frm.elements[i].disabled = false;
-        }
-        $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').className = "savebutton";
-
-<?php } else {?>
-        alert('<?php echo $lang_Common_AccessDenied;?>');
-<?php } ?>
-    }
 
 //]]>
 </script>
@@ -134,6 +80,15 @@ $screens = array('personal'=>'Personal Details',
 <!--[if IE]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
+<style type="text/css">
+    div.error {
+        margin-left: 150px;
+        color: red;
+    }
+    div.fieldHint {
+        width: 150px;
+    }
+</style>
 </head>
 
 <body>
@@ -187,7 +142,8 @@ $screens = array('personal'=>'Personal Details',
                 <label for="cmbScreen"><?php echo 'Screen'; ?><span class="required">*</span>
                 </label>
                 <select name="cmbScreen" id="cmbScreen" class="formSelect" tabindex="<?php echo $tabIndex++;?>"
-                        onchange="hideextra();" <?php echo $disabled;?>>
+                         <?php echo $disabled;?>>
+                    <option value="">-- Select --</option>
                     <?php foreach ($screens as $key=>$screen) {
                             $selected = ($customField->getScreen() == $key)? 'selected="selected"' : '';
                     ?>
@@ -196,11 +152,11 @@ $screens = array('personal'=>'Personal Details',
                 </select>
                 <br class="clear"/>
 
-                
                 <label for="cmbFieldType"><?php echo $lang_customeFields_Type; ?><span class="required">*</span>
                 </label>
                 <select name="cmbFieldType" id="cmbFieldType" class="formSelect" tabindex="<?php echo $tabIndex++;?>"
-                        onchange="hideextra();" <?php echo $disabled;?>>
+                       <?php echo $disabled;?>>
+                        <option value="">-- Select --</option>
                     <?php foreach ($fieldTypes as $key=>$fieldType) {
                             $selected = ($customField->getFieldType() == $key)? 'selected="selected"' : '';
                     ?>
@@ -209,24 +165,19 @@ $screens = array('personal'=>'Personal Details',
                 </select>
                 <br class="clear"/>
 
-                <div id="selectOptions" class="<?php echo $extraClass; ?>">
-                <label for="txtExtra"><?php echo $lang_customeFields_SelectOptions; ?> <span class="required">*</span>
+                <label id="extraLbl" for="txtExtra"><?php echo $lang_customeFields_SelectOptions; ?> <span class="required">*</span>
                 </label>
                 <input type="text" id="txtExtra" name="txtExtra" tabindex="<?php echo $tabIndex++;?>"
                     class="formInputText" value="<?php echo $customField->getExtraData();?>" <?php echo $disabled;?>/>
-                <div class="fieldHint"><?php echo $lang_Admin_CustomeFields_SelectOptionsHint; ?></div>
-                </div>
+                <div class="fieldHint" id="fieldHint"><?php echo $lang_Admin_CustomeFields_SelectOptionsHint; ?></div>
                 <br class="clear"/>
 
                 <div class="formbuttons">
 <?php if($locRights['edit']) { ?>
                     <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
-                        onclick="edit();" tabindex="<?php echo $tabIndex++;?>"
+                        tabindex="<?php echo $tabIndex++;?>"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="resetForm();" tabindex="<?php echo $tabIndex++;?>"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                         value="<?php echo $lang_Common_Reset;?>" />
 <?php } ?>
                 </div>
             </form>
@@ -240,6 +191,99 @@ $screens = array('personal'=>'Personal Details',
         </script>
         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     </div>
+<script type="text/javascript">
+//<![CDATA[
+
+$(document).ready(function() {
+    hideextra();
+    
+    function hideextra() {
+        if (document.frmCustomField.cmbFieldType.value == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+            $('#extraLbl, #fieldHint').show();
+            $('#txtExtra').show();
+        } else {
+            $('#extraLbl, #fieldHint').hide();
+            $('#txtExtra').hide();
+        }
+    }
+    
+    $('#editBtn').click(function() {
+        
+        
+
+<?php if($locRights['edit']) { ?>
+        if (editMode) {
+            $("#frmCustomField").submit();
+        } else {
+        editMode = true;
+        var frm = $('#frmCustomField').get(0);
+
+        for (var i=0; i < frm.elements.length; i++) {
+            frm.elements[i].disabled = false;
+        }
+        
+        $('#editBtn').val("<?php echo $lang_Common_Save; ?>");
+        $('#editBtn').attr('title', "<?php echo $lang_Common_Save; ?>");
+        $('#editBtn').attr('class', "savebutton");
+      }
+<?php } else {?>
+        alert('<?php echo $lang_Common_AccessDenied;?>');
+<?php } ?>
+    });
+    
+    /* Valid From Date */
+    $.validator.addMethod("validateExtra", function(value, element) {
+
+        if ($('#cmbFieldType').val() == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+            var extraVal = $.trim($('#txtExtra').val());
+            var len = extraVal.length;
+            if (len == 0) {
+                return false;
+            }            
+        }
+        return true;
+    });
+    
+    //form validation
+    var formValidator =
+        $("#frmCustomField").validate({
+        rules: {
+            'txtFieldName': {required: true},
+            'cmbFieldType': {required: true},
+            'cmbScreen': {required: true},
+            'txtExtra': {validateExtra: true}
+        },
+        messages: {
+            'txtFieldName': {required: '<?php echo $lang_Admin_CustomeFields_PleaseSpecifyCustomFieldName; ?>'},
+            'cmbFieldType': {required: 'Please select a field type'},
+            'cmbScreen': {required: 'Please select a screen'},
+            'txtExtra' : {validateExtra: '<?php echo $lang_Admin_CustomeFields_PleaseSpecifySelectOptions; ?>'}
+        },
+
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.next(".clear"));
+            error.insertAfter(element.next().next(".clear"));
+
+        }
+    });
+    
+    $('#cmbFieldType').change(function() {
+        hideextra();        
+        formValidator.element('#cmbFieldType');
+        
+        var alreadyValidated = $("div.error").length;
+        
+        if ((alreadyValidated > 0) || ($('#cmbFieldType').val() !=  <?php echo CustomFields::FIELD_TYPE_SELECT;?>) ) {
+            formValidator.element('#txtExtra');
+        }
+    });    
+
+});
+
+//]]>
+</script>
+    
 </body>
 </html>
 
