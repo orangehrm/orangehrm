@@ -160,31 +160,6 @@ class LeaveListForm extends sfForm {
         return $this->list;
     }
 
-    public function getPageLinks($baseUrl, $currentPage = 1, $recordCount = 0) {
-
-        $limit = 50;
-
-        if ($recordCount < $limit) {
-            return '';
-        }
-
-        $noOfPages = ceil($recordCount / $limit);
-        $baseUrl = url_for($baseUrl) . '/page';
-        $prevPage = $currentPage - 1;
-        $nextPage = $currentPage + 1;
-
-        $html = ($prevPage <= 0) ? 'Prev' : "<a href=\"{$baseUrl}/{$prevPage}\">Prev</a>";
-
-        for ($i = 1; $i <= $noOfPages; $i++) {
-            $html .= ($i == $currentPage) ? "\n{$i}" : "\n<a href=\"{$baseUrl}/{$i}\">{$i}</a>";
-        }
-
-        $html .= ($nextPage > $noOfPages) ? 'Next' : "<a href=\"{$baseUrl}/{$nextPage}\">Next</a>";
-
-        return $html;
-
-    }
-
     public function isPaginated() {
         return ($this->mode == self::MODE_DEFAULT_LIST || $this->mode == self::MODE_MY_LEAVE_LIST);
     }

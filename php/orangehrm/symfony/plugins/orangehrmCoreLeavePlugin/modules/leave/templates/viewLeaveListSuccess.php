@@ -76,9 +76,13 @@ $searchActionButtons = $form->getSearchActionButtons();
 
     <?php if ($form->isPaginated()) { ?>
     <div class="navigationHearder">
-        <div class="pagingbar">
-            <?php echo $form->getPageLinks($baseUrl, $page, $recordCount); ?>
-        </div>
+
+            <?php if ($pager->haveToPaginate()): ?>
+            <div class="pagingbar">
+                <?php include_partial('global/paging_links', array('pager' => $pager, 'url'=>'@leave_request_list'));?>
+            </div>
+            <?php endif; ?>
+
         <br class="clear" />
     </div>
     <?php } ?>

@@ -122,13 +122,16 @@ class viewLeaveListAction extends sfAction {
             $list = $result['list'];
             $recordCount = $result['meta']['record_count'];
 
-            $this->page = $page;
-            $this->recordCount = $recordCount;
-
             if ($recordCount == 0 && $request->isMethod("post")) {
                 $message = 'No Records Found';
                 $messageType = 'notice';
             }
+
+            $this->pager = new SimplePager('LeaveList', sfConfig::get('app_items_per_page'));
+
+            $this->pager->setPage($page);
+            $this->pager->setNumResults($recordCount);
+            $this->pager->init();
 
         } else {
 

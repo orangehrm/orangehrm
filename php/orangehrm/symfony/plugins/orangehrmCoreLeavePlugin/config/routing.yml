@@ -1,0 +1,5 @@
+leave_request_list:
+  url:   /leave/viewLeaveList/*
+  param: { module:leave, action: viewLeaveList }
+  with_wildcard_routes: true
+
