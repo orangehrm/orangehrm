@@ -112,7 +112,7 @@ class TestDataService {
         self::_disableConstraints();
 
         foreach (self::$tableNames as $tableName) {
-            $db->query("TRUNCATE TABLE $tableName");
+            $db->query("DELETE FROM $tableName");
             self::adjustUniqueId($tableName, 0);
         }
 
