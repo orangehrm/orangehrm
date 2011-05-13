@@ -94,11 +94,6 @@ $screens = array('personal'=>'Personal Details',
 
 <body>
     <div class="formpage">
-        <div class="navigation">
-            <input type="button" class="savebutton"
-            onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-            value="<?php echo $lang_Common_Back;?>" />
-        </div>
         <?php 
             
             $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
@@ -190,8 +185,9 @@ $screens = array('personal'=>'Personal Details',
                     <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
                         tabindex="<?php echo $tabIndex++;?>"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
+                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />                    
 <?php } ?>
+                    <input type="button" class="cancelbutton" id="btnCancel" value="<?php echo $lang_Common_Cancel; ?>" />                    
                 </div>
             </form>
         </div>
@@ -204,6 +200,7 @@ $screens = array('personal'=>'Personal Details',
         </script>
         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     </div>
+
 <script type="text/javascript">
 //<![CDATA[
 
@@ -242,6 +239,11 @@ $(document).ready(function() {
 <?php } else {?>
         alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
+    });
+    
+    $('#btnCancel').click(function(event) {
+        event.preventDefault();
+        goBack();
     });
     
     /* Valid From Date */

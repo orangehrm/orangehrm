@@ -189,15 +189,23 @@ $token = $this->popArr['token'];
 </script>
 <?php if ($customFieldsView) { ?>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/message.css" rel="stylesheet" type="text/css"/>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css"/>
 
 <style type="text/css">
-    
+div.dialogButtons {
+    margin-top: 20px;
+    text-align: center;
+    vertical-align: bottom;
+}
 </style>    
 <script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
 <script type="text/javascript" src="../../scripts/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="../../scripts/jquery/jquery.form.js"></script>
 
 <script type="text/javascript" src="../../scripts/jquery/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/ui/ui.core.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/ui/ui.dialog.js"></script>
+
 <script type="text/javascript" src="../../symfony/web/js/orangehrm.validate.js"></script>
 
 <?php }?>
@@ -410,21 +418,52 @@ $token = $this->popArr['token'];
     -->
 </script>
 <?php if ($customFieldsView) { ?>
+<!-- confirmation box -->
+<div id="deleteConfirmation" title="OrangeHRM - Confirmation Required" style="display: none;">
+    "Are you sure you want to delete selected custom field(s)?
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo $lang_Common_Delete;?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo $lang_Common_Cancel;?>" />
+    </div>
+</div>
+
+    
 <script type="text/javascript">
     //<![CDATA[    
     $('#delButton').click(function(event) {
         event.preventDefault();
         
-        if ( $('#standardViewForm input.checkbox:checked').length == 0) {
+        var checked = $('#standardViewForm input.checkbox:checked').length;
+        
+        if ( checked == 0) {
             $('#messagebar').text("Please Select At Least One Custom Field To Delete").attr('class', 'messageBalloon_notice');
         } else {
-            $('#messagebar').text('').attr('class', '');
-            document.standardView.delState.value = 'DeleteMode';
-            document.standardView.pageNO.value=1;
-            document.standardView.submit();                    
+            $('#messagebar').text('').attr('class', '');            
+            $('#deleteConfirmation').dialog('open');
+            return false;
         }
     });
-    
+
+    $("#deleteConfirmation").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 325,
+        height: 50,
+        position: 'middle',
+        open: function() {
+          $('#dialogCancelBtn').focus();
+        }
+    });
+
+    $('#dialogDeleteBtn').click(function() {
+        document.standardView.delState.value = 'DeleteMode';
+        document.standardView.pageNO.value=1;
+        document.standardView.submit();  
+    });
+    $('#dialogCancelBtn').click(function() {
+        $("#deleteConfirmation").dialog("close");
+    });
+        
     //]]>    
 </script>
     
