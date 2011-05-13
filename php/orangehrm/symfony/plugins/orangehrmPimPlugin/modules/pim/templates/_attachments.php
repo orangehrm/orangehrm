@@ -336,7 +336,14 @@ $locRights['delete'] = true;
         clearAttachmentMessages = true;       
 <?php } ?>
       
-        
+ 
+    //
+    // Scroll to bottom if neccessary. Works around issue in IE8 where
+    // using the <a name="attachments" is not sufficient
+    //
+<?php  if ($scrollToAttachments) { ?>
+        window.scrollTo(0, $(document).height());
+<?php } ?>
     });
     //]]>
 </script>

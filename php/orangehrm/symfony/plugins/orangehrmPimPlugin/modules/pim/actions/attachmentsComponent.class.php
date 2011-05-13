@@ -51,9 +51,12 @@ class attachmentsComponent extends sfComponent {
         $this->attEditPane = false;
         $this->attSeqNO = false;
         $this->attComments = '';
+        $this->scrollToAttachments = false;
         
         if ($this->getUser()->hasFlash('attachmentMessage')) {  
-
+            
+            $this->scrollToAttachments = true;
+            
             list($this->attachmentMessageType, $this->attachmentMessage) = $this->getUser()->getFlash('attachmentMessage');
                        
             if ($this->attachmentMessageType == 'warning') {
