@@ -17,6 +17,13 @@
             <br class="clear" />
         </div>
 
+        <?php if ($pager->haveToPaginate()) { ?>
+        <div class="navigationHearder">
+            <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>
+            <br class="clear" />
+        </div>
+        <?php } ?>
+
         <table style="border-collapse: collapse; width: 100%; text-align: left;" class="data-table">
             <colgroup>
                 <?php if ($hasSelectableRows) { ?>
@@ -46,7 +53,8 @@
                             $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
                             $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
                             
-                            $sortOrderStyle = ($header->getSortOrder() == '') ? 'null' : $header->getSortOrder();
+                            $sortOrderStyle = ($currentSortOrder == '') ? 'null' : $currentSortOrder;
+                            $sortOrderStyle = ($currentSortField == $header->getSortField()) ? $sortOrderStyle : 'null';
 
                             $currentModule = sfContext::getInstance()->getModuleName();
                             $currentAction = sfContext::getInstance()->getActionName();

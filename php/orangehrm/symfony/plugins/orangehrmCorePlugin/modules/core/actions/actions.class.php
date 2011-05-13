@@ -38,6 +38,31 @@ class coreActions extends sfActions {
         
         $params['currentSortField'] = $request->getParameter('sortField', '');
         $params['currentSortOrder'] = $request->getParameter('sortOrder', '');
+        
+        $recordsLimit = 10;
+
+        if ($request->isMethod('post')) {
+
+            if ($request->getParameter('hdnAction') == 'search') {
+                $this->pageNo = 1;
+            } elseif ($request->getParameter('pageNo')) {
+                $this->pageNo = $request->getParameter('pageNo');
+            }
+
+        } else {
+            $this->pageNo = 1;
+        }
+
+
+        $pager = new SimplePager('Nationality', $recordsLimit);
+        $pager->setPage($this->pageNo);
+        $pager->setNumResults($this->recordsCount);
+        $pager->init();
+        $params['pager'] = $pager;
+
+        $offset = $pager->getOffset();
+        $offset = empty($offset)?0:$offset;
+        $params['offset'] = $offset;
 
         $this->parmetersForListCompoment = $params;
     }

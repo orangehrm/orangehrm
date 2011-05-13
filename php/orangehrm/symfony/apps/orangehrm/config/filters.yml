@@ -2,8 +2,8 @@ rendering: ~
 security:  ~
 
 # insert your own filters here
-exceptionCatcherFilter:
-  class: ExceptionCatcherFilter
+#exceptionCatcherFilter:
+#  class: ExceptionCatcherFilter
 i18nFilter:
   class: OrangeI18NFilter
 
