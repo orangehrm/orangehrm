@@ -180,18 +180,6 @@ USRSQL;
          	return;
       	}
 
-      	$query = <<< USRSQL
-set password for "$dbOHRMUser"@"localhost"
- = old_password('$dbOHRMPassword');
-USRSQL;
-
-		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
-      		if (!@mysql_query($query)) {
-        		$_SESSION['error'] = mysql_error() or die();
-         		return;
-      		}
-		}
-
 	  	$dbName = $_SESSION['dbInfo']['dbName'];
 	  	$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
@@ -208,17 +196,6 @@ USRSQL;
          	return;
       	}
 
-      	$query = <<< USRSQL
-set password for "$dbOHRMUser"@"%"
- = old_password('$dbOHRMPassword');
-USRSQL;
-
-		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
-      		if(!@mysql_query($query)) {
-         		$_SESSION['error'] = mysql_error() or die();
-         		return;
-      		}
-		}
 	}
 
 }
