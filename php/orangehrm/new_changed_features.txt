@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.6.4
+
+	New Features
+	------------
+    "Work Experience", "Education", "Skills", "Languages" and "License" all under one screen called "Qualifications".
+    Photograph moved into left side of PIM screens.
+    Custom fields per each PIM screen.
+    Attachments per each PIM screen.
+
 New & Changed Features for OrangeHRM ver 2.6.3
 
 	New Features
