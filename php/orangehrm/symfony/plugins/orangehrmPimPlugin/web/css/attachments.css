@@ -49,3 +49,7 @@ form#frmEmpAttachment label {
 form#frmEmpAttachment #txtAttDesc {
     margin-top: 5px;
 }
+
+div#addPaneAttachments div.input_container label.error {
+    margin-left: 0px;
+}
