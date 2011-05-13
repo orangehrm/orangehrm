@@ -670,7 +670,7 @@ if ($arrAllRights[Recruit]['view']) {
 
 /* Performance menu start */
 
-$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=eim&uri=performance/viewReview/mode/new");
+$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
 $menuItem->setCurrent($_GET['menu_no_top']=="perform");
 $enablePerformMenu = false;
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="perform") && isset($_GET['reqcode']) && $arrRights['view'] )  {
