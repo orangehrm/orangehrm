@@ -243,6 +243,70 @@ $(document).ready(function() {
         
         $('div#job_spec_details').toggle();
     });
+    
+    /*
+     * Ajax call to fetch job specification for selected job
+     */
+    $("#job_job_title").change(function() {
+
+        var jobTitle = this.options[this.selectedIndex].value;
+
+        // don't check if not selected
+        if (jobTitle == '0') {
+            $("#job_spec_name").text('');
+            $("#job_spec_desc").text('');
+            $("#job_spec_duties").text('');
+            $("#job_emp_status").html("<option value=''>-- <?php echo __("Select")?> --</option>");
+            return;
+        }
+
+        var specUrl = '<?php echo url_for('admin/getJobSpecJson?job=');?>' + jobTitle;
+
+        $.getJSON(specUrl, function(data) {
+
+            var name = "";
+            var desc = "";
+            var duties = "";
+
+            if (data) {
+                name = data.jobspec_name;
+                duties = data.jobspec_duties;
+                desc =  data.jobspec_desc;
+            }
+            $("#job_spec_name").text(name);
+            $("#job_spec_desc").text(desc);
+            $("#job_spec_duties").text(duties);
+        })
+
+        // Note: it be more efficient if these 2 ajax calls were combined.
+        var empStatusUrl = '<?php echo url_for('admin/getEmpStatusesJson?job=');?>' + jobTitle;
+
+        $.getJSON(empStatusUrl, function(data) {
+
+            $("#job_emp_status").html("<option value=''>-- <?php echo __("Select")?> --</option>");
+            if (data) {
+                var statusCount = data.length;
+                var cmbJobTitle = $('#job_job_title').get(0);
+                var jobTitle = cmbJobTitle.options[cmbJobTitle.selectedIndex].value;
+
+                for (var i = 0; i < statusCount; i++) {
+                    var status = data[i];
+                    var selected = '';
+
+                    // This restores current employee status
+                    if ((jobTitle == '<?php echo $form->getValue('job_title');?>') &&
+                        (status.id == '<?php echo $form->getValue('emp_status');?>') ) {
+                        selected = "selected='selected'";
+                    }
+
+                    $("#job_emp_status").append("<option value='" + status.id + "' " + selected + ">" + status.name + "</option>");
+                }
+            }
+
+        })
+
+    });
+        
 });
 
 //]]>

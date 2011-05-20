@@ -2430,7 +2430,59 @@ class adminActions extends sfActions {
 
     }
     
-    
+	/**
+	 * Get JobSpecification for given jobTitle
+	 *
+	 * @param sfWebRequest $request
+	 * @return JSON formatted JobSpec object
+	 */
+	public function executeGetJobSpecJson(sfWebRequest $request) {
+		$this->setLayout(false);
+		sfConfig::set('sf_web_debug', false);
+		sfConfig::set('sf_debug', false);
+
+		$jobSpec = array();
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$this->getResponse()->setHttpHeader('Content-Type','application/json; charset=utf-8');
+		}
+
+		$jobId = $request->getParameter('job');
+		 
+		if (!empty($jobId)) {
+			$jobService = new JobService();
+			$jobSpec = $jobService->getJobSpecForJob($jobId, true);
+		}
+
+		return $this->renderText(json_encode($jobSpec));
+	}
+
+	/**
+	 * Get employee statuses for given jobTitle
+	 *
+	 * @param sfWebRequest $request
+	 * @return JSON formatted JobSpec object
+	 */
+	public function executeGetEmpStatusesJson(sfWebRequest $request) {
+		$this->setLayout(false);
+		sfConfig::set('sf_web_debug', false);
+		sfConfig::set('sf_debug', false);
+
+		$empStatuses = array();
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$this->getResponse()->setHttpHeader('Content-Type','application/json; charset=utf-8');
+		}
+
+		$jobId = $request->getParameter('job');
+
+		if (!empty($jobId)) {
+			$jobService = new JobService();
+			$empStatuses = $jobService->getEmployeeStatusForJob($jobId, true);
+		}
+
+		return $this->renderText(json_encode($empStatuses));
+	}    
     
     
     

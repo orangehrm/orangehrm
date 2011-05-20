@@ -24,6 +24,7 @@ div#job_spec_desc, div#job_spec_duties, div#job_spec_name {
    margin-top: 5px;
    border: 1px solid #888888;
    padding: 1px 4px;
+   min-height: 16px;
 }
 
 a#viewDetailsLink {

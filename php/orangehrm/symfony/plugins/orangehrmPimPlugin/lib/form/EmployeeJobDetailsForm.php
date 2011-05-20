@@ -36,10 +36,11 @@ class EmployeeJobDetailsForm extends BaseForm {
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getOption('employee');
         $this->fullName = $employee->getFullName();
+
+        $jobTitleId = $employee->job_title_code;         
+        $jobTitles = $this->_getJobTitles($jobTitleId);
         
-        $jobTitles = $this->_getJobTitles();
-        
-        $jobTitleId = $employee->job_title_code;  
+ 
         $employeeStatuses = $this->_getEmpStatuses($jobTitleId);
 
         
@@ -186,13 +187,15 @@ class EmployeeJobDetailsForm extends BaseForm {
         return $employee;
     }
     
-    private function _getJobTitles() {
+    private function _getJobTitles($jobTitleId) {
         $jobService = new JobService();
         $jobList = $jobService->getJobTitleList();
         $choices = array('' => '-- ' . __('Select') . ' --');
 
         foreach ($jobList as $job) {
-            $choices[$job->getId()] = $job->getName();
+            if ($job->isActive || ($job->getId() == $jobTitleId)) {
+                $choices[$job->getId()] = $job->getName();
+            }
         }
         return $choices;
     }
