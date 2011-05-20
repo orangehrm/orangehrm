@@ -1,4 +1,5 @@
 <?php
+
 require_once 'PHPUnit/Framework.php';
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,10 +18,10 @@ require_once 'PHPUnit/Framework.php';
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-require_once  sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
 class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
+
     private $testCase;
     private $employeeDao;
 
@@ -51,7 +52,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeDao->saveEmployeePassport($empPassport);
         $this->assertTrue($result);
         $this->assertEquals(1, $empPassport->seqno);
-
     }
 
     /**
@@ -62,8 +62,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empPassport = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
         $empNumbers = array(1 => 1, 2 => 2);
 
-        foreach($empPassport as $passport) {
-            
+        foreach ($empPassport as $passport) {
+
             $this->assertTrue($passport instanceof EmpPassPort);
             $this->assertEquals($empNumbers[$passport->getEmpNumber()], $passport->getEmpNumber());
             $comment = "I add more comments";
@@ -74,7 +74,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
             $savedPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
             $this->assertEquals($comment, $savedPassport->comments);
             $this->assertEquals($savedPassport, $passport);
-
         }
     }
 
@@ -85,15 +84,13 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
 
-        foreach($empPassports as $passport) {
+        foreach ($empPassports as $passport) {
 
             $empPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
             $this->assertEquals($passport, $empPassport);
-
         }
-
     }
-    
+
     /**
      * Test saving getEmployeePassport returns Collection
      */
@@ -101,13 +98,19 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
 
-        foreach($empPassports as $passport) {
+        foreach ($empPassports as $passport) {
 
             $collection = $this->employeeDao->getEmployeePassport($passport->getEmpNumber());
             $this->assertTrue($collection instanceof Doctrine_Collection);
-            
         }
-        
     }
+    
+    /**
+     * Test for getEmployeeTaxExemptions returns Object
+     */
+     public function testGetEmployeeTaxExemptions(){
+         $empTaxExemption = TestDataService::fetchObject('EmpUsTaxExemption', 1);
+         $taxObject = $this->employeeDao->getEmployeeTaxExemptions($empTaxExemption->getEmpNumber());
+         $this->assertTrue($taxObject instanceof EmpUsTaxExemption);
+     }
 }
-?>

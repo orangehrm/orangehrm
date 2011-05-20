@@ -74,6 +74,7 @@
  * @property Doctrine_Collection $EmpJobtitleHistory
  * @property Doctrine_Collection $EmpLocationHistory
  * @property Doctrine_Collection $EmpSubdivisionHistory
+ * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $EmpChildren
@@ -158,6 +159,7 @@
  * @method Doctrine_Collection getEmpJobtitleHistory()       Returns the current record's "EmpJobtitleHistory" collection
  * @method Doctrine_Collection getEmpLocationHistory()       Returns the current record's "EmpLocationHistory" collection
  * @method Doctrine_Collection getEmpSubdivisionHistory()    Returns the current record's "EmpSubdivisionHistory" collection
+ * @method Doctrine_Collection getEmpUsTaxExemption()        Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
@@ -241,6 +243,7 @@
  * @method Employee            setEmpJobtitleHistory()       Sets the current record's "EmpJobtitleHistory" collection
  * @method Employee            setEmpLocationHistory()       Sets the current record's "EmpLocationHistory" collection
  * @method Employee            setEmpSubdivisionHistory()    Sets the current record's "EmpSubdivisionHistory" collection
+ * @method Employee            setEmpUsTaxExemption()        Sets the current record's "EmpUsTaxExemption" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
@@ -569,6 +572,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('EmpSubdivisionHistory', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
+
+        $this->hasMany('EmpUsTaxExemption', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
 
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',

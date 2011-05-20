@@ -212,5 +212,23 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($readEmpPassport instanceof EmpPassport);
 
     }
+
+    /**
+     * Test getEmployeeTax returns object
+     */
+    public function testGetEmployeeTaxExemptions() {
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getEmployeeTaxExemptions')
+                ->will($this->returnValue(new EmpUsTaxExemption()));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readEmpTaxExemption = $this->employeeService->getEmployeeTaxExemptions(1);
+        $this->assertTrue($readEmpTaxExemption instanceof EmpUsTaxExemption);
+
+    }
 }
 ?>

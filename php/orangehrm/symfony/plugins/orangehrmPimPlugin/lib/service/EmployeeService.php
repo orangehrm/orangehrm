@@ -795,7 +795,21 @@ class EmployeeService extends BaseService {
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
-    }    
+    }
+
+    /**
+     * Retrieve Tax Exemption for a given employee number
+     * @param int $empNumber
+     * @returns EmpUsTaxExemption
+     * @throws PIMServiceException
+     */
+    public function getEmployeeTaxExemptions($empNumber) {
+        try {
+            return $this->employeeDao->getEmployeeTaxExemptions($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
 
    /**
     * Save Contact Details
@@ -810,5 +824,5 @@ class EmployeeService extends BaseService {
          throw new PIMServiceException($e->getMessage());
       }
    }
-   
+
 }

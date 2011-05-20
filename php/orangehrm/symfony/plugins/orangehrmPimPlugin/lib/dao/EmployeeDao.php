@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,6 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 /**
  * EmployeeDao for CRUD operation
  *
@@ -30,14 +32,14 @@ class EmployeeDao extends BaseDao {
      */
     public function addEmployee(Employee $employee) {
         try {
-            if($employee->getEmpNumber() == '') {
+            if ($employee->getEmpNumber() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($employee);
                 $employee->setEmpNumber($idGenService->getNextID());
             }
             $employee->save();
-            return true ;
-        } catch(Exception $e) {
+            return true;
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -65,7 +67,7 @@ class EmployeeDao extends BaseDao {
     public function getPicture($empNumber) {
         try {
             return Doctrine :: getTable('EmpPicture')->find($empNumber);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -80,29 +82,29 @@ class EmployeeDao extends BaseDao {
     public function savePersonalDetails(Employee $employee, $isESS = false) {
         try {
             $q = Doctrine_Query :: create()->update('Employee')
-                    ->set('firstName', '?', $employee->firstName)
-                    ->set('middleName', '?', $employee->middleName)
-                    ->set('lastName', '?', $employee->lastName)
-                    ->set('nickName', '?', $employee->nickName)
-                    ->set('otherId', '?', $employee->otherId)
-                    ->set('emp_marital_status', '?', $employee->emp_marital_status)
-                    ->set('smoker', '?', !empty($employee->smoker)?$employee->smoker:0)
-                    ->set('emp_gender', '?', $employee->emp_gender)
-                    ->set('militaryService', '?', $employee->militaryService);
+                            ->set('firstName', '?', $employee->firstName)
+                            ->set('middleName', '?', $employee->middleName)
+                            ->set('lastName', '?', $employee->lastName)
+                            ->set('nickName', '?', $employee->nickName)
+                            ->set('otherId', '?', $employee->otherId)
+                            ->set('emp_marital_status', '?', $employee->emp_marital_status)
+                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)
+                            ->set('emp_gender', '?', $employee->emp_gender)
+                            ->set('militaryService', '?', $employee->militaryService);
 
-            if (empty ($employee->emp_dri_lice_exp_date)) {
+            if (empty($employee->emp_dri_lice_exp_date)) {
                 $q->set('emp_dri_lice_exp_date', 'NULL');
             } else {
                 $q->set('emp_dri_lice_exp_date', '?', $employee->emp_dri_lice_exp_date);
             }
 
-            if (empty ($employee->nation_code)) {
+            if (empty($employee->nation_code)) {
                 $q->set('nation_code', 'NULL');
             } else {
                 $q->set('nation_code', '?', $employee->nation_code);
             }
 
-            if (empty ($employee->ethnic_race_code)) {
+            if (empty($employee->ethnic_race_code)) {
                 $q->set('ethnic_race_code', 'NULL');
             } else {
                 $q->set('ethnic_race_code', '?', $employee->ethnic_race_code);
@@ -111,7 +113,7 @@ class EmployeeDao extends BaseDao {
             if (!$isESS) {
                 $q->set('employeeId', '?', $employee->employeeId)->set('ssn', '?', $employee->ssn)->set('sin', '?', $employee->sin)->set('licenseNo', '?', $employee->licenseNo);
 
-                if (empty ($employee->emp_birthday)) {
+                if (empty($employee->emp_birthday)) {
                     $q->set('emp_birthday', 'NULL');
                 } else {
                     $q->set('emp_birthday', '?', $employee->emp_birthday);
@@ -136,16 +138,16 @@ class EmployeeDao extends BaseDao {
         try {
             $countryCode = $employee->country;
             $q = Doctrine_Query::create()->update('Employee')
-                    ->set('street1', '?', $employee->getStreet1())
-                    ->set('street2', '?', $employee->getStreet2())
-                    ->set('city', '?', $employee->getCity())
-                    ->set('province', '?', $employee->getProvince())
-                    ->set('emp_zipcode', '?', $employee->getEmpZipcode())
-                    ->set('emp_hm_telephone', '?', $employee->getEmpHmTelephone())
-                    ->set('emp_mobile', '?', $employee->getEmpMobile())
-                    ->set('emp_work_telephone', '?', $employee->getEmpWorkTelephone())
-                    ->set('emp_work_email', '?', $employee->getEmpWorkEmail())
-                    ->set('emp_oth_email', '?', $employee->getEmpOthEmail());
+                            ->set('street1', '?', $employee->getStreet1())
+                            ->set('street2', '?', $employee->getStreet2())
+                            ->set('city', '?', $employee->getCity())
+                            ->set('province', '?', $employee->getProvince())
+                            ->set('emp_zipcode', '?', $employee->getEmpZipcode())
+                            ->set('emp_hm_telephone', '?', $employee->getEmpHmTelephone())
+                            ->set('emp_mobile', '?', $employee->getEmpMobile())
+                            ->set('emp_work_telephone', '?', $employee->getEmpWorkTelephone())
+                            ->set('emp_work_email', '?', $employee->getEmpWorkEmail())
+                            ->set('emp_oth_email', '?', $employee->getEmpOthEmail());
 
             if (trim($employee->country) == "") {
                 $q->set('country', '?', 'NULL');
@@ -169,13 +171,12 @@ class EmployeeDao extends BaseDao {
 
         try {
             $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
-                    ->where('ec.emp_number = ?', $empNumber);
+                            ->where('ec.emp_number = ?', $empNumber);
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
-
 
     /**
      * Delete Emergency contacts
@@ -186,11 +187,11 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete = array()) {
         try {
-            if(is_array($emergencyContactsToDelete)) {
+            if (is_array($emergencyContactsToDelete)) {
 
                 $q = Doctrine_Query :: create()->delete('EmpEmergencyContact ec')
-                        ->whereIn('seqno', $emergencyContactsToDelete)
-                        ->andwhere('emp_number = ?', $empNumber);
+                                ->whereIn('seqno', $emergencyContactsToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
                 $result = $q->execute();
                 return true;
             }
@@ -211,23 +212,20 @@ class EmployeeDao extends BaseDao {
 
         try {
 
-            if(is_array($entriesToDelete)) {
+            if (is_array($entriesToDelete)) {
                 // Delete immigration
                 $q = Doctrine_Query :: create()->delete('EmpPassport ec')
-                        ->whereIn('seqno', $entriesToDelete)
-                        ->andwhere('emp_number = ?', $empNumber);
+                                ->whereIn('seqno', $entriesToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
                 $result = $q->execute();
 
                 return true;
-                
             }
 
             return false;
-
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-        
     }
 
     /**
@@ -240,24 +238,22 @@ class EmployeeDao extends BaseDao {
         try {
 
             $sequenceNo = 1;
-            
-            if(trim($empPassport->getSeqno()) == "") {
+
+            if (trim($empPassport->getSeqno()) == "") {
                 $q = Doctrine_Query::create()
-                        ->select('MAX(p.seqno)')
-                        ->from('EmpPassport p')
-                        ->where('p.emp_number = ?', $empPassport->getEmpNumber());
+                                ->select('MAX(p.seqno)')
+                                ->from('EmpPassport p')
+                                ->where('p.emp_number = ?', $empPassport->getEmpNumber());
                 $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
                 $sequenceNo = $result[0]['MAX'] + 1;
                 $empPassport->setSeqno($sequenceNo);
-
             }
 
             $empPassport->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
 
     /**
@@ -270,15 +266,15 @@ class EmployeeDao extends BaseDao {
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmpPassport p')
-                    ->where('p.emp_number = ?', $empNumber);
+                            ->from('EmpPassport p')
+                            ->where('p.emp_number = ?', $empNumber);
 
-            if(!is_null($sequenceNo)) {
+            if (!is_null($sequenceNo)) {
                 $q->andwhere('p.seqno = ?', $sequenceNo);
                 return $q->fetchOne();
             }
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -293,16 +289,16 @@ class EmployeeDao extends BaseDao {
     public function getWorkExperience($empNumber, $sequenceNo = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmpWorkExperience w')
-                    ->where('w.emp_number = ?', $empNumber);
+                            ->from('EmpWorkExperience w')
+                            ->where('w.emp_number = ?', $empNumber);
 
-            if(!is_null($sequenceNo)) {
+            if (!is_null($sequenceNo)) {
                 $q->andwhere('w.seqno = ?', $sequenceNo);
                 return $q->fetchOne();
             }
-            
+
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -317,47 +313,45 @@ class EmployeeDao extends BaseDao {
 
             $sequenceNo = 1;
 
-            if(trim($empWorkExp->getSeqno()) == "") {
+            if (trim($empWorkExp->getSeqno()) == "") {
                 $q = Doctrine_Query::create()
-                        ->select('MAX(w.seqno)')
-                        ->from('EmpWorkExperience w')
-                        ->where('w.emp_number = ?', $empWorkExp->getEmpNumber());
+                                ->select('MAX(w.seqno)')
+                                ->from('EmpWorkExperience w')
+                                ->where('w.emp_number = ?', $empWorkExp->getEmpNumber());
                 $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
                 $sequenceNo = $result[0]['MAX'] + 1;
                 $empWorkExp->setSeqno($sequenceNo);
-
             }
 
             $empWorkExp->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
 
-   /**
-    * Delete WorkExperiences
-    * @param int $empNumber
-    * @param array() $workExperienceToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
-      try {
-         if(is_array($workExperienceToDelete)) {
-            // Delete work experience
-            $q = Doctrine_Query :: create()->delete('EmpWorkExperience ec')
-              ->whereIn('seqno', $workExperienceToDelete)
-              ->andwhere('emp_number = ?', $empNumber);
-            $result = $q->execute();
-            return true;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+    /**
+     * Delete WorkExperiences
+     * @param int $empNumber
+     * @param array() $workExperienceToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
+        try {
+            if (is_array($workExperienceToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query :: create()->delete('EmpWorkExperience ec')
+                                ->whereIn('seqno', $workExperienceToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
+                $result = $q->execute();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
     /**
      * Get Education
@@ -369,16 +363,16 @@ class EmployeeDao extends BaseDao {
     public function getEducation($empNumber, $eduCode = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmployeeEducation w')
-                    ->where('w.emp_number = ?', $empNumber);
+                            ->from('EmployeeEducation w')
+                            ->where('w.emp_number = ?', $empNumber);
 
-            if(!is_null($eduCode)) {
+            if (!is_null($eduCode)) {
                 $q->andwhere('w.edu_code = ?', $eduCode);
                 return $q->fetchOne();
             }
 
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -392,35 +386,34 @@ class EmployeeDao extends BaseDao {
         try {
             $empEdu->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
 
-   /**
-    * Delete Educations
-    * @param int $empNumber
-    * @param array() $educationToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteEducation($empNumber, $educationToDelete) {
-      try {
-         if(is_array($educationToDelete)) {
-            // Delete work experience
-            $q = Doctrine_Query :: create()->delete('EmployeeEducation ec')
-              ->whereIn('edu_code', $educationToDelete)
-              ->andwhere('emp_number = ?', $empNumber);
-            
-            $result = $q->execute();         
-            return true;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+    /**
+     * Delete Educations
+     * @param int $empNumber
+     * @param array() $educationToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteEducation($empNumber, $educationToDelete) {
+        try {
+            if (is_array($educationToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query :: create()->delete('EmployeeEducation ec')
+                                ->whereIn('edu_code', $educationToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
+
+                $result = $q->execute();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
     /**
      * Get Language
@@ -432,25 +425,24 @@ class EmployeeDao extends BaseDao {
     public function getLanguage($empNumber, $langCode = null, $langType = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmployeeLanguage l')
-                    ->where('l.emp_number = ?', $empNumber);
+                            ->from('EmployeeLanguage l')
+                            ->where('l.emp_number = ?', $empNumber);
             $fetchOne = false;
-            
-            if(!is_null($langCode)) {
+
+            if (!is_null($langCode)) {
                 $q->andwhere('l.lang_code = ?', $langCode);
             }
-            
-            if(!is_null($langType)) {
+
+            if (!is_null($langType)) {
                 $q->andwhere('l.lang_type = ?', $langType);
             }
-            
+
             if (!is_null($langCode) && !is_null($langType)) {
-                return $q->fetchOne();                
-            } else {            
+                return $q->fetchOne();
+            } else {
                 return $q->execute();
             }
-            
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -464,40 +456,39 @@ class EmployeeDao extends BaseDao {
         try {
             $empLang->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
 
-   /**
-    * Delete Languages
-    * @param int $empNumber
-    * @param array() $languageToDelete
-    * @return int - number of records deleted. False if did not delete anything.
-    * @throws DaoException
-    */
-   public function deleteLanguage($empNumber, $languagesToDelete) {
-      try {
-         if (is_array($languagesToDelete)) {
-            // Delete work experience
-            $q = Doctrine_Query::create();
-            $q->delete('EmployeeLanguage el');
-            
-            foreach ($languagesToDelete as $code => $type) {
-                $q->orWhere('(lang_code = ? and lang_type = ?)', array($code, $type));
+    /**
+     * Delete Languages
+     * @param int $empNumber
+     * @param array() $languageToDelete
+     * @return int - number of records deleted. False if did not delete anything.
+     * @throws DaoException
+     */
+    public function deleteLanguage($empNumber, $languagesToDelete) {
+        try {
+            if (is_array($languagesToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query::create();
+                $q->delete('EmployeeLanguage el');
+
+                foreach ($languagesToDelete as $code => $type) {
+                    $q->orWhere('(lang_code = ? and lang_type = ?)', array($code, $type));
+                }
+                //var_dump($q->getSqlQuery());die;
+
+                $result = $q->execute();
+                return $result;
             }
-            //var_dump($q->getSqlQuery());die;
-  
-            $result = $q->execute();         
-            return $result;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
-   
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
     /**
      * Get Skill
      * @param int $empNumber
@@ -508,16 +499,16 @@ class EmployeeDao extends BaseDao {
     public function getSkill($empNumber, $skillCode = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmployeeSkill w')
-                    ->where('w.emp_number = ?', $empNumber);
+                            ->from('EmployeeSkill w')
+                            ->where('w.emp_number = ?', $empNumber);
 
-            if(!is_null($skillCode)) {
+            if (!is_null($skillCode)) {
                 $q->andwhere('w.skill_code = ?', $skillCode);
                 return $q->fetchOne();
             }
 
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -531,35 +522,34 @@ class EmployeeDao extends BaseDao {
         try {
             $empSkill->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
 
-   /**
-    * Delete Skills
-    * @param int $empNumber
-    * @param array() $skillToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteSkill($empNumber, $skillToDelete) {
-      try {
-         if(is_array($skillToDelete)) {
-            // Delete work experience
-            $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
-              ->whereIn('skill_code', $skillToDelete)
-              ->andwhere('emp_number = ?', $empNumber);
-            
-            $result = $q->execute();         
-            return true;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }   
+    /**
+     * Delete Skills
+     * @param int $empNumber
+     * @param array() $skillToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteSkill($empNumber, $skillToDelete) {
+        try {
+            if (is_array($skillToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
+                                ->whereIn('skill_code', $skillToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
+
+                $result = $q->execute();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
     /**
      * Get License
@@ -571,16 +561,16 @@ class EmployeeDao extends BaseDao {
     public function getLicense($empNumber, $licenseCode = null) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('EmployeeLicense l')
-                    ->where('l.emp_number = ?', $empNumber);
+                            ->from('EmployeeLicense l')
+                            ->where('l.emp_number = ?', $empNumber);
 
-            if(!is_null($licenseCode)) {
+            if (!is_null($licenseCode)) {
                 $q->andwhere('l.code = ?', $licenseCode);
                 return $q->fetchOne();
             }
 
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -594,12 +584,11 @@ class EmployeeDao extends BaseDao {
         try {
             $empLicense->save();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-
     }
-    
+
     /**
      * Get attachment
      * @param type $empNumber - employee number
@@ -608,80 +597,79 @@ class EmployeeDao extends BaseDao {
     public function getAttachments($empNumber, $screen) {
         try {
             $q = Doctrine_Query:: create()
-                    ->from('EmployeeAttachment a')
-                    ->where('a.emp_number = ?', $empNumber)
-                    ->andWhere('a.screen = ?', $screen);
+                            ->from('EmployeeAttachment a')
+                            ->where('a.emp_number = ?', $empNumber)
+                            ->andWhere('a.screen = ?', $screen);
             return $q->execute();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
-    }   
-    
-   /**
-    * Retrieve Attachment
-    * @param int $empNumber
-    * @returns Collection
-    * @throws DaoException
-    */
-   public function getAttachment($empNumber, $attachId) {
-      try {
-         return Doctrine :: getTable('EmployeeAttachment')->find(array(
-            'emp_number' => $empNumber,
-            'attach_id' => $attachId
-         ));
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+    }
 
-   /**
-    * Delete Attachments
-    * @param int $empNumber
-    * @param array $attachmentsToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteAttachments($empNumber, $attachmentsToDelete = array()) {
-      try {
-         if (count($attachmentsToDelete) > 0) {
-            // Delete attachments
-            $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
-               ->whereIn('attach_id', $attachmentsToDelete)
-               ->andwhere('emp_number = ?', $empNumber);
-            $result = $q->execute();
-            return true;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
-   
+    /**
+     * Retrieve Attachment
+     * @param int $empNumber
+     * @returns Collection
+     * @throws DaoException
+     */
+    public function getAttachment($empNumber, $attachId) {
+        try {
+            return Doctrine :: getTable('EmployeeAttachment')->find(array(
+                'emp_number' => $empNumber,
+                'attach_id' => $attachId
+            ));
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
-   /**
-    * Delete Licenses
-    * @param int $empNumber
-    * @param array() $licenseToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteLicense($empNumber, $licenseToDelete) {
-      try {
-         if(is_array($licenseToDelete)) {
-            // Delete work experience
-            $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
-              ->whereIn('l.code', $licenseToDelete)
-              ->andwhere('l.emp_number = ?', $empNumber);
-            
-            $result = $q->execute();         
-            return true;
-         }
-         return false;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }   
-   
+    /**
+     * Delete Attachments
+     * @param int $empNumber
+     * @param array $attachmentsToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteAttachments($empNumber, $attachmentsToDelete = array()) {
+        try {
+            if (count($attachmentsToDelete) > 0) {
+                // Delete attachments
+                $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
+                                ->whereIn('attach_id', $attachmentsToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
+                $result = $q->execute();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete Licenses
+     * @param int $empNumber
+     * @param array() $licenseToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteLicense($empNumber, $licenseToDelete) {
+        try {
+            if (is_array($licenseToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
+                                ->whereIn('l.code', $licenseToDelete)
+                                ->andwhere('l.emp_number = ?', $empNumber);
+
+                $result = $q->execute();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
     /**
      * Get dependents for given employee
      * @param int $empNumber Employee Number
@@ -690,7 +678,7 @@ class EmployeeDao extends BaseDao {
     public function getDependents($empNumber) {
         try {
             $q = Doctrine_Query:: create()->from('EmpDependent ed')
-                    ->where('ed.emp_number = ?', $empNumber);
+                            ->where('ed.emp_number = ?', $empNumber);
             return $q->execute();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
@@ -706,11 +694,11 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
         try {
-            if(is_array($entriesToDelete)) {
+            if (is_array($entriesToDelete)) {
                 // Delete dependents
                 $q = Doctrine_Query :: create()->delete('EmpDependent d')
-                        ->whereIn('seqno', $entriesToDelete)
-                        ->andwhere('emp_number = ?', $empNumber);
+                                ->whereIn('seqno', $entriesToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
                 $result = $q->execute();
                 return true;
             }
@@ -729,11 +717,11 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
         try {
-            if(is_array($entriesToDelete)) {
+            if (is_array($entriesToDelete)) {
                 // Delete children
                 $q = Doctrine_Query :: create()->delete('EmpChild c')
-                        ->whereIn('seqno', $entriesToDelete)
-                        ->andwhere('emp_number = ?', $empNumber);
+                                ->whereIn('seqno', $entriesToDelete)
+                                ->andwhere('emp_number = ?', $empNumber);
                 $result = $q->execute();
                 return true;
             }
@@ -752,7 +740,7 @@ class EmployeeDao extends BaseDao {
     public function deletePhoto($empNumber) {
         try {
             $q = Doctrine_Query :: create()->delete('EmpPicture p')
-                    ->where('emp_number = ?', $empNumber);
+                            ->where('emp_number = ?', $empNumber);
             $result = $q->execute();
             return true;
         } catch (Exception $e) {
@@ -784,7 +772,7 @@ class EmployeeDao extends BaseDao {
     function readEmployeePicture($empNumber) {
         try {
             $q = Doctrine_Query :: create()->from('EmpPicture ep')
-                    ->where('emp_number = ?', $empNumber);
+                            ->where('emp_number = ?', $empNumber);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -815,13 +803,12 @@ class EmployeeDao extends BaseDao {
     public function getSupervisorList() {
         try {
             $q = Doctrine_Query :: create()
-            ->select('e.firstName, e.lastName, e.empNumber, s.empNumber')
-            ->from('Employee e')
-            ->innerJoin('e.subordinates s')
-            ->orderBy('e.lastName DESC');
+                            ->select('e.firstName, e.lastName, e.empNumber, s.empNumber')
+                            ->from('Employee e')
+                            ->innerJoin('e.subordinates s')
+                            ->orderBy('e.lastName DESC');
 
             return $q->execute();
-
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -835,19 +822,17 @@ class EmployeeDao extends BaseDao {
     public function isSupervisor($empNumber) {
         try {
             $q = Doctrine_Query :: create()
-            ->select('COUNT(*)')
-            ->from('ReportTo r')
-            ->where('r.supervisorId = ?', $empNumber);
+                            ->select('COUNT(*)')
+                            ->from('ReportTo r')
+                            ->where('r.supervisorId = ?', $empNumber);
 
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-            
-            return ($count > 0);
 
+            return ($count > 0);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
-
 
     /**
      * Search Employee
@@ -859,10 +844,10 @@ class EmployeeDao extends BaseDao {
     public function searchEmployee($field, $value) {
         try {
             $q = Doctrine_Query::create()
-                    ->from('Employee')
-                    ->where($field . " = ?", $value);
+                            ->from('Employee')
+                            ->where($field . " = ?", $value);
             return $q->execute();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -891,9 +876,9 @@ class EmployeeDao extends BaseDao {
         try {
             $employeeList = array();
             $q = Doctrine_Query :: create()->select("rt.supervisorId,emp.*")
-                    ->from('ReportTo rt')
-                    ->leftJoin('rt.subordinate emp')
-                    ->where("rt.supervisorId = ?", $supervisorId);
+                            ->from('ReportTo rt')
+                            ->leftJoin('rt.subordinate emp')
+                            ->where("rt.supervisorId = ?", $supervisorId);
 
             $reportToList = $q->execute();
             foreach ($reportToList as $reportTo) {
@@ -914,7 +899,7 @@ class EmployeeDao extends BaseDao {
      */
     public function getEmployeeListAsJson($workShift = false) {
         try {
-            $jsonString = array ();
+            $jsonString = array();
             $q = Doctrine_Query :: create()->from('Employee');
             $employeeList = $q->execute();
 
@@ -945,24 +930,24 @@ class EmployeeDao extends BaseDao {
      */
     public function getSupervisorEmployeeChain($supervisorId) {
         try {
-            $employeeList	=	array();
+            $employeeList = array();
 
             $q = Doctrine_Query::create()
-                    ->select("rt.supervisorId,emp.*")
-                    ->from('ReportTo rt')
-                    ->leftJoin('rt.subordinate emp')
-                    ->where("rt.supervisorId=$supervisorId");
+                            ->select("rt.supervisorId,emp.*")
+                            ->from('ReportTo rt')
+                            ->leftJoin('rt.subordinate emp')
+                            ->where("rt.supervisorId=$supervisorId");
 
             $reportToList = $q->execute();
-            foreach( $reportToList as $reportTo) {
-                array_push($employeeList,$reportTo->getSubordinate());
-                $list	=	$this->getSupervisorEmployeeChain($reportTo->getSubordinateId());
-                if(count($list)>0)
-                    foreach($list as $employee )
-                        array_push($employeeList,$employee);
+            foreach ($reportToList as $reportTo) {
+                array_push($employeeList, $reportTo->getSubordinate());
+                $list = $this->getSupervisorEmployeeChain($reportTo->getSubordinateId());
+                if (count($list) > 0)
+                    foreach ($list as $employee)
+                        array_push($employeeList, $employee);
             }
-            return  $employeeList;
-        } catch(Exception $e) {
+            return $employeeList;
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -975,15 +960,15 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteEmployee($empList = array()) {
         try {
-            if(is_array($empList) && count($empList) > 0) {
+            if (is_array($empList) && count($empList) > 0) {
                 $q = Doctrine_Query::create()
-                        ->delete('Employee')
-                        ->whereIn('empNumber', $empList);
+                                ->delete('Employee')
+                                ->whereIn('empNumber', $empList);
 
                 return $q->execute();
             }
             return 0;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -997,13 +982,12 @@ class EmployeeDao extends BaseDao {
     public function isEmployeeIdInUse($employeeId) {
         try {
             $count = Doctrine_Query::create()
-                    ->from('Employee')
-                    ->where('employeeId = ?', $employeeId)
-                    ->count();
+                            ->from('Employee')
+                            ->where('employeeId = ?', $employeeId)
+                            ->count();
 
             return ($count > 0) ? true : false;
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -1017,19 +1001,17 @@ class EmployeeDao extends BaseDao {
      * @param  $last
      * @return ?#M#P#CEmployeeService.employeeDao.checkForEmployeeWithSameName
      */
-
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
             $count = Doctrine_Query::create()
-                    ->from('Employee')
-                    ->where('firstName = ?', $first)
-                    ->andWhere('middleName = ?', $middle)
-                    ->andWhere('lastName = ?', $last)
-                    ->count();
+                            ->from('Employee')
+                            ->where('firstName = ?', $first)
+                            ->andWhere('middleName = ?', $middle)
+                            ->andWhere('lastName = ?', $last)
+                            ->count();
 
             return ($count > 0) ? true : false;
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -1043,9 +1025,25 @@ class EmployeeDao extends BaseDao {
     public function getWorkShift($empNumber) {
         try {
             $q = Doctrine_Query::create()->from('EmployeeWorkShift ews')
-                    ->where('ews.emp_number =?', $empNumber);
+                            ->where('ews.emp_number =?', $empNumber);
 
             return $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve Tax Exemptions for a given employee number
+     * @param int $empNumber
+     * @returns EmpTaxExemption
+     * @throws DaoException
+     */
+    public function getEmployeeTaxExemptions($empNumber) {
+        try {
+            $q = Doctrine_Query::create()->from('EmpUsTaxExemption eute')
+                            ->where('eute.emp_number =?', $empNumber);
+                 return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -1061,7 +1059,6 @@ class EmployeeDao extends BaseDao {
        
       $conn = Doctrine_Manager :: connection();
       $conn->beginTransaction();
-
       try {
          $q = Doctrine_Query :: create($conn)->update('Employee');
 
@@ -1110,14 +1107,11 @@ class EmployeeDao extends BaseDao {
             $empContract->emp_number = $employee->empNumber;
             $empContract->save();
          }
-         
-         
-         
+    
          $conn->commit();
          return true;
       } catch (Exception $e) {
          throw new DaoException($e->getMessage());
       }
    }
-
 }

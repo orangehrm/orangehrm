@@ -405,4 +405,45 @@ EmployeeAttachment:
     Employee:
       local: emp_number
       foreign: emp_number
-      type: one      
+      type: one
+
+EmpUsTaxExemption:
+  tableName: hs_hr_emp_us_tax
+  columns:
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(4)
+      primary: true
+    fedaral_status:
+      name: tax_federal_status as federalStatus
+      type: string(30)
+      default: ''
+    fedaral_exemptions:
+      name: tax_federal_exceptions as federalExemptions
+      type: integer(4)
+      default: '0'
+    state:
+      name: tax_state as state
+      type: string(30)
+      default: ''
+    state_status:
+      name: tax_state_status as stateStatus
+      type: string(30)
+      default: ''
+    state_exemptions:
+      name: tax_state_exceptions as stateExemptions
+      type: integer(4)
+      default: '0'
+    unemployment_state:
+      name: tax_unemp_state as unemploymentState
+      type: string(30)
+      default: ''
+    work_state:
+      name: tax_work_state as workState
+      type: string(30)
+      default: ''
+  relations:
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
