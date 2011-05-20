@@ -672,6 +672,14 @@
         <source>No Matching Employees Found</source>
         <target>FR_No Matching Employees Found</target>
       </trans-unit>
+	  <trans-unit id="168">
+        <source>Major/Specialization</source>
+        <target>FR_Major/Specialization</target>
+      </trans-unit>
+	  <trans-unit id="169">
+        <source>GPA/Score</source>
+        <target>FR_GPA/Score</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

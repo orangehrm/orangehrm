@@ -368,6 +368,70 @@
         <source>Dimensions</source>
         <target>FR_Dimensions</target>
       </trans-unit>
+	  <trans-unit id="124">
+	    <source>Program</source>
+        <target>FR_Program</target>
+      </trans-unit>
+        <trans-unit id="125">
+        <source>Skill</source>
+        <target>FR_Skill</target>
+      </trans-unit>
+      <trans-unit id="126">
+        <source>Years of Experience</source>
+        <target>FR_Years of Experience</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Year</source>
+        <target>FR_Year</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Language</source>
+        <target>FR_Language</target>
+      </trans-unit>	 
+      <trans-unit id="129">
+        <source>Fluency</source>
+        <target>FR_Fluency</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>Start Date</source>
+        <target>FR_Start Date</target>
+      </trans-unit>     
+      <trans-unit id="131">
+        <source>Competency</source>
+        <target>FR_Competency</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>End Date</source>
+        <target>FR_End Date</target>
+      </trans-unit>      
+      <trans-unit id="133">
+        <source>License Type</source>
+        <target>FR_License Type</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>License Number</source>
+        <target>FR_License Number</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>License Type</source>
+        <target>FR_License Type</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>License Number</source>
+        <target>FR_License Number</target>
+      </trans-unit>
+	  <trans-unit id="135">
+        <source>Add Attachment</source>
+        <target>FR_Add Attachment</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>Select File</source>
+        <target>FR_Select File</target>
+      </trans-unit>
+	  <trans-unit id="137">
+       <source>1M Max, any larger attachments will be ignored</source>
+       <target>FR_1M Max, any larger attachments will be ignored</target>
+     </trans-unit>
     </body>
   </file>
 </xliff>
