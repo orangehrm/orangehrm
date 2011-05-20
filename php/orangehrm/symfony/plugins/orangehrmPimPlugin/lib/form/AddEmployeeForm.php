@@ -82,14 +82,14 @@ class AddEmployeeForm extends sfForm {
 
         $this->setValidators(array(
                 'photofile' =>  new sfValidatorFile(array('max_size' => 1000000, 'required' => false)),
-                'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 30)),
+                'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 30, 'trim' => true)),
                 'empNumber' => new sfValidatorString(array('required' => false)),
-                'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 30)),
-                'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+                'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 30, 'trim' => true)),
+                'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 30, 'trim' => true)),
                 'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
-                'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
-                'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
-                're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+                'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+                'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+                're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
                 'status' => new sfValidatorString(array('required' => false))
         ));
     }
