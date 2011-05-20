@@ -518,6 +518,7 @@ $searchActionButtons = $form->getSearchActionButtons();
             });
 
             $('#btnSave').click(function() {
+                $(this).attr('disabled', true);
                 $('td.actions input:hidden').each(function() {
                     if ($(this).val() == '') {
                         $(this).attr('disabled', true);
