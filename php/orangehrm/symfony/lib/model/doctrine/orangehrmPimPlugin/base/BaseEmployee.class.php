@@ -67,10 +67,10 @@
  * @property Doctrine_Collection $memberships
  * @property Doctrine_Collection $salary
  * @property Doctrine_Collection $directDebit
+ * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $subordinates
  * @property Doctrine_Collection $EmpPicture
- * @property Doctrine_Collection $EmpContract
  * @property Doctrine_Collection $EmpJobtitleHistory
  * @property Doctrine_Collection $EmpLocationHistory
  * @property Doctrine_Collection $EmpSubdivisionHistory
@@ -151,10 +151,10 @@
  * @method Doctrine_Collection getMemberships()              Returns the current record's "memberships" collection
  * @method Doctrine_Collection getSalary()                   Returns the current record's "salary" collection
  * @method Doctrine_Collection getDirectDebit()              Returns the current record's "directDebit" collection
+ * @method Doctrine_Collection getContracts()                Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
  * @method Doctrine_Collection getEmpPicture()               Returns the current record's "EmpPicture" collection
- * @method Doctrine_Collection getEmpContract()              Returns the current record's "EmpContract" collection
  * @method Doctrine_Collection getEmpJobtitleHistory()       Returns the current record's "EmpJobtitleHistory" collection
  * @method Doctrine_Collection getEmpLocationHistory()       Returns the current record's "EmpLocationHistory" collection
  * @method Doctrine_Collection getEmpSubdivisionHistory()    Returns the current record's "EmpSubdivisionHistory" collection
@@ -234,10 +234,10 @@
  * @method Employee            setMemberships()              Sets the current record's "memberships" collection
  * @method Employee            setSalary()                   Sets the current record's "salary" collection
  * @method Employee            setDirectDebit()              Sets the current record's "directDebit" collection
+ * @method Employee            setContracts()                Sets the current record's "contracts" collection
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
  * @method Employee            setEmpPicture()               Sets the current record's "EmpPicture" collection
- * @method Employee            setEmpContract()              Sets the current record's "EmpContract" collection
  * @method Employee            setEmpJobtitleHistory()       Sets the current record's "EmpJobtitleHistory" collection
  * @method Employee            setEmpLocationHistory()       Sets the current record's "EmpLocationHistory" collection
  * @method Employee            setEmpSubdivisionHistory()    Sets the current record's "EmpSubdivisionHistory" collection
@@ -541,6 +541,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
+        $this->hasMany('EmpContract as contracts', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
         $this->hasMany('EmployeeAttachment as attachments', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
@@ -551,10 +555,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'erep_sub_emp_number'));
 
         $this->hasMany('EmpPicture', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpContract', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

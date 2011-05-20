@@ -185,6 +185,11 @@ Employee:
       local: emp_number
       foreign: emp_number
       type: many
+    contracts:
+      class: EmpContract
+      local: emp_number
+      foreign: emp_number
+      type: many      
     attachments:
       class: EmployeeAttachment
       local: emp_number

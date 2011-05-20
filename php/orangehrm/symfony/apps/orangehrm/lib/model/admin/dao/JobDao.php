@@ -323,20 +323,14 @@ class JobDao extends BaseDao {
     * Retrieve EmployeeStatus List
     * @param String $orderField
     * @param String $orderBy
-    * @param bool $includeTerminated - Include the Terminated state
     * @returns Collection
     * @throws DaoException
     */
-   public function getEmployeeStatusList($orderField = 'id', $orderBy = 'ASC', $includeTerminated = true) {
+   public function getEmployeeStatusList($orderField = 'id', $orderBy = 'ASC') {
       try {
          $q = Doctrine_Query::create()
-            ->from('EmployeeStatus e');
-
-         if ( !$includeTerminated ) {
-             $q->where('e.id != ?', EmployeeStatus::TERMINATED_STATUS);
-         }
-
-         $q->orderBy($orderField.' '.$orderBy);
+            ->from('EmployeeStatus')
+            ->orderBy($orderField.' '.$orderBy);
 
          return $q->execute();
       } catch(Exception $e) {

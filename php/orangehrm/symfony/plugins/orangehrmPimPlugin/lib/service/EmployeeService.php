@@ -797,5 +797,18 @@ class EmployeeService extends BaseService {
         }
     }    
 
-
+   /**
+    * Save Contact Details
+    * @param Employee $employee
+    * @returns boolean
+    * @throws PIMServiceException
+    */
+   public function saveJobDetails(Employee $employee) {
+      try {
+         return $this->employeeDao->saveJobDetails($employee);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+   
 }

@@ -1051,5 +1051,73 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+   /**
+    * Save Contact Details
+    * @param Employee $employee
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function saveJobDetails(Employee $employee) {
+       
+      $conn = Doctrine_Manager :: connection();
+      $conn->beginTransaction();
+
+      try {
+         $q = Doctrine_Query :: create($conn)->update('Employee');
+
+         if (!empty ($employee->job_title_code)) {
+             $q->set('job_title_code', '?', $employee->job_title_code);
+         }
+
+         if (!empty ($employee->emp_status)) {
+             $q->set('emp_status', '?', $employee->emp_status);
+         }
+
+         if (!empty ($employee->eeo_cat_code)) {
+             $q->set('eeo_cat_code', '?', $employee->eeo_cat_code);
+         }
+
+         if (!empty ($employee->work_station)) {
+             $q->set('work_station', '?', $employee->work_station);
+         }
+
+         if (!empty ($employee->joined_date)) {
+             $q->set('joined_date', '?', $employee->joined_date);
+         }
+
+         $q->where('empNumber = ?', $employee->empNumber);
+         $result = $q->execute();
+
+         // Employee locations
+         $q = Doctrine_Query :: create()->delete('EmpLocations el')
+                ->where('emp_number = ?', $employee->empNumber);
+         $result = $q->execute();
+         
+         if (count($employee->locations) > 0) {
+            $empLocation = $employee->locations[0];
+            $empLocation->save();
+         }
+         
+        // Employee contracts
+         $q = Doctrine_Query :: create()->delete('EmpContract ec')
+                ->where('emp_number = ?', $employee->empNumber);
+         $result = $q->execute();
+         
+         if (count($employee->contracts) > 0) {
+            $empContract = $employee->contracts[0];
+            
+            // TODO: Check why emp_number is lost
+            $empContract->emp_number = $employee->empNumber;
+            $empContract->save();
+         }
+         
+         
+         
+         $conn->commit();
+         return true;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
 
 }
