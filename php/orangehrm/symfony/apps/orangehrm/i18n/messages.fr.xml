@@ -488,6 +488,62 @@
        <source>Comment cannot exceed 200 characters in length</source>
        <target>FR_Comment cannot exceed 200 characters in length</target>
       </trans-unit>
+	  <trans-unit id="152">
+       <source>Comment length cannot exceed 200 characters</source>
+       <target>FR_Comment length cannot exceed 200 characters</target>
+      </trans-unit>
+	  <trans-unit id="153">
+       <source>Issued date should be before expiry date</source>
+       <target>FR_Issued date should be before expiry date</target>
+      </trans-unit>
+	  <trans-unit id="154">
+       <source>Year should be a number</source>
+       <target>FR_Year should be a number</target>
+      </trans-unit>
+	  <trans-unit id="155">
+       <source>Comment length cannot exceed 100 characters</source>
+       <target>FR_Comment length cannot exceed 100 characters</target>
+      </trans-unit>
+	  <trans-unit id="156">
+       <source>Years of Experience should be a number</source>
+       <target>FR_Years of Experience should be a number</target>
+      </trans-unit>
+	  <trans-unit id="157">
+       <source>Years of Experience should be less than 100</source>
+       <target>FR_Years of Experience should be less than 100</target>
+      </trans-unit>
+	  <trans-unit id="158">
+       <source>Upload File</source>
+       <target>FR_Upload File</target>
+      </trans-unit>
+	  <trans-unit id="159">
+       <source>Save Comment Only</source>
+       <target>FR_Save Comment Only</target>
+      </trans-unit>
+	  <trans-unit id="160">
+       <source>File Name</source>
+       <target>FR_File Name</target>
+      </trans-unit>
+	  <trans-unit id="161">
+       <source>Description</source>
+       <target>FR_Description</target>
+      </trans-unit>
+	  <trans-unit id="162">
+       <source>Size</source>
+       <target>FR_Size</target>
+      </trans-unit>
+	  <trans-unit id="163">
+       <source>Type</source>
+       <target>FR_Type</target>
+      </trans-unit>
+	  <trans-unit id="164">
+       <source>Date Added</source>
+       <target>FR_Date Addeded</target>
+      </trans-unit>
+	  <trans-unit id="165">
+       <source>Added By</source>
+       <target>FR_Added By</target>
+      </trans-unit>				 	
     </body>
   </file>
 </xliff>

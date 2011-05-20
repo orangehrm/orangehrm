@@ -744,6 +744,22 @@
        <source>Edit Language</source>
        <target>FR_Edit Language</target>
       </trans-unit>
+	  <trans-unit id="186">
+       <source>Please Select At Least One Education Item To Delete</source>
+       <target>FR_Please Select At Least One Education Item To Delete</target>
+      </trans-unit>
+	  <trans-unit id="187">
+       <source>Please Select At Least One Skill Item To Delete</source>
+       <target>FR_Please Select At Least One Skill Item To Delete</target>
+      </trans-unit>
+	  <trans-unit id="188">
+       <source>Please Select At Least One Language Item To Delete</source>
+       <target>FR_Please Select At Least One Language Item To Delete</target>
+      </trans-unit>
+	  <trans-unit id="189">
+       <source>Please Select At Least One License Item To Delete</source>
+       <target>FR_Please Select At Least One License Item To Delete</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
