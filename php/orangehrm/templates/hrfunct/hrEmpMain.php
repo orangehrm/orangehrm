@@ -1230,7 +1230,7 @@ tableDisplayStyle = "table";
 					<a href="../../symfony/web/index.php/pim/viewImmigration?empNumber=<?php echo $escapedId;?>" id="immigrationLink" class="personal" accesskey="i" >
 						<span><?php echo $lang_pim_tabs_Immigration;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(2)" id="jobLink" accesskey="j" class="employment"  >
+					<a href="../../symfony/web/index.php/pim/viewJobDetails?empNumber=<?php echo $escapedId;?>" id="jobLink" accesskey="j" class="employment"  >
 
 						<span><?php echo $lang_pim_tabs_Job;?></span></a></li>
 				<li class="l2">

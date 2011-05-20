@@ -425,7 +425,7 @@ if($empNumber == $_SESSION['empID']) {
                     <a href="<?php echo url_for('pim/viewImmigration?empNumber=' . $empNumber); ?>" id="immigrationLink" class="personal" accesskey="i" >
                         <span><?php echo __("Immigration");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=2');?>" id="jobLink" accesskey="j" class="employment"  >
+                    <a href="<?php echo url_for('pim/viewJobDetails?empNumber=' . $empNumber);?>" id="jobLink" accesskey="j" class="employment"  >
 
                         <span><?php echo __("Job");?></span></a></li>
                 <li class="l2">
