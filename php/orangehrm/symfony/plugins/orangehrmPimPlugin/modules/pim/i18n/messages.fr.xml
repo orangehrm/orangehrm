@@ -680,6 +680,70 @@
         <source>GPA/Score</source>
         <target>FR_GPA/Score</target>
       </trans-unit>
+	  <trans-unit id="170">
+       <source>Add Education</source>
+       <target>FR_Add Education</target>
+      </trans-unit>
+	  <trans-unit id="171">
+       <source>Add Skill</source>
+       <target>FR_Add Skill</target>
+      </trans-unit>
+	  <trans-unit id="172">
+       <source>Add Language</source>
+       <target>FR_Add Language</target>
+      </trans-unit>
+	  <trans-unit id="173">
+       <source>Add License</source>
+       <target>FR_Add License</target>
+      </trans-unit>
+	  <trans-unit id="174">
+       <source>Education Details Saved Successfully</source>
+       <target>FR_Education Details Saved Successfully</target>
+      </trans-unit>
+	  <trans-unit id="175">
+       <source>Education Detail(s) Deleted Successfully</source>
+       <target>FR_Education Detail(s) Deleted Successfully</target>
+      </trans-unit>
+	  <trans-unit id="176">
+       <source>Skill Details Saved Successfully</source>
+       <target>FR_Skill Details Saved Successfully</target>
+      </trans-unit>
+	  <trans-unit id="177">
+       <source>Skill Detail(s) Deleted Successfully</source>
+       <target>FR_Skill Detail(s) Deleted Successfully</target>
+      </trans-unit>
+	  <trans-unit id="178">
+       <source>Language Details Saved Successfully</source>
+       <target>FR_Language Details Saved Successfully</target>
+      </trans-unit>
+	  <trans-unit id="179">
+       <source>Language Detail(s) Deleted Successfully</source>
+       <target>FR_Language Detail(s) Deleted Successfully</target>
+      </trans-unit>
+	  <trans-unit id="180">
+       <source>License Details Saved Successfully</source>
+       <target>FR_License Details Saved Successfully</target>
+      </trans-unit>
+	  <trans-unit id="181">
+       <source>License Detail(s) Deleted Successfully</source>
+       <target>FR_License Detail(s) Deleted Successfully</target>
+      </trans-unit>
+	  <trans-unit id="182">
+       <source>Edit Education</source>
+       <target>FR_Edit Education</target>
+      </trans-unit>
+	  <trans-unit id="183">
+       <source>Edit Skill</source>
+       <target>FR_Edit Skill</target>
+      </trans-unit>
+	  <trans-unit id="184">
+       <source>Edit License</source>
+       <target>FR_Edit License</target>
+      </trans-unit>
+	  <trans-unit id="185">
+       <source>Edit Language</source>
+       <target>FR_Edit Language</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
