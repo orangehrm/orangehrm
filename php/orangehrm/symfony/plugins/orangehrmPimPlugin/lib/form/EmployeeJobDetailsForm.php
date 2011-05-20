@@ -26,6 +26,7 @@ class EmployeeJobDetailsForm extends BaseForm {
     public $jobSpecName;
     public $jobSpecDescription;
     public $jobSpecDuties;
+    public $attachment;
     
     const CONTRACT_KEEP = 1;
     const CONTRACT_DELETE = 2;
@@ -47,6 +48,13 @@ class EmployeeJobDetailsForm extends BaseForm {
         $eeoCategories = $this->_getEEOCategories();
         $subDivisions = $this->_getSubDivisions();
         $locations = $this->_getLocations();
+        
+        $empService = new EmployeeService();
+
+        $attachmentList = $empService->getAttachments($empNumber, 'contract'); 
+        if (count($attachmentList) > 0) {
+            $this->attachment = $attachmentList[0];
+        }
         
         $contractUpdateChoices = array(self::CONTRACT_KEEP =>__('Keep Current'), 
                                        self::CONTRACT_DELETE => __('Delete Current'),
@@ -135,8 +143,29 @@ class EmployeeJobDetailsForm extends BaseForm {
         
         
         $this->widgetSchema->setNameFormat('job[%s]');
+        
+        // set up post validator method
+        $this->validatorSchema->setPostValidator(
+          new sfValidatorCallback(array(
+            'callback' => array($this, 'postValidate')
+          ))
+        );        
     }
 
+    public function postValidate($validator, $values) {
+
+        $update = $values['contract_update'];
+        $file = $values['contract_file'];
+
+        if ($update == self::CONTRACT_UPLOAD && empty($file)) {
+            $message = sfContext::getInstance()->getI18N()->__('Upload file missing');
+            $error = new sfValidatorError($validator, $message);
+            throw new sfValidatorErrorSchema($validator, array('' => $error));
+        }
+
+        return $values;
+    }
+    
     /**
      * Get Employee object with values filled using form values
      */
@@ -173,7 +202,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         $contractStartDate = $this->getValue('contract_start_date');
         $contractEndDate = $this->getValue('contract_end_date');
         
-        if (!empty($contractStartDate) && !empty($contractEndDate)) {
+        if (!empty($contractStartDate) || !empty($contractEndDate)) {
             $empContract = new EmpContract();
             $empContract->emp_number = $employee->empNumber;
             $empContract->start_date = $contractStartDate;
@@ -259,6 +288,77 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         return($locationList);
     }      
+    
+    /**
+     * Save employee contract
+     */
+    public function updateAttachment() {
+
+        $empNumber =  $this->getValue('emp_number');
+        //$attachId = $this->getValue('seqNO');
+        
+        $update = $this->getValue('contract_update');
+        $empAttachment = false;
+                
+        if ($update == self::CONTRACT_DELETE) {
+             $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
+                    ->where('emp_number = ?', $empNumber)
+                    ->andWhere('screen = ?', "contract");
+             $result = $q->execute();            
+        } else if ($update == self::CONTRACT_UPLOAD) {
+            // find existing 
+            $q = Doctrine_Query::create()
+                    ->select('a.emp_number, a.attach_id')
+                    ->from('EmployeeAttachment a')
+                    ->where('a.emp_number = ?', $empNumber)
+                    ->andWhere('screen = ?', "contract");
+            $result = $q->execute();
+
+            if ($result->count() == 1) {
+                $empAttachment = $result[0];
+            }            
+                      
+            //
+            // New file upload
+            //
+            $newFile = false;
+
+            if ($empAttachment === false) {
+
+                $empAttachment = new EmployeeAttachment();
+                $empAttachment->emp_number = $empNumber;
+
+                $q = Doctrine_Query::create()
+                        ->select('MAX(a.attach_id)')
+                        ->from('EmployeeAttachment a')
+                        ->where('a.emp_number = ?', $empNumber);
+                $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+                if (count($result) != 1) {
+                    throw new PIMServiceException('MAX(a.attach_id) failed.');
+                }
+                $attachId = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
+
+                $empAttachment->attach_id = $attachId;
+                $newFile = true;
+            }
+            
+            $file = $this->getValue('contract_file');
+            $tempName = $file->getTempName();
+
+
+            $empAttachment->size = $file->getSize();
+            $empAttachment->filename = $file->getOriginalName();
+            $empAttachment->attachment = file_get_contents($tempName);;
+            $empAttachment->file_type = $file->getType();
+            $empAttachment->screen = 'contract';
+
+            $empAttachment->attached_by = $this->getOption('loggedInUser');
+            $empAttachment->attached_by_name = $this->getOption('loggedInUserName');
+
+            $empAttachment->save();
+        }
+    }    
     
 }
 

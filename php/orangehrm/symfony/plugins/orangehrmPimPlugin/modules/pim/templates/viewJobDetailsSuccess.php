@@ -51,7 +51,8 @@
                         <div class="outerbox">
                             <div class="mainHeading"><h2><?php echo __('Job'); ?></h2></div>
                             <div>
-                                <form id="frmEmpJobDetails" method="post" action="<?php echo url_for('pim/viewJobDetails'); ?>">
+                                <form id="frmEmpJobDetails" method="post" enctype="multipart/form-data"
+                                      action="<?php echo url_for('pim/viewJobDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
                                     <?php echo $form['emp_number']->render(); ?>
                                     <?php echo $form['job_title']->renderLabel(__('Job Title')); ?>                                    
@@ -103,9 +104,28 @@
                                     <input id="contractEndDateBtn" type="button" name="" value="  " class="calendarBtn" />                                    
                                     <br class="clear"/>                                    
                                     
-                                    <?php echo $form['contract_update']->renderLabel(__('Contract Details')); ?>                                    
+                                    <?php echo $form['contract_update']->renderLabel(__('Contract Details')); ?>
+                                    <?php 
+                                    $contractRadioStyle = "";
+                                    if (!empty($form->attachment)) { 
+                                                $attachment = $form->attachment;
+                                        ?>
+                                   <a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
+                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);?>">
+                                       <?php echo $attachment->filename; ?>
+                                   </a>
+                                    <br class="clear"/><label for=""></label>                   
+                                    <?php } else {
+                                        $contractRadioStyle = "display:none;";    
+                                    }
+?>
+                                    
+                                    
                                     <?php echo $form['contract_update']->render(array("class" => "")); ?>
                                     <br class="clear"/>
+                                    <?php echo $form['contract_file']->renderLabel(' '); 
+                                          echo $form['contract_file']->render(array("class" => ""));
+                                    ?>
                                     
                                     <div class="formbuttons">
                                         <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" />
@@ -138,12 +158,15 @@ $(document).ready(function() {
                          '#job_joined_date', '#job_sub_unit', '#job_location',
                          '#contract_file', 'ul.radio_list input',
                          '#job_contract_start_date', '#job_contract_end_date',
-                         '#joinedDateBtn', '#contractStartDateBtn', '#contractEndDateBtn');
+                         '#joinedDateBtn', '#contractStartDateBtn', '#contractEndDateBtn',
+                         '#job_contract_file');
     for(i=0; i < list.length; i++) {
         $(list[i]).attr("disabled", "disabled");
     }
-    
-    
+    <?php if (empty($form->attachment)) { ?>
+        $('#job_contract_update_3').attr('checked', 'checked');
+    <?php } ?>
+        
     //form validation
     /* Valid From Date */
     $.validator.addMethod("validFromDate2", function(value, element) {
@@ -228,6 +251,13 @@ $(document).ready(function() {
                 }
 
                 $("#btnSave").attr('value', save);
+                
+    <?php if (empty($form->attachment)) { ?>
+        $('#job_contract_update_1').attr('disabled', 'disabled');
+        $('#job_contract_update_2').attr('disabled', 'disabled');
+        $('#job_contract_update_3').attr('checked', 'checked');
+    <?php } ?>
+                
                 return;
             }
 

@@ -62,14 +62,14 @@ class viewAttachmentAction extends sfAction {
 
         $employeeService = $this->getEmployeeService();
         $attachment = $employeeService->getAttachment($empNumber, $attachId);
-
+            
+        $response = $this->getResponse();
+            
         if (!empty($attachment)) {
             $contents = $attachment->attachment;
             $contentType = $attachment->file_type;
             $fileName = $attachment->filename;
             $fileLength = $attachment->size;
-
-            $response = $this->getResponse();
 
             //$response->addCacheControlHttpHeader('no-cache');
 

@@ -38,3 +38,10 @@ div#job_spec_details label {
     margin-left: 20px;    
     width: 100px;
 }
+
+a.fileLink {
+    display: block;
+    float: left;
+    padding-left: 0px;
+    padding-top: 6px;    
+}

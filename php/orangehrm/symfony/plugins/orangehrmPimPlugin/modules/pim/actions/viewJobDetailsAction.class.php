@@ -44,7 +44,8 @@ class viewJobDetailsAction extends basePimAction {
     public function execute($request) {
         
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-
+        $loggedInUserName = $_SESSION['fname'];
+        
         $job = $request->getParameter('job');
         $empNumber = (isset($job['emp_number'])) ? $job['emp_number']: $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
@@ -69,7 +70,9 @@ class viewJobDetailsAction extends basePimAction {
         
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $param = array('empNumber' => $empNumber, 'ESS' => $this->essMode,
-                       'employee' => $employee);
+                       'employee' => $employee,
+                       'loggedInUser' => $loggedInEmpNum,
+                       'loggedInUserName' => $loggedInUserName);
         
         $this->form = new EmployeeJobDetailsForm(array(), $param, true);
 
@@ -83,13 +86,21 @@ class viewJobDetailsAction extends basePimAction {
 
                 // validate either ADMIN, supervisor for employee or employee himself
                 // save data
-
                 $service = new EmployeeService();
                 $service->saveJobDetails($this->form->getEmployee(), false);
+                $this->form->updateAttachment();
+                
                 
                 $this->getUser()->setFlash('templateMessage', array('success', __('Job Details Updated Successfully')));  
             } else {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Form validation failed')));   
+                $validationMsg = '';
+                foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
+                    if($this->form[$widgetName]->hasError()) {
+                        $validationMsg .= __($this->form[$widgetName]->getError()->getMessageFormat());
+                    }
+                }
+
+                $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
             }
             
             $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
