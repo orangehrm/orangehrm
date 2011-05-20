@@ -543,7 +543,47 @@
 	  <trans-unit id="165">
        <source>Added By</source>
        <target>FR_Added By</target>
-      </trans-unit>				 	
+      </trans-unit>		
+	  <trans-unit id="166">
+       <source>Job Specification</source>
+       <target>FR_Job Specification</target>
+      </trans-unit>
+	  <trans-unit id="167">
+       <source>Job Category</source>
+       <target>FR_Job Category</target>
+      </trans-unit>	 	 
+	  <trans-unit id="168">
+       <source>Joined Date</source>
+       <target>FR_Joined Date</target>
+      </trans-unit>	 
+	  <trans-unit id="169">
+       <source>View Details</source>
+       <target>FR_View Details</target>
+      </trans-unit>	 	
+	  <trans-unit id="170">
+       <source>Keep Current</source>
+       <target>FR_Keep Current</target>
+      </trans-unit>	 
+	  <trans-unit id="171">
+       <source>Delete Current</source>
+       <target>FR_Delete Current</target>
+      </trans-unit>	
+	  <trans-unit id="172">
+       <source>Upload New</source>
+       <target>FR_Upload New</target>
+      </trans-unit>	
+	  <trans-unit id="173">
+       <source>Duties</source>
+       <target>FR_Duties</target>
+      </trans-unit>	
+	  <trans-unit id="174">
+       <source>Hide Details</source>
+       <target>FR_Hide Details</target>
+      </trans-unit>	
+	  <trans-unit id="175">
+       <source>Start date should be before end date</source>
+       <target>FR_Start date should be before end date</target>
+      </trans-unit>	
     </body>
   </file>
 </xliff>

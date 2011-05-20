@@ -760,6 +760,18 @@
        <source>Please Select At Least One License Item To Delete</source>
        <target>FR_Please Select At Least One License Item To Delete</target>
       </trans-unit>
+	  <trans-unit id="189">
+       <source>Employment Contract</source>
+       <target>FR_Employment Contract</target>
+      </trans-unit>
+	  <trans-unit id="189">
+       <source>Contract Details</source>
+       <target>FR_Contract Details</target>
+      </trans-unit>
+	  <trans-unit id="189">
+       <source>Job Details Updated Successfully</source>
+       <target>FR_Job Details Updated Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
