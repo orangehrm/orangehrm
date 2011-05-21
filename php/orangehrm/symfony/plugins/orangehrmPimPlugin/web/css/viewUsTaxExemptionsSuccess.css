@@ -28,27 +28,35 @@ label {
 
 .drpDown {
     margin-top: 5px;
-    width: 150px;
+    width: 228px;
 }
 
 form input.txtBox {
     border: 1px solid #888888;
-    width:140px;
+    width: 218px;
     vertical-align:middle;
     height:14px;
     margin-top: 5px;
 }
 
-.gap{
-    content: "";
-    display:block;
-}
-
-.gap1{
-    content: "";
-    display:block;
-}
-
 .outerbox{
     width:580px;
+}
+
+#leftMenu{
+    float:left;
+    width:200px;
+    height: 1000px
+}
+
+#outerbox{
+    float:left;
+}
+
+#bottom{
+    float:left;
+}
+
+#messagebar{
+    float:left;
 }

@@ -436,7 +436,7 @@ if($empNumber == $_SESSION['empID']) {
     $showTax = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
     if ($showTax) { ?>                        
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=18');?>" id="taxLink" class="employment" accesskey="t" >
+                    <a href="<?php echo url_for('pim/viewUsTaxExemptions?empNumber=' . $empNumber);?>" id="taxLink" class="employment" accesskey="t" >
                         <span><?php echo __("Tax Exemptions");?></span></a></li>
 <?php } ?>
                 <li class="l2">

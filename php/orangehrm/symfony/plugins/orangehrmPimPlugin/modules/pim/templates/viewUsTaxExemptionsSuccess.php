@@ -1,3 +1,9 @@
+<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js')?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
+<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
+<?php echo javascript_include_tag('orangehrm.datepicker.js')?>
+
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewUsTaxExemptionsSuccess'); ?>
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewUsTaxExemptionsSuccess'); ?>
 
@@ -8,11 +14,13 @@
     var save = "<?php echo __("Save"); ?>";
     //]]>
 </script>
+<div id="leftMenu">
+    <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?>
+</div>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 550px;">
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
-
-<div class="outerbox">
+<div class="outerbox" id="outerbox">
     <div class="mainHeading"><h2><?php echo __('Tax Exemptions'); ?></h2></div>
     <div>
         <form id="frmEmpTaxExemptions" method="post" action="<?php echo url_for('pim/viewUsTaxExemptions'); ?>">
@@ -65,4 +73,8 @@
             </div>
         </form>
     </div>
+</div>
+<div id="bottom">
+    <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'contact'));?>
+    <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'contact'));?>
 </div>

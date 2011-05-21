@@ -43,7 +43,18 @@ class viewUsTaxExemptionsAction extends sfAction {
     public function execute($request) {
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $param = array('empNumber' => $loggedInEmpNum);
+
+        $empNumber = $request->getParameter('empNumber');
+        $this->empNumber = $empNumber;
+        
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
+
+        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+            $this->redirect('pim/viewUsTaxExemptions?empNumber='. $loggedInEmpNum);
+        }
+
+        $param = array('empNumber' => $empNumber);
         $this->taxExemptionForm = new EmployeeUsTaxExemptionsForm(array(), $param, true);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -58,10 +69,27 @@ class viewUsTaxExemptionsAction extends sfAction {
                 $empUsTaxExemption = $this->taxExemptionForm->getEmpUsTaxExemption();
                 $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
                 $this->getUser()->setFlash('templateMessage', array('success', __('Tax Details Saved Successfully')));
-                $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empNumber);
+                $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
             }
         }
     }
+
+    private function isSupervisor($loggedInEmpNum, $empNumber) {
+
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
 }
 
