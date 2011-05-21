@@ -230,5 +230,25 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($readEmpTaxExemption instanceof EmpUsTaxExemption);
 
     }
+
+    /**
+     * Test SaveEmployeeTaxExemptions
+     */
+    public function testSaveEmployeeTaxExemptions() {
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('saveEmployeeTaxExemptions')
+                ->will($this->returnValue(true));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $empUsTaxExemption = new EmpUsTaxExemption();
+        $empUsTaxExemption->setEmpNumber(3);
+        $result = $this->employeeService->saveEmployeeTaxExemptions($empUsTaxExemption);
+        $this->assertTrue($result);
+
+    }
 }
 ?>

@@ -1049,6 +1049,21 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+    /**
+    * Save Employee Tax Exemptios
+    * @param EmpUsTaxExemption $empUsTaxExemption
+    * @returns boolean
+    * @throws DaoException
+    */
+    public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
+        try {
+            $empUsTaxExemption->save();
+            return true;
+         } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
    /**
     * Save Contact Details
     * @param Employee $employee

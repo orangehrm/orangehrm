@@ -113,4 +113,18 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
          $taxObject = $this->employeeDao->getEmployeeTaxExemptions($empTaxExemption->getEmpNumber());
          $this->assertTrue($taxObject instanceof EmpUsTaxExemption);
      }
+
+     /**
+     * Test saving Employee Tax Exemptions
+     */
+    public function testSaveEmployeeTaxExemptions() {
+
+        $empUsTaxExemption = new EmpUsTaxExemption();
+        $empUsTaxExemption->setEmpNumber(2);
+        $empUsTaxExemption->stateExemptions = 4;
+        $result = $this->employeeDao->saveEmployeeTaxExemptions($empUsTaxExemption);
+        $this->assertTrue($result);
+        $this->assertEquals(2, $empUsTaxExemption->getEmpNumber());
+        $this->assertEquals(4, $empUsTaxExemption->stateExemptions);
+    }
 }

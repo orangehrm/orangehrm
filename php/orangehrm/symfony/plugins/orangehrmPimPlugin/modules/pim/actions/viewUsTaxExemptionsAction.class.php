@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -46,6 +45,22 @@ class viewUsTaxExemptionsAction extends sfAction {
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $param = array('empNumber' => $loggedInEmpNum);
         $this->taxExemptionForm = new EmployeeUsTaxExemptionsForm(array(), $param, true);
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
+        
+         if ($request->isMethod('post')) {
+
+            $this->taxExemptionForm->bind($request->getParameter($this->taxExemptionForm->getName()));
+            if ($this->taxExemptionForm->isValid()) {
+                $empUsTaxExemption = $this->taxExemptionForm->getEmpUsTaxExemption();
+                $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
+                $this->getUser()->setFlash('templateMessage', array('success', __('Tax Details Saved Successfully')));
+                $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empNumber);
+            }
+        }
     }
 
 }

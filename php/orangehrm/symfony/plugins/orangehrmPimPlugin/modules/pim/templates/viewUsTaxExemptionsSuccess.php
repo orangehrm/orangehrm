@@ -1,4 +1,16 @@
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewUsTaxExemptionsSuccess'); ?>
+<?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewUsTaxExemptionsSuccess'); ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
+    var edit = "<?php echo __("Edit"); ?>";
+    var save = "<?php echo __("Save"); ?>";
+    //]]>
+</script>
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 530px;">
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
 
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Tax Exemptions'); ?></h2></div>
@@ -9,13 +21,13 @@
             <br />
             <span class="label"><?php echo __("Federal Income Tax") ?></span>
             <div>
-                <?php echo $taxExemptionForm['fedaralStatus']->renderLabel(__("Marital Status")); ?>
-                <?php echo $taxExemptionForm['fedaralStatus']->render(array("class" => "drpDown")); ?>
+                <?php echo $taxExemptionForm['federalStatus']->renderLabel(__("Marital Status")); ?>
+                <?php echo $taxExemptionForm['federalStatus']->render(array("class" => "drpDown")); ?>
                 <br class="clear" />
             </div>
             <div>
-                <?php echo $taxExemptionForm['fedaralExemptions']->renderLabel(__("Exemptions")); ?>
-                <?php echo $taxExemptionForm['fedaralExemptions']->render(array("class" => "txtBox", "maxlength" => 70, 'size' => 10)); ?>
+                <?php echo $taxExemptionForm['federalExemptions']->renderLabel(__("Exemptions")); ?>
+                <?php echo $taxExemptionForm['federalExemptions']->render(array("class" => "txtBox", "maxlength" => 70, 'size' => 10)); ?>
                 <br class="clear" />
                 <br class="clear" />
                 <br class="clear" />

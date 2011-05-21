@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,6 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 /**
  * Employee Service
  *
@@ -97,7 +99,7 @@ class EmployeeService extends BaseService {
     public function getPicture($empNumber) {
         try {
             return $this->employeeDao->getPicture($empNumber);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
@@ -173,7 +175,6 @@ class EmployeeService extends BaseService {
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
-        
     }
 
     /**
@@ -328,15 +329,15 @@ class EmployeeService extends BaseService {
         return $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
     }
 
-   /**
-    * Delete WorkExperiences
-    * @param int $empNumber
-    * @param array() $workExperienceToDelete
-    * @returns boolean
-    */
-   public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
-       return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
-   }
+    /**
+     * Delete WorkExperiences
+     * @param int $empNumber
+     * @param array() $workExperienceToDelete
+     * @returns boolean
+     */
+    public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
+        return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
+    }
 
     /**
      * Get Education
@@ -348,16 +349,16 @@ class EmployeeService extends BaseService {
         return $this->employeeDao->getEducation($empNumber, $eduCode);
     }
 
-   /**
-    * Delete Education
-    * @param int $empNumber
-    * @param array() $educationToDelete
-    * @returns boolean
-    */
-   public function deleteEducation($empNumber, $educationToDelete) {
-       return $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
-   }
-   
+    /**
+     * Delete Education
+     * @param int $empNumber
+     * @param array() $educationToDelete
+     * @returns boolean
+     */
+    public function deleteEducation($empNumber, $educationToDelete) {
+        return $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
+    }
+
     /**
      * save Education
      * @param EmployeeEducation $education
@@ -365,7 +366,7 @@ class EmployeeService extends BaseService {
      */
     public function saveEducation(EmployeeEducation $education) {
         return $this->employeeDao->saveEducation($education);
-    }   
+    }
 
     /**
      * Get Skill
@@ -377,16 +378,16 @@ class EmployeeService extends BaseService {
         return $this->employeeDao->getSkill($empNumber, $skillCode);
     }
 
-   /**
-    * Delete Skill
-    * @param int $empNumber
-    * @param array() $skillToDelete
-    * @returns boolean
-    */
-   public function deleteSkill($empNumber, $skillToDelete) {
-       return $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
-   }
-   
+    /**
+     * Delete Skill
+     * @param int $empNumber
+     * @param array() $skillToDelete
+     * @returns boolean
+     */
+    public function deleteSkill($empNumber, $skillToDelete) {
+        return $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
+    }
+
     /**
      * save Skill
      * @param EmployeeSkill $skill
@@ -394,8 +395,8 @@ class EmployeeService extends BaseService {
      */
     public function saveSkill(EmployeeSkill $skill) {
         return $this->employeeDao->saveSkill($skill);
-    }   
-    
+    }
+
     /**
      * Get Language
      * @param int $empNumber
@@ -406,16 +407,16 @@ class EmployeeService extends BaseService {
         return $this->employeeDao->getLanguage($empNumber, $languageCode, $languageType);
     }
 
-   /**
-    * Delete Language
-    * @param int $empNumber
-    * @param array() $languageToDelete (array of langCode->LangType)
-    * @return int - number of records deleted. False if did not delete anything.
-    */
-   public function deleteLanguage($empNumber, $languagesToDelete) {
-       return $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
-   }
-   
+    /**
+     * Delete Language
+     * @param int $empNumber
+     * @param array() $languageToDelete (array of langCode->LangType)
+     * @return int - number of records deleted. False if did not delete anything.
+     */
+    public function deleteLanguage($empNumber, $languagesToDelete) {
+        return $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
+    }
+
     /**
      * save Language
      * @param EmployeeLanguage $language
@@ -424,7 +425,7 @@ class EmployeeService extends BaseService {
     public function saveLanguage(EmployeeLanguage $language) {
         return $this->employeeDao->saveLanguage($language);
     }
-    
+
     /**
      * Get License
      * @param int $empNumber
@@ -435,16 +436,16 @@ class EmployeeService extends BaseService {
         return $this->employeeDao->getLicense($empNumber, $licenseCode);
     }
 
-   /**
-    * Delete License
-    * @param int $empNumber
-    * @param array() $licenseToDelete
-    * @returns boolean
-    */
-   public function deleteLicense($empNumber, $licenseToDelete) {
-       return $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
-   }
-   
+    /**
+     * Delete License
+     * @param int $empNumber
+     * @param array() $licenseToDelete
+     * @returns boolean
+     */
+    public function deleteLicense($empNumber, $licenseToDelete) {
+        return $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
+    }
+
     /**
      * save License
      * @param EmployeeLicense $license
@@ -452,8 +453,8 @@ class EmployeeService extends BaseService {
      */
     public function saveLicense(EmployeeLicense $license) {
         return $this->employeeDao->saveLicense($license);
-    }   
-    
+    }
+
     /**
      * Get attachment
      * @param type $empNumber - employee number
@@ -466,37 +467,36 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
-    
-   /**
-    * Delete Attachments
-    * @param int $empNumber
-    * @param array $attachmentsToDelete
-    * @returns boolean
-    * @throws PIMServiceException
-    */
-   public function deleteAttachments($empNumber, $attachmentsToDelete) {
-      try {
-         return $this->employeeDao->deleteAttachments($empNumber, $attachmentsToDelete);
-      } catch (Exception $e) {
-         throw new PIMServiceException($e->getMessage());
-      }
-   }
-   
-   /**
-    * Retrieve Attachment
-    * @param int $empNumber
-    * @returns Collection
-    * @throws PIMServiceException
-    */
-   public function getAttachment($empNumber, $attachId) {
-      try {
-         return $this->employeeDao->getAttachment($empNumber, $attachId);
-      } catch (Exception $e) {
-         throw new PIMServiceException($e->getMessage());
-      }
-   }
-    
-    
+
+    /**
+     * Delete Attachments
+     * @param int $empNumber
+     * @param array $attachmentsToDelete
+     * @returns boolean
+     * @throws PIMServiceException
+     */
+    public function deleteAttachments($empNumber, $attachmentsToDelete) {
+        try {
+            return $this->employeeDao->deleteAttachments($empNumber, $attachmentsToDelete);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve Attachment
+     * @param int $empNumber
+     * @returns Collection
+     * @throws PIMServiceException
+     */
+    public function getAttachment($empNumber, $attachId) {
+        try {
+            return $this->employeeDao->getAttachment($empNumber, $attachId);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
     /**
      * Returns EmployeePicture by Emp Number
      * @param int $empNumber
@@ -537,7 +537,7 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
-    
+
     /**
      * Search Employee
      * @param String $field
@@ -548,7 +548,7 @@ class EmployeeService extends BaseService {
     public function searchEmployee($field, $value) {
         try {
             return $this->employeeDao->searchEmployee($field, $value);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
@@ -631,7 +631,7 @@ class EmployeeService extends BaseService {
                 }
             }
             return $filteredList;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
@@ -645,7 +645,7 @@ class EmployeeService extends BaseService {
     public function deleteEmployee($empList = array()) {
         try {
             return $this->employeeDao->deleteEmployee($empList);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
@@ -673,19 +673,17 @@ class EmployeeService extends BaseService {
      * @param  $last
      * @return ?#M#P#CEmployeeService.employeeDao.checkForEmployeeWithSameName
      */
-
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
             return $this->employeeDao->checkForEmployeeWithSameName($first, $middle, $last);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
-
     }
 
     public function getEmployeeYearsOfService($employeeId, $currentDate) {
         $employee = $this->getEmployee($employeeId);
-        if (! ($employee instanceof Employee) ) {
+        if (!($employee instanceof Employee)) {
             throw new PIMServiceException("Employee with employeeId " . $employeeId . " not found!");
         }
         return $this->getDurationInYears($employee->getJoinedDate(), $currentDate);
@@ -696,29 +694,27 @@ class EmployeeService extends BaseService {
         $secondsOfYear = 60 * 60 * 24 * 365;
         $secondsOfMonth = 60 * 60 * 24 * 30;
 
-        if($fromDate != "" && $toDate != "") {
+        if ($fromDate != "" && $toDate != "") {
             $fromDateTimeStamp = strtotime($fromDate);
             $toDateTimeStamp = strtotime($toDate);
 
             $timeStampDiff = 0;
-            if($toDateTimeStamp > $fromDateTimeStamp) {
+            if ($toDateTimeStamp > $fromDateTimeStamp) {
                 $timeStampDiff = $toDateTimeStamp - $fromDateTimeStamp;
 
-                $years = floor($timeStampDiff/$secondsOfYear);
+                $years = floor($timeStampDiff / $secondsOfYear);
 
                 //adjusting the months
                 $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-                $months = round($remainingMonthsTimeStamp/$secondsOfMonth);
-                $yearByMonth = ($months > 0)? $months/12:0;
-                
-                if(floor($years + $yearByMonth) == ($years + $yearByMonth)) {
+                $months = round($remainingMonthsTimeStamp / $secondsOfMonth);
+                $yearByMonth = ($months > 0) ? $months / 12 : 0;
+
+                if (floor($years + $yearByMonth) == ($years + $yearByMonth)) {
                     $years = $this->getBorderPeriodMonths($fromDate, $toDate);
                 } else {
                     $years = $years + $yearByMonth;
                 }
-                
             }
-
         }
         return $years;
     }
@@ -731,7 +727,7 @@ class EmployeeService extends BaseService {
         $numberOfMonths = 12;
 
         $timeStampDiff = strtotime($toDate) - strtotime($fromDate);
-        $noOfDays = floor($timeStampDiff/$secondsOfDay);
+        $noOfDays = floor($timeStampDiff / $secondsOfDay);
         $fromYear = date("Y", strtotime($fromDate));
         $toYear = date("Y", strtotime($toDate));
         $ctr = $fromYear;
@@ -741,45 +737,45 @@ class EmployeeService extends BaseService {
         list($tY, $tM, $tD) = explode("-", $toDate);
         $years = $tY - $fY;
 
-        $temp = date("Y"). "-". $fM. "-". $fD ;
+        $temp = date("Y") . "-" . $fM . "-" . $fD;
         $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($temp)));
-        $toMonthDay = $tM . "-"  . $tD;
+        $toMonthDay = $tM . "-" . $tD;
 
-        if($newFromMonthDay != $toMonthDay) {
+        if ($newFromMonthDay != $toMonthDay) {
             if (($tM - $fM) < 0) {
-              $years--;
+                $years--;
             } elseif (($tM - $fM) == 0 && ($tD - $fD) < -1) {
                 $years--;
             }
         }
         //this sections commented off if there is a need to extend it further
-        /*while($ctr < $toYear) {
-            $daysCount = $daysCount + $numberOfDaysInYear;
-            //this is for leap year
-            if($ctr % 4 == 0) {
-                $daysCount = $daysCount + 1;
-            }
-            if($noOfDays < $daysCount) {
-                $daysCount = $daysCount - $numberOfDaysInYear;
-                if($ctr % 4 == 0) {
-                    $daysCount = $daysCount - 1;
-                }
-                break;
-            }
+        /* while($ctr < $toYear) {
+          $daysCount = $daysCount + $numberOfDaysInYear;
+          //this is for leap year
+          if($ctr % 4 == 0) {
+          $daysCount = $daysCount + 1;
+          }
+          if($noOfDays < $daysCount) {
+          $daysCount = $daysCount - $numberOfDaysInYear;
+          if($ctr % 4 == 0) {
+          $daysCount = $daysCount - 1;
+          }
+          break;
+          }
 
-            $years++;
-            $ctr++;
-        }*/
+          $years++;
+          $ctr++;
+          } */
 
-        /*$years = floor($timeStampDiff/$secondsOfYear);
+        /* $years = floor($timeStampDiff/$secondsOfYear);
 
-        $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-        $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay;*/
-        /*$remainingDays = $noOfDays - $daysCount;
+          $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
+          $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay; */
+        /* $remainingDays = $noOfDays - $daysCount;
 
-        $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
-        $yearByMonth = ($months > 0)? ($months/12):0;
-        $years = $years + $yearByMonth;*/
+          $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
+          $yearByMonth = ($months > 0)? ($months/12):0;
+          $years = $years + $yearByMonth; */
         return $years;
     }
 
@@ -811,18 +807,32 @@ class EmployeeService extends BaseService {
         }
     }
 
-   /**
-    * Save Contact Details
-    * @param Employee $employee
-    * @returns boolean
-    * @throws PIMServiceException
-    */
-   public function saveJobDetails(Employee $employee) {
-      try {
-         return $this->employeeDao->saveJobDetails($employee);
-      } catch (Exception $e) {
-         throw new PIMServiceException($e->getMessage());
-      }
-   }
+    /**
+     * Save Tax Exemptions
+     * @param EmpUsTaxExemption $empUsTaxExemption
+     * @returns boolean
+     * @throws PIMServiceException
+     */
+    public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
+        try {
+            return $this->employeeDao->saveEmployeeTaxExemptions($empUsTaxExemption);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Save Contact Details
+     * @param Employee $employee
+     * @returns boolean
+     * @throws PIMServiceException
+     */
+    public function saveJobDetails(Employee $employee) {
+        try {
+            return $this->employeeDao->saveJobDetails($employee);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
 
 }
