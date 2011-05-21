@@ -74,10 +74,14 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
      * Get EmpUsTaxExemption object
      */
     public function getEmpUsTaxExemption() {
+        
+        $empNumber = $this->getValue('empNumber');
+        $empUsTaxExemption = $this->getEmployeeService()->getEmployeeTaxExemptions($empNumber);
 
-        $empUsTaxExemption = new EmpUsTaxExemption();
-
-        $empUsTaxExemption->empNumber = $this->getValue('empNumber');
+            if($empUsTaxExemption == null){
+                $empUsTaxExemption = new EmpUsTaxExemption();
+            }
+            
         $empUsTaxExemption->federalStatus = $this->getValue('federalStatus');
         $empUsTaxExemption->federalExemptions = $this->getValue('federalExemptions');
         $empUsTaxExemption->state = $this->getValue('state');
