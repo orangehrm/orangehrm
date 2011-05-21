@@ -8,7 +8,7 @@
     var save = "<?php echo __("Save"); ?>";
     //]]>
 </script>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 530px;">
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 550px;">
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 

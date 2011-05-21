@@ -19,6 +19,9 @@
  */
 class EmployeeUsTaxExemptionsForm extends sfForm {
 
+    private $countryService;
+    private $employeeService;
+
     public function configure() {
 
         $status = array(0 => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other'));
