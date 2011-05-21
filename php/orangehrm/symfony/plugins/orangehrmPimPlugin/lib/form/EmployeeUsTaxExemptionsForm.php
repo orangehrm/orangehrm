@@ -80,6 +80,7 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
 
             if($empUsTaxExemption == null){
                 $empUsTaxExemption = new EmpUsTaxExemption();
+                $empUsTaxExemption->empNumber = $this->getValue('empNumber');
             }
             
         $empUsTaxExemption->federalStatus = $this->getValue('federalStatus');
