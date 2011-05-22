@@ -8,7 +8,7 @@ Default:
   formAction: '#'
   assets: []
 
-Sample:
+Nationality:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getNatCode
