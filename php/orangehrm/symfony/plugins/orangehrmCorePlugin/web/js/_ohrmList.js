@@ -23,3 +23,23 @@ function ohrmList_init() {
     });
 };
 
+/**
+ * Used in pagination links
+ * TODO: Rename with a proper method once paging_links_js partial is replaced
+ */
+function submitPage(pageNumber) {
+    var baseUrl = location.href;
+    var urlSuffix = '';
+    
+    if (baseUrl.match(/index\.php\/\w{1,}$/)) {
+        baseUrl += '/index/';
+    }
+
+    if (baseUrl.match(/pageNo\/\d{1,}/)) {
+        baseUrl = baseUrl.replace(/pageNo\/\d{1,}/, 'pageNo/' + pageNumber);
+    } else {
+        urlSuffix = (baseUrl.match(/\/$/) ? '' : '/') + 'pageNo/' + pageNumber;
+    }
+    
+    location.href = baseUrl + urlSuffix;
+}
