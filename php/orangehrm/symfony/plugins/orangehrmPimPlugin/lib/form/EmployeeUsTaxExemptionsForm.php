@@ -27,6 +27,8 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
         $status = array(0 => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other'));
         $states = $this->getStatesList();
         $empNumber = $this->getOption('empNumber');
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $this->fullName = $employee->getFullName();
         $empTaxExemption = $this->getEmployeeService()->getEmployeeTaxExemptions($empNumber);
 
         //creating widgets

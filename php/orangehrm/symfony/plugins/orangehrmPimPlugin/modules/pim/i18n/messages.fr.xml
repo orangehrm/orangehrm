@@ -760,17 +760,41 @@
        <source>Please Select At Least One License Item To Delete</source>
        <target>FR_Please Select At Least One License Item To Delete</target>
       </trans-unit>
-	  <trans-unit id="189">
+	  <trans-unit id="190">
        <source>Employment Contract</source>
        <target>FR_Employment Contract</target>
       </trans-unit>
-	  <trans-unit id="189">
+	  <trans-unit id="191">
        <source>Contract Details</source>
        <target>FR_Contract Details</target>
       </trans-unit>
-	  <trans-unit id="189">
+	  <trans-unit id="192">
        <source>Job Details Updated Successfully</source>
        <target>FR_Job Details Updated Successfully</target>
+      </trans-unit>
+      <trans-unit id="193">
+       <source>Tax Exemptions</source>
+       <target>FR_Tax Exemptions</target>
+      </trans-unit>
+      <trans-unit id="194">
+       <source>Federal Income Tax</source>
+       <target>FR_Federal Income Tax</target>
+      </trans-unit>
+      <trans-unit id="195">
+       <source>Marital Status</source>
+       <target>FR_Marital Status</target>
+      </trans-unit>
+      <trans-unit id="196">
+       <source>Exemptions</source>
+       <target>FR_Exemptions</target>
+      </trans-unit>
+      <trans-unit id="197">
+       <source>Unemployment State</source>
+       <target>FR_Unemployment State</target>
+      </trans-unit>
+      <trans-unit id="198">
+       <source>Work State</source>
+       <target>FR_Work State</target>
       </trans-unit>
     </body>
   </file>

@@ -44,7 +44,8 @@ class viewUsTaxExemptionsAction extends sfAction {
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
-        $empNumber = $request->getParameter('empNumber');
+        $tax = $request->getParameter('tax');
+        $empNumber = (isset($tax['empNumber']))?$tax['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
         
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
@@ -55,7 +56,7 @@ class viewUsTaxExemptionsAction extends sfAction {
         }
 
         $param = array('empNumber' => $empNumber);
-        $this->taxExemptionForm = new EmployeeUsTaxExemptionsForm(array(), $param, true);
+        $this->form = new EmployeeUsTaxExemptionsForm(array(), $param, true);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
@@ -64,9 +65,9 @@ class viewUsTaxExemptionsAction extends sfAction {
         
          if ($request->isMethod('post')) {
 
-            $this->taxExemptionForm->bind($request->getParameter($this->taxExemptionForm->getName()));
-            if ($this->taxExemptionForm->isValid()) {
-                $empUsTaxExemption = $this->taxExemptionForm->getEmpUsTaxExemption();
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $empUsTaxExemption = $this->form->getEmpUsTaxExemption();
                 $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
                 $this->getUser()->setFlash('templateMessage', array('success', __('Tax Details Saved Successfully')));
                 $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
