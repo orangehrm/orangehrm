@@ -596,6 +596,32 @@
        <source>State</source>
        <target>FR_State</target>
       </trans-unit>	
+	  <trans-unit id="179">
+       <source>Home telephone can contain only space, numbers, "+", and "-"</source>
+       <target>FR_Home telephone can contain only space, numbers, "+", and "-"</target>
+      </trans-unit>	
+	  <trans-unit id="180">
+       <source>Mobile can contain only space, numbers, "+", and "-"</source>
+       <target>FR_Mobile can contain only space, numbers, "+", and "-"</target>
+      </trans-unit>	
+	  <trans-unit id="181">
+       <source>Work telephone can contain only space, numbers, "+", and "-"</source>
+       <target>FR_Work telephone can contain only space, numbers, "+", and "-"</target>
+      </trans-unit>	
+	  <trans-unit id="181">
+      <source>Attachment Size Exceeded.</source>
+       <target>FR_Attachment Size Exceeded.</target>
+      </trans-unit>	
+	  ---------------------------
+Find
+---------------------------
+Can't find the text:
+
+"Attachment Size Exceeded."
+---------------------------
+OK   
+---------------------------
+
     </body>
   </file>
 </xliff>
