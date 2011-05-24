@@ -800,6 +800,10 @@
        <source>Tax Details Saved Successfully</source>
        <target>FR_Tax Details Saved Successfully</target>
       </trans-unit>
+	  <trans-unit id="200">
+       <source>State Income Tax</source>
+       <target>FR_State Income Tax</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
