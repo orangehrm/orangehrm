@@ -781,8 +781,8 @@
        <target>FR_Federal Income Tax</target>
       </trans-unit>
       <trans-unit id="195">
-       <source>Marital Status</source>
-       <target>FR_Marital Status</target>
+       <source>Status</source>
+       <target>FR_Status</target>
       </trans-unit>
       <trans-unit id="196">
        <source>Exemptions</source>
@@ -800,10 +800,23 @@
        <source>Tax Details Saved Successfully</source>
        <target>FR_Tax Details Saved Successfully</target>
       </trans-unit>
-	  <trans-unit id="200">
+      <trans-unit id="200">
        <source>State Income Tax</source>
        <target>FR_State Income Tax</target>
       </trans-unit>
+      <trans-unit id="201">
+       <source>Non Resident Alien</source>
+       <target>FR_Non Resident Alien</target>
+      </trans-unit>
+      <trans-unit id="202">
+       <source>Not Applicable</source>
+       <target>FR_Not Applicable</target>
+      </trans-unit>
+      <trans-unit id="203">
+       <source>Enter a number</source>
+       <target>FR_Enter a number</target>
+      </trans-unit>
+	  
     </body>
   </file>
 </xliff>

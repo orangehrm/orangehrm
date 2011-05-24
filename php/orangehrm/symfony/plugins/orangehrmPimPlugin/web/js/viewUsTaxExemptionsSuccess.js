@@ -9,7 +9,7 @@ $(document).ready(function() {
             if($(element).val()){
                 if(!(/^[0-9]+$/).test($(element).val().trim())) {
 
-                    $("<label class='error'>Enter an Integer</label>").insertBefore(element.next(".clear"));
+                    $("<label class='error'>"+enterANumber+"</label>").insertBefore(element.next(".clear"));
                     flag = false;
                 }
                 else{
