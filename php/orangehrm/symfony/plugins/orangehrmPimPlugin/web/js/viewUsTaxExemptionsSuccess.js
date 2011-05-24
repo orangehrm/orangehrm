@@ -1,22 +1,19 @@
 $(document).ready(function() {
 
-function validateInput() {
+    function validateInput() {
 
         var flag = true;
-        $(".messageBalloon_success").remove();
-        $('#messagebar').removeAttr('class');
-        $('#messagebar').html("");
-
-        var errorStyle = "background-color:#FFDFDF;";
         $('.txtBox').each(function(){
-            element = $(this);
-            $(element).removeAttr('style');
-
+            element = $('#'+$(this).attr('id'));
+                        
             if($(element).val()){
-                if(!(/^[0-9]+$/).test($(element).val())) {
-                    $('#messagebar').html("Enter an Integer");
-                    $(element).attr('style', errorStyle);
+                if(!(/^[0-9]+$/).test($(element).val().trim())) {
+
+                    $("<label class='error'>Enter an Integer</label>").insertBefore(element.next(".clear"));
                     flag = false;
+                }
+                else{
+                    $(element.next(".error")).remove();
                 }
             }
         });
@@ -26,13 +23,7 @@ function validateInput() {
 
     $('.txtBox').change(function() {
         var flag = validateInput();
-        if(!flag) {
-            $('#messagebar').attr('class', "messageBalloon_failure");
-        }
-        else{
-            $('#messagebar').removeAttr('class');
-            $('#messagebar').html("");
-        }
+    
     });
 
     //on form loading
@@ -51,11 +42,11 @@ function validateInput() {
 
         if($("#btnSave").attr('value') == lang_save) {
             if(validateInput()){
-            $("#frmEmpTaxExemptions").submit();
+                $("#frmEmpTaxExemptions").submit();
             }
             else{
-                $('#messagebar').attr('class', "messageBalloon_failure");
-            }
+               
+        }
         }
     });
 

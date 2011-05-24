@@ -39,24 +39,12 @@ form input.txtBox {
     margin-top: 5px;
 }
 
-.outerbox{
-    width:580px;
-}
-
-#leftMenu{
-    float: left;
-    width: 200px;
-    height: 2000px
-}
-
-#outerbox{
-    float:left;
-}
-
-#bottom{
-    float:left;
-}
-
-#messagebar{
-    float:left;
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 160px;
+    width: 128px !important;
 }

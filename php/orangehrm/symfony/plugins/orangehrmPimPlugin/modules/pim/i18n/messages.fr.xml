@@ -796,6 +796,10 @@
        <source>Work State</source>
        <target>FR_Work State</target>
       </trans-unit>
+      <trans-unit id="199">
+       <source>Tax Details Saved Successfully</source>
+       <target>FR_Tax Details Saved Successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

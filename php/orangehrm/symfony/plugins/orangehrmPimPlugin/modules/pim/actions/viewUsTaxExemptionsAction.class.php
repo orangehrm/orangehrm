@@ -48,12 +48,7 @@ class viewUsTaxExemptionsAction extends sfAction {
         $empNumber = (isset($tax['empNumber']))?$tax['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
         
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
-
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewUsTaxExemptions?empNumber='. $loggedInEmpNum);
-        }
+        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
 
         $param = array('empNumber' => $empNumber);
         $this->form = new EmployeeUsTaxExemptionsForm(array(), $param, true);
@@ -74,23 +69,5 @@ class viewUsTaxExemptionsAction extends sfAction {
             }
         }
     }
-
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
 }
 

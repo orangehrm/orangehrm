@@ -24,7 +24,7 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
 
     public function configure() {
 
-        $status = array(0 => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other'));
+        $status = array(0 => "-- " . __('Select') . " --", 'S' => __('Single'), 'M' => __('Married'), 'NRA' => __('Non Resident Alien'), 'NA' => __('Not Applicable'));
         $states = $this->getStatesList();
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
