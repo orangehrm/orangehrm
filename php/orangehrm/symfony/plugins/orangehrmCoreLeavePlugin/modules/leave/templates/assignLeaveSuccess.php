@@ -19,7 +19,7 @@
 <?php if(!empty($overlapLeaves)){?>
 <div id="duplicateWarning" class="confirmBox" style="margin-left:18px;">
  	<div class="confirmInnerBox">
-	<?php echo __('The following leave requests are on the same day as the current leave request<br />Please cancel the existing leave requests and submit again  or change the leave period if needed.')?>
+	<?php echo __('The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.')?>
 		</div>
 </div>
 

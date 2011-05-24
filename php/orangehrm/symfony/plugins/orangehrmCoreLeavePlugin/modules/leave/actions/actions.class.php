@@ -555,7 +555,7 @@ class leaveActions extends sfActions {
             $this->recordCount = $recordCount;
 
             if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = 'No Records Found';
+                $message = __('No Records Found');
                 $messageType = 'notice';
             }
 
@@ -656,7 +656,7 @@ class leaveActions extends sfActions {
             try {
 
                 $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);
-                $this->getUser()->setFlash('message', 'Leave Successfully Changed');
+                $this->getUser()->setFlash('message', __('Leave Successfully Changed'));
                 $this->getUser()->setFlash('messageType', 'success');
             } catch (Exception $e) {
                 $this->getUser()->setFlash('message', $e->getMessage());

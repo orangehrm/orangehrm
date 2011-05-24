@@ -123,7 +123,7 @@ class viewLeaveListAction extends sfAction {
             $recordCount = $result['meta']['record_count'];
 
             if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = 'No Records Found';
+                $message = __('No Records Found');
                 $messageType = 'notice';
             }
 

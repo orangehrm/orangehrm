@@ -452,6 +452,14 @@
         <source>Start month for non-leap year is required</source>
         <target>FR_Start month for non-leap year is required</target>
       </trans-unit>
+	  <trans-unit id="219">
+        <source>Leave Successfully Changed</source>
+        <target>FR_Leave Successfully Changed</target>
+      </trans-unit>
+	  <trans-unit id="220">
+        <source>Total time is numeric value</source>
+        <target>FR_Total time is numeric value</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

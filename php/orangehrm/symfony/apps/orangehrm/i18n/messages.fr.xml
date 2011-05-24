@@ -538,7 +538,7 @@
       </trans-unit>
 	  <trans-unit id="164">
        <source>Date Added</source>
-       <target>FR_Date Addeded</target>
+       <target>FR_Date Added</target>
       </trans-unit>
 	  <trans-unit id="165">
        <source>Added By</source>
@@ -583,6 +583,14 @@
 	  <trans-unit id="175">
        <source>Start date should be before end date</source>
        <target>FR_Start date should be before end date</target>
+      </trans-unit>	
+	  <trans-unit id="176">
+       <source>Invalid From Date</source>
+       <target>FR_Invalid From Date</target>
+      </trans-unit>	
+	  <trans-unit id="177">
+       <source>Invalid To Date</source>
+       <target>FR_Invalid To Date</target>
       </trans-unit>	
     </body>
   </file>
