@@ -402,7 +402,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	$sub = new MenuItem("configure", "Configure",   "#");
 	$subsubs = array();        
         $subsubs[] = new MenuItem("pimconfig", "Optional Fields", "./symfony/web/index.php/pim/configurePim", "rightMenu");
-	$subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
+	$subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields,   "./symfony/web/index.php/pim/listCustomFields");
 	$sub->setSubMenuItems($subsubs);        
 	$subs[] = $sub;
         

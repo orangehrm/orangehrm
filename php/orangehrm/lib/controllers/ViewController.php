@@ -1950,6 +1950,9 @@ class ViewController {
 					case 'PAC' :
 								header("Location: ./CentralController.php?message=ADD_SUCCESS&uniqcode=PAC&projectId=$id");
 								break;
+					case 'CTM' :
+								header("Location: ../../symfony/web/index.php/pim/listCustomFields?message=UPDATE_SUCCESS");
+								break;
 
 					case 'EST' :
 
@@ -2644,7 +2647,10 @@ class ViewController {
 
 								header("Location:".$_POST['referer']."&msg=$showMsg");
 								break;
-
+					case 'CTM' :
+								header("Location: ../../symfony/web/index.php/pim/listCustomFields?message=UPDATE_SUCCESS");
+								break;
+                                                            
 					case 'EST' :
 					case 'CUR' :
 								if($noRedirect) {

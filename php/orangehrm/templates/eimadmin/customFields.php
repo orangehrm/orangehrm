@@ -67,7 +67,7 @@ $screens = array('personal'=>'Personal Details',
     var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
     function goBack() {
-        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+        location.href = "../../symfony/web/index.php/pim/listCustomFields";
     }
 
 
