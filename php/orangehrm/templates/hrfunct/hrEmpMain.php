@@ -1240,7 +1240,7 @@ tableDisplayStyle = "table";
     $config = new Config();
     if ($config->showPimTaxExemptions()) { ?>
 				<li class="l2">
-					<a href="javascript:displayLayer(18)" id="taxLink" class="employment" accesskey="t" >
+					<a href="../../symfony/web/index.php/pim/viewUsTaxExemptions?empNumber=<?php echo $escapedId;?>" id="immigrationLink" class="personal" accesskey="i" >
 						<span><?php echo $lang_pim_tabs_Tax;?></span></a></li>
 <?php } ?>
 				<li class="l2">
