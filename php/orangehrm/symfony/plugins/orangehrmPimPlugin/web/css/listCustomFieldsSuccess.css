@@ -39,3 +39,7 @@ div.dialogButtons {
     text-align: center;
     vertical-align: bottom;
 }
+
+div.actionbuttons {
+    width: 50%;
+}
