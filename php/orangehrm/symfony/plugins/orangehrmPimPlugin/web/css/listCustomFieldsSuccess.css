@@ -1,0 +1,41 @@
+input#allCheck {
+    margin-left: 1px;
+}
+
+span#fieldsleft {
+    font-size: 12px;
+    padding-left: 20px;   
+}
+
+/* Move to style.css */
+table.data-table thead td {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+    padding-left:1px;
+    padding-right:1px;
+}
+
+table.data-table thead td.fieldCheck {
+    width: 30px;
+}
+
+table.data-table thead td a {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table tbody td {
+    font-size: 12px;
+    height: 24px;
+}
+table.data-table tbody td a {
+    font-size: 12px;
+}
+
+div.dialogButtons {
+    margin-top: 20px;
+    text-align: center;
+    vertical-align: bottom;
+}

@@ -42,7 +42,7 @@ class CustomFieldsService extends BaseService {
     * @returns Collection
     * @throws AdminServiceException
     */
-   public function getCustomFieldList($screen, $orderField = "field_num", $orderBy = "ASC") {
+   public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
       try {
          return $this->customFieldsDao->getCustomFieldList($screen, $orderField, $orderBy);
       } catch(Exception $e) {

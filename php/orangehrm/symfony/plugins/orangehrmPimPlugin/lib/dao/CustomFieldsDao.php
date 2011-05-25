@@ -13,12 +13,17 @@ class CustomFieldsDao extends BaseDao {
     * @returns Collection
     * @throws DaoException
     */
-   public function getCustomFieldList($screen, $orderField = "field_num", $orderBy = "ASC") {
+   public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
       try {
          $q = Doctrine_Query::create()
-            ->from('CustomFields')
-            ->where('screen = ?', $screen)
-            ->orderBy($orderField.' '.$orderBy);
+            ->from('CustomFields');
+         
+         if (!empty($screen)) {
+            $q->where('screen = ?', $screen);
+         }
+         
+         $q->orderBy($orderField.' '.$orderBy);
+         
          return $q->execute();
       } catch(Exception $e) {
          throw new DaoException($e->getMessage());

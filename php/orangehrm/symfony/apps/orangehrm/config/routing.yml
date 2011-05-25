@@ -95,11 +95,6 @@ customer_list:
   param: { module:admin, action: listCustomer }
   with_wildcard_routes: true
 
-customfield_list:
-  url:   /admin/listCustomFields/*  
-  param: { module:admin, action: listCustomFields }
-  with_wildcard_routes: true
-
 usergroup_list:
   url:   /admin/listUserGroup/*  
   param: { module:admin, action: listUserGroup }
