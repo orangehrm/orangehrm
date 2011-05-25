@@ -95,7 +95,12 @@
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js')?>
 
-<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewUsTaxExemptionsSuccess'); ?>
+<?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
+    <?php if (strstr($browser, "MSIE 8.0")):?>
+        <link href="<?php echo public_path('../../themes/orange/IE_style.css')?>" rel="stylesheet" type="text/css"/>
+    <?php else:?>
+        <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewUsTaxExemptionsSuccess'); ?>
+    <?php endif;?>
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewUsTaxExemptionsSuccess'); ?>
 
 <script type="text/javascript">

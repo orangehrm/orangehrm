@@ -92,3 +92,37 @@ div.formbuttons {
 	float:none;
 	border-top: 1px solid #FAD163;
 }
+
+.label{
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+label {
+    margin-top: 6px;
+    width: 140px
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 228px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 224px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 160px;
+    width: 128px !important;
+}
