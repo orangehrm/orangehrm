@@ -178,7 +178,7 @@ if (isset($messageType)) {
                     }
                 });
                 
-                var confirmMsg =  fields + ' <?php echo __('will be deleted from all employees records. Do you want to continue?');?>';                
+                var confirmMsg =  fields + ' <?php echo __("will be deleted from all employees' records. Do you want to continue?");?>';
                 if (checked == 1) {
                     confirmMsg = '<?php echo __('Field ');?>' + confirmMsg;
                 }
