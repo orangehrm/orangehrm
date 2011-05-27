@@ -50,10 +50,11 @@ class listCustomFieldsAction extends sfAction {
      * @return void
      */
     public function execute($request) {
+
         $admin = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         
         if (!$admin) {
-            $this->redirect($this->getRequest()->getReferer());
+            $this->forward("auth", "unauthorized");
         } else {        
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

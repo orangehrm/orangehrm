@@ -50,6 +50,13 @@ class defineCustomFieldAction extends sfAction {
      * @return unknown_type
      */
     public function execute($request) {
+        $admin = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        
+        if (!$admin) {
+            $this->forward("auth", "unauthorized");
+            return;
+        } 
+        
         $form = new CustomFieldForm(array(), array(), true);
         $customFieldsService = $this->getCustomFieldService();
         

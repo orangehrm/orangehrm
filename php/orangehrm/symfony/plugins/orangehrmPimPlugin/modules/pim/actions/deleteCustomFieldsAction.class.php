@@ -54,7 +54,7 @@ class deleteCustomFieldsAction extends sfAction {
         $admin = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         
         if (!$admin) {
-            $this->redirect($this->getRequest()->getReferer());
+            $this->forward("auth", "unauthorized");
         } else {
             $this->form = new CustomFieldDeleteForm(array(), array(), true);
             $this->form->bind($request->getParameter($this->form->getName()));
