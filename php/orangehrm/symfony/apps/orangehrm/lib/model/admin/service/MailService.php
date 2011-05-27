@@ -91,6 +91,12 @@ class MailService extends BaseService {
        return $this->mailDao->getMailNotificationFullList();
 
    }
+   
+   public function getAllMailNotifications() {
+
+       return $this->mailDao->getAllMailNotifications();
+
+   }
 
    /**
     * Delete MailNotification. The name not consistant with standard naming convention, but just added for backward compatibility
