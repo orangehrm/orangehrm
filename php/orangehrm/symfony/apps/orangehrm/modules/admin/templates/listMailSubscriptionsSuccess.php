@@ -4,7 +4,6 @@
         		<div class="top">
         			<div class="left"></div><div class="right"></div><div class="middle"></div>
         		</div>
-        		<div class="maincontent">
             <div class="mainHeading"><h2><?php echo __("Subscribe to E-mail Notifications")?></h2></div>
 
         
@@ -12,9 +11,6 @@
 
                 <?php echo $form['_csrf_token']; ?>
                 <input type="hidden" value="UpdateRecord" name="sqlState"/>
-<!--                <label for="txtMailAddress"><?php echo __("E-mail")?><span class="required">*</span></label>
-                <input type="text" value="<?php echo $notficationEmail; ?>" class="formInputText" id="txtMailAddress" name="txtMailAddress"/>
-                <br class="clear"/>-->
                 
                 <input type="checkbox"  class="formCheckbox" value="1" name="notificationMessageStatus[]" <?php if(isset($notficationList[1]) && $notficationList[1]==1){ echo "checked='checked'";}?>/>
                 <label for="txtSkillName"><?php echo __("Leave Applications")?></label> 
@@ -72,7 +68,7 @@
 	                    <input type="button" value="<?php echo __("Reset")?>" id="resetBtn"  tabindex="3"  class="clearbutton"/>
 	                </div>
 	            </form>
-        	</div>
+            </div>
         	<div class="bottom">
         		<div class="left"></div><div class="right"></div><div class="middle"></div>
         	</div>
