@@ -23,16 +23,55 @@
  */
 class CustomFieldForm extends BaseForm {
 
-    private $screens = array('personal'=>'Personal Details',
-                             'contact' => 'Contact Details',
-                             'emergency' => 'Emergency Contacts',
-                             'dependents' => 'Dependents',
-                             'immigration' => 'Immigration',
-                             'Qualifications' => 'Qualifications');
     
     public function configure() {
+        
+        $screens = $this->getScreens();
+        
+        $types = $this->getFieldTypes();
+    
+        $this->setWidgets(array(
+            'field_num' => new sfWidgetFormInputHidden(),
+            'name' => new sfWidgetFormInputText(),
+            'type' => new sfWidgetFormSelect(array('choices' => $types)),
+            'screen' => new sfWidgetFormSelect(array('choices' => $screens)),            
+            'extra_data' => new sfWidgetFormInputText(),
+        ));
 
+        //
+        // Remove default -- select -- option from valid values
+        unset($types['']);
+        unset($screens['']);
+        
+        $this->setValidators(array(
+            'field_num' => new sfValidatorNumber(array('required' => false, 'min'=> 1, 'max'=>10)),
+            'name' => new sfValidatorString(array('required' => true, 'max_length'=>250)),
+            'type' => new sfValidatorChoice(array('choices' => array_keys($types))),
+            'screen' => new sfValidatorChoice(array('choices' => array_keys($screens))),
+            'extra_data' => new sfValidatorString(array('required' => false, 'trim'=>true, 'max_length'=>250))
+        ));
+       
         $this->widgetSchema->setNameFormat('customField[%s]');
+    }
+    
+    public function getFieldTypes() {
+        $types = array('' => '-- ' . __('Select') . ' --',
+                      CustomFields::FIELD_TYPE_STRING => __('Text or Number'),
+                      CustomFields::FIELD_TYPE_SELECT => __('Drop Down'));        
+        
+        return $types;
+    }
+    
+    public function getScreens() {
+        $screens = array('' =>  '-- ' . __('Select') . ' --',
+                             'personal'=> __('Personal Details'),
+                             'contact' => __('Contact Details'),
+                             'emergency' => __('Emergency Contacts'),
+                             'dependents' => __('Dependents'),
+                             'immigration' => __('Immigration'),
+                             'Qualifications' => __('Qualifications'),
+                             'taxexemptions' => __('Tax Exemptions'));
+        return $screens;
     }
 
 }

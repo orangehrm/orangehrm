@@ -9,20 +9,71 @@ use_javascript(public_path('../../scripts/jquery/ui/ui.dialog.js'));
 
 $cssClass = '';
 
+
 if (isset($messageType)) {
     $cssClass = "messageBalloon_{$messageType}";
 }
-?>
 
+                
+?>
+<div id="customFieldsOuter">
 <div id="messagebar" class="<?php echo $cssClass;?>">
     <?php echo isset($message) ? $message : ''; ?>
 </div>   
+
+<div id="customFieldAddPane" style="display:none;" >
+  <div class="outerbox">
+    <div class="mainHeading"><h2 id="heading"><?php echo __('Add Custom Field'); ?></h2></div>
+    <form name="frmCustomField" id="frmCustomField" method="post" action="<?php echo url_for('pim/defineCustomField'); ?>">
+
+    <?php echo $form['_csrf_token']; ?>
+    <?php echo $form["field_num"]->render(); ?>
+
+    <?php echo $form['name']->renderLabel(__('Field Name') . ' <span class="required">*</span>'); ?>
+    <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 250)); ?>
+    <br class="clear"/>
+
+    <?php echo $form['screen']->renderLabel(__('Screen') . ' <span class="required">*</span>'); ?>
+    <?php echo $form['screen']->render(array("class" => "formSelect")); ?>
+    <br class="clear"/>
+
+    <?php echo $form['type']->renderLabel(__('Type') . ' <span class="required">*</span>'); ?>
+    <?php echo $form['type']->render(array("class" => "formSelect")); ?>
+    <br class="clear"/>
+    
+    <?php $showExtra = ($form->getValue('type') == CustomFields::FIELD_TYPE_SELECT) ? 'block' : 'none';?>
+    
+    <div style="display:<?php echo $showExtra;?>;" id="selectOptions">
+        
+        <?php echo $form['extra_data']->renderLabel(__('Select Options') . ' <span class="required">*</span>'); ?>
+        <?php echo $form['extra_data']->render(array("class" => "formInputText")); ?>
+        <div class="fieldHint"><?php echo __("Enter allowed options separated by commas");?></div>
+    </div>
+    <br class="clear"/>
+                        
+    <div class="formbuttons">
+        <input type="button" class="savebutton" name="btnSave" id="btnSave"
+               value="<?php echo __("Save"); ?>"
+               title="<?php echo __("Save"); ?>"
+               onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+        <input type="button" id="btnCancel" class="cancelbutton" value="<?php echo __("Cancel"); ?>"/>
+    </div>
+
+    </form>
+  </div>
+  <div class="requiredNote"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>    
+</div>
+
+
 <div class="outerbox">
+    <form name="standardView" id="standardView" method="post" action="<?php echo url_for('pim/deleteCustomFields') ?>">
+        <?php echo $deleteForm['_csrf_token']; ?>
+        <input type="hidden" name="mode" id="mode" value=""></input>    
     <div class="maincontent">       
         
         <div class="mainHeading"><h2><?php echo __("Custom Fields") ?></h2></div>
 
-        <div class="actionbar">
+        <div class="actionbar" id="listActions">
             <div class="actionbuttons">
 <?php 
     $fieldsInUse = count($listCustomField);
@@ -52,18 +103,17 @@ if (isset($messageType)) {
             <div class="pagingbar"> </div>
             <br class="clear" />
         </div>
-        <br class="clear" />
-        <form name="standardView" id="standardView" method="post" action="<?php echo url_for('pim/deleteCustomFields') ?>">
-            <?php echo $deleteForm['_csrf_token']; ?>
-            <input type="hidden" name="mode" id="mode" value=""></input>
-            <table cellpadding="0" cellspacing="0" class="data-table">
+
+            <table cellpadding="0" cellspacing="0" class="data-table" id="customFieldList">
                 <thead>
                     <tr>
-                        <td scope="col" class="fieldCheck">
+                        <td class="fieldCheck">
+                            <?php if ($fieldsInUse > 0) { ?>
                             <input type="checkbox" class="checkbox" name="allCheck" value="" id="allCheck" />
+                            <?php } ?>
                         </td>
 
-                        <td scope="col">
+                        <td scope="col" class="fieldName">
                             <?php echo $sorter->sortLink('name', __('Custom Field Name '), '@customfield_list', ESC_RAW); ?>
                         </td>  	  
                         <td scope="col">
@@ -79,33 +129,36 @@ if (isset($messageType)) {
                 <tbody>
                     <?php
                     $row = 0;
+                    $screens = $form->getScreens();
+                    $fieldTypes = $form->getFieldTypes();
+                    
                     foreach ($listCustomField as $customField) {
                         $cssClass = ($row % 2) ? 'even' : 'odd';
                         $row = $row + 1;
+                        $fieldNum = $customField->getFieldNum();
                         ?>
                         <tr class="<?php echo $cssClass ?>">
-                            <td >
-                                <input type='checkbox' class='checkbox innercheckbox' name='chkLocID[]' value='<?php echo $customField->getFieldNum() ?>' />
+                            <td class="fieldCheck">
+                                <input type='checkbox' class='checkbox innercheckbox' name='chkLocID[]' value='<?php echo $fieldNum ?>' />
+                            </td>
+                            <td class="fieldName">
+                                <a href="#"><?php echo $customField->getName() ?></a>                                
                             </td>
                             <td>
-                                <a href="<?php echo public_path('../../lib/controllers/CentralController.php?id=' . $customField->getFieldNum() . '&amp;uniqcode=CTM&amp;capturemode=updatemode');?>" >
-                                <?php echo $customField->getName() ?></a>
-                                <!-- <a href="<?php echo url_for('pim/updateCustomField?id=' . $customField->getFieldNum()) ?>"><?php echo $customField->getName() ?></a> -->
-                            </td>
-                            <td>
-                                <?php echo $customField->getScreen();?>
+                                <?php 
+                                $screenId = $customField->getScreen();
+                                echo isset($screens[$screenId]) ? $screens[$screenId] : $screenId;
+                                ?>
+                                <input type="hidden" id="screen_<?php echo $fieldNum;?>" value="<?php echo $screenId;?>"/>
                             </td>
                             <td>
                                 <?php 
                                 $type = $customField->getType();
-                                $typeDesc = '';
-                                if ($type == CustomFields::FIELD_TYPE_STRING) {
-                                    $typeDesc = __("Text or Number");
-                                } else if ($type == CustomFields::FIELD_TYPE_SELECT) {
-                                    $typeDesc = __("Drop Down");
-                                }
+                                $typeDesc = isset($fieldTypes[$type]) ? $fieldTypes[$type] : $type;
                                 echo $typeDesc;
                                 ?>
+                                <input type="hidden" id="type_<?php echo $fieldNum;?>" value="<?php echo $type;?>"/>
+                                <input type="hidden" id="extra_data_<?php echo $fieldNum;?>" value="<?php echo $customField->getExtraData();?>"/>
                             </td>
 
 
@@ -113,9 +166,10 @@ if (isset($messageType)) {
                     <?php } ?>
                 </tbody>
             </table>
-        </form>
     </div>
+        </form>        
 </div>
+    
 <div id="deleteConfirmation" title="OrangeHRM - Confirmation Required" style="display: none;">
     <span id="deleteConfirmMsg">Are you sure you want to delete selected custom field(s)?</span>
     <div class="dialogButtons">
@@ -124,17 +178,21 @@ if (isset($messageType)) {
     </div>
 </div>
 
-
+<div>
+    
 <script type="text/javascript">
 
     $(document).ready(function() {
+        
+        hideextra();
 
-        //When click add button 
-        $("#buttonAdd").click(function() {
-            $('#messagebar').text('').attr('class', '');            
-            location.href = "<?php echo public_path('../../lib/controllers/CentralController.php?uniqcode=CTM&capturemode=addmode');?>";
-
-        });
+        function hideextra() {
+            if ($('#customField_type').val() == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+                $('#selectOptions').show();
+            } else {
+                $('#selectOptions').hide();
+            }
+        }   
 
         // When Click Main Tick box
         $("#allCheck").click(function() {
@@ -161,7 +219,7 @@ if (isset($messageType)) {
 
             event.preventDefault();
 
-            var checked = $('#standardView input.checkbox:checked').length;
+            var checked = $('#customFieldList tbody input.checkbox:checked').length;
 
             if ( checked == 0) {
                 $('#messagebar').text("Please Select At Least One Custom Field To Delete").attr('class', 'messageBalloon_notice');
@@ -169,7 +227,7 @@ if (isset($messageType)) {
                 $('#messagebar').text('').attr('class', ''); 
                 
                 var fields = '';
-                $('#standardView input.checkbox:checked').each(function(index) {
+                $('#customFieldList tbody input.checkbox:checked').each(function(index) {
                     var name = $(this).parent().next().find('a').text().trim();
                     if (index == 0) {
                         fields = name;                      
@@ -213,6 +271,136 @@ if (isset($messageType)) {
             $("#deleteConfirmation").dialog("close");
         });
 	  	
+    /* Valid From Date */
+    $.validator.addMethod("validateExtra", function(value, element) {
+
+        if ($('#customField_type').val() == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+            var extraVal = $.trim($('#customField_extra_data').val());
+            var len = extraVal.length;
+            if (len == 0) {
+                return false;
+            }            
+        }
+        return true;
+    });
+    
+    //form validation
+    var formValidator =
+        $("#frmCustomField").validate({
+        rules: {
+            'customField[name]': {required: true},
+            'customField[type]': {required: true},
+            'customField[screen]': {required: true},
+            'customField[extra_data]': {validateExtra: true}
+        },
+        messages: {
+            'customField[name]': {required: '<?php echo __('Please specify field name');?>'},
+            'customField[type]': {required: '<?php echo __('Please select a field type');?>'},
+            'customField[screen]': {required: '<?php echo __('Please select a screen');?>'},
+            'customField[extra_data]' : {validateExtra: '<?php echo __('Please specify select options');?>'}
+        },
+
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.next(".clear"));
+            error.insertAfter(element.next().next(".clear"));
+
+        }
+    });
+    
+    $('#customField_type').change(function() {
+        hideextra();        
+        formValidator.element('#customField_type');
+        
+        var alreadyValidated = $("div.error").length;
+        
+        if ((alreadyValidated > 0) || ($('#customField_type').val() !=  <?php echo CustomFields::FIELD_TYPE_SELECT;?>) ) {
+            formValidator.element('#customField_extra_data');
+        }
+    });    
+    
+    function clearAddForm() {
+        $('#customField_field_num').val('');
+        $('#customField_name').val('');
+        $('#customField_type').val('');
+        $('#customField_screen').val('');
+        $('#customField_extra_data').val('');
+        $('div#customFieldAddPane label.error').hide();
+        $('div#messagebar').text('').attr('class', '');            
+    }
+
+    function addEditLinks() {
+        removeEditLinks();
+        $('#customFieldList tbody td.fieldName').wrapInner('<a href="#"/>');
+    }
+
+    function removeEditLinks() {
+        $('#customFieldList tbody td.fieldName a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }
+    
+    $('#btnCancel').click(function() {
+        clearAddForm();
+        $('#customFieldAddPane').css('display', 'none');
+        $('#listActions').show();
+        $('#customFieldList td.fieldCheck').show();
+        addEditLinks();
+        $('div#messagebar').text('').attr('class', '');            
+        $(".paddingLeftRequired").hide();
+    });
+
+    // Add a emergency contact
+    $('#buttonAdd').click(function() {
+        $("#heading").text("<?php echo __("Add Custom Field");?>");
+        clearAddForm();
+
+        // Hide list action buttons and checkbox
+        $('#listActions').hide();
+        $('#customFieldList td.fieldCheck').hide();
+        removeEditLinks();
+        $('div#messagebar').text('').attr('class', '');            
+        
+        hideextra();
+
+        //
+        //            // hide validation error messages
+        //            $("label.errortd[generated='true']").css('display', 'none');
+        $('#customFieldAddPane').css('display', 'block');
+
+    });        
+    
+    $('#customFieldList tbody a').live('click', function() {
+        $("#heading").text("<?php echo __("Edit Custom Field");?>");
+        
+        var row = $(this).closest("tr");
+        var fieldNo = row.find('input.checkbox:first').val();
+        var name = $(this).text();
+        var type = $("#type_" + fieldNo).val();
+        var screen = $("#screen_" + fieldNo).val();
+        var extraData = $("#extra_data_" + fieldNo).val();
+
+        $('#customField_field_num').val(fieldNo);
+        $('#customField_name').val(name);
+        $('#customField_type').val(type);
+        $('#customField_screen').val(screen);
+        $('#customField_extra_data').val(extraData);
+
+
+        $('div#messagebar').text('').attr('class', '');            
+        hideextra();
+        // hide validation error messages
+
+        $('#listActions').hide();
+        $('#customFieldList td.fieldCheck').hide();
+        $('#customFieldAddPane').css('display', 'block');
+
+    });
+
+        $('#btnSave').click(function() {
+            $('#frmCustomField').submit();
+        });
+                                
     });
 
 </script>

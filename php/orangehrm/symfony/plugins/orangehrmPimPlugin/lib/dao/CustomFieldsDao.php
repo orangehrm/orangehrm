@@ -37,22 +37,56 @@ class CustomFieldsDao extends BaseDao {
     * @throws DaoException, DataDuplicationException
     */
    public function saveCustomField(CustomFields $customFields) {
-      try {
-	    	$q = Doctrine_Query::create()
-			    ->from('CustomFields c')
-             ->where('c.name = ?', $customFields->name)
-             ->andWhere('c.field_num <> ?', $customFields->field_num);
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('CustomFields c')
+                    ->where('c.name = ?', $customFields->name)
+                    ->andWhere('c.field_num <> ?', $customFields->field_num);
 
-         if ($q->count() > 0) {
-            throw new DataDuplicationException("Saving CustomFields failed due to saving of dupliced data");
-         }
+            if ($q->count() > 0) {
+                throw new DataDuplicationException("Saving CustomFields failed due to saving of dupliced data");
+            }
 
-        	$customFields->save();
-         return true;
-      } catch(Doctrine_Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+            $freeNum = null;            
+            
+            if (empty($customFields->field_num)) {
+                $q = Doctrine_Query::create()
+                    ->select('c.field_num')
+                    ->from('CustomFields c')
+                    ->orderBy('field_num');
+                $fieldNumbers = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
+                $count = count($fieldNumbers);
+                
+                $i = 1;
+                foreach ($fieldNumbers as $num) {
+
+                    if ($num['c_field_num'] > $i) {
+                        $freeNum = $i;
+                        break;
+                    }
+                    $i++;
+                    
+                    if ($i > 10) {
+                        break;
+                    }
+                }
+                
+                if (empty($freeNum) && ($i <= 10)) {
+                    $freeNum = $i;
+                }
+
+                $customFields->field_num = $freeNum;
+            }
+            
+            if (!empty($customFields->field_num)) {
+                $customFields->save();
+            }
+            
+            return true;
+        } catch (Doctrine_Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
    /**
     * Delete CustomField
@@ -62,7 +96,8 @@ class CustomFieldsDao extends BaseDao {
     */
    public function deleteCustomField($customFieldList = array()) {
       try {
-         if(is_array($customFieldList)) {
+          
+         if (is_array($customFieldList)) {
 	        	$q = Doctrine_Query::create()
 					    ->delete('CustomFields')
 					    ->whereIn('field_num', $customFieldList  );

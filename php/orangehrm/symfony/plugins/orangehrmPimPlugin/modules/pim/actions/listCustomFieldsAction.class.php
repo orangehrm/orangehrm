@@ -66,7 +66,7 @@ class listCustomFieldsAction extends sfAction {
                 }
             }
             
-            
+            $this->form = new CustomFieldForm(array(), array(), true);
             $this->deleteForm = new CustomFieldDeleteForm(array(), array(), true);
             $customFieldsService = $this->getCustomFieldService();
             $this->sorter = new ListSorter('propoerty.sort', 'admin_module', $this->getUser(), array('field_num', ListSorter::ASCENDING));

@@ -1,5 +1,5 @@
-input#allCheck {
-    margin-left: 1px;
+table#customFieldList input#check {
+    margin-left: 2px;
 }
 
 span#fieldsleft {
@@ -18,6 +18,10 @@ table.data-table thead td {
 
 table.data-table thead td.fieldCheck {
     width: 30px;
+}
+
+table.data-table td.fieldName {
+    padding-left: 8px;
 }
 
 table.data-table thead td a {
@@ -42,4 +46,31 @@ div.dialogButtons {
 
 div.actionbuttons {
     width: auto;
+}
+
+div#customFieldsOuter {
+    width: 800px;
+}
+
+div#actionbar {
+    clear: both;
+    float: none;
+}
+
+div.requiredNote {
+    margin-left: 15px;
+}
+
+form#frmCustomField label {
+    margin-top: 5px;
+    width: 120px;
+}
+
+form#frmCustomField div.error {
+    padding-left: 140px;
+}
+
+div.fieldHint {
+    margin-top: 5px;
+    padding-top: 1px;
 }
