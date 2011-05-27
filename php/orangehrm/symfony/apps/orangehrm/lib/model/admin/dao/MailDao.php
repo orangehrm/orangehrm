@@ -56,6 +56,15 @@ class MailDao extends BaseDao {
          throw new DaoException($e->getMessage());
       }
    }
+   
+   public function getAllMailNotifications() {
+
+        try {
+            return Doctrine :: getTable('MailNotification')->findAll();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
    /**
     * Delete MailNotification
