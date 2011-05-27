@@ -2374,8 +2374,13 @@ class adminActions extends sfActions {
 
 		$mailService 			= 	new MailService();
 		$user					=	$_SESSION['user'] ;
-        $notficationEmail       =   trim($request->getParameter('txtMailAddress'));
-
+        
+        $this->mailnot  = array();
+        
+        for($i=-1;$i<9;$i++) {
+            $this->mailnot[$i] = '';
+        }
+        
         if ($request->isMethod('post')) {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()){
@@ -2383,6 +2388,9 @@ class adminActions extends sfActions {
 				$mailService->removeMailNotification($user);
 				foreach( $request->getParameter('notificationMessageStatus') as $notificationTypeId) {
 					$mailNotification	=	new MailNotification();
+                    
+                    $notficationEmail       =   trim($request->getParameter('txtMailAddress_'.$notificationTypeId));
+                    
 					$mailNotification->setUserId( $user );
 					$mailNotification->setNotificationTypeId( $notificationTypeId );
 					$mailNotification->setStatus( 1 );
@@ -2395,13 +2403,19 @@ class adminActions extends sfActions {
 
 		$this->notficationList	=	$mailService->getMailNotificationList($user);
 
-        $notficationFullList = $mailService->getMailNotificationFullList();
+        //$notficationFullList = $mailService->getMailNotificationFullList();
 
-        if (!empty($notficationFullList)) {
-           $this->notficationEmail = $notficationFullList[0]->getEmail();
-        } else {
-            $this->notficationEmail = '';
+        $AllMailNotifications = $mailService->getAllMailNotifications();
+        
+        foreach($AllMailNotifications as $mailNotification) {
+            $this->mailnot[$mailNotification->notification_type_id] = $mailNotification->email;
         }
+        
+//        if (!empty($notficationFullList)) {
+//           $this->notficationEmail = $notficationFullList[0]->getEmail();
+//        } else {
+//            $this->notficationEmail = '';
+//        }
 
 	}
 
