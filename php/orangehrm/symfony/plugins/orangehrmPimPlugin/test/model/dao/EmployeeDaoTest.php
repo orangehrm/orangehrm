@@ -127,4 +127,15 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $empUsTaxExemption->getEmpNumber());
         $this->assertEquals(4, $empUsTaxExemption->stateExemptions);
     }
+
+    /**
+     * Test for getMembershipDetails returns collection
+     */
+     //public function testGetMembershipDetails(){
+        // $employeeMemberDetail1 = TestDataService::fetchObject('EmployeeMemberDetail', 1);
+         //$employeeMemberDetail2 = TestDataService::fetchObject('EmployeeMemberDetail', 2);
+         //$memberDetailArray = $this->employeeDao->getMembershipDetails(1);
+         //print_r($memberDetailArray[0]->getEmpNumber());
+        // $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
+     //}
 }

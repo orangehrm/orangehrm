@@ -835,4 +835,17 @@ class EmployeeService extends BaseService {
         }
     }
 
+    /**
+     * Get membership details for given employee
+     * @param int $empNumber Employee Number
+     * @return array membership details as array
+     */
+    public function getMembershipDetails($empNumber) {
+        try {
+            return $this->employeeDao->getMembershipDetails($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
 }

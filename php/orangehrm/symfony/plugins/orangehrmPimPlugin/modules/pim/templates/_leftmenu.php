@@ -451,7 +451,7 @@ if($empNumber == $_SESSION['empID']) {
                         <span><?php echo __("Qualifications");?></span></a></li>
                 
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=13');?>" id="membershipsLink" class="pimmemberships" accesskey="m">
+                    <a href="<?php echo url_for('pim/viewMemberships?empNumber=' . $empNumber);?>" id="membershipsLink" class="pimmemberships" accesskey="m">
                         <span><?php echo __("Membership");?></span>
                     </a>
                 </li>                        

@@ -1,0 +1,50 @@
+root { 
+    display: block;
+}
+
+div.messageBar {
+    margin: 5px 15px 5px 15px;
+
+}
+
+
+form#frmEmpMembership label {
+    position: relative;
+    margin-top: 6px;
+    width: 200px
+}
+
+form#frmEmpMembership label label.error {
+    color:red;
+    display: block;
+    font-weight: normal;
+    overflow:visible;
+    width:270px !important; /* Need to overide important in messages.css */
+    padding-left:120px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 178px;
+}
+
+form input.formDateInput {
+    width: 168px;
+    height:14px;
+    margin-top: 5px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 168px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+

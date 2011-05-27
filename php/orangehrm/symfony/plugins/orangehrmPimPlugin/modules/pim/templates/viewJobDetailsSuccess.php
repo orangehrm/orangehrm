@@ -211,7 +211,7 @@ $(document).ready(function() {
     
     daymarker.bindElement("#job_joined_date", {
         onSelect: function(date){
-            $("#job_joined_date").valid();
+            //$("#job_joined_date").valid();
             },
             dateFormat:jsDateFormat
         });

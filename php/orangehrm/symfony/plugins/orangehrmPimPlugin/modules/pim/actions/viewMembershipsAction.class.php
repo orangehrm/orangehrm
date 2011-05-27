@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,7 +17,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewUsTaxExemptionsAction extends sfAction {
+
+/**
+ * Actions class for PIM module memberships
+ */
+class viewMembershipsAction extends sfAction {
 
     private $employeeService;
 
@@ -25,7 +30,7 @@ class viewUsTaxExemptionsAction extends sfAction {
      * @returns EmployeeService
      */
     public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
+        if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
             $this->employeeService->setEmployeeDao(new EmployeeDao());
         }
@@ -40,55 +45,57 @@ class viewUsTaxExemptionsAction extends sfAction {
         $this->employeeService = $employeeService;
     }
 
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
+
     public function execute($request) {
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
-        $tax = $request->getParameter('tax');
-        $empNumber = (isset($tax['empNumber']))?$tax['empNumber']:$request->getParameter('empNumber');
+        $membership = $request->getParameter('membership');
+        $empNumber = (isset($membership['empNumber'])) ? $membership['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
+        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewMemberships?empNumber='. $loggedInEmpNum);
+        if ($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+            $this->redirect('pim/viewMemberships?empNumber=' . $loggedInEmpNum);
         }
-
-        $param = array('empNumber' => $empNumber);
-        $this->form = new EmployeeUsTaxExemptionsForm(array(), $param, true);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        
-         if ($request->isMethod('post')) {
+        $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $empUsTaxExemption = $this->form->getEmpUsTaxExemption();
-                $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Tax Details Saved Successfully')));
-                $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
-            }
-        }
+        $this->setForm(new EmployeeMembershipForm(array(), $param, true));
+        $this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);
+        $this->memberships = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
     }
 
     private function isSupervisor($loggedInEmpNum, $empNumber) {
 
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+        if (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
             $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
 
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
+            foreach ($subordinates as $employee) {
+                if ($employee->getEmpNumber() == $empNumber) {
                     return true;
                 }
             }
         }
         return false;
     }
-}
 
+}

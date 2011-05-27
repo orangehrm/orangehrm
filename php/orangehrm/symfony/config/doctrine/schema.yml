@@ -559,67 +559,92 @@ MembershipType:
   tableName: hs_hr_membership_type
   columns:
     membtype_code:
+      name: membtype_code as membershipTypeCode
       type: string(13)
       primary: true
-    membtype_name: string(120)
+    membtype_name:
+      name: membtype_name as membershipTypeName
+      type: string(150)
   relations:
-    HsHrEmpMemberDetail:
-      local: membtype_code
-      foreign: membtype_code
+    EmployeeMemberDetail:
+      local: membershipTypeCode
+      foreign: membershipTypeCode
       type: many
     Membership:
-      local: membtype_code
-      foreign: membtype_code
+      local: membershipTypeCode
+      foreign: membershipTypeCode
       type: many
 
 Membership:
   tableName: hs_hr_membership
   columns:
     membship_code:
+      name: membship_code as membershipCode
       type: string(13)
       primary: true
-    membtype_code: string(13)
-    membship_name: string(120)
+    membtype_code:
+      name: membtype_code as membershipTypeCode
+      type: string(13)
+    membship_name:
+      name: membship_name as membershipName
+      type: string(150)
   relations:
     MembershipType:
-      local: membtype_code
-      foreign: membtype_code
+      local: membershipTypeCode
+      foreign: membershipTypeCode
       type: one
     EmployeeMemberDetail:
-      local: membship_code
-      foreign: membship_code
+      local: membershipCode
+      foreign: membershipCode
       type: many
  
 EmployeeMemberDetail:
   tableName: hs_hr_emp_member_detail
   columns:
     emp_number:
+      name: emp_number as empNumber
       type: integer(4)
       primary: true
     membship_code:
+      name: membship_code as membershipCode
       type: string(13)
       primary: true
     membtype_code:
+      name: membtype_code as membershipTypeCode
       type: string(13)
       primary: true
-    ememb_subscript_amount as subscription:
+    ememb_subscript_amount:
+      name: ememb_subscript_amount as subscriptionAmount
       type: decimal(15)
       scale: false
-    ememb_subscript_ownership as ownership: string(20)
-    ememb_commence_date as commence_date: timestamp(25)
-    ememb_renewal_date as renewal_date: timestamp(25)
+    ememb_subscript_ownership:
+      name: ememb_subscript_ownership as subscriptionPaidBy
+      type: string(30)
+      default: ''
+    ememb_subs_currency:
+      name: ememb_subs_currency as subscriptionCurrency
+      type: string(13)
+      default: ''
+    ememb_commence_date:
+      name: ememb_commence_date as subscriptionCommenceDate
+      type: timestamp(25)
+      default: ''
+    ememb_renewal_date:
+      name: ememb_renewal_date as subscriptionRenewalDate
+      type: timestamp(25)
+      default: ''
   relations:
     MembershipType:
-      local: membtype_code
-      foreign: membtype_code
+      local: membershipTypeCode
+      foreign: membershipTypeCode
       type: one
     Membership:
-      local: membship_code
-      foreign: membship_code
+      local: membershipCode
+      foreign: membershipCode
       type: one
     Employee:
-      local: emp_number
-      foreign: emp_number
+      local: empNumber
+      foreign: empNumber
       type: one
 
 EmpBasicsalary:

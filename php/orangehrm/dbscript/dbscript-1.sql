@@ -232,6 +232,7 @@ create table `hs_hr_emp_member_detail` (
   `membtype_code` varchar(13) not null default '',
   `ememb_subscript_ownership` varchar(20) default null,
   `ememb_subscript_amount` decimal(15,2) default null,
+  `ememb_subs_currency` varchar(20) default null,
   `ememb_commence_date` datetime default null,
   `ememb_renewal_date` datetime default null,
   primary key  (`emp_number`,`membship_code`,`membtype_code`)

@@ -39,7 +39,7 @@ class MembershipService extends BaseService {
 			    ->orderBy($orderField.' '.$orderBy);
 			
 			$membershipTypeList = $q->execute();
-			   
+
 			return  $membershipTypeList ;
 			
         }catch( Exception $e)

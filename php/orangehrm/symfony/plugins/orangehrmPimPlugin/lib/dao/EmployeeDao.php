@@ -1043,90 +1043,107 @@ class EmployeeDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()->from('EmpUsTaxExemption eute')
                             ->where('eute.emp_number =?', $empNumber);
-                 return $q->fetchOne();
+            return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
     /**
-    * Save Employee Tax Exemptios
-    * @param EmpUsTaxExemption $empUsTaxExemption
-    * @returns boolean
-    * @throws DaoException
-    */
+     * Save Employee Tax Exemptios
+     * @param EmpUsTaxExemption $empUsTaxExemption
+     * @returns boolean
+     * @throws DaoException
+     */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         try {
             $empUsTaxExemption->save();
             return true;
-         } catch (Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-   /**
-    * Save Contact Details
-    * @param Employee $employee
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function saveJobDetails(Employee $employee) {
-       
-      $conn = Doctrine_Manager :: connection();
-      $conn->beginTransaction();
-      try {
-         $q = Doctrine_Query :: create($conn)->update('Employee');
+    /**
+     * Save Contact Details
+     * @param Employee $employee
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function saveJobDetails(Employee $employee) {
 
-         if (!empty ($employee->job_title_code)) {
-             $q->set('job_title_code', '?', $employee->job_title_code);
-         }
+        $conn = Doctrine_Manager :: connection();
+        $conn->beginTransaction();
+        try {
+            $q = Doctrine_Query :: create($conn)->update('Employee');
 
-         if (!empty ($employee->emp_status)) {
-             $q->set('emp_status', '?', $employee->emp_status);
-         }
+            if (!empty($employee->job_title_code)) {
+                $q->set('job_title_code', '?', $employee->job_title_code);
+            }
 
-         if (!empty ($employee->eeo_cat_code)) {
-             $q->set('eeo_cat_code', '?', $employee->eeo_cat_code);
-         }
+            if (!empty($employee->emp_status)) {
+                $q->set('emp_status', '?', $employee->emp_status);
+            }
 
-         if (!empty ($employee->work_station)) {
-             $q->set('work_station', '?', $employee->work_station);
-         }
+            if (!empty($employee->eeo_cat_code)) {
+                $q->set('eeo_cat_code', '?', $employee->eeo_cat_code);
+            }
 
-         if (!empty ($employee->joined_date)) {
-             $q->set('joined_date', '?', $employee->joined_date);
-         }
+            if (!empty($employee->work_station)) {
+                $q->set('work_station', '?', $employee->work_station);
+            }
 
-         $q->where('empNumber = ?', $employee->empNumber);
-         $result = $q->execute();
+            if (!empty($employee->joined_date)) {
+                $q->set('joined_date', '?', $employee->joined_date);
+            }
 
-         // Employee locations
-         $q = Doctrine_Query :: create()->delete('EmpLocations el')
-                ->where('emp_number = ?', $employee->empNumber);
-         $result = $q->execute();
-         
-         if (count($employee->locations) > 0) {
-            $empLocation = $employee->locations[0];
-            $empLocation->save();
-         }
-         
-        // Employee contracts
-         $q = Doctrine_Query :: create()->delete('EmpContract ec')
-                ->where('emp_number = ?', $employee->empNumber);
-         $result = $q->execute();
-         
-         if (count($employee->contracts) > 0) {
-            $empContract = $employee->contracts[0];
-            
-            // TODO: Check why emp_number is lost
-            $empContract->emp_number = $employee->empNumber;
-            $empContract->save();
-         }
-    
-         $conn->commit();
-         return true;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+            $q->where('empNumber = ?', $employee->empNumber);
+            $result = $q->execute();
+
+            // Employee locations
+            $q = Doctrine_Query :: create()->delete('EmpLocations el')
+                            ->where('emp_number = ?', $employee->empNumber);
+            $result = $q->execute();
+
+            if (count($employee->locations) > 0) {
+                $empLocation = $employee->locations[0];
+                $empLocation->save();
+            }
+
+            // Employee contracts
+            $q = Doctrine_Query :: create()->delete('EmpContract ec')
+                            ->where('emp_number = ?', $employee->empNumber);
+            $result = $q->execute();
+
+            if (count($employee->contracts) > 0) {
+                $empContract = $employee->contracts[0];
+
+                // TODO: Check why emp_number is lost
+                $empContract->emp_number = $employee->empNumber;
+                $empContract->save();
+            }
+
+            $conn->commit();
+            return true;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get membership details for given employee
+     * @param int $empNumber Employee Number
+     * @return array Membership details as array
+     */
+    public function getMembershipDetails($empNumber) {
+
+        try {
+            $q = Doctrine_Query::create()->from('EmployeeMemberDetail emd')
+                            ->where('emd.emp_number =?', $empNumber);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }
