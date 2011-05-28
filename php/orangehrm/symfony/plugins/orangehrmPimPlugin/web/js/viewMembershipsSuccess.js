@@ -64,6 +64,39 @@ $(document).ready(function() {
         }
     });
 
+    // Edit a emergency contact in the list
+        $('#frmEmpDelMemberships a').live('click', function() {
+
+            var row = $(this).closest("tr");
+            var primarykey = row.find('input.checkbox:first').val();
+            var membership = $(this).val();
+            var membershipType = row.find("td:nth-child(3)").text();
+            var subscriptionPaidBy = row.find("td:nth-child(4)").text();
+            var subscriptionAmount = row.find("td:nth-child(5)").text();
+            var currency = row.find("td:nth-child(6)").text();
+            var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
+            var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
+
+            //$('#emgcontacts_seqNo').val(seqNo);
+            $('#membership_membership').val(membership);
+            $('#membership_membershipType').val(membershipType);
+            $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
+            $('#membership_subscriptionAmount').val(subscriptionAmount);
+            $('#membership_currency').val(currency);
+            $('#membership_subscriptionCommenceDate').val(subscriptionCommenceDate);
+            $('#membership_subscriptionRenewalDate').val(subscriptionRenewalDate);
+
+            $(".paddingLeftRequired").show();
+            $("#membershipHeading").text(editMembershipDetail);
+            $('div#messagebar').hide();
+            // hide validation error messages
+
+            $('#listActions').hide();
+            $('#mem_list td.check').hide();
+            $('#addPaneMembership').css('display', 'block');
+
+        });
+
      // Cancel in add pane
         $('#btnCancel').click(function() {
             clearAddForm();
@@ -114,7 +147,7 @@ function clearAddForm() {
     $('#membership_membership').val('');
     $('#membership_subscriptionPaidBy').val('');
     $('#membership_subscriptionAmount').val('');
-    $('#membership_subscriptionCommenceDate').val('');
+    $('#membership_currency').val('');
     $('#membership_subscriptionCommenceDate').val(dateDisplayFormat);
     $('#membership_subscriptionRenewalDate').val(dateDisplayFormat);
     //$('div#addPaneEmgContact label.error').hide();

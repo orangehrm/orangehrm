@@ -58,11 +58,11 @@ $allowEdit = true;
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
 
-                            <?php echo $form['membershipType']->renderLabel(__('Membership Type')); ?>
+                            <?php echo $form['membershipType']->renderLabel(__('Membership Type'). ' <span class="required">*</span>'); ?>
                             <?php echo $form['membershipType']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
                             <br class="clear"/>
 
-                            <?php echo $form['membership']->renderLabel(__('Membership')); ?>
+                            <?php echo $form['membership']->renderLabel(__('Membership'). ' <span class="required">*</span>'); ?>
                             <?php echo $form['membership']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
                             <br class="clear"/>
 
@@ -179,6 +179,7 @@ $allowEdit = true;
                     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
                     var dateDisplayFormat = dateFormat.toUpperCase();
                     var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
-                    var addMembershipDetail = '<?php echo __("Add Membershi Detail"); ?>';
+                    var addMembershipDetail = '<?php echo __("Add Membership Detail"); ?>';
+                    var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     //]]>
                 </script>
