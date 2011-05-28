@@ -52,7 +52,7 @@ $allowEdit = true;
                 <div id="addPaneMembership" style="display:none;">
                     <div class="outerbox">
 
-                        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Memberships'); ?></h2></div>
+                        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Membership Details'); ?></h2></div>
                         <form name="frmEmpEmgContact" id="frmEmpMembership" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
@@ -113,7 +113,7 @@ $allowEdit = true;
                                 <div class="actionbuttons">
                                 <?php if ($allowEdit) {?>
 
-                                    <input type="button" class="addbutton" id="btnAddContact" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                    <input type="button" class="addbutton" id="btnAddMembershipDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
                                 <?php } ?>
                                 <?php if ($allowDel) { ?>
 
@@ -179,5 +179,6 @@ $allowEdit = true;
                     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
                     var dateDisplayFormat = dateFormat.toUpperCase();
                     var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
+                    var addMembershipDetail = '<?php echo __("Add Membershi Detail"); ?>';
                     //]]>
                 </script>
