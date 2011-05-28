@@ -64,50 +64,64 @@ $(document).ready(function() {
         }
     });
 
+    $('#membership_membershipType').change(function() {
+
+        $.ajax({
+            type: "POST",
+            url: getMembershipsUrl,
+            dataType: "html",
+            data: "membershipTypeCode="+$('#membership_membershipType').val(),
+            success: function(msg){
+                $('#membership_membership').html(msg);
+
+            }
+        }).responseText;
+    });
+    
     // Edit a emergency contact in the list
-        $('#frmEmpDelMemberships a').live('click', function() {
+    $('#frmEmpDelMemberships a').live('click', function() {
 
-            var row = $(this).closest("tr");
-            var primarykey = row.find('input.checkbox:first').val();
-            var membership = $(this).val();
-            var membershipType = row.find("td:nth-child(3)").text();
-            var subscriptionPaidBy = row.find("td:nth-child(4)").text();
-            var subscriptionAmount = row.find("td:nth-child(5)").text();
-            var currency = row.find("td:nth-child(6)").text();
-            var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
-            var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
+        var row = $(this).closest("tr");
+        var primarykey = row.find('input.checkbox:first').val();
+        var membership = $(this).val();
+        var membershipType = row.find("td:nth-child(3)").text();
+        var subscriptionPaidBy = row.find("td:nth-child(4)").text();
+        var subscriptionAmount = row.find("td:nth-child(5)").text();
+        var currency = row.find("td:nth-child(6)").text();
+        var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
+        var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
 
-            $('#membership_membership').val(membership);
-            //$('#membership_membership').attr('disabled', 'disabled');
-            $('#membership_membershipType').val(membershipType);
-            $('#membership_membershipType').attr('disabled', 'disabled');
-            $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
-            $('#membership_subscriptionAmount').val(subscriptionAmount);
-            $('#membership_currency').val(currency);
-            $('#membership_subscriptionCommenceDate').val(subscriptionCommenceDate);
-            $('#membership_subscriptionRenewalDate').val(subscriptionRenewalDate);
+        $('#membership_membership').val(membership);
+        $('#membership_membership').attr('disabled', 'disabled');
+        $('#membership_membershipType').val(membershipType);
+        $('#membership_membershipType').attr('disabled', 'disabled');
+        $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
+        $('#membership_subscriptionAmount').val(subscriptionAmount);
+        $('#membership_currency').val(currency);
+        $('#membership_subscriptionCommenceDate').val(subscriptionCommenceDate);
+        $('#membership_subscriptionRenewalDate').val(subscriptionRenewalDate);
 
-            $(".paddingLeftRequired").show();
-            $("#membershipHeading").text(editMembershipDetail);
-            $('div#messagebar').hide();
-            // hide validation error messages
+        $(".paddingLeftRequired").show();
+        $("#membershipHeading").text(editMembershipDetail);
+        $('div#messagebar').hide();
+        // hide validation error messages
 
-            $('#listActions').hide();
-            $('#mem_list td.check').hide();
-            $('#addPaneMembership').css('display', 'block');
+        $('#listActions').hide();
+        $('#mem_list td.check').hide();
+        $('#addPaneMembership').css('display', 'block');
 
-        });
+    });
 
-     // Cancel in add pane
-        $('#btnCancel').click(function() {
-            clearAddForm();
-            $('#addPaneMembership').css('display', 'none');
-            $('#listActions').show();
-            $('#mem_list td.check').show();
-            addEditLinks();
-            $('div#messagebar').hide();
-            $(".paddingLeftRequired").hide();
-        });
+    // Cancel in add pane
+    $('#btnCancel').click(function() {
+        clearAddForm();
+        $('#addPaneMembership').css('display', 'none');
+        $('#listActions').show();
+        $('#mem_list td.check').show();
+        addEditLinks();
+        $('div#messagebar').hide();
+        $(".paddingLeftRequired").hide();
+    });
 
 
     // Add a emergency contact
@@ -147,6 +161,7 @@ $(document).ready(function() {
 });
 
 function clearAddForm() {
+
     $('#membership_membershipType').val('');
     $('#membership_membership').val('');
     $('#membership_subscriptionPaidBy').val('');
@@ -156,6 +171,7 @@ function clearAddForm() {
     $('#membership_subscriptionRenewalDate').val(dateDisplayFormat);
     //$('div#addPaneEmgContact label.error').hide();
     $('div#messagebar').hide();
+    
 }
 
 function addEditLinks() {

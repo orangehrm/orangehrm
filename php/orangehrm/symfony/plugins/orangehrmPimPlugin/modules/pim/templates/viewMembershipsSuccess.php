@@ -32,7 +32,6 @@ $hasMemDetails = $numMemDetails > 0;
 $allowDel = true;
 $allowEdit = true;
 ?>
-
 <table cellspacing="0" cellpadding="0" border="0" >
     <tr>
         <td width="5">&nbsp;</td>
@@ -183,5 +182,6 @@ $allowEdit = true;
                     var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
                     var addMembershipDetail = '<?php echo __("Add Membership Detail"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
+                    var getMembershipsUrl= "<?php echo url_for('pim/getMemberships')?>";
                     //]]>
                 </script>

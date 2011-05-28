@@ -145,7 +145,7 @@ class EmployeeMembershipForm extends BaseForm {
 
         $empNumber = $this->getValue('empNumber');
         $membershipType = $this->getValue('membershipType');
-        $membership = "MME001"; //$this->getValue('membership');
+        $membership = $this->getValue('membership');
 
         $employeeService = new EmployeeService();
         $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
