@@ -78,7 +78,7 @@ $(document).ready(function() {
             var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
 
             $('#membership_membership').val(membership);
-            $('#membership_membership').attr('disabled', 'disabled');
+            //$('#membership_membership').attr('disabled', 'disabled');
             $('#membership_membershipType').val(membershipType);
             $('#membership_membershipType').attr('disabled', 'disabled');
             $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
@@ -112,6 +112,9 @@ $(document).ready(function() {
 
     // Add a emergency contact
     $('#btnAddMembershipDetail').click(function() {
+        
+        $('#membership_membershipType').removeAttr('disabled');
+        $('#membership_membership').removeAttr('disabled');
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
         clearAddForm();
@@ -125,6 +128,8 @@ $(document).ready(function() {
     });
 
     $('#btnSaveMembership').click(function() {
+        $('#membership_membershipType').removeAttr('disabled');
+        $('#membership_membership').removeAttr('disabled');
         $('#frmEmpMembership').submit();
     });
 
@@ -138,8 +143,6 @@ $(document).ready(function() {
             $('#frmEmpDelMemberships').submit();
         }
     });
-
-
 
 });
 

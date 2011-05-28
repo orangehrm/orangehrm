@@ -74,7 +74,7 @@ class EmployeeMembershipForm extends BaseForm {
 
         $membershipType = $this->getMembershipTypeList();
         $membership = array('' => "-- " . __('Select Membership') . " --");
-        $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'C' => __('Company'), 'I' => __('Individual'));
+        $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'Company' => __('Company'), 'Individual' => __('Individual'));
         $currency = $this->getCurrencyList();
 
         $empNumber = $this->getOption('empNumber');
@@ -151,7 +151,7 @@ class EmployeeMembershipForm extends BaseForm {
         $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
         $membershipDetail = $membershipDetails[0];
 
-        if ($membershipDetail == false) {
+        if ($membershipDetail->getEmpNumber() == null) {
 
             $membershipDetail = new EmployeeMemberDetail();
             $membershipDetail->empNumber = $empNumber;

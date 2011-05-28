@@ -144,9 +144,11 @@ $allowEdit = true;
                                     $chkBoxValue = $empNumber . " " . $memship->membershipTypeCode . " " . $memship->membershipCode;
                                     echo "<td class='check'><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
                                 ?>
-                                <td class="memshipCode" valign="top"><a href="#"><?php echo $memship->membershipCode; ?></a></td>
+                                <?php $newMembership = $memship->getMembership();?>
+                                <?php $newMembershipType = $memship->getMembershipType();?>
+                                <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
                             <?php
-                                    echo "<td valigh='top'>" . $memship->membershipTypeCode . "</td>";
+                                    echo "<td valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
                                     echo "<td valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
                                     echo "<td valigh='top'>" . $memship->subscriptionAmount . '</td>';
                                     echo "<td valigh='top'>" . $memship->subscriptionCurrency . '</td>';
