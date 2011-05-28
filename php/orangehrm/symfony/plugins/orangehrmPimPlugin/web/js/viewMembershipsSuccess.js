@@ -77,9 +77,10 @@ $(document).ready(function() {
             var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
             var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
 
-            //$('#emgcontacts_seqNo').val(seqNo);
             $('#membership_membership').val(membership);
+            $('#membership_membership').attr('disabled', 'disabled');
             $('#membership_membershipType').val(membershipType);
+            $('#membership_membershipType').attr('disabled', 'disabled');
             $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
             $('#membership_subscriptionAmount').val(subscriptionAmount);
             $('#membership_currency').val(currency);

@@ -1147,6 +1147,26 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
+     * Get membership details for given employee
+     * @param int $empNumber $membershipType $membership
+     * @return array Membership details as array
+     */
+    public function getMembershipDetail($empNumber, $membershipType, $membership) {
+
+        try {
+            $q = Doctrine_Query::create()->from('EmployeeMemberDetail emd')
+                            ->where('emd.emp_number =?', $empNumber)
+                            ->andWhere("emd.membershipTypeCode = ?", $membershipType)
+                            ->andWhere("emd.membershipCode = ?", $membership);
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+
+    /**
      * Delete Membership Detail
      * @param $empNumber $membershipType $membership
      * @return boolean

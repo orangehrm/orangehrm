@@ -1,4 +1,5 @@
 <?php
+
 /*
   // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
   // all the essential functionalities required for any enterprise.
@@ -137,33 +138,34 @@ class EmployeeMembershipForm extends BaseForm {
         return $list;
     }
 
-     /**
+    /**
      * Save membership
      */
     public function save() {
-        
-       $empNumber = $this->getValue('empNumber');
-       $membershipType = $this->getValue( 'membershipType');
-       $membership = "MME001"; //$this->getValue('membership');
 
-       $membershipDetail = Doctrine::getTable('EmployeeMemberDetail')->find(array('empNumber' => $empNumber, 'membershipTypeCode' => $membershipType, 'membershipCode' => $membership));
+        $empNumber = $this->getValue('empNumber');
+        $membershipType = $this->getValue('membershipType');
+        $membership = "MME001"; //$this->getValue('membership');
 
-       if($membershipDetail == false){
+        $employeeService = new EmployeeService();
+        $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
+        $membershipDetail = $membershipDetails[0];
 
-           $membershipDetail = new EmployeeMemberDetail();
-           $membershipDetail->empNumber = $empNumber;
-           $membershipDetail->membershipTypeCode = $membershipType;
-           $membershipDetail->membershipCode = $membership;
-           
-       }
+        if ($membershipDetail == false) {
 
-       $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
-       $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
-       $membershipDetail->subscriptionCurrency = $this->getValue('currency');
-       $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
-       $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
+            $membershipDetail = new EmployeeMemberDetail();
+            $membershipDetail->empNumber = $empNumber;
+            $membershipDetail->membershipTypeCode = $membershipType;
+            $membershipDetail->membershipCode = $membership;
+        }
 
-       $membershipDetail->save();
+        $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
+        $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
+        $membershipDetail->subscriptionCurrency = $this->getValue('currency');
+        $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
+        $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
+
+        $membershipDetail->save();
     }
 
 }
