@@ -24,13 +24,17 @@
  */
 class getMembershipsAction extends sfAction {
 
-
     public function execute($request) {
 
         $membershipTypeCode = $request->getParameter('membershipTypeCode');
+        $selectedMembership = $request->getParameter('selectedMembership');
+        
         $membershipService = new MembershipService();
         $this->relatedMemberships = $membershipService->searchMembership('membtype_code', $membershipTypeCode);
-
+        
+        if (isset($selectedMembership)) {
+            $this->selectedValue = $selectedMembership;
+        }
     }
 
-    }
+}

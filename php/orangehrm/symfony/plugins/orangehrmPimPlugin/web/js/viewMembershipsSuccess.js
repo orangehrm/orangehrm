@@ -65,17 +65,16 @@ $(document).ready(function() {
     });
 
     $('#membership_membershipType').change(function() {
-
         $.ajax({
-            type: "POST",
-            url: getMembershipsUrl,
-            dataType: "html",
-            data: "membershipTypeCode="+$('#membership_membershipType').val(),
-            success: function(msg){
-                $('#membership_membership').html(msg);
+        type: "POST",
+        url: getMembershipsUrl,
+        dataType: "html",
+        data: "membershipTypeCode="+$('#membership_membershipType').val(),
+        success: function(msg){
+            $('#membership_membership').html(msg);
 
-            }
-        }).responseText;
+        }
+    }).responseText;
     });
     
     // Edit a emergency contact in the list
@@ -83,18 +82,18 @@ $(document).ready(function() {
 
         var row = $(this).closest("tr");
         var primarykey = row.find('input.checkbox:first').val();
-        var membership = $(this).val();
+        var membership = $(this).text();
         var membershipType = row.find("td:nth-child(3)").text();
         var subscriptionPaidBy = row.find("td:nth-child(4)").text();
         var subscriptionAmount = row.find("td:nth-child(5)").text();
         var currency = row.find("td:nth-child(6)").text();
         var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
         var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
-
-        $('#membership_membership').val(membership);
-        $('#membership_membership').attr('disabled', 'disabled');
+   
         $('#membership_membershipType').val(membershipType);
+        ajaxCall(primarykey);
         $('#membership_membershipType').attr('disabled', 'disabled');
+        $('#membership_membership').attr('disabled', 'disabled');
         $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
         $('#membership_subscriptionAmount').val(subscriptionAmount);
         $('#membership_currency').val(currency);
@@ -105,11 +104,10 @@ $(document).ready(function() {
         $("#membershipHeading").text(editMembershipDetail);
         $('div#messagebar').hide();
         // hide validation error messages
-
+   
         $('#listActions').hide();
         $('#mem_list td.check').hide();
         $('#addPaneMembership').css('display', 'block');
-
     });
 
     // Cancel in add pane
@@ -186,4 +184,18 @@ function removeEditLinks() {
     });
 }
 
+function ajaxCall(primarykey){
+
+    var primaryArray = primarykey.split(" ");
+
+    $.ajax({
+        type: "POST",
+        url: getMembershipsUrl,
+        dataType: "html",
+        data: "membershipTypeCode="+$('#membership_membershipType').val()+"&selectedMembership="+primaryArray[2],
+        success: function(msg){
+            $('#membership_membership').html(msg);
+        }
+    }).responseText;
+}
 
