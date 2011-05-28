@@ -11,7 +11,7 @@ div.messageBar {
 form#frmEmpMembership label {
     position: relative;
     margin-top: 6px;
-    width: 200px
+    width: 300px
 }
 
 form#frmEmpMembership label label.error {
@@ -46,5 +46,9 @@ form input.txtBox {
     vertical-align:middle;
     height:14px;
     margin-top: 5px;
+}
+
+div.formpage2col {
+    width: 1000px;
 }
 

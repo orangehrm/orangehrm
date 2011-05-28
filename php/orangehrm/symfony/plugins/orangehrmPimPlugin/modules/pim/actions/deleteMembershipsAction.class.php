@@ -43,12 +43,14 @@ class deleteMembershipsAction extends sfAction {
             if (!$empNumber) {
                 throw new PIMServiceException("No Employee ID given");
             }
-            $membershipsToDelete = $request->getParameter('chkecontactdel', array());
+            $membershipsToDelete = $request->getParameter('chkmemdel', array());
 
             if ($membershipsToDelete) {
+
                 $service = new EmployeeService();
-                $count = $service->deleteMemberships($empNumber, $membershipsToDelete);
+                $count = $service->deleteMembershipDetails($membershipsToDelete);
                 $this->getUser()->setFlash('templateMessage', array('success', __('Membership/s Deleted Successfully')));
+                
             }
         }
 

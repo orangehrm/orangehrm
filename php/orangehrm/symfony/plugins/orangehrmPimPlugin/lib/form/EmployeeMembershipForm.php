@@ -141,7 +141,29 @@ class EmployeeMembershipForm extends BaseForm {
      * Save membership
      */
     public function save() {
+        
+       $empNumber = $this->getValue('empNumber');
+       $membershipType = $this->getValue( 'membershipType');
+       $membership = "MME001"; //$this->getValue('membership');
 
+       $membershipDetail = Doctrine::getTable('EmployeeMemberDetail')->find(array('empNumber' => $empNumber, 'membershipTypeCode' => $membershipType, 'membershipCode' => $membership));
+
+       if($membershipDetail == false){
+
+           $membershipDetail = new EmployeeMemberDetail();
+           $membershipDetail->empNumber = $empNumber;
+           $membershipDetail->membershipTypeCode = $membershipType;
+           $membershipDetail->membershipCode = $membership;
+           
+       }
+
+       $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
+       $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
+       $membershipDetail->subscriptionCurrency = $this->getValue('currency');
+       $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
+       $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
+
+       $membershipDetail->save();
     }
 
 }

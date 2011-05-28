@@ -138,7 +138,7 @@ var fileModified = 0;
             </tr>
         </thead>
         <tbody>
-<?php
+    <?php
             $row = 0;
             foreach ($emergencyContacts as $contact) {
                 $cssClass = ($row % 2) ? 'even' : 'odd';

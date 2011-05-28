@@ -24,13 +24,15 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     private $testCase;
     private $employeeDao;
+    protected $fixture;
 
     /**
      * Set up method
      */
     protected function setUp() {
         $this->employeeDao = new EmployeeDao();
-        TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml');
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
     }
 
     /**
@@ -131,11 +133,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Test for getMembershipDetails returns collection
      */
-     //public function testGetMembershipDetails(){
-        // $employeeMemberDetail1 = TestDataService::fetchObject('EmployeeMemberDetail', 1);
-         //$employeeMemberDetail2 = TestDataService::fetchObject('EmployeeMemberDetail', 2);
-         //$memberDetailArray = $this->employeeDao->getMembershipDetails(1);
-         //print_r($memberDetailArray[0]->getEmpNumber());
-        // $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
-     //}
+     public function testGetMembershipDetails(){
+         $employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+         $memberDetailArray = $this->employeeDao->getMembershipDetails(1);
+         $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
+         $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
+     }
 }

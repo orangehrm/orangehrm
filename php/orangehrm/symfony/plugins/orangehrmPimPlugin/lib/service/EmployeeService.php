@@ -848,4 +848,32 @@ class EmployeeService extends BaseService {
         }
     }
 
+    /**
+     * Delete Member Details
+     * @param array() $membershipsToDelete
+     * @returns boolean
+     * @throws PIMServiceException
+     */
+    public function deleteMembershipDetails($membershipsToDelete) {
+
+        try {
+            foreach ($membershipsToDelete as $membershipToDelete) {
+
+                $tempArray = explode(" ", $membershipToDelete);
+
+                $empNumber = $tempArray[0];
+                $membershipType = $tempArray[1];
+                $membership = $tempArray[2];
+
+                $this->employeeDao->deleteMembershipDetails($empNumber, $membershipType, $membership);
+                //$membershipDetail = Doctrine::getTable('EmployeeMemberDetail')->find(array('empNumber' => $empNumber, 'membershipTypeCode' => $membershipType, 'membershipCode' => $membership));
+                //$membershipDetail->delete();
+            }
+
+            return true;
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
 }

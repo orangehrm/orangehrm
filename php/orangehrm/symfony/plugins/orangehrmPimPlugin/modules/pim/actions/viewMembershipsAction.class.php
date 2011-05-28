@@ -79,7 +79,7 @@ class viewMembershipsAction extends sfAction {
 
         $this->setForm(new EmployeeMembershipForm(array(), $param, true));
         $this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);
-        $this->memberships = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
+        $this->membershipDetails = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
     }
 
     private function isSupervisor($loggedInEmpNum, $empNumber) {

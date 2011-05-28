@@ -39,5 +39,47 @@ $(document).ready(function() {
 
     });
 
+    $("#checkAll").click(function(){
+        if($("#checkAll:checked").attr('value') == 'on') {
+            $(".checkbox").attr('checked', 'checked');
+        } else {
+            $(".checkbox").removeAttr('checked');
+        }
+    });
+
+    if($(".checkbox").length > 1) {
+            $(".paddingLeftRequired").hide();
+            $("#addPaneMembership").hide();
+        } else {
+            $("#btnCancel").hide();
+            $(".paddingLeftRequired").show();
+            $("#addPaneMembership").show();
+            $("#listMembershipDetails").hide();
+        }
+
+        $(".checkbox").click(function() {
+            $("#checkAll").removeAttr('checked');
+            if(($(".checkbox").length - 1) == $(".checkbox:checked").length) {
+                $("#checkAll").attr('checked', 'checked');
+            }
+        });
+
+    $('#btnSaveMembership').click(function() {
+        $('#frmEmpMembership').submit();
+    });
+
+     $('#delMemsBtn').click(function() {
+            var checked = $('#frmEmpDelMemberships input:checked').length;
+
+            if (checked == 0) {
+                $("#messagebar").attr("class", "messageBalloon_notice");
+                $("#messagebar").text(deleteError);
+            } else {
+                $('#frmEmpDelMemberships').submit();
+            }
+        });
+
+
+
 });
 

@@ -1146,4 +1146,30 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+    /**
+     * Delete Membership Detail
+     * @param $empNumber $membershipType $membership
+     * @return boolean
+     */
+    public function deleteMembershipDetails($empNumber, $membershipType, $membership) {
+        try {
+            $query = Doctrine_Query::create()
+                            ->delete()
+                            ->from("EmployeeMemberDetail")
+                            ->where("empNumber = ?", $empNumber)
+                            ->andWhere("membershipTypeCode = ?", $membershipType)
+                            ->andWhere("membershipCode = ?", $membership);
+
+            $membershipDetailDeleted = $query->execute();
+
+            if ($membershipDetailDeleted > 0) {
+                return true;
+            }
+            
+        } catch (Exception $ex) {
+
+            throw new DaoException($ex->getMessage());
+        }
+    }
+
 }
