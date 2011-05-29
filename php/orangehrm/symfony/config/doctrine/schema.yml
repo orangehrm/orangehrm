@@ -627,11 +627,11 @@ EmployeeMemberDetail:
       default: ''
     ememb_commence_date:
       name: ememb_commence_date as subscriptionCommenceDate
-      type: timestamp(25)
+      type: date(25)
       default: ''
     ememb_renewal_date:
       name: ememb_renewal_date as subscriptionRenewalDate
-      type: timestamp(25)
+      type: date(25)
       default: ''
   relations:
     MembershipType:

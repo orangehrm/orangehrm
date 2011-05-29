@@ -11,8 +11,8 @@
  * @property decimal $subscriptionAmount
  * @property string $subscriptionPaidBy
  * @property string $subscriptionCurrency
- * @property timestamp $subscriptionCommenceDate
- * @property timestamp $subscriptionRenewalDate
+ * @property date $subscriptionCommenceDate
+ * @property date $subscriptionRenewalDate
  * @property MembershipType $MembershipType
  * @property Membership $Membership
  * @property Employee $Employee
@@ -23,8 +23,8 @@
  * @method decimal              getSubscriptionAmount()       Returns the current record's "subscriptionAmount" value
  * @method string               getSubscriptionPaidBy()       Returns the current record's "subscriptionPaidBy" value
  * @method string               getSubscriptionCurrency()     Returns the current record's "subscriptionCurrency" value
- * @method timestamp            getSubscriptionCommenceDate() Returns the current record's "subscriptionCommenceDate" value
- * @method timestamp            getSubscriptionRenewalDate()  Returns the current record's "subscriptionRenewalDate" value
+ * @method date                 getSubscriptionCommenceDate() Returns the current record's "subscriptionCommenceDate" value
+ * @method date                 getSubscriptionRenewalDate()  Returns the current record's "subscriptionRenewalDate" value
  * @method MembershipType       getMembershipType()           Returns the current record's "MembershipType" value
  * @method Membership           getMembership()               Returns the current record's "Membership" value
  * @method Employee             getEmployee()                 Returns the current record's "Employee" value
@@ -80,13 +80,13 @@ abstract class BaseEmployeeMemberDetail extends sfDoctrineRecord
              'default' => '',
              'length' => 13,
              ));
-        $this->hasColumn('ememb_commence_date as subscriptionCommenceDate', 'timestamp', 25, array(
-             'type' => 'timestamp',
+        $this->hasColumn('ememb_commence_date as subscriptionCommenceDate', 'date', 25, array(
+             'type' => 'date',
              'default' => '',
              'length' => 25,
              ));
-        $this->hasColumn('ememb_renewal_date as subscriptionRenewalDate', 'timestamp', 25, array(
-             'type' => 'timestamp',
+        $this->hasColumn('ememb_renewal_date as subscriptionRenewalDate', 'date', 25, array(
+             'type' => 'date',
              'default' => '',
              'length' => 25,
              ));
