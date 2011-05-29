@@ -49,7 +49,7 @@ class deleteMembershipsAction extends sfAction {
 
                 $service = new EmployeeService();
                 $count = $service->deleteMembershipDetails($membershipsToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Membership/s Deleted Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __('Membership(s) Deleted Successfully')));
                 
             }
         }

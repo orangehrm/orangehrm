@@ -1,822 +1,865 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
-    <header/>
-    <body>
-      <trans-unit id="1">
-        <source>Personal</source>
-        <target>FR_Personal</target>
-      </trans-unit>
-      <trans-unit id="2">
-        <source>Personal Details</source>
-        <target>FR_Personal Details</target>
-      </trans-unit>
-      <trans-unit id="3">
-        <source>Contact Details</source>
-        <target>FR_Contact Details</target>
-      </trans-unit>
-      <trans-unit id="4">
-        <source>Emergency Contact(s)</source>
-        <target>FR_Emergency Contact(s)</target>
-      </trans-unit>
-      <trans-unit id="5">
-        <source>Dependents</source>
-        <target>FR_Dependents</target>
-      </trans-unit>
-      <trans-unit id="6">
-        <source>Immigration</source>
-        <target>FR_Immigration</target>
-      </trans-unit>
-      <trans-unit id="7">
-        <source>Photograph</source>
-        <target>FR_Photograph</target>
-      </trans-unit>
-      <trans-unit id="8">
-        <source>Employment</source>
-        <target>FR_Employment</target>
-      </trans-unit>
-      <trans-unit id="9">
-        <source>Job</source>
-        <target>FR_Job</target>
-      </trans-unit>
-      <trans-unit id="10">
-        <source>Salary</source>
-        <target>FR_Salary</target>
-      </trans-unit>
-      <trans-unit id="11">
-        <source>Tax Exemptions</source>
-        <target>FR_Tax Exemptions</target>
-      </trans-unit>
-      <trans-unit id="12">
-        <source>Direct Deposit</source>
-        <target>FR_Direct Deposit</target>
-      </trans-unit>
-      <trans-unit id="13">
-        <source>Report-to</source>
-        <target>FR_Report-to</target>
-      </trans-unit>
-      <trans-unit id="14">
-        <source>Qualifications</source>
-        <target>FR_Qualifications</target>
-      </trans-unit>
-      <trans-unit id="15">
-        <source>Work experience</source>
-        <target>FR_Work experience</target>
-      </trans-unit>
-      <trans-unit id="16">
-        <source>Education</source>
-        <target>FR_Education</target>
-      </trans-unit>
-      <trans-unit id="17">
-        <source>Skills</source>
-        <target>FR_Skills</target>
-      </trans-unit>
-      <trans-unit id="18">
-        <source>Languages</source>
-        <target>FR_Languages</target>
-      </trans-unit>
-      <trans-unit id="19">
-        <source>License</source>
-        <target>FR_License</target>
-      </trans-unit>
-      <trans-unit id="20">
-        <source>Membership</source>
-        <target>FR_Membership</target>
-      </trans-unit>
-      <trans-unit id="21">
-        <source>Attachments</source>
-        <target>FR_Attachments</target>
-      </trans-unit>
-      <trans-unit id="22">
-        <source>Custom</source>
-        <target>FR_Custom</target>
-      </trans-unit>
-      <trans-unit id="23">
-        <source>First Name</source>
-        <target>FR_First Name</target>
-      </trans-unit>
-      <trans-unit id="24">
-        <source>Middle Name</source>
-        <target>FR_Middle Name</target>
-      </trans-unit>
-      <trans-unit id="25">
-        <source>Last Name</source>
-        <target>FR_Last Name</target>
-      </trans-unit>
-      <trans-unit id="26">
-        <source>Employee Id</source>
-        <target>FR_Employee Id</target>
-      </trans-unit>
-      <trans-unit id="27">
-        <source>SSN Number</source>
-        <target>FR_SSN Number</target>
-      </trans-unit>
-       <trans-unit id="28">
-        <source>Other Id</source>
-        <target>FR_Other Id</target>
-      </trans-unit>
-      <trans-unit id="29">
-        <source>SIN Number</source>
-        <target>FR_SIN Number</target>
-      </trans-unit>
-      <trans-unit id="30">
-        <source>Driver's License Number</source>
-        <target>FR_Driver's License Number</target>
-      </trans-unit>
-      <trans-unit id="31">
-        <source>Driver's License Number</source>
-        <target>FR_Driver's License Number</target>
-      </trans-unit>
-      <trans-unit id="32">
-        <source>License Expiry Date</source>
-        <target>FR_License Expiry Date</target>
-      </trans-unit>
-      <trans-unit id="33">
-        <source>Gender</source>
-        <target>FR_Gender</target>
-      </trans-unit>
-      <trans-unit id="34">
-        <source>Marital Status</source>
-        <target>FR_Marital Status</target>
-      </trans-unit>
-      <trans-unit id="35">
-        <source>Nationality</source>
-        <target>FR_Nationality</target>
-      </trans-unit>
-      <trans-unit id="36">
-        <source>Ethinical Race</source>
-        <target>FR_Ethinical Race</target>
-      </trans-unit>
-      <trans-unit id="37">
-        <source>Date of Birth</source>
-        <target>FR_Date of Birth</target>
-      </trans-unit>
-      <trans-unit id="38">
-        <source>Nick Name</source>
-        <target>FR_Nick Name</target>
-      </trans-unit>
-      <trans-unit id="39">
-        <source>Smoker</source>
-        <target>FR_Smoker</target>
-      </trans-unit>
-      <trans-unit id="40">
-        <source>Military Service</source>
-        <target>FR_Military Service</target>
-      </trans-unit>
-      <trans-unit id="41">
-        <source>First Name is required</source>
-        <target>FR_First Name is required</target>
-      </trans-unit>
-      <trans-unit id="42">
-        <source>Last Name is required</source>
-        <target>FR_Last Name is required</target>
-      </trans-unit>
-      <trans-unit id="43">
-        <source>Other</source>
-        <target>FR_Other</target>
-      </trans-unit>
-      <trans-unit id="44">
-        <source>Leave</source>
-        <target>FR_Leave</target>
-      </trans-unit>
-      <trans-unit id="45">
-        <source>Personal Details Saved Successfully</source>
-        <target>FR_Personal Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="46">
-        <source>Contact Details Saved Successfully</source>
-        <target>FR_Contact Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="47">
-        <source>Invalid telephone number</source>
-        <target>FR_Invalid telephone number</target>
-      </trans-unit>
-      <trans-unit id="48">
-        <source>Invalid mobile number</source>
-        <target>FR_Invalid mobile number</target>
-      </trans-unit>
-      <trans-unit id="49">
-        <source>Invalid work phone number</source>
-        <target>FR_Invalid work phone number</target>
-      </trans-unit>
-      <trans-unit id="50">
-        <source>Incorrect work email</source>
-        <target>FR_Incorrect work email</target>
-      </trans-unit>
-      <trans-unit id="51">
-        <source>Incorrect work email</source>
-        <target>FR_Incorrect other email</target>
-      </trans-unit>
-      <trans-unit id="52">
-        <source>Issued Date is required</source>
-        <target>FR_Issued Date is required</target>
-      </trans-unit>
-      <trans-unit id="53">
-        <source>Date of expiry is required</source>
-        <target></target>
-      </trans-unit>
-      <trans-unit id="54">
-        <source>Issued date should be before expiration date</source>
-        <target>FR_Issued date should be before expiration date</target>
-      </trans-unit>
-      <trans-unit id="55">
-        <source>Document</source>
-        <target>FR_Document</target>
-      </trans-unit>
-      <trans-unit id="56">
-        <source>Document No</source>
-        <target>FR_Document No</target>
-      </trans-unit>
-      <trans-unit id="57">
-        <source>Issued By</source>
-        <target>FR_Issued By</target>
-      </trans-unit>
-      <trans-unit id="58">
-        <source>Issued Date</source>
-        <target>FR_Issued Date</target>
-      </trans-unit>
-      <trans-unit id="59">
-        <source>Date of Expiry</source>
-        <target>FR_Date of Expiry</target>
-      </trans-unit>
-      <trans-unit id="60">
-        <source>Assigned Immigration Documents</source>
-        <target>FR_Assigned Immigration Documents</target>
-      </trans-unit>
-      <trans-unit id="61">
-        <source>Immigration Details Saved Successfully</source>
-        <target>FR_Immigration Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="62">
-        <source>Document number is required</source>
-        <target>FR_Document number is required</target>
-      </trans-unit>
-      <trans-unit id="63">
-        <source>Issued date is required</source>
-        <target>FR_Issued date is required</target>
-      </trans-unit>
-      <trans-unit id="64">
-        <source>Expiry date is required</source>
-        <target>FR_Expiry date is required</target>
-      </trans-unit>
-      <trans-unit id="65">
-        <source>Eligible Review Date</source>
-        <target>FR_Eligible Review Date</target>
-      </trans-unit>
-      <trans-unit id="66">
-        <source>Eligible Status</source>
-        <target>FR_Eligible Status</target>
-      </trans-unit>
-      <trans-unit id="67">
-        <source>Immigration Details Deleted Successfully</source>
-        <target>FR_Immigration Details Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="68">
-        <source>Country is required</source>
-        <target>FR_Country is required</target>
-      </trans-unit>
-      <trans-unit id="69">
-        <source>Review date required</source>
-        <target>FR_Review date required</target>
-      </trans-unit>
-      <trans-unit id="70">
-        <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
-        <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
-      </trans-unit>
-      <trans-unit id="71">
-        <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
-        <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
-      </trans-unit>
-      <trans-unit id="72">
-        <source>Configure PIM</source>
-        <target>FR_Configure PIM</target>
-      </trans-unit>
-      <trans-unit id="73">
-        <source>Nick Name, Smoker, Military Service fields are considered as deprecated fields</source>
-        <target>FR_Nick Name, Smoker, Military Service fields are considered as deprecated fields</target>
-      </trans-unit>
-      <trans-unit id="74">
-        <source>Show Deprecated Fields</source>
-        <target>FR_Show Deprecated Fields</target>
-      </trans-unit>
-      <trans-unit id="75">
-        <source>PIM Configuration Saved Successfully</source>
-        <target>FR_PIM Configuration Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="76">
-        <source>Ethnic Race</source>
-        <target>FR_Ethnic Race</target>
-      </trans-unit>
-      <trans-unit id="77">
-        <source>Single</source>
-        <target>FR_Single</target>
-      </trans-unit>
-      <trans-unit id="78">
-        <source>Married</source>
-        <target>FR_Married</target>
-      </trans-unit>
-      <trans-unit id="79">
-        <source>Personal Details Saved Successfully</source>
-        <target>FR_Personal Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="80">
-        <source>Select a gender</source>
-        <target>FR_Select a gender</target>
-      </trans-unit>
-      <trans-unit id="81">
-        <source>Should be a valid date in the format: %format%</source>
-        <target>FR_Should be a valid date in the format: %format%</target>
-      </trans-unit>
-      <trans-unit id="82">
-        <source>Address Street 1</source>
-        <target>FR_Address Street 1</target>
-      </trans-unit>
-      <trans-unit id="83">
-        <source>Address Street 2</source>
-        <target>FR_Address Street 2</target>
-      </trans-unit>
-      <trans-unit id="84">
-        <source>City</source>
-        <target>FR_City</target>
-      </trans-unit>
-      <trans-unit id="85">
-        <source>State/Province</source>
-        <target>FR_State/Province</target>
-      </trans-unit>
-      <trans-unit id="86">
-        <source>Zip/Postal Code</source>
-        <target>FR_Zip/Postal Code</target>
-      </trans-unit>
-      <trans-unit id="87">
-        <source>Home Telephone</source>
-        <target>FR_Home Telephone</target>
-      </trans-unit>
-      <trans-unit id="88">
-        <source>Mobile</source>
-        <target>FR_Mobile</target>
-      </trans-unit>
-      <trans-unit id="89">
-        <source>Work Telephone</source>
-        <target>FR_Work Telephone</target>
-      </trans-unit>
-      <trans-unit id="90">
-        <source>Work Email</source>
-        <target>FR_Work Email</target>
-      </trans-unit>
-      <trans-unit id="91">
-        <source>Other Email</source>
-        <target>FR_Other Email</target>
-      </trans-unit>
-      <trans-unit id="92">
-        <source>Home telephone can contains only space, numbers, "+", and "-"</source>
-        <target>FR_Home telephone can contains only space, numbers, "+", and "-"</target>
-      </trans-unit>
-      <trans-unit id="93">
-        <source>Mobile can contains only space, numbers, "+", and "-"</source>
-        <target>FR_Mobile can contains only space, numbers, "+", and "-"</target>
-      </trans-unit>
-      <trans-unit id="94">
-        <source>Work telephone can contains only space, numbers, "+", and "-"</source>
-        <target>FR_Work telephone can contains only space, numbers, "+", and "-"</target>
-      </trans-unit>
-      <trans-unit id="95">
-        <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
-        <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
-      </trans-unit>
-      <trans-unit id="96">
-        <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
-        <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
-      </trans-unit>
-      <trans-unit id="97">
-        <source>Contact Details Saved Successfully</source>
-        <target>FR_Contact Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="98">
-        <source>Emergency Contacts</source>
-        <target>FR_Emergency Contacts</target>
-      </trans-unit>
-      <trans-unit id="99">
-        <source>Add Emergency Contact</source>
-        <target>FR_Add Emergency Contact</target>
-      </trans-unit>
-      <trans-unit id="100">
-        <source>Relationship</source>
-        <target>FR_Relationship</target>
-      </trans-unit>
-      <trans-unit id="101">
-        <source>Emergency Contact Saved Successfully</source>
-        <target>FR_Emergency Contact Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="102">
-        <source>Assigned Emergency Contacts</source>
-        <target>FR_Assigned Emergency Contacts</target>
-      </trans-unit>
-      <trans-unit id="103">
-        <source>Edit Emergency Contact</source>
-        <target>FR_Edit Emergency Contact</target>
-      </trans-unit>
-      <trans-unit id="104">
-        <source>Name is required</source>
-        <target>FR_Name is required</target>
-      </trans-unit>
-      <trans-unit id="105">
-        <source>Emergency Contact/s Deleted Successfully</source>
-        <target>FR_Emergency Contact/s Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="106">
-        <source>Add Immigration</source>
-        <target>FR_Add Immigration</target>
-      </trans-unit>
-      <trans-unit id="107">
-        <source>Passport</source>
-        <target>FR_Passport</target>
-      </trans-unit>
-      <trans-unit id="108">
-        <source>Visa</source>
-        <target>FR_Visa</target>
-      </trans-unit>
-      <trans-unit id="109">
-        <source>Immigration Details Saved Successfully</source>
-        <target>FR_Immigration Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="110">
-        <source>Immigration Details Deleted Successfully</source>
-        <target>FR_Immigration Details Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="111">
-        <source>Number</source>
-        <target>FR_Number</target>
-      </trans-unit>
-      <trans-unit id="112">
-        <source>Add Dependent</source>
-        <target>FR_Add Dependent</target>
-      </trans-unit>
-      <trans-unit id="113">
-        <source>Assigned Dependents</source>
-        <target>FR_Assigned Dependents</target>
-      </trans-unit>
-      <trans-unit id="114">
-        <source>child</source>
-        <target>FR_child</target>
-      </trans-unit>
-      <trans-unit id="115">
-        <source>other</source>
-        <target>FR_other</target>
-      </trans-unit>
-      <trans-unit id="116">
-        <source>Dependent Saved Successfully</source>
-        <target>FR_Dependent Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="117">
-        <source>Please Specify</source>
-        <target>FR_Please Specify</target>
-      </trans-unit>
-      <trans-unit id="118">
-        <source>Relationship is required</source>
-        <target>FR_Relationship is required</target>
-      </trans-unit>
-      <trans-unit id="119">
-        <source>Please specify the relationship</source>
-        <target>FR_Please specify the relationship</target>
-      </trans-unit>
-      <trans-unit id="120">
-        <source>Edit Dependent</source>
-        <target>FR_Edit Dependent</target>
-      </trans-unit>
-      <trans-unit id="121">
-        <source>Dependent/s Deleted Successfully</source>
-        <target>FR_Dependent/s Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="122">
-        <source>Please specify at least one phone number</source>
-        <target>FR_Please specify at least one phone number</target>
-      </trans-unit>
-      <trans-unit id="123">
-        <source>Comment length cannot exceed 250 characters</source>
-        <target>FR_Comment length cannot exceed 250 characters</target>
-      </trans-unit>
-      <trans-unit id="124">
-        <source>Child</source>
-        <target>FR_Child</target>
-      </trans-unit>
-      <trans-unit id="125">
-        <source>Expiry Date</source>
-        <target>FR_Expiry Date</target>
-      </trans-unit>
-      <trans-unit id="126">
-        <source>Create Login Details</source>
-        <target>FR_Create Login Details</target>
-      </trans-unit>
-      <trans-unit id="127">
-        <source>User Name</source>
-        <target>FR_User Name</target>
-      </trans-unit>
-      <trans-unit id="128">
-        <source>Password</source>
-        <target>FR_Password</target>
-      </trans-unit>
-      <trans-unit id="129">
-        <source>Confirm Password</source>
-        <target>FR_Confirm Password</target>
-      </trans-unit>
-      <trans-unit id="130">
-        <source>User Name should have at least 5 characters</source>
-        <target>FR_User Name should have at least 5 characters</target>
-      </trans-unit>
-      <trans-unit id="131">
-        <source>Password should have at least 4 characters</source>
-        <target>FR_Password should have at least 4 characters</target>
-      </trans-unit>
-      <trans-unit id="132">
-        <source>Password and confirm password should be same</source>
-        <target>FR_Password and confirm password should be same</target>
-      </trans-unit>
-      <trans-unit id="133">
-        <source>Please select a status</source>
-        <target>FR_Please select a status</target>
-      </trans-unit>
-      <trans-unit id="134">
-        <source>Adding Employee Failed. Photograph Size Exceeded 1MB</source>
-        <target>FR_Adding Employee Failed. Photograph Size Exceeded 1MB</target>
-      </trans-unit>
-      <trans-unit id="135">
-        <source>Adding Employee Failed. User Name Already Exists</source>
-        <target>FR_Adding Employee Failed. User Name Already Exists</target>
-      </trans-unit>
-      <trans-unit id="136">
-        <source>Add Employee</source>
-        <target>FR_Add Employee</target>
-      </trans-unit>
-      <trans-unit id="137">
-        <source>Employee Photograph Uploaded Successfully</source>
-        <target>FR_Employee Photograph Uploaded Successfully</target>
-      </trans-unit>
-      <trans-unit id="138">
-        <source>Select a Photograph</source>
-        <target>FR_Select a Photograph</target>
-      </trans-unit>
-      <trans-unit id="139">
-        <source>Upload Failed. File Size Should Be Less Than IMB</source>
-        <target>FR_Upload Failed. File Size Should Be Less Than IMB</target>
-      </trans-unit>
-      <trans-unit id="140">
-        <source>Photograph is required</source>
-        <target>FR_Photograph is required</target>
-      </trans-unit>
-      <trans-unit id="141">
-        <source>Are you sure you want to delete the photograph?</source>
-        <target>FR_Are you sure you want to delete the photograph?</target>
-      </trans-unit>
-      <trans-unit id="142">
-        <source>Employee Photograph Deleted Successfully</source>
-        <target>FR_Employee Photograph Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="143">
-        <source>.jpg, .png or .gif file with maximum size of 1MB</source>
-        <target>FR_.jpg, .png or .gif file with maximum size of 1MB</target>
-      </trans-unit>
-      <trans-unit id="144">
-        <source>Adding Employee Failed - Invalid File Type</source>
-        <target>FR_Adding Employee Failed - Invalid File Type</target>
-      </trans-unit>
-      <trans-unit id="145">
-        <source>Invalid File Type</source>
-        <target>FR_Invalid File Type</target>
-      </trans-unit>
-      <trans-unit id="146">
-        <source>Work Experience</source>
-        <target>FR_Work Experience</target>
-      </trans-unit>
-      <trans-unit id="147">
-        <source>Add Work Experience</source>
-        <target>FR_Add Work Experience</target>
-      </trans-unit>
-      <trans-unit id="148">
-        <source>Company</source>
-        <target>FR_Company</target>
-      </trans-unit>
-      <trans-unit id="149">
-        <source>Job Title</source>
-        <target>FR_Job Title</target>
-      </trans-unit>
-      <trans-unit id="150">
-        <source>From</source>
-        <target>FR_From</target>
-      </trans-unit>
-      <trans-unit id="151">
-        <source>To</source>
-        <target>FR_To</target>
-      </trans-unit>
-      <trans-unit id="152">
-        <source>Comment</source>
-        <target>FR_Comment</target>
-      </trans-unit>
-      <trans-unit id="153">
-        <source>Edit Work Experience</source>
-        <target>FR_Edit Work Experience</target>
-      </trans-unit>
-      <trans-unit id="154">
-        <source>Company is required</source>
-        <target>FR_Company is required</target>
-      </trans-unit>
-      <trans-unit id="155">
-        <source>Job Title is required</source>
-        <target>FR_Job Title is required</target>
-      </trans-unit>
-      <trans-unit id="156">
-        <source>Work Experience Details Saved Successfully</source>
-        <target>FR_Work Experience Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="157">
-        <source>Work Experience(s) Deleted Successfully</source>
-        <target>FR_Work Experience(s) Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="158">
-        <source>From date should be before to date</source>
-        <target>FR_From date should be before to date</target>
-      </trans-unit>
-      <trans-unit id="159">
-        <source>Select Work Experience From The List To Delete</source>
-        <target>FR_Select Work Experience From The List To Delete</target>
-      </trans-unit>
-      <trans-unit id="160">
-        <source>Create Login Details</source>
-        <target>FR_Create Login Details</target>
-      </trans-unit>
-      <trans-unit id="161">
-        <source>Employee Information</source>
-        <target>FR_Employee Information</target>
-      </trans-unit>
-      <trans-unit id="162">
-        <source>Please Select at Least One Employee to Delete</source>
-        <target>FR_Please Select at Least One Employee to Delete</target>
-      </trans-unit>
-      <trans-unit id="163">
-        <source>Selected Employee(s) Were Deleted Successfully</source>
-        <target>FR_Selected Employee(s) Were Deleted Successfully</target>
-      </trans-unit>
-      <trans-unit id="164">
-        <source>A Problem Occured When Deleting The Selected Employees</source>
-        <target>FR_A Problem Occured When Deleting The Selected Employees</target>
-      </trans-unit>
-      <trans-unit id="165">
-        <source>Are you sure you want to delete selected employee(s)</source>
-        <target>FR_Are you sure you want to delete selected employee(s)</target>
-      </trans-unit>
-      <trans-unit id="166">
-        <source>No Employees Available in System</source>
-        <target>FR_No Employees Available in System</target>
-      </trans-unit>
-      <trans-unit id="167">
-        <source>No Matching Employees Found</source>
-        <target>FR_No Matching Employees Found</target>
-      </trans-unit>
-	  <trans-unit id="168">
-        <source>Major/Specialization</source>
-        <target>FR_Major/Specialization</target>
-      </trans-unit>
-	  <trans-unit id="169">
-        <source>GPA/Score</source>
-        <target>FR_GPA/Score</target>
-      </trans-unit>
-	  <trans-unit id="170">
-       <source>Add Education</source>
-       <target>FR_Add Education</target>
-      </trans-unit>
-	  <trans-unit id="171">
-       <source>Add Skill</source>
-       <target>FR_Add Skill</target>
-      </trans-unit>
-	  <trans-unit id="172">
-       <source>Add Language</source>
-       <target>FR_Add Language</target>
-      </trans-unit>
-	  <trans-unit id="173">
-       <source>Add License</source>
-       <target>FR_Add License</target>
-      </trans-unit>
-	  <trans-unit id="174">
-       <source>Education Details Saved Successfully</source>
-       <target>FR_Education Details Saved Successfully</target>
-      </trans-unit>
-	  <trans-unit id="175">
-       <source>Education Detail(s) Deleted Successfully</source>
-       <target>FR_Education Detail(s) Deleted Successfully</target>
-      </trans-unit>
-	  <trans-unit id="176">
-       <source>Skill Details Saved Successfully</source>
-       <target>FR_Skill Details Saved Successfully</target>
-      </trans-unit>
-	  <trans-unit id="177">
-       <source>Skill Detail(s) Deleted Successfully</source>
-       <target>FR_Skill Detail(s) Deleted Successfully</target>
-      </trans-unit>
-	  <trans-unit id="178">
-       <source>Language Details Saved Successfully</source>
-       <target>FR_Language Details Saved Successfully</target>
-      </trans-unit>
-	  <trans-unit id="179">
-       <source>Language Detail(s) Deleted Successfully</source>
-       <target>FR_Language Detail(s) Deleted Successfully</target>
-      </trans-unit>
-	  <trans-unit id="180">
-       <source>License Details Saved Successfully</source>
-       <target>FR_License Details Saved Successfully</target>
-      </trans-unit>
-	  <trans-unit id="181">
-       <source>License Detail(s) Deleted Successfully</source>
-       <target>FR_License Detail(s) Deleted Successfully</target>
-      </trans-unit>
-	  <trans-unit id="182">
-       <source>Edit Education</source>
-       <target>FR_Edit Education</target>
-      </trans-unit>
-	  <trans-unit id="183">
-       <source>Edit Skill</source>
-       <target>FR_Edit Skill</target>
-      </trans-unit>
-	  <trans-unit id="184">
-       <source>Edit License</source>
-       <target>FR_Edit License</target>
-      </trans-unit>
-	  <trans-unit id="185">
-       <source>Edit Language</source>
-       <target>FR_Edit Language</target>
-      </trans-unit>
-	  <trans-unit id="186">
-       <source>Please Select At Least One Education Item To Delete</source>
-       <target>FR_Please Select At Least One Education Item To Delete</target>
-      </trans-unit>
-	  <trans-unit id="187">
-       <source>Please Select At Least One Skill Item To Delete</source>
-       <target>FR_Please Select At Least One Skill Item To Delete</target>
-      </trans-unit>
-	  <trans-unit id="188">
-       <source>Please Select At Least One Language Item To Delete</source>
-       <target>FR_Please Select At Least One Language Item To Delete</target>
-      </trans-unit>
-	  <trans-unit id="189">
-       <source>Please Select At Least One License Item To Delete</source>
-       <target>FR_Please Select At Least One License Item To Delete</target>
-      </trans-unit>
-	  <trans-unit id="190">
-       <source>Employment Contract</source>
-       <target>FR_Employment Contract</target>
-      </trans-unit>
-	  <trans-unit id="191">
-       <source>Contract Details</source>
-       <target>FR_Contract Details</target>
-      </trans-unit>
-	  <trans-unit id="192">
-       <source>Job Details Updated Successfully</source>
-       <target>FR_Job Details Updated Successfully</target>
-      </trans-unit>
-      <trans-unit id="193">
-       <source>Tax Exemptions</source>
-       <target>FR_Tax Exemptions</target>
-      </trans-unit>
-      <trans-unit id="194">
-       <source>Federal Income Tax</source>
-       <target>FR_Federal Income Tax</target>
-      </trans-unit>
-      <trans-unit id="195">
-       <source>Status</source>
-       <target>FR_Status</target>
-      </trans-unit>
-      <trans-unit id="196">
-       <source>Exemptions</source>
-       <target>FR_Exemptions</target>
-      </trans-unit>
-      <trans-unit id="197">
-       <source>Unemployment State</source>
-       <target>FR_Unemployment State</target>
-      </trans-unit>
-      <trans-unit id="198">
-       <source>Work State</source>
-       <target>FR_Work State</target>
-      </trans-unit>
-      <trans-unit id="199">
-       <source>Tax Details Saved Successfully</source>
-       <target>FR_Tax Details Saved Successfully</target>
-      </trans-unit>
-      <trans-unit id="200">
-       <source>State Income Tax</source>
-       <target>FR_State Income Tax</target>
-      </trans-unit>
-      <trans-unit id="201">
-       <source>Non Resident Alien</source>
-       <target>FR_Non Resident Alien</target>
-      </trans-unit>
-      <trans-unit id="202">
-       <source>Not Applicable</source>
-       <target>FR_Not Applicable</target>
-      </trans-unit>
-      <trans-unit id="203">
-       <source>Enter a number</source>
-       <target>FR_Enter a number</target>
-      </trans-unit>
-	  
-    </body>
-  </file>
+    <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+        <header/>
+        <body>
+            <trans-unit id="1">
+                <source>Personal</source>
+                <target>FR_Personal</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Personal Details</source>
+                <target>FR_Personal Details</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Contact Details</source>
+                <target>FR_Contact Details</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Emergency Contact(s)</source>
+                <target>FR_Emergency Contact(s)</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Dependents</source>
+                <target>FR_Dependents</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Immigration</source>
+                <target>FR_Immigration</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Photograph</source>
+                <target>FR_Photograph</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Employment</source>
+                <target>FR_Employment</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Job</source>
+                <target>FR_Job</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Salary</source>
+                <target>FR_Salary</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Tax Exemptions</source>
+                <target>FR_Tax Exemptions</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Direct Deposit</source>
+                <target>FR_Direct Deposit</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Report-to</source>
+                <target>FR_Report-to</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Qualifications</source>
+                <target>FR_Qualifications</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Work experience</source>
+                <target>FR_Work experience</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Education</source>
+                <target>FR_Education</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Skills</source>
+                <target>FR_Skills</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Languages</source>
+                <target>FR_Languages</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>License</source>
+                <target>FR_License</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Membership</source>
+                <target>FR_Membership</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Attachments</source>
+                <target>FR_Attachments</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Custom</source>
+                <target>FR_Custom</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>First Name</source>
+                <target>FR_First Name</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Middle Name</source>
+                <target>FR_Middle Name</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Last Name</source>
+                <target>FR_Last Name</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Employee Id</source>
+                <target>FR_Employee Id</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>SSN Number</source>
+                <target>FR_SSN Number</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Other Id</source>
+                <target>FR_Other Id</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>SIN Number</source>
+                <target>FR_SIN Number</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Driver's License Number</source>
+                <target>FR_Driver's License Number</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Driver's License Number</source>
+                <target>FR_Driver's License Number</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>License Expiry Date</source>
+                <target>FR_License Expiry Date</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Gender</source>
+                <target>FR_Gender</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Marital Status</source>
+                <target>FR_Marital Status</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Nationality</source>
+                <target>FR_Nationality</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Ethinical Race</source>
+                <target>FR_Ethinical Race</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Date of Birth</source>
+                <target>FR_Date of Birth</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Nick Name</source>
+                <target>FR_Nick Name</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Smoker</source>
+                <target>FR_Smoker</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Military Service</source>
+                <target>FR_Military Service</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>First Name is required</source>
+                <target>FR_First Name is required</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Last Name is required</source>
+                <target>FR_Last Name is required</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Other</source>
+                <target>FR_Other</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Leave</source>
+                <target>FR_Leave</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>Personal Details Saved Successfully</source>
+                <target>FR_Personal Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>Contact Details Saved Successfully</source>
+                <target>FR_Contact Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Invalid telephone number</source>
+                <target>FR_Invalid telephone number</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>Invalid mobile number</source>
+                <target>FR_Invalid mobile number</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>Invalid work phone number</source>
+                <target>FR_Invalid work phone number</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Incorrect work email</source>
+                <target>FR_Incorrect work email</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>Incorrect work email</source>
+                <target>FR_Incorrect other email</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>Issued Date is required</source>
+                <target>FR_Issued Date is required</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Date of expiry is required</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>Issued date should be before expiration date</source>
+                <target>FR_Issued date should be before expiration date</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Document</source>
+                <target>FR_Document</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>Document No</source>
+                <target>FR_Document No</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>Issued By</source>
+                <target>FR_Issued By</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>Issued Date</source>
+                <target>FR_Issued Date</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>Date of Expiry</source>
+                <target>FR_Date of Expiry</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>Assigned Immigration Documents</source>
+                <target>FR_Assigned Immigration Documents</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>Immigration Details Saved Successfully</source>
+                <target>FR_Immigration Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>Document number is required</source>
+                <target>FR_Document number is required</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>Issued date is required</source>
+                <target>FR_Issued date is required</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>Expiry date is required</source>
+                <target>FR_Expiry date is required</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>Eligible Review Date</source>
+                <target>FR_Eligible Review Date</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>Eligible Status</source>
+                <target>FR_Eligible Status</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>Immigration Details Deleted Successfully</source>
+                <target>FR_Immigration Details Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>Country is required</source>
+                <target>FR_Country is required</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>Review date required</source>
+                <target>FR_Review date required</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+                <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+                <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Configure PIM</source>
+                <target>FR_Configure PIM</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Nick Name, Smoker, Military Service fields are considered as deprecated fields</source>
+                <target>FR_Nick Name, Smoker, Military Service fields are considered as deprecated fields</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Show Deprecated Fields</source>
+                <target>FR_Show Deprecated Fields</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>PIM Configuration Saved Successfully</source>
+                <target>FR_PIM Configuration Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Ethnic Race</source>
+                <target>FR_Ethnic Race</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Single</source>
+                <target>FR_Single</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Married</source>
+                <target>FR_Married</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Personal Details Saved Successfully</source>
+                <target>FR_Personal Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Select a gender</source>
+                <target>FR_Select a gender</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Should be a valid date in the format: %format%</source>
+                <target>FR_Should be a valid date in the format: %format%</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Address Street 1</source>
+                <target>FR_Address Street 1</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Address Street 2</source>
+                <target>FR_Address Street 2</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>City</source>
+                <target>FR_City</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>State/Province</source>
+                <target>FR_State/Province</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>Zip/Postal Code</source>
+                <target>FR_Zip/Postal Code</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>Home Telephone</source>
+                <target>FR_Home Telephone</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>Mobile</source>
+                <target>FR_Mobile</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Work Telephone</source>
+                <target>FR_Work Telephone</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>Work Email</source>
+                <target>FR_Work Email</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>Other Email</source>
+                <target>FR_Other Email</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>Home telephone can contains only space, numbers, "+", and "-"</source>
+                <target>FR_Home telephone can contains only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>Mobile can contains only space, numbers, "+", and "-"</source>
+                <target>FR_Mobile can contains only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>Work telephone can contains only space, numbers, "+", and "-"</source>
+                <target>FR_Work telephone can contains only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+                <target>FR_Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+                <target>FR_Other email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Contact Details Saved Successfully</source>
+                <target>FR_Contact Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>Emergency Contacts</source>
+                <target>FR_Emergency Contacts</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>Add Emergency Contact</source>
+                <target>FR_Add Emergency Contact</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Relationship</source>
+                <target>FR_Relationship</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Emergency Contact Saved Successfully</source>
+                <target>FR_Emergency Contact Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Assigned Emergency Contacts</source>
+                <target>FR_Assigned Emergency Contacts</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Edit Emergency Contact</source>
+                <target>FR_Edit Emergency Contact</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>Name is required</source>
+                <target>FR_Name is required</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Emergency Contact/s Deleted Successfully</source>
+                <target>FR_Emergency Contact/s Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Add Immigration</source>
+                <target>FR_Add Immigration</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Passport</source>
+                <target>FR_Passport</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>Visa</source>
+                <target>FR_Visa</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Immigration Details Saved Successfully</source>
+                <target>FR_Immigration Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Immigration Details Deleted Successfully</source>
+                <target>FR_Immigration Details Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Number</source>
+                <target>FR_Number</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Add Dependent</source>
+                <target>FR_Add Dependent</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Assigned Dependents</source>
+                <target>FR_Assigned Dependents</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>child</source>
+                <target>FR_child</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>other</source>
+                <target>FR_other</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>Dependent Saved Successfully</source>
+                <target>FR_Dependent Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>Please Specify</source>
+                <target>FR_Please Specify</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>Relationship is required</source>
+                <target>FR_Relationship is required</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>Please specify the relationship</source>
+                <target>FR_Please specify the relationship</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>Edit Dependent</source>
+                <target>FR_Edit Dependent</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>Dependent/s Deleted Successfully</source>
+                <target>FR_Dependent/s Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>Please specify at least one phone number</source>
+                <target>FR_Please specify at least one phone number</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>Comment length cannot exceed 250 characters</source>
+                <target>FR_Comment length cannot exceed 250 characters</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>Child</source>
+                <target>FR_Child</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Expiry Date</source>
+                <target>FR_Expiry Date</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Create Login Details</source>
+                <target>FR_Create Login Details</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>User Name</source>
+                <target>FR_User Name</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>Password</source>
+                <target>FR_Password</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>Confirm Password</source>
+                <target>FR_Confirm Password</target>
+            </trans-unit>
+            <trans-unit id="130">
+                <source>User Name should have at least 5 characters</source>
+                <target>FR_User Name should have at least 5 characters</target>
+            </trans-unit>
+            <trans-unit id="131">
+                <source>Password should have at least 4 characters</source>
+                <target>FR_Password should have at least 4 characters</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>Password and confirm password should be same</source>
+                <target>FR_Password and confirm password should be same</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>Please select a status</source>
+                <target>FR_Please select a status</target>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>Adding Employee Failed. Photograph Size Exceeded 1MB</source>
+                <target>FR_Adding Employee Failed. Photograph Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>Adding Employee Failed. User Name Already Exists</source>
+                <target>FR_Adding Employee Failed. User Name Already Exists</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Add Employee</source>
+                <target>FR_Add Employee</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>Employee Photograph Uploaded Successfully</source>
+                <target>FR_Employee Photograph Uploaded Successfully</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>Select a Photograph</source>
+                <target>FR_Select a Photograph</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>Upload Failed. File Size Should Be Less Than IMB</source>
+                <target>FR_Upload Failed. File Size Should Be Less Than IMB</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>Photograph is required</source>
+                <target>FR_Photograph is required</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>Are you sure you want to delete the photograph?</source>
+                <target>FR_Are you sure you want to delete the photograph?</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>Employee Photograph Deleted Successfully</source>
+                <target>FR_Employee Photograph Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>.jpg, .png or .gif file with maximum size of 1MB</source>
+                <target>FR_.jpg, .png or .gif file with maximum size of 1MB</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>Adding Employee Failed - Invalid File Type</source>
+                <target>FR_Adding Employee Failed - Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Invalid File Type</source>
+                <target>FR_Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="146">
+                <source>Work Experience</source>
+                <target>FR_Work Experience</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>Add Work Experience</source>
+                <target>FR_Add Work Experience</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>Company</source>
+                <target>FR_Company</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>Job Title</source>
+                <target>FR_Job Title</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>From</source>
+                <target>FR_From</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>To</source>
+                <target>FR_To</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Comment</source>
+                <target>FR_Comment</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Edit Work Experience</source>
+                <target>FR_Edit Work Experience</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>Company is required</source>
+                <target>FR_Company is required</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>Job Title is required</source>
+                <target>FR_Job Title is required</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>Work Experience Details Saved Successfully</source>
+                <target>FR_Work Experience Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Work Experience(s) Deleted Successfully</source>
+                <target>FR_Work Experience(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>From date should be before to date</source>
+                <target>FR_From date should be before to date</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Select Work Experience From The List To Delete</source>
+                <target>FR_Select Work Experience From The List To Delete</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>Create Login Details</source>
+                <target>FR_Create Login Details</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>Employee Information</source>
+                <target>FR_Employee Information</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>Please Select at Least One Employee to Delete</source>
+                <target>FR_Please Select at Least One Employee to Delete</target>
+            </trans-unit>
+            <trans-unit id="163">
+                <source>Selected Employee(s) Were Deleted Successfully</source>
+                <target>FR_Selected Employee(s) Were Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="164">
+                <source>A Problem Occured When Deleting The Selected Employees</source>
+                <target>FR_A Problem Occured When Deleting The Selected Employees</target>
+            </trans-unit>
+            <trans-unit id="165">
+                <source>Are you sure you want to delete selected employee(s)</source>
+                <target>FR_Are you sure you want to delete selected employee(s)</target>
+            </trans-unit>
+            <trans-unit id="166">
+                <source>No Employees Available in System</source>
+                <target>FR_No Employees Available in System</target>
+            </trans-unit>
+            <trans-unit id="167">
+                <source>No Matching Employees Found</source>
+                <target>FR_No Matching Employees Found</target>
+            </trans-unit>
+            <trans-unit id="168">
+                <source>Major/Specialization</source>
+                <target>FR_Major/Specialization</target>
+            </trans-unit>
+            <trans-unit id="169">
+                <source>GPA/Score</source>
+                <target>FR_GPA/Score</target>
+            </trans-unit>
+            <trans-unit id="170">
+                <source>Add Education</source>
+                <target>FR_Add Education</target>
+            </trans-unit>
+            <trans-unit id="171">
+                <source>Add Skill</source>
+                <target>FR_Add Skill</target>
+            </trans-unit>
+            <trans-unit id="172">
+                <source>Add Language</source>
+                <target>FR_Add Language</target>
+            </trans-unit>
+            <trans-unit id="173">
+                <source>Add License</source>
+                <target>FR_Add License</target>
+            </trans-unit>
+            <trans-unit id="174">
+                <source>Education Details Saved Successfully</source>
+                <target>FR_Education Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="175">
+                <source>Education Detail(s) Deleted Successfully</source>
+                <target>FR_Education Detail(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="176">
+                <source>Skill Details Saved Successfully</source>
+                <target>FR_Skill Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="177">
+                <source>Skill Detail(s) Deleted Successfully</source>
+                <target>FR_Skill Detail(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="178">
+                <source>Language Details Saved Successfully</source>
+                <target>FR_Language Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="179">
+                <source>Language Detail(s) Deleted Successfully</source>
+                <target>FR_Language Detail(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="180">
+                <source>License Details Saved Successfully</source>
+                <target>FR_License Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="181">
+                <source>License Detail(s) Deleted Successfully</source>
+                <target>FR_License Detail(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="182">
+                <source>Edit Education</source>
+                <target>FR_Edit Education</target>
+            </trans-unit>
+            <trans-unit id="183">
+                <source>Edit Skill</source>
+                <target>FR_Edit Skill</target>
+            </trans-unit>
+            <trans-unit id="184">
+                <source>Edit License</source>
+                <target>FR_Edit License</target>
+            </trans-unit>
+            <trans-unit id="185">
+                <source>Edit Language</source>
+                <target>FR_Edit Language</target>
+            </trans-unit>
+            <trans-unit id="186">
+                <source>Please Select At Least One Education Item To Delete</source>
+                <target>FR_Please Select At Least One Education Item To Delete</target>
+            </trans-unit>
+            <trans-unit id="187">
+                <source>Please Select At Least One Skill Item To Delete</source>
+                <target>FR_Please Select At Least One Skill Item To Delete</target>
+            </trans-unit>
+            <trans-unit id="188">
+                <source>Please Select At Least One Language Item To Delete</source>
+                <target>FR_Please Select At Least One Language Item To Delete</target>
+            </trans-unit>
+            <trans-unit id="189">
+                <source>Please Select At Least One License Item To Delete</source>
+                <target>FR_Please Select At Least One License Item To Delete</target>
+            </trans-unit>
+            <trans-unit id="190">
+                <source>Employment Contract</source>
+                <target>FR_Employment Contract</target>
+            </trans-unit>
+            <trans-unit id="191">
+                <source>Contract Details</source>
+                <target>FR_Contract Details</target>
+            </trans-unit>
+            <trans-unit id="192">
+                <source>Job Details Updated Successfully</source>
+                <target>FR_Job Details Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="193">
+                <source>Tax Exemptions</source>
+                <target>FR_Tax Exemptions</target>
+            </trans-unit>
+            <trans-unit id="194">
+                <source>Federal Income Tax</source>
+                <target>FR_Federal Income Tax</target>
+            </trans-unit>
+            <trans-unit id="195">
+                <source>Status</source>
+                <target>FR_Status</target>
+            </trans-unit>
+            <trans-unit id="196">
+                <source>Exemptions</source>
+                <target>FR_Exemptions</target>
+            </trans-unit>
+            <trans-unit id="197">
+                <source>Unemployment State</source>
+                <target>FR_Unemployment State</target>
+            </trans-unit>
+            <trans-unit id="198">
+                <source>Work State</source>
+                <target>FR_Work State</target>
+            </trans-unit>
+            <trans-unit id="199">
+                <source>Tax Details Saved Successfully</source>
+                <target>FR_Tax Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="200">
+                <source>State Income Tax</source>
+                <target>FR_State Income Tax</target>
+            </trans-unit>
+            <trans-unit id="201">
+                <source>Non Resident Alien</source>
+                <target>FR_Non Resident Alien</target>
+            </trans-unit>
+            <trans-unit id="202">
+                <source>Not Applicable</source>
+                <target>FR_Not Applicable</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>Enter a number</source>
+                <target>FR_Enter a number</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Assigned Memberships</source>
+                <target>FR_Assigned Memberships</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>Membership Type</source>
+                <target>FR_Membership Type</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>Subscription Paid By</source>
+                <target>FR_Subscription Paid By</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>Subscription Amount</source>
+                <target>FR_Subscription Amount</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>Currency</source>
+                <target>FR_Currency</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>Subscription Commence Date</source>
+                <target>FR_Subscription Commence Date</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>Subscription Renewal Date</source>
+                <target>FR_Subscription Renewal Date</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>Add Membership Details</source>
+                <target>FR_Add Membership Details</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>Select Membership Type</source>
+                <target>FR_Select Membership Type</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>Select Currency Type</source>
+                <target>FR_Select Currency Type</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>Select Membership</source>
+                <target>FR_Select Membership</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>
