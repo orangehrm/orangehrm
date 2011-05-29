@@ -81,7 +81,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             <br class="clear"/>
 
                             <?php echo $form['subscriptionAmount']->renderLabel(__('Subscription Amount')); ?>
-                            <?php echo $form['subscriptionAmount']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                            <?php echo $form['subscriptionAmount']->render(array("class" => "formDateInput", "maxlength" => 50)); ?>
                             <br class="clear"/>
 
                             <?php echo $form['currency']->renderLabel(__('Currency')); ?>
