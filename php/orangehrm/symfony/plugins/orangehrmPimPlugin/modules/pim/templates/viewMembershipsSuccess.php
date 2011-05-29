@@ -32,6 +32,17 @@ $hasMemDetails = $numMemDetails > 0;
 $allowDel = true;
 $allowEdit = true;
 ?>
+<?php if ($form->hasErrors()): ?>
+<span class="error">
+<?php
+echo $form->renderGlobalErrors();
+
+foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
+  echo $form[$widgetName]->renderError();
+}
+?>
+</span>
+<?php endif; ?>
 <table cellspacing="0" cellpadding="0" border="0" >
     <tr>
         <td width="5">&nbsp;</td>
@@ -136,6 +147,7 @@ $allowEdit = true;
                             </thead>
                             <tbody>
                                 <?php
+                                $membershipArray = array();
                                 $row = 0;
                                 foreach ($membershipDetails as $memship) {
                                     $cssClass = ($row % 2) ? 'even' : 'odd';
@@ -143,6 +155,7 @@ $allowEdit = true;
                                     $chkBoxValue = $empNumber . " " . $memship->membershipTypeCode . " " . $memship->membershipCode;
                                     echo "<td class='check'><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
                                 ?>
+                                <?php $membershipArray[$row] = $memship->membershipCode;?>
                                 <?php $newMembership = $memship->getMembership();?>
                                 <?php $newMembershipType = $memship->getMembershipType();?>
                                 <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
@@ -180,8 +193,13 @@ $allowEdit = true;
                     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
                     var dateDisplayFormat = dateFormat.toUpperCase();
                     var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
-                    var addMembershipDetail = '<?php echo __("Add Membership Detail"); ?>';
+                    var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
-                    var getMembershipsUrl= "<?php echo url_for('pim/getMemberships')?>";
+                    var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
+                    var membershipString = "<?php echo implode(" ", $membershipArray); ?>";
+                    var selectAMembershipType = '<?php echo __("Membership type is required"); ?>';
+                    var selectAMembership = '<?php echo __("Membership is required"); ?>';
+                    var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
+                    var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
                     //]]>
                 </script>

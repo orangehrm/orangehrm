@@ -100,8 +100,8 @@ class EmployeeMembershipForm extends BaseForm {
         //Setting validators
         $this->setValidators(array(
             'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
-            'membershipType' => new sfValidatorString(array('required' => false)),
-            'membership' => new sfValidatorString(array('required' => false)),
+            'membershipType' => new sfValidatorString(array('required' => true), array('required' => 'Select a membership type')),
+            'membership' => new sfValidatorString(array('required' => true), array('required' => 'Select a membership')),
             'subscriptionPaidBy' => new sfValidatorString(array('required' => false)),
             'subscriptionAmount' => new sfValidatorNumber(array('required' => false)),
             'currency' => new sfValidatorString(array('required' => false)),

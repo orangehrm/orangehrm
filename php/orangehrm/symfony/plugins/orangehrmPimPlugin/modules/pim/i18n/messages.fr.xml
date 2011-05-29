@@ -860,6 +860,30 @@
                 <source>Select Membership</source>
                 <target>FR_Select Membership</target>
             </trans-unit>
+            <trans-unit id="215">
+                <source>Edit Membership Detail</source>
+                <target>FR_Edit Membership Detail</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>Membership(s) Deleted Successfully</source>
+                <target>FR_Membership(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>Membership Saved Successfully</source>
+                <target>FR_Membership Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>Membership type is required</source>
+                <target>FR_Membership type is required</target>
+            </trans-unit>
+            <trans-unit id="219">
+                <source>Membership is required</source>
+                <target>FR_Membership is required</target>
+            </trans-unit>
+            <trans-unit id="220">
+                <source>Enter a valid number</source>
+                <target>FR_Enter a valid number</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

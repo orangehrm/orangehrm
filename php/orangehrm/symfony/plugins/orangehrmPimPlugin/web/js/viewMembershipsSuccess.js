@@ -65,16 +65,17 @@ $(document).ready(function() {
     });
 
     $('#membership_membershipType').change(function() {
+        //alert(membershipString);
         $.ajax({
-        type: "POST",
-        url: getMembershipsUrl,
-        dataType: "html",
-        data: "membershipTypeCode="+$('#membership_membershipType').val(),
-        success: function(msg){
-            $('#membership_membership').html(msg);
+            type: "POST",
+            url: getMembershipsUrl,
+            dataType: "html",
+            data: "membershipTypeCode="+$('#membership_membershipType').val()+"&membershipString="+membershipString,
+            success: function(msg){
+                $('#membership_membership').html(msg);
 
-        }
-    }).responseText;
+            }
+        }).responseText;
     });
     
     // Edit a emergency contact in the list
@@ -154,6 +155,64 @@ $(document).ready(function() {
         } else {
             $('#frmEmpDelMemberships').submit();
         }
+    });
+
+    $("#frmEmpMembership").validate({
+
+        rules: {
+            'membership[membershipType]' : {
+                required: true
+            },
+            'membership[membership]' : {
+                required: true
+            },
+            'membership[subscriptionAmount]':{
+                number: true
+            },
+            'membership[subscriptionCommenceDate]' : {
+                valid_date: function() {
+                    return {
+                        format:jsDateFormat,
+                        displayFormat:dateDisplayFormat,
+                        required:false
+                    }
+                }
+            },
+            'membership[subscriptionRenewalDate]' : {
+                valid_date: function() {
+                    return {
+                        format:jsDateFormat,
+                        displayFormat:dateDisplayFormat,
+                        required:false
+                    }
+                }
+            }
+
+        },
+        messages: {
+            'membership[membershipType]' : {
+                required: selectAMembershipType
+                    
+            },
+            'membership[membership]' :{
+                required: selectAMembership
+            },
+            'membership[subscriptionAmount]':{
+                number: validNumberMsg
+            },
+            'membership[subscriptionCommenceDate]' : {
+                valid_date: validDateMsg
+            },
+            'membership[subscriptionRenewalDate]' : {
+                valid_date: validDateMsg
+            }
+
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo( element.prev('label') );
+        }
+
+
     });
 
 });
