@@ -114,7 +114,7 @@ if (isset($messageType)) {
                         </td>
 
                         <td scope="col" class="fieldName">
-                            <?php echo $sorter->sortLink('name', __('Custom Field Name '), '@customfield_list', ESC_RAW); ?>
+                            <?php echo $sorter->sortLink('name', __('Custom Field Name'), '@customfield_list', ESC_RAW); ?>
                         </td>  	  
                         <td scope="col">
                             <?php echo $sorter->sortLink('screen', __('Screen'), '@customfield_list', ESC_RAW); ?>
@@ -222,7 +222,7 @@ if (isset($messageType)) {
             var checked = $('#customFieldList tbody input.checkbox:checked').length;
 
             if ( checked == 0) {
-                $('#messagebar').text("Please Select At Least One Custom Field To Delete").attr('class', 'messageBalloon_notice');
+                $('#messagebar').text('<?php echo __("Please Select At Least One Custom Field To Delete") ?>').attr('class', 'messageBalloon_notice');
             } else {
                 $('#messagebar').text('').attr('class', ''); 
                 

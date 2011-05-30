@@ -616,6 +616,18 @@
                 <source>Individual</source>
                 <target>FR_Individual</target>
             </trans-unit>
+			<trans-unit id="183">
+                <source>Field </source>
+                <target>FR_Field </target>
+            </trans-unit>
+			<trans-unit id="184">
+                <source>Fields </source>
+                <target>FR_Fields </target>
+            </trans-unit>
+			<trans-unit id="185">
+                <source>will be deleted from all employees' records. Do you want to continue?</source>
+                <target>FR_will be deleted from all employees' records. Do you want to continue?</target>
+            </trans-unit>
 	  ---------------------------
 Find
 ---------------------------

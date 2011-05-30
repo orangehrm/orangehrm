@@ -884,6 +884,70 @@
                 <source>Enter a valid number</source>
                 <target>FR_Enter a valid number</target>
             </trans-unit>
+			<trans-unit id="221">
+                <source>Custom Fields</source>
+                <target>FR_Custom Fields</target>
+            </trans-unit>
+			<trans-unit id="222">
+                <source>Custom Field Name</source>
+                <target>FR_Custom Field Name</target>
+            </trans-unit>
+			<trans-unit id="223">
+                <source>Screen</source>
+                <target>FR_Screen</target>
+            </trans-unit>
+			<trans-unit id="224">
+                <source>Field Type</source>
+                <target>FR_Field Type</target>
+            </trans-unit>
+			<trans-unit id="225">
+                <source>Please Select At Least One Custom Field To Delete</source>
+                <target>FR_Please Select At Least One Custom Field To Delete</target>
+            </trans-unit>
+			<trans-unit id="226">
+                <source>Custom Field(s) Deleted Successfully</source>
+                <target>FR_Custom Field(s) Deleted Successfully</target>
+            </trans-unit>
+			<trans-unit id="227">
+                <source>Add Custom Field</source>
+                <target>FR_Add Custom Field</target>
+            </trans-unit>
+			<trans-unit id="228">
+                <source>Edit Custom Field</source>
+                <target>FR_Edit Custom Field</target>
+            </trans-unit>
+			<trans-unit id="229">
+                <source>Field Name</source>
+                <target>FR_Field Name</target>
+            </trans-unit>
+			<trans-unit id="230">
+                <source>Please specify field name</source>
+                <target>FR_Please specify field name</target>
+            </trans-unit>
+			<trans-unit id="231">
+                <source>Please select a screen</source>
+                <target>FR_Please select a screen</target>
+            </trans-unit>
+			<trans-unit id="232">
+                <source>Please select a field type</source>
+                <target>FR_Please select a field type</target>
+            </trans-unit>	
+			<trans-unit id="233">
+                <source>Custom Field Successfully Updated</source>
+                <target>FR_Custom Field Successfully Updated</target>
+            </trans-unit>
+			<trans-unit id="234">
+                <source>Custom fields left.</source>
+                <target>FR_Custom fields left.</target>
+            </trans-unit>
+			<trans-unit id="235">
+                <source>1 Custom field left.</source>
+                <target>FR_1 Custom field left.</target>
+            </trans-unit>
+			<trans-unit id="236">
+                <source>The maximum number of custom fields have been defined. No fields left.</source>
+                <target>FR_The maximum number of custom fields have been defined. No fields left.</target>
+            </trans-unit>			
         </body>
     </file>
 </xliff>
