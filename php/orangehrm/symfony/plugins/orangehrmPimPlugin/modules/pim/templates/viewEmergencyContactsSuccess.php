@@ -283,7 +283,6 @@ var fileModified = 0;
 
         /* Valid Contact Phone */
         $.validator.addMethod("validContactPhone", function(value, element) {
-
             if ( $('#emgcontacts_homePhone').val() == '' && $('#emgcontacts_mobilePhone').val() == '' &&
                     $('#emgcontacts_workPhone').val() == '' )
                 return false;

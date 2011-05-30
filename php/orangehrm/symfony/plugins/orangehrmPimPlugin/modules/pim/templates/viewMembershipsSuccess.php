@@ -135,7 +135,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                         <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="mem_list">
                             <thead>
                                 <tr>
-                                    <td class="check"><input type='checkbox' id='checkAll' class="checkbox" /></td>
+                                    <td class="check"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></td>
                                     <td class="memshipCode"><?php echo __("Membership"); ?></td>
                                     <td><?php echo __("Membership Type"); ?></td>
                                     <td><?php echo __("Subscription Paid By"); ?></td>
@@ -147,15 +147,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             </thead>
                             <tbody>
                                 <?php
-                                $membershipArray = array();
                                 $row = 0;
                                 foreach ($membershipDetails as $memship) {
                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                     echo '<tr class="' . $cssClass . '">';
                                     $chkBoxValue = $empNumber . " " . $memship->membershipTypeCode . " " . $memship->membershipCode;
-                                    echo "<td class='check'><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
+                                    echo "<td class='check'><input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
                                 ?>
-                                <?php $membershipArray[$row] = $memship->membershipCode;?>
                                 <?php $newMembership = $memship->getMembership();?>
                                 <?php $newMembershipType = $memship->getMembershipType();?>
                                 <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
@@ -164,8 +162,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                     echo "<td valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
                                     echo "<td valigh='top'>" . $memship->subscriptionAmount . '</td>';
                                     echo "<td valigh='top'>" . $memship->subscriptionCurrency . '</td>';
-                                    echo "<td valigh='top'>" . $memship->subscriptionCommenceDate . '</td>';
-                                    echo "<td valigh='top'>" . $memship->subscriptionRenewalDate . '</td>';
+                                    echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionCommenceDate) . '</td>';
+                                    echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionRenewalDate) . '</td>';
                                     echo '</tr>';
                                     $row++;
                                 }
@@ -196,10 +194,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
-                    var membershipString = "<?php echo implode(" ", $membershipArray); ?>";
                     var selectAMembershipType = '<?php echo __("Membership type is required"); ?>';
                     var selectAMembership = '<?php echo __("Membership is required"); ?>';
                     var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
                     var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
+                    var dateError = '<?php echo __("Renewal date should be greater than commence date"); ?>';
                     //]]>
                 </script>

@@ -82,12 +82,10 @@ abstract class BaseEmployeeMemberDetail extends sfDoctrineRecord
              ));
         $this->hasColumn('ememb_commence_date as subscriptionCommenceDate', 'date', 25, array(
              'type' => 'date',
-             'default' => '',
              'length' => 25,
              ));
         $this->hasColumn('ememb_renewal_date as subscriptionRenewalDate', 'date', 25, array(
              'type' => 'date',
-             'default' => '',
              'length' => 25,
              ));
     }

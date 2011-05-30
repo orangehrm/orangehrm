@@ -1,5 +1,5 @@
 <option value="">
-    <?php echo "-- " . __('Select Membership') . " --"; ?>
+    <?php echo "-- " . __('Select') . " --"; ?>
 </option>
 <?php foreach ($relatedMemberships as $relatedMembership): ?>
     <?php if(isset($selectedValue)){?>

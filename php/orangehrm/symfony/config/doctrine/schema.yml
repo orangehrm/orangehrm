@@ -628,11 +628,9 @@ EmployeeMemberDetail:
     ememb_commence_date:
       name: ememb_commence_date as subscriptionCommenceDate
       type: date(25)
-      default: ''
     ememb_renewal_date:
       name: ememb_renewal_date as subscriptionRenewalDate
       type: date(25)
-      default: ''
   relations:
     MembershipType:
       local: membershipTypeCode

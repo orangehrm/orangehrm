@@ -73,7 +73,7 @@ class EmployeeMembershipForm extends BaseForm {
     public function configure() {
 
         $membershipType = $this->getMembershipTypeList();
-        $membership = array('' => "-- " . __('Select Membership') . " --");
+        $membership = array('' => "-- " . __('Select') . " --");
         $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'Company' => __('Company'), 'Individual' => __('Individual'));
         $currency = $this->getCurrencyList();
 
@@ -94,7 +94,7 @@ class EmployeeMembershipForm extends BaseForm {
             'subscriptionRenewalDate' => new sfWidgetFormInputText(),
         ));
 
-        $this->widgetSchema->setNameFormat('membership[%s]');
+
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         //Setting validators
@@ -110,6 +110,7 @@ class EmployeeMembershipForm extends BaseForm {
             'subscriptionRenewalDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
                     array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
         ));
+        $this->widgetSchema->setNameFormat('membership[%s]');
     }
 
     /**
@@ -117,7 +118,7 @@ class EmployeeMembershipForm extends BaseForm {
      * @return array
      */
     private function getMembershipTypeList() {
-        $list = array("" => "-- " . __('Select Membership Type') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
         $membershipTypes = $this->getMembershipService()->getMembershipTypeList();
         foreach ($membershipTypes as $membershipType) {
             $list[$membershipType->getMembershipTypeCode()] = $membershipType->getMembershipTypeName();
@@ -162,6 +163,7 @@ class EmployeeMembershipForm extends BaseForm {
         $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
         $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
         $membershipDetail->subscriptionCurrency = $this->getValue('currency');
+
         $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
         $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
 

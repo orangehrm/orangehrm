@@ -849,8 +849,8 @@
                 <target>FR_Add Membership Details</target>
             </trans-unit>
             <trans-unit id="212">
-                <source>Select Membership Type</source>
-                <target>FR_Select Membership Type</target>
+                <source>Renewal date should be greater than commence date</source>
+                <target>FR_Renewal date should be greater than commence date</target>
             </trans-unit>
             <trans-unit id="213">
                 <source>Select Currency Type</source>

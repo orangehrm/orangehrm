@@ -28,32 +28,14 @@ class getMembershipsAction extends sfAction {
 
         $membershipTypeCode = $request->getParameter('membershipTypeCode');
         $selectedMembership = $request->getParameter('selectedMembership');
-        $membershipString = $request->getParameter('membershipString');
         
         $membershipService = new MembershipService();
         $this->relatedMemberships = $membershipService->searchMembership('membtype_code', $membershipTypeCode);
-        //$relatedMemberships = $membershipService->searchMembership('membtype_code', $membershipTypeCode)->toArray();
-        
-//        foreach($relatedMemberships as $relatedMembership){
-//               $printList[$relatedMembership['membershipCode']] = $relatedMembership['membershipName'];
-//            }
-//
-//            $this->relatedMemberships = $printList;
-            
+
         if (isset($selectedMembership)) {
             $this->selectedValue = $selectedMembership;
         }
 
-//        if(isset($membershipString)){
-//            $membershipList = explode(" ", $membershipString);
-//            foreach($membershipList as $membership){
-//                if(array_key_exists($membership, $printList)){
-//                    unset($printList[$membership]);
-//                }
-//            }
-//
-//            $this->relatedMemberships = $printList;
-//        }
     }
 
 }
