@@ -956,6 +956,26 @@
                 <source>Enter allowed options separated by commas</source>
                 <target>FR_Enter allowed options separated by commas</target>
             </trans-unit>
+			<trans-unit id="238">
+                <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
+                <target>FR_Show Nick Name, Smoker and Military Service in Personal Details</target>
+            </trans-unit>
+			<trans-unit id="239">
+                <source>Country Specific Information</source>
+                <target>FR_Country Specific Information</target>
+            </trans-unit>
+			<trans-unit id="240">
+                <source>Show SSN field in Personal Details</source>
+                <target>FR_Show SSN field in Personal Details</target>
+            </trans-unit>
+			<trans-unit id="241">
+                <source>Show SIN field in Personal Details</source>
+                <target>FR_Show SIN field in Personal Details</target>
+            </trans-unit>
+			<trans-unit id="241">
+                <source>Show US Tax Exemptions menu</source>
+                <target>FR_Show US Tax Exemptions menu</target>
+            </trans-unit>
 			</body>
     </file>
 </xliff>
