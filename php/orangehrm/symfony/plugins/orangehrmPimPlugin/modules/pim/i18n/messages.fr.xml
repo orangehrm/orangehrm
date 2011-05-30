@@ -948,6 +948,14 @@
                 <source>The maximum number of custom fields have been defined. No fields left.</source>
                 <target>FR_The maximum number of custom fields have been defined. No fields left.</target>
             </trans-unit>			
-        </body>
+			<trans-unit id="237">
+                <source>Select Options</source>
+                <target>FR_Select Options</target>
+            </trans-unit>	
+			<trans-unit id="237">
+                <source>Enter allowed options separated by commas</source>
+                <target>FR_Enter allowed options separated by commas</target>
+            </trans-unit>
+			</body>
     </file>
 </xliff>
