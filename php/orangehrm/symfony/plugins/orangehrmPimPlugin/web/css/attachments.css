@@ -19,7 +19,7 @@ span#attachmentEditNote {
 
 /* Using !important to override !important in IE_Only css */
 input#btnCommentOnly {
-    width:120px!important;
+    width:150px!important;
 }
 
 div#parentPaneAttachments td.comments {
