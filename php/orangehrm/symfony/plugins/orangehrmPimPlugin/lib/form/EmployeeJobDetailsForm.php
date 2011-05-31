@@ -58,7 +58,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         
         $contractUpdateChoices = array(self::CONTRACT_KEEP =>__('Keep Current'), 
                                        self::CONTRACT_DELETE => __('Delete Current'),
-                                       self::CONTRACT_UPLOAD => __('Upload New'));
+                                       self::CONTRACT_UPLOAD => __('Replace Current'));
             
         // Note: Widget names were kept from old non-symfony version
         $this->setWidgets(array(
@@ -158,7 +158,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         $file = $values['contract_file'];
 
         if ($update == self::CONTRACT_UPLOAD && empty($file)) {
-            $message = sfContext::getInstance()->getI18N()->__('Upload file missing');
+            $message = __('Upload file missing');
             $error = new sfValidatorError($validator, $message);
             throw new sfValidatorErrorSchema($validator, array('' => $error));
         }
@@ -299,13 +299,14 @@ class EmployeeJobDetailsForm extends BaseForm {
         
         $update = $this->getValue('contract_update');
         $empAttachment = false;
+        $file = $this->getValue('contract_file');
                 
         if ($update == self::CONTRACT_DELETE) {
              $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
                     ->where('emp_number = ?', $empNumber)
                     ->andWhere('screen = ?', "contract");
              $result = $q->execute();            
-        } else if ($update == self::CONTRACT_UPLOAD) {
+        } else if ($update == self::CONTRACT_UPLOAD || !empty($file)) {
             // find existing 
             $q = Doctrine_Query::create()
                     ->select('a.emp_number, a.attach_id')
@@ -343,7 +344,6 @@ class EmployeeJobDetailsForm extends BaseForm {
                 $newFile = true;
             }
             
-            $file = $this->getValue('contract_file');
             $tempName = $file->getTempName();
 
 

@@ -45,3 +45,16 @@ a.fileLink {
     padding-left: 0px;
     padding-top: 6px;    
 }
+
+#contractEdidMode {
+    margin-top: 4px;
+}
+
+#contractReadMode {
+    padding-bottom: 10px;
+}
+
+#notDefinedLabel {
+    margin-left: 0;
+    padding-left: 0;
+}

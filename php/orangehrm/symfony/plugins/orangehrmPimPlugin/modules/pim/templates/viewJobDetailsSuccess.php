@@ -45,9 +45,11 @@
                 <tr>
                     <td valign="top" width="750">
                         <!-- this space is for contents -->
+                        <?php if (!empty($message)) : ?>
                         <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
-                            <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+                            <span style="font-weight: bold;"><?php echo $message; ?></span>
                         </div>
+                        <?php endif; ?>
                         <div class="outerbox">
                             <div class="mainHeading"><h2><?php echo __('Job'); ?></h2></div>
                             <div>
@@ -103,30 +105,48 @@
                                     <?php echo $form['contract_end_date']->render(array("class" => "formDateInput")); ?>
                                     <input id="contractEndDateBtn" type="button" name="" value="  " class="calendarBtn" />                                    
                                     <br class="clear"/>                                    
-                                    
-                                    <?php echo $form['contract_update']->renderLabel(__('Contract Details')); ?>
-                                    <?php 
-                                    $contractRadioStyle = "";
-                                    if (!empty($form->attachment)) { 
-                                                $attachment = $form->attachment;
-                                        ?>
-                                   <a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
-                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);?>">
-                                       <?php echo $attachment->filename; ?>
-                                   </a>
-                                    <br class="clear"/><label for=""></label>                   
-                                    <?php } else {
-                                        $contractRadioStyle = "display:none;";    
-                                    }
-?>
-                                    
-                                    
-                                    <?php echo $form['contract_update']->render(array("class" => "")); ?>
-                                    <br class="clear"/>
-                                    <?php echo $form['contract_file']->renderLabel(' '); 
-                                          echo $form['contract_file']->render(array("class" => ""));
+
+                                    <div id="contractEdidMode">
+                                    <?php
+                                        if (empty($form->attachment)) {
+
+                                            echo $form['contract_file']->renderLabel('Contract Details');
+                                            echo $form['contract_file']->render(array("class" => ""));
+
+                                        } else {
+
+                                            echo $form['contract_update']->renderLabel(__('Contract Details'));
+                                            echo $form['contract_update']->render(array("class" => ""));
+                                            echo "<br class=\"clear\"/>";
+                                            echo "<div id=\"fileUploadSection\">";
+                                            echo $form['contract_file']->renderLabel(' ');
+                                            echo $form['contract_file']->render(array("class" => ""));
+                                            echo "</div>";
+
+                                        }
                                     ?>
-                                    
+                                    </div> <!-- End of contractEdidMode -->
+
+                                    <div id="contractReadMode">
+                                    <?php
+
+                                        echo "<label>" . __('Contract Details'). "</label>";
+
+                                        if (empty($form->attachment)) {
+
+                                            echo "<label id=\"notDefinedLabel\">" . __('Not Defined'). "</label>";
+
+                                        } else {
+
+                                            $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
+                                            $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
+                                            $linkHtml .= "\">{$attachment->filename}</a>";
+                                            echo $linkHtml;
+
+                                        }
+                                    ?>
+                                    </div> <!-- End of contractReadMode -->
+
                                     <div class="formbuttons">
                                         <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" />
                                     </div>
@@ -240,8 +260,24 @@ $(document).ready(function() {
     $('#contractEndDateBtn').click(function() {
         daymarker.show("#job_contract_end_date");
     });
+
+    $('#fileUploadSection').hide();
+    
+    $("input[name=job[contract_update]]").change(function () {
+
+        if ($('#job_contract_update_3').attr("checked")) {
+            $('#fileUploadSection').show();
+        } else {
+            $('#fileUploadSection').hide();
+        }
+    });
+
+    $('#contractEdidMode').hide();
     
     $("#btnSave").click(function() {
+
+        $('#contractEdidMode').show();
+        $('#contractReadMode').hide();
 
         if ( !readonlyFlag) {
             //if user clicks on Edit make all fields editable

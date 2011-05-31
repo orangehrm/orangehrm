@@ -628,16 +628,14 @@
                 <source>will be deleted from all employees' records. Do you want to continue?</source>
                 <target>FR_will be deleted from all employees' records. Do you want to continue?</target>
             </trans-unit>
-	  ---------------------------
-Find
----------------------------
-Can't find the text:
-
-"Attachment Size Exceeded."
----------------------------
-OK   
----------------------------
-
+			<trans-unit id="186">
+                <source>Not Defined</source>
+                <target>FR_Not Defined</target>
+            </trans-unit>
+			<trans-unit id="187">
+                <source>Replace Current</source>
+                <target>FR_Replace Current</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
