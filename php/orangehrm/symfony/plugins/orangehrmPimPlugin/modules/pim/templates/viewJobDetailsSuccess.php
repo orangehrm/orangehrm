@@ -71,10 +71,10 @@
                                     <br class="clear"/>
                                     <div id="job_spec_details" style="display:none;">
                                     <label><?php echo __("Description");?></label>
-                                    <div id="job_spec_desc"><?php echo $form->jobSpecDescription;?></div>
+                                    <textarea id="job_spec_desc" cols="40" rows="5"><?php echo $form->jobSpecDescription;?></textarea>
                                     <br class="clear"/>
                                     <label><?php echo __("Duties");?></label>
-                                    <div id="job_spec_duties"><?php echo $form->jobSpecDuties;?></div>                                    
+                                    <textarea id="job_spec_duties" cols="40" rows="5"><?php echo $form->jobSpecDuties;?></textarea>
                                     <br class="clear"/>
                                     </div>
                                     
@@ -95,7 +95,7 @@
                                     <?php echo $form['location']->render(array("class" => "formSelect")); ?>
                                     <br class="clear"/>
                                     
-                                    <div><h3><?php echo __('Employment Contract'); ?></h3></div>
+                                    <div><h4><?php echo __('Employment Contract'); ?></h4></div>
                                     
                                     <?php echo $form['contract_start_date']->renderLabel(__('Start Date')); ?>
                                     <?php echo $form['contract_start_date']->render(array("class" => "formDateInput")); ?>
@@ -328,7 +328,11 @@ $(document).ready(function() {
         
         $('div#job_spec_details').toggle();
     });
-    
+
+
+    /* Hiding viewDetailsLink */
+    $('#viewDetailsLink').hide();
+
     /*
      * Ajax call to fetch job specification for selected job
      */
@@ -339,8 +343,8 @@ $(document).ready(function() {
         // don't check if not selected
         if (jobTitle == '0') {
             $("#job_spec_name").text('');
-            $("#job_spec_desc").text('');
-            $("#job_spec_duties").text('');
+            $("#job_spec_desc").val('');
+            $("#job_spec_duties").val('');
             $("#job_emp_status").html("<option value=''>-- <?php echo __("Select")?> --</option>");
             return;
         }
@@ -359,8 +363,14 @@ $(document).ready(function() {
                 desc =  data.jobspec_desc;
             }
             $("#job_spec_name").text(name);
-            $("#job_spec_desc").text(desc);
-            $("#job_spec_duties").text(duties);
+            $("#job_spec_desc").val(desc);
+            $("#job_spec_duties").val(duties);
+
+            /* Showing viewDetailsLink */
+            if ($("#job_spec_desc").val() != '' || $("#job_spec_duties").val() != '') {
+                $('#viewDetailsLink').show();
+            }
+
         })
 
         // Note: it be more efficient if these 2 ajax calls were combined.
@@ -391,7 +401,7 @@ $(document).ready(function() {
         })
 
     });
-        
+
 });
 
 //]]>

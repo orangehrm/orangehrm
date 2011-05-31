@@ -1,10 +1,17 @@
-form#frmEmpJobDetails label {
+form#frmEmpJobDetails label, form#frmEmpJobDetails textarea {
     margin-top: 5px;
 }
 
-h3 {
+form#frmEmpJobDetails select {
+    width: 320px;
+}
+
+form#frmEmpJobDetails textarea {
+    width: 310px;
+}
+
+h4 {
     margin-left: 20px;
-    color: #000000;
 }
 
 form#frmEmpJobDetails div.error {
@@ -17,10 +24,11 @@ ul.radio_list li { display: inline; }
 ul.radio_list li label { display: inline; padding-left:5px; width:100px; margin-top: 5px;}
 ul.radio_list li input { float:left; margin-top:5px; }
 
-div#job_spec_desc, div#job_spec_duties, div#job_spec_name {
+div#job_spec_name {
+   color: #444444;
    display: block;
    float: left;
-   width: 150px;
+   width: 310px;
    margin-top: 5px;
    border: 1px solid #888888;
    padding: 1px 4px;
@@ -63,4 +71,9 @@ a.fileLink {
     padding-left: 15px;
     padding-top: 5px;
     font-size: 8pt;
+}
+
+.commonUploadHelp {
+    width: 100%;
+    font-size: 11px;
 }
