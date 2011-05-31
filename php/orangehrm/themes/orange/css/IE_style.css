@@ -127,8 +127,15 @@ label.error {
     width: 128px !important;
 }
 
-/* PIM Job styles */
+/* PIM Job specific styles : Begin */
+
 form#frmEmpJobDetails textarea {
     margin-top: 5px;
     margin-left: 20px;
 }
+
+.commonUploadHelp {
+    padding-left: 20px;
+}
+
+/* PIM Job specific styles : End */

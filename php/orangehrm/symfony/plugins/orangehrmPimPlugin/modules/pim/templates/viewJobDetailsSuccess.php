@@ -122,6 +122,7 @@
                                             echo "<div id=\"fileUploadSection\">";
                                             echo $form['contract_file']->renderLabel(' ');
                                             echo $form['contract_file']->render(array("class" => ""));
+                                            echo "<p class=\"commonUploadHelp\">[" . __("1M Max, any larger attachments will be ignored") . "]</p>";
                                             echo "</div>";
 
                                         }
@@ -270,7 +271,7 @@ $(document).ready(function() {
 
     $('#fileUploadSection').hide();
     
-    $("input[name=job[contract_update]]").change(function () {
+    $("input[name=job[contract_update]]").click(function () {
 
         if ($('#job_contract_update_3').attr("checked")) {
             $('#fileUploadSection').show();
