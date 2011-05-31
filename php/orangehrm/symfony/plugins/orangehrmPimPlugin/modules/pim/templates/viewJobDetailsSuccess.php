@@ -150,8 +150,11 @@
                                     </div> <!-- End of contractReadMode -->
 
                                     <div class="formbuttons">
+                                    <?php if (!$ownRecords): ?>
                                         <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" />
+                                    <?php endif; ?>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

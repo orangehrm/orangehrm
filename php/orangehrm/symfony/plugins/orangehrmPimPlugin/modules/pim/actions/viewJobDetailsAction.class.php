@@ -50,6 +50,8 @@ class viewJobDetailsAction extends basePimAction {
         $empNumber = (isset($job['emp_number'])) ? $job['emp_number']: $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        $this->ownRecords = ($loggedInEmpNum == $empNumber)?true:false;
+
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
