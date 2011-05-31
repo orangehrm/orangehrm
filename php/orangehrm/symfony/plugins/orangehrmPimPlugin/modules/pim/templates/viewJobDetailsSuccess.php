@@ -14,7 +14,7 @@
     var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
     var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
+    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>strtoupper($sf_user->getDateFormat()))) ?>";
     var lang_startDateAfterEndDate = "<?php echo __('Start date should be before end date');?>";
     var lang_View_Details =  "<?php echo __('View Details');?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details');?>";
@@ -176,7 +176,47 @@
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready(function() {
-        
+
+    /* Loading default masks in dates if empty */
+
+    var joinedDate = $("#job_joined_date");
+    var contractStartDate = $("#job_contract_start_date");
+    var contractEndDate = $("#job_contract_end_date");    
+
+    if(trim(joinedDate.val()) == ''){
+        joinedDate.val(dateDisplayFormat);
+    }
+
+    if(trim(contractStartDate.val()) == ''){
+        contractStartDate.val(dateDisplayFormat);
+    }
+
+    if(trim(contractEndDate.val()) == ''){
+        contractEndDate.val(dateDisplayFormat);
+    }
+
+    /* Form validation */
+    $("#frmEmpJobDetails").validate({
+        rules: {
+            'job[joined_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'job[contract_start_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'job[contract_end_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } }
+        },
+        messages: {
+            'job[joined_date]': { valid_date: lang_invalidDate },
+            'job[contract_start_date]': { valid_date: lang_invalidDate },
+            'job[contract_end_date]': { valid_date: lang_invalidDate }
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.next(".clear"));
+            error.insertAfter(element.next().next(".clear"));
+            error.insertAfter(element.parent().parent().next(".clear"));
+        }
+    });
+
+
+
     var readonlyFlag = 0;
     <?php if($essMode) { ?>
         readonlyFlag = 1;

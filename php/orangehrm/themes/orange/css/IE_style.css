@@ -127,6 +127,10 @@ label.error {
     width: 128px !important;
 }
 
+div.error {
+    padding-left: 20px;
+}
+
 /* PIM Job specific styles : Begin */
 
 form#frmEmpJobDetails textarea {
