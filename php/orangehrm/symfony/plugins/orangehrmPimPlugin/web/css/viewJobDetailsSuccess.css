@@ -58,3 +58,9 @@ a.fileLink {
     margin-left: 0;
     padding-left: 0;
 }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}

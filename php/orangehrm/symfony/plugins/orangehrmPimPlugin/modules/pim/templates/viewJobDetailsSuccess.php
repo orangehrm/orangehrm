@@ -57,8 +57,9 @@
                                       action="<?php echo url_for('pim/viewJobDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
                                     <?php echo $form['emp_number']->render(); ?>
-                                    <?php echo $form['job_title']->renderLabel(__('Job Title')); ?>                                    
+                                    <?php echo $form['job_title']->renderLabel(__('Job Title') . ' <span class="required">*</span>'); ?>
                                     <?php echo $form['job_title']->render(array("class" => "formSelect")); ?>
+                                    <label class="error" id="jobTitleError"></label>
                                     <br class="clear"/>
 
                                     <?php echo $form['emp_status']->renderLabel(__('Employment Status')); ?>                                    
@@ -153,6 +154,8 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'job'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'job'));?>
                         
@@ -272,6 +275,12 @@ $(document).ready(function() {
         }
     });
 
+    $('#job_job_title').change(function(){
+        if ($(this).val() != '') {
+            $("#jobTitleError").empty();
+        }
+    });
+
     $('#contractEdidMode').hide();
     
     $("#btnSave").click(function() {
@@ -298,7 +307,13 @@ $(document).ready(function() {
             }
 
             if($("#btnSave").attr('value') == save) {
-                $("#frmEmpJobDetails").submit();
+
+                if ($('#job_job_title').val() == '') {
+                    $("#jobTitleError").append('<?php echo __('Job Title is required'); ?>');
+                } else {
+                    $("#frmEmpJobDetails").submit();
+                }
+                
             }
         }
     });
