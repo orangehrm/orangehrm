@@ -156,14 +156,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                 ?>
                                 <?php $newMembership = $memship->getMembership();?>
                                 <?php $newMembershipType = $memship->getMembershipType();?>
-                                <td class="memshipCode1" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
+                                <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
                             <?php
-                                    echo "<td  class='memshipType' valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
-                                    echo "<td valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
+                                    echo "<td  class='memship' valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
+                                    echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
                                     echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionAmount . '</td>';
-                                    echo "<td valigh='top'>" . $memship->subscriptionCurrency . '</td>';
-                                    echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionCommenceDate) . '</td>';
-                                    echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionRenewalDate) . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . ohrm_format_date($memship->subscriptionCommenceDate) . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . ohrm_format_date($memship->subscriptionRenewalDate) . '</td>';
                                     echo '</tr>';
                                     $row++;
                                 }
