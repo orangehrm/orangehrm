@@ -139,6 +139,7 @@
 
                                         } else {
 
+                                            $attachment = $form->attachment;
                                             $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
                                             $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
                                             $linkHtml .= "\">{$attachment->filename}</a>";
