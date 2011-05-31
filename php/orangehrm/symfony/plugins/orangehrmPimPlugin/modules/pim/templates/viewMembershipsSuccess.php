@@ -139,7 +139,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                     <td class="memshipCode"><?php echo __("Membership"); ?></td>
                                     <td><?php echo __("Membership Type"); ?></td>
                                     <td><?php echo __("Subscription Paid By"); ?></td>
-                                    <td><?php echo __("Subscription Amount"); ?></td>
+                                    <td class="memshipAmount"><?php echo __("Subscription Amount"); ?></td>
                                     <td><?php echo __("Currency"); ?></td>
                                     <td><?php echo __("Subscription Commence Date"); ?></td>
                                     <td><?php echo __("Subscription Renewal Date"); ?></td>
@@ -156,11 +156,11 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                 ?>
                                 <?php $newMembership = $memship->getMembership();?>
                                 <?php $newMembershipType = $memship->getMembershipType();?>
-                                <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
+                                <td class="memshipCode1" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
                             <?php
-                                    echo "<td valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
+                                    echo "<td  class='memshipType' valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
                                     echo "<td valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
-                                    echo "<td valigh='top'>" . $memship->subscriptionAmount . '</td>';
+                                    echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionAmount . '</td>';
                                     echo "<td valigh='top'>" . $memship->subscriptionCurrency . '</td>';
                                     echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionCommenceDate) . '</td>';
                                     echo "<td valigh='top'>" . ohrm_format_date($memship->subscriptionRenewalDate) . '</td>';

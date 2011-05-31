@@ -131,7 +131,7 @@ class EmployeeMembershipForm extends BaseForm {
      * @return array
      */
     private function getCurrencyList() {
-        $list = array("" => "-- " . __('Select Currency Type') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
         $currencies = $this->getCurrencyService()->getCurrencyList();
         foreach ($currencies as $currency) {
             $list[$currency->getCurrencyId()] = $currency->getCurrencyName();

@@ -52,3 +52,34 @@ div.formpage2col {
     width: 1000px;
 }
 
+table#mem_list td.check {
+    width: 30px;
+}
+
+table#mem_list td.memshipCode {
+    padding-left: 8px;
+    padding-top: 5px;
+}
+
+table#mem_list td {
+    padding-left: 4px;
+    padding-right:4px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+table#mem_list td.memshipAmount1 {
+    text-align: right;
+    padding-right: 30px;
+}
+
+table#mem_list td.memshipCode1 {
+    padding-top: 6px;
+    text-align: left;
+}
+
+table#mem_list td.memshipType {
+    padding-top: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
