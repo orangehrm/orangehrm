@@ -22,16 +22,12 @@ class PluginController {
 	}
 }
 
-if(isset($_REQUEST['path'])) {
-	define('ROOT_PATH', $_REQUEST['path']);
-}
-
-require_once ROOT_PATH . '/plugins/PlugInFactory.php';
-require_once ROOT_PATH . '/plugins/AbstractPluginCommon.php';
-require_once ROOT_PATH . '/plugins/InterfacePluginCommon.php';
+require_once 'plugins/PlugInFactory.php';
+require_once 'plugins/AbstractPluginCommon.php';
+require_once 'plugins/InterfacePluginCommon.php';
 
 // these includes should be dynamicaly include from the xml
-require_once ROOT_PATH . '/plugins/csv/CSVPluginController.php';
+require_once  'plugins/csv/CSVPluginController.php';
 
 
 $pluginController = new PluginController($_REQUEST['route']);
