@@ -110,17 +110,17 @@
                                     <div id="contractEdidMode">
                                     <?php
 
-                                        $attachment = $form->attachment;
-                                        $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
-                                        $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
-                                        $linkHtml .= "\">{$attachment->filename}</a>";
-
                                         if (empty($form->attachment)) {
 
                                             echo $form['contract_file']->renderLabel('Contract Details');
                                             echo $form['contract_file']->render(array("class" => ""));
 
                                         } else {
+
+                                            $attachment = $form->attachment;
+                                            $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
+                                            $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
+                                            $linkHtml .= "\">{$attachment->filename}</a>";
 
                                             echo $form['contract_update']->renderLabel(__('Contract Details'));
                                             echo $linkHtml;
