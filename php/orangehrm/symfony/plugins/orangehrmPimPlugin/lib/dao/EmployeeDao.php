@@ -1165,7 +1165,6 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-
     /**
      * Delete Membership Detail
      * @param $empNumber $membershipType $membership
@@ -1185,10 +1184,137 @@ class EmployeeDao extends BaseDao {
             if ($membershipDetailDeleted > 0) {
                 return true;
             }
-            
         } catch (Exception $ex) {
 
             throw new DaoException($ex->getMessage());
+        }
+    }
+
+    /**
+     * Add or Save Report Mode
+     * @param ReportMode $reportMode
+     * @return Doctine object ReportMode
+     */
+    public function saveReportMode(ReportMode $reportMode) {
+
+        try {
+
+            if ($reportMode->getReportModeId() == '') {
+                $idGenService = new IDGeneratorService();
+                $idGenService->setEntity($reportMode);
+                $reportMode->setReportModeId($idGenService->getNextID());
+            }
+            $reportMode->save();
+
+            return $reportMode;
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }
+    }
+
+    /**
+     * get Report Mode
+     * @param $reportModeId
+     * @return Doctine object ReportMode
+     */
+    public function getReportMode($reportModeId) {
+
+        try {
+            $q = Doctrine_Query::create()->from('ReportMode rm')
+                            ->where('rm.rep_mode_id =?', $reportModeId);
+            return $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * get Report Mode List
+     * @return Doctine collection ReportModeList
+     */
+    public function getReportModeList() {
+
+        try {
+            $q = Doctrine_Query :: create()->from('ReportMode');
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * get supervisor list
+     * @param $empNumber
+     * @return Doctine collection ReportTo
+     */
+    public function getSupervisorListForEmployee($empNumber) {
+
+        try {
+            $q = Doctrine_Query :: create()->from('ReportTo rt')
+                            ->where('rt.erep_sub_emp_number =?', $empNumber);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * get subordinate list
+     * @param $empNumber
+     * @return Doctine collection ReportTo
+     */
+    public function getSubordinateListForEmployee($empNumber) {
+
+        try {
+            $q = Doctrine_Query :: create()->from('ReportTo rt')
+                            ->where('rt.erep_sup_emp_number =?', $empNumber);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get report to details object
+     * @param int $supNumber $subNumber $reportMode
+     * @return ReportTo object
+     */
+    public function getReportToObject($supNumber, $subNumber, $reportMode) {
+
+        try {
+            $q = Doctrine_Query::create()->from('ReportTo rt')
+                            ->where('rt.erep_sup_emp_number =?', $supNumber)
+                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
+                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+
+            return $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete reportTo object
+     * @param int $supNumber $subNumber $reportMode
+     * @return boolean
+     */
+    public function deleteReportToObject($supNumber, $subNumber, $reportMode) {
+
+        try {
+            $q = Doctrine_Query::create()
+                            ->delete()
+                            ->from('ReportTo rt')
+                            ->where('rt.erep_sup_emp_number =?', $supNumber)
+                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
+                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+
+            $executed = $q->execute();
+
+            if ($executed > 0) {
+                return true;
+            }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 

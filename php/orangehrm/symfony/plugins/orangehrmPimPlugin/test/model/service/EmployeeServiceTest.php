@@ -1,5 +1,7 @@
 <?php
+
 require_once 'PHPUnit/Framework.php';
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +20,7 @@ require_once 'PHPUnit/Framework.php';
  * Boston, MA  02110-1301, USA
  */
 class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
+
     private $testCase;
     private $employeeDao;
     private $employeeService;
@@ -35,12 +38,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing addEmployee
      */
     public function testAddEmployee() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $employee	=	new Employee();
+        foreach ($this->testCase['Employee'] as $k => $v) {
+            $employee = new Employee();
             $employee->setLastName($v['lastName']);
             $employee->setFirstName($v['firstName']);
 
-            $this->employeeDao  =	$this->getMock('EmployeeDao');
+            $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('addEmployee')
                     ->will($this->returnValue(true));
@@ -54,8 +57,8 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing Adding Employee Picture
      */
     public function testAddEmployeePicture() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao  =	$this->getMock('EmployeeDao');
+        foreach ($this->testCase['Employee'] as $k => $v) {
+            $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('saveEmployeePicture')
                     ->will($this->returnValue(true));
@@ -73,8 +76,8 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing readEmployeePicture
      */
     public function testManipulateEmployeePicture() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao  =	$this->getMock('EmployeeDao');
+        foreach ($this->testCase['Employee'] as $k => $v) {
+            $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('readEmployeePicture')
                     ->will($this->returnValue(new EmpPicture()));
@@ -88,8 +91,8 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing deletePhoto
      */
     public function testDeletePhoto() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao  =	$this->getMock('EmployeeDao');
+        foreach ($this->testCase['Employee'] as $k => $v) {
+            $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('deletePhoto')
                     ->will($this->returnValue(true));
@@ -103,10 +106,10 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing getEmployeeListAsJson
      */
     public function testGetEmployeeListAsJson() {
-        $empDao  = new EmployeeDao();
-        $str     = $empDao->getEmployeeListAsJson();
+        $empDao = new EmployeeDao();
+        $str = $empDao->getEmployeeListAsJson();
 
-        $this->employeeDao  =	$this->getMock('EmployeeDao');
+        $this->employeeDao = $this->getMock('EmployeeDao');
         $this->employeeDao->expects($this->once())
                 ->method('getEmployeeListAsJson')
                 ->will($this->returnValue($str));
@@ -119,8 +122,8 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing deleteEmployee
      */
     public function testDeleteEmployee() {
-        foreach($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao  =	$this->getMock('EmployeeDao');
+        foreach ($this->testCase['Employee'] as $k => $v) {
+            $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('deleteEmployee')
                     ->will($this->returnValue(1));
@@ -192,7 +195,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empPassport->setEmpNumber(1);
         $result = $this->employeeService->saveEmployeePassport($empPassport);
         $this->assertTrue($result);
-
     }
 
     /**
@@ -210,7 +212,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $readEmpPassport = $this->employeeService->getEmployeePassport(1);
         $this->assertTrue($readEmpPassport instanceof EmpPassport);
-
     }
 
     /**
@@ -228,7 +229,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $readEmpTaxExemption = $this->employeeService->getEmployeeTaxExemptions(1);
         $this->assertTrue($readEmpTaxExemption instanceof EmpUsTaxExemption);
-
     }
 
     /**
@@ -248,7 +248,42 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empUsTaxExemption->setEmpNumber(3);
         $result = $this->employeeService->saveEmployeeTaxExemptions($empUsTaxExemption);
         $this->assertTrue($result);
-
     }
+
+    /**
+     * Test SaveReportMode
+     */
+    public function testSaveReportMode() {
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('saveReportMode')
+                ->will($this->returnValue(true));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $reportMode = new ReportMode();
+        $reportMode->reportModeName = "report name";
+        $result = $this->employeeService->saveReportMode($reportMode);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test Get Report Mode for a given report mode id
+     */
+    public function testGetReportMode() {
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getReportMode')
+                ->will($this->returnValue(new ReportMode()));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readReportMode = $this->employeeService->getReportMode(6);
+        $this->assertTrue($readReportMode instanceof ReportMode);
+    }
+
 }
-?>

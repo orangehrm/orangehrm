@@ -1,6 +1,9 @@
 Employee:
   0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
   1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
 
 EmpPassport:
     0: {emp_number: '1', seqno: '0', type_flag: 1, number: 'HVN0003472', passport_issue_date: '2010-12-12', passport_expire_date: '2011-12-12', i9_status: 'some status', country: 'UK', i9_review_date: '2011-12-30', comments: 'test comment'}
@@ -21,3 +24,13 @@ Membership:
 EmployeeMemberDetail:
   0: {emp_number: '1', membship_code: 'MIME001', membtype_code: 'MEM001', ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22'}
   1: {emp_number: '1', membship_code: 'MIME002', membtype_code: 'MEM001', ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
+
+ReportMode:
+  0: {rep_mode_id: '3', rep_mode_name: 'reportModeName1'}
+  1: {rep_mode_id: '4', rep_mode_name: 'reportModeName2'}
+
+ReportTo:
+  0: {erep_sup_emp_number: '4', erep_sub_emp_number: '3', erep_reporting_mode: '4'}
+  1: {erep_sup_emp_number: '5', erep_sub_emp_number: '3', erep_reporting_mode: '3'}
+  2: {erep_sup_emp_number: '3', erep_sub_emp_number: '2', erep_reporting_mode: '4'}
+  3: {erep_sup_emp_number: '3', erep_sub_emp_number: '1', erep_reporting_mode: '3'}

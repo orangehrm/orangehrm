@@ -543,6 +543,8 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('pim_show_deprecated_fields', 
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showSSN', 0);
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showSIN', 0);
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('showTaxExemptions', 0);
+INSERT INTO `hs_hr_emp_reporting_method`(`rep_mode_id`, `rep_mode_name`) VALUES(1, 'Direct');
+INSERT INTO `hs_hr_emp_reporting_method`(`rep_mode_id`, `rep_mode_name`) VALUES(2, 'Indirect');
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
@@ -587,3 +589,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_kpi', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_performance_review', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave_period', 'leave_period_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'hs_hr_emp_reporting_method', 'rep_mode_id');

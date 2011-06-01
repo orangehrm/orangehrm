@@ -106,17 +106,17 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue($collection instanceof Doctrine_Collection);
         }
     }
-    
+
     /**
      * Test for getEmployeeTaxExemptions returns Object
      */
-     public function testGetEmployeeTaxExemptions(){
-         $empTaxExemption = TestDataService::fetchObject('EmpUsTaxExemption', 1);
-         $taxObject = $this->employeeDao->getEmployeeTaxExemptions($empTaxExemption->getEmpNumber());
-         $this->assertTrue($taxObject instanceof EmpUsTaxExemption);
-     }
+    public function testGetEmployeeTaxExemptions() {
+        $empTaxExemption = TestDataService::fetchObject('EmpUsTaxExemption', 1);
+        $taxObject = $this->employeeDao->getEmployeeTaxExemptions($empTaxExemption->getEmpNumber());
+        $this->assertTrue($taxObject instanceof EmpUsTaxExemption);
+    }
 
-     /**
+    /**
      * Test saving Employee Tax Exemptions
      */
     public function testSaveEmployeeTaxExemptions() {
@@ -133,10 +133,84 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Test for getMembershipDetails returns collection
      */
-     public function testGetMembershipDetails(){
-         $employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
-         $memberDetailArray = $this->employeeDao->getMembershipDetails(1);
-         $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
-         $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
-     }
+    public function testGetMembershipDetails() {
+
+        $employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+        $memberDetailArray = $this->employeeDao->getMembershipDetails(1);
+        $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
+        $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
+    }
+
+    /**
+     * Test for saveReportMode returns ReportMode doctrine object
+     */
+    public function testSaveReportMode() {
+
+        $reportMode = new ReportMode();
+        $reportMode->reportModeName = "report name";
+
+        $storedReportMode = $this->employeeDao->saveReportMode($reportMode);
+        $this->assertTrue($storedReportMode instanceof ReportMode);
+        $this->assertEquals($storedReportMode->reportModeName, "report name");
+    }
+
+    /**
+     * Test for getReportMode returns ReportMode doctrine object
+     */
+    public function testGetReportMode() {
+
+        $reportMode = $this->employeeDao->getReportMode(3);
+        $this->assertTrue($reportMode instanceof ReportMode);
+    }
+
+    /**
+     * Test for getReportMode returns ReportMode doctrine collection
+     */
+    public function testGetReportModeList() {
+
+        $reportMode = $this->employeeDao->getReportModeList();
+        $this->assertTrue($reportMode[0] instanceof ReportMode);
+        $this->assertTrue($reportMode[1] instanceof ReportMode);
+    }
+
+    /**
+     * Test for getSupervisorListForEmployee returns ReportTo doctrine collection
+     */
+    public function testGetSupervisorListForEmployee() {
+
+        $supervisorReportToList = $this->employeeDao->getSupervisorListForEmployee(3);
+        $this->assertTrue($supervisorReportToList[0] instanceof ReportTo);
+        $this->assertEquals($supervisorReportToList[0]->supervisorId, 4);
+        $this->assertTrue($supervisorReportToList[0]->getSupervisor() instanceof Employee);
+    }
+
+    /**
+     * Test for getSubordinateListForEmployee returns ReportTo doctrine collection
+     */
+    public function testGetSubordinateListForEmployee() {
+
+        $subordinateReportToList = $this->employeeDao->getSubordinateListForEmployee(3);
+        $this->assertTrue($subordinateReportToList[0] instanceof ReportTo);
+        $this->assertEquals($subordinateReportToList[0]->subordinateId, 1);
+        $this->assertTrue($subordinateReportToList[0]->getSubordinate() instanceof Employee);
+    }
+
+    /**
+     * Test for getReportToObject returns ReportTo doctrine Object
+     */
+    public function testGetReportToObject() {
+
+        $subordinateReportTo = $this->employeeDao->getReportToObject(4, 3, 4);
+        $this->assertTrue($subordinateReportTo instanceof ReportTo);
+    }
+
+    /**
+     * Test for deleteReportToObject returns boolean
+     */
+    public function testDeleteReportToObject() {
+
+        $this->assertTrue($this->employeeDao->deleteReportToObject(3, 1, 3));
+    }
+
+
 }

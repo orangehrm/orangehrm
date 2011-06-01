@@ -297,10 +297,15 @@ create table `hs_hr_emp_education` (
 create table `hs_hr_emp_reportto` (
   `erep_sup_emp_number` int(7) not null default 0,
   `erep_sub_emp_number` int(7) not null default 0,
-  `erep_reporting_mode` smallint(6) not null default '0',
+  `erep_reporting_mode` int(7) not null default 0,
   primary key  (`erep_sup_emp_number`,`erep_sub_emp_number`,`erep_reporting_mode`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_reporting_method` (
+  `rep_mode_id` int(7) not null ,
+  `rep_mode_name` varchar(30) not null,
+  primary key  (`rep_mode_id`,`rep_mode_name`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_work_experience` (
   `emp_number` int(7) not null default 0,
@@ -1137,6 +1142,10 @@ alter table hs_hr_emp_reportto
 alter table hs_hr_emp_reportto
        add constraint foreign key (erep_sub_emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_reportto
+       add constraint foreign key (erep_reporting_mode)
+                             references hs_hr_emp_reporting_method(rep_mode_id) on delete cascade;
 
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (sal_grd_code)

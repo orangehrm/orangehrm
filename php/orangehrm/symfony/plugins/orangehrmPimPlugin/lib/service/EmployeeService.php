@@ -879,11 +879,103 @@ class EmployeeService extends BaseService {
                 $membership = $tempArray[2];
 
                 $this->employeeDao->deleteMembershipDetails($empNumber, $membershipType, $membership);
-                //$membershipDetail = Doctrine::getTable('EmployeeMemberDetail')->find(array('empNumber' => $empNumber, 'membershipTypeCode' => $membershipType, 'membershipCode' => $membership));
-                //$membershipDetail->delete();
             }
 
             return true;
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Save Report Mode
+     * @param ReportMode $reportMode
+     * @returns ReportMode $reportMode
+     * @throws PIMServiceException
+     */
+    public function saveReportMode(ReportMode $reportMode) {
+        try {
+            return $this->employeeDao->saveReportMode($reportMode);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get Report Mode for a given report mode id
+     * @param int $reportModeId
+     * @return ReportMode doctrine object
+     */
+    public function getReportMode($reportModeId) {
+        try {
+            return $this->employeeDao->getReportMode($reportModeId);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get Report Mode List
+     * @return ReportMode doctrine Collection
+     */
+    public function getReportModeList() {
+        try {
+            return $this->employeeDao->getReportModeList();
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * get supervisor list
+     * @param $empNumber
+     * @return Doctine collection ReportTo
+     */
+    public function getSupervisorListForEmployee($empNumber) {
+
+        try {
+            return $this->employeeDao->getSupervisorListForEmployee($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * get subordinate list
+     * @param $empNumber
+     * @return Doctine collection ReportTo
+     */
+    public function getSubordinateListForEmployee($empNumber) {
+
+        try {
+            return $this->employeeDao->getSubordinateListForEmployee($empNumber);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get report to details object
+     * @param int $supNumber $subNumber $reportMode
+     * @return ReportTo object
+     */
+    public function getReportToObject($supNumber, $subNumber, $reportMode) {
+
+        try {
+            return $this->employeeDao->getReportToObject($supNumber, $subNumber, $reportMode);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete reportTo object
+     * @param int $supNumber $subNumber $reportMode
+     * @return boolean
+     */
+    public function deleteReportToObject($supNumber, $subNumber, $reportMode) {
+        try {
+            return $this->employeeDao->deleteReportToObject($supNumber, $subNumber, $reportMode);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
