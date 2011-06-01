@@ -19,7 +19,7 @@ form#frmEmpJobDetails div.error {
     margin-top: 1px;
 }
 
-ul.radio_list { list-style: none; }
+ul.radio_list { list-style: none; margin-left: 135px; }
 ul.radio_list li { display: inline; }
 ul.radio_list li label { display: inline; padding-left:5px; width:100px; margin-top: 5px;}
 ul.radio_list li input { float:left; margin-top:5px; }
@@ -48,7 +48,6 @@ div#job_spec_details label {
 }
 
 a.fileLink {
-    display: block;
     float: left;
     padding-left: 0px;
     padding-top: 6px;    

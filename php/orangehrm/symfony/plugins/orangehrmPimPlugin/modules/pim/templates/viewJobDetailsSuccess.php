@@ -109,6 +109,12 @@
 
                                     <div id="contractEdidMode">
                                     <?php
+
+                                        $attachment = $form->attachment;
+                                        $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
+                                        $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
+                                        $linkHtml .= "\">{$attachment->filename}</a>";
+
                                         if (empty($form->attachment)) {
 
                                             echo $form['contract_file']->renderLabel('Contract Details');
@@ -117,6 +123,8 @@
                                         } else {
 
                                             echo $form['contract_update']->renderLabel(__('Contract Details'));
+                                            echo $linkHtml;
+                                            echo "<br class=\"clear\"/>";
                                             echo $form['contract_update']->render(array("class" => ""));
                                             echo "<br class=\"clear\"/>";
                                             echo "<div id=\"fileUploadSection\">";
@@ -140,10 +148,6 @@
 
                                         } else {
 
-                                            $attachment = $form->attachment;
-                                            $linkHtml = "<a title=\"{$attachment->description}\" target=\"_blank\" class=\"fileLink\" href=\"";
-                                            $linkHtml .= url_for('pim/viewAttachment?empNumber='.$empNumber . '&attachId=' . $attachment->attach_id);
-                                            $linkHtml .= "\">{$attachment->filename}</a>";
                                             echo $linkHtml;
 
                                         }
