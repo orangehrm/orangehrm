@@ -10,17 +10,20 @@
  * @property integer $reportingMode
  * @property Employee $supervisor
  * @property Employee $subordinate
+ * @property ReportMode $ReportMode
  * 
- * @method integer  getSupervisorId()  Returns the current record's "supervisorId" value
- * @method integer  getSubordinateId() Returns the current record's "subordinateId" value
- * @method integer  getReportingMode() Returns the current record's "reportingMode" value
- * @method Employee getSupervisor()    Returns the current record's "supervisor" value
- * @method Employee getSubordinate()   Returns the current record's "subordinate" value
- * @method ReportTo setSupervisorId()  Sets the current record's "supervisorId" value
- * @method ReportTo setSubordinateId() Sets the current record's "subordinateId" value
- * @method ReportTo setReportingMode() Sets the current record's "reportingMode" value
- * @method ReportTo setSupervisor()    Sets the current record's "supervisor" value
- * @method ReportTo setSubordinate()   Sets the current record's "subordinate" value
+ * @method integer    getSupervisorId()  Returns the current record's "supervisorId" value
+ * @method integer    getSubordinateId() Returns the current record's "subordinateId" value
+ * @method integer    getReportingMode() Returns the current record's "reportingMode" value
+ * @method Employee   getSupervisor()    Returns the current record's "supervisor" value
+ * @method Employee   getSubordinate()   Returns the current record's "subordinate" value
+ * @method ReportMode getReportMode()    Returns the current record's "ReportMode" value
+ * @method ReportTo   setSupervisorId()  Sets the current record's "supervisorId" value
+ * @method ReportTo   setSubordinateId() Sets the current record's "subordinateId" value
+ * @method ReportTo   setReportingMode() Sets the current record's "reportingMode" value
+ * @method ReportTo   setSupervisor()    Sets the current record's "supervisor" value
+ * @method ReportTo   setSubordinate()   Sets the current record's "subordinate" value
+ * @method ReportTo   setReportMode()    Sets the current record's "ReportMode" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -42,10 +45,10 @@ abstract class BaseReportTo extends sfDoctrineRecord
              'primary' => true,
              'length' => 4,
              ));
-        $this->hasColumn('erep_reporting_mode as reportingMode', 'integer', 2, array(
+        $this->hasColumn('erep_reporting_mode as reportingMode', 'integer', 4, array(
              'type' => 'integer',
              'primary' => true,
-             'length' => 2,
+             'length' => 4,
              ));
     }
 
@@ -59,5 +62,9 @@ abstract class BaseReportTo extends sfDoctrineRecord
         $this->hasOne('Employee as subordinate', array(
              'local' => 'erep_sub_emp_number',
              'foreign' => 'emp_number'));
+
+        $this->hasOne('ReportMode', array(
+             'local' => 'reportingMode',
+             'foreign' => 'reportModeId'));
     }
 }

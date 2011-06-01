@@ -270,7 +270,7 @@ ReportTo:
       primary: true
     erep_reporting_mode:
       name: erep_reporting_mode as reportingMode
-      type: integer(2)
+      type: integer(4)
       primary: true
   relations:
     supervisor:
@@ -283,6 +283,26 @@ ReportTo:
       local: erep_sub_emp_number
       foreign: emp_number
       type: one
+    ReportMode:
+      local: reportingMode
+      foreign: reportModeId
+
+ReportMode:
+  tableName: hs_hr_emp_reporting_method
+  columns:
+    rep_mode_id:
+      name: rep_mode_id as reportModeId
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    rep_mode_name:
+      name: rep_mode_name as reportModeName
+      type: string(30)
+      primary: true
+  relations:
+    ReportTo:
+      local: reportModeId
+      foreign: reportingMode
       
 CompanyGeninfo:
   tableName: hs_hr_geninfo
