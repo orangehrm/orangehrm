@@ -99,11 +99,6 @@ div.formbuttons {
     font-size: 13px;
 }
 
-label {
-    margin-top: 6px;
-    width: 140px
-}
-
 .drpDown {
     margin-top: 5px;
     width: 228px;
@@ -123,12 +118,8 @@ label.error {
     display: block;
     font-size: 11px;
     margin-top: 5px;
-    padding-left: 160px;
-    width: 128px !important;
-}
-
-div.error {
-    padding-left: 20px;
+    padding-left: 140px;
+    width: 140px !important;
 }
 
 /* PIM Job specific styles : Begin */
