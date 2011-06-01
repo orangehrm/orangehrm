@@ -365,6 +365,7 @@ $(document).ready(function() {
             if($("#btnSave").attr('value') == save) {
 
                 if ($('#job_job_title').val() == '') {
+                    $("#jobTitleError").empty();
                     $("#jobTitleError").append('<?php echo __('Job Title is required'); ?>');
                 } else {
                     $("#frmEmpJobDetails").submit();
