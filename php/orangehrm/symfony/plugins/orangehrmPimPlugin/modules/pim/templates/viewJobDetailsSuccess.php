@@ -394,11 +394,14 @@ $(document).ready(function() {
         var jobTitle = this.options[this.selectedIndex].value;
 
         // don't check if not selected
-        if (jobTitle == '0') {
+        if (jobTitle == '0' || jobTitle == '') {
             $("#job_spec_name").text('');
             $("#job_spec_desc").val('');
             $("#job_spec_duties").val('');
             $("#job_emp_status").html("<option value=''>-- <?php echo __("Select")?> --</option>");
+            $("#job_spec_details").hide();
+            $("#viewDetailsLink").hide();
+            $('a#viewDetailsLink').text(lang_View_Details);
             return;
         }
 
