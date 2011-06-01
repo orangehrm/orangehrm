@@ -175,6 +175,17 @@
 <?php //echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess'); ?>
 <script type="text/javascript">
 //<![CDATA[
+
+function showHideViewDetailsLink() {
+
+    if ($("#job_spec_desc").val() != '' || $("#job_spec_duties").val() != '') {
+        $('#viewDetailsLink').show();
+    } else {
+        $('#viewDetailsLink').hide();
+    }
+    
+}
+
 $(document).ready(function() {
 
     /* Loading default masks in dates if empty */
@@ -371,8 +382,8 @@ $(document).ready(function() {
     });
 
 
-    /* Hiding viewDetailsLink */
-    $('#viewDetailsLink').hide();
+    /* Hiding showing viewDetailsLink at loading */
+    showHideViewDetailsLink();
 
     /*
      * Ajax call to fetch job specification for selected job
@@ -407,10 +418,8 @@ $(document).ready(function() {
             $("#job_spec_desc").val(desc);
             $("#job_spec_duties").val(duties);
 
-            /* Showing viewDetailsLink */
-            if ($("#job_spec_desc").val() != '' || $("#job_spec_duties").val() != '') {
-                $('#viewDetailsLink').show();
-            }
+            /* Showing / Hiding viewDetailsLink at Job Title change */
+            showHideViewDetailsLink();
 
         })
 
