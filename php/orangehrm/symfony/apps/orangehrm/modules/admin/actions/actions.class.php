@@ -2370,6 +2370,7 @@ class adminActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeListMailSubscriptions(sfWebRequest $request) {
+        
 		$this->form = new EmailSubscriptionsForm(array(), array(), true);
 
 		$mailService 			= 	new MailService();
@@ -2386,24 +2387,32 @@ class adminActions extends sfActions {
 			if ($this->form->isValid()){
 
 				$mailService->removeMailNotification($user);
-				foreach( $request->getParameter('notificationMessageStatus') as $notificationTypeId) {
-					$mailNotification	=	new MailNotification();
-                    
-                    $notficationEmail       =   trim($request->getParameter('txtMailAddress_'.$notificationTypeId));
-                    
-					$mailNotification->setUserId( $user );
-					$mailNotification->setNotificationTypeId( $notificationTypeId );
-					$mailNotification->setStatus( 1 );
-                    $mailNotification->setEmail($notficationEmail);
-					$mailService->saveMailNotification( $mailNotification );
-				}
 
+                $postedStates = $request->getParameter('notificationMessageStatus');
+
+				for ($i=-1; $i<9; $i++) {
+
+                    $notficationEmail = trim($request->getParameter('txtMailAddress_'.$i));
+
+                    if (!empty($notficationEmail)) {
+
+                        $state = in_array($i, $postedStates)?1:0;
+
+                        $mailNotification =	new MailNotification();
+
+                        $mailNotification->setUserId($user);
+                        $mailNotification->setNotificationTypeId($i);
+                        $mailNotification->setStatus($state);
+                        $mailNotification->setEmail($notficationEmail);
+                        $mailService->saveMailNotification($mailNotification);
+                    
+                    }
+
+				}
 			}
 		}
 
 		$this->notficationList	=	$mailService->getMailNotificationList($user);
-
-        //$notficationFullList = $mailService->getMailNotificationFullList();
 
         $AllMailNotifications = $mailService->getAllMailNotifications();
         
@@ -2411,12 +2420,6 @@ class adminActions extends sfActions {
             $this->mailnot[$mailNotification->notification_type_id] = $mailNotification->email;
         }
         
-//        if (!empty($notficationFullList)) {
-//           $this->notficationEmail = $notficationFullList[0]->getEmail();
-//        } else {
-//            $this->notficationEmail = '';
-//        }
-
 	}
 
     public function executeSaveMailConfiguration(sfWebRequest $request) {
