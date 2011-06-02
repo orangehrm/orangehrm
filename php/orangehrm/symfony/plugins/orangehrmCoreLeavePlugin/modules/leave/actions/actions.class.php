@@ -564,6 +564,7 @@ class leaveActions extends sfActions {
             $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
+            $this->leaveRequestId = $id;           
 
         }
 
@@ -666,15 +667,17 @@ class leaveActions extends sfActions {
         }
 
         if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
-            $this->forward('leave', 'viewMyLeaveList');
+            $url = "leave/viewMyLeaveList";
+            
         } else {
             $url = "leave/viewLeaveList";
-            if(trim($request->getParameter("id")) != "") {
-                $url = $url . "?id=" . $request->getParameter("id");
-            }
-            $this->redirect($url);
         }
 
+        if(trim($request->getParameter("id")) != "") {
+               $url = $url . "?id=" . $request->getParameter("id");
+        }
+        
+        $this->redirect($url);
     }
 
     /**
