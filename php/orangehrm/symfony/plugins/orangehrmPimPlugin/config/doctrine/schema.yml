@@ -180,11 +180,6 @@ Employee:
       local: emp_number
       foreign: emp_number
       type: many
-    directDebit:
-      class: EmpDirectdebit
-      local: emp_number
-      foreign: emp_number
-      type: many
     contracts:
       class: EmpContract
       local: emp_number
@@ -446,4 +441,85 @@ EmpUsTaxExemption:
     Employee:
       local: empNumber
       foreign: empNumber
+      type: one      
+  tableName: hs_hr_emp_basicsalary
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+      notnull: true
+    emp_number:
+      type: integer(4)
+      notnull: true      
+    sal_grd_code:
+      type: string(13)
+      notnull: true
+      default: ''
+    currency_id:
+      type: string(6)
+      notnull: true
+      default: ''      
+    ebsal_basic_salary as basic_salary: string(100)
+    payperiod_code: string(13)
+    salary_component: string(100)
+    comments: string(255)        
+  relations:
+    salaryGrade:
+      class: SalaryGrade
+      local: sal_grd_code
+      foreign: sal_grd_code
       type: one
+    currencyType:
+      class: CurrencyType
+      local: currency_id
+      foreign: currency_id
+      type: one
+    employee:
+      class: Employee
+      local: emp_number
+      foreign: emp_number
+      type: one
+    payperiod:
+      class: Payperiod
+      local: payperiod_code
+      foreign: payperiod_code
+      type: one
+    
+EmpDirectdebit:
+  tableName: hs_hr_emp_directdebit
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+      notnull: true
+    salary_id:
+      type: integer(4)
+      notnull: true
+    dd_routing_num as routing_num:
+      type: integer(4)
+      notnull: true
+    dd_account as account:
+      type: string(100)
+      default: ''
+      notnull: true
+    dd_amount as amount:
+      type: decimal(11)
+      notnull: true
+      scale: false
+    dd_account_type as account_type:
+      type: string(20)
+      default: ''
+      notnull: true
+    dd_transaction_type as transaction_type:
+      type: string(20)
+      default: ''
+      notnull: true
+  relations:
+    salary: 
+      class: EmpBasicsalary
+      local: salary_id
+      foreign: id
+      type: one
+      onDelete: Cascade 

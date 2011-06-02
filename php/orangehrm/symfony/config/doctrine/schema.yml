@@ -662,43 +662,6 @@ EmployeeMemberDetail:
       local: empNumber
       foreign: empNumber
       type: one
-
-EmpBasicsalary:
-  tableName: hs_hr_emp_basicsalary
-  columns:
-    emp_number:
-      type: integer(4)
-      primary: true
-    sal_grd_code:
-      type: string(13)
-      primary: true
-    currency_id:
-      type: string(6)
-      primary: true
-    ebsal_basic_salary as basic_salary: string(100)
-    payperiod_code: string(13)
-  relations:
-    salaryGrade:
-      class: SalaryGrade
-      local: sal_grd_code
-      foreign: sal_grd_code
-      type: one
-    currencyType:
-      class: CurrencyType
-      local: currency_id
-      foreign: currency_id
-      type: one
-    employee:
-      class: Employee
-      local: emp_number
-      foreign: emp_number
-      type: one
-    payperiod:
-      class: Payperiod
-      local: payperiod_code
-      foreign: payperiod_code
-      type: one
-
 CurrencyType:
   tableName: hs_hr_currency_type
   columns:
@@ -758,40 +721,6 @@ Payperiod:
       local: payperiod_code
       foreign: payperiod_code
       type: many
-
-EmpDirectdebit:
-  tableName: hs_hr_emp_directdebit
-  columns:
-    emp_number:
-      type: integer(4)
-      primary: true
-    dd_seqno as seqno:
-      type: decimal(2)
-      primary: true
-    dd_routing_num as routing_num:
-      type: integer(4)
-      notnull: true
-    dd_account as account:
-      type: string(100)
-      default: ''
-      notnull: true
-    dd_amount as amount:
-      type: decimal(11)
-      notnull: true
-      scale: false
-    dd_account_type as account_type:
-      type: string(20)
-      default: ''
-      notnull: true
-    dd_transaction_type as transaction_type:
-      type: string(20)
-      default: ''
-      notnull: true
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
       
 Nationality:
   tableName: hs_hr_nationality

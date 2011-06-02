@@ -297,7 +297,7 @@ class Employee extends PluginEmployee {
      *
      * @return EmpBasicSalary
      */
-    public function getSalary($currencyCode) {
+    public function getSalaryForCurrency($currencyCode) {
 
         $empSalary = null;
 

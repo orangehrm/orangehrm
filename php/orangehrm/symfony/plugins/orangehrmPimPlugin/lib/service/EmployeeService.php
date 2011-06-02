@@ -886,7 +886,52 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
+    
+   /**
+    * Retrieve Unassigned Currency List
+    * @param int $empNumber
+    * @param String $salaryGrade
+    * @param boolean $asArray
+    * @returns Collection
+    * @throws DaoException
+    */
+   public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
+      try {
+         return $this->employeeDao->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }    
 
+   /**
+    * Save EmpBasicsalary
+    * @param EmpBasicsalary $empBasicsalary
+    * @returns boolean
+    * @throws PIMServiceException
+    */
+   public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+      try {
+         return $this->employeeDao->saveEmpBasicsalary($empBasicsalary);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete Salary
+    * @param int $empNumber
+    * @param array() $salaryToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteSalary($empNumber, $salaryToDelete) {
+      try {
+         return $this->employeeDao->deleteSalary($empNumber, $salaryToDelete);
+      } catch (Exception $e) {
+         throw new PIMServiceException($e->getMessage());
+      }
+   }
+   
     /**
      * Save Report Mode
      * @param ReportMode $reportMode

@@ -70,7 +70,8 @@ class CustomFieldForm extends BaseForm {
                              'dependents' => __('Dependents'),
                              'immigration' => __('Immigration'),
                              'Qualifications' => __('Qualifications'),
-                             'taxexemptions' => __('Tax Exemptions'));
+                             'taxexemptions' => __('Tax Exemptions'),
+                             'salary' => __('Salary'));
         return $screens;
     }
 

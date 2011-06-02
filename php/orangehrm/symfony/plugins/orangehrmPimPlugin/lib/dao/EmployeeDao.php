@@ -1189,7 +1189,72 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($ex->getMessage());
         }
     }
+    
+   /**
+    * Retrieve Unassigned Currency List
+    * @param int $empNumber
+    * @param String $salaryGrade
+    * @param boolean $asArray
+    * @returns Collection
+    * @throws DaoException
+    */
+   public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
+      try {
+         $hydrateMode = ($asArray) ? Doctrine :: HYDRATE_ARRAY : Doctrine :: HYDRATE_RECORD;
+         $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
+           ->from('CurrencyType c')
+           ->leftJoin('c.SalaryCurrencyDetail s')
+           ->where('s.sal_grd_code = ?', $salaryGrade)
+           ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
+                   , array ($empNumber, $salaryGrade));
 
+         return $q->execute(array (), $hydrateMode);
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
+   /**
+    * Save EmpBasicsalary
+    * @param EmpBasicsalary $empBasicsalary
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+      try {
+         $empBasicsalary->save();
+         return true;
+      } catch(Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
+   /**
+    * Delete Salary
+    * @param int $empNumber
+    * @param array() $salaryToDelete
+    * @returns boolean
+    * @throws DaoException
+    */
+   public function deleteSalary($empNumber, $salaryToDelete) {
+      try {
+         // Skip if no salarys because running the following query
+         // with no salarys will delete all this employee's assigned
+         // salary
+        
+         if (count($salaryToDelete) > 0) {
+            $q = Doctrine_Query :: create()->delete('EmpBasicsalary s')
+                ->whereIn('id', array_values($salaryToDelete))
+                ->andWhere('emp_number = ?', $empNumber);
+
+            $result = $q->execute();
+         }
+         return true;
+      } catch (Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+   
     /**
      * Add or Save Report Mode
      * @param ReportMode $reportMode

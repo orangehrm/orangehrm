@@ -2501,7 +2501,37 @@ class adminActions extends sfActions {
 		return $this->renderText(json_encode($empStatuses));
 	}    
     
-    
+    	/**
+	 * Get Min and Max salary for given salary grade and currency
+	 *
+	 * @param sfWebRequest $request
+	 * @return JSON formatted JobSpec object
+	 */
+	public function executeGetMinMaxSalaryJson(sfWebRequest $request) {
+		$this->setLayout(false);
+		sfConfig::set('sf_web_debug', false);
+		sfConfig::set('sf_debug', false);
+
+		$salaryGrade = $request->getParameter('salaryGrade');
+		$currency = $request->getParameter('currency');
+
+		$minMax = array();
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$this->getResponse()->setHttpHeader('Content-Type','application/json; charset=utf-8');
+		}
+
+		if (!empty($salaryGrade) && !empty($currency)) {
+			$jobService = new JobService();
+
+			$salaryCurrency = $jobService->getSalaryCurrencyDetail($salaryGrade, $currency);
+			if ($salaryCurrency) {
+				$minMax = array('min' => $salaryCurrency->min_salary, 'max' => $salaryCurrency->max_salary);
+			}
+		}
+
+		return $this->renderText(json_encode($minMax));
+	}
     
     
     

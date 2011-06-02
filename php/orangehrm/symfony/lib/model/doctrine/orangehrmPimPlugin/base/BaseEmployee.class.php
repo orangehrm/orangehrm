@@ -66,7 +66,6 @@
  * @property Doctrine_Collection $languages
  * @property Doctrine_Collection $memberships
  * @property Doctrine_Collection $salary
- * @property Doctrine_Collection $directDebit
  * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $subordinates
@@ -152,7 +151,6 @@
  * @method Doctrine_Collection getLanguages()                Returns the current record's "languages" collection
  * @method Doctrine_Collection getMemberships()              Returns the current record's "memberships" collection
  * @method Doctrine_Collection getSalary()                   Returns the current record's "salary" collection
- * @method Doctrine_Collection getDirectDebit()              Returns the current record's "directDebit" collection
  * @method Doctrine_Collection getContracts()                Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
@@ -237,7 +235,6 @@
  * @method Employee            setLanguages()                Sets the current record's "languages" collection
  * @method Employee            setMemberships()              Sets the current record's "memberships" collection
  * @method Employee            setSalary()                   Sets the current record's "salary" collection
- * @method Employee            setDirectDebit()              Sets the current record's "directDebit" collection
  * @method Employee            setContracts()                Sets the current record's "contracts" collection
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
@@ -540,10 +537,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'emp_number'));
 
         $this->hasMany('EmpBasicsalary as salary', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpDirectdebit as directDebit', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

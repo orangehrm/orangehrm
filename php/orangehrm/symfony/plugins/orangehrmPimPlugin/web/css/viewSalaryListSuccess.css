@@ -1,0 +1,138 @@
+#mainDiv {
+    width: 850px;
+}
+
+.sectionDiv {
+    width: 800px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+h4 {
+    color: #000000;
+    font-size: 14px;
+    margin-top:0px;
+}
+
+h3 {
+    color: #000000;
+}
+
+.sectionDiv .outerbox {
+    margin-left: 0px;
+}
+
+.sectionDiv .outerbox form {
+    margin-left: 7px;
+}
+
+div.error{
+    margin-left: 140px;
+    margin-top: 2px;
+}
+
+.smallText {
+    font-size: 8pt;
+    margin-top: 5px;
+}
+
+textarea.formInputText {
+    margin-top: 5px;
+}
+
+span#static_skill_code,
+span#static_salary_code,
+span#static_language_code,
+span#static_lang_type,
+span#static_license_code {
+    display: block;
+    float: left;
+    margin-top: 5px;
+    padding: 0px 4px;
+    max-width: 310px;
+}
+
+div#changeWorkExperience,
+div#changeSalary,
+div#changeLanguage,
+div#changeSkill,
+div#changeLicense,
+div#workExpRequiredNote,
+div#salaryRequiredNote,
+div#languageRequiredNote,
+div#skillRequiredNote,
+div#LicenseRequiredNote {
+    display:none;
+}
+div#tblSalary td.directDepositCheck {
+    width: 100px;
+    padding: 2px 1px;
+}
+div#salaryRequiredNote {
+    margin-left: 15px;
+}
+
+td.check {
+    width:30px;
+    padding: 2px 1px;
+}
+
+select#salary_code {
+    width: 320px;
+}
+
+input#salary_major {
+    width: 310px;
+}
+
+div#tblWorkExperience td.comments,
+div#tblLanguage td.comments{
+    max-width: 200px;
+}
+
+div#tblSalary td.program {
+    max-width: 300px;
+}
+
+table.data-table tbody tr {
+    height: 16px;
+}
+
+table.data-table tbody tr td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    height: 16px;
+}
+
+table.data-table tbody tr td input {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+table.data-table tbody tr td.check {
+    /*padding-top: 6px;*/
+}
+
+div#mainMessagebar,
+div#workExpMessagebar,
+div#salaryMessagebar,
+div#skillMessagebar,
+div#languageMessagebar,
+div#licenseMessagebar {
+    margin-left: 16px;
+    width: 630px;
+}
+
+label {
+    margin-top: 5px;
+}
+
+label#minSalaryLbl,
+label#maxSalaryLbl {
+    width: 50px;
+}
+
+input#minSalary,
+input#maxSalary {
+    width: 50px;
+}

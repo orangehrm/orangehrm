@@ -122,14 +122,16 @@ create table `hs_hr_payperiod` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_basicsalary` (
+  `id` INT AUTO_INCREMENT, 
   `emp_number` int(7) not null default 0,
   `sal_grd_code` varchar(13) not null default '',
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
   `payperiod_code` varchar(13) default null,
-  primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
+  `salary_component` varchar(100), 
+  `comments` varchar(255), 
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
-
 
 create table `hs_hr_emp_contract_extend` (
   `emp_number` int(7) not null default 0,
@@ -254,16 +256,15 @@ create table `hs_hr_emp_passport` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_directdebit` (
-  `emp_number` int(7) not null default 0,
-  `dd_seqno` decimal(2,0) not null default '0',
+  `id` INT AUTO_INCREMENT, 
+  `salary_id` INT NOT NULL, 
   `dd_routing_num` int(9) not null,
   `dd_account` varchar(100) not null default '',
   `dd_amount` decimal(11,2) not null,
   `dd_account_type` varchar(20) not null default '' comment 'CHECKING, SAVINGS',
   `dd_transaction_type` varchar(20) not null default '' comment 'BLANK, PERC, FLAT, FLATMINUS',
-  primary key  (`emp_number`,`dd_seqno`)
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
-
 
 create table `hs_hr_emp_skill` (
   `emp_number` int(7) not null default 0,
@@ -1123,6 +1124,9 @@ alter table hs_hr_emp_directdebit
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
+alter table hs_hr_emp_directdebit
+       add constraint foreign key (salary_id)
+                             references hs_hr_emp_basicsalary(id) on delete cascade;
 alter table hs_hr_emp_member_detail
        add constraint foreign key (membtype_code)
                              references hs_hr_membership_type(membtype_code) on delete cascade;

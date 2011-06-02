@@ -429,7 +429,7 @@ if($empNumber == $_SESSION['empID']) {
 
                         <span><?php echo __("Job");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=14');?>" id="paymentsLink" class="employment" accesskey="s" >
+                    <a href="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber);?>" id="paymentsLink" class="employment" accesskey="s" >
                         <span><?php echo __("Salary");?></span></a></li>
 <?php 
     OrangeConfig::getInstance()->loadAppConf();
@@ -439,9 +439,6 @@ if($empNumber == $_SESSION['empID']) {
                     <a href="<?php echo url_for('pim/viewUsTaxExemptions?empNumber=' . $empNumber);?>" id="taxLink" class="employment" accesskey="t" >
                         <span><?php echo __("Tax Exemptions");?></span></a></li>
 <?php } ?>
-                <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=19');?>" id="direct-debitLink" class="employment" accesskey="o" >
-                        <span><?php echo __("Direct Deposit");?></span></a></li>
                 <li class="l2">
                     <a href="<?php echo url_for('pim/viewReportToDetails?empNumber=' . $empNumber);?>" id="report-toLink" class="employment" accesskey="r" >
                         <span><?php echo __("Report-to");?></span></a></li>   
