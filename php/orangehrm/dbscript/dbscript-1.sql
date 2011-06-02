@@ -1121,10 +1121,6 @@ alter table hs_hr_emp_passport
                              references hs_hr_employee(emp_number) on delete cascade;
 
 alter table hs_hr_emp_directdebit
-       add constraint foreign key (emp_number)
-                             references hs_hr_employee(emp_number) on delete cascade;
-
-alter table hs_hr_emp_directdebit
        add constraint foreign key (salary_id)
                              references hs_hr_emp_basicsalary(id) on delete cascade;
 alter table hs_hr_emp_member_detail
