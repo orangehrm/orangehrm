@@ -298,7 +298,7 @@ create table `hs_hr_emp_reportto` (
   `erep_sup_emp_number` int(7) not null default 0,
   `erep_sub_emp_number` int(7) not null default 0,
   `erep_reporting_mode` int(7) not null default 0,
-  primary key  (`erep_sup_emp_number`,`erep_sub_emp_number`,`erep_reporting_mode`)
+  primary key  (`erep_sup_emp_number`,`erep_sub_emp_number`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_reporting_method` (

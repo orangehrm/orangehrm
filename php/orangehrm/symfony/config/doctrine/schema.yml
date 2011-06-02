@@ -271,7 +271,6 @@ ReportTo:
     erep_reporting_mode:
       name: erep_reporting_mode as reportingMode
       type: integer(4)
-      primary: true
   relations:
     supervisor:
       class: Employee
@@ -294,7 +293,6 @@ ReportMode:
       name: rep_mode_id as reportModeId
       type: integer(4)
       primary: true
-      autoincrement: true
     rep_mode_name:
       name: rep_mode_name as reportModeName
       type: string(30)

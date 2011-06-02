@@ -29,7 +29,6 @@ abstract class BaseReportMode extends sfDoctrineRecord
         $this->hasColumn('rep_mode_id as reportModeId', 'integer', 4, array(
              'type' => 'integer',
              'primary' => true,
-             'autoincrement' => true,
              'length' => 4,
              ));
         $this->hasColumn('rep_mode_name as reportModeName', 'string', 30, array(
