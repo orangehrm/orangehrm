@@ -1247,7 +1247,7 @@ tableDisplayStyle = "table";
 					<a href="javascript:displayLayer(19)" id="direct-debitLink" class="employment" accesskey="o" >
 						<span><?php echo $lang_pim_tabs_DirectDebit;?></span></a></li>
 				<li class="l2">
-					<a href="javascript:displayLayer(15)" id="report-toLink" class="employment" accesskey="r" >
+					<a href="../../symfony/web/index.php/pim/viewReportToDetails?empNumber=<?php echo $escapedId;?>" id="report-toLink" class="employment" accesskey="r" >
 						<span><?php echo $lang_pim_tabs_ReportTo;?></span></a></li>
 				<li class="l2">
 					<a href="../../symfony/web/index.php/pim/viewQualifications?empNumber=<?php echo $escapedId;?>" id="personalLink" class="personal" accesskey="q">

@@ -443,7 +443,7 @@ if($empNumber == $_SESSION['empID']) {
                     <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=19');?>" id="direct-debitLink" class="employment" accesskey="o" >
                         <span><?php echo __("Direct Deposit");?></span></a></li>
                 <li class="l2">
-                    <a href="<?php echo public_path('../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=' . $paddedEmpNumber . '&amp;capturemode=updatemode&amp;reqcode=' . $empMode . '&amp;pane=15');?>" id="report-toLink" class="employment" accesskey="r" >
+                    <a href="<?php echo url_for('pim/viewReportToDetails?empNumber=' . $empNumber);?>" id="report-toLink" class="employment" accesskey="r" >
                         <span><?php echo __("Report-to");?></span></a></li>   
                 <li class="l2">
 
