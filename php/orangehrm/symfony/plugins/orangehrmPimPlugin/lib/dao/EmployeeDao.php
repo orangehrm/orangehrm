@@ -1075,30 +1075,8 @@ class EmployeeDao extends BaseDao {
         $conn = Doctrine_Manager :: connection();
         $conn->beginTransaction();
         try {
-            $q = Doctrine_Query :: create($conn)->update('Employee');
 
-            if (!empty($employee->job_title_code)) {
-                $q->set('job_title_code', '?', $employee->job_title_code);
-            }
-
-            if (!empty($employee->emp_status)) {
-                $q->set('emp_status', '?', $employee->emp_status);
-            }
-
-            if (!empty($employee->eeo_cat_code)) {
-                $q->set('eeo_cat_code', '?', $employee->eeo_cat_code);
-            }
-
-            if (!empty($employee->work_station)) {
-                $q->set('work_station', '?', $employee->work_station);
-            }
-
-            if (!empty($employee->joined_date)) {
-                $q->set('joined_date', '?', $employee->joined_date);
-            }
-
-            $q->where('empNumber = ?', $employee->empNumber);
-            $result = $q->execute();
+            $employee->save();
 
             // Employee locations
             $q = Doctrine_Query :: create()->delete('EmpLocations el')

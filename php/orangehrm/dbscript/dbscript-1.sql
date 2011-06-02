@@ -357,7 +357,7 @@ create table `hs_hr_employee` (
   `sal_grd_code` varchar(13) default null,
   `joined_date` date null default null,
   `emp_oth_email` varchar(50) default null,
-  `terminated_date` DATE null,
+  `terminated_date` date null default null,
   `termination_reason` varchar(256) default null,
   `custom1` varchar(250) default null,
   `custom2` varchar(250) default null,

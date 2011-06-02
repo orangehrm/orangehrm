@@ -972,9 +972,17 @@
                 <source>Show SIN field in Personal Details</source>
                 <target>FR_Show SIN field in Personal Details</target>
             </trans-unit>
-			<trans-unit id="241">
+			<trans-unit id="242">
                 <source>Show US Tax Exemptions menu</source>
                 <target>FR_Show US Tax Exemptions menu</target>
+            </trans-unit>
+			<trans-unit id="243">
+                <source>Terminated Date</source>
+                <target>FR_Terminated Date</target>
+            </trans-unit>
+			<trans-unit id="244">
+                <source>Terminated Reason</source>
+                <target>FR_Terminated Reason</target>
             </trans-unit>
 			</body>
     </file>

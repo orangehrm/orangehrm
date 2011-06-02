@@ -10,6 +10,10 @@ form#frmEmpJobDetails textarea {
     width: 310px;
 }
 
+form#frmEmpJobDetails file {
+    width: 310px;
+}
+
 h4 {
     margin-left: 20px;
 }

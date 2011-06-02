@@ -68,6 +68,8 @@ class EmployeeJobDetailsForm extends BaseForm {
             'job_title' => new sfWidgetFormSelect(array('choices'=>$jobTitles)),
 
             'emp_status' => new sfWidgetFormSelect(array('choices'=>$employeeStatuses)), // employement status
+            'terminated_date' => new sfWidgetFormInputText(),
+            'termination_reason' => new sfWidgetFormTextarea(),
             'eeo_category' => new sfWidgetFormSelect(array('choices'=>$eeoCategories)),
             'sub_unit' => new sfWidgetFormSelect(array('choices'=>$subDivisions)), // sub division id
             'location' => new sfWidgetFormSelect(array('choices'=>$locations)), // sub division name (not used)
@@ -84,7 +86,9 @@ class EmployeeJobDetailsForm extends BaseForm {
         if (!empty($jobTitleId)) {
             $this->setDefault('job_title', $jobTitleId);
             $this->setDefault('emp_status', $employee->emp_status);
-            
+            $this->setDefault('terminated_date', ohrm_format_date($employee->terminated_date));
+            $this->setDefault('termination_reason', $employee->termination_reason);
+
             $jobSpec = $employee->jobTitle->JobSpecifications;
             if (!empty($jobSpec)) {
                 $this->jobSpecName = $jobSpec->jobspec_name;
@@ -123,6 +127,10 @@ class EmployeeJobDetailsForm extends BaseForm {
             'emp_number' => new sfValidatorString(array('required' => true)),
             'job_title' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($jobTitles))),
             'emp_status' => new sfValidatorString(array('required' => false)),
+            'terminated_date' => new ohrmDateValidator(
+                array('date_format'=>$inputDatePattern, 'required' => false),
+                array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+            'termination_reason' => new sfValidatorString(array('required' => false)),
             'eeo_category' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($eeoCategories))),
             'sub_unit' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($subDivisions))),
             'location' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($locations))),
@@ -171,7 +179,9 @@ class EmployeeJobDetailsForm extends BaseForm {
      */
     public function getEmployee() {
 
-        $employee = new Employee();
+        $employeeService = new EmployeeService();
+        $employee = $employeeService->getEmployee($this->getValue('emp_number'));
+
         $employee->empNumber = $this->getValue('emp_number');
 
         $jobTitle = $this->getValue('job_title');
@@ -182,7 +192,11 @@ class EmployeeJobDetailsForm extends BaseForm {
         if ($empStatus != '') {
             $employee->emp_status = $empStatus;
         }
-        $eeoCat = $this->getValue('eeo_category');
+        $employee->terminated_date = $this->getValue('terminated_date');
+
+        $employee->termination_reason = $this->getValue('termination_reason');
+
+            $eeoCat = $this->getValue('eeo_category');
         if ($eeoCat != '') {
             $employee->eeo_cat_code = $eeoCat;
         }

@@ -65,6 +65,15 @@
                                     <?php echo $form['emp_status']->renderLabel(__('Employment Status')); ?>                                    
                                     <?php echo $form['emp_status']->render(array("class" => "formSelect")); ?>
                                     <br class="clear"/>
+
+                                    <div id="terminatedDetails">
+                                    <?php echo $form['terminated_date']->renderLabel(__('Terminated Date')); ?>
+                                    <?php echo $form['terminated_date']->render(array("class" => "formDateInput")); ?>
+                                    <input id="terminatedDateBtn" type="button" name="" value="  " class="calendarBtn" />
+                                    <br class="clear"/>
+                                    <?php echo $form['termination_reason']->renderLabel(__('Terminated Reason')); ?>
+                                    <?php echo $form['termination_reason']->render(); ?>
+                                    </div> <!-- End of terminatedDetails -->
                                     
                                     <label><?php echo __("Job Specification");?></label>
                                     <div id="job_spec_name"><?php echo $form->jobSpecName;?></div><a id="viewDetailsLink" href="#"><?php echo __("View Details");?></a>
@@ -114,6 +123,7 @@
 
                                             echo $form['contract_file']->renderLabel('Contract Details');
                                             echo $form['contract_file']->render(array("class" => ""));
+                                            echo "<p class=\"commonUploadHelp\">[" . __("1M Max, any larger attachments will be ignored") . "]</p>";
 
                                         } else {
 
@@ -190,13 +200,28 @@ function showHideViewDetailsLink() {
     
 }
 
+function showHideTerminatedDetails() {
+
+    if ($('#job_emp_status').val() == 'EST000') {
+        $('#terminatedDetails').show();
+    } else {
+        $('#terminatedDetails').hide();
+    }
+
+}
+
 $(document).ready(function() {
 
     /* Loading default masks in dates if empty */
 
+    var terminatedDate = $("#job_terminated_date");
     var joinedDate = $("#job_joined_date");
     var contractStartDate = $("#job_contract_start_date");
-    var contractEndDate = $("#job_contract_end_date");    
+    var contractEndDate = $("#job_contract_end_date");
+
+    if(trim(terminatedDate.val()) == ''){
+        terminatedDate.val(dateDisplayFormat);
+    }
 
     if(trim(joinedDate.val()) == ''){
         joinedDate.val(dateDisplayFormat);
@@ -213,11 +238,13 @@ $(document).ready(function() {
     /* Form validation */
     $("#frmEmpJobDetails").validate({
         rules: {
+            'job[terminated_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'job[joined_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'job[contract_start_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'job[contract_end_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } }
         },
         messages: {
+            'job[terminated_date]': { valid_date: lang_invalidDate },
             'job[joined_date]': { valid_date: lang_invalidDate },
             'job[contract_start_date]': { valid_date: lang_invalidDate },
             'job[contract_end_date]': { valid_date: lang_invalidDate }
@@ -237,7 +264,7 @@ $(document).ready(function() {
         readonlyFlag = 1;
     <?php } ?>
         
-    var list = new Array('#job_job_title', '#job_emp_status', '#job_eeo_category', 
+    var list = new Array('#job_job_title', '#job_emp_status', '#job_terminated_date', '#terminatedDateBtn', '#job_termination_reason', '#job_eeo_category',
                          '#job_joined_date', '#job_sub_unit', '#job_location',
                          '#contract_file', 'ul.radio_list input',
                          '#job_contract_start_date', '#job_contract_end_date',
@@ -290,6 +317,16 @@ $(document).ready(function() {
             error.insertAfter(element.next().next(".clear"));
 
         }
+    });
+
+    daymarker.bindElement("#job_terminated_date", {
+        onSelect: function(date){
+            },
+            dateFormat:jsDateFormat
+        });
+
+    $('#terminatedDateBtn').click(function() {
+        daymarker.show("#job_terminated_date");
     });
     
     daymarker.bindElement("#job_joined_date", {
@@ -372,6 +409,12 @@ $(document).ready(function() {
                     $("#jobTitleError").empty();
                     $("#jobTitleError").append('<?php echo __('Job Title is required'); ?>');
                 } else {
+
+                    if ($('#job_emp_status').val() != 'EST000') {
+                        $('#job_terminated_date').val('');
+                        $('#job_termination_reason').val('');
+                    }
+
                     $("#frmEmpJobDetails").submit();
                 }
                 
@@ -386,6 +429,13 @@ $(document).ready(function() {
         $('div#job_spec_details').toggle();
     });
 
+    /* Hiding/showing terminatedDetails */
+
+    showHideTerminatedDetails();
+
+    $('#job_emp_status').change(function(){
+        showHideTerminatedDetails();
+    });
 
     /* Hiding showing viewDetailsLink at loading */
     showHideViewDetailsLink();
