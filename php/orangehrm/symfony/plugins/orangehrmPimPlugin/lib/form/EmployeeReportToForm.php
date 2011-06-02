@@ -124,7 +124,7 @@ class EmployeeReportToForm extends BaseForm {
                 }
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                
+
                 if ($employee->getEmpNumber() != $this->empNumber) {
                     $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
                 }
@@ -144,24 +144,46 @@ class EmployeeReportToForm extends BaseForm {
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
         $name = $this->getValue('name');
-        $reportingType= $this->getValue('reportingModeType');
+        $reportingType = $this->getValue('reportingModeType');
         $reportingMethod = $this->getValue('reportingMethod');
         $selectedEmployee = $this->getValue('selectedEmployee');
-  
-        if($reportingMethod != null){
+
+        if ($reportingMethod != null) {
 
             $newReportMethod = new ReportMode();
-            $newReportMethod ->reportModeName = $reportingMethod;
+            $newReportMethod->reportModeName = $reportingMethod;
             $savedReportMethod = $this->getEmployeeService()->saveReportMode($newReportMethod);
             $reportingType = $savedReportMethod->reportModeId;
-
         }
 
-        print_r($reportingType ."test");
-        die;
-
-        if($supOrSub == ReportTo::SUPERVISOR ){
+        if ($supOrSub == ReportTo::SUPERVISOR) {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber);
+
+            if ($existingReportToObject != null) {
+                $existingReportToObject->setReportingMode($reportingType);
+                $existingReportToObject->save();
+            } else {
+                $newReportToObject = new ReportTo();
+                $newReportToObject->setSupervisorId($selectedEmployee);
+                $newReportToObject->setSubordinateId($empNumber);
+                $newReportToObject->setReportingMode($reportingType);
+                $newReportToObject->save();
+            }
+        }
+
+        if ($supOrSub == ReportTo::SUBORDINATE) {
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee);
+
+            if ($existingReportToObject != null) {
+                $existingReportToObject->setReportingMode($reportingType);
+                $existingReportToObject->save();
+            } else {
+                $newReportToObject = new ReportTo();
+                $newReportToObject->setSupervisorId($empNumber);
+                $newReportToObject->setSubordinateId($selectedEmployee);
+                $newReportToObject->setReportingMode($reportingType);
+                $newReportToObject->save();
+            }
         }
     }
 
