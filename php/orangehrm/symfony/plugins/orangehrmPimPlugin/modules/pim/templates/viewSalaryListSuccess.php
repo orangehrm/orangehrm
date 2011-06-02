@@ -66,6 +66,7 @@
 
             <?php echo $form['comments']->renderLabel(__('Comments')); ?>
             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
+            <br class="clear"/>
             
             <?php echo $form['set_direct_debit']->renderLabel(__('Add Direct Deposit Details')); ?>
             <?php echo $form['set_direct_debit']->render(array("class" => "formCheckbox")); ?>
