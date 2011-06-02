@@ -133,8 +133,7 @@ $locRights['delete'] = true;
                     <td class="check"><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
                                value="<?php echo $attachment->attach_id; ?>"/></td>
                     <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
-                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">                            
-                        <?php echo $attachment->filename; ?></a></td>
+                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>"><?php echo $attachment->filename; ?></a></td>
                     <td class="comments">
                         <?php echo $attachment->description; ?>
                     </td>
