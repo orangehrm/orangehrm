@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,7 +21,6 @@
 /**
  * Actions class for PIM module updateMembership
  */
-
 class updateReportToDetailAction extends sfAction {
 
     /**
@@ -33,7 +33,7 @@ class updateReportToDetailAction extends sfAction {
     public function execute($request) {
 
         $memberships = $request->getParameter('reportto');
-        $empNumber = (isset($memberships['empNumber']))?$memberships['empNumber']:$request->getParameter('empNumber');
+        $empNumber = (isset($memberships['empNumber'])) ? $memberships['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
@@ -47,14 +47,19 @@ class updateReportToDetailAction extends sfAction {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor / Subordinate added successfully')));
+                $value = $this->form->save();
+                if ($value == ReportTo::SUPERVISOR) {
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor added successfully')));
+                }
+                if ($value == ReportTo::SUBORDINATE) {
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate added successfully')));
+                }
             }
         }
 
         $empNumber = $request->getParameter('empNumber');
 
-        $this->redirect('pim/viewReportToDetails?empNumber='. $empNumber);
+        $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
     }
 
 }

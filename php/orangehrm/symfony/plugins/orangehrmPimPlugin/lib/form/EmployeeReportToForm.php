@@ -185,6 +185,7 @@ class EmployeeReportToForm extends BaseForm {
                 $newReportToObject->save();
             }
         }
+        return $supOrSub;
     }
 
 }
