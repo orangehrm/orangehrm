@@ -3,3 +3,46 @@ root {
     display: block;
 }
 
+.label{
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+label {
+    margin-top: 6px;
+    width: 140px
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 168px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 158px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 160px;
+    width: 128px !important;
+}
+
+ul.radio_list {
+    padding-left: 80px;
+    padding-top: 10px; 
+    padding-bottom: 10px;
+}
+
+ul.radio_list li { display: inline;}
+ul.radio_list li label { display: inline; padding-left:10px; width:120px;}
+ul.radio_list li input { float:left; margin-top:5px; }

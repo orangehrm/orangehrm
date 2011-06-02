@@ -22,6 +22,8 @@
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
 <?php
+use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
+use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 use_stylesheet('../orangehrmPimPlugin/css/viewReportToDetailsSuccess');
 use_javascript('../orangehrmPimPlugin/js/viewReportToDetailsSuccess');
 
@@ -62,7 +64,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 <div id="addPaneReportTo">
                     <div class="outerbox">
 
-                        <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor / Subordinate'); ?></h2></div>
+                        <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
                         <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
@@ -115,5 +117,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 <script type="text/javascript">
    //<![CDATA[
     var fileModified = 0;
+    var typeForHints = '<?php echo __("Type for hints") . "...";?>';
+    var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
    //]]>
 </script>
