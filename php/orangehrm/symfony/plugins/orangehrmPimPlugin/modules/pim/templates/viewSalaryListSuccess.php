@@ -89,7 +89,7 @@
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSalary" />&nbsp;
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSalary" />
     </div>
-    <br class="clear"/>
+    <br class="clear" id="actionClearBr"/>
 
     <form id="frmDelSalary" action="<?php echo url_for('pim/deleteSalary?empNumber=' . $empNumber); ?>" method="post">
         <div id="tblSalary">
@@ -290,7 +290,8 @@ $(document).ready(function() {
 
         removeEditLinks();
         clearMessageBar();
-        $('div#changeSalary label.error').hide();        
+        $('div#changeSalary label.error').hide();   
+        $('#actionClearBr').hide();
         
 
         //changing the headings
@@ -397,6 +398,7 @@ $(document).ready(function() {
 
         addEditLinks();
         salaryValidator.resetForm();
+        $('#actionClearBr').show();
         
         $('div#changeSalary label.error').hide();
 
