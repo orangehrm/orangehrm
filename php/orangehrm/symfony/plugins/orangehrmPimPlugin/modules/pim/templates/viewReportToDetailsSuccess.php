@@ -65,10 +65,11 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     <div class="outerbox">
 
                         <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
-                        <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
+                        <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateReportToDetail?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
+                            <?php echo $form["selectedEmployee"]->render(); ?>
                         <div>
                             <?php echo $form['type_flag']->render(); ?>
                             <br class="clear" />
@@ -90,7 +91,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             <?php if ($allowEdit) {
                             ?>
                                 <div class="formbuttons">
-                                    <input type="button" class="savebutton" name="btnSaveMembership" id="btnSaveMembership"
+                                    <input type="button" class="savebutton" name="btnSaveReportTo" id="btnSaveReportTo"
                                            value="<?php echo __("Save"); ?>"
                                            title="<?php echo __("Save"); ?>"
                                            onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>

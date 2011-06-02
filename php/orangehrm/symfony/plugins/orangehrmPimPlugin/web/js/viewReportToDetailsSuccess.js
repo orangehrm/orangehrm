@@ -27,7 +27,13 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-        });
+        $("#reportto_selectedEmployee").val(item.id);
+    });
+
+    $('#btnSaveReportTo').click(function() { 
+        $('#frmAddReportTo').submit();
+    });
+
 
 
 });

@@ -1344,13 +1344,12 @@ class EmployeeDao extends BaseDao {
      * @param int $supNumber $subNumber $reportMode
      * @return ReportTo object
      */
-    public function getReportToObject($supNumber, $subNumber, $reportMode) {
+    public function getReportToObject($supNumber, $subNumber) {
 
         try {
             $q = Doctrine_Query::create()->from('ReportTo rt')
                             ->where('rt.erep_sup_emp_number =?', $supNumber)
-                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
-                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber);
 
             return $q->fetchOne();
         } catch (Exception $e) {
@@ -1363,15 +1362,14 @@ class EmployeeDao extends BaseDao {
      * @param int $supNumber $subNumber $reportMode
      * @return boolean
      */
-    public function deleteReportToObject($supNumber, $subNumber, $reportMode) {
+    public function deleteReportToObject($supNumber, $subNumber) {
 
         try {
             $q = Doctrine_Query::create()
                             ->delete()
                             ->from('ReportTo rt')
                             ->where('rt.erep_sup_emp_number =?', $supNumber)
-                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
-                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber);
 
             $executed = $q->execute();
 

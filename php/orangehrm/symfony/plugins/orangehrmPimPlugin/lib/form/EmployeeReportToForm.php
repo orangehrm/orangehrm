@@ -63,6 +63,7 @@ class EmployeeReportToForm extends BaseForm {
             'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => array(
                     ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR)),
             'name' => new sfWidgetFormInputText(),
+            'selectedEmployee' => new sfWidgetFormInputHidden(),
             'reportingModeType' => new sfWidgetFormSelect(array('choices' => $reportingModeType)),
             'reportingMethod' => new sfWidgetFormInputText()
         ));
@@ -74,6 +75,7 @@ class EmployeeReportToForm extends BaseForm {
             'type_flag' => new sfValidatorChoice(array('required' => true,
                 'choices' => array(ReportTo::SUPERVISOR, ReportTo::SUBORDINATE))),
             'name' => new sfValidatorString(array('required' => true), array('required' => 'Employee name required')),
+            'selectedEmployee' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
             'reportingModeType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting mode')),
             'reportingMethod' => new sfValidatorString(array('required' => false)),
         ));
@@ -140,29 +142,27 @@ class EmployeeReportToForm extends BaseForm {
     public function save() {
 
         $empNumber = $this->getValue('empNumber');
-        $membershipType = $this->getValue('membershipType');
-        $membership = $this->getValue('membership');
+        $supOrSub = $this->getValue('type_flag');
+        $name = $this->getValue('name');
+        $reportingType= $this->getValue('reportingModeType');
+        $reportingMethod = $this->getValue('reportingMethod');
+        $selectedEmployee = $this->getValue('selectedEmployee');
+  
+        if($reportingMethod != null){
 
-        $employeeService = new EmployeeService();
-        $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
-        $membershipDetail = $membershipDetails[0];
+            $newReportMethod = new ReportMode();
+            $newReportMethod ->reportModeName = $reportingMethod;
+            $savedReportMethod = $this->getEmployeeService()->saveReportMode($newReportMethod);
+            $reportingType = $savedReportMethod->reportModeId;
 
-        if ($membershipDetail->getEmpNumber() == null) {
-
-            $membershipDetail = new EmployeeMemberDetail();
-            $membershipDetail->empNumber = $empNumber;
-            $membershipDetail->membershipTypeCode = $membershipType;
-            $membershipDetail->membershipCode = $membership;
         }
 
-        $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
-        $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
-        $membershipDetail->subscriptionCurrency = $this->getValue('currency');
+        print_r($reportingType ."test");
+        die;
 
-        $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
-        $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
-
-        $membershipDetail->save();
+        if($supOrSub == ReportTo::SUPERVISOR ){
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber);
+        }
     }
 
 }

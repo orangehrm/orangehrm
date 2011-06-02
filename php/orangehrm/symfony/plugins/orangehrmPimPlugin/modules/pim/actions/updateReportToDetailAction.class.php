@@ -21,7 +21,7 @@
  * Actions class for PIM module updateMembership
  */
 
-class updateMembershipAction extends sfAction {
+class updateReportToDetailAction extends sfAction {
 
     /**
      * Add / update employee membership
@@ -41,7 +41,7 @@ class updateMembershipAction extends sfAction {
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
-        $this->form = new EmployeeMembershipForm(array(), $param, true);
+        $this->form = new EmployeeReportToForm(array(), $param, true);
 
         if ($this->getRequest()->isMethod('post')) {
 
