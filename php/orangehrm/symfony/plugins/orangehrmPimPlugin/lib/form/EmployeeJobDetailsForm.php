@@ -225,20 +225,14 @@ class EmployeeJobDetailsForm extends BaseForm {
             $employee->link('locations', $location);
         }
                         
-        // contract
-        $contractStartDate = $this->getValue('contract_start_date');
-        $contractEndDate = $this->getValue('contract_end_date');
-        
-        if (!empty($contractStartDate) || !empty($contractEndDate)) {
-            $empContract = new EmpContract();
-            $empContract->emp_number = $employee->empNumber;
-            $empContract->start_date = $contractStartDate;
-            $empContract->end_date = $contractEndDate;
-            $empContract->contract_id = 1;
-
-            $employee->contracts[0] = $empContract;
-        }
         // contract details
+        $empContract = new EmpContract();
+        $empContract->emp_number = $employee->empNumber;
+        $empContract->start_date = $this->getValue('contract_start_date');
+        $empContract->end_date = $this->getValue('contract_end_date');
+        $empContract->contract_id = 1;
+
+        $employee->contracts[0] = $empContract;
 
         return $employee;
     }
