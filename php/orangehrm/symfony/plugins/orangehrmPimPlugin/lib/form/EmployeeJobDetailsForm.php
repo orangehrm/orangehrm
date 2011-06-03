@@ -204,14 +204,29 @@ class EmployeeJobDetailsForm extends BaseForm {
         $employee->joined_date = $this->getValue('joined_date');
         
         // Location
+        
         $location = $this->getValue('location');
-        if ( $location != '') {
-            $empLocation = new EmpLocations();
-            $empLocation->empNumber = $employee->empNumber;
-            $empLocation->loc_code = $location;
-            $employee->locations[0] = $empLocation;
+        
+        $foundLocation = false;
+
+        //
+        // Unlink all locations except current.
+        //
+        foreach ($employee->locations as $empLocation) {
+            if ($location == $empLocation->loc_code) {
+                $foundLocation = true;
+            } else {
+                $employee->unlink('locations', $empLocation->loc_code);
+            }
         }
-                
+        
+        //
+        // Link location if not already linked
+        //
+        if (!$foundLocation) {
+            $employee->link('locations', $location);
+        }
+                        
         // contract
         $contractStartDate = $this->getValue('contract_start_date');
         $contractEndDate = $this->getValue('contract_end_date');

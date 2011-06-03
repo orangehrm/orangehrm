@@ -1078,16 +1078,6 @@ class EmployeeDao extends BaseDao {
 
             $employee->save();
 
-            // Employee locations
-            $q = Doctrine_Query :: create()->delete('EmpLocations el')
-                            ->where('emp_number = ?', $employee->empNumber);
-            $result = $q->execute();
-
-            if (count($employee->locations) > 0) {
-                $empLocation = $employee->locations[0];
-                $empLocation->save();
-            }
-
             // Employee contracts
             $q = Doctrine_Query :: create()->delete('EmpContract ec')
                             ->where('emp_number = ?', $employee->empNumber);
@@ -1200,7 +1190,7 @@ class EmployeeDao extends BaseDao {
     */
    public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
       try {
-         $empBasicsalary->save();
+         $empBasicsalary->save();        
          return true;
       } catch(Exception $e) {
          throw new DaoException($e->getMessage());
