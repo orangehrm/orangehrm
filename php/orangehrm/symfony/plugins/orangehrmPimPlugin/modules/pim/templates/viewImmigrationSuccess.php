@@ -137,9 +137,9 @@
                                                 <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
                                                 <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->number); ?>" />
                                                 <?php
-                                                    $passport_issue_date = ohrm_format_date(date("Y-m-d", strtotime($passport->passport_issue_date)));
-                                                    $passport_expire_date = ohrm_format_date(date("Y-m-d", strtotime($passport->passport_expire_date)));
-                                                    $i9_review_date = ohrm_format_date(date("Y-m-d", strtotime($passport->i9_review_date)));
+                                                    $passport_issue_date = ohrm_format_date($passport->passport_issue_date);
+                                                    $passport_expire_date = ohrm_format_date($passport->passport_expire_date);
+                                                    $i9_review_date = ohrm_format_date($passport->i9_review_date);
                                                 ?>
                                                 <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
                                                 <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />
