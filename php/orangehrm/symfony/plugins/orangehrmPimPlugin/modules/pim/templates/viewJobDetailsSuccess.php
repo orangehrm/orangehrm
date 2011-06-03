@@ -240,13 +240,13 @@ $(document).ready(function() {
         rules: {
             'job[terminated_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'job[joined_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
-            'job[contract_start_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'job[contract_start_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} },validFromDate2:true },
             'job[contract_end_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } }
         },
         messages: {
             'job[terminated_date]': { valid_date: lang_invalidDate },
             'job[joined_date]': { valid_date: lang_invalidDate },
-            'job[contract_start_date]': { valid_date: lang_invalidDate },
+            'job[contract_start_date]': { valid_date: lang_invalidDate ,validFromDate2: lang_startDateAfterEndDate},
             'job[contract_end_date]': { valid_date: lang_invalidDate }
         },
         errorElement : 'div',
