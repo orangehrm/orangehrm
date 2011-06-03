@@ -945,8 +945,8 @@
                 <target>FR_1 Custom field left.</target>
             </trans-unit>
 			<trans-unit id="236">
-                <source>The maximum number of custom fields have been defined. No fields left.</source>
-                <target>FR_The maximum number of custom fields have been defined. No fields left.</target>
+                <source>All customs fields are in use</source>
+                <target>FR_All customs fields are in use</target>
             </trans-unit>			
 			<trans-unit id="237">
                 <source>Select Options</source>

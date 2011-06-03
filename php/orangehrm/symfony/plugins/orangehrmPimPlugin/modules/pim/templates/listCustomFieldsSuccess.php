@@ -81,7 +81,7 @@ if (isset($messageType)) {
     $fieldsLeftMsg = '';
     
     if ($fieldsLeft == 0) {
-        $fieldsLeftMsg = __("The maximum number of custom fields have been defined. No fields left.");        
+        $fieldsLeftMsg = __("All customs fields are in use");
     } else if ($fieldsLeft == 1) {
         $fieldsLeftMsg = __("1 Custom field left.");
     } else if ($fieldsLeft > 1) {
