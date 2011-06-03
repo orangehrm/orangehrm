@@ -216,6 +216,73 @@ $(document).ready(function() {
         $('#addPaneReportTo').css('display', 'block');
     });
 
+    $.validator.addMethod("empNameValidation", function(value, element, params) {
+        var temp = false;
+        if($('#reportto_selectedEmployee').val() > 0){
+            temp = true;
+        }
+
+        else{
+
+            var empDateCount = employeesArray.length;
+      
+            var i;
+            for (i=0; i < empDateCount; i++) {
+                empName = $.trim($('#reportto_name').val()).toLowerCase();
+                arrayName = employeesArray[i].name.toLowerCase();
+
+                if (empName == arrayName) {
+                    $('#reportto_selectedEmployee').val(employeesArray[i].id);
+                    temp = true
+                    break;
+                }
+            }
+        }
+
+        if (!temp){
+            return false;
+        }
+        else{
+            return true;
+        }
+    });
+
+
+    $("#frmAddReportTo").validate({
+
+        rules: {
+            'reportto[name]' : {
+                empNameValidation: true
+            },
+            'reportto[reportingModeType]' : {
+                required: true
+            },
+            'reportto[reportingMethod]':{
+                required: function(element) {
+                    return $('#reportto_reportingModeType').val() == -1;
+                }
+            }
+
+        },
+        messages: {
+            'reportto[name]' : {
+                empNameValidation: nameIsRequired
+
+            },
+            'reportto[reportingModeType]' :{        
+                required: reportingMethodTypeIsRequired
+            },
+            'reportto[reportingMethod]':{
+                required: reportingMethodIsRequired
+            }
+
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo( element.prev('label') );
+        }
+
+    });
+
 
 });
 
@@ -241,7 +308,7 @@ function clearAddForm() {
         $("#reportto_name").val(typeForHints)
         .addClass("inputFormatHint");
     }
- hideShowReportingMethodOther()
+    hideShowReportingMethodOther()
 }
 
 function addEditLinks() {

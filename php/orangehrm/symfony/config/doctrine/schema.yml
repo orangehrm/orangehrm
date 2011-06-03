@@ -296,7 +296,7 @@ ReportMode:
       primary: true
     rep_mode_name:
       name: rep_mode_name as reportModeName
-      type: string(30)
+      type: string(100)
       primary: true
   relations:
     ReportTo:

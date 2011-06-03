@@ -79,7 +79,7 @@ class EmployeeReportToForm extends BaseForm {
             'selectedEmployee' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
             'previousRecord' => new sfValidatorString(array('required' => false)),
             'reportingModeType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting mode')),
-            'reportingMethod' => new sfValidatorString(array('required' => false)),
+            'reportingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 80)),
         ));
         $this->widgetSchema->setNameFormat('reportto[%s]');
     }

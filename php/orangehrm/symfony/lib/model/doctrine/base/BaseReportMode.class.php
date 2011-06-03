@@ -31,10 +31,10 @@ abstract class BaseReportMode extends sfDoctrineRecord
              'primary' => true,
              'length' => 4,
              ));
-        $this->hasColumn('rep_mode_name as reportModeName', 'string', 30, array(
+        $this->hasColumn('rep_mode_name as reportModeName', 'string', 100, array(
              'type' => 'string',
              'primary' => true,
-             'length' => 30,
+             'length' => 100,
              ));
     }
 

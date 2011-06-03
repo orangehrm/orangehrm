@@ -21,10 +21,16 @@
 
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
+
+<?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
+    <?php if (strstr($browser, "MSIE 8.0")):?>
+        <link href="<?php echo public_path('../../themes/orange/IE_style.css')?>" rel="stylesheet" type="text/css"/>
+    <?php else:?>
+        <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewReportToDetailsSuccess'); ?>
+    <?php endif;?>
 <?php
 use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
 use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-use_stylesheet('../orangehrmPimPlugin/css/viewReportToDetailsSuccess');
 use_javascript('../orangehrmPimPlugin/js/viewReportToDetailsSuccess');
 
 $numSupDetails = count($supDetails);
@@ -76,20 +82,20 @@ $allowEdit = true;
                             <div>
                                 <?php echo $form['type_flag']->render(); ?>
                                 <br class="clear" />
-                        
+
                                 <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 50)); ?>
                                 <div id="name">
                                 </div>
                                 <br class="clear"/>
 
                                 <?php echo $form['reportingModeType']->renderLabel(__('Reporting Method') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['reportingModeType']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
+                                <?php echo $form['reportingModeType']->render(array("class" => "drpDownR", "maxlength" => 50)); ?>
                                 <br class="clear"/>
 
                                 <div id="pleaseSpecify">
                                     <?php echo $form['reportingMethod']->renderLabel(__('Please Specify') . ' <span class="required">*</span>'); ?>
-                                    <?php echo $form['reportingMethod']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                    <?php echo $form['reportingMethod']->render(array("class" => "txtBoxR", "maxlength" => 50)); ?>
                                     <br class="clear"/>
                                 </div>
                             </div>
@@ -111,139 +117,144 @@ $allowEdit = true;
                             <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
                                 <td valign="top" width="500">
                                     <div class="outerbox" id="listReportToSupDetails">
-                                    <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
-                                <?php echo $deleteSupForm['_csrf_token']->render(); ?>
-                                <?php echo $deleteSupForm['empNumber']->render(); ?>
+                                        <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
+                                    <?php echo $deleteSupForm['_csrf_token']->render(); ?>
+                                    <?php echo $deleteSupForm['empNumber']->render(); ?>
 
                                     <div class="mainHeading"><h2><?php echo __("Assigned Supervisors"); ?></h2></div>
 
                                     <div class="supActionbar" id="supListActions">
                                         <div class="supActionbuttons">
-                                        <?php if ($allowEdit) {
-                                                ?>
+                                            <?php if ($allowEdit) {
+                                            ?>
 
-                                            <input type="button" class="addbutton" id="btnAddSupervisorDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
-                                        <?php } ?>
-                                            <?php if ($allowDel) { ?>
+                                                <input type="button" class="addbutton" id="btnAddSupervisorDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                            <?php } ?>
+                                            <?php if ($allowDel) {
+ ?>
 
-                                            <input type="button" class="delbutton" id="delSupBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
-                                                <?php } ?>
+                                                <input type="button" class="delbutton" id="delSupBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
+<?php } ?>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
-                                    <thead>
-                                        <tr>
-                                            <td class="check"><input type='checkbox' id='checkAllSup' class="checkboxSup" /></td>
-                                            <td class="supName"><?php echo __("Name"); ?></td>
-                                            <td class="supReportMethod"><?php echo __("Reporting Method"); ?></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                    <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
+                                        <thead>
+                                            <tr>
+                                                <td class="check"><input type='checkbox' id='checkAllSup' class="checkboxSup" /></td>
+                                                <td class="supName"><?php echo __("Name"); ?></td>
+                                                <td class="supReportMethod"><?php echo __("Reporting Method"); ?></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $subRow = 0;
+                                            foreach ($supDetails as $sup) {
+                                                $cssClass = ($subRow % 2) ? 'even' : 'odd';
+                                                echo '<tr class="' . $cssClass . '">';
+                                                $supChkBoxValue = $sup->getSupervisorId() . " " . $empNumber . " " . $sup->getReportingMode();
+                                                echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
+                                            ?>
+                                            <?php $supName = $sup->getSupervisor()->getFirstName() . " " . $sup->getSupervisor()->getLastName(); ?>
+<?php $supReportingModeName = $sup->getReportMode()->getReportModeName(); ?>
+                                            <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
                                         <?php
-                                        $subRow = 0;
-                                        foreach ($supDetails as $sup) {
-                                            $cssClass = ($subRow % 2) ? 'even' : 'odd';
-                                            echo '<tr class="' . $cssClass . '">';
-                                            $supChkBoxValue = $sup->getSupervisorId(). " " . $empNumber." ". $sup->getReportingMode();
-                                            echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
+                                                echo "<td  class='supReportMethod' valigh='top'>" . $supReportingModeName . "</td>";
+                                                echo '</tr>';
+                                                $subRow++;
+                                            }
                                         ?>
-                                        <?php $supName = $sup->getSupervisor()->getFirstName()." ".$sup->getSupervisor()->getLastName(); ?>
-                                            <?php $supReportingModeName = $sup->getReportMode()->getReportModeName(); ?>
-                                        <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
-                                    <?php
-                                            echo "<td  class='supReportMethod' valigh='top'>" . $supReportingModeName . "</td>";
-                                            echo '</tr>';
-                                            $subRow++;
-                                        }
-                                    ?>
-                                        </tbody>
-                                    </table>
-                                </form>
-                                    </div>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
                             </td>
 
-                            <td valign="top" width="20">
-                                </td>
+                            <td valign="top" width="30">
+                            </td>
 
                             <td valign="top" width="500">
                                 <div class="outerbox" id="listReportToSubDetails">
                                     <form name="frmEmpDelSubordinates" id="frmEmpDelSubordinates" method="post" action="<?php echo url_for('pim/deleteReportToSubordinate?empNumber=' . $empNumber); ?>">
-                                <?php echo $deleteSubForm['_csrf_token']->render(); ?>
-                                <?php echo $deleteSubForm['empNumber']->render(); ?>
+                                    <?php echo $deleteSubForm['_csrf_token']->render(); ?>
+<?php echo $deleteSubForm['empNumber']->render(); ?>
 
-                                    <div class="mainHeading"><h2><?php echo __("Assigned Subordinates"); ?></h2></div>
+                                            <div class="mainHeading"><h2><?php echo __("Assigned Subordinates"); ?></h2></div>
 
-                                    <div class="subActionbar" id="subListActions">
-                                        <div class="subActionbuttons">
-                                        <?php if ($allowEdit) {
-                                                ?>
+                                            <div class="subActionbar" id="subListActions">
+                                                <div class="subActionbuttons">
+                                            <?php if ($allowEdit) { ?>
 
-                                            <input type="button" class="addbutton" id="btnAddSubordinateDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
-                                        <?php } ?>
-                                            <?php if ($allowDel) { ?>
+                                                <input type="button" class="addbutton" id="btnAddSubordinateDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                            <?php } ?>
+                                            <?php if ($allowDel) {
+ ?>
 
-                                            <input type="button" class="delbutton" id="delSubBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
-                                                <?php } ?>
+                                                <input type="button" class="delbutton" id="delSubBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
+<?php } ?>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
-                                    <thead>
-                                        <tr>
-                                            <td class="check"><input type='checkbox' id='checkAllSub' class="checkboxSub" /></td>
-                                            <td class="subName"><?php echo __("Name"); ?></td>
-                                            <td class="subReportMethod"><?php echo __("Reporting Method"); ?></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                    <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
+                                        <thead>
+                                            <tr>
+                                                <td class="check"><input type='checkbox' id='checkAllSub' class="checkboxSub" /></td>
+                                                <td class="subName"><?php echo __("Name"); ?></td>
+                                                <td class="subReportMethod"><?php echo __("Reporting Method"); ?></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $subRow = 0;
+                                            foreach ($subDetails as $sub) {
+                                                $cssClass = ($subRow % 2) ? 'even' : 'odd';
+                                                echo '<tr class="' . $cssClass . '">';
+                                                $subChkBoxValue = $empNumber . " " . $sub->getSubordinateId() . " " . $sub->getReportingMode();
+                                                echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
+                                            ?>
+                                            <?php $subName = $sub->getSubordinate()->getFirstName() . " " . $sub->getSubordinate()->getLastName(); ?>
+<?php $subReportingModeName = $sub->getReportMode()->getReportModeName(); ?>
+                                            <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
                                         <?php
-                                        $subRow = 0;
-                                        foreach ($subDetails as $sub) {
-                                            $cssClass = ($subRow % 2) ? 'even' : 'odd';
-                                            echo '<tr class="' . $cssClass . '">';
-                                            $subChkBoxValue = $empNumber. " " . $sub->getSubordinateId()." ". $sub->getReportingMode();
-                                            echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
+                                                echo "<td  class='subReportMethod' valigh='top'>" . $subReportingModeName . "</td>";
+                                                echo '</tr>';
+                                                $subRow++;
+                                            }
                                         ?>
-                                        <?php $subName = $sub->getSubordinate()->getFirstName()." ".$sub->getSubordinate()->getLastName(); ?>
-                                            <?php $subReportingModeName = $sub->getReportMode()->getReportModeName(); ?>
-                                        <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
-                                    <?php
-                                            echo "<td  class='subReportMethod' valigh='top'>" . $subReportingModeName . "</td>";
-                                            echo '</tr>';
-                                            $subRow++;
-                                        }
-                                    ?>
-                                        </tbody>
-                                    </table>
-                                </form>
-                                    </div>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
                             </td>
                         </table>
                     </div>
 
 
                     <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
-                            <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
-                            <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
-                                    </div>
-                                </td>
-                                <!-- To be moved to layout file -->
-                                <td valign="top" style="text-align:left;">
-                                </td>
-                            </tr>
-                        </table>
+                <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
+<?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
+                                        </div>
+                                    </td>
+                                    <!-- To be moved to layout file -->
+                                    <td valign="top" style="text-align:left;">
+                                    </td>
+                                </tr>
+                            </table>
 
 
-                        <script type="text/javascript">
-                            //<![CDATA[
-                            var fileModified = 0;
-                            var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
-                            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
-                            var addSupervisor = '<?php echo __("Add Supervisor") ; ?>';
-                            var addSubordinate = '<?php echo __("Add Subordinate") ; ?>';
-                            var deleteWarning = '<?php echo __("Select at least One Record to Delete") ; ?>';
-                            var editSupervisor = '<?php echo __("Edit Supervisor") ; ?>';
-                            var editSubordinate = '<?php echo __("Edit Subordinate") ; ?>';
+                            <script type="text/javascript">
+                                //<![CDATA[
+                                var fileModified = 0;
+                                var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
+                                var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+                                var employeesArray = eval(employees);
+                                var addSupervisor = '<?php echo __("Add Supervisor"); ?>';
+                                var addSubordinate = '<?php echo __("Add Subordinate"); ?>';
+                                var deleteWarning = '<?php echo __("Select at least One Record to Delete"); ?>';
+                                var editSupervisor = '<?php echo __("Edit Supervisor"); ?>';
+                                var editSubordinate = '<?php echo __("Edit Subordinate"); ?>';
+                                var nameIsRequired = '<?php echo __("Name is required"); ?>';
+                                var reportingMethodIsRequired = '<?php echo __("Reporting method is required"); ?>';
+                                var reportingMethodTypeIsRequired = '<?php echo __("Reporting method type is required"); ?>';
     //]]>
-                        </script>
+</script>

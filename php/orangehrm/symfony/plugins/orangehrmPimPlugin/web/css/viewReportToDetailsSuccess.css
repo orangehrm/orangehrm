@@ -14,12 +14,12 @@ label {
     width: 140px
 }
 
-.drpDown {
+.drpDownR {
     margin-top: 5px;
     width: 168px;
 }
 
-form input.txtBox {
+form input.txtBoxR {
     border: 1px solid #888888;
     width: 158px;
     vertical-align:middle;
@@ -33,8 +33,8 @@ label.error {
     display: block;
     font-size: 11px;
     margin-top: 5px;
-    padding-left: 160px;
-    width: 128px !important;
+    padding-left: 140px;
+    width: 180px !important;
 }
 
 ul.radio_list {

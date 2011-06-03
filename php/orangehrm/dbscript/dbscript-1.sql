@@ -304,7 +304,7 @@ create table `hs_hr_emp_reportto` (
 
 create table `hs_hr_emp_reporting_method` (
   `rep_mode_id` int(7) not null ,
-  `rep_mode_name` varchar(30) not null,
+  `rep_mode_name` varchar(100) not null,
   primary key  (`rep_mode_id`,`rep_mode_name`)
 ) engine=innodb default charset=utf8;
 

@@ -15,7 +15,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
- */
+*/
 /* IE Specific styles to overcome IE behaviour */
 
 /* Added to prevent main heading being hidden in list views. Sets hasLayout */
@@ -49,7 +49,7 @@ input.detailsbutton,
 input.submitbutton,
 input.searchbutton {
     text-align:center;
-	overflow:visible;
+    overflow:visible;
     width:75px !important;
     padding-left: 4px;
     padding-right: 4px;
@@ -57,7 +57,7 @@ input.searchbutton {
 
 input.plainbtn {
     text-align:center;
-	overflow:visible;
+    overflow:visible;
     width:75px !important;
     padding-left: 4px;
     padding-right: 4px;
@@ -65,7 +65,7 @@ input.plainbtn {
 
 input.longbtn {
     text-align:center;
-	overflow:visible;
+    overflow:visible;
     width:120px !important;
     padding-left: 4px;
     padding-right: 4px;
@@ -73,24 +73,24 @@ input.longbtn {
 
 input.extralongbtn {
     text-align:center;
-	overflow:visible;
+    overflow:visible;
     width:175px !important;
     padding-left: 4px;
     padding-right: 4px;
 }
 
 div.formbuttons {
-	text-align: left;
-	width:auto;
-	height:auto;
-	margin-left:5px;
-	margin-right:5px;
-	margin-top:15px;
-	display:block;
-	padding-top: 10px;;
-	padding-bottom: 10px;
-	float:none;
-	border-top: 1px solid #FAD163;
+    text-align: left;
+    width:auto;
+    height:auto;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top:15px;
+    display:block;
+    padding-top: 10px;;
+    padding-bottom: 10px;
+    float:none;
+    border-top: 1px solid #FAD163;
 }
 
 .label{
@@ -126,6 +126,106 @@ label.error {
 
 form#frmEmpJobDetails textarea {
     margin-top: 5px;
+}
+
+
+.drpDownR {
+    margin-top: 5px;
+    width: 168px;
+}
+
+form input.txtBoxR {
+    border: 1px solid #888888;
+    width: 164px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+table#sup_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sub_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sup_list td.supName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+table#sub_list td.subName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+.checkboxSup, .radio {
+    background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.checkboxSub, .radio {
+    background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+table#sup_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+table#sub_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 120px;
+    width: 180px !important;
+}
+
+ul.radio_list {
+    padding-left: 135px;
+    padding-top: 10px;
+    padding-bottom: 8px;
+}
+
+ul.radio_list li { display: inline;}
+ul.radio_list li label { display: inline; padding-left:10px; width:90px;}
+ul.radio_list li input { float:left; margin-top:5px; }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
 }
 
 /* PIM Job specific styles : End */
