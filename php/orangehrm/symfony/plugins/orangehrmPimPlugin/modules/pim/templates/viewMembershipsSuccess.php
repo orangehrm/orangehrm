@@ -63,7 +63,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     <div class="outerbox">
 
                         <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Membership Details'); ?></h2></div>
-                        <form name="frmEmpEmgContact" id="frmEmpMembership" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
+                        <form name="frmEmpMembership" id="frmEmpMembership" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>

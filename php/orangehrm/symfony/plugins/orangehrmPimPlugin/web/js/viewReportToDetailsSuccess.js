@@ -18,8 +18,7 @@ $(document).ready(function() {
             $(this).removeClass("inputFormatHint");
         }
     });
-     
-
+    
     //Auto complete
     $("#reportto_name").autocomplete(employees, {
         formatItem: function(item) {
@@ -30,18 +29,222 @@ $(document).ready(function() {
         $("#reportto_selectedEmployee").val(item.id);
     });
 
-    $('#btnSaveReportTo').click(function() { 
+    $('#btnSaveReportTo').click(function() {
+        $('#reportto_type_flag_1').removeAttr('disabled');
+        $('#reportto_type_flag_2').removeAttr('disabled');
         $('#frmAddReportTo').submit();
     });
 
+    $("#checkAllSup").click(function(){
+        if($("#checkAllSup:checked").attr('value') == 'on') {
+            $(".checkboxSup").attr('checked', 'checked');
+        } else {
+            $(".checkboxSup").removeAttr('checked');
+        }
+    });
+
+    if($(".checkboxSup").length > 1 || $(".checkboxSub").length > 1) {
+        $(".paddingLeftRequired").hide();
+        $("#addPaneReportTo").hide();
+    } else {
+        $("#btnCancel").hide();
+        $(".paddingLeftRequired").show();
+        $("#addPaneReportTo").show();
+        $("#listReportToDetails").hide();
+    }
+
+    $(".checkboxSup").click(function() {
+        $("#checkAllSup").removeAttr('checked');
+        if(($(".checkboxSup").length - 1) == $(".checkboxSup:checked").length) {
+            $("#checkAllSup").attr('checked', 'checked');
+        }
+    });
+
+    $("#checkAllSub").click(function(){
+        if($("#checkAllSub:checked").attr('value') == 'on') {
+            $(".checkboxSub").attr('checked', 'checked');
+        } else {
+            $(".checkboxSub").removeAttr('checked');
+        }
+    });
+
+    $(".checkboxSub").click(function() {
+        $("#checkAllSub").removeAttr('checked');
+        if(($(".checkboxSub").length - 1) == $(".checkboxSub:checked").length) {
+            $("#checkAllSub").attr('checked', 'checked');
+        }
+    });
+
+    // Add a supervisor 
+    $('#btnAddSupervisorDetail').click(function() {
+
+        $('#reportto_type_flag_1').attr('checked', 'checked');
+        $("#reportToHeading").text(addSupervisor);
+        $('#reportto_type_flag_1').attr('disabled', 'disabled');
+        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+        $(".paddingLeftRequired").show();
+        clearAddForm();
+
+        // Hide list action buttons and checkbox
+        $('#supListActions').hide();
+        $('#sup_list td.check').hide();
+        $('#subListActions').hide();
+        $('#sub_list td.check').hide();
+        removeEditLinks();
+        $('div#messagebar').hide();
+        $('#addPaneReportTo').css('display', 'block');
+    });
+
+    // Add a subordinate
+    $('#btnAddSubordinateDetail').click(function() {
+
+        $('#reportto_type_flag_2').attr('checked', 'checked');
+        $("#reportToHeading").text(addSubordinate);
+        $('#reportto_type_flag_1').attr('disabled', 'disabled');
+        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+        $(".paddingLeftRequired").show();
+        clearAddForm();
+
+        // Hide list action buttons and checkbox
+        $('#supListActions').hide();
+        $('#sup_list td.check').hide();
+        $('#subListActions').hide();
+        $('#sub_list td.check').hide();
+        removeEditLinks();
+        $('div#messagebar').hide();
+        $('#addPaneReportTo').css('display', 'block');
+    });
+
+    // Cancel in add pane
+    $('#btnCancel').click(function() {
+        clearAddForm();
+        $('#reportto_type_flag_1').removeAttr('disabled');
+        $('#reportto_type_flag_2').removeAttr('disabled');
+        $('#addPaneReportTo').css('display', 'none');
+        $('#supListActions').show();
+        $('#sup_list td.check').show();
+        $('#subListActions').show();
+        $('#sub_list td.check').show();
+        addEditLinks();
+        $('div#messagebar').hide();
+        $(".paddingLeftRequired").hide();
+    });
+
+    $('#delSupBtn').click(function() {
+        var checked = $('#frmEmpDelSupervisors input:checked').length;
+
+        if (checked == 0) {
+            $("#messagebar").attr("class", "messageBalloon_notice");
+            $("#messagebar").text(deleteWarning);
+            $('div#messagebar').show();
+        } else {
+            $('#frmEmpDelSupervisors').submit();
+        }
+    });
+
+    $('#delSubBtn').click(function() {
+        var checked = $('#frmEmpDelSubordinates input:checked').length;
+
+        if (checked == 0) {
+            $("#messagebar").attr("class", "messageBalloon_notice");
+            $("#messagebar").text(deleteWarning);
+            $('div#messagebar').show();
+        } else {
+            $('#frmEmpDelSubordinates').submit();
+        }
+    });
+
+    // Edit a supervisor detail in the list
+    $('#frmEmpDelSupervisors a').live('click', function() {
+
+        var row = $(this).closest("tr");
+        var primarykey = row.find('input.checkboxSup:first').val();
+        var tempArray = primarykey.split(" ");
+        var name = $(this).text();
+        var reportingMethodType = row.find("td:nth-child(3)").text();
+
+        $("#reportto_selectedEmployee").val(tempArray[0]);
+        $('#reportto_type_flag_1').attr('checked', 'checked');
+        $('#reportto_type_flag_1').attr('disabled', 'disabled');
+        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+
+        $('#reportto_name').val(name);
+        $('#reportto_reportingModeType').val(reportingMethodType);
+
+        $(".paddingLeftRequired").show();
+        $("#reportToHeading").text(editSupervisor);
+        $('div#messagebar').hide();
+        // hide validation error messages
+
+        $('#supListActions').hide();
+        $('#sup_list td.check').hide();
+        $('#subListActions').hide();
+        $('#sub_list td.check').hide();
+        $('#addPaneReportTo').css('display', 'block');
+    });
+
+    // Edit a subordinate detail in the list
+    $('#frmEmpDelSubordinates a').live('click', function() {
+
+        var row = $(this).closest("tr");
+        var primarykey = row.find('input.checkboxSub:first').val();
+        var tempArray = primarykey.split(" ");
+        var name = $(this).text();
+        var reportingMethodType = row.find("td:nth-child(3)").text();
+
+        $("#reportto_selectedEmployee").val(tempArray[1]);
+        $('#reportto_type_flag_2').attr('checked', 'checked');
+        $('#reportto_type_flag_1').attr('disabled', 'disabled');
+        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+
+        $('#reportto_name').val(name);
+        $('#reportto_reportingModeType').val(reportingMethodType);
+
+        $(".paddingLeftRequired").show();
+        $("#reportToHeading").text(editSubordinate);
+        $('div#messagebar').hide();
+        // hide validation error messages
+
+        $('#supListActions').hide();
+        $('#sup_list td.check').hide();
+        $('#subListActions').hide();
+        $('#sub_list td.check').hide();
+        $('#addPaneReportTo').css('display', 'block');
+    });
 
 
 });
 
 function hideShowReportingMethodOther() {
+    
     if ($('#reportto_reportingModeType').val() != -1 ) {
         $('#pleaseSpecify').hide();
     } else {
         $('#pleaseSpecify').show();
     }
+}
+
+function clearAddForm() {
+
+    $('#reportto_name').val('');
+    $('#reportto_reportingModeType').val('');
+    $('div#addPaneReportTo label.error').hide();
+    $('div#messagebar').hide();
+
+}
+
+function addEditLinks() {
+    // called here to avoid double adding links - When in edit mode and cancel is pressed.
+    removeEditLinks();
+    $('#sup_list tbody td.supName').wrapInner('<a href="#"/>');
+    $('#sub_list tbody td.subName').wrapInner('<a href="#"/>');
+}
+
+function removeEditLinks() {
+    $('#sup_list tbody td.supName a').each(function(index) {
+        $(this).parent().text($(this).text());
+    });
+    $('#sub_list tbody td.subName a').each(function(index) {
+        $(this).parent().text($(this).text());
+    });
 }

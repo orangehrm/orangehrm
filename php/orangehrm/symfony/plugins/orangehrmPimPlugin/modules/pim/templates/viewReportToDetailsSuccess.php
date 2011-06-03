@@ -63,7 +63,7 @@ $allowEdit = true;
                     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                 </div>
 
-                <div id="addPaneReportTo" style="width: 600px">
+                <div id="addPaneReportTo" style="width: 600px" style="display:none;">
                     <div class="outerbox">
 
                         <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
@@ -108,7 +108,7 @@ $allowEdit = true;
                             <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
                                 <td valign="top" width="500">
                                     <div class="outerbox" id="listReportToSupDetails">
-                                    <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisors?empNumber=' . $empNumber); ?>">
+                                    <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
                                 <?php echo $deleteSupForm['_csrf_token']->render(); ?>
                                 <?php echo $deleteSupForm['empNumber']->render(); ?>
 
@@ -237,5 +237,10 @@ $allowEdit = true;
                             var fileModified = 0;
                             var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                             var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+                            var addSupervisor = '<?php echo __("Add Supervisor") ; ?>';
+                            var addSubordinate = '<?php echo __("Add Subordinate") ; ?>';
+                            var deleteWarning = '<?php echo __("Select at least One Record to Delete") ; ?>';
+                            var editSupervisor = '<?php echo __("Edit Supervisor") ; ?>';
+                            var editSubordinate = '<?php echo __("Edit Subordinate") ; ?>';
     //]]>
-</script>
+                        </script>

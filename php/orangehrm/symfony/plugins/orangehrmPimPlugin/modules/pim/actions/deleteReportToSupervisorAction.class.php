@@ -46,10 +46,10 @@ class deleteReportToSupervisorAction extends sfAction {
             $supToDelete = $request->getParameter('chksupdel', array());
 
             if ($supToDelete) {
-
+                
                 $service = new EmployeeService();
-                $count = $service->deleteMembershipDetails($supToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor(s) Deleted Successfully')));
+                $count = $service->deleteReportToObject($supToDelete);
+                $this->getUser()->setFlash('templateMessage', array('success', __('Supervisors(s) Deleted Successfully')));
 
             }
         }

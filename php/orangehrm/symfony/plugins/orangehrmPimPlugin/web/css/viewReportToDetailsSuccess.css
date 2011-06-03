@@ -38,13 +38,13 @@ label.error {
 }
 
 ul.radio_list {
-    padding-left: 80px;
+    padding-left: 155px;
     padding-top: 10px; 
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
 ul.radio_list li { display: inline;}
-ul.radio_list li label { display: inline; padding-left:10px; width:120px;}
+ul.radio_list li label { display: inline; padding-left:10px; width:90px;}
 ul.radio_list li input { float:left; margin-top:5px; }
 
 .paddingLeftRequired {
@@ -52,4 +52,85 @@ ul.radio_list li input { float:left; margin-top:5px; }
     padding-top: 5px;
     font-size: 8pt;
 }
+
+/*form#frmAddReportTo label {
+    position: relative;
+    margin-top: 6px;
+    width: 300px
+}
+
+form#frmAddReportTo label label.error {
+    color:red;
+    display: block;
+    font-weight: normal;
+    overflow:visible;
+    width:270px !important;  Need to overide important in messages.css 
+    padding-left:300px;
+}*/
+
+div.messageBar {
+    margin: 5px 15px 5px 15px;
+
+}
+
+table#sup_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sub_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sup_list td.supName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+table#sub_list td.subName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+.checkboxSup, .radio {
+ background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.checkboxSub, .radio {
+ background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+table#sup_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+table#sub_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
 

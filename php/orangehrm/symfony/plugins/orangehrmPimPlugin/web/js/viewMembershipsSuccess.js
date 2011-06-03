@@ -77,7 +77,7 @@ $(document).ready(function() {
         })
     });
     
-    // Edit a emergency contact in the list
+    // Edit a membership detail in the list
     $('#frmEmpDelMemberships a').live('click', function() {
 
         var row = $(this).closest("tr");
@@ -130,7 +130,7 @@ $(document).ready(function() {
     });
 
 
-    // Add a emergency contact
+    // Add a membership detail contact
     $('#btnAddMembershipDetail').click(function() {
         
         $('#membership_membershipType').removeAttr('disabled');

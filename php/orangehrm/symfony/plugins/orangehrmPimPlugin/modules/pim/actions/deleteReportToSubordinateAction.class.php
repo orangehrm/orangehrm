@@ -43,14 +43,13 @@ class deleteReportToSubordinateAction extends sfAction {
             if (!$empNumber) {
                 throw new PIMServiceException("No Employee ID given");
             }
-            $supToDelete = $request->getParameter('chksupdel', array());
+            $subToDelete = $request->getParameter('chksubdel', array());
 
-            if ($supToDelete) {
+            if ($subToDelete) {
 
                 $service = new EmployeeService();
-                $count = $service->deleteMembershipDetails($supToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor(s) Deleted Successfully')));
-
+                $count = $service->deleteReportToObject($subToDelete);
+                $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate(s) Deleted Successfully')));
             }
         }
 
