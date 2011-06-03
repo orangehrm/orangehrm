@@ -47,6 +47,7 @@ abstract class BaseReportTo extends sfDoctrineRecord
              ));
         $this->hasColumn('erep_reporting_mode as reportingMode', 'integer', 4, array(
              'type' => 'integer',
+             'primary' => true,
              'length' => 4,
              ));
     }

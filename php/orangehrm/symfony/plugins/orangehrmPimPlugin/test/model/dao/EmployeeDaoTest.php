@@ -200,7 +200,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetReportToObject() {
 
-        $subordinateReportTo = $this->employeeDao->getReportToObject(4, 3);
+        $subordinateReportTo = $this->employeeDao->getReportToObject(4, 3, 4);
         $this->assertTrue($subordinateReportTo instanceof ReportTo);
     }
 
@@ -209,7 +209,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteReportToObject() {
 
-        $this->assertTrue($this->employeeDao->deleteReportToObject(3, 1));
+        $this->assertTrue($this->employeeDao->deleteReportToObject(3, 1, 3));
     }
 
 

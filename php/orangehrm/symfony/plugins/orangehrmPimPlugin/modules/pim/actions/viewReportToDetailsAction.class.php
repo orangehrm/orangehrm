@@ -78,8 +78,11 @@ class viewReportToDetailsAction extends sfAction {
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 
         $this->setForm(new EmployeeReportToForm(array(), $param, true));
-        //$this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);
-        //$this->membershipDetails = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
+
+        $this->deleteSupForm = new EmployeeReportToSupervisorDeleteForm(array(), $param, true);
+        $this->deleteSubForm = new EmployeeReportToSubordinateDeleteForm(array(), $param, true);
+        $this->supDetails = $this->getEmployeeService()->getSupervisorListForEmployee($this->empNumber);
+        $this->subDetails = $this->getEmployeeService()->getSubordinateListForEmployee($this->empNumber);
 
     }
 

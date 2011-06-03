@@ -27,41 +27,43 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 use_stylesheet('../orangehrmPimPlugin/css/viewReportToDetailsSuccess');
 use_javascript('../orangehrmPimPlugin/js/viewReportToDetailsSuccess');
 
-//$numMemDetails = count($membershipDetails);
-//$hasMemDetails = $numMemDetails > 0;
+$numSupDetails = count($supDetails);
+$hasSupDetails = $numSupDetails > 0;
+$numSubDetails = count($subDetails);
+$hasSubDetails = $numSubDetails > 0;
 $allowDel = true;
 $allowEdit = true;
 ?>
 
 <?php if ($form->hasErrors()): ?>
-<span class="error">
-<?php
-echo $form->renderGlobalErrors();
+    <span class="error">
+    <?php
+    echo $form->renderGlobalErrors();
 
-foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
-  echo $form[$widgetName]->renderError();
-}
-?>
+    foreach ($form->getWidgetSchema()->getPositions() as $widgetName) {
+        echo $form[$widgetName]->renderError();
+    }
+    ?>
 </span>
 <?php endif; ?>
 
-<table cellspacing="0" cellpadding="0" border="0" >
-    <tr>
-        <td width="5">&nbsp;</td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top">
+    <table cellspacing="0" cellpadding="0" border="0" >
+        <tr>
+            <td width="5">&nbsp;</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <!-- this space is reserved for menus - dont use -->
+            <td width="200" valign="top">
             <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form)); ?></td>
-        <td valign="top" width="1200">
-            <div class="formpage2col">
+        <td valign="top" width="1000">
+            <div class="formpage2col" style="width: 1000px">
                 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
                     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                 </div>
 
-                <div id="addPaneReportTo">
+                <div id="addPaneReportTo" style="width: 600px">
                     <div class="outerbox">
 
                         <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
@@ -70,55 +72,170 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
                             <?php echo $form["selectedEmployee"]->render(); ?>
-                        <div>
-                            <?php echo $form['type_flag']->render(); ?>
-                            <br class="clear" />
+                            <div>
+                                <?php echo $form['type_flag']->render(); ?>
+                                <br class="clear" />
 
-                            <?php echo $form['name']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
-                            <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
-                            <br class="clear"/>
-
-                            <?php echo $form['reportingModeType']->renderLabel(__('Reporting Method'). ' <span class="required">*</span>'); ?>
-                            <?php echo $form['reportingModeType']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
-                            <br class="clear"/>
-
-                            <div id="pleaseSpecify">
-                                <?php echo $form['reportingMethod']->renderLabel(__('Please Specify'). ' <span class="required">*</span>'); ?>
-                                <?php echo $form['reportingMethod']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
+                                <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
                                 <br class="clear"/>
+
+                                <?php echo $form['reportingModeType']->renderLabel(__('Reporting Method') . ' <span class="required">*</span>'); ?>
+                                <?php echo $form['reportingModeType']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
+                                <br class="clear"/>
+
+                                <div id="pleaseSpecify">
+                                    <?php echo $form['reportingMethod']->renderLabel(__('Please Specify') . ' <span class="required">*</span>'); ?>
+                                    <?php echo $form['reportingMethod']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                    <br class="clear"/>
+                                </div>
                             </div>
-                         </div>
                             <?php if ($allowEdit) {
                             ?>
-                                <div class="formbuttons">
-                                    <input type="button" class="savebutton" name="btnSaveReportTo" id="btnSaveReportTo"
-                                           value="<?php echo __("Save"); ?>"
-                                           title="<?php echo __("Save"); ?>"
-                                           onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                                    <input type="button" id="btnCancel" class="cancelbutton" value="<?php echo __("Cancel"); ?>"/>
-                                </div>
+                                        <div class="formbuttons">
+                                            <input type="button" class="savebutton" name="btnSaveReportTo" id="btnSaveReportTo"
+                                                   value="<?php echo __("Save"); ?>"
+                                                   title="<?php echo __("Save"); ?>"
+                                                   onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                                            <input type="button" id="btnCancel" class="cancelbutton" value="<?php echo __("Cancel"); ?>"/>
+                                        </div>
                             <?php } ?>
-                        </form>
-                    </div>
-                </div>
-
-               
-                        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
-                        <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
-                        <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
+                                </form>
                             </div>
-                        </td>
-                        <!-- To be moved to layout file -->
-                        <td valign="top" style="text-align:left;">
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+
+                        <div id="listReportToDetails">
+                            <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
+                                <td valign="top" width="500">
+                                    <div class="outerbox" id="listReportToSupDetails">
+                                    <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisors?empNumber=' . $empNumber); ?>">
+                                <?php echo $deleteSupForm['_csrf_token']->render(); ?>
+                                <?php echo $deleteSupForm['empNumber']->render(); ?>
+
+                                    <div class="mainHeading"><h2><?php echo __("Assigned Supervisors"); ?></h2></div>
+
+                                    <div class="supActionbar" id="supListActions">
+                                        <div class="supActionbuttons">
+                                        <?php if ($allowEdit) {
+                                                ?>
+
+                                            <input type="button" class="addbutton" id="btnAddSupervisorDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                        <?php } ?>
+                                            <?php if ($allowDel) { ?>
+
+                                            <input type="button" class="delbutton" id="delSupBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
+                                                <?php } ?>
+                                    </div>
+                                </div>
+
+                                <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
+                                    <thead>
+                                        <tr>
+                                            <td class="check"><input type='checkbox' id='checkAllSup' class="checkboxSup" /></td>
+                                            <td class="supName"><?php echo __("Name"); ?></td>
+                                            <td class="supReportMethod"><?php echo __("Reporting Method"); ?></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $subRow = 0;
+                                        foreach ($supDetails as $sup) {
+                                            $cssClass = ($subRow % 2) ? 'even' : 'odd';
+                                            echo '<tr class="' . $cssClass . '">';
+                                            $supChkBoxValue = $sup->getSupervisorId(). " " . $empNumber." ". $sup->getReportingMode();
+                                            echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
+                                        ?>
+                                        <?php $supName = $sup->getSupervisor()->getFirstName()." ".$sup->getSupervisor()->getLastName(); ?>
+                                            <?php $supReportingModeName = $sup->getReportMode()->getReportModeName(); ?>
+                                        <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
+                                    <?php
+                                            echo "<td  class='supReportMethod' valigh='top'>" . $supReportingModeName . "</td>";
+                                            echo '</tr>';
+                                            $subRow++;
+                                        }
+                                    ?>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                    </div>
+                            </td>
+
+                            <td valign="top" width="20">
+                                </td>
+
+                            <td valign="top" width="500">
+                                <div class="outerbox" id="listReportToSubDetails">
+                                    <form name="frmEmpDelSubordinates" id="frmEmpDelSubordinates" method="post" action="<?php echo url_for('pim/deleteReportToSubordinate?empNumber=' . $empNumber); ?>">
+                                <?php echo $deleteSubForm['_csrf_token']->render(); ?>
+                                <?php echo $deleteSubForm['empNumber']->render(); ?>
+
+                                    <div class="mainHeading"><h2><?php echo __("Assigned Subordinates"); ?></h2></div>
+
+                                    <div class="subActionbar" id="subListActions">
+                                        <div class="subActionbuttons">
+                                        <?php if ($allowEdit) {
+                                                ?>
+
+                                            <input type="button" class="addbutton" id="btnAddSubordinateDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                        <?php } ?>
+                                            <?php if ($allowDel) { ?>
+
+                                            <input type="button" class="delbutton" id="delSubBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
+                                                <?php } ?>
+                                    </div>
+                                </div>
+
+                                <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
+                                    <thead>
+                                        <tr>
+                                            <td class="check"><input type='checkbox' id='checkAllSub' class="checkboxSub" /></td>
+                                            <td class="subName"><?php echo __("Name"); ?></td>
+                                            <td class="subReportMethod"><?php echo __("Reporting Method"); ?></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $subRow = 0;
+                                        foreach ($subDetails as $sub) {
+                                            $cssClass = ($subRow % 2) ? 'even' : 'odd';
+                                            echo '<tr class="' . $cssClass . '">';
+                                            $subChkBoxValue = $empNumber. " " . $sub->getSubordinateId()." ". $sub->getReportingMode();
+                                            echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
+                                        ?>
+                                        <?php $subName = $sub->getSubordinate()->getFirstName()." ".$sub->getSubordinate()->getLastName(); ?>
+                                            <?php $subReportingModeName = $sub->getReportMode()->getReportModeName(); ?>
+                                        <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
+                                    <?php
+                                            echo "<td  class='subReportMethod' valigh='top'>" . $subReportingModeName . "</td>";
+                                            echo '</tr>';
+                                            $subRow++;
+                                        }
+                                    ?>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                    </div>
+                            </td>
+                        </table>
+                    </div>
 
 
-<script type="text/javascript">
-   //<![CDATA[
-    var fileModified = 0;
-    var typeForHints = '<?php echo __("Type for hints") . "...";?>';
-    var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
-   //]]>
+                    <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+                            <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
+                            <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
+                                    </div>
+                                </td>
+                                <!-- To be moved to layout file -->
+                                <td valign="top" style="text-align:left;">
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <script type="text/javascript">
+                            //<![CDATA[
+                            var fileModified = 0;
+                            var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
+                            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+    //]]>
 </script>

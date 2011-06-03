@@ -137,7 +137,7 @@ class EmployeeReportToForm extends BaseForm {
     }
 
     /**
-     * Save membership
+     * Save supervisors and subordinates
      */
     public function save() {
 
@@ -157,7 +157,7 @@ class EmployeeReportToForm extends BaseForm {
         }
 
         if ($supOrSub == ReportTo::SUPERVISOR) {
-            $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber);
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber, $reportingType);
 
             if ($existingReportToObject != null) {
                 $existingReportToObject->setReportingMode($reportingType);
@@ -172,7 +172,7 @@ class EmployeeReportToForm extends BaseForm {
         }
 
         if ($supOrSub == ReportTo::SUBORDINATE) {
-            $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee);
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee, $reportingType);
 
             if ($existingReportToObject != null) {
                 $existingReportToObject->setReportingMode($reportingType);

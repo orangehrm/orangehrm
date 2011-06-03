@@ -12,7 +12,6 @@
  * @property decimal $amount
  * @property string $account_type
  * @property string $transaction_type
- * @property EmpBasicsalary $salary
  * 
  * @method integer        getId()               Returns the current record's "id" value
  * @method integer        getSalaryId()         Returns the current record's "salary_id" value
@@ -21,7 +20,6 @@
  * @method decimal        getAmount()           Returns the current record's "amount" value
  * @method string         getAccountType()      Returns the current record's "account_type" value
  * @method string         getTransactionType()  Returns the current record's "transaction_type" value
- * @method EmpBasicsalary getSalary()           Returns the current record's "salary" value
  * @method EmpDirectdebit setId()               Sets the current record's "id" value
  * @method EmpDirectdebit setSalaryId()         Sets the current record's "salary_id" value
  * @method EmpDirectdebit setRoutingNum()       Sets the current record's "routing_num" value
@@ -29,7 +27,7 @@
  * @method EmpDirectdebit setAmount()           Sets the current record's "amount" value
  * @method EmpDirectdebit setAccountType()      Sets the current record's "account_type" value
  * @method EmpDirectdebit setTransactionType()  Sets the current record's "transaction_type" value
- * @method EmpDirectdebit setSalary()           Sets the current record's "salary" value
+ * @property EmpBasicsalary $
  * 
  * @package    orangehrm
  * @subpackage model
@@ -86,7 +84,7 @@ abstract class BaseEmpDirectdebit extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('EmpBasicsalary as salary', array(
+        $this->hasMany('EmpBasicsalary', array(
              'local' => 'salary_id',
              'foreign' => 'id',
              'onDelete' => 'Cascade'));

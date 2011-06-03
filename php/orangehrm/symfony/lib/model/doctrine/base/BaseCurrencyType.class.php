@@ -8,18 +8,18 @@
  * @property integer $code
  * @property string $currency_id
  * @property string $currency_name
- * @property Doctrine_Collection $EmpBasicsalary
+ * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $SalaryCurrencyDetail
  * 
  * @method integer             getCode()                 Returns the current record's "code" value
  * @method string              getCurrencyId()           Returns the current record's "currency_id" value
  * @method string              getCurrencyName()         Returns the current record's "currency_name" value
- * @method Doctrine_Collection getEmpBasicsalary()       Returns the current record's "EmpBasicsalary" collection
+ * @method Doctrine_Collection getEmpUsTaxExemption()    Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection getSalaryCurrencyDetail() Returns the current record's "SalaryCurrencyDetail" collection
  * @method CurrencyType        setCode()                 Sets the current record's "code" value
  * @method CurrencyType        setCurrencyId()           Sets the current record's "currency_id" value
  * @method CurrencyType        setCurrencyName()         Sets the current record's "currency_name" value
- * @method CurrencyType        setEmpBasicsalary()       Sets the current record's "EmpBasicsalary" collection
+ * @method CurrencyType        setEmpUsTaxExemption()    Sets the current record's "EmpUsTaxExemption" collection
  * @method CurrencyType        setSalaryCurrencyDetail() Sets the current record's "SalaryCurrencyDetail" collection
  * 
  * @package    orangehrm
@@ -55,7 +55,7 @@ abstract class BaseCurrencyType extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmpBasicsalary', array(
+        $this->hasMany('EmpUsTaxExemption', array(
              'local' => 'currency_id',
              'foreign' => 'currency_id'));
 

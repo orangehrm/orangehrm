@@ -7,14 +7,14 @@
  * 
  * @property string $code
  * @property string $name
- * @property Doctrine_Collection $EmpBasicsalary
+ * @property Doctrine_Collection $EmpUsTaxExemption
  * 
- * @method string              getCode()           Returns the current record's "code" value
- * @method string              getName()           Returns the current record's "name" value
- * @method Doctrine_Collection getEmpBasicsalary() Returns the current record's "EmpBasicsalary" collection
- * @method Payperiod           setCode()           Sets the current record's "code" value
- * @method Payperiod           setName()           Sets the current record's "name" value
- * @method Payperiod           setEmpBasicsalary() Sets the current record's "EmpBasicsalary" collection
+ * @method string              getCode()              Returns the current record's "code" value
+ * @method string              getName()              Returns the current record's "name" value
+ * @method Doctrine_Collection getEmpUsTaxExemption() Returns the current record's "EmpUsTaxExemption" collection
+ * @method Payperiod           setCode()              Sets the current record's "code" value
+ * @method Payperiod           setName()              Sets the current record's "name" value
+ * @method Payperiod           setEmpUsTaxExemption() Sets the current record's "EmpUsTaxExemption" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -40,7 +40,7 @@ abstract class BasePayperiod extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmpBasicsalary', array(
+        $this->hasMany('EmpUsTaxExemption', array(
              'local' => 'payperiod_code',
              'foreign' => 'payperiod_code'));
     }

@@ -271,6 +271,7 @@ ReportTo:
     erep_reporting_mode:
       name: erep_reporting_mode as reportingMode
       type: integer(4)
+      primary: true
   relations:
     supervisor:
       class: Employee

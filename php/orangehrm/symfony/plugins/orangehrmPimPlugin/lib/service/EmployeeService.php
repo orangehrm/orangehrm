@@ -1004,10 +1004,10 @@ class EmployeeService extends BaseService {
      * @param int $supNumber $subNumber $reportMode
      * @return ReportTo object
      */
-    public function getReportToObject($supNumber, $subNumber) {
+    public function getReportToObject($supNumber, $subNumber, $reportMode) {
 
         try {
-            return $this->employeeDao->getReportToObject($supNumber, $subNumber);
+            return $this->employeeDao->getReportToObject($supNumber, $subNumber, $reportMode);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1018,9 +1018,9 @@ class EmployeeService extends BaseService {
      * @param int $supNumber $subNumber $reportMode
      * @return boolean
      */
-    public function deleteReportToObject($supNumber, $subNumber) {
+    public function deleteReportToObject($supNumber, $subNumber, $reportMode) {
         try {
-            return $this->employeeDao->deleteReportToObject($supNumber, $subNumber);
+            return $this->employeeDao->deleteReportToObject($supNumber, $subNumber, $reportMode);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }

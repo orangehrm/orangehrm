@@ -46,3 +46,10 @@ ul.radio_list {
 ul.radio_list li { display: inline;}
 ul.radio_list li label { display: inline; padding-left:10px; width:120px;}
 ul.radio_list li input { float:left; margin-top:5px; }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
