@@ -1072,26 +1072,8 @@ class EmployeeDao extends BaseDao {
      */
     public function saveJobDetails(Employee $employee) {
 
-        $conn = Doctrine_Manager :: connection();
-        $conn->beginTransaction();
         try {
-
             $employee->save();
-
-            // Employee contracts
-            $q = Doctrine_Query :: create()->delete('EmpContract ec')
-                            ->where('emp_number = ?', $employee->empNumber);
-            $result = $q->execute();
-
-            if (count($employee->contracts) > 0) {
-                $empContract = $employee->contracts[0];
-
-                // TODO: Check why emp_number is lost
-                $empContract->emp_number = $employee->empNumber;
-                $empContract->save();
-            }
-
-            $conn->commit();
             return true;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
