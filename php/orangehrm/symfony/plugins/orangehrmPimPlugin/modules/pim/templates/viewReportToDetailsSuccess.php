@@ -72,12 +72,15 @@ $allowEdit = true;
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
                             <?php echo $form["selectedEmployee"]->render(); ?>
+                            <?php echo $form["previousRecord"]->render(); ?>
                             <div>
                                 <?php echo $form['type_flag']->render(); ?>
                                 <br class="clear" />
-
+                        
                                 <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
                                 <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
+                                <div id="name">
+                                </div>
                                 <br class="clear"/>
 
                                 <?php echo $form['reportingModeType']->renderLabel(__('Reporting Method') . ' <span class="required">*</span>'); ?>

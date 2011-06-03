@@ -1019,6 +1019,7 @@ class EmployeeService extends BaseService {
      * @return boolean
      */
     public function deleteReportToObject($supOrSubListToDelete) {
+        print_r($supOrSubListToDelete);
         try {
             foreach ($supOrSubListToDelete as $supOrSubToDelete) {
 

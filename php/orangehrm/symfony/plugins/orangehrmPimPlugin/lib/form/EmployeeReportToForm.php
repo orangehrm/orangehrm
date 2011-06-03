@@ -64,6 +64,7 @@ class EmployeeReportToForm extends BaseForm {
                     ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR)),
             'name' => new sfWidgetFormInputText(),
             'selectedEmployee' => new sfWidgetFormInputHidden(),
+            'previousRecord' => new sfWidgetFormInputHidden(),
             'reportingModeType' => new sfWidgetFormSelect(array('choices' => $reportingModeType)),
             'reportingMethod' => new sfWidgetFormInputText()
         ));
@@ -76,6 +77,7 @@ class EmployeeReportToForm extends BaseForm {
                 'choices' => array(ReportTo::SUPERVISOR, ReportTo::SUBORDINATE))),
             'name' => new sfValidatorString(array('required' => true), array('required' => 'Employee name required')),
             'selectedEmployee' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
+            'previousRecord' => new sfValidatorString(array('required' => false)),
             'reportingModeType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting mode')),
             'reportingMethod' => new sfValidatorString(array('required' => false)),
         ));
@@ -147,6 +149,12 @@ class EmployeeReportToForm extends BaseForm {
         $reportingType = $this->getValue('reportingModeType');
         $reportingMethod = $this->getValue('reportingMethod');
         $selectedEmployee = $this->getValue('selectedEmployee');
+        $previousRecord = $this->getValue('previousRecord');
+
+        if($previousRecord != null){
+            $tempList = array($previousRecord);
+            $this->getEmployeeService()->deleteReportToObject($tempList);
+        }
 
         if ($reportingMethod != null) {
 

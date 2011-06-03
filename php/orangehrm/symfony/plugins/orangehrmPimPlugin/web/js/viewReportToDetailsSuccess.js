@@ -30,8 +30,6 @@ $(document).ready(function() {
     });
 
     $('#btnSaveReportTo').click(function() {
-        $('#reportto_type_flag_1').removeAttr('disabled');
-        $('#reportto_type_flag_2').removeAttr('disabled');
         $('#frmAddReportTo').submit();
     });
 
@@ -78,10 +76,10 @@ $(document).ready(function() {
     // Add a supervisor 
     $('#btnAddSupervisorDetail').click(function() {
 
+
         $('#reportto_type_flag_1').attr('checked', 'checked');
         $("#reportToHeading").text(addSupervisor);
-        $('#reportto_type_flag_1').attr('disabled', 'disabled');
-        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+        $('.radio_list').hide();
         $(".paddingLeftRequired").show();
         clearAddForm();
 
@@ -100,8 +98,7 @@ $(document).ready(function() {
 
         $('#reportto_type_flag_2').attr('checked', 'checked');
         $("#reportToHeading").text(addSubordinate);
-        $('#reportto_type_flag_1').attr('disabled', 'disabled');
-        $('#reportto_type_flag_2').attr('disabled', 'disabled');
+        $('.radio_list').hide();
         $(".paddingLeftRequired").show();
         clearAddForm();
 
@@ -118,8 +115,6 @@ $(document).ready(function() {
     // Cancel in add pane
     $('#btnCancel').click(function() {
         clearAddForm();
-        $('#reportto_type_flag_1').removeAttr('disabled');
-        $('#reportto_type_flag_2').removeAttr('disabled');
         $('#addPaneReportTo').css('display', 'none');
         $('#supListActions').show();
         $('#sup_list td.check').show();
@@ -164,11 +159,14 @@ $(document).ready(function() {
         var reportingMethodType = row.find("td:nth-child(3)").text();
 
         $("#reportto_selectedEmployee").val(tempArray[0]);
+        $("#reportto_previousRecord").val(primarykey);
         $('#reportto_type_flag_1').attr('checked', 'checked');
-        $('#reportto_type_flag_1').attr('disabled', 'disabled');
-        $('#reportto_type_flag_2').attr('disabled', 'disabled');
-
         $('#reportto_name').val(name);
+        $('#reportto_name').hide();
+        $('.radio_list').hide();
+
+        $('#name').text(name);
+        $('#name').show();
         $('#reportto_reportingModeType').val(reportingMethodType);
 
         $(".paddingLeftRequired").show();
@@ -180,6 +178,7 @@ $(document).ready(function() {
         $('#sup_list td.check').hide();
         $('#subListActions').hide();
         $('#sub_list td.check').hide();
+        hideShowReportingMethodOther()
         $('#addPaneReportTo').css('display', 'block');
     });
 
@@ -189,15 +188,19 @@ $(document).ready(function() {
         var row = $(this).closest("tr");
         var primarykey = row.find('input.checkboxSub:first').val();
         var tempArray = primarykey.split(" ");
-        var name = $(this).text();
+        var name1 = $(this).text();
         var reportingMethodType = row.find("td:nth-child(3)").text();
 
         $("#reportto_selectedEmployee").val(tempArray[1]);
+        $("#reportto_previousRecord").val(primarykey);
         $('#reportto_type_flag_2').attr('checked', 'checked');
-        $('#reportto_type_flag_1').attr('disabled', 'disabled');
-        $('#reportto_type_flag_2').attr('disabled', 'disabled');
 
-        $('#reportto_name').val(name);
+        $('#reportto_name').val(name1);
+        $('#reportto_name').hide();
+        $('.radio_list').hide();
+
+        $('#name').text(name1);
+        $('#name').show();
         $('#reportto_reportingModeType').val(reportingMethodType);
 
         $(".paddingLeftRequired").show();
@@ -209,6 +212,7 @@ $(document).ready(function() {
         $('#sup_list td.check').hide();
         $('#subListActions').hide();
         $('#sub_list td.check').hide();
+        hideShowReportingMethodOther()
         $('#addPaneReportTo').css('display', 'block');
     });
 
@@ -227,10 +231,17 @@ function hideShowReportingMethodOther() {
 function clearAddForm() {
 
     $('#reportto_name').val('');
+    $('#reportto_name').show();
     $('#reportto_reportingModeType').val('');
     $('div#addPaneReportTo label.error').hide();
+    $('#name').hide();
     $('div#messagebar').hide();
 
+    if ($("#reportto_name").val() == '') {
+        $("#reportto_name").val(typeForHints)
+        .addClass("inputFormatHint");
+    }
+ hideShowReportingMethodOther()
 }
 
 function addEditLinks() {
