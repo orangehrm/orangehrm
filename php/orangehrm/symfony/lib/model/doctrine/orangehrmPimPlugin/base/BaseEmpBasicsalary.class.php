@@ -17,34 +17,34 @@
  * @property CurrencyType $currencyType
  * @property Employee $employee
  * @property Payperiod $payperiod
- * @property Doctrine_Collection $EmpDirectdebit
+ * @property EmpDirectdebit $directDebit
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method integer             getEmpNumber()        Returns the current record's "emp_number" value
- * @method string              getSalGrdCode()       Returns the current record's "sal_grd_code" value
- * @method string              getCurrencyId()       Returns the current record's "currency_id" value
- * @method string              getBasicSalary()      Returns the current record's "basic_salary" value
- * @method string              getPayperiodCode()    Returns the current record's "payperiod_code" value
- * @method string              getSalaryComponent()  Returns the current record's "salary_component" value
- * @method string              getComments()         Returns the current record's "comments" value
- * @method SalaryGrade         getSalaryGrade()      Returns the current record's "salaryGrade" value
- * @method CurrencyType        getCurrencyType()     Returns the current record's "currencyType" value
- * @method Employee            getEmployee()         Returns the current record's "employee" value
- * @method Payperiod           getPayperiod()        Returns the current record's "payperiod" value
- * @method Doctrine_Collection getEmpDirectdebit()   Returns the current record's "EmpDirectdebit" collection
- * @method EmpBasicsalary      setId()               Sets the current record's "id" value
- * @method EmpBasicsalary      setEmpNumber()        Sets the current record's "emp_number" value
- * @method EmpBasicsalary      setSalGrdCode()       Sets the current record's "sal_grd_code" value
- * @method EmpBasicsalary      setCurrencyId()       Sets the current record's "currency_id" value
- * @method EmpBasicsalary      setBasicSalary()      Sets the current record's "basic_salary" value
- * @method EmpBasicsalary      setPayperiodCode()    Sets the current record's "payperiod_code" value
- * @method EmpBasicsalary      setSalaryComponent()  Sets the current record's "salary_component" value
- * @method EmpBasicsalary      setComments()         Sets the current record's "comments" value
- * @method EmpBasicsalary      setSalaryGrade()      Sets the current record's "salaryGrade" value
- * @method EmpBasicsalary      setCurrencyType()     Sets the current record's "currencyType" value
- * @method EmpBasicsalary      setEmployee()         Sets the current record's "employee" value
- * @method EmpBasicsalary      setPayperiod()        Sets the current record's "payperiod" value
- * @method EmpBasicsalary      setEmpDirectdebit()   Sets the current record's "EmpDirectdebit" collection
+ * @method integer        getId()               Returns the current record's "id" value
+ * @method integer        getEmpNumber()        Returns the current record's "emp_number" value
+ * @method string         getSalGrdCode()       Returns the current record's "sal_grd_code" value
+ * @method string         getCurrencyId()       Returns the current record's "currency_id" value
+ * @method string         getBasicSalary()      Returns the current record's "basic_salary" value
+ * @method string         getPayperiodCode()    Returns the current record's "payperiod_code" value
+ * @method string         getSalaryComponent()  Returns the current record's "salary_component" value
+ * @method string         getComments()         Returns the current record's "comments" value
+ * @method SalaryGrade    getSalaryGrade()      Returns the current record's "salaryGrade" value
+ * @method CurrencyType   getCurrencyType()     Returns the current record's "currencyType" value
+ * @method Employee       getEmployee()         Returns the current record's "employee" value
+ * @method Payperiod      getPayperiod()        Returns the current record's "payperiod" value
+ * @method EmpDirectdebit getDirectDebit()      Returns the current record's "directDebit" value
+ * @method EmpBasicsalary setId()               Sets the current record's "id" value
+ * @method EmpBasicsalary setEmpNumber()        Sets the current record's "emp_number" value
+ * @method EmpBasicsalary setSalGrdCode()       Sets the current record's "sal_grd_code" value
+ * @method EmpBasicsalary setCurrencyId()       Sets the current record's "currency_id" value
+ * @method EmpBasicsalary setBasicSalary()      Sets the current record's "basic_salary" value
+ * @method EmpBasicsalary setPayperiodCode()    Sets the current record's "payperiod_code" value
+ * @method EmpBasicsalary setSalaryComponent()  Sets the current record's "salary_component" value
+ * @method EmpBasicsalary setComments()         Sets the current record's "comments" value
+ * @method EmpBasicsalary setSalaryGrade()      Sets the current record's "salaryGrade" value
+ * @method EmpBasicsalary setCurrencyType()     Sets the current record's "currencyType" value
+ * @method EmpBasicsalary setEmployee()         Sets the current record's "employee" value
+ * @method EmpBasicsalary setPayperiod()        Sets the current record's "payperiod" value
+ * @method EmpBasicsalary setDirectDebit()      Sets the current record's "directDebit" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -116,7 +116,7 @@ abstract class BaseEmpBasicsalary extends sfDoctrineRecord
              'local' => 'payperiod_code',
              'foreign' => 'payperiod_code'));
 
-        $this->hasOne('EmpDirectdebit', array(
+        $this->hasOne('EmpDirectdebit as directDebit', array(
              'local' => 'id',
              'foreign' => 'salary_id'));
     }

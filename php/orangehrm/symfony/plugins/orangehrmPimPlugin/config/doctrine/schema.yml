@@ -441,7 +441,9 @@ EmpUsTaxExemption:
     Employee:
       local: empNumber
       foreign: empNumber
-      type: one      
+      type: one
+
+EmpBasicsalary:     
   tableName: hs_hr_emp_basicsalary
   columns:
     id:
@@ -484,6 +486,11 @@ EmpUsTaxExemption:
       class: Payperiod
       local: payperiod_code
       foreign: payperiod_code
+      type: one
+    directDebit:
+      class: EmpDirectdebit
+      local: id
+      foreign: salary_id
       type: one
     
 EmpDirectdebit:
