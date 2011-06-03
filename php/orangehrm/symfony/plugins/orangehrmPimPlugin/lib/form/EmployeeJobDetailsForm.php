@@ -182,8 +182,6 @@ class EmployeeJobDetailsForm extends BaseForm {
         $employeeService = new EmployeeService();
         $employee = $employeeService->getEmployee($this->getValue('emp_number'));
 
-        $employee->empNumber = $this->getValue('emp_number');
-
         $jobTitle = $this->getValue('job_title');
         if ($jobTitle != '') {
             $employee->job_title_code = $jobTitle;
