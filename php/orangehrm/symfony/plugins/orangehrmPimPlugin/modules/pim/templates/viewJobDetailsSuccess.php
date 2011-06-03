@@ -18,6 +18,7 @@
     var lang_startDateAfterEndDate = "<?php echo __('Start date should be before end date');?>";
     var lang_View_Details =  "<?php echo __('View Details');?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details');?>";
+    var lang_max_char_terminated_reason =  "<?php echo __('Maximum character limit for terminated reason is 256');?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
@@ -73,6 +74,7 @@
                                     <br class="clear"/>
                                     <?php echo $form['termination_reason']->renderLabel(__('Terminated Reason')); ?>
                                     <?php echo $form['termination_reason']->render(); ?>
+                                    <label class="error" id="terminatedReason"></label>
                                     </div> <!-- End of terminatedDetails -->
                                     
                                     <label><?php echo __("Job Specification");?></label>
@@ -239,12 +241,14 @@ $(document).ready(function() {
     $("#frmEmpJobDetails").validate({
         rules: {
             'job[terminated_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
+            'job[termination_reason]': { maxlength: 256 },
             'job[joined_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
             'job[contract_start_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} },validFromDate2:true },
             'job[contract_end_date]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } }
         },
         messages: {
             'job[terminated_date]': { valid_date: lang_invalidDate },
+            'job[termination_reason]': { maxlength: lang_max_char_terminated_reason },
             'job[joined_date]': { valid_date: lang_invalidDate },
             'job[contract_start_date]': { valid_date: lang_invalidDate ,validFromDate2: lang_startDateAfterEndDate},
             'job[contract_end_date]': { valid_date: lang_invalidDate }
@@ -300,13 +304,13 @@ $(document).ready(function() {
     var jobValidator =
         $("#frmEmpJobDetails").validate({
         rules: {
-            'job[job_title]': {required: false},
+            'job[job_title]': {required: false},           
             'job[joined_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
             'job[contract_start_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate2:true},
             'job[contract_end_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}}
         },
         messages: {
-            'job[joined_date]': {valid_date: lang_invalidDate},
+            'job[joined_date]': {valid_date: lang_invalidDate},            
             'job[contract_start_date]': {valid_date: lang_invalidDate, validFromDate2: lang_startDateAfterEndDate},
             'job[contract_end_date]': {valid_date: lang_invalidDate}
         },

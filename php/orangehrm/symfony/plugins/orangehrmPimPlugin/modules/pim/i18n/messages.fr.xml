@@ -984,6 +984,10 @@
                 <source>Terminated Reason</source>
                 <target>FR_Terminated Reason</target>
             </trans-unit>
+            <trans-unit id="245">
+                <source>Maximum character limit for terminated reason is 256</source>
+                <target>FR_Maximum character limit for terminated reason is 256</target>
+            </trans-unit>
 			</body>
     </file>
 </xliff>
