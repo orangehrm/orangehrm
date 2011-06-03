@@ -336,8 +336,8 @@ EmpPassport:
     ep_i9_status as i9_status:
       type: string(100)
       default: ''
-    ep_passportissueddate as passport_issue_date: date(25)
-    ep_passportexpiredate as passport_expire_date: date(25)
+    ep_passportissueddate as passport_issue_date: timestamp
+    ep_passportexpiredate as passport_expire_date: timestamp
     ep_comments as comments: string(255)
     ep_passport_type_flg as type_flag : integer(2)
     ep_i9_review_date as i9_review_date: date(25)
