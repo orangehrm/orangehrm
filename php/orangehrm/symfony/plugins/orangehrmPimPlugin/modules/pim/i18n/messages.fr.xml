@@ -885,8 +885,8 @@
                 <target>FR_Enter a valid number</target>
             </trans-unit>
 			<trans-unit id="221">
-                <source>Custom Fields</source>
-                <target>FR_Custom Fields</target>
+                <source>Defined Custom Fields</source>
+                <target>FR_Defined Custom Fields</target>
             </trans-unit>
 			<trans-unit id="222">
                 <source>Custom Field Name</source>
@@ -937,12 +937,12 @@
                 <target>FR_Custom Field Successfully Updated</target>
             </trans-unit>
 			<trans-unit id="234">
-                <source>Custom fields left.</source>
-                <target>FR_Custom fields left.</target>
+                <source>Custom fields left</source>
+                <target>FR_Custom fields left</target>
             </trans-unit>
 			<trans-unit id="235">
-                <source>1 Custom field left.</source>
-                <target>FR_1 Custom field left.</target>
+                <source>1 Custom field left</source>
+                <target>FR_1 Custom field left</target>
             </trans-unit>
 			<trans-unit id="236">
                 <source>All customs fields are in use</source>

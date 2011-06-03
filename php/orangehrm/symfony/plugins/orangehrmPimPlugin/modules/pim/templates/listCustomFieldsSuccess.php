@@ -21,7 +21,7 @@ if (isset($messageType)) {
     <?php echo isset($message) ? $message : ''; ?>
 </div>   
 
-<div id="customFieldAddPane" style="display:none;" >
+<div id="customFieldAddPane" style="display: none;">
   <div class="outerbox">
     <div class="mainHeading"><h2 id="heading"><?php echo __('Add Custom Field'); ?></h2></div>
     <form name="frmCustomField" id="frmCustomField" method="post" action="<?php echo url_for('pim/defineCustomField'); ?>">
@@ -29,6 +29,7 @@ if (isset($messageType)) {
     <?php echo $form['_csrf_token']; ?>
     <?php echo $form["field_num"]->render(); ?>
 
+    <br class="clear"/>
     <?php echo $form['name']->renderLabel(__('Field Name') . ' <span class="required">*</span>'); ?>
     <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 250)); ?>
     <br class="clear"/>
@@ -48,8 +49,8 @@ if (isset($messageType)) {
         <?php echo $form['extra_data']->renderLabel(__('Select Options') . ' <span class="required">*</span>'); ?>
         <?php echo $form['extra_data']->render(array("class" => "formInputText")); ?>
         <div class="fieldHint"><?php echo __("Enter allowed options separated by commas");?></div>
+        <br class="clear"/>
     </div>
-    <br class="clear"/>
                         
     <div class="formbuttons">
         <input type="button" class="savebutton" name="btnSave" id="btnSave"
@@ -62,16 +63,19 @@ if (isset($messageType)) {
     </form>
   </div>
   <div class="requiredNote"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>    
-</div>
+
+<br class="clear"/>
+
+</div> <!-- End of customFieldAddPane -->
 
 
-<div class="outerbox">
+<div class="outerbox" id="customFieldListPane">
     <form name="standardView" id="standardView" method="post" action="<?php echo url_for('pim/deleteCustomFields') ?>">
         <?php echo $deleteForm['_csrf_token']; ?>
         <input type="hidden" name="mode" id="mode" value=""></input>    
     <div class="maincontent">       
         
-        <div class="mainHeading"><h2><?php echo __("Custom Fields") ?></h2></div>
+        <div class="mainHeading"><h2><?php echo __("Defined Custom Fields") ?></h2></div>
 
         <div class="actionbar" id="listActions">
             <div class="actionbuttons">
@@ -83,9 +87,9 @@ if (isset($messageType)) {
     if ($fieldsLeft == 0) {
         $fieldsLeftMsg = __("All customs fields are in use");
     } else if ($fieldsLeft == 1) {
-        $fieldsLeftMsg = __("1 Custom field left.");
+        $fieldsLeftMsg = __("1 Custom field left");
     } else if ($fieldsLeft > 1) {
-        $fieldsLeftMsg = $fieldsLeft . ' ' . __("Custom fields left.");
+        $fieldsLeftMsg = $fieldsLeft . ' ' . __("Custom fields left");
     }
 ?>
 <?php if ($fieldsLeft > 0 ) { ?>                
@@ -166,10 +170,10 @@ if (isset($messageType)) {
                     <?php } ?>
                 </tbody>
             </table>
-    </div>
+    </div> <!-- End of maincontent -->
         </form>        
-</div>
-    
+</div> <!-- End of outerbox -->
+
 <div id="deleteConfirmation" title="OrangeHRM - Confirmation Required" style="display: none;">
     <span id="deleteConfirmMsg">Are you sure you want to delete selected custom field(s)?</span>
     <div class="dialogButtons">
@@ -178,11 +182,25 @@ if (isset($messageType)) {
     </div>
 </div>
 
-<div>
+</div> <!-- End of customFieldsOuter -->
     
 <script type="text/javascript">
 
     $(document).ready(function() {
+
+        /* Handling loading view */
+
+        var fieldsInUse = <?php echo count($listCustomField); ?>;
+
+        if (fieldsInUse == 0) {
+            $('#customFieldAddPane').css('display', 'block');
+            $('#customFieldListPane').css('display', 'none');
+        } else {
+            $('#customFieldAddPane').css('display', 'none');
+            //$('#customFieldListPane').css('display', 'block');
+        }
+
+
         
         hideextra();
 
@@ -310,13 +328,6 @@ if (isset($messageType)) {
     
     $('#customField_type').change(function() {
         hideextra();        
-        formValidator.element('#customField_type');
-        
-        var alreadyValidated = $("div.error").length;
-        
-        if ((alreadyValidated > 0) || ($('#customField_type').val() !=  <?php echo CustomFields::FIELD_TYPE_SELECT;?>) ) {
-            formValidator.element('#customField_extra_data');
-        }
     });    
     
     function clearAddForm() {
@@ -348,6 +359,11 @@ if (isset($messageType)) {
         addEditLinks();
         $('div#messagebar').text('').attr('class', '');            
         $(".paddingLeftRequired").hide();
+
+        $('div.error').each(function(){
+            $(this).hide();
+        });
+
     });
 
     // Add a emergency contact

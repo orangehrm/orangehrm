@@ -59,6 +59,7 @@ div#actionbar {
 
 div.requiredNote {
     margin-left: 15px;
+    margin-top: 5px;
 }
 
 form#frmCustomField label {
@@ -73,4 +74,13 @@ form#frmCustomField div.error {
 div.fieldHint {
     margin-top: 5px;
     padding-top: 1px;
+}
+
+form#frmCustomField input[type=text] {
+    width: 320px;
+}
+
+form#frmCustomField select {
+    width: 330px;
+    font-size: 12px;
 }
