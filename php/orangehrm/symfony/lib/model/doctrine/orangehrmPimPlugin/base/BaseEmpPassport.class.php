@@ -9,8 +9,8 @@
  * @property decimal $seqno
  * @property string $number
  * @property string $i9_status
- * @property timestamp $passport_issue_date
- * @property timestamp $passport_expire_date
+ * @property date $passport_issue_date
+ * @property date $passport_expire_date
  * @property string $comments
  * @property integer $type_flag
  * @property date $i9_review_date
@@ -21,8 +21,8 @@
  * @method decimal     getSeqno()                Returns the current record's "seqno" value
  * @method string      getNumber()               Returns the current record's "number" value
  * @method string      getI9Status()             Returns the current record's "i9_status" value
- * @method timestamp   getPassportIssueDate()    Returns the current record's "passport_issue_date" value
- * @method timestamp   getPassportExpireDate()   Returns the current record's "passport_expire_date" value
+ * @method date        getPassportIssueDate()    Returns the current record's "passport_issue_date" value
+ * @method date        getPassportExpireDate()   Returns the current record's "passport_expire_date" value
  * @method string      getComments()             Returns the current record's "comments" value
  * @method integer     getTypeFlag()             Returns the current record's "type_flag" value
  * @method date        getI9ReviewDate()         Returns the current record's "i9_review_date" value
@@ -71,12 +71,12 @@ abstract class BaseEmpPassport extends sfDoctrineRecord
              'default' => '',
              'length' => 100,
              ));
-        $this->hasColumn('ep_passportissueddate as passport_issue_date', 'timestamp', 25, array(
-             'type' => 'timestamp',
+        $this->hasColumn('ep_passportissueddate as passport_issue_date', 'date', 25, array(
+             'type' => 'date',
              'length' => 25,
              ));
-        $this->hasColumn('ep_passportexpiredate as passport_expire_date', 'timestamp', 25, array(
-             'type' => 'timestamp',
+        $this->hasColumn('ep_passportexpiredate as passport_expire_date', 'date', 25, array(
+             'type' => 'date',
              'length' => 25,
              ));
         $this->hasColumn('ep_comments as comments', 'string', 255, array(
