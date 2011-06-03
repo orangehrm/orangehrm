@@ -385,7 +385,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#salary_set_direct_debit").change(function() {
+    $("#salary_set_direct_debit").click(function() {
                
         if ($(this).attr('checked')) {
             $('#directDebitSection').show();
@@ -395,7 +395,7 @@ $(document).ready(function() {
         
     });
     
-    $("input.displayDirectDeposit").change(function() {
+    $("input.displayDirectDeposit").click(function() {
 
         // find row with direct deposit details
         var directDepositRow = $(this).closest("tr").next();
