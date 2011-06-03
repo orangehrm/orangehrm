@@ -67,9 +67,42 @@
             <?php echo $form['comments']->renderLabel(__('Comments')); ?>
             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
+                        
+            <?php echo $form['set_direct_debit']->render(); ?>
+            <?php echo $form['set_direct_debit']->renderLabel(__('Add Direct Deposit Details'), 
+                                                      array('id'=>'set_direct_debit_label')); ?>            
             
-            <?php echo $form['set_direct_debit']->renderLabel(__('Add Direct Deposit Details')); ?>
-            <?php echo $form['set_direct_debit']->render(array("class" => "formCheckbox")); ?>
+            <br class="clear"/>
+            
+            <div id="directDebitSection">
+                <?php echo $directDepositForm['_csrf_token']; ?>
+                <?php echo $directDepositForm['id']->render();?>
+                
+                <?php echo $directDepositForm['account']->renderLabel(__('Account Number')); ?>
+                <?php echo $directDepositForm['account']->render(array("class" => "formInputText", "maxlength" => 100)); ?>                
+                
+                <br class="clear"/>
+                
+                <?php echo $directDepositForm['account_type']->renderLabel(__('Account Type')); ?>
+                <?php echo $directDepositForm['account_type']->render(array("class" => "formSelect")); ?>                
+
+                <br class="clear"/>
+                
+                <div id="accountTypeOther">                
+                    <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify')); ?>
+                    <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText")); ?>                
+
+                    <br class="clear"/>
+                </div>
+                
+                <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number')); ?>
+                <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText")); ?>                
+                
+                <br class="clear"/>
+                
+                <?php echo $directDepositForm['amount']->renderLabel(__('Amount')); ?>
+                <?php echo $directDepositForm['amount']->render(array("class" => "formInputText")); ?>                  
+            </div>
             
             <br class="clear"/>
 
@@ -124,6 +157,21 @@
                         $amount = $salary->getBasicSalary();
                         $comments = htmlspecialchars($salary->getComments());
                         $salaryGrade = $salary->getSalGrdCode();
+                        
+                        $directDeposit = $salary->getDirectDebit();
+                        $hasDirectDeposit = !empty($directDeposit->id);
+                        
+                        $accountType = $directDeposit->account_type;
+                        $otherType = "";
+                        
+                        if ($hasDirectDeposit) {
+                            if (($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_SAVINGS) &&
+                                    ($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_CHECKING)) {
+                                $accountType = EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER;
+                                $otherType = $directDeposit->account_type;
+                            }
+                        }
+                        
                         ?>
                     <tr class="<?php echo $cssClass;?>">
                 <td class="check"><input type="hidden" id="code_<?php echo $salary->id;?>" value="<?php echo $salary->id; ?>" />
@@ -134,13 +182,55 @@
                 <td class="currency"><?php echo $currencyName;?></td>
                 <td class="amount"><?php echo $amount;?></td>
                 <td class="comments"><?php echo $comments;?></td>
-                <td><input type="checkbox" class="chkbox" value="<?php echo $salary->id; ?>"/>
+                <td>
+                    <?php if ($hasDirectDeposit) { ?>
+                        <input type="checkbox" class="chkbox displayDirectDeposit" value="<?php echo $salary->id; ?>"/>
+                        <input type="hidden" id="dd_id_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($directDeposit->id); ?>" />
+                        <input type="hidden" id="dd_account_type_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($accountType); ?>" />
+                        <input type="hidden" id="dd_other_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($otherType); ?>" />
+                        <input type="hidden" id="dd_account_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($directDeposit->account); ?>" />
+                        <input type="hidden" id="dd_routing_num_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($directDeposit->routing_num); ?>" />
+                        <input type="hidden" id="dd_amount_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($directDeposit->amount); ?>" />
+                        
+                    <?php } ?>
                 
                 <input type="hidden" id="sal_grd_code_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($salaryGrade); ?>" />
                 <input type="hidden" id="currency_id_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($currencyId); ?>" />                
                 <input type="hidden" id="payperiod_code_<?php echo $salary->id;?>" value="<?php echo htmlspecialchars($payPeriodCode); ?>" />
+                <input type="hidden" id="have_dd_<?php echo $salary->id;?>" value="<?php echo $hasDirectDeposit ? "1":"0" ?>" />
+
+                
                 </td>
                 </tr>
+                <?php if ($hasDirectDeposit) { ?>
+                <tr class="directDepositRow" style="display:none;">
+                    <td colspan="7" class="<?php echo $cssClass;?>" >
+                        <span class="directDepositHeading"><?php echo __("Direct Deposit Details");?></span>
+                        
+                        <table cellspacing="0" cellpadding="0" border="0" class="directDepositTable" width="80%">
+                            <thead>
+                                <td><?php echo __("Account Number");?></td>
+                                <td><?php echo __("Account Type");?></td>
+                                <td><?php echo __("Routing Number");?></td>
+                                <td><?php echo __("Amount");?></td>
+                            </thead>
+                            <tbody>
+                                <td><?php echo $directDeposit->account;?></td>
+                                <td><?php echo $directDeposit->account_type;?></td>
+                                <td><?php echo $directDeposit->routing_num;?></td>
+                                <td><?php echo $directDeposit->amount;?></td>
+                            </tbody>
+                        <?php 
+                        //;
+                        //if (isset($x)) {var_dump($x->toArray());}
+
+                           
+                        //    echo $salary->EmpDirectdebit->account;
+                        //}?>
+                        </table>
+                    </td>
+                </tr>
+                <?php } ?>
                     <?php $row++;
                 }?>
                 </tbody>
@@ -256,6 +346,15 @@ function updateCurrencyList(payGrade, currencyId, currencyName) {
 
     })    
 }
+
+function clearDirectDepositFields() {
+    $("#salary_set_direct_debit").removeAttr('checked');
+    $("#directdeposit_id").val('');
+    $("#directdeposit_account").val('');
+    $("#directdeposit_account_type").val('');
+    $("#directdeposit_routing_num").val('');
+    $("#directdeposit_amount").val('');
+}
     
 $(document).ready(function() {
 
@@ -286,6 +385,36 @@ $(document).ready(function() {
         }
     });
 
+    $("#salary_set_direct_debit").change(function() {
+               
+        if ($(this).attr('checked')) {
+            $('#directDebitSection').show();
+        } else {
+            $('#directDebitSection').hide();
+        }
+        
+    });
+    
+    $("input.displayDirectDeposit").change(function() {
+
+        // find row with direct deposit details
+        var directDepositRow = $(this).closest("tr").next();
+        
+        if ($(this).attr('checked')) {
+            directDepositRow.show();
+        } else {
+            directDepositRow.hide();
+        }
+    });
+    
+    $("#directdeposit_account_type").change(function() {
+        if ($(this).val() == '<?php echo EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER;?>') {
+            $('#accountTypeOther').show();
+        } else {
+            $('#accountTypeOther').hide();            
+        }        
+    });
+    
     $("#addSalary").click(function() {
 
         removeEditLinks();
@@ -316,6 +445,12 @@ $(document).ready(function() {
         //show add form
         $("#changeSalary").show();
         $("#salaryRequiredNote").show();
+        
+        // hide direct deposit section
+        $('#directDebitSection').hide();
+        clearDirectDepositFields();
+        $("#salary_set_direct_debit").removeAttr('checked');
+        
     });
 
     //clicking of delete button
@@ -386,7 +521,7 @@ $(document).ready(function() {
         removeEditLinks();
         $('div#tblSalary table tbody td.component').wrapInner('<a class="edit" href="#"/>');
     }
-
+$('#accountTypeOther').hide();
     function removeEditLinks() {
         $('div#tblSalary table tbody td.component a').each(function(index) {
             $(this).parent().text($(this).text());
@@ -414,6 +549,7 @@ $(document).ready(function() {
         
         // remove any options already in use
         $("#salary_code option[class='added']").remove();
+        clearDirectDepositFields();
         $('#static_salary_code').hide().val("");
 
     });
@@ -457,6 +593,35 @@ $(document).ready(function() {
         var comments =  $(this).closest("tr").find('td.comments').text();
         $("#salary_comments").val(comments);
                 
+        // Direct Deposit
+        
+        var haveDirectDeposit = $("#have_dd_" + id).val() == "1";
+
+        if (haveDirectDeposit) {
+            $("#salary_set_direct_debit").attr('checked', 'checked');
+            $("#directdeposit_id").val($("#dd_id_" + id).val());
+            $("#directdeposit_account").val($("#dd_account_" + id).val());
+            $("#directdeposit_account_type").val($("#dd_account_type_" + id).val());
+            $("#directdeposit_account_type_other").val($("#dd_other_" + id).val());
+            $("#directdeposit_routing_num").val($("#dd_routing_num_" + id).val());
+            $("#directdeposit_amount").val($("#dd_amount_" + id).val());
+            $('#directDebitSection').show();
+            
+            
+            if ($("#directdeposit_account_type_other").val() == '') {
+                $('#accountTypeOther').hide();
+            } else {
+                $('#accountTypeOther').show();
+            }
+            
+        } else {
+            $("#salary_set_direct_debit").removeAttr('checked');
+            $('#directDebitSection').hide();
+            clearDirectDepositFields();
+        }
+        
+        $("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
+        
         updateCurrencyList(salGrdCode, currencyId, currencyName);      
 
         $("#salaryRequiredNote").show();

@@ -58,6 +58,9 @@ class viewSalaryListAction extends basePimAction {
                        'loggedInUserName' => $loggedInUserName);
         
         $this->form = new EmployeeSalaryForm(array(), $params, true);
+        
+        // TODO: Use embedForm or mergeForm?
+        $this->directDepositForm = new EmployeeDirectDepositForm(array(), array(), true);
 
         if ($this->getRequest()->isMethod('post')) {
 
@@ -66,10 +69,40 @@ class viewSalaryListAction extends basePimAction {
 
             if ($this->form->isValid()) {
 
-                $service = $this->getEmployeeService();
-                $service->saveEmpBasicsalary($this->form->getSalary());                
+                $salary = $this->form->getSalary();
                 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Salary Details Updated Successfully')));  
+                $setDirectDebit = $this->form->getValue('set_direct_debit');
+                $directDebitOk = true;
+                
+                if (!empty($setDirectDebit)) {
+
+                    $this->directDepositForm->bind($request->getParameter($this->directDepositForm->getName()));
+                    
+                    if ($this->directDepositForm->isValid()) {
+                        $this->directDepositForm->getDirectDeposit($salary);
+                    } else {
+                        
+                        $validationMsg = '';
+                        foreach($this->directDepositForm->getWidgetSchema()->getPositions() as $widgetName) {
+                            if($this->directDepositForm[$widgetName]->hasError()) {
+                                $validationMsg .= __($this->directDepositForm[$widgetName]->getError()->getMessageFormat());
+                            }
+                        }
+
+                        $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));                        
+                        $directDebitOk = false;
+                    }
+                } else {
+                    $salary->directDebit->delete();
+                    $salary->clearRelated('directDebit');
+                }
+                
+                if ($directDebitOk) {
+                    $service = $this->getEmployeeService();
+                    $service->saveEmpBasicsalary($salary);                
+                
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Salary Details Updated Successfully')));  
+                }
             } else {
                 $validationMsg = '';
                 foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
