@@ -280,7 +280,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 
                 </div>
 
-
+        <input type="hidden" id="currentPage" value ="<?php echo isset($page)?$page:''?>" name="currentPage"/>
 		<input type="hidden" name="hdnMode" value="<?php echo $mode; ?>" />
 
 	</form>

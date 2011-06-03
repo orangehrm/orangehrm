@@ -673,10 +673,14 @@ class leaveActions extends sfActions {
             $url = "leave/viewLeaveList";
         }
 
-        if(trim($request->getParameter("id")) != "") {
-               $url = $url . "?id=" . $request->getParameter("id");
-        }
+        $page = $request->getParameter("currentPage");
         
+        if(trim($request->getParameter("id")) != "") {
+            $url = $url . "?id=" . $request->getParameter("id") . "&page=" . $page;
+        }else {
+            $url = $url . "?page=" . $page;
+        }
+ 
         $this->redirect($url);
     }
 

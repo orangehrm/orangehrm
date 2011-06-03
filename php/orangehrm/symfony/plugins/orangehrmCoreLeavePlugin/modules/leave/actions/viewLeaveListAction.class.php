@@ -156,6 +156,7 @@ class viewLeaveListAction extends sfAction {
         $this->messageType = $messageType;
         $this->baseUrl = 'leave/viewLeaveList';
         $this->pagingUrl = '@leave_request_list';
+        $this->page = $page;
     }
 
     protected function getLeaveListForm($mode, $leavePeriod, $employee, $request, $loggedInUserId, $leaveRequest) {
