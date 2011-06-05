@@ -173,7 +173,7 @@ $allowEdit = true;
                             </td>
                          
 
-                            <td valign="top" width="40">
+                            <td valign="top" width="5">
                             </td>
 
                             <td valign="top" >
