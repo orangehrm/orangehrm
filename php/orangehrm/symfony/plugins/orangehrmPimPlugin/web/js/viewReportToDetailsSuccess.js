@@ -92,7 +92,7 @@ $(document).ready(function() {
     // Add a supervisor 
     $('#btnAddSupervisorDetail').click(function() {
 
-
+        $("#reportto_previousRecord").val("");
         $('#reportto_type_flag_1').attr('checked', 'checked');
         $("#reportToHeading").text(addSupervisor);
         $('.radio_list').hide();
@@ -112,6 +112,7 @@ $(document).ready(function() {
     // Add a subordinate
     $('#btnAddSubordinateDetail').click(function() {
 
+        $("#reportto_previousRecord").val("");
         $('#reportto_type_flag_2').attr('checked', 'checked');
         $("#reportToHeading").text(addSubordinate);
         $('.radio_list').hide();
