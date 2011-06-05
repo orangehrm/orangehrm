@@ -51,18 +51,6 @@ span#static_license_code {
     max-width: 310px;
 }
 
-div#changeWorkExperience,
-div#changeSalary,
-div#changeLanguage,
-div#changeSkill,
-div#changeLicense,
-div#workExpRequiredNote,
-div#salaryRequiredNote,
-div#languageRequiredNote,
-div#skillRequiredNote,
-div#LicenseRequiredNote {
-    display:none;
-}
 div#tblSalary td.directDepositCheck {
     width: 100px;
     padding: 2px 1px;

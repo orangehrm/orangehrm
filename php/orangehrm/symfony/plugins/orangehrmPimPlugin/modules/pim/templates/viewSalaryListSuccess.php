@@ -33,7 +33,7 @@
                                 <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
                             </div>                            
                             
-    <div id="changeSalary" class="outerbox" style="width:500px;">
+    <div id="changeSalary" class="outerbox" style="width:750px;">
         <div class="mainHeading"><h2 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h2></div>
         <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post">
 
@@ -90,31 +90,34 @@
                 
                 <div id="accountTypeOther">                
                     <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify')); ?>
-                    <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText")); ?>                
+                    <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText", "maxlength" => 20)); ?>                
 
                     <br class="clear"/>
                 </div>
                 
                 <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number')); ?>
-                <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText")); ?>                
+                <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 20)); ?>                
                 
                 <br class="clear"/>
                 
                 <?php echo $directDepositForm['amount']->renderLabel(__('Amount')); ?>
-                <?php echo $directDepositForm['amount']->render(array("class" => "formInputText")); ?>                  
+                <?php echo $directDepositForm['amount']->render(array("class" => "formInputText")); ?>    
+                <br class="clear"/>
             </div>
             
             <br class="clear"/>
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnSalarySave" value="<?php echo __("Save"); ?>" />
+<?php if (count($salaryList) > 0) { ?>                
                 <input type="button" class="savebutton" id="btnSalaryCancel" value="<?php echo __("Cancel"); ?>" />
+<?php } ?>                
             </div>
         </form>
     </div>                                
     <div class="smallText" id="salaryRequiredNote"><?php echo __('Fields marked with an asterisk')?>
         <span class="required">*</span> <?php echo __('are required.')?></div>
-
+ <?php if (count($salaryList) > 0) { ?>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo __('Assigned Salary Components'); ?></h2></div>
     
@@ -238,7 +241,7 @@
         </div>
     </form>
                             </div>
-
+<?php } ?>                
                             </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'salary'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'salary'));?>
@@ -267,6 +270,19 @@
     var lang_commentsLength = "<?php echo __("Comments cannot exceed 255 characters in length") ?>";
     var lang_componentLength = "<?php echo __('Component cannot exceed 100 characters in length');?>";
     var lang_selectSalaryToDelete = "<?php echo __('Please Select At Least One Salary Component To Delete');?>";
+    var lang_accountRequired = "<?php echo __('Account Number is required');?>";
+    var lang_accountMaxLength = "<?php echo __('Account cannot exceed 100 characters in length');?>";    
+    var lang_accountTypeRequired = "<?php echo __('Account Type is required');?>";
+    var lang_routingNumRequired = "<?php echo __('Routing Number is required');?>";
+    var lang_routingNumInteger = "<?php echo __('Routing Number should only contain digits');?>";    
+    var lang_depositAmountRequired=  "<?php echo __('Amount is required');?>";
+    var lang_depositAmountShouldBeNumber = "<?php echo __('Amount should be a number');?>";    
+    var lang_otherRequired = "<?php echo __('Please specify other account type');?>";
+    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length');?>";
+    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length');?>";
+
+    
+    
     //]]>
 </script>
 
@@ -359,9 +375,11 @@ function clearDirectDepositFields() {
 $(document).ready(function() {
 
     //hide add section
+    <?php if (count($salaryList) > 0) { ?>
     $("#changeSalary").hide();
     $("#salaryRequiredNote").hide();
-
+    <?php } ?>
+    
     //hiding the data table if records are not available
     if($("div#tblSalary table.data-table .chkbox").length == 0) {
         $("#tblSalary").hide();
@@ -498,14 +516,33 @@ $(document).ready(function() {
             'salary[currency_id]': {required: true},
             'salary[salary_component]': {required: true, maxlength: 100},
             'salary[comments]': {required: false, maxlength: 255},
-            'salary[basic_salary]': {number:true, validateAmount:true, required: true}
+            'salary[basic_salary]': {number:true, validateAmount:true, required: true},
+            'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
+            'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
+            'directdeposit[account_type_other]': {required: function(element) {
+                    if ( $('#salary_set_direct_debit:checked').length && 
+                            $('#directdeposit_account_type').val() == "OTHER" ) {                         
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }, 
+                maxlength:20},
+            'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
+            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true}
         },
         messages: {
             'salary[sal_grd_code]': {required: lang_payPeriodRequired},
             'salary[currency_id]': {required: lang_currencyRequired},
             'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
             'salary[comments]': {maxlength: lang_commentsLength},
-            'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired}
+            'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired},
+            'directdeposit[account]': {required: lang_accountRequired, maxlength: lang_accountMaxLength},
+            'directdeposit[account_type]': {required: lang_accountTypeRequired},
+            'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
+            'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
+            'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber}
+            
         },
 
         errorElement : 'div',
