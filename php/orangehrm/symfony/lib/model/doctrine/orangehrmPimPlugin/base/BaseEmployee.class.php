@@ -74,13 +74,13 @@
  * @property Doctrine_Collection $EmpLocationHistory
  * @property Doctrine_Collection $EmpSubdivisionHistory
  * @property Doctrine_Collection $EmpUsTaxExemption
+ * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $EmpChildren
  * @property Doctrine_Collection $ReportTo
  * @property JobCategory $JobCategory
  * @property Doctrine_Collection $EmployeeLicense
- * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Nationality $Nationality
  * @property EthnicRace $EthnicRace
  * @property Doctrine_Collection $ProjectAdmin
@@ -158,13 +158,13 @@
  * @method Doctrine_Collection getEmpLocationHistory()       Returns the current record's "EmpLocationHistory" collection
  * @method Doctrine_Collection getEmpSubdivisionHistory()    Returns the current record's "EmpSubdivisionHistory" collection
  * @method Doctrine_Collection getEmpUsTaxExemption()        Returns the current record's "EmpUsTaxExemption" collection
+ * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
- * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method EthnicRace          getEthnicRace()               Returns the current record's "EthnicRace" value
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "ProjectAdmin" collection
@@ -241,13 +241,13 @@
  * @method Employee            setEmpLocationHistory()       Sets the current record's "EmpLocationHistory" collection
  * @method Employee            setEmpSubdivisionHistory()    Sets the current record's "EmpSubdivisionHistory" collection
  * @method Employee            setEmpUsTaxExemption()        Sets the current record's "EmpUsTaxExemption" collection
+ * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
- * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setEthnicRace()               Sets the current record's "EthnicRace" value
  * @method Employee            setProjectAdmin()             Sets the current record's "ProjectAdmin" collection
@@ -570,6 +570,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 
+        $this->hasMany('EmployeeMemberDetail', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
+
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',
              'foreign' => 'employee_id'));
@@ -591,10 +595,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'eec_code'));
 
         $this->hasMany('EmployeeLicense', array(
-             'local' => 'empNumber',
-             'foreign' => 'empNumber'));
-
-        $this->hasMany('EmployeeMemberDetail', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 

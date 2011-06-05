@@ -529,4 +529,51 @@ EmpDirectdebit:
       local: salary_id
       foreign: id
       type: one
-      onDelete: Cascade 
+      onDelete: Cascade
+
+EmployeeMemberDetail:
+  tableName: hs_hr_emp_member_detail
+  columns:
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(4)
+      primary: true
+    membship_code:
+      name: membship_code as membershipCode
+      type: string(13)
+      primary: true
+    membtype_code:
+      name: membtype_code as membershipTypeCode
+      type: string(13)
+      primary: true
+    ememb_subscript_amount:
+      name: ememb_subscript_amount as subscriptionAmount
+      type: decimal(15)
+      scale: false
+    ememb_subscript_ownership:
+      name: ememb_subscript_ownership as subscriptionPaidBy
+      type: string(30)
+      default: ''
+    ememb_subs_currency:
+      name: ememb_subs_currency as subscriptionCurrency
+      type: string(13)
+      default: ''
+    ememb_commence_date:
+      name: ememb_commence_date as subscriptionCommenceDate
+      type: date(25)
+    ememb_renewal_date:
+      name: ememb_renewal_date as subscriptionRenewalDate
+      type: date(25)
+  relations:
+    MembershipType:
+      local: membershipTypeCode
+      foreign: membershipTypeCode
+      type: one
+    Membership:
+      local: membershipCode
+      foreign: membershipCode
+      type: one
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
