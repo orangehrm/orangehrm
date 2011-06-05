@@ -232,52 +232,6 @@ JobTitle:
       foreign: job_title_code
       type: many
       
-ReportTo:
-  tableName: hs_hr_emp_reportto
-  columns:
-    erep_sup_emp_number:
-      name: erep_sup_emp_number as supervisorId
-      type: integer(4)
-      primary: true
-    erep_sub_emp_number:
-      name: erep_sub_emp_number as subordinateId
-      type: integer(4)
-      primary: true
-    erep_reporting_mode:
-      name: erep_reporting_mode as reportingMode
-      type: integer(4)
-      primary: true
-  relations:
-    supervisor:
-      class: Employee
-      local: erep_sup_emp_number
-      foreign: emp_number
-      type: one
-    subordinate:
-      class: Employee
-      local: erep_sub_emp_number
-      foreign: emp_number
-      type: one
-    ReportMode:
-      local: reportingMode
-      foreign: reportModeId
-
-ReportMode:
-  tableName: hs_hr_emp_reporting_method
-  columns:
-    rep_mode_id:
-      name: rep_mode_id as reportModeId
-      type: integer(4)
-      primary: true
-    rep_mode_name:
-      name: rep_mode_name as reportModeName
-      type: string(100)
-      primary: true
-  relations:
-    ReportTo:
-      local: reportModeId
-      foreign: reportingMode
-      
 CompanyGeninfo:
   tableName: hs_hr_geninfo
   columns:

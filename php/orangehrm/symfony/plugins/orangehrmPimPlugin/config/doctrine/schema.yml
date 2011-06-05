@@ -577,3 +577,49 @@ EmployeeMemberDetail:
       local: empNumber
       foreign: empNumber
       type: one
+
+ReportTo:
+  tableName: hs_hr_emp_reportto
+  columns:
+    erep_sup_emp_number:
+      name: erep_sup_emp_number as supervisorId
+      type: integer(4)
+      primary: true
+    erep_sub_emp_number:
+      name: erep_sub_emp_number as subordinateId
+      type: integer(4)
+      primary: true
+    erep_reporting_mode:
+      name: erep_reporting_mode as reportingMethodId
+      type: integer(4)
+      primary: true
+  relations:
+    supervisor:
+      class: Employee
+      local: erep_sup_emp_number
+      foreign: emp_number
+      type: one
+    subordinate:
+      class: Employee
+      local: erep_sub_emp_number
+      foreign: emp_number
+      type: one
+    ReportingMethod:
+      local: reportingMethodId
+      foreign: reportingMethodId
+
+ReportingMethod:
+  tableName: ohrm_emp_reporting_method
+  columns:
+    rep_mode_id:
+      name: reporting_method_id as reportingMethodId
+      type: integer(4)
+      primary: true
+    rep_mode_name:
+      name: reporting_method_name as reportingMethodName
+      type: string(100)
+      primary: true
+  relations:
+    ReportTo:
+      local: reportingMethodId
+      foreign: reportingMethod

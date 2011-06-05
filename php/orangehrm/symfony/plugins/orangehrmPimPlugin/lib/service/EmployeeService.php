@@ -933,39 +933,39 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Report Mode
-     * @param ReportMode $reportMode
-     * @returns ReportMode $reportMode
+     * Save Reporting Method
+     * @param ReportingMethod $reportingMethod
+     * @returns ReportingMethod $reportingMethod
      * @throws PIMServiceException
      */
-    public function saveReportMode(ReportMode $reportMode) {
+    public function saveReportingMethod(ReportingMethod $reportingMethod) {
         try {
-            return $this->employeeDao->saveReportMode($reportMode);
+            return $this->employeeDao->saveReportingMethod($reportingMethod);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
 
     /**
-     * Get Report Mode for a given report mode id
-     * @param int $reportModeId
-     * @return ReportMode doctrine object
+     * Get Reporting Method for a given reporting method id
+     * @param int $reportingMethodId
+     * @return ReportingMethod doctrine object
      */
-    public function getReportMode($reportModeId) {
+    public function getReportingMethod($reportingMethodId) {
         try {
-            return $this->employeeDao->getReportMode($reportModeId);
+            return $this->employeeDao->getReportingMethod($reportingMethodId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
 
     /**
-     * Get Report Mode List
-     * @return ReportMode doctrine Collection
+     * Get Reporting Method List
+     * @return ReportingMethod doctrine Collection
      */
-    public function getReportModeList() {
+    public function getReportingMethodList() {
         try {
-            return $this->employeeDao->getReportModeList();
+            return $this->employeeDao->getReportingMethodList();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1001,13 +1001,13 @@ class EmployeeService extends BaseService {
 
     /**
      * Get report to details object
-     * @param int $supNumber $subNumber $reportMode
+     * @param int $supNumber $subNumber $reportingMethod
      * @return ReportTo object
      */
-    public function getReportToObject($supNumber, $subNumber, $reportMode) {
+    public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
 
         try {
-            return $this->employeeDao->getReportToObject($supNumber, $subNumber, $reportMode);
+            return $this->employeeDao->getReportToObject($supNumber, $subNumber, $reportingMethod);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1019,7 +1019,7 @@ class EmployeeService extends BaseService {
      * @return boolean
      */
     public function deleteReportToObject($supOrSubListToDelete) {
-        print_r($supOrSubListToDelete);
+
         try {
             foreach ($supOrSubListToDelete as $supOrSubToDelete) {
 
@@ -1027,9 +1027,9 @@ class EmployeeService extends BaseService {
 
                 $supNumber = $tempArray[0];
                 $subNumber = $tempArray[1];
-                $reportMode = $tempArray[2];
+                $reportingMethod = $tempArray[2];
 
-                $state = $this->employeeDao->deleteReportToObject($supNumber, $subNumber, $reportMode);
+                $state = $this->employeeDao->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
             }
             return $state;
         } catch (Exception $e) {

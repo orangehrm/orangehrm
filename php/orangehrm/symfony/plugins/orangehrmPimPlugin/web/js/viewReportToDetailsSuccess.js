@@ -15,7 +15,7 @@ $(document).ready(function() {
         .addClass("inputFormatHint");
     }
 
-    $('#reportto_reportingModeType').change(function() {
+    $('#reportto_reportingMethodType').change(function() {
         hideShowReportingMethodOther();
     });
 
@@ -184,7 +184,7 @@ $(document).ready(function() {
 
         $('#name').text(name);
         $('#name').show();
-        $('#reportto_reportingModeType').val(reportingMethodType);
+        $('#reportto_reportingMethodType').val(reportingMethodType);
 
         $(".paddingLeftRequired").show();
         $("#reportToHeading").text(editSupervisor);
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
         $('#name').text(name1);
         $('#name').show();
-        $('#reportto_reportingModeType').val(reportingMethodType);
+        $('#reportto_reportingMethodType').val(reportingMethodType);
 
         $(".paddingLeftRequired").show();
         $("#reportToHeading").text(editSubordinate);
@@ -271,12 +271,12 @@ $(document).ready(function() {
             'reportto[name]' : {
                 empNameValidation: true
             },
-            'reportto[reportingModeType]' : {
+            'reportto[reportingMethodType]' : {
                 required: true
             },
             'reportto[reportingMethod]':{
                 required: function(element) {
-                    return $('#reportto_reportingModeType').val() == -1;
+                    return $('#reportto_reportingMethodType').val() == -1;
                 }
             }
 
@@ -286,7 +286,7 @@ $(document).ready(function() {
                 empNameValidation: nameIsRequired
 
             },
-            'reportto[reportingModeType]' :{        
+            'reportto[reportingMethodType]' :{
                 required: reportingMethodTypeIsRequired
             },
             'reportto[reportingMethod]':{
@@ -305,7 +305,7 @@ $(document).ready(function() {
 
 function hideShowReportingMethodOther() {
     
-    if ($('#reportto_reportingModeType').val() != -1 ) {
+    if ($('#reportto_reportingMethodType').val() != -1 ) {
         $('#pleaseSpecify').hide();
     } else {
         $('#pleaseSpecify').show();
@@ -316,7 +316,7 @@ function clearAddForm() {
 
     $('#reportto_name').val('');
     $('#reportto_name').show();
-    $('#reportto_reportingModeType').val('');
+    $('#reportto_reportingMethodType').val('');
     $('div#addPaneReportTo label.error').hide();
     $('#name').hide();
     $('div#messagebar').hide();

@@ -89,8 +89,8 @@ $allowEdit = true;
                                 </div>
                                 <br class="clear"/>
 
-                                <?php echo $form['reportingModeType']->renderLabel(__('Reporting Method') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['reportingModeType']->render(array("class" => "drpDownR", "maxlength" => 50)); ?>
+                                <?php echo $form['reportingMethodType']->renderLabel(__('Reporting Method') . ' <span class="required">*</span>'); ?>
+                                <?php echo $form['reportingMethodType']->render(array("class" => "drpDownR", "maxlength" => 50)); ?>
                                 <br class="clear"/>
 
                                 <div id="pleaseSpecify">
@@ -154,14 +154,14 @@ $allowEdit = true;
                                             foreach ($supDetails as $sup) {
                                                 $cssClass = ($subRow % 2) ? 'even' : 'odd';
                                                 echo '<tr class="' . $cssClass . '">';
-                                                $supChkBoxValue = $sup->getSupervisorId() . " " . $empNumber . " " . $sup->getReportingMode();
+                                                $supChkBoxValue = $sup->getSupervisorId() . " " . $empNumber . " " . $sup->getReportingMethodId();
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
                                             ?>
                                             <?php $supName = $sup->getSupervisor()->getFirstName() . " " . $sup->getSupervisor()->getLastName(); ?>
-<?php $supReportingModeName = $sup->getReportMode()->getReportModeName(); ?>
+<?php $supReportingMethodName = $sup->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
                                         <?php
-                                                echo "<td  class='supReportMethod' valigh='top'>" . $supReportingModeName . "</td>";
+                                                echo "<td  class='supReportMethod' valigh='top'>" . $supReportingMethodName . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
                                             }
@@ -212,14 +212,14 @@ $allowEdit = true;
                                             foreach ($subDetails as $sub) {
                                                 $cssClass = ($subRow % 2) ? 'even' : 'odd';
                                                 echo '<tr class="' . $cssClass . '">';
-                                                $subChkBoxValue = $empNumber . " " . $sub->getSubordinateId() . " " . $sub->getReportingMode();
+                                                $subChkBoxValue = $empNumber . " " . $sub->getSubordinateId() . " " . $sub->getReportingMethodId();
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
                                             ?>
                                             <?php $subName = $sub->getSubordinate()->getFirstName() . " " . $sub->getSubordinate()->getLastName(); ?>
-<?php $subReportingModeName = $sub->getReportMode()->getReportModeName(); ?>
+<?php $subReportingMethodName = $sub->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
                                         <?php
-                                                echo "<td  class='subReportMethod' valigh='top'>" . $subReportingModeName . "</td>";
+                                                echo "<td  class='subReportMethod' valigh='top'>" . $subReportingMethodName . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
                                             }

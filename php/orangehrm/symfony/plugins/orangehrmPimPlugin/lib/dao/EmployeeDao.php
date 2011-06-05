@@ -1206,37 +1206,37 @@ class EmployeeDao extends BaseDao {
    }
    
     /**
-     * Add or Save Report Mode
-     * @param ReportMode $reportMode
-     * @return Doctine object ReportMode
+     * Add or Save Reporting Method
+     * @param ReportingMethod $reportingMethod
+     * @return Doctine object ReportingMethod
      */
-    public function saveReportMode(ReportMode $reportMode) {
+    public function saveReportingMethod(ReportingMethod $reportingMethod) {
 
         try {
 
-            if ($reportMode->getReportModeId() == '') {
+            if ($reportingMethod->getReportingMethodId() == '') {
                 $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($reportMode);
-                $reportMode->setReportModeId($idGenService->getNextID());
+                $idGenService->setEntity($reportingMethod);
+                $reportingMethod->setReportingMethodId($idGenService->getNextID());
             }
-            $reportMode->save();
+            $reportingMethod->save();
 
-            return $reportMode;
+            return $reportingMethod;
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
     }
 
     /**
-     * get Report Mode
-     * @param $reportModeId
-     * @return Doctine object ReportMode
+     * get Reporting Method
+     * @param $reportingMethodId
+     * @return Doctine object ReportingMethod
      */
-    public function getReportMode($reportModeId) {
+    public function getReportingMethod($reportingMethodId) {
 
         try {
-            $q = Doctrine_Query::create()->from('ReportMode rm')
-                            ->where('rm.rep_mode_id =?', $reportModeId);
+            $q = Doctrine_Query::create()->from('ReportingMethod rm')
+                            ->where('rm.rep_mode_id =?', $reportingMethodId);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -1244,13 +1244,13 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * get Report Mode List
-     * @return Doctine collection ReportModeList
+     * get Reporting Method List
+     * @return Doctine collection ReportingMethodList
      */
-    public function getReportModeList() {
+    public function getReportingMethodList() {
 
         try {
-            $q = Doctrine_Query :: create()->from('ReportMode');
+            $q = Doctrine_Query :: create()->from('ReportingMethod');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -1291,16 +1291,16 @@ class EmployeeDao extends BaseDao {
 
     /**
      * Get report to details object
-     * @param int $supNumber $subNumber $reportMode
+     * @param int $supNumber $subNumber $reportingMethod
      * @return ReportTo object
      */
-    public function getReportToObject($supNumber, $subNumber, $reportMode) {
+    public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
 
         try {
             $q = Doctrine_Query::create()->from('ReportTo rt')
                             ->where('rt.erep_sup_emp_number =?', $supNumber)
                             ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
-                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+                            ->andWhere('rt.erep_reporting_mode =?', $reportingMethod);
 
             return $q->fetchOne();
         } catch (Exception $e) {
@@ -1310,10 +1310,10 @@ class EmployeeDao extends BaseDao {
 
     /**
      * Delete reportTo object
-     * @param int $supNumber $subNumber $reportMode
+     * @param int $supNumber $subNumber $reportingMethod
      * @return boolean
      */
-    public function deleteReportToObject($supNumber, $subNumber, $reportMode) {
+    public function deleteReportToObject($supNumber, $subNumber, $reportingMethod) {
 
         try {
             $q = Doctrine_Query::create()
@@ -1321,7 +1321,7 @@ class EmployeeDao extends BaseDao {
                             ->from('ReportTo rt')
                             ->where('rt.erep_sup_emp_number =?', $supNumber)
                             ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
-                            ->andWhere('rt.erep_reporting_mode =?', $reportMode);
+                            ->andWhere('rt.erep_reporting_mode =?', $reportingMethod);
 
             $executed = $q->execute();
 

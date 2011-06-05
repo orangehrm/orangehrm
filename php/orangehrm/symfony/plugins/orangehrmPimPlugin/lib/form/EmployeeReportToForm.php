@@ -50,7 +50,7 @@ class EmployeeReportToForm extends BaseForm {
 
     public function configure() {
 
-        $reportingModeType = $this->getReportingMethodType();
+        $reportingMethodType = $this->getReportingMethodType();
 
         $this->empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
@@ -65,7 +65,7 @@ class EmployeeReportToForm extends BaseForm {
             'name' => new sfWidgetFormInputText(),
             'selectedEmployee' => new sfWidgetFormInputHidden(),
             'previousRecord' => new sfWidgetFormInputHidden(),
-            'reportingModeType' => new sfWidgetFormSelect(array('choices' => $reportingModeType)),
+            'reportingMethodType' => new sfWidgetFormSelect(array('choices' => $reportingMethodType)),
             'reportingMethod' => new sfWidgetFormInputText()
         ));
 
@@ -78,7 +78,7 @@ class EmployeeReportToForm extends BaseForm {
             'name' => new sfValidatorString(array('required' => true), array('required' => 'Employee name required')),
             'selectedEmployee' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
             'previousRecord' => new sfValidatorString(array('required' => false)),
-            'reportingModeType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting mode')),
+            'reportingMethodType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting method')),
             'reportingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 80)),
         ));
         $this->widgetSchema->setNameFormat('reportto[%s]');
@@ -92,10 +92,10 @@ class EmployeeReportToForm extends BaseForm {
 
         $list = array("" => "-- " . __('Select') . " --");
 
-        $reportingModeTypes = $this->getEmployeeService()->getReportModeList();
+        $reportingMethodTypes = $this->getEmployeeService()->getReportingMethodList();
 
-        foreach ($reportingModeTypes as $reportingModeType) {
-            $list[$reportingModeType->reportModeId] = $reportingModeType->reportModeName;
+        foreach ($reportingMethodTypes as $reportingMethodType) {
+            $list[$reportingMethodType->reportingMethodId] = $reportingMethodType->reportingMethodName;
         }
         $list[-1] = __('Other');
         return $list;
@@ -146,10 +146,19 @@ class EmployeeReportToForm extends BaseForm {
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
         $name = $this->getValue('name');
-        $reportingType = $this->getValue('reportingModeType');
+        $reportingType = $this->getValue('reportingMethodType');
         $reportingMethod = $this->getValue('reportingMethod');
         $selectedEmployee = $this->getValue('selectedEmployee');
         $previousRecord = $this->getValue('previousRecord');
+
+//        echo 'empNumber = ' . $empNumber . '<br>';
+//        echo 'supOrSub = ' . $supOrSub . '<br>';
+//        echo 'name = ' . $name . '<br>';
+//        echo 'reportingType = ' . $reportingType . '<br>';
+//        echo 'reportingMethod = ' . $reportingMethod . '<br>';
+//        echo 'selectedEmployee = ' . $selectedEmployee . '<br>';
+//        echo 'previousRecord = ' . $previousRecord . '<br>';
+//        die('L161');
 
         if($previousRecord != null){
             $tempList = array($previousRecord);
@@ -158,23 +167,23 @@ class EmployeeReportToForm extends BaseForm {
 
         if ($reportingMethod != null) {
 
-            $newReportMethod = new ReportMode();
-            $newReportMethod->reportModeName = $reportingMethod;
-            $savedReportMethod = $this->getEmployeeService()->saveReportMode($newReportMethod);
-            $reportingType = $savedReportMethod->reportModeId;
+            $newReportingMethod = new ReportingMethod();
+            $newReportingMethod->reportingMethodName = $reportingMethod;
+            $savedReportingMethod = $this->getEmployeeService()->saveReportingMethod($newReportingMethod);
+            $reportingType = $savedReportingMethod->reportingMethodId;
         }
 
         if ($supOrSub == ReportTo::SUPERVISOR) {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber, $reportingType);
 
             if ($existingReportToObject != null) {
-                $existingReportToObject->setReportingMode($reportingType);
+                $existingReportToObject->setReportingMethodId($reportingType);
                 $existingReportToObject->save();
             } else {
                 $newReportToObject = new ReportTo();
                 $newReportToObject->setSupervisorId($selectedEmployee);
                 $newReportToObject->setSubordinateId($empNumber);
-                $newReportToObject->setReportingMode($reportingType);
+                $newReportToObject->setReportingMethodId($reportingType);
                 $newReportToObject->save();
             }
         }
@@ -183,13 +192,13 @@ class EmployeeReportToForm extends BaseForm {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee, $reportingType);
 
             if ($existingReportToObject != null) {
-                $existingReportToObject->setReportingMode($reportingType);
+                $existingReportToObject->setReportingMethod($reportingType);
                 $existingReportToObject->save();
             } else {
                 $newReportToObject = new ReportTo();
                 $newReportToObject->setSupervisorId($empNumber);
                 $newReportToObject->setSubordinateId($selectedEmployee);
-                $newReportToObject->setReportingMode($reportingType);
+                $newReportToObject->setReportingMethodId($reportingType);
                 $newReportToObject->save();
             }
         }
