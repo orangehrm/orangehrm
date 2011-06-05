@@ -884,103 +884,103 @@
                 <source>Enter a valid number</source>
                 <target>FR_Enter a valid number</target>
             </trans-unit>
-			<trans-unit id="221">
+            <trans-unit id="221">
                 <source>Defined Custom Fields</source>
                 <target>FR_Defined Custom Fields</target>
             </trans-unit>
-			<trans-unit id="222">
+            <trans-unit id="222">
                 <source>Custom Field Name</source>
                 <target>FR_Custom Field Name</target>
             </trans-unit>
-			<trans-unit id="223">
+            <trans-unit id="223">
                 <source>Screen</source>
                 <target>FR_Screen</target>
             </trans-unit>
-			<trans-unit id="224">
+            <trans-unit id="224">
                 <source>Field Type</source>
                 <target>FR_Field Type</target>
             </trans-unit>
-			<trans-unit id="225">
+            <trans-unit id="225">
                 <source>Please Select At Least One Custom Field To Delete</source>
                 <target>FR_Please Select At Least One Custom Field To Delete</target>
             </trans-unit>
-			<trans-unit id="226">
+            <trans-unit id="226">
                 <source>Custom Field(s) Deleted Successfully</source>
                 <target>FR_Custom Field(s) Deleted Successfully</target>
             </trans-unit>
-			<trans-unit id="227">
+            <trans-unit id="227">
                 <source>Add Custom Field</source>
                 <target>FR_Add Custom Field</target>
             </trans-unit>
-			<trans-unit id="228">
+            <trans-unit id="228">
                 <source>Edit Custom Field</source>
                 <target>FR_Edit Custom Field</target>
             </trans-unit>
-			<trans-unit id="229">
+            <trans-unit id="229">
                 <source>Field Name</source>
                 <target>FR_Field Name</target>
             </trans-unit>
-			<trans-unit id="230">
+            <trans-unit id="230">
                 <source>Please specify field name</source>
                 <target>FR_Please specify field name</target>
             </trans-unit>
-			<trans-unit id="231">
+            <trans-unit id="231">
                 <source>Please select a screen</source>
                 <target>FR_Please select a screen</target>
             </trans-unit>
-			<trans-unit id="232">
+            <trans-unit id="232">
                 <source>Please select a field type</source>
                 <target>FR_Please select a field type</target>
-            </trans-unit>	
-			<trans-unit id="233">
+            </trans-unit>
+            <trans-unit id="233">
                 <source>Custom Field Successfully Updated</source>
                 <target>FR_Custom Field Successfully Updated</target>
             </trans-unit>
-			<trans-unit id="234">
+            <trans-unit id="234">
                 <source>Custom fields left</source>
                 <target>FR_Custom fields left</target>
             </trans-unit>
-			<trans-unit id="235">
+            <trans-unit id="235">
                 <source>1 Custom field left</source>
                 <target>FR_1 Custom field left</target>
             </trans-unit>
-			<trans-unit id="236">
+            <trans-unit id="236">
                 <source>All customs fields are in use</source>
                 <target>FR_All customs fields are in use</target>
-            </trans-unit>			
-			<trans-unit id="237">
+            </trans-unit>
+            <trans-unit id="237">
                 <source>Select Options</source>
                 <target>FR_Select Options</target>
-            </trans-unit>	
-			<trans-unit id="237">
+            </trans-unit>
+            <trans-unit id="237">
                 <source>Enter allowed options separated by commas</source>
                 <target>FR_Enter allowed options separated by commas</target>
             </trans-unit>
-			<trans-unit id="238">
+            <trans-unit id="238">
                 <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
                 <target>FR_Show Nick Name, Smoker and Military Service in Personal Details</target>
             </trans-unit>
-			<trans-unit id="239">
+            <trans-unit id="239">
                 <source>Country Specific Information</source>
                 <target>FR_Country Specific Information</target>
             </trans-unit>
-			<trans-unit id="240">
+            <trans-unit id="240">
                 <source>Show SSN field in Personal Details</source>
                 <target>FR_Show SSN field in Personal Details</target>
             </trans-unit>
-			<trans-unit id="241">
+            <trans-unit id="241">
                 <source>Show SIN field in Personal Details</source>
                 <target>FR_Show SIN field in Personal Details</target>
             </trans-unit>
-			<trans-unit id="242">
+            <trans-unit id="242">
                 <source>Show US Tax Exemptions menu</source>
                 <target>FR_Show US Tax Exemptions menu</target>
             </trans-unit>
-			<trans-unit id="243">
+            <trans-unit id="243">
                 <source>Terminated Date</source>
                 <target>FR_Terminated Date</target>
             </trans-unit>
-			<trans-unit id="244">
+            <trans-unit id="244">
                 <source>Terminated Reason</source>
                 <target>FR_Terminated Reason</target>
             </trans-unit>
@@ -988,6 +988,66 @@
                 <source>Maximum character limit for terminated reason is 256</source>
                 <target>FR_Maximum character limit for terminated reason is 256</target>
             </trans-unit>
-			</body>
+            <trans-unit id="246">
+                <source>Add Supervisor/Subordinate</source>
+                <target>FR_Add Supervisor/Subordinate</target>
+            </trans-unit>
+            <trans-unit id="247">
+                <source>Subordinate</source>
+                <target>FR_Subordinate</target>
+            </trans-unit>
+            <trans-unit id="248">
+                <source>Reporting Method</source>
+                <target>FR_Reporting Method</target>
+            </trans-unit>
+            <trans-unit id="249">
+                <source>Assigned Supervisors</source>
+                <target>FR_Assigned Supervisors</target>
+            </trans-unit>
+            <trans-unit id="250">
+                <source>Assigned Subordinates</source>
+                <target>FR_Assigned Subordinates</target>
+            </trans-unit>
+            <trans-unit id="251">
+                <source>Supervisor Added Successfully</source>
+                <target>FR_Supervisor Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Subordinate Added Successfully</source>
+                <target>FR_Subordinate Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Subordinate(s) Deleted Successfully</source>
+                <target>FR_Subordinate(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="254">
+                <source>Supervisors(s) Deleted Successfully</source>
+                <target>FR_Supervisors(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="255">
+                <source>Reporting method is required</source>
+                <target>FR_Reporting method is required</target>
+            </trans-unit>
+            <trans-unit id="256">
+                <source>Reporting method type is required</source>
+                <target>FR_Reporting method type is required</target>
+            </trans-unit>
+            <trans-unit id="257">
+                <source>Add Supervisor</source>
+                <target>FR_Add Supervisor</target>
+            </trans-unit>
+            <trans-unit id="258">
+                <source>Add Subordinate</source>
+                <target>FR_Add Subordinate</target>
+            </trans-unit>
+            <trans-unit id="259">
+                <source>Edit Supervisor</source>
+                <target>FR_Edit Supervisor</target>
+            </trans-unit>
+            <trans-unit id="260">
+                <source>Edit Subordinate</source>
+                <target>FR_Edit Subordinate</target>
+            </trans-unit>
+        </body>
     </file>
 </xliff>

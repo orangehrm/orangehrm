@@ -62,6 +62,7 @@ class viewReportToDetailsAction extends sfAction {
         $reportTo = $request->getParameter('reportto');
         $empNumber = (isset($membership['empNumber'])) ? $membership['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);

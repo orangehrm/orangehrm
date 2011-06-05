@@ -37,7 +37,7 @@ all:
     login_action:           login
 
     i18n:                   true
-    default_culture: 		en      # Default user culture
+    default_culture: 		fr      # Default user culture
 
     enabled_modules:        [default, core, leave, pim]
     

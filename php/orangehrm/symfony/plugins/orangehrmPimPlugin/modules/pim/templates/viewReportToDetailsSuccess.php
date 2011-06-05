@@ -68,7 +68,7 @@ $allowEdit = true;
                 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
                     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                 </div>
-
+               <?php if(!$essUserMode):?>
                 <div id="addPaneReportTo" style="width: 600px" style="display:none;">
                     <div class="outerbox">
 
@@ -112,11 +112,13 @@ $allowEdit = true;
                                 </form>
                             </div>
                         </div>
+                <?php endif;?>
 
                         <div id="listReportToDetails">
-                            <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
-                                <td valign="top" width="500">
-                                    <div class="outerbox" id="listReportToSupDetails">
+                            <table width="1100" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
+                              
+                                <td valign="top">
+                                    <div class="outerbox" id="listReportToSupDetails" >
                                         <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSupForm['_csrf_token']->render(); ?>
                                     <?php echo $deleteSupForm['empNumber']->render(); ?>
@@ -138,7 +140,7 @@ $allowEdit = true;
                                         </div>
                                     </div>
 
-                                    <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
+                                    <table  cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
                                         <thead>
                                             <tr>
                                                 <td class="check"><input type='checkbox' id='checkAllSup' class="checkboxSup" /></td>
@@ -169,11 +171,12 @@ $allowEdit = true;
                                     </form>
                                 </div>
                             </td>
+                         
 
-                            <td valign="top" width="30">
+                            <td valign="top" width="40">
                             </td>
 
-                            <td valign="top" width="500">
+                            <td valign="top" >
                                 <div class="outerbox" id="listReportToSubDetails">
                                     <form name="frmEmpDelSubordinates" id="frmEmpDelSubordinates" method="post" action="<?php echo url_for('pim/deleteReportToSubordinate?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSubForm['_csrf_token']->render(); ?>
@@ -195,7 +198,7 @@ $allowEdit = true;
                                         </div>
                                     </div>
 
-                                    <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
+                                    <table  cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
                                         <thead>
                                             <tr>
                                                 <td class="check"><input type='checkbox' id='checkAllSub' class="checkboxSub" /></td>
@@ -256,5 +259,6 @@ $allowEdit = true;
                                 var nameIsRequired = '<?php echo __("Name is required"); ?>';
                                 var reportingMethodIsRequired = '<?php echo __("Reporting method is required"); ?>';
                                 var reportingMethodTypeIsRequired = '<?php echo __("Reporting method type is required"); ?>';
+                                var essMode = '<?php echo $essUserMode; ?>';
     //]]>
 </script>

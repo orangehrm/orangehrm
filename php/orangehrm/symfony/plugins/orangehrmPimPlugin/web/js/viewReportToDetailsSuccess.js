@@ -2,6 +2,14 @@ $(document).ready(function() {
 
     hideShowReportingMethodOther()
 
+    if(essMode){
+        $('#supListActions').hide();
+        $('#sup_list td.check').hide();
+        $('#subListActions').hide();
+        $('#sub_list td.check').hide();
+        removeEditLinks();
+    }
+
     if ($("#reportto_name").val() == '') {
         $("#reportto_name").val(typeForHints)
         .addClass("inputFormatHint");
@@ -12,6 +20,14 @@ $(document).ready(function() {
     });
 
     $("#reportto_name").one('focus', function() {
+
+        if ($(this).hasClass("inputFormatHint")) {
+            $(this).val("");
+            $(this).removeClass("inputFormatHint");
+        }
+    });
+
+    $("#reportto_name").click(function() {
 
         if ($(this).hasClass("inputFormatHint")) {
             $(this).val("");
