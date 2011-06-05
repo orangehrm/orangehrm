@@ -227,5 +227,19 @@ ul.radio_list li input { float:left; margin-top:5px; }
     padding-top: 5px;
     font-size: 8pt;
 }
+#listReportToSupDetails{
+    width: 450px
+}
+
+#listReportToSubDetails{
+    width: 450px
+}
+/*.outerbox .maincontent {
+    background-color: white;
+    border-color: #FAD163;
+    border-style: solid;
+    border-width: 0 4px;
+    height: auto;
+}*/
 
 /* PIM Job specific styles : End */
