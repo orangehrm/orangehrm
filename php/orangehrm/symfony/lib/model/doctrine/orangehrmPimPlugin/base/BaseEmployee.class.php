@@ -77,7 +77,6 @@
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $EmpChildren
- * @property EmpUsTax $usTax
  * @property Doctrine_Collection $ReportTo
  * @property JobCategory $JobCategory
  * @property Doctrine_Collection $EmployeeLicense
@@ -162,7 +161,6 @@
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
- * @method EmpUsTax            getUsTax()                    Returns the current record's "usTax" value
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
@@ -246,7 +244,6 @@
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
- * @method Employee            setUsTax()                    Sets the current record's "usTax" value
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
@@ -582,10 +579,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'empNumber'));
 
         $this->hasMany('EmpChildren', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasOne('EmpUsTax as usTax', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

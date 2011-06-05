@@ -27,31 +27,6 @@ EmpChildren:
       foreign: emp_number
       type: one      
            
-EmpUsTax:
-  tableName: hs_hr_emp_us_tax
-  columns:
-    emp_number:
-      type: integer(4)
-      primary: true
-    tax_federal_exceptions as federal_exceptions:
-      type: integer(4)
-      default: '0'
-    tax_state_exceptions as state_exceptions:
-      type: integer(4)
-      default: '0'
-    tax_federal_status as federal_status: string(13)
-    tax_state as state: string(13)
-    tax_state_status as state_status: string(13)
-    tax_unemp_state as unemp_state: string(13)
-    tax_work_state as work_state: string(13)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
-      foreignType: one
-      foreignAlias: usTax
-      
 EmpWorkExperience:
   tableName: hs_hr_emp_work_experience
   columns:
@@ -663,6 +638,7 @@ EmployeeMemberDetail:
       local: empNumber
       foreign: empNumber
       type: one
+
 CurrencyType:
   tableName: hs_hr_currency_type
   columns:
