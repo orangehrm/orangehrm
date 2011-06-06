@@ -202,31 +202,6 @@ table#sub_list td {
     vertical-align: text-top
 }
 
-label.error {
-    clear: both;
-    color: red;
-    display: block;
-    font-size: 11px;
-    margin-top: 5px;
-    padding-left: 120px;
-    width: 180px !important;
-}
-
-ul.radio_list {
-    padding-left: 135px;
-    padding-top: 10px;
-    padding-bottom: 8px;
-}
-
-ul.radio_list li { display: inline;}
-ul.radio_list li label { display: inline; padding-left:10px; width:90px;}
-ul.radio_list li input { float:left; margin-top:5px; }
-
-.paddingLeftRequired {
-    padding-left: 15px;
-    padding-top: 5px;
-    font-size: 8pt;
-}
 #listReportToSupDetails{
     width: 450px
 }
