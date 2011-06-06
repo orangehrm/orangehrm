@@ -33,7 +33,7 @@
                                 <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
                             </div>                            
                             
-    <div id="changeSalary" class="outerbox" style="width:750px;">
+    <div id="changeSalary" class="outerbox" >
         <div class="mainHeading"><h2 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h2></div>
         <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post">
 
@@ -223,16 +223,20 @@
                         
                         <table cellspacing="0" cellpadding="0" border="0" class="directDepositTable" width="80%">
                             <thead>
+                                <tr>
                                 <td><?php echo __("Account Number");?></td>
                                 <td><?php echo __("Account Type");?></td>
                                 <td><?php echo __("Routing Number");?></td>
                                 <td><?php echo __("Amount");?></td>
+                                </tr>
                             </thead>
                             <tbody>
+                                <tr>
                                 <td><?php echo $directDeposit->account;?></td>
                                 <td><?php echo $directDeposit->account_type;?></td>
                                 <td><?php echo $directDeposit->routing_num;?></td>
                                 <td><?php echo $directDeposit->amount;?></td>
+                                </tr>
                             </tbody>
                         <?php 
                         //;
@@ -253,7 +257,7 @@
     </form>
                             </div>
 <?php } ?>                
-                            </div>
+
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'salary'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'salary'));?>
                             

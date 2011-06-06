@@ -1,5 +1,5 @@
 #mainDiv {
-    width: 850px;
+    width: 750px;
 }
 
 .sectionDiv {
@@ -122,7 +122,7 @@ label#minMaxSalaryLbl {
 
 input#salary_set_direct_debit {
     margin-left: 20px;
-    margin-top: 5px;
+    margin-top: 15px;
     display: block;
     float: left;
     
@@ -131,10 +131,11 @@ input#salary_set_direct_debit {
 label#set_direct_debit_label {
     width: auto;
     padding-left: 5px;
+    margin-top: 15px;
 }
 
 div#directDebitSection {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 table.data-table tr.directDepositRow > td {
@@ -178,3 +179,19 @@ div#tblSalary table td.component {
 div#tblSalary table td.comments {
     max-width: 200px;
 }
+
+input#salary_sal_grd_code,
+input#salary_salary_component,
+textarea#salary_comments,
+input#directdeposit_account,
+input#directdeposit_routing_num,
+input#directdeposit_account_type_other {
+    width: 310px;
+}
+
+select#salary_payperiod_code,
+select#salary_currency_id,
+select#directdeposit_account_type {
+    width: 320px;
+}
+
