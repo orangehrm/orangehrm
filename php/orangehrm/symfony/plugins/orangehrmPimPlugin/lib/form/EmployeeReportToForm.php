@@ -143,6 +143,7 @@ class EmployeeReportToForm extends BaseForm {
      */
     public function save() {
 
+        $updated = false;
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
         $name = $this->getValue('name');
@@ -163,6 +164,7 @@ class EmployeeReportToForm extends BaseForm {
         if($previousRecord != null){
             $tempList = array($previousRecord);
             $this->getEmployeeService()->deleteReportToObject($tempList);
+            $updated = true;
         }
 
         if ($reportingMethod != null) {
@@ -202,7 +204,8 @@ class EmployeeReportToForm extends BaseForm {
                 $newReportToObject->save();
             }
         }
-        return $supOrSub;
+        $returnValue = array($supOrSub, $updated);
+        return $returnValue;
     }
 
 }

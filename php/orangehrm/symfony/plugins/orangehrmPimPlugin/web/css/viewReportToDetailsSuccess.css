@@ -9,7 +9,7 @@ root {
     font-size: 13px;
 }
 
-label {
+form#frmAddReportTo label {
     margin-top: 6px;
     width: 140px
 }
@@ -25,16 +25,6 @@ form input.txtBoxR {
     vertical-align:middle;
     height:14px;
     margin-top: 5px;
-}
-
-label.error {
-    clear: both;
-    color: red;
-    display: block;
-    font-size: 11px;
-    margin-top: 5px;
-    padding-left: 140px;
-    width: 180px !important;
 }
 
 ul.radio_list {
@@ -53,20 +43,15 @@ ul.radio_list li input { float:left; margin-top:5px; }
     font-size: 8pt;
 }
 
-/*form#frmAddReportTo label {
-    position: relative;
-    margin-top: 6px;
-    width: 300px
-}
-
 form#frmAddReportTo label label.error {
-    color:red;
+    clear: both;
+    color: red;
     display: block;
-    font-weight: normal;
-    overflow:visible;
-    width:270px !important;  Need to overide important in messages.css 
-    padding-left:300px;
-}*/
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 140px;
+    width: 180px !important;
+}
 
 div.messageBar {
     margin: 5px 15px 5px 15px;

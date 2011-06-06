@@ -31,7 +31,7 @@ form#frmEmpMembership label label.error {
 
 .drpDown {
     margin-top: 5px;
-    width: 178px;
+    width: 320px;
 }
 
 form input.formDateInput {
@@ -39,6 +39,19 @@ form input.formDateInput {
     height:14px;
     margin-top: 5px;
 }
+
+.formInputM{
+    width: 310px;
+    height:14px;
+    margin-top: 5px;
+}
+
+form input.formInput {
+    width: 310px;
+    height:14px;
+    margin-top: 5px;
+}
+
 
 form input.txtBox {
     border: 1px solid #888888;

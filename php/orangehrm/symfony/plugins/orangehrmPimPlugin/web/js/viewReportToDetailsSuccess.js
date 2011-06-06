@@ -42,11 +42,16 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-        $("#reportto_selectedEmployee").val(item.id);
+        //$("#reportto_selectedEmployee").val(item.id);
+        $("label.error").hide();
+
     });
 
     $('#btnSaveReportTo').click(function() {
-        $('#frmAddReportTo').submit();
+        if(isValidForm()){
+
+            $('#frmAddReportTo').submit();
+        }
     });
 
     $("#checkAllSup").click(function(){
@@ -92,6 +97,7 @@ $(document).ready(function() {
     // Add a supervisor 
     $('#btnAddSupervisorDetail').click(function() {
 
+        $('#reportto_selectedEmployee').val("");
         $("#reportto_previousRecord").val("");
         $('#reportto_type_flag_1').attr('checked', 'checked');
         $("#reportToHeading").text(addSupervisor);
@@ -112,6 +118,7 @@ $(document).ready(function() {
     // Add a subordinate
     $('#btnAddSubordinateDetail').click(function() {
 
+        $('#reportto_selectedEmployee').val("");
         $("#reportto_previousRecord").val("");
         $('#reportto_type_flag_2').attr('checked', 'checked');
         $("#reportToHeading").text(addSubordinate);
@@ -131,6 +138,7 @@ $(document).ready(function() {
 
     // Cancel in add pane
     $('#btnCancel').click(function() {
+
         clearAddForm();
         $('#addPaneReportTo').css('display', 'none');
         $('#supListActions').show();
@@ -199,6 +207,7 @@ $(document).ready(function() {
         $('#addPaneReportTo').css('display', 'block');
     });
 
+
     // Edit a subordinate detail in the list
     $('#frmEmpDelSubordinates a').live('click', function() {
 
@@ -232,7 +241,9 @@ $(document).ready(function() {
         hideShowReportingMethodOther()
         $('#addPaneReportTo').css('display', 'block');
     });
+});
 
+function isValidForm(){
     $.validator.addMethod("empNameValidation", function(value, element, params) {
         var temp = false;
         if($('#reportto_selectedEmployee').val() > 0){
@@ -266,7 +277,7 @@ $(document).ready(function() {
 
 
     $("#frmAddReportTo").validate({
-
+        //errorClass: "reportToError",
         rules: {
             'reportto[name]' : {
                 empNameValidation: true
@@ -299,9 +310,10 @@ $(document).ready(function() {
         }
 
     });
+    return true;
+}
 
 
-});
 
 function hideShowReportingMethodOther() {
     

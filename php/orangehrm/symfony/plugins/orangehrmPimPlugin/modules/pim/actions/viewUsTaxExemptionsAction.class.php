@@ -50,6 +50,7 @@ class viewUsTaxExemptionsAction extends sfAction {
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
+        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
             $this->redirect('pim/viewMemberships?empNumber='. $loggedInEmpNum);

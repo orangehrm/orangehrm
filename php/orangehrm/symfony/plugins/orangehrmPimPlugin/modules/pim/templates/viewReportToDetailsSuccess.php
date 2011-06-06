@@ -23,63 +23,63 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
 
 <?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
-    <?php if (strstr($browser, "MSIE 8.0")):?>
-        <link href="<?php echo public_path('../../themes/orange/IE_style.css')?>" rel="stylesheet" type="text/css"/>
-    <?php else:?>
-        <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewReportToDetailsSuccess'); ?>
-    <?php endif;?>
+<?php if (strstr($browser, "MSIE 8.0")): ?>
+    <link href="<?php echo public_path('../../themes/orange/IE_style.css') ?>" rel="stylesheet" type="text/css"/>
+<?php else: ?>
+<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewReportToDetailsSuccess'); ?>
+<?php endif; ?>
 <?php
-use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
-use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-use_javascript('../orangehrmPimPlugin/js/viewReportToDetailsSuccess');
+        use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
+        use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
+        use_javascript('../orangehrmPimPlugin/js/viewReportToDetailsSuccess');
 
-$numSupDetails = count($supDetails);
-$hasSupDetails = $numSupDetails > 0;
-$numSubDetails = count($subDetails);
-$hasSubDetails = $numSubDetails > 0;
-$allowDel = true;
-$allowEdit = true;
+        $numSupDetails = count($supDetails);
+        $hasSupDetails = $numSupDetails > 0;
+        $numSubDetails = count($subDetails);
+        $hasSubDetails = $numSubDetails > 0;
+        $allowDel = true;
+        $allowEdit = true;
 ?>
 
 <?php if ($form->hasErrors()): ?>
-    <span class="error">
+            <span class="error">
     <?php
-    echo $form->renderGlobalErrors();
+            echo $form->renderGlobalErrors();
 
-    foreach ($form->getWidgetSchema()->getPositions() as $widgetName) {
-        echo $form[$widgetName]->renderError();
-    }
+            foreach ($form->getWidgetSchema()->getPositions() as $widgetName) {
+                echo $form[$widgetName]->renderError();
+            }
     ?>
-</span>
+        </span>
 <?php endif; ?>
 
-    <table cellspacing="0" cellpadding="0" border="0" >
-        <tr>
-            <td width="5">&nbsp;</td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <!-- this space is reserved for menus - dont use -->
-            <td width="200" valign="top">
+            <table cellspacing="0" cellpadding="0" border="0" >
+                <tr>
+                    <td width="5">&nbsp;</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <!-- this space is reserved for menus - dont use -->
+                    <td width="200" valign="top">
             <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form)); ?></td>
         <td valign="top" width="1000">
             <div class="formpage2col" style="width: 1000px">
                 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
                     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                 </div>
-               <?php if(!$essUserMode):?>
-                <div id="addPaneReportTo" style="width: 600px" style="display:none;">
-                    <div class="outerbox">
+                <?php if (!$essUserMode): ?>
+                    <div id="addPaneReportTo" style="width: 600px" style="display:none;">
+                        <div class="outerbox">
 
-                        <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
-                        <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateReportToDetail?empNumber=' . $empNumber); ?>">
+                            <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
+                            <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateReportToDetail?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
                             <?php echo $form["selectedEmployee"]->render(); ?>
                             <?php echo $form["previousRecord"]->render(); ?>
-                            <div>
+                            <div id="reportTo" class="reportTo">
                                 <?php echo $form['type_flag']->render(); ?>
                                 <br class="clear" />
 
@@ -112,14 +112,14 @@ $allowEdit = true;
                                 </form>
                             </div>
                         </div>
-                <?php endif;?>
+                <?php endif; ?>
 
-                        <div id="listReportToDetails">
-                            <table width="1100" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
-                              
-                                <td valign="top">
-                                    <div class="outerbox" id="listReportToSupDetails" >
-                                        <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
+                                    <div id="listReportToDetails">
+                                        <table width="1100" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
+
+                                            <td valign="top">
+                                                <div class="outerbox" id="listReportToSupDetails" >
+                                                    <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSupForm['_csrf_token']->render(); ?>
                                     <?php echo $deleteSupForm['empNumber']->render(); ?>
 
@@ -133,10 +133,10 @@ $allowEdit = true;
                                                 <input type="button" class="addbutton" id="btnAddSupervisorDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
                                             <?php } ?>
                                             <?php if ($allowDel) {
- ?>
+                                            ?>
 
                                                 <input type="button" class="delbutton" id="delSupBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
-<?php } ?>
+                                            <?php } ?>
                                         </div>
                                     </div>
 
@@ -158,7 +158,7 @@ $allowEdit = true;
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
                                             ?>
                                             <?php $supName = $sup->getSupervisor()->getFirstName() . " " . $sup->getSupervisor()->getLastName(); ?>
-<?php $supReportingMethodName = $sup->getReportingMethod()->getReportingMethodName(); ?>
+                                            <?php $supReportingMethodName = $sup->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
                                         <?php
                                                 echo "<td  class='supReportMethod' valigh='top'>" . $supReportingMethodName . "</td>";
@@ -171,7 +171,7 @@ $allowEdit = true;
                                     </form>
                                 </div>
                             </td>
-                         
+
 
                             <td valign="top" width="5">
                             </td>
@@ -180,21 +180,22 @@ $allowEdit = true;
                                 <div class="outerbox" id="listReportToSubDetails">
                                     <form name="frmEmpDelSubordinates" id="frmEmpDelSubordinates" method="post" action="<?php echo url_for('pim/deleteReportToSubordinate?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSubForm['_csrf_token']->render(); ?>
-<?php echo $deleteSubForm['empNumber']->render(); ?>
+                                    <?php echo $deleteSubForm['empNumber']->render(); ?>
 
                                             <div class="mainHeading"><h2><?php echo __("Assigned Subordinates"); ?></h2></div>
 
                                             <div class="subActionbar" id="subListActions">
                                                 <div class="subActionbuttons">
-                                            <?php if ($allowEdit) { ?>
+                                            <?php if ($allowEdit) {
+                                            ?>
 
                                                 <input type="button" class="addbutton" id="btnAddSubordinateDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
                                             <?php } ?>
                                             <?php if ($allowDel) {
- ?>
+                                            ?>
 
                                                 <input type="button" class="delbutton" id="delSubBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
-<?php } ?>
+                                            <?php } ?>
                                         </div>
                                     </div>
 
@@ -216,7 +217,7 @@ $allowEdit = true;
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
                                             ?>
                                             <?php $subName = $sub->getSubordinate()->getFirstName() . " " . $sub->getSubordinate()->getLastName(); ?>
-<?php $subReportingMethodName = $sub->getReportingMethod()->getReportingMethodName(); ?>
+                                            <?php $subReportingMethodName = $sub->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
                                         <?php
                                                 echo "<td  class='subReportMethod' valigh='top'>" . $subReportingMethodName . "</td>";
@@ -234,8 +235,10 @@ $allowEdit = true;
 
 
                     <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+
                 <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
                 <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
+
                                         </div>
                                     </td>
                                     <!-- To be moved to layout file -->
@@ -256,7 +259,7 @@ $allowEdit = true;
                                 var deleteWarning = '<?php echo __("Select at least One Record to Delete"); ?>';
                                 var editSupervisor = '<?php echo __("Edit Supervisor"); ?>';
                                 var editSubordinate = '<?php echo __("Edit Subordinate"); ?>';
-                                var nameIsRequired = '<?php echo __("Name is required"); ?>';
+                                var nameIsRequired = '<?php echo __("Valid name is required"); ?>';
                                 var reportingMethodIsRequired = '<?php echo __("Reporting method is required"); ?>';
                                 var reportingMethodTypeIsRequired = '<?php echo __("Reporting method type is required"); ?>';
                                 var essMode = '<?php echo $essUserMode; ?>';

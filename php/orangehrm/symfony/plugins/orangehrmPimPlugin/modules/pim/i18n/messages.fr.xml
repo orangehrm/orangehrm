@@ -1048,6 +1048,18 @@
                 <source>Edit Subordinate</source>
                 <target>FR_Edit Subordinate</target>
             </trans-unit>
+            <trans-unit id="261">
+                <source>Valid name is required</source>
+                <target>FR_Valid name is required</target>
+            </trans-unit>
+            <trans-unit id="262">
+                <source>Supervisor Updated Successfully</source>
+                <target>FR_Supervisor Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="263">
+                <source>Subordinate Updated Successfully</source>
+                <target>FR_Subordinate Updated Successfully</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

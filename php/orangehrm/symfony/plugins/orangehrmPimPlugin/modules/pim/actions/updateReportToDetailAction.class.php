@@ -48,11 +48,19 @@ class updateReportToDetailAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $value = $this->form->save();
-                if ($value == ReportTo::SUPERVISOR) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor Added Successfully')));
+                if ($value[0] == ReportTo::SUPERVISOR) {
+                    if ($value[1]) {
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor Updated Successfully')));
+                    } else {
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor Added Successfully')));
+                    }
                 }
-                if ($value == ReportTo::SUBORDINATE) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate Added Successfully')));
+                if ($value[0] == ReportTo::SUBORDINATE) {
+                    if ($value[1]) {
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate Updated Successfully')));
+                    } else {
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate Added Successfully')));
+                    }
                 }
             }
         }
