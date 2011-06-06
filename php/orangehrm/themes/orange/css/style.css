@@ -838,7 +838,11 @@ select {
 	font-size: 11px;
 	background-color: #ffffff;
 	padding-left: 0px;
-	}
+	}     
+    input {
+            font-size: 11px;
+    }      
+    
 input:not([type=image]) {
 	border: 1px solid #888888;
 	font-size: 11px;
