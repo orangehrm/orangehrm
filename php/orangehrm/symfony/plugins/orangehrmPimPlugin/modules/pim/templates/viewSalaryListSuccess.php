@@ -144,7 +144,7 @@
                 <thead>
                 <tr>
                     <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
-                    <td><?php echo __('Salary Component');?></td>
+                    <td class="component"><?php echo __('Salary Component');?></td>
                     <td><?php echo __('Pay Frequency');?></td>
                     <td><?php echo __('Currency');?></td>
                     <td><?php echo __('Amount');?></td>
@@ -459,11 +459,9 @@ $(document).ready(function() {
         
 
         //changing the headings
-        $("#headchangeSalary").text(lang_addSalary);
-        $("div#tblSalary .chkbox").hide();
-        
-        $("#salaryCheckAll").hide();
-
+         $("#headchangeSalary").text(lang_addSalary);
+         $('div#tblSalary td.check').hide();
+         
         //hiding action button section
         $("#actionSalary").hide();
 
@@ -592,13 +590,13 @@ $('#accountTypeOther').hide();
         
         $('div#changeSalary label.error').hide();
 
-        $("div#tblSalary .chkbox").removeAttr("checked").show();
+        $("div#tblSalary .chkbox").removeAttr("checked");
+        $('div#tblSalary td.check').show();
         
         //hiding action button section
         $("#actionSalary").show();
         $("#changeSalary").hide();
         $("#salaryRequiredNote").hide();        
-        $("#salaryCheckAll").show();
         
         $('#salary_id').val('');
         
@@ -681,8 +679,7 @@ $('#accountTypeOther').hide();
 
         $("#salaryRequiredNote").show();
 
-        $("div#tblSalary td.check .chkbox").hide();
-        $("#salaryCheckAll").hide();        
+        $("div#tblSalary td.check").hide();      
     });
     
     /*

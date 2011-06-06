@@ -170,3 +170,7 @@ span.directDepositHeading {
 label#noSalaryGrade {
     padding-left: 0px;
 }
+
+div#tblSalary table td.component {
+    padding-left: 8px;
+}
