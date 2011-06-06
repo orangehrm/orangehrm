@@ -11,7 +11,7 @@ div.messageBar {
 form#frmEmpMembership label {
     position: relative;
     margin-top: 6px;
-    width: 300px
+    width: 200px
 }
 
 form#frmEmpMembership label label.error {
