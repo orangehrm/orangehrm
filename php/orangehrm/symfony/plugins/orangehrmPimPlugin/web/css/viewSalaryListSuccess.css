@@ -180,7 +180,6 @@ div#tblSalary table td.comments {
     max-width: 200px;
 }
 
-select#salary_sal_grd_code,
 input#salary_salary_component,
 textarea#salary_comments,
 input#directdeposit_account,
@@ -189,6 +188,7 @@ input#directdeposit_account_type_other {
     width: 310px;
 }
 
+select#salary_sal_grd_code,
 select#salary_payperiod_code,
 select#salary_currency_id,
 select#directdeposit_account_type {
