@@ -145,10 +145,10 @@
                 <tr>
                     <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
                     <td class="component"><?php echo __('Salary Component');?></td>
-                    <td><?php echo __('Pay Frequency');?></td>
-                    <td><?php echo __('Currency');?></td>
-                    <td><?php echo __('Amount');?></td>
-                    <td><?php echo __('Comments');?></td>
+                    <td class="payperiod"><?php echo __('Pay Frequency');?></td>
+                    <td class="currency"><?php echo __('Currency');?></td>
+                    <td class="amount"><?php echo __('Amount');?></td>
+                    <td class="comments"><?php echo __('Comments');?></td>
                     <td class="directDepositCheck"><?php echo __('Show Direct Deposit Details');?></td>
                 </tr>
                 </thead>

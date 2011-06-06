@@ -174,3 +174,7 @@ label#noSalaryGrade {
 div#tblSalary table td.component {
     padding-left: 8px;
 }
+
+div#tblSalary table td.comments {
+    max-width: 200px;
+}

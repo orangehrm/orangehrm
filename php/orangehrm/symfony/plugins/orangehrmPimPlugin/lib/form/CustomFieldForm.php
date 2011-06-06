@@ -69,9 +69,13 @@ class CustomFieldForm extends BaseForm {
                              'emergency' => __('Emergency Contacts'),
                              'dependents' => __('Dependents'),
                              'immigration' => __('Immigration'),
-                             'Qualifications' => __('Qualifications'),
-                             'taxexemptions' => __('Tax Exemptions'),
-                             'salary' => __('Salary'));
+                             'qualifications' => __('Qualifications'),
+                             'tax' => __('Tax Exemptions'),
+                             'salary' => __('Salary'),
+                             'job' => __('Job'),
+                             'report-to' => __('Report-to'),
+                             'membership' => __('Membership')
+                             );
         return $screens;
     }
 
