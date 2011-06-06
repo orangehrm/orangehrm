@@ -110,7 +110,7 @@ $locRights['delete'] = true;
         <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblAttachments">
             <thead>
                 <tr>
-                    <td class="check"><input type="checkbox" id="attachmentsCheckAll" class="checkbox"/></td>
+                    <td class="check"><input type="checkbox" id="attachmentsCheckAll" class="checkboxAtch"/></td>
                     <td><?php echo __("File Name")?></td>
                     <td><?php echo __("Description")?></td>
                     <td><?php echo __("Size")?></td>
@@ -130,7 +130,7 @@ $locRights['delete'] = true;
             $cssClass = ($row%2) ? 'even' : 'odd';
             ?>
                 <tr class="<?php echo $cssClass;?>">
-                    <td class="check"><input type='checkbox' <?php echo $disabled;?> class='checkbox' name='chkattdel[]'
+                    <td class="check"><input type='checkbox' <?php echo $disabled;?> class='checkboxAtch' name='chkattdel[]'
                                value="<?php echo $attachment->attach_id; ?>"/></td>
                     <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
                            href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>"><?php echo $attachment->filename; ?></a></td>
@@ -202,16 +202,16 @@ $locRights['delete'] = true;
 
         //if check all button clicked
         $("#attachmentsCheckAll").click(function() {
-            $("table#tblAttachments tbody input.checkbox").removeAttr("checked");
+            $("table#tblAttachments tbody input.checkboxAtch").removeAttr("checked");
             if($("#attachmentsCheckAll").attr("checked")) {
-                $("table#tblAttachments tbody input.checkbox").attr("checked", "checked");
+                $("table#tblAttachments tbody input.checkboxAtch").attr("checked", "checked");
             }
         });
 
         //remove tick from the all button if any checkbox unchecked
-        $("table#tblAttachments tbody input.checkbox").click(function() {
+        $("table#tblAttachments tbody input.checkboxAtch").click(function() {
             $("#attachmentsCheckAll").removeAttr('checked');
-            if($("table#tblAttachments tbody input.checkbox").length == $("table#tblAttachments tbody input.checkbox:checked").length) {
+            if($("table#tblAttachments tbody input.checkboxAtch").length == $("table#tblAttachments tbody input.checkboxAtch:checked").length) {
                 $("#attachmentsCheckAll").attr('checked', 'checked');
             }
         });
@@ -226,7 +226,7 @@ $locRights['delete'] = true;
             attachmentValidator.resetForm();
             
             var row = $(this).closest("tr");
-            var seqNo = row.find('input.checkbox:first').val();
+            var seqNo = row.find('input.checkboxAtch:first').val();
             var fileName = row.find('a.fileLink').text();
             var description = row.find("td:nth-child(3)").text();
             description = jQuery.trim(description);
@@ -245,7 +245,7 @@ $locRights['delete'] = true;
             $("label.error1col[generated='true']").css('display', 'none');
             $('#attachmentActions').hide();
             
-            $("table#tblAttachments input.checkbox").hide();
+            $("table#tblAttachments input.checkboxAtch").hide();
             
             $('h3#attachmentSubHeading').text(lang_EditAttachmentHeading);
             $('#addPaneAttachments').show();
@@ -271,7 +271,7 @@ $locRights['delete'] = true;
             $('h3#attachmentSubHeading').text(lang_AddAttachmentHeading);
             $('#addPaneAttachments').show();
             
-            $("table#tblAttachments input.checkbox").hide();
+            $("table#tblAttachments input.checkboxAtch").hide();
             $("table#tblAttachments a.editLink").hide();
             
             if (hideAttachmentListOnAdd) {
@@ -289,7 +289,7 @@ $locRights['delete'] = true;
             $('#ufile').val('');
             $('#txtAttDesc').val('');
             $('#frmEmpDelAttachments').show();
-            $("table#tblAttachments input.checkbox").show();
+            $("table#tblAttachments input.checkboxAtch").show();
             $("table#tblAttachments a.editLink").show();            
         });
         
@@ -326,7 +326,7 @@ $locRights['delete'] = true;
         
 <?php } else { ?>
     
-        $('table#tblAttachments input.checkbox[value="<?php echo $attSeqNO;?>"]').
+        $('table#tblAttachments input.checkboxAtch[value="<?php echo $attSeqNO;?>"]').
             closest('tr').find('a.editLink').trigger('click');
         
 <?php } ?>
