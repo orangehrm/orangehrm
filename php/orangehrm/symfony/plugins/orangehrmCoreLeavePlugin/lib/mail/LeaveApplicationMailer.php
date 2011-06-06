@@ -46,7 +46,7 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
                     try {
 
                         $this->message->setFrom($this->getSystemFrom());
-                        $this->message->addTo($to);
+                        $this->message->setTo($to);
 
                         $message = new LeaveApplicationMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
 

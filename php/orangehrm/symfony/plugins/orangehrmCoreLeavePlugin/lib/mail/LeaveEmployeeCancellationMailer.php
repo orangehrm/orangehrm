@@ -64,7 +64,7 @@ class LeaveEmployeeCancellationMailer extends orangehrmLeaveMailer {
                     try {
 
                         $this->message->setFrom($this->getSystemFrom());
-                        $this->message->addTo($to);
+                        $this->message->setTo($to);
 
                         $message = new LeaveEmployeeCancellationMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
 
