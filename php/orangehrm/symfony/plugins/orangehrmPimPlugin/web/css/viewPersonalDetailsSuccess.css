@@ -4,7 +4,10 @@
     margin-top: 10px;
 }
 
-ul.radio_list { list-style: none; }
+ul.radio_list { 
+    list-style: none; 
+    padding-left: 0px;
+}
 ul.radio_list li { display: inline; }
 ul.radio_list li label { display: inline; padding-left:5px; width:50px; margin-top: 8px;}
 ul.radio_list li input { float:left; margin-top:8px; }
