@@ -1,6 +1,12 @@
 $(document).ready(function() {
 
-    $("#photofile").attr('disabled', 'disabled');
+    $("#btnSave").attr('disabled', 'disabled');
+
+    $("#photofile").change(function(){
+        if ($(this).val() != '') {
+            $("#btnSave").removeAttr("disabled");
+        }
+    });
 
     if(showDeteleButton == 0) {
         $("#btnDelete").hide();
@@ -12,16 +18,8 @@ $(document).ready(function() {
         $("#messagebar").text("");
         $("#messagebar").removeAttr("class");
 
-        //if user clicks on Edit make all fields editable
-        if($("#btnSave").attr('value') == edit) {
-            $("#photofile").removeAttr("disabled");
-            $("#btnSave").attr('value', save);
-            return;
-        }
+        $("#frmPhoto").submit();
 
-        if($("#btnSave").attr('value') == save) {
-            $("#frmPhoto").submit();
-        }
     });
 
     //form validation

@@ -60,7 +60,7 @@
                                             
                                         </div>
                                         <div class="formbuttons">
-                                            <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" />
+                                            <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Upload"); ?>" />
                                             <input type="button" class="savebutton" id="btnDelete" value="<?php echo __("Delete"); ?>" />
                                         </div>
                                     </form>
