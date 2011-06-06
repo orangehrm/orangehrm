@@ -386,7 +386,6 @@
 			
 	//Click Submit button 
 		$('#saveBtn').click(function(){
-            $(this).attr('disabled', true);
 			$('#frmLeaveApply').submit();
 		});
  });
