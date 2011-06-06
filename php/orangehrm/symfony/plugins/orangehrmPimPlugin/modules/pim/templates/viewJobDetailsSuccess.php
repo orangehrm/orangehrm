@@ -75,6 +75,7 @@
                                     <?php echo $form['termination_reason']->renderLabel(__('Terminated Reason')); ?>
                                     <?php echo $form['termination_reason']->render(); ?>
                                     <label class="error" id="terminatedReason"></label>
+                                    <br class="clear"/>
                                     </div> <!-- End of terminatedDetails -->
                                     
                                     <label><?php echo __("Job Specification");?></label>
