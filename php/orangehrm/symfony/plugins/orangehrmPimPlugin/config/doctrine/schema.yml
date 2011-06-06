@@ -388,7 +388,7 @@ EmployeeAttachment:
     eattach_desc as description: string(200)
     eattach_filename as filename: string(100)
     eattach_attachment as attachment: blob(2147483647)
-    eattach_type as file_type: string(50)
+    eattach_type as file_type: string(200)
     screen:
       type: string(100)
     attached_by:
@@ -456,8 +456,7 @@ EmpBasicsalary:
       notnull: true      
     sal_grd_code:
       type: string(13)
-      notnull: true
-      default: ''
+      default: null
     currency_id:
       type: string(6)
       notnull: true

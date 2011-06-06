@@ -41,8 +41,19 @@
             <?php echo $form['id']->render(); ?>
             <?php echo $form['emp_number']->render(); ?>
 
-            <?php echo $form['sal_grd_code']->renderLabel(__('Pay Grade') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['sal_grd_code']->render(array("class" => "formSelect")); ?>
+            
+            <?php 
+                echo $form['sal_grd_code']->renderLabel(__('Pay Grade'));                        
+                if ($form->havePayGrades) {
+
+                    echo $form['sal_grd_code']->render(array("class" => "formSelect"));
+                } else {
+                    echo $form['sal_grd_code']->render();
+            ?>
+            <label id="noSalaryGrade" for="sal_grd_code"><?php echo __("Not Defined");?></label>
+            <?php
+                }
+            ?>
             <br class="clear"/>
 
             <?php echo $form['salary_component']->renderLabel(__('Salary Component') . ' <span class="required">*</span>'); ?>
@@ -74,33 +85,33 @@
             
             <br class="clear"/>
             
-            <div id="directDebitSection">
+            <div id="directDebitSection" style="display:none">
                 <?php echo $directDepositForm['_csrf_token']; ?>
                 <?php echo $directDepositForm['id']->render();?>
                 
-                <?php echo $directDepositForm['account']->renderLabel(__('Account Number')); ?>
+                <?php echo $directDepositForm['account']->renderLabel(__('Account Number') . ' <span class="required">*</span>'); ?>
                 <?php echo $directDepositForm['account']->render(array("class" => "formInputText", "maxlength" => 100)); ?>                
                 
                 <br class="clear"/>
                 
-                <?php echo $directDepositForm['account_type']->renderLabel(__('Account Type')); ?>
+                <?php echo $directDepositForm['account_type']->renderLabel(__('Account Type') . ' <span class="required">*</span>'); ?>
                 <?php echo $directDepositForm['account_type']->render(array("class" => "formSelect")); ?>                
 
                 <br class="clear"/>
                 
                 <div id="accountTypeOther">                
-                    <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify')); ?>
+                    <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify') . ' <span class="required">*</span>'); ?>
                     <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText", "maxlength" => 20)); ?>                
 
                     <br class="clear"/>
                 </div>
                 
-                <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number')); ?>
+                <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number') . ' <span class="required">*</span>'); ?>
                 <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 20)); ?>                
                 
                 <br class="clear"/>
                 
-                <?php echo $directDepositForm['amount']->renderLabel(__('Amount')); ?>
+                <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
                 <?php echo $directDepositForm['amount']->render(array("class" => "formInputText")); ?>    
                 <br class="clear"/>
             </div>
@@ -297,45 +308,46 @@ function clearMinMax() {
 
 function getMinMax(salaryGrade, currency)
 {
-    var url = '<?php echo url_for('admin/getMinMaxSalaryJson') ;?>' + '/salaryGrade/' + salaryGrade + "/currency/" + currency;
+    var notApplicable = '<?php echo __("N/A");?>';
+            
+    if (salaryGrade == '') {
+        $("#minSalary").val('');
+        $("#maxSalary").val('');
+        $('#minMaxSalaryLbl').text('<?php echo __("Min");?>' + " : " + notApplicable + " " + '<?php echo __("Max");?>' + " : " + notApplicable);        
+    }
+    else {
+        var url = '<?php echo url_for('admin/getMinMaxSalaryJson') ;?>' + '/salaryGrade/' + salaryGrade + "/currency/" + currency;
 
-    $.getJSON(url, function(data) {
+        $.getJSON(url, function(data) {
 
-        var notApplicable = '<strong>-<?php echo __("N/A");?>-</strong>';
-        var minSalary = null;
-        var maxSalary = null;
-        var minVal = "";
-        var maxVal = "";
+            var minSalary = notApplicable;
+            var maxSalary = notApplicable;
+            var minVal = "";
+            var maxVal = "";
 
-        if (data) {
-            minSalary = data.min;
-            maxSalary = data.max;
-            minVal = minSalary;
-            maxVal = maxSalary;
-        }
-        if (minSalary == null) {
-            minSalary = notApplicable;
-        }
-        if (maxSalary == null) {
-            maxSalary = notApplicable;
-        }
-        $("#minSalary").val(minVal);
-        $("#maxSalary").val(maxVal);
-        $('#minMaxSalaryLbl').text('<?php echo __("Min");?>' + " : " + minVal + " " + '<?php echo __("Max");?>' + " : " + maxVal);
-    });
+            if (data) {
+                if (data.min) {
+                    minSalary = data.min;
+                    minVal = minSalary;
+                }
+                
+                if (data.max) {
+                    maxSalary = data.max;
+                    maxVal = maxSalary;
+                }
+            }
+            
+            $("#minSalary").val(minVal);
+            $("#maxSalary").val(maxVal);
+            $('#minMaxSalaryLbl').text('<?php echo __("Min");?>' + " : " + minSalary + " " + '<?php echo __("Max");?>' + " : " + maxSalary);
+        });
+
+    }
 }
     
 function updateCurrencyList(payGrade, currencyId, currencyName) {
 
-    // don't check if not selected
-    if (payGrade == '') {
-        // remove all options except first
-        $("#salary_currency_id option:not(:first)").remove().val('');
-        clearMinMax();
-        return;
-    }
-
-    var url = '<?php echo url_for('pim/getUnassignedCurrenciesJson?empNumber=' . $empNumber . '&paygrade=') ;?>' + payGrade;
+    var url = '<?php echo url_for('pim/getAvailableCurrenciesJson?empNumber=' . $empNumber . '&paygrade=') ;?>' + payGrade;
 
     $.getJSON(url, function(data) {
 
@@ -378,6 +390,11 @@ $(document).ready(function() {
     <?php if (count($salaryList) > 0) { ?>
     $("#changeSalary").hide();
     $("#salaryRequiredNote").hide();
+    <?php } else { 
+        // Force        
+    ?>
+        clearDirectDepositFields();
+        $('#directDebitSection').hide();
     <?php } ?>
     
     //hiding the data table if records are not available
@@ -444,6 +461,7 @@ $(document).ready(function() {
         //changing the headings
         $("#headchangeSalary").text(lang_addSalary);
         $("div#tblSalary .chkbox").hide();
+        
         $("#salaryCheckAll").hide();
 
         //hiding action button section
@@ -451,8 +469,9 @@ $(document).ready(function() {
 
         $('#salary_id').val("");
         $('#salary_sal_grd_code').val("");
-        $("#salary_currency_id option:not(:first)").remove();
+        updateCurrencyList('', false, false);
         $('#salary_currency_id').val("");        
+        
         clearMinMax();
         
         $("#salary_basic_salary").val("");
@@ -512,7 +531,7 @@ $(document).ready(function() {
     var salaryValidator =
         $("#frmSalary").validate({
         rules: {
-            'salary[sal_grd_code]': {required: true},
+            'salary[sal_grd_code]': {required: false},
             'salary[currency_id]': {required: true},
             'salary[salary_component]': {required: true, maxlength: 100},
             'salary[comments]': {required: false, maxlength: 255},
@@ -532,7 +551,6 @@ $(document).ready(function() {
             'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true}
         },
         messages: {
-            'salary[sal_grd_code]': {required: lang_payPeriodRequired},
             'salary[currency_id]': {required: lang_currencyRequired},
             'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
             'salary[comments]': {maxlength: lang_commentsLength},

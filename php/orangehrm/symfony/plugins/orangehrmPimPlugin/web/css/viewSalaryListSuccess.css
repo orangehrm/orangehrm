@@ -115,14 +115,9 @@ label {
     margin-top: 5px;
 }
 
-label#minSalaryLbl,
-label#maxSalaryLbl {
-    width: 50px;
-}
 
-input#minSalary,
-input#maxSalary {
-    width: 50px;
+label#minMaxSalaryLbl {
+    width: 200px;
 }
 
 input#salary_set_direct_debit {
@@ -170,4 +165,8 @@ table.directDepositTable {
 
 span.directDepositHeading {
     font-weight: bold;
+}
+
+label#noSalaryGrade {
+    padding-left: 0px;
 }

@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * 
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,25 +26,40 @@
  * @author orange
  */
 class CurrencyService extends BaseService {
-	
-/**
-	 * Get Currency list
-	 * @return Country
-	 */
-	public function getCurrencyList( )
-	{
-		try
-		{
-			$q = Doctrine_Query::create()
-			    ->from('CurrencyType c')
-			    ->orderBy('c.currency_name');
-			    
-			$currencyList	=	$q->execute();
-			
-			return $currencyList ;
-		}catch( Exception $e)
-		{
-			throw new AdminServiceException( $e->getMessage());	
-		}
-	}
+
+    private $currencyDao;
+
+    /**
+     * Set CurrencyDao
+     * @param CurrencyDao $currencyDao
+     */
+    public function setCurrencyDao(CurrencyDao $currencyDao) {
+        $this->currencyDao = $currencyDao;
+    }
+
+    /**
+     * Return CurrencyDao
+     * @returns $currencyDao
+     */
+    public function getCurrencyDao() {
+        if (is_null($this->currencyDao)) {
+            $this->currencyDao = new CurrencyDao();
+        }
+
+        return $this->currencyDao;
+    }
+
+    /**
+     * Get Currency list
+     * @param bool $asArray
+     * @return Country
+     */
+    public function getCurrencyList($asArray = false) {
+        try {
+            return $this->getCurrencyDao()->getCurrencyList($asArray);
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
 }

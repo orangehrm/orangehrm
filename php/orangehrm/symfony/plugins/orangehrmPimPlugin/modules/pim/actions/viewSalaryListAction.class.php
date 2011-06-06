@@ -64,8 +64,8 @@ class viewSalaryListAction extends basePimAction {
 
         if ($this->getRequest()->isMethod('post')) {
 
-            // Handle the form submission           
-            $this->form->bind($request->getParameter($this->form->getName()));
+            // Handle the form submission    
+            $this->form->bind($request->getParameter($this->form->getName()));                       
 
             if ($this->form->isValid()) {
 
@@ -85,7 +85,7 @@ class viewSalaryListAction extends basePimAction {
                         $validationMsg = '';
                         foreach($this->directDepositForm->getWidgetSchema()->getPositions() as $widgetName) {
                             if($this->directDepositForm[$widgetName]->hasError()) {
-                                $validationMsg .= __($this->directDepositForm[$widgetName]->getError()->getMessageFormat());
+                                $validationMsg .= $widgetName . ' ' . __($this->directDepositForm[$widgetName]->getError()->getMessageFormat());
                             }
                         }
 
@@ -107,9 +107,10 @@ class viewSalaryListAction extends basePimAction {
                 $validationMsg = '';
                 foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
                     if($this->form[$widgetName]->hasError()) {
-                        $validationMsg .= __($this->form[$widgetName]->getError()->getMessageFormat());
+                        $validationMsg .= $widgetName . ' ' . __($this->form[$widgetName]->getError()->getMessageFormat());
                     }
                 }
+                $validationMsg .= $this->form->getWidgetSchema()->renderGlobalErrors();
 
                 $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
             }

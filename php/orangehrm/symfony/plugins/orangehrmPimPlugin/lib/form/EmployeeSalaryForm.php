@@ -21,7 +21,32 @@
  * Form class for employee salary detail
  */
 class EmployeeSalaryForm extends BaseForm {
+    
     public $fullName;
+    
+    private $currencyService;
+    
+    public $havePayGrades = false;
+    
+
+    /**
+     * Get CurrencyService
+     * @returns CurrencyService
+     */
+    public function getCurrencyService() {
+        if(is_null($this->currencyService)) {
+            $this->currencyService = new CurrencyService();
+        }
+        return $this->currencyService;
+    }
+
+    /**
+     * Set CurrencyService
+     * @param CurrencyService $currencyService
+     */
+    public function setCurrencyService(CurrencyService $currencyService) {
+        $this->currencyService = $currencyService;
+    }
     
     public function configure() {
         
@@ -30,14 +55,13 @@ class EmployeeSalaryForm extends BaseForm {
         $this->fullName = $employee->getFullName();
         
         $payGrades = $this->_getPayGrades();
-        $currencies = array('' => '-- ' . __('Select') . ' --');
+        $currencies = $this->_getCurrencies();
         $payPeriods = $this->_getPayPeriods();
         
         // Note: Widget names were kept from old non-symfony version
         $this->setWidgets(array(
             'id' => new sfWidgetFormInputHidden(),
             'emp_number' => new sfWidgetFormInputHidden(),
-            'sal_grd_code' => new sfWidgetFormSelect(array('choices'=>$payGrades)),
             'currency_id' => new sfWidgetFormSelect(array('choices'=>$currencies)),
             'basic_salary' => new sfWidgetFormInputText(),
             'payperiod_code' =>  new sfWidgetFormSelect(array('choices'=>$payPeriods)),
@@ -48,11 +72,22 @@ class EmployeeSalaryForm extends BaseForm {
 
         $this->setDefault('emp_number', $empNumber);
         
+        if (count($payGrades) > 0) {
+            $this->havePayGrades = true;            
+            $this->setWidget('sal_grd_code', new sfWidgetFormSelect(array('choices'=>$payGrades)));
+        } else {
+            $this->setWidget('sal_grd_code', new sfWidgetFormInputHidden());
+        }
+        
+        // Remove default options from list validated against
+        unset($payGrades['']);
+        unset($currencies['']);
+        unset($payPeriods['']);
+        
         $this->setValidators(array(
             'id' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'emp_number' => new sfValidatorNumber(array('required' => true, 'min'=>0)),
-            'sal_grd_code' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($payGrades))),
-            'currency_id' => new sfValidatorString(array('required' => true)), // currency_id checked in post validate
+            'currency_id' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($currencies))),
             'basic_salary' => new sfValidatorNumber(array('required' => true, 'trim'=>true)),
             'payperiod_code' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($payPeriods))),
             'salary_component' => new sfValidatorString(array('required' => false, 'max_length'=>100)),
@@ -60,6 +95,13 @@ class EmployeeSalaryForm extends BaseForm {
             'set_direct_debit' => new sfValidatorString(array('required' => false)),
         ));
 
+        if ($this->havePayGrades) {
+            $this->setValidator('sal_grd_code', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($payGrades))));
+        } else {
+            // We do not expect a value. Validate as an empty string
+            $this->setValidator('sal_grd_code', new sfValidatorString(array('required' => false, 'max_length' => 10)));
+        }
+        
          $this->widgetSchema->setNameFormat('salary[%s]');
          
         // set up your post validator method
@@ -73,24 +115,30 @@ class EmployeeSalaryForm extends BaseForm {
 
     public function postValidate($validator, $values) {
         $jobService = new JobService();
-        $salaryDetail = $jobService->getSalaryCurrencyDetail($values['sal_grd_code'], $values['currency_id']);
 
-        $salary = $values['basic_salary'];
+        $salaryGrade = $values['sal_grd_code'];
 
-        // Tryihg to use invalid salary grade / currency combination
-
-        if (empty($salaryDetail)) {
-
-            $message = sfContext::getInstance()->getI18N()->__('Invalid Salary Grade.');
-            $error = new sfValidatorError($validator, $message);
-            throw new sfValidatorErrorSchema($validator, array('' => $error));
-
-        } else if ( (!is_null($salaryDetail->min_salary) && ($salary < $salaryDetail->min_salary)) ||
-                    (!is_null($salaryDetail->max_salary) && ($salary > $salaryDetail->max_salary)) ) {
+        if (!empty($salaryGrade)) {
             
-            $message = sfContext::getInstance()->getI18N()->__('Salary should be within min and max');
-            $error = new sfValidatorError($validator, $message);
-            throw new sfValidatorErrorSchema($validator, array('basic_salary' => $error));
+            $salaryDetail = $jobService->getSalaryCurrencyDetail($salaryGrade, $values['currency_id']);
+
+            $salary = $values['basic_salary'];
+            
+            if (empty($salaryDetail)) {
+
+                $message = sfContext::getInstance()->getI18N()->__('Invalid Salary Grade.');
+                $error = new sfValidatorError($validator, $message);
+                throw new sfValidatorErrorSchema($validator, array('' => $error));
+
+            } else if ( (!is_null($salaryDetail->min_salary) && ($salary < $salaryDetail->min_salary)) ||
+                        (!is_null($salaryDetail->max_salary) && ($salary > $salaryDetail->max_salary)) ) {
+
+                $message = sfContext::getInstance()->getI18N()->__('Salary should be within min and max');
+                $error = new sfValidatorError($validator, $message);
+                throw new sfValidatorErrorSchema($validator, array('basic_salary' => $error));
+            }
+        } else {
+            $values['sal_grd_code'] = null;
         }
 
         // cleanup cmbPayPeriod
@@ -98,6 +146,7 @@ class EmployeeSalaryForm extends BaseForm {
         if ($payPeriod == '0' || $payPeriod = '') {
             $values['payperiod_code'] = null;
         }
+        
         return $values;
     }
 
@@ -135,23 +184,46 @@ class EmployeeSalaryForm extends BaseForm {
     }
     
     private function _getPayGrades() {
+        $choices = array();
+        
         $jobService = new JobService();
         $payGrades = $jobService->getSaleryGradeList();
-        $choices = array('' => '-- ' . __('Select') . ' --');
+        
+        if (count($payGrades) > 0) {
+            $choices = array('' => '-- ' . __('Select') . ' --');
 
-        foreach ($payGrades as $payGrade) {
-            $choices[$payGrade->getSalGrdCode()] = $payGrade->getSalGrdName();
+            foreach ($payGrades as $payGrade) {
+                $choices[$payGrade->getSalGrdCode()] = $payGrade->getSalGrdName();
+            }
         }
         return $choices;
     }
+    
+    /**
+     * Get Pay Periods as array.
+     * 
+     * @return Array (empty array if no pay periods defined).
+     */
     private function _getPayPeriods() {
-        $payPeriods = Doctrine::getTable('Payperiod')->findAll();
+        $payPeriods = Doctrine::getTable('Payperiod')->findAll();        
+
         $choices = array('' => '-- ' . __('Select') . ' --');
 
         foreach ($payPeriods as $payPeriod) {
             $choices[$payPeriod->getCode()] = $payPeriod->getName();
         }
+        
         return $choices;
-    }    
+    }
+    
+    private function _getCurrencies() {
+        $currencies = $this->getCurrencyService()->getCurrencyList();
+        $choices = array('' => '-- ' . __('Select') . ' --');
+
+        foreach ($currencies as $currency) {
+            $choices[$currency->getCurrencyId()] = $currency->getCurrencyName();
+        }
+        return $choices;        
+    }
 }
 

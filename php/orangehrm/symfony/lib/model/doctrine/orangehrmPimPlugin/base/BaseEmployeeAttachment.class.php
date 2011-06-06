@@ -80,7 +80,7 @@ abstract class BaseEmployeeAttachment extends sfDoctrineRecord
              'type' => 'blob',
              'length' => 2147483647,
              ));
-        $this->hasColumn('eattach_type as file_type', 'string', 50, array(
+        $this->hasColumn('eattach_type as file_type', 'string', 200, array(
              'type' => 'string',
              'length' => 50,
              ));

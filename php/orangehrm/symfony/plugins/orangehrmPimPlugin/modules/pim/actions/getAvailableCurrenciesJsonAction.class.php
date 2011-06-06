@@ -19,11 +19,32 @@
  */
 
 /**
- * getUnassignedCurrenciesJsonAction action
+ * getAvailableCurrenciesJsonAction action
  */
-class getUnassignedCurrenciesJsonAction extends basePimAction {
+class getAvailableCurrenciesJsonAction extends basePimAction {
 
+    private $currencyService;
+    
 
+    /**
+     * Get CurrencyService
+     * @returns CurrencyService
+     */
+    public function getCurrencyService() {
+        if(is_null($this->currencyService)) {
+            $this->currencyService = new CurrencyService();
+        }
+        return $this->currencyService;
+    }
+
+    /**
+     * Set CurrencyService
+     * @param CurrencyService $currencyService
+     */
+    public function setCurrencyService(CurrencyService $currencyService) {
+        $this->currencyService = $currencyService;
+    }
+    
     /**
      * List unassigned currencies for given employee and pay grade
      * @param sfWebRequest $request
@@ -49,6 +70,13 @@ class getUnassignedCurrenciesJsonAction extends basePimAction {
 
            // TODO: call method that returns data in array format (or pass parameter)
            $currencies = $employeeService->getUnAssignedCurrencyList($empNumber, $payGrade, true);
+       } else {
+           
+           // 
+           // Return full currency list
+           //
+           $currencyService = $this->getCurrencyService();
+           $currencies = $currencyService->getCurrencyList(true);           
        }
 
        return $this->renderText(json_encode($currencies));

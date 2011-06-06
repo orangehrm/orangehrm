@@ -69,8 +69,7 @@ abstract class BaseEmpBasicsalary extends sfDoctrineRecord
              ));
         $this->hasColumn('sal_grd_code', 'string', 13, array(
              'type' => 'string',
-             'notnull' => true,
-             'default' => '',
+             'default' => null,
              'length' => 13,
              ));
         $this->hasColumn('currency_id', 'string', 6, array(

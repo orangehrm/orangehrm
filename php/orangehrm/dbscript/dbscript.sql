@@ -125,7 +125,7 @@ create table `hs_hr_payperiod` (
 create table `hs_hr_emp_basicsalary` (
   `id` INT AUTO_INCREMENT, 
   `emp_number` int(7) not null default 0,
-  `sal_grd_code` varchar(13) not null default '',
+  `sal_grd_code` varchar(13) default null,
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
   `payperiod_code` varchar(13) default null,
@@ -172,7 +172,7 @@ create table `hs_hr_emp_attachment` (
   `eattach_filename` varchar(100) default null,
   `eattach_size` int(11) default '0',
   `eattach_attachment` mediumblob,
-  `eattach_type` varchar(50) default null,
+  `eattach_type` varchar(200) default null,
   `screen` varchar(100) default '',
   `attached_by` int default null,
   `attached_by_name` varchar(200),
