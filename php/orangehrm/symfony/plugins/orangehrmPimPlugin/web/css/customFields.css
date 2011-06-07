@@ -1,14 +1,3 @@
 form#frmEmpCustomFields label {
     margin-top: 5px;
 }
-
-label.error {
-    color:red;
-    display: block;
-    font-weight: normal;
-    overflow:visible;
-    padding-top:0px;
-    padding-bottom: 3px;
-    width:180px !important; /* Need to overide important in messages.css */
-    padding-left:180px;
-}
