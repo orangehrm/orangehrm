@@ -125,15 +125,19 @@ class CustomFieldsDao extends BaseDao {
 
         try {
             foreach ($customFieldList as $customField) {
-                $actualFieldName  = "custom".$customField;
-                
+                $actualFieldName = "custom" . $customField;
+
                 $q = Doctrine_Query::create()
                                 ->update('Employee')
                                 ->set($actualFieldName, '?', '');
-                               
-                 $rows = $q->execute();
+
+                $rows = $q->execute();
             }
-            return true;
+            if ($rows > 0) {
+                return true;
+            }
+
+            return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
