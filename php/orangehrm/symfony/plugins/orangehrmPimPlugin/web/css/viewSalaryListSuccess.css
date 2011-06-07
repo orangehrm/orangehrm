@@ -186,6 +186,11 @@ div#tblSalary table td.component {
     word-wrap: break-word;
 }
 
+div#tblSalary table td.amount {
+    word-wrap: break-word;
+}
+
+
 div#tblSalary table td.comments {
     max-width: 200px;
 }
