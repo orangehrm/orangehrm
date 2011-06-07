@@ -176,9 +176,11 @@ label#noSalaryGrade {
     padding-left: 0px;
 }
 
+
 div#tblSalary table.data-table {
     table-layout: fixed;
 }
+
 
 div#tblSalary table td.component {
     padding-left: 8px;
