@@ -77,9 +77,13 @@
                                 </div>                                 
                                 
                                 <div class="sectionDiv" id="sectionWorkExperience">
-                                    <div><h3><?php echo __('Work Experience'); ?></h3></div>
-
-                                    <div class="outerbox" id="changeWorkExperience" style="width:500px;">
+                                    <div style="float: left; width: 450px;"><h3><?php echo __('Work Experience'); ?></h3></div>
+                                    <div id="actionWorkExperience" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addWorkExperience" />&nbsp;
+                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delWorkExperience" />
+                                    </div>
+                                    
+                                    <div class="outerbox" id="changeWorkExperience" style="width:500px; float: left">
                                         <div class="mainHeading"><h4 id="headChangeWorkExperience"><?php echo __('Add Work Experience'); ?></h4></div>
                                         <form id="frmWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
@@ -115,12 +119,9 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <br class="clear" />
+
                                     <div class="smallText" id="workExpRequiredNote"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
-                                    <br />
-                                    <div id="actionWorkExperience">
-                                        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addWorkExperience" />&nbsp;
-                                        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delWorkExperience" />
-                                    </div>
 
                                     <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
                                         <div class="outerbox" id="tblWorkExperience">
@@ -160,7 +161,14 @@
                                                 <td class="comments"><?php echo htmlspecialchars($workExperience->comments);?></td>
                                                 </tr>
                                                     <?php $row++;
-                                                }?>
+                                                }
+                                                
+                                                if ($row == 0) { ?>
+                                                <tr>
+                                                    <td colspan="6">&nbsp;</td>
+                                                </tr>
+                                                <?php } ?>
+                                                
                                                 </tbody>
                                             </table>
                                         </div>
@@ -168,6 +176,7 @@
 
                                 </div>
                                 <!-- this is education section -->
+                                <br class="clear" />
                                 <a name="education"></a>
                                 <?php include_partial('education',
                                         array('empNumber'=>$empNumber, 'form'=>$educationForm,
@@ -175,6 +184,7 @@
                                               'section'=>$section));?>
 
                                 <!-- this is skills section -->
+                                <br class="clear" />
                                 <a name="skill"></a>
                                 <?php include_partial('skill',
                                         array('empNumber'=>$empNumber, 'form'=>$skillForm,
@@ -182,6 +192,7 @@
                                               'section'=>$section));?>
                                 
                                 <!-- this is Languages section -->
+                                <br class="clear" />
                                 <a name="language"></a>
                                 <?php include_partial('language',
                                         array('empNumber'=>$empNumber, 'form'=>$languageForm,
@@ -189,6 +200,7 @@
                                               'section'=>$section));?>
 
                                 <!-- this is Licenses section -->
+                                <br class="clear" />
                                 <a name="license"></a>
                                 <?php include_partial('license',
                                         array('empNumber'=>$empNumber, 'form'=>$licenseForm,

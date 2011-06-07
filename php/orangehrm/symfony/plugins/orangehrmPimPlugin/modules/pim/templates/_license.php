@@ -12,9 +12,13 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
 </div>
 
 <div class="sectionDiv" id="sectionLicense">
-    <div><h3><?php echo __('License'); ?></h3></div>
+    <div style="float: left; width: 450px;"><h3><?php echo __('License'); ?></h3></div>
+    <div id="actionLicense" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicense" />&nbsp;
+        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicense" />
+    </div>
 
-    <div class="outerbox" id="changeLicense" style="width:500px;">
+    <div class="outerbox" id="changeLicense" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeLicense"><?php echo __('Add License'); ?></h4></div>
         <form id="frmLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
@@ -47,13 +51,10 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
             </div>
         </form>
     </div>
+     <br class="clear" />
     <div class="smallText" id="licenseRequiredNote"><?php echo __('Fields marked with an asterisk')?>
         <span class="required">*</span> <?php echo __('are required.')?></div>
-    <br />
-    <div id="actionLicense">
-        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicense" />&nbsp;
-        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicense" />
-    </div>
+    
 
     <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLicense">
@@ -89,9 +90,16 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
                 <td class="desc"><a href="#" class="edit"><?php echo $licenseDesc;?></a></td>
                 <td><?php echo htmlspecialchars($startDate);?></td>
                 <td><?php echo htmlspecialchars($endDate);?></td>
-                </tr>
-                    <?php $row++;
-                }?>
+                <?php
+                        $row++;
+                    }
+
+                    if ($row == 0) {
+                    ?>
+                        <tr>
+                            <td colspan="6">&nbsp;</td>
+                        </tr>
+<?php } ?>
                 </tbody>
             </table>
         </div>
@@ -140,7 +148,7 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($("div#tblLicense table.data-table .chkbox").length == 0) {
-        $("#tblLicense").hide();
+        //$("#tblLicense").hide();
         $("#editLicense").hide();
         $("#delLicense").hide();
     }

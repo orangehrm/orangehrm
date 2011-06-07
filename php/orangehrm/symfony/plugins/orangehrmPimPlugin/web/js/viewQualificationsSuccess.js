@@ -29,7 +29,7 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($(".chkbox1").length == 0) {
-        $("#tblWorkExperience").hide();
+        //$("#tblWorkExperience").hide();
         $("#editWorkExperience").hide();
         $("#delWorkExperience").hide();
     }

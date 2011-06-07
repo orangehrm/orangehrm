@@ -13,9 +13,14 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
 
 
 <div class="sectionDiv" id="sectionLanguage">
-    <div><h3><?php echo __('Languages'); ?></h3></div>
+    <div style="float: left; width: 450px;"><h3><?php echo __('Languages'); ?></h3></div>
+    <div id="actionLanguage" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLanguage" />&nbsp;
+        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLanguage" />
+    </div>
 
-    <div class="outerbox" id="changeLanguage" style="width:500px;">
+
+    <div class="outerbox" id="changeLanguage" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeLanguage"><?php echo __('Add Language'); ?></h4></div>
         <form id="frmLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
@@ -46,14 +51,11 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
             </div>
         </form>
     </div>
+    <br class="clear" />
     <div class="smallText" id="languageRequiredNote"><?php echo __('Fields marked with an asterisk')?>
         <span class="required">*</span> <?php echo __('are required.')?></div>
-    <br />
-    <div id="actionLanguage">
-        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLanguage" />&nbsp;
-        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLanguage" />
-    </div>
 
+    
     <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLanguage">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
@@ -87,8 +89,16 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
                 <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
                 </tr>
-                    <?php $row++;
-                }?>
+                    <?php
+                        $row++;
+                    }
+
+                    if ($row == 0) {
+                    ?>
+                        <tr>
+                            <td colspan="6">&nbsp;</td>
+                        </tr>
+<?php } ?>
                 </tbody>
             </table>
         </div>
@@ -132,7 +142,7 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($("div#tblLanguage table.data-table .chkbox").length == 0) {
-        $("#tblLanguage").hide();
+        //$("#tblLanguage").hide();
         $("#editLanguage").hide();
         $("#delLanguage").hide();
     }

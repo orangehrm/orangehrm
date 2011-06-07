@@ -12,9 +12,13 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
 </div>
 
 <div class="sectionDiv" id="sectionSkill">
-    <div><h3><?php echo __('Skills'); ?></h3></div>
+    <div style="float: left; width: 450px;"><h3><?php echo __('Skills'); ?></h3></div>
+    <div id="actionSkill" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSkill" />&nbsp;
+        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSkill" />
+    </div>
 
-    <div class="outerbox" id="changeSkill" style="width:500px;">
+    <div class="outerbox" id="changeSkill" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeSkill"><?php echo __('Add Skill'); ?></h4></div>
         <form id="frmSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
@@ -40,13 +44,10 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
             </div>
         </form>
     </div>
+    <br class="clear" />
     <div class="smallText" id="skillRequiredNote"><?php echo __('Fields marked with an asterisk')?>
         <span class="required">*</span> <?php echo __('are required.')?></div>
-    <br />
-    <div id="actionSkill">
-        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSkill" />&nbsp;
-        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSkill" />
-    </div>
+    
 
     <form id="frmDelSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblSkill">
@@ -77,8 +78,16 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
                 <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
                 <td><?php echo htmlspecialchars($skill->years_of_exp);?></td>
                 </tr>
-                    <?php $row++;
-                }?>
+                    <?php
+                        $row++;
+                    }
+
+                    if ($row == 0) {
+                    ?>
+                        <tr>
+                            <td colspan="6">&nbsp;</td>
+                        </tr>
+<?php } ?>
                 </tbody>
             </table>
         </div>
@@ -127,7 +136,7 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($("div#tblSkill table.data-table .chkbox").length == 0) {
-        $("#tblSkill").hide();
+        //$("#tblSkill").hide();
         $("#editSkill").hide();
         $("#delSkill").hide();
     }
