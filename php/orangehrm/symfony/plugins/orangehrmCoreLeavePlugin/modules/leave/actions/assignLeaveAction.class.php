@@ -193,7 +193,7 @@ class assignLeaveAction extends sfAction {
         $leaveTypes = $this->getElegibleLeaveTypes();
         $userDetails = $this->getLoggedInUserDetails();
         if(count($leaveTypes) == 1) {
-            $this->templateMessage = array('WARNING', __('No Eligible Leave Types to Assign Leave, Please contact HR Admin'));
+            $this->templateMessage = array('WARNING', __('No Leave Types with Leave Balance'));
         }
         $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
                 'loggedUserId' => $userDetails['loggedUserId']);

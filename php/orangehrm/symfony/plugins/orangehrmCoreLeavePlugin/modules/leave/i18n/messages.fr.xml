@@ -273,10 +273,6 @@
         <target>FR_Make Sure Leave Request Contain Work Days</target>
       </trans-unit>
       <trans-unit id="129">
-        <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
-        <target>FR_No Eligible Leave Types to Assign Leave, Please contact HR Admin</target>
-      </trans-unit>
-      <trans-unit id="129">
         <source>Select a Leave Type</source>
         <target>FR_Select a Leave Type</target>
       </trans-unit>
@@ -433,8 +429,8 @@
         <target>FR_Select Action</target>
       </trans-unit>
       <trans-unit id="215">
-        <source>No Eligible Leave Types to Apply for Leave</source>
-        <target>FR_No Eligible Leave Types to Apply for Leave</target>
+        <source>No Leave Types with Leave Balance</source>
+        <target>FR_No Leave Types with Leave Balance</target>
       </trans-unit>
       <trans-unit id="216">
         <source>Leave Request Successfully Submitted</source>
