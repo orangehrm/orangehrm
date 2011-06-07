@@ -2,23 +2,23 @@ $(document).ready(function() {
 
     //Load default Mask if empty
 
-//    var passportIssueDate = $("#immigration_passport_issue_date");
-//
-//    if(trim(passportIssueDate.val()) == ''){
-//        passportIssueDate.val(dateDisplayFormat);
-//    }
-//
-//    var passportExpireDate = $("#immigration_passport_expire_date");
-//
-//    if(trim(passportExpireDate.val()) == ''){
-//        passportExpireDate.val(dateDisplayFormat);
-//    }
-//
-//    var i9ReviewDate = $("#immigration_i9_review_date");
-//
-//    if(trim(i9ReviewDate.val()) == ''){
-//        i9ReviewDate.val(dateDisplayFormat);
-//    }
+    var passportIssueDate = $("#immigration_passport_issue_date");
+
+    if(trim(passportIssueDate.val()) == ''){
+        passportIssueDate.val(dateDisplayFormat);
+    }
+
+    var passportExpireDate = $("#immigration_passport_expire_date");
+
+    if(trim(passportExpireDate.val()) == ''){
+        passportExpireDate.val(dateDisplayFormat);
+    }
+
+    var i9ReviewDate = $("#immigration_i9_review_date");
+
+    if(trim(i9ReviewDate.val()) == ''){
+        i9ReviewDate.val(dateDisplayFormat);
+    }
 
     $("#btnSave").click(function() {
         $("#frmEmpImmigration").submit();

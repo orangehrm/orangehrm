@@ -19,7 +19,7 @@
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
     var lang_deleteErrorMsg = "<?php echo __('Select at least One Record to Delete');?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
+    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>strtoupper($sf_user->getDateFormat()))) ?>";
 
     var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
