@@ -114,7 +114,7 @@
                                             <br class="clear"/>
 
                                         <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
+                                        <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 9)); ?>
                                             <br class="clear"/>
                                         </div>
 
