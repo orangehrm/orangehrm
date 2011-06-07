@@ -26,9 +26,11 @@ class EmployeeDirectDepositForm extends BaseForm {
     const ACCOUNT_TYPE_CHECKING = 'CHECKING';
     const ACCOUNT_TYPE_OTHER = 'OTHER';
           
+    private $accountTypes;
+    
     public function configure() {
         
-        $accountTypes = array('' => '-- ' . __('Select') . ' --',
+        $this->accountTypes = array('' => '-- ' . __('Select') . ' --',
                              self::ACCOUNT_TYPE_SAVINGS => __('Savings'),
                              self::ACCOUNT_TYPE_CHECKING => __('Checking'),
                              self::ACCOUNT_TYPE_OTHER => __('Other'));
@@ -37,7 +39,7 @@ class EmployeeDirectDepositForm extends BaseForm {
         $this->setWidgets(array(
             'id' => new sfWidgetFormInputHidden(),
             'account' => new sfWidgetFormInputText(),
-            'account_type' => new sfWidgetFormSelect(array('choices' => $accountTypes)),
+            'account_type' => new sfWidgetFormSelect(array('choices' => $this->accountTypes)),
             'account_type_other' => new sfWidgetFormInputText(),
             'routing_num' => new sfWidgetFormInputText(),
             'amount' => new sfWidgetFormInputText(),
@@ -46,7 +48,7 @@ class EmployeeDirectDepositForm extends BaseForm {
         $this->setValidators(array(
             'id' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'account' => new sfValidatorString(array('required' => true, 'max_length'=>100)),
-            'account_type' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($accountTypes))),
+            'account_type' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->accountTypes))),
             'account_type_other' => new sfValidatorString(array('required' => false)), // only required if account_type = 'OTHER'.
             'routing_num' => new sfValidatorNumber(array('required' => true, 'trim'=>true)),
             'amount' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
@@ -76,6 +78,29 @@ class EmployeeDirectDepositForm extends BaseForm {
 
             } 
         }
+                
+        /* 
+         * Validate amount field :decimal (11,2) - 
+         * ie. Precision is 11 digits
+         */        
+        /*amount = $values['amount'];
+        
+        // Round to 2 decimals
+        $amount = round($amount, 2);
+        
+        // Format as string and replace decimal point if any 
+        /*$amountStr = str_replace('.', '', sprintf("%.2F", $amount));
+        var_dump(sprintf("%.2F", $amount));
+        
+        // Check that number of digits is 11 or less
+        var_dump($amountStr);die;
+        if (strlen($amountStr) > 11) {
+            $message = __('Amount is too large. Should be 11 digits or less');
+            $error = new sfValidatorError($validator, $message);            
+            throw new sfValidatorErrorSchema($validator, array('amount' => $error)); 
+        } else {
+            $values['amount'] = $amount;
+        }*/
 
         
         return $values;
@@ -105,6 +130,16 @@ class EmployeeDirectDepositForm extends BaseForm {
         
         $salary->directDebit->routing_num = $this->getValue('routing_num');        
         $salary->directDebit->amount = $this->getValue('amount');        
+    }
+    
+    public function getAccountTypeDescription($accountType) {
+        $accountTypeDescription = $accountType;
+        
+        if (!empty($accountType) && isset($this->accountTypes[$accountType])) {
+            $accountTypeDescription = $this->accountTypes[$accountType];            
+        }
+
+        return($accountTypeDescription);
     }
   
 }

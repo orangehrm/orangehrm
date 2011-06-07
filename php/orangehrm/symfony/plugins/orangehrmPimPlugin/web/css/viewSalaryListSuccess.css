@@ -193,6 +193,7 @@ div#tblSalary table td.comments {
 input#salary_salary_component,
 textarea#salary_comments,
 input#directdeposit_account,
+input#directdeposit_amount,
 input#directdeposit_routing_num,
 input#directdeposit_account_type_other {
     width: 310px;

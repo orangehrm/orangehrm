@@ -177,7 +177,7 @@
                         
                         $accountType = $directDeposit->account_type;
                         $otherType = "";
-                        
+                                                
                         if ($hasDirectDeposit) {
                             if (($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_SAVINGS) &&
                                     ($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_CHECKING)) {
@@ -185,7 +185,6 @@
                                 $otherType = $directDeposit->account_type;
                             }
                         }
-                        
                         ?>
                     <tr class="<?php echo $cssClass;?>">
                 <td class="check"><input type="hidden" id="code_<?php echo $salary->id;?>" value="<?php echo $salary->id; ?>" />
@@ -216,7 +215,14 @@
                 
                 </td>
                 </tr>
-                <?php if ($hasDirectDeposit) { ?>
+                <?php if ($hasDirectDeposit) {
+                        $accountTypeStr = "";
+                        if ($accountType == EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER) {
+                            $accountTypeStr = $otherType;
+                        } else {
+                            $accountTypeStr = $directDepositForm->getAccountTypeDescription($accountType);
+                        }
+                 ?>
                 <tr class="directDepositRow" style="display:none;">
                     <td colspan="7" class="<?php echo $cssClass;?>" >
                         <span class="directDepositHeading"><?php echo __("Direct Deposit Details");?></span>
@@ -232,10 +238,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                <td><?php echo $directDeposit->account;?></td>
-                                <td><?php echo $directDeposit->account_type;?></td>
-                                <td><?php echo $directDeposit->routing_num;?></td>
-                                <td><?php echo $directDeposit->amount;?></td>
+                                <td><?php echo htmlspecialchars($directDeposit->account);?></td>
+                                <td><?php echo htmlspecialchars($accountTypeStr);?></td>
+                                <td><?php echo htmlspecialchars($directDeposit->routing_num);?></td>
+                                <td><?php echo htmlspecialchars($directDeposit->amount);?></td>
                                 </tr>
                             </tbody>
                         <?php 
