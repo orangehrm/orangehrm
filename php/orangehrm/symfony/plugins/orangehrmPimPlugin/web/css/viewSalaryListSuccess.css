@@ -199,6 +199,7 @@ div#tblSalary table td.comments {
 
 input#salary_salary_component,
 textarea#salary_comments,
+input#salary_basic_salary,
 input#directdeposit_account,
 input#directdeposit_amount,
 input#directdeposit_routing_num,
