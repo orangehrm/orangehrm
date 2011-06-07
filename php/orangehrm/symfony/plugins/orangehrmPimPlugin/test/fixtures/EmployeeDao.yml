@@ -25,9 +25,9 @@ EmployeeMemberDetail:
   0: {emp_number: '1', membship_code: 'MIME001', membtype_code: 'MEM001', ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22'}
   1: {emp_number: '1', membship_code: 'MIME002', membtype_code: 'MEM001', ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
 
-ReportMode:
-  0: {rep_mode_id: '3', rep_mode_name: 'reportModeName1'}
-  1: {rep_mode_id: '4', rep_mode_name: 'reportModeName2'}
+ReportingMethod:
+  0: {reportingMethodId: '3', reportingMethodName: 'reportingMethodName1'}
+  1: {reportingMethodId: '4', reportingMethodName: 'reportingMethodName2'}
 
 ReportTo:
   0: {erep_sup_emp_number: '4', erep_sub_emp_number: '3', erep_reporting_mode: '4'}

@@ -1236,7 +1236,7 @@ class EmployeeDao extends BaseDao {
 
         try {
             $q = Doctrine_Query::create()->from('ReportingMethod rm')
-                            ->where('rm.rep_mode_id =?', $reportingMethodId);
+                            ->where('rm.reporting_method_id =?', $reportingMethodId);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

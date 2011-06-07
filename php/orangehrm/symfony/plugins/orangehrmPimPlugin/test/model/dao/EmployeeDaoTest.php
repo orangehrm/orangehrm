@@ -142,35 +142,35 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test for saveReportMode returns ReportMode doctrine object
+     * Test for saveReportingMethod returns ReportingMethod doctrine object
      */
-    public function testSaveReportMode() {
+    public function testSaveReportingMethod() {
 
-        $reportMode = new ReportMode();
-        $reportMode->reportModeName = "report name";
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->reportingMethodName = "report name";
 
-        $storedReportMode = $this->employeeDao->saveReportMode($reportMode);
-        $this->assertTrue($storedReportMode instanceof ReportMode);
-        $this->assertEquals($storedReportMode->reportModeName, "report name");
+        $storedReportingMethod = $this->employeeDao->saveReportingMethod($reportingMethod);
+        $this->assertTrue($storedReportingMethod instanceof ReportingMethod);
+        $this->assertEquals($storedReportingMethod->reportingMethodName, "report name");
     }
 
     /**
-     * Test for getReportMode returns ReportMode doctrine object
+     * Test for getReportingMethod returns ReportingMethod doctrine object
      */
-    public function testGetReportMode() {
+    public function testGetReportingMethod() {
 
-        $reportMode = $this->employeeDao->getReportMode(3);
-        $this->assertTrue($reportMode instanceof ReportMode);
+        $reportingMethod = $this->employeeDao->getReportingMethod(3);
+        $this->assertTrue($reportingMethod instanceof ReportingMethod);
     }
 
     /**
-     * Test for getReportMode returns ReportMode doctrine collection
+     * Test for getReportingMethod returns ReportingMethod doctrine collection
      */
-    public function testGetReportModeList() {
+    public function testGetReportingMethodList() {
 
-        $reportMode = $this->employeeDao->getReportModeList();
-        $this->assertTrue($reportMode[0] instanceof ReportMode);
-        $this->assertTrue($reportMode[1] instanceof ReportMode);
+        $reportingMethod = $this->employeeDao->getReportingMethodList();
+        $this->assertTrue($reportingMethod[0] instanceof ReportingMethod);
+        $this->assertTrue($reportingMethod[1] instanceof ReportingMethod);
     }
 
     /**

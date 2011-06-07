@@ -251,39 +251,39 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test SaveReportMode
+     * Test SaveReportingMethod
      */
-    public function testSaveReportMode() {
+    public function testSaveReportingMethod() {
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('saveReportMode')
+                ->method('saveReportingMethod')
                 ->will($this->returnValue(true));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $reportMode = new ReportMode();
-        $reportMode->reportModeName = "report name";
-        $result = $this->employeeService->saveReportMode($reportMode);
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->reportingMethodName = "report name";
+        $result = $this->employeeService->saveReportingMethod($reportingMethod);
         $this->assertTrue($result);
     }
 
     /**
      * Test Get Report Mode for a given report mode id
      */
-    public function testGetReportMode() {
+    public function testGetReportingMethod() {
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getReportMode')
-                ->will($this->returnValue(new ReportMode()));
+                ->method('getReportingMethod')
+                ->will($this->returnValue(new ReportingMethod()));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readReportMode = $this->employeeService->getReportMode(6);
-        $this->assertTrue($readReportMode instanceof ReportMode);
+        $readReportingMethod = $this->employeeService->getReportingMethod(6);
+        $this->assertTrue($readReportingMethod instanceof ReportingMethod);
     }
 
 }

@@ -29,7 +29,10 @@ EmpLocation:
   1: {empNumber: 4, loc_code: 'LOC001'}
   2: {empNumber: 5, loc_code: 'LOC002'}
 
+ReportingMethod:
+  0: {reportingMethodId: '1', reportingMethodName: 'reportingMethodName1'}
+
 ReportTo:
-  0: {supervisorId: 1, subordinateId: 2, reportingMode: 1}
-  1: {supervisorId: 1, subordinateId: 5, reportingMode: 1}
-  2: {supervisorId: 3, subordinateId: 4, reportingMode: 1}
+  0: {supervisorId: 1, subordinateId: 2, reportingMethodId: 1}
+  1: {supervisorId: 1, subordinateId: 5, reportingMethodId: 1}
+  2: {supervisorId: 3, subordinateId: 4, reportingMethodId: 1}
