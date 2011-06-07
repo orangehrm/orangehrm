@@ -101,6 +101,10 @@ table.data-table tbody tr td.check {
     /*padding-top: 6px;*/
 }
 
+table.data-table thead tr td {
+    padding-right: 2px;
+}
+
 div#mainMessagebar,
 div#workExpMessagebar,
 div#salaryMessagebar,
@@ -172,8 +176,14 @@ label#noSalaryGrade {
     padding-left: 0px;
 }
 
+div#tblSalary table.data-table {
+    table-layout: fixed;
+}
+
 div#tblSalary table td.component {
     padding-left: 8px;
+    max-width: 200px;
+    word-wrap: break-word;
 }
 
 div#tblSalary table td.comments {

@@ -112,7 +112,7 @@
                 <br class="clear"/>
                 
                 <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                <?php echo $directDepositForm['amount']->render(array("class" => "formInputText")); ?>    
+                <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 12)); ?>    
                 <br class="clear"/>
             </div>
             
@@ -614,6 +614,7 @@ $('#accountTypeOther').hide();
     $('form#frmDelSalary a.edit').live('click', function(event) {
         event.preventDefault();
         clearMessageBar();
+        $('#actionClearBr').hide();
 
         //changing the headings
         $("#headchangeSalary").text(lang_editSalary);
