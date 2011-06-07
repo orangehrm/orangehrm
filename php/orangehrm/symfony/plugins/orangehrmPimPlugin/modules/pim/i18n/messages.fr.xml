@@ -1060,6 +1060,10 @@
                 <source>Subordinate Updated Successfully</source>
                 <target>FR_Subordinate Updated Successfully</target>
             </trans-unit>
+            <trans-unit id="264">
+                <source>Amount should be a positive number</source>
+                <target>FR_Amount should be a positive number</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
