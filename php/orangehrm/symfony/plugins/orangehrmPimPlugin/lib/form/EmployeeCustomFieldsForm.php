@@ -36,7 +36,6 @@ class EmployeeCustomFieldsForm extends BaseForm {
             if ($customField->type == CustomFields::FIELD_TYPE_SELECT) {
 
                 $options = $customField->getOptions();
-                //$options = array(0=>'cah', 1=>'san');
                 $this->setWidget($fieldName, new sfWidgetFormSelect(array('choices'=>$options)));
                 $this->setValidator($fieldName, new sfValidatorChoice(array('required' => false,
                                        'trim'=>true, 'choices'=>$options)));

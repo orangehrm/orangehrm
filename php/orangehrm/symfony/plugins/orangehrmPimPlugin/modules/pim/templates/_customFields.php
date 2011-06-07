@@ -37,7 +37,7 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
                 $value = $employee[$fieldName];
             ?>
                 <li>
-                    <label class="sizeL"><?php echo $customField->name; ?><span class="required">*</span></label>
+                    <label class="sizeL"><?php echo $customField->name; ?></label>
 
                     <div class="input_container">
                     <?php
@@ -101,29 +101,11 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
                         this.value = "<?php echo __("Save"); ?>";
                         this.title = "<?php echo __("Save"); ?>";
                     } else {
-                        if(isValidForm()){
                             $('#frmEmpCustomFields').submit();
-                        }
                     }
                 });        
             });
 
-            function isValidForm() {
-
-                var flag = true;
-
-                $('.formSelect').each(function(){
-                    element = $(this);
-
-                    if($(element).val() == ""){
-                        $("<label class='error'>"+"<?php echo __("Required"); ?>"+"</label>").insertBefore(element.next(".clear"));
-                        flag = false;
-
-                    }
-                });
-
-                return flag;
-            }
 
             //]]>
         </script>
