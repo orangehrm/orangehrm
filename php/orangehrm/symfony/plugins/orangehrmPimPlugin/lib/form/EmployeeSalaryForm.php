@@ -118,11 +118,12 @@ class EmployeeSalaryForm extends BaseForm {
 
         $salaryGrade = $values['sal_grd_code'];
 
+        $salary = $values['basic_salary'];
+            
         if (!empty($salaryGrade)) {
             
             $salaryDetail = $jobService->getSalaryCurrencyDetail($salaryGrade, $values['currency_id']);
 
-            $salary = $values['basic_salary'];
             
             if (empty($salaryDetail)) {
 
@@ -146,6 +147,11 @@ class EmployeeSalaryForm extends BaseForm {
         if ($payPeriod == '0' || $payPeriod = '') {
             $values['payperiod_code'] = null;
         }
+        
+        // Convert salary to a string -> since field is a string field.
+        // Otherwise, it can be converted using scientific notation when encrypting
+        //
+        $values['basic_salary'] = sprintf("%.2F", $salary);
         
         return $values;
     }
