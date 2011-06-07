@@ -530,8 +530,13 @@ $(document).ready(function() {
         var max = parseFloat($('#maxSalary').val());
         var amount = parseFloat($('#salary_basic_salary').val().trim());
         
-        if (!isNaN(amount) && !isNaN(min) && !isNaN(max)) {
-            if ((amount > max) || (amount < min)) {
+        if (!isNaN(amount)) {
+            
+            if (!isNaN(min) && (amount < min)) {
+                valid = false;
+            }
+            
+            if (!isNaN(max) && (amount > max)) {
                 valid = false;
             }
         }
@@ -547,7 +552,7 @@ $(document).ready(function() {
             'salary[currency_id]': {required: true},
             'salary[salary_component]': {required: true, maxlength: 100},
             'salary[comments]': {required: false, maxlength: 255},
-            'salary[basic_salary]': {number:true, validateAmount:true, required: true, positiveNumber: true},
+            'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0},
             'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
             'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
             'directdeposit[account_type_other]': {required: function(element) {
@@ -560,18 +565,18 @@ $(document).ready(function() {
                 }, 
                 maxlength:20},
             'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
-            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, positiveNumber: true}
+            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0}
         },
         messages: {
             'salary[currency_id]': {required: lang_currencyRequired},
             'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
             'salary[comments]': {maxlength: lang_commentsLength},
-            'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, positiveNumber: lang_negativeAmount},
+            'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, min: lang_negativeAmount},
             'directdeposit[account]': {required: lang_accountRequired, maxlength: lang_accountMaxLength},
             'directdeposit[account_type]': {required: lang_accountTypeRequired},
             'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
             'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
-            'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, positiveNumber: lang_negativeAmount}
+            'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount}
             
         },
 
@@ -581,11 +586,6 @@ $(document).ready(function() {
             error.insertAfter(element.next().next(".clear"));
 
         }
-    });
-
-    $.validator.addMethod('positiveNumber',
-    function (value) {
-        return Number(value) > 0;
     });
     
     function addEditLinks() {
