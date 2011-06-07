@@ -313,7 +313,7 @@
 function clearMinMax() {
     $("#minSalary").val('--');
     $("#maxSalary").val('--');
-    $('#minMaxSalaryLbl').text('<?php echo __("Min") . " : " . __("N/A") . " " . __("Max") . " : " . __("N/A");?>');
+    $('#minMaxSalaryLbl').text('');
 }
 
 function getMinMax(salaryGrade, currency)
@@ -323,33 +323,36 @@ function getMinMax(salaryGrade, currency)
     if (salaryGrade == '') {
         $("#minSalary").val('');
         $("#maxSalary").val('');
-        $('#minMaxSalaryLbl').text('<?php echo __("Min");?>' + " : " + notApplicable + " " + '<?php echo __("Max");?>' + " : " + notApplicable);        
+        $('#minMaxSalaryLbl').text('');        
     }
     else {
         var url = '<?php echo url_for('admin/getMinMaxSalaryJson') ;?>' + '/salaryGrade/' + salaryGrade + "/currency/" + currency;
 
         $.getJSON(url, function(data) {
 
-            var minSalary = notApplicable;
-            var maxSalary = notApplicable;
+            var minSalary = false;
+            var maxSalary = false;
             var minVal = "";
             var maxVal = "";
+            var minMaxLbl = "";
 
             if (data) {
                 if (data.min) {
                     minSalary = data.min;
                     minVal = minSalary;
+                    minMaxLbl = '<?php echo __("Min");?>' + " : " + minSalary + " ";
                 }
                 
                 if (data.max) {
                     maxSalary = data.max;
                     maxVal = maxSalary;
+                    minMaxLbl = minMaxLbl + '<?php echo __("Max");?>' + " : " + maxSalary;
                 }
             }
             
             $("#minSalary").val(minVal);
             $("#maxSalary").val(maxVal);
-            $('#minMaxSalaryLbl').text('<?php echo __("Min");?>' + " : " + minSalary + " " + '<?php echo __("Max");?>' + " : " + maxSalary);
+            $('#minMaxSalaryLbl').text(minMaxLbl);
         });
 
     }
