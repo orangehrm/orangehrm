@@ -44,25 +44,52 @@ class viewLeaveListAction extends sfAction {
     
     public function execute($request) {
         $this->setTemplate('viewLeaveList');
-        $this->_setLoggedInUserDetails();
+        $this->_setLoggedInUserDetails();                
 
         if($this->userType == 'ESS') {
             $this->forward('leave', 'viewMyLeaveList');
         }
         
-        $fromDate = $request->getPostParameter('calFromDate', null);
-        $toDate = $request->getPostParameter('calToDate', null);
-        $subunitId = $request->getPostParameter('cmbSubunit', null);
-        $statuses = $request->getParameter('chkSearchFilter', array());
+        $id = (int) $request->getParameter('id');
+        $mode = empty($id) ? LeaveListForm::MODE_DEFAULT_LIST : LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
+        
+        if ($request->isMethod('post')) { 
+            $this->_setFilters($mode, $request->getPostParameters());
+        }
+        
+        if ($request->getParameter('page')) {
+            $this->_setPage($mode, $request->getParameter('page'));
+        }
 
-        $leavePeriodId = $request->getParameter('leavePeriodId', null);
-        $leaveTypeId = $request->getParameter('leaveTypeId', null);
+        // Reset filters if requested to
+        if ($request->hasParameter('_reset')) {
+            
+            $this->_setFilters($mode, array());
+            $this->_setPage($mode, 1);
+        } 
+        
+        $filters = $this->_getFilters($mode);
+
+        $page = $this->_getPage($mode);
+        if (empty($page)) {
+            $page = 1;
+        }
+        
+       
+                
+        $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
+        $toDate = $this->_getFilterValue($filters, 'calToDate', null);
+        $subunitId = $this->_getFilterValue($filters, 'cmbSubunit', null);
+        $statuses = $this->_getFilterValue($filters, 'chkSearchFilter', array());
+
+        $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
+        $leaveTypeId = $this->_getFilterValue($filters, 'leaveTypeId', null);
         $employeeId = $request->getParameter('employeeId', null);
-        $employeeId = (empty($employeeId))? $request->getParameter("txtEmpID"):'';
+        $employeeId = empty($employeeId)? $this->_getFilterValue($filters, "txtEmpID"):'';
 
-        $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
+      
+        $statuses = (trim($this->_getFilterValue($filters, 'status')) != "") ? array($this->_getFilterValue($filters, 'status')):$statuses;
 
-        $page = $request->getParameter('page', 1);
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
@@ -77,11 +104,8 @@ class viewLeaveListAction extends sfAction {
         $overrideShowBackButton = false;
         $leaveRequest = null;
 
-        $id = (int) $request->getParameter('id');
 
-        if (empty($id)) {
-
-            $mode = LeaveListForm::MODE_DEFAULT_LIST;
+        if ($mode == LeaveListForm::MODE_DEFAULT_LIST) {
 
             $employeeService = $this->getEmployeeService();
             $employeeFilter = null;
@@ -135,13 +159,12 @@ class viewLeaveListAction extends sfAction {
 
         } else {
 
-            $mode = LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
             $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($id);
         }
 
-        $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $request, $this->loggedUserId, $leaveRequest);
+        $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $filters, $this->loggedUserId, $leaveRequest);
 
         $list = (count($list)==0)?null:$list;
         $leaveListForm->setList($list);
@@ -159,8 +182,8 @@ class viewLeaveListAction extends sfAction {
         $this->page = $page;
     }
 
-    protected function getLeaveListForm($mode, $leavePeriod, $employee, $request, $loggedInUserId, $leaveRequest) {
-        $this->form = new LeaveListForm($mode, $leavePeriod, $employee, $request, $loggedInUserId, $leaveRequest);
+    protected function getLeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest) {
+        $this->form = new LeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest);
         return $this->form;
     }
 
@@ -237,5 +260,48 @@ class viewLeaveListAction extends sfAction {
         $jsonString = " [".implode(",",$jsonArray)."]";
         return $jsonString;
     }
+
+
+    /**
+     * Set's the current page number in the user session.
+     * @param $page int Page Number
+     * @return None
+     */
+    protected function _setPage($mode, $page) {
+        $this->getUser()->setAttribute($mode . '.page', $page, 'leave_module');
+    }
+
+    /**
+     * Get the current page number from the user session.
+     * @return int Page number
+     */
+    protected function _getPage($mode) {
+        return $this->getUser()->getAttribute($mode . '.page', 1, 'leave_module');
+    }
+
+    /**
+     *
+     * @param array $filters
+     * @return unknown_type
+     */
+    protected function _setFilters($mode, array $filters) {
+        return $this->getUser()->setAttribute($mode . '.filters', $filters, 'leave_module');
+    }
+
+    /**
+     *
+     * @return unknown_type
+     */
+    protected function _getFilters($mode) {
+        return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_module');
+    }
+    
+    protected function _getFilterValue($filters, $parameter, $default = null) {
+        $value = $default;
+        if (isset($filters[$parameter])) {
+            $value = $filters[$parameter];
+        }
+            
+        return $value;
+    }
 }
-?>

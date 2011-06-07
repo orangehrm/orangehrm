@@ -509,15 +509,42 @@ class leaveActions extends sfActions {
     public function executeViewMyLeaveList(sfWebRequest $request) {
 
         $this->setTemplate('viewLeaveList');
-        $leavePeriodId = $request->getParameter('leavePeriodId', null);
-        $fromDate = $request->getPostParameter('calFromDate', null);
-        $toDate = $request->getPostParameter('calToDate', null);
-        $statuses = $request->getPostParameter('chkSearchFilter', array());
-        $page = $request->getParameter('page', 1);
+        
+        $id = (int) $request->getParameter('id');
+        $mode = empty($id) ? LeaveListForm::MODE_MY_LEAVE_LIST : LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
+            
+        if ($request->isMethod('post')) { 
+            $this->_setFilters($mode, $request->getPostParameters());
+        }
+        
+        if ($request->getParameter('page')) {
+            $this->_setPage($mode, $request->getParameter('page'));
+        }
+
+        // Reset filters if requested to
+        if ($request->hasParameter('_reset')) {
+            
+            $this->_setFilters($mode, array());
+            $this->_setPage($mode, 1);
+        } 
+        
+        $filters = $this->_getFilters($mode);
+
+        $page = $this->_getPage($mode);
+        if (empty($page)) {
+            $page = 1;
+        }
+
+        $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
+        $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
+        $toDate = $this->_getFilterValue($filters, 'calToDate', null);
+        $statuses = $this->_getFilterValue($filters, 'chkSearchFilter', array());
+
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
-        $leaveTypeId = trim($request->getParameter('leaveTypeId'));
-        $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
+        
+        $leaveTypeId = trim($this->_getFilterValue($filters, 'leaveTypeId'));
+        $statuses = (trim($this->_getFilterValue($filters, 'status') != ""))?array($this->_getFilterValue($filters, 'status')):$statuses;
 
         $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         if(trim($leavePeriodId) != "") {
@@ -528,11 +555,8 @@ class leaveActions extends sfActions {
         $employeeService = $this->getEmployeeService();
         $employee = $employeeService->getEmployee(Auth::instance()->getEmployeeNumber());
 
-        $id = (int) $request->getParameter('id');
 
-        if (empty($id)) {
-
-            $mode = LeaveListForm::MODE_MY_LEAVE_LIST;
+        if ($mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
 
             $dateRange = new DateRange($fromDate, $toDate);
 
@@ -561,14 +585,13 @@ class leaveActions extends sfActions {
 
         } else {
 
-            $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
             $this->leaveRequestId = $id;           
 
         }
 
-        $leaveListForm = new LeaveListForm($mode, $leavePeriod, $employee, $request);
+        $leaveListForm = new LeaveListForm($mode, $leavePeriod, $employee, $filters);
 
         $leaveListForm->setList($list);
         $this->form = $leaveListForm;
@@ -759,4 +782,47 @@ class leaveActions extends sfActions {
 
 	}
 
+
+    /**
+     * Set's the current page number in the user session.
+     * @param $page int Page Number
+     * @return None
+     */
+    protected function _setPage($mode, $page) {
+        $this->getUser()->setAttribute($mode . '.page', $page, 'leave_module');
+    }
+
+    /**
+     * Get the current page number from the user session.
+     * @return int Page number
+     */
+    protected function _getPage($mode) {
+        return $this->getUser()->getAttribute($mode . '.page', 1, 'leave_module');
+    }
+
+    /**
+     *
+     * @param array $filters
+     * @return unknown_type
+     */
+    protected function _setFilters($mode, array $filters) {
+        return $this->getUser()->setAttribute($mode . '.filters', $filters, 'leave_module');
+    }
+
+    /**
+     *
+     * @return unknown_type
+     */
+    protected function _getFilters($mode) {
+        return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_module');
+    }
+    
+    protected function _getFilterValue($filters, $parameter, $default = null) {
+        $value = $default;
+        if (isset($filters[$parameter])) {
+            $value = $filters[$parameter];
+        }
+            
+        return $value;
+    }        
 }

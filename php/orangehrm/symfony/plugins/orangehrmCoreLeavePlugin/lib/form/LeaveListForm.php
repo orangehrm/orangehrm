@@ -16,7 +16,7 @@ class LeaveListForm extends sfForm {
     private $employee = null;
     private $actionButtons = array();
     private $list = null;
-    private $requestData = null;
+    private $filters = null;
     private $showBackButton = false;
     private $tips = array(
         'markedForApproval' => 'Approve',
@@ -28,7 +28,7 @@ class LeaveListForm extends sfForm {
     private $empJson;
     private $leavePeriodService;
 
-    public function __construct($mode = null, $leavePeriod = null, $employee = null, $requestData = null, $loggedUserId = null, $leaveRequest = null) {
+    public function __construct($mode = null, $leavePeriod = null, $employee = null, $filters = null, $loggedUserId = null, $leaveRequest = null) {
 
         parent::__construct(array(), array());
 
@@ -40,7 +40,7 @@ class LeaveListForm extends sfForm {
         $this->leavePeriod = $leavePeriod;
         $this->employee = $employee;
         $this->actionButtons = array();
-        $this->requestData = $requestData;
+        $this->filters = $filters;
         $this->loggedUserId = $loggedUserId;
         $this->leaveRequest = $leaveRequest;
 
@@ -126,8 +126,8 @@ class LeaveListForm extends sfForm {
         $leave = new Leave();
         $statusList = $leave->getStatusTextList();
 
-        $postStatuses = $this->requestData->getParameter('chkSearchFilter');
-        $postStatuses = (trim($this->requestData->getParameter('status') != ""))?array($this->requestData->getParameter('status')):$postStatuses;
+        $postStatuses = $this->_getFilterParam('chkSearchFilter');
+        $postStatuses = (trim($this->_getFilterParam('status') != ""))?array($this->_getFilterParam('status')):$postStatuses;
         $postStatuses = is_array($postStatuses) ? $postStatuses : array();
 
         foreach ($statusList as $status => $text) {
@@ -138,7 +138,7 @@ class LeaveListForm extends sfForm {
 
         if (count($statusList) > 1) {
 
-            $isAllChecked = $this->requestData->getParameter('allCheck');
+            $isAllChecked = $this->_getFilterParam('allCheck');
             $isAllChecked = (!empty($isAllChecked) && $isAllChecked[0] == 'all');
 
             $attributes = ($isAllChecked) ? array('checked' => 'checked') : array();
@@ -174,8 +174,8 @@ class LeaveListForm extends sfForm {
 
     private function _init() {
 
-        $startDate = $this->requestData->getParameter('calFromDate');
-        $endDate = $this->requestData->getParameter('calToDate');
+        $startDate = $this->_getFilterParam('calFromDate');
+        $endDate = $this->_getFilterParam('calToDate');
         
         if(empty($startDate) && empty($endDate)) {
 
@@ -205,15 +205,15 @@ class LeaveListForm extends sfForm {
                 }
             }
 
-            $employeeId = trim($this->requestData->getParameter('txtEmpId'));
+            $employeeId = trim($this->_getFilterParam('txtEmpId'));
             if($employeeId == "" && $this->employee instanceof Employee) {
                 $employeeId = $this->employee->getEmpNumber();
             }
 
-            $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->requestData->getParameter('cmbSubunit')), array('id' => 'cmbSubunit')));
+            $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));
             $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));
 
-            $employeeName = trim($this->requestData->getParameter('txtEmployee'));
+            $employeeName = trim($this->_getFilterParam('txtEmployee'));
             if($employeeName == "" && $this->employee instanceof Employee) {
                 $employeeName = $this->employee->getFirstName() . " " . $this->employee->getLastName();
             }
@@ -402,6 +402,16 @@ class LeaveListForm extends sfForm {
 
         return $quotaArray;
 
+    }
+    
+    private function _getFilterParam($paramName) {
+        $value = null;
+        
+        if (isset($this->filters[$paramName])) {
+            $value = $this->filters[$paramName];
+        }
+        
+        return $value;
     }
 
 

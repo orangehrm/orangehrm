@@ -5,6 +5,7 @@ $statusFilters = $form->getStatusFilters();
 $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
 $leaveData = $form->getList();
 $searchActionButtons = $form->getSearchActionButtons();
+
 ?>
 
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveListSuccess'); ?>
@@ -128,7 +129,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                         $target = "_self";
                         if ((isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) || (isset($_SESSION['empID']) && $_SESSION['empID'] == $datum->getEmployee()->getEmpNumber())) {
                             //$pimLink = public_path("../../index.php?menu_no_top=ess");
-                            $pimLink = "../../pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber();
+                            $pimLink = "../pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber();
                             //$target = "_parent";
 ;                        }
 				?>
@@ -505,7 +506,12 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 
             $('#btnReset').click(function() {
-                $('#frmFilterLeave')[0].reset();
+                $('<input/>').attr('type', 'hidden')
+                .attr('name', '_reset')
+                .attr('value', '_reset')
+                .appendTo('#frmFilterLeave');
+                
+                $('#frmFilterLeave').submit();
             });
 
             $('#btnBack').click(function() {
