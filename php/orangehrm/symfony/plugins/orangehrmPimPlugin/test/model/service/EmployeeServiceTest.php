@@ -31,6 +31,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml';
         $this->employeeService = new EmployeeService();
     }
 
@@ -122,6 +123,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing deleteEmployee
      */
     public function testDeleteEmployee() {
+
         foreach ($this->testCase['Employee'] as $k => $v) {
             $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
@@ -130,6 +132,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $this->employeeService->setEmployeeDao($this->employeeDao);
             $result = $this->employeeService->deleteEmployee(array($v['id']));
             $this->assertEquals($result, 1);
+
         }
     }
 
@@ -284,6 +287,72 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $readReportingMethod = $this->employeeService->getReportingMethod(6);
         $this->assertTrue($readReportingMethod instanceof ReportingMethod);
+    }
+
+    /**
+     * Test Get Report Mode List
+     */
+    public function testGetReportingMethodList() {
+
+        $reportingMethodList = TestDataService::loadObjectList('ReportingMethod', $this->fixture, 'ReportingMethod');
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getReportingMethodList')
+                ->will($this->returnValue($reportingMethodList));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readReportingMethodList = $this->employeeService->getReportingMethodList();
+        $this->assertTrue($readReportingMethodList[0] instanceof ReportingMethod);
+    }
+
+    /**
+     * Test Supervisor Report-To list for a given employee
+     */
+    public function testGetSupervisorListForEmployee() {
+
+        $empNumber = 3;
+
+        $reportToSupervisorList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        $reportToSupervisorList1 = array($reportToSupervisorList[0], $reportToSupervisorList[1]);
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getSupervisorListForEmployee')
+                ->with($empNumber)
+                ->will($this->returnValue($reportToSupervisorList1));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readReportToSupervisorList1 = $this->employeeService->getSupervisorListForEmployee($empNumber);
+        $this->assertTrue($readReportToSupervisorList1[0] instanceof ReportTo);
+        
+    }
+
+    /**
+     * Test Subordiate Report-To list for a given employee
+     */
+    public function testGetSubordinateListForEmployee() {
+
+        $empNumber = 3;
+
+        $reportToSubordinateList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        $reportToSubordinateListList1 = array($reportToSubordinateList[2], $reportToSubordinateList[3]);
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getSubordinateListForEmployee')
+                ->with($empNumber)
+                ->will($this->returnValue($reportToSubordinateListList1));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readReportToSubordinateList1 = $this->employeeService->getSubordinateListForEmployee($empNumber);
+        $this->assertTrue($readReportToSubordinateList1[0] instanceof ReportTo);
+        $this->assertTrue($readReportToSubordinateList1[1] instanceof ReportTo);
+
     }
 
 }

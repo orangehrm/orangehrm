@@ -20,7 +20,7 @@ form#frmEmpMembership label label.error {
     font-weight: normal;
     overflow:visible;
     width:270px !important; /* Need to overide important in messages.css */
-    padding-left:300px;
+    padding-left:200px;
 }
 
 .paddingLeftRequired {

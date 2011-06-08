@@ -12,6 +12,7 @@ class orangehrmPimPluginAllTests {
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDaoTest.php');
+        //$suite->addTestFile(dirname(__FILE__) . '/model/dao/CustomFieldsDaoTest.php');
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeServiceTest.php');
