@@ -117,3 +117,17 @@ table#sub_list td {
     text-align:left;
     vertical-align: text-top
 }
+
+div.subActionbuttons {
+    background-color: white;
+    float: left;
+    padding: 2px;
+/*    width: 30%;*/
+}
+
+div.supActionbuttons {
+    background-color: white;
+    float: left;
+    padding: 2px;
+/*    width: 30%;*/
+}

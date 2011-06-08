@@ -125,7 +125,7 @@
 
                                     <div class="mainHeading"><h2><?php echo __("Assigned Supervisors"); ?></h2></div>
 
-                                    <div class="supActionbar" id="supListActions">
+                                    <div class="actionbar" id="supListActions">
                                         <div class="supActionbuttons">
                                             <?php if ($allowEdit) {
                                             ?>
@@ -184,7 +184,7 @@
 
                                             <div class="mainHeading"><h2><?php echo __("Assigned Subordinates"); ?></h2></div>
 
-                                            <div class="subActionbar" id="subListActions">
+                                            <div class="actionbar" id="subListActions">
                                                 <div class="subActionbuttons">
                                             <?php if ($allowEdit) {
                                             ?>
