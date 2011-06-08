@@ -73,7 +73,7 @@
                                     <input name="" disabled="disabled" id="minSalary" type="hidden" value=""/>
                                     <input name="" disabled="disabled" id="maxSalary" type="hidden" value=""/>
                                     <?php echo $form['basic_salary']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                                    <?php echo $form['basic_salary']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+                                    <?php echo $form['basic_salary']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
                                     <label for="minSalary" id="minMaxSalaryLbl"></label>
                                     <br class="clear"/>
 
@@ -114,7 +114,7 @@
                                             <br class="clear"/>
 
                                         <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 9)); ?>
+                                        <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
                                             <br class="clear"/>
                                         </div>
 
@@ -291,6 +291,7 @@
                         var lang_amountRequired = "<?php echo __("Amount is required"); ?>";
                         var lang_invalidAmount = "<?php echo __("Amount should be within Man/Max values"); ?>";
                         var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
+                        var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
                         var lang_amountShouldBeNumber = "<?php echo __("Amount should be a number"); ?>";
                         var lang_commentsLength = "<?php echo __("Comments cannot exceed 255 characters in length") ?>";
                         var lang_componentLength = "<?php echo __('Component cannot exceed 100 characters in length'); ?>";
@@ -567,7 +568,7 @@ rules: {
 'salary[currency_id]': {required: true},
 'salary[salary_component]': {required: true, maxlength: 100},
 'salary[comments]': {required: false, maxlength: 255},
-'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0},
+'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0, max:999999999.99},
 'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
 'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
 'directdeposit[account_type_other]': {required: function(element) {
@@ -580,18 +581,18 @@ rules: {
 },
 maxlength:20},
 'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
-'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0}
+'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0, max:999999999.99}
 },
 messages: {
 'salary[currency_id]': {required: lang_currencyRequired},
 'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
 'salary[comments]': {maxlength: lang_commentsLength},
-'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, min: lang_negativeAmount},
+'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, min: lang_negativeAmount, max:lang_tooLargeAmount},
 'directdeposit[account]': {required: lang_accountRequired, maxlength: lang_accountMaxLength},
 'directdeposit[account_type]': {required: lang_accountTypeRequired},
 'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
 'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
-'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount}
+'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
             
 },
 

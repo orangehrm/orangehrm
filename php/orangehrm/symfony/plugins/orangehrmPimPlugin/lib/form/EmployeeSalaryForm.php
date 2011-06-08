@@ -88,7 +88,7 @@ class EmployeeSalaryForm extends BaseForm {
             'id' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'emp_number' => new sfValidatorNumber(array('required' => true, 'min'=>0)),
             'currency_id' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($currencies))),
-            'basic_salary' => new sfValidatorNumber(array('required' => true, 'trim'=>true)),
+            'basic_salary' => new sfValidatorNumber(array('required' => true, 'trim'=>true, 'min' => 0, 'max'=> 999999999.99)),
             'payperiod_code' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($payPeriods))),
             'salary_component' => new sfValidatorString(array('required' => false, 'max_length'=>100)),
             'comments' => new sfValidatorString(array('required' => false, 'max_length'=>255)),

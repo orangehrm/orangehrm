@@ -51,7 +51,7 @@ class EmployeeDirectDepositForm extends BaseForm {
             'account_type' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->accountTypes))),
             'account_type_other' => new sfValidatorString(array('required' => false)), // only required if account_type = 'OTHER'.
             'routing_num' => new sfValidatorNumber(array('required' => true, 'trim'=>true)),
-            'amount' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
+            'amount' => new sfValidatorNumber(array('required' => true, 'min' => 0, 'max'=> 999999999.99)),
         ));
 
          $this->widgetSchema->setNameFormat('directdeposit[%s]');
