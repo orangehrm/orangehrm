@@ -555,6 +555,7 @@ class leaveActions extends sfActions {
         $employeeService = $this->getEmployeeService();
         $employee = $employeeService->getEmployee(Auth::instance()->getEmployeeNumber());
 
+        $recordCount = 0;
 
         if ($mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
 

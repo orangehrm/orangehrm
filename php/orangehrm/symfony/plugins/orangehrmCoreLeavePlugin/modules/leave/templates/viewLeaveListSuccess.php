@@ -124,14 +124,9 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 					if (!$form->isDetailed()) {
 						$url = url_for($baseUrl) . '/id/' . $datum->getLeaveRequestId();
-                        //$pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&amp;id=" . $datum->getEmployee()->getEmpNumber() . "&amp;capturemode=updatemode&amp;reqcode=EMP&amp;currentPage=1");
-                        $pimLink = "../pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber();
+                        $pimLink = url_for("pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber());
                         $target = "_self";
-                        if ((isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) || (isset($_SESSION['empID']) && $_SESSION['empID'] == $datum->getEmployee()->getEmpNumber())) {
-                            //$pimLink = public_path("../../index.php?menu_no_top=ess");
-                            $pimLink = "../pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber();
-                            //$target = "_parent";
-;                        }
+
 				?>
 				<tr class="r1 <?php echo $class; ?>">
                                 <?php $class = $class=='odd'?'even':'odd'; ?>
