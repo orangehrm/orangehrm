@@ -148,10 +148,18 @@ class EmployeeSalaryForm extends BaseForm {
             $values['payperiod_code'] = null;
         }
         
-        // Convert salary to a string -> since field is a string field.
-        // Otherwise, it can be converted using scientific notation when encrypting
-        //
-        $values['basic_salary'] = sprintf("%.2F", $salary);
+        // Convert salary to a string. Since database field is a string field.
+        // Otherwise, it may be converted to a string using scientific notation when encrypting.
+        //        
+        
+        // Remove trailing zeros - will always have decimal point, so 
+        // only trailing decimals are removed.
+        $formattedSalary = rtrim(sprintf("%.2F", $salary), '0');
+        
+        // Remove decimal point (if it is the last char).
+        $formattedSalary = rtrim($formattedSalary, '.');
+        
+        $values['basic_salary'] = $formattedSalary;
         
         return $values;
     }
