@@ -522,7 +522,7 @@ class leaveActions extends sfActions {
         }
 
         // Reset filters if requested to
-        if ($request->hasParameter('_reset')) {
+        if ($request->hasParameter('reset')) {
             
             $this->_setFilters($mode, array());
             $this->_setPage($mode, 1);
