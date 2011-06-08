@@ -109,7 +109,7 @@
                                         </div>
 
                                         <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+                                        <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 9)); ?>
 
                                             <br class="clear"/>
 
