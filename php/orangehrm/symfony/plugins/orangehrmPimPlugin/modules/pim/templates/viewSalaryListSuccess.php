@@ -489,6 +489,7 @@ $('#actionClearBr').hide();
 //changing the headings
 $("#headchangeSalary").text(lang_addSalary);
 $('div#tblSalary td.check').hide();
+$('div#tblSalary td.component').attr('colspan', 2);
          
 //hiding action button section
 $("#actionSalary").hide();
@@ -625,6 +626,7 @@ $('div#changeSalary label.error').hide();
 
 $("div#tblSalary .chkbox").removeAttr("checked");
 $('div#tblSalary td.check').show();
+$('div#tblSalary td.component').attr('colspan', 1);
         
 //hiding action button section
 $("#actionSalary").show();
@@ -714,6 +716,8 @@ updateCurrencyList(salGrdCode, currencyId, currencyName);
 $("#salaryRequiredNote").show();
 
 $("div#tblSalary td.check").hide();
+$('div#tblSalary td.component').attr('colspan', 2);
+
 });
     
 /*
