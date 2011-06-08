@@ -507,8 +507,8 @@ $searchActionButtons = $form->getSearchActionButtons();
 
             $('#btnReset').click(function() {
                 $('<input/>').attr('type', 'hidden')
-                .attr('name', '_reset')
-                .attr('value', '_reset')
+                .attr('name', 'reset')
+                .attr('value', '1')
                 .appendTo('#frmFilterLeave');
                 
                 $('#frmFilterLeave').submit();

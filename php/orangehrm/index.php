@@ -163,15 +163,15 @@ if (!$leavePeriodDefined) {
 	}
 } else {
 	if ($authorizeObj->isAdmin()){
-		$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
+		$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList/reset/1';
 	} else if ($authorizeObj->isSupervisor()) {
 		if ($authorizeObj->isAdmin()){
-			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
+			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList/reset/1';
 		} else {
-			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList';
+			$leaveHomePage = './symfony/web/index.php/leave/viewLeaveList/reset/1';
 		}
 	} else if ($authorizeObj->isESS()) {
-		$leaveHomePage = './symfony/web/index.php/leave/viewMyLeaveList';
+		$leaveHomePage = './symfony/web/index.php/leave/viewMyLeaveList/reset/1';
 	}
 }
 
@@ -487,10 +487,10 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
     $subs[] = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "./symfony/web/index.php/leave/viewLeaveSummary", 'rightMenu');
 
 	if ($authorizeObj->isSupervisor() && !$authorizeObj->isAdmin()) {
-  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList', 'rightMenu');
+  		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
 	}
 	if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
-		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList', 'rightMenu');
+		$subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
 	}
 
 	if (($authorizeObj->isAdmin() && $arrAllRights[Leave]['add']) || $authorizeObj->isSupervisor()) {
@@ -498,7 +498,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 	}
 
 	if ($authorizeObj->isESS()) {
-  		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, './symfony/web/index.php/leave/viewMyLeaveList/','rightMenu');
+  		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, './symfony/web/index.php/leave/viewMyLeaveList/reset/1','rightMenu');
         $subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "./symfony/web/index.php/leave/applyLeave",'rightMenu');
 	}
 
