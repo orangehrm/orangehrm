@@ -504,7 +504,7 @@ EmpDirectdebit:
       type: integer(4)
       notnull: true
     dd_routing_num as routing_num:
-      type: integer(4)
+      type: integer(9)
       notnull: true
     dd_account as account:
       type: string(100)

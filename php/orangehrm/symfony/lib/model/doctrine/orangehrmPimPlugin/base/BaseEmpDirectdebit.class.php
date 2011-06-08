@@ -52,10 +52,10 @@ abstract class BaseEmpDirectdebit extends sfDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
-        $this->hasColumn('dd_routing_num as routing_num', 'integer', 4, array(
+        $this->hasColumn('dd_routing_num as routing_num', 'integer', 9, array(
              'type' => 'integer',
              'notnull' => true,
-             'length' => 4,
+             'length' => 9,
              ));
         $this->hasColumn('dd_account as account', 'string', 100, array(
              'type' => 'string',

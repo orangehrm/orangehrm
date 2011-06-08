@@ -82,7 +82,7 @@ abstract class BaseEmployeeAttachment extends sfDoctrineRecord
              ));
         $this->hasColumn('eattach_type as file_type', 'string', 200, array(
              'type' => 'string',
-             'length' => 50,
+             'length' => 200,
              ));
         $this->hasColumn('screen', 'string', 100, array(
              'type' => 'string',
