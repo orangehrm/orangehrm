@@ -136,19 +136,22 @@
  ?>
                                                 <div class="outerbox">
                                                     <div class="mainHeading"><h2><?php echo __('Assigned Salary Components'); ?></h2></div>
-
+                                                    <?php if (!$essUserMode) { ?>
                                                     <div id="actionSalary" class="actionbuttons">
                                                         <input type="button" value="<?php echo __("Add"); ?>" class="savebutton" id="addSalary" />&nbsp;
                                                         <input type="button" value="<?php echo __("Delete"); ?>" class="savebutton" id="delSalary" />
                                                     </div>
                                                     <br class="clear" id="actionClearBr"/>
-
+                                                    <?php } ?>
+                                                    
                                                     <form id="frmDelSalary" action="<?php echo url_for('pim/deleteSalary?empNumber=' . $empNumber); ?>" method="post">
                                                         <div id="tblSalary">
                                                             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                                                                 <thead>
                                                                     <tr>
+                                                                        <?php if (!$essUserMode) { ?>
                                                                         <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
+                                                                        <?php } ?>
                                                                         <td class="component"><?php echo __('Salary Component'); ?></td>
                                                                         <td class="payperiod"><?php echo __('Pay Frequency'); ?></td>
                                                                         <td class="currency"><?php echo __('Currency'); ?></td>
@@ -191,10 +194,24 @@
                                                     }
                                                 ?>
                                                     <tr class="<?php echo $cssClass; ?>">
-                                                        <td class="check"><input type="hidden" id="code_<?php echo $salary->id; ?>" value="<?php echo $salary->id; ?>" />
-
-                                                            <input type="checkbox" class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/></td>
-                                                        <td class="component"><a href="#" class="edit"><?php echo $component; ?></a></td>
+                                                    <?php if (!$essUserMode) { ?>                                                        
+                                                        <td class="check">                                                            
+                                                            <input type="checkbox" class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
+                                                        </td>
+                                                        <?php } ?>
+                                                        <td class="component">
+                                                            <input type="hidden" id="code_<?php echo $salary->id; ?>" value="<?php echo $salary->id; ?>" />                                                            
+                                                            <?php if (!$essUserMode) { ?>                                   
+                                                            <a href="#" class="edit">
+                                                            <?php } 
+                                                            
+                                                            echo $component;
+                                                            
+                                                            if (!$essUserMode) { ?>                                                            
+                                                            </a>
+                                                            <?php } ?>
+                                                        </td>
+                                                            
                                                         <td><?php echo $payPeriodName; ?></td>
                                                         <td class="currency"><?php echo $currencyName; ?></td>
                                                         <td class="amount"><?php echo $amount; ?></td>
@@ -229,7 +246,7 @@
                                                             }
                                                 ?>
                                                             <tr class="directDepositRow" style="display:none;">
-                                                                <td colspan="7" class="<?php echo $cssClass; ?>" >
+                                                                <td colspan="<?php echo $essUserMode ? '6' : '7'?>" class="<?php echo $cssClass; ?>" >
                                                                     <span class="directDepositHeading"><?php echo __("Direct Deposit Details"); ?></span>
 
                                                                     <table cellspacing="0" cellpadding="0" border="0" class="directDepositTable" width="80%">
@@ -403,13 +420,6 @@
     }
 
     $(document).ready(function() {
-
-        if (essMode) {
-            $('.data-table td.check').hide();
-            $('#actionSalary').hide();
-            $('#actionClearBr').hide();
-            removeEditLinks();
-        }
 
         //hide add section
 <?php if (count($salaryList) > 0) { ?>
