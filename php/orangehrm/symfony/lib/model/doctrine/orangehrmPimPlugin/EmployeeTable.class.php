@@ -260,8 +260,14 @@ class EmployeeTable extends PluginEmployeeTable {
                         $conditions[] = ' es.estat_code = ? ';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'supervisorId') {
-                        $conditions[] = ' s.emp_number = ? ';
-                        $bindParams[] = $searchBy;
+                        
+                        $subordinates = $this->_getSubordinateIds($searchBy);
+                        if (count($subordinates) > 0) {
+                            $conditions[] = ' e.employee_id IN (' . implode(',', $subordinates) . ') ';
+                        } else {                        
+                            $conditions[] = ' s.emp_number = ? ';
+                            $bindParams[] = $searchBy;
+                        }
                     } else if ($searchField == 'supervisor_name') {
                         $conditions[] = $field . ' LIKE ? ';
                         // Replace multiple spaces in string with wildcards
@@ -359,4 +365,24 @@ class EmployeeTable extends PluginEmployeeTable {
 
         return $count;
     }
+    
+    /**
+     * Get list of subordinate employee Ids as an array on integers
+     * 
+     * @return type Comma separated list or false if no subordinates
+     */
+    private function _getSubordinateIds($supervisorId) {
+
+        $employeeService = new EmployeeService();
+        $employeeService->setEmployeeDao(new EmployeeDao());
+        $subordinatesList = $employeeService->getSupervisorEmployeeChain($supervisorId);
+
+        $ids = array();
+        
+        foreach ($subordinatesList as $employee) {        
+            $ids[] = intval($employee->getEmpNumber());
+        }        
+        
+        return $ids;
+    }    
 }
