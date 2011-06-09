@@ -39,3 +39,22 @@ EmpEmergencyContact:
   0: {emp_number: '1', eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home: '0335445678', eec_mobile: '0776734567', eec_office_no: '0113456787'}
   1: {emp_number: '2', eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home: '0373245675', eec_mobile: '0776734237', eec_office_no: '0113676787'}
 
+EmpWorkExperience:
+  0: {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
+  1: {emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3'}
+
+Education:
+  0: {edu_code: 'EDU001', edu_uni: 'MTR', edu_deg: 'ENG'}
+  1: {edu_code: 'EDU002', edu_uni: 'Pera', edu_deg: 'ENG1'}
+
+EmployeeEducation:
+  0: {emp_number: '1', edu_code: 'EDU001', edu_major: 'ENG', edu_year: '2007', edu_gpa: '3.7', edu_start_date: '2006-03-04', edu_end_date: '2010-03-05'}
+  1: {emp_number: '1', edu_code: 'EDU002', edu_major: 'ENG1', edu_year: '2008', edu_gpa: '4', edu_start_date: '2007-03-04', edu_end_date: '2011-03-05'}
+
+Skill:
+  0: {skill_code: 'SKI001', skill_name: 'good', skill_description: 'good work'}
+  1: {skill_code: 'SKI002', skill_name: 'better', skill_description: 'better work'}
+
+EmployeeSkill:
+  0: {emp_number: '1', skill_code: 'SKI001', years_of_exp: '4', comments: 'com1'}
+  1: {emp_number: '1', skill_code: 'SKI002', years_of_exp: '2', comments: 'com2'}

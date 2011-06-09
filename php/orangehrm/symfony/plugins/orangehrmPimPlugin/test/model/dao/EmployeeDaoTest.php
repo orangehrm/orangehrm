@@ -141,7 +141,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
     }
 
-     /**
+    /**
      * Test for getMembershipDetail returns List with one EmployeeMemberDetail object
      */
     public function testGetMembershipDetail() {
@@ -153,7 +153,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         //$employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
         $memberDetail = $this->employeeDao->getMembershipDetail($empNumber, $membershipType, $membership);
         $this->assertTrue($memberDetail[0] instanceof EmployeeMemberDetail);
-     
     }
 
     /**
@@ -244,14 +243,13 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEmergencyContacts() {
 
-         $empNumber = 1;
+        $empNumber = 1;
 
         $emergencyContact = $this->employeeDao->getEmergencyContacts($empNumber);
         $this->assertTrue($emergencyContact[0] instanceof EmpEmergencyContact);
-        
     }
 
-     /**
+    /**
      * Test for getReportingMethod returns ReportingMethod doctrine collection
      */
     public function testDeleteEmergencyContacts() {
@@ -261,12 +259,75 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->employeeDao->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
         $this->assertTrue($result);
-
     }
 
+    /**
+     * Test for get work expierence returns EmpWorkExperience doctrine collection
+     */
+    public function testGetWorkExperienceWithNullSeqNumber() {
 
+        $empNumber = 1;
 
+        $wrkExp = $this->employeeDao->getWorkExperience($empNumber);
+        $this->assertTrue($wrkExp[0] instanceof EmployeeEducation);
+    }
 
+    /**
+     * Test for get work expierence returns EmpWorkExperience doctrine object
+     */
+    public function testGetWorkExperienceWithSeqNumber() {
 
+        $empNumber = 1;
+        $sequenceNo = 2;
+
+        $wrkExp = $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
+        $this->assertTrue($wrkExp instanceof EmployeeEducation);
+    }
+
+    /**
+     * Test for get education returns EmployeeEducation doctrine collection
+     */
+    public function testGetEducationWithNullEduCode() {
+
+        $empNumber = 1;
+
+        $education = $this->employeeDao->getEducation($empNumber);
+        $this->assertTrue($education[0] instanceof EmployeeEducation);
+    }
+
+    /**
+     * Test for get education returns EmployeeEducation doctrine object
+     */
+    public function testGetEducationWithEduCode() {
+
+        $empNumber = 1;
+        $eduCode = 'EDU002';
+
+        $education = $this->employeeDao->getEducation($empNumber, $eduCode);
+        $this->assertTrue($education instanceof EmployeeEducation);
+    }
+
+     /**
+     * Test for get skill returns EmployeeSkill doctrine collection
+     */
+    public function testGetSkillWithNullSkillCode() {
+
+        $empNumber = 1;
+
+        $skill = $this->employeeDao->getSkill($empNumber);
+        $this->assertTrue($skill[0] instanceof EmployeeSkill);
+    }
+
+    /**
+     * Test for get work expierence returns EmployeeSkill doctrine object
+     */
+    public function testGetSkillWithSkillCode() {
+
+        $empNumber = 1;
+        $skillCode = 'SKI002';
+
+        $skill = $this->employeeDao->getSkill($empNumber, $skillCode);
+        $this->assertTrue($skill instanceof EmployeeSkill);
+    }
 
 }
