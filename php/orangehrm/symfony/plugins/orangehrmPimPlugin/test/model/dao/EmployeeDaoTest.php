@@ -269,7 +269,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
 
         $wrkExp = $this->employeeDao->getWorkExperience($empNumber);
-        $this->assertTrue($wrkExp[0] instanceof EmployeeEducation);
+        $this->assertTrue($wrkExp[0] instanceof EmpWorkExperience);
     }
 
     /**
@@ -281,7 +281,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $sequenceNo = 2;
 
         $wrkExp = $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
-        $this->assertTrue($wrkExp instanceof EmployeeEducation);
+        $this->assertTrue($wrkExp instanceof EmpWorkExperience);
     }
 
     /**
@@ -307,7 +307,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($education instanceof EmployeeEducation);
     }
 
-     /**
+    /**
      * Test for get skill returns EmployeeSkill doctrine collection
      */
     public function testGetSkillWithNullSkillCode() {
@@ -328,6 +328,77 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $skill = $this->employeeDao->getSkill($empNumber, $skillCode);
         $this->assertTrue($skill instanceof EmployeeSkill);
+    }
+
+    /**
+     * Test for get skill returns EmployeeLanguage doctrine collection
+     */
+    public function testGetLanguageWithNullLangCodeAndLangType() {
+
+        $empNumber = 1;
+
+        $language = $this->employeeDao->getLanguage($empNumber);
+        $this->assertTrue($language[0] instanceof EmployeeLanguage);
+    }
+
+    /**
+     * Test for get work expierence returns EmployeeLanguage doctrine collection
+     */
+    public function testGetLanguageWithNullLangCode() {
+
+        $empNumber = 1;
+        $langType = 2;
+
+        $language = $this->employeeDao->getLanguage($empNumber, null, $langType);
+        $this->assertTrue($language[0] instanceof EmployeeLanguage);
+    }
+
+    /**
+     * Test for get work expierence returns EmployeeLanguage doctrine collection
+     */
+    public function testGetLanguageWithNullLangType() {
+
+        $empNumber = 1;
+        $langCode = 'LAN001';
+
+        $language = $this->employeeDao->getLanguage($empNumber, $langCode);
+        $this->assertTrue($language[0] instanceof EmployeeLanguage);
+    }
+
+    /**
+     * Test for get work expierence returns EmployeeLanguage doctrine object
+     */
+    public function testGetLanguage() {
+
+        $empNumber = 1;
+        $langCode = 'LAN001';
+        $langType = 2;
+
+        $language = $this->employeeDao->getLanguage($empNumber, $langCode, $langType);
+        $this->assertTrue($language instanceof EmployeeLanguage);
+    }
+
+    /**
+     * Test for get skill returns EmployeeLicense doctrine collection
+     */
+    public function testGetLicenseWithNullLicenseCode() {
+
+        $empNumber = 1;
+
+        $license = $this->employeeDao->getLicense($empNumber);
+        $this->assertTrue($license[0] instanceof EmployeeLicense);
+    }
+
+    /**
+     * Test for get work expierence returns EmployeeLicense doctrine object
+     */
+    public function testGetLicenseWithLicenseCode() {
+
+        $empNumber = 1;
+        $licenseCode = 'LIC001';
+
+        $licenseCode = $this->employeeDao->getLicense($empNumber, $licenseCode);
+        $this->assertTrue($licenseCode instanceof EmployeeLicense);
     }
 
 }

@@ -58,3 +58,19 @@ Skill:
 EmployeeSkill:
   0: {emp_number: '1', skill_code: 'SKI001', years_of_exp: '4', comments: 'com1'}
   1: {emp_number: '1', skill_code: 'SKI002', years_of_exp: '2', comments: 'com2'}
+
+Language:
+  0: {lang_code: 'LAN001', lang_name: 'English'}
+  1: {lang_code: 'LAN002', lang_name: 'Sinhala'}
+
+EmployeeLanguage:
+  0: {emp_number: '1', lang_code: 'LAN001', elang_type: '2', competency: '1', comments: 'comment1'}
+  1: {emp_number: '1', lang_code: 'LAN002', elang_type: '1', competency: '2', comments: 'comment2'}
+
+Licenses:
+  0: {licenses_code: 'LIC001', licenses_desc: 'sri lankan'}
+  1: {licenses_code: 'LIC002', licenses_desc: 'USA'}
+
+EmployeeLicense:
+  0: {emp_number: '1', licenses_code: 'LIC001', license_no: '2bja8768', licenses_date: '2004-02-23', licenses_renewal_date: '2007-02-23'}
+  1: {emp_number: '1', licenses_code: 'LIC002', license_no: '2bjghj768', licenses_date: '2002-02-23', licenses_renewal_date: '2004-02-23'}
