@@ -279,479 +279,470 @@
                             </td>
                         </tr>
                     </table>
-                    <script type="text/javascript">
-                        //<![CDATA[
+<script type="text/javascript">
+//<![CDATA[
 
-                        var fileModified = 0;
-                        var lang_addSalary = "<?php echo __('Add Salary Component'); ?>";
-                        var lang_editSalary = "<?php echo __('Edit Salary Component'); ?>";
-                        var lang_payPeriodRequired = "<?php echo __("Pay Grade is required"); ?>";
-                        var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
-                        var lang_componentRequired = "<?php echo __("Component is required"); ?>";
-                        var lang_amountRequired = "<?php echo __("Amount is required"); ?>";
-                        var lang_invalidAmount = "<?php echo __("Amount should be within Man/Max values"); ?>";
-                        var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
-                        var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
-                        var lang_amountShouldBeNumber = "<?php echo __("Amount should be a number"); ?>";
-                        var lang_commentsLength = "<?php echo __("Comments cannot exceed 255 characters in length") ?>";
-                        var lang_componentLength = "<?php echo __('Component cannot exceed 100 characters in length'); ?>";
-                        var lang_selectSalaryToDelete = "<?php echo __('Please Select At Least One Salary Component To Delete'); ?>";
-                        var lang_accountRequired = "<?php echo __('Account Number is required'); ?>";
-                        var lang_accountMaxLength = "<?php echo __('Account cannot exceed 100 characters in length'); ?>";
-                        var lang_accountTypeRequired = "<?php echo __('Account Type is required'); ?>";
-                        var lang_routingNumRequired = "<?php echo __('Routing Number is required'); ?>";
-                        var lang_routingNumInteger = "<?php echo __('Routing Number should only contain digits'); ?>";
-                        var lang_depositAmountRequired=  "<?php echo __('Amount is required'); ?>";
-                        var lang_depositAmountShouldBeNumber = "<?php echo __('Amount should be a number'); ?>";
-                        var lang_otherRequired = "<?php echo __('Please specify other account type'); ?>";
-                        var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
-                        var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
-                        var essMode = '<?php echo $essUserMode; ?>';
+    var fileModified = 0;
+    var lang_addSalary = "<?php echo __('Add Salary Component'); ?>";
+    var lang_editSalary = "<?php echo __('Edit Salary Component'); ?>";
+    var lang_payPeriodRequired = "<?php echo __("Pay Grade is required"); ?>";
+    var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
+    var lang_componentRequired = "<?php echo __("Component is required"); ?>";
+    var lang_amountRequired = "<?php echo __("Amount is required"); ?>";
+    var lang_invalidAmount = "<?php echo __("Amount should be within Man/Max values"); ?>";
+    var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
+    var lang_amountShouldBeNumber = "<?php echo __("Amount should be a number"); ?>";
+    var lang_commentsLength = "<?php echo __("Comments cannot exceed 255 characters in length") ?>";
+    var lang_componentLength = "<?php echo __('Component cannot exceed 100 characters in length'); ?>";
+    var lang_selectSalaryToDelete = "<?php echo __('Please Select At Least One Salary Component To Delete'); ?>";
+    var lang_accountRequired = "<?php echo __('Account Number is required'); ?>";
+    var lang_accountMaxLength = "<?php echo __('Account cannot exceed 100 characters in length'); ?>";
+    var lang_accountTypeRequired = "<?php echo __('Account Type is required'); ?>";
+    var lang_routingNumRequired = "<?php echo __('Routing Number is required'); ?>";
+    var lang_routingNumInteger = "<?php echo __('Routing Number should only contain digits'); ?>";
+    var lang_depositAmountRequired=  "<?php echo __('Amount is required'); ?>";
+    var lang_depositAmountShouldBeNumber = "<?php echo __('Amount should be a number'); ?>";
+    var lang_otherRequired = "<?php echo __('Please specify other account type'); ?>";
+    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
+    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
+    var essMode = '<?php echo $essUserMode; ?>';
+//]]>
+</script>
 
+<script type="text/javascript">
+//<![CDATA[
+    function clearMessageBar() {
+        $("#messagebar").text("").attr('class', "");
+    }
+    
+    function clearMinMax() {
+        $("#minSalary").val('--');
+        $("#maxSalary").val('--');
+        $('#minMaxSalaryLbl').text('');
+    }
 
+    function getMinMax(salaryGrade, currency) {
+        var notApplicable = '<?php echo __("N/A"); ?>';
 
-                        //]]>
-                    </script>
+        if (salaryGrade == '') {
+            $("#minSalary").val('');
+            $("#maxSalary").val('');
+            $('#minMaxSalaryLbl').text('');
+        }
+        else {
+            var url = '<?php echo url_for('admin/getMinMaxSalaryJson'); ?>' + '/salaryGrade/' + salaryGrade + "/currency/" + currency;
 
-                    <script type="text/javascript">
-                        //<![CDATA[
+            $.getJSON(url, function(data) {
 
-                        function clearMinMax() {
-                            $("#minSalary").val('--');
-                            $("#maxSalary").val('--');
-                            $('#minMaxSalaryLbl').text('');
-                        }
+                var minSalary = false;
+                var maxSalary = false;
+                var minVal = "";
+                var maxVal = "";
+                var minMaxLbl = "";
 
-                        function getMinMax(salaryGrade, currency)
-                        {
-                            var notApplicable = '<?php echo __("N/A"); ?>';
+                if (data) {
+                    if (data.min) {
+                        minSalary = data.min;
+                        minVal = minSalary;
+                        minMaxLbl = '<?php echo __("Min"); ?>' + " : " + minSalary + " ";
+                    }
 
-                            if (salaryGrade == '') {
-                                $("#minSalary").val('');
-                                $("#maxSalary").val('');
-                                $('#minMaxSalaryLbl').text('');
-                            }
-                            else {
-                                var url = '<?php echo url_for('admin/getMinMaxSalaryJson'); ?>' + '/salaryGrade/' + salaryGrade + "/currency/" + currency;
+                    if (data.max) {
+                        maxSalary = data.max;
+                        maxVal = maxSalary;
+                        minMaxLbl = minMaxLbl + '<?php echo __("Max"); ?>' + " : " + maxSalary;
+                    }
+                }
 
-                                $.getJSON(url, function(data) {
+                $("#minSalary").val(minVal);
+                $("#maxSalary").val(maxVal);
+                $('#minMaxSalaryLbl').text(minMaxLbl);
+            });
 
-                                    var minSalary = false;
-                                    var maxSalary = false;
-                                    var minVal = "";
-                                    var maxVal = "";
-                                    var minMaxLbl = "";
+        }
+    }
 
-                                    if (data) {
-                                        if (data.min) {
-                                            minSalary = data.min;
-                                            minVal = minSalary;
-                                            minMaxLbl = '<?php echo __("Min"); ?>' + " : " + minSalary + " ";
-                                        }
+    function updateCurrencyList(payGrade, currencyId, currencyName) {
 
-                                        if (data.max) {
-                                            maxSalary = data.max;
-                                            maxVal = maxSalary;
-                                            minMaxLbl = minMaxLbl + '<?php echo __("Max"); ?>' + " : " + maxSalary;
-                                        }
-                                    }
+        var url = '<?php echo url_for('pim/getAvailableCurrenciesJson?empNumber=' . $empNumber . '&paygrade='); ?>' + payGrade;
 
-                                    $("#minSalary").val(minVal);
-                                    $("#maxSalary").val(maxVal);
-                                    $('#minMaxSalaryLbl').text(minMaxLbl);
-                                });
+        $.getJSON(url, function(data) {
 
-                            }
-                        }
+            var numOptions = data.length;
+            var optionHtml = '<option value="">-- <?php echo __("Select") ?> --</option>';
 
-                        function updateCurrencyList(payGrade, currencyId, currencyName) {
+            for (var i = 0; i < numOptions; i++) {
+                optionHtml += '<option value="' + data[i].currency_id + '">' + data[i].currency_name + '</option>';
+            }
 
-                            var url = '<?php echo url_for('pim/getAvailableCurrenciesJson?empNumber=' . $empNumber . '&paygrade='); ?>' + payGrade;
+            $("#salary_currency_id").html(optionHtml);
 
-                            $.getJSON(url, function(data) {
+            // If editing a currency, add that currency to list
+            if (currencyId && currencyName) {
+                $('#salary_currency_id').append($("<option></option>").
+                    attr("value", currencyId).
+                    text(currencyName));
+                $('#salary_currency_id').val(currencyId);
+                getMinMax(payGrade, currencyId);
+            } else {
+                $('#salary_currency_id').val('');
+                clearMinMax();
+            }
 
-                                var numOptions = data.length;
-                                var optionHtml = '<option value="">-- <?php echo __("Select") ?> --</option>';
+        })
+    }
 
-                                for (var i = 0; i < numOptions; i++) {
-                                    optionHtml += '<option value="' + data[i].currency_id + '">' + data[i].currency_name + '</option>';
-                                }
+    function clearDirectDepositFields() {
+        $("#salary_set_direct_debit").removeAttr('checked');
+        $("#directdeposit_id").val('');
+        $("#directdeposit_account").val('');
+        $("#directdeposit_account_type").val('');
+        $("#directdeposit_routing_num").val('');
+        $("#directdeposit_amount").val('');
+    }
 
-                                $("#salary_currency_id").html(optionHtml);
+    $(document).ready(function() {
 
-                                // If editing a currency, add that currency to list
-                                if (currencyId && currencyName) {
-                                    $('#salary_currency_id').append($("<option></option>").
-                                        attr("value", currencyId).
-                                        text(currencyName));
-                                    $('#salary_currency_id').val(currencyId);
-                                    getMinMax(payGrade, currencyId);
-                                } else {
-                                    $('#salary_currency_id').val('');
-                                    clearMinMax();
-                                }
+        if (essMode) {
+            $('.data-table td.check').hide();
+            $('#actionSalary').hide();
+            $('#actionClearBr').hide();
+            removeEditLinks();
+        }
 
-                            })
-                        }
-
-                        function clearDirectDepositFields() {
-                            $("#salary_set_direct_debit").removeAttr('checked');
-                            $("#directdeposit_id").val('');
-                            $("#directdeposit_account").val('');
-                            $("#directdeposit_account_type").val('');
-                            $("#directdeposit_routing_num").val('');
-                            $("#directdeposit_amount").val('');
-                        }
-
-                        $(document).ready(function() {
-
-
-                            if(essMode){
-                                $('.data-table td.check').hide();
-                                $('#actionSalary').hide();
-                                 $('#actionClearBr').hide();
-                                removeEditLinks();
-                            }
-
-
-                            //hide add section
+        //hide add section
 <?php if (count($salaryList) > 0) { ?>
-                        $("#changeSalary").hide();
-                        $("#salaryRequiredNote").hide();
-<?php
-                                                } else {
-                                                    // Force
-?>
-                        clearDirectDepositFields();
-                        $('#directDebitSection').hide();
+        $("#changeSalary").hide();
+        $("#salaryRequiredNote").hide();
+<?php } else { ?>
+        clearDirectDepositFields();
+        $('#directDebitSection').hide();
 <?php } ?>
 
-                    //hiding the data table if records are not available
-                    if($("div#tblSalary table.data-table .chkbox").length == 0) {
-                    $("#tblSalary").hide();
-                    $("#editSalary").hide();
-                    $("#delSalary").hide();
-                    }
-
-                    //if check all button clicked
-                    $("#salaryCheckAll").click(function() {
-                    $("div#tblSalary td.check .chkbox").removeAttr("checked");
-                    if($("#salaryCheckAll").attr("checked")) {
-                    $("div#tblSalary td.check .chkbox").attr("checked", "checked");
-                    }
-                    });
-
-                    //remove tick from the all button if any checkbox unchecked
-                    $("div#tblSalary td.check .chkbox").click(function() {
-                    $("#salaryCheckAll").removeAttr('checked');
-                    if($("div#tblSalary td.check .chkbox").length == $("div#tblSalary td.check .chkbox:checked").length) {
-                    $("#salaryCheckAll").attr('checked', 'checked');
-                    }
-                    });
-
-                    $("#salary_set_direct_debit").click(function() {
-
-                    if ($(this).attr('checked')) {
-                    $('#directDebitSection').show();
-                    } else {
-                    $('#directDebitSection').hide();
-                    }
-
-                    });
-
-                    $("input.displayDirectDeposit").click(function() {
-
-                    // find row with direct deposit details
-                    var directDepositRow = $(this).closest("tr").next();
-
-                    if ($(this).attr('checked')) {
-                    directDepositRow.show();
-                    } else {
-                    directDepositRow.hide();
-                    }
-                    });
-
-                    $("#directdeposit_account_type").change(function() {
-                    if ($(this).val() == '<?php echo EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER; ?>') {
-$('#accountTypeOther').show();
-} else {
-$('#accountTypeOther').hide();
-}
-});
-    
-$("#addSalary").click(function() {
-
-removeEditLinks();
-clearMessageBar();
-$('div#changeSalary label.error').hide();
-$('#actionClearBr').hide();
-        
-
-//changing the headings
-$("#headchangeSalary").text(lang_addSalary);
-$('div#tblSalary td.check').hide();
-$('div#tblSalary td.component').attr('colspan', 2);
-         
-//hiding action button section
-$("#actionSalary").hide();
-
-$('#salary_id').val("");
-$('#salary_sal_grd_code').val("");
-updateCurrencyList('', false, false);
-$('#salary_currency_id').val("");
-        
-clearMinMax();
-        
-$("#salary_basic_salary").val("");
-$("#salary_payperiod_code").val("");
-$("#salary_component").val("");
-$("#salary_comments").val("");
-
-//show add form
-$("#changeSalary").show();
-$("#salaryRequiredNote").show();
-        
-// hide direct deposit section
-$('#directDebitSection').hide();
-clearDirectDepositFields();
-$("#salary_set_direct_debit").removeAttr('checked');
-        
-});
-
-//clicking of delete button
-$("#delSalary").click(function(){
-
-clearMessageBar();
-
-if ($("div#tblSalary td.check .chkbox:checked").length > 0) {
-$("#frmDelSalary").submit();
-} else {
-$("#messagebar").attr('class', 'messageBalloon_notice').text(lang_selectSalaryToDelete);
-}
-
-});
-
-$("#btnSalarySave").click(function() {
-clearMessageBar();
-
-$("#frmSalary").submit();
-});
-
-/* Valid From Date */
-$.validator.addMethod("validateAmount", function(value, element) {
-
-var valid = true;
-        
-var min	= parseFloat($('#minSalary').val());
-var max = parseFloat($('#maxSalary').val());
-var amount = parseFloat($('#salary_basic_salary').val().trim());
-        
-if (!isNaN(amount)) {
-            
-if (!isNaN(min) && (amount < min)) {
-valid = false;
-}
-            
-if (!isNaN(max) && (amount > max)) {
-valid = false;
-}
-}
-return valid;
-        
-});
-
-//form validation
-var salaryValidator =
-$("#frmSalary").validate({
-rules: {
-'salary[sal_grd_code]': {required: false},
-'salary[currency_id]': {required: true},
-'salary[salary_component]': {required: true, maxlength: 100},
-'salary[comments]': {required: false, maxlength: 255},
-'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0, max:999999999.99},
-'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
-'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
-'directdeposit[account_type_other]': {required: function(element) {
-    if ( $('#salary_set_direct_debit:checked').length &&
-        $('#directdeposit_account_type').val() == "OTHER" ) {
-        return true;
-    } else {
-        return false;
+    //hiding the data table if records are not available
+    if ($("div#tblSalary table.data-table .chkbox").length == 0) {
+        $("#tblSalary").hide();
+        $("#editSalary").hide();
+        $("#delSalary").hide();
     }
-},
-maxlength:20},
-'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
-'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0, max:999999999.99}
-},
-messages: {
-'salary[currency_id]': {required: lang_currencyRequired},
-'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
-'salary[comments]': {maxlength: lang_commentsLength},
-'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, min: lang_negativeAmount, max:lang_tooLargeAmount},
-'directdeposit[account]': {required: lang_accountRequired, maxlength: lang_accountMaxLength},
-'directdeposit[account_type]': {required: lang_accountTypeRequired},
-'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
-'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
-'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
-            
-},
 
-errorElement : 'div',
-errorPlacement: function(error, element) {
-error.insertAfter(element.next(".clear"));
-error.insertAfter(element.next().next(".clear"));
+    //if check all button clicked
+    $("#salaryCheckAll").click(function() {
+        $("div#tblSalary td.check .chkbox").removeAttr("checked");
+        
+        if ($("#salaryCheckAll").attr("checked")) {
+            $("div#tblSalary td.check .chkbox").attr("checked", "checked");
+        }
+    });
 
-}
-});
+    //remove tick from the all button if any checkbox unchecked
+    $("div#tblSalary td.check .chkbox").click(function() {
+        $("#salaryCheckAll").removeAttr('checked');
+        if ($("div#tblSalary td.check .chkbox").length == $("div#tblSalary td.check .chkbox:checked").length) {
+            $("#salaryCheckAll").attr('checked', 'checked');
+        }
+    });
+
+    $("#salary_set_direct_debit").click(function() {
+        
+        if ($(this).attr('checked')) {
+            $('#directDebitSection').show();
+        } else {
+            $('#directDebitSection').hide();
+        }
+        
+    });
+
+    $("input.displayDirectDeposit").click(function() {
+        
+        // find row with direct deposit details
+        var directDepositRow = $(this).closest("tr").next();
+        
+        if ($(this).attr('checked')) {
+            directDepositRow.show();
+        } else {
+            directDepositRow.hide();
+        }
+    });
+
+    $("#directdeposit_account_type").change(function() {
+        if ($(this).val() == '<?php echo EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER; ?>') {
+            $('#accountTypeOther').show();
+        } else {
+            $('#accountTypeOther').hide();
+        }
+    });
     
-function addEditLinks() {
-// called here to avoid double adding links - When in edit mode and cancel is pressed.
-removeEditLinks();
-$('div#tblSalary table tbody td.component').wrapInner('<a class="edit" href="#"/>');
-}
-$('#accountTypeOther').hide();
-function removeEditLinks() {
-$('div#tblSalary table tbody td.component a').each(function(index) {
-$(this).parent().text($(this).text());
-});
-}
+    $("#addSalary").click(function() {
 
-$("#btnSalaryCancel").click(function() {
-clearMessageBar();
+        removeEditLinks();
+        clearMessageBar();
+        $('div#changeSalary label.error').hide();
+        $('#actionClearBr').hide();
 
-addEditLinks();
-salaryValidator.resetForm();
-$('#actionClearBr').show();
-        
-$('div#changeSalary label.error').hide();
 
-$("div#tblSalary .chkbox").removeAttr("checked");
-$('div#tblSalary td.check').show();
-$('div#tblSalary td.component').attr('colspan', 1);
-        
-//hiding action button section
-$("#actionSalary").show();
-$("#changeSalary").hide();
-$("#salaryRequiredNote").hide();
-        
-$('#salary_id').val('');
-        
-// remove any options already in use
-$("#salary_code option[class='added']").remove();
-clearDirectDepositFields();
-$('#static_salary_code').hide().val("");
+        //changing the headings
+        $("#headchangeSalary").text(lang_addSalary);
+        $('div#tblSalary td.check').hide();
+        $('div#tblSalary td.component').attr('colspan', 2);
 
-});
+        //hiding action button section
+        $("#actionSalary").hide();
 
-$('form#frmDelSalary a.edit').live('click', function(event) {
-event.preventDefault();
-clearMessageBar();
-$('#actionClearBr').hide();
+        $('#salary_id').val("");
+        $('#salary_sal_grd_code').val("");
+        updateCurrencyList('', false, false);
+        $('#salary_currency_id').val("");
 
-//changing the headings
-$("#headchangeSalary").text(lang_editSalary);
+        clearMinMax();
 
-salaryValidator.resetForm();
+        $("#salary_basic_salary").val("");
+        $("#salary_payperiod_code").val("");
+        $("#salary_component").val("");
+        $("#salary_comments").val("");
 
-$('div#changeSalary label.error').hide();
+        //show add form
+        $("#changeSalary").show();
+        $("#salaryRequiredNote").show();
 
-//hiding action button section
-$("#actionSalary").hide();
+        // hide direct deposit section
+        $('#directDebitSection').hide();
+        clearDirectDepositFields();
+        $("#salary_set_direct_debit").removeAttr('checked');
 
-//show add form
-$("#changeSalary").show();
-var id = $(this).closest("tr").find('td.check input.chkbox:first').val();
-        
-$('#salary_id').val(id);
-        
-var salGrdCode = $("#sal_grd_code_" + id).val();
-$("#salary_sal_grd_code").val(salGrdCode);
-        
-var currencyId = $("#currency_id_" + id).val();
-$("#salary_currency_id").val(currencyId);
-var currencyName = $(this).closest("tr").find('td.currency').text();
-        
-var basicSalary =  $(this).closest("tr").find('td.amount').text();
-$("#salary_basic_salary").val(basicSalary);
-        
-$("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
+    });
 
-var component =  $(this).closest("tr").find('td.component').text();
+    //clicking of delete button
+    $("#delSalary").click(function(){
         
-$("#salary_salary_component").val(component);
+        clearMessageBar();
         
-var comments =  $(this).closest("tr").find('td.comments').text();
-$("#salary_comments").val(comments);
-                
-// Direct Deposit
+        if ($("div#tblSalary td.check .chkbox:checked").length > 0) {
+            $("#frmDelSalary").submit();
+        } else {
+            $("#messagebar").attr('class', 'messageBalloon_notice').text(lang_selectSalaryToDelete);
+        }
         
-var haveDirectDeposit = $("#have_dd_" + id).val() == "1";
+    });
 
-if (haveDirectDeposit) {
-$("#salary_set_direct_debit").attr('checked', 'checked');
-$("#directdeposit_id").val($("#dd_id_" + id).val());
-$("#directdeposit_account").val($("#dd_account_" + id).val());
-$("#directdeposit_account_type").val($("#dd_account_type_" + id).val());
-$("#directdeposit_account_type_other").val($("#dd_other_" + id).val());
-$("#directdeposit_routing_num").val($("#dd_routing_num_" + id).val());
-$("#directdeposit_amount").val($("#dd_amount_" + id).val());
-$('#directDebitSection').show();
+    $("#btnSalarySave").click(function() {
+        clearMessageBar();
+        
+        $("#frmSalary").submit();
+    });
+
+    /* Valid From Date */
+    $.validator.addMethod("validateAmount", function(value, element) {
+        
+        var valid = true;
+        
+        var min	= parseFloat($('#minSalary').val());
+        var max = parseFloat($('#maxSalary').val());
+        var amount = parseFloat($('#salary_basic_salary').val().trim());
+        
+        if (!isNaN(amount)) {
             
+            if (!isNaN(min) && (amount < min)) {
+                valid = false;
+            }
             
-if ($("#directdeposit_account_type_other").val() == '') {
-$('#accountTypeOther').hide();
-} else {
-$('#accountTypeOther').show();
-}
+            if (!isNaN(max) && (amount > max)) {
+                valid = false;
+            }
+        }
+        return valid;
+        
+    });
+
+    //form validation
+    var salaryValidator =
+        $("#frmSalary").validate({
+        rules: {
+            'salary[sal_grd_code]': {required: false},
+            'salary[currency_id]': {required: true},
+            'salary[salary_component]': {required: true, maxlength: 100},
+            'salary[comments]': {required: false, maxlength: 255},
+            'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0, max:999999999.99},
+            'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
+            'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
+            'directdeposit[account_type_other]': {required: function(element) {
+                    if ( $('#salary_set_direct_debit:checked').length &&
+                        $('#directdeposit_account_type').val() == "OTHER" ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                maxlength:20},
+            'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
+            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0, max:999999999.99}
+        },
+        messages: {
+            'salary[currency_id]': {required: lang_currencyRequired},
+            'salary[salary_component]': {required: lang_componentRequired, maxlength: lang_componentLength},
+            'salary[comments]': {maxlength: lang_commentsLength},
+            'salary[basic_salary]': {number: lang_amountShouldBeNumber, validateAmount: lang_invalidAmount, required: lang_amountRequired, min: lang_negativeAmount, max:lang_tooLargeAmount},
+            'directdeposit[account]': {required: lang_accountRequired, maxlength: lang_accountMaxLength},
+            'directdeposit[account_type]': {required: lang_accountTypeRequired},
+            'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
+            'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
+            'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
             
-} else {
-$("#salary_set_direct_debit").removeAttr('checked');
-$('#directDebitSection').hide();
-clearDirectDepositFields();
-}
+        },
         
-$("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
-        
-updateCurrencyList(salGrdCode, currencyId, currencyName);
-
-$("#salaryRequiredNote").show();
-
-$("div#tblSalary td.check").hide();
-$('div#tblSalary td.component').attr('colspan', 2);
-
-});
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.next(".clear"));
+            error.insertAfter(element.next().next(".clear"));
+            
+        }
+    });
     
-/*
-* Ajax call to fetch unassigned currencies for selected pay grade
-*/
-$("#salary_sal_grd_code").change(function() {
+    function addEditLinks() {
+        // called here to avoid double adding links - When in edit mode and cancel is pressed.
+        removeEditLinks();
+        $('div#tblSalary table tbody td.component').wrapInner('<a class="edit" href="#"/>');
+    }
+    $('#accountTypeOther').hide();
+    function removeEditLinks() {
+        $('div#tblSalary table tbody td.component a').each(function(index) {
+            $(this).parent().text($(this).text());
+        });
+    }
 
-var payGrade = this.options[this.selectedIndex].value;
-updateCurrencyList(payGrade, false, false);
-});
+    $("#btnSalaryCancel").click(function() {
+        clearMessageBar();
+
+        addEditLinks();
+        salaryValidator.resetForm();
+        $('#actionClearBr').show();
+
+        $('div#changeSalary label.error').hide();
+
+        $("div#tblSalary .chkbox").removeAttr("checked");
+        $('div#tblSalary td.check').show();
+        $('div#tblSalary td.component').attr('colspan', 1);
+
+        //hiding action button section
+        $("#actionSalary").show();
+        $("#changeSalary").hide();
+        $("#salaryRequiredNote").hide();
+
+        $('#salary_id').val('');
+
+        // remove any options already in use
+        $("#salary_code option[class='added']").remove();
+        clearDirectDepositFields();
+        $('#static_salary_code').hide().val("");
+
+    });
+
+    $('form#frmDelSalary a.edit').live('click', function(event) {
+        event.preventDefault();
+        clearMessageBar();
+        $('#actionClearBr').hide();
+        
+        //changing the headings
+        $("#headchangeSalary").text(lang_editSalary);
+        
+        salaryValidator.resetForm();
+        
+        $('div#changeSalary label.error').hide();
+        
+        //hiding action button section
+        $("#actionSalary").hide();
+        
+        //show add form
+        $("#changeSalary").show();
+        var id = $(this).closest("tr").find('td.check input.chkbox:first').val();
+        
+        $('#salary_id').val(id);
+        
+        var salGrdCode = $("#sal_grd_code_" + id).val();
+        $("#salary_sal_grd_code").val(salGrdCode);
+        
+        var currencyId = $("#currency_id_" + id).val();
+        $("#salary_currency_id").val(currencyId);
+        var currencyName = $(this).closest("tr").find('td.currency').text();
+        
+        var basicSalary =  $(this).closest("tr").find('td.amount').text();
+        $("#salary_basic_salary").val(basicSalary);
+        
+        $("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
+        
+        var component =  $(this).closest("tr").find('td.component').text();
+        
+        $("#salary_salary_component").val(component);
+        
+        var comments =  $(this).closest("tr").find('td.comments').text();
+        $("#salary_comments").val(comments);
+        
+        // Direct Deposit
+        
+        var haveDirectDeposit = $("#have_dd_" + id).val() == "1";
+        
+        if (haveDirectDeposit) {
+            $("#salary_set_direct_debit").attr('checked', 'checked');
+            $("#directdeposit_id").val($("#dd_id_" + id).val());
+            $("#directdeposit_account").val($("#dd_account_" + id).val());
+            $("#directdeposit_account_type").val($("#dd_account_type_" + id).val());
+            $("#directdeposit_account_type_other").val($("#dd_other_" + id).val());
+            $("#directdeposit_routing_num").val($("#dd_routing_num_" + id).val());
+            $("#directdeposit_amount").val($("#dd_amount_" + id).val());
+            $('#directDebitSection').show();
+            
+            
+            if ($("#directdeposit_account_type_other").val() == '') {
+                $('#accountTypeOther').hide();
+            } else {
+                $('#accountTypeOther').show();
+            }
+            
+        } else {
+            $("#salary_set_direct_debit").removeAttr('checked');
+            $('#directDebitSection').hide();
+            clearDirectDepositFields();
+        }
+        
+        $("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
+        
+        updateCurrencyList(salGrdCode, currencyId, currencyName);
+        
+        $("#salaryRequiredNote").show();
+        
+        $("div#tblSalary td.check").hide();
+        $('div#tblSalary td.component').attr('colspan', 2);
+        
+    });
+    
+    /*
+     * Ajax call to fetch unassigned currencies for selected pay grade
+     */
+    $("#salary_sal_grd_code").change(function() {
+        
+        var payGrade = this.options[this.selectedIndex].value;
+        updateCurrencyList(payGrade, false, false);
+    });
     
 
-/*
-* Ajax call to fetch min/max salary
-*/
-$("#salary_currency_id").change(function() {
-
-var currencyCode = this.options[this.selectedIndex].value;
-var salaryGrade = $("#salary_sal_grd_code").val();
-
-$('#salary_currency_id').val(currencyCode);
-
-// don't check if not selected
-if (currencyCode == '0') {
-clearMinMax();
-return;
-}
-getMinMax(salaryGrade, currencyCode);
+    /*
+     * Ajax call to fetch min/max salary
+     */
+    $("#salary_currency_id").change(function() {
+        
+        var currencyCode = this.options[this.selectedIndex].value;
+        var salaryGrade = $("#salary_sal_grd_code").val();
+        
+        $('#salary_currency_id').val(currencyCode);
+        
+        // don't check if not selected
+        if (currencyCode == '0') {
+            clearMinMax();
+            return;
+        }
+        getMinMax(salaryGrade, currencyCode);
+    });
 });
-});
-
-function clearMessageBar() {
-$("#messagebar").text("").attr('class', "");
-}
 //]]>
 </script>
