@@ -665,8 +665,8 @@
                 <target>FR_Are you sure you want to delete selected employee(s)</target>
             </trans-unit>
             <trans-unit id="166">
-                <source>No Employees Available in System</source>
-                <target>FR_No Employees Available in System</target>
+                <source>No Employees Available in the System</source>
+                <target>FR_No Employees Available in the System</target>
             </trans-unit>
             <trans-unit id="167">
                 <source>No Matching Employees Found</source>

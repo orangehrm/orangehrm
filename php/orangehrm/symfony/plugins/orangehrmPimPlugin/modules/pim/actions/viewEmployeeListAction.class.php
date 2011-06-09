@@ -135,7 +135,7 @@ class viewEmployeeListAction extends sfAction {
             $this->messageType = "warning";
 
             if (empty($employeeCount)) {
-                $this->message = __("No Employees Available in System");
+                $this->message = __("No Employees Available in the System");
             } else {
                 $this->message = __("No Matching Employees Found");
             }
