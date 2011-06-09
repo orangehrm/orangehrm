@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.5
+
+	New Features
+	------------
+    Usability improvements to "Job", "Salary", "Report-to" and "Membership" screens of PIM.
+    "Direct Deposit" details are now included under "Salary" screen of PIM.
+
 New & Changed Features for OrangeHRM ver 2.6.4
 
 	New Features
