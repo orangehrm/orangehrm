@@ -239,5 +239,34 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->employeeDao->deleteReportToObject(3, 1, 3));
     }
 
+    /**
+     * Test for get emergency contact returns EmpEmergencyContact doctrine 
+     */
+    public function testGetEmergencyContacts() {
+
+         $empNumber = 1;
+
+        $emergencyContact = $this->employeeDao->getEmergencyContacts($empNumber);
+        $this->assertTrue($emergencyContact[0] instanceof EmpEmergencyContact);
+        
+    }
+
+     /**
+     * Test for getReportingMethod returns ReportingMethod doctrine collection
+     */
+    public function testDeleteEmergencyContacts() {
+
+        $empNumber = 1;
+        $emergencyContactsToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
+        $this->assertTrue($result);
+
+    }
+
+
+
+
+
 
 }

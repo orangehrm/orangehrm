@@ -445,7 +445,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $readMembershipDetail = $this->employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
         $this->assertTrue($readMembershipDetail instanceof EmployeeMemberDetail);
-        
     }
 
     /**
@@ -469,6 +468,49 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->employeeService->setEmployeeDao($employeeDao);
 
         $result = $this->employeeService->deleteMembershipDetails($membershipsToDelete);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test get emergency contacts for a given employee
+     */
+    public function testGetEmergencyContactsusingFixture() {
+
+        $empNumber = 1;
+
+        $emergencyContactList = TestDataService::loadObjectList('EmpEmergencyContact', $this->fixture, 'EmpEmergencyContact');
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getEmergencyContacts')
+                ->with($empNumber)
+                ->will($this->returnValue($emergencyContactList));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+        $readEmergencyContactlList = $this->employeeService->getEmergencyContacts($empNumber);
+        $this->assertTrue($readEmergencyContactlList[0] instanceof EmpEmergencyContact);
+        $this->assertTrue($readEmergencyContactlList[1] instanceof EmpEmergencyContact);
+    }
+
+    /**
+     * Test delete emergency contacts  for a given  empNumber and array contains to-delete rows
+     */
+    public function testDeleteEmergencyContacts() {
+
+        $empNumber = 1;
+        $emergencyContactsToDelete = array(1, 2);
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('deleteEmergencyContacts')
+                ->with($empNumber, $emergencyContactsToDelete)
+                ->will($this->returnValue(true));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $result = $this->employeeService->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
         $this->assertTrue($result);
     }
 

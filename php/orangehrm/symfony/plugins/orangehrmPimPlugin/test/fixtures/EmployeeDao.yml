@@ -34,3 +34,8 @@ ReportTo:
   1: {erep_sup_emp_number: '5', erep_sub_emp_number: '3', erep_reporting_mode: '3'}
   2: {erep_sup_emp_number: '3', erep_sub_emp_number: '2', erep_reporting_mode: '4'}
   3: {erep_sup_emp_number: '3', erep_sub_emp_number: '1', erep_reporting_mode: '3'}
+
+EmpEmergencyContact:
+  0: {emp_number: '1', eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home: '0335445678', eec_mobile: '0776734567', eec_office_no: '0113456787'}
+  1: {emp_number: '2', eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home: '0373245675', eec_mobile: '0776734237', eec_office_no: '0113676787'}
+
