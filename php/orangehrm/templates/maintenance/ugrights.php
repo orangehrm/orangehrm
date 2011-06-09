@@ -192,8 +192,9 @@ function edit() {
             <option value="0">--<?php echo $lang_Admin_Users_SelectModule;?>--</option>
 <?php
 		$modlist = $this->popArr['modlistUnAss'];
+        $excludedModules = array("MOD009", "MOD005", "MOD002");
 		for($c=0;$modlist && count($modlist)>$c;$c++) {
-         if($modlist[$c][0] != "MOD009" && $modlist[$c][0] != "MOD005") {
+         if(!in_array($modlist[$c][0], $excludedModules)) {
             echo "<option value='". $modlist[$c][0] . "'>". $modlist[$c][1] . "</option>";
          }
         }
