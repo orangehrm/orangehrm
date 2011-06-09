@@ -263,7 +263,7 @@ class EmployeeTable extends PluginEmployeeTable {
                         
                         $subordinates = $this->_getSubordinateIds($searchBy);
                         if (count($subordinates) > 0) {
-                            $conditions[] = ' e.employee_id IN (' . implode(',', $subordinates) . ') ';
+                            $conditions[] = ' e.emp_number IN (' . implode(',', $subordinates) . ') ';
                         } else {                        
                             $conditions[] = ' s.emp_number = ? ';
                             $bindParams[] = $searchBy;
