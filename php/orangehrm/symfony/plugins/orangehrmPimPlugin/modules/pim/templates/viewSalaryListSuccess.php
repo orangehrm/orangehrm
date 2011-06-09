@@ -681,7 +681,7 @@
         
         $("#salary_payperiod_code").val($("#payperiod_code_" + id).val());
         
-        var component =  $(this).closest("tr").find('td.component').text();
+        var component =  $(this).closest("tr").find('td.component').text().trim();
         
         $("#salary_salary_component").val(component);
         
