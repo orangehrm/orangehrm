@@ -636,6 +636,94 @@
                 <source>Replace Current</source>
                 <target>FR_Replace Current</target>
             </trans-unit>
+		    <trans-unit id="188">
+                <source>Direct</source>
+                <target>FR_Direct</target>
+            </trans-unit>
+			<trans-unit id="189">
+                <source>Indirect</source>
+                <target>FR_Indirect</target>
+            </trans-unit>
+			<trans-unit id="190">
+                <source>Pay Frequency</source>
+                <target>FR_Pay Frequency</target>
+            </trans-unit>
+			<trans-unit id="191">
+                <source>Amount</source>
+                <target>FR_Amount</target>
+            </trans-unit>
+			<trans-unit id="192">
+                <source>Currency is required</source>
+                <target>FR_Currency is required</target>
+            </trans-unit>
+			<trans-unit id="193">
+                <source>Amount is required</source>
+                <target>FR_Amount is required</target>
+            </trans-unit>
+			<trans-unit id="194">
+                <source>Account Number is required</source>
+                <target>FR_Account Number is required</target>
+            </trans-unit>
+			<trans-unit id="195">
+                <source>Add Salary Component</source>
+                <target>FR_Add Salary Component</target>
+            </trans-unit>
+			<trans-unit id="196">
+                <source>Edit Salary Component</source>
+                <target>FR_Edit Salary Component</target>
+            </trans-unit>
+			<trans-unit id="197">
+                <source>Assigned Salary Components</source>
+                <target>FR_Assigned Salary Components</target>
+            </trans-unit>
+			<trans-unit id="198">
+                <source>Routing Number</source>
+                <target>FR_Routing Number</target>
+            </trans-unit>
+			<trans-unit id="199">
+                <source>Edit Salary Component</source>
+                <target>FR_Edit Salary Component</target>
+            </trans-unit>
+			<trans-unit id="200">
+                <source>Direct Deposit Details</source>
+                <target>FR_Direct Deposit Details</target>
+            </trans-unit>
+			<trans-unit id="201">
+                <source>Salary Component(s) Deleted Successfully</source>
+                <target>FR_Salary Component(s) Deleted Successfully</target>
+            </trans-unit>
+			<trans-unit id="202">
+                <source>Salary Details Updated Successfully</source>
+                <target>FR_Salary Details Updated Successfully</target>
+            </trans-unit>
+			<trans-unit id="203">
+                <source>Please Select At Least One Salary Component To Delete</source>
+                <target>FR_Please Select At Least One Salary Component To Delete</target>
+            </trans-unit>
+			<trans-unit id="204">
+                <source>Routing Number should only contain digits</source>
+                <target>FR_Routing Number should only contain digits</target>
+            </trans-unit>
+			<trans-unit id="205">
+                <source>Amount should be a number</source>
+                <target>FR_Amount should be a number</target>
+            </trans-unit>
+			<trans-unit id="206">
+                <source>Savings</source>
+                <target>FR_Saving</target>
+            </trans-unit>
+		    <trans-unit id="207">
+                <source>Checking</source>
+                <target>FR_Checking</target>
+            </trans-unit>
+			<trans-unit id="208">
+                <source>Show Direct Deposit Details</source>
+                <target>FR_Show Direct Deposit Details</target>
+            </trans-unit>
+			<trans-unit id="209">
+                <source>Please specify other account type</source>
+                <target>FR_Please specify other account type</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

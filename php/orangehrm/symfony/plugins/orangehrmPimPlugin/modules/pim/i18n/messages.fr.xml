@@ -1064,6 +1064,66 @@
                 <source>Amount should be a positive number</source>
                 <target>FR_Amount should be a positive number</target>
             </trans-unit>
+            <trans-unit id="265">
+                <source>Salary Component</source>
+                <target>FR_Salary Component</target>
+            </trans-unit>
+			<trans-unit id="266">
+                <source>Add Direct Deposit Details</source>
+                <target>FR_Add Direct Deposit Details</target>
+            </trans-unit>
+		    <trans-unit id="267">
+                <source>Component is required</source>
+                <target>FR_Component is required</target>
+            </trans-unit>
+		    <trans-unit id="268">
+                <source>Account Type is required</source>
+                <target>FR_Account Type is required</target>
+            </trans-unit>
+		    <trans-unit id="269">
+                <source>Routing Number is required</source>
+                <target>FR_Routing Number is required</target>
+            </trans-unit>
+		    <trans-unit id="270">
+                <source>Please specify other account type</source>
+                <target>FR_Please specify other account type</target>
+            </trans-unit>
+		    <trans-unit id="271">
+                <source>Pay Grade</source>
+                <target>FR_Pay Grade</target>
+            </trans-unit>
+		    <trans-unit id="272">
+                <source>Account Number</source>
+                <target>FR_Account Number</target>
+            </trans-unit>
+		    <trans-unit id="273">
+                <source>Account Type</source>
+                <target>FR_Account Type</target>
+            </trans-unit>
+		    <trans-unit id="274">
+                <source>Weekly</source>
+                <target>FR_Weekly</target>
+            </trans-unit>
+		    <trans-unit id="275">
+                <source>Bi Weekly</source>
+                <target>FR_Bi Weekly</target>
+            </trans-unit>
+		    <trans-unit id="276">
+                <source>Semi Monthly</source>
+                <target>FR_Semi Monthly</target>
+            </trans-unit>
+		    <trans-unit id="277">
+                <source>Monthly</source>
+                <target>FR_Monthly</target>
+            </trans-unit>
+		    <trans-unit id="278">
+                <source>Monthly on first pay of month.</source>
+                <target>FR_Monthly on first pay of month.</target>
+            </trans-unit>
+		    <trans-unit id="279">
+                <source>Hourly</source>
+                <target>FR_Hourly</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
