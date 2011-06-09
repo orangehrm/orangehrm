@@ -724,6 +724,18 @@
                 <source>Please specify other account type</source>
                 <target>FR_Please specify other account type</target>
             </trans-unit>
+			<trans-unit id="210">
+                <source>Issued date should be less than expiry date</source>
+                <target>FR_Issued date should be less than expiry date</target>
+            </trans-unit>
+			<trans-unit id="211">
+                <source>Amount should be less than 999999999.99</source>
+                <target>FR_Amount should be less than 999999999.99</target>
+            </trans-unit>
+			<trans-unit id="212">
+                <source>Comments cannot exceed 255 characters in length</source>
+                <target>Comments cannot exceed 255 characters in length</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
