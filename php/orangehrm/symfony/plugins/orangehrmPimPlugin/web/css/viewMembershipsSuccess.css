@@ -15,10 +15,6 @@ form#frmEmpMembership label {
 }
 
 form#frmEmpMembership label label.error {
-    color:red;
-    display: block;
-    font-weight: normal;
-    overflow:visible;
     width:270px !important; /* Need to overide important in messages.css */
     padding-left:200px;
 }
