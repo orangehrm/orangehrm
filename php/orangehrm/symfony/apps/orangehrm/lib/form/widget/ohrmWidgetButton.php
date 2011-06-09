@@ -6,14 +6,14 @@ class ohrmWidgetButton extends sfWidget
 	protected $label;
 	protected $attributes;
 
-	public function __construct($name, $label, $attrubutes = null) {
-		if (empty($attrubutes)) {
-			$attrubutes = array();
+	public function __construct($name, $label, $attributes = null) {
+		if (empty($attributes)) {
+			$attributes = array();
 		}
 		 
 		$this->name = $name;
 		$this->label = $label;
-		$this->attributes = empty($attributes) ? array() : $attrubutes;
+		$this->attributes = empty($attributes) ? array() : $attributes;
 	}
 
 	/**
