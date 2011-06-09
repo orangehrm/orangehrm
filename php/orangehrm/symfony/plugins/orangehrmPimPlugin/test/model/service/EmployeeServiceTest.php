@@ -132,7 +132,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $this->employeeService->setEmployeeDao($this->employeeDao);
             $result = $this->employeeService->deleteEmployee(array($v['id']));
             $this->assertEquals($result, 1);
-
         }
     }
 
@@ -328,7 +327,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $readReportToSupervisorList1 = $this->employeeService->getSupervisorListForEmployee($empNumber);
         $this->assertTrue($readReportToSupervisorList1[0] instanceof ReportTo);
-        
     }
 
     /**
@@ -352,7 +350,126 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $readReportToSubordinateList1 = $this->employeeService->getSubordinateListForEmployee($empNumber);
         $this->assertTrue($readReportToSubordinateList1[0] instanceof ReportTo);
         $this->assertTrue($readReportToSubordinateList1[1] instanceof ReportTo);
+    }
 
+    /**
+     * Test get Report-To object for a given supervisor subordinate and reporting method
+     */
+    public function testGetReportToObject() {
+
+        $reportingMode = 4;
+        $supNumber = 4;
+        $subNumber = 3;
+
+        $reportToObjectList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getReportToObject')
+                ->with($supNumber, $subNumber, $reportingMode)
+                ->will($this->returnValue($reportToObjectList[0]));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readReportToObject = $this->employeeService->getReportToObject($supNumber, $subNumber, $reportingMode);
+        $this->assertTrue($readReportToObject instanceof ReportTo);
+    }
+
+    /**
+     * Test delete Report-To object list for a given string array containing supervisor subordinate and reporting method
+     */
+    public function testDeleteReportToObject() {
+
+        $supNumber = 4;
+        $subNumber = 3;
+        $reportingMode = 4;
+
+        $supOrSubListToDelete = array("4 3 4");
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('deleteReportToObject')
+                ->with($supNumber, $subNumber, $reportingMode)
+                ->will($this->returnValue(true));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $result = $this->employeeService->deleteReportToObject($supOrSubListToDelete);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test get membership details list for a given employee
+     */
+    public function testGetMembershipDetails() {
+
+        $empNumber = 1;
+
+        $membershipDetailList = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getMembershipDetails')
+                ->with($empNumber)
+                ->will($this->returnValue($membershipDetailList));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readMembershipDetailList = $this->employeeService->getMembershipDetails($empNumber);
+        $this->assertTrue($readMembershipDetailList[0] instanceof EmployeeMemberDetail);
+        $this->assertTrue($readMembershipDetailList[1] instanceof EmployeeMemberDetail);
+    }
+
+    /**
+     * Test get membership detail object for a given employee membershipType and membership
+     */
+    public function testGetMembershipDetail() {
+
+        $empNumber = 1;
+        $membershipType = 'MEM001';
+        $membership = 'MIME001';
+
+        $membershipDetailList = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('getMembershipDetail')
+                ->with($empNumber)
+                ->will($this->returnValue($membershipDetailList[0]));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $readMembershipDetail = $this->employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
+        $this->assertTrue($readMembershipDetail instanceof EmployeeMemberDetail);
+        
+    }
+
+    /**
+     * Test delete membership details collection list for a given string array containing empNumber membershipType and membership
+     */
+    public function testDeleteMembershipDetails() {
+
+        $empNumber = 1;
+        $membershipType = 'MEM001';
+        $membership = 'MIME001';
+
+        $membershipsToDelete = array("1 MEM001 MIME001");
+
+        $employeeDao = $this->getMock('EmployeeDao');
+
+        $employeeDao->expects($this->once())
+                ->method('deleteMembershipDetails')
+                ->with($empNumber, $membershipType, $membership)
+                ->will($this->returnValue(true));
+
+        $this->employeeService->setEmployeeDao($employeeDao);
+
+        $result = $this->employeeService->deleteMembershipDetails($membershipsToDelete);
+        $this->assertTrue($result);
     }
 
 }
