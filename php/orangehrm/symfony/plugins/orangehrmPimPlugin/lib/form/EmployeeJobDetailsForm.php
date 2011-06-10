@@ -187,9 +187,12 @@ class EmployeeJobDetailsForm extends BaseForm {
             $employee->job_title_code = $jobTitle;
         }
         $empStatus = $this->getValue('emp_status');
-        if ($empStatus != '') {
+        if ($empStatus == '') {
+            $employee->emp_status = null;
+        } else {
             $employee->emp_status = $empStatus;
         }
+        
         $employee->terminated_date = $this->getValue('terminated_date');
 
         $employee->termination_reason = $this->getValue('termination_reason');
