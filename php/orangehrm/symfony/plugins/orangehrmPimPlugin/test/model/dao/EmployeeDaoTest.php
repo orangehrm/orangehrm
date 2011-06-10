@@ -285,6 +285,47 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Test for save work expierence returns boolean
+     */
+    public function testSaveWorkExperienceWithSeqNum() {
+
+        $empWorkExp = new EmpWorkExperience;
+
+        $empWorkExp->emp_number = 1;
+        $empWorkExp->seqno = 3;
+        $empWorkExp->jobtitle = "SE";
+        $empWorkExp->employer = "OrangeHRM";
+
+        $this->assertTrue($this->employeeDao->saveWorkExperience($empWorkExp));
+    }
+
+    /**
+     * Test for save work expierence returns boolean
+     */
+    public function testSaveWorkExperienceWithoutSeqNum() {
+
+        $empWorkExp = new EmpWorkExperience;
+
+        $empWorkExp->emp_number = 1;
+        $empWorkExp->jobtitle = "Architect";
+        $empWorkExp->employer = "IFS";
+
+        $this->assertTrue($this->employeeDao->saveWorkExperience($empWorkExp));
+    }
+
+    /**
+     * Test for deleteWrkExpierence returns boolean
+     */
+    public function testDeleteWorkExperience() {
+
+        $empNumber = 1;
+        $workExperienceToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
+        $this->assertTrue($result);
+    }
+
+    /**
      * Test for get education returns EmployeeEducation doctrine collection
      */
     public function testGetEducationWithNullEduCode() {
@@ -308,6 +349,32 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Test for save education expierence returns boolean
+     */
+    public function testSaveEducation() {
+
+        $empEdu = new EmployeeEducation;
+
+        $empEdu->emp_number = 2;
+        $empEdu->code = 'EDU002';
+        $empEdu->major = 'major';
+
+        $this->assertTrue($this->employeeDao->saveEducation($empEdu));
+    }
+
+    /**
+     * Test for deleteEducation returns boolean
+     */
+    public function testDeleteEducation() {
+
+        $empNumber = 1;
+        $educationToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
+        $this->assertTrue($result);
+    }
+
+    /**
      * Test for get skill returns EmployeeSkill doctrine collection
      */
     public function testGetSkillWithNullSkillCode() {
@@ -328,6 +395,31 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $skill = $this->employeeDao->getSkill($empNumber, $skillCode);
         $this->assertTrue($skill instanceof EmployeeSkill);
+    }
+
+    /**
+     * Test for save Skill returns boolean
+     */
+    public function testSaveSkill() {
+
+        $empSkill = new EmployeeSkill;
+
+        $empSkill->emp_number = 3;
+        $empSkill->code = 'SKI001';
+
+        $this->assertTrue($this->employeeDao->saveSkill($empSkill));
+    }
+
+    /**
+     * Test for deleteSkill returns boolean
+     */
+    public function testDeleteSkill() {
+
+        $empNumber = 1;
+        $skillToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
+        $this->assertTrue($result);
     }
 
     /**
@@ -379,6 +471,31 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Test for save language expierence returns boolean
+     */
+    public function testSaveLanguage() {
+
+        $empLang = new EmployeeLanguage;
+
+        $empLang->emp_number = 2;
+        $empLang->code = 'LAN001';
+
+        $this->assertTrue($this->employeeDao->saveLanguage($empLang));
+    }
+
+    /**
+     * Test for deleteLanguage returns boolean
+     */
+    public function testDeleteLanguage() {
+
+        $empNumber = 1;
+        $languagesToDelete = array('LAN001' => 2, 'LAN002' => 1);
+
+        $result = $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
+        $this->assertTrue($result > 0);
+    }
+
+    /**
      * Test for get skill returns EmployeeLicense doctrine collection
      */
     public function testGetLicenseWithNullLicenseCode() {
@@ -400,5 +517,55 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $licenseCode = $this->employeeDao->getLicense($empNumber, $licenseCode);
         $this->assertTrue($licenseCode instanceof EmployeeLicense);
     }
+
+    /**
+     * Test for save license expierence returns boolean
+     */
+    public function testSaveLicense() {
+
+        $empLicense = new EmployeeLicense;
+
+        $empLicense->emp_number = 3;
+        $empLicense->code = 'LIC001';
+
+        $this->assertTrue($this->employeeDao->saveLicense($empLicense));
+    }
+
+    /**
+     * Test for deleteLicence returns boolean
+     */
+    public function testDeleteLicense() {
+
+        $empNumber = 1;
+        $licenseToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test for get dependents returns EmpDependent doctrine collection
+     */
+    public function testGetDependents() {
+
+        $empNumber = 1;
+
+        $empDep = $this->employeeDao-> getDependents($empNumber);
+        $this->assertTrue($empDep[0] instanceof EmpDependent);
+        $this->assertTrue($empDep[1] instanceof EmpDependent);
+    }
+
+     /**
+     * Test for delete dependents returns boolean
+     */
+    public function testDeleteDependents() {
+
+        $empNumber = 1;
+        $entriesToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteDependents($empNumber, $entriesToDelete);
+        $this->assertTrue($result);
+    }
+
 
 }

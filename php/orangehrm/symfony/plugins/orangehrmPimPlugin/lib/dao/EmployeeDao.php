@@ -469,9 +469,10 @@ class EmployeeDao extends BaseDao {
      * @throws DaoException
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
+
         try {
             if (is_array($languagesToDelete)) {
-                // Delete work experience
+                // Delete language
                 $q = Doctrine_Query::create();
                 $q->delete('EmployeeLanguage el');
 
@@ -537,7 +538,7 @@ class EmployeeDao extends BaseDao {
     public function deleteSkill($empNumber, $skillToDelete) {
         try {
             if (is_array($skillToDelete)) {
-                // Delete work experience
+                // Delete Skill
                 $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
                                 ->whereIn('skill_code', $skillToDelete)
                                 ->andwhere('emp_number = ?', $empNumber);
@@ -584,6 +585,30 @@ class EmployeeDao extends BaseDao {
         try {
             $empLicense->save();
             return true;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete Licenses
+     * @param int $empNumber
+     * @param array() $licenseToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteLicense($empNumber, $licenseToDelete) {
+        try {
+            if (is_array($licenseToDelete)) {
+                // Delete work experience
+                $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
+                                ->whereIn('l.code', $licenseToDelete)
+                                ->andwhere('l.emp_number = ?', $empNumber);
+
+                $result = $q->execute();
+                return true;
+            }
+            return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -637,30 +662,6 @@ class EmployeeDao extends BaseDao {
                 $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
                                 ->whereIn('attach_id', $attachmentsToDelete)
                                 ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Delete Licenses
-     * @param int $empNumber
-     * @param array() $licenseToDelete
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function deleteLicense($empNumber, $licenseToDelete) {
-        try {
-            if (is_array($licenseToDelete)) {
-                // Delete work experience
-                $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
-                                ->whereIn('l.code', $licenseToDelete)
-                                ->andwhere('l.emp_number = ?', $empNumber);
-
                 $result = $q->execute();
                 return true;
             }
@@ -1139,72 +1140,72 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($ex->getMessage());
         }
     }
-    
-   /**
-    * Retrieve Unassigned Currency List
-    * @param int $empNumber
-    * @param String $salaryGrade
-    * @param boolean $asArray
-    * @returns Collection
-    * @throws DaoException
-    */
-   public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
-      try {
-         $hydrateMode = ($asArray) ? Doctrine :: HYDRATE_ARRAY : Doctrine :: HYDRATE_RECORD;
-         $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
-           ->from('CurrencyType c')
-           ->leftJoin('c.SalaryCurrencyDetail s')
-           ->where('s.sal_grd_code = ?', $salaryGrade)
-           ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
-                   , array ($empNumber, $salaryGrade));
 
-         return $q->execute(array (), $hydrateMode);
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+    /**
+     * Retrieve Unassigned Currency List
+     * @param int $empNumber
+     * @param String $salaryGrade
+     * @param boolean $asArray
+     * @returns Collection
+     * @throws DaoException
+     */
+    public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
+        try {
+            $hydrateMode = ($asArray) ? Doctrine :: HYDRATE_ARRAY : Doctrine :: HYDRATE_RECORD;
+            $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
+                            ->from('CurrencyType c')
+                            ->leftJoin('c.SalaryCurrencyDetail s')
+                            ->where('s.sal_grd_code = ?', $salaryGrade)
+                            ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
+                                    , array($empNumber, $salaryGrade));
 
-   /**
-    * Save EmpBasicsalary
-    * @param EmpBasicsalary $empBasicsalary
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
-      try {
-         $empBasicsalary->save();        
-         return true;
-      } catch(Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
+            return $q->execute(array(), $hydrateMode);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
-   /**
-    * Delete Salary
-    * @param int $empNumber
-    * @param array() $salaryToDelete
-    * @returns boolean
-    * @throws DaoException
-    */
-   public function deleteSalary($empNumber, $salaryToDelete) {
-      try {
-         // Skip if no salarys because running the following query
-         // with no salarys will delete all this employee's assigned
-         // salary
-        
-         if (count($salaryToDelete) > 0) {
-            $q = Doctrine_Query :: create()->delete('EmpBasicsalary s')
-                ->whereIn('id', array_values($salaryToDelete))
-                ->andWhere('emp_number = ?', $empNumber);
+    /**
+     * Save EmpBasicsalary
+     * @param EmpBasicsalary $empBasicsalary
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+        try {
+            $empBasicsalary->save();
+            return true;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
-            $result = $q->execute();
-         }
-         return true;
-      } catch (Exception $e) {
-         throw new DaoException($e->getMessage());
-      }
-   }
-   
+    /**
+     * Delete Salary
+     * @param int $empNumber
+     * @param array() $salaryToDelete
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteSalary($empNumber, $salaryToDelete) {
+        try {
+            // Skip if no salarys because running the following query
+            // with no salarys will delete all this employee's assigned
+            // salary
+
+            if (count($salaryToDelete) > 0) {
+                $q = Doctrine_Query :: create()->delete('EmpBasicsalary s')
+                                ->whereIn('id', array_values($salaryToDelete))
+                                ->andWhere('emp_number = ?', $empNumber);
+
+                $result = $q->execute();
+            }
+            return true;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
     /**
      * Add or Save Reporting Method
      * @param ReportingMethod $reportingMethod

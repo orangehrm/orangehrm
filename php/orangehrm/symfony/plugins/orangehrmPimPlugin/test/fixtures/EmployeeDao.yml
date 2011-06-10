@@ -74,3 +74,7 @@ Licenses:
 EmployeeLicense:
   0: {emp_number: '1', licenses_code: 'LIC001', license_no: '2bja8768', licenses_date: '2004-02-23', licenses_renewal_date: '2007-02-23'}
   1: {emp_number: '1', licenses_code: 'LIC002', license_no: '2bjghj768', licenses_date: '2002-02-23', licenses_renewal_date: '2004-02-23'}
+
+EmpDependent:
+    0: {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
+    1: {emp_number: '1', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23'}
