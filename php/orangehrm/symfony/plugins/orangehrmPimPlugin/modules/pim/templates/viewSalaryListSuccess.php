@@ -129,9 +129,11 @@
                                         </div>
                                     </form>
                                 </div>
+
+                                <div class="smallText" id="salaryRequiredNote"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+
                             <?php endif; ?>
-                                            <div class="smallText" id="salaryRequiredNote"><?php echo __('Fields marked with an asterisk') ?>
-                                                <span class="required">*</span> <?php echo __('are required.') ?></div>
+
                             <?php if (count($salaryList) > 0) {
  ?>
                                                 <div class="outerbox">
