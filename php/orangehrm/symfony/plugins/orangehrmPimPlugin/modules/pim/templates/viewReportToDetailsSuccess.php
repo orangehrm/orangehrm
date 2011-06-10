@@ -84,7 +84,7 @@
                                 <br class="clear" />
 
                                 <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 90)); ?>
+                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 92)); ?>
                                 <div id="name">
                                 </div>
                                 <br class="clear"/>
@@ -111,6 +111,9 @@
                             <?php } ?>
                                 </form>
                             </div>
+
+                  <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+
                         </div>
                 <?php endif; ?>
 
@@ -233,8 +236,6 @@
                         </table>
                     </div>
 
-
-                    <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 
                 <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
                 <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
