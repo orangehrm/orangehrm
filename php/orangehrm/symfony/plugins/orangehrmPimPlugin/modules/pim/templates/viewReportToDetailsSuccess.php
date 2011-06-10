@@ -84,7 +84,7 @@
                                 <br class="clear" />
 
                                 <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 50)); ?>
+                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 90)); ?>
                                 <div id="name">
                                 </div>
                                 <br class="clear"/>
