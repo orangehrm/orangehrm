@@ -199,5 +199,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
                     var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
                     var dateError = '<?php echo __("Renewal date should be greater than commence date"); ?>';
+                    var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
+                    var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
                     //]]>
                 </script>

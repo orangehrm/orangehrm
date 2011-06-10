@@ -80,6 +80,8 @@ $(document).ready(function() {
     // Edit a membership detail in the list
     $('#frmEmpDelMemberships a').live('click', function() {
 
+        validator.resetForm();
+
         var row = $(this).closest("tr");
         var primarykey = row.find('input.checkboxMem:first').val();
         var membership = $(this).text();
@@ -116,6 +118,7 @@ $(document).ready(function() {
         $('#listActions').hide();
         $('#mem_list td.check').hide();
         $('#addPaneMembership').css('display', 'block');
+
     });
 
     // Cancel in add pane
@@ -186,7 +189,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#frmEmpMembership").validate({
+    var validator = $("#frmEmpMembership").validate({
 
         rules: {
             'membership[membershipType]' : {
@@ -196,7 +199,7 @@ $(document).ready(function() {
                 required: true
             },
             'membership[subscriptionAmount]':{
-                number: true
+                number: true, min: 0, max: 999999999.99
             },
             'membership[subscriptionCommenceDate]' : {
                 valid_date: function() {
@@ -228,7 +231,7 @@ $(document).ready(function() {
                 required: selectAMembership
             },
             'membership[subscriptionAmount]':{
-                number: validNumberMsg
+                number: validNumberMsg, min: lang_negativeAmount, max: lang_tooLargeAmount
             },
             'membership[subscriptionCommenceDate]' : {
                 valid_date: validDateMsg
