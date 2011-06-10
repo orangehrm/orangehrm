@@ -112,8 +112,23 @@ class EmployeeReportToForm extends BaseForm {
         // } elseif ($this->userType == 'Supervisor') {
         //$employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
         // }
-
+        
+        // Get supervisosubordinates of current employee
         $employeeUnique = array();
+        
+        //
+        // Skip supervisors and subordinates already assigned
+        //
+        $supervisors = $employeeService->getSupervisorListForEmployee($this->empNumber);
+        $subordinates = $employeeService->getSubordinateListForEmployee($this->empNumber);
+        
+        foreach($subordinates as $subordinate) {
+            $employeeUnique[$subordinate->getSubordinateId()] = true;
+        }
+        foreach($supervisors as $supervisor) {
+            $employeeUnique[$supervisor->getSupervisorId()] = true;
+        }
+
         foreach ($employeeList as $employee) {
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
