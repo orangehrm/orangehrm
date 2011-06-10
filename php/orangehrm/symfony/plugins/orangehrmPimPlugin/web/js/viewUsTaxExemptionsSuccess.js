@@ -1,30 +1,26 @@
 $(document).ready(function() {
 
-    function validateInput() {
-
-        var flag = true;
-        $('.txtBox').each(function(){
-            element = $('#'+$(this).attr('id'));
-                        
-            if($(element).val()){
-                if(!(/^[0-9]+$/).test($(element).val().trim())) {
-
-                    $("<label class='error'>"+enterANumber+"</label>").insertBefore(element.next(".clear"));
-                    flag = false;
-                }
-                else{
-                    $(element.next(".error")).remove();
-                }
+    $("#frmEmpTaxExemptions").validate({
+        rules: {
+            'tax[federalExemptions]' : {
+                number: true, min: 0, max: 99
+            },
+            'tax[stateExemptions]' : {
+                number: true, min: 0, max: 99
             }
-        });
-
-        return flag;
-    }
-
-    $('.txtBox').change(function() {
-        var flag = validateInput();
-    
-    });
+        },
+        messages: {
+            'tax[federalExemptions]' : {
+                number: lang_negativeAmount, min: lang_negativeAmount, max: lang_tooLargeAmount
+            },
+            'tax[stateExemptions]' :{
+                number: lang_negativeAmount, min: lang_negativeAmount, max: lang_tooLargeAmount
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo( element.prev('label') );
+        }
+    });  // End of validator
 
     //on form loading
     $(".txtBox").attr("disabled", "disabled");
@@ -41,13 +37,9 @@ $(document).ready(function() {
         }
 
         if($("#btnSave").attr('value') == lang_save) {
-            if(validateInput()){
-                $("#frmEmpTaxExemptions").submit();
-            }
-            else{
-               
+            $("#frmEmpTaxExemptions").submit();
         }
-        }
+
     });
 
 });

@@ -48,13 +48,13 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
         //Setting validators
         $this->setValidators(array(
             'empNumber' => new sfValidatorString(array('required' => true)),
-            'federalStatus' => new sfValidatorString(array('required' => false)),
-            'federalExemptions' => new sfValidatorInteger(array('required' => false)),
-            'state' => new sfValidatorString(array('required' => false)),
-            'stateStatus' => new sfValidatorString(array('required' => false)),
-            'stateExemptions' => new sfValidatorInteger(array('required' => false)),
-            'unempState' => new sfValidatorString(array('required' => false)),
-            'workState' => new sfValidatorString(array('required' => false)),
+            'federalStatus' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($status))),
+            'federalExemptions' => new sfValidatorInteger(array('required' => false, 'max' => 99)),
+            'state' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($states))),
+            'stateStatus' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($status))),
+            'stateExemptions' => new sfValidatorInteger(array('required' => false, 'max' => 99)),
+            'unempState' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($states))),
+            'workState' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($states))),
         ));
 
             $this->setDefault('empNumber', $empNumber);
