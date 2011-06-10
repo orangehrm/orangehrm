@@ -599,7 +599,7 @@
             'directdeposit[account_type]': {required: lang_accountTypeRequired},
             'directdeposit[account_type_other]': {required: lang_otherRequired, maxlength: lang_otherMaxLength},
             'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
-            'directdeposit[amount]': {required: lang_otherRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
+            'directdeposit[amount]': {required: lang_amountRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
             
         },
         
