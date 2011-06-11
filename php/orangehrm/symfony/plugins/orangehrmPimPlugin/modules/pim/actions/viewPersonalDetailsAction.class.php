@@ -20,7 +20,7 @@
  * personalDetailsAction
  *
  */
-class viewPersonalDetailsAction extends sfAction {
+class viewPersonalDetailsAction extends basePimAction {
 
     private $employeeService;
 
@@ -108,22 +108,6 @@ class viewPersonalDetailsAction extends sfAction {
         } catch( Exception $e) {
             print( $e->getMessage());
         }
-    }
-
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-        
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private function isLeavePeriodDefined() {
