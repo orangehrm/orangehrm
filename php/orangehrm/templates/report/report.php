@@ -46,14 +46,7 @@ $lang_Template_rep_headName = array(
 
 $styleSheet = CommonFunctions::getTheme();
 
-$toBeReplaced = $records['replacements'];
-
-$replacements = array(
-	'REPORTINGMETHOD' => array(
-		$toBeReplaced['directReportingMode'] => $lang_hrEmpMain_Direct,
-		$toBeReplaced['indirectReportingMode'] => $lang_hrEmpMain_Indirect,
-	)
-);
+$replacements = array('REPORTINGMETHOD' => $records['reportingMethods']);
 
 function formatValue($string, $key, $replacements) {
 	if ($string == ReportField::EMPTY_MARKER) {

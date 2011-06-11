@@ -436,10 +436,7 @@ class RepViewController {
 						        $objs['reportName'] = $edit[0][1];
 						        $objs['arrayDispList'] = $arrayDispList;
 						        $objs['headerNames'] = $repgen->getHeaders();
-						        $objs['replacements'] = array( // TODO: Prefix index with class name
-						        	'directReportingMode' => EmpRepTo::REPORTING_MODE_DIRECT,
-						        	'indirectReportingMode' => EmpRepTo::REPORTING_MODE_INDIRECT,
-						        );
+                                $objs['reportingMethods'] = $repgen->getReporingMethods();
 
 						        $templatePath = '/templates/report/report.php';
 						        $template = new TemplateMerger($objs, $templatePath, null, null);

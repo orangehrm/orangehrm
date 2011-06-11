@@ -480,4 +480,22 @@ class ReportGenerator {
     private function _extractQuery($query) {
         return substr($query, 1, strlen($query) - 2);
     }
+
+    public function getReporingMethods() {
+
+        $query = "SELECT * FROM `ohrm_emp_reporting_method`";
+
+        $dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+        $reportingMethods = array();
+
+        while ($row = mysql_fetch_array($result)) {
+            $reportingMethods[$row['reporting_method_id']] = $row['reporting_method_name'];
+        }
+
+        return $reportingMethods;
+
+    }
+
 }
