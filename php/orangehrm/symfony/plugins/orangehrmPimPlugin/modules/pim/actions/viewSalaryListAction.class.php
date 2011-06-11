@@ -31,7 +31,7 @@ class viewSalaryListAction extends basePimAction {
         $salary = $request->getParameter('salary');
         $empNumber = (isset($salary['emp_number'])) ? $salary['emp_number']: $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
-        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
+        $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
 
         $this->ownRecords = ($loggedInEmpNum == $empNumber)?true:false;
 

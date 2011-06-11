@@ -19,9 +19,9 @@
  */
 
 /**
- * Actions class for PIM module memberships
+ * Actions class for PIM module ReportTo
  */
-class viewReportToDetailsAction extends sfAction {
+class viewReportToDetailsAction extends basePimAction {
 
     private $employeeService;
 
@@ -62,7 +62,7 @@ class viewReportToDetailsAction extends sfAction {
         $reportTo = $request->getParameter('reportto');
         $empNumber = (isset($membership['empNumber'])) ? $membership['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
-        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
+        $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
@@ -85,22 +85,6 @@ class viewReportToDetailsAction extends sfAction {
         $this->supDetails = $this->getEmployeeService()->getSupervisorListForEmployee($this->empNumber);
         $this->subDetails = $this->getEmployeeService()->getSubordinateListForEmployee($this->empNumber);
 
-    }
-
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach ($subordinates as $employee) {
-                if ($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
 }

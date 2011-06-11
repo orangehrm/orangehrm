@@ -72,4 +72,19 @@ abstract class basePimAction extends sfAction {
         
         return $isValidUser;
     }
+
+    protected function isAllowedAdminOnlyActions($loggedInEmpNumber, $empNumber) {
+
+        if ($loggedInEmpNumber == $empNumber) {
+            return false;
+        }
+
+        if ($this->getUser()->hasCredential(Auth::ADMIN_ROLE)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 }

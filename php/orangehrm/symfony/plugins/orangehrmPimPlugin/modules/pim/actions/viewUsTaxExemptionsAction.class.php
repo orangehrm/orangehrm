@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewUsTaxExemptionsAction extends sfAction {
+class viewUsTaxExemptionsAction extends basePimAction {
 
     private $employeeService;
 
@@ -49,7 +49,7 @@ class viewUsTaxExemptionsAction extends sfAction {
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $this->essUserMode = $this->getUser()->hasCredential(Auth::ESSUSER_ROLE);
+        $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
         $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
         if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
@@ -76,20 +76,5 @@ class viewUsTaxExemptionsAction extends sfAction {
         }
     }
 
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }
 
