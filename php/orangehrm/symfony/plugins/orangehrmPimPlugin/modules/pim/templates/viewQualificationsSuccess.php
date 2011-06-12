@@ -154,7 +154,7 @@
                                                 <input type="hidden" id="comment_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->comments); ?>" />
 
                                                 <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/></td>
-                                                <td class="name"><a class="edit"><?php echo htmlspecialchars($workExperience->employer);?></a></td>
+                                                <td class="name"><a class="edit" href="#"><?php echo htmlspecialchars($workExperience->employer);?></a></td>
                                                 <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
                                                 <td><?php echo $fromDate;?></td>
                                                 <td><?php echo $toDate;?></td>
