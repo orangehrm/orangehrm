@@ -19,6 +19,9 @@
  */
 
 
+/* For logging PHP errors */
+include_once('../lib/confs/log_settings.php');
+
 session_start();
 
 $cupath = realpath(dirname(__FILE__).'/../');

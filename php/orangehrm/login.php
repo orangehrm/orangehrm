@@ -18,6 +18,9 @@
  *
  */
 
+/* For logging PHP errors */
+include_once('lib/confs/log_settings.php');
+
 define('ROOT_PATH', dirname(__FILE__));
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';

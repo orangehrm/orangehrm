@@ -1,5 +1,8 @@
 <?php
 
+/* For logging PHP errors */
+include_once('../../lib/confs/log_settings.php');
+
 /* Added for compatibility with current orangehrm code 
  * OrangeHRM Root directory 
  */

@@ -17,6 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
+/* For logging PHP errors */
+include_once('lib/confs/log_settings.php');
+
 ob_start();
 
 define('ROOT_PATH', dirname(__FILE__));

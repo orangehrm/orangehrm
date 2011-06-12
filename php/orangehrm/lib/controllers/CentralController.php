@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+/* For logging PHP errors */
+include_once('../../lib/confs/log_settings.php');
 
 ob_start();
 
@@ -32,7 +34,7 @@ if(!isset($_SESSION['fname'])) {
 
 set_magic_quotes_runtime(0); // Turning off magic quotes runtime
 
-define('ROOT_PATH', $_SESSION['path']);
+definer('ROOT_PATH', $_SESSION['path']);
 define("SALT", '$2a$'.str_pad($_SESSION['empID'].session_id(), 24, session_id()).'$');
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
