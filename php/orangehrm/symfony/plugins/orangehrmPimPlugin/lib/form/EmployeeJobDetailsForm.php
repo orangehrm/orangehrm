@@ -197,8 +197,10 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         $employee->termination_reason = $this->getValue('termination_reason');
 
-            $eeoCat = $this->getValue('eeo_category');
-        if ($eeoCat != '') {
+        $eeoCat = $this->getValue('eeo_category');
+        if ($eeoCat == '') {
+            $employee->eeo_cat_code = null;
+        } else {
             $employee->eeo_cat_code = $eeoCat;
         }
         $employee->work_station = $this->getValue('sub_unit');
