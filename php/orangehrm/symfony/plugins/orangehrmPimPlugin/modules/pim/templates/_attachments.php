@@ -165,7 +165,7 @@ $locRights['delete'] = true;
     var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
     var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
     var lang_PleaseSelectAFile = "<?php echo __("Please select a file");?>";
-    var lang_CommentsMaxLength = "<?php echo __("Comment cannot exceed 200 characters in length");?>";
+    var lang_CommentsMaxLength = "<?php echo __("Comment should be less than 200 characters");?>";
     var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";  
 
     var clearAttachmentMessages = true;
@@ -191,7 +191,7 @@ $locRights['delete'] = true;
 
             rules: {
                 ufile : {attachment:true},
-                txtAttDesc: {maxlength: 200}
+                txtAttDesc: {maxlength: 198}
             },
             messages: {
                 ufile: lang_PleaseSelectAFile,

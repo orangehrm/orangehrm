@@ -1124,6 +1124,10 @@
                 <source>Hourly</source>
                 <target>FR_Hourly</target>
             </trans-unit>
+		    <trans-unit id="280">
+                <source>Comment should be less than 200 characters</source>
+                <target>FR_Comment should be less than 200 characters</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
