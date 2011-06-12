@@ -512,7 +512,11 @@ class leaveActions extends sfActions {
         
         $id = (int) $request->getParameter('id');
         $mode = empty($id) ? LeaveListForm::MODE_MY_LEAVE_LIST : LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
-            
+
+        if ($this->_isRequestFromLeaveSummary($request)) {
+            $this->_setFilters($mode, $request->getGetParameters());
+        }
+
         if ($request->isMethod('post')) { 
             $this->_setFilters($mode, $request->getPostParameters());
         }
@@ -825,5 +829,18 @@ class leaveActions extends sfActions {
         }
             
         return $value;
-    }        
+    }
+
+    protected function _isRequestFromLeaveSummary($request) {
+
+        $txtEmpID = $request->getGetParameter('txtEmpID');
+
+        if (!empty($txtEmpID)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 }
