@@ -64,12 +64,28 @@ class viewPhotoAction extends sfAction {
             $contentType = "image/gif";
             fclose($fp);
         }
-
+        
+        $checksum = md5($contents);
+        
+        // Allow client side cache image unless image checksum changes.
+        $eTag = $request->getHttpHeader('If-None-Match');
+        
         $response = $this->getResponse();
-        $response->addCacheControlHttpHeader('no-cache');
 
-        $response->setContentType($contentType);
-        $response->setContent($contents);
+        if ($eTag == $checksum) {
+            $response->setStatusCode('304');
+        } else {
+            $response->setContentType($contentType);
+            $response->setContent($contents);            
+        }
+        
+        // Setting "Pragra" header to null does not prevent it being added automatically
+        // Therefore, we set this to "Public" to override "Pragma: no-cache" added because of settings in factory.yml        
+        $response->setHttpHeader('Pragma', 'Public');
+        
+        $response->setHttpHeader('ETag', $checksum);        
+        $response->addCacheControlHttpHeader('public, max-age=0, must-revalidate');            
+            
         $response->send();
 
         return sfView::NONE;

@@ -1,7 +1,8 @@
-<div id="currentImage" style="width:150px;">
+<div id="currentImage" style="width:150px;height:180px;overflow:hidden;">
     <center>
         <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber); ?>">
-            <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" />
+            <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" 
+                 style="width:100%;visiblity:hidden;"/>
         </a>
 <?php if ($editMode) { ?>
         <div class="smallHelpText">[<?php echo __('Dimensions'); ?> 150x180]</div>
@@ -16,6 +17,8 @@
         var imgWidth = $("#empPic").attr("width");
         var newHeight = 0;
         var newWidth = 0;
+        
+        $('#currentImage').css('height', 'auto');
 
         //algorithm for image resizing
         //resizing by width - assuming width = 150,
@@ -41,6 +44,7 @@
 
         $("#empPic").attr("height", newHeight);
         $("#empPic").attr("width", newWidth);
+        $("#empPic").attr("visibility", "visible");
     }
     
     $(document).ready(function() {
