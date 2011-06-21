@@ -768,6 +768,77 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
+     * Testing saveLanguage
+     */
+    public function testSaveLanguage() {
+        $empNumber = 121;
+        $language = new EmployeeLanguage();
+        $language->setEmpNumber($empNumber);
+        $language->setCode('LAN002');
+        $language->setLangType(1);
+        $language->setCompetency(1);
+        $language->setComments('no comments'); 
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('saveLanguage')
+                 ->with($language)
+                 ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->saveLanguage($language);
+        $this->assertTrue($result);              
+    }    
+    
+    /**
+     * Testing getLanguage
+     */
+    public function testGetLanguage() {
+        $empNumber = 121;
+        
+        $language = new EmployeeLanguage();
+        $language->setEmpNumber($empNumber);
+        $language->setCode('LAN002');
+        $language->setLangType(1);
+        $language->setCompetency(1);
+        $language->setComments('no comments');        
+        
+        $languageCode = 'LAN002';
+        $langType = 1;
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getLanguage')
+                 ->with($empNumber, $languageCode, $langType)
+                 ->will($this->returnValue($language));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getLanguage($empNumber, $languageCode, $langType);
+        $this->assertEquals($language, $result);              
+    } 
+    
+    /**
+     * Testing deleteLanguage
+     */
+    public function testDeleteLanguage() {
+        $empNumber = 111;
+        $entriesToDelete = array('1', '2', '4');
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteLanguage')
+                 ->with($empNumber, $entriesToDelete)
+                 ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->deleteLanguage($empNumber, $entriesToDelete);
+        $this->assertTrue($result);              
+    }
+    
+    /**
      * Testing getEmployeeListAsJson
      */
     public function testGetEmployeeListAsJson() {
