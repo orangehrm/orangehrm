@@ -220,20 +220,6 @@ class EmployeeService extends BaseService {
         }
     }
 
-    /**
-     * Delete Supervisors
-     * @param int $empNumber
-     * @param array() $supervisorsToDelete
-     * @returns boolean
-     * @throws PIMServiceException
-     */
-    public function deleteSupervisors($empNumber, $supervisorsToDelete) {
-        try {
-            return $this->employeeDao->deleteSupervisors($empNumber, $supervisorsToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
-    }
 
     /**
      * Check if employee with given empNumber is a supervisor
@@ -243,21 +229,6 @@ class EmployeeService extends BaseService {
     public function isSupervisor($empNumber) {
         try {
             return $this->employeeDao->isSupervisor($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     * Delete Subordinates
-     * @param int $empNumber
-     * @param array() $subordinatesToDelete
-     * @returns boolean
-     * @throws PIMServiceException
-     */
-    public function deleteSubordinates($empNumber, $subordinatesToDelete) {
-        try {
-            return $this->employeeDao->deleteSubordinates($empNumber, $subordinatesToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
