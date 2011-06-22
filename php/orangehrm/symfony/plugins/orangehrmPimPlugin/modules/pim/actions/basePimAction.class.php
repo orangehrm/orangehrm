@@ -20,6 +20,14 @@ abstract class basePimAction extends sfAction {
     
     private $employeeService;
     
+    public function preExecute() {
+        $sessionVariableManager = new DatabaseSessionManager();
+        $sessionVariableManager->setSessionVariables(array(
+            'orangehrm_user' => Auth::instance()->getLoggedInUserId(),
+            'orangehrm_action_name' => $this->getActionName(),
+        ));
+        $sessionVariableManager->registerVarables();
+    }
 
     /**
      * Get EmployeeService
