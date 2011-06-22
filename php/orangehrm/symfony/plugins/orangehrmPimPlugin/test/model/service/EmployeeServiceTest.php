@@ -176,7 +176,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing readEmployeePicture
      */
-    public function testManipulateEmployeePicture() {
+    public function testReadEmployeePicture() {
         foreach ($this->testCase['Employee'] as $k => $v) {
             $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
@@ -187,6 +187,29 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue($pic instanceof EmpPicture);
         }
     }
+    
+    /**
+     * Testing readEmployeePicture
+     */
+    public function testReadEmployeePictureException() {
+        
+        $empNumber = 102;    
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('readEmployeePicture')
+                 ->with($empNumber)
+                 ->will($this->throwException(new DaoException()));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->readEmployeePicture($empNumber);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }        
+    }    
 
     /**
      * Testing getPicture
@@ -839,37 +862,627 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
+     * Testing saveLicense
+     */
+    public function testSaveLicense() {
+        $empNumber = 121;
+        $license = new EmployeeLicense();
+        $license->setEmpNumber($empNumber);
+        $license->setCode('LIC002');
+        $license->setLicenseNo('199919');
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('saveLicense')
+                 ->with($license)
+                 ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->saveLicense($license);
+        $this->assertTrue($result);              
+    }    
+    
+    /**
+     * Testing getLicense
+     */
+    public function testGetLicense() {
+        $empNumber = 121;
+        $licenseCode = 'LAN002';
+        
+        $license = new EmployeeLicense();
+        $license->setEmpNumber($empNumber);
+        $license->setCode($licenseCode);
+        $license->setLicenseNo('199919');        
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getLicense')
+                 ->with($empNumber, $licenseCode)
+                 ->will($this->returnValue($license));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getLicense($empNumber, $licenseCode);
+        $this->assertEquals($license, $result);              
+    } 
+    
+    /**
+     * Testing deleteLicense
+     */
+    public function testDeleteLicense() {
+        $empNumber = 111;
+        $entriesToDelete = array('1', '2', '4');
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteLicense')
+                 ->with($empNumber, $entriesToDelete)
+                 ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->deleteLicense($empNumber, $entriesToDelete);
+        $this->assertTrue($result);              
+    } 
+    
+    /**
+     * Testing getAttachments
+     */
+    public function testGetAttachments() {
+        $empNumber = 121;
+        $screen = 'personal';
+        
+        $attachments = array();
+        foreach ($this->testCase['EmployeeAttachment'] as $values ) {
+            $attachment = new EmployeeAttachment();
+            $attachment->fromArray($values);
+            $attachments[] = $attachment;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getAttachments')
+                 ->with($empNumber, $screen)
+                 ->will($this->returnValue($attachments));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getAttachments($empNumber, $screen);
+        $this->assertEquals($attachments, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getAttachments')
+                 ->with($empNumber, $screen)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getAttachments($empNumber, $screen);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }  
+        
+    } 
+    
+    /**
+     * Testing deleteAttachments
+     */
+    public function testDeleteAttachments() {
+        $empNumber = 111;
+        $entriesToDelete = array('1', '2', '4');
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteAttachments')
+                 ->with($empNumber, $entriesToDelete)
+                 ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
+        $this->assertTrue($result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteAttachments')
+                 ->with($empNumber, $entriesToDelete)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }         
+    }
+    
+    /**
+     * Testing getAttachment
+     */
+    public function testGetAttachment() {
+        $empNumber = 121;
+        
+        $attachments = array();
+        foreach ($this->testCase['EmployeeAttachment'] as $values ) {
+            $attachment = new EmployeeAttachment();
+            $attachment->fromArray($values);
+            $attachments[] = $attachment;
+        }             
+        
+        $attachment = $attachments[0];
+        $attachmentId = $attachment->getAttachId();
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getAttachment')
+                 ->with($empNumber, $attachmentId)
+                 ->will($this->returnValue($attachment));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
+        $this->assertEquals($attachment, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getAttachment')
+                 ->with($empNumber, $attachmentId)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }  
+        
+    }
+    
+    /**
+     * Testing getEmployeeList
+     */
+    public function testGetEmployeeList() {
+        $sortField = 'empNumber';
+        $orderBy = 'DESC';
+        
+        $employees = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $employees[] = $employee;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeList')
+                 ->with($sortField, $orderBy)
+                 ->will($this->returnValue($employees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getEmployeeList($sortField, $orderBy);
+        $this->assertEquals($employees, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeList')
+                 ->with($sortField, $orderBy)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getEmployeeList($sortField, $orderBy);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }
+    
+    /**
+     * Testing getSupervisorList
+     */
+    public function testGetSupervisorList() {
+        $sortField = 'empNumber';
+        $orderBy = 'DESC';
+        
+        $supervisors = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $supervisors[] = $employee;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorList')
+                 ->will($this->returnValue($supervisors));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getSupervisorList();
+        $this->assertEquals($supervisors, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorList')
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getSupervisorList();
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }
+    
+    /**
+     * Testing searchEmployee
+     */
+    public function testSearchEmployee() {
+        $field = 'empNumber';
+        $value = '2';
+        
+        $employees = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $employees[] = $employee;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('searchEmployee')
+                 ->with($field, $value)
+                 ->will($this->returnValue($employees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->searchEmployee($field, $value);
+        $this->assertEquals($employees, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('searchEmployee')
+                 ->with($field, $value)                
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->searchEmployee($field, $value);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }    
+    
+    /**
+     * Testing getEmployeeCount
+     */
+    public function testGetEmployeeCount() {
+
+        $count = 212;         
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeCount')
+                 ->will($this->returnValue($count));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getEmployeeCount();
+        $this->assertEquals($count, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeCount')               
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getEmployeeCount();
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }    
+    
+    /**
+     * Testing getSupervisorEmployeeList
+     */
+    public function testGetSupervisorEmployeeList() {
+        $supervisorId = '11';
+        
+        $employees = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $employees[] = $employee;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorEmployeeList')
+                 ->with($supervisorId)
+                 ->will($this->returnValue($employees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
+        $this->assertEquals($employees, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorEmployeeList')
+                 ->with($supervisorId)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }
+    
+    /**
      * Testing getEmployeeListAsJson
      */
     public function testGetEmployeeListAsJson() {
-        $empDao = new EmployeeDao();
-        $str = $empDao->getEmployeeListAsJson();
 
-        $this->employeeDao = $this->getMock('EmployeeDao');
-        $this->employeeDao->expects($this->once())
+        $employees = array();
+        foreach ($this->testCase['EmployeeJson'] as $values ) {
+            $employees[] = $values;
+        } 
+        
+        $workShift = true;
+        
+        $jsonStr = json_encode($employees);
+
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
                 ->method('getEmployeeListAsJson')
-                ->will($this->returnValue($str));
-        $this->employeeService->setEmployeeDao($this->employeeDao);
-        $result = $this->employeeService->getEmployeeListAsJson();
-        $this->assertEquals($str, $result);
+                ->with($workShift)
+                ->will($this->returnValue($jsonStr));
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getEmployeeListAsJson($workShift);
+        $this->assertEquals($jsonStr, $result);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                ->method('getEmployeeListAsJson')
+                ->with($workShift)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getEmployeeListAsJson($workShift);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }         
     }
 
+    /**
+     * Testing getSupervisorEmployeeChain
+     */
+    public function testGetSupervisorEmployeeChain() {
+        $supervisorId = '11';
+        
+        $employees = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $employees[] = $employee;
+        }             
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorEmployeeChain')
+                 ->with($supervisorId)
+                 ->will($this->returnValue($employees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
+        $this->assertEquals($employees, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSupervisorEmployeeChain')
+                 ->with($supervisorId)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }
+    
+   /**
+     * Testing filterEmployeeListBySubUnit
+     */
+    public function testFilterEmployeeListBySubUnit() {
+        $subUnitId = 12;    
+        
+        $employees = array();
+        foreach ($this->testCase['Employee'] as $values ) {
+            $employee = new Employee();
+            $employee->fromArray($values);
+            $employees[] = $employee;
+        }             
+        
+        $employees[0]->setWorkStation($subUnitId);
+        
+        // Search by specific sub unit
+        $result = $this->employeeService->filterEmployeeListBySubUnit($employees, $subUnitId);
+        $this->assertTrue(is_array($result));
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($employees[0], $result[0]);
+        
+        // Search by Root - Should return all employees in list
+        $result = $this->employeeService->filterEmployeeListBySubUnit($employees, CompanyStructure::ROOT_ID);
+        $this->assertEquals($employees, $result);
+        
+        // Empty subunit Id should be the same as root 
+        $result = $this->employeeService->filterEmployeeListBySubUnit($employees, NULL);
+        $this->assertEquals($employees, $result);
+        
+        // If no employee list passed, will get all employees from dao adn filter        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeList')
+                 ->will($this->returnValue($employees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->filterEmployeeListBySubUnit(NULL, $subUnitId);
+        $this->assertTrue(is_array($result));
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($employees[0], $result[0]);           
+        
+        // Dao Exception
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getEmployeeList')
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->filterEmployeeListBySubUnit(NULL, $subUnitId);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }           
+    }
+    
+    
     /**
      * Testing deleteEmployee
      */
     public function testDeleteEmployee() {
-
-        foreach ($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao = $this->getMock('EmployeeDao');
-            $this->employeeDao->expects($this->once())
-                    ->method('deleteEmployee')
-                    ->will($this->returnValue(1));
-            $this->employeeService->setEmployeeDao($this->employeeDao);
-            $result = $this->employeeService->deleteEmployee(array($v['id']));
-            $this->assertEquals($result, 1);
+                
+        $employeesToDelete = array('1', '2', '4');
+        $numEmployees = count($employeesToDelete);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteEmployee')
+                 ->with($employeesToDelete)
+                 ->will($this->returnValue($numEmployees));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->deleteEmployee($employeesToDelete);
+        $this->assertEquals($numEmployees, $result);              
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteEmployee')
+                 ->with($employeesToDelete)
+                 ->will($this->throwException(new DaoException()));
+               
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $result = $this->employeeService->deleteEmployee($employeesToDelete);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
         }
+        
     }
 
+    /**
+     * Testing isEmployeeIdInUse
+     */
+    public function testIsEmployeeIdInUse() {
+
+        $employeeId = 'E199';
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                ->method('isEmployeeIdInUse')
+                ->with($employeeId)
+                ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->isEmployeeIdInUse($employeeId);
+        $this->assertTrue($result);               
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                ->method('isEmployeeIdInUse')
+                ->with($employeeId)
+                ->will($this->throwException(new DaoException()));
+        
+        $this->employeeService->setEmployeeDao($mockDao);       
+        
+        try {
+            $result = $this->employeeService->isEmployeeIdInUse($employeeId);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }
+        
+    }
+    
+    
+    /**
+     * Testing checkForEmployeeWithSameName
+     */
+    public function testCheckForEmployeeWithSameName() {
+
+        $first = 'John';
+        $middle = 'A';
+        $last = 'Kennedy';
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                ->method('checkForEmployeeWithSameName')
+                ->with($first, $middle, $last)
+                ->will($this->returnValue(true));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->checkForEmployeeWithSameName($first, $middle, $last);
+        $this->assertTrue($result);               
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                ->method('checkForEmployeeWithSameName')
+                ->with($first, $middle, $last)
+                ->will($this->throwException(new DaoException()));
+        
+        $this->employeeService->setEmployeeDao($mockDao);       
+        
+        try {
+            $result = $this->employeeService->checkForEmployeeWithSameName($first, $middle, $last);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            $this->assertInstanceOf('PIMServiceException', $e);
+        }
+        
+    }
+    
     /**
      * Test GetEmergencyContacts
      */
