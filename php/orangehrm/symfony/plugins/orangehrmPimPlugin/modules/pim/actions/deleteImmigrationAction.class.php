@@ -16,28 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteImmigrationAction extends sfAction {
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
+class deleteImmigrationAction extends basePimAction {
 
     public function execute($request) {
         
@@ -53,4 +32,3 @@ class deleteImmigrationAction extends sfAction {
         }
     }
 }
-?>

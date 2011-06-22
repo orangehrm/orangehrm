@@ -21,7 +21,7 @@
  * Actions class for PIM module updateDependentAction
  */
 
-class updateCustomFieldsAction extends sfAction {
+class updateCustomFieldsAction extends basePimAction {
 
     /**
      * Add / update employee customFields

@@ -21,7 +21,7 @@
  * Actions class for PIM module updateAttachmentAction
  */
 
-class updateAttachmentAction extends sfAction {
+class updateAttachmentAction extends basePimAction {
         
     /**
      * Add / update employee attachment

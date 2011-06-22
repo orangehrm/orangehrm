@@ -20,29 +20,7 @@
 /**
  * Actions class for PIM module emergency contacts
  */
-class viewEmergencyContactsAction extends sfAction {
-
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
+class viewEmergencyContactsAction extends basePimAction {
 
     /**
      * @param sfForm $form
@@ -89,19 +67,4 @@ class viewEmergencyContactsAction extends sfAction {
         $this->emergencyContacts = $this->getEmployeeService()->getEmergencyContacts($this->empNumber);
     }
 
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

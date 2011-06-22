@@ -21,7 +21,7 @@
 /**
  * Actions class for PIM module deleteAttachmentAction
  */
-class deleteAttachmentsAction extends sfAction {
+class deleteAttachmentsAction extends basePimAction {
 
     /**
      * Delete employee attachments

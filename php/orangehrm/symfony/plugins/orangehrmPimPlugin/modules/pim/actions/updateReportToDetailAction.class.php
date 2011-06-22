@@ -21,7 +21,7 @@
 /**
  * Actions class for PIM module updateMembership
  */
-class updateReportToDetailAction extends sfAction {
+class updateReportToDetailAction extends basePimAction {
 
     /**
      * Add / update employee membership

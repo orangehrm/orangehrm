@@ -20,29 +20,7 @@
 /**
  * Actions class for PIM module dependents
  */
-class viewDependentsAction extends sfAction {
-
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
+class viewDependentsAction extends basePimAction {
 
     /**
      * @param sfForm $form
@@ -70,7 +48,6 @@ class viewDependentsAction extends sfAction {
 
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
-
             $this->showBackButton = false;
         }
         

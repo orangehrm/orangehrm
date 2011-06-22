@@ -16,10 +16,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class contactDetailsAction extends sfAction {
+class contactDetailsAction extends basePimAction {
 
-    private $employeeService;
-    
     /**
      * @param sfForm $form
      * @return
@@ -28,26 +26,6 @@ class contactDetailsAction extends sfAction {
         if (is_null($this->form)) {
             $this->form = $form;
         }
-    }
-    
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
     }
     
     public function execute($request) {
@@ -92,21 +70,5 @@ class contactDetailsAction extends sfAction {
         }
     }
 
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
 }
-?>
+

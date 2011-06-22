@@ -21,7 +21,7 @@
  * Actions class for PIM module updateEmergencyContact
  */
 
-class updateEmergencyContactAction extends sfAction {
+class updateEmergencyContactAction extends basePimAction {
 
     /**
      * Add / update employee emergencyContact

@@ -22,7 +22,7 @@
  * configPimAction
  *
  */
-class configurePimAction extends sfAction {
+class configurePimAction extends basePimAction {
 
     /**
      * @param sfForm $form

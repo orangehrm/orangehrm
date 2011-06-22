@@ -21,7 +21,7 @@
  * Actions class for PIM module updateDependentAction
  */
 
-class updateDependentAction extends sfAction {
+class updateDependentAction extends basePimAction {
 
     /**
      * Add / update employee dependent

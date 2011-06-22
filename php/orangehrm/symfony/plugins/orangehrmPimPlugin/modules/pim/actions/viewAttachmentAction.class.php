@@ -21,30 +21,8 @@
  * Actions class for PIM module viewAttachment
  */
 
-class viewAttachmentAction extends sfAction {
+class viewAttachmentAction extends basePimAction {
 
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
-    
     /**
      * Add / update employee customFields
      *
@@ -62,9 +40,9 @@ class viewAttachmentAction extends sfAction {
 
         $employeeService = $this->getEmployeeService();
         $attachment = $employeeService->getAttachment($empNumber, $attachId);
-            
+
         $response = $this->getResponse();
-            
+
         if (!empty($attachment)) {
             $contents = $attachment->attachment;
             $contentType = $attachment->file_type;

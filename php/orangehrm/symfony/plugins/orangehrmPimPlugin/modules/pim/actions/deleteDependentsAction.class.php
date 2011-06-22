@@ -21,7 +21,7 @@
  * Action class for PIM module delete dependents
  *
  */
-class deleteDependentsAction extends sfAction {
+class deleteDependentsAction extends basePimAction {
 
     /**
      * Delete employee dependents

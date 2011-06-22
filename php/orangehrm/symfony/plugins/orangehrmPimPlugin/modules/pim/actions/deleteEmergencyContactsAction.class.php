@@ -21,7 +21,7 @@
  * Action class for PIM module delete emergency contacts
  *
  */
-class deleteEmergencyContactsAction extends sfAction {
+class deleteEmergencyContactsAction extends basePimAction {
 
     /**
      * Delete employee emergencyContacts
@@ -43,7 +43,7 @@ class deleteEmergencyContactsAction extends sfAction {
                     throw new PIMServiceException("No Employee ID given");
                 }
                 $emergencyContactsToDelete = $request->getParameter('chkecontactdel', array());
-             
+
                 if ($emergencyContactsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);

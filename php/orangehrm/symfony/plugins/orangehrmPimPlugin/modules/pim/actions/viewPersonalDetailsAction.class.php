@@ -22,28 +22,6 @@
  */
 class viewPersonalDetailsAction extends basePimAction {
 
-    private $employeeService;
-
-    /**
-     * Get EmployeeService
-     * @returns EmployeeService
-     */
-    public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-            $this->employeeService->setEmployeeDao(new EmployeeDao());
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * Set EmployeeService
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
-
     /**
      * @param sfForm $form
      * @return
@@ -125,4 +103,3 @@ class viewPersonalDetailsAction extends basePimAction {
     }
 
 }
-?>
