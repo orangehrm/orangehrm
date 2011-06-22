@@ -58,6 +58,8 @@ class Auth {
     // employee number
     private $empNumber = null;
 
+    // User Id
+    private $loggedInUserId;
     /** TODO: userg_repdef field in hs_hr_user_group doesn't seem to be used at all: Remove
      */
     /**
@@ -68,6 +70,7 @@ class Auth {
     	if (isset($_SESSION['fname'])) {
     		$this->loggedIn = true;
                 $this->empNumber = $_SESSION['empID']; 
+                $this->loggedInUserId = $_SESSION['user'];
 	        $orangeAuth = new AuthorizeService($this->empNumber, $_SESSION['isAdmin']);
 	        
 	        $roleList = $orangeAuth->getRoles();
@@ -82,7 +85,7 @@ class Auth {
 	        // If an admin, get admin group permissions
 	        if ($this->hasRole(Auth :: ADMIN_ROLE)) {
 	            $permissions = $this->_getRightsForUserGroup($_SESSION['userGroup']);
-	        }	        
+	        }
     	} else {
     	    $this->loggedIn = false;
     	}
@@ -96,8 +99,13 @@ class Auth {
         return intval($empNumber);
     }
 
+    public function getLoggedInUserId() {
+        return $this->loggedInUserId;
+    }
+
     /**
      * Get singleton instance of Auth class
+     * @return Auth
      */
     public static function instance() {
         if (self::$instance == null) {
