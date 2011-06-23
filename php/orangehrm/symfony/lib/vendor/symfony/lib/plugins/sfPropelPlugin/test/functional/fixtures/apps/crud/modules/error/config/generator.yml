@@ -1,5 +1,0 @@
-generator:
-  class:              sfPropelCrudGenerator
-  param:
-    model_class:      FakeClass
-    theme:            default
