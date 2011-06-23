@@ -45,6 +45,8 @@ class authorize {
     public $roleAcceptor = "Acceptor";
     public $roleOfferer = "Offerer";
 
+    private static $currentUserId = null;
+
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
 	const AUTHORIZE_ROLE_ESS = 'ESS';
@@ -86,6 +88,13 @@ class authorize {
 
 	public  function getRoles() {
 		return $this->roles;
+	}
+
+	public static function getCurrentUserId() {
+		if (empty(self::$currentUserId)) {
+			self::$currentUserId = @$_SESSION['user'];
+		}
+		return self::$currentUserId;
 	}
 
 	/**
