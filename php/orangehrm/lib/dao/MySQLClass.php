@@ -21,194 +21,141 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
 class MySQLClass {
 
-	var $myHost; // server name
-	var $myHostPort;
-	var $userName; //db user
-	var $userPassword; // db user password
-	var $db_name; // database name
-	var $conn; // database connection
-	var $result;
+	private $myHost; // server name
+	private $myHostPort;
+	private $userName; //db user
+	private $userPassword; // db user password
+	private $db_name; // database name
+	private $conn; // database connection
+	private $orangeUser; //username of the current user
+	private $result;
 
-
-/* Class Constructor for MySQLClass*/
-	function MySQLClass($conf) {
-		$this->myHost 		= $conf ->dbhost; //reference for the Host
-		$this->myHostPort	= $conf ->dbport;
-		$this->userName 	= $conf ->dbuser; //reference for the Username
-		$this->userPassword = $conf ->dbpass; //reference for the Password
-		$this->db_name 		= $conf ->dbname; //reference for the DatabaseName
+	/**
+	 * Class Constructor for MySQLClass
+	 * @param Conf $conf Object containing the database connection details
+	 * @param String $orangeUser Username of the user who's currently logged in
+	 */
+	public function __construct($conf, $orangeUser = 'unkown') {
+		$this->myHost = $conf->dbhost; //reference for the Host
+		$this->myHostPort = $conf->dbport;
+		$this->userName = $conf->dbuser; //reference for the Username
+		$this->userPassword = $conf->dbpass; //reference for the Password
+		$this->db_name = $conf->dbname; //reference for the DatabaseName
+		$this->orangeUser = $orangeUser; //reference to the username of the current user 
 
 		$this->dbConnect();
 	}
 
-/* 	DBConnection Function
-	uses mysql_connect function to connect the Database
-	gets myhost, username, userpassword
-	Returns true if Connected to the Database
+	/**
+	 * This method will make the database connection using mysql_connect() function
+	 * @return boolean true if connected to the database successfully
+	 */
+	public function dbConnect() {
+		/*
+		 * TODO: The capturing of database errors should be done without returning true or false; Proper exceptions
+		 * should be thrown instead
+		 */
+		if (!@ $this->conn = mysql_connect($this->myHost . ':' . $this->myHostPort, $this->userName, $this->userPassword)) {
+			$exception_handler = new ExceptionHandler();
+			$exception_handler->dbexNoConnection();
+			exit;
+		} else {
+			if ($this->conn) {
+				mysql_query("SET NAMES 'utf8'");
+				if (mysql_select_db($this->db_name)) {
+					mysql_query("SET @orangehrm_user = '{$this->orangeUser}';");
+					return true;
+				} else {
+					$exception_handler = new ExceptionHandler();
+					$exception_handler->dbexNoDatabase();
+					exit;
+				}
+			} else {
+				return false;
+			}
+		}
 
-*/
-	function dbConnect() {
-		//$this -> conn = mysql_connect($this->myHost, $this->userName, $this->userPassword);
-
-	  	if (!@$this -> conn = mysql_connect($this->myHost .':'.$this->myHostPort, $this->userName, $this->userPassword)) {
-
-	  		$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->dbexNoConnection();
-	  	   	exit;
-
-	  	} else {
-
-	  	 if ($this -> conn) {
-	  	 	mysql_query("SET NAMES 'utf8'");
-	  	 	if (mysql_select_db ($this->db_name)) {
-
-		 	    return true;
-		 	} else {
-
-			 	$exception_handler = new ExceptionHandler();
-		  	 	$exception_handler->dbexNoDatabase();
-		  	 	exit;
-
-		 	}
-
-		 } else {
-
-		   return false;
-		 }
-	    }
-
-
-
-
-	  	 if ($this -> conn) {
-
-	  	 	mysql_select_db ($this->db_name);
-	 	    return true;
-
-		 } else {
-
-		   	$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->dbexNoDatabase();
-	  	 	//exit;
-		   return false;
+		if ($this->conn) {
+			mysql_select_db($this->db_name);
+			mysql_query("SET @orangehrm_user = '{$this->orangeUser}';");
+			return true;
+		} else {
+			$exception_handler = new ExceptionHandler();
+			$exception_handler->dbexNoDatabase();
+			return false;
 		}
 	}
 
-/* 	dbDisconnect Function
-	uses mysql_close function to disconnect
-	from the Database
+	/**
+	 * This method will close the connection with the database
+	 * @param ResultResource $result If this parameter is passed, the method will
+	 * try to free the result resouce
+	 */
+	public function dbDisconnect($result = NULL) {
+		if ($this->conn != null) {
+			if ($result) {
+				@ mysql_free_result($result);
+			}
+			if ($this->conn) {
+				return @ mysql_close($this->conn);
+			}
+		}
+	}
 
-*/
-
-	function dbDisconnect($result = NULL)
-	{
-		if ($this-> conn != null)
-		{
-			if($result)
-			{
-				$this-> conn -> freeMem($result);
+	/**
+	 * This method will execute an SQL statement using mysql_query() function
+	 * @param String $sql SQL statement to be executed
+	 * @return ResultResource If the statement executed success, boolean false in an error
+	 */
+	public function sqlQuery($sql) {
+		if ((isset ($this->conn)) && ($sql != '')) {
+			$this->result = mysql_query($sql);
+			if ($this->result) {
+				return $this->result;
 			}
 
-			return $this->conn->dbClose();
+			/* 
+			 * Return false if duplicate key is entered
+			 * TODO: Throw an exception here, and chanage code to catch it on model level
+			 */
+			if (mysql_errno() == 1062) {
+				return false;
+			}
+
+			$exception_handler = new ExceptionHandler();
+			$exception_handler->dbexInvalidSQL($sql);
+			return false;
+		} else {
+			$exception_handler = new ExceptionHandler();
+			$exception_handler->dbexNoQueryFound($sql);
+			return false;
 		}
 	}
 
-/*
-	SQLQUERY Function
-	Input Parameter is the Query String
-	Uses mysql_query(), mysql_error() functions
-	returns the result set $this->result
-
-*/
-
-	function sqlQuery($sql)	{
-		if( (isset($this -> conn)) && ($sql != '') ){
-			 $this->result = mysql_query($sql);
-
-			 if ($this->result) {
-			 	return $this->result;
-			 }
-
-			 if (mysql_errno() == 1062) {
-			 	 return false;
-			 }
-
-	 		 $exception_handler = new ExceptionHandler();
-	  	 	 $exception_handler->dbexInvalidSQL($sql);
-	 		 return false;
-
-	 	} else {
-
-	 		$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->dbexNoQueryFound($sql);
-	 		return false;
-
-		}
-
+	/**
+	 * This method will return a row from a result resource
+	 * @param ResultResouce $result
+	 * @return Array[] Row of field values
+	 */
+	public function getArray($result, $resultType = MYSQL_BOTH) {
+		return mysql_fetch_array($result, $resultType);
 	}
 
-
-	function getArray($result) {
-		return mysql_fetch_array($result);
+	/**
+	 * This method will return the number of rows that have been affected by the executed 
+	 * SQL statement
+	 * @return int Number of rows affected
+	 */
+	public function numberOfAffectedRows() {
+		return mysql_affected_rows();
 	}
 
-	function numberOfAffectedRows () {
-	 	return mysql_affected_rows();
-	 }
-
-	 function numberOfRows($result) {
-	 	return mysql_num_rows($result);
-	 }
-
-/*
-	function fetch_result($result,$id = '') {
-		return mysql_result($result,$id);
+	/**
+	 * This method will return the number of rows in a given result resource
+	 * @param ResultResouce $result
+	 * @return int Number of rows in the result resource
+	 */
+	public function numberOfRows($result) {
+		return mysql_num_rows($result);
 	}
-
-
-	function fetch_row($result) {
-		return mysql_fetch_row($result);
-	}
-
-
-	function getObject($result) {
-		return @mysql_fetch_object ($result) ;
-	}
-
-
-	function rowCount($result) {
-	// Right
-		return @mysql_num_rows($result);
-	}
-
-
-	function getFieldsName($num,$conf) {
-	// Right
-		$table = $conf['Website']['params']['table'][$num];
-//		echo $table ."<br>";
-		if (isset($this->conn)){
-			return $fields = @mysql_list_fields($this->db_name, $table  , $this->conn);
-		}	else return 'false';
-	}
-
-
-	function getCountFields($fields) {
-		if ($fields !='false')
-			return $columns = mysql_num_fields($fields);
-		else return 'false';
-	}
-
-
-	function freeMem($result)	{
-		@mysql_free_result($result);
-	}
-
-
-	function dbClose()	{
-
-		if($this->conn)
-			@mysql_close ($this->conn);
-	}
-*/
 }
-?>
