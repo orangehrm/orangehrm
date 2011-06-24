@@ -275,6 +275,7 @@ class JobVacancy {
 			                self::DB_FIELD_VACANCY_ID, implode(",", $ids));
 
 			$conn = new DMLFunctions();
+                        $conn->executeQuery("SET @orangehrm_action_name = 'DELETE JOB VACANCY';");
 			$result = $conn->executeQuery($sql);
 			if ($result) {
 				$count = mysql_affected_rows();
@@ -386,8 +387,10 @@ class JobVacancy {
 		$sql = $sqlBuilder->addNewRecordFeature2();
 
 		$conn = new DMLFunctions();
+        $conn->executeQuery("SET @orangehrm_action_name = 'ADD JOB VACANCY';");
 
-		$result = $conn->executeQuery($sql);
+        $result = $conn->executeQuery($sql);
+
 		if (!$result || (mysql_affected_rows() != 1)) {
 			throw new JobVacancyException("Insert failed. ", JobVacancyException::DB_ERROR);
 		}
@@ -421,6 +424,7 @@ class JobVacancy {
 		$sql = $sqlBuilder->addUpdateRecord1(0);
 
 		$conn = new DMLFunctions();
+                $conn->executeQuery("SET @orangehrm_action_name = 'CHANGE JOB VACANCY';");
 		$result = $conn->executeQuery($sql);
 
 		// Here we don't check mysql_affected_rows because update may be called
