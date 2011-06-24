@@ -24,9 +24,9 @@ abstract class basePimAction extends sfAction {
         $sessionVariableManager = new DatabaseSessionManager();
         $sessionVariableManager->setSessionVariables(array(
             'orangehrm_user' => Auth::instance()->getLoggedInUserId(),
-            'orangehrm_action_name' => $this->getActionName(),
         ));
         $sessionVariableManager->registerVarables();
+        $this->setOperationName(OrangeActionHelper::getActionDescriptor($this->getModuleName(), $this->getActionName()));
     }
 
     /**
@@ -93,6 +93,14 @@ abstract class basePimAction extends sfAction {
 
         return false;
 
+    }
+    
+    protected function setOperationName($actionName) {
+        $sessionVariableManager = new DatabaseSessionManager();
+        $sessionVariableManager->setSessionVariables(array(
+            'orangehrm_action_name' => $actionName,
+        ));
+        $sessionVariableManager->registerVarables();
     }
 
 }
