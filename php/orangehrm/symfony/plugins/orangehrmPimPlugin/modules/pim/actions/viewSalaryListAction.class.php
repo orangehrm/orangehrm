@@ -100,8 +100,9 @@ class viewSalaryListAction extends basePimAction {
                 
                 if ($directDebitOk) {
                     $service = $this->getEmployeeService();
+                    $this->setOperationName('UPDATE SALARY');
                     $service->saveEmpBasicsalary($salary);                
-                
+
                     $this->getUser()->setFlash('templateMessage', array('success', __('Salary Details Updated Successfully')));  
                 }
             } else {
