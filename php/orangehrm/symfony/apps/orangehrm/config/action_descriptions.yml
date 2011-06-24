@@ -1,0 +1,5 @@
+pim:
+  addEmployee: Add Employee
+  viewPersonalDetails: Change Personal Details
+  deleteEmployees: Delete Employee
+  contactDetails: Update Contact Information
