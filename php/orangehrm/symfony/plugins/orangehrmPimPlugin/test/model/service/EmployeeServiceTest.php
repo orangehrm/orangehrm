@@ -145,7 +145,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue($result);
         }
     }
-    
+
     /**
      * Testing Adding Employee Picture
      */
