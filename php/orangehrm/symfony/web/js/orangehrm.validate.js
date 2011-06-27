@@ -2,7 +2,6 @@
  * please avoid highly customized validation methods
  * you can write them in orangehrm.<module_name>.js as part of refactoring
  *
- * @author sujith
  **/
 
 /**
@@ -25,93 +24,93 @@
 $.validator.addMethod("valid_date",
     function(value, element, params) {
 
-    var valid = false;
-    var format = params.format;
-    var displayFormat = params.displayFormat;
+        var valid = false;
+        var format = params.format;
+        var displayFormat = params.displayFormat;
     
-    var required = false;
+        var required = false;
     
-    if (typeof params.required != 'undefined') {
-        required = params.required;
-    }
-
-    try {
-        var trimmedValue = $.trim(value);
-
-        // If not required, empty or format is ok.
-        if (!required && ((trimmedValue == '') || (trimmedValue == displayFormat)) ) {
-            valid = true;
+        if (typeof params.required != 'undefined') {
+            required = params.required;
         }
-        else {
-            var parsedDate = $.datepicker.parseDate(format, trimmedValue);
-            if (parsedDate) {
-                var formattedDate = $.datepicker.formatDate(format, parsedDate);
-                if (trimmedValue == formattedDate) {
-                    var year = parsedDate.getFullYear();
 
-                    // Additional validation, since datePicker.parseDate
-                    // accepts 3 digit years or very 4 or more digit years.
-                    if (year > 1000 & year < 9999) {
-                        valid = true;
+        try {
+            var trimmedValue = $.trim(value);
+
+            // If not required, empty or format is ok.
+            if (!required && ((trimmedValue == '') || (trimmedValue == displayFormat)) ) {
+                valid = true;
+            }
+            else {
+                var parsedDate = $.datepicker.parseDate(format, trimmedValue);
+                if (parsedDate) {
+                    var formattedDate = $.datepicker.formatDate(format, parsedDate);
+                    if (trimmedValue == formattedDate) {
+                        var year = parsedDate.getFullYear();
+
+                        // Additional validation, since datePicker.parseDate
+                        // accepts 3 digit years or very 4 or more digit years.
+                        if (year > 1000 & year < 9999) {
+                            valid = true;
+                        }
                     }
                 }
             }
+        } catch (error) {
+            valid = false;
         }
-    } catch (error) {
-        valid = false;
-    }
 
-    return valid;
+        return valid;
 
-});
+    });
 
 
 //this is to check for valid alpha characters only texts no numbers or symbols
 $.validator.addMethod("alpha", function(value, element) {
-   return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+    return this.optional(element) || /^[a-zA-Z]+$/.test(value);
 });
 
 //this is to check for orangeHRM specific date format
 $.validator.addMethod("orangehrmdate", function(value, element) {
-   var dt = value.toString();
-   if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
-      return true;
-   }
-   dt = dt. split("-");
-   return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
+    var dt = value.toString();
+    if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
+        return true;
+    }
+    dt = dt. split("-");
+    return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
 });
 
 function validateDate(day, month, year) {
-   var days31 = new Array(1,3,5,7,8,10,12);
+    var days31 = new Array(1,3,5,7,8,10,12);
 
-   if(month > 12 || month < 1) {
-      return false;
-   }
+    if(month > 12 || month < 1) {
+        return false;
+    }
 
-   if(day == 29 && month == 2) {
-      if(year % 4 == 0) {
-         return true;
-      }
-   }
+    if(day == 29 && month == 2) {
+        if(year % 4 == 0) {
+            return true;
+        }
+    }
 
-   if(month == 2 && day < 29) {
-      return true;
-   }
+    if(month == 2 && day < 29) {
+        return true;
+    }
 
-   if(day < 32 && month != 2) {
-      if(day == 31) {
-         flag = false;
-         for(i=0; i < days31.length; i++) {
-            if(days31[i] == month) {
-               flag = true;
-               break;
+    if(day < 32 && month != 2) {
+        if(day == 31) {
+            flag = false;
+            for(i=0; i < days31.length; i++) {
+                if(days31[i] == month) {
+                    flag = true;
+                    break;
+                }
             }
-         }
-         return flag;
-      }
-      return true;
-   }
-   return false;
+            return flag;
+        }
+        return true;
+    }
+    return false;
 }
 
 
@@ -127,7 +126,17 @@ $.validator.addMethod("isFutureDate", function(value, element) {
 });
 
 $.validator.addMethod("phone", function(value, element) {
-        return (checkPhone(element));
-    },
-    ""
+    return (checkPhone(element));
+},
+""
 );
+
+$.validator.addMethod('date_range', function(value, element, params) {
+
+    var fromDate = $('#dtpFrom').val().split('-');
+    var toDate = $('#dtpTo').val().split('-');
+    var fromDateObj = new Date(parseInt(fromDate[0],10), parseInt(fromDate[1],10) - 1, parseInt(fromDate[2],10));
+    var toDateObj = new Date(parseInt(toDate[0],10), parseInt(toDate[1],10) - 1, parseInt(toDate[2],10));
+
+    return (fromDateObj <= toDateObj);
+});
