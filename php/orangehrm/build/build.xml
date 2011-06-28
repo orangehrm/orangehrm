@@ -33,6 +33,9 @@
   <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
   <property name="xampp.dir" value="../../xampp"/>
 
+  <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
+  <property name="base.name" value="${package.name}.${svn.revision}"/>
+
   <target name="prepare">
     <echo msg="Preparing build..." />
     <mkdir dir="${dist.dir}" />
@@ -43,6 +46,7 @@
     <mkdir dir="${test.coverage.dir}/symfony" />
     <mkdir dir="${test.coverage.dir}/lib" />
     <mkdir dir="${apidocs.dir}" />
+    <touch file="release-revision-${svn.revision}.txt" />
   </target>
 
   <target name="build" depends="prepare,clear.symfony.cache">
@@ -92,9 +96,6 @@
 
   <target name="dist" depends="build">
     <echo message="Creating archives ..." />
-
-    <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
-    <property name="base.name" value="${package.name}.${svn.revision}"/>
 
     <zip destfile="${dist.dir}/${base.name}.zip">
         <fileset dir="${dist.dir}">
