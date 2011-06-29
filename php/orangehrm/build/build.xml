@@ -164,11 +164,16 @@
     </copy>
   	<echo message="Creating the directories..." />
   </target>
+  
+  <fileset dir="./" id="deleteFiles">
+    <include name="release-revision-*.txt" />
+  </fileset>
 
   <target name="clean" depends="clear.symfony.cache">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
+    <delete><fileset refid="deleteFiles" /></delete>
   </target>
 
   <!-- Target run by continuous integration server -->
