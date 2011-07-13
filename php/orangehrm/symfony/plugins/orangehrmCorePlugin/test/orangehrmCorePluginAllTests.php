@@ -20,8 +20,14 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/components/ListHeaderTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/CheckboxTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/HeaderCellTest.php');
+        
+        /* Dao Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/dao/ConfigDaoTest.php');
 
+        /* Service Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/service/ConfigServiceTest.php');
 
+        
         return $suite;
 
     }

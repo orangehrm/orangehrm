@@ -16,3 +16,14 @@ UniqueId:
     field_name:
       type: string(50)
       notnull: true
+Config:
+  tableName: hs_hr_config
+  columns:
+    `key`:
+      name: `key` as key
+      type: string(100)
+      primary: true
+    value:
+      type: string(100)
+      default: ''
+      notnull: true      
