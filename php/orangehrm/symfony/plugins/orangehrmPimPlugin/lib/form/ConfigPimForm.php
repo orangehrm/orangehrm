@@ -28,10 +28,10 @@ class ConfigPimForm extends sfForm {
     public function configure() {
         $orangeConfig = $this->getOption('orangeconfig');
         
-        $showDeprecatedFields = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
-        $showSSN = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_SSN);
-        $showSIN = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_SIN);
-        $showTax = $orangeConfig->getAppConfValue(Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+        $showDeprecatedFields = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_DEPRECATED);
+        $showSSN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_SSN);
+        $showSIN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_SIN);
+        $showTax = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         
         $this->formWidgets['chkDeprecateFields'] = new sfWidgetFormInputCheckbox();
         $this->formWidgets['chkShowSSN'] = new sfWidgetFormInputCheckbox();

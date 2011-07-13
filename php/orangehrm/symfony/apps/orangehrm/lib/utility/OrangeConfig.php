@@ -26,7 +26,8 @@ class OrangeConfig {
     private $sysConf = null;
     private $conf = null;
     private $appConf = null;
-    private static $instance = null;
+    private $configService = null;
+    private static $instance = null;    
 
     /**
      * Private constructor. Use the getInstance() method to get object instance
@@ -78,34 +79,25 @@ class OrangeConfig {
         return $this->conf;
     }
 
-    /*
-     * TODO: Create new class for getting and setting app configs
-     */
-
-    public function loadAppConf() {
-        require_once sfConfig::get('sf_root_dir') . '/../lib/common/Config.php';
-    }
-
     public function getAppConfValue($key) {
 
-        $this->loadAppConf();
-
+        $configService = $this->getConfigService();
         switch ($key) {
-            case Config :: KEY_LEAVE_PERIOD_DEFINED:
-                return Config::isLeavePeriodDefined();
+            case ConfigService :: KEY_LEAVE_PERIOD_DEFINED:
+                return $configService->isLeavePeriodDefined();
                 break;
 
-            case Config::KEY_PIM_SHOW_DEPRECATED:
-                return Config::showPimDeprecatedFields();
+            case ConfigService::KEY_PIM_SHOW_DEPRECATED:
+                return $configService->showPimDeprecatedFields();
                 break;
-            case Config::KEY_PIM_SHOW_SSN:
-                return Config::showPimSSN();
+            case ConfigService::KEY_PIM_SHOW_SSN:
+                return $configService->showPimSSN();
                 break;
-            case Config::KEY_PIM_SHOW_SIN:
-                return Config::showPimSIN();
+            case ConfigService::KEY_PIM_SHOW_SIN:
+                return $configService->showPimSIN();
                 break;
-            case Config::KEY_PIM_SHOW_TAX_EXEMPTIONS:
-                return Config::showPimTaxExemptions();
+            case ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS:
+                return $configService->showPimTaxExemptions();
                 break;
 
             default:
@@ -116,29 +108,37 @@ class OrangeConfig {
 
     public function setAppConfValue($key, $value) {
 
-        $this->loadAppConf();
+        $configService = $this->getConfigService();
 
         switch ($key) {
-            case Config :: KEY_LEAVE_PERIOD_DEFINED:
-                Config::setIsLeavePriodDefined($value);
+            case ConfigService:: KEY_LEAVE_PERIOD_DEFINED:
+                $configService->setIsLeavePeriodDefined($value);
                 break;
 
-            case Config::KEY_PIM_SHOW_DEPRECATED:
-                Config::setShowPimDeprecatedFields($value);
+            case ConfigService::KEY_PIM_SHOW_DEPRECATED:
+                $configService->setShowPimDeprecatedFields($value);
                 break;
-            case Config::KEY_PIM_SHOW_SSN:
-                return Config::setShowPimSSN($value);
+            case ConfigService::KEY_PIM_SHOW_SSN:
+                return $configService->setShowPimSSN($value);
                 break;
-            case Config::KEY_PIM_SHOW_SIN:
-                return Config::setShowPimSIN($value);
+            case ConfigService::KEY_PIM_SHOW_SIN:
+                return $configService->setShowPimSIN($value);
                 break;
-            case Config::KEY_PIM_SHOW_TAX_EXEMPTIONS:
-                return Config::setShowPimTaxExemptions($value);
+            case ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS:
+                return $configService->setShowPimTaxExemptions($value);
                 break;            
             default:
                 throw new Exception("Setting {$key} is not implemented yet");
                 break;
         }
+    }
+    
+    protected function getConfigService() {
+        if (!isset($this->configService)) {
+            $this->configService = new ConfigService();
+        }
+        
+        return $this->configService;
     }
 
 }

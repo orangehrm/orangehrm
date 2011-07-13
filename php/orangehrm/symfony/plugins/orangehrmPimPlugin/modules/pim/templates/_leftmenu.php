@@ -432,8 +432,8 @@ if($empNumber == $_SESSION['empID']) {
                     <a href="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber);?>" id="paymentsLink" class="employment" accesskey="s" >
                         <span><?php echo __("Salary");?></span></a></li>
 <?php 
-    OrangeConfig::getInstance()->loadAppConf();
-    $showTax = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+
+    $showTax = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
     if ($showTax) { ?>                        
                 <li class="l2">
                     <a href="<?php echo url_for('pim/viewUsTaxExemptions?empNumber=' . $empNumber);?>" id="taxLink" class="employment" accesskey="t" >

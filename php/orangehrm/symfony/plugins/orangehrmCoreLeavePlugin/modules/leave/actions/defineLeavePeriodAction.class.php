@@ -66,8 +66,7 @@ class defineLeavePeriodAction extends sfAction {
         }
 
         $this->setForm(new LeavePeriodForm(array(), array(), true));
-        OrangeConfig::getInstance()->loadAppConf();
-        $this->isLeavePeriodDefined = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_LEAVE_PERIOD_DEFINED);
+        $this->isLeavePeriodDefined = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_LEAVE_PERIOD_DEFINED);
         $this->currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         if ($this->isLeavePeriodDefined) {
             $endDateElements = explode(' ', $this->currentLeavePeriod->getEndDateFormatted('F d'));

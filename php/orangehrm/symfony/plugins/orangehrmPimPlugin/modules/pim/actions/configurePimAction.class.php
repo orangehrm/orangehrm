@@ -44,8 +44,6 @@ class configurePimAction extends basePimAction {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        OrangeConfig::getInstance()->loadAppConf();
-
         $param = array('orangeconfig' => OrangeConfig::getInstance());
 
 
@@ -56,10 +54,10 @@ class configurePimAction extends basePimAction {
             if ($this->form->isValid()) {
                 $post = $this->form->getValues();
 
-                $this->_saveConfigValue($post, 'chkDeprecateFields', Config::KEY_PIM_SHOW_DEPRECATED);
-                $this->_saveConfigValue($post, 'chkShowSSN', Config::KEY_PIM_SHOW_SSN);
-                $this->_saveConfigValue($post, 'chkShowSIN', Config::KEY_PIM_SHOW_SIN);
-                $this->_saveConfigValue($post, 'chkShowTax', Config::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+                $this->_saveConfigValue($post, 'chkDeprecateFields', ConfigService::KEY_PIM_SHOW_DEPRECATED);
+                $this->_saveConfigValue($post, 'chkShowSSN', ConfigService::KEY_PIM_SHOW_SSN);
+                $this->_saveConfigValue($post, 'chkShowSIN', ConfigService::KEY_PIM_SHOW_SIN);
+                $this->_saveConfigValue($post, 'chkShowTax', ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
 
                 $this->getUser()->setFlash('templateMessage', array('success', __('PIM Configuration Saved Successfully')));
                 $this->redirect('pim/configurePim');

@@ -224,8 +224,7 @@ class LeavePeriodService extends BaseService {
 	 */
 	public function saveLeavePeriod(LeavePeriod $leavePeriod) {
         $this->getLeavePeriodDao()->saveLeavePeriod($leavePeriod);
-        OrangeConfig::getInstance()->loadAppConf();
-        OrangeConfig::getInstance()->setAppConfValue(Config::KEY_LEAVE_PERIOD_DEFINED, 'Yes');
+        OrangeConfig::getInstance()->setAppConfValue(ConfigService::KEY_LEAVE_PERIOD_DEFINED, 'Yes');
         return true;
 	}
 

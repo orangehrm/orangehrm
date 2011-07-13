@@ -66,10 +66,9 @@ class viewPersonalDetailsAction extends basePimAction {
             }
             $this->essMode = $essMode;
             
-            OrangeConfig::getInstance()->loadAppConf();
-            $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_DEPRECATED);
-            $this->showSSN = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_SSN);
-            $this->showSIN = OrangeConfig::getInstance()->getAppConfValue(Config::KEY_PIM_SHOW_SIN);
+            $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_DEPRECATED);
+            $this->showSSN = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_SSN);
+            $this->showSIN = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_SIN);
 
             $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
             if ($request->isMethod('post')) {
