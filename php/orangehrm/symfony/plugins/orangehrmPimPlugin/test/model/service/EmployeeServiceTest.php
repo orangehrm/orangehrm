@@ -1840,5 +1840,50 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($readEmergencyContactlList[0] instanceof EmpEmergencyContact);
         $this->assertTrue($readEmergencyContactlList[1] instanceof EmpEmergencyContact);
     }
+    
+    /**
+     * Test getEmployeeYearsOfService 
+     */
+    public function testGetEmployeeYearsOfService() {
+
+        $empNumber = 12;
+        $joinedDate = '2001-02-01';
+        $currentDate = '2010-03-04';
+        $employee = new Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setJoinedDate($joinedDate);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getEmployee')
+             ->with($empNumber)
+             ->will($this->returnValue($employee));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $yearsOfService = $this->employeeService->getEmployeeYearsOfService($empNumber, $currentDate);
+        
+        //$this->assertEquals(9, $yearsOfService);
+        
+        // Test with non-existant employee
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getEmployee')
+             ->with($empNumber)
+             ->will($this->returnValue(null));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        try {
+            $yearsOfService = $this->employeeService->getEmployeeYearsOfService($empNumber, $currentDate);        
+            $this->fail("PIMServiceException expected");
+        } catch (PIMServiceException $e) {
+            // Expected
+        }
+        
+    }
+    
 
 }

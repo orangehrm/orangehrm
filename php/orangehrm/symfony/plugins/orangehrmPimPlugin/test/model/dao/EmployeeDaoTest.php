@@ -35,6 +35,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         TestDataService::populate($this->fixture);
     }
 
+    
     /**
      * Testing getEmployeeListAsJson
      */
@@ -567,5 +568,213 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($result);
     }
 
+    public function testDeleteChildren() {
+        $empNumber = 1;
+        
+        // Set 2nd parameter to a non array object
+        $result = $this->employeeDao->deleteDependents($empNumber, '');
+        $this->assertFalse($result);
+        
+        $entriesToDelete = array(1, 2);        
+        $result = $this->employeeDao->deleteDependents($empNumber, $entriesToDelete);
+        $this->assertTrue($result);
+    }
+    
+    public function testDeletePhoto() {
+        $empNumber = 1;
+        
+        $result = $this->employeeDao->deletePhoto($empNumber);
+        $this->assertTrue($result);        
+    }
+    
+    public function testSaveEmployeePicture() {
+        
+        $mockPicture = $this->getMock('EmpPicture', array('save'));
+        $mockPicture->expects($this->once())
+                     ->method('save');
+        $result = $this->employeeDao->saveEmployeePicture($mockPicture);
 
+        $mockPicture = $this->getMock('EmpPicture', array('save'));
+        $mockPicture->expects($this->once())
+                     ->method('save')
+                     ->will($this->throwException(new Exception()));
+
+        try {
+            $result = $this->employeeDao->saveEmployeePicture($mockPicture);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            // Expected
+        }            
+    }
+    
+    public function testAddEmployee() {
+        $employee = new Employee();
+        $employee->firstName = 'Tester';
+        $employee->lastName = 'Jason';
+        
+        $employee = $this->employeeDao->addEmployee($employee);
+    }
+
+    public function testGetEmployee() {
+        $empNumber = 1;
+        
+        $employee = $this->employeeDao->getEmployee($empNumber);
+        $this->assertTrue($employee instanceof Employee);          
+        $this->assertEquals('Kayla', $employee->getFirstName());
+    }
+    
+    public function testGetPicture() {
+        $empNumber = 1;
+        
+        $picture = $this->employeeDao->getPicture($empNumber);
+        $this->assertTrue($picture instanceof EmpPicture);          
+        $this->assertEquals('test_file.jpg', $picture->getFileName());
+        
+    }
+    
+    public function testSavePersonalDetails() {
+        $employee = new Employee();
+        $employee->firstName = 'Tester';
+        $employee->middleName = 'T';        
+        $employee->lastName = 'Jason';
+        $employee->empNumber = 1;
+
+        $employee->nickName = 'TT';
+        $employee->otherId = "";
+        $employee->emp_marital_status = 0;
+        $employee->smoker = 0;
+        $employee->emp_gender = 0;
+        $employee->militaryService = 0;
+        
+        $retVal = $this->employeeDao->savePersonalDetails($employee, false);
+        $this->assertTrue($retVal);
+        
+        $employee->emp_dri_lice_exp_date = '2011-01-01';
+        $employee->nation_code = 'NAT001';
+        $employee->ethnic_race_code = 'ETH001';
+        $employee->emp_birthday = '1975-01-30';
+        
+        $retVal = $this->employeeDao->savePersonalDetails($employee, false);
+        $this->assertTrue($retVal);
+        
+        $retVal = $this->employeeDao->savePersonalDetails($employee, true);
+        $this->assertTrue($retVal);        
+    }
+    
+    public function testSaveContactDetails() {
+        $employee = new Employee();
+        $employee->firstName = 'Tester';
+        $employee->lastName = 'Jason';
+        $employee->empNumber = 1;
+        $employee->street1 = '223 Main Street';
+        $employee->street2 = '';        
+        $employee->city = 'Colombo';
+        $employee->province = 'Western';
+        $employee->emp_zipcode = '10000';
+        $employee->emp_hm_telephone = '99299292';
+        $employee->emp_mobile = '9292929';
+        $employee->emp_work_telephone = '92999292';
+        $employee->emp_work_email = 'adsa@sad.com';
+        $employee->emp_oth_email = 'sadfa@dsaf.com';
+        
+        $retVal = $this->employeeDao->saveContactDetails($employee);
+        $this->assertTrue($retVal);
+        
+        $employee->country = 'Sri Lanka';
+        
+        $retVal = $this->employeeDao->saveContactDetails($employee);
+        $this->assertTrue($retVal);
+
+    }
+    
+    public function testDeleteImmigration() {
+        $empNumber = 1;
+        $retVal = $this->employeeDao->deleteImmigration($empNumber, array(1));
+        $this->assertTrue($retVal);
+    }
+    
+    public function testGetAttachments() {
+        $empNumber = 1;
+        $retVal = $this->employeeDao->getAttachments($empNumber, 'personal');
+        $this->assertEquals(2, count($retVal));
+    }
+    
+    public function testGetAttachment() {
+        $empNumber = 1;
+        $retVal = $this->employeeDao->getAttachment($empNumber, 1);
+        $this->assertTrue($retVal instanceof EmployeeAttachment);        
+        $this->assertEquals('test.mdb', $retVal->filename);        
+    }
+    
+    public function testdeleteAttachments() {
+        $empNumber = 1;
+        $retVal = $this->employeeDao->deleteAttachments($empNumber, array(1,2));
+        $this->assertTrue($retVal);        
+        
+        $retVal = $this->employeeDao->deleteAttachments($empNumber, array());
+        $this->assertFalse($retVal);        
+    }
+    
+    public function testReadEmployeePicture() {
+        $empNumber = 1;
+        $picture = $this->employeeDao->readEmployeePicture($empNumber);
+        $this->assertTrue($picture instanceof EmpPicture);
+        $this->assertEquals('test_file.jpg', $picture->getFileName());
+    }
+    
+    public function testGetEmployeeList() {
+        $empList = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        $list = $this->employeeDao->getEmployeeList();
+        $this->assertEquals(count($empList), count($list));
+    }
+    public function testGetSupervisorList() {
+        $supervisorCount = 0;
+        
+        $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        $supervisors = array();
+        
+        foreach($repToList as $repTo) {
+            $supervisors[] = $repTo->supervisorId;
+        }
+        
+        $supervisors = array_unique($supervisors);
+        
+        $list = $this->employeeDao->getSupervisorList();
+        
+        $this->assertEquals(count($supervisors), count($list));
+    }
+
+    public function testIsSupervisor() {
+        $supervisorCount = 0;
+        
+        $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        $supervisors = array();
+        
+        foreach($repToList as $repTo) {
+            $supervisors[] = $repTo->supervisorId;
+        }
+        
+        $supervisors = array_unique($supervisors);
+        $supervisorId = array_pop($supervisors);
+        
+        $retVal = $this->employeeDao->isSupervisor($supervisorId);
+        
+        $this->assertTrue($retVal);
+    }    
+    
+    public function testSearchEmployee() {
+        $result = $this->employeeDao->searchEmployee('firstName', 'Kayla');
+        $this->assertEquals(1, count($result));
+        
+        $result = $this->employeeDao->searchEmployee('firstName', 'Not Valid');
+        $this->assertEquals(0, count($result));
+        
+        try {
+            $result = $this->employeeDao->searchEmployee('firstNameX', 'Kayla');
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            
+        }
+        
+    }
 }

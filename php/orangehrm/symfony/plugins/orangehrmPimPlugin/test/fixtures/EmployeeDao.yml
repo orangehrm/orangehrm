@@ -78,3 +78,21 @@ EmployeeLicense:
 EmpDependent:
     0: {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
     1: {emp_number: '1', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23'}
+
+EmpChildren:
+    0: {emp_number: '1', seqno: '1', ec_name: 'Anuradha', ec_date_of_birth: '2001-01-01'}
+    1: {emp_number: '1', seqno: '2', ec_name: 'Sumith', ec_date_of_birth: '2003-01-09'}
+    
+EmpPicture:
+    0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type', epic_file_size: '2000'}
+
+Nationality:
+    0: {nat_code: 'NAT001', nat_name: 'Test Nationality'}
+    
+EthnicRace:
+    0: {ethnic_race_code: 'ETH001', ethnic_race_desc: 'Test Race'}    
+
+EmployeeAttachment:
+    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: 'admin' attached_by_name:'admin'}
+    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: 'admin' attached_by_name:'admin'}
+  
