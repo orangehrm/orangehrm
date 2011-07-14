@@ -777,4 +777,137 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         }
         
     }
+    
+    public function testGetEmployeeCount() {
+        $empList = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        $result = $this->employeeDao->getEmployeeCount();
+        $this->assertEquals(count($empList), $result);
+    }
+    
+    public function testGetSupervisorEmployeeList() {
+        $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        foreach($repToList as $repTo) {
+            $supervisors[] = $repTo->supervisorId;
+        }        
+        
+        $subCounts = array_count_values($supervisors);
+        foreach ($subCounts as $supervisor => $count) {
+            $list = $this->employeeDao->getSupervisorEmployeeList($supervisor);
+            $this->assertEquals($count, count($list));
+        }
+    }
+    
+    public function testGetSupervisorEmployeeChain() {
+        $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
+        foreach($repToList as $repTo) {
+            $supervisors[] = $repTo->supervisorId;
+        }        
+        
+        $supervisorId = array_pop($supervisors);
+        
+        $chain = $this->employeeDao->getSupervisorEmployeeChain($supervisorId);
+        $this->assertTrue(count($chain) > 0);
+    }
+    
+    public function testDeleteEmployee() {
+        $employees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        foreach($employees as $emp) {
+            $empNumbers[] = $emp->getEmpNumber();
+        }        
+
+        $retVal = $this->employeeDao->deleteEmployee(array());
+        $this->assertEquals(0, $retVal);
+        
+        $retVal = $this->employeeDao->deleteEmployee($empNumbers);
+        $this->assertEquals(count($empNumbers), $retVal);
+        
+        $retVal = $this->employeeDao->deleteEmployee($empNumbers);
+        $this->assertEquals(0, $retVal);        
+        
+    }
+    public function testIsEmployeeIdInUse() {
+        $employees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        
+        foreach($employees as $emp) {
+            $empId = $emp->getEmployeeId();
+            $this->assertTrue($this->employeeDao->isEmployeeIdInUse($empId));            
+        }         
+        
+        $this->assertFalse($this->employeeDao->isEmployeeIdInUse('sdfsd'));            
+    }
+    
+    public function testCheckForEmployeeWithSameName() {
+        $employees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        
+        foreach($employees as $emp) {
+            $empId = $emp->getEmployeeId();
+            $this->assertTrue($this->employeeDao->checkForEmployeeWithSameName($emp->getFirstName(), $emp->getMiddleName(), $emp->getLastName()));
+        }      
+        $this->assertFalse($this->employeeDao->checkForEmployeeWithSameName('sdfsd', 'sadf', 'sf'));
+    }
+    
+    public function testGetWorkShift() {
+        $empNumber = 1;
+        $workShift = $this->employeeDao->getWorkShift($empNumber);
+        $this->assertEquals(1, $workShift->getWorkshiftId());
+        
+    }
+    
+    public function testSaveJobDetails() {
+        
+        $employee = $this->getMock('Employee', array('save'));
+        $employee->expects($this->once())
+                     ->method('save');
+        
+        $result = $this->employeeDao->saveJobDetails($employee);
+        $this->assertTrue($result);
+        
+        $employee = $this->getMock('Employee', array('save'));
+        $employee->expects($this->once())
+                  ->method('save')
+                  ->will($this->throwException(new Exception()));
+        
+        try {
+            $result = $this->employeeDao->saveJobDetails($employee);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            
+        }        
+    }
+    
+    public function testSaveEmpBasicsalary() {
+        $salary = $this->getMock('EmpBasicsalary', array('save'));
+        $salary->expects($this->once())
+                  ->method('save');
+        
+        $result = $this->employeeDao->saveEmpBasicsalary($salary);
+        $this->assertTrue($result);
+        
+        $salary = $this->getMock('EmpBasicsalary', array('save'));
+        $salary->expects($this->once())
+                  ->method('save')
+                  ->will($this->throwException(new Exception()));
+        
+        try {
+            $result = $this->employeeDao->saveEmpBasicsalary($salary);
+            $this->fail("Exception expected");
+        } catch (Exception $e) {
+            
+        }        
+        
+    }
+    public function testDeleteSalary() {
+        $empNumber = 1;
+        
+        $result = $this->employeeDao->deleteSalary($empNumber, array('SAL001'));
+        $this->assertEquals(1, count($result));       
+    }
+    public function testGetUnassignedCurrencyList() {
+        $empNumber = 1;
+        
+        $unassignedCurrencies = $this->employeeDao->getUnAssignedCurrencyList($empNumber, $salaryGrade);
+        $this->assertFalse(array_search('LKR', $unassignedCurrencies->toArray()));
+    }
+    
+    
 }

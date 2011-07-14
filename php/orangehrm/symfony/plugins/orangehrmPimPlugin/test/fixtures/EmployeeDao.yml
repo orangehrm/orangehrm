@@ -1,9 +1,9 @@
 Employee:
-  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
-  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
-  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
-  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002'}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004'}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005'}
 
 EmpPassport:
     0: {emp_number: '1', seqno: '0', type_flag: 1, number: 'HVN0003472', passport_issue_date: '2010-12-12', passport_expire_date: '2011-12-12', i9_status: 'some status', country: 'UK', i9_review_date: '2011-12-30', comments: 'test comment'}
@@ -95,4 +95,15 @@ EthnicRace:
 EmployeeAttachment:
     0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: 'admin' attached_by_name:'admin'}
     1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: 'admin' attached_by_name:'admin'}
-  
+
+WorkShift:
+    0: {workshift_id: 1, name: 'John Conner', hours_per_day: 8}
+
+EmployeeWorkShift:
+    0: {workshift_id: 1, emp_number: 1}
+
+SalaryGrade:
+    0: {sal_grd_code: 'SAL001', sal_grd_name: 'Salary Grade A'}
+
+EmpBasicsalary:
+    0: {id: 1, emp_number: 1, sal_grd_code: 'SAL001', currency_id: 'LKR', ebsal_basic_salary: '10000.00'}
