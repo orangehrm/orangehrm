@@ -3331,7 +3331,8 @@ class EmpInfo {
         $query = "UPDATE `hs_hr_employee` SET `job_title_code` = NULL WHERE `job_title_code` IN ('".implode("', '", $jobCodes)."')";
         
         $dbConnection = new DMLFunctions();
-        
+
+        $dbConnection->executeQuery("SET @orangehrm_action_name = 'CHANGE JOB DETAILS';");
         if (!$dbConnection->executeQuery($query)) {
             throw new Exception('Job titles could not be reset');
         }
