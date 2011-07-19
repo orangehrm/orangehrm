@@ -5,4 +5,5 @@ pim:
   contactDetails: Update Contact Information
   deleteReportToSupervisor: Delete Supervisor
   deleteReportToSubordinate: Delete Supervisor
+  updateReportToDetail: Update Report To Details
   viewJobDetails: Change Job Details
