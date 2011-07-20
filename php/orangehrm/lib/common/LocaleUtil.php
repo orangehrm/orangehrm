@@ -57,6 +57,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	public function getDateFormat() {
 		return $this->sysConf->getDateFormat();
 	}
+	
+	public function getDateInputHint() {
+		return $this->sysConf->getDateInputHint();
+	}
 
 	/**
 	 * Private construct
@@ -425,10 +429,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
         $fractionalPartTotal = ($value1 -  floor(abs($value1))) + ( $value2 - floor(abs($value2))); 
     
         $tempValue = sprintf("%05.2f", $fractionalPartTotal);
-        $tempValue = str_replace(".",":", $tempValue);
-        $tempValue = explode(":", $tempValue);  
 
-        if($tempValue [1] >= 60) {          
+        if($tempValue >= 0.60) {          
             $fianalValue = (intval($value1) + intval($value2) + 1) + ($fractionalPartTotal - 0.60); 
               
             return $fianalValue;
