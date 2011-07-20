@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.6.6
+
+    Bug Fixes
+    ---------
+    3372247 - Attendance summary calculation is wrong
+
 New & Changed Features for OrangeHRM ver 2.6.5
 
 	New Features
