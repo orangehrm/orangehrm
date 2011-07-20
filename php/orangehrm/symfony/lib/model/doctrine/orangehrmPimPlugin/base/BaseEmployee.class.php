@@ -596,7 +596,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
 
         $this->hasMany('EmployeeLicense', array(
              'local' => 'empNumber',
-             'foreign' => 'empNumber'));
+             'foreign' => 'emp_number'));
 
         $this->hasOne('Nationality', array(
              'local' => 'nation_code',

@@ -66,7 +66,7 @@ abstract class BaseEmployeeLicense extends sfDoctrineRecord
     {
         parent::setUp();
         $this->hasOne('Employee', array(
-             'local' => 'empNumber',
+             'local' => 'emp_number',
              'foreign' => 'empNumber'));
 
         $this->hasOne('Licenses as license', array(
