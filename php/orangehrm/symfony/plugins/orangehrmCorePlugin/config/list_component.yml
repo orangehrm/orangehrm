@@ -1,14 +1,18 @@
 Default:
+  pluginName: orangehrmCorePlugin
   hasSelectableRows: false
   unselectableRowIds: []
   idValueGetter: getId
   title: 'OrangeHRM List'
   buttons: []
+  buttonsPosition: before-data
   formMethod: post
   formAction: '#'
   assets: []
+  jsInitMethods: []
 
 Nationality:
+  pluginName: orangehrmCorePlugin
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getNatCode
@@ -20,8 +24,85 @@ Nationality:
     Delete:
       label: Delete
       type: submit
+  buttonsPosition: before-data
   formMethod: post
   formAction: '#'
   assets:
     - nationality.js
     - nationality.css
+  jsInitMethods: []
+
+AncientNationality:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: '0'
+  title: 'Ancient Nationalities'
+  buttons:
+    Add:
+      label: Add
+      function: addNationality
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - nationality.js
+    - nationality.css
+  jsInitMethods: []
+
+EmployeeLeaveEntitlement:
+  pluginName: orangehrmCoreLeavePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getEmployeeId
+  title: ''
+  buttons:
+    Edit:
+      label: Edit
+      function: handleEditButton
+    Reset:
+      label: Reset
+      function: handleResetButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: '#'
+  assets: [viewLeaveSummarySuccess.js]
+  jsInitMethods: [initLeaveSummary]
+  
+LeaveRequest:
+  pluginName: orangehrmCoreLeavePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getEmployeeId
+  title: ''
+  buttons:
+    Save:
+      label: Save
+      function: handleSaveButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: 'index.php/leave/changeLeaveStatus'
+  assets: []
+  jsInitMethods: [setPage]
+
+Leave:
+  pluginName: orangehrmCoreLeavePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getEmployeeId
+  title: ''
+  buttons:
+    Save:
+      label: Save
+      function: handleSaveButton
+    Back:
+      label: Back
+      function: handleBackButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: 'index.php/leave/changeLeaveStatus'
+  assets: []
+  jsInitMethods: []

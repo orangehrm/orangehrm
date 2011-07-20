@@ -3,9 +3,10 @@
 class LabelCell extends Cell {
 
     public function __toString() {
-        $getter = $this->getPropertyValue('getter');
-        return $this->dataObject->$getter();
+        if ($this->isHiddenOnCallback()) {
+            return '&nbsp;';
+        }
+        return $this->getValue() . $this->getHiddenFieldHTML();
     }
 
 }
-

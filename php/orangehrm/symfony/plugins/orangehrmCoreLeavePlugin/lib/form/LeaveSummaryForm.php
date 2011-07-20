@@ -81,6 +81,10 @@ class LeaveSummaryForm extends sfForm {
             /* Setting cmbEmpId */
             $this->formWidgets['cmbEmpId'] = new sfWidgetFormInputHidden();
             $this->formValidators['cmbEmpId'] = new sfValidatorString(array('required' => false));
+            
+            /* Setting subjectedLeavePeriod */
+            $this->formWidgets['hdnSubjectedLeavePeriod'] = new sfWidgetFormInputHidden();
+            $this->formValidators['hdnSubjectedLeavePeriod'] = new sfValidatorString(array('required' => false));
 
             $employeeId = 0;
             $empName = __("All");
@@ -94,8 +98,8 @@ class LeaveSummaryForm extends sfForm {
             /* Setting default values */
             $this->setDefault('txtEmpName', $empName);
             $this->setDefault('cmbEmpId', $employeeId);
-
             $this->setDefault('cmbLeavePeriod', $this->currentLeavePeriodId);
+            $this->setDefault('hdnSubjectedLeavePeriod', $this->_getLeavePeriod());
 
         }
 
@@ -267,233 +271,6 @@ class LeaveSummaryForm extends sfForm {
 
     }
 
-    public function getLeaveSummaryTbodyHtml() {
-
-        $leaveSummaryService = new LeaveSummaryService();
-        $leaveSummaryService->setLeaveSummaryDao(new LeaveSummaryDao());
-        $recordsResult = $leaveSummaryService->fetchRawLeaveSummaryRecords($this->_getSearchClues(), $this->offset, $this->recordsLimit);
-
-        $leaveEntitlementService = new LeaveEntitlementService();
-        $leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
-
-        $class = 'odd';
-        $baseUrl = url_for('leave/viewLeaveList') . '/leavePeriodId/%s/';
-        $html = "<tbody>\n";
-        if ($this->recordsCount > 0) {
-
-            $i = 0;
-
-            while ($row = $recordsResult->fetch()) {
-
-                $employeeName = $row['empFirstName'].' '.$row['empLastName'];
-                $employeeId = $row['empNumber'];
-                $leaveType = $row['leaveTypeName'];
-                $leaveTypeId = $row['leaveTypeId'];
-                $leavePeriodId = $this->_getLeavePeriod();
-                
-                $baseUrl = sprintf($baseUrl, $leavePeriodId);
-
-                $leaveEntitlementObj = $leaveEntitlementService->readEmployeeLeaveEntitlement($employeeId, $leaveTypeId, $leavePeriodId);
-
-                if ($leaveEntitlementObj instanceof EmployeeLeaveEntitlement) {
-                    $leaveEntitled = $leaveEntitlementObj->getNoOfDaysAllotted();
-                    $leaveBroughtForward = $leaveEntitlementObj->getLeaveBroughtForward();
-                    $leaveCarryForward = $leaveEntitlementObj->getLeaveCarriedForward();
-                } else {
-                    $leaveEntitled = '0.00';
-                    $leaveBroughtForward = '0.00';
-                    $leaveCarryForward = '0.00';
-                }
-
-                $leaveRequestService = new LeaveRequestService();
-                $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-
-                $leaveTaken = $leaveRequestService->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
-                $leaveTaken = empty($leaveTaken)?'0.00':$leaveTaken;
-
-                $leaveScheduled = $this->_getLeaveScheduled($employeeId, $leaveTypeId, $leavePeriodId);
-                
-                $leaveRemaining = ($leaveEntitled + $leaveBroughtForward) - ($leaveTaken + $leaveScheduled + $leaveCarryForward);
-                $leaveRemaining = number_format($leaveRemaining, 2);
-
-                $rowDisplayFlag = false;
-                $deletedFlag = false;
-                //show active leave types
-                if($row['availableFlag'] == 1) {
-                    $rowDisplayFlag = true;
-                }
-
-                //show inactive leave types if any leaveEntitled, leaveTaken, leaveScheduled of them above 0
-                if(($row['availableFlag'] != 1) && ($leaveEntitled > 0 || $leaveTaken > 0 || $leaveScheduled > 0)) {
-                    $rowDisplayFlag = true;
-                    $deletedFlag = true;
-                }
-
-                if($rowDisplayFlag) {
-                    $html .= "<tr class=\"$class\">\n";
-                    $class = $class=='odd'?'even':'odd';
-
-                    $html .= $this->getEmployeeNameColumnHtml($employeeId, $employeeName);
-                    $html .= $this->getLeaveTypeNameColumnHtml($leaveType, $deletedFlag);
-                    $html .= $this->getLeaveEntitledColumnHtml($leaveTypeId, $leaveEntitled, $i, $employeeId, $leavePeriodId);
-                    $html .= $this->getLeaveBroughtForwardColumnHtml($leaveBroughtForward);
-                    $html .= $this->getScheduledColumnHtml($leaveScheduled, $employeeId, $leaveTypeId);
-                    $html .= $this->getTakenColumnHtml($leaveTaken, $employeeId, $leaveTypeId);
-                    $html .= $this->getCarriedForwardColumnHtml($leaveCarryForward);
-                    $html .= $this->getLeaveRemainingColumnHtml($leaveRemaining);
-
-                    $i++;
-
-                } // while ($row = mysql_fetch_array($recordsResult))
-            }
-            $html .= "</tbody>\n";
-
-        } // if ($count > 0)
-
-        return $html;
-
-    }
-
-    /**
-     * Returns Employee Name Column HTML String
-     * @param int $employeeId
-     * @param String $employeeName
-     * @returns String
-     */
-    protected function getEmployeeNameColumnHtml($employeeId, $employeeName) {
-        $html = "<td>\n";
-        //$html .= content_tag('a', $employeeName, array('href' => "{$baseUrl}employeeId/{$employeeId}")) . "\n";
-
-        if($this->empId != $employeeId) {
-            //$pimLink = public_path("../../lib/controllers/CentralController.php?menu_no_top=hr&id=" . $employeeId . "&capturemode=updatemode&reqcode=EMP&currentPage=1");
-            $pimLink = "../pim/viewPersonalDetails?empNumber=" . $employeeId;
-            $html .= "&nbsp;<a href='" . $pimLink . "'>". $employeeName . "</a>\n";
-        } else {
-            $html .= "&nbsp;". $employeeName;
-        }
-        $html .= "</td>\n";
-        return $html;
-    }
-
-    /**
-     * Returns LeaveType Name Column HTML String
-     * @param String $leaveType
-     * @param boolean $deletedFlag
-     * @returns String
-     */
-    protected function getLeaveTypeNameColumnHtml($leaveType, $deletedFlag = false) {
-        $html = "<td>\n";
-        $html .= "$leaveType";
-        if($deletedFlag) {
-            $html .= " (deleted)";
-        }
-        //content_tag('a', $leaveType, array('href' => "{$baseUrl}employeeId/{$employeeId}/leaveTypeId/{$leaveTypeId}")) . "\n";
-        $html .= "</td>\n";
-        return $html;
-    }
-
-    /**
-     * Returns Leave Entitled Column HTML String
-     * @param String $leaveTypeId
-     * @param int $leaveEntitled
-     * @param int $rowId
-     * @param int $employeeId
-     * @param int $leavePeriodId
-     * @param boolean $deletedFlag
-     * @returns String
-     */
-    protected function getLeaveEntitledColumnHtml($leaveTypeId, $leaveEntitled, $rowId, $employeeId, $leavePeriodId) {
-        $html = "<td align='center'>\n";
-
-        if ($this->isLeaveTypeEditable($leaveTypeId) && $this->userType == 'Admin') {
-            $html .= "<div class='textAlignRight'><input type=\"text\" name=\"txtLeaveEntitled[]\" id=\"txtLeaveEntitled-$rowId\" class=\"formInputText inputBoxRight\" value=\"$leaveEntitled\" /></div>\n";
-            $html .= "<input type=\"hidden\" name=\"hdnEmpId[]\" id=\"hdnEmpId-$rowId\" value=\"$employeeId\" />\n";
-            $html .= "<input type=\"hidden\" name=\"hdnLeaveTypeId[]\" id=\"hdnLeaveTypeId-$rowId\" value=\"$leaveTypeId\" />\n";
-            $html .= "<input type=\"hidden\" name=\"hdnLeavePeriodId[]\" id=\"hdnLeavePeriodId-$rowId\" value=\"$leavePeriodId\" />\n";
-            $html .= "<br />";
-            $html .= "<div class=\"errorHolder\"></div>\n";
-            $this->leaveSummaryEditMode = true;
-        } else {
-            $html .= "<div class='textAlignRight'>$leaveEntitled</div>\n";
-        }
-        $html .= "</td>\n";
-        return $html;
-    }
-
-    /**
-     * Returns Scheduled Column HTML String
-     * @param int $leaveScheduled
-     * @param int $employeeId
-     * @param int $leaveTypeId
-     * @returns String
-     */
-    protected function getScheduledColumnHtml($leaveScheduled, $employeeId, $leaveTypeId) {
-        $html = "<td align='center'>\n";
-        $scheduledStr = $leaveScheduled;
-        if($leaveScheduled > 0) {
-            $url = "viewLeaveList";
-            if($employeeId == $this->empId) {
-                $url = "viewMyLeaveList";
-            }
-            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_APPROVED . "&leavePeriodId=" . $this->_getLeavePeriod();
-            $scheduledStr = "<a href='" . $url . "'>" . $scheduledStr . "</a>";
-        }
-        $html .= "<div class='textAlignRight'>$scheduledStr</div>\n";
-        $html .= "</td>\n";
-        return $html;
-    }
-
-    /**
-     * Returns Taken Column HTML String
-     * @param int $leaveTaken
-     * @param int $employeeId
-     * @param int $leaveTypeId
-     * @returns String
-     */
-    protected function getTakenColumnHtml($leaveTaken, $employeeId, $leaveTypeId) {
-        $takenStr = $leaveTaken;
-        if($takenStr > 0) {
-            $url = "viewLeaveList";
-            if($employeeId == $this->empId) {
-                $url = "viewMyLeaveList";
-            }
-            $url .= "?txtEmpID=" . $employeeId . "&leaveTypeId=" . $leaveTypeId . "&status=" . Leave::LEAVE_STATUS_LEAVE_TAKEN . "&leavePeriodId=" . $this->_getLeavePeriod();
-            $takenStr = "<a href='" . $url . "'>" .$takenStr . "</a>";
-        }
-        $html = "<td align='center'>\n";
-        $html .= "<div class='textAlignRight'>$takenStr</div>\n";
-        $html .= "</td>\n";
-        return $html;
-    }
-
-    /**
-     * Returns Leave Remaining Column HTML String
-     * @param int $leaveRemaining
-     * @returns String
-     */
-    protected function getLeaveRemainingColumnHtml($leaveRemaining) {
-        $html = "<td align='center'>\n";
-        $html .= "<div class='textAlignRight'>$leaveRemaining</div>\n";
-        $html .= "</td>\n";
-        $html .= "</tr>\n";
-        return $html;
-    }
-
-    /**
-     * Returns LeaveBroughtForward Column HTML String
-     */
-    protected function getLeaveBroughtForwardColumnHtml($leaveBroughtForward) {
-
-    }
-
-    /**
-     * Returns CarriedForward Column HTML String
-     * @param int $leaveBroughtForward
-     */
-    protected function getCarriedForwardColumnHtml($leaveCarryForward) {
-        
-    }
-
     /**
      * Is leave type editable? 
      * Always returns true in core module. Can be overridden to
@@ -501,16 +278,6 @@ class LeaveSummaryForm extends sfForm {
      */
     protected function isLeaveTypeEditable($leaveTypeId) {
         return true;
-    }
-    
-    private function _getLeaveScheduled($employeeId, $leaveTypeId, $leavePeriodId) {
-
-        $leaveRequestService = new LeaveRequestService();
-        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-        $scheduledSum = $leaveRequestService->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
-
-        return empty($scheduledSum)?'0.00':$scheduledSum;
-
     }
 
     public function getEmployeeListAsJson() {
@@ -527,6 +294,9 @@ class LeaveSummaryForm extends sfForm {
             $loggedInEmployee = $employeeService->getEmployee($this->loggedUserId);
             array_push($employeeList, $loggedInEmployee);
 
+        } else {
+
+            $employeeList = array();
         }
         $employeeUnique = array();
         foreach($employeeList as $employee) {
@@ -577,7 +347,7 @@ class LeaveSummaryForm extends sfForm {
     public function getLeaveSummaryRecordsCount() {
 
         $leaveSummaryService = $this->getLeaveSummaryService();
-        $recordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($this->_getSearchClues());
+        $recordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($this->getSearchClues());
 
         return $recordsCount;
 
@@ -617,11 +387,14 @@ class LeaveSummaryForm extends sfForm {
         $count = count($txtLeaveEntitled);
 
         $leaveEntitlementService = $this->getLeaveEntitlementService();
+        $leaveSummaryData = $request->getParameter('leaveSummary');
 
         for ($i=0; $i<$count; $i++) {
 
+            $leavePeriodId = empty($hdnLeavePeriodId[$i]) ? $leaveSummaryData['hdnSubjectedLeavePeriod'] : $hdnLeavePeriodId[$i];
+
             $leaveEntitlementService->saveEmployeeLeaveEntitlement($hdnEmpId[$i], 
-                $hdnLeaveTypeId[$i], $hdnLeavePeriodId[$i], $txtLeaveEntitled[$i],
+                $hdnLeaveTypeId[$i], $leavePeriodId, $txtLeaveEntitled[$i],
                 true);
             
         }
@@ -630,7 +403,7 @@ class LeaveSummaryForm extends sfForm {
 
     }
 
-    private function _getSearchClues() {
+    public function getSearchClues() {
 
         if ($this->getValues()) {
 
@@ -638,7 +411,7 @@ class LeaveSummaryForm extends sfForm {
 
         } else {
 
-            $clues['cmbLeavePeriod'] = 0;
+            $clues['cmbLeavePeriod'] = $this->currentLeavePeriodId;
             $clues['cmbEmpId'] = 0;
             if(!is_null($this->searchParam['employeeId'])) {
                 $clues['cmbEmpId'] = $this->searchParam['employeeId'];

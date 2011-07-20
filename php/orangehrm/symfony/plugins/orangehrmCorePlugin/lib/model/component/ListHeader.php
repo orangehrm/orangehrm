@@ -1,21 +1,24 @@
 <?php
 
 class ListHeader extends ComponentProperty {
-
     const DEFAULT_ELEMENT_TYPE = 'label';
 
-    private $elementTypes = array(
+    protected $elementTypes = array(
         'label',
         'link',
         'textbox',
         'textarea',
         'checkbox',
         'radio',
-        'select-single',
-        'select-multiple',
+        'selectSingle', // TODO: Make this values dash-separated
+        'selectMultiple', // TODO: Make this values dash-separated
+        'comment',
     );
-
-
+    private $textAlignmentStyles = array(
+        'left',
+        'right',
+        'center'
+    );
     protected $name;
     protected $isSortable;
     protected $sortOrder;
@@ -23,7 +26,9 @@ class ListHeader extends ComponentProperty {
     protected $elementType;
     protected $elementProperty;
     protected $width;
-    
+    protected $isExportable = true;
+    protected $textAlignmentStyle;
+
     public function getName() {
         return $this->name;
     }
@@ -55,7 +60,7 @@ class ListHeader extends ComponentProperty {
     public function getSortField() {
         return $this->sortField;
     }
-    
+
     public function setSortField($sortField) {
         if (is_numeric($sortField)) {
             throw new Exception('Tried to assign a numeric value to sort field');
@@ -64,7 +69,7 @@ class ListHeader extends ComponentProperty {
     }
 
     public function getElementType() {
-        return (empty ($this->elementType)) ? self::DEFAULT_ELEMENT_TYPE : $this->elementType;
+        return (empty($this->elementType)) ? self::DEFAULT_ELEMENT_TYPE : $this->elementType;
     }
 
     public function setElementType($elementType) {
@@ -98,5 +103,28 @@ class ListHeader extends ComponentProperty {
     public function getElementTypes() {
         return $this->elementTypes;
     }
+
+    public function isExportable($isExportable = null) {
+        if (is_null($isExportable)) {
+            return (bool) $this->isExportable;
+        } else {
+            $this->isExportable = (bool) $isExportable;
+        }
+    }
+
+    public function setTextAlignmentStyle($textAlignmentStyle) {
+
+        if (in_array($textAlignmentStyle, $this->textAlignmentStyles)) {
+            $this->textAlignmentStyle = $textAlignmentStyle;
+        } else {
+            throw new Exception('Tried to assign an unsupported text alignment style');
+        }
+    }
+
+    public function getTextAlignmentStyle() {
+
+        return $this->textAlignmentStyle;
+    }
+
 }
 

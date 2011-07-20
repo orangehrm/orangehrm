@@ -1,22 +1,59 @@
-
-<div class="outerbox">
-    <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
-
-    <form method="<?php echo $formMethod; ?>" action="<?php echo $formAction; ?>">
-        <div class="actionbar">
-            <div class="actionbuttons">
-                <?php
-                foreach ($buttons as $key => $buttonProperties) {
-                    $button = new Button();
-                    $button->setProperties($buttonProperties);
-                    $button->setIdentifier($key);
-                    echo $button->__toString(), "\n";
-                }
-                ?>
-            </div>
-            <br class="clear" />
+<?php
+function renderActionBar($buttons, $condition = true) {
+    if ($condition && count($buttons) > 0) {
+?>
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <?php
+            foreach ($buttons as $key => $buttonProperties) {
+                $button = new Button();
+                $button->setProperties($buttonProperties);
+                $button->setIdentifier($key);
+                echo $button->__toString(), "\n";
+            }
+            ?>
         </div>
+        <br class="clear" />
+    </div>
+<?php
+    }
+}
 
+function printAssetPaths($assets, $assestsPath = '') {
+    foreach ($assets as $key => $asset) {
+        $assetType = substr($asset, strrpos($asset, '.') + 1);
+
+        if ($assestsPath == '') {
+            echo javascript_include_tag($asset);
+        } elseif ($assetType == 'js') {
+            echo javascript_include_tag($assestsPath . 'js/' . $asset);
+        } elseif ($assetType == 'css') {
+            echo stylesheet_tag($assestsPath . 'css/' . $asset);
+        } else {
+            echo $assetType;
+        }
+    }
+}
+
+function printButtonEventBindings($buttons) {
+    foreach ($buttons as $key => $buttonProperties) {
+        $button = new Button();
+        $button->setProperties($buttonProperties);
+        $button->setIdentifier($key);
+        if (!empty($buttonProperties['function'])) {
+            echo "\t\$('#{$button->getId()}').click({$buttonProperties['function']});", "\n";
+        }
+    }
+}
+?>
+<div class="outerbox">
+    <?php if (!empty ($title)) { ?>
+    <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
+    <?php } ?>
+
+    <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
+        <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE); ?>
+        <?php renderActionBar($extraButtons); ?>
         <?php if ($pager->haveToPaginate()) { ?>
         <div class="navigationHearder">
             <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>
@@ -82,17 +119,17 @@
 
             <tbody>
                 <?php
-                    if ($data->count() > 0) {
+                    if (is_object($data) && $data->count() > 0) {
                         $rowCssClass = 'even';
 
                         foreach ($data as $object) {
-                            $idValue = $object->$idValueGetter();
+                            $idValue = ($object instanceof sfOutputEscaperArrayDecorator) ? $object[$idValueGetter] : $object->$idValueGetter();
                             $rowCssClass = ($rowCssClass === 'odd') ? 'even' : 'odd';
                 ?>
                             <tr class="<?php echo $rowCssClass; ?>">
                     <?php
                             if ($hasSelectableRows) {
-                                if (false) { /* in_array($idValue, $unselectableRowIds) */
+                                if (in_array($idValue, $unselectableRowIds->getRawValue())) {
                                     $selectCellHtml = '&nbsp;';
                                 } else {
                                     $selectCheckobx = new Checkbox();
@@ -138,40 +175,34 @@
                 ?>
             </tbody>
         </table>
+        
+        <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
+        <br class="clear" />
     </form>
 </div>
 
 <?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>
 
 <?php
-    $asseestPath = '../orangehrmCorePlugin/';
-    foreach ($assets as $asset) {
-        $assetType = substr($asset, strrpos($asset, '.') + 1);
-
-        if ($assetType == 'js') {
-            echo javascript_include_tag($asseestPath . 'js/' . $asset);
-        } elseif ($assetType == 'css') {
-            echo stylesheet_tag($asseestPath . 'css/' . $asset);
-        } else {
-            echo $assetType;
-        }
-    }
+    $assestsPath = "../{$pluginName}/";
+    printAssetPaths($assets, $assestsPath);
+    printAssetPaths($extraAssets);
 ?>
 
 <script type="text/javascript">
+
+    var rootPath = '<?php echo public_path('/'); ?>';
 
     $(document).ready(function() {
         ohrmList_init();
 
 <?php
-    foreach ($buttons as $key => $buttonProperties) {
-        $button = new Button();
-        $button->setProperties($buttonProperties);
-        $button->setIdentifier($key);
-        if (!empty($buttonProperties['function'])) {
-            echo "\t\$('#{$button->getId()}').click({$buttonProperties['function']});", "\n";
-        }
+    foreach ($jsInitMethods as $methodName) {
+        echo "\t{$methodName}();", "\n";
     }
+
+    printButtonEventBindings($buttons);
+    printButtonEventBindings($extraButtons);
 ?>
     });
 

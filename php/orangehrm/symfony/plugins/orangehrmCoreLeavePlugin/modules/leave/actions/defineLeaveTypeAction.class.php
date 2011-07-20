@@ -50,7 +50,7 @@ class defineLeaveTypeAction extends orangehrmAction {
         $leaveType->setAvailableFlag(1); // TODO: Replace 1 with a constant
         $this->getLeaveTypeService()->saveLeaveType($leaveType);
         $this->getUser()->setFlash('templateMessage', array('success', __('Leave Type Successfully Saved')));
-        
+        return $leaveType;
     }
 
     protected function updateLeaveType($form) {

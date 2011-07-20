@@ -49,6 +49,11 @@ table.data-table tbody tr td {
     padding:4px 4px;
 }
 
+img.callout {
+    float: right;
+    margin-right: 15px;
+}
+
 div.navigationHearder {
     background:none repeat scroll 0 0 #FAD163;
     border-bottom:2px solid #FFFFFF;

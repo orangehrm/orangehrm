@@ -9,13 +9,14 @@
     vertical-align:text-top;
 }
 
-table.data-table1 thead tr td {
+table.data-table thead tr td,
+table.data-table thead tr th {  
     padding: 7px 10px 7px 8px;
     font-weight: bold;
 }
 
-table.data-table1 tbody tr td {
-    padding-left: 7px;
+table.data-table tbody tr td {
+    padding: 7px 10px 7px 8px;
 }
 
 input[type="text"] {

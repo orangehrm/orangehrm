@@ -20,8 +20,7 @@ class Button extends Control {
     }
 
     public function getId() {
-        $label = $this->getPropertyValue('label', $this->identifier);
-        return $this->getPropertyValue('id', 'btn' . ucfirst($label));
+        return $this->getPropertyValue('id', 'btn' . ucfirst($this->identifier));
     }
 
 }

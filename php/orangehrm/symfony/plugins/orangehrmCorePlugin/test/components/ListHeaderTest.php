@@ -259,7 +259,56 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($properties['elementProperty'], $this->object->getElementProperty());
         $this->assertEquals($properties['width'], $this->object->getWidth());
     }
+    
+    public function testIsExportable() {
+        $this->assertTrue($this->object->isExportable());
+
+        $this->object->isExportable(true);
+        $this->assertTrue($this->object->isExportable());
+
+        $this->object->isExportable(1);
+        $this->assertTrue($this->object->isExportable());
+
+        $this->object->isExportable('1');
+        $this->assertTrue($this->object->isExportable());
+
+        $this->object->isExportable('abc');
+        $this->assertTrue($this->object->isExportable());
+
+        $this->object->isExportable(0);
+        $this->assertFalse($this->object->isExportable());
+
+        $this->object->isExportable('');
+        $this->assertFalse($this->object->isExportable());
+    }
+
+    public function testGetTextAlignmentStyle() {
+        $textAlignmentStyle = 'center';
+        $this->object->setTextAlignmentStyle($textAlignmentStyle);
+        $this->assertEquals($textAlignmentStyle, $this->object->getTextAlignmentStyle());
+    }
+ 
+    public function testSetTextAlignmentStyle() {
+        $textAlignmentStyle = 'left';
+        $this->object->setTextAlignmentStyle($textAlignmentStyle);
+        $this->assertEquals($textAlignmentStyle, $this->object->getTextAlignmentStyle());
+        
+        $textAlignmentStyle = 'right';
+        $this->object->setTextAlignmentStyle($textAlignmentStyle);
+        $this->assertEquals($textAlignmentStyle, $this->object->getTextAlignmentStyle());
+
+        $textAlignmentStyle = 'center';
+        $this->object->setTextAlignmentStyle($textAlignmentStyle);
+        $this->assertEquals($textAlignmentStyle, $this->object->getTextAlignmentStyle());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testSetTextAlignmentStyle_UnsupportedType() {
+        $textAlignmentStyle = 'bottom';
+        $this->object->setTextAlignmentStyle($textAlignmentStyle);
+    }
 
 }
-
 ?>

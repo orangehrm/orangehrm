@@ -247,7 +247,7 @@ class LeaveRequestDao extends BaseDao {
 	public function searchLeaveRequests($searchParameters, $page = 1) {
 		$this->_markApprovedLeaveAsTaken();
 		
-		$limit = 50;
+		$limit = sfConfig::get('app_items_per_page');
 		$offset = ($page - 1) * $limit;
 
 		$list = array();
@@ -310,8 +310,8 @@ class LeaveRequestDao extends BaseDao {
 
 		$count = $q->count();
 
-		$q->limit($limit)
-		->offset($offset);
+		$q->offset($offset);
+		$q->limit($limit);
 
 		$list = $q->execute();
 

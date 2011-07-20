@@ -4,7 +4,7 @@
  *
  * @author sujith
  */
-class viewLeaveListAction extends sfAction {
+class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
     private $leavePeriodService;
     private $employeeService;
@@ -43,6 +43,9 @@ class viewLeaveListAction extends sfAction {
     }
     
     public function execute($request) {
+
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+        
         $this->setTemplate('viewLeaveList');
         $this->_setLoggedInUserDetails();                
 
@@ -61,8 +64,8 @@ class viewLeaveListAction extends sfAction {
             $this->_setFilters($mode, $request->getPostParameters());
         }
         
-        if ($request->getParameter('page')) {
-            $this->_setPage($mode, $request->getParameter('page'));
+        if ($request->getParameter('pageNo')) {
+            $this->_setPage($mode, $request->getParameter('pageNo'));
         }
 
         // Reset filters if requested to
@@ -163,9 +166,11 @@ class viewLeaveListAction extends sfAction {
 
         } else {
 
+            $mode = LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
             $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($id);
+            $recordCount = '';
         }
 
         $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $filters, $this->loggedUserId, $leaveRequest);
@@ -184,6 +189,59 @@ class viewLeaveListAction extends sfAction {
         $this->baseUrl = 'leave/viewLeaveList';
         $this->pagingUrl = '@leave_request_list';
         $this->page = $page;
+        $this->form->pageNo = $page;
+
+        switch ($mode) {
+            case LeaveListForm::MODE_DEFAULT_LIST:
+                LeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_DEFAULT_LIST);
+                $configurationFactory = new LeaveListConfigurationFactory();
+
+                $configurationFactory->getHeader(0)->setElementProperty(array(
+                    'labelGetter' => array('getLeaveDateRange'),
+                    'placeholderGetters' => array('id' => 'getLeaveRequestId'),
+                    'urlPattern' => public_path('index.php/leave/viewLeaveList/id/{id}/pageNo/'.$page),
+                ));
+
+                $configurationFactory->getHeader(4)->setElementProperty(array(
+                    'labelGetter' => array('getStatus'),
+                    'placeholderGetters' => array('id' => 'getLeaveRequestId'),
+                    'urlPattern' => public_path('index.php/leave/viewLeaveList/id/{id}/pageNo/'.$page),
+                ));
+                
+                $retrievalMethod = 'searchLeaveRequests';
+                $retrievalParams = array(
+                    $searchParams,
+                    $page,
+                    'list'
+                );
+                break;
+            case LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST:
+                DetailedLeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST);
+                $configurationFactory = new DetailedLeaveListConfigurationFactory();
+                $retrievalMethod = 'searchLeave';
+                $retrievalParams = array($id);
+                break;
+            case LeaveListForm::MODE_SUPERVISOR_DETAILED_LIST:
+                DetailedLeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_SUPERVISOR_DETAILED_LIST);
+                $configurationFactory = new DetailedLeaveListConfigurationFactory();
+                $retrievalMethod = 'searchLeave';
+                $retrievalParams = array($id);
+                break;
+            case LeaveListForm::MODE_MY_LEAVE_LIST:
+                break;
+            case LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST:
+                break;
+            case LeaveListForm::MODE_TAKEN_LEAVE_LIST:
+                break;
+        }
+
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($list);
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
+        ohrmListComponent::setNumberOfRecords($recordCount);
+        $offset = $page * sfConfig::get('app_items_per_page');
+
+        $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $retrievalMethod, $retrievalParams, $offset, sfConfig::get('app_items_per_page'));
     }
 
     protected function getLeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest) {
@@ -265,8 +323,21 @@ class viewLeaveListAction extends sfAction {
         return $jsonString;
     }
 
+    public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams) {
+        $dataRetriever = new ExportDataRetriever();
+        $dataRetriever->setConfigurationFactory($configurationFactory);
+        $dataRetriever->setDataRetrievalService($dataRetrievalService);
+        $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
+        $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
 
-    /**
+        $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
+        $this->getUser()->setAttribute('persistant.exportFileName', 'leave-list');
+        $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave List');
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', '');
+
+    }
+
+	 /**
      * Set's the current page number in the user session.
      * @param $page int Page Number
      * @return None

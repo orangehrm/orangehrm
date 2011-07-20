@@ -58,11 +58,13 @@ $searchActionButtons = $form->getSearchActionButtons();
 				echo $button->render($id), "\n";
 				}
 			?>
-                        </div>
+                        <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
+                        <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+        </div>
 		</form>
 	</div>
 	<?php } ?>
-
+<input type="hidden" name="pageNoDet" id="pageNoDet" value="<?php echo isset($page)?$page:''; ?>" />
 </div> <!-- End of outerbox -->
 <?php if($messageType == "messageBalloon_success") {?>
 <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
@@ -72,216 +74,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 <div id="msgPlace"></div>
 <!-- end of ajax message place -->
 
-<?php if(count($leaveData) > 0) {?>
-<div class="outerbox">
-
-    <?php if ($form->isPaginated()) { ?>
-    <div class="navigationHearder">
-
-            <?php if ($pager->haveToPaginate()): ?>
-            <div class="pagingbar">
-                <?php include_partial('global/paging_links', array('pager' => $pager, 'url'=> $pagingUrl));?>
-            </div>
-            <?php endif; ?>
-
-        <br class="clear" />
-    </div>
-    <?php } ?>
-
-	<form id="frmSaveLeave" name="frmSaveLeave" method="post" action="<?php echo url_for('leave/changeLeaveStatus/'); ?>">
-		<table border="0" cellpadding="0" cellspacing="0" class="data-table">
-			<thead>
-				<?php if (!$form->isDetailed()) { ?>
-				<tr>
-					<td><?php echo __("Date"); ?></td>
-					<td><?php echo __("Employee Name"); ?></td>
-                                        <td><?php echo __("Leave Type"); ?></td>
-					<td><?php echo __("Number of Days"); ?></td>
-                    <td><?php echo __("Status"); ?></td>
-                    <td><?php echo __("Comments"); ?></td>
-					<td><?php echo __("Actions"); ?></td>
-				</tr>
-				<?php } else { ?>
-				<tr>
-					<td><?php echo __("Date"); ?></td>
-					<td><?php echo __("Leave Type"); ?></td>
-					<td><?php echo __("Duration") . '(' . __("hours") . ')'; ?></td>
-                    <td><?php echo __("Status"); ?></td>
-                    <td>&nbsp;&nbsp;<?php echo __("Comments"); ?></td>
-					<td><?php echo __("Actions"); ?></td>
-				</tr>
-				<?php } ?>
-			</thead>
-			<tbody>
-
-                <?php if (count($leaveData) > 0): ?>
-
-				<?php
-
-                                $class = 'odd';
-
-				foreach ($leaveData as $key => $datum) {
-
-					if (!$form->isDetailed()) {
-						$url = url_for($baseUrl) . '/id/' . $datum->getLeaveRequestId();
-                        $pimLink = url_for("pim/viewPersonalDetails?empNumber=" . $datum->getEmployee()->getEmpNumber());
-                        $target = "_self";
-
-				?>
-				<tr class="r1 <?php echo $class; ?>">
-                                <?php $class = $class=='odd'?'even':'odd'; ?>
-					<td><a href="<?php echo $url; ?>"><?php echo $form->getLeaveDateRange($datum->getLeaveRequestId()); ?></a></td>
-                    <td><a href="<?php echo $pimLink;?>" target="<?php echo $target;?>"><?php echo $datum->getEmployee()->getFullName(); ?></a></td>
-					<td>
-						<?php echo $datum->getLeaveType()->getLeaveTypeName(); ?>
-						<?php echo ((bool) $datum->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
-                                                <input type="hidden" name="leaveRequest[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveRequest-<?php echo $datum->getLeaveRequestId(); ?>" value="" class="requestIdHolder" />
-					</td>                    
-                    <td><div class="numberLabel"><?php echo $datum->getNumberOfDays(); ?></div></td>
-                                        <td><a href="<?php echo $url; ?>"><?php echo __($datum->getStatus()); ?></a></td>
-                                        <td align="left">
-                                            <table cellspacing="0" cellpadding="0" border="0">
-                                                <tr>
-                                                    <?php
-                                                       $comments = trim($datum->getLeaveComments());
-                                                       if (strlen($comments) > 35) {
-                                                           $comments = substr($comments, 0, 35) . "...";
-                                                       }
-                                                    ?>
-                                                    <td id="commentLabel_<?php echo $datum->getLeaveRequestId(); ?>" class="commentContainerLong"><?php echo htmlspecialchars($comments);?></td>
-                                                    <td class="dialogInvoker" id="pen_request_<?php echo $datum->getLeaveRequestId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="<?php echo __("Click here to edit");?>" alt=""/></td>
-                                                </tr>
-                                            </table>
-                                            <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveRequestId(); ?>]" id="leaveComments-<?php echo $datum->getLeaveRequestId(); ?>" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" />
-                                        </td>
-					<td class="actions">
-                                            <?php if (count($datum->getStatusCounter()) > 1): ?>
-                                            <a href="<?php echo $url; ?>"><?php echo __('Go to Detailed View'); ?></a>
-                                            <?php else: ?>
-                                            <?php
-
-                                                $actions = $form->renderItemActions($datum);
-                                                if (count($actions['select_options']) > 1) {
-                                                    //echo select_tag('select_leave_action_' . $datum->getLeaveId(), options_for_select( $actions['select_options'], ''), array('class'=>"select_action{$form->getQuotaClass($datum->getLeaveTypeId())}"));
-                                                    $selectId = 'select_leave_action_' . $datum->getLeaveRequestId();
-                                                    $selectClass = "select_action{$form->getQuotaClass($datum->getLeaveType()->getLeaveTypeId())}";
-
-                                                    $selectOptions = "";
-
-                                                    foreach ($actions['select_options'] as $optionId => $optionValue) {
-
-                                                        $selected = $optionValue == "" ? 'selected="selected"' : '';
-
-                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . __($optionValue) . '</option>';
-                                                    }
-                                            ?>
-                                            <select class="<?php echo $selectClass;?> quotaSelect" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
-                                                <?php echo $selectOptions;?>
-                                            </select>
-                                            <?php
-                                                }
-                                            ?>
-                                            <?php
-                                                $quotaKey = $datum->getEmpNumber().'-';
-                                                $quotaKey .= $datum->getLeaveTypeId().'-';
-                                                $quotaKey .= $datum->getLeavePeriodId();
-                                            ?>
-
-                                            <input type="hidden" name="<?php echo $quotaKey; ?>" class="quotaHolder" value="<?php echo $datum->getNumberOfDays(); ?>" />
-
-                                            <?php endif; ?>
-                                        </td>
-				</tr>
-				<?php } else {  ?>
-				<tr class="<?php echo $class; ?>">
-                                <?php $class = $class=='odd'?'even':'odd'; ?>
-					<td><?php echo ohrm_format_date($datum->getLeaveDate()); ?></td>
-                    <?php if ($datum->getTextLeaveStatus() != ''): ?>
-					<td>
-						<?php echo $datum->getLeaveRequest()->getLeaveType()->getLeaveTypeName(); ?>
-						<?php echo ((bool) $datum->getLeaveRequest()->getLeaveType()->getAvailableFlag()) ? '' : '(' . __('deleted') . ')'; ?>
-					</td>
-                    <td><div class="numberLabel"><?php echo $datum->getLeaveLengthHours(); ?></div></td>
-                    <td><?php echo __($datum->getTextLeaveStatus()); ?></td>
-                    <td valign="top"><table width="100%" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                                <?php
-                                   $comments = trim($datum->getLeaveComments());
-                                   if (strlen($comments) > 35) {
-                                       $comments = substr($comments, 0, 35) . "...";
-                                   }
-                               ?>
-                                <td id="commentLabel_<?php echo $datum->getLeaveId(); ?>" class="commentContainerShort"><?php echo htmlspecialchars($comments); ?></td>
-                                <td class="dialogInvoker" id="pen_leave_<?php echo $datum->getLeaveId(); ?>"><img src="<?php echo public_path('../../themes/orange/icons/callout-left.png')?>" title="Click here to edit" /></td>
-                            </tr>
-                        </table>
-                        <input type="hidden" name="leaveComments[<?php echo $datum->getLeaveId(); ?>]" value="<?php echo htmlspecialchars($datum->getLeaveComments()); ?>" id="leaveComments-<?php echo $datum->getLeaveId(); ?>"/></td>
-					<td class="actions">
-                                             <?php
-
-                                                $actions = $form->renderItemActions($datum);
-                                                if (count($actions['select_options']) > 1 && $datum->getTextLeaveStatus() != '') {
-
-
-                                                    $selectId = 'select_leave_action_' . $datum->getLeaveId();
-                                                    $selectClass = "select_action{$form->getQuotaClass($datum->getLeaveTypeId())}";
-
-                                                    $selectOptions = "";
-
-                                                    foreach ($actions['select_options'] as $optionId => $optionValue) {
-
-                                                        $selected = $optionValue == "" ? 'selected="selected"' : '';
-
-                                                        $selectOptions .= '<option '. $selected . ' value="' . $optionId . '" >' . __($optionValue) . '</option>';
-                                                    }
-                                            ?>
-                                            <select class="<?php echo $selectClass;?>" id="<?php echo $selectId;?>" name="<?php echo $selectId;?>">
-                                                <?php echo $selectOptions;?>
-                                            </select>
-                                            <?php
-                                                }
-                                            ?>
-                                            <?php
-                                                $quotaKey = $datum->getEmployeeId().'-';
-                                                $quotaKey .= $datum->getLeaveTypeId().'-';
-                                                $quotaKey .= $datum->getLeaveRequest()->getLeavePeriodId();
-                                            ?>
-                                            <input type="hidden" name="<?php echo $quotaKey; ?>" class="quotaHolder" value="1" />
-                        <input type="hidden" name="leave[<?php echo $datum->getLeaveId(); ?>]" id="leave-<?php echo $datum->getLeaveId(); ?>" value="" class="requestIdHolder" />
-					</td>
-                    <?php else: ?>
-                    <td></td>
-                    <td></td>
-                    <td><?php echo __('Non Working Day'); ?></td>
-                    <td></td>
-                    <td style="height: 32px;">&nbsp;</td>
-                    <?php endif; ?>
-				</tr>
-				<?php
-					}
-				} // End of foreach
-				?>
-
-                <?php endif; ?>
-			</tbody>
-		</table>
-
-                <div class="formbuttons">
-                    <?php
-                        $buttons = $form->getActionButtons();
-                        foreach ($buttons as $id => $button) {
-                                echo $button->render($id), "\n";
-                        }
-                    ?>
-
-                </div>
-
-        <input type="hidden" id="currentPage" value ="<?php echo isset($page)?$page:''?>" name="currentPage"/>
-		<input type="hidden" name="hdnMode" value="<?php echo $mode; ?>" />
-
-	</form>
-</div>
-<?php }?>
+<?php include_component('core', 'ohrmList'); ?>
 
 <!-- comment dialog -->
 
@@ -315,6 +108,59 @@ $searchActionButtons = $form->getSearchActionButtons();
 <script type="text/javascript">
 //<![CDATA[
 
+    function handleSaveButton() {
+        $(this).attr('disabled', true);
+        $('select[name^="select_leave_action_"]').each(function() {
+            var id = $(this).attr('id').replace('select_leave_action_', '');
+            if ($(this).val() == '') {
+                $('#hdnLeaveRequest_' + id).attr('disabled', true);
+            } else {
+                $('#hdnLeaveRequest_' + id).val($(this).val());
+            }
+
+            if ($(this).val() == '') {
+                $('#hdnLeave_' + id).attr('disabled', true);
+            } else {
+                $('#hdnLeave_' + id).val($(this).val());
+            }
+        });
+
+        /* Suppose if it is the detailed screen */
+        <?php if(isset($leaveRequestId) && trim($leaveRequestId) != '') {?>
+            var url = $('#frmList_ohrmListComponent').attr('action') + "/id/" + <?php echo $leaveRequestId;?>;
+            $('#frmList_ohrmListComponent').attr('action', url);
+        <?php } ?>
+        $('#frmList_ohrmListComponent').submit();
+    }
+
+    function handleBackButton() {
+
+        var url = "../../../leave/viewLeaveList/pageNo/" + document.getElementById('pageNoDet').value;
+
+        <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {?>
+                url = "../viewMyLeaveList";
+        <?php }?>
+        window.location = url;
+    }
+
+    var mode = '<?php echo ($form->isDetailed()) ? 'detailed' : 'compact'; ?>';
+    var quota = new Array();
+    <?php
+        if (isset($quotaArray)) {
+            foreach ($quotaArray as $key => $val) {
+                echo "quota[\"".$key."\"] = {$val};\n ";
+            }
+        }
+    ?>
+
+        function exportToCSV() {
+            //alert('aaaZZHHlll');
+        }
+
+        function exportToPDF() {
+            //alert('aaaZZHHlllDDDFFFF');
+        }
+
         <?php if($form->isDetailed()): ?>
         var mode = 'detailed';
         <?php else: ?>
@@ -337,6 +183,18 @@ $searchActionButtons = $form->getSearchActionButtons();
 
         ?>
 
+        function setPage() {
+
+                document.getElementById('frmList_ohrmListComponent').action = document.getElementById('frmList_ohrmListComponent').action + '/currentPage/' + document.frmFilterLeave.pageNo.value;
+        }
+
+        function submitPage(pageNo) {
+
+            document.frmFilterLeave.pageNo.value = pageNo;
+            document.frmFilterLeave.hdnAction.value = 'paging';
+            document.getElementById('frmFilterLeave').submit();
+
+        }
 
 	$(document).ready(function(){
 
@@ -415,14 +273,19 @@ $searchActionButtons = $form->getSearchActionButtons();
                 
                 $("#commentSave").attr("value", "<?php echo __('Edit'); ?>");
 
-                //extracting the request id
-                var ids = ($(this).attr("id")).split("_");
-                $("#leaveOrRequest").val(ids[ids.length - 2]);
-                var comment = $("#leaveComments-" + ids[ids.length - 1]).val();
-                $("#leaveId").val(ids[ids.length - 1]);
-                $("#leaveComment").val(comment);
+                /* Extracting the request id */
+                var id = $(this).parent().siblings('input[id^="hdnLeaveRequest_"]').val();
+                if (!id) {
+                    var id = $(this).parent().siblings('input[id^="hdnLeave_"]').val();
+                }
+                var comment = $('#hdnLeaveComment-' + id).val();
+                var typeOfView = (mode == 'compact') ? 'request' : 'leave';
 
-                $("#commentDialog").dialog('open');
+                $('#leaveId').val(id);
+                $('#leaveComment').val(comment);
+                $('#leaveOrRequest').val(typeOfView);
+
+                $('#commentDialog').dialog('open');
             });
 
             //closes the dialog
@@ -438,54 +301,49 @@ $searchActionButtons = $form->getSearchActionButtons();
                     return;
                 }
 
-                if($("#commentSave").attr("value") == "<?php echo __('Save'); ?>") {
-                    $("#commentError").html("");
-                    var comment = $("#leaveComment").val().trim();
+                if($('#commentSave').attr('value') == "<?php echo __('Save'); ?>") {
+                    $('#commentError').html('');
+                    var comment = $('#leaveComment').val().trim();
                     if(comment.length > 250) {
-                        $("#commentError").html("<?php echo __('Comment length should be less than 250 characters'); ?>");
+                        $('#commentError').html('<?php echo __('Comment length should be less than 250 characters'); ?>');
                         return;
                     }
 
-                    //setting the comment in the label
-                    var commentLabel = comment.substr(0, 35);
-                    if(comment.length > 35) {
-                        commentLabel += "...";
-                    }
+                    /* Setting the comment in the label */
+                    var commentLabel = trimComment(comment);
 
-                    //if there is no-change between original and updated comments then don't show success message
-                    if($("#leaveComments-" + $("#leaveId").val()).val().trim() == comment) {
-                        $("#commentDialog").dialog('close');
+                    /* If there is no-change between original and updated comments then don't show success message */
+                    if($('#hdnLeaveComment-' + $("#leaveId").val()).val().trim() == comment) {
+                        $('#commentDialog').dialog('close');
                         return;
                     }
 
-                    //we set updated comment for the hidden comment field
-                    $("#leaveComments-" + $("#leaveId").val()).val(comment);
+                    /* We set updated comment for the hidden comment field */
+                    $('#hdnLeaveComment-' + $('#leaveId').val()).val(comment);
 
-                    //posting the comment
-                    var url = "updateComment";
-                    <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_LIST) {?>
-                        url = "../updateComment";
-                    <?php } ?>
-                    var data = "leaveRequestId=" + $("#leaveId").val() + "&leaveComment=" + encodeURIComponent(comment);
+                    /* Posting the comment */
+                    var url = '<?php echo public_path('index.php/leave/updateComment'); ?>';
+                    var data = 'leaveRequestId=' + $('#leaveId').val() + '&leaveComment=' + encodeURIComponent(comment);
 
-                    //this is specially for detailed view
-                    if($("#leaveOrRequest").val() == "leave") {
-                        url = "../../updateComment"
-                        data = "leaveId=" + $("#leaveId").val() + "&leaveComment=" + encodeURIComponent(comment);
+                    /* This is specially for detailed view */
+                    if($('#leaveOrRequest').val() == 'leave') {
+                        data = 'leaveId=' + $('#leaveId').val() + '&leaveComment=' + encodeURIComponent(comment);
                     }
 
                     $.ajax({
-                        type: "POST",
+                        type: 'POST',
                         url: url,
                         data: data,
                         success: function(flag) {
-                            $("#msgPlace").removeAttr("class");
-                            $(".messageBalloon_success").remove();
-                            $("#msgPlace").html("");
+                            $('#msgPlace').removeAttr('class');
+                            $('.messageBalloon_success').remove();
+                            $('#msgPlace').html('');
                             if(flag == 1) {
-                                $("#commentLabel_" + $("#leaveId").val()).html(commentLabel);
-                                $("#msgPlace").attr("class", "messageBalloon_success");
-                                $("#msgPlace").html("<?php echo __('Comment Successfully Saved'); ?>");
+                                var id = $('#leaveId').val();
+                                $('#commentContainer-' + id).html(commentLabel);
+                                $('#hdnLeaveComment-' + id).val(comment);
+                                $('#msgPlace').attr('class', 'messageBalloon_success');
+                                $('#msgPlace').html('<?php echo __('Comment Successfully Saved'); ?>');
                             }
                         }
                     });
@@ -509,30 +367,30 @@ $searchActionButtons = $form->getSearchActionButtons();
                 $('#frmFilterLeave').submit();
             });
 
-            $('#btnBack').click(function() {
-                var url = "../../../leave/viewLeaveList";
-                
-                <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {?>
-                        url = "../viewMyLeaveList";
-                <?php }?>
-                window.location = url;
-            });
+//            $('#btnBack').click(function() {
+//                var url = "../../../leave/viewLeaveList";
+//
+//                <?php if (isset($mode) && $mode == LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {?>
+//                        url = "../viewMyLeaveList";
+//                <?php }?>
+//                window.location = url;
+//            });
 
-            $('#btnSave').click(function() {
-                $(this).attr('disabled', true);
-                $('td.actions input:hidden').each(function() {
-                    if ($(this).val() == '') {
-                        $(this).attr('disabled', true);
-                    }
-                });
-
-                //suppose if it is the detailed screen
-                <?php if(isset($leaveRequestId) && trim($leaveRequestId) != "") {?>
-                    var url = $('#frmSaveLeave').attr('action') + "/id/" + <?php echo $leaveRequestId;?>;
-                    $('#frmSaveLeave').attr('action', url);
-                <?php } ?>
-                $('#frmSaveLeave').submit();
-            });
+//            $('#btnSave').click(function() {alert('hellooo');
+//                $(this).attr('disabled', true);
+//                $('td.actions input:hidden').each(function() {
+//                    if ($(this).val() == '') {
+//                        $(this).attr('disabled', true);
+//                    }
+//                });
+//
+//                //suppose if it is the detailed screen
+//                <?php if(isset($leaveRequestId) && trim($leaveRequestId) != "") {?>
+//                    var url = $('#frmSaveLeave').attr('action') + "/id/" + <?php echo $leaveRequestId;?>;
+//                    $('#frmSaveLeave').attr('action', url);
+//                <?php } ?>
+//                $('#frmSaveLeave').submit();
+//            });
 
 
             $('select.select_action').bind("change",function() {
@@ -551,7 +409,6 @@ $searchActionButtons = $form->getSearchActionButtons();
             /* Checking over quota: Begins */
 
             /* Registering overQuota dialog */
-
             $("#overQuotaDialog").dialog({
                 autoOpen: false,
                 modal: true,
@@ -561,7 +418,6 @@ $searchActionButtons = $form->getSearchActionButtons();
             });
 
             /* Calculating to-approve leave sum */
-
             $('.quotaSelect').change(function(){
 
                 if ($(this).val() == 'markedForApproval') {
@@ -569,19 +425,17 @@ $searchActionButtons = $form->getSearchActionButtons();
                     var overQuotaSelectId = $(this).attr('id');
                     //var leaveRequestHiddenId = $(this).siblings('.requestIdHolder').attr('id');
 
-                    //this problem came on relying on dom structure, so better avoid in future
+                    /* Tthis problem came on relying on dom structure, so better avoid in future */
                     var ids = overQuotaSelectId.split("_");
                     var leaveRequestHiddenId = "leaveRequest" + "-" + ids[ids.length - 1];
                     var key = $(this).siblings('.quotaHolder').attr('name');
                     var sum = 0;
 
                     $('.quotaSelect').each(function(){
-
                         if ($(this).val() == 'markedForApproval' &&
                             $(this).siblings('.quotaHolder').attr('name') == key) {
                             sum += parseFloat($(this).siblings('.quotaHolder').val());
                         }
-
                     });
 
                     if (sum > quota[key]) {
@@ -589,13 +443,11 @@ $searchActionButtons = $form->getSearchActionButtons();
                         $("#leaveRequestHiddenId").val(leaveRequestHiddenId);
                         $("#overQuotaDialog").dialog('open');
                     }
-
                 }
 
             });
 
             /* overQuota dialog actions */
-
             $("#overQuotaYes").click(function(){
                 $("#overQuotaDialog").dialog('close');
             });
@@ -626,7 +478,14 @@ $searchActionButtons = $form->getSearchActionButtons();
             
         });
 
-	});
+    });
+    
+    function trimComment(comment) {
+        if (comment.length > 35) {
+            comment = comment.substr(0, 35) + '...';
+        }
+        return comment;
+    }
 //]]>
 </script>
 

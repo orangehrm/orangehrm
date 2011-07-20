@@ -24,7 +24,7 @@
  *
  * @author sujith
  */
-class viewLeaveSummaryAction extends sfAction {
+class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
     /**
      * @param sfForm $form
@@ -71,7 +71,36 @@ class viewLeaveSummaryAction extends sfAction {
 
         $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
         $this->form->setPager($request);
+
+        LeaveSummaryConfigurationFactory::setUserType($userDetails['userType']);
+        LeaveSummaryConfigurationFactory::setUserId($userDetails['loggedUserId']);
         
+        $leaveSummaryService = new LeaveSummaryService();
+        $leaveSummaryDao = new LeaveSummaryDao();
+        $configurationFactory = new LeaveSummaryConfigurationFactory();
+        
+        $leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
+
+        $clues = $this->form->getSearchClues();
+        $clues['loggedUserId'] = $userDetails['loggedUserId'];
+        
+        $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
+        $offset = ($request->getParameter('pageNo', 1)-1)*$noOfRecords;
+
+        $listData = $leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $noOfRecords);
+        $totalRecordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
+
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($listData);
+        ohrmListComponent::setItemsPerPage($noOfRecords);
+        ohrmListComponent::setNumberOfRecords($totalRecordsCount);
+
+        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', array(
+            $this->form->getSearchClues(),
+            $offset,
+            $noOfRecords
+        ));
+
     }
 
     /**
@@ -121,5 +150,19 @@ class viewLeaveSummaryAction extends sfAction {
     public function setUserDetails($key, $value) {
         $_SESSION[$key] = $value;
     }
+    
+    public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams) {
+        $dataRetriever = new ExportDataRetriever();
+        $dataRetriever->setConfigurationFactory($configurationFactory);
+        $dataRetriever->setDataRetrievalService($dataRetrievalService);
+        $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
+        $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
+        
+        $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
+        $this->getUser()->setAttribute('persistant.exportFileName', 'leave-summary');
+        $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave Summary');
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', '');
+
+    }
 }
-?>
+

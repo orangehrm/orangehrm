@@ -74,6 +74,56 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
         $this->linkCell->setProperties($properties);
         $this->assertEquals($properties, $this->linkCell->getProperties());        
     }
+    
+    public function testUnlinkableCells() {
+        $dataObject = new LinkCellTestDataObject();
+
+        $this->linkCell->setDataObject($dataObject);
+        $this->linkCell->setProperties(array(
+            'labelGetter' => 'getLabel',
+            'linkable' => false,
+            'placeholderGetters' => array(
+                'id' => 'getId',
+                'status' => 'getCurrentState',
+            ),
+            'urlPattern' => 'index.php?id={id}&amp;status={status}'
+        ));
+
+        $expectedLink = 'Label';
+        $this->assertEquals($expectedLink, $this->linkCell->__toString());
+    }
+
+        public function testConditionalLinkableCells() {
+        $dataObject = new LinkCellTestDataObject();
+        $conditionalParams = new sfOutputEscaperArrayDecorator('', array(3));
+        
+        $this->linkCell->setDataObject($dataObject);
+        $this->linkCell->setProperties(array(
+            'labelGetter' => 'getLabel',
+            'linkable' => array('isEven', $conditionalParams),
+            'placeholderGetters' => array(
+                'id' => 'getId',
+                'status' => 'getCurrentState',
+            ),
+            'urlPattern' => 'index.php?id={id}&amp;status={status}'
+        ));
+
+        $expectedLink = 'Label';
+        $this->assertEquals($expectedLink, $this->linkCell->__toString());
+        
+        $conditionalParams = new sfOutputEscaperArrayDecorator('', array(2));
+        $this->linkCell->setProperties(array(
+            'labelGetter' => 'getLabel',
+            'linkable' => array('isEven', $conditionalParams),
+            'placeholderGetters' => array(
+                'id' => 'getId',
+                'status' => 'getCurrentState',
+            ),
+            'urlPattern' => 'index.php?id={id}&amp;status={status}'
+        ));
+        $expectedLink = '<a href="index.php?id=1&amp;status=active">Label</a>';
+        $this->assertEquals($expectedLink, $this->linkCell->__toString());
+    }
 
 }
 
@@ -89,6 +139,10 @@ class LinkCellTestDataObject {
 
     public function getCurrentState() {
         return 'active';
+    }
+    
+    public function isEven($number) {
+        return ($number % 2 === 0);
     }
 
 }

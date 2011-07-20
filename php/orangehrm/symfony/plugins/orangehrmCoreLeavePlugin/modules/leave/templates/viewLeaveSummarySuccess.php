@@ -33,7 +33,7 @@
 
 <div class="searchbar">
 <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
-
+    <?php echo $form['hdnSubjectedLeavePeriod']->render(); ?>
 <table id="tblSearchCriteria" border="0">
 <tr>
     <td><?php echo __('Leave Period'); ?></td>
@@ -103,55 +103,11 @@
 <div id="validationMsg"></div>
 <?php if ($form->recordsCount > 0) { ?>
 
-<div class="outerbox">
-
-<?php if ($form->pager->haveToPaginate()) { ?>
-<div class="navigationHearder">
-<div class="pagingbar">
-<?php include_partial('global/paging_links_js', array('pager' => $form->pager));?>
-</div>
-<br class="clear" />
-</div>
-<?php } ?>
-
-<!--<form id="frmLeaveSummaryResult" name="frmLeaveSummaryResult" method="post" action="">-->
-<table border="0" cellpadding="0" cellspacing="0" class="data-table">
-
-<thead>
-<tr>
-    <td valign="top">&nbsp;<?php echo __('Employee Name'); ?></td>
-    <td valign="top"><?php echo __('Leave Type'); ?></td>
-    <td align="center"><?php echo __('Leave Entitled'); ?><div>(<?php echo __('Days') ?>)</div></td>
-<td align="center"><?php echo __('Leave Scheduled'); ?><div>(<?php echo __('Days') ?>)</div></td>
-<td align="center"><?php echo __('Leave Taken'); ?><div>(<?php echo __('Days') ?>)</div></td>
-<td align="center"><?php echo __('Leave Balance'); ?><div>(<?php echo __('Days') ?>)</div></td>
-</tr>
-</thead>
-
-<?php echo $form->getLeaveSummaryTbodyHtml();?>
-
-</table>
-
-
-
-<?php if ($form->leaveSummaryEditMode) { ?>
-<div class="formbuttons">
-   <input type="button" class="savebutton" id="btnSave" value="<?php echo __('Edit') ?>"/>
-<input type="reset" class="resetbutton" value="<?php echo __('Reset') ?>" id="summaryReset" />
-</div>
-<?php } // if ($form->leaveSummaryEditMode) ?>
-
-</div> <!-- End of outerbox -->
+<?php include_component('core', 'ohrmList'); ?>
 
 </form> <!-- End of frmLeaveSummarySearch -->
 
 <?php } // End of if ($recordsCount > 0) ?>
-
-
-
-
-
-
 
 <script type="text/javascript">
 
@@ -176,6 +132,3 @@ var saveButtonCaption = "<?php echo __('Save');?>";
 </script>
 
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>
-
-<?php echo javascript_include_tag('../orangehrmCoreLeavePlugin/js/viewLeaveSummarySuccess'); ?>
-

@@ -10,6 +10,11 @@
  * @author     Your name here
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class LeaveType extends PluginLeaveType
-{
+class LeaveType extends PluginLeaveType {
+    const AVAILABLE = 1;
+    const UNAVAILABLE = 0;
+
+    public function getDescriptiveLeaveTypeName() {
+        return $this->getLeaveTypeName() ." ". (($this->getAvailableFlag() == self::AVAILABLE) ? '' : '(deleted)');
+    }
 }

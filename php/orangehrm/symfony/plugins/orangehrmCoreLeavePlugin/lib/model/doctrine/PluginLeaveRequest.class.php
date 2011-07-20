@@ -58,7 +58,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
             }
         }
 
-        return implode(',<br />', $statusStrings);
+        return implode(', ', $statusStrings);
     }
 
     private function _fetchLeave() {
@@ -80,6 +80,20 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         } else {
             $this->_fetchLeave();
             return $this->canCancel;
+        }
+    }
+    
+    public function getLeaveDateRange() {
+
+        $this->_fetchLeave();
+        $leaveCount = count($this->leave);
+
+        if ($leaveCount == 1) {
+            return ohrm_format_date($this->leave[0]->getLeaveDate());
+        } else {
+            $leaveRequestStartDate = $this->leave[0]->getLeaveDate();
+            $leaveRequestEndDate = $this->leave[$leaveCount - 1]->getLeaveDate();
+            return sprintf('%s %s %s', ohrm_format_date($leaveRequestStartDate), __('to'), ohrm_format_date($leaveRequestEndDate));
         }
     }
 
@@ -165,7 +179,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         $flag = true;
 
         foreach ($this->leave as $leave) {
-            if ($leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_TAKEN) {
+            if ($leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_TAKEN && $leave->getLeaveLengthHours() != '0.00') {
                 $flag = false;
                 break;
             }
@@ -174,4 +188,12 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         return $flag;
     }
 
+    public function isStatusDiffer() {
+
+        if (count($this->getStatusCounter()) > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

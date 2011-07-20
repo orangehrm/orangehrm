@@ -508,6 +508,8 @@ class leaveActions extends sfActions {
    
     public function executeViewMyLeaveList(sfWebRequest $request) {
 
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+
         $this->setTemplate('viewLeaveList');
         
         $id = (int) $request->getParameter('id');
@@ -584,12 +586,13 @@ class leaveActions extends sfActions {
             $this->recordCount = $recordCount;
 
             if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = __('No Records Found');
+                $message = 'No Records Found';
                 $messageType = 'notice';
             }
 
         } else {
 
+            $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
             $this->leaveRequestId = $id;           
@@ -611,7 +614,38 @@ class leaveActions extends sfActions {
         $this->pager->setPage($page);
         $this->pager->setNumResults($recordCount);
         $this->pager->init();
+        
+        if ($mode === LeaveListForm::MODE_MY_LEAVE_LIST) {
+            LeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_MY_LEAVE_LIST);
+            $configurationFactory = new LeaveListConfigurationFactory();
 
+            $configurationFactory->getHeader(0)->setElementProperty(array(
+                'labelGetter' => array('getLeaveDateRange'),
+                'placeholderGetters' => array('id' => 'getLeaveRequestId'),
+                'urlPattern' => public_path('index.php/leave/viewMyLeaveList/id/{id}'),
+                ));
+
+            $configurationFactory->getHeader(4)->setElementProperty(array(
+                'labelGetter' => array('getStatus'),
+                'placeholderGetters' => array('id' => 'getLeaveRequestId'),
+                'urlPattern' => public_path('index.php/leave/viewMyLeaveList/id/{id}'),
+                ));
+
+            $methodName = 'searchLeaveRequests';
+            $params = array($searchParams, $page, 'list');
+        } elseif ($mode === LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {
+            DetailedLeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST);
+            $configurationFactory = new DetailedLeaveListConfigurationFactory();
+            $methodName = 'searchLeave';
+            $params = array($id);
+        } else {
+            // TODO: Warn
+        }
+        
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($list);
+
+        $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $methodName, $params, $employee);
     }
 
     private function getEmployeeListAsJson() {
@@ -704,11 +738,11 @@ class leaveActions extends sfActions {
         $page = $request->getParameter("currentPage");
         
         if(trim($request->getParameter("id")) != "") {
-            $url = $url . "?id=" . $request->getParameter("id") . "&page=" . $page;
+            $url = $url . "?id=" . $request->getParameter("id") . "&pageNo=" . $page;
         }else {
-            $url = $url . "?page=" . $page;
+            $url = $url . "?pageNo=" . $page;
         }
- 
+
         $this->redirect($url);
     }
 
@@ -786,6 +820,19 @@ class leaveActions extends sfActions {
 	public function executeShowLeavePeriodNotDefinedWarning(sfWebRequest $request) {
 
 	}
+
+    public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams, $employee) {
+        $dataRetriever = new ExportDataRetriever();
+        $dataRetriever->setConfigurationFactory($configurationFactory);
+        $dataRetriever->setDataRetrievalService($dataRetrievalService);
+        $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
+        $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
+
+        $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
+        $this->getUser()->setAttribute('persistant.exportFileName', 'my-leave-list');
+        $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave List');
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'of ' . $employee->getFullName() );
+    }
 
 
     /**

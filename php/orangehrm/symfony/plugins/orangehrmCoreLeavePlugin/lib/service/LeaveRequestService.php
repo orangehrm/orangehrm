@@ -408,9 +408,9 @@ class LeaveRequestService extends BaseService {
      * @param array $statuses
      * @return array
      */
-    public function searchLeaveRequests($searchParameters, $page = 1) {
-
-        return $this->leaveRequestDao->searchLeaveRequests($searchParameters, $page);
+    public function searchLeaveRequests($searchParameters, $page = 1, $selectionIndex = null) {
+        $result = $this->leaveRequestDao->searchLeaveRequests($searchParameters, $page);
+        return empty($selectionIndex) ? $result : $result[$selectionIndex];
 
     }
 
@@ -650,6 +650,36 @@ class LeaveRequestService extends BaseService {
 
         return $this->leaveRequestDao->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
 
+    }
+    
+    public function getLeaveRequestActions($request, $loggedUserId, $listMode) {
+        $actions = array();
+
+        if ($request->canApprove() && $listMode != LeaveListForm::MODE_MY_LEAVE_LIST && $request->getEmployeeId() != $loggedUserId) {
+            $actions['markedForApproval'] = 'Approve';
+            $actions['markedForRejection'] = 'Reject';
+        }
+
+        if ($request->canCancel(Auth::instance()->hasRole(Auth::ADMIN_ROLE))) {
+            $actions['markedForCancellation'] = 'Cancel';
+        }
+        
+        return $actions;
+    }
+    
+    public function getLeaveActions($leave, $loggedUserId, $listMode) {
+        $actions = array();
+
+        if ($leave->canApprove() && $listMode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST && $leave->getEmployeeId() != $loggedUserId) {
+            $actions['markedForApproval'] = 'Approve';
+            $actions['markedForRejection'] = 'Reject';
+        }
+
+        if ($leave->canCancel(Auth::instance()->hasRole(Auth::ADMIN_ROLE))) {
+            $actions['markedForCancellation'] = 'Cancel';
+        }
+        
+        return $actions;
     }
 
     /**

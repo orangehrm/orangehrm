@@ -27,6 +27,7 @@ class LeaveListForm extends sfForm {
     private $leaveRequest;
     private $empJson;
     private $leavePeriodService;
+    public $pageNo;
 
     public function __construct($mode = null, $leavePeriod = null, $employee = null, $filters = null, $loggedUserId = null, $leaveRequest = null) {
 

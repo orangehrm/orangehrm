@@ -273,6 +273,10 @@
         <target>FR_Make Sure Leave Request Contain Work Days</target>
       </trans-unit>
       <trans-unit id="129">
+        <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
+        <target>FR_No Eligible Leave Types to Assign Leave, Please contact HR Admin</target>
+      </trans-unit>
+      <trans-unit id="129">
         <source>Select a Leave Type</source>
         <target>FR_Select a Leave Type</target>
       </trans-unit>
@@ -429,8 +433,8 @@
         <target>FR_Select Action</target>
       </trans-unit>
       <trans-unit id="215">
-        <source>No Leave Types with Leave Balance</source>
-        <target>FR_No Leave Types with Leave Balance</target>
+        <source>No Eligible Leave Types to Apply for Leave</source>
+        <target>FR_No Eligible Leave Types to Apply for Leave</target>
       </trans-unit>
       <trans-unit id="216">
         <source>Leave Request Successfully Submitted</source>
@@ -447,14 +451,6 @@
       <trans-unit id="219">
         <source>Start month for non-leap year is required</source>
         <target>FR_Start month for non-leap year is required</target>
-      </trans-unit>
-	  <trans-unit id="219">
-        <source>Leave Successfully Changed</source>
-        <target>FR_Leave Successfully Changed</target>
-      </trans-unit>
-	  <trans-unit id="220">
-        <source>Total time is numeric value</source>
-        <target>FR_Total time is numeric value</target>
       </trans-unit>
     </body>
   </file>
