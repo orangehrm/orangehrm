@@ -26,6 +26,15 @@ class Employee extends PluginEmployee {
     const DIVORCED = 'Divorced';
     const OTHERS = 'Others';
 
+    private $employeeService;
+
+    public function getEmployeeService() {
+        if(is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+            $this->employeeService->setEmployeeDao(new EmployeeDao());
+        }
+        return $this->employeeService;
+    }
     /**
      * Set up model. Calls base class Setup and adds encryption support
      * for ssn.
@@ -409,5 +418,28 @@ class Employee extends PluginEmployee {
             $years--;
         }
         return $years;
+    }
+    
+    public function isSubordinateOf($supervisorId) {
+//        $this->supervisors = $this->getSupervisors();
+//        foreach ($this->supervisors as $supervisor) {
+//            if ($supervisor->getEmpNumber() == $supervisorId) {
+//                return true;
+//            }
+//        }
+//        return false;
+
+        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeChain($supervisorId);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $this->getEmpNumber()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
