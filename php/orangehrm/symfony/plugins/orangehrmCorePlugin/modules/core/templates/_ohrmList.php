@@ -3,7 +3,7 @@ function renderActionBar($buttons, $condition = true) {
     if ($condition && count($buttons) > 0) {
 ?>
     <div class="actionbar">
-        <div class="actionbuttons">
+        <div class="formbuttons">
             <?php
             foreach ($buttons as $key => $buttonProperties) {
                 $button = new Button();
@@ -13,7 +13,6 @@ function renderActionBar($buttons, $condition = true) {
             }
             ?>
         </div>
-        <br class="clear" />
     </div>
 <?php
     }

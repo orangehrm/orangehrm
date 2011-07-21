@@ -119,3 +119,13 @@ td.commentContainerShort {
     width: 100px;
     text-align: left;
 }
+
+table.data-table thead tr td,
+table.data-table thead tr th {
+    padding: 7px 10px 7px 8px;
+    font-weight: bold;
+}
+
+table.data-table tbody tr td {
+    padding: 7px 10px 7px 8px;
+}
