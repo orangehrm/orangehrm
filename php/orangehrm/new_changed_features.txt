@@ -3,6 +3,7 @@ New & Changed Features for OrangeHRM ver 2.6.6
     Bug Fixes
     ---------
     3372247 - Attendance summary calculation is wrong
+    3373061 - Leave List Comment not saved properly 
 
 New & Changed Features for OrangeHRM ver 2.6.5
 
