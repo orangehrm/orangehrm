@@ -307,13 +307,13 @@ class LeaveSummaryForm extends sfForm {
                     $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
                 }
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
+                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
             }
         }
 
-        array_push($jsonArray,"{name:\"All\",id:\"0\"}"); // Including All
+		$jsonArray[] = array('name'=>'All', 'id' => '0');
 
-        $jsonString = " [".implode(",",$jsonArray)."]";
+        $jsonString = json_encode($jsonArray);
 
         return $jsonString;
 

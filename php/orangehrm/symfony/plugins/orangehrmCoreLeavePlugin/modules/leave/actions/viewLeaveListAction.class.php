@@ -315,11 +315,12 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                     $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
                 }
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\"}");
+                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
             }
         }
 
-        $jsonString = " [".implode(",",$jsonArray)."]";
+        $jsonString = json_encode($jsonArray);
+
         return $jsonString;
     }
 
