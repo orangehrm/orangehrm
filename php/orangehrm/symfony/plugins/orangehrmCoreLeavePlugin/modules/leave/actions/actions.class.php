@@ -710,7 +710,7 @@ class leaveActions extends sfActions {
                 $changedByUserType = Users::USER_TYPE_ADMIN;
             }
             if ($_SESSION['isSupervisor']) {
-                $mode = $request->getPostParameter('hdnMode', null);
+                $mode = $request->getParameter('hdnMode', null);
                 if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST && $mode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {
                     $changedByUserType = Users::USER_TYPE_SUPERVISOR;
                 }
@@ -729,18 +729,28 @@ class leaveActions extends sfActions {
         }
 
         if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
-            $url = "leave/viewMyLeaveList";
-            
-        } else {
-            $url = "leave/viewLeaveList";
-        }
 
-        $page = $request->getParameter("currentPage");
-        
-        if(trim($request->getParameter("id")) != "") {
-            $url = $url . "?id=" . $request->getParameter("id") . "&pageNo=" . $page;
-        }else {
-            $url = $url . "?pageNo=" . $page;
+            $url = "leave/viewMyLeaveList";
+
+            if(trim($request->getParameter("id")) != "") {
+                $url = $url . "?id=" . $request->getParameter("id");
+            }
+
+            if(trim($request->getParameter("hdnMode")) != "") {
+                $url = $url . "?hdnMode=" . $request->getParameter("hdnMode");
+            }
+
+        } else {
+
+            $url = "leave/viewLeaveList";
+
+            $page = $request->getParameter("currentPage");
+
+            if(trim($request->getParameter("id")) != "") {
+                $url = $url . "?id=" . $request->getParameter("id") . "&pageNo=" . $page;
+            }else {
+                $url = $url . "?pageNo=" . $page;
+            }
         }
 
         $this->redirect($url);

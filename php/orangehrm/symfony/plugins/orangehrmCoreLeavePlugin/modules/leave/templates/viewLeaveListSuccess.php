@@ -75,7 +75,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 <!-- end of ajax message place -->
 
 <?php include_component('core', 'ohrmList'); ?>
-
+<input type="hidden" name="hdnMode" value="<?php echo $mode; ?>" />
 <!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Leave Comment'); ?>">
@@ -125,9 +125,16 @@ $searchActionButtons = $form->getSearchActionButtons();
             }
         });
 
+        var url = $('#frmList_ohrmListComponent').attr('action');
+
         /* Suppose if it is the detailed screen */
         <?php if(isset($leaveRequestId) && trim($leaveRequestId) != '') {?>
-            var url = $('#frmList_ohrmListComponent').attr('action') + "/id/" + <?php echo $leaveRequestId;?>;
+            url = url + "/id/" + <?php echo $leaveRequestId;?>;
+            $('#frmList_ohrmListComponent').attr('action', url);
+        <?php } ?>
+
+        <?php if(isset($mode) && trim($mode) != '') {?>
+            url = url + "/hdnMode/<?php echo $mode;?>";
             $('#frmList_ohrmListComponent').attr('action', url);
         <?php } ?>
         $('#frmList_ohrmListComponent').submit();
@@ -185,7 +192,9 @@ $searchActionButtons = $form->getSearchActionButtons();
 
         function setPage() {
 
+            if (document.frmFilterLeave.pageNo.value) {
                 document.getElementById('frmList_ohrmListComponent').action = document.getElementById('frmList_ohrmListComponent').action + '/currentPage/' + document.frmFilterLeave.pageNo.value;
+            }
         }
 
         function submitPage(pageNo) {
