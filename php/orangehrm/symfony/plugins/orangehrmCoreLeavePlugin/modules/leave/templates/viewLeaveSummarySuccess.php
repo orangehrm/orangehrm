@@ -101,13 +101,13 @@
 <div class="messageBalloon_success"><?php echo __('Leave Entitlements Successfully Saved'); ?></div>
 <?php } ?>
 <div id="validationMsg"></div>
-<?php if ($form->recordsCount > 0) { ?>
+<?php //if ($form->recordsCount > 0) { ?>
 
 <?php include_component('core', 'ohrmList'); ?>
 
 </form> <!-- End of frmLeaveSummarySearch -->
 
-<?php } // End of if ($recordsCount > 0) ?>
+<?php //} // End of if ($recordsCount > 0) ?>
 
 <script type="text/javascript">
 
