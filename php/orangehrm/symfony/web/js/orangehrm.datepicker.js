@@ -126,6 +126,7 @@ function DayMarker(optionList){
     this.bindElement = function(input, options){
         // default properties of jQuery datepicker object
         defaults = {
+            yearRange: "-100:+100",
             dateFormat: jqValidatorDateFormat,
             changeMonth: true,
             changeYear: true,
