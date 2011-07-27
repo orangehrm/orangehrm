@@ -68,6 +68,7 @@ abstract class Cell implements PopulatableFromArray {
                         'type' => 'hidden',
                         'name' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldName')),
                         'id' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldId')),
+                        'class' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldClass')),
                         'value' => $this->getValue('hiddenFieldValueGetter'),
                     ));
         }

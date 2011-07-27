@@ -65,4 +65,19 @@ abstract class PluginLeave extends BaseLeave {
         //return in_array($this->getLeaveStatus(), $this->nonWorkingDayStatuses);
     }
 
+    public function getLeavePeriodId() {
+        return $this->getLeaveRequest()->getLeavePeriodId();
+    }
+
+    public function getNumberOfDays() {
+        return $this->getLeaveRequest()->getNumberOfDays();
+    }
+
+    public function getDetailedLeaveListQuotaHolderValue() {
+        return "1";
+    }
+
+    public function getDetailedLeaveListRequestIdHolderValue() {
+        return "0";
+    }
 }

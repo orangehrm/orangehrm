@@ -49,6 +49,14 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'elementProperty' => array(
                 'getter' => array('getTextLeaveStatus'),
                 'default' => 'Non Working Day',
+                'hasHiddenField' => true,
+                'hiddenFieldName' => 'leave[{id}]',
+                'hiddenFieldId' => 'leave-{id}',
+                'hiddenFieldValueGetter' => 'getDetailedLeaveListRequestIdHolderValue',
+                'hiddenFieldClass' => 'requestIdHolder',
+                'placeholderGetters' => array(
+                    'id' => 'getLeaveId',
+                ),
             ),
         ));
 
@@ -78,14 +86,23 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'isExportable' => false,
             'elementType' => 'selectSingle',
             'elementProperty' => array(
+                'classPattern' => 'select_action quotaSelect',
                 'defaultOption' => array('label' => 'Select Action', 'value' => ''),
                 'hideIfEmpty' => true,
                 'hideIfCallback' => 'isNonWorkingDay',
                 'options' => array($leaveRequestService, 'getLeaveActions', array(self::RECORD, self::$userId, self::$listMode)),
                 'namePattern' => 'select_leave_action_{id}',
                 'idPattern' => 'select_leave_action_{id}',
+                'hasHiddenField' => true,
+                'hiddenFieldName' => '{eimId}-{leaveTypeId}-{leavePeriodId}',
+                'hiddenFieldId' => '{eimId}-{leaveTypeId}-{leavePeriodId}',
+                'hiddenFieldValueGetter' => 'getDetailedLeaveListQuotaHolderValue',
+                'hiddenFieldClass' => 'quotaHolder',
                 'placeholderGetters' => array(
                     'id' => 'getLeaveId',
+                    'eimId' => 'getEmployeeId',
+                    'leaveTypeId' => 'getLeaveTypeId',
+                    'leavePeriodId' => 'getLeavePeriodId',
                 ),
             ),
         ));

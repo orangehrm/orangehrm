@@ -38,15 +38,19 @@ class SelectSingleCell extends Cell {
         $placeholderGetters = $this->getPropertyValue('placeholderGetters');
         $id = $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('idPattern'));
         $name = $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('namePattern'));
+        $class = $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('classPattern'));
 
         if ($this->getPropertyValue('hideIfEmpty', false) && empty($options)) {
             return '&nbsp;';
         }
 
-        return content_tag('select', $optionsHTML, array(
+        $html = content_tag('select', $optionsHTML, array(
             'id' => $id,
             'name' => $name,
+            'class' => $class,
         ));
+        
+        return $html.$this->getHiddenFieldHTML();
     }
 
 }

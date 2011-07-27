@@ -93,13 +93,22 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'isExportable' => false,
             'elementType' => 'leaveListAction',
             'elementProperty' => array(
+                'classPattern' => 'select_action quotaSelect',
                 'defaultOption' => array('label' => 'Select Action', 'value' => ''),
                 'hideIfEmpty' => true,
                 'options' => array($leaveRequestService, 'getLeaveRequestActions', array(self::RECORD, self::$userId, self::$listMode)),
                 'namePattern' => 'select_leave_action_{id}',
                 'idPattern' => 'select_leave_action_{id}',
+                'hasHiddenField' => true,
+                'hiddenFieldName' => '{eimId}-{leaveTypeId}-{leavePeriodId}',
+                'hiddenFieldId' => '{eimId}-{leaveTypeId}-{leavePeriodId}',
+                'hiddenFieldValueGetter' => 'getNumberOfDays',
+                'hiddenFieldClass' => 'quotaHolder',
                 'placeholderGetters' => array(
                     'id' => 'getLeaveRequestId',
+                    'eimId' => 'getEmpNumber',
+                    'leaveTypeId' => 'getLeaveTypeId',
+                    'leavePeriodId' => 'getLeavePeriodId',
                 ),
             ),
         ));
