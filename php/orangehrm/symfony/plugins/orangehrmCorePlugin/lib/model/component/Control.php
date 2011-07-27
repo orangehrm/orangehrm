@@ -18,7 +18,7 @@ abstract class Control implements PopulatableFromArray {
     }
 
     public function getPropertyValue($name, $default = null) {
-        return isset($this->properties[$name]) ? $this->properties[$name] : $default;
+        return isset($this->properties[$name]) ? __($this->properties[$name]) : $default;
     }
 
     public function getIdentifier() {

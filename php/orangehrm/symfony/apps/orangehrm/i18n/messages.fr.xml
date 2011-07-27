@@ -736,6 +736,30 @@
                 <source>Comments cannot exceed 255 characters in length</source>
                 <target>Comments cannot exceed 255 characters in length</target>
             </trans-unit>
+            <trans-unit id="213">
+                <source>No records to display</source>
+                <target>FR_No records to display</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>Leave Entitled (Days)</source>
+                <target>FR_Leave Entitled (Days)</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>Leave Scheduled (Days)</source>
+                <target>FR_Leave Scheduled (Days)</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>Leave Taken (Days)</source>
+                <target>FR_Leave Taken (Days)</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>Leave Balance (Days)</source>
+                <target>FR_Leave Balance (Days)</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>First </source>
+                <target>FR_First</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
