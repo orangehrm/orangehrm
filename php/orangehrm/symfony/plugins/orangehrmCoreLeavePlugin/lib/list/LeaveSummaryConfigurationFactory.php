@@ -49,6 +49,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'getter' => 'getNoOfDaysAllotted',
                 'name' => 'txtLeaveEntitled[]',
+                'classPattern' => 'formInputText',
                 'readOnly' => (self::$userType != Users::USER_TYPE_ADMIN),
             ),
         ));
