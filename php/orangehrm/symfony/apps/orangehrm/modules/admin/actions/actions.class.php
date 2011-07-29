@@ -2370,18 +2370,18 @@ class adminActions extends sfActions {
 	 * @return unknown_type
 	 */
 	public function executeListMailSubscriptions(sfWebRequest $request) {
-        
+
 		$this->form = new EmailSubscriptionsForm(array(), array(), true);
 
 		$mailService 			= 	new MailService();
 		$user					=	$_SESSION['user'] ;
-        
+
         $this->mailnot  = array();
         
         for($i=-1;$i<9;$i++) {
             $this->mailnot[$i] = '';
         }
-        
+
         if ($request->isMethod('post')) {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()){
@@ -2415,11 +2415,11 @@ class adminActions extends sfActions {
 		$this->notficationList	=	$mailService->getMailNotificationList($user);
 
         $AllMailNotifications = $mailService->getAllMailNotifications();
-        
+
         foreach($AllMailNotifications as $mailNotification) {
             $this->mailnot[$mailNotification->notification_type_id] = $mailNotification->email;
         }
-        
+
 	}
 
     public function executeSaveMailConfiguration(sfWebRequest $request) {
