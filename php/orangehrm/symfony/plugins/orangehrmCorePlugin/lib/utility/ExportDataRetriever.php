@@ -6,6 +6,8 @@ class ExportDataRetriever implements Exportable {
     private $dataRetrievalService;
     private $dataRetrievalMethod;
     private $dataRetrievalParams;
+    private $listData = array();
+
 
     public function getConfigurationFactory() {
         return $this->configurationFactory;
