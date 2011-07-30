@@ -52,7 +52,7 @@ function printButtonEventBindings($buttons) {
 
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
         <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE); ?>
-        <?php renderActionBar($extraButtons); ?>
+        <?php renderActionBar($extraButtons); ?><br class="clear" />
         <?php if ($pager->haveToPaginate()) { ?>
         <div class="navigationHearder">
             <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>
