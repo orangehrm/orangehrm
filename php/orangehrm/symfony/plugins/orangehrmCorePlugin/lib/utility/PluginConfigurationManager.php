@@ -59,7 +59,7 @@ class PluginConfigurationManager {
                             
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
-                                    $this->externalConfigurations[$component][$property]["{$pluginName}.{$k}"] = $v;
+                                    $this->externalConfigurations[$component][$property]["{$pluginName}_{$k}"] = $v;
                                 }
                             } else {
                                 $this->externalConfigurations[$component][$property][] = $value;
