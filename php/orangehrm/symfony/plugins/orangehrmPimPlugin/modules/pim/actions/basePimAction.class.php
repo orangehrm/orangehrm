@@ -94,7 +94,7 @@ abstract class basePimAction extends sfAction {
         return false;
 
     }
-    
+
     protected function setOperationName($actionName) {
         $sessionVariableManager = new DatabaseSessionManager();
         $sessionVariableManager->setSessionVariables(array(
