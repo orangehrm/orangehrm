@@ -160,14 +160,6 @@ $searchActionButtons = $form->getSearchActionButtons();
         }
     ?>
 
-        function exportToCSV() {
-            //alert('aaaZZHHlll');
-        }
-
-        function exportToPDF() {
-            //alert('aaaZZHHlllDDDFFFF');
-        }
-
         <?php if($form->isDetailed()): ?>
         var mode = 'detailed';
         <?php else: ?>
