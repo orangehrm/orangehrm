@@ -64,8 +64,7 @@ class ohrmListComponent extends sfComponent {
     }
 
     protected function getDefinitionsFromPlugins() {
-        $definitionsFromPlugins = sfYaml::load(sfConfig::get('sf_root_dir') . '/plugins/orangehrmCorePlugin/config/configurations_by_plugins.yml');
-        return $definitionsFromPlugins['ohrmList'];
+        return PluginConfigurationManager::instance()->getExternalConfigurations('ohrmListComponent');
     }
 
     protected function setTemplateVariables() {
