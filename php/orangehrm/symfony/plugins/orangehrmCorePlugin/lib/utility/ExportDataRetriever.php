@@ -57,7 +57,7 @@ class ExportDataRetriever implements Exportable {
     public function getExportData() {
         $listData = call_user_func_array(array($this->dataRetrievalService, $this->dataRetrievalMethod), $this->dataRetrievalParams);
 
-        if ($listData instanceof Doctrine_Collection) {
+        if ($listData instanceof Doctrine_Collection || is_array($listData)) {
             $headers = $this->configurationFactory->getHeaders();
             $dataArray = array();
             $i = 0;
