@@ -423,7 +423,7 @@ class AssignLeaveForm extends sfForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList();
+            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
         } elseif ($this->userType == 'Supervisor') {
 
             $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedUserId);

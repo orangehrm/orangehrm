@@ -487,9 +487,9 @@ class EmployeeService extends BaseService {
      * @returns Collection
      * @throws PIMServiceException
      */
-    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC') {
+    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
         try {
-            return $this->employeeDao->getEmployeeList($orderField, $orderBy);
+            return $this->employeeDao->getEmployeeList($orderField, $orderBy, $withoutTerminatedEmployees);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }

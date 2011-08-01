@@ -200,8 +200,13 @@ function printButtonEventBindings($buttons) {
         echo "\t{$methodName}();", "\n";
     }
 
-    printButtonEventBindings($buttons);
-    printButtonEventBindings($extraButtons);
+    if (isset($buttons)) {
+        printButtonEventBindings($buttons);
+    }
+
+    if (isset($extraButtons)) {
+        printButtonEventBindings($extraButtons);
+    }
 ?>
     });
 
