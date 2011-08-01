@@ -34,19 +34,19 @@ class LeaveSummaryServiceTest extends PHPUnit_Framework_TestCase {
         $clues = array();
         $offset = 0;
         $limit = 50;
-        $resource = 'mysql_resource';
+        $resource = Array();
 
         $leaveSummaryDao = $this->getMock('LeaveSummaryDao', array('fetchRawLeaveSummaryRecords'));
         $leaveSummaryDao->expects($this->once())
                         ->method('fetchRawLeaveSummaryRecords')
                         ->with($clues, $offset, $limit)
-                        ->will($this->returnValue($resource));
+                        ->will($this->returnValue(new MySqlResource()));
 
         $this->leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
 
         $result = $this->leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $limit);
 
-        $this->assertEquals($resource, $result);
+        $this->assertTrue(is_array($result));
 
     }
 
@@ -68,6 +68,13 @@ class LeaveSummaryServiceTest extends PHPUnit_Framework_TestCase {
 
     }
 
+}
+
+class MySqlResource {
+
+    public function fetch() {
+        return false;
+    }
 }
 
 ?>
