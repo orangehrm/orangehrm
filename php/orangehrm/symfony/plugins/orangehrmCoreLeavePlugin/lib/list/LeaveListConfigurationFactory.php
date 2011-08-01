@@ -20,6 +20,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'link',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'labelGetter' => array('getLeaveDateRange'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
@@ -32,6 +33,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'link',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'labelGetter' => array('getEmployee', 'getFullName'),
                 'placeholderGetters' => array('id' => 'getEmployeeId'),
@@ -44,6 +46,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array('getter' => array('getLeaveType', 'getDescriptiveLeaveTypeName')),
         ));
 
@@ -52,6 +55,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array('getter' => 'getNumberOfDays'),
         ));
 
@@ -60,6 +64,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '10%',
             'isSortable' => false,
             'elementType' => 'link',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'labelGetter' => array('getStatus'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
@@ -72,6 +77,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '20%',
             'isSortable' => false,
             'elementType' => 'comment',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => 'getLeaveComments',
                 'idPattern' => 'hdnLeaveComment-{id}',
@@ -92,6 +98,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'isSortable' => false,
             'isExportable' => false,
             'elementType' => 'leaveListAction',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'classPattern' => 'select_action quotaSelect',
                 'defaultOption' => array('label' => 'Select Action', 'value' => ''),

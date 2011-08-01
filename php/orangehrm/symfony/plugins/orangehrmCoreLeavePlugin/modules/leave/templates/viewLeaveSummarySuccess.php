@@ -43,7 +43,7 @@
 </tr>
 <tr>
     <td><?php echo __('Employee'); ?></td>
-    <td><?php echo $form['txtEmpName']->render(); ?>
+    <td><?php echo $form['txtEmpName']->render(array('style' => 'text-align:left')); ?>
         <div class="typeHint"><?php echo __('Type for hints'); ?>...</div>
         <?php echo $form['cmbEmpId']->render(); ?>
     </td>

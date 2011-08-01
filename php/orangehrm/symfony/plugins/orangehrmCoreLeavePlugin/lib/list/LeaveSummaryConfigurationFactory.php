@@ -16,6 +16,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '20%',
             'isSortable' => false,
             'elementType' => 'link',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'linkable' => array('isEmployeeDetailsAccessibleTo', array(self::$userId, self::$userType)),
                 'labelGetter' => array('getEmployee', 'getFullName'),
@@ -32,6 +33,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '20%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => array('getLeaveType', 'getDescriptiveLeaveTypeName'),
                 'hasHiddenField' => true,
@@ -49,7 +51,6 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'getter' => 'getNoOfDaysAllotted',
                 'name' => 'txtLeaveEntitled[]',
-                'classPattern' => 'formInputText',
                 'readOnly' => (self::$userType != Users::USER_TYPE_ADMIN),
             ),
         ));

@@ -19,6 +19,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array('getter' => 'getLeaveDate'),
         ));
 
@@ -27,6 +28,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => array('getLeaveRequest', 'getLeaveType',  'getDescriptiveLeaveTypeName'),
                 'hideIfCallback' => 'isNonWorkingDay',
@@ -38,6 +40,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array('getter' => 'getLeaveLengthHours', 'hideIfCallback' => 'isNonWorkingDay'),
         ));
 
@@ -46,6 +49,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '10%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => array('getTextLeaveStatus'),
                 'default' => 'Non Working Day',
@@ -65,6 +69,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '20%',
             'isSortable' => false,
             'elementType' => 'comment',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => 'getLeaveComments',
                 'idPattern' => 'hdnLeaveComment-{id}',
@@ -85,6 +90,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'isSortable' => false,
             'isExportable' => false,
             'elementType' => 'selectSingle',
+            'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'classPattern' => 'select_action quotaSelect',
                 'defaultOption' => array('label' => 'Select Action', 'value' => ''),

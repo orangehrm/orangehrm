@@ -85,7 +85,7 @@ class ohrmListComponent extends sfComponent {
 
     protected function makePluginCalls() {
         $definitionsFromPlugins = $this->getDefinitionsFromPlugins();
-        $calls = $definitionsFromPlugins['calls'];
+        $calls = isset($definitionsFromPlugins['calls']) ? $definitionsFromPlugins['calls'] : '';
 
         if (!empty($calls)) {
             foreach ($calls as $subjectClass => $methodCalls) {

@@ -19,17 +19,21 @@ function renderActionBar($buttons, $condition = true) {
 }
 
 function printAssetPaths($assets, $assestsPath = '') {
-    foreach ($assets as $key => $asset) {
-        $assetType = substr($asset, strrpos($asset, '.') + 1);
 
-        if ($assestsPath == '') {
-            echo javascript_include_tag($asset);
-        } elseif ($assetType == 'js') {
-            echo javascript_include_tag($assestsPath . 'js/' . $asset);
-        } elseif ($assetType == 'css') {
-            echo stylesheet_tag($assestsPath . 'css/' . $asset);
-        } else {
-            echo $assetType;
+    if (count($assets) > 0) {
+        
+        foreach ($assets as $key => $asset) {
+            $assetType = substr($asset, strrpos($asset, '.') + 1);
+
+            if ($assestsPath == '') {
+                echo javascript_include_tag($asset);
+            } elseif ($assetType == 'js') {
+                echo javascript_include_tag($assestsPath . 'js/' . $asset);
+            } elseif ($assetType == 'css') {
+                echo stylesheet_tag($assestsPath . 'css/' . $asset);
+            } else {
+                echo $assetType;
+            }
         }
     }
 }
@@ -51,8 +55,16 @@ function printButtonEventBindings($buttons) {
     <?php } ?>
 
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
-        <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE); ?>
-        <?php renderActionBar($extraButtons); ?><br class="clear" />
+        <?php
+
+            if (isset($buttons)) {
+                renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE);
+            }
+
+            if (isset($extraButtons)) {
+                renderActionBar($extraButtons);
+            }
+        ?><br class="clear" />
         <?php if ($pager->haveToPaginate()) { ?>
         <div class="navigationHearder">
             <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>
@@ -111,7 +123,7 @@ function printButtonEventBindings($buttons) {
                             );
                         }
                     ?>
-                        <th><?php echo $headerCell->__toString(); ?></th>
+                        <th style="text-align: <?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $headerCell->__toString(); ?></th>
                     <?php } ?>
                 </tr>
             </thead>
@@ -153,7 +165,7 @@ function printButtonEventBindings($buttons) {
                                 $cell->setProperties($properties);
                                 $cell->setDataObject($object);
                     ?>
-                                <td><?php echo $cell->__toString(); ?></td>
+                                <td style="text-align: <?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $cell->__toString(); ?></td>
                     <?php
                             }
                     ?>
@@ -184,8 +196,14 @@ function printButtonEventBindings($buttons) {
 
 <?php
     $assestsPath = "../{$pluginName}/";
-    printAssetPaths($assets, $assestsPath);
-    printAssetPaths($extraAssets);
+
+    if (isset($assets)) {
+        printAssetPaths($assets, $assestsPath);
+    }
+
+    if (isset($extraAssets)) {
+        printAssetPaths($extraAssets);
+    }
 ?>
 
 <script type="text/javascript">
