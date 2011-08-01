@@ -450,12 +450,12 @@ class AssignLeaveForm extends sfForm {
                 }
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                array_push($jsonArray,"{name:\"".$name."\",id:\"".$employee->getEmpNumber()."\",workShift:\"" . $workShiftLength . "\"}");
+                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
             }
 
         }
 
-        $jsonString = " [".implode(",",$jsonArray)."]";
+        $jsonString = json_encode($jsonArray);
 
         return $jsonString;
 

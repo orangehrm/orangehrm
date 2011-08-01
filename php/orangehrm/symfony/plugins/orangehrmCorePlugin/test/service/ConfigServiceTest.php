@@ -252,7 +252,8 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
             $this->configService->setShowPimTaxExemptions(false);      
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('CoreServiceException', $e);
+            //$this->assertInstanceOf('CoreServiceException', $e);
+            $this->assertTrue($e instanceof CoreServiceException);
         }
         
     }
@@ -294,7 +295,8 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
             $returnVal = $this->configService->showPimTaxExemptions();
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('CoreServiceException', $e);
+            //$this->assertInstanceOf('CoreServiceException', $e);
+            $this->assertTrue($e instanceof CoreServiceException);
         }
 
         
