@@ -87,11 +87,12 @@ class LeaveSummaryDao extends BaseDao {
 
         $q .= " ORDER By a.emp_number, b.leave_type_id";
 
-        $limitArray = array(20, 50, 100, 200);
-
-        if (!in_array($limit, $limitArray)) {
-            $limit = 20;
-        }
+        // Removed - To make it compatible with CSV/PDF export plugins
+        //        $limitArray = array(20, 50, 100, 200);
+        //
+        //        if (!in_array($limit, $limitArray)) {
+        //            $limit = 20;
+        //        }
 
         $q .= " LIMIT $offset,$limit";
 

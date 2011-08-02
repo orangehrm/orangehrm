@@ -241,7 +241,9 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         ohrmListComponent::setNumberOfRecords($recordCount);
         $offset = $page * sfConfig::get('app_items_per_page');
 
-        $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $retrievalMethod, $retrievalParams, $offset, sfConfig::get('app_items_per_page'));
+        $retrievalParams[1] = 0;
+        $retrievalParams[2] = true;
+        $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $retrievalMethod, $retrievalParams);
     }
 
     protected function getLeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest) {

@@ -95,10 +95,10 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         ohrmListComponent::setItemsPerPage($noOfRecords);
         ohrmListComponent::setNumberOfRecords($totalRecordsCount);
 
-        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', array(
-            $this->form->getSearchClues(),
-            $offset,
-            $noOfRecords
+        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', 
+            array($this->form->getSearchClues(),
+            0,
+            $totalRecordsCount
         ));
 
     }

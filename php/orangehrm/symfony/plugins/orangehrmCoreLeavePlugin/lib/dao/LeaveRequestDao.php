@@ -244,7 +244,7 @@ class LeaveRequestDao extends BaseDao {
 	 * @param int $page
 	 * @return array
 	 */
-	public function searchLeaveRequests($searchParameters, $page = 1) {
+	public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false) {
 		$this->_markApprovedLeaveAsTaken();
 		
 		$limit = sfConfig::get('app_items_per_page');
@@ -310,12 +310,16 @@ class LeaveRequestDao extends BaseDao {
 
 		$count = $q->count();
 
-		$q->offset($offset);
-		$q->limit($limit);
+                if ($isCSVPDFExport) {
+                    $limit = $count;
+                    $offset = 0;
+                }
+                $q->offset($offset);
+                $q->limit($limit);
 
 		$list = $q->execute();
 
-		return array('list' => $list, 'meta' => array('record_count' => $count));
+		return $isCSVPDFExport ? $list : array('list' => $list, 'meta' => array('record_count' => $count));
 	}
 
 	/**
