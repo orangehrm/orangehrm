@@ -505,7 +505,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
         $subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "./symfony/web/index.php/leave/applyLeave",'rightMenu');
 	}
 
-    if (file_exists('symfony/plugins/ohrmLeaveCalendarPlugin/config/ohrmLeaveCalendarPluginConfiguration.class.php')) {//if plugin is installed
+    if (file_exists('symfony/plugins/orangehrmLeaveCalendarPlugin/config/orangehrmLeaveCalendarPluginConfiguration.class.php')) {//if plugin is installed
     $subs[] = new MenuItem("leavelist",$plugin_leave_Calendar, './symfony/web/index.php/leavecalendar/showLeaveCalendar', 'rightMenu');
     }
 	/* Emptying the leave menu items if leave period is not defined */
