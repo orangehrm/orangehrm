@@ -336,7 +336,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
         $this->getUser()->setAttribute('persistant.exportFileName', 'leave-list');
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave List');
-        $this->getUser()->setAttribute('persistant.exportDocumentDescription', '');
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at '.date('Y-m-d H:i'));
 
     }
 

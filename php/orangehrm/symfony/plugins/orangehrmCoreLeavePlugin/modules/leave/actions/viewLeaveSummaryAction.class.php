@@ -161,7 +161,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
         $this->getUser()->setAttribute('persistant.exportFileName', 'leave-summary');
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave Summary');
-        $this->getUser()->setAttribute('persistant.exportDocumentDescription', '');
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at '.date('Y-m-d H:i'));
 
     }
 }
