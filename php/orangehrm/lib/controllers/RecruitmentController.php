@@ -311,7 +311,7 @@ class RecruitmentController {
 			}
 
 			$empInfo = new EmpInfo;
-			$jobTitle = new JobTitle();
+			$jobTitle = new eimadmin_JobTitle();
 			$jobTitles = $jobTitle->getJobTit();
 
 			$objs['vacancy'] = $vacancy;

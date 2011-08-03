@@ -105,7 +105,7 @@ class JobTitleTest extends PHPUnit_Framework_TestCase {
         $before = $this->_getCount();
         
         // Add job title without spec
-        $jobTitle = new JobTitle();
+        $jobTitle = new eimadmin_JobTitle();
         $jobTitle->setJobName('Director');
         $jobTitle->setJobDesc('Director Description');
         $jobTitle->setJobComm('Director comments');
@@ -128,7 +128,7 @@ class JobTitleTest extends PHPUnit_Framework_TestCase {
                 "sal_grd_code = 'SAL001' AND jobspec_id = 1"));
                         
         // Add job title with spec
-        $jobTitle = new JobTitle();
+        $jobTitle = new eimadmin_JobTitle();
         $jobTitle->setJobName('Manager');
         $jobTitle->setJobDesc('Manager Description');
         $jobTitle->setJobComm('Manager comments');
@@ -156,7 +156,7 @@ class JobTitleTest extends PHPUnit_Framework_TestCase {
     public function testFilterJobTitles() {
         
         // retrieve job title with job spec defined
-        $jobTitle = new JobTitle();
+        $jobTitle = new eimadmin_JobTitle();
         $result = $jobTitle->filterJobTitles('JOB002');
         $this->_validateJobTitle($result, 'JOB002', 'Typist', 'Typist Desc', 'Typist comments', 'SAL002', 1);        
 

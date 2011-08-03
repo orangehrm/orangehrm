@@ -39,7 +39,7 @@ class EXTRACTOR_JobTitle {
      * @return JobTitle object
      */
     private function _parseCommonData($postArr) {
-        $jobTitle = new JobTitle();
+        $jobTitle = new eimadmin_JobTitle();
         $jobTitle->setJobName(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleName'])));
         $jobTitle->setJobDesc(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleDesc'])));
         $jobTitle->setJobComm(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleComments'])));

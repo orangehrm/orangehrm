@@ -2995,7 +2995,7 @@ class EmpInfo {
      */
     public function isManager($empNumber) {
 
-        return $this->checkEmpJobTitle($empNumber, JobTitle::MANAGER_JOB_TITLE_NAME);
+        return $this->checkEmpJobTitle($empNumber, eimadmin_JobTitle::MANAGER_JOB_TITLE_NAME);
     }
 
     /**
@@ -3006,7 +3006,7 @@ class EmpInfo {
      */
     public function isDirector($empNumber) {
 
-        return $this->checkEmpJobTitle($empNumber, JobTitle::DIRECTOR_JOB_TITLE_NAME);
+        return $this->checkEmpJobTitle($empNumber, eimadmin_JobTitle::DIRECTOR_JOB_TITLE_NAME);
     }
 
     /**

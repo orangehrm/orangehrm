@@ -86,7 +86,7 @@ function fetchJobSpecInfo($value) {
 	$lan = new Language();
 	require ($lan->getLangPath("full.php"));
 
-   $jobTitle=new JobTitle();
+   $jobTitle=new eimadmin_JobTitle();
    $status=$jobTitle->getJobStatusFromTitle($value);
 
    $stat[]=array(0 => '', 1 => '0', 2 => "-- {$lang_hremp_selempstat} --");

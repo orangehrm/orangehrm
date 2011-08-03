@@ -1604,7 +1604,7 @@ class EmpViewController {
 							$nationinfo = new NationalityInfo();
 							$location = new models_eimadmin_Location();
 							$distric = new DistrictInfo();
-							$jobtit = new JobTitle();
+							$jobtit = new eimadmin_JobTitle();
 
 							$depen = new EmpDependents();
 
@@ -1802,7 +1802,7 @@ class EmpViewController {
 
 					    	$empbassal = new EmpBasSalary();
 					    	$currTyp = new CurrencyTypes();
-					    	$jobtit = new JobTitle();
+					    	$jobtit = new eimadmin_JobTitle();
 					    	$salgradelist = new SalaryGrades();
 
 					    	$form_creator->popArr['salgradelist'] = $salgradelist->getSalGrades(true);

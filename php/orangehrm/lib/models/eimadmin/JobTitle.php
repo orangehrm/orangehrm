@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
-class JobTitle {
+class eimadmin_JobTitle {
 
     const MANAGER_JOB_TITLE_NAME = 'Manager';
     const DIRECTOR_JOB_TITLE_NAME = 'Director';

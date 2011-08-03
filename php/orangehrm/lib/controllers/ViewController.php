@@ -289,7 +289,7 @@ class ViewController {
 
         	case 'JOB' :
 
-        		$this->jobtit = new JobTitle();
+        		$this->jobtit = new eimadmin_JobTitle();
         		$res = $this->jobtit->delJobTitles($arrList);
         		if ($res) {
         		    $empInfo = new EmpInfo();
@@ -560,7 +560,7 @@ class ViewController {
 
 		case 'JOB' :
 
-			$this->jobtit = new JobTitle();
+			$this->jobtit = new eimadmin_JobTitle();
 			$message = $this->jobtit->getListofJobTitles($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
@@ -964,7 +964,7 @@ class ViewController {
 
 		case 'JOB' :
 
-			$this->jobtit = new JobTitle();
+			$this->jobtit = new eimadmin_JobTitle();
 			$message = $this->jobtit->countJobTitles($schStr,$mode);
 			return $message;
 
@@ -1356,7 +1356,7 @@ class ViewController {
                            $tokenGenerator->setKeyGenerationInput($screenParam);
                            $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
                            
-                           $jobtit = new JobTitle();
+                           $jobtit = new eimadmin_JobTitle();
 									$jobtit = $object;
                            $res = false;
                            //if($token == $_POST['token']) {
@@ -2047,7 +2047,7 @@ class ViewController {
                            $tokenGenerator->setKeyGenerationInput($screenParam);
                            $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
 
-                           $jobtit = new JobTitle();
+                           $jobtit = new eimadmin_JobTitle();
 									$jobtit = $object;
                            $res = false;
                            //if($token == $_POST['token']) {
@@ -3840,7 +3840,7 @@ class ViewController {
                      $tokenGenerator->setKeyGenerationInput($screenParam);
                      $token = $tokenGenerator->getCSRFToken(array_keys($screenParam));
                      
-							$jobtitle = new JobTitle();
+							$jobtitle = new eimadmin_JobTitle();
 							$paygrade = new SalaryGrades();
 							$jobtit_empstat = new JobTitEmpStat();
 
@@ -4201,7 +4201,7 @@ class ViewController {
 
         if (CommonFunctions::isValidId($jobTitleCode, 'JOB')) {
 
-            $jobTitle = new JobTitle();
+            $jobTitle = new eimadmin_JobTitle();
             $jobTitles = $jobTitle->filterJobTitles($jobTitleCode);
             if (is_array($jobTitles) && (count($jobTitles) == 1)) {
                 $jobSpecId = $jobTitles[0][5];

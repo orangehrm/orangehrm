@@ -56,7 +56,7 @@ $formatData['newSeparater'] = '/';
                 		
                 		$jobName = $job->getName();
                 		
-                		if ($job->getIsActive() == JobTitle::JOB_STATUS_DELETED) {
+                		if ($job->getIsActive() == eimadmin_JobTitle::JOB_STATUS_DELETED) {
                 		    $jobName = $jobName.' ('.__('Deleted').')';
                 		}
                 		

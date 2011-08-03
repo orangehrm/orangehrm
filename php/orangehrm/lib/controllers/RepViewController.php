@@ -346,7 +346,7 @@ class RepViewController {
 							$report = new EmpReport();
 							$empinfo = new EmpInfo();
 							$edu = new Education();
-							$jobtit   = new JobTitle();
+							$jobtit   = new eimadmin_JobTitle();
 							$salgrd = new SalaryGrades();
 							$empstat = new EmploymentStatus();
 							$langObj = new LanguageInfo();
