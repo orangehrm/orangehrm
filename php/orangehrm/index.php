@@ -363,8 +363,8 @@ if ($_SESSION['isAdmin']=='Yes' || $arrAllRights[Admin]['view']) {
   		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
   	}
 
-        if (file_exists('symfony/plugins/orangehrmAuditTrailPlugin/config/settings.yml')) {//if plugin is installed
-            $subs[] = new MenuItem("leavelist", 'Audit Trail', './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
+        if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmAuditTrailPlugin') && $arrAllRights[Admin]['view']) {
+            $subs[] = new MenuItem('audittrail', 'Audit Trail', './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
         }
 
 	$menuItem->setSubMenuItems($subs);
