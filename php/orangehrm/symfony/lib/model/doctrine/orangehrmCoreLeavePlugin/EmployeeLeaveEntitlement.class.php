@@ -15,6 +15,7 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
     private static $leaveRequestDao;
     private $leaveScheduled;
     private $leaveTaken;
+    private $editableLeaveTypeIds;
 
     public function __construct($table = null, $isNewEntry = false) {
         parent::__construct($table, $isNewEntry);
@@ -93,6 +94,49 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Is leave type editable?
+     *
+     * @param int $leaveTypeId Leave type ID
+     * @return bool true if leave type is editable, false if not
+     */
+    public function isLeaveTypeEditable($leaveTypeId) {
+
+        if (!is_dir('../plugins/orangehrmAdvancedLeavePlugin')) {
+            return true;
+        }
+
+        if (empty($this->editableLeaveTypeIds)) {
+            $this->editableLeaveTypeIds = $this->_getEditableLeaveTypesIds();
+        }
+
+        return in_array($leaveTypeId, $this->editableLeaveTypeIds);
+    }
+
+    /**
+     * Get editable leave types:
+     * @return <type>
+     */
+    private function _getEditableLeaveTypesIds() {
+
+        $editableLeaveTypeIds = array();
+        $leaveTypeService = new LeaveTypeService();
+        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
+        $leaveTypeList = $leaveTypeService->getLeaveTypeList();
+
+        $leaveTypeRuleService = new LeaveTypeRuleService();
+
+        foreach ($leaveTypeList as $leaveType) {
+            $leaveTypeRule = $leaveTypeRuleService->getLeaveTypeRuleFromXML($leaveType->getLeaveRules());
+            if ($leaveTypeRule->getLeaveEntitlementRule()->getIsAdminAdjust() == 1) {
+                $editableLeaveTypeIds[] = $leaveType->getLeaveTypeId();
+            }
+        }
+
+        return $editableLeaveTypeIds;
+
     }
 
     protected static function init() {
