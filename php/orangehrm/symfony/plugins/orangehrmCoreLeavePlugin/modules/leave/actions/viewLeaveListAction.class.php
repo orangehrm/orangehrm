@@ -65,7 +65,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         }
         
         if ($request->getParameter('pageNo')) {
-            $this->_setPage($mode, $request->getParameter('pageNo'));
+            $pageNo = $request->getParameter('hdnAction') == 'search'? 1 : $request->getParameter('pageNo', 1);
+            $this->_setPage($mode, $pageNo);
         }
 
         // Reset filters if requested to
@@ -239,6 +240,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         ohrmListComponent::setListData($list);
         ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
         ohrmListComponent::setNumberOfRecords($recordCount);
+        ohrmListComponent::$pageNumber = $page;
         $offset = $page * sfConfig::get('app_items_per_page');
 
         $retrievalParams[1] = 0;

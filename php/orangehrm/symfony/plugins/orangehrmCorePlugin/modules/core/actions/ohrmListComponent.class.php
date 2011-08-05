@@ -6,12 +6,18 @@ class ohrmListComponent extends sfComponent {
     private static $listData;
     private static $itemsPerPage;
     private static $numberOfRecords;
+    public static $pageNumber = 0;
 
     public function execute($request) {
         $this->setTemplateVariables();
 
         $recordsLimit = self::$itemsPerPage;//sfConfig::get('app_items_per_page');
-        $pageNo = $request->getParameter('pageNo', 1);
+
+        if (self::$pageNumber) {
+            $pageNo = self::$pageNumber;
+        } else {
+            $pageNo = $request->getParameter('pageNo', 1);
+        }
 
         $numberOfRecords = self::$numberOfRecords;//replace with the count of all the records(self::$listData instanceof Doctrine_Collection) ? self::$listData->count() : count(self::$listData); // TODO: Remove the dependancy of ORM here; Use a Countable interface and a Iterator interface
 

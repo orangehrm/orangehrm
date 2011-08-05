@@ -85,7 +85,8 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $clues['loggedUserId'] = $userDetails['loggedUserId'];
         
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
-        $offset = ($request->getParameter('pageNo', 1)-1)*$noOfRecords;
+        $pageNo = $request->getParameter('hdnAction') == 'search'? 1 : $request->getParameter('pageNo', 1);
+        $offset = ($pageNo - 1)*$noOfRecords;
 
         $listData = $leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $noOfRecords);
         $totalRecordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
@@ -94,6 +95,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         ohrmListComponent::setListData($listData);
         ohrmListComponent::setItemsPerPage($noOfRecords);
         ohrmListComponent::setNumberOfRecords($totalRecordsCount);
+        ohrmListComponent::$pageNumber = $pageNo;
 
         $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', 
             array($this->form->getSearchClues(),
