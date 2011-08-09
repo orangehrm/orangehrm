@@ -7,8 +7,8 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
         $header1 = new ListHeader();
         $header2 = new ListHeader();
         $header3 = new ListHeader();
-        $header4 = new ListHeader();
-        $header5 = new ListHeader();
+        $header4 = new LeaveSummaryLinkHeader();
+        $header5 = new LeaveSummaryLinkHeader();
         $header6 = new ListHeader();
 
         $header1->populateFromArray(array(
@@ -59,7 +59,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Scheduled (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'link',
+            'elementType' => 'leaveSummaryLink',
             'elementProperty' => array(
                 'getter' => 'getLeaveScheduled',
                  /* FIXME: This hidden field is added because the old leave 
@@ -73,6 +73,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
                 'hasHiddenField' => true,
                 'hiddenFieldName' => 'hdnLeavePeriodId[]',
                 'hiddenFieldValueGetter' => 'getLeavePeriodId',
+                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}',
             ),
         ));
 
@@ -80,13 +81,14 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Taken (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'link',
+            'elementType' => 'leaveSummaryLink',
             'elementProperty' => array(
                 'getter' => 'getLeaveTaken',
                 'linkable' => array('isThereLeaveTaken', array()),
                 'labelGetter' => array('getLeaveTaken'),
                 'placeholderGetters' => array('id' => 'getEmployeeId', 'lty' => 'getLeaveTypeId', 'lpi' => 'getLeavePeriodId'),
                 'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=3&leavePeriodId={lpi}',
+                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=3&leavePeriodId={lpi}',
              ),
         ));
 
