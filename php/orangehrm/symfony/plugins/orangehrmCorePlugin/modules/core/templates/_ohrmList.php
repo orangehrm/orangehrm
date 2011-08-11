@@ -51,7 +51,7 @@ function printButtonEventBindings($buttons) {
 ?>
 <div class="outerbox">
     <?php if (!empty ($title)) { ?>
-    <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
+    <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
     <?php } ?>
 
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
