@@ -27,7 +27,18 @@ class orangehrmCorePluginAllTests {
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/service/ConfigServiceTest.php');
 
-        
+        /* Factory Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/factory/SimpleUserRoleFactoryTest.php');
+
+        /* AccessFlowStateMachine Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/AccessFlowStateMachineDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/AccessFlowStateMachineServiceTest.php');
+
+        /* ReportGenerator Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/ReportableDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/ReportableServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/ReportGeneratorServiceTest.php');
+
         return $suite;
 
     }

@@ -20,6 +20,56 @@
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
+session_start();
+
+/**
+ * This if case checks whether the user is logged in. If so it will decorate User object with the user's user role.
+ * This decorated user object is only used to determine menu accessibility. This decorated user object should not be
+ * used for any other purposess. This if case will be dicarded when the whole system is converted to symfony.
+ */
+if (file_exists('symfony/config/databases.yml')) {
+    if (isset($_SESSION['user'])) {
+
+        define('SF_APP_NAME', 'orangehrm');
+        define('SF_ENV', 'prod');
+        define('SF_CONN', 'doctrine');
+
+
+        require_once(dirname(__FILE__) . '/symfony/config/ProjectConfiguration.class.php');
+        $configuration = ProjectConfiguration::getApplicationConfiguration(SF_APP_NAME, 'prod', true);
+        new sfDatabaseManager($configuration);
+        $context = sfContext::createInstance($configuration);
+
+        if ($_SESSION['isAdmin'] == "Yes") {
+            $userRoleArray['isAdmin'] = true;
+        } else {
+            $userRoleArray['isAdmin'] = false;
+        }
+
+        $userRoleArray['isSupervisor'] = $_SESSION['isSupervisor'];
+
+        if ($_SESSION['empNumber'] == null) {
+            $userRoleArray['isEssUser'] = false;
+        } else {
+            $userRoleArray['isEssUser'] = true;
+        }
+
+        $userObj = new User();
+
+        $simpleUserRoleFactory = new SimpleUserRoleFactory();
+        $decoratedUser = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
+        $decoratedUser->setEmployeeNumber($_SESSION['empNumber']);
+        $decoratedUser->setUserId($_SESSION['user']);
+
+        $accessibleTimeMenuItems = $decoratedUser->getAccessibleTimeMenus();
+        $accessibleTimeSubMenuItems = $decoratedUser->getAccessibleTimeSubMenus();
+
+        $attendanceMenus = $decoratedUser->getAccessibleAttendanceSubMenus();
+        $reportsMenus = $decoratedUser->getAccessibleProjectSubMenus();
+
+    }
+}
+
 ob_start();
 
 define('ROOT_PATH', dirname(__FILE__));
@@ -29,7 +79,6 @@ if(!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 	exit ();
 }
 
-session_start();
 if(!isset($_SESSION['fname'])) {
 
 	header("Location: ./login.php");
@@ -178,32 +227,39 @@ if (!$leavePeriodDefined) {
 	}
 }
 
+
+
+
+
 // Time module default pages
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
-	if ($_SESSION['timePeriodSet'] == 'Yes') {
-	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
-	} else {
-		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
-	}
+    if ($_SESSION['timePeriodSet'] == 'Yes') {
+        $timeHomePage = './symfony/web/index.php/time/viewMyTimeTimesheet';
+    } else {
+        $timeHomePage = './symfony/web/index.php/time/defineTimesheetPeriod';
+    }
 
-	$timesheetPage = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
-
+    $timesheetPage = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
 } else {
-	if ($_SESSION['timePeriodSet'] == 'Yes') {
-	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
-	} else {
-		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
-	}
+    if ($_SESSION['timePeriodSet'] == 'Yes') {
+        $timeHomePage = './symfony/web/index.php/time/viewEmployeeTimesheet';
+    } else {
+        $timeHomePage = './symfony/web/index.php/time/defineTimesheetPeriod';
+    }
 
-	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
+    $timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
 /* Attendance Default Page */
-if ($authorizeObj->isAdmin()) {
-	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report';
-} else {
-	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report';
-}
+//if ($authorizeObj->isAdmin()) {
+//	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report';
+//} else {
+//	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report';
+//}
+
+
+
+
 
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
@@ -215,13 +271,23 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$personalHspSummary = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee_Admin';
 }
 
+
+
+
+
+
 if ($authorizeObj->isESS()) {
-	if ($_SESSION['timePeriodSet'] == 'Yes') {
-	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_View';
-	} else {
-		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
-	}
+    if ($_SESSION['timePeriodSet'] == 'Yes') {
+        $timeHomePage = './symfony/web/index.php/attendance/punchIn';
+    } else {
+        $timeHomePage = './symfony/web/index.php/time/defineTimesheetPeriod';
+    }
 }
+
+
+
+
+
 
 if ($authorizeObj->isAdmin()) {
     $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
@@ -523,79 +589,60 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
 /* Start time menu */
 if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
-	$menuItem = new MenuItem("time", $lang_Menu_Time ,"./index.php?menu_no_top=time");
-	$menuItem->setCurrent($_GET['menu_no_top']=="time");
+    $menuItem = new MenuItem("time", $lang_Menu_Time, "./index.php?menu_no_top=time");
+    $menuItem->setCurrent($_GET['menu_no_top'] == "time");
 
-	/* Only show rest of menu if time period set */
-	if ($_SESSION['timePeriodSet'] == "Yes") {
-		$subs = array();
+    /* Only show rest of menu if time period set */
+    if ($_SESSION['timePeriodSet'] == "Yes" && file_exists('symfony/config/databases.yml')) {
+        $subs = array();
 
-		$sub = new MenuItem("timesheets", $lang_Menu_Time_Timesheets, $timesheetPage);
+        // modified under restructure time menu story
 
-		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
+        $subsubs = array();
+        $subsubs1 = array();
+        if ($accessibleTimeMenuItems != null) {
+            foreach ($accessibleTimeMenuItems as $ttt) {
 
-			$subsubs = array();
+                $sub = new MenuItem("timesheets", $ttt->getDisplayName(), $ttt->getLink(), 'rightMenu');
 
-			if ($authorizeObj->isESS()) {
-				$timesheetLink = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
-				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, $timesheetLink);
-			}
+                if ($ttt->getDisplayName() == "Timesheets") {
 
-			if (($authorizeObj->isAdmin() && $arrAllRights[TimeM]['view']) || $authorizeObj->isSupervisor()) {
-				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
-				$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_EmployeeTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee");
-			}
-			$sub->setSubMenuItems($subsubs);
-		}
+                    foreach ($accessibleTimeSubMenuItems as $ctm) {
 
-		$subs[] = $sub;
+                        $subsubs[] = new MenuItem("timesheets", $ctm->getDisplayName(), $ctm->getLink());
+                    }
 
-		/* Attendance Menu Items: Begin */
+                    $sub->setSubMenuItems($subsubs);
+                }
+                if ($ttt->getDisplayName() == "Attendance") {
 
-		$attendance = new MenuItem("timesheets", $lang_Time_Menu_Attendacne, $attendanceDefault);
+                    foreach ($attendanceMenus as $ptm) {
+                        $subsubs0[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
+                    }
 
-		$attsubs = array();
+                    $sub->setSubMenuItems($subsubs0);
+                }
 
-		if ($authorizeObj->isESS()) {
-	    	$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_PunchInOut, "lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_View");
-	        $attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_MyReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report");
-		}
+                if ($ttt->getDisplayName() == "Reports") {
 
-		if (($authorizeObj->isAdmin() && $arrAllRights[TimeM]['view']) || $authorizeObj->isSupervisor()) {
-			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_EmployeeReports, "lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report");
-		}
+                    foreach ($reportsMenus as $ptm) {
+                        $subsubs1[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
+                    }
 
-		if ($authorizeObj->isAdmin() && $arrAllRights[TimeM]['edit']) {
-			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");
-		}
+                    $sub->setSubMenuItems($subsubs1);
+                }
 
-		$attendance->setSubMenuItems($attsubs);
-		$subs[] = $attendance;
 
-		/* Attendance Menu Items: End */
 
-		/*if ($authorizeObj->isESS()) {
-	        $subs[] = new MenuItem("projectTime", $lang_Menu_Time_ProjectTime, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");
-		}*/
 
-		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
-	    if ($authorizeObj->firstRole($allowedRoles) && $arrAllRights[TimeM]['view']) {
-			$subs[] = new MenuItem("employeereports",$lang_Menu_Time_EmployeeReports , "lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define");
-	    }
+                $subs[] = $sub;
+            }
+        }
 
-	    // && $arrAllRights[TimeM]['view'] - was removed from the condition so that project admins can see the menu
-		if ((($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin'])) {
-			$subs[] = new MenuItem("projectreports",$lang_Menu_Time_ProjectReports, "lib/controllers/CentralController.php?timecode=Time&action=Project_Report_Define");
-		}
-
-		if ($_SESSION['isAdmin']=='Yes' && $arrAllRights[TimeM]['view']) {
-			$subs[] = new MenuItem("workshifts", $lang_Menu_Time_WorkShifts, "lib/controllers/CentralController.php?timecode=Time&action=View_Work_Shifts");
-		}
-
-		$menuItem->setSubMenuItems($subs);
-	}
-	$menu[] = $menuItem;
-}
+        $menuItem->setSubMenuItems($subs);
+    }
+    $menu[] = $menuItem;
+}        
 
 /* Start benefits menu */
 if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {

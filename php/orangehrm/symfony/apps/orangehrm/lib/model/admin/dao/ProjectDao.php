@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ProjectDao class to have CRUD operation with datasource
  *
@@ -24,6 +25,108 @@ class ProjectDao extends BaseDao {
          throw new DaoException($e->getMessage());
       }
    }
+
+/**
+     * Retrieve Active Projects
+     * @param string $orderField
+     * @param string $orderBy
+     * @return Project[]
+     */
+    public function getActiveProjectList($orderField='project_id', $orderBy='ASC') {
+        try {
+            $q = Doctrine_Query::create()
+                            ->from('Project')
+                            ->where('deleted = ?', 0)
+                            ->orderBy($orderField . ' ' . $orderBy);
+
+            $projectList = $q->execute();
+
+            if ($projectList[0]->getName() == null) {
+                return null;
+            }
+
+            return $projectList;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve active projects given project ids.
+     * @param integer[] $projectIdArray
+     * @param string $orderField
+     * @param string $orderBy
+     * @return Project[]
+     */
+    public function getActiveProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
+        try {
+            $q = Doctrine_Query::create()
+                            ->from('Project')
+                            ->where('deleted = ?', 0)
+                            ->andWhereIn('project_id', $projectIdArray)
+                            ->orderBy($orderField . ' ' . $orderBy);
+
+            $projectList = $q->execute();
+
+            if ($projectList[0]->getName() == null) {
+                return null;
+            }
+
+            return $projectList;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve all projects given project ids.
+     * @param integer[] $projectIdArray
+     * @param string $orderField
+     * @param string $orderBy
+     * @return Project[]
+     */
+    public function getAllProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
+        try {
+            $q = Doctrine_Query::create()
+                            ->from('Project')
+                            ->whereIn('project_id', $projectIdArray)
+                            ->orderBy($orderField . ' ' . $orderBy);
+
+            $projectList = $q->execute();
+
+            if ($projectList[0]->getName() == null) {
+                return null;
+            }
+
+            return $projectList;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieves records from project admin table given employee number.
+     * @param integer $empNo
+     * @return ProjectAdmin[]
+     */
+    public function getProjectAdminRecordsByEmpNo($empNo) {
+        
+        try {
+            $q = Doctrine_Query::create()
+                            ->from('ProjectAdmin')
+                            ->where('emp_number = ?', $empNo);
+            $projectAdmin = $q->execute();
+
+            if ($projectAdmin[0]->getProjectId() == null) {
+                return null;
+            }
+
+            return $projectAdmin;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
 
    /**
     * Saves Project. This has to be updated to use Project entity class

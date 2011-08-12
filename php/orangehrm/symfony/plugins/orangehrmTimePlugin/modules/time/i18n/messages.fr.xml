@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+    <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+        <header/>
+        <body>
+            <trans-unit id="124">
+                <source>Add Row</source>
+                <target>FR_Add Row</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>Remove Rows</source>
+                <target>FR_Remove Rows</target>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>Project Name</source>
+                <target>FR_Project Name</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>Activity Name</source>
+                <target>FR_Activity Name</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Edit timesheet for week starting</source>
+                <target>FR_Edit timesheet for week starting</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -7,7 +7,7 @@ create table `hs_hr_geninfo` (
 
 create table `hs_hr_config` (
 	`key` varchar(100) not null default '',
-	`value` varchar(100) not null default '',
+	`value` varchar(255) not null default '',
 	primary key (`key`)
 ) engine=innodb default charset=utf8;
 
@@ -1003,6 +1003,283 @@ create table `hs_hr_performance_review_comments`(
 	`create_date` date not null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
+
+create table `ohrm_timesheet`(
+  `timesheet_id` bigint(20) not null,
+  `state` varchar(255) not null,
+  `start_date` date not null,
+  `end_date` date not null,
+  `employee_id` bigint(20) not null,
+  primary key  (`timesheet_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_timesheet_item`(
+  `timesheet_item_id` bigint(20) not null,
+  `timesheet_id` bigint(20) not null,
+  `date` date not null,
+  `duration` bigint(20) default null,
+  `comment` varchar(255) default null,
+  `project_id` bigint(20) not null,
+  `employee_id` bigint(20) not null,
+  `activity_id` bigint(20) not null,
+  primary key  (`timesheet_item_id`),
+  key `timesheet_id` (`timesheet_id`),
+  key `activity_id` (`activity_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_timesheet_action_log`(
+  `timesheet_action_log_id` bigint(20) not null,
+  `comment` varchar(255) default null,
+  `action` varchar(255),
+  `date_time` date not null,
+  `performed_by` varchar(255) not null,
+  `timesheet_id` bigint(20) not null,
+  primary key  (`timesheet_action_log_id`),
+  key `timesheet_id` (`timesheet_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_workflow_state_machine`(
+  `id` bigint(20) not null,
+  `workflow` varchar(255) not null,
+  `state` varchar(255) not null,
+  `role` varchar(255) not null,
+  `action` varchar(255) not null,
+  `resulting_state` varchar(255) not null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_attendance_record`(
+  `id` bigint(20) not null,
+  `employee_id` bigint(20) not null,
+  `punch_in_utc_time` datetime ,
+  `punch_in_note` varchar(255),
+  `punch_in_time_offset` varchar(255),
+  `punch_in_user_time` datetime,
+  `punch_out_utc_time` datetime,
+  `punch_out_note` varchar(255),
+  `punch_out_time_offset` varchar(255),
+  `punch_out_user_time` datetime,
+  `state` varchar(255) not null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_report_group` (
+  `report_group_id` bigint(20) not null,
+  `name` varchar(255) not null,
+  `core_sql` mediumtext not null,
+  primary key (`report_group_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_report` (
+  `report_id` bigint(20) not null,
+  `name` varchar(255) not null,
+  `report_group_id` bigint(20) not null,
+  primary key (`report_id`),
+  key `report_group_id` (`report_group_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_filter_field` (
+  `filter_field_id` bigint(20) not null,
+  `report_group_id` bigint(20) not null,
+  `name` varchar(255) not null,
+  `where_clause_part` mediumtext not null,
+  `filter_field_widget` varchar(255),
+  `condition_no` int(20) not null,
+  `type` varchar(255) not null,
+  `required` varchar(10),
+  primary key (`filter_field_id`),
+  key `report_group_id` (`report_group_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_selected_filter_field` (
+  `report_id` bigint(20) not null,
+  `filter_field_id` bigint(20) not null,
+  `filter_field_order` bigint(20) not null,
+  `value` varchar(255) not null,
+  `where_condition` varchar(255) not null,
+  `where_clause` mediumtext not null,
+  primary key (`report_id`,`filter_field_id`),
+  key `report_id` (`report_id`),
+  key `filter_field_id` (`filter_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_display_field` (
+  `display_field_id` bigint(20) not null,
+  `name` varchar(255) not null,
+  `label` varchar(255) not null,
+  `field_alias` varchar(255),
+  `is_sortable` varchar(10) not null,
+  `sort_order` varchar(255),
+  `sort_field` varchar(255),
+  `element_type` varchar(255) not null,
+  `element_property` varchar(1000) not null,
+  `width` varchar(255) not null,
+  `is_exportable` varchar(10),
+  `text_alignment_style` varchar(20),
+  primary key (`display_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_composite_display_field` (
+  `composite_display_field_id` bigint(20) not null,
+  `name` varchar(1000) not null,
+  `label` varchar(255) not null,
+  `field_alias` varchar(255),
+  `is_sortable` varchar(10) not null,
+  `sort_order` varchar(255),
+  `sort_field` varchar(255),
+  `element_type` varchar(255) not null,
+  `element_property` varchar(1000) not null,
+  `width` varchar(255) not null,
+  `is_exportable` varchar(10),
+  `text_alignment_style` varchar(20),
+  primary key (`composite_display_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_available_display_field` (
+  `report_group_id` bigint(20) not null,
+  `display_field_id` bigint(20) not null,
+  primary key (`report_group_id`,`display_field_id`),
+  key `report_group_id` (`report_group_id`),
+  key `display_field_id` (`display_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_group_field` (
+  `group_field_id` bigint(20) not null,
+  `name` varchar(255) not null,
+  `group_by_clause` mediumtext not null,
+  `group_field_widget` varchar(255),
+  primary key (`group_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_available_group_field` (
+  `report_group_id` bigint(20) not null,
+  `group_field_id` bigint(20) not null,
+  primary key (`report_group_id`,`group_field_id`),
+  key `report_group_id` (`report_group_id`),
+  key `group_field_id` (`group_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_selected_display_field` (
+  `id` bigint(20) not null,
+  `display_field_id` bigint(20) not null,
+  `report_id` bigint(20) not null,
+  primary key (`id`,`display_field_id`,`report_id`),
+  key `display_field_id` (`display_field_id`),
+  key `report_id` (`report_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_selected_composite_display_field` (
+  `id` bigint(20) not null,
+  `composite_display_field_id` bigint(20) not null,
+  `report_id` bigint(20) not null,
+  primary key (`id`,`composite_display_field_id`,`report_id`),
+  key `composite_display_field_id` (`composite_display_field_id`),
+  key `report_id` (`report_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_meta_display_field` (
+  `id` bigint(20) not null,
+  `display_field_id` bigint(20) not null,
+  `report_id` bigint(20) not null,
+  primary key (`id`,`display_field_id`,`report_id`),
+  key `display_field_id` (`display_field_id`),
+  key `report_id` (`report_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_summary_display_field` (
+  `summary_display_field_id` bigint(20) not null,
+  `function` varchar(255) not null,
+  `label` varchar(255) not null,
+  `field_alias` varchar(255),
+  `is_sortable` varchar(10) not null,
+  `sort_order` varchar(255),
+  `sort_field` varchar(255),
+  `element_type` varchar(255) not null,
+  `element_property` varchar(1000) not null,
+  `width` varchar(255) not null,
+  `is_exportable` varchar(10),
+  `text_alignment_style` varchar(20),
+  primary key (`summary_display_field_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_selected_group_field` (
+  `group_field_id` bigint(20) not null,
+  `summary_display_field_id` bigint(20) not null,
+  `report_id` bigint(20) not null,
+  primary key (`group_field_id`,`summary_display_field_id`,`report_id`),
+  key `group_field_id` (`group_field_id`),
+  key `summary_display_field_id` (`summary_display_field_id`),
+  key `report_id` (`report_id`)
+) engine=innodb default charset=utf8;
+
+alter table ohrm_available_group_field
+       add constraint foreign key (group_field_id)
+                             references ohrm_group_field(group_field_id);
+
+
+alter table ohrm_available_display_field
+       add constraint foreign key (display_field_id)
+                             references ohrm_display_field(display_field_id);
+
+alter table ohrm_available_display_field
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id);
+
+alter table ohrm_filter_field
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id);
+
+alter table ohrm_selected_group_field
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id);
+
+alter table ohrm_selected_group_field
+       add constraint foreign key (group_field_id)
+                             references ohrm_group_field(group_field_id);
+
+alter table ohrm_selected_group_field
+       add constraint foreign key (summary_display_field_id)
+                             references ohrm_summary_display_field(summary_display_field_id);
+
+alter table ohrm_selected_filter_field
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id);
+
+alter table ohrm_selected_filter_field
+       add constraint foreign key (filter_field_id)
+                             references ohrm_filter_field(filter_field_id);
+
+alter table ohrm_selected_display_field
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id);
+
+alter table ohrm_selected_display_field
+       add constraint foreign key (display_field_id)
+                             references ohrm_display_field(display_field_id);
+
+alter table ohrm_selected_composite_display_field
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id);
+
+alter table ohrm_selected_composite_display_field
+       add constraint foreign key (composite_display_field_id)
+                             references ohrm_composite_display_field(composite_display_field_id);
+
+alter table ohrm_meta_display_field
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id);
+
+alter table ohrm_meta_display_field
+       add constraint foreign key (display_field_id)
+                             references ohrm_display_field(display_field_id);
+
+alter table ohrm_report
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_timesheet_action_log
+       add constraint foreign key (performed_by)
+                             references hs_hr_users(id) on delete cascade;
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)

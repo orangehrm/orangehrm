@@ -6,6 +6,8 @@ exceptionCatcherFilter:
   class: ExceptionCatcherFilter
 i18nFilter:
   class: OrangeI18NFilter
+sessionInfoFetcherFilter:
+  class: SessionInfoFetcherFilter
 
 cache:     ~
 common:

@@ -1,0 +1,56 @@
+## YAML Template.
+---
+Customer:
+  0: {customer_id: 1, name: 'John'}
+
+Project:
+  0: {project_id: 1, customer_id: 1, name: 'NUS'}
+
+ProjectActivity:
+  0: {activity_id: 1, project_id: 1, name: 'Create Schema', deleted: 0}
+  1: {activity_id: 2, project_id: 1, name: 'Build Model', deleted: 0}
+
+ReportGroup:
+  0: {report_group_id: 1, name: 'timesheet', core_join_dql: 'core join'}
+
+Report:
+  0: {report_id: 1, name: 'project report', report_group_id: 1}
+  1: {report_id: 2, name: 'employee report', report_group_id: 1}
+
+FilterField:
+  0: {filter_field_id: 1, report_group_id: 1, name: 'project_name', where_clause_part: 'hs_hr_project.project_id', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, type: 'Rintime'}
+
+SelectedFilterField:
+  0: {report_id: 1, filter_field_id: 1, value: '3000', where_condition: 'greater than', where_clause: 'where salary > 3000'}
+  1: {report_id: 1, filter_field_id: 2, value: 'computer science', where_condition: 'equals', where_clause: 'where department = computer science '}
+  2: {report_id: 2, filter_field_id: 1, value: '4'}
+  3: {report_id: 2, filter_field_id: 2, value: '1'}
+  4: {report_id: 2, filter_field_id: 3, value: '3'}
+  5: {report_id: 2, filter_field_id: 4, value: '2'}
+
+SelectedDisplayField:
+  0: {id: 1, display_field_id: 1, report_id: 1}
+  1: {id: 2, display_field_id: 2, report_id: 1}
+
+MetaDisplayField:
+  0: {id: 1, display_field_id: 1, report_id: 1}
+  1: {id: 2, display_field_id: 2, report_id: 1}
+
+GroupField:
+  0: {group_field_id: 1, name: 'activity id', group_by_clause: 'GROUP BY hs_hr_project_activity.activity_id'}
+
+SelectedGroupField:
+  0: {group_field_id: 1, summary_display_field_id: 1, report_id: 1}
+
+CompositeDisplayField:
+  0: {composite_display_field_id: 1}
+
+SelectedCompositeDisplayField:
+  0: {id: 1, composite_display_field_id: 1, report_id: 3}
+  1: {id: 2, composite_display_field_id: 2, report_id: 3}
+
+
+
+
+
+

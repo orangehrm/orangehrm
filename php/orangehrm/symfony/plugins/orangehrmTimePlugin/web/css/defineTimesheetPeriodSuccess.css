@@ -1,0 +1,31 @@
+/* 
+    Document   : defineTimesheetPeriodSuccess
+    Created on : Jun 29, 2011, 6:21:02 PM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+#startDayLabel{
+
+	vertical-align: top;
+	padding-top: 6px;
+	width: 150px;
+	padding-left: 10px;
+}
+
+label{
+	margin-top: 0px;
+	width: 150px;
+	padding-left: 15px;
+}
+
+.paddingLeftRequired{
+	padding-left: 15px;
+	margin-top: 5px;
+}

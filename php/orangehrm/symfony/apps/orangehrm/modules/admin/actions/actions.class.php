@@ -2445,6 +2445,16 @@ class adminActions extends sfActions {
 
         $this->redirect('admin/listMailConfiguration');
 
+    public function executeGetActivitiesRelatedToAProjectAjax(sfWebRequest $request) {
+
+        $projectId = $request->getParameter("projectId");
+        $timesheetDao = new TimesheetDao();
+
+        if ($projectId == -1) {
+            $this->activityList = "All";
+        } else {
+            $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
+        }
     }
     
 	/**
@@ -2533,10 +2543,17 @@ class adminActions extends sfActions {
 		return $this->renderText(json_encode($minMax));
 	}
     
-    
-    
+       public function executeGetActivitiesRelatedToAProjectAjax(sfWebRequest $request) {
 
-    
+        $projectId = $request->getParameter("projectId");
+        $timesheetDao = new TimesheetDao();
+
+        if ($projectId == -1) {
+            $this->activityList = "All";
+        } else {
+            $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
+        }
+    }
     /**
      * Set message 
      */

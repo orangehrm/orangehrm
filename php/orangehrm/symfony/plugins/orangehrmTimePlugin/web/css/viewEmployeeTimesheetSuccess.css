@@ -1,0 +1,37 @@
+/* 
+    Document   : viewEmployeeTimesheetSuccess
+    Created on : May 5, 2011, 10:44:47 AM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+#tablehead{
+    font-weight: bold;
+}
+
+    
+
+.inputFormatHint {
+    color: #D8D8D8;
+}
+.viewbutton1{
+
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;}

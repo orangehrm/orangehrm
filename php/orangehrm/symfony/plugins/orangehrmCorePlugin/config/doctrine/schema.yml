@@ -27,3 +27,457 @@ Config:
       type: string(100)
       default: ''
       notnull: true      
+
+WorkflowStateMachine:
+  tableName: ohrm_workflow_state_machine
+  columns:
+    id:
+      type: integer
+      primary: true
+    workflow:
+      type: string(255)
+      notnull: true
+    state:
+      type: string(255)
+      notnull: true
+    role:
+      type: string(255)
+      notnull: true
+    action:
+      type: string(255)
+      notnull: true
+    resulting_state:
+      name: resulting_state as resultingState
+      type: string(255)
+      notnull: true
+
+ReportGroup:
+  tableName: ohrm_report_group
+  columns:
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    core_sql:
+      type: clob
+      notnull: true
+
+Report:
+  tableName: ohrm_report
+  columns:
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: reportGroupId
+      foreign: reportGroupId
+
+FilterField:
+   tableName: ohrm_filter_field
+   columns:
+     filter_field_id:
+       name: filter_field_id as filterFieldId
+       type: integer
+       notnull: true
+       primary: true
+     report_group_id:
+       name: report_group_id as reportGroupId
+       type: integer
+       notnull: true
+     name:
+       type: string(255)
+       notnull: true
+     where_clause_part:
+       name: where_clause_part as whereClausePart
+       type: clob
+       notnull: true
+     filter_field_widget:
+       name: filter_field_widget as filterFieldWidget
+       type: string(255)
+     condition_no:
+       name: condition_no as conditionNo
+       type: integer
+       notnull: true
+     type:
+       type: string(255)
+       notnull: true
+     required:
+       type: string(10)
+       notnull: false
+   relations:
+    ReportGroup:
+      local: report_group_id
+      foreign: reportGroupId
+      
+SelectedFilterField:
+  tableName: ohrm_selected_filter_field
+  columns:
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+    filter_field_id:
+      name: filter_field_id as filterFieldId
+      type: integer
+      notnull: true
+      primary: true
+    filter_field_order:
+      name: filter_field_order as filterFieldOrder
+      type: integer
+      notnull: true
+    value:
+      type: string(255)
+      notnull: true
+    where_condition:
+      name: where_condition as whereCondition
+      type: string(255)
+      notnull: true
+    where_clause:
+      name: where_clause as whereClause
+      type: clob
+      notnull: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    FilterField:
+      onDelete: cascade
+      local: filter_field_id
+      foreign: filterFieldId
+
+DisplayField:
+  tableName: ohrm_display_field
+  columns:
+    display_field_id:
+      name: display_field_id as displayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    label:
+      type: string(255)
+      notnull: true
+    field_alias:
+      name: field_alias as fieldAlias
+      type: string(255)
+      notnull: false
+    is_sortable:
+      name: is_sortable as isSortable
+      type: string(10)
+      notnull: true
+    sort_order:
+      name: sort_order as sortOrder
+      type: string(255)
+      notnull: false
+    sort_field:
+      name: sort_field as sortField
+      type: string(255)
+      notnull: false
+    element_type:
+      name: element_type as elementType
+      type: string(255)
+      notnull: true
+    element_property:
+      name: element_property as elementProperty
+      type: string(1000)
+      notnull: true
+    width:
+      type: string(255)
+      notnull: true
+    is_exportable:
+      name: is_exportable as isExportable
+      type: string(10)
+      notnull: false
+    text_alignment_style:
+      name: text_alignment_style as textAlignmentStyle
+      type: string(20)
+      notnull: false
+
+CompositeDisplayField:
+  tableName: ohrm_composite_display_field
+  columns:
+    composite_display_field_id:
+      name: composite_display_field_id as compositeDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(1000)
+      notnull: true
+    label:
+      type: string(255)
+      notnull: true
+    field_alias:
+      name: field_alias as fieldAlias
+      type: string(255)
+      notnull: false
+    is_sortable:
+      name: is_sortable as isSortable
+      type: string(10)
+      notnull: true
+    sort_order:
+      name: sort_order as sortOrder
+      type: string(255)
+      notnull: false
+    sort_field:
+      name: sort_field as sortField
+      type: string(255)
+      notnull: false
+    element_type:
+      name: element_type as elementType
+      type: string(255)
+      notnull: true
+    element_property:
+      name: element_property as elementProperty
+      type: string(1000)
+      notnull: true
+    width:
+      type: string(255)
+      notnull: true
+    is_exportable:
+      name: is_exportable as isExportable
+      type: string(10)
+      notnull: false
+    text_alignment_style:
+      name: text_alignment_style as textAlignmentStyle
+      type: string(20)
+      notnull: false
+
+SelectedCompositeDisplayField:
+  tableName: ohrm_selected_composite_display_field
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    composite_display_field_id:
+      name: composite_display_field_id as compositeDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    Report:
+      local: report_id
+      foreign: reportId
+    CompositeDisplayField:
+      local: composite_display_field_id
+      foreign: compositeDisplayFieldId
+
+AvailableDisplayField:
+  tableName: ohrm_available_display_field
+  columns:
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+      primary: true
+    display_field_id:
+      name: display_field_id as displayFieldId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+    DisplayField:
+      local: display_field_id
+      foreign: displayFieldId
+
+GroupField:
+  tableName: ohrm_group_field
+  columns:
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    group_by_clause:
+      name: group_by_clause as groupByClause
+      type: clob
+      notnull: true
+    group_field_widget:
+      name: group_field_widget as groupFieldWidget
+      type: string(255)
+    
+AvailableGroupField:
+  tableName: ohrm_available_group_field
+  columns:
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+      primary: true
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+    GroupField:
+      local: group_field_id
+      foreign: groupFieldId
+
+SelectedDisplayField:
+  tableName: ohrm_selected_display_field
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    display_field_id:
+      name: display_field_id as displayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    Report:
+      local: report_id
+      foreign: reportId
+    DisplayField:
+      local: display_field_id
+      foreign: displayFieldId
+
+SummaryDisplayField:
+  tableName: ohrm_summary_display_field
+  columns:
+    summary_display_field_id:
+      name: summary_display_field_id as summaryDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    function:
+      type: string(255)
+      notnull: true
+    label:
+      type: string(255)
+      notnull: true
+    field_alias:
+      name: field_alias as fieldAlias
+      type: string(255)
+      notnull: false
+    is_sortable:
+      name: is_sortable as isSortable
+      type: string(10)
+      notnull: true
+    sort_order:
+      name: sort_order as sortOrder
+      type: string(255)
+      notnull: false
+    sort_field:
+      name: sort_field as sortField
+      type: string(255)
+      notnull: false
+    element_type:
+      name: element_type as elementType
+      type: string(255)
+      notnull: true
+    element_property:
+      name: element_property as elementProperty
+      type: string(1000)
+      notnull: true
+    width:
+      type: string(255)
+      notnull: true
+    is_exportable:
+      name: is_exportable as isExportable
+      type: string(10)
+      notnull: false
+    text_alignment_style:
+      name: text_alignment_style as textAlignmentStyle
+      type: string(20)
+      notnull: false
+
+SelectedGroupField:
+  tableName: ohrm_selected_group_field
+  columns:
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+    summary_display_field_id:
+      name: summary_display_field_id as summaryDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    GroupField:
+      onDelete: cascade
+      local: group_field_id
+      foreign: groupFieldId
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    SummaryDisplayField:
+      onDelete: cascade
+      local: summary_display_field_id
+      foreign: summaryDisplayFieldId
+
+MetaDisplayField:
+  tableName: ohrm_meta_display_field
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    display_field_id:
+      name: display_field_id as displayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    Report:
+      local: report_id
+      foreign: reportId
+    DisplayField:
+      local: display_field_id
+      foreign: displayFieldId

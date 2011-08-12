@@ -13,6 +13,7 @@
  * @property Customer $Customer
  * @property Doctrine_Collection $ProjectActivity
  * @property Doctrine_Collection $ProjectAdmin
+ * @property Doctrine_Collection $TimesheetItem
  * 
  * @method integer             getProjectId()       Returns the current record's "project_id" value
  * @method integer             getCustomerId()      Returns the current record's "customer_id" value
@@ -22,6 +23,7 @@
  * @method Customer            getCustomer()        Returns the current record's "Customer" value
  * @method Doctrine_Collection getProjectActivity() Returns the current record's "ProjectActivity" collection
  * @method Doctrine_Collection getProjectAdmin()    Returns the current record's "ProjectAdmin" collection
+ * @method Doctrine_Collection getTimesheetItem()   Returns the current record's "TimesheetItem" collection
  * @method Project             setProjectId()       Sets the current record's "project_id" value
  * @method Project             setCustomerId()      Sets the current record's "customer_id" value
  * @method Project             setDeleted()         Sets the current record's "deleted" value
@@ -30,6 +32,7 @@
  * @method Project             setCustomer()        Sets the current record's "Customer" value
  * @method Project             setProjectActivity() Sets the current record's "ProjectActivity" collection
  * @method Project             setProjectAdmin()    Sets the current record's "ProjectAdmin" collection
+ * @method Project             setTimesheetItem()   Sets the current record's "TimesheetItem" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -80,5 +83,9 @@ abstract class BaseProject extends sfDoctrineRecord
         $this->hasMany('ProjectAdmin', array(
              'local' => 'project_id',
              'foreign' => 'project_id'));
+
+        $this->hasMany('TimesheetItem', array(
+             'local' => 'project_id',
+             'foreign' => 'projectId'));
     }
 }

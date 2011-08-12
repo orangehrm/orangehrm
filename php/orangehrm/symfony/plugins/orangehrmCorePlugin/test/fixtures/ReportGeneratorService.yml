@@ -1,0 +1,59 @@
+## YAML Template.
+---
+
+Customer:
+  0: {customer_id: 1, name: 'John'}
+
+Project:
+  0: {project_id: 1, customer_id: 1, name: 'NUS'}
+
+ProjectActivity:
+  0: {activity_id: 1, project_id: 1, name: 'Create Schema', deleted: 0}
+  1: {activity_id: 2, project_id: 1, name: 'Build Model', deleted: 0}
+
+ReportGroup:
+  0: {report_group_id: 1, name: 'timesheet', core_join_dql: 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) WHERE whereCondition2'}
+
+Report:
+  0: {report_id: 1, name: 'Project Report', report_group_id: 1}
+
+GroupField:
+  0: {group_field_id: 1, name: 'activity id', group_by_clause: 'GROUP BY hs_hr_project_activity.activity_id'}
+
+FilterField:
+  0: {filter_field_id: 1, report_group_id: 1, name: 'project_name', where_clause_part: 'hs_hr_project.project_id', filter_field_widget: ohrmWidgetProjectList, condition_no: 2, type: 'Runtime'}
+  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'hs_hr_project_activity.deleted', filter_field_widget: ohrmWidgetInputCheckbox, condition_no: 2, type: 'Runtime'}
+  2: {filter_field_id: 3, report_group_id: 1, name: 'project_date_range', where_clause_part: 'date', filter_field_widget: ohrmWidgetDateRange, condition_no: 1, type: 'Runtime'}
+
+SelectedFilterField:
+  0: {report_id: 1, filter_field_id: 1}
+  1: {report_id: 1, filter_field_id: 2}
+
+DisplayField:
+  0: {display_field_id: 1, name: 'hs_hr_project.name', label: 'Project Name', field_alias: 'projectname', cell_type: 'text', is_sortable: 'true', sort_order: 'ASC', sort_field: 'projectname', element_type: 'label', element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0}
+  1: {display_field_id: 2, name: 'hs_hr_project_activity.name', label: 'Activity Name', field_alias: 'activityname', cell_type: 'text', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activityname</getter></xml>', width: 200, is_exportable: 0 }
+  2: {display_field_id: 3, name: 'hs_hr_project_activity.project_id', label: 'Project Id', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>project_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right}
+  3: {display_field_id: 4, name: 'hs_hr_project_activity.activity_id', label: 'Activity Id', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activity_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right}
+
+SelectedDisplayField:
+  0: {id: 1, display_field_id: 1, report_id: 1}
+  1: {id: 2, display_field_id: 2, report_id: 1}
+
+SummaryDisplayField:
+  0: {summary_display_field_id: 1, function: 'ROUND(COALESCE(sum(duration)/3600, 0),2)', label: 'Time (hours)', field_alias: 'totalduration', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>totalduration</getter></xml>', width: 100, is_exportable: 'false', text_alignment_style: 'right', type: 'group'}
+
+SelectedGroupField:
+  0: {group_field_id: 1, summary_display_field_id: 1, report_id: 1}
+
+CompositeDisplayField:
+  0: {composite_display_field_id: 1, name: 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', label: 'Employee Name', field_alias: 'employeeName', is_sortable: 'false', element_type: label, element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0}
+
+SelectedCompositeDisplayField:
+  0: {id: 1, composite_display_field_id: 1, report_id: 1}
+
+MetaDisplayField:
+  0: {id: 1, display_field_id: 3, report_id: 1}
+  1: {id: 2, display_field_id: 4, report_id: 1}
+
+
+

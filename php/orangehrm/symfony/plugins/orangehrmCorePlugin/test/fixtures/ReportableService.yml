@@ -1,0 +1,30 @@
+## YAML Template.
+---
+
+ReportGroup:
+  0: {report_group_id: 1, name: 'timesheet', core_join_dql: 'core join'}
+
+Report:
+  0: {report_id: 1, name: 'project report', report_group_id: 1}
+  1: {report_id: 2, name: 'employee report', report_group_id: 1}
+
+SelectedFilterField:
+  0: {report_id: 1, filter_field_id: 1, value: '3000', where_condition: 'greater than', where_clause: 'where salary > 3000'}
+  1: {report_id: 1, filter_field_id: 2, value: 'computer science', where_condition: 'equals', where_clause: 'where department = computer science '}
+
+SelectedDisplayField:
+  0: {id: 1, display_field_id: 1, report_id: 1}
+  1: {id: 2, display_field_id: 2, report_id: 1}
+
+AvailableFilterField:
+  0: {report_group_id: 1, filter_field_id: 1, type: 'Runtime'}
+  1: {report_group_id: 1, filter_field_id: 2, type: 'Runtime'}
+  3: {report_group_id: 1, filter_field_id: 3, type: 'Runtime'}
+
+GroupField:
+  0: {group_field_id: 1, name: 'activity id', group_by_clause: 'GROUP BY hs_hr_project_activity.activity_id'}
+
+SelectedGroupField:
+  0: {group_field_id: 1, summary_display_field_id: 1, report_id: 1}
+
+

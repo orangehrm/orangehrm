@@ -10,17 +10,20 @@
  * @property integer $deleted
  * @property string $name
  * @property Project $Project
+ * @property Doctrine_Collection $TimesheetItem
  * 
- * @method integer         getActivityId()  Returns the current record's "activity_id" value
- * @method integer         getProjectId()   Returns the current record's "project_id" value
- * @method integer         getDeleted()     Returns the current record's "deleted" value
- * @method string          getName()        Returns the current record's "name" value
- * @method Project         getProject()     Returns the current record's "Project" value
- * @method ProjectActivity setActivityId()  Sets the current record's "activity_id" value
- * @method ProjectActivity setProjectId()   Sets the current record's "project_id" value
- * @method ProjectActivity setDeleted()     Sets the current record's "deleted" value
- * @method ProjectActivity setName()        Sets the current record's "name" value
- * @method ProjectActivity setProject()     Sets the current record's "Project" value
+ * @method integer             getActivityId()    Returns the current record's "activity_id" value
+ * @method integer             getProjectId()     Returns the current record's "project_id" value
+ * @method integer             getDeleted()       Returns the current record's "deleted" value
+ * @method string              getName()          Returns the current record's "name" value
+ * @method Project             getProject()       Returns the current record's "Project" value
+ * @method Doctrine_Collection getTimesheetItem() Returns the current record's "TimesheetItem" collection
+ * @method ProjectActivity     setActivityId()    Sets the current record's "activity_id" value
+ * @method ProjectActivity     setProjectId()     Sets the current record's "project_id" value
+ * @method ProjectActivity     setDeleted()       Sets the current record's "deleted" value
+ * @method ProjectActivity     setName()          Sets the current record's "name" value
+ * @method ProjectActivity     setProject()       Sets the current record's "Project" value
+ * @method ProjectActivity     setTimesheetItem() Sets the current record's "TimesheetItem" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -59,5 +62,9 @@ abstract class BaseProjectActivity extends sfDoctrineRecord
         $this->hasOne('Project', array(
              'local' => 'project_id',
              'foreign' => 'project_id'));
+
+        $this->hasMany('TimesheetItem', array(
+             'local' => 'activity_id',
+             'foreign' => 'activityId'));
     }
 }

@@ -25,8 +25,33 @@
  * @author orange
  */
 class ProjectService extends BaseService {
-	
-   /**
+
+//  Project Data Access Object
+    private $projectDao;
+    /**
+     * Get the Project Data Access Object
+     * @return ProjectDao
+     */
+    public function getProjectDao() {
+
+        if (is_null($this->projectDao)) {
+            $this->projectDao = new ProjectDao();
+        }
+
+        return $this->projectDao;
+    }
+
+    /**
+     * Set Project Data Access Object
+     * @param ProjectDao() $ProjectDao
+     * @return void
+     */
+    public function setTimesheetDao(ProjectDao $projectDao) {
+
+        $this->projectDao = $projectDao;
+    }
+
+    /**
      * Get NalityList List
      * @return NalityList 
      */
@@ -305,6 +330,52 @@ class ProjectService extends BaseService {
             throw new AdminServiceException($e->getMessage());
         }
     }
- 
-    
+
+/**
+     * Gets project name given project id.
+     * @param integer $projectId
+     * @return string
+     */
+    public function getProjectName($projectId) {
+
+        $project = $this->readProject($projectId);
+        $projectName = $project->getCustomer()->getName() . " - " . $project->getName();
+
+        return $projectName;
+    }
+
+    /**
+     * When ProjectAdmin[] is given, this method extracts project ids and give it as an array.
+     * @param ProjectAdmin[] $projectAdmins
+     * @return integer[]
+     */
+    public function extractProjectIdsFromProjectAdminRecords($projectAdmins) {
+
+        $projectId = array();
+        foreach ($projectAdmins as $projectAdmin) {
+            $projectId[] = $projectAdmin->getProjectId();
+        }
+
+        return $projectId;
+    }
+
+    public function getActiveProjectList() {
+
+        return $this->getProjectDao()->getActiveProjectList();
+    }
+
+    public function getActiveProjectListRelatedToProjectAdmin($empNo) {
+
+        $projectAdmins = $this->getProjectDao()->getProjectAdminRecordsByEmpNo($empNo);
+
+        $projectIdArray = array();
+
+        foreach($projectAdmins as $projectAdmin) {
+            $projectIdArray[] = $projectAdmin->getProjectId();
+        }
+
+        $projectList = $this->getProjectDao()->getActiveProjectsByProjectIds($projectIdArray);
+        
+        return $projectList;
+    }
 }

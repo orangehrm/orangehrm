@@ -104,6 +104,8 @@ class AllTests {
         // Add Plugin tests
         //
         //$suite->addTestFile(dirname(__FILE__) . '/PluginAllTests.php');
+
+        $suite->addTestFile(dirname(__FILE__) . '/model/admin/dao/ProjectDaoTest.php');
         
         return $suite;
     }
