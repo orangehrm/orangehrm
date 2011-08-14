@@ -5,11 +5,18 @@ class ohrmListComponent extends sfComponent {
     private static $configurationFactory;
     private static $listData;
     private static $itemsPerPage;
+    private static $headerPartial;
     private static $numberOfRecords;
     public static $pageNumber = 0;
 
     public function execute($request) {
         $this->setTemplateVariables();
+
+        $this->params = array();
+        
+        foreach( $this->getVarHolder()->getAll() as $param => $val) {
+                $this->params[$param] = $val;
+        }
 
         $recordsLimit = self::$itemsPerPage;//sfConfig::get('app_items_per_page');
 
@@ -39,7 +46,7 @@ class ohrmListComponent extends sfComponent {
         $this->columns = self::$configurationFactory->getHeaders();
         $this->data = self::$listData;
         $this->className = self::$configurationFactory->getClassName();
-
+        $this->partial = self::$headerPartial;
         $this->applyRuntimeDefinitions();
 
         $this->makePluginCalls();
@@ -51,6 +58,10 @@ class ohrmListComponent extends sfComponent {
 
     public static function setListData($data) {
         self::$listData = $data;
+    }
+
+    public static function setHeaderPartial($partial) {
+        self::$headerPartial = $partial;
     }
 
     public static function setItemsPerPage($items) {

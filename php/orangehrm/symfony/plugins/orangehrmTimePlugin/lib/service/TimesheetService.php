@@ -33,7 +33,6 @@ class TimesheetService {
         if (is_null($this->timesheetDao)) {
             $this->timesheetDao = new TimesheetDao();
         }
-
         return $this->timesheetDao;
     }
 
@@ -96,11 +95,17 @@ class TimesheetService {
     /**
      * Get Timesheet by given timesheetId
      * @param int $timesheetId
-     * @return Timesheet $timesheeIt
+     * @return Timesheet $timesheet
      */
     public function getTimesheetById($timesheetId) {
 
         $timesheet = $this->getTimesheetDao()->getTimesheetById($timesheetId);
+
+        if(!$timesheet instanceof Timesheet)
+        {
+            $timesheet = new Timesheet();
+
+        }
 
         return $timesheet;
     }

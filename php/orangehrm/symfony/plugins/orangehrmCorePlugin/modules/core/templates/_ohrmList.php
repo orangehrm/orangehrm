@@ -1,4 +1,11 @@
+<?php echo stylesheet_tag('../orangehrmCorePlugin/css/_ohrmList.css'); ?>
 <?php
+$outboxWidth = 0;
+foreach ($columns as $header){
+    $outboxWidth = $outboxWidth + $header->getWidth();
+}
+
+
 function renderActionBar($buttons, $condition = true) {
     if ($condition && count($buttons) > 0) {
 ?>
@@ -13,6 +20,7 @@ function renderActionBar($buttons, $condition = true) {
             }
             ?>
         </div>
+        <br class="clear" />
     </div>
 <?php
     }
@@ -49,9 +57,17 @@ function printButtonEventBindings($buttons) {
     }
 }
 ?>
-<div class="outerbox">
+<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth.'px';?>">
     <?php if (!empty ($title)) { ?>
-    <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
+    <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
+
+    <div style="padding-left: 10px; padding-top: 10px;">
+        <?php
+        include_partial($partial, $sf_data->getRaw('params'));
+        ?>
+        
+    </div>
+
     <?php } ?>
 
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
@@ -72,8 +88,8 @@ function printButtonEventBindings($buttons) {
         </div>
         <?php } ?>
 
-        <table style="border-collapse: collapse; width: 100%; text-align: left;" class="data-table">
-            <colgroup>
+        <table style="border-collapse: collapse; width: auto; text-align: left;" class="data-table">
+            <colgroup align="right">
                 <?php if ($hasSelectableRows) { ?>
                 <col width="50" />
                 <?php } ?>
@@ -164,8 +180,12 @@ function printButtonEventBindings($buttons) {
                                 $cell = new $cellClass;
                                 $cell->setProperties($properties);
                                 $cell->setDataObject($object);
+
+                                if ($hasSummary && $header->getName() == $summary['summaryField']) {
+                                    ohrmListSummaryHelper::collectValue($cell->toValue(), $summary['summaryFunction']);
+                                }
                     ?>
-                                <td style="text-align: <?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $cell->__toString(); ?></td>
+                                <td class="<?php echo $header->getTextAlignmentStyle();?>"><?php echo $cell->__toString(); ?></td>
                     <?php
                             }
                     ?>
@@ -185,11 +205,40 @@ function printButtonEventBindings($buttons) {
                     }
                 ?>
             </tbody>
+            <?php if ($hasSummary) { ?>
+            <tfoot>
+                <tr>
+                    <?php
+                    $firstHeader = true;
+                    foreach ($columns as $header) {
+                        if ($header->getName() == $summary['summaryField']) {
+                            $aggregateValue = ohrmListSummaryHelper::getAggregateValue($summary['summaryFunction'], $summary['summaryFieldDecimals']);
+                            if ($firstHeader) {
+                                $aggregateValue = $summary['summaryLabel'] . ':' . $aggregateValue;
+                                $firstHeader = false;
+                            }
+                            //echo tag('td', $aggregateValue);
+                            echo "<td class='right'>" . $aggregateValue . '</td>';
+                        } else {
+                            $tdValue = '&nbsp;';
+                            if ($firstHeader) {
+                                $tdValue = $summary['summaryLabel'];
+                                $firstHeader = false;
+                            }
+                            //echo tag('td', $tdValue);
+                            echo "<td>" . $tdValue . '</td>';
+                        }
+                    }
+                    ?>
+                </tr>
+            </tfoot>
+            <?php } ?>
         </table>
         
         <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
         <br class="clear" />
     </form>
+    
 </div>
 
 <?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>

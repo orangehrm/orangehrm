@@ -227,10 +227,6 @@ if (!$leavePeriodDefined) {
 	}
 }
 
-
-
-
-
 // Time module default pages
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
     if ($_SESSION['timePeriodSet'] == 'Yes') {
@@ -270,11 +266,6 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
 	$personalHspSummary = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee_Admin';
 }
-
-
-
-
-
 
 if ($authorizeObj->isESS()) {
     if ($_SESSION['timePeriodSet'] == 'Yes') {
