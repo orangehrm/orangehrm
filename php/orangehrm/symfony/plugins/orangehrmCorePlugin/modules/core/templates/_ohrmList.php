@@ -1,10 +1,14 @@
 <?php echo stylesheet_tag('../orangehrmCorePlugin/css/_ohrmList.css'); ?>
 <?php
-$outboxWidth = 0;
-foreach ($columns as $header){
-    $outboxWidth = $outboxWidth + $header->getWidth();
+if ($tableWidth == 'auto') {
+    $outboxWidth = 0;
+    foreach ($columns as $header){
+        $outboxWidth = $outboxWidth + $header->getWidth();
+    }
+    $outboxWidth .= 'px';
+} else {
+    $outboxWidth = 'auto';
 }
-
 
 function renderActionBar($buttons, $condition = true) {
     if ($condition && count($buttons) > 0) {
@@ -57,16 +61,17 @@ function printButtonEventBindings($buttons) {
     }
 }
 ?>
-<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth.'px';?>">
+<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth;?>">
     <?php if (!empty ($title)) { ?>
     <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
 
+<?php if($partial != null):?>
     <div style="padding-left: 10px; padding-top: 10px;">
         <?php
         include_partial($partial, $sf_data->getRaw('params'));
         ?>
-        
     </div>
+ <?php endif;?>
 
     <?php } ?>
 
@@ -88,7 +93,7 @@ function printButtonEventBindings($buttons) {
         </div>
         <?php } ?>
 
-        <table style="border-collapse: collapse; width: auto; text-align: left;" class="data-table">
+        <table style="border-collapse: collapse; width: <?php echo $tableWidth; ?>; text-align: left;" class="data-table">
             <colgroup align="right">
                 <?php if ($hasSelectableRows) { ?>
                 <col width="50" />

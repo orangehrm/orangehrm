@@ -109,24 +109,24 @@ EOF
     private function _getDataList() {
 
         $activityNameList = array();
-        $activityNameList[-1] = "All";
 
-//        $projectService = new ProjectService();
-//        $projectList = $projectService->getProjectList();
-//
-//        foreach ($projectList as $project) {
-//
-//            $projectId = $project->getProjectId();
-//            break;
-//        }
-//
-//        $timesheetDao = new TimesheetDao();
-//        $activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
-//
-//        foreach ($activityList as $activity) {
-//
-//            $activityNameList[$activity->getActivityId()] = $activity->getName();
-//        }
+        $projectService = new ProjectService();
+        $projectList = $projectService->getProjectList();
+
+        foreach ($projectList as $project) {
+
+            $projectId = $project->getProjectId();
+            break;
+        }
+
+        $timesheetDao = new TimesheetDao();
+        $activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
+
+        if ($activityList != null) {
+            $activityNameList[-1] = "All";
+        } else {
+            $activityNameList[null] = "--No Project Activities--";
+        }
 
         return $activityNameList;
     }
@@ -143,7 +143,7 @@ EOF
         $validator = new sfValidatorString();
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true),array('required' => 'Select a project'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => 'Select a project'));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

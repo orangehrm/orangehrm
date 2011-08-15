@@ -4,6 +4,7 @@ Default:
   unselectableRowIds: []
   idValueGetter: getId
   title: 'OrangeHRM List'
+  tableWidth: auto
   hasSummary: true
   summary:
     summaryLabel: 'Total'
@@ -23,6 +24,7 @@ Nationality:
   unselectableRowIds: []
   idValueGetter: getNatCode
   title: 'Nationality & Race : Nationality'
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons:
@@ -46,6 +48,7 @@ AncientNationality:
   unselectableRowIds: []
   idValueGetter: '0'
   title: 'Ancient Nationalities'
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons:
@@ -69,6 +72,7 @@ EmployeeLeaveEntitlement:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons:
@@ -91,6 +95,7 @@ LeaveRequest:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons:
@@ -109,6 +114,7 @@ Leave:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons:
@@ -130,6 +136,7 @@ ProjectReport:
   unselectableRowIds: []
   idValueGetter: activityname
   title: 'Project Report'
+  tableWidth: auto
   hasSummary: true
   summary:
     summaryLabel: 'Total'
@@ -149,6 +156,7 @@ EmployeeReport:
   unselectableRowIds: []
   idValueGetter: activityname
   title: 'Employee Report'
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons: []
@@ -164,6 +172,7 @@ ProjectActivityDetailsReport:
   unselectableRowIds: []
   idValueGetter: employeeName
   title: 'Project Activity Details Report'
+  tableWidth: auto
   hasSummary: false
   summary: []
   buttons: []
@@ -179,6 +188,7 @@ AttendanceTotalSummaryReport:
   unselectableRowIds: []
   idValueGetter: employeeName
   title: 'Attendance Total Summary Report'
+  tableWidth: auto
   hasSummary: true
   summary:
     summaryLabel: 'Total'
@@ -191,4 +201,68 @@ AttendanceTotalSummaryReport:
   formAction: '#'
   assets: []
   jsInitMethods: []
-    
+
+Candidate:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getCandidateAndVacancyId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addCandidate
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/recruitment/deleteCandidateVacancies'
+  assets:
+    - viewCandidatesSuccess.js
+    - viewCandidatesSuccess.css
+  jsInitMethods: []
+
+JobVacancy:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addJobVacancy
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/recruitment/deleteJobVacancy'
+  assets:
+    - viewJobVacancySuccess.js
+    - viewJobVacancySuccess.css
+  jsInitMethods: []
+
+CandidateHistory:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "Candidate's History"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons: []
+  buttonsPosition: ''
+  formMethod: post
+  formAction: '#'
+  assets:
+    - addCandidateSuccess.css
+  jsInitMethods: []

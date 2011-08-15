@@ -56,12 +56,18 @@ class ohrmWidgetEmployeeList extends sfWidgetForm implements ohrmEmbeddableWidge
      */
     private function _getEmployeeList() {
 
+        $employeeNameList = array();
+
         $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
         $employeeList = $userObj->getEmployeeList();
 
-        foreach ($employeeList as $employee) {
+        if ($employeeList != null) {
+            foreach ($employeeList as $employee) {
 
-            $employeeNameList[$employee->getEmpNumber()] = $employee->getEmpFirstname() . " " . $employee->getEmpLastname();
+                $employeeNameList[$employee->getEmpNumber()] = $employee->getEmpFirstname() . " " . $employee->getEmpLastname();
+            }
+        } else {
+            $employeeNameList[null] = "--No Employee--";
         }
 
         return $employeeNameList;
@@ -79,7 +85,7 @@ class ohrmWidgetEmployeeList extends sfWidgetForm implements ohrmEmbeddableWidge
         $validator = new sfValidatorString();
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true),array('required' => 'Select a project'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => 'Select a project'));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

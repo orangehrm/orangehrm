@@ -39,9 +39,10 @@ abstract class displayReportAction extends sfAction {
                 $form->bind($request->getParameter($form->getName()));
 
                 if ($form->isValid()) {
-
+                    
                     $reportGeneratorService = new ReportGeneratorService();
                     $formValues = $form->getValues();
+                    $this->setReportCriteriaInfoInRequest($formValues);
                     $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
                 }
             }
@@ -92,6 +93,8 @@ abstract class displayReportAction extends sfAction {
 
         $this->confFactory = $configurationFactory;
     }
+
+    public function setReportCriteriaInfoInRequest($formValues) {}
 
 }
 

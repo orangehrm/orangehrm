@@ -136,7 +136,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         return $topMenuItemArray;
     }
 
-
     public function getAccessibleTimeSubMenus() {
         //$topMenuItem = new TopMenuItem();
         //$topMenuItem->setDisplayName(__("Time"));
@@ -151,7 +150,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
         return $tempArray;
     }
-
 
     public function getAccessibleAttendanceSubMenus() {
         $topMenuItem = new TopMenuItem();
@@ -168,7 +166,8 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         return $tempArray;
     }
 
-  public function getAccessibleReportSubMenus() {
+
+    public function getAccessibleReportSubMenus() {
 
         $topMenuItemArray = $this->user->getAccessibleReportSubMenus();
 
@@ -198,6 +197,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
         return $topMenuItemArray;
     }
+
     /**
      * Get the employee list ( whole employees )
      * @return Employee[]
@@ -205,7 +205,12 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     public function getEmployeeList() {
 
         $employeeList = $this->getEmployeeService()->getEmployeeList();
-        return $employeeList;
+
+        if ($employeeList[0]->getEmpNumber() == null) {
+            return null;
+        } else {
+            return $employeeList;
+        }
     }
 
     /**
@@ -290,20 +295,18 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
     public function getActionableAttendanceStates($actions) {
 
-         $accessFlowStateMachinService = new AccessFlowStateMachineService();
+        $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $actionableAttendanceStatesForAdminUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, AdminUserRoleDecorator::ADMIN_USER, $actions);
 
 
         $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
 
-        if (is_null( $actionableAttendanceStatesForAdminUser)) {
+        if (is_null($actionableAttendanceStatesForAdminUser)) {
             return $actionableAttendanceStates;
         }
 
-        $actionableAttendanceStatesList = array_unique(array_merge( $actionableAttendanceStatesForAdminUser, $actionableAttendanceStates));
+        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForAdminUser, $actionableAttendanceStates));
         return $actionableAttendanceStatesList;
-        
-      
     }
 
     public function isAllowedToDefineTimeheetPeriod() {
@@ -313,7 +316,8 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     }
 
     /* Retrieves all the active projects */
-    public function  getActiveProjectList() {
+
+    public function getActiveProjectList() {
 
         $activeProjectList = $this->getProjectService()->getActiveProjectList();
         return $activeProjectList;
