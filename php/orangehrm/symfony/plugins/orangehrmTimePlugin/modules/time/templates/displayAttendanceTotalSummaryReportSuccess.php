@@ -1,2 +1,2 @@
-<?php include_component('time', 'ohrmList', $parmetersForListComponent); ?>
+<?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
 
