@@ -1211,6 +1211,99 @@ create table `ohrm_selected_group_field` (
   key `report_id` (`report_id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_job_vacancy`(
+	`id` int(13) not null,
+	`job_title_code` varchar(10) not null,
+        `hiring_manager_id` int(13) default null,
+	`name` varchar(100) not null,
+	`description` text default null,
+	`no_of_positions` int(13) default null,
+    `status` int(4) not null,
+    `published_in_feed` boolean not null default false,
+    `defined_time` datetime not null,
+    `updated_time` datetime not null,
+    `attached_file_id` int(13) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_candidate`(
+	`id` int(13) not null,
+	`first_name` varchar(30) not null,
+	`middle_name` varchar(30) default null,
+    `last_name` varchar(30) not null,
+	`email` varchar(100) not null,
+	`contact_number` varchar(30) default null,
+	`status` int(4) not null,
+	`comment` text default null,
+	`mode_of_application` int(4) not null,
+	`date_of_application` date not null,
+    `cv_file_id` int(13) default null,
+    `cv_text_version` text default null,
+    `keywords` varchar(255) default null,
+    `added_person` int(13) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_candidate_vacancy`(
+        `id` int(13) default null unique,
+	`candidate_id` int(13) not null,
+        `vacancy_id` int(13) not null,
+	`status` varchar(100) not null,
+        `applied_date` date not null,
+	primary key (`candidate_id`, `vacancy_id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_candidate_attachment`(
+	`id` int(13) not null auto_increment,
+	`candidate_id` int(13) not null,
+	`file_name` varchar(200) not null,
+        `file_type` varchar(200) default null,
+	`file_size` int(11) not null,
+	`file_content` mediumblob,
+        `attachment_type` int(4) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_vacancy_attachment`(
+	`id` int(13) not null auto_increment,
+	`vacancy_id` int(13) not null,
+	`file_name` varchar(200) not null,
+        `file_type` varchar(200) default null,
+	`file_size` int(11) not null,
+	`file_content` mediumblob,
+        `attachment_type` int(4) default null,
+	`comment` varchar(255) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_candidate_history`(
+	`id` int(13) not null auto_increment,
+	`candidate_id` int(13) not null,
+	`candidate_vacancy_id` int(13) default null,
+	`interview_id` int(13) default null,
+	`action` int(4) not null,
+	`performed_by` int(13) default null,
+        `performed_date` date not null,
+	`note` text default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_interview`(
+	`id` int(13) not null auto_increment,
+	`candidate_vacancy_id` int(13) not null,
+        `interview_name` varchar(100) not null,
+	`interview_date` date default null,
+        `interview_time` time default null,
+	`note` text default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_job_interview_interviewer`(
+	`interview_id` int(13) not null,
+	`interviewer_id` int(13) not null,
+	primary key (`interview_id`, `interviewer_id`)
+)engine=innodb default charset=utf8;
+
 alter table ohrm_available_group_field
        add constraint foreign key (group_field_id)
                              references ohrm_group_field(group_field_id);
@@ -1279,6 +1372,62 @@ alter table ohrm_report
 alter table ohrm_timesheet_action_log
        add constraint foreign key (performed_by)
                              references hs_hr_users(id) on delete cascade;
+
+alter table ohrm_job_interview
+       add constraint foreign key (candidate_vacancy_id)
+                             references ohrm_job_candidate_vacancy(id) on delete cascade;
+
+alter table ohrm_job_interview_interviewer
+       add constraint foreign key (interview_id)
+                             references ohrm_job_interview(id) on delete cascade;
+
+alter table ohrm_job_interview_interviewer
+       add constraint foreign key (interviewer_id)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table ohrm_job_candidate_attachment
+       add constraint foreign key (candidate_id)
+                             references ohrm_job_candidate(id) on delete cascade;
+
+alter table ohrm_job_vacancy_attachment
+       add constraint foreign key (vacancy_id)
+                             references ohrm_job_vacancy(id) on delete cascade;
+
+alter table ohrm_job_candidate_history
+       add constraint foreign key (candidate_id)
+                             references ohrm_job_candidate(id) on delete cascade;
+
+alter table ohrm_job_candidate_history
+       add constraint foreign key (candidate_vacancy_id)
+                             references ohrm_job_candidate_vacancy(id) on delete cascade;
+
+alter table ohrm_job_candidate_history
+       add constraint foreign key (interview_id)
+                             references ohrm_job_interview(id) on delete set null;
+
+alter table ohrm_job_candidate_history
+       add constraint foreign key (performed_by)
+                             references hs_hr_employee(emp_number) on delete set null;
+
+alter table ohrm_job_vacancy
+       add constraint foreign key (job_title_code)
+                             references hs_hr_job_title(jobtit_code) on delete cascade;
+
+alter table ohrm_job_vacancy
+       add constraint foreign key (hiring_manager_id)
+                             references hs_hr_employee(emp_number) on delete set null;
+
+alter table ohrm_job_candidate
+       add constraint foreign key (added_person)
+                             references hs_hr_employee(emp_number) on delete set null;
+
+alter table ohrm_job_candidate_vacancy
+       add constraint foreign key (candidate_id)
+                             references ohrm_job_candidate(id) on delete cascade;
+
+alter table ohrm_job_candidate_vacancy
+       add constraint foreign key (vacancy_id)
+                             references ohrm_job_vacancy(id) on delete cascade;
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)

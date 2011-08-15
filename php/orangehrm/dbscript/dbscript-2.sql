@@ -597,8 +597,15 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'ohrm_e
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_timesheet', 'timesheet_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_timesheet_action_log', 'timesheet_action_log_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_timesheet_item', 'timesheet_item_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(38,'ohrm_workflow_state_machine', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0,'ohrm_attendance_record', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_vacancy', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_candidate', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(70,'ohrm_workflow_state_machine', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_candidate_attachment', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_vacancy_attachment', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_candidate_vacancy', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_candidate_history', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_job_interview', 'id');
 
 INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7','NOT SUBMITTED'),
                                    ('2','0','SUBMITTED','ADMIN','2','APPROVED'),
@@ -635,8 +642,41 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                    ('33','0','APPROVED','ADMIN','0','APPROVED'),
                                    ('34','0','APPROVED','ADMIN','4','SUBMITTED'),
                                    ('35','1','PUNCHED IN','ESS USER','1','PUNCHED OUT'),
-                                   ('36','1','INITIAL','ESS USER','0','PUNCHED IN');
-                                  
+                                   ('36','1','INITIAL','ESS USER','0','PUNCHED IN'),
+                                   ('37','2','INITIAL','ADMIN','1','APPLICATION INITIATED'),
+                                   ('38','2','APPLICATION INITIATED','ADMIN','2','SHORTLISTED'),
+                                   ('39','2','APPLICATION INITIATED','ADMIN','3','REJECTED'),
+                                   ('40','2','SHORTLISTED','ADMIN','4','INTERVIEW SCHEDULED'),
+                                   ('41','2','SHORTLISTED','ADMIN','3','REJECTED'),
+                                   ('42','2','INTERVIEW SCHEDULED','ADMIN','3','REJECTED'),
+                                   ('43','2','INTERVIEW SCHEDULED','ADMIN','5','INTERVIEW PASSED'),
+                                   ('44','2','INTERVIEW SCHEDULED','ADMIN','6','INTERVIEW FAILED'),
+                                   ('45','2','INTERVIEW PASSED','ADMIN','4','INTERVIEW SCHEDULED'),
+                                   ('46','2','INTERVIEW PASSED','ADMIN','7','OFFERED'),
+                                   ('47','2','INTERVIEW PASSED','ADMIN','3','REJECTED'),
+                                   ('48','2','INTERVIEW FAILED','ADMIN','3','REJECTED'),
+                                   ('49','2','OFFERED','ADMIN','8','OFFER DECLINED'),
+                                   ('50','2','OFFERED','ADMIN','3','REJECTED'),
+                                   ('51','2','OFFERED','ADMIN','9','HIRED'),
+                                   ('52','2','OFFER DECLINED','ADMIN','3','REJECTED'),
+                                   ('53','2','INITIAL','HIRING MANAGER','1','APPLICATION INITIATED'),
+                                   ('54','2','APPLICATION INITIATED','HIRING MANAGER','2','SHORTLISTED'),
+                                   ('55','2','APPLICATION INITIATED','HIRING MANAGER','3','REJECTED'),
+                                   ('56','2','SHORTLISTED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
+                                   ('57','2','SHORTLISTED','HIRING MANAGER','3','REJECTED'),
+                                   ('58','2','INTERVIEW SCHEDULED','HIRING MANAGER','3','REJECTED'),
+                                   ('59','2','INTERVIEW SCHEDULED','HIRING MANAGER','5','INTERVIEW PASSED'),
+                                   ('60','2','INTERVIEW SCHEDULED','HIRING MANAGER','6','INTERVIEW FAILED'),
+                                   ('61','2','INTERVIEW PASSED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
+                                   ('62','2','INTERVIEW PASSED','HIRING MANAGER','7','OFFERED'),
+                                   ('63','2','INTERVIEW PASSED','HIRING MANAGER','3','REJECTED'),
+                                   ('64','2','INTERVIEW FAILED','HIRING MANAGER','3','REJECTED'),
+                                   ('65','2','OFFERED','HIRING MANAGER','8','OFFER DECLINED'),
+                                   ('66','2','OFFERED','HIRING MANAGER','3','REJECTED'),
+                                   ('67','2','OFFERED','HIRING MANAGER','9','HIRED'),
+                                   ('68','2','OFFER DECLINED','HIRING MANAGER','3','REJECTED'),
+                                   ('69','2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED'),
+                                   ('70','2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED');
 
 INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) WHERE whereCondition2');
 
