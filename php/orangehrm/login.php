@@ -114,6 +114,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 		                $isDirector = false;
 		                $isAcceptor = false;
 		                $isOfferer = false;
+                		$isHiringManager = false;
+                		$isInterviewer = false;
 
 						if ($_SESSION['isAdmin'] == 'No') {
 
@@ -124,6 +126,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	                    $isDirector = $authorizeObj->isDirector();
 	                    $isAcceptor = $authorizeObj->isAcceptor();
 	                    $isOfferer = $authorizeObj->isOfferer();
+                    	$isHiringManager = $authorizeObj->isHiringManager();
+                    	$isInterviewer = $authorizeObj->isInterviewer();
 
 					}
 
@@ -133,6 +137,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 					$_SESSION['isDirector'] = $isDirector;
 					$_SESSION['isAcceptor'] = $isAcceptor;
 					$_SESSION['isOfferer'] = $isOfferer;
+                	$_SESSION['isHiringManager'] = $isHiringManager;
+                	$_SESSION['isInterviewer'] = $isInterviewer;
 
 					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 					$_SESSION['WPATH']= $wpath[0];
@@ -173,6 +179,9 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 $isDirector = false;
                 $isAcceptor = false;
                 $isOfferer = false;
+                $isHiringManager = false;
+                $isInterviewer = false;
+
 
 				if ($_SESSION['isAdmin'] == 'No') {
 
@@ -183,6 +192,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                     $isDirector = $authorizeObj->isDirector();
                     $isAcceptor = $authorizeObj->isAcceptor();
                     $isOfferer = $authorizeObj->isOfferer();
+                    $isHiringManager = $authorizeObj->isHiringManager();
+                    $isInterviewer = $authorizeObj->isInterviewer();
 
 				}
 				$_SESSION['isSupervisor'] = $isSupervisor;
@@ -191,6 +202,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 				$_SESSION['isDirector'] = $isDirector;
 				$_SESSION['isAcceptor'] = $isAcceptor;
 				$_SESSION['isOfferer'] = $isOfferer;
+                $_SESSION['isHiringManager'] = $isHiringManager;
+                $_SESSION['isInterviewer'] = $isInterviewer;
 
 				$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 				$_SESSION['WPATH']= $wpath[0];
@@ -212,218 +225,226 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 ?>
 <html>
-<head>
-<title><?php echo $lang_login_title; ?></title>
-<link href="favicon.ico" rel="icon" type="image/gif"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script type="text/javascript">
+    <head>
+        <title><?php echo $lang_login_title; ?></title>
+        <link href="favicon.ico" rel="icon" type="image/gif"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script type="text/javascript">
 
-	function submitForm() {
+            function submitForm() {
 
-		if(document.loginForm.txtUserName.value == "") {
-				alert('<?php echo $lang_login_UserNameNotGiven; ?>');
-				return false;
-		   }
+                if(document.loginForm.txtUserName.value == "") {
+                    alert('<?php echo $lang_login_UserNameNotGiven; ?>');
+                    return false;
+                }
 
-		if(document.loginForm.txtPassword.value == "") {
-				alert("<?php echo $lang_login_PasswordNotGiven; ?>");
-				return false;
-		   }
+                if(document.loginForm.txtPassword.value == "") {
+                    alert("<?php echo $lang_login_PasswordNotGiven; ?>");
+                    return false;
+                }
 
-		document.loginForm.actionID.value = "chkAuthentication";
-		document.loginForm.hdnUserTimeZoneOffset.value = calculateUserTimeZoneOffset();
-		document.loginForm.submit();
-	}
+                document.loginForm.actionID.value = "chkAuthentication";
+                document.loginForm.hdnUserTimeZoneOffset.value = calculateUserTimeZoneOffset();
+                document.loginForm.submit();
+            }
 
-	if (window.parent != window) {
-		window.parent.location.reload();
-	}
+            if (window.parent != window) {
+                window.parent.location.reload();
+            }
 
-	function calculateUserTimeZoneOffset() {
+            function calculateUserTimeZoneOffset() {
 
-		var myDate = new Date();
-		var offset = (-1)*myDate.getTimezoneOffset()/60;
+                var myDate = new Date();
+                var offset = (-1)*myDate.getTimezoneOffset()/60;
 
-		return offset;
+                return offset;
 
-	}
+            }
 
-</script>
-<link href="themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">
-<!--
-body {
-	background-color: #FFFFFF;
-}
-.bodyTXT {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: #666666;
-}
-.style2 {color: #339900}
-.loginTXT {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: #666666;
-	height: 19px;
-	vertical-align: middle;
-	padding-top:0;
-}
--->
-</style></head>
-<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<noscript>
-	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">
-		<?php echo $lang_login_NeedJavascript;?>
-		<a href="http://www.mozilla.com/firefox/" target="_blank"
-			style="text-decoration:none;"><?php echo $lang_login_MozillaFirefox;?></a>
-		</font>
-	</strong>
-</noscript>
-<?php if (isset($_COOKIE['Loggedin']) && isset($_SERVER['HTTP_REFERER'])) { ?>
-	<strong><font color='Red' style="padding-left:15px;"><?php echo $lang_login_YourSessionExpired;?></font>
-	</strong>
-<?php } ?>
+        </script>
+        <link href="themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            <!--
+            body {
+                background-color: #FFFFFF;
+            }
+            .bodyTXT {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                color: #666666;
+            }
+            .style2 {color: #339900}
+            .loginTXT {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                color: #666666;
+                height: 19px;
+                vertical-align: middle;
+                padding-top:0;
+            }
+            
+            div#login {
+                background-image: url(themes/<?php echo $styleSheet;?>/images/login/login.png);
+                height: 700px;
+                width: 1000px;
+                border-style: hidden;
+                margin: auto;
+                padding-left: 10px;
+            }
+            
+            div#username {
+                padding-top: 154px;
+                padding-left: 510px;
+            }
+            
+            div#password {
+                padding-top: 38px;
+                padding-left: 510px;
+            }
+            
+            input#txtUserName {
+                width: 240px;
+                border: 0px;
+                background-color:transparent;
+            }
+            
+            input#txtPassword {
+                width: 240px;
+                border: 0px;
+                background-color:transparent;
+            }
+            
+            div#loginButton {
+                padding-top: 36px;
+                padding-left: 506px;
+                float: left;
+                width: 130px;
+            }
+            
+           .button {
+                background: url(themes/<?php echo $styleSheet;?>/images/login/Login_button.png) no-repeat;
+                cursor:pointer;
+                width: 94px;
+                height: 23px;
+                border: none;
+            }
+            font#validationMsg {
+                color: #DD7700;
 
-<!-- ImageReady Slices (orange_new.psd) -->
-<table id="Table_01" width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="43%" align="right"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_02.gif" width="266" height="67"></td>
-    <td width="57%" align="center">&nbsp;</td>
-  </tr>
-</table>
-<table id="Table_01" width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="10%" align="center" bgcolor="#E77817"><table id="Table_01" width="874" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td width="25"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_05.gif" width="25" height="14" alt=""></td>
-        <td width="72"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_06.gif" width="72" height="14" alt=""></td>
-        <td colspan="2"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_07.gif" width="107" height="14" alt=""></td>
-        <td colspan="5"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_08.gif" width="610" height="14" alt=""></td>
-        <td width="403"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_09.gif" width="49" height="14" alt=""></td>
-        <td width="52"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_10.gif" width="10" height="14" alt=""></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
-  <form name="loginForm" method="post" action="./login.php" onSubmit="submitForm(); return false;">
-	<input type="hidden" name="actionID"/>
-	<input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="" />
-<table width="100%"  border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="20%"><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="5" height="5" alt=""></td>
-    <td width="60%"><table id="Table_01" width="717" height="379" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td rowspan="6"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_01.gif" width="5" height="338" alt=""></td>
-        <td rowspan="5" valign="top"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_13.jpg" width="167" height="180">
-          <table width="100%"  border="0" cellspacing="0" cellpadding="3">
-            <tr>
-              <td width="45%">&nbsp;</td>
-              <td width="55%">&nbsp;</td>
-            </tr>
-            <tr>
-              <td align="right" class="bodyTXT"><?php echo $lang_login_LoginName; ?> : </td>
-              <td>
-<?php		if(isset($_POST['txtUserName'])) {?>
-              <input name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1"/>
-<?php		} else { ?>
-              <input name="txtUserName" type="text" class="loginText" tabindex="1"/>
-<?php		} ?>
-              </td>
-            </tr>
-            <tr>
-              <td align="right" class="bodyTXT"><?php echo $lang_login_Password; ?> : </td>
-              <td><input name="txtPassword" type="password" class="loginText" tabindex="2"/></td>
-            </tr>
-            <tr>
-			<td height="40" valign="bottom" align="center"><input type="Submit" name="Submit" value="<?php echo $lang_login_Login; ?>" class="button" tabindex="3"/> </td>
-            <td align="center" valign="bottom"><input type="reset" name="clear" value="<?php echo $lang_login_Clear; ?>" class="button" tabindex="4"/></td>
-            </tr>
-            <tr>
-             	<td></td>
-<?php
-			if(isset($InvalidLogin)) {
-			   switch ($InvalidLogin) {
+            }
+            
+            div#validtaeMsg {
+                padding-left: 660px; 
+                padding-top: 37px;
+            }
 
-			   		case 1 : 	$InvalidLoginMes = $lang_login_InvalidLogin;
-			   					break;
-			   		case 2 : 	$InvalidLoginMes = $lang_login_UserDisabled;
-			   					break;
-			   		case 3 : 	$InvalidLoginMes = $lang_login_NoEmployeeAssigned;
-			   					break;
-			   		case 4 : 	$InvalidLoginMes = $lang_login_temporarily_unavailable;
-			   					break;
-			   		case 5 :    $InvalidLoginMes = $lang_login_EmployeeTerminated;
-			   					break;
+            input:not([type="image"]) {
+                background-color: transparent;
+                border: none;
+            }
+            
+            input:focus:not([readonly]):not([type="image"]), select:focus, textarea:focus {
+                background-color: transparent;
+            }
+            
+            div#link {
+                padding-left: 230px;
+                padding-top: 105px;
+                float: left;
+                width: 450px;
+                
+            }
+            div#logo {
+                padding-left: 230px;
+                padding-top: 70px;
+            }
+            
+            div#socialNetWork {
+                float :right;
+                padding-right: 190px;
+                padding-top: 100px;
+            }
+            img {
+                border: none;
+            }
+            
+            -->
+        </style></head>
+    <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+        <noscript>
+        <strong><font color='Red' style="padding-left:15px; text-decoration:blink;">
+            <?php echo $lang_login_NeedJavascript; ?>
+            <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;"><?php echo $lang_login_MozillaFirefox; ?></a>
+            </font>
+        </strong>
+        </noscript>
+        <?php if (isset($_COOKIE['Loggedin']) && isset($_SERVER['HTTP_REFERER'])) { ?>
+            <strong><font color='Red' style="padding-left:15px;"><?php echo $lang_login_YourSessionExpired; ?></font>
+            </strong>
+        <?php } ?>
 
-			   }
-			} else {
-		       $InvalidLoginMes = "&nbsp;";
-			}
+        <div id="login">
+            
+            <div id="logo">
+                <img src="themes/<?php echo $styleSheet; ?>/images/login/logo.png">
+            </div>
+            <form name="loginForm" id="loginForm" class="loginForm" method="post" action="./login.php" onSubmit="submitForm(); return false;">
+                <input type="hidden" name="actionID"/>
+            <input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="" />
+                <div id="username" class="bodyTXT">
+                <?php if (isset($_POST['txtUserName'])) { ?>
+                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1"/>
+                <?php } else { ?>
+                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" tabindex="1"/>
+                <?php } ?>
+                </div>
 
-			$longMessage = "";
+                <div id="password" class="bodyTXT"><input type="password" id="txtPassword" name="txtPassword" class="loginText"></div>
+                <div id="loginButton">
+                    <input type="Submit" name="Submit" class="button" value=""/></div>                    
+                <?php
+                if (isset($InvalidLogin)) {
+                    switch ($InvalidLogin) {
 
-			if (strlen($InvalidLoginMes) > 14){
-				$longMessage = $InvalidLoginMes;
-				$InvalidLoginMes = "<a title='{$longMessage}' >".substr($InvalidLoginMes, 0, 11)."...</a>";
-			}
-?>
-			<td align='center'><strong ><font color='Red'><?php echo $InvalidLoginMes; ?></font></strong></td>
-            </tr>
-          </table></td>
-          </form>
-        <td colspan="2" rowspan="3"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_14.jpg" width="94" height="116"></td>
-        <td colspan="2"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_04.gif" width="451" height="29" alt=""></td>
-      </tr>
-      <tr>
-        <td colspan="2"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_05.gif" width="451" height="46" alt=""></td>
-      </tr>
-      <tr>
-        <td colspan="2"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_06.gif" width="451" height="41" alt=""></td>
-      </tr>
-      <tr>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_19.gif" width="23" height="22"></td>
-        <td colspan="3"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_08.gif" width="522" height="22" alt=""></td>
-      </tr>
-      <tr>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_09.gif" width="23" height="169" alt=""></td>
-        <td colspan="3" valign="top"><table width="80%"  border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="bodyTXT"><!--<strong>Orange<span class="style2">HRM</span></strong> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vast range of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.-->
-            <font color="#6C7E89" size="2" face="Tahoma">Orange</font>
-	<font size="2" face="Tahoma" color="#FF9933">HRM</font></b>
-	<font color="#6C7E89" size="3" face="tahoma" style="line-height: 18px; font-size: 11.8px; font-family: tahoma;">
-	<?php echo $lang_login_OrangeHRMDescription; ?>
-	</font></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td valign="bottom"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_new_13_2.jpg" width="167" height="25"></td>
-        <td colspan="4"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_11.gif" width="545" height="31" alt=""></td>
-      </tr>
-      <tr>
-        <td colspan="5"><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_12.gif" width="657" height="40" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_13.gif" width="60" height="40" alt=""></td>
-      </tr>
-      <tr>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="5" height="1" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="167" height="1" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="23" height="1" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="71" height="1" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="391" height="1" alt=""></td>
-        <td><img src="themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="60" height="1" alt=""></td>
-      </tr>
-    </table></td>
-    <td width="20%" valign="top">&nbsp;</td>
-  </tr>
-</table>
-<!-- End ImageReady Slices -->
-<table width="100%">
-<tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.6 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</td>
-</tr>
-</table>
+                        case 1 : $InvalidLoginMes = $lang_login_InvalidLogin;
+                            break;
+                        case 2 : $InvalidLoginMes = $lang_login_UserDisabled;
+                            break;
+                        case 3 : $InvalidLoginMes = $lang_login_NoEmployeeAssigned;
+                            break;
+                        case 4 : $InvalidLoginMes = $lang_login_temporarily_unavailable;
+                            break;
+                        case 5 : $InvalidLoginMes = $lang_login_EmployeeTerminated;
+                            break;
+                    }
+                } else {
+                    $InvalidLoginMes = "&nbsp;";
+                }
 
-</body>
+                $longMessage = "";
+
+                if (strlen($InvalidLoginMes) > 14) {
+                    $longMessage = $InvalidLoginMes;
+                    $InvalidLoginMes = "<a title='{$longMessage}' >" . substr($InvalidLoginMes, 0, 11) . "...</a>";
+                }
+                ?>
+                <div id="validtaeMsg">
+                    <?php if ($InvalidLoginMes != "&nbsp;") :?>
+                    <img id="validationMark" src="themes/<?php echo $styleSheet;?>/images/login/mark.png">
+                    <?php endif;?>
+                    <strong ><font id="validationMsg"><?php echo $InvalidLoginMes; ?></font></strong>
+                </div>
+            </form>
+            <div id="footer">
+                <div id="link"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.6 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
+                <div id="socialNetwork">
+                    <a href="http://www.linkedin.com/groups?home=&gid=891077" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/linkedin.png"></a>&nbsp;
+                    <a href="http://www.facebook.com/OrangeHRM" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/facebook.png"></a>&nbsp;
+                    <a href="http://twitter.com/orangehrm" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/twiter.png"></a>&nbsp;
+                    <a href="http://www.youtube.com/results?search_query=orangehrm&search_type=" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/youtube.png"></a>&nbsp;
+                </div>
+            </div>
+        </div>
+
+    </body>
 </html>
