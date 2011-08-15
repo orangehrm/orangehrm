@@ -44,6 +44,8 @@ class authorize {
     public $roleDirector = "Director";
     public $roleAcceptor = "Acceptor";
     public $roleOfferer = "Offerer";
+    public $roleHiringManager = "HiringManager";
+    public $roleInterviewer = "Interviewer";
 
     private static $currentUserId = null;
 
@@ -132,6 +134,8 @@ class authorize {
         $roles[$this->roleDirector] = $this->_checkIsDirector();
         $roles[$this->roleAcceptor] = $this->_checkIsAcceptor();
         $roles[$this->roleOfferer] = $this->_checkIsOfferer();
+        $roles[$this->roleHiringManager] = $this->_checkIsHiringManager();
+        $roles[$this->roleInterviewer] = $this->_checkIsInterviewer();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -250,9 +254,43 @@ class authorize {
         }
 
         return $isOfferer;
-
     }
 
+    /**
+     * Check whether the user is an HiringManager that can approve job offers
+     *
+     * @return boolean True if an hiring manager, false otherwise
+     */
+    private function _checkIsHiringManager() {
+
+        $isHiringManager = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isHiringManager = $empInfo->isHiringManager($id);
+        }
+
+        return $isHiringManager;
+    }
+
+    /**
+     * Check whether the user is an Interviewer who can interview candidates
+     *
+     * @return boolean True if an interviewer, false otherwise
+     */
+    private function _checkIsInterviewer() {
+
+        $isInterviewer = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isInterviewer = $empInfo->isInterviewer($id);
+        }
+
+        return $isInterviewer;
+    }
 
 	/**
 	 * Checks whether an admin
@@ -316,6 +354,25 @@ class authorize {
     public function isOfferer() {
         return $this->_chkRole($this->roleOfferer);
     }
+
+    /**
+     * Checks whether an HiringManager
+     *
+     * @return boolean true if an HiringManager. False otherwise
+     */
+    public function isHiringManager() {
+        return $this->_chkRole($this->roleHiringManager);
+    }
+
+    /**
+     * Checks whether an Interviewer
+     *
+     * @return boolean true if an Interviewer. False otherwise
+     */
+    public function isInterviewer() {
+        return $this->_chkRole($this->roleInterviewer);
+    }
+
 
 	/**
 	 * Checks whether an ESS
