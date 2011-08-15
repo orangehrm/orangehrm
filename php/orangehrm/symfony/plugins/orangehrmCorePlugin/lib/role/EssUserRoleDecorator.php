@@ -34,21 +34,33 @@ class EssUserRoleDecorator extends UserRoleDecorator {
 
     public function getAccessibleTimeMenus() {
 
-        $topmenuItem = new TopMenuItem();
-        $topmenuItem->setDisplayName(__("Timesheets"));
-        $topmenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
-        $tempArray = $this->user->getAccessibleTimeMenus();
-        array_push($tempArray, $topmenuItem);
+        $topMenuItemArray = $this->user->getAccessibleTimeMenus();
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("My Timesheets"));
+        $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Attendance"));
         $topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
-        array_push($tempArray, $topMenuItem);
 
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
 
-        return $tempArray;
+        return $topMenuItemArray;
     }
 
+    public function getAccessibleConfigurationSubMenus() {
+
+        $topMenuItemArray = $this->user->getAccessibleConfigurationSubMenus();
+
+        return $topMenuItemArray;
+    }
     public function getAccessibleTimeSubMenus() {
         $topmenuItem = new TopMenuItem();
         $topmenuItem->setDisplayName(__("My Timesheets"));
@@ -57,7 +69,6 @@ class EssUserRoleDecorator extends UserRoleDecorator {
         array_push($tempArray, $topmenuItem);
         return $tempArray;
     }
-
     public function getAccessibleAttendanceSubMenus() {
 
         $topMenuItem = new TopMenuItem();
@@ -122,6 +133,12 @@ class EssUserRoleDecorator extends UserRoleDecorator {
 
     public function isAllowedToDefineTimeheetPeriod() {
         return $this->user->isAllowedToDefineTimeheetPeriod();
+    }
+
+    public function getActiveProjectList() {
+        
+        $activeProjectList = $this->user->getActiveProjectList();
+        return $activeProjectList;
     }
 
 }

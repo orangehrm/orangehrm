@@ -61,7 +61,7 @@ function printButtonEventBindings($buttons) {
 
     <div style="padding-left: 10px; padding-top: 10px;">
         <?php
-        include_partial($partial, $params);
+        include_partial($partial, $sf_data->getRaw('params'));
         ?>
         
     </div>
@@ -85,7 +85,6 @@ function printButtonEventBindings($buttons) {
                 <?php } ?>
                 <?php foreach ($columns as $header) { ?>
                 <col width="<?php echo $header->getWidth(); ?>" />
-                
                 <?php } ?>
             </colgroup>
             <thead>
@@ -171,7 +170,7 @@ function printButtonEventBindings($buttons) {
                                 $cell = new $cellClass;
                                 $cell->setProperties($properties);
                                 $cell->setDataObject($object);
-                                 
+
                                 if ($hasSummary && $header->getName() == $summary['summaryField']) {
                                     ohrmListSummaryHelper::collectValue($cell->toValue(), $summary['summaryFunction']);
                                 }

@@ -81,6 +81,10 @@ Report:
       name: report_group_id as reportGroupId
       type: integer
       notnull: true
+    use_filter_field:
+      name: use_filter_field as useFilterField
+      type: boolean
+      notnull: true
   relations:
     ReportGroup:
       onDelete: cascade

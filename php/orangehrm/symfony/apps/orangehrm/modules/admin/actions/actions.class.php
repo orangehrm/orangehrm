@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -21,10 +22,8 @@
  * Actions class for Admin Module
  */
 class adminActions extends sfActions {
-	
-	
-	
-	/**
+
+    /**
      * Index action. Displays employee list
      * 
      * @param sfWebRequest $request

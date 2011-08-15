@@ -17,36 +17,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+class displayAttendanceSummaryReportCriteriaAction extends sfAction {
 
-class ohrmListSummaryHelper {
-    private static $collection = array();
-    private static $count = array();
-    
-    public static function collectValue($value, $function) {
-
-        if (!isset(self::$collection[$function])) {
-            self::$collection[$function] = 0;
-            self::$count[$function] = 0;
-        }
+    public function execute($request) {
         
-        self::$collection[$function] += $value;
-        self::$count[$function]++;
+        $this->reportId = $request->getParameter("reportId");
+        $userObj = $this->getContext()->getUser()->getAttribute("user");
+        $employeeList = $userObj->getEmployeeList();
+
+        $this->form = new AttendanceTotalSummaryReportForm();
+
+        $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
 
     }
-    
-    public static function getAggregateValue($function, $decimals) {
-        $aggregateValue = null;
-        
-        switch($function) {
-            case 'SUM':
-                $aggregateValue = self::$collection['SUM'];
-                break;
-            default:
-                // TODO: Warn. Unsupported function
-                break;
-        }
-        
-        return number_format($aggregateValue, $decimals);
-    }
+
 }
 

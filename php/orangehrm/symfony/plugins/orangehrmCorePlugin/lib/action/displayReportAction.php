@@ -28,18 +28,36 @@ abstract class displayReportAction extends sfAction {
         $reportableGeneratorService = new ReportGeneratorService();
 
         $sql = $request->getParameter("sql");
+        $reportableService = new ReportableService();
+        $report = $reportableService->getReport($reportId);
+        $useFilterField = $report->getUseFilterField();
 
-        if ($request->isMethod("get")) {
+        if (!$useFilterField) {
 
-            $reportGeneratorService = new ReportGeneratorService();
-            $selectedRuntimeFilterFieldList = $reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
+            if ($request->isMethod('post')) {
 
-            $values = $this->setValues();
-            
-            $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
-            $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
-            $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
+                $form->bind($request->getParameter($form->getName()));
 
+                if ($form->isValid()) {
+
+                    $reportGeneratorService = new ReportGeneratorService();
+                    $formValues = $form->getValues();
+                    $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
+                }
+            }
+        } else {
+
+            if ($request->isMethod("get")) {
+
+                $reportGeneratorService = new ReportGeneratorService();
+                $selectedRuntimeFilterFieldList = $reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
+
+                $values = $this->setValues();
+
+                $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
+                $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
+                $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
+            }
         }
         
         $dataSet = $reportableGeneratorService->generateReportDataSet($sql);

@@ -21,6 +21,7 @@ class User {
 
     private $topMenuItemsArray = array();
     private $employeeList = array();
+    private $activeProjectList = array();
     private $empNumber;
     private $allowedActions = array();
     private $nextState;
@@ -33,13 +34,17 @@ class User {
 
         return $this->topMenuItemsArray;
     }
-
     public function getAccessibleTimeSubMenus() {
 
         return $this->topMenuItemsArray;
     }
 
-    public function getAccessibleProjectSubMenus() {
+    public function getAccessibleConfigurationSubMenus() {
+
+        return $this->topMenuItemsArray;
+    }
+
+    public function getAccessibleReportSubMenus() {
         return $this->topMenuItemsArray;
     }
     
@@ -48,6 +53,7 @@ class User {
            return $this->topMenuItemsArray;
      }
 
+    /** Employee List depends on the decoration order **/
     public function getEmployeeList() {
 
         return $this->employeeList;
@@ -94,7 +100,15 @@ class User {
     public function isAllowedToDefineTimeheetPeriod(){
 	   return $this->canDefineTimesheetPeriod;
     }
-    
+
+    public function getActiveProjectList() {
+        return $this->projectList;
+    }
+
+    public function setActiveProjectList($activeProjectList) {
+        $this->activeProjectList = $activeProjectList;
+    }
+
     public function getActionableAttendanceStates($actions){
         return $this->actionableStates;
     }

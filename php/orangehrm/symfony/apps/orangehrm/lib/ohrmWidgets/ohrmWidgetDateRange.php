@@ -48,7 +48,6 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
     public function embedWidgetIntoForm(sfForm &$form) {
 
 
-
         $widgetSchema = $form->getWidgetSchema();
         $validatorSchema = $form->getValidatorSchema();
 

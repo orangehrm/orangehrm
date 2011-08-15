@@ -17,15 +17,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget {
+class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEmbeddableWidget {
 
     private $whereClauseCondition;
+    private $subDivisionList;
 
     public function configure($options = array(), $attributes = array()) {
 
-        $projectNameList = $this->_getProjectList();
+        $this->subDivisionList = $this->_getChoiceData();
 
-        $this->addOption('choices', $projectNameList);
+        $this->addOption('choices', $this->subDivisionList);
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -53,27 +54,38 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
     }
 
     /**
-     * Gets all the names of available projects, including deleted projects.
-     * @return array() $projectNameList
+     * Retrieve employment status list.
+     * @return array() $choice
      */
-    private function _getProjectList() {
+    private function _getChoiceData() {
 
-        $projectNameList = array();
-        $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
-        $projectList = $userObj->getActiveProjectList();
+        $choice = array();
 
-        if ($projectList != null) {
+        $companyService = new CompanyService();
+        $subDivisionTree = $companyService->getSubDivisionTree();
 
-            $projectNameList[null] = "--Select--";
-            foreach ($projectList as $project) {
+        $choice['0'] = __('All');
+        foreach ($subDivisionTree as $node) {
 
-                $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
+            // Add nodes, indenting correctly. Skip root node
+            if ($node->getId() != 1) {
+                if ($node->depth == "") {
+                    $node->depth = 1;
+                }
+
+                $value = $node->getId();
+                $children = $node->getChildren();
+
+                foreach ($children as $childNode) {
+                    $value = $value . "," . $childNode->getId();
+                }
+
+                $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
+                $choice[$value] = $indent . $node->getTitle();
             }
-        }else{
-            $projectNameList[null] = "--No Projects--";
         }
 
-        return $projectNameList;
+        return $choice;
     }
 
     /**
@@ -85,10 +97,9 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
         $label = ucwords(str_replace("_", " ", $this->attributes['id']));
-        $validator = new sfValidatorString();
+        $validator = new sfValidatorChoice(array('choices' => array_keys($this->subDivisionList)));
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true),array('required' => 'Select a project'));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);
@@ -113,7 +124,7 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
             $setCondition = $this->whereClauseCondition;
             return $setCondition;
         } else {
-            $defaultCondition = "=";
+            $defaultCondition = "IN";
             return $defaultCondition;
         }
     }
@@ -126,9 +137,12 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
      */
     public function generateWhereClausePart($fieldName, $value) {
 
-        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
-
-        return $whereClausePart;
+        if ($value == 0) {
+            return null;
+        } else {
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "(" . $value . ")";
+            return $whereClausePart;
+        }
     }
 
 }

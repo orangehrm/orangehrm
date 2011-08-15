@@ -703,7 +703,6 @@ create table `hs_hr_timesheet` (
   key `timesheet_period_id` (`timesheet_period_id`)
 ) engine=innodb default charset=utf8;
 
-
 create table `hs_hr_timesheet_submission_period` (
   `timesheet_period_id` int(11) not null,
   `name` varchar(100) default null,
@@ -714,7 +713,6 @@ create table `hs_hr_timesheet_submission_period` (
   `description` varchar(250) default null,
   primary key  (`timesheet_period_id`)
 ) engine=innodb default charset=utf8;
-
 
 create table `hs_hr_time_event` (
   `time_event_id` int(11) not null,
@@ -1074,6 +1072,7 @@ create table `ohrm_report` (
   `report_id` bigint(20) not null,
   `name` varchar(255) not null,
   `report_group_id` bigint(20) not null,
+  `use_filter_field` boolean not null,
   primary key (`report_id`),
   key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
@@ -1574,7 +1573,6 @@ alter table `hs_hr_employee_timesheet_period`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
   add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
 
-
 alter table `hs_hr_timesheet`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
   add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
@@ -1624,4 +1622,4 @@ alter table `hs_hr_emp_locations`
         references hs_hr_location(`loc_code`) on delete cascade,
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
-
+

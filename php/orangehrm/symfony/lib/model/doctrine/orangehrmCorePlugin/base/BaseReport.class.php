@@ -8,6 +8,7 @@
  * @property integer $reportId
  * @property string $name
  * @property integer $reportGroupId
+ * @property boolean $useFilterField
  * @property ReportGroup $ReportGroup
  * @property Doctrine_Collection $SelectedFilterField
  * @property Doctrine_Collection $SelectedCompositeDisplayField
@@ -18,6 +19,7 @@
  * @method integer             getReportId()                      Returns the current record's "reportId" value
  * @method string              getName()                          Returns the current record's "name" value
  * @method integer             getReportGroupId()                 Returns the current record's "reportGroupId" value
+ * @method boolean             getUseFilterField()                Returns the current record's "useFilterField" value
  * @method ReportGroup         getReportGroup()                   Returns the current record's "ReportGroup" value
  * @method Doctrine_Collection getSelectedFilterField()           Returns the current record's "SelectedFilterField" collection
  * @method Doctrine_Collection getSelectedCompositeDisplayField() Returns the current record's "SelectedCompositeDisplayField" collection
@@ -27,6 +29,7 @@
  * @method Report              setReportId()                      Sets the current record's "reportId" value
  * @method Report              setName()                          Sets the current record's "name" value
  * @method Report              setReportGroupId()                 Sets the current record's "reportGroupId" value
+ * @method Report              setUseFilterField()                Sets the current record's "useFilterField" value
  * @method Report              setReportGroup()                   Sets the current record's "ReportGroup" value
  * @method Report              setSelectedFilterField()           Sets the current record's "SelectedFilterField" collection
  * @method Report              setSelectedCompositeDisplayField() Sets the current record's "SelectedCompositeDisplayField" collection
@@ -55,6 +58,10 @@ abstract class BaseReport extends sfDoctrineRecord
              ));
         $this->hasColumn('report_group_id as reportGroupId', 'integer', null, array(
              'type' => 'integer',
+             'notnull' => true,
+             ));
+        $this->hasColumn('use_filter_field as useFilterField', 'boolean', null, array(
+             'type' => 'boolean',
              'notnull' => true,
              ));
     }

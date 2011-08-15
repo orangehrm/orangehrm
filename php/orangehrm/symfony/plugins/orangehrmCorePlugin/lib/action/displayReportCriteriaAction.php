@@ -51,7 +51,6 @@ abstract class displayReportCriteriaAction extends sfAction {
                     $staticColumns = $this->setStaticColumns($formValues);
                 }
                 $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause, $staticColumns);
-
                 $this->setReportCriteriaInfoInRequest($formValues);
 
                 $this->getRequest()->setParameter('sql', $sql);

@@ -18,35 +18,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-class ohrmListSummaryHelper {
-    private static $collection = array();
-    private static $count = array();
-    
-    public static function collectValue($value, $function) {
+class AttendanceTotalSummaryReportListConfigurationFactory extends ohrmListConfigurationFactory {
 
-        if (!isset(self::$collection[$function])) {
-            self::$collection[$function] = 0;
-            self::$count[$function] = 0;
-        }
-        
-        self::$collection[$function] += $value;
-        self::$count[$function]++;
+    protected function init() {}
 
-    }
-    
-    public static function getAggregateValue($function, $decimals) {
-        $aggregateValue = null;
-        
-        switch($function) {
-            case 'SUM':
-                $aggregateValue = self::$collection['SUM'];
-                break;
-            default:
-                // TODO: Warn. Unsupported function
-                break;
-        }
-        
-        return number_format($aggregateValue, $decimals);
+    public function getClassName() {
+        return 'AttendanceTotalSummaryReport';
     }
 }
 

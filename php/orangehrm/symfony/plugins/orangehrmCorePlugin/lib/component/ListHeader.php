@@ -3,7 +3,7 @@
 class ListHeader extends ComponentProperty {
     const DEFAULT_ELEMENT_TYPE = 'label';
 
-    private $elementTypes = array(
+    protected $elementTypes = array(
         'label',
         'link',
         'textbox',

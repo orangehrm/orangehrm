@@ -365,11 +365,9 @@ class ReportGeneratorService {
         $this->generateCompositeDisplayFieldHeaders($reportId, $headers, $headerNo);
         $this->generateSelectedDisplayFieldHeaders($reportId, $headers, $headerNo);
         $this->generateSummaryDisplayFieldHeaders($reportId, $headers, $headerNo);
-        
+
         return $headers;
     }
-
-
 
     /**
      * Generates headers for composite display fields that are to be used in the list component.
@@ -391,7 +389,6 @@ class ReportGeneratorService {
         }
     }
 
-    
     private function generateSummaryDisplayFieldHeaders($reportId, &$headers, &$headerNo) {
 
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
@@ -400,7 +397,6 @@ class ReportGeneratorService {
             $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
             $this->setHeaderProperties($summaryDisplayField, $headers, $headerNo);
         }
-
     }
 
     private function generateSelectedDisplayFieldHeaders($reportId, &$headers, &$headerNo) {
@@ -444,7 +440,7 @@ class ReportGeneratorService {
 
         $elementPropertyArray = $this->simplexmlToArray($xmlIterator);
 
-       
+
         $properties['elementProperty'] = $elementPropertyArray;
         $temp = "header" . $headerNo;
 
@@ -454,7 +450,6 @@ class ReportGeneratorService {
         $headerNo++;
 
         $headers[] = ${$temp};
-         
     }
 
     /*
@@ -664,6 +659,46 @@ class ReportGeneratorService {
         $reportName = $report->getName();
 
         return $reportName;
+    }
+
+    public function generateSqlForNotUseFilterFieldReports($reportId, $formValues) {
+
+        $report = $this->getReportableService()->getReport($reportId);
+        $reportGroupId = $report->getReportGroupId();
+
+        $reportGroup = $this->getReportableService()->getReportGroup($reportGroupId);
+        $coreSql = $reportGroup->getCoreSql();
+
+        $selectStatement = $this->getSelectConditionWithoutSummaryFunction($reportId);
+        $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
+        $summaryDisplayField = null;
+
+        if (!is_null($selectedGroupField)) {
+            $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
+            $function = $summaryDisplayField->getFunction();
+            $summaryFieldAlias = $summaryDisplayField->getFieldAlias();
+            $summaryFunction = $function . " AS " . $summaryFieldAlias;
+
+            $groupField = $selectedGroupField->getGroupField();
+            $groupByClause = $groupField->getGroupByClause();
+        }
+
+        if (isset($summaryFunction)) {
+            $selectStatement = $selectStatement . "," . $summaryFunction;
+        }
+
+        $sql = str_replace("selectCondition", $selectStatement, $coreSql);
+
+        if (isSet($groupByClause)) {
+            $sql = $sql . " " . $groupByClause;
+        }
+
+        foreach ($formValues as $key => $value) {
+            $pattern = "/" . $key . "/";
+            $sql = preg_replace($pattern, $value, $sql);
+        }
+
+        return $sql;
     }
 
 }

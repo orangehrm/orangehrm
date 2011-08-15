@@ -640,9 +640,9 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
 
 INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) WHERE whereCondition2');
 
-INSERT INTO `ohrm_report` VALUES (1, 'Project Report', 1),
-                                 (2, 'Employee Report', 1),
-                                 (3, 'Project Activity Details', 1);
+INSERT INTO `ohrm_report` VALUES (1, 'Project Report', 1, 1),
+                                 (2, 'Employee Report', 1, 1),
+                                 (3, 'Project Activity Details', 1,1);
 
 INSERT INTO `ohrm_filter_field` VALUES (1, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectList', 2, 'Runtime', 'true'),
                                        (2, 1, 'activity_show_deleted', 'hs_hr_project_activity.deleted', 'ohrmWidgetInputCheckbox', 2, 'Runtime', 'false'),

@@ -24,11 +24,13 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     const CONFIGURE_LINK="./symfony/web/index.php/attendance/configure";
     const PROJECT_REPORT_LINK="./symfony/web/index.php/time/displayProjectReportCriteria?reportId=1";
     const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
+    const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
     const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
-
     private $user;
     private $employeeService;
     private $timesheetService;
+    private $projectService;
+    private $timesheetPeriodService;
 
     public function __construct(User $user) {
 
@@ -46,88 +48,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         }
 
         return $this->timesheetService;
-    }
-
-    public function getTimesheetPeriodService() {
-
-        if (is_null($this->timesheetPeriodService)) {
-
-            $this->timesheetPeriodService = new TimesheetPeriodService();
-        }
-
-        return $this->timesheetPeriodService;
-    }
-
-    public function getAccessibleTimeMenus() {
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Timesheets"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        $tempArray = $this->user->getAccessibleTimeMenus();
-        array_push($tempArray, $topMenuItem);
-
-//
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Attendance"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        array_push($tempArray, $topMenuItem);
-
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
-        array_push($tempArray, $topMenuItem);
-
-
-
-        return $tempArray;
-    }
-
-    public function getAccessibleTimeSubMenus() {
-        //$topMenuItem = new TopMenuItem();
-        //$topMenuItem->setDisplayName(__("Time"));
-        //set the link for timesheet configration
-        //$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        //array_push($tempArray, $topMenuItem);
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Timesheets"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        $tempArray = $this->user->getAccessibleTimeSubMenus();
-        array_push($tempArray, $topMenuItem);
-
-        return $tempArray;
-    }
-
-    public function getAccessibleProjectSubMenus() {
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Project Reports"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
-        $tempArray = $this->user->getAccessibleProjectSubMenus();
-        array_push($tempArray, $topMenuItem);
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Employee Reports"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::EMPLOYEE_REPORT_LINK);
-        array_push($tempArray, $topMenuItem);
-
-        return $tempArray;
-    }
-
-    public function getAccessibleAttendanceSubMenus() {
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Records"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
-        array_push($tempArray, $topMenuItem);
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Configuration"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::CONFIGURE_LINK);
-
-        array_push($tempArray, $topMenuItem);
-        return $tempArray;
     }
 
     /**
@@ -153,6 +73,145 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $this->EmployeeService = $employeeService;
     }
 
+    /**
+     * Get the Project Data Access Object
+     * @return ProjectService
+     */
+    public function getProjectService() {
+
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+        }
+
+        return $this->projectService;
+    }
+
+    /**
+     * Set Project Data Access Object
+     * @param ProjectService $projectService
+     * @return void
+     */
+    public function setProjectService(ProjectService $projectService) {
+
+        $this->projectService = $projectService;
+    }
+
+    public function getTimesheetPeriodService() {
+
+        if (is_null($this->timesheetPeriodService)) {
+
+            $this->timesheetPeriodService = new TimesheetPeriodService();
+        }
+
+        return $this->timesheetPeriodService;
+    }
+
+    public function getAccessibleTimeMenus() {
+        $topMenuItemArray = $this->user->getAccessibleTimeMenus();
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Configure"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::CONFIGURE_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Employee Timesheets"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Reports"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        return $topMenuItemArray;
+    }
+
+
+    public function getAccessibleTimeSubMenus() {
+        //$topMenuItem = new TopMenuItem();
+        //$topMenuItem->setDisplayName(__("Time"));
+        //set the link for timesheet configration
+        //$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
+        //array_push($tempArray, $topMenuItem);
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Employee Timesheets"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
+        $tempArray = $this->user->getAccessibleTimeSubMenus();
+        array_push($tempArray, $topMenuItem);
+
+        return $tempArray;
+    }
+
+
+    public function getAccessibleAttendanceSubMenus() {
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Employee Records"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
+        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
+        array_push($tempArray, $topMenuItem);
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Configuration"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::CONFIGURE_LINK);
+
+        array_push($tempArray, $topMenuItem);
+        return $tempArray;
+    }
+
+    public function getAccessibleConfigurationSubMenus() {
+
+        $topMenuItemArray = $this->user->getAccessibleConfigurationSubMenus();
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Attendance"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_CONFIGURATION);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        return $topMenuItemArray;
+    }
+  public function getAccessibleReportSubMenus() {
+
+        $topMenuItemArray = $this->user->getAccessibleReportSubMenus();
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__(" Project Reports"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__(" Employee Reports"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::EMPLOYEE_REPORT_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__(" Attendance Total Summary Report"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        return $topMenuItemArray;
+    }
     /**
      * Get the employee list ( whole employees )
      * @return Employee[]
@@ -266,13 +325,12 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $isAllowed = true;
         return $isAllowed;
     }
-    
+
     /* Retrieves all the active projects */
     public function  getActiveProjectList() {
 
         $activeProjectList = $this->getProjectService()->getActiveProjectList();
         return $activeProjectList;
-    }    
-    
+    }
 
 }
