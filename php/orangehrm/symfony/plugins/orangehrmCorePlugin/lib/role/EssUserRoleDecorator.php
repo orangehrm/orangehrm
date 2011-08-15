@@ -37,7 +37,7 @@ class EssUserRoleDecorator extends UserRoleDecorator {
         $topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("My Timesheets"));
+        $topMenuItem->setDisplayName(__("Timesheets"));
         $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
@@ -55,12 +55,7 @@ class EssUserRoleDecorator extends UserRoleDecorator {
         return $topMenuItemArray;
     }
 
-    public function getAccessibleConfigurationSubMenus() {
 
-        $topMenuItemArray = $this->user->getAccessibleConfigurationSubMenus();
-
-        return $topMenuItemArray;
-    }
     public function getAccessibleTimeSubMenus() {
         $topmenuItem = new TopMenuItem();
         $topmenuItem->setDisplayName(__("My Timesheets"));

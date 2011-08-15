@@ -110,16 +110,16 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Configure"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::CONFIGURE_LINK);
+        $topMenuItem->setDisplayName(__("Timesheets"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
             array_push($topMenuItemArray, $topMenuItem);
         }
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Timesheets"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
+        $topMenuItem->setDisplayName(__("Attendance"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
             array_push($topMenuItemArray, $topMenuItem);
@@ -168,20 +168,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         return $tempArray;
     }
 
-    public function getAccessibleConfigurationSubMenus() {
-
-        $topMenuItemArray = $this->user->getAccessibleConfigurationSubMenus();
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Attendance"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_CONFIGURATION);
-
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
-
-        return $topMenuItemArray;
-    }
   public function getAccessibleReportSubMenus() {
 
         $topMenuItemArray = $this->user->getAccessibleReportSubMenus();

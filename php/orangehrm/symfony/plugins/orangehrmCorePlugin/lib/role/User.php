@@ -39,10 +39,6 @@ class User {
         return $this->topMenuItemsArray;
     }
 
-    public function getAccessibleConfigurationSubMenus() {
-
-        return $this->topMenuItemsArray;
-    }
 
     public function getAccessibleReportSubMenus() {
         return $this->topMenuItemsArray;

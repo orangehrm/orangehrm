@@ -1339,4 +1339,29 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+    
+       /**
+     * Check if user with given userId is a admin
+     * @param string $userId
+     * @return bool - True if given user is a admin, false if not
+     */
+    public function isAdmin($userId) {
+        try {
+            $q = Doctrine_Query :: create()
+
+            ->from('users')
+            ->where('id = ?', $userId)
+            ->andWhere('is_admin =?',"Yes");
+
+            $results = $q->execute();
+            if($results[0]->getId()== null){
+                return false;
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
 }

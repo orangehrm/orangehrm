@@ -31,6 +31,9 @@ class ConfigService extends BaseService {
     const KEY_PIM_SHOW_SSN = 'pim_show_ssn';
     const KEY_PIM_SHOW_SIN = 'pim_show_sin';
     const KEY_PIM_SHOW_TAX_EXEMPTIONS = 'pim_show_tax_exemptions';
+    const KEY_TIMESHEET_TIME_FORMAT = 'timesheet_time_format';
+    const KEY_TIMESHEET_PERIOD_AND_START_DATE = 'timesheet_period_and_start_date';
+    const KEY_TIMESHEET_PERIOD_SET = 'timesheet_period_set';
 
     /**
      * Get ConfigDao

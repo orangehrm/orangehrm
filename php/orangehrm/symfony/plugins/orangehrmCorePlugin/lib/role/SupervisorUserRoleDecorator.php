@@ -100,12 +100,6 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         return $topMenuItemArray;
     }
 
-    public function getAccessibleConfigurationSubMenus() {
-
-        $topMenuItemArray = $this->user->getAccessibleConfigurationSubMenus();
-
-        return $topMenuItemArray;
-    }
 
     public function getAccessibleReportSubMenus() {
 

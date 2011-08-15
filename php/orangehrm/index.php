@@ -75,7 +75,7 @@ define('ROOT_PATH', dirname(__FILE__));
 
 if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
     header('Location: ./install.php');
-    exit ();
+    exit();
 }
 
 if (!isset($_SESSION['fname'])) {
@@ -587,6 +587,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
         // modified under restructure time menu story
 
         $subsubs = array();
+        $subsubs0 = array();
         $subsubs1 = array();
         if ($accessibleTimeMenuItems != null) {
             foreach ($accessibleTimeMenuItems as $ttt) {
@@ -906,10 +907,10 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         <link href="themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="favicon.ico" rel="icon" type="image/gif"/>
         <script type="text/javaScript" src="scripts/archive.js"></script>
-<?php
-$menuObj->getCSS();
-$menuObj->getJavascript($menu);
-?>
+        <?php
+        $menuObj->getCSS();
+        $menuObj->getJavascript($menu);
+        ?>
     </head>
 
     <body>

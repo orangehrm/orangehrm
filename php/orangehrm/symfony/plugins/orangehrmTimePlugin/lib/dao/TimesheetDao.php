@@ -24,6 +24,23 @@ class TimesheetDao {
      * @param $timesheetId
      * @return Timesheet
      */
+    
+    protected $configDao;
+    
+    public function setConfigDao($configDao) {
+        $this->configDao = $configDao;
+    }
+    
+    public function getConfigDao() {
+        
+        if (is_null($this->configDao)) {
+            $this->configDao = new ConfigDao();
+        }
+        
+        return $this->configDao;
+        
+    }
+
     public function getTimesheetById($timesheetId) {
 
         try {
@@ -557,11 +574,7 @@ class TimesheetDao {
     public function getTimesheetTimeFormat() {
 
         try {
-            $query = Doctrine_Query::create()
-                    ->from('Config')
-                    ->where('key = ?', "timesheet_time_format");
-            $format = $query->execute();
-            return $format[0]->getValue();
+            return $this->getConfigDao()->getValue(ConfigService::KEY_TIMESHEET_TIME_FORMAT);
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }

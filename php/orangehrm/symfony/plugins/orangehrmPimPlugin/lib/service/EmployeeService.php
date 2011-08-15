@@ -1008,4 +1008,16 @@ class EmployeeService extends BaseService {
         }
     }
 
+       /**
+     * Check if user with given userId is an admin
+     * @param string $userId
+     * @return bool - True if given user is an admin, false if not
+     */
+    public function isAdmin($userId) {
+        try {
+            return $this->employeeDao->isAdmin($userId);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
 }

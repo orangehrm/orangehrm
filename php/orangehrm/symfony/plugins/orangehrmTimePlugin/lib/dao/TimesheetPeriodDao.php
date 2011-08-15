@@ -19,18 +19,27 @@
  */
 class TimesheetPeriodDao {
 
-
+    protected $configDao;
+    
+    public function setConfigDao($configDao) {
+        $this->configDao = $configDao;
+    }
+    
+    public function getConfigDao() {
+        
+        if (is_null($this->configDao)) {
+            $this->configDao = new ConfigDao();
+        }
+        
+        return $this->configDao;
+        
+    }
 
 	public function getDefinedTimesheetPeriod() {
 
 		try {
-			$query = Doctrine_Query::create()
-					->from('Config')
-					->where('key = ?', 'timesheet_period_and_start_date');
-			$xmlString = $query->execute();
-
-			return $xmlString[0]->getValue();
-		} catch (Exception $ex) {
+            return $this->getConfigDao()->getValue(ConfigService::KEY_TIMESHEET_PERIOD_AND_START_DATE);
+ 		} catch (Exception $ex) {
 			throw new DaoException($ex->getMessage());
 		}
 	}
@@ -38,13 +47,7 @@ class TimesheetPeriodDao {
 	public function isTimesheetPeriodDefined() {
 
 		try {
-			$query = Doctrine_Query::create()
-					->from('Config')
-					->where('key = ?', 'timesheet_period_set');
-			
-			$isAllowed = $query->execute();
-		
-			return $isAllowed[0]->getValue();
+            return $this->getConfigDao()->getValue(ConfigService::KEY_TIMESHEET_PERIOD_SET);
 		} catch (Exception $ex) {
 			throw new DaoException($ex->getMessage());
 		}
