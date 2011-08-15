@@ -3102,6 +3102,61 @@ class EmpInfo {
 	}
 
     /**
+     * Check if given employee is a 'HiringManager'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if an hiring manager, false otherwise
+     */
+    public function isHiringManager($empNumber) {
+
+        $selectTable = "`ohrm_job_vacancy`";
+        $selectFields[0] = "COUNT(`hiring_manager_id`)";
+        $selectConditions[0] = "`hiring_manager_id` = $empNumber";
+
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $row = $dbConnection->dbObject->getArray($result);
+
+        if ($row[0] > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+ 
+
+   /**
+     * Check if given employee is an 'Interviewer'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if an interviewer, false otherwise
+     */
+    public function isInterviewer($empNumber) {
+
+        $selectTable = "`ohrm_job_interview_interviewer`";
+        $selectFields[0] = "COUNT(`interviewer_id`)";
+        $selectConditions[0] = "`interviewer_id` = $empNumber";
+
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
+
+        $row = $dbConnection->dbObject->getArray($result);
+
+        if ($row[0] > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Searches for supervisors with name matching the search string and
      * returns a comma separated list of employee numbers of their
      * subordinates.
