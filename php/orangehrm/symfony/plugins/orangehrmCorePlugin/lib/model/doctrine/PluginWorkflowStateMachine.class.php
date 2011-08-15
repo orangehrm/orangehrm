@@ -27,9 +27,54 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const ATTENDANCE_ACTION_PROXY_PUNCH_IN=5;
     const ATTENDANCE_ACTION_PROXY_PUNCH_OUT=6;
     const ATTENDANCE_ACTION_DELETE=7;
-    
 
+
+    const RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY = 1;
+    const RECRUITMENT_APPLICATION_ACTION_SHORTLIST = 2;
+    const RECRUITMENT_APPLICATION_ACTION_REJECT = 3;
+    const RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW = 4;
+    const RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED = 5;
+    const RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED = 6;
+    const RECRUITMENT_APPLICATION_ACTION_OFFER_JOB = 7;
+    const RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER = 8;
+    const RECRUITMENT_APPLICATION_ACTION_HIRE = 9;
 
     const FLOW_TIME_TIMESHEET = 0;
     const FLOW_ATTENDANCE=1;
+    const FLOW_RECRUITMENT = 2;
+
+    public function getRecruitmentActionName($action) {
+        $actionName = "";
+        switch ($action) {
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY:
+                $actionName = "Assigned a Vacancy";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
+                $actionName = "Shortlist";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
+                $actionName = "Reject";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW:
+                $actionName = "Schedule Interview";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
+                $actionName = "Mark Interview Passed";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
+                $actionName = "Mark Interview Fail";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
+                $actionName = "Offer Job";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
+                $actionName = "Decline Offer";
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
+                $actionName = "Hire";
+                break;
+        }
+        return $actionName;
+    }
+
 }

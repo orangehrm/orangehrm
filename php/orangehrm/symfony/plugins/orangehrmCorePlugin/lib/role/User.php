@@ -29,27 +29,50 @@ class User {
     private $userTimeZoneOffset;
     private $canDefineTimesheetPeriod = false;
     private $actionableStates = array();
+    private $previousStates = array();
+    private $applicationStates = array();
+    private $candidateList = array();
+    private $vacancyList = array();
+    private $candidateHistoryList = array();
 
     public function getAccessibleTimeMenus() {
 
         return $this->topMenuItemsArray;
     }
+
     public function getAccessibleTimeSubMenus() {
 
         return $this->topMenuItemsArray;
     }
 
+    public function getPreviousStates($workFlow, $state) {
+
+        return $this->previousStates;
+    }
+
+    public function getAllAlowedRecruitmentApplicationStates($workFlow) {
+
+        return $this->applicationStates;
+    }
+
+    public function getAccessibleConfigurationSubMenus() {
+        return $this->topMenuItemsArray;
+    }
 
     public function getAccessibleReportSubMenus() {
         return $this->topMenuItemsArray;
     }
-    
-     public function getAccessibleAttendanceSubMenus(){
-         
-           return $this->topMenuItemsArray;
-     }
 
-    /** Employee List depends on the decoration order **/
+    public function getAccessibleAttendanceSubMenus() {
+
+        return $this->topMenuItemsArray;
+    }
+
+    public function getAccessibleRecruitmentMenus() {
+        return $this->topMenuItemsArray;
+    }
+
+    /** Employee List depends on the decoration order * */
     public function getEmployeeList() {
 
         return $this->employeeList;
@@ -93,8 +116,8 @@ class User {
         return $this->userTimeZoneOffset;
     }
 
-    public function isAllowedToDefineTimeheetPeriod(){
-	   return $this->canDefineTimesheetPeriod;
+    public function isAllowedToDefineTimeheetPeriod() {
+        return $this->canDefineTimesheetPeriod;
     }
 
     public function getActiveProjectList() {
@@ -105,8 +128,20 @@ class User {
         $this->activeProjectList = $activeProjectList;
     }
 
-    public function getActionableAttendanceStates($actions){
+    public function getActionableAttendanceStates($actions) {
         return $this->actionableStates;
+    }
+
+    public function getAllowedCandidateList() {
+        return $this->candidateList;
+    }
+
+    public function getAllowedVacancyList() {
+        return $this->vacancyList;
+    }
+
+    public function getAllowedCandidateHistoryList($candidateId) {
+        return $this->candidateHistoryList;
     }
 
 }

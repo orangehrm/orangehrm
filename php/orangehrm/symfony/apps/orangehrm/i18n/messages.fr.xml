@@ -760,6 +760,14 @@
                 <source>First </source>
                 <target>FR_First</target>
             </trans-unit>
+			<trans-unit id="219">
+                <source>Current Status</source>
+                <target>FR_Current Status</target>
+            </trans-unit>
+			<trans-unit id="220">
+                <source>Notes</source>
+                <target>FR_Notes</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

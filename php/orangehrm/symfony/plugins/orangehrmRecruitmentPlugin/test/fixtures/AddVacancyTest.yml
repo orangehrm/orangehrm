@@ -1,0 +1,41 @@
+ValidVacancies:
+  all_fields: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+  all_fields2: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington2', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+  all_fields_inactive: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington3', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'no'}
+  onlyMandatory: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington4', hiringManager: 'Kayla Abbey', numberOfPositions: '', description: '', active:'yes'}
+  withoutNoOfPositions: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington5', hiringManager: 'Kayla Abbey', numberOfPositions: '', description: 'No description', active:'yes'}
+  withoutDesc: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington6', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: '', active:'yes'}
+
+MandatoryFieldsMissing:
+  all_fields: {jobTitle: '', vacancyName: '', hiringManager: '', numberOfPositions: 2, description: 'No description', active:'yes'}
+  vacancy_jobtitle: {jobTitle: '', vacancyName: '', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+  vacancy_hiringManager: {jobTitle: 'Technical Assistant', vacancyName: '', hiringManager: '', numberOfPositions: 2, description: 'No description', active:'yes'}
+  jobtitle_hiringManager: {jobTitle: '', vacancyName: 'Technical Assistant - Washington7', hiringManager: '', numberOfPositions: 2, description: 'No description', active:'yes'}
+  onlyJobTitle: {jobTitle: '', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+  onlyhiringManager: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: '', numberOfPositions: 2, description: 'No description', active:'yes'}
+  onlyvacancyName: {jobTitle: 'Technical Assistant', vacancyName: '', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+  
+InvalidHiringManager:
+  01: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'AAABBB', numberOfPositions: 2, description: 'No description', active:'yes'}
+  02: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: '11111', numberOfPositions: 2, description: 'No description', active:'yes'}
+  
+InvalidNoOfPositions:
+ 01: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'Kayla Abbey', numberOfPositions: '.5', description: 'No description', active:'yes'}
+ 02: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'Kayla Abbey', numberOfPositions: -1, description: 'No description', active:'yes'}
+ 03: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'Kayla Abbey', numberOfPositions: AA, description: 'No description', active:'yes'}
+ 
+LengthValidation:
+ 01: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington7', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'OrangeHRM aims to be the world’s leading open source HRM (HRIS) solution for small and medium sized enterprises (SMEs) by providing a flexible and easy to use HRM system affordable for any company worldwide. The project was started during fall 2005 as', active:'yes'}
+
+SpecialCharacters:
+ 01: {jobTitle: 'Technical Assistant', vacancyName: "\"\\~!@'#$%^&*()_+=-`{}:;[]<>.,?|/", hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: "\"\\~!@#$%^&*()_+=-`{}:;[]<>.,?|/'", active:'yes'}
+ 
+DuplicateJobVacancy:
+ 01: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington8', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+ 02: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington8', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+ 03: {jobTitle: 'Technical Assistant', vacancyName: 'TECHNICAL ASSISTANT - WASHINGTON8', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+ 04: {jobTitle: 'Technical Assistant', vacancyName: 'TeChNiCaL AsSiStAnT - WaShInGtOn8', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'yes'}
+ 
+OnlyActivevacanciesListed:
+ 01: {jobTitle: 'Technical Assistant', vacancyName: 'Technical Assistant - Washington9', hiringManager: 'Kayla Abbey', numberOfPositions: 2, description: 'No description', active:'no'}
+  

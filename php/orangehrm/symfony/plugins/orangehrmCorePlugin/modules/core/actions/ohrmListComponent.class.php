@@ -19,6 +19,7 @@ class ohrmListComponent extends sfComponent {
         }
 
         $recordsLimit = self::$itemsPerPage;//sfConfig::get('app_items_per_page');
+        $pageNo = $request->getParameter('pageNo', 1);
 
         if (self::$pageNumber) {
             $pageNo = self::$pageNumber;

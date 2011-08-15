@@ -29,6 +29,12 @@ class SimpleUserRoleFactory {
         if ($userRoleArray['isAdmin']) {
             $userObj = new AdminUserRoleDecorator($userObj);
         }
+        if ($userRoleArray['isInterviewer']) {
+            $userObj = new InterviewerUserRoleDecorator($userObj);
+        }
+        if ($userRoleArray['isHiringManager']) {
+            $userObj = new HiringManagerUserRoleDecorator($userObj);
+        }
         return $userObj;
     }
 

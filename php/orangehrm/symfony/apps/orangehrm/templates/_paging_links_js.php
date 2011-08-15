@@ -19,7 +19,7 @@
  *
  */
 
-echo "<a href=\"javascript:submitPage(1)\">".__('First ')."</a> ";
+echo "<a href=\"javascript:submitPage(1)\">".__('First')."</a> ";
 echo "<a href=\"javascript:submitPage({$pager->getPreviousPage()})\">".__('Previous')."</a> ";
 
 

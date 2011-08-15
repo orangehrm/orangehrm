@@ -14,14 +14,22 @@ class AccessFlowStateMachineDao {
 
     public function getAllowedActions($flow, $state, $role) {
         try {
-
-            $query = Doctrine_Query::create()
-                    ->select("action")
-                    ->from("WorkflowStateMachine")
-                    ->where("workflow = ?", $flow)
-                    ->andWhere("state = ?", $state)
-                    ->andWhere("role = ?", $role);
-            $results = $query->execute();
+            if ($state != null) {
+                $query = Doctrine_Query::create()
+                                ->select("action")
+                                ->from("WorkflowStateMachine")
+                                ->where("workflow = ?", $flow)
+                                ->andWhere("state = ?", $state)
+                                ->andWhere("role = ?", $role);
+                $results = $query->execute();
+            } else {
+                $query = Doctrine_Query::create()
+                                ->select("action")
+                                ->from("WorkflowStateMachine")
+                                ->where("workflow = ?", $flow)
+                                ->andWhere("role = ?", $role);
+                $results = $query->execute();
+            }
 
             if ($results[0]->getId() == null) {
 
@@ -39,12 +47,12 @@ class AccessFlowStateMachineDao {
         try {
 
             $query = Doctrine_Query::create()
-                    ->select("resultingState")
-                    ->from("WorkflowStateMachine")
-                    ->where("workflow = ?", $flow)
-                    ->andWhere("state = ?", $state)
-                    ->andWhere("action = ?", $action)
-                    ->andWhere("role = ?", $role);
+                            ->select("resultingState")
+                            ->from("WorkflowStateMachine")
+                            ->where("workflow = ?", $flow)
+                            ->andWhere("state = ?", $state)
+                            ->andWhere("action = ?", $action)
+                            ->andWhere("role = ?", $role);
             $results = $query->execute();
 
             if ($results[0]->getId() == null) {
@@ -58,16 +66,38 @@ class AccessFlowStateMachineDao {
         }
     }
 
+    public function getPreviousStates($flow, $role, $action) {
+
+        try {
+
+            $query = Doctrine_Query::create()
+                            ->from("WorkflowStateMachine")
+                            ->where("workflow = ?", $flow)
+                            ->andWhere("role = ?", $role)
+                            ->andWhere("action = ?", $action);
+            $results = $query->execute();
+
+            if ($results[0]->getId() == null) {
+
+                return null;
+            } else {
+                return $results;
+            }
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }
+    }
+
     public function getActionableStates($flow, $role, $actions) {
 
         try {
 
             $query = Doctrine_Query::create()
-                    ->select("state")
-                    ->where("workflow = ?", $flow)
-                    ->from("WorkflowStateMachine")
-                    ->andWhere("role = ?", $role)
-                    ->andWhereIn('action', $actions);
+                            ->select("state")
+                            ->where("workflow = ?", $flow)
+                            ->from("WorkflowStateMachine")
+                            ->andWhere("role = ?", $role)
+                            ->andWhereIn('action', $actions);
             $results = $query->execute();
 
             if ($results[0]->getId() == null) {
@@ -104,12 +134,12 @@ class AccessFlowStateMachineDao {
 
         try {
             $q = Doctrine_Query:: create()
-                    ->delete('WorkflowStateMachine')
-                    ->where("workflow = ?", $flow)
-                    ->andWhere("role = ?", $role)
-                    ->andWhere("state = ?", $state)
-                    ->andWhere("action = ?", $action)
-                    ->andWhere("resultingState = ?", $resultingState);
+                            ->delete('WorkflowStateMachine')
+                            ->where("workflow = ?", $flow)
+                            ->andWhere("role = ?", $role)
+                            ->andWhere("state = ?", $state)
+                            ->andWhere("action = ?", $action)
+                            ->andWhere("resultingState = ?", $resultingState);
 
             $result = $q->execute();
 
@@ -124,6 +154,27 @@ class AccessFlowStateMachineDao {
         }
     }
 
-}
+    public function getAllAlowedRecruitmentApplicationStates($flow, $role) {
 
-?>
+        try {
+            $q = Doctrine_Query:: create()
+                            ->select("state")
+                            ->from("WorkflowStateMachine")
+                            ->where("workflow = ?", $flow)
+                            ->andWhere("role = ?", $role);
+
+            $results = $q->execute();
+
+            if ($results[0]->getId() == null) {
+
+                return null;
+            } else {
+                return $results;
+            }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+
+}

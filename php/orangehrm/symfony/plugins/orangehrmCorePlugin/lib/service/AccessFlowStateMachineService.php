@@ -37,10 +37,18 @@ class AccessFlowStateMachineService {
         $this->accessFlowStateMachineDao = $acessFlowStateDao;
     }
 
+    public function getAccessibleFlowStateMachineDao() {
+
+        if (is_null($this->accessFlowStateMachineDao)) {
+            $this->accessFlowStateMachineDao = new AccessFlowStateMachineDao();
+        }
+
+        return $this->accessFlowStateMachineDao;
+    }
 
     public function getAllowedActions($workflow, $state, $role) {
 
-        $results = $this->getAccessFlowStateMachineDao()->getAllowedActions($workflow, $state, $role);
+        $results = $this->getAccessibleFlowStateMachineDao()->getAllowedActions($workflow, $state, $role);
 
         if (is_null($results)) {
 
@@ -58,13 +66,45 @@ class AccessFlowStateMachineService {
 
     public function getNextState($flow, $state, $role, $action) {
 
-        $result = $this->getAccessFlowStateMachineDao()->getNextState($flow, $state, $role, $action);
+        $result = $this->getAccessibleFlowStateMachineDao()->getNextState($flow, $state, $role, $action);
         if (is_null($result)) {
 
             return null;
         } else {
 
             return $result->getResultingState();
+        }
+    }
+
+    public function getPreviousStates($flow, $role, $action) {
+
+        $result = $this->getAccessibleFlowStateMachineDao()->getPreviousStates($flow, $role, $action);
+        if (is_null($result)) {
+
+            return null;
+        } else {
+            $stateList = array();
+            foreach ($result as $rslt) {
+                $stateList[] = $rslt->getState();
+            }
+            return $stateList;
+        }
+    }
+
+    public function getAllAlowedRecruitmentApplicationStates($flow, $role) {
+
+        $result = $this->getAccessibleFlowStateMachineDao()->getAllAlowedRecruitmentApplicationStates($flow, $role);
+        if (is_null($result)) {
+
+            return null;
+        } else {
+            $resultingStateList = array();
+            $stateList = array();
+            foreach ($result as $rslt) {
+                $stateList[] = $rslt->getState();
+                $resultingStateList[] = $rslt->getResultingState();
+            }
+            return array_merge($stateList, $resultingStateList);
         }
     }
 
@@ -91,11 +131,29 @@ class AccessFlowStateMachineService {
         return $this->getAccessFlowStateMachineDao()->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
     }
 
+	/*
+    public function deleteWorkflowStateMachineRecord($flow, $state, $role, $action, $resultingState) {
+		$this->getAccessFlowStateMachineDao()->deleteWorkflowStateMachinerecord($flow, $state, $role, $action, $resultingState);
+	}
+	*/
 
     public function deleteWorkflowStateMachineRecord($flow, $state, $role, $action, $resultingState){
-
        return  $this->getAccessFlowStateMachineDao()->deleteWorkflowStateMachinerecord($flow, $state, $role, $action, $resultingState);
     }
-}
 
-?>
+    public function getAllowedCandidateList($role, $empNumber) {
+        $candidateService = new CandidateService();
+        return $candidateService->getCandidateListForUserRole($role, $empNumber);
+    }
+
+    public function getAllowedVacancyList($role, $empNumber) {
+        $vacancyService = new VacancyService();
+        return $vacancyService->getVacancyListForUserRole($role, $empNumber);
+    }
+
+    public function getAllowedCandidateHistoryList($role, $empNumber, $candidateId) {
+        $candidateService = new CandidateService();
+        return $candidateService->getCanidateHistoryForUserRole($role, $empNumber, $candidateId);
+    }
+
+}

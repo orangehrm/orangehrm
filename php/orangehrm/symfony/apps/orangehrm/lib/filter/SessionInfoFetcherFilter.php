@@ -23,6 +23,8 @@ class SessionInfoFetcherFilter extends sfFilter {
         }
 
         $userRoleArray['isSupervisor'] = $_SESSION['isSupervisor'];
+        $userRoleArray['isHiringManager'] = $_SESSION['isHiringManager'];
+        $userRoleArray['isInterviewer'] = $_SESSION['isInterviewer'];
 
         if ($_SESSION['empNumber'] == null) {
             $userRoleArray['isEssUser'] = false;
@@ -50,5 +52,3 @@ class SessionInfoFetcherFilter extends sfFilter {
     }
 
 }
-
-?>

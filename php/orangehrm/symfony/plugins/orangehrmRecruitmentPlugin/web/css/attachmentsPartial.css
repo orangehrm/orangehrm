@@ -1,0 +1,71 @@
+/* 
+    Document   : attachmentsPartial
+    Created on : Jul 20, 2011, 1:56:02 PM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+	display: block;
+}
+
+#addAttachment{
+	width: 800px;
+
+}
+
+.addbutton{
+	margin: 3px;
+}
+
+div#parentPaneAttachments td.comments{
+	max-width: 150px;
+}
+
+div#parentPaneAttachments td.fileLink{
+	max-width: 150px;
+}
+
+label{
+	margin-top: 10px;
+	width: 140px;
+}
+
+.atachment{
+	margin-top: 8px;
+}
+
+.comment{
+	margin-top: 8px;
+}
+
+label.error {
+	clear:both;
+	color:red;
+	display:block;
+	font-size:11px;
+	margin-top:5px;
+	padding-left:160px !important;
+	width:270px !important;
+}
+
+/* Using !important to override !important in IE_Only css */
+input#btnCommentOnly {
+    width:140px!important;
+}
+
+#attachmentEditNote{
+	padding-top: 2px;
+}
+
+.helpText {
+    font-size: 8pt;
+    color:#888888;
+    padding-left: 160px;
+}

@@ -47,6 +47,8 @@ if (file_exists('symfony/config/databases.yml')) {
 
         $userRoleArray['isSupervisor'] = $_SESSION['isSupervisor'];
         $userRoleArray['isProjectAdmin'] = $_SESSION['isProjectAdmin'];
+        $userRoleArray['isHiringManager'] = $_SESSION['isHiringManager'];
+        $userRoleArray['isInterviewer'] = $_SESSION['isInterviewer'];
 
         if ($_SESSION['empNumber'] == null) {
             $userRoleArray['isEssUser'] = false;
@@ -63,9 +65,10 @@ if (file_exists('symfony/config/databases.yml')) {
 
         $accessibleTimeMenuItems = $decoratedUser->getAccessibleTimeMenus();
         $accessibleTimeSubMenuItems = $decoratedUser->getAccessibleTimeSubMenus();
-
+        $accessibleRecruitmentMenuItems = $decoratedUser->getAccessibleRecruitmentMenus();
         $attendanceMenus = $decoratedUser->getAccessibleAttendanceSubMenus();
         $reportsMenus = $decoratedUser->getAccessibleReportSubMenus();
+        $recruitHomePage = './symfony/web/index.php/recruitment/viewCandidates';
     }
 }
 
@@ -168,8 +171,11 @@ if ($_SESSION['isAdmin'] == 'Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor']) && $_SESSION['isAcceptor']) || (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])) {
-        $arrAllRights[Recruit] = array('add' => false, 'edit' => true, 'delete' => false, 'view' => true);
+    //if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor']) && $_SESSION['isAcceptor']) || (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])) {
+    //$arrAllRights[Recruit] = array('add' => false, 'edit' => true, 'delete' => false, 'view' => true);
+    //}
+    if ($_SESSION['isHiringManager'] || $_SESSION['isInterviewer']) {
+        $arrAllRights[Recruit] = array('view' => true);
     }
 }
 
@@ -280,12 +286,11 @@ if ($authorizeObj->isESS()) {
 
 
 
-if ($authorizeObj->isAdmin()) {
-    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
-} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor() || $authorizeObj->isOfferer()) {
-    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
-}
-
+//if ($authorizeObj->isAdmin()) {
+//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
+//} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor() || $authorizeObj->isOfferer()) {
+//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
+//}
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
 $allowAdminView = false;
@@ -695,15 +700,19 @@ if ($arrAllRights[Recruit]['view']) {
     $menuItem = new MenuItem("recruit", $lang_Menu_Recruit, "./index.php?menu_no_top=recruit");
     $menuItem->setCurrent($_GET['menu_no_top'] == "recruit");
 
-    $subs = array();
-    if ($_SESSION['isAdmin'] == 'Yes') {
-        $subs[] = new MenuItem("vacancies", $lang_Menu_Recruit_JobVacancies, "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
-    }
+    if (file_exists('symfony/config/databases.yml')) {
+        $subs = array();
+        foreach ($accessibleRecruitmentMenuItems as $tttt) {
 
-    if ($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
-        $subs[] = new MenuItem("applications", $lang_Menu_Recruit_JobApplicants, "lib/controllers/CentralController.php?recruitcode=Application&action=List");
+            $subs[] = new MenuItem("recruit", $tttt->getDisplayName(), $tttt->getLink(), "rightMenu");
+        }
+        // if ($_SESSION['isAdmin'] == 'Yes') {
+        //    $subs[] = new MenuItem("vacancies", $lang_Menu_Recruit_JobVacancies, "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
+        // }
+        // if ($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
+        //    $subs[] = new MenuItem("applications", $lang_Menu_Recruit_JobApplicants, "lib/controllers/CentralController.php?recruitcode=Application&action=List");
+        // }
     }
-
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 }
@@ -916,7 +925,7 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
     <body>
         <div id="companyLogoHeader"></div><div id="rightHeaderImage"></div>
         <!-- <div id="menu-div" style="clear:left;"> -->
-        <?php $menuObj->getMenu($menu, $optionMenu, $welcomeMessage); ?>
+<?php $menuObj->getMenu($menu, $optionMenu, $welcomeMessage); ?>
         <!-- </div> -->
         <div id="main-content" style="float:left;height:640px;text-align:center;padding-left:0px;">
             <iframe style="display:block;margin-left:auto;margin-right:auto;width:100%;" src="<?php echo $home; ?>" id="rightMenu" name="rightMenu" height="100%;" frameborder="0"></iframe>

@@ -26,6 +26,10 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
     const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
     const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
+    const ADD_VACANCY = "./symfony/web/index.php/recruitment/addJobVacancy";
+    const VIEW_VACANCIES = "./symfony/web/index.php/recruitment/viewJobVacancy";
+    const ADD_CANDIDATE = "./symfony/web/index.php/recruitment/addCandidate";
+    const VIEW_CANDIDATES = "./symfony/web/index.php/recruitment/viewCandidates";
     private $user;
     private $employeeService;
     private $timesheetService;
@@ -224,16 +228,10 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $allowedActionsForAdminUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, AdminUserRoleDecorator::ADMIN_USER);
         $existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
-
-
         if (is_null($allowedActionsForAdminUser)) {
-
-
             return $existingAllowedActions;
         } else {
-
             $allowedActionsList = array_unique(array_merge($allowedActionsForAdminUser, $existingAllowedActions));
-
             return $allowedActionsList;
         }
     }
@@ -257,6 +255,44 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         }
 
         return $tempNextState;
+    }
+
+    /**
+     * Get previous states given workflow, action for this user
+     * @param int $workFlow
+     * @param int $action
+     * @return string
+     */
+    public function getPreviousStates($workFlow, $action) {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, AdminUserRoleDecorator::ADMIN_USER, $action);
+        $existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
+        if (is_null($prevoiusStates)) {
+            return $existingPrevoiusStates;
+        } else {
+            $prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
+            return $prevoiusStates;
+        }
+    }
+
+    /**
+     * Get previous states given workflow, action for this user
+     * @param int $workFlow
+     * @param int $action
+     * @return string
+     */
+    public function getAllAlowedRecruitmentApplicationStates($flow) {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $applicationStates = $accessFlowStateMachineService->getAllAlowedRecruitmentApplicationStates($flow, AdminUserRoleDecorator::ADMIN_USER);
+        $existingStates = $this->user->getAllAlowedRecruitmentApplicationStates($flow);
+        if (is_null($applicationStates)) {
+            return $existingStates;
+        } else {
+            $applicationStates = array_unique(array_merge($applicationStates, $existingStates));
+            return $applicationStates;
+        }
     }
 
     public function getActionableTimesheets() {
@@ -321,6 +357,71 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
         $activeProjectList = $this->getProjectService()->getActiveProjectList();
         return $activeProjectList;
+    }
+
+    public function getAllowedCandidateList() {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allowedCandidateIdList = $accessFlowStateMachineService->getAllowedCandidateList(AdminUserRoleDecorator::ADMIN_USER, null);
+        $existingIdList = $this->user->getAllowedCandidateList();
+        if (is_null($allowedCandidateIdList)) {
+            return $existingIdList;
+        } else {
+            $allowedCandidateIdList = array_unique(array_merge($allowedCandidateIdList, $existingIdList));
+            return $allowedCandidateIdList;
+        }
+    }
+
+    public function getAllowedVacancyList() {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allowedVacancyIdList = $accessFlowStateMachineService->getAllowedVacancyList(AdminUserRoleDecorator::ADMIN_USER, null);
+        $existingIdList = $this->user->getAllowedVacancyList();
+        if (is_null($allowedVacancyIdList)) {
+            return $existingIdList;
+        } else {
+            $allowedVacancyIdList = array_unique(array_merge($allowedVacancyIdList, $existingIdList));
+            return $allowedVacancyIdList;
+        }
+    }
+
+    public function getAllowedCandidateHistoryList($candidateId) {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allowedCandidateHistoryIdList = $accessFlowStateMachineService->getAllowedCandidateHistoryList(AdminUserRoleDecorator::ADMIN_USER, null, $candidateId);
+        $existingIdList = $this->user->getAllowedCandidateHistoryList($candidateId);
+        if (is_null($allowedCandidateHistoryIdList)) {
+            return $existingIdList;
+        } else {
+            $allowedCandidateHistoryIdList = array_unique(array_merge($allowedCandidateHistoryIdList, $existingIdList));
+            return $allowedCandidateHistoryIdList;
+        }
+    }
+
+public function getAccessibleRecruitmentMenus() {
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("View Candidates"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_CANDIDATES);
+        $tempArray = $this->user->getAccessibleTimeMenus();
+        array_push($tempArray, $topMenuItem);
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Add Candidate"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::ADD_CANDIDATE);
+        array_push($tempArray, $topMenuItem);
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("View Vacancies"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_VACANCIES);
+        array_push($tempArray, $topMenuItem);
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Add Vacancy"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::ADD_VACANCY);
+        array_push($tempArray, $topMenuItem);
+
+        return $tempArray;
     }
 
 }

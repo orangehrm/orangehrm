@@ -1,0 +1,269 @@
+sfWebBrowser plugin
+===================
+
+The `sfWebBrowserPlugin` proposes an HTTP client capable of making web requests. The interface is similar to that of `sfTestBrowser`.
+
+Possible uses
+-------------
+
+ * Querying a Web service 
+ * Monitoring a Website
+ * Mashup of content from several websites
+ * Aggregation of RSS feeds
+ * Proxy to another server
+ * Cross-domain AJAX interactions
+ * API to foreign websites
+ * Fetch images and other types of content
+ * ...
+
+Contents
+--------
+
+This plugin contains four classes: `sfWebBrowser`, `sfCurlAdapter`, `sfFopenAdapter`, and `sfSocketsAdapter`. Unit tests are available in the SVN repository, to be placed in a symfony application's `test/` directory.
+
+Features
+--------
+
+The `sfWebBrowser` class makes web requests based on a URI:
+
+    [php]
+    $b = new sfWebBrowser();
+    $b->get('http://www.example.com/');
+    $res = $b->getResponseText();
+
+The usual methods of the `sfTestBrowser` also work there, with the fluid interface.
+
+    [php]
+    // Inline
+    $b->get('http://www.example.com/')->get('http://www.google.com/')->back()->reload();
+    // More readable
+    $b->get('http://www.example.com/')
+      ->get('http://www.google.com/')
+      ->back()
+      ->reload();
+
+The browser accepts absolute and relative URIs
+
+    [php]
+    $b->get('http://www.example.com/test.html');
+    $b->get('test.html');
+
+The `get()` method accepts parameters either as a query string, or as an associative array.
+
+    [php]
+    $b->get('http://www.example.com/test.php?foo=bar');
+    $b->get('http://www.example.com/test.php', array('foo' => 'bar'));
+
+POST, PUT and DELETE requests are also supported.
+
+    [php]
+    $b->post('http://www.example.com/test.php', array('foo' => 'bar'));
+    $b->put('http://www.example.com/test.php', array('foo' => 'bar'));
+    $b->delete('http://www.example.com/test.php', array('foo' => 'bar'));
+
+You can access the response in various formats, at your convenience:
+
+    [php]
+    $myString         = $b->getResponseText();
+    $myString         = $b->getResponseBody(); // drop the <head> part
+    $myDomDocument    = $b->getResponseDom();
+    $myDomCssSelector = $b->getResponseDomCssSelector();
+    $mySimpleXml      = $b->getResponseXml();
+
+You can also interact with the response with the `setFields()` and `click()` methods.
+
+    [php]
+    $b->get('http://www.example.com/login')
+      ->setField('user', 'foobar')
+      ->setField('password', 'barbaz')
+      ->click('submit');
+
+The browser supports HTTP and HTTPS requests, proxies, redirects, and timeouts.
+
+Gzip and deflate content-encoded response bodies are also supported, provided that you have the [http://php.net/zlib zlib extention] enabled.
+
+Adapters
+--------
+
+The browser can use various adapters to perform the requests, and uses the following selection order by default:
+
+ * `sfCurlAdapter`: Uses [Curl](http://php.net/curl) to fetch pages. This adapter is a lot faster than `sfFopenAdapter`, however PHP must be compiled with the `with-curl` option, and the `curl` extension must be enabled in `php.ini` (which is rarely the case by default) for it to work. 
+
+ * `sfFopenAdapter`: Uses [`fopen()`](http://php.net/fopen ) to fetch pages. `fopen()` can take an URL as a parameter provided that PHP is compiled with sockets support, and `allow_url_fopen` is defined to `true` in `php.ini`. This is the case in most PHP distributions, so the default adapter should work in almost every platform. On the other hand, the compatibility has a cost: this adapter is slow.
+
+ * `sfSocketsAdapter`: Uses [`fsockopen()`](http://php.net/fsockopen) to fetch pages.
+
+Alternatively, you can specify an adapter explicitly when you create a new browser object, as follows:
+
+    [php]
+    // use default adapter, i.e. sfCurlAdapter
+    $b = new sfWebBrowser(array());
+    // use sfFopenAdapter
+    $b = new sfWebBrowser(array(), 'sfFopenAdapter');
+
+Currenly, `sfCurlAdapter` offers slightly more functionality than the other adapters. Namely, it supports multipart file uploads and cookies, which means you can login to a site as well as upload files via forms.
+
+    [php]
+    // upload files via a form
+    $b = new sfWebBrowser();
+    $b->post($url_of_form, array(
+      'file_field' => '/path/to/my/local/file.jpg'
+    ));
+    // login to a website
+    $b = new sfWebBrowser(array(), 'sfCurlAdapter', array('cookies' => true));
+    $b->post($url_of_login_form, array(
+      'user_field' => $username,
+      'pass_field' => $password
+    ));
+
+Full examples are available in the unit tests.
+
+Error Handling
+--------------
+
+`sfWebBrowser` distinguishes to types of error: adapter errors and response errors. Thus, `sfWebBrowser` calls should be run this way :
+
+    [php]
+    $b = new sfWebBrowser();
+    try
+    {
+      if (!$b->get($url)->responseIsError())
+      {
+        // Successful response (eg. 200, 201, etc)
+      }
+      else
+      {
+        // Error response (eg. 404, 500, etc)
+      }
+    }
+    catch (Exception $e)
+    {
+      // Adapter error (eg. Host not found)
+    }
+
+Besides, you should always remember that the response contents may contain incorrect code. Consider it as 'tainted', and therefore always use the [escaping](http://www.symfony-project.com/book/trunk/07-Inside-the-View-Layer#Output%20Escaping) when outputting it to a template.
+
+    [php]
+    // In the action
+    $this->title = (string) $b->getResponseXml()->body->h1
+
+    // In the template
+    <?php echo $title // dangerous ?>
+    <?php echo $sf_data->get('title') // correct ?>
+
+Installation
+------------
+
+* Install the plugin
+
+        $ symfony plugin-install http://plugins.symfony-project.com/sfWebBrowserPlugin
+
+
+* Clear the cache to enable the autoloading to find the new class
+
+        $ symfony cc
+
+Known limitations
+-----------------
+
+Cookies, caching, and file uploads are not yet supported in any of the packages (some of this functionality is available with `sfCurlAdapter`, see above).
+
+Changelog
+---------
+
+### Trunk
+
+### 2009-05-12 | 1.1.2 Stable
+
+  * francois: Fixed sfCurlAdapter destructor
+  * francois: Fixed sf1.2 compatibility issue for custom exception
+  * francois: Fixed a few limit case bugs and made the tests pass
+  
+### 2009-04-22 | 1.1.1 Stable
+
+  * francois: Fixed README syntax for parameters array
+  * bmeynell: Fixed custom options in `sfCurlAdapter`
+  
+### 2008-09-23 | 1.1.0 Stable
+
+  * francois: Translated README to Markdown
+  * francois: Added support for custom options in `sfCurlAdapter`
+  * francois: Added suppot for Timeout with `sfCurlAdapter` (based on a patch by adoanhuu)
+  * blacksun: Allow for SSL certificate verification
+  * francois: Added a test to check exceptions thrown by `getResponseXML`
+  * bmeynell: added multipart file upload support to `sfCurlAdapter`
+  * bmeynell: fixed regex in getResponseBody() which was returning an empty body
+  * bmeynell: `sfCurlAdapter`: Added new options: 'cookies', 'cookies_dir', 'cookies_file', 'verbose', 'verbose_log'
+  * bmeynell: `sfCurlAdapter`: Increased speed by Moving some initialization from call() to the constructer
+  * tristan:  Easier management of invalid XML responses
+  * francois: Fixed a bug in `sfFopenAdapter` error handler
+  * bmeynell: Added chunked transfer encoding support to `sfSocketsAdapter`
+  * bmeynell: Added support for 301 redirects in `sfSocketsAdapter`
+
+### 2007-03-27 | 1.0.1 stable
+
+  * bmeynell: Fixed a bug with `sfCurlAdapter` causing 'Bad Request' error responses
+  * francois: Fixed a bug with `get()` when `arg_separator.output` is not set to '&' in `php.ini` (patch from river.bright)
+  * francois: Fixed a bug with `get()` when query string is already present in the url (based on a patch from Jeff Merlet)
+  * francois: Fixed auto-adapter decision in `sfWebBrowser::__construct()`
+  
+### 2007-03-08 | 1.0.0 stable
+
+  * francois: Added auto-adapter decision in `sfWebBrowser::__construct()`
+  * francois: Changed tested URLs a bit to avoid redirection issues with google
+  * bmeynell: Added `sfSocketsAdapter`
+  * bmeynell: `sfCurlAdapter`: more detailed error messages & leaner request setup
+
+### 2007-02-22 | 0.9.6 Beta
+
+ * bmeynell, tristan: Allowed for requests with any method in `sfCurlAdapter`
+ * tristan: Added `sfWebBrowser::responseIsError()`
+ * tristan: Added `sfWebBrowser::getResponseMessage()`
+ * tristan: Refactored error management in `sfFopenAdapter`
+
+### 2007-02-21 | 0.9.5 Beta
+
+ * bmeynell: Fixed bug with relative uri's attempting to use a port other than 80 (sfWebBrowser, 132 - 146)
+ * bmeynell: Fixed small bug not printing hostname on exception (sfFopenAdapter, 61-62)
+ * bmeynell: Created sfCurlAdapter and passes all unit tests
+ * bmeynell: Removed '$changeStack = true' from call() prototype in sfCurlAdapter, sfFopenAdapter, and moved changestack check to sfWebBrowser
+ * bmeynell: Added $askeet_url to sfWebBrowserTest
+ * bmeynell: Added easy toggling between adapters in sfWebBrowserTest
+ * tristan: Added put() and delete() public methods
+ * tristan: Added unit tests to validate request HTTP method
+
+### 2007-02-16 | 0.9.4 Beta
+
+ * francois: Refactored the browser to make it multi-adapter
+ * francois: '''BC break''' constructor signature changed : `new sfWebBrowser(array $headers, string $adapter_class, array $adapter_options)` 
+ * francois: Fixed notice when trying to retrieve inexistent header
+ * francois: Fixed header case normalization
+ * francois: Transformed setResponseXXX() methods to public
+ * francois: Fixed caps in `initializeRequestHeaders()`
+ * francois: Fixed unit test #40
+
+### 2007-02-16 | 0.9.3 Beta
+
+ * tristan: Added support for gzip and deflate.
+ * tristan: Possibility to pass default request headers to sfWebBrowser's constructor
+ * tristan: "Accept-Encoding" header is automatically set depending on PHP capabilities
+ * tristan: Fixed problems with request and response headers case 
+ * tristan: Renamed "browser options" to "adapter options" (http://www.symfony-project.com/forum/index.php/m/21635/)
+ * tristan: '''BC break''' constructor signature changed : `new sfWebBrowser(array $headers, array $adapter_options)`
+ * tristan: Unit tested POST requests  
+ * tristan: Changed way httpd headers are stored internally
+ * tristan: Fixed small bug in `getResponseBody()`
+ * francois: Fixed unit test for malformed headers
+ 
+### 2007-02-09 | 0.9.2 Beta
+
+ * francois: Fixed notice with `getResponseXML()`
+ 
+### 2007-02-08 | 0.9.1 Beta
+
+ * francois: Fixed notice with some headers
+ * francois: Added license and copyright
+ 
+### 2007-02-08 | 0.9.0 Beta
+
+ * francois: Initial release
