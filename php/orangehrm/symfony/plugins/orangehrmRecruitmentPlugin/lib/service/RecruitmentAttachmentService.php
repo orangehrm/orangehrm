@@ -103,7 +103,7 @@ class RecruitmentAttachmentService extends BaseService {
 	 * @param <type> $screen
 	 */
 	public function getAttachments($id, $screen){
-
+		
 		if($screen == JobVacancy::TYPE){
 			return $this->recruitmentAttachmentDao->getVacancyAttachments($id);
 		} elseif($screen == JobInterview::TYPE){

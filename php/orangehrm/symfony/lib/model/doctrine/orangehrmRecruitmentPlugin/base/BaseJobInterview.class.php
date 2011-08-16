@@ -11,9 +11,11 @@
  * @property date $interviewDate
  * @property string $interviewTime
  * @property string $note
+ * @property integer $attachmentFileId
  * @property JobCandidateVacancy $JobCandidateVacancy
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property CandidateHistory $CandidateHistory
+ * @property Doctrine_Collection $JobInterviewAttachment
  * 
  * @method integer             getId()                      Returns the current record's "id" value
  * @method integer             getCandidateVacancyId()      Returns the current record's "candidateVacancyId" value
@@ -21,18 +23,22 @@
  * @method date                getInterviewDate()           Returns the current record's "interviewDate" value
  * @method string              getInterviewTime()           Returns the current record's "interviewTime" value
  * @method string              getNote()                    Returns the current record's "note" value
+ * @method integer             getAttachmentFileId()        Returns the current record's "attachmentFileId" value
  * @method JobCandidateVacancy getJobCandidateVacancy()     Returns the current record's "JobCandidateVacancy" value
  * @method Doctrine_Collection getJobInterviewInterviewer() Returns the current record's "JobInterviewInterviewer" collection
  * @method CandidateHistory    getCandidateHistory()        Returns the current record's "CandidateHistory" value
+ * @method Doctrine_Collection getJobInterviewAttachment()  Returns the current record's "JobInterviewAttachment" collection
  * @method JobInterview        setId()                      Sets the current record's "id" value
  * @method JobInterview        setCandidateVacancyId()      Sets the current record's "candidateVacancyId" value
  * @method JobInterview        setInterviewName()           Sets the current record's "interviewName" value
  * @method JobInterview        setInterviewDate()           Sets the current record's "interviewDate" value
  * @method JobInterview        setInterviewTime()           Sets the current record's "interviewTime" value
  * @method JobInterview        setNote()                    Sets the current record's "note" value
+ * @method JobInterview        setAttachmentFileId()        Sets the current record's "attachmentFileId" value
  * @method JobInterview        setJobCandidateVacancy()     Sets the current record's "JobCandidateVacancy" value
  * @method JobInterview        setJobInterviewInterviewer() Sets the current record's "JobInterviewInterviewer" collection
  * @method JobInterview        setCandidateHistory()        Sets the current record's "CandidateHistory" value
+ * @method JobInterview        setJobInterviewAttachment()  Sets the current record's "JobInterviewAttachment" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -70,6 +76,10 @@ abstract class BaseJobInterview extends sfDoctrineRecord
              'type' => 'string',
              'length' => 2147483647,
              ));
+        $this->hasColumn('attached_file_id as attachmentFileId', 'integer', 13, array(
+             'type' => 'integer',
+             'length' => 13,
+             ));
     }
 
     public function setUp()
@@ -86,5 +96,9 @@ abstract class BaseJobInterview extends sfDoctrineRecord
         $this->hasOne('CandidateHistory', array(
              'local' => 'id',
              'foreign' => 'interviewId'));
+
+        $this->hasMany('JobInterviewAttachment', array(
+             'local' => 'attachmentFileId',
+             'foreign' => 'id'));
     }
 }

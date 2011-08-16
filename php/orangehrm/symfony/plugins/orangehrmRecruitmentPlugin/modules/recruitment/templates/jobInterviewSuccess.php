@@ -86,7 +86,7 @@
     <br class="clear"/>
     <br class="clear"/>
     <div>
-        <?php echo include_component('recruitment', 'attachments', array('vacancyId' => $interviewId)); ?>
+        <?php echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE)); ?>
     </div>
 <?php } ?>
 

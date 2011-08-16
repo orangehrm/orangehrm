@@ -105,4 +105,21 @@ class RecruitmentAttachmentDao extends BaseDao {
         }
     }
 
+    
+    /**
+     *
+     * @param <type> $interviewId
+     * @return <type>
+     */
+    public function getInterviewAttachments($interviewId) {
+        try {
+            $q = Doctrine_Query :: create()
+                            ->from('JobInterviewAttachment')
+                            ->where('interview_id =?', $interviewId);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }

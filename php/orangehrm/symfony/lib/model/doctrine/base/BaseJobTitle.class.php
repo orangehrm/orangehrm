@@ -17,6 +17,7 @@
  * @property JobSpecifications $JobSpecifications
  * @property Doctrine_Collection $JobTitleEmployeeStatus
  * @property Doctrine_Collection $definekpi
+ * @property Doctrine_Collection $JobVacancy
  * @property Doctrine_Collection $DefineKpi
  * @property Doctrine_Collection $PerformanceReview
  * 
@@ -32,6 +33,7 @@
  * @method JobSpecifications   getJobSpecifications()      Returns the current record's "JobSpecifications" value
  * @method Doctrine_Collection getJobTitleEmployeeStatus() Returns the current record's "JobTitleEmployeeStatus" collection
  * @method Doctrine_Collection getDefinekpi()              Returns the current record's "definekpi" collection
+ * @method Doctrine_Collection getJobVacancy()             Returns the current record's "JobVacancy" collection
  * @method Doctrine_Collection getDefineKpi()              Returns the current record's "DefineKpi" collection
  * @method Doctrine_Collection getPerformanceReview()      Returns the current record's "PerformanceReview" collection
  * @method JobTitle            setId()                     Sets the current record's "id" value
@@ -46,6 +48,7 @@
  * @method JobTitle            setJobSpecifications()      Sets the current record's "JobSpecifications" value
  * @method JobTitle            setJobTitleEmployeeStatus() Sets the current record's "JobTitleEmployeeStatus" collection
  * @method JobTitle            setDefinekpi()              Sets the current record's "definekpi" collection
+ * @method JobTitle            setJobVacancy()             Sets the current record's "JobVacancy" collection
  * @method JobTitle            setDefineKpi()              Sets the current record's "DefineKpi" collection
  * @method JobTitle            setPerformanceReview()      Sets the current record's "PerformanceReview" collection
  * 
@@ -114,6 +117,10 @@ abstract class BaseJobTitle extends sfDoctrineRecord
         $this->hasMany('DefineKpi as definekpi', array(
              'local' => 'jobtit_code',
              'foreign' => 'job_title_code'));
+
+        $this->hasMany('JobVacancy', array(
+             'local' => 'jobtit_code',
+             'foreign' => 'jobTitleCode'));
 
         $this->hasMany('DefineKpi', array(
              'local' => 'id',

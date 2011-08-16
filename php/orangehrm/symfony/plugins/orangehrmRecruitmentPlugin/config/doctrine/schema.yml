@@ -216,6 +216,9 @@ JobInterview:
       type: string(30)
     note:
       type: string(2147483647)
+    attachment_file_id:
+      name: attached_file_id as attachmentFileId
+      type: integer(13)
   relations:
     JobCandidateVacancy:
       local: candidateVacancyId
@@ -292,4 +295,35 @@ CandidateHistory:
     JobInterview:
       local: id
       foreign: interviewId
+      type: one
+
+JobInterviewAttachment:
+  tableName: ohrm_job_interview_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    interview_id:
+      name: interview_id as interviewId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+    attachment_type:
+      name: attachment_type as attachmentType
+      type: integer(4)
+    comment:
+  relations:
+    JobInterview:
+      local: id
+      foreign: attachmentFileId
       type: one
