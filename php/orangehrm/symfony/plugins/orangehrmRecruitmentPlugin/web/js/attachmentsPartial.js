@@ -48,7 +48,7 @@ $(document).ready(function() {
 	});
 
 	$('#btnSaveAttachment').click(function(){
-		$('#recruitmentAttachment_vacancyId').val(vacancyId);
+		$('#recruitmentAttachment_vacancyId').val(id);
 		$("#frmRecAttachment").data('add_mode', true);
 		//		if(isValidForm()){
 		$('#frmRecAttachment').submit();

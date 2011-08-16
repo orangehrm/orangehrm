@@ -76,7 +76,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Testing getVacancyAttachments
 	 */
-	public function testGetVacancyAttachments() {
+	public function testGetVacancyAttachment() {
 
 		$vacancyId = 1;
 		$vacancyList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
@@ -85,12 +85,12 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
 
 		$recruitmentAttachmentDao->expects($this->once())
-			->method('getVacancyAttachments')
+			->method('getVacancyAttachment')
 			->will($this->returnValue($testVacancyList));
 
 		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
 
-		$readVacancyList = $this->recruitmentAttachmentService->getVacancyAttachments($vacancyId);
+		$readVacancyList = $this->recruitmentAttachmentService->getVacancyAttachment($vacancyId);
 		$this->assertEquals($readVacancyList, $testVacancyList);
 	}
 

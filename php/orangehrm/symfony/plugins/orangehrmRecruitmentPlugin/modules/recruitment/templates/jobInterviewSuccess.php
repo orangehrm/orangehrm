@@ -82,6 +82,14 @@
     </div>
 </div>
 
+<?php if (isset($interviewId)) { ?>
+    <br class="clear"/>
+    <br class="clear"/>
+    <div>
+        <?php echo include_component('recruitment', 'attachments', array('vacancyId' => $interviewId)); ?>
+    </div>
+<?php } ?>
+
 
 <script type="text/javascript">
     //<![CDATA[

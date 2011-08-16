@@ -48,7 +48,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testCandidateList() {
 
-        $candidatesList = $this->candidateDao->getCandidateList();
+	$allowedCandidatesList = array(1,2,3);
+        $candidatesList = $this->candidateDao->getCandidateList($allowedCandidatesList);
         $this->assertTrue($candidatesList[0] instanceof JobCandidate);
     }
 
@@ -544,7 +545,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetCandidateHistoryForCandidateId() {
-        $result = $this->candidateDao->getCandidateHistoryForCandidateId(1);
+	$allowedHistoryList = array(1,2);
+        $result = $this->candidateDao->getCandidateHistoryForCandidateId(1,$allowedHistoryList);
         $this->assertTrue($result[0] instanceof CandidateHistory);
         $this->assertEquals($result[0]->getAction(), 1);
     }

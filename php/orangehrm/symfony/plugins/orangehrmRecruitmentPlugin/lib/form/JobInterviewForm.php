@@ -119,6 +119,7 @@ class JobInterviewForm extends BaseForm {
 			$newJobInterview = new JobInterview();
 			$newCandidateHistory = new CandidateHistory();
 			$interviewArray = $this->getValue('selectedInterviewerList');
+			$selectedInterviewerArrayList = explode(",", $interviewArray);
 		} else {
 			$selectedInterviewerList = $this->getValue('selectedInterviewerList');
 			$selectedInterviewerArrayList = explode(",", $selectedInterviewerList);
@@ -130,23 +131,29 @@ class JobInterviewForm extends BaseForm {
 				foreach ($existingInterviewers as $existingInterviewer) {
 					$id = $existingInterviewer->getInterviewerId();
 					if (!in_array($id, $selectedInterviewerArrayList)) {
-						$existingInterviewers->delete();
+						$existingInterviewer->delete();
 					} else {
 						$idList[] = $id;
 					}
 				}
 			}
 
-			$interviewArray = array_diff($selectedInterviewerArrayList, $idList);
-			$interviewArray = implode(",", $interviewArray);
+
+			$selectedInterviewerArrayList = array_diff($selectedInterviewerArrayList, $idList);
+			$newList = array();
+			foreach ($selectedInterviewerArrayList as $elements) {
+				$newList[] = $elements;
+			}
+			$selectedInterviewerArrayList = $newList;
+			
 		}
-		$interviewId = $this->saveInterview($newJobInterview,$interviewArray);
+		$interviewId = $this->saveInterview($newJobInterview, $selectedInterviewerArrayList);
 		if (empty($this->interviewId)) {
 			$this->saveCandidateHistory($newCandidateHistory, $interviewId);
 		}
 	}
 
-	protected function saveInterview($newJobInterview,$interviewArray) {
+	protected function saveInterview($newJobInterview, $selectedInterviewerArrayList) {
 
 		$name = $this->getValue('name');
 		$date = $this->getValue('date');
@@ -161,14 +168,15 @@ class JobInterviewForm extends BaseForm {
 		$newJobInterview->save();
 
 		$interviewId = $newJobInterview->getId();
-
-		$selectedInterviewerArrayList = explode(",", $interviewArray);
-		for ($i = 0; $i < count($selectedInterviewerArrayList); $i++) {
-			$newInterviewer = new JobInterviewInterviewer();
-			$newInterviewer->setInterviewerId($selectedInterviewerArrayList[$i]);
-			$newInterviewer->setInterviewId($interviewId);
-			$newInterviewer->save();
+		if (!empty($selectedInterviewerArrayList)) {
+			for ($i = 0; $i < count($selectedInterviewerArrayList); $i++) {
+				$newInterviewer = new JobInterviewInterviewer();
+				$newInterviewer->setInterviewerId($selectedInterviewerArrayList[$i]);
+				$newInterviewer->setInterviewId($interviewId);
+				$newInterviewer->save();
+			}
 		}
+
 		return $interviewId;
 	}
 

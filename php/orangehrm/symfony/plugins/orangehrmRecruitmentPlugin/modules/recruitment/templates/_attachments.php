@@ -32,7 +32,7 @@
     <div class="mainHeading"><h2><?php echo __('Attachments'); ?></h2></div>
     <div id="parentPaneAttachments" >
         <form name="frmRecAttachment" id="frmRecAttachment" method="post" enctype="multipart/form-data"
-	      action="<?php echo url_for('recruitment/updateAttachment'); ?>">
+	      action="<?php echo url_for('recruitment/updateAttachment?screen='.$screen); ?>">
 	<?php echo $form['_csrf_token']; ?>
 	<?php echo $form["vacancyId"]->render(); ?>
 	<?php echo $form["commentOnly"]->render(); ?>
@@ -66,7 +66,7 @@
             </div>
 	</form>
 
-	<form name="frmRecDelAttachments" id="frmRecDelAttachments" method="post" action="<?php echo url_for('recruitment/deleteAttachments');?>">
+	<form name="frmRecDelAttachments" id="frmRecDelAttachments" method="post" action="<?php echo url_for('recruitment/deleteAttachments?screen='.$screen);?>">
         <?php echo $deleteForm['_csrf_token']; ?>
 	    <div>
                 <input type="button" class="addbutton" id="btnAddAttachment"
@@ -125,11 +125,11 @@
 <script type="text/javascript">
     //<![CDATA[
 	var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";
-	var vacancyId = '<?php echo $vacancyId; ?>';
+	var id = '<?php $id; ?>';
 	var clearAttachmentMessages = true;
 	var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
 	var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
-	var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment :") ?>";
+	var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment :"); ?>";
 	var lang_PleaseSelectAFile = "<?php echo __("Please select a file");?>";
 	var lang_CommentsMaxLength = "<?php echo __("Comment should be less than 200 characters");?>";
 	var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";

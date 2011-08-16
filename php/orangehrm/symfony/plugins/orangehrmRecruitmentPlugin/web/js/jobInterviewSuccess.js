@@ -38,17 +38,16 @@ $(document).ready(function() {
 			$("#addButton").hide();
 		}
 		$('#interviewer_'+counter).show();
-		alert(counter);
 	});
     
 	$('.removeText').live('click', function(){
 		var result = /\d+(?:\.\d+)?/.exec(this.id);
 		$('#interviewer_'+result).hide();
+		$('#jobInterview_interviewer_'+result).val("");
 		counter--;
 		if(counter < numberOfInterviewers){
 			$("#addButton").show();
 		}
-		alert(counter);
 	});
 
 	$('#removeButton1').hide();

@@ -68,8 +68,8 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetVacancyListForJobTitle() {
 
 		$jobTitle = 'JOB002';
-
-		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle);
+		$allowedVacancyList = array(2,3);
+		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList);
 		$this->assertTrue($vacancyList[0] instanceof JobVacancy);
 	}
 
@@ -79,8 +79,9 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetVacancyListForJobTitleHydrateMode() {
 
 		$jobTitle = 'JOB002';
+		$allowedVacancyList = array(2,3);
 		$readList = array(array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1), array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1));
-		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, true);
+		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
 		$this->assertEquals($vacancyList, $readList);
 	}
 
@@ -90,8 +91,9 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetVacancyListForNullJobTitleHydrateMode() {
 
 		$jobTitle = '';
+		$allowedVacancyList = array(1,2,3,4);
 		$readList = array(array('id' => 1, 'name' => 'Software Engineer 2011', 'status'=>1), array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1), array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1), array('id' => 4, 'name' => 'Software Architect 2012', 'status'=>2));
-		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, true);
+		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
 		$this->assertEquals($vacancyList, $readList);
 	}
 

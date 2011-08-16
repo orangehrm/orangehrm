@@ -43,7 +43,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 		$hiringMangersList = array(1 => array('id' => 1, 'name' => "Kayla Abbey"), 2 => array('id' => 2, 'name' => "Ashley Abel"));
 
 		$vacancyDao = $this->getMock('VacancyDao');
-
+		$allowedVacancyList = array(1,2);
 		$vacancyDao->expects($this->once())
 			->method('getHiringManagersList')
 			->with("", "")
@@ -51,7 +51,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 
 		$this->vacancyService->setVacancyDao($vacancyDao);
 
-		$readHiringManagersList = $this->vacancyService->getHiringManagersList("", "");
+		$readHiringManagersList = $this->vacancyService->getHiringManagersList("", "", $allowedVacancyList);
 		$this->assertEquals($readHiringManagersList, $hiringMangersList);
 	}
 
@@ -63,9 +63,8 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 		$jobTitle = "JOB002";
 		$allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
 		$vacancyList = array($allVacancyList[1], $allVacancyList[2]);
-
+		$allowedVacancyList = array(1,2);
 		$vacancyDao = $this->getMock('VacancyDao');
-
 		$vacancyDao->expects($this->once())
 			->method('getVacancyListForJobTitle')
 			->with($jobTitle)
@@ -73,7 +72,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 
 		$this->vacancyService->setVacancyDao($vacancyDao);
 
-		$readVacancyList = $this->vacancyService->getVacancyListForJobTitle($jobTitle);
+		$readVacancyList = $this->vacancyService->getVacancyListForJobTitle($jobTitle, $allowedVacancyList);
 		$this->assertEquals($readVacancyList, $vacancyList);
 	}
 

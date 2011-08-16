@@ -23,6 +23,7 @@ class RecruitmentAttachmentForm extends BaseForm {
 	private $candidateService;
 	private $vacancyService;
 	private $recruitmentAttachmentService;
+	private $screen;
 
 	/**
 	 * Get CandidateService
@@ -65,6 +66,8 @@ class RecruitmentAttachmentForm extends BaseForm {
 	 */
 	public function configure() {
 
+		$this->screen = $this->getOption('screen');
+
 		$this->setWidgets(array(
 		    'vacancyId' => new sfWidgetFormInputHidden(),
 		    'ufile' => new sfWidgetFormInputFile(),
@@ -96,10 +99,11 @@ class RecruitmentAttachmentForm extends BaseForm {
 		$file = $this->getValue('ufile');
 		$candidateService = $this->getRecruitmentAttachmentService();
 		if ($recId != "") {
-			$existRec = $this->getRecruitmentAttachmentService()->getVacancyAttachment($recId);
+			$existRec = $this->getRecruitmentAttachmentService()->getAttachment($recId, $this->screen);
 			if ($commentOnly == '1') {
 				$existRec->comment = $this->getValue('comment');
-				$candidateService->saveVacancyAttachment($existRec);
+				//$candidateService->saveAttachment($existRec, $this->screen);
+				$existRec->save();
 				return;
 			} else {
 				$existRec->delete();
@@ -109,14 +113,16 @@ class RecruitmentAttachmentForm extends BaseForm {
 		$vacancyId = $this->getValue('vacancyId');
 		if (($file instanceof sfValidatedFile) && $file->getOriginalName() != "") {
 			$tempName = $file->getTempName();
-			$attachment = new JobVacancyAttachment();
+			$attachment = $this->getRecruitmentAttachmentService()->getNewAttachment($this->screen);
+			//$attachment = new JobVacancyAttachment();
 			$attachment->vacancyId = $vacancyId;
 			$attachment->fileContent = file_get_contents($tempName);
 			$attachment->fileName = $file->getOriginalName();
 			$attachment->fileType = $file->getType();
 			$attachment->fileSize = $file->getSize();
 			$attachment->comment = $this->getValue('comment');
-			$candidateService->saveVacancyAttachment($attachment);
+			//$candidateService->saveVacancyAttachment($attachment);
+			$attachment->save();
 		}
 	}
 

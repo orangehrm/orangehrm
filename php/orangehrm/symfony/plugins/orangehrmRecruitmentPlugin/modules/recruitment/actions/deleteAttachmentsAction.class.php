@@ -25,7 +25,9 @@ class deleteAttachmentsAction extends sfAction {
      */
     public function execute($request) {
 
-        $this->form = new RecruitmentAttachmentDeleteForm();
+	$screen = $request->getParameter('screen');
+	$param = array('screen' => $screen);
+        $this->form = new RecruitmentAttachmentDeleteForm(array(), $param, true);
 
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($this->form->isValid()) {
@@ -33,7 +35,7 @@ class deleteAttachmentsAction extends sfAction {
             if ($attachmentsToDelete) {
                 for ($i = 0; $i < sizeof($attachmentsToDelete); $i++) {
                     $service = new RecruitmentAttachmentService();
-                    $attachment = $service->getVacancyAttachment($attachmentsToDelete[$i]);
+                    $attachment = $service->getAttachment($attachmentsToDelete[$i],$this->form->screen);
                     $attachment->delete();
                 }
                 $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment(s) Deleted Successfully')));

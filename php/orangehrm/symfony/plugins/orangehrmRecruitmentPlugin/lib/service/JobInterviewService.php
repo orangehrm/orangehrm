@@ -62,5 +62,9 @@ class JobInterviewService extends BaseService {
 		return $this->jobInterviewDao->getInterviewsByCandidateVacancyId($candidateVacancyId);
 	}
 
+	public function saveJobInterview(JobInterview $jobInterview) {
+		return $this->jobInterviewDao->saveJobInterview($jobInterview);
+	}
+
 }
 

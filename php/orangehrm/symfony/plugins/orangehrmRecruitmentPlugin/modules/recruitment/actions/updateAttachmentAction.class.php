@@ -25,7 +25,9 @@ class updateAttachmentAction extends sfAction {
      */
     public function execute($request) {
 
-        $this->form = new RecruitmentAttachmentForm();
+	$screen = $request->getParameter('screen');
+	$param = array('screen' => $screen);
+        $this->form = new RecruitmentAttachmentForm(array(), $param, true);
 
         if ($this->getRequest()->isMethod('post')) {
 

@@ -83,10 +83,41 @@ class RecruitmentAttachmentService extends BaseService {
 
 	/**
 	 *
-	 * @param <type> $vacancyId
+	 * @param <type> $id
+	 * @param <type> $screen 
 	 */
-	public function getVacancyAttachments($vacancyId) {
-		return $this->recruitmentAttachmentDao->getVacancyAttachments($vacancyId);
+	public function getAttachment($id, $screen){
+
+		if($screen == JobCandidate::TYPE){
+			return $this->recruitmentAttachmentDao->getCandidateAttachment($id);
+		} elseif($screen == JobVacancy::TYPE){
+			return $this->recruitmentAttachmentDao->getVacancyAttachment($id);
+		} elseif($screen == JobInterview::TYPE){
+			return $this->recruitmentAttachmentDao->getInterviewAttachment($id);
+		}
+	}
+
+	/**
+	 *
+	 * @param <type> $id
+	 * @param <type> $screen
+	 */
+	public function getAttachments($id, $screen){
+
+		if($screen == JobVacancy::TYPE){
+			return $this->recruitmentAttachmentDao->getVacancyAttachments($id);
+		} elseif($screen == JobInterview::TYPE){
+			return $this->recruitmentAttachmentDao->getInterviewAttachments($id);
+		}
+	}
+
+	public function getNewAttachment($screen){
+
+		if($screen == JobVacancy::TYPE){
+			return new JobVacancyAttachment();
+		} elseif($screen == JobInterview::TYPE){
+			return new JobInterviewAttachment();
+		}
 	}
 
 }

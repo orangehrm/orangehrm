@@ -18,14 +18,16 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
 class RecruitmentAttachmentDeleteForm extends BaseForm {
+	public $screen;
 
-    /**
-     * 
-     */
-    public function configure() {
-        $this->widgetSchema->setNameFormat('recruitmentAttachmentDelete[%s]');
-    }
+	/**
+	 * 
+	 */
+	public function configure() {
+		$this->screen = $this->getOption('screen');
+		$this->widgetSchema->setNameFormat('recruitmentAttachmentDelete[%s]');
+	}
+
 }
 

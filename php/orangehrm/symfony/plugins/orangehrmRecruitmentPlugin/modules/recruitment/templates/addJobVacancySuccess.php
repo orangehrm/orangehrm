@@ -110,7 +110,7 @@
                     <br class="clear"/>
                     <br class="clear"/>
                     <div>
-<?php echo include_component('recruitment', 'attachments', array('vacancyId' => $vacancyId)); ?>
+<?php echo include_component('recruitment', 'attachments', array('id' => $vacancyId, 'screen' => JobVacancy::TYPE)); ?>
                 </div>
 <?php } ?>
 

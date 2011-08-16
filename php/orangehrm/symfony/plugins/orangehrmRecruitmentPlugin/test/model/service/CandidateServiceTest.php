@@ -41,7 +41,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetAllCandidatesList() {
 
         $allCandidatesList = TestDataService::loadObjectList('JobCandidate', $this->fixture, 'JobCandidate');
-
+	$allowedCandidateList = array(1,2,3);
         $candidateDao = $this->getMock('CandidateDao');
 
         $candidateDao->expects($this->once())
@@ -50,7 +50,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->candidateService->setCandidateDao($candidateDao);
 
-        $readCandidatesList = $this->candidateService->getCandidateList();
+        $readCandidatesList = $this->candidateService->getCandidateList($allowedCandidateList);
         $this->assertEquals($readCandidatesList, $allCandidatesList);
     }
 

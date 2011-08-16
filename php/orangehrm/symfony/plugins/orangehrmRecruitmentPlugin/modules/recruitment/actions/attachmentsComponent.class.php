@@ -41,18 +41,22 @@ class attachmentsComponent extends sfComponent {
 		$this->scrollToAttachments = false;
 
 		if ($this->getUser()->hasFlash('attachmentMessage')) {
-			
+
 			$this->scrollToAttachments = true;
 			list($this->attachmentMessageType, $this->attachmentMessage) = $this->getUser()->getFlash('attachmentMessage');
 		}
-		
-		$attachments = $this->getRecruitmentAttachmentService()->getVacancyAttachments($this->vacancyId);
+
+		//$attachments = $this->getRecruitmentAttachmentService()->getVacancyAttachment($this->id);
+		$attachments = $this->getRecruitmentAttachmentService()->getAttachments($this->id, $this->screen);
 		$this->attachmentList = array();
-		foreach ($attachments as $attachment) {
-			$this->attachmentList[] = $attachment;
+		if (!empty($attachments)) {
+			foreach ($attachments as $attachment) {
+				$this->attachmentList[] = $attachment;
+			}
 		}
-		$this->form = new RecruitmentAttachmentForm();
-		$this->deleteForm = new RecruitmentAttachmentDeleteForm();
+		$param = array('screen' => $this->screen);
+		$this->form = new RecruitmentAttachmentForm(array(), $param, true);
+		$this->deleteForm = new RecruitmentAttachmentDeleteForm(array(), $param, true);
 	}
 
 }
