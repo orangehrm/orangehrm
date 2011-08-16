@@ -128,7 +128,7 @@ function printButtonEventBindings($buttons) {
                             $currentModule = sfContext::getInstance()->getModuleName();
                             $currentAction = sfContext::getInstance()->getActionName();
 
-                            $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}/sortField/{$header->getSortField()}/sortOrder/{$nextSortOrder}", true);
+                            $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}?sortField={$header->getSortField()}&sortOrder={$nextSortOrder}", true);
 
                             $headerCell = new SortableHeaderCell();
                             $headerCell->setProperties(array(

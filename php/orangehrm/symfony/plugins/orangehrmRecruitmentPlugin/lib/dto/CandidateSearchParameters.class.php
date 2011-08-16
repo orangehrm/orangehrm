@@ -43,9 +43,19 @@ class CandidateSearchParameters {
     private $attachmentId;
     private $linkName;
     private $allowedCandidateList;
+    private $allowedVacancyList;
+    private $isAdmin;
 
     public function getAllowedCandidateList() {
         return $this->allowedCandidateList;
+    }
+
+    public function getIsAdmin() {
+        return $this->isAdmin;
+    }
+
+    public function getAllowedVacancyList() {
+        return $this->allowedVacancyList;
     }
 
     public function getJobTitleCode() {
@@ -135,7 +145,6 @@ class CandidateSearchParameters {
     public function getLink() {
         if (!empty($this->attachmentId)) {
             $this->linkName = __("Download");
-            //$this->linkName = image_tag("download-icon.png");
         }
         return $this->linkName;
     }
@@ -146,6 +155,14 @@ class CandidateSearchParameters {
 
     public function setAllowedCandidateList($allowedCandidateList) {
         $this->allowedCandidateList = $allowedCandidateList;
+    }
+
+    public function setAllowedVacancyList($allowedVacancyList) {
+        $this->allowedVacancyList = $allowedVacancyList;
+    }
+
+    public function setIsAdmin($isAdmin) {
+        $this->isAdmin = $isAdmin;
     }
 
     public function setJobTitleCode($jobTitleCode) {

@@ -34,6 +34,8 @@ class User {
     private $candidateList = array();
     private $vacancyList = array();
     private $candidateHistoryList = array();
+    private $isAdmin = false;
+    private $isHiringManager = false;
 
     public function getAccessibleTimeMenus() {
 
@@ -142,6 +144,14 @@ class User {
 
     public function getAllowedCandidateHistoryList($candidateId) {
         return $this->candidateHistoryList;
+    }
+
+    public function isAdmin() {
+        return $this->isAdmin;
+    }
+
+    public function isHiringManager() {
+        return $this->isHiringManager;
     }
 
 }

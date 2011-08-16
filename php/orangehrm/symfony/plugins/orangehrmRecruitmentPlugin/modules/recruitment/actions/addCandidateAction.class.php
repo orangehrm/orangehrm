@@ -61,6 +61,12 @@ class addCandidateAction extends sfAction {
     public function execute($request) {
 
         $userObj = $this->getUser()->getAttribute('user');
+        $reDirect = false;
+        $this->edit = true;
+        if (!($userObj->isAdmin() || $userObj->isHiringManager())) {
+           $reDirect = true;
+           $this->edit = false;
+        }
 
         $this->candidateId = $request->getParameter('id');
 
@@ -85,6 +91,10 @@ class addCandidateAction extends sfAction {
             $this->_setListComponent($candidateHistoryService->getCandidateHistoryList($candidateHistory));
             $params = array();
             $this->parmetersForListCompoment = $params;
+        } else {
+            if ($reDirect) {
+                $this->redirect('recruitment/viewCandidates');
+            }
         }
 
         if ($request->isMethod('post')) {

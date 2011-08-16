@@ -47,10 +47,8 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     public function getTimesheetService() {
 
         if (is_null($this->timesheetService)) {
-
             $this->timesheetService = new TimesheetService();
         }
-
         return $this->timesheetService;
     }
 
@@ -141,11 +139,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     }
 
     public function getAccessibleTimeSubMenus() {
-        //$topMenuItem = new TopMenuItem();
-        //$topMenuItem->setDisplayName(__("Time"));
-        //set the link for timesheet configration
-        //$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        //array_push($tempArray, $topMenuItem);
+
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Employee Timesheets"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
@@ -169,7 +163,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         array_push($tempArray, $topMenuItem);
         return $tempArray;
     }
-
 
     public function getAccessibleReportSubMenus() {
 
@@ -398,7 +391,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         }
     }
 
-public function getAccessibleRecruitmentMenus() {
+    public function getAccessibleRecruitmentMenus() {
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("View Candidates"));
@@ -422,6 +415,14 @@ public function getAccessibleRecruitmentMenus() {
         array_push($tempArray, $topMenuItem);
 
         return $tempArray;
+    }
+
+    public function isAdmin() {
+        return true;
+    }
+
+    public function isHiringManager() {
+        return $this->user->isHiringManager();
     }
 
 }

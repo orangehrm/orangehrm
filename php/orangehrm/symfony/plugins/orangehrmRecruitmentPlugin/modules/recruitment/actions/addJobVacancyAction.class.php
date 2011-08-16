@@ -79,6 +79,10 @@ class addJobVacancyAction extends sfAction {
      */
     public function execute($request) {
 
+        if(!$this->getUser()->getAttribute('user')->isAdmin()){
+            $this->redirect('recruitment/viewCandidates');
+        }
+
         $this->vacancyId = $request->getParameter('Id');
         $values = array('vacancyId' => $this->vacancyId);
         $this->setForm(new AddJobVacancyForm(array(), $values));

@@ -38,7 +38,7 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("View Candidates"));
         $topMenuItem->setLink(HiringManagerUserRoleDecorator::VIEW_CANDIDATES);
         $tempArray = $this->user->getAccessibleRecruitmentMenus();
-        if (!($tempArray[0] instanceof TopMenuItem)) {
+        if (!in_array($topMenuItem, $tempArray)) {
             array_push($tempArray, $topMenuItem);
         }
 
@@ -132,24 +132,22 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $allowedCandidateIdList = $accessFlowStateMachineService->getAllowedCandidateList(HiringManagerUserRoleDecorator::HIRING_MANAGER, $this->getEmployeeNumber());
         $existingIdList = $this->user->getAllowedCandidateList();
-        if(is_null($allowedCandidateIdList)){
+        if (is_null($allowedCandidateIdList)) {
             return $existingIdList;
-        }
-        else{
+        } else {
             $allowedCandidateIdList = array_unique(array_merge($allowedCandidateIdList, $existingIdList));
             return $allowedCandidateIdList;
         }
     }
 
-     public function getAllowedVacancyList() {
+    public function getAllowedVacancyList() {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $allowedVacancyIdList = $accessFlowStateMachineService->getAllowedVacancyList(HiringManagerUserRoleDecorator::HIRING_MANAGER, $this->getEmployeeNumber());
         $existingIdList = $this->user->getAllowedVacancyList();
-        if(is_null($allowedVacancyIdList)){
+        if (is_null($allowedVacancyIdList)) {
             return $existingIdList;
-        }
-        else{
+        } else {
             $allowedVacancyIdList = array_unique(array_merge($allowedVacancyIdList, $existingIdList));
             return $allowedVacancyIdList;
         }
@@ -160,13 +158,20 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $allowedCandidateHistoryIdList = $accessFlowStateMachineService->getAllowedCandidateHistoryList(HiringManagerUserRoleDecorator::HIRING_MANAGER, $this->getEmployeeNumber(), $candidateId);
         $existingIdList = $this->user->getAllowedCandidateHistoryList($candidateId);
-        if(is_null($allowedCandidateHistoryIdList)){
+        if (is_null($allowedCandidateHistoryIdList)) {
             return $existingIdList;
-        }
-        else{
+        } else {
             $allowedCandidateHistoryIdList = array_unique(array_merge($allowedCandidateHistoryIdList, $existingIdList));
             return $allowedCandidateHistoryIdList;
         }
+    }
+
+    public function isAdmin() {
+        return $this->user->isAdmin();
+    }
+
+    public function isHiringManager() {
+        return true;
     }
 
 }

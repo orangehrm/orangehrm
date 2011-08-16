@@ -111,6 +111,8 @@ class CandidateDao extends BaseDao {
         $sortOrder = $searchParam->getSortOrder();
         $offset = $searchParam->getOffset();
         $limit = $searchParam->getLimit();
+        $allowedVacancyList = $searchParam->getAllowedVacancyList();
+        $isAdmin = $searchParam->getIsAdmin();
 
         $sortQuery = "";
         if ($sortField == 'jc.first_name') {
@@ -141,8 +143,11 @@ class CandidateDao extends BaseDao {
             $q .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
             $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
             $q .= " AND jc.status = '$candidateStatus'";
-            if ($allowedCandidateList != null) {
+            if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
+            }
+            if ($allowedVacancyList != null && !$isAdmin) {
+                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
             }
 
             $where = array();
@@ -215,6 +220,8 @@ class CandidateDao extends BaseDao {
     public function getCandidateRecordsCount(CandidateSearchParameters $searchParam) {
 
         $allowedCandidateList = $searchParam->getAllowedCandidateList();
+        $allowedVacancyList = $searchParam->getAllowedVacancyList();
+        $isAdmin = $searchParam->getIsAdmin();
         $jobTitleCode = $searchParam->getJobTitleCode();
         $jobVacancyId = $searchParam->getVacancyId();
         $hiringManagerId = $searchParam->getHiringManagerId();
@@ -245,8 +252,11 @@ class CandidateDao extends BaseDao {
             $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
             $q .= " AND jc.status = '$candidateStatus'";
-            if ($allowedCandidateList != null) {
+            if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
+            }
+            if ($allowedVacancyList != null && !$isAdmin) {
+                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
             }
             $where = array();
 

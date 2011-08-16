@@ -49,7 +49,13 @@ class viewJobVacancyAction extends sfAction {
      */
     public function execute($request) {
 
-        $allowedVacancyList = $this->getUser()->getAttribute('user')->getAllowedVacancyList();
+        $usrObj = $this->getUser()->getAttribute('user');
+        
+        if (!$usrObj->isAdmin()) {
+            $this->redirect('recruitment/viewCandidates');
+        }
+        
+        $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');

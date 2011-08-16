@@ -20,6 +20,7 @@
 class viewCandidatesAction extends sfAction {
 
     private $candidateService;
+    private $addAndDelete;
 
     /**
      * Get CandidateService
@@ -60,6 +61,7 @@ class viewCandidatesAction extends sfAction {
         $usrObj = $this->getUser()->getAttribute('user');
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
+        $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList);
 
         $candidateId = $request->getParameter('candidateId');
@@ -69,6 +71,8 @@ class viewCandidatesAction extends sfAction {
 
         $searchParam = new CandidateSearchParameters();
         $searchParam->setAllowedCandidateList($allowedCandidateList);
+        $searchParam->setAllowedVacancyList($allowedVacancyList);
+        $searchParam->setIsAdmin($isAdmin);
         $noOfRecords = $searchParam->getLimit();
         $offset = ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
 
@@ -85,7 +89,7 @@ class viewCandidatesAction extends sfAction {
         }
         $searchParam->setOffset($offset);
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
-        $this->_setListComponent($candidates, $noOfRecords, $searchParam);
+        $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam);
 
         $params = array();
         $this->parmetersForListCompoment = $params;
@@ -97,7 +101,7 @@ class viewCandidatesAction extends sfAction {
                     $srchParams = $this->form->getSearchParamsBindwithFormData($searchParam);
                     $this->getUser()->setAttribute('searchParameters', $srchParams);
                     $candidates = $this->getCandidateService()->searchCandidates($srchParams);
-                    $this->_setListComponent($candidates, $noOfRecords, $searchParam);
+                    $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam);
                 }
             }
 
@@ -111,9 +115,16 @@ class viewCandidatesAction extends sfAction {
      * @param <type> $noOfRecords
      * @param CandidateSearchParameters $searchParam
      */
-    private function _setListComponent($candidates, $noOfRecords, CandidateSearchParameters $searchParam) {
+    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam) {
 
         $configurationFactory = new CandidateHeaderFactory();
+
+        if (!($usrObj->isAdmin() || $usrObj->isHiringManager())) {
+            $configurationFactory->setRuntimeDefinitions(array(
+                'hasSelectableRows' => false,
+                'buttons' => array(),
+            ));
+        }
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($candidates);
         ohrmListComponent::setItemsPerPage($noOfRecords);

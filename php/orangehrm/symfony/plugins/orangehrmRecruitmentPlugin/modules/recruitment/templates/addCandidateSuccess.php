@@ -178,8 +178,10 @@ foreach ($jobVacancyList as $vacancy) {
             </div>
             <br class="clear" />
             <div class="formbuttons">
+                <?php if ($edit): ?>
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
                        value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                <?php endif; ?>
                        <?php if ($candidateId > 0): ?>
                     <input type="button" class="backbutton" name="btnBack" id="btnBack"
                            value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>

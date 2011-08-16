@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+   
     //Load default Mask if empty
     var fromDate = trim($("#candidateSearch_fromDate").val());
     if (fromDate == '') {
