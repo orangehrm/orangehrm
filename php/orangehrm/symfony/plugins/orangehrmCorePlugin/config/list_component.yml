@@ -72,7 +72,7 @@ EmployeeLeaveEntitlement:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
-  tableWidth: auto
+  tableWidth: 100%
   hasSummary: false
   summary: []
   buttons:
@@ -95,7 +95,7 @@ LeaveRequest:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
-  tableWidth: auto
+  tableWidth: 100%
   hasSummary: false
   summary: []
   buttons:
@@ -114,7 +114,7 @@ Leave:
   unselectableRowIds: []
   idValueGetter: getEmployeeId
   title: ''
-  tableWidth: auto
+  tableWidth: 100%
   hasSummary: false
   summary: []
   buttons:
