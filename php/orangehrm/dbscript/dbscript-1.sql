@@ -1276,6 +1276,18 @@ create table `ohrm_job_vacancy_attachment`(
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_job_interview_attachment`(
+	`id` int(13) not null auto_increment,
+	`interview_id` int(13) not null,
+	`file_name` varchar(200) not null,
+        `file_type` varchar(200) default null,
+	`file_size` int(11) not null,
+	`file_content` mediumblob,
+        `attachment_type` int(4) default null,
+	`comment` varchar(255) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
 create table `ohrm_job_candidate_history`(
 	`id` int(13) not null auto_increment,
 	`candidate_id` int(13) not null,
@@ -1295,6 +1307,7 @@ create table `ohrm_job_interview`(
 	`interview_date` date default null,
         `interview_time` time default null,
 	`note` text default null,
+	`attached_file_id` int(13) default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
@@ -1392,6 +1405,10 @@ alter table ohrm_job_candidate_attachment
 alter table ohrm_job_vacancy_attachment
        add constraint foreign key (vacancy_id)
                              references ohrm_job_vacancy(id) on delete cascade;
+
+alter table ohrm_job_interview_attachment
+       add constraint foreign key (interview_id)
+                             references ohrm_job_interview(id) on delete cascade;
 
 alter table ohrm_job_candidate_history
        add constraint foreign key (candidate_id)
@@ -1771,4 +1788,4 @@ alter table `hs_hr_emp_locations`
         references hs_hr_location(`loc_code`) on delete cascade,
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
-
+
