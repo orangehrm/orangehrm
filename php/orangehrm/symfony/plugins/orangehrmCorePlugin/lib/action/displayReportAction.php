@@ -20,6 +20,7 @@
 abstract class displayReportAction extends sfAction {
 
     private $confFactory;
+    private $form;
 
     public function execute($request) {
 
@@ -28,24 +29,26 @@ abstract class displayReportAction extends sfAction {
         $reportableGeneratorService = new ReportGeneratorService();
 
         $sql = $request->getParameter("sql");
+       
         $reportableService = new ReportableService();
         $report = $reportableService->getReport($reportId);
         $useFilterField = $report->getUseFilterField();
 
         if (!$useFilterField) {
-
+            $this->setCriteriaForm();
             if ($request->isMethod('post')) {
+             
+                $this->form->bind($request->getParameter($this->form->getName()));
 
-                $form->bind($request->getParameter($form->getName()));
-
-                if ($form->isValid()) {
+                if ($this->form->isValid()) {
                     
                     $reportGeneratorService = new ReportGeneratorService();
-                    $formValues = $form->getValues();
+                    $formValues = $this->form->getValues();
                     $this->setReportCriteriaInfoInRequest($formValues);
                     $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
                 }
             }
+            
         } else {
 
             if ($request->isMethod("get")) {
@@ -74,6 +77,7 @@ abstract class displayReportAction extends sfAction {
         ohrmListComponent::setListData($dataSet);
 
         $this->parmetersForListComponent = $this->setParametersForListComponent();
+        
     }
 
     abstract public function setParametersForListComponent();
@@ -95,6 +99,12 @@ abstract class displayReportAction extends sfAction {
     }
 
     public function setReportCriteriaInfoInRequest($formValues) {}
+
+    public function setCriteriaForm(){}
+
+    public function setForm($form) {
+       $this->form = $form;
+    }
 
 }
 

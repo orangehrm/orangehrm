@@ -182,7 +182,7 @@ ProjectActivityDetailsReport:
   assets: []
   jsInitMethods: []
 
-AttendanceTotalSummaryReport:
+AttendanceSummaryReport:
   pluginName: orangehrmTimePlugin
   hasSelectableRows: false
   unselectableRowIds: []

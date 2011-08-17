@@ -25,7 +25,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     public function configure() {
 
         $this->setWidgets(array(
-            'empName' => new sfWidgetFormInputText(array(),array('id' => 'employee_name')),
+            'empName' => new sfWidgetFormInputText(array(), array('id' => 'employee_name')),
             'employeeId' => new sfWidgetFormInputHidden(),
             'fromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'from_date')),
             'toDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'to_date'))
@@ -75,7 +75,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $jobService = $this->getJobService();
         $jobList = $jobService->getJobTitleList();
 
-        $choices = array('0' => __('All'));
+        $choices[0] = __('All');
 
         foreach ($jobList as $job) {
             $choices[$job->getId()] = $job->getName();
@@ -87,10 +87,12 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
     private function _setSubDivisionWidget() {
 
-        $companyService = $this->getCompanyService();
+        $choice = array();
 
-        $subUnitList = array(0 => __("All"));
+        $companyService = $this->getCompanyService();
         $tree = $companyService->getSubDivisionTree();
+
+        $subUnitList[0] = __("All");
 
         foreach ($tree as $node) {
 
@@ -99,8 +101,16 @@ class AttendanceTotalSummaryReportForm extends sfForm {
                 if ($node->depth == "") {
                     $node->depth = 1;
                 }
+
+                $value = $node->getId();
+                $children = $node->getChildren();
+
+                foreach ($children as $childNode) {
+                    $value = $value . "," . $childNode->getId();
+                }
+
                 $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
-                $subUnitList[$node->getId()] = $indent . $node->getTitle();
+                $subUnitList[$value] = $indent . $node->getTitle();
             }
         }
 
@@ -112,7 +122,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
         $jobService = $this->getJobService();
         $statusList = $jobService->getEmployeeStatusList();
-        $choices = array('0' => __('All'));
+        $choices[0] = __('All');
 
         foreach ($statusList as $status) {
             $choices[$status->getId()] = $status->getName();

@@ -48,6 +48,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'textbox',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array(
                 'getter' => 'getNoOfDaysAllotted',
                 'name' => 'txtLeaveEntitled[]',
@@ -60,6 +61,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'leaveSummaryLink',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array(
                 'getter' => 'getLeaveScheduled',
                  /* FIXME: This hidden field is added because the old leave 
@@ -82,6 +84,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'leaveSummaryLink',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array(
                 'getter' => 'getLeaveTaken',
                 'linkable' => array('isThereLeaveTaken', array()),
@@ -97,6 +100,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',
+            'textAlignmentStyle' => 'center',
             'elementProperty' => array('getter' => 'getLeaveBalance'),
         ));
 

@@ -458,6 +458,7 @@ class ReportGeneratorService {
      * the installer interpret it in a wrong way and bread. That occurs when the installer run the dbscript-2.sql file.
      * So this method replaces the "#" character with "&amp;" string.
      */
+
     private function escapeSpecialCharacters($string) {
 
         $string = str_replace("#", "&amp;", $string);
@@ -692,13 +693,61 @@ class ReportGeneratorService {
         if (isSet($groupByClause)) {
             $sql = $sql . " " . $groupByClause;
         }
-
+        
         foreach ($formValues as $key => $value) {
-            $pattern = "/" . $key . "/";
-            $sql = preg_replace($pattern, $value, $sql);
+
+            $pattern = '/#@[\"]*' . $key . '[\)\"]*@,@[a-zA-Z0-9\(\)_\.\-\ ]*@#/';
+            
+
+            preg_match($pattern, $sql, $matches);
+            if (!empty($matches)) {
+                $str = $matches[0];
+              
+                $array = explode("@", $str);
+                if (($value == '-1') || ($value == '0')) {
+                    $sql = str_replace($str, $array[3], $sql);
+                } else {
+                    $value = str_replace($key, $value, $array[1]);
+                    $sql = str_replace($str, $value, $sql);
+                }
+            }
         }
 
         return $sql;
+    }
+
+    public function generateWhereClause() {
+$value = "no";
+        $jobTitle = "jobTitle";
+        $sql = 'select #@jobTitle)@,@de_f-a.u_lt @# where';
+        $pattern = '/#@[\"]*' . $jobTitle . "[\)]*[\"]*@,@[a-zA-Z_\.\-\ ]*@#/";
+
+        preg_match($pattern, $sql, $matches);
+        
+        $str = $matches[0];
+        $array = explode("@", $str);
+
+        if ($value == null) {
+            $sql = str_replace($str, $array[3], $sql);
+        } else {
+            $value = str_replace($jobTitle, $value, $array[1]);
+            $sql = str_replace($str, $value, $sql);
+        }
+        print_r($sql);
+//        preg_match($pattern, $str, $matches);
+//        print_r($matches);
+//        $value = preg_replace_callback($pattern, array(&$this, 'my_name'), $str);
+//        print_r($value);
+    }
+
+    public function my_name($matches) {
+        $value = "no";
+        $array = explode("@", $matches[0]);
+
+        if ($value == null) {
+            return $array[3];
+        }
+        return $array[1];
     }
 
 }

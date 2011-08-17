@@ -20,7 +20,7 @@
 class displayAttendanceSummaryReportCriteriaAction extends sfAction {
 
     public function execute($request) {
-        
+
         $this->reportId = $request->getParameter("reportId");
         $userObj = $this->getContext()->getUser()->getAttribute("user");
         $employeeList = $userObj->getEmployeeList();
@@ -28,8 +28,6 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
         $this->form = new AttendanceTotalSummaryReportForm();
 
         $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
-
     }
-
 }
 

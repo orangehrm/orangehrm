@@ -2,10 +2,11 @@
 
 class displayAttendanceSummaryReportAction extends displayReportAction {
 
-    public function execute($request) {
-
-        $reportId = $request->getParameter("reportId");
-
+//    public function execute($request) {
+//        $reportId = $request->getParameter("reportId");
+//
+//        $reportableGeneratorService = new ReportGeneratorService();
+//
 //        $form = new AttendanceTotalSummaryReportForm();
 //        $reportableService = new ReportableService();
 //        $report = $reportableService->getReport($reportId);
@@ -16,16 +17,28 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
 //            if ($request->isMethod('post')) {
 //
 //                $form->bind($request->getParameter($form->getName()));
-//
 //                if ($form->isValid()) {
-//
 //                    $reportGeneratorService = new ReportGeneratorService();
 //                    $formValues = $form->getValues();
 //                    $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
 //                }
 //            }
 //        }
-    }
+//
+//        $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
+//        $headers = $reportableGeneratorService->getHeaders($reportId);
+//
+//        $this->setConfigurationFactory();
+//        $configurationFactory = $this->getConfFactory();
+//        $configurationFactory->setHeaders($headers);
+//
+//        ohrmListComponent::setConfigurationFactory($configurationFactory);
+//
+//        $this->setListHeaderPartial();
+//        ohrmListComponent::setListData($dataSet);
+//
+//        $this->parmetersForListComponent = $this->setParametersForListComponent();
+//    }
 
     public function setConfigurationFactory() {
 
@@ -46,12 +59,12 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
             $param['empName'] = $this->getRequest()->getParameter("empName");
         }
 
-        if ($this->getRequest()->hasParameter("empStatusName")) {
-            $param['empStatusName'] = $this->getRequest()->getParameter("empStatusName");
+        if ($this->getRequest()->hasParameter("employeeStatus")) {
+            $param['employeeStatus'] = $this->getRequest()->getParameter("employeeStatus");
         }
 
-        if ($this->getRequest()->hasParameter("jobTitName")) {
-            $param['jobTitName'] = $this->getRequest()->getParameter("jobTitName");
+        if ($this->getRequest()->hasParameter("jobTitle")) {
+            $param['jobTitle'] = $this->getRequest()->getParameter("jobTitle");
         }
 
         if ($this->getRequest()->hasParameter("subUnit")) {
@@ -69,42 +82,46 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
     }
 
     public function setReportCriteriaInfoInRequest($formValues) {
-
         $employeeService = new EmployeeService();
         $jobService = new JobService();
         $companyService = new CompanyService();
 
-        if (isset($formValues["employee"])) {
-            $empNumber = $formValues["employee"];
+        if (isset($formValues["employeeId"])) {
+            $empNumber = $formValues["employeeId"];
             $employee = $employeeService->getEmployee($empNumber);
             $empName = $employee->getFirstAndLastNames();
             $this->getRequest()->setParameter('empName', $empName);
         }
 
-        if (isset($formValues["employment_status"]) && ($formValues["employment_status"]!=0)) {
-            $estatCode = $formValues["employment_status"];
+        if (isset($formValues["employeeStatus"]) && ($formValues["employeeStatus"] != 0)) {
+            $estatCode = $formValues["employeeStatus"];
             $estat = $jobService->readEmployeeStatus($estatCode);
             $estatName = $estat->getEstatName();
-            $this->getRequest()->setParameter("empStatusName", $estatName);
+            $this->getRequest()->setParameter("employeeStatus", $estatName);
         }
 
-        if (isset($formValues["job_title"]) && ($formValues["job_title"]!=0)) {
-            $jobTitCode = $formValues["job_title"];
+        if (isset($formValues["jobTitle"]) && ($formValues["jobTitle"] != 0)) {
+            $jobTitCode = $formValues["jobTitle"];
             $jobTitle = $jobService->readJobTitle($jobTitCode);
             $jobTitName = $jobTitle->getJobTitName();
-            $this->getRequest()->setParameter("jobTitName", $jobTitName);
+            $this->getRequest()->setParameter("jobTitle", $jobTitName);
         }
 
-        if (isset($formValues["sub_unit"]) && ($formValues["job_title"]!=0)) {
-            $value = $formValues["sub_unit"];
+        if (isset($formValues["subUnit"]) && ($formValues["subUnit"] != 0)) {
+            $value = $formValues["subUnit"];
             $id = $value;
             $companyStructure = $companyService->readCompanyStructure($id);
             $subUnitName = $companyStructure->getTitle();
             $this->getRequest()->setParameter("subUnit", $subUnitName);
         }
 
-        $this->getRequest()->setParameter('attendanceDateRangeFrom', $formValues["attendance_date_range"]["from"]);
-        $this->getRequest()->setParameter('attendanceDateRangeTo', $formValues["attendance_date_range"]["to"]);
+        $this->getRequest()->setParameter('attendanceDateRangeFrom', $formValues["fromDate"]);
+        $this->getRequest()->setParameter('attendanceDateRangeTo', $formValues["toDate"]);
+    }
+
+    public function setCriteriaForm() {
+        $form = new AttendanceTotalSummaryReportForm();
+        $this->setForm($form);
     }
 
 }
