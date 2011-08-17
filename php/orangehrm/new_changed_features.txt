@@ -1,3 +1,14 @@
+New & Changed Features for OrangeHRM ver 2.6.7 beta 1.0
+
+	Symfony converted time module with usability improvements
+	Work flow configurability and user role configurability
+	Time sheet period configurability 
+	Supports both time formats(1.5 and 1:30) from the user interface
+	Time sheet action log
+	Report engine to create reports
+	Preventing the deletion of the projects,activities,and customers which has time items recorded 
+
+
 New & Changed Features for OrangeHRM ver 2.6.6
 
     Bug Fixes
