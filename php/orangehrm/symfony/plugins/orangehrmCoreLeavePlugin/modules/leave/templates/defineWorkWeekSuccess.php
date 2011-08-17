@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<div style="width:380px;">
+<div id="messageBalloonContainer" style="width:380px;">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 </div>
 <div class="formpageNarrow">
@@ -89,7 +89,7 @@
         $(document).ready(function() {
             $(".formSelect").attr("disabled", "disabled");
             
-            $("#saveBtn").click(function() {
+            $("#saveBtn").click(function() {                
                 if($("#saveBtn").attr("value") == "<?php echo __("Edit") ?>") {
                     $(".formSelect").removeAttr("disabled");
                     $("#saveBtn").attr("value", "<?php echo __("Save") ?>");
@@ -97,9 +97,24 @@
                 }
 
                 if($("#saveBtn").attr("value") == "<?php echo __("Save") ?>") {
-                    $("#frmWorkWeek").submit();
-                    $(".formSelect").attr("disabled", "disabled");
-                    return;
+                    
+                    var count = 0   // Number of not working days
+                    $('.formSelect').each(function(){
+                        if($(this).find('option:selected').val() == 8) {
+                            count = count + 1;
+                        }
+                    });
+                    
+                    if(count == 7) {
+                        $('#messageBalloonContainer').empty();
+                        $('#messageBalloonContainer').append("<div class=\"messageBalloon_warning\"><?php echo __("At Least One Day Should Be a Working Day") ?></div>");
+                        $('.messageBalloon_warning').css('padding-left', '10px');
+                    } else {
+                        $("#frmWorkWeek").submit();
+                        $(".formSelect").attr("disabled", "disabled");
+                        return;                    
+                    }
+                    
                 }
             });
         });

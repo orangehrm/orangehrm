@@ -456,6 +456,10 @@
         <source>Do you want to delete the specific holiday/s</source>
         <target>FR_Do you want to delete the specific holiday/s</target>
       </trans-unit>
+      <trans-unit id="220">
+        <source>At Least One Day Should Be a Working Day</source>
+        <target>FR_At Least One Day Should Be a Working Day</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
