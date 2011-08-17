@@ -73,6 +73,13 @@
         </div>
     </div>
 
+<?php //if (isset($interviewId)) { ?>
+<!--    <br class="clear"/>
+    <br class="clear"/>
+    <div>
+        <?php //echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE)); ?>
+    </div>-->
+<?php //} ?>
 
 
 
