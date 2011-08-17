@@ -406,6 +406,28 @@ class ProjectActivity {
 		}
 
 	}
+    
+        public function haveTimeItems($activityIds) {
+        
+        if (!empty($activityIds) && is_array($activityIds)) {
+        
+            $q = "SELECT * FROM `ohrm_timesheet_item` WHERE `activity_id` IN(".implode(", ", $activityIds).")";
+
+            $dbConnection = new DMLFunctions();
+            $result = $dbConnection->executeQuery($q);
+
+            if (mysql_num_rows($result) > 0) {
+                return true;
+            }
+
+            return false;
+        
+        }
+        
+        return false;
+        
+    }
+    
 
 }
 

@@ -13,7 +13,7 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.resizable.js')?>"></script>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.dialog.js')?>"></script>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>
-
+ <div id="validationMsg" style="margin-left: 16px;"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
 <div class="outerbox">
     <div class="maincontent">
         <form action="" id="employeeRecordsForm" method="post">
@@ -32,7 +32,7 @@
                 <?php foreach ($records as $record): ?>
 
                     <tr> <?php if ($editPunchIn[$i]): ?>
-                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?></td>
+                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -49,7 +49,7 @@
                             </td>
 
                         <?php else: ?>
-                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "nonEditable", "id" => "non"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "nonEditable")); ?></td>
+                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "nonEditable", "id" => "non"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -65,7 +65,7 @@
                                 </table></td>
                         <?php endif; ?>
                         <?php if ($editPunchOut[$i]): ?>
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "time")); ?></td>
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchOutUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -81,7 +81,7 @@
                                 </table></td>
 
                         <?php else: ?>
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?></td>
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchOutUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -109,7 +109,7 @@
 
             <div class="formbuttons">
 
-                &nbsp;&nbsp;&nbsp; <input type="button" class="save" name="button" id="btnEdit"
+                &nbsp;&nbsp;&nbsp; <input type="button" class="save" name="button" id="btnSave"
                                           onmouseover="moverButton(this);" onmouseout="moutButton(this); "
                                           value="<?php echo __('Save'); ?>" />
                 <input type="button" class="cancel" name="button" id="btnCancel"
@@ -145,5 +145,12 @@
     var date='<?php echo $date; ?>';
     var linkToView='<?php echo url_for('attendance/viewAttendanceRecord'); ?>'
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
+    var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
+    var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
+    var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
+    var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
+    var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
+    var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
+    var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
      
 </script>

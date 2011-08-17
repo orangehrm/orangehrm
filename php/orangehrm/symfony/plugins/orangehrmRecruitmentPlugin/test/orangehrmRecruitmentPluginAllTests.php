@@ -3,7 +3,7 @@
 class orangehrmRecruitmentPluginAllTests {
 
     protected function setUp() {
-
+        
     }
 
     public static function suite() {
@@ -19,8 +19,8 @@ class orangehrmRecruitmentPluginAllTests {
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/CandidateServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/VacancyServiceTest.php');
-	$suite->addTestFile(dirname(__FILE__) . '/model/service/RecruitmentAttachmentServiceTest.php');
-	$suite->addTestFile(dirname(__FILE__) . '/model/service/JobInterviewServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/RecruitmentAttachmentServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/JobInterviewServiceTest.php');
 
         /* Functional Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/functional/testcases/ViewCandidatesTest.php');
@@ -30,7 +30,6 @@ class orangehrmRecruitmentPluginAllTests {
 
 
         return $suite;
-
     }
 
     public static function main() {
@@ -42,5 +41,4 @@ class orangehrmRecruitmentPluginAllTests {
 if (PHPUnit_MAIN_METHOD == 'orangehrmRecruitmentPluginAllTests::main') {
     orangehrmRecruitmentPluginAllTests::main();
 }
-
 ?>

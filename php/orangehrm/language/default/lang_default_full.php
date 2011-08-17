@@ -338,6 +338,8 @@
 
 	// admin module
     $lang_projectsHaveTimeItems = "Timesheets contain data on selected projects. Deletion failed.";
+    $lang_activitiesHaveTimeItems = "Timesheets contain data on selected activities. Deletion failed.";
+    $lang_customersHaveTimeItems = "Timesheets contain data on selected customers. Deletion failed.";
 	$lang_Admin_Common_Institute 			= "Institute";
 	$lang_Admin_Common_Course 				= "Course";
 	$lang_Admin_education_InstituteCannotBeBlank = "Institute Cannot be a Blank Value!";

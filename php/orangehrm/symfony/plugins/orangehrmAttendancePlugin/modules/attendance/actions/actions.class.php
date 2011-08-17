@@ -179,16 +179,16 @@ class AttendanceActions extends sfActions {
         $this->action['PunchOut'] = false;
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
- 
-       
+
+
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
         $timeZoneOffset = $this->userObj->getUserTimeZoneOffset();
-     
+
         $timeStampDiff = $timeZoneOffset * 3600 - date('Z');
         $this->currentDate = date('Y-m-d', time() + $timeStampDiff);
-        
+
         $this->currentTime = date('H:i', time() + $timeStampDiff);
-      
+
         $this->timezone = $timeZoneOffset * 3600;
 
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
@@ -265,7 +265,7 @@ class AttendanceActions extends sfActions {
                         $attendanceRecord->setPunchInTimeOffset($employeeTimezone);
 
                         $this->getAttendanceService()->savePunchRecord($attendanceRecord);
-                 
+
                         $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true);
                     }
                 }
@@ -316,6 +316,26 @@ class AttendanceActions extends sfActions {
                     }
                 }
             }
+        }
+    }
+
+    public function executeUpdatePunchInOutNote($request) {
+        $comment = $request->getParameter('comment');
+        $id = $request->getParameter('id');
+        $punchInOut = $request->getParameter('punchInOut');
+
+        $attendanceRecord = $this->getAttendanceService()->getAttendanceRecordById($id);
+
+        if ($punchInOut == 3) {
+
+            $attendanceRecord->setPunchInNote($comment);
+            $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+        }
+
+        if ($punchInOut == 4) {
+
+            $attendanceRecord->setPunchOutNote($comment);
+            $this->getAttendanceService()->savePunchRecord($attendanceRecord);
         }
     }
 

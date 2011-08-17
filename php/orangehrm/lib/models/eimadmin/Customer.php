@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,359 +18,351 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
-require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
-require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
-require_once ROOT_PATH.'/lib/confs/sysConf.php';
-require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Customer {
-	/**
- 	 * Customer status constants ..
- 	 */
-	const CUSTOMER_DELETED = 1;
-	const CUSTOMER_NOT_DELETED = 0;
-
-	/**
-	 * Table Name
-	 */
-	const TABLE_NAME = 'hs_hr_customer';
-
-	//Table field names
-
-	const CUSTOMER_DB_FIELDS_ID = 'customer_id';
-	const CUSTOMER_DB_FIELDS_NAME = 'name';
-	const CUSTOMER_DB_FIELDS_DESCRIPTION = 'description';
-	const CUSTOMER_DB_FIELDS_DELETED = 'deleted';
-
-	/**
-	 * Class Attributes
-	 */
-	private $customerId ;
-	private $customerName;
-	private $customerDescrption;
-	private $customerStatus;
-
-	/**
-	 * Automatic id genaration
-	 */
-	private  $singleField;
-	private  $maxidLength = '4';
-
-	/**
-	 *	Setter method followed by getter method for each
-	 *	attribute
-	 */
-	public function setCustomerId($customerId) {
-			$this->customerId = $customerId;
-	}
-
-	public function getCustomerId () {
-		return $this->customerId;
-	}
-
-	public function setCustomerName($customerName){
-		$this->customerName  = 	$customerName ;
-	}
-
-	public function getCustomerName(){
-		return $this->customerName;
-	}
-
-	public function setCustomerDescription ($customerDescrption) {
-		$this->customerDescrption = $customerDescrption ;
-	}
-
-	public function getCustomerDescription () {
-		return $this->customerDescrption;
-	}
-
-	public function setCustomerStatus ($customerStatus) {
-		$this->customerStatus = $customerStatus ;
-	}
-
-	public function getCustomerStatus () {
-		return $this->customerStatus;
-	}
-
-	/**
-	 *
-	 */
-	public function addCustomer() {
-
-		if ($this->_isDuplicateName()) {
-			throw new CustomerException("Duplicate name", 1);
-		}
-		
-		$this->customerId = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::CUSTOMER_DB_FIELDS_ID);
-
-		$arrRecord[0] = "'". $this->getCustomerId() . "'";
-		$arrRecord[1] = "'". $this->getCustomerName() . "'";
-		$arrRecord[2] = "'". $this->getCustomerDescription() . "'";
-		$arrRecord[3] = self::CUSTOMER_NOT_DELETED;
+    /**
+     * Customer status constants ..
+     */
+    const CUSTOMER_DELETED = 1;
+    const CUSTOMER_NOT_DELETED = 0;
+
+    /**
+     * Table Name
+     */
+    const TABLE_NAME = 'hs_hr_customer';
+
+    //Table field names
+
+    const CUSTOMER_DB_FIELDS_ID = 'customer_id';
+    const CUSTOMER_DB_FIELDS_NAME = 'name';
+    const CUSTOMER_DB_FIELDS_DESCRIPTION = 'description';
+    const CUSTOMER_DB_FIELDS_DELETED = 'deleted';
+
+    /**
+     * Class Attributes
+     */
+    private $customerId;
+    private $customerName;
+    private $customerDescrption;
+    private $customerStatus;
+    /**
+     * Automatic id genaration
+     */
+    private $singleField;
+    private $maxidLength = '4';
+
+    /**
+     * 	Setter method followed by getter method for each
+     * 	attribute
+     */
+    public function setCustomerId($customerId) {
+        $this->customerId = $customerId;
+    }
+
+    public function getCustomerId() {
+        return $this->customerId;
+    }
+
+    public function setCustomerName($customerName) {
+        $this->customerName = $customerName;
+    }
+
+    public function getCustomerName() {
+        return $this->customerName;
+    }
+
+    public function setCustomerDescription($customerDescrption) {
+        $this->customerDescrption = $customerDescrption;
+    }
+
+    public function getCustomerDescription() {
+        return $this->customerDescrption;
+    }
+
+    public function setCustomerStatus($customerStatus) {
+        $this->customerStatus = $customerStatus;
+    }
+
+    public function getCustomerStatus() {
+        return $this->customerStatus;
+    }
+
+    /**
+     *
+     */
+    public function addCustomer() {
+
+        if ($this->_isDuplicateName()) {
+            throw new CustomerException("Duplicate name", 1);
+        }
+
+        $this->customerId = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::CUSTOMER_DB_FIELDS_ID);
+
+        $arrRecord[0] = "'" . $this->getCustomerId() . "'";
+        $arrRecord[1] = "'" . $this->getCustomerName() . "'";
+        $arrRecord[2] = "'" . $this->getCustomerDescription() . "'";
+        $arrRecord[3] = self::CUSTOMER_NOT_DELETED;
+
+        $tableName = self::TABLE_NAME;
 
-		$tableName = self::TABLE_NAME;
-
-		$sql_builder = new SQLQBuilder();
+        $sql_builder = new SQLQBuilder();
+
+        $sql_builder->table_name = $tableName;
+        $sql_builder->flg_insert = 'true';
+        $sql_builder->arr_insert = $arrRecord;
+
+
+        $sqlQString = $sql_builder->addNewRecordFeature1();
+
+        $dbConnection = new DMLFunctions();
+        $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrRecord;
+        return $message2;
+    }
+
+    /**
+     *
+     */
+    public function updateCustomer() {
 
+        if ($this->_isDuplicateName(true)) {
+            throw new CustomerException("Duplicate name", 1);
+        }
 
-		$sqlQString = $sql_builder->addNewRecordFeature1();
+        $arrRecord[0] = "'" . $this->getCustomerId() . "'";
+        $arrRecord[1] = "'" . $this->getCustomerName() . "'";
+        $arrRecord[2] = "'" . $this->getCustomerDescription() . "'";
+        $arrRecord[3] = self::CUSTOMER_NOT_DELETED;
 
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		return $message2;
-	}
+        $tableName = self::TABLE_NAME;
 
-	/**
-	 *
-	 */
-	public	function updateCustomer() {
+        $arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+        $arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
+        $arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
+        $arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-		if ($this->_isDuplicateName(true)) {
-			throw new CustomerException("Duplicate name", 1);
-		}
-		
-		$arrRecord[0] = "'". $this->getCustomerId() . "'";
-		$arrRecord[1] = "'". $this->getCustomerName() . "'";
-		$arrRecord[2] = "'". $this->getCustomerDescription() . "'";
-		$arrRecord[3] = self::CUSTOMER_NOT_DELETED;
+        return $this->updateRecord($tableName, $arrFieldList, $arrRecord);
+    }
 
+    /**
+     *
+     *
+     *
+     */
+    public function deletewrapperCustomer($arrList) {
 
-		$tableName = self::TABLE_NAME;
 
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
-		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
-		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
+        $i = 0;
+        $array_count = count($arrList, COUNT_RECURSIVE) - 1;
+        for ($i = 0; $i < $array_count; $i++) {
 
-		return $this->updateRecord($tableName,$arrFieldList,$arrRecord);
-	}
+            $this->setCustomerId($arrList[0][$i]);
+            $res = $this->deleteCustomer();
+            if (!$res) {
+                return $res;
+            }
+        }
 
-	/**
-	 *
-	 *
-	 *
-	 */
+        return $res;
+    }
 
- 	public function deletewrapperCustomer ($arrList) {
+    public function deleteCustomer() {
+        $sql = sprintf("UPDATE hs_hr_customer c LEFT JOIN hs_hr_project p ON (c.customer_id = p.customer_id) " .
+                "SET c.deleted = 1, p.deleted = 1 " .
+                "WHERE c.customer_id = %s", $this->getCustomerId());
 
+        $dbConnection = new DMLFunctions();
+        $message = $dbConnection->executeQuery($sql);
+        return $message;
+    }
 
-		$i=0;
-		$array_count = count($arrList,COUNT_RECURSIVE)- 1;
-	  	for ($i=0; $i <  $array_count;$i++){
+    /**
+     * To update the records reuse this function
+     */
+    private function updateRecord($tableName, $arrFieldList, $arrRecordsList) {
 
-	 		$this->setCustomerId( $arrList[0][$i]);
-	 		$res=$this->deleteCustomer();
-	 		if (!$res) {
-	 			return $res;
-	 		}
-	 	}
+        $sql_builder = new SQLQBuilder();
 
-		return $res;
+        $sql_builder->table_name = $tableName;
+        $sql_builder->flg_update = 'true';
+        $sql_builder->arr_update = $arrFieldList;
+        $sql_builder->arr_updateRecList = $arrRecordsList;
 
-	}
+        $sqlQString = $sql_builder->addUpdateRecord1(0);
 
-	public function deleteCustomer() {
-		$sql = sprintf("UPDATE hs_hr_customer c LEFT JOIN hs_hr_project p ON (c.customer_id = p.customer_id) " .
-				"SET c.deleted = 1, p.deleted = 1 " .
-				"WHERE c.customer_id = %s", $this->getCustomerId());
+        $dbConnection = new DMLFunctions();
+        $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		$dbConnection = new DMLFunctions();
-		$message = $dbConnection->executeQuery($sql);
-		return $message;
-	}
+        return $message2;
+    }
 
+    /**
+     *
+     */
+    public function getListofCustomers($pageNO, $schStr, $mode, $sortField = 0, $sortOrder = 'ASC') {
 
-	/**
-	 * To update the records reuse this function
-	 */
-	private function updateRecord($tableName,$arrFieldList,$arrRecordsList){
-				
-		$sql_builder = new SQLQBuilder();
+        $customerArr = $this->fetchCustomers($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_update = 'true';
-		$sql_builder->arr_update = $arrFieldList;
-		$sql_builder->arr_updateRecList = $arrRecordsList;
+        $arrDispArr = null;
+        for ($i = 0; count($customerArr) > $i; $i++) {
 
-		$sqlQString = $sql_builder->addUpdateRecord1(0);
+            $arrDispArr[$i][0] = $customerArr[$i]->getCustomerId();
+            $arrDispArr[$i][1] = $customerArr[$i]->getCustomerName();
+            $arrDispArr[$i][2] = $customerArr[$i]->getCustomerDescription();
+        }
 
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+        return $arrDispArr;
+    }
 
-		return $message2;
+    /**
+     *
+     */
+    public function fetchCustomers($pageNO=0, $schStr='', $schField=-1, $sortField=0, $sortOrder='ASC') {
 
-	}
+        $arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+        $arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
+        $arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
+        $arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-	/**
-	 *
-	 */
-	public function getListofCustomers($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+        $tableName = "`" . self::TABLE_NAME . "`";
 
-		$customerArr = $this->fetchCustomers($pageNO,$schStr,$mode, $sortField, $sortOrder);
+        $sql_builder = new SQLQBuilder();
 
-		$arrDispArr = null;
-		for($i=0; count($customerArr) > $i; $i++) {
+        $arrSelectConditions[0] = "`" . self::CUSTOMER_DB_FIELDS_DELETED . "`= " . self::CUSTOMER_NOT_DELETED . "";
+        $arrSelectConditions[1] = "`" . self::CUSTOMER_DB_FIELDS_ID . "` != 0";
 
-			$arrDispArr[$i][0] = $customerArr[$i]->getCustomerId();
-			$arrDispArr[$i][1] = $customerArr[$i]->getCustomerName();
-			$arrDispArr[$i][2] = $customerArr[$i]->getCustomerDescription();
+        if ($schField != -1) {
+            $arrSelectConditions[2] = "`" . $arrFieldList[$schField] . "` LIKE '%" . $schStr . "%'";
+        }
 
-		}
+        $limitStr = null;
 
-		return $arrDispArr;
-	}
+        if ($pageNO > 0) {
+            $sysConfObj = new sysConf();
+            $page = ($pageNO - 1) * $sysConfObj->itemsPerPage;
+            $limit = $sysConfObj->itemsPerPage;
+            $limitStr = "$page,$limit";
+            //echo $limitStr;
+        }
+        $sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[$sortField], $sortOrder, $limitStr);
 
-	/**
-	 *
-	 */
-	public function fetchCustomers($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
+        $dbConnection = new DMLFunctions();
+        $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
-		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
-		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
+        return $this->customerObjArr($message2);
+    }
 
-		$tableName = "`".self::TABLE_NAME."`";
+    /**
+     *
+     */
+    public function fetchCustomer($cusId, $includeDeleted = false) {
 
-		$sql_builder = new SQLQBuilder();
+        $selectTable = "`" . self::TABLE_NAME . "`";
 
-		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
-		$arrSelectConditions[1] = "`".self::CUSTOMER_DB_FIELDS_ID."` != 0";
+        $arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+        $arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
+        $arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
+        $arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-		if ($schField != -1) {
-			$arrSelectConditions[2] = "`".$arrFieldList[$schField]."` LIKE '%".$schStr."%'";
-		}
+        $arrSelectConditions[0] = "`" . self::CUSTOMER_DB_FIELDS_ID . "` = $cusId";
 
-		$limitStr = null;
+        if (!$includeDeleted) {
+            $arrSelectConditions[1] = "`" . self::CUSTOMER_DB_FIELDS_DELETED . "`= " . self::CUSTOMER_NOT_DELETED . "";
+        }
 
-		if ($pageNO > 0) {
-			$sysConfObj = new sysConf();
-			$page = ($pageNO-1)*$sysConfObj->itemsPerPage;
-			$limit = $sysConfObj->itemsPerPage;
-			$limitStr = "$page,$limit";
-			//echo $limitStr;
-		}
-		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[$sortField], $sortOrder, $limitStr);
+        $sqlBuilder = new SQLQBuilder();
+        $query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, null, null, 1);
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query);
 
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+        $tempArr = $this->customerObjArr($result);
+        return $tempArr[0];
+    }
 
-		return $this->customerObjArr($message2) ;
-	}
+    /**
+     *
+     */
+    public function countcustomerID($schStr, $schField) {
 
-	/**
-	 *
-	 */
-	public function fetchCustomer($cusId, $includeDeleted = false) {
+        $tableName = self::TABLE_NAME;
+        $arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+        $arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
+        $arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-		$selectTable = "`".self::TABLE_NAME."`";
+        $schField = 2;
+        $schStr = 0;
 
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
-		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
-		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
+        $sql_builder = new SQLQBuilder();
 
-		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_ID."` = $cusId";
+        $sql_builder->table_name = $tableName;
+        $sql_builder->flg_select = 'true';
+        $sql_builder->arr_select = $arrFieldList;
 
-		if (!$includeDeleted) {
-			$arrSelectConditions[1] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
-		}
+        $sqlQString = $sql_builder->countResultset($schStr, $schField);
 
-		$sqlBuilder = new SQLQBuilder();
-		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, null, null, 1);
-		$dbConnection = new DMLFunctions();
-		$result = $dbConnection -> executeQuery($query);
+        //echo $sqlQString;
+        $dbConnection = new DMLFunctions();
+        $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		$tempArr =  $this->customerObjArr($result) ;
-		return $tempArr[0];
-	}
+        $line = mysql_fetch_array($message2, MYSQL_NUM);
 
-	/**
-	 *
-	 */
-	public function countcustomerID($schStr,$schField) {
+        return $line[0];
+    }
 
-		$tableName = self::TABLE_NAME;
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
-		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DELETED;
+    /**
+     *
+     */
+    public function customerObjArr($result) {
 
-		$schField   = 2;
-		$schStr		= 0;
+        $objArr = null;
+        $tableName = self::TABLE_NAME;
 
-		$sql_builder = new SQLQBuilder();
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
+        while ($row = mysql_fetch_assoc($result)) {
 
-		$sqlQString = $sql_builder->countResultset($schStr,$schField);
+            $tmpcusArr = new Customer();
 
-		//echo $sqlQString;
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+            $tmpcusArr->setCustomerId($row[self::CUSTOMER_DB_FIELDS_ID]);
+            $tmpcusArr->setCustomerName($row[self::CUSTOMER_DB_FIELDS_NAME]);
+            $tmpcusArr->setCustomerDescription($row[self::CUSTOMER_DB_FIELDS_DESCRIPTION]);
+            $tmpcusArr->setCustomerStatus($row[self::CUSTOMER_DB_FIELDS_DELETED]);
 
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
+            $objArr[] = $tmpcusArr;
+        }
 
-	    return $line[0];
-	}
+        return $objArr;
+    }
 
+    private function _isDuplicateName($update=false) {
+        $cutomers = $this->filterExistingCustomers();
 
-	/**
-	 *
-	 */
-	public function customerObjArr($result) {
+        if (is_array($cutomers)) {
+            if ($cutomers) {
+                if ($cutomers[0][0] == $this->getCustomerId()) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-		$objArr = null;
-		$tableName = self::TABLE_NAME;
+        return false;
+    }
 
+    public function filterExistingCustomers() {
+        $sqlBuilder = new SQLQBuilder();
+        $customerName = $sqlBuilder->quoteCorrectString($this->getCustomerName(), true, true);
 
-		while ($row = mysql_fetch_assoc($result)) {
+        $selectFields[] = '`customer_id`';
+        $selectFields[] = '`name`';
+        $selectTable = self::TABLE_NAME;
 
-			$tmpcusArr = new Customer();
-
-			$tmpcusArr->setCustomerId($row[self::CUSTOMER_DB_FIELDS_ID]);
-			$tmpcusArr->setCustomerName($row[self::CUSTOMER_DB_FIELDS_NAME]);
-			$tmpcusArr->setCustomerDescription($row[self::CUSTOMER_DB_FIELDS_DESCRIPTION]);
-			$tmpcusArr->setCustomerStatus($row[self::CUSTOMER_DB_FIELDS_DELETED]);
-
-			$objArr[] = $tmpcusArr;
-		}
-
-		return $objArr;
-	}
-	
-	private function _isDuplicateName($update=false) {
-		$cutomers = $this->filterExistingCustomers();
-
-		if (is_array($cutomers)) {
-			if ($cutomers) {
-				if ($cutomers[0][0] == $this->getCustomerId()){
-					return false;
-				}
-			}
-			return true;
-		}
-
-		return false;
-	}
-	
-	public function filterExistingCustomers() {
-		$sqlBuilder = new SQLQBuilder();
-		$customerName = $sqlBuilder->quoteCorrectString($this->getCustomerName(), true, true);
-
-		$selectFields[] ='`customer_id`'; 
-        $selectFields[] = '`name`';  
-	    $selectTable = self::TABLE_NAME;
-
-        $selectConditions[] = "`name` = '{$customerName}'";	       
+        $selectConditions[] = "`name` = '{$customerName}'";
 
         $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
 
@@ -378,19 +371,48 @@ class Customer {
 
         $cnt = 0;
 
-        while ($row = mysql_fetch_array($result, MYSQL_NUM)){
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
             $existingCustomers[$cnt++] = $row;
         }
 
         if (isset($existingCustomers)) {
             return $existingCustomers;
         } else {
-             $existingCustomers = '';
+            $existingCustomers = '';
             return $existingCustomers;
         }
-	}
+    }
+
+    public function haveTimeItems($customerIds) {
+
+
+        $q = "(SELECT `project_id` FROM `hs_hr_project` WHERE `customer_id` IN(" . implode(", ", $customerIds) . "))";
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($q);
+        $projectIds=$dbConnection->dbObject->getArray($result);
+
+
+        if (!empty($projectIds) && is_array($projectIds)) {
+
+            $q = "SELECT * FROM `ohrm_timesheet_item` WHERE `project_id` IN(" . implode(", ", $projectIds) . ")";
+
+            $dbConnection = new DMLFunctions();
+            $result = $dbConnection->executeQuery($q);
+
+            if (mysql_num_rows($result) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
 
 }
+
 class CustomerException extends Exception {
+    
 }
+
 ?>

@@ -249,6 +249,20 @@ div.dialogButtons {
             }
         ?>
     
+     <?php
+            if ($this->popArr['customersHaveTimeItems']) {
+                $messageType = 'failure';
+                $expString = 'lang_customersHaveTimeItems';
+            }
+        ?>
+    
+        <?php
+            if ($this->popArr['activitiesHaveTimeItems']) {
+                $messageType = 'failure';
+                $expString = 'lang_activitiesHaveTimeItems';
+            }
+        ?>
+    
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
         </div>

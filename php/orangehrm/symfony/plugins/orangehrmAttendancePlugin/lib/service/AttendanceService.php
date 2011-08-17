@@ -170,6 +170,56 @@ class AttendanceService {
 
         return $this->timezoneArray;
     }
+    
+    public function getLocalTimezone($clientTimeZoneOffset) {
+
+
+        $offset = $clientTimeZoneOffset;
+        $zonelist =
+                array
+                    (
+                    'Kwajalein' => -12.00,
+                    'Pacific/Midway' => -11.00,
+                    'Pacific/Honolulu' => -10.00,
+                    'America/Anchorage' => -9.00,
+                    'America/Los_Angeles' => -8.00,
+                    'America/Denver' => -7.00,
+                    'America/Tegucigalpa' => -6.00,
+                    'America/New_York' => -5.00,
+                    'America/Caracas' => -4.50,
+                    'America/Halifax' => -4.00,
+                    'America/St_Johns' => -3.50,
+                    'America/Argentina/Buenos_Aires' => -3.00,
+                    'America/Sao_Paulo' => -3.00,
+                    'Atlantic/South_Georgia' => -2.00,
+                    'Atlantic/Azores' => -1.00,
+                    'Europe/Dublin' => 0,
+                    'Europe/Belgrade' => 1.00,
+                    'Europe/Minsk' => 2.00,
+                    'Asia/Kuwait' => 3.00,
+                    'Asia/Tehran' => 3.50,
+                    'Asia/Muscat' => 4.00,
+                    'Asia/Yekaterinburg' => 5.00,
+                    'Asia/Kolkata' => 5.50,
+                    'Asia/Katmandu' => 5.45,
+                    'Asia/Dhaka' => 6.00,
+                    'Asia/Rangoon' => 6.50,
+                    'Asia/Krasnoyarsk' => 7.00,
+                    'Asia/Brunei' => 8.00,
+                    'Asia/Seoul' => 9.00,
+                    'Australia/Darwin' => 9.50,
+                    'Australia/Canberra' => 10.00,
+                    'Asia/Magadan' => 11.00,
+                    'Pacific/Fiji' => 12.00,
+                    'Pacific/Tongatapu' => 13.00
+        );
+        $index = array_keys($zonelist, $offset);
+        if (sizeof($index) != 1)
+            return false;
+        return $index[0];
+    }
+    
+    
 }
 
 ?>
