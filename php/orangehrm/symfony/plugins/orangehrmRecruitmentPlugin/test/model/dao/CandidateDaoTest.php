@@ -678,7 +678,6 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetCandidateListForHiringManagerRole() {
         $candidatesForHiringManager = $this->candidateDao->getCandidateListForUserRole(HiringManagerUserRoleDecorator::HIRING_MANAGER, 2);
-        print_r($candidatesForHiringManager);
         $this->assertEquals(count($candidatesForHiringManager), 3);
     }
 

@@ -69,7 +69,7 @@ class CandidateDao extends BaseDao {
                 $q->leftJoin('jc.JobCandidateVacancy jcv')
                         ->leftJoin('jcv.JobVacancy jv')
                         ->where('jv.hiringManagerId = ?', $empNumber)
-                        ->orWhere('(jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv)) AND jc.addedPerson = ?', $empNumber);
+                        ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber);
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('jc.JobCandidateVacancy jcv')
@@ -130,7 +130,6 @@ class CandidateDao extends BaseDao {
     public function getCandidateRecordsCount(CandidateSearchParameters $searchParam) {
 
         $allowedCandidateList = $searchParam->getAllowedCandidateList();
-        $allowedVacancyList = $searchParam->getAllowedVacancyList();
         $isAdmin = $searchParam->getIsAdmin();
         $jobTitleCode = $searchParam->getJobTitleCode();
         $jobVacancyId = $searchParam->getVacancyId();
@@ -164,9 +163,6 @@ class CandidateDao extends BaseDao {
             $q .= " AND jc.status = '$candidateStatus'";
             if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
-            }
-            if ($allowedVacancyList != null && !$isAdmin) {
-                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
             }
             $where = array();
 
@@ -367,7 +363,7 @@ class CandidateDao extends BaseDao {
                         ->leftJoin('jcv.JobVacancy jv')
                         ->leftJoin('jcv.JobCandidate jc')
                         ->where('jv.hiringManagerId = ?', $empNumber)
-                        ->orWhere('jc.addedPerson = ?', $empNumber);
+                        ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber);
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('ch.JobInterview ji ON ji.id = ch.interview_id')
@@ -526,7 +522,7 @@ class CandidateDao extends BaseDao {
      * @return string
      */
     private function _buildAdditionalWhereClauses(CandidateSearchParameters $paramObject) {
-
+        
         $allowedCandidateList = $paramObject->getAllowedCandidateList();
         $jobTitleCode = $paramObject->getJobTitleCode();
         $jobVacancyId = $paramObject->getVacancyId();
@@ -536,17 +532,11 @@ class CandidateDao extends BaseDao {
         $isAdmin = $paramObject->getIsAdmin();
 
         $whereClause = '';
-
         $whereFilters = array();
 
         if ($allowedCandidateList != null && !$isAdmin) {
             $this->_addAdditionalWhereClause($whereFilters, 'jc.id', '(' . implode(',', $allowedCandidateList) . ')', 'IN');
         }
-
-        if ($allowedVacancyList != null && !$isAdmin) {
-            $this->_addAdditionalWhereClause($whereFilters, 'jv.id', '(' . implode(',', $allowedVacancyList) . ')', 'IN');
-        }
-
         if (!empty($jobTitleCode) || !empty($jobVacancyId) || !empty($hiringManagerId) || !empty($status)) {
             $this->_addAdditionalWhereClause($whereFilters, 'jv.status', $paramObject->getVacancyStatus());
         }
