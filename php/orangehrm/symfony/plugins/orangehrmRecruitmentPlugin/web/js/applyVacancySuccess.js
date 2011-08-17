@@ -1,5 +1,12 @@
 $(document).ready(function() {
-
+    if(candidateId > 0) {
+        $(".formInputText").attr('disabled', 'disabled');
+        $(".formInput").attr('disabled', 'disabled');
+        $(".contactNo").attr('disabled', 'disabled');
+        $(".keyWords").attr('disabled', 'disabled');
+        $("#btnSave").hide();
+        $('#btnBack').attr('value', lang_back);
+    }
 	stretchy(document.getElementById('txtArea'));
 	//stretchy($('#txtArea').val());
 	var isCollapse = false;
@@ -17,20 +24,23 @@ $(document).ready(function() {
 			$('#extend').text('[+]');
 		}
 	});
-
+        
 	$('#btnSave').click(function() {
-
-		if(isValidForm()){
+           
+		if(isValidForm()){ 
 			$('#addCandidate_vacancyList').val(vacancyId);
 			$('#addCandidate_keyWords.inputFormatHint').val('');
 			$('form#frmAddCandidate').attr({
-
-				action:linkForApplyVacancy+"?id="+vacancyId
+				action:linkForApplyVacancy+"?id="+vacancyId+"&candidateId="+candidateId
 			});
 			$('form#frmAddCandidate').submit();
 		}
 	});
+        
 
+    $('#btnBack').click(function(){
+        window.location.replace('http://localhost/ohrm-trunk/php/orangehrm/symfony/web/index.php/recruitment/viewJobs');
+    });
 	if ($("#addCandidate_keyWords").val() == '') {
 		$("#addCandidate_keyWords").val(lang_commaSeparated).addClass("inputFormatHint");
 	}
@@ -45,6 +55,9 @@ $(document).ready(function() {
 
 	
 });
+if(candidateId >0) {
+    $('#btnSave').hide();
+}
 
 function stretchy(element) {
 	var value= element.value;

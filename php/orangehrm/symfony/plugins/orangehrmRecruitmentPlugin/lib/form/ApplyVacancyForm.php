@@ -22,8 +22,10 @@ class ApplyVacancyForm extends BaseForm {
 
 	private $candidateService;
 	private $recruitmentAttachmentService;
+        public $attachment;
+        public $candidateId;
 
-	/**
+        /**
 	 *
 	 * @return <type>
 	 */
@@ -48,6 +50,12 @@ class ApplyVacancyForm extends BaseForm {
 	}
 
 	public function configure() {
+            
+                $this->candidateId = $this->getOption('candidateId');
+                $attachmentList = $this->attachment;
+		if (count($attachmentList) > 0) {
+			$this->attachment = $attachmentList[0];
+		}
 
 		//creating widgets
 		$this->setWidgets(array(
@@ -75,6 +83,24 @@ class ApplyVacancyForm extends BaseForm {
 		));
 
 		$this->widgetSchema->setNameFormat('addCandidate[%s]');
+                
+                if (!empty($this->candidateId)) { 
+                    $candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
+                    $this->setDefault('firstName', $candidate->getFirstName());
+                    $this->setDefault('middleName', $candidate->getMiddleName());
+                    $this->setDefault('lastName', $candidate->getLastName());
+                    $this->setDefault('email', $candidate->getEmail());
+                    $this->setDefault('contactNo', $candidate->getContactNumber());
+                    $this->attachment = $candidate->getJobCandidateAttachment();
+                    $this->setDefault('keyWords', $candidate->getKeywords());
+                    $this->setDefault('comment', $candidate->getComment());
+                    $candidateVacancyList = $candidate->getJobCandidateVacancy();
+                    $vacancyList = array();
+                    foreach ($candidateVacancyList as $candidateVacancy) {
+                            $vacancyList[] = $candidateVacancy->getVacancyId();
+                    }
+                    $this->setDefault('vacancyList', implode("_", $vacancyList));
+                    }
 	}
 
 	public function save() {
@@ -89,11 +115,11 @@ class ApplyVacancyForm extends BaseForm {
 			$message = array('warning', __('Error Occurred - Invalid File Type'));
 			return $message;
 		} else {
-			$candidateId = $this->_getNewlySavedCandidateId($candidate);
-			$resumeId = $this->_saveResume($file, $resume, $candidateId);
+			$this->candidateId = $this->_getNewlySavedCandidateId($candidate);
+			$resumeId = $this->_saveResume($file, $resume, $this->candidateId);
 		}
 
-		$this->_saveCandidateVacancies($vacnacyId, $candidateId);
+		$this->_saveCandidateVacancies($vacnacyId, $this->candidateId);
 	}
 
 	/**

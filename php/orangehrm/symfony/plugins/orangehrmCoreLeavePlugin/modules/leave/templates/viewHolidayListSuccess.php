@@ -18,6 +18,11 @@
  */
 ?>
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
+
+<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
+<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
+<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
+
 <div id="flash_message_wrapper" style="width: 630px;">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 </div>
@@ -65,7 +70,7 @@
 
 <div class="outerbox">
 
-    <form method="post" name="frmHolidayList" id="frmHolidayList" action="<?php echo url_for('leave/holidayList'); ?>">
+    <form method="post" name="frmHolidayList" id="frmHolidayList" name ="frmHolidayList" action="<?php echo url_for('leave/holidayList'); ?>">
 
         <div class="actionbar">
 
@@ -103,7 +108,7 @@
                 ?>
 
                 <?php foreach ($holidayList as $holiday)
-                { ?>
+                { ?>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
                 <tr class="<?php echo $rowClass; ?>">
                     <td>
@@ -129,15 +134,23 @@
                     <?php } // End of $leaveTypeList foreach ?>
 
             </tbody>
-
+            
         </table>
 
 <!--<div><span class="error" id="messageLayer1"></span></div>--> 
 <!--<div><span class="error" id="messageLayer2"></span></div>--> 
 
     </form>
-
+    
 </div> <!-- End of outerbox -->
+
+    <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+        <?php echo __("Do you want to delete the specific holiday/s") . "?"; ?>
+        <div class="dialogButtons">
+            <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
+            <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+        </div>
+    </div>
 
 <script type="text/javascript"> 
 
@@ -156,8 +169,25 @@
         $('#btnDel').click(function(){
 
             $('#frmHolidayList').attr('action', '<?php echo url_for('leave/deleteHoliday'); ?>');
-            $('#frmHolidayList').submit();
+            $('#deleteConfirmation').dialog('open');
+            return false;
 
+        });
+        $("#deleteConfirmation").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 325,
+            height: 20,
+            position: 'middle',
+            open: function() {
+                $('#dialogCancelBtn').focus();
+            }
+        });
+        $('#dialogDeleteBtn').click(function() {
+            document.frmHolidayList.submit();
+        });
+        $('#dialogCancelBtn').click(function() {    
+            $("#deleteConfirmation").dialog("close");
         });
 
         /* Edit button */

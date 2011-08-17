@@ -11,3 +11,7 @@
 .paddingLeft {
     padding-left: 10px;
 }
+#deleteConfirmation  {  
+    min-height: 75px !important;
+
+}

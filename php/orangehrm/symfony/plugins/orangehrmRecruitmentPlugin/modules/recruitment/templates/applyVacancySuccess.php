@@ -23,7 +23,18 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
 <?php use_stylesheet('../orangehrmRecruitmentPlugin/css/applyVacancySuccess'); ?>
 <?php use_javascript('../orangehrmRecruitmentPlugin/js/applyVacancySuccess'); ?>
+<?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
+<?php if (strstr($browser, "MSIE 8.0")): ?>
+    <?php $keyWrdWidth = 'width: 276px' ?>
+    <?php $resumeWidth = 37 ?>
+<?php else: ?>
+    <?php $keyWrdWidth = 'width: 271px' ?>
+    <?php $resumeWidth = 38; ?>
+<?php endif; ?>
 
+<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+</div>
 <div id="addCandidate">
     <div class="outerbox" style="width:700px">
 
@@ -67,7 +78,7 @@
             <br class="clear"/>
             <br class="clear"/>
             <div class="newColumn">
-                <?php echo $form['email']->renderLabel(__('E-Mail') . ' <span class="required">*</span>'); ?>
+                <?php echo $form['email']->renderLabel(__('E-Mail'). ' <span class="required">*</span>'); ?>
                 <?php echo $form['email']->render(array("class" => "formInputText")); ?>
                 <div class="errorHolder below"></div>
             </div>
@@ -81,12 +92,25 @@
             <div class="hrLine" >&nbsp;</div>
             <br class="clear" />
             <div>
-                <?php echo $form['resume']->renderLabel(__('Resume') . ' <span class="required">*</span>', array("class " => "resume")); ?>
-                <?php echo $form['resume']->render(array("class " => "duplexBox", "size" => 35)); ?>
-                <div class="errorHolder below"></div><br class="clear" />
-                <span id="cvHelp" class="helpText attach"><?php echo __("[ .docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB ]") ?></span>
 
-            </div>
+                <?php
+                if ($form->attachment == "") {
+                    echo $form['resume']->renderLabel(__('Resume'. '<span class="required">*</span>'), array("class " => "resume"));
+                    echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
+                    echo "<div class=\"errorHolder below\"></div><br class=\"clear\"/>";
+                    echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                } else {
+                    $attachment = $form->attachment;
+                    $linkHtml = "<a target=\"_blank\" class=\"fileLink\" href=\"";
+                    $linkHtml .= url_for('recruitment/viewCandidateAttachment?attachId=' . $attachment->getId());
+                    $linkHtml .= "\">{$attachment->getFileName()}</a>";
+                    
+                    echo "<label>".__("Resume")."</label>";
+                    echo $linkHtml;
+                    echo "<br class=\"clear\"/>";
+                    
+                }
+                ?>
             <br class="clear"/>
             <div>
                 <?php echo $form['keyWords']->renderLabel(__('Keywords'), array("class " => "keywrd")); ?>
@@ -96,25 +120,25 @@
             <br class="clear" />
             <div>
                 <?php echo $form['comment']->renderLabel(__('Notes'), array("class " => "comment")); ?>
-                <?php echo $form['comment']->render(array("class" => "formInputText", "cols" => 43, "rows" => 4)); ?>
+                <?php echo $form['comment']->render(array("class" => "formInputText","id" => "notes", "cols" => 43, "rows" => 4)); ?>
                 <div class="errorHolder below"></div>
             </div>
             <br class="clear" />
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
                        value="<?php echo __("Submit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                <input type="button" class="backbutton" name="btnBack" id="btnBack"
-                       value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    <input type="button" class="backbutton" name="btnBack" id="btnBack"
+                           value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
             </div>
 
         </form>
     </div>
-</div>
 
 <script type="text/javascript">
     //<![CDATA[
     var description	= '<?php $description; ?>';
     var vacancyId	= '<?php echo $vacancyId; ?>';
+    var candidateId	= '<?php echo $candidateId; ?>';
     var lang_firstNameRequired = "<?php echo __("First name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
     var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
@@ -125,5 +149,6 @@
     var lang_noMoreThan255 = "<?php echo __("Please enter no more than 255 characters"); ?>";
     var lang_resumeRequired = "<?php echo __("Please attach your resume"); ?>";
     var linkForApplyVacancy = "<?php echo url_for('recruitment/applyVacancy'); ?>";
+    var lang_back = "<?php echo __("Go to Job Page")?>";
 	
 </script>

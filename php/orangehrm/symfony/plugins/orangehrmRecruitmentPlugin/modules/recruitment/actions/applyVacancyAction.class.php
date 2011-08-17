@@ -48,8 +48,15 @@ class applyVacancyAction extends sfAction {
      */
     public function execute($request) {
 
-        $this->setForm(new ApplyVacancyForm());
         $this->vacancyId = $request->getParameter('id');
+        $this->candidateId = $request->getParameter('candidateId');
+
+        $param = array('candidateId' => $this->candidateId);
+        $this->setForm(new ApplyVacancyForm(array(), $param, true));
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
         if (!empty($this->vacancyId)) {
             $vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
             $this->description = $vacancy->getDescription();
@@ -63,6 +70,9 @@ class applyVacancyAction extends sfAction {
             if ($this->form->isValid()) {
 
                 $this->form->save();
+                $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
+                
+                $this->redirect('recruitment/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
             }
         }
     }
