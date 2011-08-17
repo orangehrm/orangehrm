@@ -29,7 +29,7 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $this->baseService = new BaseService();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmSearchInsideResumePlugin/test/fixtures/sample_query_extensions.yml';
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/sample_query_extensions.yml';
         PluginQueryExtensionManager::instance()->setQueryExtensions(sfYaml::load($this->fixture));
     }
 

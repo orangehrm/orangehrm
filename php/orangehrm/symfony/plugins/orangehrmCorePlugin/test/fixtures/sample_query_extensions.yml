@@ -1,0 +1,65 @@
+SampleService_ForSelect:
+  sampleMethod1:
+    select:
+      - emp_middle_name
+    where: []
+    orderBy: []
+
+  sampleMethod2:
+    select:
+      - emp_middle_name
+      - jobtit_code
+      - is_active
+    where: []
+    orderBy: []
+  sampleMethod3:
+    select:
+      - {field: emp_middle_name, alias: middleName}
+    where: []
+    orderBy: []
+  sampleMethod4:
+    select:
+      - {field: emp_middle_name, alias: middleName}
+      - jobtit_code
+      - {field: is_active, alias: active}
+    where: []
+    orderBy: []
+  sampleMethod5:
+    select:
+      - {table: e, field: emp_middle_name }
+    where: []
+    orderBy: []
+  sampleMethod6:
+    select:
+      - {table: e, field: emp_middle_name }
+      - {table: e, field: jobtit_code }
+      - is_active
+    where: []
+    orderBy: []
+
+SampleService_ForWhere:
+  sampleMethod1:
+    select: []
+    where:
+      - { field: emp_middle_name, operator: =, value: Charles }
+    orderBy: []
+  sampleMethod2:
+    select: []
+    where:
+      - { field: emp_middle_name, operator: =, value: Charles }
+      - { field: is_active, operator: =, value: 1 }
+    orderBy: []
+
+SampleService_ForOrderBy:
+  sampleMethod1:
+    select: []
+    where: []
+    orderBy:
+      - emp_firstname
+  sampleMethod2:
+    select: []
+    where: []
+    orderBy:
+      - emp_firstname
+      - jobtit_code
+      - is_active
