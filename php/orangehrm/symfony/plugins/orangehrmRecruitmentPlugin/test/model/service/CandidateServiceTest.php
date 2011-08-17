@@ -69,7 +69,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidateDao->expects($this->once())
                 ->method('searchCandidates')
-                ->with($searchParam)
+                ->with('')
                 ->will($this->returnValue($canVacList));
 
         $this->candidateService->setCandidateDao($candidateDao);
