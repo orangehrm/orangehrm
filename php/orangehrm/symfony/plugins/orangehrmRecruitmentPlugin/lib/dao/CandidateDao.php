@@ -93,101 +93,11 @@ class CandidateDao extends BaseDao {
      * @param CandidateSearchParameters $searchParam
      * @return CandidateSearchParameters
      */
-    public function searchCandidates(CandidateSearchParameters $searchParam) {
-
-        $jobTitleCode = $searchParam->getJobTitleCode();
-        $allowedCandidateList = $searchParam->getAllowedCandidateList();
-        $jobVacancyId = $searchParam->getVacancyId();
-        $hiringManagerId = $searchParam->getHiringManagerId();
-        $status = $searchParam->getStatus();
-        $candidateId = $searchParam->getCandidateId();
-        $modeOfApplication = $searchParam->getModeOfApplication();
-        $fromDate = $searchParam->getFromDate();
-        $toDate = $searchParam->getToDate();
-        $keywords = $searchParam->getKeywords();
-        $candidateStatus = $searchParam->getCandidateStatus();
-        $vacancyStatus = $searchParam->getVacancyStatus();
-        $sortField = $searchParam->getSortField();
-        $sortOrder = $searchParam->getSortOrder();
-        $offset = $searchParam->getOffset();
-        $limit = $searchParam->getLimit();
-        $allowedVacancyList = $searchParam->getAllowedVacancyList();
-        $isAdmin = $searchParam->getIsAdmin();
-
-        $sortQuery = "";
-        if ($sortField == 'jc.first_name') {
-            $sortQuery = 'jc.first_name ' . $sortOrder . ', ' . 'jc.last_name ' . $sortOrder;
-        } elseif ($sortField == 'e.emp_firstname') {
-            $sortQuery = 'e.emp_firstname ' . $sortOrder . ', ' . 'e.emp_lastname ' . $sortOrder;
-        } else {
-            $sortQuery = $sortField . " " . $sortOrder;
-        }
-
-        $keywordsQueryString = "";
-        if (!empty($keywords)) {
-            $keywords = str_replace("'", "\'", $keywords);
-            $words = explode(",", $keywords);
-            $length = count($words);
-            for ($i = 0; $i < $length; $i++) {
-                $keywordsQueryString .= ' AND jc.keywords LIKE ' . "'" . '%' . trim($words[$i]) . '%' . "'";
-            }
-        }
+    public function searchCandidates($searchCandidateQuery) {
 
         try {
-
-            $q = "SELECT jc.id, jc.first_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId";
-            $q .= "  FROM ohrm_job_candidate jc";
-            $q .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
-            $q .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
-            $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
-            $q .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
-            $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
-            $q .= " AND jc.status = '$candidateStatus'";
-            if ($allowedCandidateList != null && !$isAdmin) {
-                $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
-            }
-            if ($allowedVacancyList != null && !$isAdmin) {
-                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
-            }
-
-            $where = array();
-
-            if (!empty($jobTitleCode) || !empty($jobVacancyId) || !empty($hiringManagerId) || $status != "") {
-                $q .= " AND jv.status = '$vacancyStatus'";
-            }
-
-            if (!empty($jobTitleCode)) {
-                $where[] = "jv.job_title_code = '$jobTitleCode'";
-            }
-            if (!empty($jobVacancyId)) {
-                $where[] = "jv.id  = '$jobVacancyId'";
-            }
-            if (!empty($hiringManagerId)) {
-                $where[] = "jv.hiring_manager_id  = '$hiringManagerId'";
-            }
-            if ($status != "") {
-                $where[] = "jcv.status  = '$status'";
-            }
-            if (!empty($candidateId)) {
-                $where[] = "jc.id  = '$candidateId'";
-            }
-            if (!empty($modeOfApplication)) {
-                $where[] = "jc.mode_of_application  = '$modeOfApplication'";
-            }
-
-            if (count($where) > 0) {
-                $q .= " AND " . implode('AND ', $where);
-            }
-
-            if (!empty($keywordsQueryString)) {
-                $q .= $keywordsQueryString;
-            }
-
-            $q .= " ORDER BY " . $sortQuery;
-            $q .= " LIMIT " . $offset . ", " . $limit;
-
             $pdo = Doctrine_Manager::connection()->getDbh();
-            $res = $pdo->query($q);
+            $res = $pdo->query($searchCandidateQuery);
 
             $candidateList = $res->fetchAll();
 
@@ -546,6 +456,126 @@ class CandidateDao extends BaseDao {
             return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function buildSearchQuery(CandidateSearchParameters $paramObject, $countQuery = false) {
+
+        try {
+            $query = "SELECT jc.id, jc.first_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId";
+            $query .= "  FROM ohrm_job_candidate jc";
+            $query .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
+            $query .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
+            $query .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
+            $query .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
+            $query .= ' WHERE jc.date_of_application  BETWEEN ' . "'{$paramObject->getFromDate()}'" . ' AND ' . "'{$paramObject->getToDate()}'";
+            $query .= " AND jc.status = '{$paramObject->getCandidateStatus()}'";
+
+            $query .= $this->_buildAdditionalWhereClauses($paramObject);
+            $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());
+            $query .= " ORDER BY " . $this->_buildSortQueryClause($paramObject->getSortField(), $paramObject->getSortOrder());
+            $query .= " LIMIT " . $paramObject->getOffset() . ", " . $paramObject->getLimit();
+
+            return $query;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param array $keywords 
+     * @return string
+     */
+    private function _buildKeywordsQueryClause($keywords) {
+        $keywordsQueryClause = '';
+        if (!empty($keywords)) {
+            $keywords = str_replace("'", "\'", $keywords);
+            $words = explode(',', $keywords);
+            $length = count($words);
+            for ($i = 0; $i < $length; $i++) {
+                $keywordsQueryClause .= ' AND jc.keywords LIKE ' . "'" . '%' . trim($words[$i]) . '%' . "'";
+            }
+        }
+
+        return $keywordsQueryClause;
+    }
+
+    /**
+     *
+     * @param string $sortField
+     * @param string $sortOrder
+     * @return string 
+     */
+    private function _buildSortQueryClause($sortField, $sortOrder) {
+        $sortQuery = '';
+
+        if ($sortField == 'jc.first_name') {
+            $sortQuery = 'jc.first_name ' . $sortOrder . ', ' . 'jc.last_name ' . $sortOrder;
+        } elseif ($sortField == 'e.emp_firstname') {
+            $sortQuery = 'e.emp_firstname ' . $sortOrder . ', ' . 'e.emp_lastname ' . $sortOrder;
+        } else {
+            $sortQuery = $sortField . " " . $sortOrder;
+        }
+
+        return $sortQuery;
+    }
+
+    /**
+     * @param CandidateSearchParameters $paramObject
+     * @return string
+     */
+    private function _buildAdditionalWhereClauses(CandidateSearchParameters $paramObject) {
+
+        $allowedCandidateList = $paramObject->getAllowedCandidateList();
+        $jobTitleCode = $paramObject->getJobTitleCode();
+        $jobVacancyId = $paramObject->getVacancyId();
+        $hiringManagerId = $paramObject->getHiringManagerId();
+        $status = $paramObject->getStatus();
+        $allowedVacancyList = $searchParam->getAllowedVacancyList();
+        $isAdmin = $searchParam->getIsAdmin();
+
+        $whereClause = '';
+
+        $whereFilters = array();
+
+        if ($allowedCandidateList != null && !$isAdmin) {
+            $this->_addAdditionalWhereClause($whereFilters, 'jc.id', '(' . implode(',', $allowedCandidateList) . ')', 'IN');
+        }
+
+        if ($allowedVacancyList != null && !$isAdmin) {
+            $this->_addAdditionalWhereClause($whereFilters, 'jv.id', '(' . implode(',', $allowedVacancyList) . ')', 'IN');
+        }
+
+        if (!empty($jobTitleCode) || !empty($jobVacancyId) || !empty($hiringManagerId) || !empty($status)) {
+            $this->_addAdditionalWhereClause($whereFilters, 'jv.status', $paramObject->getVacancyStatus());
+        }
+        
+        $this->_addAdditionalWhereClause($whereFilters, 'jv.job_title_code', $paramObject->getJobTitleCode());
+        $this->_addAdditionalWhereClause($whereFilters, 'jv.id', $paramObject->getVacancyId());
+        $this->_addAdditionalWhereClause($whereFilters, 'jv.hiring_manager_id', $paramObject->getHiringManagerId());
+        $this->_addAdditionalWhereClause($whereFilters, 'jcv.status', $paramObject->getStatus());
+        $this->_addAdditionalWhereClause($whereFilters, 'jc.id', $paramObject->getCandidateId());
+        $this->_addAdditionalWhereClause($whereFilters, 'jc.mode_of_application', $paramObject->getModeOfApplication());
+
+        $whereClause .= (count($whereFilters) > 0) ? (' AND ' . implode('AND ', $whereFilters)) : '';
+
+        return $whereClause;
+    }
+
+    /**
+     *
+     * @param array_pointer $where
+     * @param string $field
+     * @param mixed $value
+     * @param string $operator 
+     */
+    private function _addAdditionalWhereClause(&$where, $field, $value, $operator = '=') {
+        if (!empty($value)) {
+            if ($operator === '=') {
+                $value = "'{$value}'";
+            }
+            $where[] = "{$field}  {$operator} {$value}";
         }
     }
 

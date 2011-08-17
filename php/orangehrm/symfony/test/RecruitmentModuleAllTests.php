@@ -58,6 +58,12 @@ class PluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/CandidateServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/VacancyServiceTest.php');        
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/RecruitmentAttachmentServiceTest.php');
+
+	/* BaseService Test Cases
+         * TODO: Move this part to core
+         */
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/BaseServiceTest.php');
+
         return $suite;
         
     }
