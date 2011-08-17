@@ -73,7 +73,8 @@ class CandidateService extends BaseService {
      * @throws RecruitmentException
      */
     public function searchCandidates($searchParam) {
-        return $this->getCandidateDao()->searchCandidates($searchParam);
+        $searchCandidateQuery = $this->buildSearchQuery($searchParam);
+        return $this->getCandidateDao()->searchCandidates($searchCandidateQuery);
     }
 
     /**
@@ -131,13 +132,10 @@ class CandidateService extends BaseService {
         $list = array("" => __('Select Action'));
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $allowedActions = $userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state);
-
         foreach ($allowedActions as $action) {
             $list[$action] = $stateMachine->getRecruitmentActionName($action);
         }
-        
         return $list;
-
     }
 
     /**
@@ -297,6 +295,12 @@ class CandidateService extends BaseService {
 
     public function getCanidateHistoryForUserRole($role, $empNumber, $candidateId) {
         return $this->candidateDao->getCanidateHistoryForUserRole($role, $empNumber, $candidateId);
+    }
+    
+    protected function buildSearchQuery($parameterObject) {
+        $query = $this->getCandidateDao()->buildSearchQuery($parameterObject);
+        // TODO: Decorate query here
+        return $query;
     }
 
 }
