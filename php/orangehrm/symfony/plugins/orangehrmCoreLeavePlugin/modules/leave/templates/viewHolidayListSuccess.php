@@ -145,7 +145,7 @@
 </div> <!-- End of outerbox -->
 
     <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-        <?php echo __("Do you want to delete the specific holiday/s") . "?"; ?>
+        <?php echo __("Do you want to delete the specific holiday(s)") . "?"; ?>
         <div class="dialogButtons">
             <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
             <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />

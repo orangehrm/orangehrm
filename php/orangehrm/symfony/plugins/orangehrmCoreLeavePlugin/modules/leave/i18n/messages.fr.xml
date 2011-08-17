@@ -453,8 +453,8 @@
         <target>FR_Start month for non-leap year is required</target>
       </trans-unit>
       <trans-unit id="220">
-        <source>Do you want to delete the specific holiday/s</source>
-        <target>FR_Do you want to delete the specific holiday/s</target>
+        <source>Do you want to delete the specific holiday(s)</source>
+        <target>FR_Do you want to delete the specific holiday(s)</target>
       </trans-unit>
       <trans-unit id="220">
         <source>At Least One Day Should Be a Working Day</source>
