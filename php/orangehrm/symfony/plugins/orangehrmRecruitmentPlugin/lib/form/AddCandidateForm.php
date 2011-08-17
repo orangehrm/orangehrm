@@ -25,6 +25,7 @@ class AddCandidateForm extends BaseForm {
 	public $attachment;
 	public $candidateId;
 	private $recruitmentAttachmentService;
+	private $addedBy;
 
 	const CONTRACT_KEEP = 1;
 	const CONTRACT_DELETE = 2;
@@ -98,19 +99,19 @@ class AddCandidateForm extends BaseForm {
 		    'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
 		));
 
-        $this->setValidators(array(
-            'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-            'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-            'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-            'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
-            'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-            'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000)),
-            'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
-            'comment' => new sfValidatorString(array('required' => false)),
-            'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
-            'vacancyList' => new sfValidatorString(array('required' => false)),
-            'resumeUpdate' => new sfValidatorString(array('required' => false)),
-        ));
+		$this->setValidators(array(
+		    'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
+		    'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
+		    'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
+		    'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
+		    'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
+		    'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000)),
+		    'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
+		    'comment' => new sfValidatorString(array('required' => false)),
+		    'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+		    'vacancyList' => new sfValidatorString(array('required' => false)),
+		    'resumeUpdate' => new sfValidatorString(array('required' => false)),
+		));
 
 		$this->widgetSchema->setNameFormat('addCandidate[%s]');
 		$this->widgetSchema['appliedDate']->setAttribute('style', 'width:100px');
@@ -167,6 +168,11 @@ class AddCandidateForm extends BaseForm {
 		$candidate = new JobCandidate();
 		$vacnacyArray = explode("_", $this->getValue('vacancyList'));
 		$existingVacancyList = array();
+		$empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+		if ($empNumber == 0) {
+			$empNumber = null;
+		}
+		$this->addedBy = $empNumber;
 
 		if (!empty($file)) {
 			if (!($this->isValidResume($file))) {
@@ -189,6 +195,12 @@ class AddCandidateForm extends BaseForm {
 					$id = $candidateVacancy->getVacancyId();
 					if (!in_array($id, $vacnacyArray)) {
 						$candidateVacancy->delete();
+						$history = new CandidateHistory();
+						$history->candidateId = $this->candidateId;
+						$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
+						$history->performedBy = $this->addedBy;
+						$history->performedDate = ohrm_format_date(date('Y-m-d'));
+						$this->getCandidateService()->saveCandidateHistory($history);
 					} else {
 						$idList[] = $id;
 					}
@@ -280,6 +292,7 @@ class AddCandidateForm extends BaseForm {
 		$candidate->comment = $this->getValue('comment');
 		$candidate->contactNumber = $this->getValue('contactNo');
 		$candidate->keywords = $this->getValue('keyWords');
+		$candidate->addedPerson = $this->addedBy;
 
 		if ($this->getValue('appliedDate') == "") {
 			$candidate->dateOfApplication = ohrm_format_date(date('Y-m-d'));
@@ -294,6 +307,12 @@ class AddCandidateForm extends BaseForm {
 			$candidateService->updateCandidate($candidate);
 		} else {
 			$candidateService->saveCandidate($candidate);
+			$history = new CandidateHistory();
+			$history->candidateId = $candidate->getId();
+			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
+			$history->performedBy = $this->addedBy;
+			$history->performedDate = $candidate->dateOfApplication;
+			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 		$candidateId = $candidate->getId();
 		return $candidateId;
@@ -320,6 +339,13 @@ class AddCandidateForm extends BaseForm {
 					}
 					$candidateService = $this->getCandidateService();
 					$candidateService->saveCandidateVacancy($candidateVacancy);
+					$history = new CandidateHistory();
+					$history->candidateId = $candidateId;
+					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+					$history->candidateVacancyId = $candidateVacancy->getId();
+					$history->performedBy = $this->addedBy;
+					$history->performedDate = $candidateVacancy->appliedDate;
+					$this->getCandidateService()->saveCandidateHistory($history);
 				}
 			}
 		}
