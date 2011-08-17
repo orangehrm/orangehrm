@@ -74,6 +74,7 @@ class ViewController {
 	var $indexCode;
 	var $message;
 	var $pageID;
+    private $projectsHaveTimeItems = false; // Should only set in PRJ
 
 
 	function ViewController() {
@@ -257,6 +258,13 @@ class ViewController {
 							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $esp);
 						}
                   $form_creator ->popArr['token'] = $token;
+                  
+                        if ($this->projectsHaveTimeItems) {
+                            $form_creator->popArr['projectsHaveTimeItems'] = true;
+                        } else {
+							$form_creator->popArr['projectsHaveTimeItems'] = false;
+						}                  
+                  
 						$form_creator->display();
 
 						break;
@@ -484,12 +492,18 @@ class ViewController {
 
 		case 'PRJ':
 
-			$this-> Projects = new Projects();
-         $res = false;
-         if($token == $_POST['token']) {
-            $res = $this->Projects->deletewrapperProjects($arrList) ;
-         }
-			break;
+            $this->Projects = new Projects();
+            
+            if ($this->Projects->haveTimeItems($arrList[0])) {
+                 $this->projectsHaveTimeItems = true;
+            }
+            
+            $res = false;
+            if($token == $_POST['token'] && !$this->projectsHaveTimeItems) {
+               $res = $this->Projects->deletewrapperProjects($arrList) ;
+            }  
+            
+  			break;
 
 		case 'PAD': // Project admins
 

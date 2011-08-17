@@ -547,6 +547,28 @@ class Projects {
             return $existingProjects;
         }
 	}
+    
+    public function haveTimeItems($projectIds) {
+        
+        if (!empty($projectIds) && is_array($projectIds)) {
+        
+            $q = "SELECT * FROM `ohrm_timesheet_item` WHERE `project_id` IN(".implode(", ", $projectIds).")";
+
+            $dbConnection = new DMLFunctions();
+            $result = $dbConnection->executeQuery($q);
+
+            if (mysql_num_rows($result) > 0) {
+                return true;
+            }
+
+            return false;
+        
+        }
+        
+        return false;
+        
+    }
+    
 }
 class ProjectsException extends Exception {
 }

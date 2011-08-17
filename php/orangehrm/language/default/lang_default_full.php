@@ -337,6 +337,7 @@
 	$lang_Leave_Common_Holiday				= "Holiday";
 
 	// admin module
+    $lang_projectsHaveTimeItems = "Timesheets contain data on selected projects. Deletion failed.";
 	$lang_Admin_Common_Institute 			= "Institute";
 	$lang_Admin_Common_Course 				= "Course";
 	$lang_Admin_education_InstituteCannotBeBlank = "Institute Cannot be a Blank Value!";

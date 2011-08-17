@@ -241,6 +241,14 @@ div.dialogButtons {
             $expString  = $this->getArr['message'];
             $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
         ?>
+    
+        <?php
+            if ($this->popArr['projectsHaveTimeItems']) {
+                $messageType = 'failure';
+                $expString = 'lang_projectsHaveTimeItems';
+            }
+        ?>
+    
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
         </div>
