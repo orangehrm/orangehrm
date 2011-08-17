@@ -1222,7 +1222,6 @@ create table `ohrm_job_vacancy`(
     `published_in_feed` boolean not null default false,
     `defined_time` datetime not null,
     `updated_time` datetime not null,
-    `attached_file_id` int(13) default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
@@ -1307,7 +1306,6 @@ create table `ohrm_job_interview`(
 	`interview_date` date default null,
         `interview_time` time default null,
 	`note` text default null,
-	`attached_file_id` int(13) default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 

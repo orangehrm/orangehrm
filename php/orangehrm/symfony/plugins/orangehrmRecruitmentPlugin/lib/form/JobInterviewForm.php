@@ -145,7 +145,7 @@ class JobInterviewForm extends BaseForm {
 				$newList[] = $elements;
 			}
 			$selectedInterviewerArrayList = $newList;
-			
+						
 		}
 		$interviewId = $this->saveInterview($newJobInterview, $selectedInterviewerArrayList);
 		if (empty($this->interviewId)) {
@@ -165,7 +165,11 @@ class JobInterviewForm extends BaseForm {
 		$newJobInterview->setInterviewTime($time);
 		$newJobInterview->setNote($note);
 		$newJobInterview->setCandidateVacancyId($this->candidateVacancyId);
-		$newJobInterview->save();
+		if(!empty ($this->interviewId)){
+		 $this->getInterviewService()->updateJobInterview($newJobInterview);
+		} else {
+			$newJobInterview->save();
+		}
 
 		$interviewId = $newJobInterview->getId();
 		if (!empty($selectedInterviewerArrayList)) {

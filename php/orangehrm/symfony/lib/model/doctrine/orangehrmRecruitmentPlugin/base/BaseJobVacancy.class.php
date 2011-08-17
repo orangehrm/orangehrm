@@ -15,7 +15,6 @@
  * @property boolean $publishedInFeed
  * @property datetime $definedTime
  * @property datetime $updatedTime
- * @property integer $attachmentFileId
  * @property JobTitle $JobTitle
  * @property Employee $Employee
  * @property Doctrine_Collection $JobCandidateVacancy
@@ -31,7 +30,6 @@
  * @method boolean             getPublishedInFeed()      Returns the current record's "publishedInFeed" value
  * @method datetime            getDefinedTime()          Returns the current record's "definedTime" value
  * @method datetime            getUpdatedTime()          Returns the current record's "updatedTime" value
- * @method integer             getAttachmentFileId()     Returns the current record's "attachmentFileId" value
  * @method JobTitle            getJobTitle()             Returns the current record's "JobTitle" value
  * @method Employee            getEmployee()             Returns the current record's "Employee" value
  * @method Doctrine_Collection getJobCandidateVacancy()  Returns the current record's "JobCandidateVacancy" collection
@@ -46,7 +44,6 @@
  * @method JobVacancy          setPublishedInFeed()      Sets the current record's "publishedInFeed" value
  * @method JobVacancy          setDefinedTime()          Sets the current record's "definedTime" value
  * @method JobVacancy          setUpdatedTime()          Sets the current record's "updatedTime" value
- * @method JobVacancy          setAttachmentFileId()     Sets the current record's "attachmentFileId" value
  * @method JobVacancy          setJobTitle()             Sets the current record's "JobTitle" value
  * @method JobVacancy          setEmployee()             Sets the current record's "Employee" value
  * @method JobVacancy          setJobCandidateVacancy()  Sets the current record's "JobCandidateVacancy" collection
@@ -99,10 +96,6 @@ abstract class BaseJobVacancy extends sfDoctrineRecord
         $this->hasColumn('updated_time as updatedTime', 'datetime', null, array(
              'type' => 'datetime',
              ));
-        $this->hasColumn('attached_file_id as attachmentFileId', 'integer', 13, array(
-             'type' => 'integer',
-             'length' => 13,
-             ));
     }
 
     public function setUp()
@@ -121,7 +114,7 @@ abstract class BaseJobVacancy extends sfDoctrineRecord
              'foreign' => 'vacancyId'));
 
         $this->hasMany('JobVacancyAttachment', array(
-             'local' => 'attachmentFileId',
+             'local' => 'id',
              'foreign' => 'id'));
     }
 }

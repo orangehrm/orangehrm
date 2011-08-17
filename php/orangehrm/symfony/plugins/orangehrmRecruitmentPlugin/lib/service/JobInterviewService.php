@@ -66,5 +66,9 @@ class JobInterviewService extends BaseService {
 		return $this->jobInterviewDao->saveJobInterview($jobInterview);
 	}
 
+	public function updateJobInterview(JobInterview $jobInterview) {
+		return $this->jobInterviewDao->updateJobInterview($jobInterview);
+	}
+
 }
 

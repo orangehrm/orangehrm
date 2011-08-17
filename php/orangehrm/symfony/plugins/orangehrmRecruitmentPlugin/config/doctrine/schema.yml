@@ -25,9 +25,6 @@ JobVacancy:
     updated_time:
       name: updated_time as updatedTime
       type: datetime
-    attachment_file_id:
-      name: attached_file_id as attachmentFileId
-      type: integer(13)
   relations:
     JobTitle:
       local: jobTitleCode
@@ -42,7 +39,7 @@ JobVacancy:
       foreign: vacancyId
       type: many
     JobVacancyAttachment:
-      local: attachmentFileId
+      local: id
       foreign: id
       type: many
 
@@ -216,9 +213,6 @@ JobInterview:
       type: string(30)
     note:
       type: string(2147483647)
-    attachment_file_id:
-      name: attached_file_id as attachmentFileId
-      type: integer(13)
   relations:
     JobCandidateVacancy:
       local: candidateVacancyId
@@ -232,6 +226,10 @@ JobInterview:
       local: id
       foreign: interviewId
       type: one
+    JobInterviewAttachment:
+      local: id
+      foreign: interviewId
+      type: many
 
 JobInterviewInterviewer:
   tableName: ohrm_job_interview_interviewer
@@ -324,6 +322,6 @@ JobInterviewAttachment:
     comment:
   relations:
     JobInterview:
-      local: id
-      foreign: attachmentFileId
+      local: interviewId
+      foreign: id
       type: one

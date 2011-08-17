@@ -125,7 +125,7 @@
 <script type="text/javascript">
     //<![CDATA[
 	var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";
-	var id = '<?php $id; ?>';
+	var id = '<?php echo $id; ?>';
 	var clearAttachmentMessages = true;
 	var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
 	var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";

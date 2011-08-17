@@ -110,12 +110,12 @@ class RecruitmentAttachmentForm extends BaseForm {
 			}
 		}
 
-		$vacancyId = $this->getValue('vacancyId');
+		$id = $this->getValue('vacancyId');
 		if (($file instanceof sfValidatedFile) && $file->getOriginalName() != "") {
 			$tempName = $file->getTempName();
-			$attachment = $this->getRecruitmentAttachmentService()->getNewAttachment($this->screen);
+			$attachment = $this->getRecruitmentAttachmentService()->getNewAttachment($this->screen, $id);
 			//$attachment = new JobVacancyAttachment();
-			$attachment->vacancyId = $vacancyId;
+			//$attachment->vacancyId = $vacancyId;
 			$attachment->fileContent = file_get_contents($tempName);
 			$attachment->fileName = $file->getOriginalName();
 			$attachment->fileType = $file->getType();

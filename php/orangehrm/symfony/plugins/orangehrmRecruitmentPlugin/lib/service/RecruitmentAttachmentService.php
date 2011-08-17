@@ -111,13 +111,16 @@ class RecruitmentAttachmentService extends BaseService {
 		}
 	}
 
-	public function getNewAttachment($screen){
+	public function getNewAttachment($screen, $id){
 
 		if($screen == JobVacancy::TYPE){
-			return new JobVacancyAttachment();
+			$attachment = new JobVacancyAttachment();
+			$attachment->vacancyId = $id;
 		} elseif($screen == JobInterview::TYPE){
-			return new JobInterviewAttachment();
+			$attachment =  new JobInterviewAttachment();
+			$attachment->interviewId = $id;
 		}
+		return $attachment;
 	}
 
 }

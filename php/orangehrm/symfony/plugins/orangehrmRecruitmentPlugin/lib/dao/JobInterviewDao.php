@@ -75,4 +75,20 @@ class JobInterviewDao extends BaseDao {
 		}
 	}
 
+	public function updateJobInterview(JobInterview $jobInterview) {
+		try {
+			$q = Doctrine_Query:: create()->update('JobInterview')
+					->set('candidateVacancyId', '?', $jobInterview->candidateVacancyId)
+					->set('interviewName', '?', $jobInterview->interviewName)
+					->set('interviewDate', '?', $jobInterview->interviewDate)
+					->set('interviewTime', '?', $jobInterview->interviewTime)
+					->set('note', '?', $jobInterview->note)
+					->where('id = ?', $jobInterview->id);
+
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
 }
