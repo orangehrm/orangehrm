@@ -116,11 +116,13 @@ class VacancyDao extends BaseDao {
      * @returns doctrine collection
      * @throws DaoException
      */
-    public function getActiveVacancyList() {
+    public function getAllVacancies($status = "") {
         try {
             $q = Doctrine_Query :: create()
-                            ->from('JobVacancy')
-                            ->where('status =?', JobVacancy::ACTIVE);
+                            ->from('JobVacancy');
+            if (!empty($status)) {
+                $q->addWhere('status =?', $status);
+            }
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

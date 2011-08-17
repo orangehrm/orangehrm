@@ -41,7 +41,7 @@
 <?php
 $list[] = array("id" => "", "name" => __('-- Select --'));
 foreach ($jobVacancyList as $vacancy) {
-    $list[] = array("id" => $vacancy->getId(), "name" => $vacancy->getName());
+    $list[] = array("id" => $vacancy->getId(), "name" => $vacancy->getVacancyName());
 }
 ?>
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
@@ -111,8 +111,10 @@ foreach ($jobVacancyList as $vacancy) {
                             ?>
                             <div style="height: 15px">
                                 <?php
-                                $widgetName = $candidateVacancy->getId();
-                                echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
+                                if($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::ACTIVE) {
+                                    $widgetName = $candidateVacancy->getId();
+                                    echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
+                                }
                                 ?></div>
                             <br class="clear" />
                         <?php } ?>

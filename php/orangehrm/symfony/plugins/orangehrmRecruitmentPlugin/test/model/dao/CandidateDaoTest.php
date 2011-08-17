@@ -82,7 +82,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 //
 //        $expected = $this->extractResultsToArray($expectedCandidateVacancyList);
 //
-//        $returnedCandidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+//        $returnedCandidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
 //
 //        $actual = $this->extractResultsToArray($returnedCandidateVacancyList);
 //        $this->assertEquals($actual, $expected);
@@ -111,7 +111,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setJobTitleCode('JOB002');
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -123,7 +123,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setVacancyId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -136,7 +136,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -148,7 +148,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setHiringManagerId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -161,7 +161,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setHiringManagerId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -173,7 +173,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setCandidateId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -186,7 +186,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -198,7 +198,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -211,7 +211,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setJobTitleCode('JOB002');
         $searchParam->setVacancyId(2);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -225,7 +225,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(2);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -238,7 +238,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setJobTitleCode('JOB002');
         $searchParam->setHiringManagerId(2);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -252,7 +252,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setHiringManagerId(2);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -265,7 +265,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(1);
         $searchParam->setHiringManagerId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -279,7 +279,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(2);
         $searchParam->setHiringManagerId(2);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -294,7 +294,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateId(2);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -310,7 +310,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(2);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -324,7 +324,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateId(2);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -339,7 +339,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(2);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -352,7 +352,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setJobTitleCode('JOB002');
         $searchParam->setCandidateId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -366,7 +366,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -379,7 +379,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(1);
         $searchParam->setCandidateId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -393,7 +393,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -406,7 +406,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setHiringManagerId(1);
         $searchParam->setCandidateId(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -418,7 +418,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setStatus("REJECTED");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -430,7 +430,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setModeOfApplication(1);
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
@@ -444,7 +444,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setCandidateId(1);
         $searchParam->setKeywords("java,oracle");
 
-        $candidateVacancyList = $this->candidateDao->searchCandidates($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 

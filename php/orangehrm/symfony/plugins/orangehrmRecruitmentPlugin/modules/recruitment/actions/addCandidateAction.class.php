@@ -77,7 +77,7 @@ class addCandidateAction extends sfAction {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        $this->jobVacancyList = $this->getVacancyService()->getActiveVacancyList();
+        $this->jobVacancyList = $this->getVacancyService()->getAllVacancies();
 
         if ($this->candidateId > 0) {
             $allowedCandidateList = $userObj->getAllowedCandidateList();

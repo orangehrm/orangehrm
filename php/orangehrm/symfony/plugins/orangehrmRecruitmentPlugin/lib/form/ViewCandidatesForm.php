@@ -210,7 +210,7 @@ class viewCandidatesForm extends BaseForm {
      */
     private function getVacancyList() {
         $list = array("" => __('All'));
-        $vacancyList = $this->getVacancyService()->getActiveVacancyList();
+        $vacancyList = $this->getVacancyService()->getAllVacancies();
         foreach ($vacancyList as $vacancy) {
             $list[$vacancy->getId()] = $vacancy->getName();
         }

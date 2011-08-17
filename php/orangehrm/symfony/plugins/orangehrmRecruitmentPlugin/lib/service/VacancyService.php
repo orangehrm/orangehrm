@@ -82,8 +82,8 @@ class VacancyService extends BaseService {
 	 * @returns array
 	 * @throws RecruitmentException
 	 */
-	public function getActiveVacancyList() {
-		return $this->getVacancyDao()->getActiveVacancyList();
+	public function getAllVacancies($status = "") {
+		return $this->getVacancyDao()->getAllVacancies($status);
 	}
 
 	/**
