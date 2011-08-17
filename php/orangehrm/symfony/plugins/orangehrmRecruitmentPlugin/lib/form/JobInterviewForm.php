@@ -26,6 +26,7 @@ class JobInterviewForm extends BaseForm {
 	public $candidateVacancyId;
 	public $selectedAction;
 	public $candidateId;
+        public $vacancyId;
 	private $candidateService;
 	private $selectedCandidateVacancy;
 	private $interviewService;
@@ -59,7 +60,7 @@ class JobInterviewForm extends BaseForm {
 
 		if ($this->candidateVacancyId > 0 && $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
 			$this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyById($this->candidateVacancyId);
-			$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
+			$this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
 			$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 			$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
 		}

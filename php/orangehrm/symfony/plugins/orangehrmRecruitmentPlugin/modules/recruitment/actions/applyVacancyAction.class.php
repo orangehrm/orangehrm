@@ -20,52 +20,52 @@
  */
 class applyVacancyAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getVacancyService() {
-		if (is_null($this->vacancyService)) {
-			$this->vacancyService = new VacancyService();
-			$this->vacancyService->setVacancyDao(new VacancyDao());
-		}
-		return $this->vacancyService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getVacancyService() {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+            $this->vacancyService->setVacancyDao(new VacancyDao());
+        }
+        return $this->vacancyService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$this->setForm(new ApplyVacancyForm());
-		$this->vacancyId = $request->getParameter('id');
-		if (!empty($this->vacancyId)) {
-			$vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
-			$this->description = $vacancy->getDescription();
-			$this->name = $vacancy->getName();
-		}
-		if ($request->isMethod('post')) {
+        $this->setForm(new ApplyVacancyForm());
+        $this->vacancyId = $request->getParameter('id');
+        if (!empty($this->vacancyId)) {
+            $vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
+            $this->description = $vacancy->getDescription();
+            $this->name = $vacancy->getName();
+        }
+        if ($request->isMethod('post')) {
 
-			$this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
-			$file = $request->getFiles($this->form->getName());
+            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+            $file = $request->getFiles($this->form->getName());
 
-			if ($this->form->isValid()) {
-				
-				 $this->form->save();
-			}
-		}
-	}
+            if ($this->form->isValid()) {
+
+                $this->form->save();
+            }
+        }
+    }
 
 }
 

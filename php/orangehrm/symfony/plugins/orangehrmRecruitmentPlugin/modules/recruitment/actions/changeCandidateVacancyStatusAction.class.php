@@ -20,62 +20,69 @@
  */
 class changeCandidateVacancyStatusAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getCandidateService() {
-		if (is_null($this->candidateService)) {
-			$this->candidateService = new CandidateService();
-			$this->candidateService->setCandidateDao(new CandidateDao());
-		}
-		return $this->candidateService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getCandidateService() {
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$id = $request->getParameter('id');
-		if (!empty($id)) {
-			$history = $this->getCandidateService()->getCandidateHistoryById($id);
-			$action = $history->getAction();
-			if($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW){
-				$this->redirect('recruitment/jobInterview?historyId='.$id.'&interviewId='.$history->getInterviewId());
-			}
-		}
-		$candidateVacancyId = $request->getParameter('candidateVacancyId');
-		$selectedAction = $request->getParameter('selectedAction');
-		$param = array();
-		if ($id > 0) {
-			$param = array('id' => $id);
-		}
-		if ($candidateVacancyId > 0 && $selectedAction != "") {
-			$param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
-		}
+        $usrObj = $this->getUser()->getAttribute('user');
+        $allowedCandidateList = $usrObj->getAllowedCandidateList();
+        $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
-		$this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
-		if ($request->isMethod('post')) {
+        $id = $request->getParameter('id');
+        if (!empty($id)) {
+            $history = $this->getCandidateService()->getCandidateHistoryById($id);
+            $action = $history->getAction();
+            if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
+                $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $history->getInterviewId());
+            }
+        }
+        $candidateVacancyId = $request->getParameter('candidateVacancyId');
+        $selectedAction = $request->getParameter('selectedAction');
+        $param = array();
+        if ($id > 0) {
+            $param = array('id' => $id);
+        }
+        if ($candidateVacancyId > 0 && $selectedAction != "") {
+            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
+        }
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->performAction();
-				$this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
-			}
-		}
-	}
+        $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
+        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
+            $this->redirect('recruitment/viewCandidates');
+        }
+        if ($request->isMethod('post')) {
+
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $result = $this->form->performAction();
+                $this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
+            }
+        }
+    }
 
 }
 

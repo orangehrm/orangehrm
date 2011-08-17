@@ -33,6 +33,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 	public $currentStatus;
 	public $performedDate;
 	public $performedBy;
+	public $vacancyId;
 	private $selectedCandidateVacancy;
 	private $interviewService;
 
@@ -78,6 +79,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$this->performedBy = $candidateHistory->getPerformerName();
 		}
 		$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
+                $this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
 		$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 		$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
 		$this->hiringManagerName = $this->selectedCandidateVacancy->getHiringManager();

@@ -20,69 +20,75 @@
  */
 class jobInterviewAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getJobInterviewService() {
-		if (is_null($this->jobInterviewService)) {
-			$this->jobInterviewService = new JobInterviewService();
-			$this->jobInterviewService->setJobInterviewDao(new JobInterviewDao());
-		}
-		return $this->jobInterviewService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getJobInterviewService() {
+        if (is_null($this->jobInterviewService)) {
+            $this->jobInterviewService = new JobInterviewService();
+            $this->jobInterviewService->setJobInterviewDao(new JobInterviewDao());
+        }
+        return $this->jobInterviewService;
+    }
 
-	public function getCandidateService() {
-		if (is_null($this->candidateService)) {
-			$this->candidateService = new CandidateService();
-			$this->candidateService->setCandidateDao(new CandidateDao());
-		}
-		return $this->candidateService;
-	}
+    public function getCandidateService() {
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$historyId = $request->getParameter('historyId');
-		$this->interviewId = $request->getParameter('interviewId');
-		$candidateVacancyId = $request->getParameter('candidateVacancyId');
-		$selectedAction = $request->getParameter('selectedAction');
-		$param = array();
-		if ($candidateVacancyId > 0 && $selectedAction != "") {
-			$param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
-		}	
-		if (!empty($historyId) && !empty($this->interviewId)) {
-			$history = $this->getCandidateService()->getCandidateHistoryById($historyId);
-			$candidateVacancyId = $history->getCandidateVacancyId();
-			$selectedAction = $history->getAction();
-			$param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
-		}
+        $usrObj = $this->getUser()->getAttribute('user');
+        $allowedCandidateList = $usrObj->getAllowedCandidateList();
+        $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
-		$this->setForm(new JobInterviewForm(array(), $param, true));
+        $historyId = $request->getParameter('historyId');
+        $this->interviewId = $request->getParameter('interviewId');
+        $candidateVacancyId = $request->getParameter('candidateVacancyId');
+        $selectedAction = $request->getParameter('selectedAction');
+        $param = array();
+        if ($candidateVacancyId > 0 && $selectedAction != "") {
+            $param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
+        }
+        if (!empty($historyId) && !empty($this->interviewId)) {
+            $history = $this->getCandidateService()->getCandidateHistoryById($historyId);
+            $candidateVacancyId = $history->getCandidateVacancyId();
+            $selectedAction = $history->getAction();
+            $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
+        }
 
-		if ($request->isMethod('post')) {
+        $this->setForm(new JobInterviewForm(array(), $param, true));
+        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
+            $this->redirect('recruitment/viewCandidates');
+        }
+        if ($request->isMethod('post')) {
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$this->form->save();
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
 //                $result = $this->form->performAction();
-				$this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
-			}
-		}
-	}
+                $this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
+            }
+        }
+    }
 
 }
 
