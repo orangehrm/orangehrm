@@ -1094,9 +1094,9 @@ create table `ohrm_selected_filter_field` (
   `report_id` bigint(20) not null,
   `filter_field_id` bigint(20) not null,
   `filter_field_order` bigint(20) not null,
-  `value` varchar(255) not null,
-  `where_condition` varchar(255) not null,
-  `where_clause` mediumtext not null,
+  `value` varchar(255) default null,
+  `where_condition` varchar(255) default null,
+  `where_clause` mediumtext default null,
   primary key (`report_id`,`filter_field_id`),
   key `report_id` (`report_id`),
   key `filter_field_id` (`filter_field_id`)
@@ -1187,7 +1187,7 @@ create table `ohrm_meta_display_field` (
 
 create table `ohrm_summary_display_field` (
   `summary_display_field_id` bigint(20) not null,
-  `function` varchar(255) not null,
+  `function` varchar(1000) not null,
   `label` varchar(255) not null,
   `field_alias` varchar(255),
   `is_sortable` varchar(10) not null,
