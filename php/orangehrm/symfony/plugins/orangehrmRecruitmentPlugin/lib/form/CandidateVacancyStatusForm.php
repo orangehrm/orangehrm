@@ -129,6 +129,9 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$employee->firstName = $this->selectedCandidateVacancy->getJobCandidate()->getFirstName();
 			$employee->middleName = $this->selectedCandidateVacancy->getJobCandidate()->getMiddleName();
 			$employee->lastName = $this->selectedCandidateVacancy->getJobCandidate()->getLastName();
+			$employee->emp_oth_email = $this->selectedCandidateVacancy->getJobCandidate()->getEmail();
+			$employee->job_title_code = $this->selectedCandidateVacancy->getJobVacancy()->getJobTitleCode();
+			$employee->jobTitle = $this->selectedCandidateVacancy->getJobVacancy()->getJobTitle();
 
 			$this->getCandidateService()->addEmployee($employee);
 			//$this->getCandidateService()->deleteCandidate($this->selectedCandidateVacancy->getCandidateId());

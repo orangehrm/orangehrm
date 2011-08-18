@@ -14,7 +14,7 @@ class Button extends Control {
             'name' => $this->getPropertyValue('name', $id),
             'onmouseover' => "this.className='{$class} {$class}hov'",
             'onmouseout' => "this.className='{$class}'",
-            'value' => $label,
+            'value' => __($label),
             )
         );
     }
