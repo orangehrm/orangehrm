@@ -200,7 +200,7 @@ class JobInterviewForm extends BaseForm {
 		$newCandidateHistory->setPerformedDate(date('Y-m-d'));
 		$newCandidateHistory->setNote($note = $this->getValue('note'));
 		$newCandidateHistory->setInterviewId($interviewId);
-
+		$newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		$result = $this->getCandidateService()->saveCandidateHistory($newCandidateHistory);
 		$this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 	}

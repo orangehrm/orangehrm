@@ -109,6 +109,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$candidateHistory->setCandidateId($this->candidateId);
 		$candidateHistory->setCandidateVacancyId($this->candidateVacancyId);
 		$candidateHistory->setAction($this->selectedAction);
+		$candidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		if(!empty ($interview)){
 			$candidateHistory->setInterviewId($interview->getId());
 		}

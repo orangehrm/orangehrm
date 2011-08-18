@@ -39,7 +39,7 @@ class CandidateHistoryService {
 		$dto = new CandidateHistoryDto();
 		$dto->setId($object->getId());
 		$dto->setPerformedDate($object->getPerformedDate());
-		$dto->setVacancyName($object->getVacancyName());
+		$dto->setVacancyName($object->getCandidateVacancyName());
 		$description = $this->getCandidateHistoryDescription($object);
 		$dto->setDescription($description);
 		$dto->setDetails($object->getLinkLabel());

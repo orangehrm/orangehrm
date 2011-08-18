@@ -194,12 +194,15 @@ class AddCandidateForm extends BaseForm {
 				foreach ($existingVacancyList as $candidateVacancy) {
 					$id = $candidateVacancy->getVacancyId();
 					if (!in_array($id, $vacnacyArray)) {
+						$vacancyName = $candidateVacancy->getVacancyName();
 						$candidateVacancy->delete();
 						$history = new CandidateHistory();
 						$history->candidateId = $this->candidateId;
 						$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
 						$history->performedBy = $this->addedBy;
 						$history->performedDate = ohrm_format_date(date('Y-m-d'));
+						$history->candidateVacancyName = $vacancyName;
+
 						$this->getCandidateService()->saveCandidateHistory($history);
 					} else {
 						$idList[] = $id;
@@ -345,6 +348,7 @@ class AddCandidateForm extends BaseForm {
 					$history->candidateVacancyId = $candidateVacancy->getId();
 					$history->performedBy = $this->addedBy;
 					$history->performedDate = $candidateVacancy->appliedDate;
+					$history->candidateVacancyName= $candidateVacancy->getVacancyName();
 					$this->getCandidateService()->saveCandidateHistory($history);
 				}
 			}

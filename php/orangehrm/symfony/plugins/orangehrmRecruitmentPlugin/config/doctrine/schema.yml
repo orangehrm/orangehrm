@@ -264,6 +264,9 @@ CandidateHistory:
     candidate_vacancy_id:
       name: candidate_vacancy_id as candidateVacancyId
       type: integer(13)
+    candidate_vacancy_name:
+      name: candidate_vacancy_name as candidateVacancyName
+      type: string(255)
     interview_id:
       name: interview_id as interviewId
       type: integer(13)

@@ -200,11 +200,11 @@ foreach ($jobVacancyList as $vacancy) {
 
 <?php if ($candidateId > 0) : ?>
     <?php $existingVacancyList = $actionForm->candidate->getJobCandidateVacancy(); ?>
-    <?php if ($existingVacancyList[0]->getVacancyId() > 0) : ?>
+    <?php //if ($existingVacancyList[0]->getVacancyId() > 0) : ?>
         <div id="candidateHistoryResults">
             <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
         </div>
-    <?php endif; ?>
+    <?php //endif; ?>
 <?php endif; ?>
 
 <!-- confirmation box for removing vacancies-->
