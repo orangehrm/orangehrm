@@ -114,11 +114,11 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
     }
 
     public function testGetAttendanceRecord() {
-        
+
         $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', 11);
-        $date="2012-02-28 23:46:00";
-        $employeeId=5;
-        
+        $date = "2012-02-28 23:46:00";
+        $employeeId = 5;
+
 
         $attendanceDaoMock = $this->getMock('AttendanceDao', array('getAttendanceRecord'));
         $attendanceDaoMock->expects($this->once())
@@ -127,24 +127,105 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
                 ->will($this->returnValue($attendanceRecord));
 
         $this->attendanceService->setAttendanceDao($attendanceDaoMock);
-       $record= $this->attendanceService->getAttendanceRecord($employeeId,$date);
-        $this->assertEquals($attendanceRecord,$record);
+        $record = $this->attendanceService->getAttendanceRecord($employeeId, $date);
+        $this->assertEquals($attendanceRecord, $record);
     }
 
-    
-    public function testDeleteAttendanceRecords(){
-        $attenadnceRecordId=4;
-        $isDeleted=true;
-        
+    public function testDeleteAttendanceRecords() {
+        $attendanceRecordId = 4;
+        $isDeleted = true;
+
         $attendanceDaoMock = $this->getMock('AttendanceDao', array('deleteAttendanceRecords'));
         $attendanceDaoMock->expects($this->once())
                 ->method('deleteAttendanceRecords')
-                ->with($attenadnceRecordId)
+                ->with($attendanceRecordId)
                 ->will($this->returnValue($isDeleted));
 
         $this->attendanceService->setAttendanceDao($attendanceDaoMock);
-        $deleted=$this->attendanceService->deleteAttendanceRecords($attenadnceRecordId);
+        $deleted = $this->attendanceService->deleteAttendanceRecords($attendanceRecordId);
         $this->assertTrue($deleted);
-        
+
+        $attendanceRecordId = 12344;
+        $isDeleted = false;
+
+        $attendanceDaoMock = $this->getMock('AttendanceDao', array('deleteAttendanceRecords'));
+        $attendanceDaoMock->expects($this->once())
+                ->method('deleteAttendanceRecords')
+                ->with($attendanceRecordId)
+                ->will($this->returnValue($isDeleted));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $deleted = $this->attendanceService->deleteAttendanceRecords($attendanceRecordId);
+        $this->assertFalse($deleted);
     }
+
+    public function testGetAttendanceRecordById() {
+
+        $attendanceRecordId = 4;
+        $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', $attendanceRecordId);
+
+        $attendanceDaoMock = $this->getMock('AttendanceDao', array('getAttendanceRecordById'));
+        $attendanceDaoMock->expects($this->once())
+                ->method('getAttendanceRecordById')
+                ->with($attendanceRecordId)
+                ->will($this->returnValue($attendanceRecord));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $retrievedAttendanceRecord = $this->attendanceService->getAttendanceRecordById($attendanceRecordId);
+        $this->assertTrue($retrievedAttendanceRecord instanceof AttendanceRecord);
+        $this->assertEquals($retrievedAttendanceRecord->getId(), $attendanceRecordId);
+    }
+
+    public function testGetTimezone() {
+        $timezoneArray = $this->attendanceService->getTimezoneArray();
+
+        $value = 0;
+        $this->assertEquals('GMT', $this->attendanceService->getTimezone($value));
+
+        $value = 5;
+        $this->assertEquals('5.0', $this->attendanceService->getTimezone($value));
+
+        $value = 11;
+        $this->assertEquals('9.5', $this->attendanceService->getTimezone($value));
+
+        $value = 16;
+        $this->assertEquals('-10', $this->attendanceService->getTimezone($value));
+
+        $value = 22;
+        $this->assertEquals('-5', $this->attendanceService->getTimezone($value));
+
+        $value = 25;
+        $this->assertEquals('-3', $this->attendanceService->getTimezone($value));
+    }
+
+    public function testGetTimezoneArray() {
+
+        $timezoneArray = $this->attendanceService->getTimezoneArray();
+        $this->assertNotnull($timezoneArray);
+    }
+
+    public function testGetLocalTimezone() {
+
+        $offset = -12.00;
+        $timezone = $this->attendanceService->getLocalTimezone($offset);
+        $this->assertEquals('Kwajalein', $timezone);
+
+        $offset = -4.50;
+        $timezone = $this->attendanceService->getLocalTimezone($offset);
+        $this->assertEquals('America/Caracas', $timezone);
+
+        $offset = -1.0;
+        $timezone = $this->attendanceService->getLocalTimezone($offset);
+        $this->assertEquals('Atlantic/Azores', $timezone);
+
+        $offset = 3.0;
+        $timezone = $this->attendanceService->getLocalTimezone($offset);
+        $this->assertEquals('Asia/Kuwait', $timezone);
+
+        $offset = 6.0;
+        $timezone = $this->attendanceService->getLocalTimezone($offset);
+        $this->assertEquals('Asia/Dhaka', $timezone);
+    }
+
+
 }

@@ -114,29 +114,31 @@ class AttendanceService {
         return $this->getAttendanceDao()->deleteAttendanceRecords($attendanceRecordId);
     }
 
-    public function allowedToPerformAction($flow, $action, $state) {
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $actionsArray = $userObj->getAllowedActions($flow, $state);
-        
-        if (in_array($action, $actionsArray)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public function getAttendanceRecordById($id){
-        
-        
-        return $this->getAttendanceDao()->getAttendanceRecordById($id);
+    /**
+     * Get Attendance Record By Id
+     * @param $attendanceRecordId
+     * @return Attendance Record
+     */
+    public function getAttendanceRecordById($attendanceRecordId) {
+
+        return $this->getAttendanceDao()->getAttendanceRecordById($attendanceRecordId);
     }
 
-    
-     public function getTimezone($value) {
+    /**
+     * Get Time Zone
+     * @param $value
+     * @return Timezone offset
+     */
+    public function getTimezone($value) {
         $timezoneArray = $this->getTimezoneArray();
         return $timezoneArray[$value];
     }
 
+    /**
+     * Get Timezone Array 
+     * @param 
+     * @return time zone values array
+     */
     public function getTimezoneArray() {
 
 
@@ -170,7 +172,12 @@ class AttendanceService {
 
         return $this->timezoneArray;
     }
-    
+
+    /**
+     * Get etLocal Timezone
+     * @param $clientTimeZoneOffset
+     * @return time zone string
+     */
     public function getLocalTimezone($clientTimeZoneOffset) {
 
 
@@ -218,8 +225,7 @@ class AttendanceService {
             return false;
         return $index[0];
     }
-    
-    
+
 }
 
 ?>

@@ -1,14 +1,20 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of ConfigureForm
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * @author orangehrm
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  */
 class ConfigureForm extends sfForm {
     const ADMIN_USER = "ADMIN";
@@ -23,10 +29,6 @@ class ConfigureForm extends sfForm {
             'configuration1' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
             'configuration2' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
             'configuration3' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
-//            'configuration4' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
-//            'configuration5' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
-//            'configuration6' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
-                //  'configuration7' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
         ));
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
@@ -44,24 +46,11 @@ class ConfigureForm extends sfForm {
             $this->setDefault('configuration3', 'on');
         }
 
-//        if ($arrayOfSavedConfigurations['configuration4']) {
-//            $this->setDefault('configuration4', 'on');
-//        }
-//        if ($arrayOfSavedConfigurations['configuration5']) {
-//            $this->setDefault('configuration5', 'on');
-//        }
-//        if ($arrayOfSavedConfigurations['configuration6']) {
-//            $this->setDefault('configuration6', 'on');
-//        }
 
         $this->setValidators(array(
             'configuration1' => new sfValidatorPass(),
             'configuration2' => new sfValidatorPass(),
             'configuration3' => new sfValidatorPass(),
-//            'configuration4' => new sfValidatorPass(),
-//            'configuration5' => new sfValidatorPass(),
-//            'configuration6' => new sfValidatorPass(),
-                //  'configuration7' => new sfValidatorPass(),
         ));
     }
 
@@ -97,36 +86,18 @@ class ConfigureForm extends sfForm {
             $savedConfigurationSettingArray['configuration1'] = false;
         }
 
-        if ($recordExists3 || $recordExists4 || $recordExists5 || $recordExists6 ) {
+        if ($recordExists3 || $recordExists4 || $recordExists5 || $recordExists6) {
             $savedConfigurationSettingArray['configuration2'] = true;
         } else {
             $savedConfigurationSettingArray['configuration2'] = false;
         }
 
-//
-//        if ($recordExists5 || ($recordExists6)) {
-//            $savedConfigurationSettingArray['configuration3'] = true;
-//        } else {
-//            $savedConfigurationSettingArray['configuration3'] = false;
-//        }
 
-        if ($recordExists7 || $recordExists8|| $recordExists9 || $recordExists10 || $recordExists11 || $recordExists12) {
+        if ($recordExists7 || $recordExists8 || $recordExists9 || $recordExists10 || $recordExists11 || $recordExists12) {
             $savedConfigurationSettingArray['configuration3'] = true;
         } else {
             $savedConfigurationSettingArray['configuration3'] = false;
         }
-//
-//        if ($recordExists9 || ($recordExists10)) {
-//            $savedConfigurationSettingArray['configuration5'] = true;
-//        } else {
-//            $savedConfigurationSettingArray['configuration5'] = false;
-//        }
-//
-//        if ($recordExists11 || ($recordExists12)) {
-//            $savedConfigurationSettingArray['configuration6'] = true;
-//        } else {
-//            $savedConfigurationSettingArray['configuration6'] = false;
-//        }
 
         return $savedConfigurationSettingArray;
     }

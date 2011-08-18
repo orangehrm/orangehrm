@@ -35,9 +35,9 @@ $(document).ready(function()
                     
 
             );
-            alert("hi")
+        
             $("#dialogBox").dialog('close');
-         //   getRelatedAttendanceRecords(employeeId,date);
+         
                 
         });
     

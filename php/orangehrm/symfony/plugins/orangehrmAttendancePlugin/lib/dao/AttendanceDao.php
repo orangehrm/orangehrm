@@ -89,7 +89,7 @@ class AttendanceDao {
             $records1 = $query1->execute();
 
             if ((count($records1) > 1)) {
-                
+
                 $isValid = "0";
             }
 
@@ -200,12 +200,17 @@ class AttendanceDao {
             throw new DaoException($ex->getMessage());
         }
     }
-    
-    public function getAttendanceRecord($employeeId,$date){
-        
-        $from=$date." "."00:"."00:"."00";
-        $end=$date." "."23:"."59:"."59";
-        
+
+    /**
+     * Get Attendance Record
+     * @param $$employeeId,$date
+     * @return attendance records
+     */
+    public function getAttendanceRecord($employeeId, $date) {
+
+        $from = $date . " " . "00:" . "00:" . "00";
+        $end = $date . " " . "23:" . "59:" . "59";
+
         try {
 
             $query = Doctrine_Query::create()
@@ -224,8 +229,6 @@ class AttendanceDao {
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
-        
-        
     }
 
     /**
@@ -233,35 +236,37 @@ class AttendanceDao {
      * @param $attendanceRecordId
      * @return boolean
      */
-    public function deleteAttendanceRecords($attendanceRecordId){
-        
-         try {
+    public function deleteAttendanceRecords($attendanceRecordId) {
+
+        try {
             $q = Doctrine_Query:: create()
                     ->delete('AttendanceRecord')
                     ->where("id = ?", $attendanceRecordId);
-                    
+
 
             $result = $q->execute();
 
             if (count($result) > 0) {
                 return true;
-
             } else {
                 return false;
             }
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-        
     }
-    
-    public function getAttendanceRecordById($id){
-        
+
+    /**
+     * Get Attendance Record By Id
+     * @param $attendanceRecordId
+     * @return attendanceRecord
+     */
+    public function getAttendanceRecordById($attendanceRecordId) {
+
         try {
             $q = Doctrine_Query:: create()
                     ->from('AttendanceRecord')
-                    ->where("id = ?", $id);
-                    
+                    ->where("id = ?", $attendanceRecordId);
 
             $result = $q->execute();
 
@@ -270,6 +275,6 @@ class AttendanceDao {
             throw new DaoException($e->getMessage());
         }
     }
-    
+
 }
 

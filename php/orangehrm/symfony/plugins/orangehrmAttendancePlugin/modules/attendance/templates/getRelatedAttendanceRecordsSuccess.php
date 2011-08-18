@@ -25,7 +25,7 @@
                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
 
 
-                <td id="checkBox"><?php if ($r[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?></td>
+                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?></td>
                 <td><?php echo $record->getPunchInNote() ?></td>
                 <td><?php echo $record->getPunchOutUserTime() ?></td>
                 <td><?php echo $record->getPunchOutNote() ?></td>

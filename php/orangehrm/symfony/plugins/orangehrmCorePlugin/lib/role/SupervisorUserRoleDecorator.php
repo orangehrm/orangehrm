@@ -82,14 +82,6 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Timesheets"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
-
-        $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Reports"));
         $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
@@ -99,7 +91,6 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
         return $topMenuItemArray;
     }
-
 
     public function getAccessibleReportSubMenus() {
 
@@ -137,11 +128,10 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         return $tempArray;
     }
 
-
     public function getEmployeeList() {
 
         $employeeArray = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
-        return array_unique($employeeArray);
+        return $employeeArray;
     }
 
     public function getAllowedActions($workFlow, $state) {
@@ -199,6 +189,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
                 }
             }
         }
+        return $pendingApprovelTimesheets;
     }
 
     public function getActionableAttendanceStates($actions) {
@@ -229,7 +220,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         return $this->user->isAllowedToDefineTimeheetPeriod();
     }
 
-    public function  getActiveProjectList() {
+    public function getActiveProjectList() {
         $activeProjectList = $this->user->getActiveProjectList();
         return $activeProjectList;
     }

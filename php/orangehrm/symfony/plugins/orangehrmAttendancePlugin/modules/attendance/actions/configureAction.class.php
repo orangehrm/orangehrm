@@ -67,11 +67,6 @@ class configureAction extends sfAction {
                 $configuration1 = $this->form->getValue('configuration1');
                 $configuration2 = $this->form->getValue('configuration2');
                 $configuration3 = $this->form->getValue('configuration3');
-//                $configuration4 = $this->form->getValue('configuration4');
-//                $configuration5 = $this->form->getValue('configuration5');
-//                $configuration6 = $this->form->getValue('configuration6');
-// $configuration7 = $this->form->getValue('configuration7');
-
 
                 if ($configuration1 == 'on') {
 
@@ -122,7 +117,7 @@ class configureAction extends sfAction {
 
                         $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::SUPERVISOR, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_IN);
                     }
-                    
+
                     $isPunchInEditableInStatePunchedOut = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::SUPERVISOR, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
                     if (!$isPunchInEditableInStatePunchedOut) {
 

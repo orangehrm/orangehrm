@@ -153,7 +153,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $employeeId = 5;
         $date = "2012-12-21";
         $records = $this->attendanceDao->getAttendanceRecord($employeeId, $date);
-        
+
         $this->assertEquals($records[0]->getEmployeeId(), 5);
         $this->assertEquals($records[0]->getPunchInUserTime(), "2012-12-21 01:10:00");
         $this->assertEquals($records[0]->getPunchInTimeOffset(), -9);
@@ -166,21 +166,26 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($records[0]->getPunchInUserTime(), "2012-02-28 23:46:00");
         $this->assertEquals($records[0]->getPunchInTimeOffset(), 6.5);
         $this->assertEquals($records[0]->getPunchOutUserTime(), "2012-02-29 17:42:00");
-        
+
         $employeeId = 5;
         $date = "2016-02-28";
         $records = $this->attendanceDao->getAttendanceRecord($employeeId, $date);
         $this->assertNull($records[0]);
     }
-    
-    public function testDeleteAttendanceRecords(){
-        $attendanceRecordId=4;
-       $isDeleted= $this->attendanceDao->deleteAttendanceRecords($attendanceRecordId);
-        
-        $this->assertTrue($isDeleted);
-        
-    }
-    
 
+    public function testDeleteAttendanceRecords() {
+        $attendanceRecordId = 4;
+        $isDeleted = $this->attendanceDao->deleteAttendanceRecords($attendanceRecordId);
+
+        $this->assertTrue($isDeleted);
+
+    }
+
+    public function testGetAttendanceRecordById() {
+        $id = 5;
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordById($id);
+        $this->assertEquals(5, $attendanceRecord->getId());
+        $this->assertEquals(5, $attendanceRecord->getEmployeeId());
+    }
 
 }

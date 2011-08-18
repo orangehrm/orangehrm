@@ -41,9 +41,6 @@ class editAttendanceRecordAction extends sfAction {
             $i++;
         }
 
-
-
-
         if (!$action) {
             if ($request->isMethod('post')) {
                 $this->editAttendanceForm->bind($request->getParameter('attendance'));
