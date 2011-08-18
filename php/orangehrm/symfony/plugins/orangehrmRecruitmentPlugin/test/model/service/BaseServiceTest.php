@@ -45,7 +45,7 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
 
         /* Multiple fields */
         $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname`, `emp_middle_name`, `jobtit_code`, `is_active` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname`, `emp_middle_name`, `job_title_code`, `joined_date` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForSelect', 'sampleMethod2', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
 
@@ -57,7 +57,7 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
 
         /* Multiple fields with aliases */
         $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname`, `emp_middle_name` AS `middleName`, `jobtit_code`, `is_active` AS `active` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname`, `emp_middle_name` AS `middleName`, `job_title_code`, `joined_date` AS `active` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForSelect', 'sampleMethod4', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
 
@@ -84,13 +84,13 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
 
         /* Multiple fields without a WHERE clause */
         $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee`";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_middle_name` = 'Charles' AND `is_active` = '1'";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_middle_name` = 'Charles' AND `joined_date` = '1'";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForWhere', 'sampleMethod2', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
 
         /* Multiple fields */
         $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10'";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' AND `is_active` = '1'";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' AND `joined_date` = '1'";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForWhere', 'sampleMethod2', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
 
@@ -99,8 +99,8 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
         /* Multiple fields with table ids */
 
         /* Single field with a GROUP BY clause */
-        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' GROUP BY `jobtit_code`";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' GROUP BY `jobtit_code`";
+        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' GROUP BY `job_title_code`";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' GROUP BY `job_title_code`";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForWhere', 'sampleMethod1', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
 
@@ -117,8 +117,8 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedQuery, $resultQuery);
 
         /* Single field with a GROUP BY, ORDER BY and LIMIT clauses */
-        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' GROUP BY `jobtit_code` ORDER BY `emp_firstname` LIMIT 0, 50";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' GROUP BY `jobtit_code` ORDER BY `emp_firstname` LIMIT 0, 50";
+        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' GROUP BY `job_title_code` ORDER BY `emp_firstname` LIMIT 0, 50";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` WHERE `emp_number` = '10' AND `emp_middle_name` = 'Charles' GROUP BY `job_title_code` ORDER BY `emp_firstname` LIMIT 0, 50";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForWhere', 'sampleMethod1', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);
     }
@@ -138,7 +138,7 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
 
         /* Multiple fields without a WHERE clause */
         $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`, `emp_firstname`, `jobtit_code`, `is_active`";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`, `emp_firstname`, `job_title_code`, `joined_date`";
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod2', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);    }
 
