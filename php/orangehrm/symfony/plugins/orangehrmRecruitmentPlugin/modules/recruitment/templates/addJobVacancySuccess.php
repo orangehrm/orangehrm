@@ -38,9 +38,9 @@
 <?php $drpDownWidth = 'width: 270px' ?>
 <?php $textBoxWidth = 'width: 260px' ?>
 <?php endif; ?>
-
-        <div id="messagebar" style="width: 600px;"class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-            <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+        <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+        <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+            <span><?php echo isset($message) ? $message : ''; ?></span>
         </div>
 
         <div id="addJobVacancy">

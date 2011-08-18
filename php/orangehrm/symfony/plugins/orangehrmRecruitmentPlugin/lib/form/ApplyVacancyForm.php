@@ -109,17 +109,19 @@ class ApplyVacancyForm extends BaseForm {
 		$resume = new JobCandidateAttachment();
 		$candidate = new JobCandidate();
 		$vacnacyId = $this->getValue('vacancyList');
-
+        $resultArray = array();
 		if (!($this->isValidResume($file))) {
-
-			$message = array('warning', __('Error Occurred - Invalid File Type'));
-			return $message;
+        	$resultArray['messageType'] = 'warning';
+            $resultArray['message'] = __('Error Occurred - Invalid File Type');
+            return $resultArray;
 		} else {
 			$this->candidateId = $this->_getNewlySavedCandidateId($candidate);
+                 $resultArray['candidateId'] = $this->candidateId;
 			$resumeId = $this->_saveResume($file, $resume, $this->candidateId);
 		}
 
 		$this->_saveCandidateVacancies($vacnacyId, $this->candidateId);
+        return $resultArray;
 	}
 
 	/**

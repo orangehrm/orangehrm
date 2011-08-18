@@ -396,6 +396,22 @@
                 <source>This action will remove the vacancy from the candidate</source>
                 <target>FR_This action will remove the vacancy from the candidate</target>
             </trans-unit>
+            <trans-unit id="99">
+                <source>Applying Job vacancy Failed. Resume Size Exceeded 1MB</source>
+                <target>FR_Applying Job vacancy Failed. Resume Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Editing Candidate</source>
+                <target>FR_Editing Candidate</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Adding Candidate</source>
+                <target>FR_Adding Candidate</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Failed. Resume Size Exceeded 1MB</source>
+                <target>FR_ Failed. Resume Size Exceeded 1MB</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

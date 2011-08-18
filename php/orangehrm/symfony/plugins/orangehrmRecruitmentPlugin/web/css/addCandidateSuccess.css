@@ -194,3 +194,7 @@ div.messageBalloon_warning {
     width: 640px;
     text-align: center;
 }
+div.messageBalloon_success {
+    width: 640px;
+    text-align: center;
+}

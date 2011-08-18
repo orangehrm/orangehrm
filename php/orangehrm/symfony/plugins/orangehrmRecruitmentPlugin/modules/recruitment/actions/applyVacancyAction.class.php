@@ -72,12 +72,17 @@ class applyVacancyAction extends sfAction {
                 
             } else {
 
-                if ($this->form->isValid()) {
-
-                    $this->form->save();
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
-
-                    $this->redirect('recruitment/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
+                if ($this->form->isValid()) { 
+                    
+                    $result = $this->form->save();                   
+                    if (isset($result['messageType'])) {
+                        $this->messageType = $result['messageType'];
+                        $this->message = $result['message'];
+                    } else {
+                        $this->candidateId = $result['candidateId'];
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
+                        $this->redirect('recruitment/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
+                    }                    
                 }
             }
         }
