@@ -91,6 +91,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
 
 		$readVacancyList = $this->recruitmentAttachmentService->getVacancyAttachment($vacancyId);
+
 		$this->assertEquals($readVacancyList, $testVacancyList);
 	}
 
