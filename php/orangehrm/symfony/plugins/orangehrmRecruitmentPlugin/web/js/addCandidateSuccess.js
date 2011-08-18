@@ -4,25 +4,28 @@ $(document).ready(function() {
     var vacancyString = $("#addCandidate_vacancyList").val();
     var vacancyList = vacancyString.split("_");
     var initialVacancyIdArray = new Array();
+    var viewMode;
 
     if(vacancyList.length > 0){
-        $("#jobDropDown0").html(buildVacancyList(vacancyList[0]));
+        viewMode = true;
+        $("#jobDropDown0").html(buildVacancyList(vacancyList[0], viewMode));
         initialVacancyIdArray[0] = $('.vacancyDrop:last').attr('id');
         for(var i=1; i<vacancyList.length; i++){
-            buildVacancyDrpDwn(vacancyList[i]);
+            buildVacancyDrpDwn(vacancyList[i], viewMode);
             initialVacancyIdArray[i] = $('.vacancyDrop:last').attr('id');
         }
     }else{
-
+        viewMode = false;
         if($('.vacancyDrop').length >= list.length-1){
             hideLabel();
         }
-        $("#jobDropDown0").html(buildVacancyList());
+        $("#jobDropDown0").html(buildVacancyList("", viewMode));
         $("#btnDropDown0").attr('id', 'btnDropDown'.list[0].id);
     }
     
     $("#addButton").live('click', function(){
-        buildVacancyDrpDwn("");
+        viewMode = false;
+        buildVacancyDrpDwn("", viewMode);
     });
 
     //Load default Mask if empty
@@ -204,7 +207,7 @@ $(document).ready(function() {
 
 });
 
-function buildVacancyDrpDwn(vacancyId) {
+function buildVacancyDrpDwn(vacancyId, viewMode) {
 
     if($('.vacancyDrop').length < 5 ) {
 
@@ -217,7 +220,7 @@ function buildVacancyDrpDwn(vacancyId) {
         var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);    
 
         newjobDropDown.after().html('<label><?php echo __(Job Vacancy); ?></label>' +
-            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId)+'</select>'+
+            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, viewMode)+'</select>'+
             '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>'+'<br class="clear" />');
 
         newjobDropDown.appendTo("#textBoxesGroup");
@@ -304,17 +307,22 @@ function validateVacancy(){
     return flag;
 }
 
-function buildVacancyList(vacancyId){
+function buildVacancyList(vacancyId, viewMode){
+    if(viewMode){
+        alert(true)
+    }
 
-    var numOptions = list.length;
+    var listArray = new Array();
+    listArray = (viewMode) ? list : allowedVacancylist;
+    var numOptions = listArray.length;
     //var optionHtml = '<option value="">'+select+'</option>';
     var optionHtml = "";
     for (var i = 0; i < numOptions; i++) {
 
-        if(list[i].id == vacancyId){
-            optionHtml += '<option selected="selected" value="' + list[i].id + '">' + list[i].name + '</option>';
+        if(listArray[i].id == vacancyId){
+            optionHtml += '<option selected="selected" value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
         }else{
-            optionHtml += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
+            optionHtml += '<option value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
         }
     }
     return optionHtml;

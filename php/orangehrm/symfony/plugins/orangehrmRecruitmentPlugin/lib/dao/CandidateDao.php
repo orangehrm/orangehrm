@@ -130,6 +130,7 @@ class CandidateDao extends BaseDao {
     public function getCandidateRecordsCount(CandidateSearchParameters $searchParam) {
 
         $allowedCandidateList = $searchParam->getAllowedCandidateList();
+        $allowedVacancyList = $searchParam->getAllowedVacancyList();
         $isAdmin = $searchParam->getIsAdmin();
         $jobTitleCode = $searchParam->getJobTitleCode();
         $jobVacancyId = $searchParam->getVacancyId();
@@ -163,6 +164,9 @@ class CandidateDao extends BaseDao {
             $q .= " AND jc.status = '$candidateStatus'";
             if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
+            }
+            if ($allowedVacancyList != null && !$isAdmin) {
+                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
             }
             $where = array();
 

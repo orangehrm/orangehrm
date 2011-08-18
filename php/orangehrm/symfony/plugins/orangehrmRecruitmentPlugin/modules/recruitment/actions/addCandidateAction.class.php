@@ -61,6 +61,7 @@ class addCandidateAction extends sfAction {
     public function execute($request) {
 
         $userObj = $this->getUser()->getAttribute('user');
+        $allowedVacancyList = $userObj->getAllowedVacancyList();
         $reDirect = false;
         $this->edit = true;
         if (!($userObj->isAdmin() || $userObj->isHiringManager())) {
@@ -70,7 +71,7 @@ class addCandidateAction extends sfAction {
 
         $this->candidateId = $request->getParameter('id');
 
-        $param = array('candidateId' => $this->candidateId);
+        $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList);
         $this->setForm(new AddCandidateForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {

@@ -26,6 +26,7 @@ class AddCandidateForm extends BaseForm {
 	public $candidateId;
 	private $recruitmentAttachmentService;
 	private $addedBy;
+        public $allowedVacancyList;
 
 	const CONTRACT_KEEP = 1;
 	const CONTRACT_DELETE = 2;
@@ -73,6 +74,7 @@ class AddCandidateForm extends BaseForm {
 	public function configure() {
 
 		$this->candidateId = $this->getOption('candidateId');
+		$this->allowedVacancyList = $this->getOption('allowedVacancyList');
 		$attachmentList = $this->attachment;
 		if (count($attachmentList) > 0) {
 			$this->attachment = $attachmentList[0];
