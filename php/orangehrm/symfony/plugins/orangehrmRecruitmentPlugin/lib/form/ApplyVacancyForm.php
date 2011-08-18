@@ -143,12 +143,6 @@ class ApplyVacancyForm extends BaseForm {
 		$candidateService = $this->getCandidateService();
 		$candidateService->saveCandidate($candidate);
 		$candidateId = $candidate->getId();
-		$history = new CandidateHistory();
-		$history->candidateId = $candidateId;
-		$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY;
-		$history->performedBy = "";
-		$history->performedDate = $candidate->dateOfApplication;
-		$this->getCandidateService()->saveCandidateHistory($history);
 		return $candidateId;
 	}
 
@@ -198,10 +192,9 @@ class ApplyVacancyForm extends BaseForm {
 			$candidateService->saveCandidateVacancy($candidateVacancy);
 			$history = new CandidateHistory();
 			$history->candidateId = $candidateId;
-			$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY;
+			$history->performedDate = $candidate->dateOfApplication;
 			$history->candidateVacancyId = $candidateVacancy->getId();
-			$history->performedBy = "SYSTEM";
-			$history->performedDate = $candidateVacancy->appliedDate;
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 	}
