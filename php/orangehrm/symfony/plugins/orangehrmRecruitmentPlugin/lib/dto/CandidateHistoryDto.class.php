@@ -54,7 +54,7 @@ class CandidateHistoryDto {
 	}
 
 	public function setVacancyName($vacancyName) {
-		$this->vacancyName = $vacancyName;
+		$this->vacancyName = ($vacancyName == null) ? "" : $vacancyName;
 	}
 
 	public function setDescription($description) {

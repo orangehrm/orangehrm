@@ -13,7 +13,8 @@
 class CandidateHistory extends PluginCandidateHistory {
 
     public function getVacancyName() {
-        return $this->getJobCandidateVacancy()->getVacancyName();
+	$vacancyName = ($this->getJobCandidateVacancy() == null) ? "" : $this->getJobCandidateVacancy()->getVacancyName();
+        return $vacancyName;
     }
 
     public function getStatus() {

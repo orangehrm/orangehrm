@@ -22,10 +22,10 @@ class ApplyVacancyForm extends BaseForm {
 
 	private $candidateService;
 	private $recruitmentAttachmentService;
-        public $attachment;
-        public $candidateId;
+	public $attachment;
+	public $candidateId;
 
-        /**
+	/**
 	 *
 	 * @return <type>
 	 */
@@ -50,9 +50,9 @@ class ApplyVacancyForm extends BaseForm {
 	}
 
 	public function configure() {
-            
-                $this->candidateId = $this->getOption('candidateId');
-                $attachmentList = $this->attachment;
+
+		$this->candidateId = $this->getOption('candidateId');
+		$attachmentList = $this->attachment;
 		if (count($attachmentList) > 0) {
 			$this->attachment = $attachmentList[0];
 		}
@@ -83,24 +83,24 @@ class ApplyVacancyForm extends BaseForm {
 		));
 
 		$this->widgetSchema->setNameFormat('addCandidate[%s]');
-                
-                if (!empty($this->candidateId)) { 
-                    $candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
-                    $this->setDefault('firstName', $candidate->getFirstName());
-                    $this->setDefault('middleName', $candidate->getMiddleName());
-                    $this->setDefault('lastName', $candidate->getLastName());
-                    $this->setDefault('email', $candidate->getEmail());
-                    $this->setDefault('contactNo', $candidate->getContactNumber());
-                    $this->attachment = $candidate->getJobCandidateAttachment();
-                    $this->setDefault('keyWords', $candidate->getKeywords());
-                    $this->setDefault('comment', $candidate->getComment());
-                    $candidateVacancyList = $candidate->getJobCandidateVacancy();
-                    $vacancyList = array();
-                    foreach ($candidateVacancyList as $candidateVacancy) {
-                            $vacancyList[] = $candidateVacancy->getVacancyId();
-                    }
-                    $this->setDefault('vacancyList', implode("_", $vacancyList));
-                    }
+
+		if (!empty($this->candidateId)) {
+			$candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
+			$this->setDefault('firstName', $candidate->getFirstName());
+			$this->setDefault('middleName', $candidate->getMiddleName());
+			$this->setDefault('lastName', $candidate->getLastName());
+			$this->setDefault('email', $candidate->getEmail());
+			$this->setDefault('contactNo', $candidate->getContactNumber());
+			$this->attachment = $candidate->getJobCandidateAttachment();
+			$this->setDefault('keyWords', $candidate->getKeywords());
+			$this->setDefault('comment', $candidate->getComment());
+			$candidateVacancyList = $candidate->getJobCandidateVacancy();
+			$vacancyList = array();
+			foreach ($candidateVacancyList as $candidateVacancy) {
+				$vacancyList[] = $candidateVacancy->getVacancyId();
+			}
+			$this->setDefault('vacancyList', implode("_", $vacancyList));
+		}
 	}
 
 	public function save() {
@@ -143,6 +143,12 @@ class ApplyVacancyForm extends BaseForm {
 		$candidateService = $this->getCandidateService();
 		$candidateService->saveCandidate($candidate);
 		$candidateId = $candidate->getId();
+		$history = new CandidateHistory();
+		$history->candidateId = $candidateId;
+		$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY;
+		$history->performedBy = "";
+		$history->performedDate = $candidate->dateOfApplication;
+		$this->getCandidateService()->saveCandidateHistory($history);
 		return $candidateId;
 	}
 
@@ -190,6 +196,13 @@ class ApplyVacancyForm extends BaseForm {
 			$candidateVacancy->appliedDate = ohrm_format_date(date('Y-m-d'));
 			$candidateService = $this->getCandidateService();
 			$candidateService->saveCandidateVacancy($candidateVacancy);
+			$history = new CandidateHistory();
+			$history->candidateId = $candidateId;
+			$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+			$history->candidateVacancyId = $candidateVacancy->getId();
+			$history->performedBy = "";
+			$history->performedDate = $candidateVacancy->appliedDate;
+			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 	}
 
