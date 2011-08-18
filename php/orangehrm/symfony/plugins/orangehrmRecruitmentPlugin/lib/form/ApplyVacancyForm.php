@@ -143,6 +143,7 @@ class ApplyVacancyForm extends BaseForm {
 		$candidateService = $this->getCandidateService();
 		$candidateService->saveCandidate($candidate);
 		$candidateId = $candidate->getId();
+
 		return $candidateId;
 	}
 

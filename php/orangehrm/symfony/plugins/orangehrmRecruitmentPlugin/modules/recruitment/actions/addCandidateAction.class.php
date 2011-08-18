@@ -103,7 +103,8 @@ class addCandidateAction extends sfAction {
             $file = $request->getFiles($this->form->getName());
             
             if ($_FILES['addCandidate']['size']['resume'] > 1024000 || $_FILES == null) {
-                 $this->templateMessage = array ('WARNING', 'Adding Candidate Failed. Resume Size Exceeded 1MB');
+                $title = ($this->candidateId > 0) ? __('Editing Candidate') : __('Adding Candidate');
+                 $this->templateMessage = array ('WARNING', ''.$title.' Failed. Resume Size Exceeded 1MB');
                 
             } else {
                 $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));

@@ -66,13 +66,19 @@ class applyVacancyAction extends sfAction {
 
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
-
-            if ($this->form->isValid()) {
-
-                $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
+            
+            if ($_FILES['addCandidate']['size']['resume'] > 1024000 || $_FILES == null) {
+                 $this->templateMessage = array ('WARNING', 'Applying Job vacancy Failed. Resume Size Exceeded 1MB');
                 
-                $this->redirect('recruitment/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
+            } else {
+
+                if ($this->form->isValid()) {
+
+                    $this->form->save();
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
+
+                    $this->redirect('recruitment/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
+                }
             }
         }
     }

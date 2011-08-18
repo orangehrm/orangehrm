@@ -190,3 +190,7 @@ table.data-table th {
     float:left;
     width:260px;
 }
+div.messageBalloon_warning {
+    width: 640px;
+    text-align: center;
+}
