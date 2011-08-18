@@ -61,7 +61,7 @@ class applyVacancyAction extends sfAction {
             $vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
             $this->description = $vacancy->getDescription();
             $this->name = $vacancy->getName();
-        }
+        }	
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));

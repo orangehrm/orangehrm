@@ -113,6 +113,7 @@
                     
                 }
                 ?>
+	    </div>
             <br class="clear"/>
             <div>
                 <?php echo $form['keyWords']->renderLabel(__('Keywords'), array("class " => "keywrd")); ?>
@@ -135,6 +136,7 @@
 
         </form>
     </div>
+</div>
 
 <script type="text/javascript">
     //<![CDATA[

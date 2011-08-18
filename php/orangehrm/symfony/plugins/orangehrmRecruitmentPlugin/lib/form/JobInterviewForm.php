@@ -63,6 +63,7 @@ class JobInterviewForm extends BaseForm {
 			$this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
 			$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 			$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
+			$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
 		}
 //creating widgets
 		$this->setWidgets(array(
@@ -160,7 +161,6 @@ class JobInterviewForm extends BaseForm {
 		$date = $this->getValue('date');
 		$time = $this->getValue('time');
 		$note = $this->getValue('note');
-
 		$newJobInterview->setInterviewName($name);
 		$newJobInterview->setInterviewDate($date);
 		$newJobInterview->setInterviewTime($time);
