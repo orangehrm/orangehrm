@@ -116,11 +116,11 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Testing getActiveVacancyList
+	 * Testing getAllVacancies
 	 */
-	public function testGetActiveVacancyList() {
+	public function testGetAllVacancies() {
 
-		$vacancyList = $this->vacancyDao->getActiveVacancyList();
+		$vacancyList = $this->vacancyDao->getAllVacancies();
 		$this->assertTrue($vacancyList[0] instanceof JobVacancy);
 	}
 

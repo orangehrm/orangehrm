@@ -35,5 +35,35 @@ class JobInterviewDaoTest extends PHPUnit_Framework_TestCase {
         TestDataService::populate($this->fixture);
     }
     
+    /**
+     * Test getInterviewListByCandidateIdAndInterviewDate for check return objects
+     */
+    public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeForCorrectObjects() {
+        
+        $interviewList = $this->jobInterviewDao->getInterviewListByCandidateIdAndInterviewDateAndTime(4, '2011-08-18', '9:00:00', '11:00:00');
+        $this->assertTrue($interviewList[0] instanceof JobInterview);
+        
+    }
+    
+    /**
+     * Test getInterviewListByCandidateIdAndInterviewDate for existing results
+     */
+    public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeForExistingResults() {
+        
+        $interviewList = $this->jobInterviewDao->getInterviewListByCandidateIdAndInterviewDateAndTime(4, '2011-08-18', '9:00:00', '11:00:00');
+        $this->assertEquals(1, count($interviewList));
+        
+    }
+    
+    /**
+     * Test getInterviewListByCandidateIdAndInterviewDate for not existing results
+     */
+    public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeForNotExistingResults() {
+        
+        $interviewList = $this->jobInterviewDao->getInterviewListByCandidateIdAndInterviewDateAndTime(5, '2011-08-18', '9:00:00', '11:00:00');
+        $this->assertTrue(true, empty($interviewList));
+        
+    }
+    
 }
 

@@ -53,13 +53,15 @@ class PluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/CandidateDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/VacancyDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/RecruitmentAttachmentDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/JobInterviewDaoTest.php');
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/CandidateServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/VacancyServiceTest.php');        
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/RecruitmentAttachmentServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/JobInterviewServiceTest.php');
 
-	/* BaseService Test Cases
+    	/* BaseService Test Cases
          * TODO: Move this part to core
          */
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/BaseServiceTest.php');

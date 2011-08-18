@@ -768,6 +768,10 @@
                 <source>Notes</source>
                 <target>FR_Notes</target>
             </trans-unit>
+			<trans-unit id="221">
+                <source>Time</source>
+                <target>FR_Time</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

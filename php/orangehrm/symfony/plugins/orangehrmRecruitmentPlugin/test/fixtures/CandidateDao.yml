@@ -32,6 +32,9 @@ JobCandidateVacancy:
   5: {id: 6, candidateId: 3, vacancyId: 1, status: 'REJECTED', appliedDate: '2011-06-07'}
   6: {id: 7, candidateId: 3, vacancyId: 2, status: 'JOB OFFERED', appliedDate: '2011-06-07'}
   7: {id: 8, candidateId: 2, vacancyId: 3, status: 'INTERVIEW PASSED', appliedDate: '2011-06-07'}
+  8: {id: 9, candidateId: 4, vacancyId: 1, status: 'SHORTLISTED', appliedDate: '2011-06-07'}
+  9: {id: 10, candidateId: 4, vacancyId: 2, status: 'INTERVIEW SCHEDULED', appliedDate: '2011-06-07'}
+  10: {id: 11, candidateId: 5, vacancyId: 3, status: 'SHORTLISTED', appliedDate: '2011-06-07'}
 
 JobCandidateAttachment:
   0: {id: 1, candidateId: 1, file_name: 'xyz.txt', file_type: '.txt', file_size: '512', attachment_type: '1'}
@@ -44,7 +47,8 @@ JobVacancyAttachment:
   2: {id: 3, vacancyId: 2, file_name: 'resume.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1', comment: 'This is my CV'}
 
 JobInterview:
-  0: {id: 1, candidateVacancyId: 1, interviewName: 'HR Interview', interviewDate: '2011-08-03', interviewTime: '09:00', note: 'HR interview'}
+  0: {id: 1, candidateVacancyId: 1, interviewName: 'HR Interview', interviewDate: '2011-08-03', interviewTime: '09:00:00', note: 'HR interview'}
+  1: {id: 2, candidateVacancyId: 10, interviewName: 'Technical Interview', interviewDate: '2011-08-18', interviewTime: '09:15:00', note: 'HR interview'}
 
 JobInterviewInterviewer:
   0: {interviewId: 1, interviewerId: 3}

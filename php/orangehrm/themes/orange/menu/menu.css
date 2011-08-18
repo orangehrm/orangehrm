@@ -82,6 +82,11 @@
 	width: 10em;
 }
 
+/* To view longer tabs in Recruitment menu item */
+div#top-menu ul#nav li#recruit.l1 ul.l2 li.l2 a {
+    width: 11.5em;
+}
+
 #nav li.l1 {
 	margin: 0 0px;
 	padding-left: 5px;

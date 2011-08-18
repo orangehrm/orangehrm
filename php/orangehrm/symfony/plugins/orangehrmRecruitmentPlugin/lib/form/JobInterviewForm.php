@@ -81,9 +81,9 @@ class JobInterviewForm extends BaseForm {
 		$inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 		$this->setValidators(array(
 		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
-		    'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+		    'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
 			    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
-		    'time' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+		    'time' => new sfValidatorString(array('required' => true, 'max_length' => 30)),
 		    'note' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
 		    'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
 		));

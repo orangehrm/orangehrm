@@ -69,6 +69,31 @@ class JobInterviewService extends BaseService {
 	public function updateJobInterview(JobInterview $jobInterview) {
 		return $this->jobInterviewDao->updateJobInterview($jobInterview);
 	}
+    
+    /**
+     * Get interviw objects for relevent candidate in specific date with one our time range near to the interview time
+     * @param int $candidateId
+     * @param dateISO $interviewDate
+     * @param time $interviewTime (H:i:s)
+     * @return boolean
+     */
+//    public function getInterviewListByCandidateIdAndInterviewDateAndTime($candidateId, $interviewDate, $interviewTime) {
+//        
+//        $d = explode(":", $interviewDate);
+//        $t = explode("-", $interviewTime);
+//        
+//        $date = settype($d, "integer");
+//        $time = settype($t, "integer");
+//        
+//        date_default_timezone_set('UTC');
+//        
+//        $currentTimestamp = date('c', mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]));
+//        
+//        
+//        
+//        $toTime = strtotime("+1 hours", $currentTimestamp);
+//               
+//    }
 
 }
 

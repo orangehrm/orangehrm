@@ -34,5 +34,58 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
         TestDataService::populate($this->fixture);
     }
+    
+    public function testTemp() {
+        $this->assertTrue(true);
+    }
+    
+//    /*
+//     * Test getInterviewListByCandidateIdAndInterviewDateAndTime for true
+//     */
+//    public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeForTrue() {
+//        
+//        $interviewList = TestDataService::loadObjectList('JobInterview', $this->fixture, 'JobInterview');
+//        $requiredObject = $interviewList[1]; 
+//        
+//        $parameters = array('candidateId' => 4, 'interviewDate' => '2011-08-18', 'fromTime' => '09:00:00', 'toTime' => '11:00:00');
+//
+//        $jobInterviewDao = $this->getMock('JobInterviewDao', array('getInterviewListByCandidateIdAndInterviewDateAndTime'));
+//
+//            $jobInterviewDao->expects($this->once())
+//                           ->method('getInterviewListByCandidateIdAndInterviewDateAndTime')
+//                           ->with($parameters)
+//                           ->will($this->returnValue($requiredObject));
+//
+//            $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+//
+//            $result = $this->jobInterviewService->getInterviewListByCandidateIdAndInterviewDateAndTime($parameters[0], $parameters[1], '09:30:00');
+//
+//            $this->assertEquals(true, $result);
+//        
+//    }
+//    
+//    /*
+//     * Test getInterviewListByCandidateIdAndInterviewDateAndTime for false
+//     */
+//    public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeFaorFalse() {
+//        
+//        $requiredObject = array(); 
+//        
+//        $parameters = array('candidateId' => 4, 'interviewDate' => '2011-08-18', 'fromTime' => '09:00:00', 'toTime' => '11:00:00');
+//
+//        $jobInterviewDao = $this->getMock('JobInterviewDao', array('getInterviewListByCandidateIdAndInterviewDateAndTime'));
+//
+//            $jobInterviewDao->expects($this->once())
+//                           ->method('getInterviewListByCandidateIdAndInterviewDateAndTime')
+//                           ->with($parameters)
+//                           ->will($this->returnValue($requiredObject));
+//
+//            $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+//
+//            $result = $this->jobInterviewService->getInterviewListByCandidateIdAndInterviewDateAndTime($parameters[0], $parameters[1], '09:30:00');
+//
+//            $this->assertEquals(false, $result);
+//        
+//    }
 
 }

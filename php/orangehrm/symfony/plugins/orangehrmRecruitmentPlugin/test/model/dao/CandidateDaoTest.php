@@ -567,7 +567,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, count($result));
         $this->assertEquals(array(1, 2, 3), $result);
 
-        $result = $this->candidateDao->getAllVacancyIdsForCandidate(4);
+        $result = $this->candidateDao->getAllVacancyIdsForCandidate(10);
         $this->assertEquals(0, count($result));
     }
 

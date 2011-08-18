@@ -61,7 +61,7 @@ class JobInterviewDao extends BaseDao {
 		}
 	}
 
-	public function saveJobInterview(JobInterview $jobInterview) {
+    public function saveJobInterview(JobInterview $jobInterview) {
 		try {
 			if ($jobInterview->getId() == "") {
 				$idGenService = new IDGeneratorService();
@@ -74,6 +74,34 @@ class JobInterviewDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+    
+    /**
+     * Get interviw objects for relevent candidate in specific date
+     * @param int $candidateId
+     * @param dateISO $interviewDate
+     * @param time $fromTime (actual interview time - 01:00:00)
+     * @param time $toTime (actual interview time + 01:00:00)
+     * @return array JobInterview Doctrine Objects
+     */
+    public function getInterviewListByCandidateIdAndInterviewDateAndTime($candidateId, $interviewDate, $fromTime, $toTime) {
+        
+        try {
+            
+            $query = Doctrine_Query::create()
+                    ->from('JobInterview ji')
+                    ->leftJoin('ji.JobCandidateVacancy jcv')
+                    ->where('jcv.candidateId = ?', $candidateId)
+                    ->andWhere('ji.interviewDate = ?', $interviewDate)
+                    ->andWhere('ji.interviewTime > ?', $fromTime)
+                    ->andWhere('ji.interviewTime < ?', $toTime);
+            
+            return $query->execute();
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+        
+    }
 
 	public function updateJobInterview(JobInterview $jobInterview) {
 		try {

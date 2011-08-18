@@ -41,46 +41,54 @@
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form['selectedInterviewerList']; ?>
             <br class="clear" />
-            <label class="firstLabel">Candidate Name</label>
+            <label class="firstLabel"><?php echo __('Candidate Name');?></label>
             <label class="secondLabel"><?php echo $form->candidateName; ?></label>
             <br class="clear" />
-            <label class="firstLabel">Vacancy Name</label>
+            <label class="firstLabel"><?php echo __('Vacancy Name'); ?></label>
             <label class="secondLabel"><?php echo $form->vacancyName; ?></label>
             <br class="clear" />
-            <?php echo $form['name']->renderLabel(__('Interview Heading')); ?>
+            <?php echo $form['name']->renderLabel(__('Interview Heading') . ' <span class="required">*</span>') ; ?>
             <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
+            <div class="errorHolder"></div>
             <br class="clear" />
-            <label class="firstLabel">Interviewer Name</label>
+            <label class="firstLabel"><?php echo __('Interviewer Name') . ' <span class="required">*</span>'; ?></label>
 
             <?php for ($i = 1; $i <= $form->numberOfInterviewers; $i++) {
             ?>
                 <div class="interviewer" id="<?php echo "interviewer_" . $i ?>">
-                <?php echo $form['interviewer_' . $i]->render(array("class" => "formInputInterviewer", "maxlength" => 100)); ?>
+                <?php echo $form['interviewer_' . $i]->render(array("class" => "formInputInterviewer", "maxlength" => 100)); ?>                
                 <span class="removeText" id=<?php echo "removeButton" . $i ?>><?php echo __('Remove'); ?></span>
+                <div class="errorHolder interviwerErrors"></div>
                 <br class="clear" />
             </div>
             <?php } ?>
             <span class="addText" id='addButton'><?php echo __('Add another'); ?></span>
             <div id="interviewerNameError"></div>
             <br class="clear" />
-            <?php echo $form['date']->renderLabel(__('Date')); ?>
-            <?php echo $form['date']->render(array("class" => "formInputText", "maxlength" => 25)); ?>
+            <?php echo $form['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['date']->render(array("class" => "formInputText", "maxlength" => 25)); ?>            
             <input id="frmDateBtn" type="button" name="" value="  " class="calendarBtn" />
+            <div class="errorHolder"></div>
             <br class="clear" />
-            <?php echo $form['time']->renderLabel(__('Time')); ?>
-            <?php echo $form['time']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+            <?php echo $form['time']->renderLabel(__('Time') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['time']->render(array("class" => "formInputText", "maxlength" => 20)); ?>            
             <label class="hhmm" style="padding-left: 6px">HH:MM</label>
+            <div class="errorHolder"></div>
             <br class="clear" />
             <?php echo $form['note']->renderLabel(__('Notes')); ?>
             <?php echo $form['note']->render(array("class" => "formInputText", "maxlength" => 255, "cols" => 30, "rows" => 7)); ?>
             <br class="clear" />
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="actionBtn" id="saveBtn"
-                       value="<?php echo __('Save'); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                       value="<?php echo __('Save'); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                <input type="button" class="cancelbutton" name="cancelButton" id="cancellButton"
+                           value="<?php echo __("Cancel"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
             </div>
         </form>
     </div>
 </div>
+
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 
 <?php if (isset($interviewId)) { ?>
     <br class="clear"/>
@@ -103,6 +111,15 @@
     var numberOfInterviewers = <?php echo $form->numberOfInterviewers; ?>;
     var lang_identical_rows = "<?php echo __("Cannot assign same interviewer twice"); ?>";
     var interviewId = "<?php echo $interviewId; ?>";
-
+    var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
+    var lang_interviewHeadingRequired = "<?php echo __('Interview Heading is required'); ?>";
+    var lang_timeRequired = "<?php echo __("Time is required"); ?>";
+    var lang_noMoreThan98 = "<?php echo __("Please enter no more than 98 characters"); ?>";
+    var lang_noMoreThan18 = "<?php echo __("Please enter no more than 18 characters"); ?>";
+    var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
+    var lang_dateRequired = "<?php echo __('Date is required'); ?>";
+    var lang_validTimeRequired = "<?php echo __('Valid Time Required'); ?>";
+    var addCandidateUrl = "<?php echo public_path('index.php/recruitment/addCandidate', true) . "?id=" . $form->candidateId; ?>";
+    var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
     //]]>
 </script>

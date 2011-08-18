@@ -119,7 +119,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Testing testGetActiveVacancyList
 	 */
-	public function testGetActiveVacancyList() {
+	public function testGetAllVacancies() {
 
 		$allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
 		$activeVacancyList = array($allVacancyList[0], $allVacancyList[2]);
@@ -127,12 +127,12 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 		$vacancyDao = $this->getMock('VacancyDao');
 
 		$vacancyDao->expects($this->once())
-			->method('getActiveVacancyList')
+			->method('getAllVacancies')
 			->will($this->returnValue($activeVacancyList));
 
 		$this->vacancyService->setVacancyDao($vacancyDao);
 
-		$readVacancyList = $this->vacancyService->getActiveVacancyList();
+		$readVacancyList = $this->vacancyService->getAllVacancies();
 		$this->assertEquals($readVacancyList, $activeVacancyList);
 	}
 

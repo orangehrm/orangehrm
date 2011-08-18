@@ -412,6 +412,50 @@
                 <source>Failed. Resume Size Exceeded 1MB</source>
                 <target>FR_ Failed. Resume Size Exceeded 1MB</target>
             </trans-unit>
+            <trans-unit id="103">
+                <source>Schedule Interview</source>
+                <target>FR_Schedule Interview</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>Interview Heading</source>
+                <target>FR_Interview Heading</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Interviewer Name</source>
+                <target>FR_Interviewer Name</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Interview Heading is required</source>
+                <target>FR_Interview Heading is required</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Time is required</source>
+                <target>FR_Time is required</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>Please enter no more than 98 characters</source>
+                <target>FR_Please enter no more than 98 characters</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Please enter no more than 18 characters</source>
+                <target>FR_Please enter no more than 18 characters</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Enter a valid employee name</source>
+                <target>FR_Enter a valid employee name</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Valid Time Required</source>
+                <target>FR_Valid Time Required</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Cannot assign same interviewer twice</source>
+                <target>FR_Cannot assign same interviewer twice</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Reject</source>
+                <target>FR_Reject</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

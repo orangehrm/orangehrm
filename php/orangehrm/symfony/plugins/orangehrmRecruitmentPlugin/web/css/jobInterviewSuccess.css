@@ -72,10 +72,29 @@ div .interviewer{
     font-family: sans-serif;
     font-size: 10px;
     margin-top: 3px;
-    padding-left: 140px;
+    padding-left: 162px;
 }
 
 #jobInterview_name{
 	width: 260px;
 }
 
+label.error {
+    padding-left: 50px;
+    width: 240px !important;
+    margin-left: 150px;
+}
+
+div.interviwerErrors {
+    margin-left: -162px;
+}
+
+#frmJobInterview inpu {
+    margin-top: 8px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}

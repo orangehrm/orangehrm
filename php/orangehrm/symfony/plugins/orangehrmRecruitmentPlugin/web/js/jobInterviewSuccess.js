@@ -49,16 +49,25 @@ $(document).ready(function() {
 			$("#addButton").show();
 		}
 	});
+    
+    $('#jobInterview_time').change(function(){
+        
+        var shedulingDate = $('#jobInterview_date').val();
+        var shedulingTime = $('#jobInterview_time').val();
+        
+        var setWarning = isSheduledTimeFreeJson(shedulingDate, shedulingTime);
+        
+    });
 
 	$('#removeButton1').hide();
 	for(var i = 2; i <= numberOfInterviewers; i++){
 		$('#interviewer_'+i).hide();
 	}
 	$('#saveBtn').click(function(){
-		//        if(isValidForm()){
-		validateInterviewers()
-		$('#frmJobInterview').submit();
-	//        }
+		if(isValidForm()){
+            validateInterviewers()
+            $('#frmJobInterview').submit();
+	    }
 	});
 
 	if(interviewId>0){
@@ -69,6 +78,10 @@ $(document).ready(function() {
 		}
 		counter = noOfInterviewers;
 	}
+    
+    $('#cancellButton').click(function(){        
+        window.location = addCandidateUrl;        
+    });
 
 
 });
@@ -141,4 +154,164 @@ function validateInterviewerNames(){
 	}
 
 	return flag;
+}
+
+function isValidForm(){
+
+    $.validator.addMethod("hiringManagerNameValidation", function(value, element, params) {
+		var temp = false;
+		var hmCount = employeeList.length;
+		var i;
+		for (i=0; i < hmCount; i++) {
+			hmName = $.trim($('#'+element.id).val()).toLowerCase();
+			arrayName = employeeList[i].name.toLowerCase();
+			if (hmName == arrayName) {
+                $('#'+element.id).val(employeeList[i].name);
+				temp = true
+				break;
+			}
+		}
+        return temp;
+	});
+    
+    $.validator.addMethod("timeValidation", function(value, element) {
+        
+        var isFormatValid = this.optional(element) || /^[0-9]{1,2}[:]{1}[0-9]{2}$/i.test(value);
+        var isTimeRangeValid = false;
+        
+        var timeArray = value.split(':');
+        if(timeArray.length == 2) {
+            if((parseInt(timeArray[0]) <= 24) && (parseInt(timeArray[1]) <= 59)) {
+                isTimeRangeValid = true;
+                if((parseInt(timeArray[0]) == 24) && (parseInt(timeArray[1]) > 0)) {
+                    isTimeRangeValid = false;
+                }
+            }
+        }
+        
+        return isFormatValid && isTimeRangeValid;
+        
+	});
+
+	var validator = $('#frmJobInterview').validate({
+
+		rules: {
+			'jobInterview[name]' : {
+				required:true,
+                maxlength:98
+			},
+            
+            'jobInterview[interviewer_1]' : {
+                hiringManagerNameValidation: true
+			},
+            
+            'jobInterview[interviewer_2]' : {
+				hiringManagerNameValidation: true
+			},
+            
+            'jobInterview[interviewer_3]' : {
+				hiringManagerNameValidation: true
+			},
+            
+            'jobInterview[interviewer_4]' : {
+				hiringManagerNameValidation: true
+			},
+            
+            'jobInterview[interviewer_5]' : {
+				hiringManagerNameValidation: true
+			},
+
+			'jobInterview[date]' : {
+                required: true,
+                valid_date: function() {
+                    return {
+                        format:jsDateFormat,
+                        displayFormat:dateDisplayFormat,
+                        required:false
+                    }
+                }
+            },
+
+			'jobInterview[time]' : {
+				required:true,
+                timeValidation: true
+				//maxlength:18
+			}
+		},
+		messages: {
+			'jobInterview[name]' : {
+				required: lang_interviewHeadingRequired,
+                maxlength: lang_noMoreThan98
+			},
+
+            'jobInterview[interviewer_1]' : {
+				hiringManagerNameValidation:lang_enterAValidEmployeeName
+			},
+            
+            'jobInterview[interviewer_2]' : {
+				hiringManagerNameValidation:lang_enterAValidEmployeeName
+			},
+            
+            'jobInterview[interviewer_3]' : {
+				hiringManagerNameValidation:lang_enterAValidEmployeeName
+			},
+            
+            'jobInterview[interviewer_4]' : {
+				hiringManagerNameValidation:lang_enterAValidEmployeeName
+			},
+            
+            'jobInterview[interviewer_5]' : {
+				hiringManagerNameValidation:lang_enterAValidEmployeeName
+			},
+
+			'jobInterview[date]' : {
+                required: lang_dateRequired,
+                valid_date: lang_validDateMsg
+            },
+
+			'jobInterview[time]' : {
+				required: lang_timeRequired,
+                timeValidation: lang_validTimeRequired
+			}
+		},
+
+		errorPlacement: function(error, element) {
+            
+            if(element.next().hasClass('errorHolder')) {
+                error.appendTo(element.next('div.errorHolder'));
+            } else if(element.next().next().hasClass('errorHolder')) {
+                error.appendTo(element.next().next('div.errorHolder'));
+            }
+            
+		}
+
+	});
+	return true;
+    
+}
+
+function isSheduledTimeFreeJson(shedulingDate, shedulingTime) {
+    
+    $.getJSON(getInterviewSheduledTimeListActionUrl, function(data) {
+        
+//        var numOptions = 0;
+//		if(data != null){
+//			numOptions = data.length;
+//		}
+//        var optionHtml = '<option value="">'+lang_all+'</option>';
+//
+//        for (var i = 0; i < numOptions; i++) {
+//
+//            if(data[i].id == para){
+//                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
+//            }
+//            else{
+//                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+//            }
+//        }
+//
+//        $("#candidateSearch_jobVacancy").html(optionHtml);
+
+    });
+    
 }
