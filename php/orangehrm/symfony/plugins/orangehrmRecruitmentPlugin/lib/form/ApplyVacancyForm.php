@@ -200,7 +200,7 @@ class ApplyVacancyForm extends BaseForm {
 			$history->candidateId = $candidateId;
 			$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
 			$history->candidateVacancyId = $candidateVacancy->getId();
-			$history->performedBy = "";
+			$history->performedBy = "SYSTEM";
 			$history->performedDate = $candidateVacancy->appliedDate;
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}
