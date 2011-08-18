@@ -8,8 +8,8 @@ SampleService_ForSelect:
   sampleMethod2:
     select:
       - emp_middle_name
-      - jobtit_code
-      - is_active
+      - job_title_code
+      - joined_date
     where: []
     orderBy: []
   sampleMethod3:
@@ -20,8 +20,8 @@ SampleService_ForSelect:
   sampleMethod4:
     select:
       - {field: emp_middle_name, alias: middleName}
-      - jobtit_code
-      - {field: is_active, alias: active}
+      - job_title_code
+      - {field: joined_date, alias: active}
     where: []
     orderBy: []
   sampleMethod5:
@@ -32,8 +32,8 @@ SampleService_ForSelect:
   sampleMethod6:
     select:
       - {table: e, field: emp_middle_name }
-      - {table: e, field: jobtit_code }
-      - is_active
+      - {table: e, field: job_title_code }
+      - joined_date
     where: []
     orderBy: []
 
@@ -47,7 +47,7 @@ SampleService_ForWhere:
     select: []
     where:
       - { field: emp_middle_name, operator: =, value: Charles }
-      - { field: is_active, operator: =, value: 1 }
+      - { field: joined_date, operator: =, value: 1 }
     orderBy: []
 
 SampleService_ForOrderBy:
@@ -61,5 +61,5 @@ SampleService_ForOrderBy:
     where: []
     orderBy:
       - emp_firstname
-      - jobtit_code
-      - is_active
+      - job_title_code
+      - joined_date
