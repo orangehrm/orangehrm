@@ -84,9 +84,11 @@ form#frmSrchCandidates div.errorHolder label.error {
     width:145px;
 }
 
-div.actionbuttons {
+div.formbuttons {
     background-color: white;
     float: left;
     padding: 6px;
     width: 35%;
+    border-top:white;
+    margin-top:0px;
 }

@@ -25,6 +25,11 @@ table.data-table th {
     padding: 2px 8px;
 }
 
-label{
-/*	margin-top: 5px;*/
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 6px;
+    width: 35%;
+    border-top:white;
+    margin-top:0px;
 }

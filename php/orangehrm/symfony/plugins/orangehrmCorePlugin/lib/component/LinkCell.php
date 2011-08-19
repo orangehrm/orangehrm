@@ -20,6 +20,10 @@ class LinkCell extends Cell {
                 $url = preg_replace("/\{{$placeholder}\}/", $placeholderValue, $url);
             }
 
+            if (preg_match('/^index.php/', $url)) {
+                $url = public_path($url, true);
+            }
+
             $linkAttributes = array(
                 'href' => $url,
             );

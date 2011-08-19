@@ -5,23 +5,32 @@ $(document).ready(function() {
     var vacancyList = vacancyString.split("_");
     var initialVacancyIdArray = new Array();
     var mode = "";
-    
-    if(vacancyList.length > 0){
+
+//    var vacanciesToShow = new Array();
+
+
+    if(vacancyList.length > 1){
         mode = ($.inArray(vacancyList[0], allowedVacancyIdArray) > -1 ) ? "show with closed vacancies" : "show all vacancies";
         $("#jobDropDown0").html(buildVacancyList(vacancyList[0], mode));
+        if(mode == "show with closed vacancies") {
+            vacanciesToShow[0] =  "#jobDropDown0";
+        }
         initialVacancyIdArray[0] = $('.vacancyDrop:last').attr('id');
         for(var i=1; i<vacancyList.length; i++){
             mode = ($.inArray(vacancyList[i], allowedVacancyIdArray) > -1) ? "show with closed vacancies" : "show all vacancies";
             buildVacancyDrpDwn(vacancyList[i], mode);
+            if(mode == "show with closed vacancies") {
+                vacanciesToShow[i] =  "#jobDropDown"+i;
+            }
             initialVacancyIdArray[i] = $('.vacancyDrop:last').attr('id');
         }
     }else{
         mode = "show allowed vacancies";
-        if($('.vacancyDrop').length >= list.length-1){
+        if($('.vacancyDrop').length >= allowedVacancylist.length-1){
             hideLabel();
-        }
+        }      
         $("#jobDropDown0").html(buildVacancyList("", mode));
-        $("#btnDropDown0").attr('id', 'btnDropDown'.list[0].id);
+        $("#btnDropDown0").attr('id', 'btnDropDown'+allowedVacancylist[0].id);
     }
     
     $("#addButton").live('click', function(){
@@ -53,8 +62,14 @@ $(document).ready(function() {
             $('#addCandidateHeading').hide();
             $('#addCandidate .mainHeading').append('<h2>' + lang_editCandidateTitle + '</h2>');
             $('.btnDrop').hide();
+            //$('#jobDropDown1').removeAttr("disabled");
+            $('#jobDropDown1').get().disabled = false;
             for(i=0; i < widgetList.length; i++) {
                 $(widgetList[i]).removeAttr("disabled");
+            }
+            for(i=0; i < vacanciesToShow.length; i++) {
+                alert(vacanciesToShow[i])
+            //$(vacanciesToShow[i]).removeAttr("disabled");
             }
             $('.removeText').show();
             if($('.vacancyDrop').length < 5){
@@ -75,7 +90,7 @@ $(document).ready(function() {
                 if(candidateId != "") {
                     
                     $('.vacancyDrop').each(function(index, value) {
-                        if((jQuery.inArray($(this).attr('id'), initialVacancyIdArray) >= 0) && ($(this).val() == "")) {
+                        if(($.inArray($(this).attr('id'), initialVacancyIdArray) >= 0) && ($(this).val() == "")) {
                             isExistedVacancyGoingToBeDeleted = 1;                            
                         }                    
                     });
@@ -131,11 +146,13 @@ $(document).ready(function() {
     $('#actionPane').hide();
     
     if(candidateId != ""){
-        var widgetList = new Array('.formInputText', '.contactNo', '.vacancyDrop', '#addCandidate_keyWords', '#addCandidate_resume',
+        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume',
             '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
         for(i=0; i < widgetList.length; i++) {
             $(widgetList[i]).attr("disabled", "disabled");
         }
+        //$('.vacancyDrop').attr("disabled", "disabled");
+        $('#jobDropDown1').get().disabled = true;
         $('.removeText').hide();
         $('#addButton').hide();
         $('#fileUploadSection').hide();
@@ -212,7 +229,7 @@ function buildVacancyDrpDwn(vacancyId, mode) {
 
     if($('.vacancyDrop').length < 5 ) {
 
-        if($('.vacancyDrop').length > list.length-3 || $('.vacancyDrop').length > 3){
+        if($('.vacancyDrop').length > allowedVacancylist.length-3 || $('.vacancyDrop').length > 3){
             hideLabel();
         }
 

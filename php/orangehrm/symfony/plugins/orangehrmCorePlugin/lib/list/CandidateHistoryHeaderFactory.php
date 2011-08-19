@@ -38,7 +38,7 @@ class CandidateHistoryHeaderFactory extends ohrmListConfigurationFactory {
 		    'elementProperty' => array(
 			'labelGetter' => 'getDetails',
 			'placeholderGetters' => array('id' => 'getId'),
-			'urlPattern' => 'changeCandidateVacancyStatus?id={id}'),
+			'urlPattern' => 'index.php/recruitment/changeCandidateVacancyStatus?id={id}'),
 		));
 
 		$this->headers = $headerList;
