@@ -21,7 +21,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <br class="clear">
         <form action="<?php echo url_for("time/displayAttendanceSummaryReport?reportId=" . $reportId); ?>" id="attendanceTotalSummaryReportForm" method="post">
 
-            <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
+            <table  border="0" cellpadding="5" cellspacing="0" id="attendanceSummaryReportForm">
                 <tr>
                     <td><?php echo __('Employee Name') ?></td>
                     <td><?php echo $form['empName']->renderError() ?><?php echo $form['empName']->render(); ?></td>
@@ -38,10 +38,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <td><?php echo $form['employeeStatus']->renderError() ?><?php echo $form['employeeStatus']->render(); ?></td>
                 </tr>
                 <tr><td><?php echo __('From') ?></td>
-                    <td><?php echo $form['fromDate']->renderError() ?><?php echo $form['fromDate']->render(); ?></td>
+                    <td><?php echo $form['fromDate']->render(); ?><div class="errorContainer"></div></td>
                 </tr>
+
                 <tr><td><?php echo __('To') ?></td>
-                    <td><?php echo $form['toDate']->renderError() ?><?php echo $form['toDate']->render(); ?></td>
+                    <td><?php echo $form['toDate']->render(); ?><div class="errorContainer"></div></td>
                 </tr>
             </table>
             <?php echo $form->renderHiddenFields(); ?>
@@ -72,7 +73,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     );
 
         $('#attendanceTotalSummaryReportForm').submit(function(){
-
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
             var projectFlag = validateInput();
@@ -82,10 +82,70 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 return false;
             }
         });
+
+        //Validation
+        $("#attendanceTotalSummaryReportForm").validate({
+            rules: {
+                'attendanceTotalSummary[fromDate]':{required: true, validFromDateFormat: true},
+                'attendanceTotalSummary[toDate]':{required: true, validToDateFormat: true, validToDate: true}
+            },
+            messages: {
+                'attendanceTotalSummary[fromDate]': {
+                    required: "From Date is required",
+                    validFromDateFormat: "Please enter a date in the format yyyy-mm-dd"
+                },
+                'attendanceTotalSummary[toDate]': {
+                    required: "To Date is required",
+                    validToDate: " To field should be greater than from field/Invalid date",
+                    validToDateFormat: "Please enter a date in the format yyyy-mm-dd"
+                }
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo(element.next().next().next(".errorContainer"));
+            }
+        });
+
+        /* Valid from date format */
+        $.validator.addMethod("validFromDateFormat", function(value, element) {
+            var dt = value.toString();
+            if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
+                $('#from_date').val("1970-01-01");
+                return true;
+            }
+            dt = dt. split("-");
+            return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
+        });
+
+        /* Valid to date format */
+        $.validator.addMethod("validToDateFormat", function(value, element) {
+            var dt = value.toString();
+            if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
+                var date = new Date();
+                $('#to_date').val(date.getFullYear()+ "-" + date.getMonth() + "-" + date.getDate());
+                return true;
+            }
+            dt = dt. split("-");
+            return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
+        });
+
+        /* Valid From Date */
+        $.validator.addMethod("validToDate", function(value, element) {
+            
+            var fromdate    =   $('#from_date').val();
+            var fromdateObj = new Date(fromdate.replace(/-/g," "));
+            var todate      =   $('#to_date').val();
+            var todateObj   =   new Date(todate.replace(/-/g," "));
+            if(fromdateObj > todateObj){
+                return false;
+            } else {
+                return true;
+            }
+
+        });
     });
 
     function validateInput(){
-
+     
         var errorStyle = "background-color:#FFDFDF;";
         var empDateCount = employeesArray.length;
         var temp = false;
