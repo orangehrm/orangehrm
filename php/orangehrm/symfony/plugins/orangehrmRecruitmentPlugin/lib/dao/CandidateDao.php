@@ -361,10 +361,10 @@ class CandidateDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                     ->select('ch.id')
-                    ->from('CandidateHistory ch');
-            if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
-                $q->leftJoin('ch.JobCandidateVacancy jcv')
-                        ->leftJoin('jcv.JobVacancy jv')
+                    ->from('CandidateHistory ch')
+		    ->leftJoin('ch.JobCandidateVacancy jcv');
+            if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {             
+                       $q ->leftJoin('jcv.JobVacancy jv')
                         ->leftJoin('jcv.JobCandidate jc')
                         ->where('jv.hiringManagerId = ?', $empNumber)
                         ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber);
@@ -372,7 +372,8 @@ class CandidateDao extends BaseDao {
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('ch.JobInterview ji ON ji.id = ch.interview_id')
                         ->leftJoin('ji.JobInterviewInterviewer jii')
-                        ->where('jii.interviewerId = ?', $empNumber);
+                        ->where('jii.interviewerId = ?', $empNumber)
+			->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
             }
             $q->addWhere('ch.candidateId = ?', $candidateId);
             $result = $q->fetchArray();

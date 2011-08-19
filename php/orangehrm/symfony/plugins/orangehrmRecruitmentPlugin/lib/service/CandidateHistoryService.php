@@ -31,6 +31,7 @@ class CandidateHistoryService {
 		foreach ($objects as $object) {
 			$list[] = $this->getCandidateHistoryRecord($object);
 		}
+		//die;
 		return $list;
 	}
 
@@ -42,7 +43,9 @@ class CandidateHistoryService {
 		$dto->setVacancyName($object->getCandidateVacancyName());
 		$description = $this->getCandidateHistoryDescription($object);
 		$dto->setDescription($description);
-		$dto->setDetails($object->getLinkLabel());
+		$array = array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD,  CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY);
+		$link = (in_array($object->getAction(),$array) ? "" : __("View"));
+		$dto->setDetails($link);
 
 		return $dto;
 	}
