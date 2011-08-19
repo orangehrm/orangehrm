@@ -120,6 +120,10 @@ class TestDataService {
 
     }
 
+    /**
+     *
+     * @return PDO 
+     */
     private static function _getDbConnection() {
         
         if (empty(self::$dbConnection)) {
@@ -182,8 +186,10 @@ class TestDataService {
         return $objectList;
 
     }
-
-
+    
+    public static function getRecords($query) {
+        return self::_getDbConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 
