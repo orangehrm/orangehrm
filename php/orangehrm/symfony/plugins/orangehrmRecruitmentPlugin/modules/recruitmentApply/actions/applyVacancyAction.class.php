@@ -80,7 +80,7 @@ class applyVacancyAction extends sfAction {
                         $this->message = $result['message'];
                     } else {
                         $this->candidateId = $result['candidateId'];
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Your application for the position of ' . $this->name . ' was received')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Your Application for the Position of ' . $this->name . ' Was Received')));
                         $this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
                     }                    
                 }

@@ -65,7 +65,6 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$this->candidateVacancyId = $this->getOption('candidateVacancyId');
 		$this->selectedAction = $this->getOption('selectedAction');
 		$this->id = $this->getOption('id');
-
 		if ($this->candidateVacancyId > 0 && $this->selectedAction != "") {
 			$stateMachine = new WorkflowStateMachine();
 			$this->actionName = $stateMachine->getRecruitmentActionName($this->selectedAction);
@@ -77,6 +76,8 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$this->performedActionName = $candidateHistory->getActionName();
 			$this->performedDate = $candidateHistory->getPerformedDate();
 			$this->performedBy = $candidateHistory->getPerformerName();
+			$this->candidateVacancyId = $candidateHistory->getCandidateVacancyId();
+			$this->selectedAction = $candidateHistory->getAction();
 		}
 		$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
                 $this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
@@ -100,8 +101,13 @@ class CandidateVacancyStatusForm extends BaseForm {
 	 *
 	 */
 	public function performAction() {
-
+	
 		$note = $this->getValue('notes');
+		if ($this->id > 0) {
+			$history = $this->getCandidateService()->getCandidateHistoryById($this->id);
+			$history->setNote($note);
+			return $this->getCandidateService()->saveCandidateHistory($history);
+		}
 		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
 		$interview = $interviews[count($interviews)-1];

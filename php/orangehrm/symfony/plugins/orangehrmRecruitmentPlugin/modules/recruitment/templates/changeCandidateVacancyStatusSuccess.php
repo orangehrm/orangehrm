@@ -26,9 +26,8 @@
 
 <div id="candidateVacancyStatus">
     <div class="outerbox">
-
         <div class="mainHeading"><h2 id="candidateActionHeading"><?php echo __($form->actionName); ?></h2></div>
-        <form name="frmCandidateVacancyStatus" id="frmCandidateVacancyStatus" method="post" action="<?php echo url_for('recruitment/changeCandidateVacancyStatus?candidateVacancyId=' . $form->candidateVacancyId . '&selectedAction=' . $form->selectedAction); ?>">
+        <form name="frmCandidateVacancyStatus" id="frmCandidateVacancyStatus" method="post">
             <?php echo $form['_csrf_token']; ?>
             <br class="clear" />
             <label class="firstLabel"><?php echo __('Candidate Name'); ?></label>
@@ -91,5 +90,9 @@
         var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
         var lang_edit = "<?php echo __('Edit'); ?>";
         var lang_save = "<?php echo __('Save'); ?>";
+        var candidateVacancyId = "<?php echo $form->candidateVacancyId; ?>";
+        var selectedAction = "<?php echo $form->selectedAction; ?>";
+        var historyId = "<?php echo $form->id; ?>";
+        var linkForchangeCandidateVacancyStatus = "<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>";
     //]]>
 </script>
