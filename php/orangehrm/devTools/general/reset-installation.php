@@ -1,6 +1,6 @@
 <?php
 
-@require_once "../../../lib/confs/Conf.php";
+@require_once "../../lib/confs/Conf.php";
 
 $c = new Conf();
 mysql_connect("$c->dbhost:$c->dbport", $c->dbuser, $c->dbpass);
@@ -11,7 +11,7 @@ if (mysql_query("DROP DATABASE {$c->dbname}")) {
     echo "Couldn't delete datanse '{$c->dbname}'.<br /><br />\n";
 }  
 
-$file = "../../../lib/confs/Conf.php";
+$file = "../../lib/confs/Conf.php";
 
 if (file_exists($file)) {
 
@@ -23,7 +23,7 @@ if (file_exists($file)) {
 
 }
 
-$file = "../../../lib/confs/cryptokeys/key.ohrm";
+$file = "../../lib/confs/cryptokeys/key.ohrm";
 
 if (file_exists($file)) {
 
@@ -35,7 +35,7 @@ if (file_exists($file)) {
 
 }
 
-$file = "../../../lib/logs/notification_mails.log";
+$file = "../../lib/logs/notification_mails.log";
 
 if (file_exists($file)) {
 
@@ -47,7 +47,7 @@ if (file_exists($file)) {
 
 }
 
-$file = "../../../symfony/apps/orangehrm/config/emailConfiguration.yml";
+$file = "../../symfony/apps/orangehrm/config/emailConfiguration.yml";
 
 if (file_exists($file)) {
 
@@ -59,7 +59,7 @@ if (file_exists($file)) {
 
 }
 
-$file = "../../../symfony/apps/orangehrm/config/parameters.yml";
+$file = "../../symfony/apps/orangehrm/config/parameters.yml";
 
 if (file_exists($file)) {
 
@@ -71,7 +71,7 @@ if (file_exists($file)) {
 
 }
 
-$file = "../../../symfony/config/databases.yml";
+$file = "../../symfony/config/databases.yml";
 
 if (file_exists($file)) {
 
