@@ -58,7 +58,7 @@
                 <div class="interviewer" id="<?php echo "interviewer_" . $i ?>">
                 <?php echo $form['interviewer_' . $i]->render(array("class" => "formInputInterviewer", "maxlength" => 100)); ?>                
                 <span class="removeText" id=<?php echo "removeButton" . $i ?>><?php echo __('Remove'); ?></span>
-                <div class="errorHolder interviwerErrors"></div>
+                <div class="errorHolder interviwerErrors interviwerErrorContainers"></div>
                 <br class="clear" />
             </div>
             <?php } ?>
