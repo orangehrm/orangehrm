@@ -65,6 +65,8 @@
                            value="<?php echo __($form->actionName); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php else: ?>
                        <?php $cancelBtnValue = __('Back') ?>
+                            <input type="button" class="savebutton" name="btnSave" id="btnSave"
+                           value="<?php echo __('Edit'); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php endif; ?>
                     <input type="button" class="cancelbutton" name="cancelBtn" id="cancelBtn"
                            value="<?php echo $cancelBtnValue; ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
@@ -87,5 +89,7 @@
         //<![CDATA[
         var candidateId = "<?php echo $form->candidateId; ?>";
         var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
+        var lang_edit = "<?php echo __('Edit'); ?>";
+        var lang_save = "<?php echo __('Save'); ?>";
     //]]>
 </script>

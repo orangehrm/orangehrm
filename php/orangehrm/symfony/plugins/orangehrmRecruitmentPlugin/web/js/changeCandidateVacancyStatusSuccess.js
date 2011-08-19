@@ -5,4 +5,17 @@ $(document).ready(function() {
     $('#actionBtn').click(function(){
         $('#frmCandidateVacancyStatus').submit();
     });
+    
+    	$('#btnSave').click(function() {
+            if($("#btnSave").attr('value') == lang_edit) {
+                $(".formInputText").removeAttr("disabled");
+                $("#btnSave").attr('value', lang_save);
+                return;
+            }
+            
+            if($("#btnSave").attr('value') == lang_save) {
+                $('#frmCandidateVacancyStatus').submit();
+            }
+        });
+    
 });

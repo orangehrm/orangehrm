@@ -1,11 +1,11 @@
 $(document).ready(function() {
-
+    
     $('.btnDrop').hide();
     var vacancyString = $("#addCandidate_vacancyList").val();
     var vacancyList = vacancyString.split("_");
     var initialVacancyIdArray = new Array();
     var mode = "";
-
+    
     if(vacancyList.length > 0){
         mode = ($.inArray(vacancyList[0], allowedVacancyIdArray) > -1 ) ? "show with closed vacancies" : "show all vacancies";
         $("#jobDropDown0").html(buildVacancyList(vacancyList[0], mode));
