@@ -4,28 +4,29 @@ $(document).ready(function() {
     var vacancyString = $("#addCandidate_vacancyList").val();
     var vacancyList = vacancyString.split("_");
     var initialVacancyIdArray = new Array();
-    var viewMode;
+    var mode = "";
 
     if(vacancyList.length > 0){
-        viewMode = true;
-        $("#jobDropDown0").html(buildVacancyList(vacancyList[0], viewMode));
+        mode = ($.inArray(vacancyList[0], allowedVacancyIdArray) > -1 ) ? "show with closed vacancies" : "show all vacancies";
+        $("#jobDropDown0").html(buildVacancyList(vacancyList[0], mode));
         initialVacancyIdArray[0] = $('.vacancyDrop:last').attr('id');
         for(var i=1; i<vacancyList.length; i++){
-            buildVacancyDrpDwn(vacancyList[i], viewMode);
+            mode = ($.inArray(vacancyList[i], allowedVacancyIdArray) > -1) ? "show with closed vacancies" : "show all vacancies";
+            buildVacancyDrpDwn(vacancyList[i], mode);
             initialVacancyIdArray[i] = $('.vacancyDrop:last').attr('id');
         }
     }else{
-        viewMode = false;
+        mode = "show allowed vacancies";
         if($('.vacancyDrop').length >= list.length-1){
             hideLabel();
         }
-        $("#jobDropDown0").html(buildVacancyList("", viewMode));
+        $("#jobDropDown0").html(buildVacancyList("", mode));
         $("#btnDropDown0").attr('id', 'btnDropDown'.list[0].id);
     }
     
     $("#addButton").live('click', function(){
-        viewMode = false;
-        buildVacancyDrpDwn("", viewMode);
+        mode = "show allowed vacancies";
+        buildVacancyDrpDwn("", mode);
     });
 
     //Load default Mask if empty
@@ -207,7 +208,7 @@ $(document).ready(function() {
 
 });
 
-function buildVacancyDrpDwn(vacancyId, viewMode) {
+function buildVacancyDrpDwn(vacancyId, mode) {
 
     if($('.vacancyDrop').length < 5 ) {
 
@@ -220,7 +221,7 @@ function buildVacancyDrpDwn(vacancyId, viewMode) {
         var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);    
 
         newjobDropDown.after().html('<label><?php echo __(Job Vacancy); ?></label>' +
-            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, viewMode)+'</select>'+
+            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
             '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>'+'<br class="clear" />');
 
         newjobDropDown.appendTo("#textBoxesGroup");
@@ -307,15 +308,20 @@ function validateVacancy(){
     return flag;
 }
 
-function buildVacancyList(vacancyId, viewMode){
-    if(viewMode){
-        alert(true)
-    }
+function buildVacancyList(vacancyId, mode){
 
     var listArray = new Array();
-    listArray = (viewMode) ? list : allowedVacancylist;
+    if(mode == "show all vacancies"){
+        listArray = list;
+    }
+    if(mode == "show allowed vacancies"){
+        listArray = allowedVacancylist;
+    }
+    if(mode == "show with closed vacancies"){
+        listArray = allowedVacancylistWithClosedVacancies;
+    }
+
     var numOptions = listArray.length;
-    //var optionHtml = '<option value="">'+select+'</option>';
     var optionHtml = "";
     for (var i = 0; i < numOptions; i++) {
 

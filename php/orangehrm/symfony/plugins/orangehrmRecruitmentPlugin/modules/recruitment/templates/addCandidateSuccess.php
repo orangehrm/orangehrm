@@ -42,12 +42,16 @@
         $allVacancylist[] = array("id" => "", "name" => __('-- Select --'));
         $allowedVacancylist[] = array("id" => "", "name" => __('-- Select --'));
         $allowedVacancylistWithClosedVacancies[] = array("id" => "", "name" => __('-- Select --'));
+        $allowedVacancyIdArray[] = array();
         foreach ($jobVacancyList as $vacancy) {
-            $allVacancylist[] = array("id" => $vacancy->getId(), "name" => $vacancy->getVacancyName());
+            $newVacancyId = $vacancy->getId();
+            $newVacancyName = $vacancy->getVacancyName();
+            $allVacancylist[] = array("id" => $newVacancyId, "name" => $newVacancyName);
             if (in_array($vacancy->getId(), $form->allowedVacancyList)) {
-                $allowedVacancylistWithClosedVacancies[] = array("id" => $vacancy->getId(), "name" => $vacancy->getVacancyName());
+                $allowedVacancylistWithClosedVacancies[] = array("id" => $newVacancyId, "name" => $newVacancyName);
+                $allowedVacancyIdArray[] = $newVacancyId;
                 if ($vacancy->getStatus() == JobVacancy::ACTIVE) {
-                    $allowedVacancylist[] = array("id" => $vacancy->getId(), "name" => $vacancy->getVacancyName());
+                    $allowedVacancylist[] = array("id" => $newVacancyId, "name" => $newVacancyName);
                 }
             }
         }
@@ -245,6 +249,7 @@
                                     var list = <?php echo json_encode($allVacancylist); ?>;
                                     var allowedVacancylistWithClosedVacancies = <?php echo json_encode($allowedVacancylistWithClosedVacancies); ?>;
                                     var allowedVacancylist = <?php echo json_encode($allowedVacancylist); ?>;
+                                    var allowedVacancyIdArray = <?php echo json_encode($allowedVacancyIdArray); ?>;
                                     var lang_identical_rows = "<?php echo __("Cannot assign same vacancy twice"); ?>";
                                     var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
                                     var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";
