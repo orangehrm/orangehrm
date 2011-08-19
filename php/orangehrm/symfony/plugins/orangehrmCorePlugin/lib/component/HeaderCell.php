@@ -3,7 +3,9 @@
 class HeaderCell extends Cell {
 
     public function __toString() {
-        return $this->getPropertyValue('label', 'Heading');
+        return content_tag('span', $this->getPropertyValue('label', 'Heading'), array(
+            'class' => 'headerCell',
+        ));
     }
 
 }
