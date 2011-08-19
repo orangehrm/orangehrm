@@ -14,25 +14,25 @@ class SimpleUserRoleFactory {
 
     public function decorateUserRole($userObj, $userRoleArray) {
 
-        if ($userRoleArray['isEssUser']) {
+        if (isset($userRoleArray['isEssUser']) && $userRoleArray['isEssUser']) {
             $userObj = new EssUserRoleDecorator($userObj);
         }
 
-        if ($userRoleArray['isProjectAdmin']) {
+        if (isset($userRoleArray['isProjectAdmin']) && $userRoleArray['isProjectAdmin']) {
             $userObj = new ProjectAdminUserRoleDecorator($userObj);
         }
 
-        if ($userRoleArray['isSupervisor']) {
+        if (isset($userRoleArray['isSupervisor']) && $userRoleArray['isSupervisor']) {
             $userObj = new SupervisorUserRoleDecorator($userObj);
         }
 
-        if ($userRoleArray['isAdmin']) {
+        if (isset($userRoleArray['isAdmin']) && $userRoleArray['isAdmin']) {
             $userObj = new AdminUserRoleDecorator($userObj);
         }
-        if ($userRoleArray['isInterviewer']) {
+        if (isset($userRoleArray['isInterviewer']) && $userRoleArray['isInterviewer']) {
             $userObj = new InterviewerUserRoleDecorator($userObj);
         }
-        if ($userRoleArray['isHiringManager']) {
+        if (isset($userRoleArray['isHiringManager']) && $userRoleArray['isHiringManager']) {
             $userObj = new HiringManagerUserRoleDecorator($userObj);
         }
         return $userObj;

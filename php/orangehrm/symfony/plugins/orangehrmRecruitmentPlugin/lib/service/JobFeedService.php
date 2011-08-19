@@ -122,7 +122,7 @@ class JobFeedService {
             $item = new sfFeedItem();
             $item->setTitle($vacancy->getName());
             $item->setDescription($vacancy->getDescription());
-            $item->setLink(public_path('index.php/recruitment/applyVacancy/id/'.$vacancy->getId(), true));
+            $item->setLink(public_path('index.php/recruitmentApply/applyVacancy/id/'.$vacancy->getId(), true));
             $feed->addItem($item);
         }
 

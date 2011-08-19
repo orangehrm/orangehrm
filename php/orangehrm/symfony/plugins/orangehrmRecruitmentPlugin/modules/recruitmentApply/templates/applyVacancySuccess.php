@@ -152,7 +152,8 @@
     var lang_validPhoneNo = "<?php echo __("Enter a valid contact number"); ?>";
     var lang_noMoreThan255 = "<?php echo __("Please enter no more than 255 characters"); ?>";
     var lang_resumeRequired = "<?php echo __("Please attach your resume"); ?>";
-    var linkForApplyVacancy = "<?php echo url_for('recruitment/applyVacancy'); ?>";
+    var linkForApplyVacancy = "<?php echo url_for('recruitmentApply/applyVacancy'); ?>";
+    var linkForViewJobs = "<?php echo url_for('recruitmentApply/viewJobs'); ?>";
     var lang_back = "<?php echo __("Go to Job Page")?>";
 	
 </script>

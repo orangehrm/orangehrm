@@ -39,7 +39,7 @@ $(document).ready(function() {
         
 
     $('#btnBack').click(function(){
-        window.location.replace('http://localhost/ohrm-trunk/php/orangehrm/symfony/web/index.php/recruitment/viewJobs');
+        window.location.replace(linkForViewJobs);
     });
 	if ($("#addCandidate_keyWords").val() == '') {
 		$("#addCandidate_keyWords").val(lang_commaSeparated).addClass("inputFormatHint");

@@ -75,6 +75,7 @@ $(document).ready(function (){
     });
     
     $('.apply').click(function() {
+	//alert($(this).next().attr("href"));
         window.location.href = $(this).next().attr("href");
     });
     

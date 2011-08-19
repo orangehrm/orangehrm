@@ -25,9 +25,9 @@ class viewJobsAction extends sfAction {
         
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
         $jobFeedUrl = public_path('job.rss', true);
-        
+    
         $this->feed = sfFeedPeer::createFromWeb($jobFeedUrl);
-        
+
     }
     
 }

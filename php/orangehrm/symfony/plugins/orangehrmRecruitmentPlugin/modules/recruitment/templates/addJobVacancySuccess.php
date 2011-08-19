@@ -116,7 +116,7 @@
 
                 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
                 <div class="paddingLeftRequired"><span>1 </span>: <?php echo __('RSS Feed URL') ?> <span>:</span> <a href="<?php echo public_path('job.rss', true); ?>" target="_new"><?php echo public_path('job.rss', true); ?></a></div>
-                <div class="paddingLeftRequired"><span>2 </span>: <?php echo __('Web Page URL') ?> <span>:</span> <a href="<?php echo public_path('index.php/recruitment/viewJobs', true); ?>" target="_new"><?php echo public_path('index.php/recruitment/viewJobs', true); ?></a></div>
+                <div class="paddingLeftRequired"><span>2 </span>: <?php echo __('Web Page URL') ?> <span>:</span> <a href="<?php echo public_path('index.php/recruitmentApply/viewJobs', true); ?>" target="_new"><?php echo public_path('index.php/recruitmentApply/viewJobs', true); ?></a></div>
                 <script type="text/javascript">
                     //<![CDATA[
                     var hiringManagers = <?php echo str_replace('&#039;', "'", $form->getHiringManagerListAsJson()) ?> ;
