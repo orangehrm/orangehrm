@@ -356,6 +356,14 @@ class AddCandidateForm extends BaseForm {
 			}
 		}
 	}
+        
+        /**
+         *
+         * @return JobCandidateAttachment 
+         */
+        public function getResume() {
+            return $this->attachment;
+        }
 
 }
 
