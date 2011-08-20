@@ -56,6 +56,10 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/ReportableServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/ReportGeneratorServiceTest.php');
 
+        /* BaseService Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceDataTest.php');
+
         return $suite;
     }
 
