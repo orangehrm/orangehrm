@@ -29,6 +29,10 @@ class addCandidateAction extends sfAction {
             $this->form = $form;
         }
     }
+    
+    public function getForm() {
+        return $this->form;
+    }
 
     /**
      *
