@@ -46,9 +46,9 @@ class PluginAllTests
 
 
     public static function suite() {
-        
+
         $suite = new PHPUnit_Framework_TestSuite('RecruitmentModuleAllTest');
-        
+
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/CandidateDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/VacancyDaoTest.php');
@@ -61,13 +61,8 @@ class PluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/RecruitmentAttachmentServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/JobInterviewServiceTest.php');
 
-    	/* BaseService Test Cases
-         * TODO: Move this part to core
-         */
-        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/BaseServiceTest.php');
-
         return $suite;
-        
+
     }
 
     public static function main()
