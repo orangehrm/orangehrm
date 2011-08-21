@@ -8,6 +8,8 @@ i18nFilter:
   class: OrangeI18NFilter
 sessionInfoFetcherFilter:
   class: SessionInfoFetcherFilter
+postExecutionFilter:
+  class: orangehrmPostExecutionFilter
 
 cache:     ~
 common:
