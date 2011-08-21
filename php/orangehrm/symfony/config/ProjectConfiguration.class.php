@@ -18,9 +18,10 @@ class ProjectConfiguration extends sfProjectConfiguration
                                'orangehrmCorePlugin',
                                'orangehrmPimPlugin',
                                'orangehrmCoreLeavePlugin',
-							   'orangehrmTimePlugin',
+                               'orangehrmTimePlugin',
                                'orangehrmAttendancePlugin',
-							   'orangehrmRecruitmentPlugin'));
+                               'orangehrmRecruitmentPlugin',
+        ));
 
     // Set up logging - use different config for test environment
     $logConfig = (sfConfig::get('sf_environment') == 'test') ? 'log4php_test.properties' : 'log4php.properties';
