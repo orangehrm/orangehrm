@@ -112,6 +112,10 @@ form input.txtBox {
     margin-top: 5px;
 }
 
+form#frmJobInterview input.formInputInterviewer {
+    width: 266px;
+}
+
 label.error {
     clear: both;
     color: red;
