@@ -97,6 +97,9 @@
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('To'); ?></label>
             </div>
+
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'candidate-search-fields')); ?>
+
             <div class="actionbar" style="border-top: 1px solid #FAD163; margin-top: 3px">
                 <div class="actionbuttons">
                     <input type="button" class="searchbutton" name="btnSrch" id="btnSrch"
