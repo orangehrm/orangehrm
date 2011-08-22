@@ -63,20 +63,26 @@ class viewCandidatesAction extends sfAction {
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
         $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList);
-	$this->resetable = false;
+        $this->resetable = false;
 
         $candidateId = $request->getParameter('candidateId');
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
         $isPaging = $request->getParameter('pageNo');
+        
+        $pageNumber = $isPaging;
+        if(!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }        
+        $this->getUser()->setAttribute('pageNumber', $pageNumber);
 
         $searchParam = new CandidateSearchParameters();
         $searchParam->setAllowedCandidateList($allowedCandidateList);
         $searchParam->setAllowedVacancyList($allowedVacancyList);
         $searchParam->setIsAdmin($isAdmin);
         $noOfRecords = $searchParam->getLimit();
-        $offset = ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+        
         $this->setForm(new viewCandidatesForm(array(), $param, true));
         if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $candidateId > 0) {
             if ($this->getUser()->hasAttribute('searchParameters')) {
@@ -90,19 +96,24 @@ class viewCandidatesAction extends sfAction {
         }
         $searchParam->setOffset($offset);
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
-        $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam);
+        $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
 
         $params = array();
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
             if ($request->isMethod('post')) {
-		$this->resetable = true;
+
+                $pageNumber = 1;
+                $searchParam->setOffset(0);
+                $this->getUser()->setAttribute('pageNumber', $pageNumber);
+                $this->resetable = true;
+
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
                     $srchParams = $this->form->getSearchParamsBindwithFormData($searchParam);
                     $this->getUser()->setAttribute('searchParameters', $srchParams);
                     $candidates = $this->getCandidateService()->searchCandidates($srchParams);
-                    $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam);
+                    $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
                 }
             }
 
@@ -116,7 +127,7 @@ class viewCandidatesAction extends sfAction {
      * @param <type> $noOfRecords
      * @param CandidateSearchParameters $searchParam
      */
-    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam) {
+    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam, $pageNumber) {
 
         $configurationFactory = new CandidateHeaderFactory();
 
@@ -126,6 +137,7 @@ class viewCandidatesAction extends sfAction {
                 'buttons' => array(),
             ));
         }
+        ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($candidates);
         ohrmListComponent::setItemsPerPage($noOfRecords);

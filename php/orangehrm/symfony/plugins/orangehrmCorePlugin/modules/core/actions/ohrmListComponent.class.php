@@ -72,6 +72,10 @@ class ohrmListComponent extends sfComponent {
     public static function setNumberOfRecords ($count) {
         self::$numberOfRecords = $count;
     }
+    
+    public static function setPageNumber ($pageNumber) {
+        self::$pageNumber = $pageNumber;
+    }
 
     protected function getDefinitions() {
         $className = self::$configurationFactory->getClassName();

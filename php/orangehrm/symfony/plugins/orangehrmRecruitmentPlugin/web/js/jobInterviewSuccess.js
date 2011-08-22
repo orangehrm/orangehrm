@@ -48,6 +48,10 @@ $(document).ready(function() {
         if(counter < numberOfInterviewers){
             $("#addButton").show();
         }
+        validateInterviewerNames()
+        $(this).prev().removeClass('error');
+        $(this).next().empty();
+        $(this).next().hide();
     });
     
     $('#jobInterview_time').change(function(){
@@ -84,8 +88,8 @@ $(document).ready(function() {
     }
     $('#saveBtn').click(function(){
         if(isValidForm()){
+            removeTypeHints();
             validateInterviewers()
-            removeTypeHints()
             $('#frmJobInterview').submit();
         }
     });
