@@ -17,7 +17,8 @@
     <?php $i = 0; ?>
     <?php if ($records == null): ?>  <tr>
             <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo "No attendance records to display!" ?></td>
-        </tr> <?php else: ?>  
+        </tr> <?php else: ?> 
+        <?php $total=0;?>
         <?php foreach ($records as $record): ?>
 
 
@@ -25,19 +26,22 @@
                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
 
 
-                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?></td>
+                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo $record->getPunchInTimeOffset();?></span></td>
                 <td><?php echo $record->getPunchInNote() ?></td>
-                <td><?php echo $record->getPunchOutUserTime() ?></td>
+                <td><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo $record->getPunchOutTimeOffset();?></span></td>
                 <td><?php echo $record->getPunchOutNote() ?></td>
                 <?php if ($record->getPunchOutUtcTime() == null): ?>
                     <td><?php echo "0"; ?></td>
                 <?php else: ?>
                     <td><?php echo round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?></td>
-                <?php endif; ?>
+               <?php  $total=+round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?>
+                 <?php endif; ?>
             </tr>
             <?php $i++; ?>
         <?php endforeach; ?>
     <?php endif; ?>
+            <tr class="<?php echo $class; ?>"><td colspan="6"></tr>
+            <tr class="<?php echo $class; ?>"><td></td><td id="totalVerticalValue"><?php echo __("Total");?></td><td colspan="3"><td id="totalVerticalValue"><?php echo $total;?></td></tr>
 </table>
 
 
@@ -87,5 +91,5 @@
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
     var linkToDeleteRecords='<?php echo url_for('attendance/deleteAttendanceRecords'); ?>'
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>'
-    var actionName="view";
+    var actionRecorder='<?php echo $actionRecorder; ?>';
 </script>

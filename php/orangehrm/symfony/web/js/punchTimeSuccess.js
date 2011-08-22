@@ -445,6 +445,7 @@ if(!errFlag){
 
         var inTime = strToTime(punchInUtcTime, dateTimeFormat);
         var outTimeTemp = strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat);
+        alert(timeZone)
         var outTime=outTimeTemp-timeZone*1000;
       
 

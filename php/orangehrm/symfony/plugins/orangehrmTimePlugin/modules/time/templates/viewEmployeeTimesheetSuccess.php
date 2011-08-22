@@ -13,7 +13,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <div class="outerbox"  style="width: 500px">
 	<div class="maincontent">
 		<div class="mainHeading">
-			<h2><?php echo "Select Employee"; ?></h2>
+			<h2><?php echo __("Select Employee"); ?></h2>
 		</div>
 		<br class="clear">
 		<form action="<?php echo url_for("time/viewEmployeeTimesheet"); ?>" id="employeeSelectForm" method="post">

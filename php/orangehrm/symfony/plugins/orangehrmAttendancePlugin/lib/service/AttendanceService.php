@@ -225,6 +225,16 @@ class AttendanceService {
             return false;
         return $index[0];
     }
+    
+    
+     /**
+     * check For Punch In OverLapping Records when Editing
+     * @param $punchInTime, $employeeId
+     * @return string 1,0
+     */
+    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId) {
+        return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId);
+    }
 
 }
 

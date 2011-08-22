@@ -31,7 +31,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <form action="<?php echo url_for("attendance/viewAttendanceRecord"); ?>" id="employeeSelectForm" method="post">
 
             <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
-             
+
                 <tr><td><?php echo __('Date') ?></td>
                     <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
                     <?php echo $form->renderHiddenFields(); ?>
@@ -65,8 +65,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
     var errorMsge;
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>';
-    
     var employeeId='<?php echo $employeeId; ?>';
-    
+    var actionRecorder='<?php echo $actionRecorder; ?>';
+    var dateSelected='<?php echo $date; ?>';
+    var trigger='<?php echo $trigger; ?>';
+
 
 </script>

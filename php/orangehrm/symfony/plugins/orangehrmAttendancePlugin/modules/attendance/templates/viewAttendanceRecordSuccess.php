@@ -81,5 +81,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var trigger='<?php echo $trigger; ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
+     var actionRecorder='<?php echo $actionRecorder; ?>';
 
 </script>

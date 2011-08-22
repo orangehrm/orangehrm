@@ -14,7 +14,9 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.dialog.js')?>"></script>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>
  <div id="validationMsg" style="margin-left: 16px;"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
-<div class="outerbox">
+
+ 
+ <div class="outerbox">
     <div class="maincontent">
         <form action="" id="employeeRecordsForm" method="post">
             <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
@@ -32,7 +34,7 @@
                 <?php foreach ($records as $record): ?>
 
                     <tr> <?php if ($editPunchIn[$i]): ?>
-                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"></td>
+                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchInUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -49,7 +51,7 @@
                             </td>
 
                         <?php else: ?>
-                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "nonEditable", "id" => "non"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"></td>
+                            <td> <?php echo date('Y-m-d',  strtotime($record->getPunchInUserTime()));?> &nbsp;<?php  echo date('H:i',  strtotime($record->getPunchInUserTime())); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"<input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchInUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -65,7 +67,8 @@
                                 </table></td>
                         <?php endif; ?>
                         <?php if ($editPunchOut[$i]): ?>
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchOutUtcTime()));?>"></td>
+                            
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->renderError(); ?><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchOutUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -138,13 +141,18 @@
 
 
 <script type="text/javascript">
+  
     var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
     var dateDisplayFormat = dateFormat.toUpperCase();
     var employeeId='<?php echo $employeeId; ?>';
-    var date='<?php echo $date; ?>';
-    var linkToView='<?php echo url_for('attendance/viewAttendanceRecord'); ?>'
+    var recordDate='<?php echo $date; ?>';
+    var linkToViewEmployeeRecords='<?php echo url_for('attendance/viewAttendanceRecord'); ?>'
+   var linkToViewMyRecords='<?php echo url_for('attendance/viewMyAttendanceRecord'); ?>'
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
+    var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
+    var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLappingWhenEditing') ?>';
+    
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
     var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
@@ -152,5 +160,6 @@
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
+    var actionRecorder='<?php echo $actionRecorder; ?>'
      
 </script>

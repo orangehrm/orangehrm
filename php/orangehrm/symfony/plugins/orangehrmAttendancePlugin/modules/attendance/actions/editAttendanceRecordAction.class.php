@@ -8,22 +8,40 @@
 class editAttendanceRecordAction extends sfAction {
 
     public function execute($request) {
+
         $this->editPunchIn = array();
         $this->editPunchOut = array();
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
+        $this->actionRecorder = $request->getParameter('actionRecorder');
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-
+        $userId = $userObj->getUserId();
+        $userEmployeeNumber = $userObj->getEmployeeNumber();
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
         $totalRows = sizeOf($this->records);
+
         $values = array('employeeId' => $this->employeeId, 'date' => $this->date);
         $this->editAttendanceForm = new EditAttendanceRecordForm(array(), $values);
-        $action = $request->getParameter('actionName');
+        $formSubmitAction = $request->getParameter('formSubmitAction');
+
+
+        if ($this->actionRecorder == "viewEmployee") {
+            $userRoleFactory = new UserRoleFactory();
+            $decoratedUser = $userRoleFactory->decorateUserRole($userId, $this->employeeId, $userEmployeeNumber);
+        }
+        if ($this->actionRecorder == "viewMy") {
+
+            $user = new User();
+            $decoratedUser = new EssUserRoleDecorator($user);
+        }
+
+
+
         $i = 1;
         foreach ($this->records as $record) {
 
 
-            $allowedActionsForCurrentRecord = $userObj->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState());
+            $allowedActionsForCurrentRecord = $decoratedUser->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState());
 
             if (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $allowedActionsForCurrentRecord)) {
 
@@ -41,14 +59,14 @@ class editAttendanceRecordAction extends sfAction {
             $i++;
         }
 
-        if (!$action) {
+       
+        if ($formSubmitAction) {
             if ($request->isMethod('post')) {
+         
                 $this->editAttendanceForm->bind($request->getParameter('attendance'));
-
-
+ 
                 if ($this->editAttendanceForm->isValid()) {
-
-
+                    print_r("hrllo");
                     $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
                 }
             }

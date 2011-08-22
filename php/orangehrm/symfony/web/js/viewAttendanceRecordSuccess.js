@@ -9,7 +9,7 @@ $(document).ready(function()
        
         $("#recordsTable").hide();
         // var isValidDate= validateInputDate();
-        getRelatedAttendanceRecords(employeeId,dateSelected);
+        getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
         $("#employee").removeClass("inputFormatHint");
         
            
@@ -94,7 +94,7 @@ $(document).ready(function()
                     var empId= $('#attendance_employeeId').val();
                     var date=$(".date").val();
                 
-                    getRelatedAttendanceRecords(empId,date);
+                    getRelatedAttendanceRecords(empId,date,actionRecorder);
                 //  proxyPunchInOut(empId);
                     
                     
@@ -191,7 +191,7 @@ $(document).ready(function()
                     var empId= $('#attendance_employeeId').val();
                     var date=$(".date").val();
                 
-                    getRelatedAttendanceRecords(empId,date);
+                    getRelatedAttendanceRecords(empId,date,actionRecorder);
                 //  proxyPunchInOut(empId);
                     
                     
@@ -262,13 +262,14 @@ function validateEmployee(){
     }
 }
     
-function getRelatedAttendanceRecords(employeeId,date){
+function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
         
     $.post(
         linkForGetRecords,
         {
             employeeId: employeeId,
-            date: date
+            date: date,
+            actionRecorder: actionRecorder
         },
         
         function(data, textStatus) {

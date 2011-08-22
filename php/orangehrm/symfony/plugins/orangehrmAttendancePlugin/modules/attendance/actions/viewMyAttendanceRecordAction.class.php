@@ -15,12 +15,15 @@ class viewMyAttendanceRecordAction extends sfAction {
     public function execute($request) {
 
         $this->attendanceService = $this->getAttendanceService();
-        $this->form = new AttendanceRecordSearchForm();
         $userObj = $this->getContext()->getUser()->getAttribute("user");
         $this->employeeId = $userObj->getEmployeeNumber();
-        $date = $this->request->getParameter('date');
+        $this->date = $this->request->getParameter('date');
+         $this->trigger = $request->getParameter('trigger');
+        $this->actionRecorder="viewMy";
+        $values = array('date' => $this->date, 'employeeId' => $this->employeeId, 'trigger' => $this->trigger);
+        $this->form = new AttendanceRecordSearchForm(array(), $values);
 
-        if (!($date)) {
+        if (!($this->trigger)) {
             if ($request->isMethod('post')) {
 
                 $this->form->bind($request->getParameter('attendance'));

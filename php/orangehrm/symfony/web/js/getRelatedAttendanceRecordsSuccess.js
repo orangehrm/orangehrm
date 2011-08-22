@@ -43,7 +43,7 @@ $(document).ready(function()
     
         $(".edit").click(function(){
             $('form#employeeRecordsForm').attr({
-                action:linkToEdit+"?employeeId="+employeeId+"&date="+date+"&actionName="+actionName
+                action:linkToEdit+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
             });
             $('form#employeeRecordsForm').submit();
         
@@ -121,7 +121,7 @@ function getRelatedAttendanceRecords(employeeId,date){
         linkForGetRecords,
         {
             employeeId: employeeId,
-            date: date
+            date: date       
         },
         
         function(data, textStatus) {

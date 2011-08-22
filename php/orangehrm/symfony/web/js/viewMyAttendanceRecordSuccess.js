@@ -5,52 +5,103 @@
 
 $(document).ready(function()
 {
-    
-    $("#recordsTable").hide();
+    if(trigger){
+        $("#recordsTable").hide();
      
-     
-    var rDate = trim($("#attendance_date").val());
-    if (rDate == '') {
-        $("#attendance_date").val(dateDisplayFormat);
-    }
+        getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
+        var rDate = trim($("#attendance_date").val());
+        if (rDate == '') {
+            $("#attendance_date").val(dateDisplayFormat);
+        }
 
-    //Bind date picker
-    daymarker.bindElement("#attendance_date",
-    {
-        onSelect: function(date){
+        //Bind date picker
+        daymarker.bindElement("#attendance_date",
+        {
+            onSelect: function(date){
               
-            $("#attendance_date").trigger('change');            
+                $("#attendance_date").trigger('change');            
 
-        },
-        dateFormat:jsDateFormat
-    });
+            },
+            dateFormat:jsDateFormat
+        });
 
-    $('#DateBtn').click(function(){
-
-
-        daymarker.show("#attendance_date");
+        $('#DateBtn').click(function(){
 
 
-    });
+            daymarker.show("#attendance_date");
+
+
+        });
     
-    $('#attendance_date').change(function() {
+        $('#attendance_date').change(function() {
     
-        var isValidDate= validateInputDate();
+            var isValidDate= validateInputDate();
                 
-        if(isValidDate){
+            if(isValidDate){
             
-            var date=$(".date").val();
+                var date=$(".date").val();
                 
-            getRelatedAttendanceRecords(employeeId,date);
-        //  proxyPunchInOut(empId);
+                getRelatedAttendanceRecords(employeeId,date,actionRecorder);
+            //  proxyPunchInOut(empId);
                     
                     
-        }  
+            }  
         
     
 
-    });
+        });
+    }
     
+    else{
+        
+        $("#recordsTable").hide();
+     
+        var rDate = trim($("#attendance_date").val());
+        if (rDate == '') {
+            $("#attendance_date").val(dateDisplayFormat);
+        }
+
+        //Bind date picker
+        daymarker.bindElement("#attendance_date",
+        {
+            onSelect: function(date){
+              
+                $("#attendance_date").trigger('change');            
+
+            },
+            dateFormat:jsDateFormat
+        });
+
+        $('#DateBtn').click(function(){
+
+
+            daymarker.show("#attendance_date");
+
+
+        });
+    
+        $('#attendance_date').change(function() {
+    
+            var isValidDate= validateInputDate();
+                
+            if(isValidDate){
+            
+                var date=$(".date").val();
+                
+                getRelatedAttendanceRecords(employeeId,date,actionRecorder);
+            //  proxyPunchInOut(empId);
+                    
+                    
+            }  
+        
+    
+
+        });
+        
+        
+        
+        
+    }
     
 });
 function validateInputDate(){
@@ -78,13 +129,14 @@ function validateInputDate(){
     
 }
 
-function getRelatedAttendanceRecords(employeeId,date){
+function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
         
     $.post(
         linkForGetRecords,
         {
             employeeId: employeeId,
-            date: date
+            date: date,
+            actionRecorder:actionRecorder
         },
         
         function(data, textStatus) {

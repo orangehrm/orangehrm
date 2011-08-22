@@ -48,7 +48,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                     <td id="headingText"><?php echo __('Timesheet for ') . $employeeName . __(' for')." ".$headingText." ";
                     echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
                 <?php else: ?>
-                    <td id="headingText"><?php echo __('Timesheet for')." ".$headingText." " ;
+                    <td id="headingText"><?php echo __('Timesheet for ')." ".$headingText." " ;
             echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
                 <?php endif; ?>
         </tr>
@@ -78,7 +78,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                 <?php if ($timesheetRows == null) : ?>
                     <!-- colspan should be based on  the fields in a timesheet-->
                     <tr>
-                        <td id="noRecordsColumn" colspan="100"><br><?php echo "No timesheet records to display!" ?></td>
+                        <td id="noRecordsColumn" colspan="100"><br><?php echo __("No timesheet records to display!") ?></td>
                     </tr>
 
                 <?php else: ?>

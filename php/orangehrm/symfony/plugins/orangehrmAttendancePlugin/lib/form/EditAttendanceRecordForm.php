@@ -59,7 +59,7 @@ class EditAttendanceRecordForm extends sfForm {
         $i = 1;
         foreach ($records as $record) {
 
-
+       
             $this->setDefault('recordId_' . $i, $record->getId());
             $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
             $this->setDefault('OutOffset_' . $i, $record->getPunchOutTimeOffset());

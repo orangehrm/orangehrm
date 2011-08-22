@@ -48,8 +48,8 @@ class viewAttendanceRecordAction extends sfAction {
         $userObj = $this->getContext()->getUser()->getAttribute("user");
         $employeeList = $userObj->getEmployeeList();
         $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
-
-
+        $this->actionRecorder="viewEmployee";
+ 
 
         if (!$this->trigger) {
 
