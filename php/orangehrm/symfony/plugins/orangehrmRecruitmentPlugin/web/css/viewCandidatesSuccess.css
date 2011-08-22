@@ -92,3 +92,11 @@ div.formbuttons {
     border-top:white;
     margin-top:0px;
 }
+
+.trHover{
+	cursor: auto;
+}
+
+#btnSrch{
+	margin: 5px 0px 5px 10px;
+}

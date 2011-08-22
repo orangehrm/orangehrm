@@ -198,3 +198,7 @@ div.messageBalloon_success {
 	width: 640px;
 	text-align: center;
 }
+
+.trHover{
+	cursor: auto;
+}

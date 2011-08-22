@@ -34,7 +34,7 @@ class InterviewerUserRoleDecorator extends UserRoleDecorator {
     public function getAccessibleRecruitmentMenus() {
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("View Candidates"));
+        $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(InterviewerUserRoleDecorator::VIEW_CANDIDATES);
         $tempArray = $this->user->getAccessibleRecruitmentMenus();
         if (!in_array($topMenuItem, $tempArray)) {

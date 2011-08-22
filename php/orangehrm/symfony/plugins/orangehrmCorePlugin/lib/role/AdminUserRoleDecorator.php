@@ -401,7 +401,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
     public function getAccessibleRecruitmentMenus() {
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("View Candidates"));
+        $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_CANDIDATES);
         $tempArray = $this->user->getAccessibleTimeMenus();
         array_push($tempArray, $topMenuItem);

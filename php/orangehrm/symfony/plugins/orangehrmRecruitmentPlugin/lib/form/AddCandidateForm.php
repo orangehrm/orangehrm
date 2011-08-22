@@ -248,7 +248,7 @@ class AddCandidateForm extends BaseForm {
 			$allowedImageTypes[] = "application/x-msword";
 			$allowedImageTypes[] = "application/vnd.oasis.opendocument.text";
 			$allowedImageTypes[] = "application/pdf";
-			$allowedImageTypes[] = "application/zip";
+			//$allowedImageTypes[] = "application/zip";
 			$allowedImageTypes[] = "application/x-pdf";
 			$allowedImageTypes[] = "application/rtf";
 			$allowedImageTypes[] = "text/rtf";

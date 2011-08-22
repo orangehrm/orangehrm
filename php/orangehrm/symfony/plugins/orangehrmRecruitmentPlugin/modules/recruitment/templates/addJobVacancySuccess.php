@@ -93,10 +93,12 @@
             </div>
 
             <div class="formbuttons">
-                <?php if (isset($vacancyId)) {
- ?>
+                <?php if (isset($vacancyId)) { ?>
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    <input type="button" class="backbutton" name="btnBack" id="btnBack"
+                           value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+
 <?php } else { ?>
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
                        value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
@@ -133,6 +135,7 @@
                     var lang_edit = "<?php echo __("Edit"); ?>";
                     var lang_save = "<?php echo __("Save"); ?>";
                     var linkForAddJobVacancy = "<?php echo url_for('recruitment/addJobVacancy'); ?>";
+		    var backBtnUrl = '<?php echo url_for('recruitment/viewJobVacancy?'); ?>';
 <?php if (isset($vacancyId)) { ?>
                     var vacancyId = '<?php echo $vacancyId; ?>';
 <?php } else { ?>

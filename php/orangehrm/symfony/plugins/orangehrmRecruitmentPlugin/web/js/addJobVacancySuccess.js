@@ -41,6 +41,10 @@ $(document).ready(function() {
 
 	});
 
+	$('#btnBack').click(function(){
+		window.location.replace(backBtnUrl+'?vacancyId='+vacancyId);
+	});
+
 	if ($("#addJobVacancy_hiringManager").val() == '') {
 		$("#addJobVacancy_hiringManager").val(lang_typeForHints)
 		.addClass("inputFormatHint");

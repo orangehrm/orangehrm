@@ -58,4 +58,4 @@ JobInterviewInterviewer:
 CandidateHistory:
   0: {id: 1, candidateId: 1, candidateVacancyId: 1, interviewId: 1, action: 1, performedBy: 3, performedDate: '2011-06-07', note: 'This is my first note'}
   1: {id: 2, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 1, performedBy: 4, performedDate: '2011-06-13', note: 'This is my second note'}
-
+  

@@ -33,3 +33,11 @@ div.formbuttons {
     border-top:white;
     margin-top:0px;
 }
+
+.trHover{
+	cursor: auto;
+}
+
+#btnSrch{
+	margin: 2px 0px 2px 5px;
+}

@@ -80,7 +80,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$this->selectedAction = $candidateHistory->getAction();
 		}
 		$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
-                $this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
+		$this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
 		$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 		$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
 		$this->hiringManagerName = $this->selectedCandidateVacancy->getHiringManager();
@@ -101,7 +101,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 	 *
 	 */
 	public function performAction() {
-	
+
 		$note = $this->getValue('notes');
 		if ($this->id > 0) {
 			$history = $this->getCandidateService()->getCandidateHistoryById($this->id);
@@ -110,14 +110,16 @@ class CandidateVacancyStatusForm extends BaseForm {
 		}
 		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
-		$interview = $interviews[count($interviews)-1];
+		$interview = $interviews[count($interviews) - 1];
 		$candidateHistory = new CandidateHistory();
 		$candidateHistory->setCandidateId($this->candidateId);
 		$candidateHistory->setCandidateVacancyId($this->candidateVacancyId);
 		$candidateHistory->setAction($this->selectedAction);
 		$candidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
-		if(!empty ($interview)){
-			$candidateHistory->setInterviewId($interview->getId());
+		if (!empty($interview)) {
+			if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
+				$candidateHistory->setInterviewId($interview->getId());
+			}
 		}
 		$empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
 		if ($empNumber == 0) {
