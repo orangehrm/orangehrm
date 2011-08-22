@@ -83,9 +83,10 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
+        $topMenuItem->setLink(null);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
+ 
             array_push($topMenuItemArray, $topMenuItem);
         }
 
@@ -108,7 +109,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     }
 
     public function getAccessibleTimeSubMenus() {
-        
+
         $topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Employee Timesheets"));
