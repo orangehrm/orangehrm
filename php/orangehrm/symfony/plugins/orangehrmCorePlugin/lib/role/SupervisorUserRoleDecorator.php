@@ -108,24 +108,29 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     }
 
     public function getAccessibleTimeSubMenus() {
-
+        
+        $topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Employee Timesheets"));
         $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        $tempArray = $this->user->getAccessibleTimeSubMenus();
-        array_push($tempArray, $topMenuItem);
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
 
-        return $tempArray;
+        return $topMenuItemArray;
     }
 
     public function getAccessibleAttendanceSubMenus() {
+        $topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Employee Records"));
         $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
-        array_push($tempArray, $topMenuItem);
 
-        return $tempArray;
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        return $topMenuItemArray;
     }
 
     public function getEmployeeList() {

@@ -72,6 +72,20 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
         return $tempArray;
     }
+    
+    public function getAccessibleTimeSubMenus() {
+
+        $tempArray = $this->user->getAccessibleTimeSubMenus();
+
+        return $tempArray;
+    }
+    
+     public function getAccessibleAttendanceSubMenus() {
+
+        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
+
+        return $tempArray;
+    }
 
     public function getAccessibleReportSubMenus() {
 

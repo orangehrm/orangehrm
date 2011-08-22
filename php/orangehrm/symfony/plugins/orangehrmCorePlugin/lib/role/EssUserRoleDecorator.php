@@ -55,29 +55,34 @@ class EssUserRoleDecorator extends UserRoleDecorator {
         return $topMenuItemArray;
     }
 
-
     public function getAccessibleTimeSubMenus() {
-        $topmenuItem = new TopMenuItem();
-        $topmenuItem->setDisplayName(__("My Timesheets"));
-        $topmenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
-        $tempArray = $this->user->getAccessibleTimeMenus();
-        array_push($tempArray, $topmenuItem);
-        return $tempArray;
+        $topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("My Timesheets"));
+        $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+        return $topMenuItemArray;
     }
-    public function getAccessibleAttendanceSubMenus() {
 
+    public function getAccessibleAttendanceSubMenus() {
+        $topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("My Records"));
         $topMenuItem->setLink(EssUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
-        array_push($tempArray, $topMenuItem);
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
 
-        $topmenuItem = new TopMenuItem();
-        $topmenuItem->setDisplayName(__("Punch In/Out"));
-        $topmenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__("Punch In/Out"));
+        $topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
 
-        array_push($tempArray, $topmenuItem);
-        return $tempArray;
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+        return $topMenuItemArray;
     }
 
     public function getAllowedActions($workFlow, $state) {
@@ -131,7 +136,7 @@ class EssUserRoleDecorator extends UserRoleDecorator {
     }
 
     public function getActiveProjectList() {
-        
+
         $activeProjectList = $this->user->getActiveProjectList();
         return $activeProjectList;
     }
