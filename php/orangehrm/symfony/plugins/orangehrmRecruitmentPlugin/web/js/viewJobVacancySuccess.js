@@ -3,7 +3,11 @@ $(document).ready(function() {
 	$('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
     
 	$('#btnDelete').attr('disabled','disabled');
-      
+	if(resetable){
+		$('#btnRst').show();
+	}else{
+		$('#btnRst').hide();
+	}
       
 	$("#ohrmList_chkSelectAll").click(function() {
 		if($(":checkbox").length == 1) {

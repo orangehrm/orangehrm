@@ -5,7 +5,11 @@ $(document).ready(function() {
     if (fromDate == '') {
         $("#candidateSearch_fromDate").val(dateDisplayFormat);
     }
-
+    if(resetable){
+	$('#btnRst').show();
+    }else{
+        $('#btnRst').hide();
+    }
     //Bind date picker
     daymarker.bindElement("#candidateSearch_fromDate",
     {
@@ -95,7 +99,7 @@ $(document).ready(function() {
             $('#candidateSearch_keywords.inputFormatHint').val('');
             $('#frmSrchCandidates').submit();
         }
-       
+   
     });
     $('#btnRst').click(function() {
         $('#candidateSearch_jobTitle').val("");

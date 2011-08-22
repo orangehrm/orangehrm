@@ -107,5 +107,6 @@ use_javascript('../orangehrmRecruitmentPlugin/js/viewJobVacancySuccess');
                 var hiringManagerListUrlForJobTitle = '<?php echo url_for('recruitment/getHiringManagerListJson?jobTitle='); ?>';
                 var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?vacancyId='); ?>';
                 var lang_all = '<?php echo __("All") ?>';
+		var resetable = "<?php echo $resetable; ?>";
     //]]>
 </script>

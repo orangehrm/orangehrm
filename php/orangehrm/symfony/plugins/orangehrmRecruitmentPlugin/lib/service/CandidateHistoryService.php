@@ -96,7 +96,7 @@ class CandidateHistoryService {
 
 	/** Description generator block begins * */
 	public function getDescriptionForAdd($object) {
-		return $object->getPerformerName() . " " . __("added");
+		return $object->getPerformerName() . " " . __("added")." ".$object->getJobCandidate()->getFullName();
 	}
 
 	public function getDescriptionForApply($object) {
@@ -116,7 +116,7 @@ class CandidateHistoryService {
 	}
 
 	public function getDescriptionForReject($object) {
-		return $object->getPerformerName() ." ". __("rejected from the vacanay");
+		return $object->getPerformerName() ." ". __("rejected from the vacancy");
 	}
 
 	public function getDescriptionForScheduleInterview($object) {

@@ -63,6 +63,7 @@ class viewCandidatesAction extends sfAction {
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
         $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList);
+	$this->resetable = false;
 
         $candidateId = $request->getParameter('candidateId');
         $sortField = $request->getParameter('sortField');
@@ -95,7 +96,7 @@ class viewCandidatesAction extends sfAction {
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
             if ($request->isMethod('post')) {
-
+		$this->resetable = true;
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
                     $srchParams = $this->form->getSearchParamsBindwithFormData($searchParam);

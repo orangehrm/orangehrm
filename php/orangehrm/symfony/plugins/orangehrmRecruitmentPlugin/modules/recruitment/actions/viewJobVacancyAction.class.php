@@ -54,7 +54,7 @@ class viewJobVacancyAction extends sfAction {
         if (!$usrObj->isAdmin()) {
             $this->redirect('recruitment/viewCandidates');
         }
-        
+	$this->resetable = false;
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
         $sortField = $request->getParameter('sortField');
@@ -90,7 +90,7 @@ class viewJobVacancyAction extends sfAction {
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
             if ($request->isMethod('post')) {
-
+		$this->resetable = true;
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
                     $srchParams = $this->form->getSearchParamsBindwithFormData();

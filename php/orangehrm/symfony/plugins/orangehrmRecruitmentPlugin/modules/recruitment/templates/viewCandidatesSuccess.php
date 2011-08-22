@@ -157,6 +157,7 @@
                 var lang_enterValidName = '<?php echo __("Enter valid candidate name") ?>';
                 var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                 var lang_enterCommaSeparatedWords = '<?php echo __("Enter comma separated words") . "..."; ?>';
+                var resetable = "<?php echo $resetable; ?>";
 
     //]]>
 </script>

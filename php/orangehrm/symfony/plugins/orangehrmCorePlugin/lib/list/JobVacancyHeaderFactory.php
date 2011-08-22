@@ -11,7 +11,7 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header1->populateFromArray(array(
 		    'name' => 'Vacancy',
-		    'width' => '23%',
+		    'width' => '24%',
 		    'isSortable' => true,
 		    'sortField' => 'v.name',
 		    'elementType' => 'link',
@@ -23,7 +23,7 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header2->populateFromArray(array(
 		    'name' => 'Job Title',
-		    'width' => '23%',
+		    'width' => '24%',
 		    'isSortable' => true,
 		    'sortField' => 'jt.name',
 		    'elementType' => 'label',
@@ -32,7 +32,7 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header3->populateFromArray(array(
 		    'name' => 'Hiring Manager',
-		    'width' => '23%',
+		    'width' => '24%',
 		    'isSortable' => true,
 		    'sortField' => 'e.emp_firstname',
 		    'elementType' => 'label',
@@ -41,7 +41,7 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header4->populateFromArray(array(
 		    'name' => 'Status',
-		    'width' => '23%',
+		    'width' => '24%',
 		    'isSortable' => true,
 		    'sortField' => 'v.status',
 		    'elementType' => 'label',

@@ -316,7 +316,7 @@ class AddCandidateForm extends BaseForm {
 			$history->candidateId = $candidate->getId();
 			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
 			$history->performedBy = $this->addedBy;
-			$history->performedDate = $candidate->dateOfApplication;
+			$history->performedDate = ohrm_format_date(date('Y-m-d'));
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 		$candidateId = $candidate->getId();
@@ -349,7 +349,7 @@ class AddCandidateForm extends BaseForm {
 					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
 					$history->candidateVacancyId = $candidateVacancy->getId();
 					$history->performedBy = $this->addedBy;
-					$history->performedDate = $candidateVacancy->appliedDate;
+					$history->performedDate = ohrm_format_date(date('Y-m-d'));
 					$history->candidateVacancyName= $candidateVacancy->getVacancyName();
 					$this->getCandidateService()->saveCandidateHistory($history);
 				}
