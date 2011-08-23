@@ -299,7 +299,10 @@ class CandidateService extends BaseService {
     
     protected function buildSearchQuery($parameterObject) {
         $query = $this->getCandidateDao()->buildSearchQuery($parameterObject);
-        // TODO: Decorate query here
+
+        $serviceName = 'CandidateService';
+        $methodName = 'searchCandidates';
+        $query = $this->decorateQuery($serviceName, $methodName, $query);
         return $query;
     }
 
