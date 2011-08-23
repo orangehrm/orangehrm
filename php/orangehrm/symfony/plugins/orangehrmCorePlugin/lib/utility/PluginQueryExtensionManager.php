@@ -83,7 +83,11 @@ class PluginQueryExtensionManager {
                             
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
-                                    $this->queryExtensions[$component][$property]["{$pluginName}_{$k}"] = $v;
+                                    if (isset($this->queryExtensions[$component][$property][$k])) {
+                                        $this->queryExtensions[$component][$property][$k] = array_merge($this->queryExtensions[$component][$property][$k], $v);
+                                    } else {
+                                        $this->queryExtensions[$component][$property][$k] = $v;
+                                    }
                                 }
                             } else {
                                 $this->queryExtensions[$component][$property][] = $value;
