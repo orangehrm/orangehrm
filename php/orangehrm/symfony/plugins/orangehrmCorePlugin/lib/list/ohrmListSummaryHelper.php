@@ -17,36 +17,38 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class ohrmListSummaryHelper {
+
     private static $collection = array();
     private static $count = array();
-    
+
     public static function collectValue($value, $function) {
 
         if (!isset(self::$collection[$function])) {
             self::$collection[$function] = 0;
             self::$count[$function] = 0;
         }
-        
+
         self::$collection[$function] += $value;
         self::$count[$function]++;
-
     }
-    
+
     public static function getAggregateValue($function, $decimals) {
         $aggregateValue = null;
-        
-        switch($function) {
+
+        switch ($function) {
             case 'SUM':
-                $aggregateValue = self::$collection['SUM'];
+                if (isset(self::$collection['SUM'])) {
+                    $aggregateValue = self::$collection['SUM'];
+                }
                 break;
             default:
                 // TODO: Warn. Unsupported function
                 break;
         }
-        
+
         return number_format($aggregateValue, $decimals);
     }
+
 }
 

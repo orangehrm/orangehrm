@@ -157,8 +157,12 @@ EmployeeReport:
   idValueGetter: activityname
   title: 'Employee Report'
   tableWidth: auto
-  hasSummary: false
-  summary: []
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
   buttons: []
   buttonsPosition: before-data
   formMethod: post

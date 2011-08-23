@@ -38,8 +38,7 @@ class ohrmListSummaryHelper {
         $aggregateValue = null;
         
         switch($function) {
-            case 'SUM':
-                $aggregateValue = self::$collection['SUM'];
+            case 'SUM':    
                 break;
             default:
                 // TODO: Warn. Unsupported function

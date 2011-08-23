@@ -40,7 +40,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 <tr><td><?php echo __('From') ?></td>
                     <td><?php echo $form['fromDate']->render(); ?><div class="errorContainer"></div></td>
                 </tr>
-
                 <tr><td><?php echo __('To') ?></td>
                     <td><?php echo $form['toDate']->render(); ?><div class="errorContainer"></div></td>
                 </tr>
@@ -58,6 +57,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
+    var employeeFlag;
 
     $(document).ready(function() {
 
@@ -75,8 +75,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         $('#attendanceTotalSummaryReportForm').submit(function(){
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
-            var projectFlag = validateInput();
-            if(!projectFlag) {
+            var employeeFlag = validateInput();
+            if(!employeeFlag) {
                 $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(errorMsge);
                 return false;
@@ -109,7 +109,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         $.validator.addMethod("validFromDateFormat", function(value, element) {
             var dt = value.toString();
             if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
-                $('#from_date').val("1970-01-01");
+                employeeFlag = validateInput();
+                if(employeeFlag){
+                    $('#from_date').val("1970-01-01");
+                }
                 return true;
             }
             dt = dt. split("-");
@@ -120,8 +123,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         $.validator.addMethod("validToDateFormat", function(value, element) {
             var dt = value.toString();
             if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
-                var date = new Date();
-                $('#to_date').val(date.getFullYear()+ "-" + date.getMonth() + "-" + date.getDate());
+                employeeFlag = validateInput();
+                if(employeeFlag){
+                    var date = new Date();
+                    $('#to_date').val(date.getFullYear()+ "-" + date.getMonth() + "-" + date.getDate());
+                }
                 return true;
             }
             dt = dt. split("-");
@@ -177,3 +183,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         }
     }
 </script>
+<style type="text/css" media="all">
+    label.error{
+        padding-left: 0px;
+    }
+</style>
