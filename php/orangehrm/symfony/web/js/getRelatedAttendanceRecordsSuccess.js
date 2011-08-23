@@ -115,13 +115,14 @@ function isRowsSelected(){
 
 }
 
-function getRelatedAttendanceRecords(employeeId,date){
+function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
         
     $.post(
         linkForGetRecords,
         {
             employeeId: employeeId,
-            date: date       
+            date: date,
+            actionRecorder:actionRecorder
         },
         
         function(data, textStatus) {

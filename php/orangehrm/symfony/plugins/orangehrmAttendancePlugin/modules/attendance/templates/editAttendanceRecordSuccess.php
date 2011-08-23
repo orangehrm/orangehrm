@@ -15,7 +15,6 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>
  <div id="validationMsg" style="margin-left: 16px;"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
 
- 
  <div class="outerbox">
     <div class="maincontent">
         <form action="" id="employeeRecordsForm" method="post">

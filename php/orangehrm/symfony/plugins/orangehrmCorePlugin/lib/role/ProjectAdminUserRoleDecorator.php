@@ -136,7 +136,7 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
     public function getNextState($workFlow, $state, $action) {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, ProjecctAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
+        $tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
 
         $temp = $this->user->getNextState($workFlow, $state, $action);
 
@@ -163,6 +163,23 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
     public function getActionableStates() {
 
         return $this->user->getActionableStates();
+    }
+    
+        public function getActionableAttendanceStates($actions) {
+
+
+        $accessFlowStateMachinService = new AccessFlowStateMachineService();
+        $actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
+
+
+        $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
+
+        if (is_null($actionableAttendanceStatesForSupervisorUser)) {
+            return $actionableAttendanceStates;
+        }
+
+        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForSupervisorUser, $actionableAttendanceStates));
+        return $actionableAttendanceStatesList;
     }
 
 }

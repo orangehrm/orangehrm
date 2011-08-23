@@ -12,7 +12,10 @@ class editAttendanceRecordAction extends sfAction {
         $this->editPunchIn = array();
         $this->editPunchOut = array();
         $this->employeeId = $request->getParameter('employeeId');
+        $this->messageData =array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
+ 
         $this->date = $request->getParameter('date');
+
         $this->actionRecorder = $request->getParameter('actionRecorder');
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $userId = $userObj->getUserId();
@@ -66,8 +69,10 @@ class editAttendanceRecordAction extends sfAction {
                 $this->editAttendanceForm->bind($request->getParameter('attendance'));
  
                 if ($this->editAttendanceForm->isValid()) {
-                    print_r("hrllo");
+              
                     $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
+                     $messageData = array('SUCCESS', __(' Records Saved Successfully'));
+                      $this->redirect('attendance/editAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId,'date' =>$this->date)));
                 }
             }
         }

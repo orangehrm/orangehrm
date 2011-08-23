@@ -131,14 +131,13 @@ class EditAttendanceRecordForm extends sfForm {
             $punchOutDate = $this->form->getValue('punchOutDate_' . $i);
             $punchOutTime = $this->form->getValue('punchOutTime_' . $i);
             $outNote = $this->form->getValue('outNote_' . $i);
-
             $attendanceRecord = $this->getAttendanceService()->getAttendanceRecordById($id);
             $punchInDateTime = $punchInDate . " " . Date('H:i', strtotime($punchInTime));
             $punchOutDateTime = $punchOutDate . " " . Date('H:i', strtotime($punchOutTime));
 
             $attendanceRecord->setPunchInUserTime($punchInDateTime);
             $attendanceRecord->setPunchInNote($inNote);
-            $attendanceRecord->setPunchOutUserTime($punchOutTime);
+            $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
             $attendanceRecord->setPunchOutNote($outNote);
             $timeStampDiff = $inOffset * 3600 - date('Z');
             $attendanceRecord->setPunchInUtcTime(date('Y-m-d H:i', strtotime($punchInDateTime) + $timeStampDiff - $inOffset * 3600));

@@ -15,10 +15,11 @@
     </thead>     
     <?php $class = 'odd'; ?>
     <?php $i = 0; ?>
+      <?php $total=0;?>
     <?php if ($records == null): ?>  <tr>
             <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo "No attendance records to display!" ?></td>
         </tr> <?php else: ?> 
-        <?php $total=0;?>
+      
         <?php foreach ($records as $record): ?>
 
 
@@ -40,8 +41,11 @@
             <?php $i++; ?>
         <?php endforeach; ?>
     <?php endif; ?>
+            <?php if ($records != null): ?> 
             <tr class="<?php echo $class; ?>"><td colspan="6"></tr>
             <tr class="<?php echo $class; ?>"><td></td><td id="totalVerticalValue"><?php echo __("Total");?></td><td colspan="3"><td id="totalVerticalValue"><?php echo $total;?></td></tr>
+<?php endif; ?>
+
 </table>
 
 

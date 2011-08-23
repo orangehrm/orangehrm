@@ -190,7 +190,7 @@ $(document).ready(function()
                 if(isValidDate){
                     var empId= $('#attendance_employeeId').val();
                     var date=$(".date").val();
-                
+          
                     getRelatedAttendanceRecords(empId,date,actionRecorder);
                 //  proxyPunchInOut(empId);
                     
@@ -263,7 +263,7 @@ function validateEmployee(){
 }
     
 function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
-        
+      
     $.post(
         linkForGetRecords,
         {
