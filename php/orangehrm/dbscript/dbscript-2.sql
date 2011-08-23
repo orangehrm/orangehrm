@@ -362,7 +362,7 @@ INSERT INTO `hs_hr_currency_type` VALUES (132, 'SHP', 'St. Helena Pound');
 INSERT INTO `hs_hr_currency_type` VALUES (130, 'SKK', 'Slovak Koruna');
 INSERT INTO `hs_hr_currency_type` VALUES (135, 'SLL', 'Sierra Leone Leone');
 INSERT INTO `hs_hr_currency_type` VALUES (136, 'SOS', 'Somali Shilling');
-INSERT INTO `hs_hr_currency_type` VALUES (137, 'SRG', 'Suriname Guilder');
+INSERT INTO `hs_hr_currency_type` VALUES (137, 'SRD', 'Surinamese Dollar');
 INSERT INTO `hs_hr_currency_type` VALUES (138, 'STD', 'Sao Tome/Principe Dobra');
 INSERT INTO `hs_hr_currency_type` VALUES (139, 'SVC', 'El Salvador Colon');
 INSERT INTO `hs_hr_currency_type` VALUES (140, 'SYP', 'Syrian Pound');
