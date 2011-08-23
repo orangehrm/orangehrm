@@ -89,7 +89,7 @@
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var errorForInvalidNote='<?php echo __('Invalid note') ?>';
-
+    var actionRecorder='<?php echo $actionRecorder; ?>';
    
 
     var punchOut =false;

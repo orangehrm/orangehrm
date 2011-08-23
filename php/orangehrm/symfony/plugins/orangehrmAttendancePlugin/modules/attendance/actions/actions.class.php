@@ -168,13 +168,21 @@ class AttendanceActions extends sfActions {
                     }
                 }
             }
-
-           $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
+  
+            $i = 0;
+            foreach ($this->records as $record) {
+                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState());
+                $i++;
+            }
+        }
+        
+      
+             $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
 
             $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
             if ($actionableStates != null) {
                 $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
-
+              
 
                 if (is_null($attendanceRecord)) {
 
@@ -183,12 +191,8 @@ class AttendanceActions extends sfActions {
                     $this->allowedActions['PunchOut'] = true;
                 }
             }
-            $i = 0;
-            foreach ($this->records as $record) {
-                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState());
-                $i++;
-            }
-        }
+            
+        
     }
 
     public function executeDeleteAttendanceRecords($request) {
@@ -209,6 +213,7 @@ class AttendanceActions extends sfActions {
         $this->action['PunchOut'] = false;
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
+         $this->actionRecorder = $request->getParameter('actionRecorder');
 
 
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
@@ -273,7 +278,7 @@ class AttendanceActions extends sfActions {
 
                         $this->getAttendanceService()->savePunchRecord($attendanceRecord);
 
-                        $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true);
+                        $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true. "&actionRecorder=" . $this->actionRecorder);
                     }
                 }
             }

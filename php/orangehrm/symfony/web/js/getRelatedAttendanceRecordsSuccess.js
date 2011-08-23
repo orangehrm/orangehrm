@@ -67,7 +67,7 @@ $(document).ready(function()
    
     $(".punch").click(function(){
             $('form#employeeRecordsForm').attr({
-                action:linkForProxyPunchInOut+"?employeeId="+employeeId+"&date="+date+"&actionName="+actionName
+                action:linkForProxyPunchInOut+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
             });
             $('form#employeeRecordsForm').submit();
         
