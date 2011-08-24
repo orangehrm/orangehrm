@@ -78,13 +78,13 @@ class AttendanceActions extends sfActions {
 
         $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecords($punchIn, $employeeId);
     }
-    
+
     public function executeValidatePunchInOverLappingWhenEditing($request) {
 
         $temppunchInTime = $request->getParameter('punchInTime');
         $timezone = $request->getParameter('timezone');
 
-        $ti = strtotime($temppunchInTime) - $timezone*3600;
+        $ti = strtotime($temppunchInTime) - $timezone * 3600;
         $punchInDate = date("Y-m-d", $ti);
         $punchInTime = date("H:i:s", $ti);
         $punchIn = $punchInDate . " " . $punchInTime;
@@ -168,31 +168,45 @@ class AttendanceActions extends sfActions {
                     }
                 }
             }
-  
+
             $i = 0;
             foreach ($this->records as $record) {
                 $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState());
                 $i++;
             }
         }
-        
-      
-             $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
 
-            $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
-            if ($actionableStates != null) {
-                $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
-              
 
-                if (is_null($attendanceRecord)) {
+        $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
+        $allowedActionsList = array();
+        $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
 
-                    $this->allowedActions['PunchIn'] = true;
-                } else {
-                    $this->allowedActions['PunchOut'] = true;
+
+        if ($actionableStates != null) {
+
+            $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
+            foreach ($actionableStates as $actionableState) {
+
+                $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
+
+
+                if (!is_null($allowedActionsArray)) {
+
+                    $allowedActionsList = array_unique(array_merge($allowedActionsArray, $allowedActionsList));
                 }
             }
-            
-        
+
+
+
+            if ((is_null($attendanceRecord)) && (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, $allowedActionsList))) {
+
+                $this->allowedActions['PunchIn'] = true;
+            }
+            if ((!is_null($attendanceRecord)) && (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT, $allowedActionsList))) {
+
+                $this->allowedActions['PunchOut'] = true;
+            }
+        }
     }
 
     public function executeDeleteAttendanceRecords($request) {
@@ -213,7 +227,7 @@ class AttendanceActions extends sfActions {
         $this->action['PunchOut'] = false;
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
-         $this->actionRecorder = $request->getParameter('actionRecorder');
+        $this->actionRecorder = $request->getParameter('actionRecorder');
 
 
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
@@ -278,7 +292,7 @@ class AttendanceActions extends sfActions {
 
                         $this->getAttendanceService()->savePunchRecord($attendanceRecord);
 
-                        $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true. "&actionRecorder=" . $this->actionRecorder);
+                        $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true . "&actionRecorder=" . $this->actionRecorder);
                     }
                 }
             }

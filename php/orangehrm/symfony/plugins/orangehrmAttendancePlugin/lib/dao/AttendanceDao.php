@@ -48,7 +48,7 @@ class AttendanceDao {
      */
     public function getLastPunchRecord($employeeId, $actionableStatesList) {
 
-
+       
         try {
 
 

@@ -27,15 +27,15 @@
                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
 
 
-                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo $record->getPunchInTimeOffset();?></span></td>
+                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td><td><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo  " GMT ".$record->getPunchInTimeOffset();?></span></td>
                 <td><?php echo $record->getPunchInNote() ?></td>
-                <td><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo $record->getPunchOutTimeOffset();?></span></td>
+                <td><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo  " GMT ".$record->getPunchOutTimeOffset();?></span></td>
                 <td><?php echo $record->getPunchOutNote() ?></td>
                 <?php if ($record->getPunchOutUtcTime() == null): ?>
                     <td><?php echo "0"; ?></td>
                 <?php else: ?>
                     <td><?php echo round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?></td>
-               <?php  $total=+round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?>
+               <?php  $total= $total+round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?>
                  <?php endif; ?>
             </tr>
             <?php $i++; ?>
@@ -83,7 +83,7 @@
     <?php echo __("Selected attenadnce records will be deleted?"); ?>
 
     <div>
-        <br class="clear" /><input type="button" id="ok" class="plainbtn" value="<?php echo __('Ok'); ?>" />
+        <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="ok" class="plainbtn" value="<?php echo __('Ok'); ?>" />
         <input type="button" id="cancel" class="plainbtn" value="<?php echo __('Cancel'); ?>" /></div>
 
 </div>
