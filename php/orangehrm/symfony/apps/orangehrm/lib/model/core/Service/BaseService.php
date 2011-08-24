@@ -51,19 +51,26 @@ class BaseService {
      * @param mixed $parameters
      * @return string SQL query
      */
-    private function _decorateQuery_SQL($query, array $extensions, $parameters) {
+    private function _decorateQuery_SQL($query, array $extensions, array $parameters) {
 
         if (!empty($extensions['select'])) {
             $select = array();
             foreach ($extensions['select'] as $selectField) {
                 $field = null;
                 if (is_array($selectField)) {
-                    $field = "`{$selectField['field']}`";
-                    if (isset($selectField['alias'])) {
-                        $field .= " AS `{$selectField['alias']}`";
-                    }
-                    if (isset($selectField['table'])) {
-                        $field = "{$selectField['table']}.{$field}";
+                    if (array_key_exists('clause', $selectField)) {
+                        $field = $selectField['clause'];
+                        if (isset($selectField['alias'])) {
+                            $field .= " AS `{$selectField['alias']}`";
+                        }
+                    } else {
+                        $field = "`{$selectField['field']}`";
+                        if (isset($selectField['alias'])) {
+                            $field .= " AS `{$selectField['alias']}`";
+                        }
+                        if (isset($selectField['table'])) {
+                            $field = "{$selectField['table']}.{$field}";
+                        }
                     }
                 } else {
                     if (preg_match('/\./', $selectField)) {
@@ -81,11 +88,39 @@ class BaseService {
             $query = "{$left} FROM {$right}";
         }
 
+        if (!empty($extensions['join'])) {
+            $join = '';
+            foreach ($extensions['join'] as $joinParams) {
+                $joinCondition = "{$joinParams['type']} JOIN {$joinParams['table']}";
+                if (isset($joinParams['alias'])) {
+                    $joinCondition .= " {$joinParams['alias']}";
+                }
+                $joinCondition .= " ON {$joinParams['condition']}";
+                $join .= ' ' . $joinCondition;
+            }
+            
+            if (preg_match('/\ (INNER|OUTER|LEFT) JOIN\ /', $query)) {
+                $query = preg_replace('/ (INNER|OUTER|LEFT) JOIN /', " {$join} $0", $query, 1);
+            } else {
+                if (preg_match('/ (WHERE|GROUP\ BY|ORDER\ BY|LIMIT) /', $query)) {
+                    $query = preg_replace('/ (WHERE|GROUP\ BY|ORDER\ BY|LIMIT) /', " {$join} $0", $query, 1);
+                } else {
+                    $query .= ' ' . $join;
+                }
+            }
+            
+            
+        }
+
         if (!empty($extensions['where'])) {
             $where = array();
             foreach ($extensions['where'] as $whereParams) {
-                $value = "'{$whereParams['value']}'";
-                $whereClause = "`{$whereParams['field']}` {$whereParams['operator']} {$value}";
+                if (array_key_exists('clause', $whereParams)) {
+                    $whereClause = $whereParams['clause'];
+                } else {
+                    $value = "'{$whereParams['value']}'";
+                    $whereClause = "`{$whereParams['field']}` {$whereParams['operator']} {$value}";
+                }
 
                 $where[] = $whereClause;
             }
@@ -94,7 +129,6 @@ class BaseService {
             if (preg_match('/\ WHERE\ /', $query)) {
                 $matchedDelimiter = '';
                 list($left, $matchedDelimiter, $right) = preg_split('/(GROUP\ BY|ORDER\ BY|LIMIT)/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
-                echo $more;
                 $left = rtrim($left) . ' AND ' . $whereClause . ' ';
                 $query = $left . $matchedDelimiter . $right;
             } else {
@@ -116,6 +150,8 @@ class BaseService {
             }
         }
 
+        $query = $this->_fillPlaceholders($query, $parameters);
+
         return trim($query);
     }
 
@@ -129,6 +165,22 @@ class BaseService {
      */
     private function _decorateQuery_DQL(Doctrine_Query $query, array $extensions, $parameters) {
         return $query;
+    }
+    
+    /**
+     *
+     * @param string $query
+     * @param array $parameters
+     * @return string 
+     */
+    private function _fillPlaceholders($query, $parameters) {
+        $patterns = array();
+        $replacements = array();
+        foreach ($parameters as $key => $value) {
+            $patterns[] = "/\{{$key}\}/";
+            $replacements[] = $value;
+        }
+        return preg_replace($patterns, $replacements, $query);
     }
 
 }
