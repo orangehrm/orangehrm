@@ -95,6 +95,7 @@ class viewCandidatesAction extends sfAction {
             $this->getUser()->setAttribute('searchParameters', $searchParam);
         }
         $searchParam->setOffset($offset);
+        $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
         $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
 

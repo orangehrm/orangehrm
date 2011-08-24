@@ -302,7 +302,7 @@ class CandidateService extends BaseService {
 
         $serviceName = 'CandidateService';
         $methodName = 'searchCandidates';
-        $query = $this->decorateQuery($serviceName, $methodName, $query);
+        $query = $this->decorateQuery($serviceName, $methodName, $query, $parameterObject->getAdditionalParams());
         return $query;
     }
 
