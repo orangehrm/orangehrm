@@ -45,6 +45,7 @@ class CandidateSearchParameters {
     private $allowedCandidateList;
     private $allowedVacancyList;
     private $isAdmin;
+    private $additionalParams;
 
     public function getAllowedCandidateList() {
         return $this->allowedCandidateList;
@@ -257,6 +258,14 @@ class CandidateSearchParameters {
 
     public function setAttachmentId($attachmentId) {
         $this->attachmentId = $attachmentId;
+    }
+    
+    public function getAdditionalParams() {
+        return $this->additionalParams;
+    }
+    
+    public function setAdditionalParams($params) {
+        $this->additionalParams = $params;
     }
 
 }
