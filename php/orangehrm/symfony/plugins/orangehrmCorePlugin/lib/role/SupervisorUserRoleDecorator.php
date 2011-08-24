@@ -22,6 +22,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     const VIEW_EMPLOYEE_TIMESHEET = "./symfony/web/index.php/time/viewEmployeeTimesheet";
     const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
     const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
+    const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
     private $user;
     private $employeeService;
     private $timesheetService;
@@ -86,7 +87,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setLink(null);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
- 
+
             array_push($topMenuItemArray, $topMenuItem);
         }
 
@@ -100,6 +101,14 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__(" Employee Reports"));
         $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
+
+        if (!in_array($topMenuItem, $topMenuItemArray)) {
+            array_push($topMenuItemArray, $topMenuItem);
+        }
+
+        $topMenuItem = new TopMenuItem();
+        $topMenuItem->setDisplayName(__(" Attendance Total Summary Report"));
+        $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
             array_push($topMenuItemArray, $topMenuItem);

@@ -58,12 +58,12 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(null);
+        $topMenuItem->setLink(ProjectAdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
-            
             array_push($topMenuItemArray, $topMenuItem);
         }
+
         return $topMenuItemArray;
     }
 
@@ -73,15 +73,15 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
         return $tempArray;
     }
-    
+
     public function getAccessibleTimeSubMenus() {
 
         $tempArray = $this->user->getAccessibleTimeSubMenus();
 
         return $tempArray;
     }
-    
-     public function getAccessibleAttendanceSubMenus() {
+
+    public function getAccessibleAttendanceSubMenus() {
 
         $tempArray = $this->user->getAccessibleAttendanceSubMenus();
 
@@ -164,8 +164,8 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
         return $this->user->getActionableStates();
     }
-    
-        public function getActionableAttendanceStates($actions) {
+
+    public function getActionableAttendanceStates($actions) {
 
 
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
