@@ -1,16 +1,25 @@
 <?php
 
+/* TODO: Rename this class with a proper name as it hangle both pre & post levels together  */
 class orangehrmPostExecutionFilter extends sfFilter {
 
     protected static $servicePool = array();
     
     public function execute(sfFilterChain $filterChain) {
-
-        $filterChain->execute();
-
         $module = $this->getContext()->getModuleName();
         $action = $this->getContext()->getActionName();
         
+        $actionsStack = PluginExecutionManager::instance()->getPreExecuteMethodStack($module, $action);
+        foreach ($actionsStack as $methodCall) {
+            list($service, $method) = explode('.', $methodCall);
+            $serviceInstance = $this->getServiceClassInstance($service);
+            if (method_exists($serviceInstance, $method)) {
+                $serviceInstance->$method($this->getContext()->getRequest());
+            }
+        }
+
+        $filterChain->execute();
+
         $actionsStack = PluginExecutionManager::instance()->getPostExecuteMethodStack($module, $action);
         foreach ($actionsStack as $methodCall) {
             list($service, $method) = explode('.', $methodCall);
