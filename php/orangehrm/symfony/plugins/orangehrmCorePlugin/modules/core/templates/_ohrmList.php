@@ -85,6 +85,8 @@ function printButtonEventBindings($buttons) {
             if (isset($extraButtons)) {
                 renderActionBar($extraButtons);
             }
+            
+            include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
         ?><br class="clear" />
         <?php if ($pager->haveToPaginate()) { ?>
         <div class="navigationHearder">
