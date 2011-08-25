@@ -29,6 +29,9 @@
 
 <?php use_stylesheet('../orangehrmRecruitmentPlugin/css/addJobVacancySuccess'); ?>
 <?php use_javascript('../orangehrmRecruitmentPlugin/js/addJobVacancySuccess'); ?>
+<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
+<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
+<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
 
 <?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
 <?php if (strstr($browser, "MSIE 8.0")): ?>
@@ -91,6 +94,8 @@
                 <?php echo $form['publishedInFeed']->renderLabel(__('Publish in RSS feed(1) and web page(2)')); ?>
                 <br class="clear"/>
             </div>
+
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
 
             <div class="formbuttons">
                 <?php if (isset($vacancyId)) { ?>
