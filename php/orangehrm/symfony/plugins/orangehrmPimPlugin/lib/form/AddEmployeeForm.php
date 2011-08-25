@@ -57,6 +57,7 @@ class AddEmployeeForm extends sfForm {
                 'lastName' => new sfWidgetFormInputText(),
                 'middleName' => new sfWidgetFormInputText(),
                 'employeeId' => new sfWidgetFormInputText(),
+                'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value'=>1)),
                 'user_name' => new sfWidgetFormInputText(),
                 'user_password' => new sfWidgetFormInputPassword(),
                 're_password' => new sfWidgetFormInputPassword(),
@@ -73,6 +74,9 @@ class AddEmployeeForm extends sfForm {
         $this->widgets['firstName']->setDefault($this->getOption('firstName'));
         $this->widgets['middleName']->setDefault($this->getOption('middleName'));
         $this->widgets['lastName']->setDefault($this->getOption('lastName'));
+        
+        $this->widgets['chkLogin']->setDefault($this->getOption('chkLogin'));
+        
         $this->widgets['user_name']->setDefault($this->getOption('user_name'));
         $this->widgets['user_password']->setDefault($this->getOption('user_password'));
         $this->widgets['re_password']->setDefault($this->getOption('re_password'));
@@ -87,6 +91,7 @@ class AddEmployeeForm extends sfForm {
                 'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 30, 'trim' => true)),
                 'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 30, 'trim' => true)),
                 'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
+                'chkLogin' => new sfValidatorString(array('required' => false)),
                 'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
                 'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
                 're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),

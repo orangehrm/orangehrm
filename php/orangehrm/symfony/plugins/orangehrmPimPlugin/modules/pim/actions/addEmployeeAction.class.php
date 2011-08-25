@@ -54,7 +54,7 @@ class addEmployeeAction extends basePimAction {
         if(isset ($_SESSION['addEmployeePost'])) {
             $postArray = $_SESSION['addEmployeePost'];
 
-            if(trim($postArray['user_name']) != "") {
+            if(isset($postArray['chkLogin'])) {
                 $this->createUserAccount = 1;
             }
         }
@@ -79,15 +79,19 @@ class addEmployeeAction extends basePimAction {
             }
 
             //in case a user already exists with same user name
-            $userService = $this->getUserService();
-            $user = $userService->getUserByUserName($posts['user_name']);
+            
+            if ($this->createUserAccount) {
 
-            if($user instanceof Users) {
+                $userService = $this->getUserService();
+                $user = $userService->getUserByUserName($posts['user_name']);
 
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. User Name Already Exists')));
-                $this->redirect('pim/addEmployee');
+                if($user instanceof Users) {
+
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. User Name Already Exists')));
+                    $this->redirect('pim/addEmployee');
+                }
             }
-
+            
             //if everything seems ok save employee and create a user account
             if ($this->form->isValid()) {
                 
@@ -109,7 +113,10 @@ class addEmployeeAction extends basePimAction {
                     } else {
                         unset($_SESSION['addEmployeePost']);
                         $empNumber = $this->saveEmployee($this->form);
-                        $this->saveUser($this->form, $empNumber);
+                        
+                        if ($this->createUserAccount) {
+                            $this->saveUser($this->form, $empNumber);
+                        }
                         $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
                     }
 

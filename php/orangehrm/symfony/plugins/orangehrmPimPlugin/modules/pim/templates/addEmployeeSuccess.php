@@ -49,8 +49,10 @@
                 <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(".jpg, .png or .gif file with maximum size of 1MB"); ?></span>
                 <br class="clear" />
             </div>
-            <input type="checkbox" id="chkLogin" /> <label id="chkLoginLbl" style="width:117px;"><?php echo __('Create Login Details');?></label>
-            
+            <?php 
+                echo $form['chkLogin']->render(); 
+                echo $form['chkLogin']->renderLabel('Create Login Details', array('style' => "width:117px", 'id' => 'chkLoginLbl')); 
+            ?>
             <div class="hrLine" id="lineSeperator"></div>
             
             <!-- create login section starts here -->
