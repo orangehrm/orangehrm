@@ -94,17 +94,21 @@ class BaseService {
         if (!empty($extensions['where'])) {
             $where = array();
             foreach ($extensions['where'] as $whereParams) {
-                $where[] = $this->_generateWhereClause($whereParams);
+                if (!$this->_shouldOmmit($whereParams, $parameters)) {
+                    $where[] = $this->_generateWhereClause($whereParams);
+                }
             }
 
-            $whereClause = implode(' AND ', $where);
-            if (preg_match('/\ WHERE\ /', $query)) {
-                $matchedDelimiter = '';
-                list($left, $matchedDelimiter, $right) = preg_split('/(GROUP\ BY|ORDER\ BY|LIMIT)/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
-                $left = rtrim($left) . ' AND ' . $whereClause . ' ';
-                $query = $left . $matchedDelimiter . $right;
-            } else {
-                $query .= ' WHERE ' . $whereClause;
+            if (!empty($where)) {
+                $whereClause = implode(' AND ', $where);
+                if (preg_match('/\ WHERE\ /', $query)) {
+                    $matchedDelimiter = '';
+                    list($left, $matchedDelimiter, $right) = preg_split('/(GROUP\ BY|ORDER\ BY|LIMIT)/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
+                    $left = rtrim($left) . ' AND ' . $whereClause . ' ';
+                    $query = $left . $matchedDelimiter . $right;
+                } else {
+                    $query .= ' WHERE ' . $whereClause;
+                }
             }
         }
 
