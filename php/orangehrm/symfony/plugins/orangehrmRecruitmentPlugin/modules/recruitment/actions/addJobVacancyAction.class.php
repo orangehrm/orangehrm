@@ -72,6 +72,11 @@ class addJobVacancyAction extends sfAction {
             $this->form = $form;
         }
     }
+    
+    public function getForm() {
+        $this->form->request = $this->getRequest();
+        return $this->form;
+    }
 
     /**
      *
