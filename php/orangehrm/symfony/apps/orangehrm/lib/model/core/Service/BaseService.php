@@ -55,31 +55,8 @@ class BaseService {
 
         if (!empty($extensions['select'])) {
             $select = array();
-            foreach ($extensions['select'] as $selectField) {
-                $field = null;
-                if (is_array($selectField)) {
-                    if (array_key_exists('clause', $selectField)) {
-                        $field = $selectField['clause'];
-                        if (isset($selectField['alias'])) {
-                            $field .= " AS `{$selectField['alias']}`";
-                        }
-                    } else {
-                        $field = "`{$selectField['field']}`";
-                        if (isset($selectField['alias'])) {
-                            $field .= " AS `{$selectField['alias']}`";
-                        }
-                        if (isset($selectField['table'])) {
-                            $field = "{$selectField['table']}.{$field}";
-                        }
-                    }
-                } else {
-                    if (preg_match('/\./', $selectField)) {
-                        $field = preg_replace('/\./', '.`', $selectField) . '`';
-                    } else {
-                        $field = "`{$selectField}`";
-                    }
-                }
-                $select[] = $field;
+            foreach ($extensions['select'] as $selectFieldParams) {
+                $select[] = $this->_generateSelectField($selectFieldParams);
             }
             $fieldList = implode(', ', $select);
 
@@ -98,7 +75,7 @@ class BaseService {
                 $joinCondition .= " ON {$joinParams['condition']}";
                 $join .= ' ' . $joinCondition;
             }
-            
+
             if (preg_match('/\ (INNER|OUTER|LEFT) JOIN\ /', $query)) {
                 $query = preg_replace('/ (INNER|OUTER|LEFT) JOIN /', " {$join} $0", $query, 1);
             } else {
@@ -108,8 +85,6 @@ class BaseService {
                     $query .= ' ' . $join;
                 }
             }
-            
-            
         }
 
         if (!empty($extensions['where'])) {
@@ -166,7 +141,7 @@ class BaseService {
     private function _decorateQuery_DQL(Doctrine_Query $query, array $extensions, $parameters) {
         return $query;
     }
-    
+
     /**
      *
      * @param string $query
@@ -181,6 +156,34 @@ class BaseService {
             $replacements[] = $value;
         }
         return preg_replace($patterns, $replacements, $query);
+    }
+
+    private function _generateSelectField($selectFieldParams) {
+        $field = null;
+        if (is_array($selectFieldParams)) {
+            if (array_key_exists('clause', $selectFieldParams)) {
+                $field = $selectFieldParams['clause'];
+                if (isset($selectFieldParams['alias'])) {
+                    $field .= " AS `{$selectFieldParams['alias']}`";
+                }
+            } else {
+                $field = "`{$selectFieldParams['field']}`";
+                if (isset($selectFieldParams['alias'])) {
+                    $field .= " AS `{$selectFieldParams['alias']}`";
+                }
+                if (isset($selectFieldParams['table'])) {
+                    $field = "{$selectFieldParams['table']}.{$field}";
+                }
+            }
+        } else {
+            if (preg_match('/\./', $selectFieldParams)) {
+                $field = preg_replace('/\./', '.`', $selectFieldParams) . '`';
+            } else {
+                $field = "`{$selectFieldParams}`";
+            }
+        }
+
+        return $field;
     }
 
 }
