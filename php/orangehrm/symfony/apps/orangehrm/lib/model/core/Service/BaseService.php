@@ -56,13 +56,17 @@ class BaseService {
         if (!empty($extensions['select'])) {
             $select = array();
             foreach ($extensions['select'] as $selectFieldParams) {
-                $select[] = $this->_generateSelectField($selectFieldParams);
+                if (!$this->_shouldOmmit($selectFieldParams, $parameters)) {
+                    $select[] = $this->_generateSelectField($selectFieldParams);
+                }
             }
-            $fieldList = implode(', ', $select);
 
-            list($left, $right) = explode(' FROM ', $query, 2);
-            $left .= ", {$fieldList}";
-            $query = "{$left} FROM {$right}";
+            if (!empty($select)) {
+                $fieldList = implode(', ', $select);
+                list($left, $right) = explode(' FROM ', $query, 2);
+                $left .= ", {$fieldList}";
+                $query = "{$left} FROM {$right}";
+            }
         }
 
         if (!empty($extensions['join'])) {
@@ -184,6 +188,16 @@ class BaseService {
         }
 
         return $field;
+    }
+    
+    public function _shouldOmmit($queryParams, $valueParams) {
+        $shouldOmmit = false;
+        if (isset($queryParams['ommitOnEmptyParams'])) {
+            $checkingIndex = $queryParams['ommitOnEmptyParams'];
+            $value = isset($valueParams[$checkingIndex]) ? $valueParams[$checkingIndex] : null;
+            $shouldOmmit = empty($value);
+        }
+        return $shouldOmmit;
     }
 
 }
