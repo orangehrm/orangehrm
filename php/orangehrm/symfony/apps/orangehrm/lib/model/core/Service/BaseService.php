@@ -94,14 +94,7 @@ class BaseService {
         if (!empty($extensions['where'])) {
             $where = array();
             foreach ($extensions['where'] as $whereParams) {
-                if (array_key_exists('clause', $whereParams)) {
-                    $whereClause = $whereParams['clause'];
-                } else {
-                    $value = "'{$whereParams['value']}'";
-                    $whereClause = "`{$whereParams['field']}` {$whereParams['operator']} {$value}";
-                }
-
-                $where[] = $whereClause;
+                $where[] = $this->_generateWhereClause($whereParams);
             }
 
             $whereClause = implode(' AND ', $where);
@@ -189,7 +182,18 @@ class BaseService {
 
         return $field;
     }
-    
+
+    public function _generateWhereClause($whereClauseParams) {
+        $whereClause = '';
+        if (array_key_exists('clause', $whereClauseParams)) {
+            $whereClause = $whereClauseParams['clause'];
+        } else {
+            $value = "'{$whereClauseParams['value']}'";
+            $whereClause = "`{$whereClauseParams['field']}` {$whereClauseParams['operator']} {$value}";
+        }
+        return $whereClause;
+    }
+
     public function _shouldOmmit($queryParams, $valueParams) {
         $shouldOmmit = false;
         if (isset($queryParams['ommitOnEmptyParams'])) {
