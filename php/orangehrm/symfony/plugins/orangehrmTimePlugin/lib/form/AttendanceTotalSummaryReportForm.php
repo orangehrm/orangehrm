@@ -73,7 +73,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     private function _setJobTitleWidget() {
 
         $jobService = $this->getJobService();
-        $jobList = $jobService->getJobTitleList();
+        $jobList = $jobService->getActiveJobTitleList();
 
         $choices[0] = __('All');
 

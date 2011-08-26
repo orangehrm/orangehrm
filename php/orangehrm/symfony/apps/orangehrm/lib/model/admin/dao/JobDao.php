@@ -585,6 +585,27 @@ class JobDao extends BaseDao {
       }
    }
 
+      /**
+    * Retrieve Active JobTitle List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws DaoException
+    */
+   public function getActiveJobTitleList($orderField = 'job.id', $orderBy = 'ASC'){
+      try {
+         $q = Doctrine_Query::create()
+             ->select('job.*')
+             ->from('JobTitle job')
+             ->where('job.is_active = 1')
+             ->orderBy($orderField.' '.$orderBy);
+
+         return $q->execute();
+      } catch(Exception $e) {
+         throw new DaoException($e->getMessage());
+      }
+   }
+
    /**
     * Save JobTitle
     * @param JobTitle $jobTitle

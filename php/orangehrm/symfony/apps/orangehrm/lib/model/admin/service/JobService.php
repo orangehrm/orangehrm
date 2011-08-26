@@ -440,6 +440,21 @@ class JobService extends BaseService {
       }
    }
 
+      /**
+    * Retrieve Active JobTitle List
+    * @param String $orderField
+    * @param String $orderBy
+    * @returns Collection
+    * @throws AdminServiceException
+    */
+   public function getActiveJobTitleList($orderField = 'job.id', $orderBy = 'ASC'){
+      try {
+         return $this->jobDao->getActiveJobTitleList($orderField, $orderBy);
+      } catch(Exception $e) {
+         throw new AdminServiceException($e->getMessage());
+      }
+   }
+
    /**
     * Save JobTitle
     * @param JobTitle $jobTitle

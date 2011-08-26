@@ -82,10 +82,10 @@ class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmb
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
         $label = ucwords(str_replace("_", " ", $this->attributes['id']));
-        $validator = new sfValidatorString();
+        $validator = new sfValidatorString(array('required' => false));
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true), array('required' => 'Select a project'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => 'Add a project to view'));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

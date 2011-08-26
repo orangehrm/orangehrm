@@ -23,6 +23,7 @@
         </div>
     </form>
 </div>
+<div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 
 <style type="text/css">
     form#employeeSelectForm label {
@@ -32,5 +33,11 @@
 
     .viewbutton {
         margin-left: 20px;
+    }
+
+    .paddingLeftRequired{
+        font-size: 8pt;
+        padding-left: 15px;
+        padding-top: 5px;
     }
 </style>

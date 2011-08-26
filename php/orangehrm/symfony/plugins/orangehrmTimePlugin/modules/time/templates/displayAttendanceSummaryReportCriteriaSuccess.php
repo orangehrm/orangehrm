@@ -51,7 +51,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         </form>
     </div>
 </div>
-
+<div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 <script type="text/javascript">
 
     var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
@@ -186,5 +186,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <style type="text/css" media="all">
     label.error{
         padding-left: 0px;
+    }
+
+    .paddingLeftRequired{
+        font-size: 8pt;
+        padding-left: 15px;
+        padding-top: 5px;
     }
 </style>
