@@ -22,6 +22,10 @@ JobCandidate:
   3: {id: 3, firstName: 'Chanaka', lastName: 'Gunara', contactNumber: '035223224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-02', email: 'ren@gmail.com', addedPerson: 2}
   4: {id: 4, firstName: 'Chinthaka', lastName: 'Welagedara', contactNumber: '0352657224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2011-06-06', email: 'ren@gmail.com', addedPerson: 2}
   5: {id: 5, firstName: 'Chinthaka', middleName: 'Malith', lastName: 'Suneth', contactNumber: '0777-754075', keywords: 'myob,java,visual basic, civil, psychotherapy,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
+  6: {id: 6, firstName: 'Kamal', middleName: 'S', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  7: {id: 7, firstName: 'Kamal', middleName: 'S', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  8: {id: 8, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  9: {id: 9, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
  
 JobCandidateVacancy:
   0: {id: 1, candidateId: 1, vacancyId: 1, status: 'SHORTLISTED', appliedDate: '2011-06-03'}

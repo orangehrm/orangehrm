@@ -136,7 +136,6 @@ class CandidateDao extends BaseDao {
 		$jobVacancyId = $searchParam->getVacancyId();
 		$hiringManagerId = $searchParam->getHiringManagerId();
 		$status = $searchParam->getStatus();
-		$candidateId = $searchParam->getCandidateId();
 		$modeOfApplication = $searchParam->getModeOfApplication();
 		$fromDate = $searchParam->getFromDate();
 		$toDate = $searchParam->getToDate();
@@ -186,9 +185,9 @@ class CandidateDao extends BaseDao {
 			if ($status != "") {
 				$where[] = "jcv.status  = '$status'";
 			}
-			if (!empty($candidateId)) {
-				$where[] = "jc.id  = '$candidateId'";
-			}
+                        
+                        $this->_addCandidateNameClause($where, $searchParam);
+                        
 			if (!empty($modeOfApplication)) {
 				$where[] = "jc.mode_of_application  = '$modeOfApplication'";
 			}
@@ -551,8 +550,10 @@ class CandidateDao extends BaseDao {
 		$this->_addAdditionalWhereClause($whereFilters, 'jv.job_title_code', $paramObject->getJobTitleCode());
 		$this->_addAdditionalWhereClause($whereFilters, 'jv.id', $paramObject->getVacancyId());
 		$this->_addAdditionalWhereClause($whereFilters, 'jv.hiring_manager_id', $paramObject->getHiringManagerId());
-		$this->_addAdditionalWhereClause($whereFilters, 'jcv.status', $paramObject->getStatus());
-		$this->_addAdditionalWhereClause($whereFilters, 'jc.id', $paramObject->getCandidateId());
+		$this->_addAdditionalWhereClause($whereFilters, 'jcv.status', $paramObject->getStatus());		
+                
+                $this->_addCandidateNameClause($whereFilters, $paramObject);
+                
 		$this->_addAdditionalWhereClause($whereFilters, 'jc.mode_of_application', $paramObject->getModeOfApplication());
 
 		$whereClause .= ( count($whereFilters) > 0) ? (' AND ' . implode('AND ', $whereFilters)) : '';
@@ -576,6 +577,32 @@ class CandidateDao extends BaseDao {
 		}
 	}
 
+        /**
+         * Add where clause to search by candidate name.
+         * 
+         * @param type $where Where Clause
+         * @param type $paramObject Search Parameter object
+         */
+        private function _addCandidateNameClause(&$where, $paramObject) {
+            
+            // Search by Name                
+            $candidateName = $paramObject->getCandidateName();
+            
+            if (!empty($candidateName)) {
+
+                $candidateFullNameClause = "concat_ws(' ', jc.first_name, " .
+                        "IF(jc.middle_name <> '', jc.middle_name, NULL), " . 
+                        "jc.last_name)";
+
+                // Replace multiple spaces in string with single space
+                $candidateName = preg_replace('!\s+!', ' ', $candidateName);                
+                $candidateName =  "'%" . $candidateName . "%'";
+
+                $this->_addAdditionalWhereClause($where, $candidateFullNameClause, 
+                        $candidateName, 'LIKE');            
+            }            
+        }
+        
 	/**
 	 *
 	 * @param <type> $historyId
