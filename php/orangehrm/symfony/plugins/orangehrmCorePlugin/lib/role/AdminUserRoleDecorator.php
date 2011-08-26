@@ -407,18 +407,8 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         array_push($tempArray, $topMenuItem);
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Add Candidate"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::ADD_CANDIDATE);
-        array_push($tempArray, $topMenuItem);
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("View Vacancies"));
+        $topMenuItem->setDisplayName(__("Vacancies"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_VACANCIES);
-        array_push($tempArray, $topMenuItem);
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Add Vacancy"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::ADD_VACANCY);
         array_push($tempArray, $topMenuItem);
 
         return $tempArray;

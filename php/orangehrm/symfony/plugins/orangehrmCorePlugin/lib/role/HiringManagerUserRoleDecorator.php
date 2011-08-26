@@ -42,11 +42,6 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
             array_push($tempArray, $topMenuItem);
         }
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Add Candidate"));
-        $topMenuItem->setLink(HiringManagerUserRoleDecorator::ADD_CANDIDATE);
-        array_push($tempArray, $topMenuItem);
-
         return $tempArray;
     }
 
