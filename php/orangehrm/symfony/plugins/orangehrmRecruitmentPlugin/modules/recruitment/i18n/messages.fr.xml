@@ -572,6 +572,14 @@
                 <source>hired</source>
                 <target>FR_hired</target>
             </trans-unit>
+			<trans-unit id="145">
+                <source>Apply</source>
+                <target>FR_Apply</target>
+            </trans-unit>
+			<trans-unit id="146">
+                <source>E-mail</source>
+                <target>FR_E-mail</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
