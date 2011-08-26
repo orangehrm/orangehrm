@@ -179,11 +179,12 @@ $(document).ready(function() {
         }
     });
     
-    $('#frmList_ohrmListComponent').submit(function(){
-        $('#deleteConfirmation').dialog('open');
-        return false;
+    $('#btnDelete').click(function(){
+        $('#frmList_ohrmListComponent').submit(function(){
+            $('#deleteConfirmation').dialog('open');
+            return false;
+        });
     });
-  
   
     $("#deleteConfirmation").dialog({
         autoOpen: false,
