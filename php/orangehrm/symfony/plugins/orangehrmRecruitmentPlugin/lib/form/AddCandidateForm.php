@@ -27,6 +27,18 @@ class AddCandidateForm extends BaseForm {
 	private $recruitmentAttachmentService;
 	private $addedBy;
         public $allowedVacancyList;
+        
+        private $allowedFileTypes = array(
+            "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "doc"  => "application/msword",
+            "doc"  => "application/x-msword",
+            "odt"  => "application/vnd.oasis.opendocument.text",
+            "pdf"  => "application/pdf",
+            "pdf"  => "application/x-pdf",
+            "rtf"  => "application/rtf",
+            "rtf"  => "text/rtf",
+            "txt"  => "text/plain"            
+        );
 
 	const CONTRACT_KEEP = 1;
 	const CONTRACT_DELETE = 2;
@@ -86,28 +98,32 @@ class AddCandidateForm extends BaseForm {
 		    self::CONTRACT_DELETE => __('Delete Current'),
 		    self::CONTRACT_UPLOAD => __('Replace Current'));
 
-		//creating widgets
+                // creating widgets
 		$this->setWidgets(array(
 		    'firstName' => new sfWidgetFormInputText(),
 		    'middleName' => new sfWidgetFormInputText(),
 		    'lastName' => new sfWidgetFormInputText(),
 		    'email' => new sfWidgetFormInputText(),
 		    'contactNo' => new sfWidgetFormInputText(),
-		    'resume' => new sfWidgetFormInputFileEditable(array('edit_mode' => false, 'with_delete' => false, 'file_src' => '')/* , array("size" => 37) */),
+		    'resume' => new sfWidgetFormInputFileEditable(
+                                        array('edit_mode' => false,
+                                              'with_delete' => false, 
+                                              'file_src' => '')),
 		    'keyWords' => new sfWidgetFormInputText(),
 		    'comment' => new sfWidgetFormTextArea(),
 		    'appliedDate' => new sfWidgetFormInputText(),
 		    'vacancyList' => new sfWidgetFormInputHidden(),
 		    'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
 		));
-
+                
 		$this->setValidators(array(
 		    'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
 		    'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
 		    'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
 		    'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
 		    'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-		    'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000)),
+		    'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
+                                                    'validated_file_class' => 'orangehrmValidatedFile')),
 		    'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
 		    'comment' => new sfValidatorString(array('required' => false)),
 		    'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
@@ -239,27 +255,30 @@ class AddCandidateForm extends BaseForm {
 	 * @return <type>
 	 */
 	protected function isValidResume($file) {
+            $validFile = false;
+                
+            $mimeTypes = array_values($this->allowedFileTypes);
+            $originalName = $file->getOriginalName();
 
-		if (($file instanceof sfValidatedFile) && $file->getOriginalName() != "") {
+            if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
 
-			$fileType = $file->getType();
-			$allowedImageTypes[] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-			$allowedImageTypes[] = "application/msword";
-			$allowedImageTypes[] = "application/x-msword";
-			$allowedImageTypes[] = "application/vnd.oasis.opendocument.text";
-			$allowedImageTypes[] = "application/pdf";
-			//$allowedImageTypes[] = "application/zip";
-			$allowedImageTypes[] = "application/x-pdf";
-			$allowedImageTypes[] = "application/rtf";
-			$allowedImageTypes[] = "text/rtf";
-			$allowedImageTypes[] = "text/plain";
+                $fileType = $file->getType();
+                
+                if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
+                    $validFile = true;                    
+                } else {
+                    $fileType = $this->guessTypeFromFileExtension($originalName);
+                    
+                    if (!empty($fileType)) {
+                        $file->setType($fileType);
+                        $validFile = true;
+                    }
+                    
+                }                
+                
+            }
 
-			if (!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
-				return false;
-			} else {
-				return true;
-			}
-		}
+            return $validFile;
 	}
 
 	/**
@@ -364,6 +383,26 @@ class AddCandidateForm extends BaseForm {
         public function getResume() {
             return $this->attachment;
         }
+        
+        /**
+        * Guess the file mime type from the file extension
+        *
+        * @param  string $file  The absolute path of a file
+        *
+        * @return string The mime type of the file (null if not guessable)
+        */
+        public function guessTypeFromFileExtension($file) {
+
+            $mimeType = null;
+          
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+
+            if (isset($this->allowedFileTypes[$extension])) {
+              $mimeType = $this->allowedFileTypes[$extension];
+            }
+
+            return $mimeType;
+        }        
 
 }
 
