@@ -182,7 +182,7 @@ document.frmInstall.submit();
 </tr>
 <tr>
 	<td class="tdComponent">Database Name</td>
-	<td class="tdValues"><input type="text" name="dbName" value="<?php echo  isset($_SESSION['dbInfo']['dbName']) ? $_SESSION['dbInfo']['dbName'] : 'hr_mysql'?>" tabindex="3"></td>
+	<td class="tdValues"><input type="text" name="dbName" value="<?php echo  isset($_SESSION['dbInfo']['dbName']) ? $_SESSION['dbInfo']['dbName'] : 'orangehrm_mysql'?>" tabindex="3"></td>
 </tr>
 <?php if ($_SESSION['cMethod'] == 'new') { // Couldn't use JavaScript since IE didn't support 'table-row' display property in CSS ?>
 <tr>
