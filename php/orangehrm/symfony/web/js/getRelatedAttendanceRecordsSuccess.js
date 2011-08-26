@@ -4,8 +4,8 @@ $(document).ready(function()
         $('#msg').html("");
         $("#dialogBox").dialog({
             autoOpen: false,
-            width: 350,
-            height: 235
+            width: 300,
+            height: 50
         });
 
         $("#cancel").click(function() {

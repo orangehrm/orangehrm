@@ -95,10 +95,11 @@ class AttendanceActions extends sfActions {
     }
 
     public function executeGetCurrentTime($request) {
+        $timeZoneOffset = $request->getParameter('timeZone');
 
-        $userObj = $this->getContext()->getUser()->getAttribute('user');
-        $timeZoneOffset = $userObj->getUserTimeZoneOffset();
-        $timeStampDiff = $timeZoneOffset * 3600 - date('Z');
+//        $userObj = $this->getContext()->getUser()->getAttribute('user');
+//        $timeZoneOffset = $userObj->getUserTimeZoneOffset();
+        $timeStampDiff = $timeZoneOffset - date('Z');
         $currentDate = date('Y-m-d', time() + $timeStampDiff);
         $currentTime = date('H:i', time() + $timeStampDiff);
 
@@ -179,12 +180,16 @@ class AttendanceActions extends sfActions {
 
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
         $allowedActionsList = array();
+        
         $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+        
 
-
+     
         if ($actionableStates != null) {
 
             $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
+            
+            
             foreach ($actionableStates as $actionableState) {
 
                 $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
@@ -365,6 +370,10 @@ class AttendanceActions extends sfActions {
         } else {
             return false;
         }
+    }
+
+    public function executeGetDaylightSavingTimeZone($request) {
+        
     }
 
 }

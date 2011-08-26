@@ -12,8 +12,8 @@ class editAttendanceRecordAction extends sfAction {
         $this->editPunchIn = array();
         $this->editPunchOut = array();
         $this->employeeId = $request->getParameter('employeeId');
-        $this->messageData =array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
- 
+        $this->messageData = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
+
         $this->date = $request->getParameter('date');
 
         $this->actionRecorder = $request->getParameter('actionRecorder');
@@ -55,24 +55,31 @@ class editAttendanceRecordAction extends sfAction {
 
             if (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $allowedActionsForCurrentRecord)) {
 
-                $this->editPunchOut[$i] = true;
+                    $this->editPunchOut[$i] = true;
+          
             } else {
                 $this->editPunchOut[$i] = false;
             }
             $i++;
         }
 
-       
+
         if ($formSubmitAction) {
             if ($request->isMethod('post')) {
-         
+
                 $this->editAttendanceForm->bind($request->getParameter('attendance'));
- 
+     print_r("hi1");
                 if ($this->editAttendanceForm->isValid()) {
-              
+                    print_r("hi");
+
                     $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
-                     $messageData = array('SUCCESS', __(' Records Saved Successfully'));
-                      $this->redirect('attendance/editAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId,'date' =>$this->date)));
+                    $messageData = array('SUCCESS', __(' Records Saved Successfully'));
+                    if ($this->actionRecorder == "viewMy") {
+                        $this->redirect('attendance/viewMyAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
+                    }
+                    if ($this->actionRecorder == "viewEmployee") {
+                        $this->redirect('attendance/viewAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
+                    }
                 }
             }
         }

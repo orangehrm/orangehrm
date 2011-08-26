@@ -209,7 +209,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
     public function getActionableAttendanceStates($actions) {
 
-
+      
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
 
@@ -224,12 +224,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         return $actionableAttendanceStatesList;
     }
 
-    public function getActionableStates() {
 
-        $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
-        return $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, EssUserRoleDecorator::ESS_USER, $actions);
-    }
 
     public function isAllowedToDefineTimeheetPeriod() {
         return $this->user->isAllowedToDefineTimeheetPeriod();

@@ -1,8 +1,8 @@
 $(document).ready(function()
     {
+      
         var d = new Date()
         var gmtHours = -d.getTimezoneOffset()*60;
-        
 
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
@@ -20,6 +20,8 @@ $(document).ready(function()
                 if((validate())) {
 
                     if((validateForpunchInOverLapping()==1)) {
+                        var d = new Date()
+                        var gmtHours = -d.getTimezoneOffset()*60;
                         $('form#punchTimeForm').attr({
 
                             action:linkForPunchIn+"?timeZone="+gmtHours
@@ -40,6 +42,8 @@ $(document).ready(function()
                 if((validate())) {
    
                     if(validatePunchOutOverLapping()==1){
+                        var d = new Date()
+                        var gmtHours = -d.getTimezoneOffset()*60;
 
                         $('form#punchTimeForm').attr({
 

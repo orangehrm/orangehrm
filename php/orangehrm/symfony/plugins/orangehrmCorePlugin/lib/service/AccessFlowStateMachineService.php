@@ -110,7 +110,6 @@ class AccessFlowStateMachineService {
 
     public function getActionableStates($flow, $role, $actions) {
 
-
         $records = $this->getAccessFlowStateMachineDao()->getActionableStates($flow, $role, $actions);
 
         if($records==null){
@@ -122,7 +121,7 @@ class AccessFlowStateMachineService {
 
             $tempArray[] = $record->getState();
         }
-
+        
         return $tempArray;
     }
 

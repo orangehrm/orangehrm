@@ -99,7 +99,7 @@ class punchInAction extends sfAction {
 //                $attendanceRecord->setPunchInTimeOffset($timeZoneOffset);
 //                $attendanceRecord->setstate($nextState);
 //
-//                $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+//                $this->getAttendanceService()->savePunchRecord($attendanceRecord);z
 
                 $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchIndateTime - $timeZoneOffset), date('Y-m-d H:i', $punchIndateTime), $timeZoneOffset / 3600, $punchInNote);
 

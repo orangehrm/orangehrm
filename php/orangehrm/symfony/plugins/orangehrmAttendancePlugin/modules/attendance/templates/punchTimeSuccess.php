@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */ ?>
-<?php if (!((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions'))&&(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions')))))))  : ?>
+<?php if (!((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))))))) : ?>
 
     <body id="b" onload="JavaScript:timedRefresh(1);">
     <?php endif; ?>
@@ -55,7 +55,7 @@
                 <table class="punchTable" border="0" cellpadding="5" cellspacing="0">
                     <tbody>
                         <?php echo $form['_csrf_token']; ?>
-                        <?php if ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions'))&& (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions'))) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions')))) : ?>
+                        <?php if ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions'))) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions')))) : ?>
                             <tr>
                                 <td><?php echo $form['date']->renderLabel() ?></td>
                                 <td> <?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td></tr>
@@ -93,7 +93,7 @@
 
     </div>
 
-    <?php if (((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions'))&&(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))))))) : ?>
+    <?php if (((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $sf_data->getRaw('allowedActions')))) || ((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $sf_data->getRaw('allowedActions')) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))))))) : ?>
         <?php $editmode = true; ?>
     <?php endif; ?>
 
@@ -132,7 +132,7 @@
                                               
     //  
 
-var editMode =false;
+    var editMode =false;
 
     if( '<?php echo $editmode ?>'){
                 
@@ -149,11 +149,13 @@ var editMode =false;
         }
         function getCurrentTime(){
 
-
+            var d = new Date()
+            var timeZone = -d.getTimezoneOffset()*60;
 
             var r = $.ajax({
                 type: 'POST',
                 url: getCurrentTimeLink,
+                data: "timeZone="+timeZone,
                 async: false,
 
                 success: function(msg){

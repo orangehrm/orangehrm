@@ -30,9 +30,16 @@
                 <?php $i = 1; ?>
                 <?php echo $editAttendanceForm['_csrf_token']; ?>
 
+                
+                <?php if ($records== null): ?>
+                <tr><td colspan ="5"></tr>
+                
+                  <?php else: ?>
+                
                 <?php foreach ($records as $record): ?>
 
                     <tr> <?php if ($editPunchIn[$i]): ?>
+                      
                             <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchInUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
@@ -50,7 +57,7 @@
                             </td>
 
                         <?php else: ?>
-                            <td> <?php echo date('Y-m-d',  strtotime($record->getPunchInUserTime()));?> &nbsp;<?php  echo date('H:i',  strtotime($record->getPunchInUserTime())); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo $record->getPunchInUtcTime();?>"<input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchInUtcTime()));?>"></td>
+                            <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchInUtcTime_".$i;?>" value="<?php echo Date('Y-m-d H:i',strtotime($record->getPunchInUtcTime()));?>"></td>
                             <td><table cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <?php
@@ -107,6 +114,7 @@
                     </tr>
                     <?php $i++; ?>
                 <?php endforeach; ?>
+                     <?php endif; ?>
             </table>
 
             <div class="formbuttons">

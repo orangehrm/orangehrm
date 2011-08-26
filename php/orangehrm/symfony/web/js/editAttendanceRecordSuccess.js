@@ -14,7 +14,7 @@ $(document).ready(function()
         $(".nonEditable").each(function(){
             element = $(this)
 
-            $(".nonEditable").attr("disabled", "disabled");
+            $(".nonEditable").attr('readonly', true);
         
         });
            
@@ -127,7 +127,7 @@ $(document).ready(function()
             
                 if(flag1){
                     var flag3=validateForpunchInOverLapping(inTimezone,inTime, inDate);
-                    if(!flag1){
+                    if(!flag3){
                         var errorStyle = "background-color:#FFDFDF;";
                         element.attr('style', errorStyle);
                     

@@ -169,16 +169,16 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
 
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
+        $actionableAttendanceStatesForProjectAdminUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $actions);
 
 
         $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
 
-        if (is_null($actionableAttendanceStatesForSupervisorUser)) {
+        if (is_null($actionableAttendanceStatesForProjectAdminUser)) {
             return $actionableAttendanceStates;
         }
 
-        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForSupervisorUser, $actionableAttendanceStates));
+        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForProjectAdminUser, $actionableAttendanceStates));
         return $actionableAttendanceStatesList;
     }
 
