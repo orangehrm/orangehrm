@@ -42,19 +42,19 @@ use_javascript('../orangehrmRecruitmentPlugin/js/viewJobVacancySuccess');
             <?php echo $form['_csrf_token']; ?>
             <br class="clear"/>
             <div class="column">
-                <?php echo $form['jobTitle']->renderLabel(__('Job Title')); ?>
+                <?php echo $form['jobTitle']->renderLabel(__('Job Title'), array("class" => "jobTitleLabel")); ?>
                 <?php echo $form['jobTitle']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
             </div>
             <div class="column">
-                <?php echo $form['jobVacancy']->renderLabel(__('Vacancy')); ?>
+                <?php echo $form['jobVacancy']->renderLabel(__('Vacancy'), array("class" => "vacancyLabel")); ?>
                 <?php echo $form['jobVacancy']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
             </div>
             <div class="column">
-                <?php echo $form['hiringManager']->renderLabel(__('Hiring Manager')); ?>
+                <?php echo $form['hiringManager']->renderLabel(__('Hiring Manager'), array("class" => "hiringManagerLabel")); ?>
                 <?php echo $form['hiringManager']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
             </div>
             <div class="column">
-                <?php echo $form['status']->renderLabel(__('Status')); ?>
+                <?php echo $form['status']->renderLabel(__('Status'), array("class" => "statusLabel")); ?>
                 <?php echo $form['status']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
             </div>
             <br class="clear"/>

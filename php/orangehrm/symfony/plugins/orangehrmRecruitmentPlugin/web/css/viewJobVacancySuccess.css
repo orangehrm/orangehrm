@@ -4,8 +4,7 @@ root {
 
 div .column {
 	float:left;
-	width:23%;
-}
+	width:25%;
 
 .drpDown {
 	margin-top: 8px;
@@ -40,4 +39,20 @@ div.formbuttons {
 
 #btnSrch{
 	margin: 2px 0px 2px 5px;
+}
+
+label.jobTitleLabel {
+    width: 70px;
+}
+
+label.vacancyLabel {
+    width: 70px;
+}
+
+label.hiringManagerLabel {
+    width: 100px;
+}
+
+label.statusLabel {
+    width: 70px;
 }
