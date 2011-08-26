@@ -416,7 +416,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_CANDIDATES);
-        $tempArray = $this->user->getAccessibleTimeMenus();
+        $tempArray = array(); 
         array_push($tempArray, $topMenuItem);
 
         $topMenuItem = new TopMenuItem();
