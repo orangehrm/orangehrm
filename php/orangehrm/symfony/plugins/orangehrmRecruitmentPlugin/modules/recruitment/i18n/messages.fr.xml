@@ -460,6 +460,118 @@
                 <source>Click on a candidate name to perform actions</source>
                 <target>FR_Click on a candidate name to perform actions</target>
             </trans-unit>
+			<trans-unit id="115">
+                <source>Delete selected record(s)?</source>
+                <target>FR_Delete selected record(s)?</target>
+            </trans-unit>
+			<trans-unit id="116">
+                <source>Mark Interview Passed</source>
+                <target>FR_Mark Interview Passed</target>
+            </trans-unit>
+			<trans-unit id="117">
+                <source>Mark Interview Failed</source>
+                <target>FR_Mark Interview Failed</target>
+            </trans-unit>
+			<trans-unit id="118">
+                <source>View Action History</source>
+                <target>FR_View Action History</target>
+            </trans-unit>
+			<trans-unit id="120">
+                <source>Offer Job</source>
+                <target>FR_Offer Job</target>
+            </trans-unit>
+			<trans-unit id="121">
+                <source>Interview Passed</source>
+                <target>FR_Interview Passed</target>
+            </trans-unit>
+			<trans-unit id="122">
+                <source>Interview Failed</source>
+                <target>FR_Interview Failed</target>
+            </trans-unit>
+			<trans-unit id="123">
+                <source>Decline Offer</source>
+                <target>FR_Decline Offer</target>
+            </trans-unit>
+			<trans-unit id="124">
+                <source>Job Offered</source>
+                <target>FR_Job Offered</target>
+            </trans-unit>
+			<trans-unit id="126">
+                <source>Hire</source>
+                <target>FR_Hire</target>
+            </trans-unit>
+			<trans-unit id="127">
+                <source>Hired</source>
+                <target>FR_Hired</target>
+            </trans-unit>
+			<trans-unit id="128">
+                <source>Shortlisted</source>
+                <target>FR_Shortlisted</target>
+            </trans-unit>
+			<trans-unit id="129">
+                <source>Interview Scheduled</source>
+                <target>FR_Interview Scheduled</target>
+            </trans-unit>
+			<trans-unit id="130">
+                <source>Offer Declined</source>
+                <target>FR_Offer Declined</target>
+            </trans-unit>
+			<trans-unit id="131">
+                <source>added</source>
+                <target>FR_added</target>
+            </trans-unit>
+			<trans-unit id="132">
+                <source>scheduled</source>
+                <target>FR_scheduled</target>
+            </trans-unit>
+			<trans-unit id="133">
+                <source>assigned the job vacancy</source>
+                <target>FR_assigned the job vacancy</target>
+            </trans-unit>
+			<trans-unit id="134">
+                <source>with</source>
+                <target>FR_with</target>
+            </trans-unit>
+			<trans-unit id="135">
+                <source>on</source>
+                <target>FR_on</target>
+            </trans-unit>
+			<trans-unit id="136">
+                <source>Application Initiated</source>
+                <target>FR_Application Initiated</target>
+            </trans-unit>
+			<trans-unit id="137">
+                <source>marked</source>
+                <target>FR_marked</target>
+            </trans-unit>
+			<trans-unit id="138">
+                <source>as passed</source>
+                <target>FR_as passed</target>
+            </trans-unit>
+			<trans-unit id="139">
+                <source>offred the job</source>
+                <target>FR_offred the job</target>
+            </trans-unit>
+			<trans-unit id="140">
+                <source>as failed</source>
+                <target>FR_as failed</target>
+            </trans-unit>
+			<trans-unit id="141">
+                <source>rejected</source>
+                <target>FR_rejected</target>
+            </trans-unit>
+			<trans-unit id="142">
+                <source>from the vacancy</source>
+                <target>FR_from the vacancy</target>
+            </trans-unit>
+			<trans-unit id="143">
+                <source>declined the offer</source>
+                <target>FR_declined the offer</target>
+            </trans-unit>
+			<trans-unit id="144">
+                <source>hired</source>
+                <target>FR_hired</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
