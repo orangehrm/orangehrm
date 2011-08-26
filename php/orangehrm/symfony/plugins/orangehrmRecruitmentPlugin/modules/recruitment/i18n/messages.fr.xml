@@ -417,16 +417,16 @@
                 <target>FR_Schedule Interview</target>
             </trans-unit>
             <trans-unit id="104">
-                <source>Interview Heading</source>
-                <target>FR_Interview Heading</target>
+                <source>Interview Title</source>
+                <target>FR_Interview Title</target>
             </trans-unit>
             <trans-unit id="105">
                 <source>Interviewer Name</source>
                 <target>FR_Interviewer Name</target>
             </trans-unit>
             <trans-unit id="106">
-                <source>Interview Heading is required</source>
-                <target>FR_Interview Heading is required</target>
+                <source>Interview Title is required</source>
+                <target>FR_Interview Title is required</target>
             </trans-unit>
             <trans-unit id="107">
                 <source>Time is required</source>

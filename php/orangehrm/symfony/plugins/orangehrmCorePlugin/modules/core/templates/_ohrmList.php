@@ -78,16 +78,18 @@ function printButtonEventBindings($buttons) {
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
         <?php
 
-            if (isset($buttons)) {
+            if (count($buttons) > 0) {
                 renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE);
+                echo "<br class=\"clear\" />";
             }
 
-            if (isset($extraButtons)) {
+            if (count($extraButtons) > 0) {
                 renderActionBar($extraButtons);
+                echo "<br class=\"clear\" />";
             }
             
             include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
-        ?><br class="clear" />
+        ?>
         <?php if ($pager->haveToPaginate()) { ?>
         <div class="navigationHearder">
             <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>

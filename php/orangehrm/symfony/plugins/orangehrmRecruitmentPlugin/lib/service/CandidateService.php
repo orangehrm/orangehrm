@@ -127,10 +127,9 @@ class CandidateService extends BaseService {
      * @param <type> $state
      * @return <type>
      */
-    public function getNextActionsForCandidateVacancy($state) {
+    public function getNextActionsForCandidateVacancy($state, $userObj) {
         $stateMachine = new WorkflowStateMachine();
         $list = array("" => __('Select Action'));
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $allowedActions = $userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state);
         foreach ($allowedActions as $action) {
             $list[$action] = $stateMachine->getRecruitmentActionName($action);
@@ -308,6 +307,13 @@ class CandidateService extends BaseService {
 
     public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId){
 	    return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
+    }
+
+    public function isHiringManager($candidateVacancyId, $empNumber){
+        return $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);
+    }
+    public function isInterviewer($candidateVacancyId, $empNumber){
+        return $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
     }
 
 }

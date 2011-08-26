@@ -28,6 +28,7 @@ class viewCandidatesForm extends BaseForm {
     private $vacancyService;
     private $allowedCandidateList;
     private $allowedVacancyList;
+    public  $allowedCandidateListToDelete;
 
     /**
      * Get CandidateService
@@ -76,6 +77,7 @@ class viewCandidatesForm extends BaseForm {
 
         $this->allowedCandidateList = $this->getOption('allowedCandidateList');
         $this->allowedVacancyList = $this->getOption('allowedVacancyList');
+        $this->allowedCandidateListToDelete = $this->getOption('allowedCandidateListToDelete');
         $jobVacancyList = $this->getVacancyList();
         $modeOfApplication = array('' => __('All'), JobCandidate::MODE_OF_APPLICATION_MANUAL => __('Manual'), JobCandidate::MODE_OF_APPLICATION_ONLINE => __('Online'));
         $hiringManagerList = $this->getHiringManagersList();

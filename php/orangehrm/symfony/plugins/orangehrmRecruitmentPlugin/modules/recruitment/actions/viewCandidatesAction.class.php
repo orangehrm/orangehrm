@@ -61,8 +61,10 @@ class viewCandidatesAction extends sfAction {
         $usrObj = $this->getUser()->getAttribute('user');
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
+        $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
+        
         $isAdmin = $usrObj->isAdmin();
-        $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList);
+        $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
         $this->resetable = false;
 
         $candidateId = $request->getParameter('candidateId');

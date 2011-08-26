@@ -47,7 +47,7 @@
             <label class="firstLabel"><?php echo __('Vacancy Name'); ?></label>
             <label class="secondLabel"><?php echo $form->vacancyName; ?></label>
             <br class="clear" />
-            <?php echo $form['name']->renderLabel(__('Interview Heading') . ' <span class="required">*</span>') ; ?>
+            <?php echo $form['name']->renderLabel(__('Interview Title') . ' <span class="required">*</span>') ; ?>
             <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
             <div class="errorHolder"></div>
             <br class="clear" />
@@ -112,7 +112,7 @@
     var lang_identical_rows = "<?php echo __("Cannot assign same interviewer twice"); ?>";
     var interviewId = "<?php echo $interviewId; ?>";
     var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
-    var lang_interviewHeadingRequired = "<?php echo __('Interview Heading is required'); ?>";
+    var lang_interviewHeadingRequired = "<?php echo __('Interview Title is required'); ?>";
     var lang_timeRequired = "<?php echo __("Time is required"); ?>";
     var lang_noMoreThan98 = "<?php echo __("Please enter no more than 98 characters"); ?>";
     var lang_noMoreThan18 = "<?php echo __("Please enter no more than 18 characters"); ?>";

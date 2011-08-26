@@ -135,6 +135,18 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
         }
     }
 
+    public function getAllowedCandidateListToDelete() {
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allowedCandidateIdListToDelete = $accessFlowStateMachineService->getAllowedCandidateList(HiringManagerUserRoleDecorator::HIRING_MANAGER, $this->getEmployeeNumber());
+        $existingIdList = $this->user->getAllowedCandidateListToDelete();
+        if (is_null($allowedCandidateIdListToDelete)) {
+            return $existingIdList;
+        } else {
+            $allowedCandidateIdListToDelete = array_unique(array_merge($allowedCandidateIdListToDelete, $existingIdList));
+            return $allowedCandidateIdListToDelete;
+        }
+    }
+
     public function getAllowedVacancyList() {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();

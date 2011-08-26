@@ -136,6 +136,10 @@ class InterviewerUserRoleDecorator extends UserRoleDecorator {
         }
     }
 
+    public function getAllowedCandidateListToDelete() {
+        return $this->user->getAllowedCandidateListToDelete();
+    }
+
     public function getAllowedVacancyList() {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();

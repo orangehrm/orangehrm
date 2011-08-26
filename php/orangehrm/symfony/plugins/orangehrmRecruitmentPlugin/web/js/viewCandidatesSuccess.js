@@ -6,7 +6,7 @@ $(document).ready(function() {
         $("#candidateSearch_fromDate").val(dateDisplayFormat);
     }
     if(resetable){
-	$('#btnRst').show();
+        $('#btnRst').show();
     }else{
         $('#btnRst').hide();
     }
@@ -200,11 +200,19 @@ $(document).ready(function() {
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
     $('#dialogDeleteBtn').click(function() {
         document.frmList_ohrmListComponent.submit();
-        });
+    });
     $('#dialogCancelBtn').click(function() {
         $("#deleteConfirmation").dialog("close");
     });
 
+    $(':checkbox[name*="chkSelectRow[]"]').each(function() {
+        var id = $(this).attr('id');
+        var temp = id.split("_")
+        if(($.inArray(temp[2], allowedCandidateListToDelete)) == -1){
+            $(this).attr('disabled', 'disabled');
+        }
+
+    });
 
 });
 
@@ -240,9 +248,9 @@ function getVacancyListJson(vcUrl, para){
     $.getJSON(vcUrl, function(data) {
 
         var numOptions = 0;
-		if(data != null){
-			numOptions = data.length;
-		}
+        if(data != null){
+            numOptions = data.length;
+        }
         var optionHtml = '<option value="">'+lang_all+'</option>';
 
         for (var i = 0; i < numOptions; i++) {
@@ -284,80 +292,80 @@ function isValidForm(){
                     break;
                 }
             }
-            }
-    return temp;
+        }
+        return temp;
     });
 
-$.validator.addMethod("dateComparison", function(value, element, params) {
-    var temp = false;
+    $.validator.addMethod("dateComparison", function(value, element, params) {
+        var temp = false;
 
-    var fromdate	=	$('#candidateSearch_fromDate').val();
-    var todate	=	$('#candidateSearch_toDate').val();
+        var fromdate	=	$('#candidateSearch_fromDate').val();
+        var todate	=	$('#candidateSearch_toDate').val();
         
-    if(fromdate.trim() == "" || todate.trim() == "" || fromdate == dateDisplayFormat || todate == dateDisplayFormat){
-        temp = true;
-    }else{
-        fromdate = (fromdate).split("-");
-        var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-        
-        todate = (todate).split("-");
-        var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-        if ( fromdate <= todate){
+        if(fromdate.trim() == "" || todate.trim() == "" || fromdate == dateDisplayFormat || todate == dateDisplayFormat){
             temp = true;
-        }
-    }
-    return temp;
+        }else{
+            fromdate = (fromdate).split("-");
+            var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
+        
+            todate = (todate).split("-");
+            var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
 
-});
-
-var validator = $("#frmSrchCandidates").validate({
-
-    rules: {
-        'candidateSearch[candidateName]' : {
-            canNameValidation: true
-        },
-        'candidateSearch[fromDate]' : {
-            valid_date: function() {
-                return {
-                    format:jsDateFormat,
-                    displayFormat:dateDisplayFormat,
-                    required:false
-                }
-            },
-            dateComparison:true
-        },
-        'candidateSearch[toDate]' : {
-            valid_date: function() {
-                return {
-                    format:jsDateFormat,
-                    displayFormat:dateDisplayFormat,
-                    required:false
-                }
+            if ( fromdate <= todate){
+                temp = true;
             }
         }
-    },
-    messages: {
-        'candidateSearch[candidateName]' : {
-            canNameValidation: lang_enterValidName
+        return temp;
+
+    });
+
+    var validator = $("#frmSrchCandidates").validate({
+
+        rules: {
+            'candidateSearch[candidateName]' : {
+                canNameValidation: true
+            },
+            'candidateSearch[fromDate]' : {
+                valid_date: function() {
+                    return {
+                        format:jsDateFormat,
+                        displayFormat:dateDisplayFormat,
+                        required:false
+                    }
+                },
+                dateComparison:true
+            },
+            'candidateSearch[toDate]' : {
+                valid_date: function() {
+                    return {
+                        format:jsDateFormat,
+                        displayFormat:dateDisplayFormat,
+                        required:false
+                    }
+                }
+            }
         },
-        'candidateSearch[fromDate]' : {
-            dateComparison : lang_dateError,
-            valid_date: lang_validDateMsg
+        messages: {
+            'candidateSearch[candidateName]' : {
+                canNameValidation: lang_enterValidName
+            },
+            'candidateSearch[fromDate]' : {
+                dateComparison : lang_dateError,
+                valid_date: lang_validDateMsg
+            },
+            'candidateSearch[toDate]' : {
+                valid_date: lang_validDateMsg
+            }
+
         },
-        'candidateSearch[toDate]' : {
-            valid_date: lang_validDateMsg
+        errorPlacement: function(error, element) {
+
+            error.appendTo( element.prev('label') );
+            //        error.appendTo(element.next('div.errorHolder'));
+            //        error.insertAfter(element.next().next(".clear"));
+            error.appendTo(element.next().next('div.errorHolder'));
         }
 
-    },
-    errorPlacement: function(error, element) {
-
-        error.appendTo( element.prev('label') );
-//        error.appendTo(element.next('div.errorHolder'));
-//        error.insertAfter(element.next().next(".clear"));
-        error.appendTo(element.next().next('div.errorHolder'));
-    }
-
-});
-return true;
+    });
+    return true;
 }

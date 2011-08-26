@@ -48,7 +48,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testCandidateList() {
 
-	$allowedCandidatesList = array(1,2,3);
+        $allowedCandidatesList = array(1, 2, 3);
         $candidatesList = $this->candidateDao->getCandidateList($allowedCandidatesList);
         $this->assertTrue($candidatesList[0] instanceof JobCandidate);
     }
@@ -578,8 +578,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetCandidateHistoryForCandidateId() {
-	$allowedHistoryList = array(1,2);
-        $result = $this->candidateDao->getCandidateHistoryForCandidateId(1,$allowedHistoryList);
+        $allowedHistoryList = array(1, 2);
+        $result = $this->candidateDao->getCandidateHistoryForCandidateId(1, $allowedHistoryList);
         $this->assertTrue($result[0] instanceof CandidateHistory);
         $this->assertEquals($result[0]->getAction(), 1);
     }
@@ -738,11 +738,39 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $candidatesHistoryForAdmin = $this->candidateDao->getCanidateHistoryForUserRole(AdminUserRoleDecorator::ADMIN_USER, null, 1);
         $this->assertEquals(count($candidatesHistoryForAdmin), 2);
     }
-    
+
     public function testGetLastPerformedActionByCandidateVacancyId() {
-	$candidateVacancyId = 1;
+        $candidateVacancyId = 1;
         $candidatesHistory = $this->candidateDao->getLastPerformedActionByCandidateVacancyId($candidateVacancyId);
         $this->assertEquals(count($candidatesHistory), 1);
+    }
+
+    public function testIsHiringManager() {
+        $candidateVacancyId = 1;
+        $empNumber = 1;
+        $result = $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);
+        $this->assertTrue($result);
+    }
+
+    public function testIsHiringManagerForFalse() {
+        $candidateVacancyId = 1;
+        $empNumber = 2;
+        $result = $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);
+        $this->assertFalse($result);
+    }
+
+    public function testIsInterviewer() {
+        $candidateVacancyId = 1;
+        $empNumber = 3;
+        $result = $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
+        $this->assertTrue($result);
+    }
+
+    public function testIsInterviewerForFalse() {
+        $candidateVacancyId = 1;
+        $empNumber = 1;
+        $result = $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
+        $this->assertFalse($result);
     }
 
 }

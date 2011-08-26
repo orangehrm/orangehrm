@@ -163,6 +163,7 @@
                 var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                 var lang_enterCommaSeparatedWords = '<?php echo __("Enter comma separated words") . "..."; ?>';
                 var resetable = "<?php echo $resetable; ?>";
+                var allowedCandidateListToDelete = <?php echo json_encode($form->allowedCandidateListToDelete); ?>;
 
     //]]>
 </script>

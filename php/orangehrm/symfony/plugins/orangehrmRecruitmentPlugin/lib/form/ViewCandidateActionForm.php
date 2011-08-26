@@ -27,6 +27,7 @@ class ViewCandidateActionForm extends BaseForm {
     private $candidateService;
     public $candidateId;
     public $candidate;
+    public $empNumber;
 
     /**
      * Get CandidateService
@@ -54,13 +55,23 @@ class ViewCandidateActionForm extends BaseForm {
     public function configure() {
         
         $this->candidateId = $this->getOption('candidateId');
+        $this->empNumber = $this->getOption('empNumber');
         if ($this->candidateId > 0) {
             $this->candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
             $existingVacancyList = $this->candidate->getJobCandidateVacancy();
             if ($existingVacancyList[0]->getVacancyId() > 0) {
+                $userObj = new User();
+                $userRoleDecorator = new SimpleUserRoleFactory();
+                $userRoleArray = array();
                 foreach ($existingVacancyList as $candidateVacancy) {
+                    $userRoleArray['isHiringManager'] = $this->getCandidateService()->isHiringManager($candidateVacancy->getId(), $this->empNumber);
+                    $userRoleArray['isInterviewer'] = $this->getCandidateService()->isInterviewer($candidateVacancy->getId(), $this->empNumber);
+                    if($this->empNumber == null){
+                        $userRoleArray['isAdmin'] = true;
+                    }
+                    $newlyDecoratedUserObj = $userRoleDecorator->decorateUserRole($userObj, $userRoleArray);
                     $widgetName = $candidateVacancy->getId();
-                    $this->setWidget($widgetName, new sfWidgetFormSelect(array('choices' => $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus()))));
+                    $this->setWidget($widgetName, new sfWidgetFormSelect(array('choices' => $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $newlyDecoratedUserObj))));
                     $this->setValidator($widgetName, new sfValidatorString(array('required' => false)));
                 }
             }

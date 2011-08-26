@@ -372,6 +372,19 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         }
     }
 
+    public function getAllowedCandidateListToDelete() {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allowedCandidateIdListToDelete = $accessFlowStateMachineService->getAllowedCandidateList(AdminUserRoleDecorator::ADMIN_USER, null);
+        $existingIdList = $this->user->getAllowedCandidateListToDelete();
+        if (is_null($allowedCandidateIdListToDelete)) {
+            return $existingIdList;
+        } else {
+            $allowedCandidateIdListToDelete = array_unique(array_merge($allowedCandidateIdListToDelete, $existingIdList));
+            return $allowedCandidateIdListToDelete;
+        }
+    }
+
     public function getAllowedVacancyList() {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();

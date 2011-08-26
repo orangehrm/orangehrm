@@ -32,6 +32,7 @@ class User {
     private $previousStates = array();
     private $applicationStates = array();
     private $candidateList = array();
+    private $candidateListToDelete = array();
     private $vacancyList = array();
     private $candidateHistoryList = array();
     private $isAdmin = false;
@@ -136,6 +137,10 @@ class User {
 
     public function getAllowedCandidateList() {
         return $this->candidateList;
+    }
+
+    public function getAllowedCandidateListToDelete() {
+        return $this->candidateListToDelete;
     }
 
     public function getAllowedVacancyList() {

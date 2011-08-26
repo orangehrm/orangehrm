@@ -75,7 +75,7 @@ class addCandidateAction extends sfAction {
 
         $this->candidateId = $request->getParameter('id');
 
-        $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList);
+        $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
         $this->setForm(new AddCandidateForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
