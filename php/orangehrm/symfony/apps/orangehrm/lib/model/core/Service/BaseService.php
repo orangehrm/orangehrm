@@ -114,19 +114,34 @@ class BaseService {
 
         if (!empty($extensions['orderBy'])) {
 
-            $orderFieldList = '`' . implode('`, `', $extensions['orderBy']) . '`';
+            foreach ($extensions['orderBy'] as $orderByParams) {
+                $orderByField = "`{$orderByParams['field']}` {$orderByParams['order']}";
+                $prependingFields = array();
+                $appendingFields = array();
+                if (isset($orderByParams['position']) && $orderByParams['position'] == 'before') {
+                    $prependingFields[] = $orderByField;
+                } else {
+                    $appendingFields[] = $orderByField;
+                }
+            }
 
             if (preg_match('/\ ORDER\ BY\ /', $query)) {
+                $prependingFields = empty($prependingFields) ? '' : implode(', ', $prependingFields);
+                $appendingFields = empty($appendingFields) ? '' : implode(', ', $appendingFields);
+
                 $matchedDelimiter = '';
-                list($left, $matchedDelimiter, $right) = preg_split('/LIMIT/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
-                $left .= ", {$orderFieldList}";
-                $query = "{$left} {$matchedDelimiter} {$right}";
+                list($left, $right) = preg_split('/LIMIT/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
+                $left .= " {$appendingFields}";
+                $query = "{$left} LIMIT {$right}";
+
+                $query = str_replace('ORDER BY ', "ORDER BY {$prependingFields}, ", $query);
             } else {
+                $orderFieldList = implode(', ', array_merge($prependingFields, $appendingFields));
                 $query .= ' ORDER BY ' . $orderFieldList;
             }
         }
 
-        $query = $this->_fillPlaceholders($query, $parameters);
+        $query = $this->_fillPlaceholders($query, $parameters, true);
 
         return trim($query);
     }
@@ -149,12 +164,12 @@ class BaseService {
      * @param array $parameters
      * @return string 
      */
-    private function _fillPlaceholders($query, $parameters) {
+    private function _fillPlaceholders($query, $parameters, $fulltext = false) {
         $patterns = array();
         $replacements = array();
         foreach ($parameters as $key => $value) {
             $patterns[] = "/\{{$key}\}/";
-            $replacements[] = $value;
+            $replacements[] = ($fulltext) ? preg_replace('/\b([a-zA-z]{3})\b/', '$0_', $value) : $value;
         }
         return preg_replace($patterns, $replacements, $query);
     }
