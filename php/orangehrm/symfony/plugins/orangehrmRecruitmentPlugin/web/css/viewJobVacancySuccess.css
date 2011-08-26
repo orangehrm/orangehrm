@@ -5,6 +5,7 @@ root {
 div .column {
 	float:left;
 	width:25%;
+}
 
 .drpDown {
 	margin-top: 8px;
