@@ -307,7 +307,7 @@ class CandidateService extends BaseService {
     }
 
     public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId){
-	    return $this->candidateDao->getCanidateHistoryForUserRole($candidateVacancyId);
+	    return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
     }
 
 }

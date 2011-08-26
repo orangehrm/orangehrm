@@ -71,9 +71,9 @@ class changeCandidateVacancyStatusAction extends sfAction {
         }
 	
         $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
-        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
-            $this->redirect('recruitment/viewCandidates');
-        }
+//        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
+//            $this->redirect('recruitment/viewCandidates');
+//        }
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));

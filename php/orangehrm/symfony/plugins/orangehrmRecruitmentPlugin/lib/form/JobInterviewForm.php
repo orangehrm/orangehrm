@@ -84,7 +84,7 @@ class JobInterviewForm extends BaseForm {
 		    'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
 			    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
 		    'time' => new sfValidatorString(array('required' => true, 'max_length' => 30)),
-		    'note' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
+		    'note' => new sfValidatorString(array('required' => false)),
 		    'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
 		));
 		for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {

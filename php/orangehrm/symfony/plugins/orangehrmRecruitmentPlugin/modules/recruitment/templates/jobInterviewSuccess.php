@@ -76,7 +76,7 @@
             <div class="errorHolder"></div>
             <br class="clear" />
             <?php echo $form['note']->renderLabel(__('Notes')); ?>
-            <?php echo $form['note']->render(array("class" => "formInputText", "maxlength" => 255, "cols" => 30, "rows" => 7)); ?>
+            <?php echo $form['note']->render(array("class" => "formInputText", "cols" => 30, "rows" => 7)); ?>
             <br class="clear" />
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="actionBtn" id="saveBtn"

@@ -74,7 +74,8 @@ class jobInterviewAction extends sfAction {
             $selectedAction = $history->getAction();
             $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
         }
-
+	$lastAction = $this->getCandidateService()->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
+	//print_r($lastAction);die;
         $this->setForm(new JobInterviewForm(array(), $param, true));
         if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
             $this->redirect('recruitment/viewCandidates');

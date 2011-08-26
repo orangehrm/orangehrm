@@ -58,9 +58,9 @@ class viewAttachmentAction extends sfAction {
 
         // this should probably be kept in session?
         $attachId = $request->getParameter('attachId');
-
+        $screen = $request->getParameter('screen');
         $candidateService = $this->getRecruitmentAttachmentService();
-        $attachment = $candidateService->getVacancyAttachment($attachId);
+        $attachment = $candidateService->getAttachment($attachId, $screen);
 
         $response = $this->getResponse();
 

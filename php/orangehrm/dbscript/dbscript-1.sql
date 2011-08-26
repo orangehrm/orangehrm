@@ -1302,7 +1302,7 @@ create table `ohrm_job_candidate_history`(
 
 create table `ohrm_job_interview`(
 	`id` int(13) not null auto_increment,
-	`candidate_vacancy_id` int(13) not null,
+	`candidate_vacancy_id` int(13) default null,
         `interview_name` varchar(100) not null,
 	`interview_date` date default null,
         `interview_time` time default null,
@@ -1387,7 +1387,7 @@ alter table ohrm_timesheet_action_log
 
 alter table ohrm_job_interview
        add constraint foreign key (candidate_vacancy_id)
-                             references ohrm_job_candidate_vacancy(id) on delete cascade;
+                             references ohrm_job_candidate_vacancy(id) on delete set null;
 
 alter table ohrm_job_interview_interviewer
        add constraint foreign key (interview_id)

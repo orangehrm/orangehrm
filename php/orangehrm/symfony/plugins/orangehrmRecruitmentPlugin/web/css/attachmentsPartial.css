@@ -34,7 +34,7 @@ div#parentPaneAttachments td.fileLink{
 
 label{
 	margin-top: 10px;
-	width: 140px;
+	width: 150px;
 }
 
 .atachment{
@@ -45,14 +45,15 @@ label{
 	margin-top: 8px;
 }
 
-label.error {
+form#frmRecAttachment label.error {
 	clear:both;
 	color:red;
 	display:block;
 	font-size:11px;
 	margin-top:5px;
-	padding-left:160px !important;
+	padding-left:170px !important;
 	width:270px !important;
+	margin-left: 1px !important;
 }
 
 /* Using !important to override !important in IE_Only css */
@@ -67,5 +68,5 @@ input#btnCommentOnly {
 .helpText {
     font-size: 8pt;
     color:#888888;
-    padding-left: 160px;
+    padding-left: 170px;
 }

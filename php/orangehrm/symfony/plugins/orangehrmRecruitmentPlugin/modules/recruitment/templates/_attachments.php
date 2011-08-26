@@ -91,7 +91,7 @@
                 </tr>
             </thead>
             <tbody>
-        <?php
+       <?php
         //$disabled = ($locRights['delete']) ? "" : 'disabled="disabled"';
         $row = 0;
         foreach ($attachmentList as $attachment)
@@ -102,7 +102,7 @@
                     <td class="check"><input type='checkbox' class='checkboxAtch' name='delAttachments[]'
                                value="<?php echo $attachment->id; ?>"/></td>
                     <td><a title="<?php echo $attachment->fileName; ?>" target="_blank" class="fileLink"
-                           href="<?php echo url_for('recruitment/viewAttachment?&attachId=' . $attachment->id);?>"><?php echo $attachment->fileName; ?></a></td>
+                           href="<?php echo url_for('recruitment/viewAttachment?attachId=' . $attachment->id . '&screen=' . $screen);?>"><?php echo $attachment->fileName; ?></a></td>
                     <td><?php echo add_si_unit($attachment->fileSize); ?></td>
                     <td><?php echo $attachment->fileType; ?></td>
                      <td class="comments">
