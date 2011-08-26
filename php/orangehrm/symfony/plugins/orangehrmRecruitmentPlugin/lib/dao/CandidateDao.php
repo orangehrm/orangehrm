@@ -334,7 +334,8 @@ class CandidateDao extends BaseDao {
                             ->from('CandidateHistory ch')
                             ->leftJoin('ch.JobCandidateVacancy jcv')
                             ->whereIn('ch.id', $allowedHistoryList)
-                            ->andWhere('ch.candidateId = ?', $candidateId);
+                            ->andWhere('ch.candidateId = ?', $candidateId)
+			    ->orderBy('ch.performedDate DESC');;
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

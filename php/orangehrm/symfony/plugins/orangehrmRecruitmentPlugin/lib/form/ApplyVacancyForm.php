@@ -138,7 +138,8 @@ class ApplyVacancyForm extends BaseForm {
 		$candidate->comment = $this->getValue('comment');
 		$candidate->contactNumber = $this->getValue('contactNo');
 		$candidate->keywords = $this->getValue('keyWords');
-		$candidate->dateOfApplication = ohrm_format_date(date('Y-m-d'));
+		$date = ohrm_format_date(date('Y-m-d'));
+		$candidate->dateOfApplication = ohrm_format_date($date." ".date('H:i:s'));
 		$candidate->status = JobCandidate::ACTIVE;
 		$candidate->modeOfApplication = JobCandidate::MODE_OF_APPLICATION_ONLINE;
 

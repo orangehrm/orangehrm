@@ -126,7 +126,8 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$empNumber = null;
 		}
 		$candidateHistory->setPerformedBy($empNumber);
-		$candidateHistory->setPerformedDate(date('Y-m-d'));
+		$date =  ohrm_format_date(date('Y-m-d'));
+		$candidateHistory->setPerformedDate($date." ".date('H:i:s'));
 		$candidateHistory->setNote($note);
 
 		$result = $this->getCandidateService()->saveCandidateHistory($candidateHistory);

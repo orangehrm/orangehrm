@@ -12,7 +12,7 @@
  * @property integer $interviewId
  * @property integer $action
  * @property integer $performedBy
- * @property date $performedDate
+ * @property timestamp $performedDate
  * @property string $note
  * @property JobCandidate $JobCandidate
  * @property JobCandidateVacancy $JobCandidateVacancy
@@ -26,7 +26,7 @@
  * @method integer             getInterviewId()          Returns the current record's "interviewId" value
  * @method integer             getAction()               Returns the current record's "action" value
  * @method integer             getPerformedBy()          Returns the current record's "performedBy" value
- * @method date                getPerformedDate()        Returns the current record's "performedDate" value
+ * @method timestamp           getPerformedDate()        Returns the current record's "performedDate" value
  * @method string              getNote()                 Returns the current record's "note" value
  * @method JobCandidate        getJobCandidate()         Returns the current record's "JobCandidate" value
  * @method JobCandidateVacancy getJobCandidateVacancy()  Returns the current record's "JobCandidateVacancy" value
@@ -85,9 +85,8 @@ abstract class BaseCandidateHistory extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 13,
              ));
-        $this->hasColumn('performed_date as performedDate', 'date', 25, array(
-             'type' => 'date',
-             'length' => 25,
+        $this->hasColumn('performed_date as performedDate', 'timestamp', null, array(
+             'type' => 'timestamp',
              ));
         $this->hasColumn('note', 'string', 2147483647, array(
              'type' => 'string',

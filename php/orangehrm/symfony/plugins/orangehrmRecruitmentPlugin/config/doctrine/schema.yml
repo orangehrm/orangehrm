@@ -277,7 +277,7 @@ CandidateHistory:
       type: integer(13)
     performed_date:
       name: performed_date as performedDate
-      type: date(25)
+      type: datetime
     note:
       type: string(2147483647)
   relations:

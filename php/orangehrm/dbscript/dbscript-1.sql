@@ -1295,7 +1295,7 @@ create table `ohrm_job_candidate_history`(
 	`interview_id` int(13) default null,
 	`action` int(4) not null,
 	`performed_by` int(13) default null,
-        `performed_date` date not null,
+        `performed_date` datetime not null,
 	`note` text default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;

@@ -39,7 +39,8 @@ class CandidateHistoryService {
 
 		$dto = new CandidateHistoryDto();
 		$dto->setId($object->getId());
-		$dto->setPerformedDate($object->getPerformedDate());
+		$temp = explode(" ",$object->getPerformedDate());
+		$dto->setPerformedDate($temp[0]);
 		$dto->setVacancyName($object->getCandidateVacancyName());
 		$description = $this->getCandidateHistoryDescription($object);
 		$dto->setDescription($description);
@@ -104,7 +105,7 @@ class CandidateHistoryService {
 	}
 
 	public function getDescriptionForRemove($object) {
-		return $object->getPerformerName() . " " . __("removed from the vacancy");
+		return $object->getPerformerName() . " " . __("removed")." ".$object->getJobCandidate()->getFullName()." ".__("from the vacancy");
 	}
 
 	public function getDescriptionForAttachVacancy($object) {

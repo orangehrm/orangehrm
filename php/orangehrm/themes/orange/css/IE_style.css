@@ -270,3 +270,7 @@ div.supActionbuttons {
 /*    width: 30%;*/
 }
 /* PIM Job specific styles : End */
+
+.notes {
+	width: 320px;
+}

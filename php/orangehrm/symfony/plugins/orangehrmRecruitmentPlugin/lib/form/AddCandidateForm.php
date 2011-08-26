@@ -32,6 +32,7 @@ class AddCandidateForm extends BaseForm {
             "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             "doc"  => "application/msword",
             "doc"  => "application/x-msword",
+            "doc"  => "application/vnd.ms-office",
             "odt"  => "application/vnd.oasis.opendocument.text",
             "pdf"  => "application/pdf",
             "pdf"  => "application/x-pdf",
@@ -218,7 +219,8 @@ class AddCandidateForm extends BaseForm {
 						$history->candidateId = $this->candidateId;
 						$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
 						$history->performedBy = $this->addedBy;
-						$history->performedDate = ohrm_format_date(date('Y-m-d'));
+						$date =  ohrm_format_date(date('Y-m-d'));
+						$history->performedDate = $date." ".date('H:i:s');
 						$history->candidateVacancyName = $vacancyName;
 
 						$this->getCandidateService()->saveCandidateHistory($history);
@@ -335,7 +337,8 @@ class AddCandidateForm extends BaseForm {
 			$history->candidateId = $candidate->getId();
 			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
 			$history->performedBy = $this->addedBy;
-			$history->performedDate = ohrm_format_date(date('Y-m-d'));
+			$date =  ohrm_format_date(date('Y-m-d'));
+			$history->performedDate = $date." ".date('H:i:s');
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 		$candidateId = $candidate->getId();
@@ -368,7 +371,8 @@ class AddCandidateForm extends BaseForm {
 					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
 					$history->candidateVacancyId = $candidateVacancy->getId();
 					$history->performedBy = $this->addedBy;
-					$history->performedDate = ohrm_format_date(date('Y-m-d'));
+					$date =  ohrm_format_date(date('Y-m-d'));
+					$history->performedDate = $date." ".date('H:i:s');
 					$history->candidateVacancyName= $candidateVacancy->getVacancyName();
 					$this->getCandidateService()->saveCandidateHistory($history);
 				}

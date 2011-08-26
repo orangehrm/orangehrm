@@ -197,7 +197,8 @@ class JobInterviewForm extends BaseForm {
 
 		$newCandidateHistory->setCandidateVacancyId($this->candidateVacancyId);
 		$newCandidateHistory->setPerformedBy($empNumber);
-		$newCandidateHistory->setPerformedDate(date('Y-m-d'));
+		$date = ohrm_format_date(date('Y-m-d'));
+		$newCandidateHistory->setPerformedDate($date." ".date('H:i:s'));
 		$newCandidateHistory->setNote($note = $this->getValue('note'));
 		$newCandidateHistory->setInterviewId($interviewId);
 		$newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
