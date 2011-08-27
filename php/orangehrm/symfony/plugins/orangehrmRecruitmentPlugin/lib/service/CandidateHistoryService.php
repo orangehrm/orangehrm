@@ -117,7 +117,7 @@ class CandidateHistoryService {
 	}
 
 	public function getDescriptionForReject($object) {
-		return $object->getPerformerName() ." ". __("rejected from the vacancy");
+		return $object->getPerformerName() ." ". __("rejected")." ".$object->getJobCandidate()->getFullName()." ". __("from the vacancy");
 	}
 
 	public function getDescriptionForScheduleInterview($object) {

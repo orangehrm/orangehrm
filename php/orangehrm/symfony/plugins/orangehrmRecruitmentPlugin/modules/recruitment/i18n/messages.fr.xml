@@ -592,6 +592,10 @@
 				<source>Delete selected record(s)</source>
 				<target>FR_Delete selected record(s)</target>
 			</trans-unit>
+			<trans-unit id="150">
+				<source>Back to Job List</source>
+				<target>FR_Back to Job List</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

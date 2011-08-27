@@ -26,7 +26,7 @@ div .newColumn{
 
 div .nameColumn{
 	float:left;
-/*	width:20%;*/
+	/*	width:20%;*/
 }
 
 .duplexBox {
@@ -108,16 +108,22 @@ span.attach{
 	padding-left: 140px;
 }
 #notes {
-    width: 292px ;
+	width: 292px ;
 }
 #cvHelp {
-    padding-left: 140px;
+	padding-left: 140px;
 }
 div.messageBalloon_success {
-    width: 640px;
-    text-align: center;
+	width: 640px;
+	text-align: center;
 }
 div.messageBalloon_warning {
-    width: 640px;
-    text-align: center; 
+	width: 640px;
+	text-align: center;
+}
+#backLink{
+	color: #363636;
+	text-decoration: underline;
+	padding-left: 10px;
+	cursor: pointer;
 }

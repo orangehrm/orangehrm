@@ -5,7 +5,6 @@ $(document).ready(function() {
         $(".contactNo").attr('disabled', 'disabled');
         $(".keyWords").attr('disabled', 'disabled');
         $("#btnSave").hide();
-        $('#btnBack').attr('value', lang_back);
     }
 	stretchy(document.getElementById('txtArea'));
 	//stretchy($('#txtArea').val());
@@ -38,7 +37,7 @@ $(document).ready(function() {
 	});
         
 
-    $('#btnBack').click(function(){
+    $('#backLink').click(function(){
         window.location.replace(linkForViewJobs);
     });
 	if ($("#addCandidate_keyWords").val() == '') {

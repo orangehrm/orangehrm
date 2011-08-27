@@ -129,9 +129,7 @@
             <br class="clear" />
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __("Submit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                    <input type="button" class="backbutton" name="btnBack" id="btnBack"
-                           value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                       value="<?php echo __("Submit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/><span id="backLink"><?php echo __("Back to Job List"); ?></span>
             </div>
 
         </form>
