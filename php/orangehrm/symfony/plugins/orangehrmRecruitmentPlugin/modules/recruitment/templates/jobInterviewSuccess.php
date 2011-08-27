@@ -47,6 +47,9 @@
             <label class="firstLabel"><?php echo __('Vacancy Name'); ?></label>
             <label class="secondLabel"><?php echo $form->vacancyName; ?></label>
             <br class="clear" />
+            <label class="firstLabel"><?php echo __('Current Status'); ?></label>
+            <label class="secondLabel"><?php echo $form->currentStatus; ?></label>
+            <br class="clear" />
             <?php echo $form['name']->renderLabel(__('Interview Title') . ' <span class="required">*</span>') ; ?>
             <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
             <div class="errorHolder"></div>
