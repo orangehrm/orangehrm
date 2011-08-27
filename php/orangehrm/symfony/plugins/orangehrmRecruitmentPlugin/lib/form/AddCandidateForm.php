@@ -27,7 +27,6 @@ class AddCandidateForm extends BaseForm {
 	private $recruitmentAttachmentService;
 	private $addedBy;
 	private $addedHistory;
-	private $assignedHistory;
 	public $allowedVacancyList;
 	private $allowedFileTypes = array(
 	    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -249,9 +248,6 @@ class AddCandidateForm extends BaseForm {
 			$resumeId = $this->_saveResume($file, $resume, $candidateId);
 		}
 		$this->_saveCandidateVacancies($vacnacyArray, $candidateId);
-		if (!empty($this->assignedHistory)) {
-			$this->getCandidateService()->saveCandidateHistory($this->assignedHistory);
-		}
 		if (!empty($this->addedHistory)) {
 			$this->getCandidateService()->saveCandidateHistory($this->addedHistory);
 		}
@@ -371,15 +367,15 @@ class AddCandidateForm extends BaseForm {
 					}
 					$candidateService = $this->getCandidateService();
 					$candidateService->saveCandidateVacancy($candidateVacancy);
-					$this->assignedHistory = new CandidateHistory();
-					$this->assignedHistory->candidateId = $candidateId;
-					$this->assignedHistory->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
-					$this->assignedHistory->candidateVacancyId = $candidateVacancy->getId();
-					$this->assignedHistory->performedBy = $this->addedBy;
+					$history = new CandidateHistory();
+					$history->candidateId = $candidateId;
+					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+					$history->candidateVacancyId = $candidateVacancy->getId();
+					$history->performedBy = $this->addedBy;
 					$date = ohrm_format_date(date('Y-m-d'));
-					$this->assignedHistory->performedDate = $date . " " . date('H:i:s');
-					$this->assignedHistory->candidateVacancyName = $candidateVacancy->getVacancyName();
-					//$this->getCandidateService()->saveCandidateHistory($history);
+					$history->performedDate = $date . " " . date('H:i:s');
+					$history->candidateVacancyName = $candidateVacancy->getVacancyName();
+					$this->getCandidateService()->saveCandidateHistory($history);
 				}
 			}
 		}

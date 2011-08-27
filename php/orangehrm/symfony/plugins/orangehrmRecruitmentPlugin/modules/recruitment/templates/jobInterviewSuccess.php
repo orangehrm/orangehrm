@@ -65,7 +65,7 @@
                 <br class="clear" />
             </div>
             <?php } ?>
-            <span class="addText" id='addButton'><?php echo __('Add another'); ?></span>
+            <a class="addText" id='addButton'><?php echo __('Add another'); ?></a>
             <div id="interviewerNameError"></div>
             <br class="clear" />
             <?php echo $form['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
@@ -82,8 +82,13 @@
             <?php echo $form['note']->render(array("class" => "formInputText", "cols" => 30, "rows" => 7)); ?>
             <br class="clear" />
             <div class="formbuttons">
+		<?php if(empty ($interviewId)){?>
                 <input type="button" class="savebutton" name="actionBtn" id="saveBtn"
                        value="<?php echo __('Save'); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+		<?php } else {?>
+		<input type="button" class="savebutton" name="actionBtn" id="saveBtn"
+                       value="<?php echo __('Edit'); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+		<?php } ?>
                 <input type="button" class="cancelbutton" name="cancelButton" id="cancellButton"
                            value="<?php echo __("Cancel"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
             </div>
@@ -121,7 +126,11 @@
     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
     var lang_dateRequired = "<?php echo __('Date is required'); ?>";
     var lang_validTimeRequired = "<?php echo __('Valid Time Required'); ?>";
+    var lang_viewInterviewDetails = "<?php echo __('View Interview Details'); ?>";
+    var lang_editInterviewDetails = "<?php echo __('Edit Interview Details'); ?>";
     var addCandidateUrl = "<?php echo public_path('index.php/recruitment/addCandidate', true) . "?id=" . $form->candidateId; ?>";
     var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
+    var lang_edit = "<?php echo __("Edit"); ?>";
+    var lang_save = "<?php echo __("Save"); ?>";
     //]]>
 </script>

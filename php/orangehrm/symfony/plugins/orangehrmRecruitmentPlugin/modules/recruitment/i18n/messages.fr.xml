@@ -596,6 +596,14 @@
 				<source>Back to Job List</source>
 				<target>FR_Back to Job List</target>
 			</trans-unit>
+			<trans-unit id="151">
+				<source>View Interview Details</source>
+				<target>FR_View Interview Details</target>
+			</trans-unit>
+			<trans-unit id="152">
+				<source>Edit Interview Details</source>
+				<target>FR_Edit Interview Details</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
