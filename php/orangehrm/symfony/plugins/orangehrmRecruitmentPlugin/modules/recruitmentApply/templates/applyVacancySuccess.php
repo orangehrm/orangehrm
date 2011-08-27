@@ -40,7 +40,7 @@
 <div id="addCandidate">
     <div class="outerbox" style="width:800px">
 
-        <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo __("Apply for" . " " . $name); ?></h2></div>
+        <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo __("Apply for") . " " . $name; ?></h2></div>
         <form name="frmAddCandidate" id="frmAddCandidate" method="post" enctype="multipart/form-data">
 
             <?php echo $form['_csrf_token']; ?>
@@ -97,7 +97,7 @@
 
                 <?php
                 if ($form->attachment == "") {
-                    echo $form['resume']->renderLabel(__('Resume'. '<span class="required">*</span>'), array("class " => "resume"));
+                    echo $form['resume']->renderLabel(__('Resume'). '<span class="required">*</span>', array("class " => "resume"));
                     echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
                     echo "<div class=\"errorHolder below\"></div><br class=\"clear\"/>";
                     echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
