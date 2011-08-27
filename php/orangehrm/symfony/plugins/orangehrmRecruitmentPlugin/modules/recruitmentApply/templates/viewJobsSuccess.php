@@ -66,7 +66,7 @@
                                 <pre class="vacancyShortDescription"><?php echo getShortDescription($job->getDescription(), 250, "..."); ?></pre>
                                 <pre class="vacancyDescription"><?php echo $job->getDescription(); ?></pre>
                                 
-                                <input type="button" class="apply" name="applyButton" value="Apply" onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
+                                <input type="button" class="apply" name="applyButton" value="<?php echo __("Apply"); ?>" onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
                                 <a href="<?php echo $job->getLink(); ?>" class="applyLink"></a>
                                 
                             </div>
