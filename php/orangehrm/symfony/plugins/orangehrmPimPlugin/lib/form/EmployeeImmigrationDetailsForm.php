@@ -76,9 +76,9 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'country' => new sfValidatorString(array('required' => false)),
                 'number' => new sfValidatorString(array('required' => true, 'trim'=>true)),
                 'i9_status' => new sfValidatorString(array('required' => false, 'trim'=>true)),
-                'passport_issue_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
-                'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
-                'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true), array('required'=>'Date field is required', 'invalid'=>"Date format should be $inputDatePattern")),
+                'passport_issue_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
+                'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
+                'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
                 'comments' => new sfValidatorString(array('required' => false))
         ));
 
@@ -120,12 +120,15 @@ class EmployeeImmigrationDetailsForm extends sfForm {
         $empPassport->emp_number = $this->getValue('emp_number');
         $empPassport->seqno = $this->getValue('seqno');
         $empPassport->type_flag = $this->getValue('type_flag');
-        $empPassport->country = null;
 
-        if($this->getValue('country') != '') {
-            $empPassport->country = $this->getValue('country');
+        $country = $this->getValue('country');
+        if(!empty($country)) {
+            $empPassport->country = $country;
+        } else {
+            $empPassport->country = null;
         }
 
+        $empPassport->country = $this->getValue('country');
         $empPassport->number = $this->getValue('number');
         $empPassport->i9_status = $this->getValue('i9_status');
         $empPassport->passport_issue_date = $this->getValue('passport_issue_date');

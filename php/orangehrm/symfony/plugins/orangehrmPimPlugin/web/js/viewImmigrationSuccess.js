@@ -1,24 +1,29 @@
 $(document).ready(function() {
 
+    function loadDefaultDateMasks() {
+
+        var passportIssueDate = $("#immigration_passport_issue_date");
+
+        if(trim(passportIssueDate.val()) == ''){
+            passportIssueDate.val(dateDisplayFormat);
+        }
+
+        var passportExpireDate = $("#immigration_passport_expire_date");
+
+        if(trim(passportExpireDate.val()) == ''){
+            passportExpireDate.val(dateDisplayFormat);
+        }
+
+        var i9ReviewDate = $("#immigration_i9_review_date");
+
+        if(trim(i9ReviewDate.val()) == ''){
+            i9ReviewDate.val(dateDisplayFormat);
+        }
+    
+    }
+
     //Load default Mask if empty
-
-    var passportIssueDate = $("#immigration_passport_issue_date");
-
-    if(trim(passportIssueDate.val()) == ''){
-        passportIssueDate.val(dateDisplayFormat);
-    }
-
-    var passportExpireDate = $("#immigration_passport_expire_date");
-
-    if(trim(passportExpireDate.val()) == ''){
-        passportExpireDate.val(dateDisplayFormat);
-    }
-
-    var i9ReviewDate = $("#immigration_i9_review_date");
-
-    if(trim(i9ReviewDate.val()) == ''){
-        i9ReviewDate.val(dateDisplayFormat);
-    }
+    loadDefaultDateMasks();
 
     $("#btnSave").click(function() {
         $("#frmEmpImmigration").submit();
@@ -28,18 +33,16 @@ $(document).ready(function() {
     $("#frmEmpImmigration").validate({
         rules: {
             'immigration[number]': {required: true},
-            'immigration[passport_issue_date]': {required: true, valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}},validFromDate:true},
-            'immigration[passport_expire_date]' : {required: true, valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
-            'immigration[country]' : {required: true},
-            'immigration[i9_review_date]' : {required: true, valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
+            'immigration[passport_issue_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}},validFromDate:true},
+            'immigration[passport_expire_date]' : {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
+            'immigration[i9_review_date]' : {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
             'immigration[comments]': {maxlength: 250}
         },
         messages: {
             'immigration[number]': {required: lang_numberRequired},
-            'immigration[passport_issue_date]': {required: lang_issueDateRequird, valid_date: lang_invalidDate, validFromDate: lang_issuedGreaterExpiry},
-            'immigration[passport_expire_date]' : {required: lang_expireDateRequired, valid_date: lang_invalidDate},
-            'immigration[country]' : {required: lang_countryRequired},
-            'immigration[i9_review_date]' : {required: lang_reviewDateRequired, valid_date: lang_invalidDate},
+            'immigration[passport_issue_date]': {valid_date: lang_invalidDate, validFromDate: lang_issuedGreaterExpiry},
+            'immigration[passport_expire_date]' : {valid_date: lang_invalidDate},
+            'immigration[i9_review_date]' : {valid_date: lang_invalidDate},
             'immigration[comments]': {maxlength: lang_commentLength}
         },
 
@@ -120,6 +123,7 @@ $(document).ready(function() {
 
     //on clicking of add button
     $("#btnAdd").click(function(){
+        loadDefaultDateMasks();
         $('div#immigrationDataPane label.error').hide();
         $("#immigrationHeading").text(lang_addImmigrationHeading);
         $(".paddingLeftRequired").show();

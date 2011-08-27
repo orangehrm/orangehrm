@@ -208,10 +208,6 @@
                 <source>Incorrect work email</source>
                 <target>FR_Incorrect other email</target>
             </trans-unit>
-            <trans-unit id="52">
-                <source>Issued Date is required</source>
-                <target>FR_Issued Date is required</target>
-            </trans-unit>
             <trans-unit id="53">
                 <source>Date of expiry is required</source>
                 <target></target>
@@ -256,10 +252,6 @@
                 <source>Issued date is required</source>
                 <target>FR_Issued date is required</target>
             </trans-unit>
-            <trans-unit id="64">
-                <source>Expiry date is required</source>
-                <target>FR_Expiry date is required</target>
-            </trans-unit>
             <trans-unit id="65">
                 <source>Eligible Review Date</source>
                 <target>FR_Eligible Review Date</target>
@@ -271,14 +263,6 @@
             <trans-unit id="67">
                 <source>Immigration Details Deleted Successfully</source>
                 <target>FR_Immigration Details Deleted Successfully</target>
-            </trans-unit>
-            <trans-unit id="68">
-                <source>Country is required</source>
-                <target>FR_Country is required</target>
-            </trans-unit>
-            <trans-unit id="69">
-                <source>Review date required</source>
-                <target>FR_Review date required</target>
             </trans-unit>
             <trans-unit id="70">
                 <source>Work email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>

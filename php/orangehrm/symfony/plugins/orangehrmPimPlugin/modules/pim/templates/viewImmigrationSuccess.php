@@ -6,13 +6,9 @@
 <script type="text/javascript">
     //<![CDATA[
     var lang_numberRequired = "<?php echo __('Document number is required');?>";
-    var lang_issueDateRequird = "<?php echo __('Issued date is required'); ?>";
     var lang_dateFormatIssue = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
     var lang_invalidIssueDate = "<?php echo __('Invalid issued date'); ?>";
-    var lang_expireDateRequired = "<?php echo __('Expiry date is required');?>";
     var lang_invalidExpireDate = "<?php echo __('Invalid expiry date'); ?>";
-    var lang_countryRequired = "<?php echo __('Country is required');?>";
-    var lang_reviewDateRequired = "<?php echo __('Review date required');?>";
     var lang_invalidReviewDate = "<?php echo __('Invalid review date'); ?>";
     var lang_issuedGreaterExpiry = "<?php echo __('Issued date should be less than expiry date'); ?>";
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
@@ -59,7 +55,7 @@
                                         <?php echo $form['emp_number']->render();?>
                                         <?php echo $form['seqno']->render();?>
                                         <div>
-                                            <?php echo $form['type_flag']->renderLabel(__('Document')); ?>
+                                            <?php echo $form['type_flag']->renderLabel(__('Document') . ' <span class="required">*</span>'); ?>
                                             <?php echo $form['type_flag']->render(); ?>
                                             <br class="clear" />
 
@@ -67,12 +63,12 @@
                                             <?php echo $form['number']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
                                             <br class="clear" />
 
-                                            <?php echo $form['passport_issue_date']->renderLabel(__('Issued Date') . ' <span class="required">*</span>'); ?>
+                                            <?php echo $form['passport_issue_date']->renderLabel(__('Issued Date')); ?>
                                             <?php echo $form['passport_issue_date']->render(array("class" => "formInputText")); ?>
                                             <input id="passportIssueDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
 
-                                            <?php echo $form['passport_expire_date']->renderLabel(__('Expiry Date') . ' <span class="required">*</span>'); ?>
+                                            <?php echo $form['passport_expire_date']->renderLabel(__('Expiry Date')); ?>
                                             <?php echo $form['passport_expire_date']->render(array("class" => "formInputText")); ?>
                                             <input id="passportExpireDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
@@ -81,11 +77,11 @@
                                             <?php echo $form['i9_status']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
                                             <br class="clear" />
 
-                                            <?php echo $form['country']->renderLabel(__('Issued By') . ' <span class="required">*</span>'); ?>
+                                            <?php echo $form['country']->renderLabel(__('Issued By')); ?>
                                             <?php echo $form['country']->render(array("class" => "formSelect")); ?>
                                             <br class="clear" />
 
-                                            <?php echo $form['i9_review_date']->renderLabel(__('Eligible Review Date') . '<span class="required">*</span>'); ?>
+                                            <?php echo $form['i9_review_date']->renderLabel(__('Eligible Review Date')); ?>
                                             <?php echo $form['i9_review_date']->render(array("class" => "formInputText")); ?>
                                             <input id="i9ReviewDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
@@ -152,7 +148,7 @@
                                                 <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $passport->seqno;?>' /></td>
                                                 <td class="document"><a href="#"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
                                                 <td><?php echo $passport->number;?></td>
-                                                <td><?php echo $countries[$passport->country];?></td>
+                                                <td><?php echo empty($passport->country)?'':$countries[$passport->country]; ?></td>
                                                 <td><?php echo $passport_issue_date;?></td>
                                                 <td><?php echo $passport_expire_date;?></td>
                                             </tr>
