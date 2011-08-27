@@ -26,20 +26,21 @@ class AddCandidateForm extends BaseForm {
 	public $candidateId;
 	private $recruitmentAttachmentService;
 	private $addedBy;
-        public $allowedVacancyList;
-        
-        private $allowedFileTypes = array(
-            "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "doc"  => "application/msword",
-            "doc"  => "application/x-msword",
-            "doc"  => "application/vnd.ms-office",
-            "odt"  => "application/vnd.oasis.opendocument.text",
-            "pdf"  => "application/pdf",
-            "pdf"  => "application/x-pdf",
-            "rtf"  => "application/rtf",
-            "rtf"  => "text/rtf",
-            "txt"  => "text/plain"            
-        );
+	private $addedHistory;
+	private $assignedHistory;
+	public $allowedVacancyList;
+	private $allowedFileTypes = array(
+	    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+	    "doc" => "application/msword",
+	    "doc" => "application/x-msword",
+	    "doc" => "application/vnd.ms-office",
+	    "odt" => "application/vnd.oasis.opendocument.text",
+	    "pdf" => "application/pdf",
+	    "pdf" => "application/x-pdf",
+	    "rtf" => "application/rtf",
+	    "rtf" => "text/rtf",
+	    "txt" => "text/plain"
+	);
 
 	const CONTRACT_KEEP = 1;
 	const CONTRACT_DELETE = 2;
@@ -99,7 +100,7 @@ class AddCandidateForm extends BaseForm {
 		    self::CONTRACT_DELETE => __('Delete Current'),
 		    self::CONTRACT_UPLOAD => __('Replace Current'));
 
-                // creating widgets
+		// creating widgets
 		$this->setWidgets(array(
 		    'firstName' => new sfWidgetFormInputText(),
 		    'middleName' => new sfWidgetFormInputText(),
@@ -107,16 +108,16 @@ class AddCandidateForm extends BaseForm {
 		    'email' => new sfWidgetFormInputText(),
 		    'contactNo' => new sfWidgetFormInputText(),
 		    'resume' => new sfWidgetFormInputFileEditable(
-                                        array('edit_mode' => false,
-                                              'with_delete' => false, 
-                                              'file_src' => '')),
+			    array('edit_mode' => false,
+				'with_delete' => false,
+				'file_src' => '')),
 		    'keyWords' => new sfWidgetFormInputText(),
 		    'comment' => new sfWidgetFormTextArea(),
 		    'appliedDate' => new sfWidgetFormInputText(),
 		    'vacancyList' => new sfWidgetFormInputHidden(),
 		    'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
 		));
-                
+
 		$this->setValidators(array(
 		    'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
 		    'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
@@ -124,7 +125,7 @@ class AddCandidateForm extends BaseForm {
 		    'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
 		    'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
 		    'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
-                                                    'validated_file_class' => 'orangehrmValidatedFile')),
+			'validated_file_class' => 'orangehrmValidatedFile')),
 		    'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
 		    'comment' => new sfValidatorString(array('required' => false)),
 		    'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
@@ -219,8 +220,8 @@ class AddCandidateForm extends BaseForm {
 						$history->candidateId = $this->candidateId;
 						$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
 						$history->performedBy = $this->addedBy;
-						$date =  ohrm_format_date(date('Y-m-d'));
-						$history->performedDate = $date." ".date('H:i:s');
+						$date = ohrm_format_date(date('Y-m-d'));
+						$history->performedDate = $date . " " . date('H:i:s');
 						$history->candidateVacancyName = $vacancyName;
 
 						$this->getCandidateService()->saveCandidateHistory($history);
@@ -248,6 +249,12 @@ class AddCandidateForm extends BaseForm {
 			$resumeId = $this->_saveResume($file, $resume, $candidateId);
 		}
 		$this->_saveCandidateVacancies($vacnacyArray, $candidateId);
+		if (!empty($this->assignedHistory)) {
+			$this->getCandidateService()->saveCandidateHistory($this->assignedHistory);
+		}
+		if (!empty($this->addedHistory)) {
+			$this->getCandidateService()->saveCandidateHistory($this->addedHistory);
+		}
 		return $resultArray;
 	}
 
@@ -257,30 +264,28 @@ class AddCandidateForm extends BaseForm {
 	 * @return <type>
 	 */
 	protected function isValidResume($file) {
-            $validFile = false;
-                
-            $mimeTypes = array_values($this->allowedFileTypes);
-            $originalName = $file->getOriginalName();
+		$validFile = false;
 
-	    if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
+		$mimeTypes = array_values($this->allowedFileTypes);
+		$originalName = $file->getOriginalName();
 
-                $fileType = $file->getType();
-                
-                if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
-                    $validFile = true;                    
-                } else {
-                    $fileType = $this->guessTypeFromFileExtension($originalName);
-                    
-                    if (!empty($fileType)) {
-                        $file->setType($fileType);
-                        $validFile = true;
-                    }
-                    
-                }                
-                
-            }
+		if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
 
-            return $validFile;
+			$fileType = $file->getType();
+
+			if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
+				$validFile = true;
+			} else {
+				$fileType = $this->guessTypeFromFileExtension($originalName);
+
+				if (!empty($fileType)) {
+					$file->setType($fileType);
+					$validFile = true;
+				}
+			}
+		}
+
+		return $validFile;
 	}
 
 	/**
@@ -333,13 +338,13 @@ class AddCandidateForm extends BaseForm {
 			$candidateService->updateCandidate($candidate);
 		} else {
 			$candidateService->saveCandidate($candidate);
-			$history = new CandidateHistory();
-			$history->candidateId = $candidate->getId();
-			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
-			$history->performedBy = $this->addedBy;
-			$date =  ohrm_format_date(date('Y-m-d'));
-			$history->performedDate = $date." ".date('H:i:s');
-			$this->getCandidateService()->saveCandidateHistory($history);
+			$this->addedHistory = new CandidateHistory();
+			$this->addedHistory->candidateId = $candidate->getId();
+			$this->addedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
+			$this->addedHistory->performedBy = $this->addedBy;
+			$date = ohrm_format_date(date('Y-m-d'));
+			$this->addedHistory->performedDate = $date . " " . date('H:i:s');
+			//$this->getCandidateService()->saveCandidateHistory($history);
 		}
 		$candidateId = $candidate->getId();
 		return $candidateId;
@@ -366,47 +371,47 @@ class AddCandidateForm extends BaseForm {
 					}
 					$candidateService = $this->getCandidateService();
 					$candidateService->saveCandidateVacancy($candidateVacancy);
-					$history = new CandidateHistory();
-					$history->candidateId = $candidateId;
-					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
-					$history->candidateVacancyId = $candidateVacancy->getId();
-					$history->performedBy = $this->addedBy;
-					$date =  ohrm_format_date(date('Y-m-d'));
-					$history->performedDate = $date." ".date('H:i:s');
-					$history->candidateVacancyName= $candidateVacancy->getVacancyName();
-					$this->getCandidateService()->saveCandidateHistory($history);
+					$this->assignedHistory = new CandidateHistory();
+					$this->assignedHistory->candidateId = $candidateId;
+					$this->assignedHistory->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+					$this->assignedHistory->candidateVacancyId = $candidateVacancy->getId();
+					$this->assignedHistory->performedBy = $this->addedBy;
+					$date = ohrm_format_date(date('Y-m-d'));
+					$this->assignedHistory->performedDate = $date . " " . date('H:i:s');
+					$this->assignedHistory->candidateVacancyName = $candidateVacancy->getVacancyName();
+					//$this->getCandidateService()->saveCandidateHistory($history);
 				}
 			}
 		}
 	}
-        
-        /**
-         *
-         * @return JobCandidateAttachment 
-         */
-        public function getResume() {
-            return $this->attachment;
-        }
-        
-        /**
-        * Guess the file mime type from the file extension
-        *
-        * @param  string $file  The absolute path of a file
-        *
-        * @return string The mime type of the file (null if not guessable)
-        */
-        public function guessTypeFromFileExtension($file) {
 
-            $mimeType = null;
-          
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
+	/**
+	 *
+	 * @return JobCandidateAttachment
+	 */
+	public function getResume() {
+		return $this->attachment;
+	}
 
-            if (isset($this->allowedFileTypes[$extension])) {
-              $mimeType = $this->allowedFileTypes[$extension];
-            }
+	/**
+	 * Guess the file mime type from the file extension
+	 *
+	 * @param  string $file  The absolute path of a file
+	 *
+	 * @return string The mime type of the file (null if not guessable)
+	 */
+	public function guessTypeFromFileExtension($file) {
 
-            return $mimeType;
-        }        
+		$mimeType = null;
+
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+		if (isset($this->allowedFileTypes[$extension])) {
+			$mimeType = $this->allowedFileTypes[$extension];
+		}
+
+		return $mimeType;
+	}
 
 }
 

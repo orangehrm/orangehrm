@@ -62,13 +62,13 @@ class changeCandidateVacancyStatusAction extends sfAction {
             }
         }
         $candidateVacancyId = $request->getParameter('candidateVacancyId');
-        $selectedAction = $request->getParameter('selectedAction');
+        $this->selectedAction = $request->getParameter('selectedAction');
         $param = array();
         if ($id > 0) {
             $param = array('id' => $id);
         }
-        if ($candidateVacancyId > 0 && $selectedAction != "") {
-            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
+        if ($candidateVacancyId > 0 && $this->selectedAction != "") {
+            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction);
         }
 	
         $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));

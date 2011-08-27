@@ -93,6 +93,9 @@
         var candidateVacancyId = "<?php echo $form->candidateVacancyId; ?>";
         var selectedAction = "<?php echo $form->selectedAction; ?>";
         var historyId = "<?php echo $form->id; ?>";
+        var selectedAction = "<?php echo $selectedAction; ?>";
+        var passAction = "<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED; ?>";
+        var failAction = "<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED; ?>";
         var linkForchangeCandidateVacancyStatus = "<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>";
     //]]>
 </script>

@@ -8,7 +8,11 @@ $(document).ready(function() {
 		});
 		$('#frmCandidateVacancyStatus').submit();
 	});
-    
+
+	if(selectedAction == passAction || selectedAction == failAction){
+		$("#actionBtn").removeClass('savebutton').addClass('newSaveBtn');
+	}
+
 	$('#btnSave').click(function() {
 		if($("#btnSave").attr('value') == lang_edit) {
 			$(".formInputText").removeAttr("disabled");

@@ -67,7 +67,7 @@
             <br class="clear"/>
             <div class="column">
                 <?php echo $form['candidateName']->renderLabel(__('Candidate Name')); ?>
-                <?php echo $form['candidateName']->render(array("class" => "formInput", "maxlength" => 50, "style" => $textBoxWidth)); ?>
+                <?php echo $form['candidateName']->render(array("class" => "formInput", "style" => $textBoxWidth)); ?>
             </div>
             <div class="column">
                 <?php echo $form['keywords']->renderLabel(__('Keywords')); ?>

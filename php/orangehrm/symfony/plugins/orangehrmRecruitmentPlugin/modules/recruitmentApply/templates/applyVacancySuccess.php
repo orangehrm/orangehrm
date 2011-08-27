@@ -38,7 +38,7 @@
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 <div id="addCandidate">
-    <div class="outerbox" style="width:700px">
+    <div class="outerbox" style="width:800px">
 
         <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo __("Apply for" . " " . $name); ?></h2></div>
         <form name="frmAddCandidate" id="frmAddCandidate" method="post" enctype="multipart/form-data">
@@ -52,7 +52,7 @@
                 <div style="float:left"><label><?php echo __('Description'); ?><span  id="extend">[+]</span></label></div>
                 <br class="clear"/>
                 <div id="description">
-                    <textarea id="txtArea" cols="68" rows="1" onkeyup="expandtextarea(this)"><?php echo $description ?></textarea>
+                    <textarea id="txtArea" cols="88" rows="1" onkeyup="expandtextarea(this)"><?php echo $description ?></textarea>
                 </div>
             </div>
             <br class="clear"/>

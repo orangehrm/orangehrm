@@ -83,7 +83,7 @@ function printButtonEventBindings($buttons) {
                 echo "<br class=\"clear\" />";
             }
 
-            if (count($extraButtons) > 0) {
+            if (isset($extraButtons)) {
                 renderActionBar($extraButtons);
                 echo "<br class=\"clear\" />";
             }
