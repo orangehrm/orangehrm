@@ -62,7 +62,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
                 $actionName = "Mark Interview Passed";
                 break;
             case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
-                $actionName = "Mark Interview Fail";
+                $actionName = "Mark Interview Failed";
                 break;
             case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
                 $actionName = "Offer Job";
