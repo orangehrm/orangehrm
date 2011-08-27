@@ -37,7 +37,7 @@
 <div id="jobInterview">
     <div class="outerbox">
         <div class="mainHeading"><h2 id="jobInterviewHeading"><?php echo __("Schedule Interview"); ?></h2></div>
-        <form name="frmJobInterview" id="frmJobInterview" method="post" action="<?php echo url_for('recruitment/jobInterview?candidateVacancyId=' . $form->candidateVacancyId . '&selectedAction=' . $form->selectedAction.'&interviewId='.$interviewId); ?>">
+        <form name="frmJobInterview" id="frmJobInterview" method="post" action="<?php echo url_for('recruitment/jobInterview?candidateVacancyId=' . $form->candidateVacancyId . '&selectedAction=' . $form->selectedAction.'&interviewId='.$interviewId.'&historyId=' . $historyId); ?>">
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form['selectedInterviewerList']; ?>
             <br class="clear" />

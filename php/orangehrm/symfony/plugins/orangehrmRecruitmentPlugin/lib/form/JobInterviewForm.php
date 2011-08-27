@@ -27,6 +27,7 @@ class JobInterviewForm extends BaseForm {
 	public $selectedAction;
 	public $candidateId;
 	public $vacancyId;
+	public $historyId;
 	public $currentStatus;
 	private $candidateService;
 	private $selectedCandidateVacancy;
@@ -59,7 +60,8 @@ class JobInterviewForm extends BaseForm {
 		$this->selectedAction = $this->getOption('selectedAction');
 		$this->id = $this->getOption('id');
 		$this->interviewId = $this->getOption('interviewId');
-
+		$this->historyId = $this->getOption('historyId');
+		
 		if ($this->candidateVacancyId > 0 && $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
 			$this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyById($this->candidateVacancyId);
 			$this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
@@ -215,6 +217,7 @@ class JobInterviewForm extends BaseForm {
 		$newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		$result = $this->getCandidateService()->saveCandidateHistory($newCandidateHistory);
 		$this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+		$this->historyId = $newCandidateHistory->getId();
 	}
 
 	public function getEmployeeListAsJson() {
