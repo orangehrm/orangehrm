@@ -56,8 +56,9 @@ class changeCandidateVacancyStatusAction extends sfAction {
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
             $action = $history->getAction();
+	    $this->interviewId = $history->getInterviewId();
             if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
-                $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $history->getInterviewId());
+                $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
             }
         }
         $candidateVacancyId = $request->getParameter('candidateVacancyId');

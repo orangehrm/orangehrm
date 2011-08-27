@@ -114,6 +114,7 @@ class JobInterviewDao extends BaseDao {
 					->where('id = ?', $jobInterview->id);
 
 			return $q->execute();
+			die;
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}

@@ -109,19 +109,19 @@ class ApplyVacancyForm extends BaseForm {
 		$resume = new JobCandidateAttachment();
 		$candidate = new JobCandidate();
 		$vacnacyId = $this->getValue('vacancyList');
-        $resultArray = array();
+		$resultArray = array();
 		if (!($this->isValidResume($file))) {
-        	$resultArray['messageType'] = 'warning';
-            $resultArray['message'] = __('Error Occurred - Invalid File Type');
-            return $resultArray;
+			$resultArray['messageType'] = 'warning';
+			$resultArray['message'] = __('Error Occurred - Invalid File Type');
+			return $resultArray;
 		} else {
 			$this->candidateId = $this->_getNewlySavedCandidateId($candidate);
-                 $resultArray['candidateId'] = $this->candidateId;
+			$resultArray['candidateId'] = $this->candidateId;
 			$resumeId = $this->_saveResume($file, $resume, $this->candidateId);
 		}
 
 		$this->_saveCandidateVacancies($vacnacyId, $this->candidateId);
-        return $resultArray;
+		return $resultArray;
 	}
 
 	/**
@@ -139,7 +139,7 @@ class ApplyVacancyForm extends BaseForm {
 		$candidate->contactNumber = $this->getValue('contactNo');
 		$candidate->keywords = $this->getValue('keyWords');
 		$date = ohrm_format_date(date('Y-m-d'));
-		$candidate->dateOfApplication = ohrm_format_date($date." ".date('H:i:s'));
+		$candidate->dateOfApplication = ohrm_format_date($date . " " . date('H:i:s'));
 		$candidate->status = JobCandidate::ACTIVE;
 		$candidate->modeOfApplication = JobCandidate::MODE_OF_APPLICATION_ONLINE;
 
@@ -199,7 +199,7 @@ class ApplyVacancyForm extends BaseForm {
 			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY;
 			$history->performedDate = $candidateVacancy->appliedDate;
 			$history->candidateVacancyId = $candidateVacancy->getId();
-			$history->candidateVacancyName= $candidateVacancy->getVacancyName();
+			$history->candidateVacancyName = $candidateVacancy->getVacancyName();
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}
 	}

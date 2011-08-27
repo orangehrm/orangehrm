@@ -236,6 +236,9 @@ function isValidForm(){
                 }
             }
         }
+	if (value == ""){
+		isTimeRangeValid = true;
+	}
         
         return isFormatValid && isTimeRangeValid;
         
@@ -292,7 +295,6 @@ function isValidForm(){
             },
 
             'jobInterview[time]' : {
-                required:true,
                 timeValidation: true
             }
         },
@@ -328,7 +330,6 @@ function isValidForm(){
             },
 
             'jobInterview[time]' : {
-                required: lang_timeRequired,
                 timeValidation: lang_validTimeRequired
             }
         },

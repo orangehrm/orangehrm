@@ -262,7 +262,7 @@ class AddCandidateForm extends BaseForm {
             $mimeTypes = array_values($this->allowedFileTypes);
             $originalName = $file->getOriginalName();
 
-            if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
+	    if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
 
                 $fileType = $file->getType();
                 

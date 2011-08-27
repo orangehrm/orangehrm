@@ -125,12 +125,17 @@ class CandidateHistoryService {
 		$interviewId = $object->getInterviewId();
 		$jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
 		$interviewers =  $this->getInterviewService()->getInterviewersByInterviewId($interviewId);
+		if($jobInterview->getInterviewTime() == '00:00:00'){
+			$time = "";
+		} else {
+			$time = __("at") . " " . date('H:i', strtotime($jobInterview->getInterviewTime())) . " " ;
+		}
 		$interviewersNameList = array();
 		foreach ($interviewers as $interviewer) {
 			$interviewersNameList[] = $interviewer->getEmployee()->getFullName();
 		}
 		return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . $jobInterview->getInterviewDate()
-		. " " . __("at") . " " . $jobInterview->getInterviewTime() . " " . __("with") . " " . implode(", ", $interviewersNameList);
+		. " " . $time.__("with") . " " . implode(", ", $interviewersNameList);
 
 	}
 
@@ -155,7 +160,7 @@ class CandidateHistoryService {
 	}
 
 	public function getDescriptionForHire($object) {
-		return $object->getPerformerName()." ".__("hired");
+		return $object->getPerformerName()." ".__("hired")." ".$object->getJobCandidate()->getFullName();
 	}
 
 	public function getInterviewService() {

@@ -74,7 +74,8 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$candidateHistory = $this->getCandidateService()->getCandidateHistoryById($this->id);
 			$this->selectedCandidateVacancy = $candidateHistory->getJobCandidateVacancy();
 			$this->performedActionName = $candidateHistory->getActionName();
-			$this->performedDate = $candidateHistory->getPerformedDate();
+			$date = explode(" ", $candidateHistory->getPerformedDate());
+			$this->performedDate = $date[0];
 			$this->performedBy = $candidateHistory->getPerformerName();
 			$this->candidateVacancyId = $candidateHistory->getCandidateVacancyId();
 			$this->selectedAction = $candidateHistory->getAction();

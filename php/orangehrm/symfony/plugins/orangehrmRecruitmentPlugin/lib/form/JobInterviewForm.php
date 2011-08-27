@@ -26,10 +26,11 @@ class JobInterviewForm extends BaseForm {
 	public $candidateVacancyId;
 	public $selectedAction;
 	public $candidateId;
-        public $vacancyId;
+	public $vacancyId;
 	private $candidateService;
 	private $selectedCandidateVacancy;
 	private $interviewService;
+	private $defaultTime = '00:00:00';
 
 	/**
 	 *
@@ -83,7 +84,7 @@ class JobInterviewForm extends BaseForm {
 		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
 		    'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
 			    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
-		    'time' => new sfValidatorString(array('required' => true, 'max_length' => 30)),
+		    'time' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
 		    'note' => new sfValidatorString(array('required' => false)),
 		    'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
 		));
@@ -103,7 +104,11 @@ class JobInterviewForm extends BaseForm {
 		$interview = $this->getInterviewService()->getInterviewById($interviewId);
 		$this->setDefault('name', $interview->getInterviewName());
 		$this->setDefault('date', $interview->getInterviewDate());
-		$this->setDefault('time', $interview->getInterviewTime());
+		if ($interview->getInterviewTime() == $this->defaultTime) {
+			$this->setDefault('time', "");
+		} else {
+			$this->setDefault('time', date('H:i', strtotime($interview->getInterviewTime())));
+		}
 		$this->setDefault('note', $interview->getNote());
 
 		$interviewers = $interview->getJobInterviewInterviewer();
@@ -147,7 +152,6 @@ class JobInterviewForm extends BaseForm {
 				$newList[] = $elements;
 			}
 			$selectedInterviewerArrayList = $newList;
-						
 		}
 		$interviewId = $this->saveInterview($newJobInterview, $selectedInterviewerArrayList);
 		if (empty($this->interviewId)) {
@@ -163,11 +167,15 @@ class JobInterviewForm extends BaseForm {
 		$note = $this->getValue('note');
 		$newJobInterview->setInterviewName($name);
 		$newJobInterview->setInterviewDate($date);
-		$newJobInterview->setInterviewTime($time);
+		if (!empty($time)) {
+			$newJobInterview->setInterviewTime($time);
+		} else {
+			$newJobInterview->setInterviewTime($this->defaultTime);
+		}
 		$newJobInterview->setNote($note);
 		$newJobInterview->setCandidateVacancyId($this->candidateVacancyId);
-		if(!empty ($this->interviewId)){
-		 $this->getInterviewService()->updateJobInterview($newJobInterview);
+		if (!empty($this->interviewId)) {
+			$this->getInterviewService()->updateJobInterview($newJobInterview);
 		} else {
 			$newJobInterview->save();
 		}
@@ -198,7 +206,7 @@ class JobInterviewForm extends BaseForm {
 		$newCandidateHistory->setCandidateVacancyId($this->candidateVacancyId);
 		$newCandidateHistory->setPerformedBy($empNumber);
 		$date = ohrm_format_date(date('Y-m-d'));
-		$newCandidateHistory->setPerformedDate($date." ".date('H:i:s'));
+		$newCandidateHistory->setPerformedDate($date . " " . date('H:i:s'));
 		$newCandidateHistory->setNote($note = $this->getValue('note'));
 		$newCandidateHistory->setInterviewId($interviewId);
 		$newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());

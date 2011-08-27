@@ -70,7 +70,7 @@
             <input id="frmDateBtn" type="button" name="" value="  " class="calendarBtn" />
             <div class="errorHolder"></div>
             <br class="clear" />
-            <?php echo $form['time']->renderLabel(__('Time') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['time']->renderLabel(__('Time')); ?>
             <?php echo $form['time']->render(array("class" => "formInputText", "maxlength" => 20)); ?>            
             <label class="hhmm" style="padding-left: 6px">HH:MM</label>
             <div class="errorHolder"></div>
@@ -113,7 +113,6 @@
     var interviewId = "<?php echo $interviewId; ?>";
     var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
     var lang_interviewHeadingRequired = "<?php echo __('Interview Title is required'); ?>";
-    var lang_timeRequired = "<?php echo __("Time is required"); ?>";
     var lang_noMoreThan98 = "<?php echo __("Please enter no more than 98 characters"); ?>";
     var lang_noMoreThan18 = "<?php echo __("Please enter no more than 18 characters"); ?>";
     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
