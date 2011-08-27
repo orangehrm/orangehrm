@@ -1,35 +1,80 @@
+nextId = 0;
 $(document).ready(function() {
     
-    $('.btnDrop').hide();
+    //    $('.btnDrop').hide();
+
     var vacancyString = $("#addCandidate_vacancyList").val();
-    var vacancyList = vacancyString.split("_");
-    var initialVacancyIdArray = new Array();
+    var vacancyList = (vacancyString.trim()).split("_");
     var mode = "";
 
-    
-
-    if(vacancyList.length > 0){
-        mode = ($.inArray(vacancyList[0], allowedVacancyIdArray) > -1 ) ? "show with closed vacancies" : "show all vacancies";
-        $("#jobDropDown0").html(buildVacancyList(vacancyList[0], mode));
-        initialVacancyIdArray[0] = $('.vacancyDrop:last').attr('id');
-        
-        for(var i=1; i<vacancyList.length; i++){
+    if(vacancyString.trim() != ""){ //This happens in the view mode and edit mode
+        for(var i=0; i<vacancyList.length; i++){
             mode = ($.inArray(vacancyList[i], allowedVacancyIdArray) > -1) ? "show with closed vacancies" : "show all vacancies";
             buildVacancyDrpDwn(vacancyList[i], mode);
-            initialVacancyIdArray[i] = $('.vacancyDrop:last').attr('id');
         }
-    }else{
-        mode = "show allowed vacancies";
-        if($('.vacancyDrop').length >= allowedVacancylist.length-1){
-            hideLabel();
-        }      
-        $("#jobDropDown0").html(buildVacancyList("", mode));
-        $("#btnDropDown0").attr('id', 'btnDropDown'+allowedVacancylist[0].id);
+    }else{ //this happens in the add mode
+        buildVacancyDrpDwn("",  "show allowed vacancies");
+        $("#removeButton0").hide();
     }
-    
-    $("#addButton").live('click', function(){
-        mode = "show allowed vacancies";
-        buildVacancyDrpDwn("", mode);
+
+
+    //    if(vacancyList.length > 0){
+    //        mode = ($.inArray(vacancyList[0], allowedVacancyIdArray) > -1 ) ? "show with closed vacancies" : "show all vacancies";
+    //        $("#jobDropDown0").html(buildVacancyList(vacancyList[0], mode));
+    //
+    //        for(var i=1; i<vacancyList.length; i++){
+    //            mode = ($.inArray(vacancyList[i], allowedVacancyIdArray) > -1) ? "show with closed vacancies" : "show all vacancies";
+    //            buildVacancyDrpDwn(vacancyList[i], mode);
+    //        }
+    //    }else{
+    //        mode = "show allowed vacancies";
+    //        if($('.vacancyDrop').length >= allowedVacancylist.length-1){
+    //            hideLabel();
+    //        }
+    //        $("#jobDropDown0").html(buildVacancyList("", mode));
+    //        $("#btnDropDown0").attr('id', 'btnDropDown'+allowedVacancylist[0].id);
+    //    }
+    //
+    //    alert("#addButton"+(nextId-1));
+    //    $("#addButton"+(nextId-1)).live('click', function(){
+    //        buildVacancyDrpDwn("", "show allowed vacancies");
+    //        alert("#addButton"+(nextId-1));
+    //        $("#addButton"+(nextId-2)).hide();
+    //    });
+
+    $(".addText").live('click', function(){
+        if((allowedVacancylist.length -1) > nextId){
+            buildVacancyDrpDwn("", "show allowed vacancies");
+            newId = /\d+(?:\.\d+)?/.exec(this.id);
+            $("#removeButton"+newId).css("padding-left", "195px");
+            $("#addButton"+newId).hide();
+            if((allowedVacancylist.length -1) == nextId){
+                $("#addButton"+(nextId-1)).hide();
+                $("#removeButton"+(nextId-1)).css("padding-left", "195px");
+            }
+
+        }
+    });
+
+    if((allowedVacancylist.length -1) == 1){
+        $("#addButton0").hide();
+    }
+
+    $('.removeText').live('click', function(){
+        result = /\d+(?:\.\d+)?/.exec(this.id);
+        if(vacancyString.trim() != ""){
+            $('#deleteConfirmation').dialog('open');
+        }
+        else{
+            $('#jobDropDown'+result).remove();
+            $("#addButton"+($('.vacancyDrop').length-1)).show();
+            $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
+            if(result == $('.vacancyDrop').length-1){
+                $("#addButton"+(nextId-1)).show();
+                $("#removeButton"+(nextId-1)).css("padding-left", "128px");
+            }
+            nextId--;
+        }
     });
 
     //Load default Mask if empty
@@ -50,22 +95,17 @@ $(document).ready(function() {
     $('#btnSave').click(function() {
         var isExistedVacancyGoingToBeDeleted = 0;
         if($("#btnSave").attr('value') == lang_edit) {
-            
-            $('#textBoxesGroup').css("width", "290px");
-            $('#textBoxesGroup').css("float", "left");
             $('#addCandidateHeading').hide();
             $('#addCandidate .mainHeading').append('<h2>' + lang_editCandidateTitle + '</h2>');
-            $('.btnDrop').hide();
-            $('#jobDropDown1').get().disabled = false;
             for(i=0; i < widgetList.length; i++) {
                 $(widgetList[i]).removeAttr("disabled");
             }
-            $('.removeText').show();
-            if($('.vacancyDrop').length < 5){
-                $('#addButton').show();
-            }
+            //            $('.removeText').show();
+            //            if($('.vacancyDrop').length < 5){
+            //                $('#addButton').show();
+            //            }
             $('#radio').show();
-            $('#actionPane').hide();
+            //            $('#actionPane').hide();
             $('#addCandidate_resumeUpdate_1').attr('checked', 'checked');
 
             $("#btnSave").attr('value', lang_save);
@@ -78,11 +118,11 @@ $(document).ready(function() {
                 getVacancy();
                 if(candidateId != "") {
                     
-                    $('.vacancyDrop').each(function(index, value) {
-                        if(($.inArray($(this).attr('id'), initialVacancyIdArray) >= 0) && ($(this).val() == "")) {
-                            isExistedVacancyGoingToBeDeleted = 1;                            
-                        }                    
-                    });
+                    //                    $('.vacancyDrop').each(function(index, value) {
+                    //                        if(($.inArray($(this).attr('id'), initialVacancyIdArray) >= 0) && ($(this).val() == "")) {
+                    //                            isExistedVacancyGoingToBeDeleted = 1;
+                    //                        }
+                    //                    });
                     
                     if((isExistedVacancyGoingToBeDeleted == 1) && (vacancyList[0] != "")) {
                         $('#deleteConfirmationForSave').dialog('open');
@@ -111,14 +151,6 @@ $(document).ready(function() {
         }
     });
 
-    var result;
-
-    $('.removeText').live('click', function(){
-        $('#deleteConfirmation').dialog('open');
-        result = /\d+(?:\.\d+)?/.exec(this.id);
-        
-    });
-
     if ($("#addCandidate_keyWords").val() == '') {
         $("#addCandidate_keyWords").val(lang_commaSeparated)
         .addClass("inputFormatHint");
@@ -132,7 +164,7 @@ $(document).ready(function() {
         }
     });
     
-    $('#actionPane').hide();
+    //    $('#actionPane').hide();
     
     if(candidateId != ""){
         var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume',
@@ -141,16 +173,16 @@ $(document).ready(function() {
             $(widgetList[i]).attr("disabled", "disabled");
         }
         //$('.vacancyDrop').attr("disabled", "disabled");
-        $('#jobDropDown1').get().disabled = true;
-        $('.removeText').hide();
-        $('#addButton').hide();
+        //        $('#jobDropDown1').get().disabled = true;
+        //        $('.removeText').hide();
+        //        $('#addButton').hide();
         $('#fileUploadSection').hide();
         $('#radio').hide();
-        $('#actionPane').show();
+        //        $('#actionPane').show();
         $("#btnSave").attr('value', lang_edit);
     } else {
-        $('#textBoxesGroup').css("width", "290px");
-        $('#textBoxesGroup').css("float", "left");
+    //        $('#textBoxesGroup').css("width", "290px");
+    //        $('#textBoxesGroup').css("float", "left");
     }
 
     $('.actionDrpDown').change(function(){
@@ -160,6 +192,9 @@ $(document).ready(function() {
         var selectedAction = $(this).val();
         var url = changeStatusUrl;
         if(selectedAction == interviewAction){
+            url = interviewUrl;
+        }
+        if(selectedAction == removeAction){
             url = interviewUrl;
         }
         window.location.replace(url+'?candidateVacancyId='+candidateVacancyId+'&selectedAction='+selectedAction);
@@ -182,10 +217,14 @@ $(document).ready(function() {
 
     $('#dialogDeleteBtn').click(function() {
         $('#jobDropDown'+result).remove();
-        if($('.vacancyDrop').length < 5){
-            showLabel();
+        $("#addButton"+($('.vacancyDrop').length-1)).show();
+        $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
+        if(result == $('.vacancyDrop').length-1){
+            $("#addButton"+(nextId-1)).show();
+            $("#removeButton"+(nextId-1)).css("padding-left", "128px");
         }
-        validate();
+        nextId--;
+        //        validate();
         $("#deleteConfirmation").dialog("close");
     });
     
@@ -215,34 +254,66 @@ $(document).ready(function() {
 });
 
 function buildVacancyDrpDwn(vacancyId, mode) {
+    if(nextId < 5){
+        //    if($('.vacancyDrop').length < 5 ) {
+        //
+        //
+        //        if($('.vacancyDrop').length > allowedVacancylist.length-3 || $('.vacancyDrop').length > 3){
+        //            hideLabel();
+        //        }
 
-    if($('.vacancyDrop').length < 5 ) {
+        //        var nextId = 1 + parseInt($('.vacancyDrop:last').attr('id').substring($('.vacancyDrop:last').attr('id').length - 1, $('.vacancyDrop:last').attr('id').length));
+        //        var nextId = parseInt($('.vacancyDrop:last').attr('id').substring($('.vacancyDrop:last').attr('id').length - 1, $('.vacancyDrop:last').attr('id').length));
 
-        if($('.vacancyDrop').length > allowedVacancylist.length-3 || $('.vacancyDrop').length > 3){
-            hideLabel();
-        }
-
-        var nextId = 1 + parseInt($('.vacancyDrop:last').attr('id').substring($('.vacancyDrop:last').attr('id').length - 1, $('.vacancyDrop:last').attr('id').length));
-
-        var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);    
-
+        //    var nextId = 0;
+        var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);
+        $('#jobDropDown' + nextId).addClass('jobDropDown');
         newjobDropDown.after().html('<label><?php echo __(Job Vacancy); ?></label>' +
             '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
-            '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>'+'<br class="clear" />');
+            '<span '+'class="addText"'+ 'id="addButton'+nextId+'">'+'Add another'+'</span>'+
+            '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>');
 
+        nextId++;
         newjobDropDown.appendTo("#textBoxesGroup");
         
+    //    }
     }
 
 }
 
-function hideLabel(){
-    $("#addButton").hide();
+function buildVacancyList(vacancyId, mode){
+
+    var listArray = new Array();
+    if(mode == "show all vacancies"){
+        listArray = list;
+    }
+    if(mode == "show allowed vacancies"){
+        listArray = allowedVacancylist;
+    }
+    if(mode == "show with closed vacancies"){
+        listArray = allowedVacancylistWithClosedVacancies;
+    }
+
+    var numOptions = listArray.length;
+    var optionHtml = "";
+    for (var i = 0; i < numOptions; i++) {
+
+        if(listArray[i].id == vacancyId){
+            optionHtml += '<option selected="selected" value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
+        }else{
+            optionHtml += '<option value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
+        }
+    }
+    return optionHtml;
 }
 
-function showLabel(){
-    $("#addButton").show();
-}
+//function hideLabel(){
+//    $("#addButton").hide();
+//}
+//
+//function showLabel(){
+//    $("#addButton").show();
+//}
 
 function validate(){
     var flag = validateVacancy();
@@ -312,32 +383,6 @@ function validateVacancy(){
     }
 
     return flag;
-}
-
-function buildVacancyList(vacancyId, mode){
-
-    var listArray = new Array();
-    if(mode == "show all vacancies"){
-        listArray = list;
-    }
-    if(mode == "show allowed vacancies"){
-        listArray = allowedVacancylist;
-    }
-    if(mode == "show with closed vacancies"){
-        listArray = allowedVacancylistWithClosedVacancies;
-    }
-
-    var numOptions = listArray.length;
-    var optionHtml = "";
-    for (var i = 0; i < numOptions; i++) {
-
-        if(listArray[i].id == vacancyId){
-            optionHtml += '<option selected="selected" value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
-        }else{
-            optionHtml += '<option value="' + listArray[i].id + '">' + listArray[i].name + '</option>';
-        }
-    }
-    return optionHtml;
 }
 
 function isValidForm(){

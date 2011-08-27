@@ -69,26 +69,26 @@
                 <form name="frmAddCandidate" id="frmAddCandidate" method="post" action="<?php echo url_for('recruitment/addCandidate?id=' . $candidateId); ?>" enctype="multipart/form-data">
 
             <?php echo $form['_csrf_token']; ?>
-<?php echo $form["vacancyList"]->render(); ?>
+            <?php echo $form["vacancyList"]->render(); ?>
             <br class="clear"/>
 
             <div class="nameColumn" id="firstNameDiv">
                 <label><?php echo __('Full Name'); ?></label>
             </div>
             <div class="column">
-<?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                <?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="frmDate" class="helpText"><?php echo __('First Name'); ?><span class="required">*</span></label>
             </div>
             <div class="column" id="middleNameDiv">
-<?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                <?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('Middle Name'); ?></label>
             </div>
             <div class="column" id="middleNameDiv">
-<?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                <?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></label>
@@ -97,34 +97,35 @@
             <br class="clear"/>
             <div class="newColumn">
                 <?php echo $form['email']->renderLabel(__('E-Mail') . ' <span class="required">*</span>'); ?>
-<?php echo $form['email']->render(array("class" => "formInputText")); ?>
+                <?php echo $form['email']->render(array("class" => "formInputText")); ?>
                 <div class="errorHolder below"></div>
             </div>
             <div class="newColumn">
                 <?php echo $form['contactNo']->renderLabel(__('Contact No'), array("class " => "contactNoLable")); ?>
-<?php echo $form['contactNo']->render(array("class" => "contactNo")); ?>
+                <?php echo $form['contactNo']->render(array("class" => "contactNo")); ?>
                 <div class="errorHolder cntact"></div>
             </div>
             <br class="clear" />
 
-            <div class="hrLine" >&nbsp;</div>
+            <div class="hrLine" ></div>
             <label id="jobLable"><?php echo __('Job Vacancy') ?></label>
 
             <div id="textBoxesGroup">
-                <select id="jobDropDown0" class="vacancyDrop" onchange="validate()"><option></option></select>
+<!--                <select id="jobDropDown0" class="vacancyDrop" onchange="validate()"><option></option></select>-->
             </div>
 
             <?php if ($candidateId > 0) : ?>
             <?php $existingVacancyList = $actionForm->candidate->getJobCandidateVacancy(); ?>
             <?php if ($existingVacancyList[0]->getVacancyId() > 0) : ?>
-                        <div id="actionPane" style="float:left; width:200px; padding-top:0px">
+                        <div id="actionPane" style="float:left; width:300px; padding-top:0px">
                 <?php foreach ($existingVacancyList as $candidateVacancy) {
                 ?>
-                            <div style="height: 15px">
+                            <div style="height: 18px; padding-top: 11px">
                     <?php
                             if ($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::ACTIVE && in_array($candidateVacancy->getVacancyId(), $form->allowedVacancyList)) {
                                 $widgetName = $candidateVacancy->getId();
                                 echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
+                                echo __("Status") . " : " . ucwords(strtolower($candidateVacancy->getStatus()));
                             }
                     ?></div>
                         <br class="clear" />
@@ -134,10 +135,10 @@
             <?php endif; ?>
 
 
-                        <br class="clear" />
-                        <span class="addText" id='addButton'><?php echo __('Add another'); ?></span>
+                        <br class="clear" /><!--
+                        <span class="addText" id='addButton'><?php //echo __('Add another'); ?></span>
                         <div id="vacancyError"></div>
-                        <br class="clear" />
+                        <br class="clear" />-->
 
                         <!-- Resume block : Begins -->
                         <div>
@@ -198,7 +199,7 @@
                                    value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php endif; ?>
                        <?php if ($candidateId > 0): ?>
-			    <input type="button" class="backbutton" name="btnBack" id="btnBack"
+                         <input type="button" class="backbutton" name="btnBack" id="btnBack"
                                 value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php endif; ?>
                      </div>
@@ -265,6 +266,7 @@
                                     var backBtnUrl = '<?php echo url_for('recruitment/viewCandidates?'); ?>';
                                     var interviewUrl = '<?php echo url_for('recruitment/jobInterview?'); ?>';
                                     var interviewAction = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW; ?>';
+                                    var removeAction = '<?php echo JobCandidateVacancy::REMOVE; ?>';
                                     var lang_remove =  '<?php echo __("Remove"); ?>';
                                     var lang_editCandidateTitle = "<?php echo __('Edit Candidate'); ?>";
 </script>

@@ -12,5 +12,5 @@
  */
 abstract class PluginJobCandidateVacancy extends BaseJobCandidateVacancy
 {
-
+const REMOVE = 16;
 }
