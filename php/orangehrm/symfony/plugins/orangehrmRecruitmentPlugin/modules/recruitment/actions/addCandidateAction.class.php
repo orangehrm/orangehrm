@@ -66,14 +66,16 @@ class addCandidateAction extends sfAction {
 
         $userObj = $this->getUser()->getAttribute('user');
         $allowedVacancyList = $userObj->getAllowedVacancyList();
+        $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
+        $this->candidateId = $request->getParameter('id');
         $reDirect = false;
         $this->edit = true;
-        if (!($userObj->isAdmin() || $userObj->isHiringManager())) {
+        if (!(in_array($this->candidateId, $allowedCandidateListToDelete))){
            $reDirect = true;
            $this->edit = false;
         }
 
-        $this->candidateId = $request->getParameter('id');
+        
 
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
         $this->setForm(new AddCandidateForm(array(), $param, true));
