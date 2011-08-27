@@ -88,9 +88,12 @@ class EmployeeDao extends BaseDao {
                             ->set('nickName', '?', $employee->nickName)
                             ->set('otherId', '?', $employee->otherId)
                             ->set('emp_marital_status', '?', $employee->emp_marital_status)
-                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)
-                            ->set('emp_gender', '?', $employee->emp_gender)
+                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)                            
                             ->set('militaryService', '?', $employee->militaryService);
+            
+            if (!empty($employee->emp_gender)) {
+                $q->set('emp_gender', '?', $employee->emp_gender);
+            }
 
             if (empty($employee->emp_dri_lice_exp_date)) {
                 $q->set('emp_dri_lice_exp_date', 'NULL');

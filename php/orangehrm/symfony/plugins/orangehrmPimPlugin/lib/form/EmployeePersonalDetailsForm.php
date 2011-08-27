@@ -214,7 +214,11 @@ class EmployeePersonalDetailsForm extends BaseForm {
 
         $employee->emp_marital_status = $this->getValue('cmbMarital');
         $employee->smoker = $this->getValue('chkSmokeFlag');
-        $employee->emp_gender = $this->getValue('optGender');
+        
+        $gender = $this->getValue('optGender');
+        if (!empty($gender)) {
+            $employee->emp_gender = $gender;
+        }
 
         $employee->emp_dri_lice_exp_date = $this->getValue('txtLicExpDate');
 

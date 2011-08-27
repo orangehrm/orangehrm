@@ -20,15 +20,13 @@ $(document).ready(function() {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
             'personal[DOB]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
-            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } },
-            'personal[optGender]': { required: true }
+            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false} } }
         },
         messages: {
             'personal[txtEmpFirstName]': { required: lang_firstNameRequired },
             'personal[txtEmpLastName]': { required: lang_lastNameRequired },
             'personal[DOB]': { valid_date: lang_invalidDate },
-            'personal[txtLicExpDate]': { valid_date: lang_invalidDate },
-            'personal[optGender]': { required: lang_selectGender }
+            'personal[txtLicExpDate]': { valid_date: lang_invalidDate }
         },
         errorElement : 'div',
         errorPlacement: function(error, element) {
