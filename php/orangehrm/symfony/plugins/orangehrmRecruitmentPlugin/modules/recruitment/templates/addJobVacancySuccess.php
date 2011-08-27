@@ -139,8 +139,11 @@
                     var vacancyNameList = eval(vacancyNames);
                     var lang_edit = "<?php echo __("Edit"); ?>";
                     var lang_save = "<?php echo __("Save"); ?>";
+                    var lang_cancel = "<?php echo __("Cancel"); ?>";
+                    var lang_back = "<?php echo __("Back"); ?>";
                     var linkForAddJobVacancy = "<?php echo url_for('recruitment/addJobVacancy'); ?>";
 		    var backBtnUrl = '<?php echo url_for('recruitment/viewJobVacancy?'); ?>';
+		    var backCancelUrl = '<?php echo url_for('recruitment/addJobVacancy?'); ?>';
 <?php if (isset($vacancyId)) { ?>
                     var vacancyId = '<?php echo $vacancyId; ?>';
 <?php } else { ?>

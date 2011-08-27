@@ -84,12 +84,15 @@
 
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
         //<![CDATA[
         var candidateId = "<?php echo $form->candidateId; ?>";
         var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
+        var cancelUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
         var lang_edit = "<?php echo __('Edit'); ?>";
         var lang_save = "<?php echo __('Save'); ?>";
+        var lang_back = "<?php echo __('Back'); ?>";
+        var lang_cancel = "<?php echo __('Cancel'); ?>";
         var candidateVacancyId = "<?php echo $form->candidateVacancyId; ?>";
         var selectedAction = "<?php echo $form->selectedAction; ?>";
         var historyId = "<?php echo $form->id; ?>";

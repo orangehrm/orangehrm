@@ -89,8 +89,8 @@
 		<input type="button" class="savebutton" name="actionBtn" id="saveBtn"
                        value="<?php echo __('Edit'); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 		<?php } ?>
-                <input type="button" class="cancelbutton" name="cancelButton" id="cancellButton"
-                           value="<?php echo __("Cancel"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                <input type="button" class="cancelbutton" name="cancelButton" id="cancelButton"
+                           value="<?php echo __("Back"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
             </div>
         </form>
     </div>
@@ -110,6 +110,7 @@
 <script type="text/javascript">
     //<![CDATA[
     var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
+    var cancelUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
     var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
     var dateDisplayFormat = dateFormat.toUpperCase();
@@ -119,6 +120,7 @@
     var numberOfInterviewers = <?php echo $form->numberOfInterviewers; ?>;
     var lang_identical_rows = "<?php echo __("Cannot assign same interviewer twice"); ?>";
     var interviewId = "<?php echo $interviewId; ?>";
+    var historyId = "<?php echo $historyId; ?>";
     var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
     var lang_interviewHeadingRequired = "<?php echo __('Interview Title is required'); ?>";
     var lang_noMoreThan98 = "<?php echo __("Please enter no more than 98 characters"); ?>";
@@ -132,5 +134,7 @@
     var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_save = "<?php echo __("Save"); ?>";
+    var lang_back = "<?php echo __("Back"); ?>";
+    var lang_cancel = "<?php echo __("Cancel"); ?>";
     //]]>
 </script>

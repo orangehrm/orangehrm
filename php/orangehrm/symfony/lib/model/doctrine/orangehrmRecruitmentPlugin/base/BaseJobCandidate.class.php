@@ -22,6 +22,7 @@
  * @property JobCandidateAttachment $JobCandidateAttachment
  * @property Doctrine_Collection $CandidateHistory
  * @property Employee $Employee
+ * @property Doctrine_Collection $JobInterview
  * 
  * @method integer                getId()                     Returns the current record's "id" value
  * @method string                 getFirstName()              Returns the current record's "firstName" value
@@ -40,6 +41,7 @@
  * @method JobCandidateAttachment getJobCandidateAttachment() Returns the current record's "JobCandidateAttachment" value
  * @method Doctrine_Collection    getCandidateHistory()       Returns the current record's "CandidateHistory" collection
  * @method Employee               getEmployee()               Returns the current record's "Employee" value
+ * @method Doctrine_Collection    getJobInterview()           Returns the current record's "JobInterview" collection
  * @method JobCandidate           setId()                     Sets the current record's "id" value
  * @method JobCandidate           setFirstName()              Sets the current record's "firstName" value
  * @method JobCandidate           setMiddleName()             Sets the current record's "middleName" value
@@ -57,6 +59,7 @@
  * @method JobCandidate           setJobCandidateAttachment() Sets the current record's "JobCandidateAttachment" value
  * @method JobCandidate           setCandidateHistory()       Sets the current record's "CandidateHistory" collection
  * @method JobCandidate           setEmployee()               Sets the current record's "Employee" value
+ * @method JobCandidate           setJobInterview()           Sets the current record's "JobInterview" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -141,5 +144,9 @@ abstract class BaseJobCandidate extends sfDoctrineRecord
         $this->hasOne('Employee', array(
              'local' => 'addedPerson',
              'foreign' => 'empNumber'));
+
+        $this->hasMany('JobInterview', array(
+             'local' => 'id',
+             'foreign' => 'candidateId'));
     }
 }

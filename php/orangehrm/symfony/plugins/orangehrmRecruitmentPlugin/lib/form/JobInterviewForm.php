@@ -176,6 +176,7 @@ class JobInterviewForm extends BaseForm {
 		}
 		$newJobInterview->setNote($note);
 		$newJobInterview->setCandidateVacancyId($this->candidateVacancyId);
+		$newJobInterview->setCandidateId($this->candidateId);
 		if (!empty($this->interviewId)) {
 			$this->getInterviewService()->updateJobInterview($newJobInterview);
 		} else {

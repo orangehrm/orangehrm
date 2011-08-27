@@ -1,6 +1,11 @@
 $(document).ready(function() {
 	$('#cancelBtn').click(function(){
-		window.location.replace(cancelBtnUrl+'?id='+candidateId);
+		if($("#btnSave").attr('value') == lang_edit) {
+			window.location.replace(cancelBtnUrl+'?id='+candidateId);
+		}
+		if($("#btnSave").attr('value') == lang_save) {
+			window.location.replace(cancelUrl+'?id='+historyId);
+		}
 	});
 	$('#actionBtn').click(function(){
 		$('#frmCandidateVacancyStatus').attr({
@@ -17,6 +22,7 @@ $(document).ready(function() {
 		if($("#btnSave").attr('value') == lang_edit) {
 			$(".formInputText").removeAttr("disabled");
 			$("#btnSave").attr('value', lang_save);
+			$("#cancelBtn").attr('value', lang_cancel);
 			return;
 		}
             

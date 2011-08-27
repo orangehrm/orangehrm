@@ -108,6 +108,7 @@ $(document).ready(function() {
 			$(".removeText").show();
 			$("#removeButton1").hide();
 			$("#saveBtn").attr('value', lang_save);
+			$("#cancelButton").attr('value', lang_cancel);
 			return;
 		}
 		if($("#saveBtn").attr('value') == lang_save) {
@@ -132,8 +133,13 @@ $(document).ready(function() {
 		}
 	}
     
-	$('#cancellButton').click(function(){
-		window.location = addCandidateUrl;
+	$('#cancelButton').click(function(){
+		if($("#saveBtn").attr('value') == lang_save){
+			window.location.replace(cancelUrl+'?id='+historyId);
+		}
+		if($("#saveBtn").attr('value') == lang_edit){
+			window.location.replace(addCandidateUrl);
+		}
 	});
 
 

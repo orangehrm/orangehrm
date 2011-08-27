@@ -107,6 +107,7 @@ class JobInterviewDao extends BaseDao {
 		try {
 			$q = Doctrine_Query:: create()->update('JobInterview')
 					->set('candidateVacancyId', '?', $jobInterview->candidateVacancyId)
+					->set('candidateId', '?', $jobInterview->candidateId)
 					->set('interviewName', '?', $jobInterview->interviewName)
 					->set('interviewDate', '?', $jobInterview->interviewDate)
 					->set('interviewTime', '?', $jobInterview->interviewTime)

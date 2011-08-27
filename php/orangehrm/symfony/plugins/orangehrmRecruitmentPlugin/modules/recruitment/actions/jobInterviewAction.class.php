@@ -60,7 +60,7 @@ class jobInterviewAction extends sfAction {
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
-        $historyId = $request->getParameter('historyId');
+        $this->historyId = $request->getParameter('historyId');
         $this->interviewId = $request->getParameter('interviewId');
         $candidateVacancyId = $request->getParameter('candidateVacancyId');
         $selectedAction = $request->getParameter('selectedAction');
@@ -68,8 +68,8 @@ class jobInterviewAction extends sfAction {
         if ($candidateVacancyId > 0 && $selectedAction != "") {
             $param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
         }
-        if (!empty($historyId) && !empty($this->interviewId)) {
-            $history = $this->getCandidateService()->getCandidateHistoryById($historyId);
+        if (!empty($this->historyId) && !empty($this->interviewId)) {
+            $history = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
             $candidateVacancyId = $history->getCandidateVacancyId();
             $selectedAction = $history->getAction();
             $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);

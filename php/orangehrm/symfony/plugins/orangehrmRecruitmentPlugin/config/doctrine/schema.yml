@@ -94,6 +94,10 @@ JobCandidate:
       local: addedPerson
       foreign: empNumber
       type: one
+    JobInterview:
+      local: id
+      foreign: candidateId
+      type: many
 
 JobCandidateVacancy:
   tableName: ohrm_job_candidate_vacancy
@@ -202,6 +206,9 @@ JobInterview:
     candidate_vacancy_id:
       name: candidate_vacancy_id as candidateVacancyId
       type: integer(13)
+    candidate_id:
+      name: candidate_id as candidateId
+      type: integer(13)
     interview_name:
       name: interview_name as interviewName
       type: string(100)
@@ -230,6 +237,10 @@ JobInterview:
       local: id
       foreign: interviewId
       type: many
+    JobCandidate:
+      local: candidateId
+      foreign: id
+      type: one
 
 JobInterviewInterviewer:
   tableName: ohrm_job_interview_interviewer

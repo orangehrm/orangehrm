@@ -28,6 +28,7 @@ $(document).ready(function() {
 			$(".formInput").removeAttr("disabled");
 			$(".formInputText").removeAttr("disabled");
 			$("#btnSave").attr('value', lang_save);
+			$("#btnBack").attr('value', lang_cancel);
 			return;
 		}
 		if($("#btnSave").attr('value') == lang_save) {
@@ -38,11 +39,16 @@ $(document).ready(function() {
 				$('#frmAddJobVacancy').submit();
 			}
 		}
-
+		
 	});
 
 	$('#btnBack').click(function(){
+		if($("#btnBack").attr('value') == lang_back) {
 		window.location.replace(backBtnUrl+'?vacancyId='+vacancyId);
+		}
+		if($("#btnBack").attr('value') == lang_cancel) {
+		window.location.replace(backCancelUrl+'?Id='+vacancyId);
+		}
 	});
 
 	if ($("#addJobVacancy_hiringManager").val() == '') {

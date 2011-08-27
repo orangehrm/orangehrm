@@ -604,6 +604,10 @@
 				<source>Edit Interview Details</source>
 				<target>FR_Edit Interview Details</target>
 			</trans-unit>
+			<trans-unit id="153">
+				<source>Cancel</source>
+				<target>FR_Cancel</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

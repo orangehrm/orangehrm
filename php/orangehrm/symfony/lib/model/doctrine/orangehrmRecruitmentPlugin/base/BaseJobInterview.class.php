@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property integer $candidateVacancyId
+ * @property integer $candidateId
  * @property string $interviewName
  * @property date $interviewDate
  * @property string $interviewTime
@@ -15,9 +16,11 @@
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property CandidateHistory $CandidateHistory
  * @property Doctrine_Collection $JobInterviewAttachment
+ * @property JobCandidate $JobCandidate
  * 
  * @method integer             getId()                      Returns the current record's "id" value
  * @method integer             getCandidateVacancyId()      Returns the current record's "candidateVacancyId" value
+ * @method integer             getCandidateId()             Returns the current record's "candidateId" value
  * @method string              getInterviewName()           Returns the current record's "interviewName" value
  * @method date                getInterviewDate()           Returns the current record's "interviewDate" value
  * @method string              getInterviewTime()           Returns the current record's "interviewTime" value
@@ -26,8 +29,10 @@
  * @method Doctrine_Collection getJobInterviewInterviewer() Returns the current record's "JobInterviewInterviewer" collection
  * @method CandidateHistory    getCandidateHistory()        Returns the current record's "CandidateHistory" value
  * @method Doctrine_Collection getJobInterviewAttachment()  Returns the current record's "JobInterviewAttachment" collection
+ * @method JobCandidate        getJobCandidate()            Returns the current record's "JobCandidate" value
  * @method JobInterview        setId()                      Sets the current record's "id" value
  * @method JobInterview        setCandidateVacancyId()      Sets the current record's "candidateVacancyId" value
+ * @method JobInterview        setCandidateId()             Sets the current record's "candidateId" value
  * @method JobInterview        setInterviewName()           Sets the current record's "interviewName" value
  * @method JobInterview        setInterviewDate()           Sets the current record's "interviewDate" value
  * @method JobInterview        setInterviewTime()           Sets the current record's "interviewTime" value
@@ -36,6 +41,7 @@
  * @method JobInterview        setJobInterviewInterviewer() Sets the current record's "JobInterviewInterviewer" collection
  * @method JobInterview        setCandidateHistory()        Sets the current record's "CandidateHistory" value
  * @method JobInterview        setJobInterviewAttachment()  Sets the current record's "JobInterviewAttachment" collection
+ * @method JobInterview        setJobCandidate()            Sets the current record's "JobCandidate" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -54,6 +60,10 @@ abstract class BaseJobInterview extends sfDoctrineRecord
              'length' => 13,
              ));
         $this->hasColumn('candidate_vacancy_id as candidateVacancyId', 'integer', 13, array(
+             'type' => 'integer',
+             'length' => 13,
+             ));
+        $this->hasColumn('candidate_id as candidateId', 'integer', 13, array(
              'type' => 'integer',
              'length' => 13,
              ));
@@ -93,5 +103,9 @@ abstract class BaseJobInterview extends sfDoctrineRecord
         $this->hasMany('JobInterviewAttachment', array(
              'local' => 'id',
              'foreign' => 'interviewId'));
+
+        $this->hasOne('JobCandidate', array(
+             'local' => 'candidateId',
+             'foreign' => 'id'));
     }
 }
