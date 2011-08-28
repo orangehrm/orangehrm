@@ -85,7 +85,7 @@ class ohrmWidgetEmployeeList extends sfWidgetForm implements ohrmEmbeddableWidge
         $validator = new sfValidatorString();
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true), array('required' => 'Select a project'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => 'No employees added to the system'));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

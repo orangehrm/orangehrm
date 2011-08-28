@@ -44,12 +44,23 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
         $staticColumns["toDate"] = date("Y-m-d");
 
         if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
-            $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
-            $staticColumns["toDate"] = $formValues["project_date_range"]["to"];
+
+            if ($formValues["project_date_range"]["from"] != '') {
+                $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
+            }
+            if ($formValues["project_date_range"]["to"] != '') {
+                $staticColumns["toDate"] = $formValues["project_date_range"]["to"];
+            }
         } else if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] == "YYYY-MM-DD")) {
-            $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
+
+            if ($formValues["project_date_range"]["from"] != '') {
+                $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
+            }
         } else if (($formValues["project_date_range"]["from"] == "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
-            $staticColumns["toDate"] = $formValues["project_date_range"]["to"];
+
+            if ($formValues["project_date_range"]["to"] != '') {
+                $staticColumns["toDate"] = $formValues["project_date_range"]["to"];
+            }
         }
 
         $staticColumns["projectId"] = $formValues["project_name"];

@@ -36,7 +36,20 @@ class ohrmValidatorDateRange extends sfValidatorDate {
     protected function configure($options = array(), $messages = array()) {
         $this->addMessage('invalid', 'The begin date must be before the end date.');
 
-        parent::configure($options, $messages);
+        $this->addOption('required', false);
+        $this->addMessage('bad_format', '"%value%" does not match the date format ( yyyy-mm-dd).');
+        $this->addMessage('max', 'The date must be before %max%.');
+        $this->addMessage('min', 'The date must be after %min%.');
+
+        $this->addOption('date_format', "/^(\d\d\d\d)-(\d\d?)-(\d\d?)$/");
+        $this->addOption('with_time', false);
+        $this->addOption('date_output', 'Y-m-d');
+        $this->addOption('datetime_output', 'Y-m-d H:i:s');
+        $this->addOption('date_format_error');
+        $this->addOption('min', null);
+        $this->addOption('max', null);
+        $this->addOption('date_format_range_error', 'd/m/Y H:i:s');
+//        parent::configure($options, $messages);
     }
 
     /**
@@ -48,14 +61,10 @@ class ohrmValidatorDateRange extends sfValidatorDate {
 
         $from = $value["from"];
         $to = $value["to"];
-
-
-    $value["from"] = $dateValidator->clean(isset($value["from"]) ? $value["from"] : null);
-    $value["to"]   = $dateValidator->clean(isset($value["to"]) ? $value["to"] : null);
+//    $value["from"] = $dateValidator->clean(isset($value["from"]) ? $value["from"] : null);
+//    $value["to"]   = $dateValidator->clean(isset($value["to"]) ? $value["to"] : null);
 
         if (($from != "YYYY-MM-DD") && ($to != "YYYY-MM-DD")) {
-
-
             try {
                 parent::doClean($value["from"]);
             } catch (Exception $exc) {
@@ -63,6 +72,8 @@ class ohrmValidatorDateRange extends sfValidatorDate {
                     parent::doClean($value["to"]);
                 } catch (Exception $exc) {
                     $this->setMessage('invalid', 'Insert valid "from" and "to" date');
+
+                    $this->setMessage("bad_format", "From date and To date values do not match the date format ( yyyy-mm-dd).");
                     throw $exc;
                 }
                 $this->setMessage('invalid', 'Insert a valid "from" date');
@@ -76,15 +87,23 @@ class ohrmValidatorDateRange extends sfValidatorDate {
                 throw $exc;
             }
         } else if (($from == "YYYY-MM-DD") && ($to != "YYYY-MM-DD")) {
-            $this->setMessage('invalid', 'Insert a valid "to" date');
-            parent::doClean($value["to"]);
+            if ($to != "") {
+                $this->setMessage('invalid', 'Insert a valid "to" date');
+                $this->setMessage("bad_format", "To date value does not match the date format ( yyyy-mm-dd).");
+                parent::doClean($value["to"]);
+            }
         } else if (($from != "YYYY-MM-DD") && ($to == "YYYY-MM-DD")) {
-            $this->setMessage('invalid', 'Insert a valid "from" date');
-            parent::doClean($value["from"]);
+            if ($from != "") {
+                $this->setMessage('invalid', 'Insert a valid "from" date');
+                $this->setMessage("bad_format", "From date value does not match the date format ( yyyy-mm-dd).");
+                parent::doClean($value["from"]);
+            }
+        } else if (($from == "YYYY-MM-DD") && ($to == "YYYY-MM-DD")) {
+            return $value;
         }
 
-
         if ($value["from"] && $value["to"]) {
+            $this->setMessage('invalid', 'The begin date must be before the end date');
             $v = new ohrmValidatorSchemaDateRange("project_date_range", sfValidatorSchemaCompare::LESS_THAN_EQUAL, "project_date_range", array('throw_global_error' => true), array('invalid' => $this->getMessage('invalid')));
             $v->clean($value);
         }

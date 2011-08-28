@@ -57,11 +57,10 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
 
         $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateRange(array(), array("invalid" => "Insert a correct date"));
 //        $validatorSchema[$this->attributes['id']] = new sfValidatorPass();
-
-        $validatorSchema->setPostValidator(new ohrmValidatorSchemaDateRange($this->attributes['id'], ohrmValidatorSchemaDateRange::LESS_THAN_EQUAL, $this->attributes['id'],
-                        array('throw_global_error' => true),
-                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')
-        ));
+//        $validatorSchema->setPostValidator(new ohrmValidatorSchemaDateRange($this->attributes['id'], ohrmValidatorSchemaDateRange::LESS_THAN_EQUAL, $this->attributes['id'],
+//                        array('throw_global_error' => true),
+//                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')
+//        ));
     }
 
     /**
@@ -100,14 +99,26 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
         $toDate = date("Y-m-d");
 
         if (($dateRanges["from"] != "YYYY-MM-DD") && ($dateRanges["to"] != "YYYY-MM-DD")) {
-            $fromDate = $dateRanges["from"];
-            $toDate = $dateRanges["to"];
+
+            if (($dateRanges["to"] != "")) {
+                $toDate = $dateRanges["to"];
+            }
+            if (($dateRanges["from"] != "")) {
+                $fromDate = $dateRanges["from"];
+            }
         } else if (($dateRanges["from"] == "YYYY-MM-DD") && ($dateRanges["to"] != "YYYY-MM-DD")) {
-            $toDate = $dateRanges["to"];
+            if (($dateRanges["to"] != "")) {
+                $toDate = $dateRanges["to"];
+            }
         } else if (($dateRanges["from"] != "YYYY-MM-DD") && ($dateRanges["to"] == "YYYY-MM-DD")) {
-            $fromDate = $dateRanges["from"];
+            if (($dateRanges["from"] != "")) {
+                $fromDate = $dateRanges["from"];
+            }
         }
-        
+
+//        print_r($fromDate);
+//        print_r($toDate);
+
         return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
     }
 
