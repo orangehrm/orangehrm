@@ -56,7 +56,7 @@ table.employeeTable thead td{
     width: auto;
 }
 
-.inDate,.outDate,.time,.nonEditable{
+.inDate,.outDate,.inTime,.nonEditable,.outTime{
     width: 70px;
     
 }

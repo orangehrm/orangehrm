@@ -303,5 +303,76 @@ class AttendanceDao {
         }
         return $isValid;
     }
+    
+    /**
+     * checkForPunchOutOverLappingRecordsWhenEditing
+     * @param $punchInTime,$punchOutTime,$employeeId
+     * @return string 1,0
+     */
+    public function checkForPunchOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId) {
+
+        $isValid = "1";
+      
+
+        try {
+
+            $query1 = Doctrine_Query::create()
+                    ->from("AttendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("punchInUtcTime > ?", $punchInTime)
+                    ->andWhere("punchInUtcTime < ?", $punchOutTime);
+            $records1 = $query1->execute();
+
+            if ((count($records1) > 0)) {
+
+                $isValid = "0";
+            }
+
+            $query2 = Doctrine_Query::create()
+                    ->from("attendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("punchOutUtcTime > ?", $punchInTime)
+                    ->andWhere("punchOutUtcTime < ?", $punchOutTime);
+            $records2 = $query2->execute();
+
+            if ((count($records2) > 1)) {
+
+
+                $isValid = "0";
+            }
+
+
+            $query3 = Doctrine_Query::create()
+                    ->from("attendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("punchInUtcTime < ?", $punchInTime)
+                    ->andWhere("punchOutUtcTime > ?", $punchOutTime);
+            $records3 = $query3->execute();
+
+            if ((count($records3) > 1)) {
+
+
+                $isValid = "0";
+            }
+
+            $query4 = Doctrine_Query::create()
+                    ->from("attendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere('punchInUtcTime > ?', $punchInTime)
+                    ->andWhere('punchOutUtcTime < ?', $punchOutTime);
+            $records4 = $query4->execute();
+
+
+            if ((count($records4) > 1)) {
+
+
+                $isValid = "0";
+            }
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }
+        return $isValid;
+    }
+
 }
 

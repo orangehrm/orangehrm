@@ -94,6 +94,32 @@ class AttendanceActions extends sfActions {
         $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecordsWhenEditing($punchIn, $employeeId);
     }
 
+    public function executeValidatePunchOutOverLappingWhenEditing($request) {
+
+        $temppunchInTime = $request->getParameter('punchInTime');
+        $temppunchOutTime = $request->getParameter('punchOutTime');
+        $inTimezone = $request->getParameter('inTimezone');
+        $outTimezone = $request->getParameter('outTimezone');
+        $ti = strtotime($temppunchInTime) - $inTimezone;
+        $to = strtotime($temppunchOutTime) - $outTimezone;
+
+
+        $punchInDate = date("Y-m-d", $ti);
+        $punchInTime = date("H:i:s", $ti);
+        $punchIn = $punchInDate . " " . $punchInTime;
+
+        $punchOutDate = date("Y-m-d", $to);
+        $punchOutTime = date("H:i:s", $to);
+        $punchOut = $punchOutDate . " " . $punchOutTime;
+
+
+        $employeeId = $request->getParameter('employeeId');
+         $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId);
+   
+       
+        
+        }
+
     public function executeGetCurrentTime($request) {
         $timeZoneOffset = $request->getParameter('timeZone');
 
@@ -108,7 +134,7 @@ class AttendanceActions extends sfActions {
 
     public function executeGetRelatedAttendanceRecords($request) {
 
-
+      
         $this->allowedToDelete = array();
         $this->allowedActions = array();
 
@@ -122,6 +148,7 @@ class AttendanceActions extends sfActions {
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
         $this->actionRecorder = $request->getParameter('actionRecorder');
+
         if ($this->actionRecorder == "viewEmployee") {
             $userRoleFactory = new UserRoleFactory();
             $decoratedUser = $userRoleFactory->decorateUserRole($userId, $this->employeeId, $userEmployeeNumber);
@@ -135,6 +162,7 @@ class AttendanceActions extends sfActions {
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
         $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+ 
         if ($this->records != null) {
 
             if ($actionableStates != null) {
@@ -172,24 +200,23 @@ class AttendanceActions extends sfActions {
 
             $i = 0;
             foreach ($this->records as $record) {
-                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(),$decoratedUser);
+                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $decoratedUser);
                 $i++;
             }
         }
 
-
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
         $allowedActionsList = array();
-        
-        $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
-        
 
-     
+        $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+
+
+
         if ($actionableStates != null) {
 
             $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
-            
-            
+
+
             foreach ($actionableStates as $actionableState) {
 
                 $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
@@ -361,8 +388,8 @@ class AttendanceActions extends sfActions {
         }
     }
 
-    public function allowedToPerformAction($flow, $action, $state,$userObject) {
-      //  $userObj = $this->getContext()->getUser()->getAttribute('user');
+    public function allowedToPerformAction($flow, $action, $state, $userObject) {
+        //  $userObj = $this->getContext()->getUser()->getAttribute('user');
         $actionsArray = $userObject->getAllowedActions($flow, $state);
 
         if (in_array($action, $actionsArray)) {

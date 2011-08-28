@@ -40,7 +40,7 @@
 
                         <tr> <?php if ($editPunchIn[$i]): ?>
 
-                                <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchInUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchInUtcTime())); ?>"></td>
+                                <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "inTime")); ?><input type="hidden" id="<?php echo "punchInUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchInUtcTime())); ?>"></td>
                                 <td><table cellspacing="0" cellpadding="0" border="0">
                                         <tr>
                                             <?php
@@ -67,14 +67,14 @@
                                     }
                                     ?>
                                 <input type="hidden" id="<?php echo "attendanceNote_2_3" . "_" . $record->getId(); ?>" value="<?php echo $record->getPunchInNote(); ?>">
-                                <td "<?php echo "commentLable_2_3" . "_" . $record->getId(); ?>" align="left" width="200"><?php echo htmlspecialchars($comments); ?></td>
+                                <td id="<?php echo "commentLable_2_3" . "_" . $record->getId(); ?>" align="left" width="200"><?php echo htmlspecialchars($comments); ?></td>
                                 <td class="dialogInvoker" id="pen_request"><?php echo image_tag('callout.png', 'id=' . $record->getId() . "_2" . "_3" . " class=icon") ?></td>
                                 </tr>
                             </table></td>
                     <?php endif; ?>
                     <?php if ($editPunchOut[$i]): ?>
 
-                        <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->renderError(); ?><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "time")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo Date('Y-m-d H:i', strtotime($record->getPunchOutUtcTime())); ?>"></td>
+                        <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->renderError(); ?><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "outDate")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "outTime")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo Date('Y-m-d H:i', strtotime($record->getPunchOutUtcTime())); ?>"></td>
                         <td><table cellspacing="0" cellpadding="0" border="0">
                                 <tr>
                                     <?php
@@ -94,7 +94,7 @@
 
                         <?php if ($record->getPunchOutUtcTime() == null): ?>
 
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i'); ?>"></td>
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date("Y-m-d H:i", mktime(0, 0, 0, 7, 1, 2030)); ?>"></td>
                         <?php else: ?>
                             <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchOutUtcTime())); ?>"></td>
                         <?php endif; ?>
@@ -165,7 +165,7 @@
     var linkToViewEmployeeRecords='<?php echo url_for('attendance/viewAttendanceRecord'); ?>'
     var linkToViewMyRecords='<?php echo url_for('attendance/viewMyAttendanceRecord'); ?>'
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
-    var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
+    var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLappingWhenEditing') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLappingWhenEditing') ?>';
     
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'

@@ -1,7 +1,7 @@
 $(document).ready(function()
     {
         
-//       alert( $('#commentLable_1_3_66').val());
+        //       alert( $('#commentLable_1_3_66').val());
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
         
         $("#commentDialog").dialog({
@@ -93,7 +93,7 @@ $(document).ready(function()
             inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
             inDate=element.val();
             
-                if((inDate=="")||(inTime=="")){
+            if((inDate=="")||(inTime=="")){
                 var errorStyle = "background-color:#FFDFDF;";
                 element.attr('style', errorStyle);
                 $('#btnSave').attr('disabled', 'disabled');
@@ -104,53 +104,53 @@ $(document).ready(function()
             }
             else{
      
-            var flag4 = validateDateFormat(inDate);
+                var flag4 = validateDateFormat(inDate);
 
-            if(!flag4) {
-                var errorStyle = "background-color:#FFDFDF;";
-                element.attr('style', errorStyle);
-                $('#btnSave').attr('disabled', 'disabled');
-               
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidDateFormat);
-            }
-            else{
-                $('#btnSave').removeAttr('disabled');
-                element.removeAttr('style');
-            }
-            
-           
-
-            if(flag4){
-                
-                var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
-                if(!flag1){
+                if(!flag4) {
                     var errorStyle = "background-color:#FFDFDF;";
                     element.attr('style', errorStyle);
                     $('#btnSave').attr('disabled', 'disabled');
+               
                     $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidTime);
+                    $('#validationMsg').html(errorForInvalidDateFormat);
                 }
                 else{
-                
                     $('#btnSave').removeAttr('disabled');
                     element.removeAttr('style');
-                
                 }
             
-                if(flag1){
-                    var flag3=validateForpunchInOverLapping(inTimezone,inTime, inDate);
-                    if(!flag3){
+           
+
+                if(flag4){
+                
+                    var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
+                    if(!flag1){
                         var errorStyle = "background-color:#FFDFDF;";
                         element.attr('style', errorStyle);
-                    
+                        $('#btnSave').attr('disabled', 'disabled');
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html(errorForInvalidTime);
                     }
                     else{
-                        element.removeAttr('style');
-                    }
                 
+                        $('#btnSave').removeAttr('disabled');
+                        element.removeAttr('style');
+                
+                    }
+            
+                    if(flag1){
+                        var flag3=validateForpunchInOverLapping(inTimezone,inTime, inDate);
+                        if(!flag3){
+                            var errorStyle = "background-color:#FFDFDF;";
+                            element.attr('style', errorStyle);
+                    
+                        }
+                        else{
+                            element.removeAttr('style');
+                        }
+                
+                    }
                 }
-            }
    
             }
             
@@ -198,12 +198,12 @@ $(document).ready(function()
                 var punchInOut=classStr[2];
                 updateComment(comment,id,punchInOut);
           
-                   $("#attendanceNote_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).val(comment);
-                   var displayedComment=trim(comment)
-                   if (displayedComment.length > 25) {
-                                        displayedComment =displayedComment.substring( 0, 25) +"...";
-                                    }
-                   $("#commentLable_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).html(displayedComment)
+                $("#attendanceNote_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).val(comment);
+                var displayedComment=trim(comment)
+                if (displayedComment.length > 25) {
+                    displayedComment =displayedComment.substring( 0, 25) +"...";
+                }
+                $("#commentLable_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).html(displayedComment)
                 $("#commentDialog").dialog('close');
             }
         });
@@ -216,8 +216,14 @@ $(document).ready(function()
             idArray= idDate.split("_");
             punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
             outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
             outTime=   $("#attendance_punchOutTime_"+idArray[2]).val();
+            inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
+            inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
             outDate=element.val();
+            punchInTime=inDate+" "+inTime;
+            punchOutTime=outDate+" "+outTime;
+            
             
             if((outDate=="")||(outTime=="")){
                 var errorStyle = "background-color:#FFDFDF;";
@@ -270,60 +276,237 @@ $(document).ready(function()
                         element.removeAttr('style');
                 
                     }
-            
+                    
+                    if(flag1){
+                        
+                        var flag5=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone);
+                        if(!flag5){
+                            var errorStyle = "background-color:#FFDFDF;";
+                            element.attr('style', errorStyle);
+                        }
+                        else{
+                            $('#btnSave').removeAttr('disabled');
+                            element.removeAttr('style');
+                        }
+                        
+                    }
+               
                 }
             }
         });
         
         
         $(".outTime").change(function(){
+            element = $(this)
+            idDate=element.attr('id');
+            idArray= idDate.split("_");
+            punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
+            outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
+            outDate=   $("#attendance_punchOutDate_"+idArray[2]).val();
+            inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
+            inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
+            outTime=element.val();
+            punchInTime=inDate+" "+inTime;
+            punchOutTime=outDate+" "+outTime;
+            
+            if((outTime=="") || (outDate=="")){
+                        
+                var errorStyle = "background-color:#FFDFDF;";
+                element.attr('style', errorStyle);
+                $('#btnSave').attr('disabled', 'disabled');
+               
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+                $('#validationMsg').html(errorForInvalidTimeFormat);    
+                
+            }else{
+                $('#btnSave').removeAttr('disabled');
+                element.removeAttr('style');
+                $(".messageBalloon_success").remove();
+                $('#validationMsg').removeAttr('class');
+                $('#validationMsg').html("");
+            
+                var errorTimeFlag= validateTimeFormat(outTime);
+            
+                if(!errorTimeFlag){
+                    var errorStyle = "background-color:#FFDFDF;";
+                    element.attr('style', errorStyle);
+                    $('#btnSave').attr('disabled', 'disabled');
+               
+                    $('#validationMsg').attr('class', "messageBalloon_failure");
+                    $('#validationMsg').html(errorForInvalidTimeFormat);   
+                }
+                else{
+                   
+                    $('#btnSave').removeAttr('disabled');
+                    element.removeAttr('style');
+                }
+                if(errorTimeFlag){
+                    var isValidPunchOutTime=validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate);
+                    if(!isValidPunchOutTime){
+                        var errorStyle = "background-color:#FFDFDF;";
+                        element.attr('style', errorStyle);
+                        $('#btnSave').attr('disabled', 'disabled');
+               
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html(errorForInvalidTime);  
+                        
+                    }
+                    else{
+                        $('#btnSave').removeAttr('disabled');
+                        element.removeAttr('style');  
+                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style'); 
+                    }
+                    
+                    if(isValidPunchOutTime){
+                        
+                        var flag7=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone);
+                    }
+                
+                }
+            }
              
              
              
+        });
+            
+        $(".inTime").change(function(){
              
-             
-            });
+            element = $(this)
+            idTime=element.attr('id');
+            idArray= idTime.split("_");
+            //            punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
+            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
+            inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
+            inTime=element.val();
+            punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
+
+//            
+            if((inTime=="") || (inDate=="")){
+                        
+                var errorStyle = "background-color:#FFDFDF;";
+                element.attr('style', errorStyle);
+                $('#btnSave').attr('disabled', 'disabled');
+               
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+                $('#validationMsg').html(errorForInvalidTimeFormat);    
+                
+            }
+            
+            else{
+            
+                $('#btnSave').removeAttr('disabled');
+                element.removeAttr('style');
+                $(".messageBalloon_success").remove();
+                $('#validationMsg').removeAttr('class');
+                $('#validationMsg').html("");
+            
+            
+                var errorTimeFlag= validateTimeFormat(inTime);
+            
+                if(!errorTimeFlag){
+                    var errorStyle = "background-color:#FFDFDF;";
+                    element.attr('style', errorStyle);
+                    $('#btnSave').attr('disabled', 'disabled');
+               
+                    $('#validationMsg').attr('class', "messageBalloon_failure");
+                    $('#validationMsg').html(errorForInvalidTimeFormat);   
+                }
+                else{
+                   
+                    $('#btnSave').removeAttr('disabled');
+                    element.removeAttr('style');
+                }
+                
+                if(errorTimeFlag){
+                    var isValidPunchInTime=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
+                    if(!isValidPunchInTime){
+                        var errorStyle = "background-color:#FFDFDF;";
+                        element.attr('style', errorStyle);
+                        $('#btnSave').attr('disabled', 'disabled');
+               
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html(errorForInvalidTime);  
+                        
+                    }
+                    else{
+                        $('#btnSave').removeAttr('disabled');
+                        element.removeAttr('style');  
+                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style'); 
+                    }
+                    
+                    
+                    if(isValidPunchInTime){
+                        
+                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate);
+                        
+                        if(!punchInOverLappingFlag){
+                            var errorStyle = "background-color:#FFDFDF;";
+                            element.attr('style', errorStyle);   
+                        }
+                        else{
+                            $('#btnSave').removeAttr('disabled');
+                            element.removeAttr('style');  
+                 
+                        }
+                    }
+                }
+                
+                
+                
+                
+            }
+        });
+            
+            
         
         
         
         
     });
     
-function validatePunchOutOverLapping(){
-
+function validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone){
+      
+var isValid;
 
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
 
-    var inTime=punchInTime;
-    var timezone=timeZone;
+    var inTime=punchInTime;  
 
-    var outTime =$(".date").val()+" "+$(".time").val();
-
+    var outTime =punchOutTime;
+    var inTimezone=inTimezone*3600;
+    var outTimezone=outTimezone*3600;
+//    alert(outTime)
+//     alert(inTimezone)
+//     alert(outTimezone)
+//     alert(inTime)
+//     
     var r = $.ajax({
         type: 'POST',
         url: linkForOverLappingValidation,
-        data: "punchInTime="+inTime+"&punchOutTime="+outTime+"&employeeId="+employeeId+"&timezone="+timezone,
+        data: "punchInTime="+inTime+"&punchOutTime="+outTime+"&employeeId="+employeeId+"&inTimezone="+inTimezone+"&outTimezone="+outTimezone,
         async: false,
 
         success: function(msg){
 
             isValid = msg;
-         
+//           
+//         alert(msg);
         }
     });
 
 
-    var errorStyle = "background-color:#FFDFDF;";
+  
 
     if (isValid==0) {
 
-        $('.punchOutbutton').attr('disabled', 'disabled');
+        $('#btnSave').attr('disabled', 'disabled');
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForOverLappingTime);
-        $(".time").attr('style', errorStyle);
-        $("#attendance_date").attr('style', errorStyle);
+     
+        
 
     }
 
@@ -366,7 +549,7 @@ function validateForpunchInOverLapping(inTimezone,inTime, inDate){
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
 
-
+//alert(inTime)
     var inTime = inDate+" "+inTime;
     var timezone=inTimezone;
    
@@ -440,7 +623,7 @@ function validateTimeFormat(time){
         $('#btnSave').attr('disabled', 'disabled');
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidTimeFormat);
-        $(".time").attr('style', errorStyle);
+  
         errFlag = true;
 
     }
@@ -506,7 +689,8 @@ function strToTime(str, format) {
 }
 
 function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
-    
+
+  
     var dateArray=date.split('-');
     
     if(dateArray[1].search([0])== -1){
