@@ -191,31 +191,38 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
         $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
         $employeeList = $this->getEmployeeList();
+        if ($actionableStatesList != null) {
+            foreach ($employeeList as $employee) {
 
-        foreach ($employeeList as $employee) {
+                $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
 
-            $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
+                if ($timesheetList != null) {
 
-            if ($timesheetList != null) {
+                    foreach ($timesheetList as $timesheet) {
 
-                foreach ($timesheetList as $timesheet) {
-
-                    $pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
-                    $pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
-                    $pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
-                    $pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
-                    $pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
-                    $pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
-                    $pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
+                        $pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
+                        $pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
+                        $pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
+                        $pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
+                        $pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
+                        $pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
+                        $pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
+                    }
                 }
             }
         }
-        return $pendingApprovelTimesheets;
+          if ($pendingApprovelTimesheets[0] != null) {
+
+            return $pendingApprovelTimesheets;
+        } else {
+
+            return null;
+        }
     }
 
     public function getActionableAttendanceStates($actions) {
 
-      
+
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
 
@@ -229,8 +236,6 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForSupervisorUser, $actionableAttendanceStates));
         return $actionableAttendanceStatesList;
     }
-
-
 
     public function isAllowedToDefineTimeheetPeriod() {
         return $this->user->isAllowedToDefineTimeheetPeriod();

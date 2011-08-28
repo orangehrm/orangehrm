@@ -68,9 +68,9 @@ class editAttendanceRecordAction extends sfAction {
             if ($request->isMethod('post')) {
 
                 $this->editAttendanceForm->bind($request->getParameter('attendance'));
-     print_r("hi1");
+     
                 if ($this->editAttendanceForm->isValid()) {
-                    print_r("hi");
+                 
 
                     $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
                     $messageData = array('SUCCESS', __(' Records Saved Successfully'));

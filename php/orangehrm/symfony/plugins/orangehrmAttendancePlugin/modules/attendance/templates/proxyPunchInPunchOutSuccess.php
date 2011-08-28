@@ -99,8 +99,7 @@
     var punchInTime='<?php echo $punchInTime; ?>';
     var punchInNote='<?php echo json_encode($punchInNote); ?>';
     var punchInUtcTime='<?php echo $punchInUtcTime; ?>';       
-    var timeZone=$(".timezone").val();
-    
+  
    
     
     

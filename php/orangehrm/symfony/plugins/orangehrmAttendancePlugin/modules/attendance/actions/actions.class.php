@@ -172,7 +172,7 @@ class AttendanceActions extends sfActions {
 
             $i = 0;
             foreach ($this->records as $record) {
-                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState());
+                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(),$decoratedUser);
                 $i++;
             }
         }
@@ -361,9 +361,9 @@ class AttendanceActions extends sfActions {
         }
     }
 
-    public function allowedToPerformAction($flow, $action, $state) {
-        $userObj = $this->getContext()->getUser()->getAttribute('user');
-        $actionsArray = $userObj->getAllowedActions($flow, $state);
+    public function allowedToPerformAction($flow, $action, $state,$userObject) {
+      //  $userObj = $this->getContext()->getUser()->getAttribute('user');
+        $actionsArray = $userObject->getAllowedActions($flow, $state);
 
         if (in_array($action, $actionsArray)) {
             return true;

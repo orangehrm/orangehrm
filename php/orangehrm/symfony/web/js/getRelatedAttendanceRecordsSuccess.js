@@ -1,6 +1,6 @@
 $(document).ready(function()
     {
-         $('#msg').removeAttr('class');
+        $('#msg').removeAttr('class');
         $('#msg').html("");
         $("#dialogBox").dialog({
             autoOpen: false,
@@ -34,9 +34,10 @@ $(document).ready(function()
             }
                     
 
-            );
-        
+            );     
             $("#dialogBox").dialog('close');
+            getRelatedAttendanceRecords(employeeId,date,actionRecorder);
+            
          
                 
         });
@@ -65,7 +66,7 @@ $(document).ready(function()
         
         });
    
-    $(".punch").click(function(){
+        $(".punch").click(function(){
             $('form#employeeRecordsForm').attr({
                 action:linkForProxyPunchInOut+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
             });

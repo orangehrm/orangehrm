@@ -9,11 +9,17 @@ $(document).ready(function()
         //if(editMode){
 
         $(".punchInbutton").click(function(){
-        
+            
+            
+            var timezoneArray= getTimezoneArray();
+            var  timezone=  timezoneArray[$(".timezone").val()];
+              var  timeZone=timezone*3600;
             if((validateNote())){
                 if((validate())) {
                     if((validateForpunchInOverLapping()==1)) {
+                       
                         $('form#punchTimeForm').attr({
+                         
 
                             action:linkForProxyPunchAction+"?timeZone="+timeZone+"&path="+true+"&employeeId="+employeeId+"&date="+selectedDate
                         });
@@ -26,12 +32,14 @@ $(document).ready(function()
         });
 
         $(".punchOutbutton").click(function(){
-
+            var timezoneArray= getTimezoneArray();
+            var  timezone=  timezoneArray[$(".timezone").val()];
+            var  timeZone= timezone*3600;
             if((validateNote())){
                 if((validate())) {
    
                     if(validatePunchOutOverLapping()==1){
-
+  
                         $('form#punchTimeForm').attr({
 
                             action:linkForProxyPunchAction+"?timeZone="+timeZone+"&path="+true+"&employeeId="+employeeId+"&date="+selectedDate
@@ -442,8 +450,13 @@ $(document).ready(function()
 
                     var inTime = strToTime(punchInUtcTime, dateTimeFormat);
                     var outTimeTemp = strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat);
-                    var outTime=outTimeTemp-timeZone*1000;
-      
+                    var timezoneArray= getTimezoneArray();
+                
+                    var  timeZone=  timezoneArray[$(".timezone").val()];
+                     
+           
+                    var outTime=outTimeTemp-timeZone*3600*1000;
+                   
 
                     if (inTime > outTime) {
 
@@ -498,10 +511,11 @@ $(document).ready(function()
             $(".messageBalloon_success").remove();
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
-
+            var timezoneArray= getTimezoneArray();
+            var  timeZone=  timezoneArray[$(".timezone").val()];
             var inTime=punchInTime;
-            var timezone=timeZone;
-
+            var timezone=timeZone*3600;
+ 
             var outTime =$(".date").val()+" "+$(".time").val();
 
             var r = $.ajax({
@@ -548,8 +562,10 @@ $(document).ready(function()
 
 
             var inTime =$(".date").val()+" "+$(".time").val();
-            var timezone=timeZone;
-
+            var timezoneArray= getTimezoneArray();
+            var  timeZone=  timezoneArray[$(".timezone").val()];
+           var  timezone=timeZone*3600;
+    
             var r = $.ajax({
                 type: 'POST',
                 url: linkForPunchInOverlappingValidation,
@@ -600,6 +616,39 @@ $(document).ready(function()
 
     });
 
+function getTimezoneArray() {
+
+    var timezoneArray=new Array();
+    timezoneArray[0] = 'GMT';
+    timezoneArray[1] = '1.0';
+    timezoneArray[2] = '2.0';
+    timezoneArray[3] = '3.0';
+    timezoneArray[4] = '4.0';
+    timezoneArray[5] = '5.0';
+    timezoneArray[6] = '5.5';
+    timezoneArray[7] = '6.0';
+    timezoneArray[8] = '7.0';
+    timezoneArray[9] = '8.0';
+    timezoneArray[10] = '9.0';
+    timezoneArray[11] = '9.5';
+    timezoneArray[12] = '+10.00';
+    timezoneArray[13] = '+11.00';
+    timezoneArray[14] = '+12.00';
+    timezoneArray[15] = '-11.00';
+    timezoneArray[16] = '-10.00';
+    timezoneArray[17] = '-9.00';
+    timezoneArray[18] = '-8.00';
+    timezoneArray[19] = '-7.00';
+    timezoneArray[20] = '-6.00';
+    timezoneArray[21] = '-7.00';
+    timezoneArray[22] = '-5.00';
+    timezoneArray[23] = '-4.00';
+    timezoneArray[24] = '-3.50';
+    timezoneArray[25] = '-3.00';
+    timezoneArray[26] = '-1.00';
+
+    return timezoneArray;
+}
 
 
 

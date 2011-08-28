@@ -60,39 +60,30 @@ class EditAttendanceRecordForm extends sfForm {
             foreach ($records as $record) {
 
 
-                $this->setDefault('recordId_' . $i, $record->getId());
-                $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
-                $this->setDefault('OutOffset_' . $i, $record->getPunchOutTimeOffset());
-                $this->setDefault('punchInDate_' . $i, date('Y-m-d', strtotime($record->getPunchInUserTime())));
-                $this->setDefault('punchInTime_' . $i, date('H:i', strtotime($record->getPunchInUserTime())));
-                $this->setDefault('inNote_' . $i, $record->getPunchInNote());
                 if ($record->getPunchOutUserTime() == null) {
 
-                    $this->setDefault('outNote_' . $i, $record->getPunchOutNote());
-                    $this->setDefault('punchOutDate_' . $i, date('Y-m-d'));
-                    $this->setDefault('punchOutTime_' . $i, date('H:i'));
+                    $this->setDefault('recordId_' . $i, $record->getId());
+                    $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
+                    $this->setDefault('punchInDate_' . $i, date('Y-m-d', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('punchInTime_' . $i, date('H:i', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('inNote_' . $i, $record->getPunchInNote());
+                    $this->setDefault('outNote_' . $i, "");
+                    $this->setDefault('OutOffset_' . $i, 0);
                 } else {
+
+                    $this->setDefault('recordId_' . $i, $record->getId());
+                    $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
+                    $this->setDefault('OutOffset_' . $i, $record->getPunchOutTimeOffset());
+                    $this->setDefault('punchInDate_' . $i, date('Y-m-d', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('punchInTime_' . $i, date('H:i', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('inNote_' . $i, $record->getPunchInNote());
                     $this->setDefault('punchOutDate_' . $i, date('Y-m-d', strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('punchOutTime_' . $i, date('H:i', strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('outNote_' . $i, $record->getPunchOutNote());
                 }
+
                 $i++;
             }
-
-
-
-
-//        foreach ($records as $record) {
-//
-//                $attenadnceRecordRow = new EditAttendanceRecordRowForm();
-//                $attenadnceRecordRow->setDefault('punchIn', $record->getPunchInUserTime());
-//                $attenadnceRecordRow->setDefault('inNote', $record->getPunchInNote());
-//                $attenadnceRecordRow->setDefault('punchOut', $record->getPunchOutUserTime());
-//                $attenadnceRecordRow->setDefault('outNote', $record->getPunchOutNote());
-//                
-//                $attendanceRows->embedForm($record->getId(), $attenadnceRecordRow);
-//        }
-//        $this->embedForm('initialRows', $attendanceRows);
         }
     }
 
@@ -124,6 +115,8 @@ class EditAttendanceRecordForm extends sfForm {
         $this->form = $form;
 
         for ($i = 1; $i <= $totalRows; $i++) {
+
+
             $id = $this->form->getValue('recordId_' . $i);
             $inOffset = $this->form->getValue('InOffset_' . $i);
             $outOffset = $this->form->getValue('OutOffset_' . $i);
@@ -133,19 +126,31 @@ class EditAttendanceRecordForm extends sfForm {
             $punchOutDate = $this->form->getValue('punchOutDate_' . $i);
             $punchOutTime = $this->form->getValue('punchOutTime_' . $i);
             $outNote = $this->form->getValue('outNote_' . $i);
+
             $attendanceRecord = $this->getAttendanceService()->getAttendanceRecordById($id);
             $punchInDateTime = $punchInDate . " " . date('H:i', strtotime($punchInTime));
             $punchOutDateTime = $punchOutDate . " " . date('H:i', strtotime($punchOutTime));
 
             $attendanceRecord->setPunchInUserTime($punchInDateTime);
             $attendanceRecord->setPunchInNote($inNote);
-            $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
-            $attendanceRecord->setPunchOutNote($outNote);
+
+
             $timeStampDiff = $inOffset * 3600 - date('Z');
             $attendanceRecord->setPunchInUtcTime(date('Y-m-d H:i', strtotime($punchInDateTime) + $timeStampDiff - $inOffset * 3600));
-            $timeStampDiff = $outOffset * 3600 - date('Z');
-            $attendanceRecord->setPunchOutUtcTime(date('Y-m-d H:i', strtotime($punchOutDateTime) + $timeStampDiff - $outOffset * 3600));
-            $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+
+            if ($this->form->getValue('punchOutDate_' . $i) == null) {
+
+                $attendanceRecord->setPunchOutNote("");
+                $attendanceRecord->setPunchOutUserTime(null);
+                $attendanceRecord->setPunchOutUtcTime(null);
+            } else {
+                $attendanceRecord->setPunchOutNote($outNote);
+                $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
+                $timeStampDiff = $outOffset * 3600 - date('Z');
+                $attendanceRecord->setPunchOutUtcTime(date('Y-m-d H:i', strtotime($punchOutDateTime) + $timeStampDiff - $outOffset * 3600));
+               
+            }
+             $this->getAttendanceService()->savePunchRecord($attendanceRecord);
         }
     }
 

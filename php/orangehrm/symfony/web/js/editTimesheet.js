@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 		formatItem: function(item) {
 
-			return item.name;
+			return $("<div/>").html(item.name).text();
 		}
 		,
 		matchContains:true
@@ -53,8 +53,10 @@ $(document).ready(function() {
 
 		var temparray = currentId.split('_');
 		var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
-		var fullName = item.name;
-		var array = fullName.split(' - ');
+		var decodedfullName = $("<div/>").html(item.name).text();
+       
+      
+		var array = decodedfullName.split(' - ');
 
 		var r = $.ajax({
 			type: "POST",

@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+    var status;
 
     $('#btnAddRow').click(function(){
         $("#extraRows").append(addRow(rows-1,startDate,endDate,employeeId,timesheetId));
@@ -37,7 +38,7 @@ $(document).ready(function() {
 
                         success: function(state){
                             
-                            var status=state;
+                            status=state;
 
                         }
                     });
@@ -47,6 +48,7 @@ $(document).ready(function() {
 
             });
             if(status){
+              
             
                 $('form#timesheetForm').submit();
             }

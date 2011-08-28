@@ -94,6 +94,12 @@ class configureAction extends sfAction {
                         $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
                     }
 
+                    $isPunchInTimeEditableWhenTheStateIsPunchedIn = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
+
+                    if (!$isPunchOutRecordEditable) {
+                        $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
+                    }
+
 
 
                     $isPunchInRecordDeletable = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, AttendanceRecord::STATE_NA);
@@ -172,6 +178,7 @@ class configureAction extends sfAction {
 
                     $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_IN);
                     $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
+                    $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_PUNCHED_OUT);
                     $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, AttendanceRecord::STATE_NA);
                     $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_OUT, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, AttendanceRecord::STATE_NA);
                 }

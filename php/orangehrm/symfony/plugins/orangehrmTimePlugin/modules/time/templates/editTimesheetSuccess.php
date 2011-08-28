@@ -147,7 +147,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";
     var timesheetId="<?php echo $timesheetId; ?>"
-    var lang_not_numeric = '<?php echo __('Enter a Valid Duration in the Format of HH:mm or 0.0h'); ?>';
+    var lang_not_numeric = '<?php echo __('Enter a Positive Duration in the Format of HH:mm or 0.0h'); ?>';
     var rows_are_duplicate = '<?php echo __('You cannot have duplicate rows'); ?>';
     var project_name_is_wrong = '<?php echo __('Enter an existing project name'); ?>';
     var please_select_an_activity = '<?php echo __('Please select a valid activity'); ?>';

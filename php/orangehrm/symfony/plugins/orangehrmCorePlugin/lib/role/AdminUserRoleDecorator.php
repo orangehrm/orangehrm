@@ -317,22 +317,24 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
         $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, AdminUserRoleDecorator::ADMIN_USER, $action);
-
+       
         $employeeList = $this->getEmployeeList();
-        foreach ($employeeList as $employee) {
+        if ($actionableStatesList != null) {
+            foreach ($employeeList as $employee) {
 
-            $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
+                $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
 
-            if (!is_null($timesheetList)) {
-                foreach ($timesheetList as $timesheet) {
+                if (!is_null($timesheetList)) {
+                    foreach ($timesheetList as $timesheet) {
 
-                    $pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
-                    $pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
-                    $pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
-                    $pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
-                    $pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
-                    $pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
-                    $pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
+                        $pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
+                        $pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
+                        $pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
+                        $pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
+                        $pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
+                        $pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
+                        $pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
+                    }
                 }
             }
         }
