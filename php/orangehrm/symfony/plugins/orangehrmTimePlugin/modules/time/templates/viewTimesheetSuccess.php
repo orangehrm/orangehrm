@@ -94,8 +94,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                         <tr class="<?php echo $class; ?>">
                                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
-                            <td id="columnName"><?php echo $timesheetItemRow['projectName']; ?>
-                            <td id="columnName"><?php echo $timesheetItemRow['activityName']; ?>
+                            <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['projectName']); ?>
+                            <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['activityName']); ?>
 
                             <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
                                 <?php if ($format == '1') { ?>
