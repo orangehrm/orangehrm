@@ -69,6 +69,10 @@ class JobInterviewService extends BaseService {
 	public function updateJobInterview(JobInterview $jobInterview) {
 		return $this->jobInterviewDao->updateJobInterview($jobInterview);
 	}
+
+	public function getInterviewScheduledHistoryByInterviewId($interviewId) {
+		return $this->jobInterviewDao->getInterviewScheduledHistoryByInterviewId($interviewId);
+	}
     
     /**
      * Get interviw objects for relevent candidate in specific date with one our time range near to the interview time

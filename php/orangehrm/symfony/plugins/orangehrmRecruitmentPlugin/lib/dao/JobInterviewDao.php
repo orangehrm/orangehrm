@@ -61,6 +61,19 @@ class JobInterviewDao extends BaseDao {
 		}
 	}
 
+	public function getInterviewScheduledHistoryByInterviewId($interviewId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+					->from('CandidateHistory')
+					->where('interview_id =?', $interviewId)
+					->andWhere('action =?', WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW);
+			return $q->fetchOne();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
     public function saveJobInterview(JobInterview $jobInterview) {
 		try {
 			if ($jobInterview->getId() == "") {

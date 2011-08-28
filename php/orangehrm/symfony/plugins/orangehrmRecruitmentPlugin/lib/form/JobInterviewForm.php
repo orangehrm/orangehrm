@@ -148,7 +148,8 @@ class JobInterviewForm extends BaseForm {
 					}
 				}
 			}
-
+			
+			$this->resultArray = array();
 
 			$selectedInterviewerArrayList = array_diff($selectedInterviewerArrayList, $idList);
 			$newList = array();
@@ -161,6 +162,7 @@ class JobInterviewForm extends BaseForm {
 		if (empty($this->interviewId)) {
 			$this->saveCandidateHistory($newCandidateHistory, $interviewId);
 		}
+		return $this->resultArray;
 	}
 
 	protected function saveInterview($newJobInterview, $selectedInterviewerArrayList) {
@@ -181,6 +183,8 @@ class JobInterviewForm extends BaseForm {
 		$newJobInterview->setCandidateId($this->candidateId);
 		if (!empty($this->interviewId)) {
 			$this->getInterviewService()->updateJobInterview($newJobInterview);
+			$this->resultArray['messageType'] = 'success';
+			$this->resultArray['message'] = __('Interview Details Updated Successfully');
 		} else {
 			$newJobInterview->save();
 		}

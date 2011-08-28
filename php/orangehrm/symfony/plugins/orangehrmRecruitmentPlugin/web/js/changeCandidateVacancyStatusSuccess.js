@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	$('#cancelBtn').click(function(){
-		if($("#btnSave").attr('value') == lang_edit) {
+		if($("#cancelBtn").attr('value') == lang_back) {
 			window.location.replace(cancelBtnUrl+'?id='+candidateId);
 		}
-		if($("#btnSave").attr('value') == lang_save) {
+		if($("#cancelBtn").attr('value') == lang_cancel) {
 			window.location.replace(cancelUrl+'?id='+historyId);
 		}
 	});

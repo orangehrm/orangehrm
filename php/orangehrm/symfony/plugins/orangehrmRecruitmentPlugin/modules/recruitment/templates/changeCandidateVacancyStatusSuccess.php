@@ -24,6 +24,10 @@
 <?php use_stylesheet('../orangehrmRecruitmentPlugin/css/changeCandidateVacancyStatusSuccess'); ?>
 <?php use_javascript('../orangehrmRecruitmentPlugin/js/changeCandidateVacancyStatusSuccess'); ?>
 
+ <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+            <span><?php echo isset($message) ? $message : ''; ?></span>
+ </div>
+
 <div id="candidateVacancyStatus">
     <div class="outerbox">
         <div class="mainHeading"><h2 id="candidateActionHeading"><?php echo __($form->actionName); ?></h2></div>
@@ -58,17 +62,15 @@
             <?php echo $form['notes']->render(array("class" => "formInputText", 'max_length' => 2147483647, "cols" => 40, "rows" => 9)); ?>
                 <br class="clear" />
                 <div class="formbuttons">
-                <?php $cancelBtnValue = __('Cancel') ?>
                 <?php if (!($form->id > 0)): ?>
                     <input type="button" class="savebutton" name="actionBtn" id="actionBtn"
                            value="<?php echo __($form->actionName); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php else: ?>
-                       <?php $cancelBtnValue = __('Back') ?>
                             <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __('Edit'); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php endif; ?>
                     <input type="button" class="cancelbutton" name="cancelBtn" id="cancelBtn"
-                           value="<?php echo $cancelBtnValue; ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                           value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 </div>
             </form>
         </div>

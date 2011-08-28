@@ -107,7 +107,11 @@ class CandidateVacancyStatusForm extends BaseForm {
 		if ($this->id > 0) {
 			$history = $this->getCandidateService()->getCandidateHistoryById($this->id);
 			$history->setNote($note);
-			return $this->getCandidateService()->saveCandidateHistory($history);
+			$this->getCandidateService()->saveCandidateHistory($history);
+			$this->historyId = $history->getId();
+			$resultArray['messageType'] = 'success';
+			$resultArray['message'] = __('Action History Details Saved Successfully');
+			return $resultArray;
 		}
 		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
@@ -127,11 +131,12 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$empNumber = null;
 		}
 		$candidateHistory->setPerformedBy($empNumber);
-		$date =  ohrm_format_date(date('Y-m-d'));
-		$candidateHistory->setPerformedDate($date." ".date('H:i:s'));
+		$date = ohrm_format_date(date('Y-m-d'));
+		$candidateHistory->setPerformedDate($date . " " . date('H:i:s'));
 		$candidateHistory->setNote($note);
 
 		$result = $this->getCandidateService()->saveCandidateHistory($candidateHistory);
+		$this->historyId = $candidateHistory->getId();
 
 		if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE) {
 

@@ -60,14 +60,19 @@ class jobInterviewAction extends sfAction {
 		$allowedCandidateList = $usrObj->getAllowedCandidateList();
 		$allowedVacancyList = $usrObj->getAllowedVacancyList();
 
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+
 		$this->historyId = $request->getParameter('historyId');
 		$this->interviewId = $request->getParameter('interviewId');
 		$candidateVacancyId = $request->getParameter('candidateVacancyId');
 		$selectedAction = $request->getParameter('selectedAction');
-		
+
 		$param = array();
 		if ($candidateVacancyId > 0 && $selectedAction != "") {
-			$param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'historyId' => $this->historyId);
+			$interviewHistory = $this->getJobInterviewService()->getInterviewScheduledHistoryByInterviewId($this->interviewId);
+			$param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'historyId' => $interviewHistory->getId());
 		}
 
 		if (!empty($this->historyId) && !empty($this->interviewId)) {
@@ -88,11 +93,13 @@ class jobInterviewAction extends sfAction {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
-				$this->form->save();
-				//$this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
-				//$this->redirect('recruitment/jobInterview?historyId='.$this->form->historyId.'&interviewId='.$this->form->interviewId);
-				$this->redirect('recruitment/changeCandidateVacancyStatus?id='.$this->form->historyId);
-
+				$result = $this->form->save();
+				if (isset($result['messageType'])) {
+					$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+				} else {
+					$this->getUser()->setFlash('templateMessage', array('success', __("Interview Scheduled Successfully")));
+				}
+				$this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
 			}
 		}
 	}

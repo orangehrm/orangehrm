@@ -66,7 +66,7 @@ class addCandidateAction extends sfAction {
 
         $userObj = $this->getUser()->getAttribute('user');
         $allowedVacancyList = $userObj->getAllowedVacancyList();
-        $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
+        $allowedCandidateListToDelete = $userObj->getAllowedCandidateListToDelete();
         $this->candidateId = $request->getParameter('id');
         $reDirect = false;
         $this->edit = true;

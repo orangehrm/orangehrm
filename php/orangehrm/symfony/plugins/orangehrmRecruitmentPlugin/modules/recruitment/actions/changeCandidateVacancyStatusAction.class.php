@@ -20,70 +20,119 @@
  */
 class changeCandidateVacancyStatusAction extends sfAction {
 
-    /**
-     * @param sfForm $form
-     * @return
-     */
-    public function setForm(sfForm $form) {
-        if (is_null($this->form)) {
-            $this->form = $form;
-        }
-    }
+	private $performedAction;
 
-    /**
-     *
-     * @return <type>
-     */
-    public function getCandidateService() {
-        if (is_null($this->candidateService)) {
-            $this->candidateService = new CandidateService();
-            $this->candidateService->setCandidateDao(new CandidateDao());
-        }
-        return $this->candidateService;
-    }
+	/**
+	 * @param sfForm $form
+	 * @return
+	 */
+	public function setForm(sfForm $form) {
+		if (is_null($this->form)) {
+			$this->form = $form;
+		}
+	}
 
-    /**
-     *
-     * @param <type> $request
-     */
-    public function execute($request) {
+	/**
+	 *
+	 * @return <type>
+	 */
+	public function getCandidateService() {
+		if (is_null($this->candidateService)) {
+			$this->candidateService = new CandidateService();
+			$this->candidateService->setCandidateDao(new CandidateDao());
+		}
+		return $this->candidateService;
+	}
 
-        $usrObj = $this->getUser()->getAttribute('user');
-        $allowedCandidateList = $usrObj->getAllowedCandidateList();
-        $allowedVacancyList = $usrObj->getAllowedVacancyList();
+	/**
+	 *
+	 * @param <type> $request
+	 */
+	public function execute($request) {
 
-        $id = $request->getParameter('id');
-        if (!empty($id)) {
-            $history = $this->getCandidateService()->getCandidateHistoryById($id);
-            $action = $history->getAction();
-	    $this->interviewId = $history->getInterviewId();	    
-            if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
-                $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
-            }
-        }
-        $candidateVacancyId = $request->getParameter('candidateVacancyId');
-        $this->selectedAction = $request->getParameter('selectedAction');
-        $param = array();
-        if ($id > 0) {
-            $param = array('id' => $id);
-        }
-        if ($candidateVacancyId > 0 && $this->selectedAction != "") {
-            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction);
-        }
-	
-        $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
+		$usrObj = $this->getUser()->getAttribute('user');
+		$allowedCandidateList = $usrObj->getAllowedCandidateList();
+		$allowedVacancyList = $usrObj->getAllowedVacancyList();
+
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+
+		$id = $request->getParameter('id');
+		if (!empty($id)) {
+			$history = $this->getCandidateService()->getCandidateHistoryById($id);
+			$action = $history->getAction();
+			$this->interviewId = $history->getInterviewId();
+			if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
+				if ($this->getUser()->hasFlash('templateMessage')) {
+					list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+					$this->getUser()->setFlash('templateMessage', array($this->messageType, $this->message));
+				}
+				$this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
+			}
+			$this->performedAction = $action;
+		}
+		$candidateVacancyId = $request->getParameter('candidateVacancyId');
+		$this->selectedAction = $request->getParameter('selectedAction');
+		$param = array();
+		if ($id > 0) {
+			$param = array('id' => $id);
+		}
+		if ($candidateVacancyId > 0 && $this->selectedAction != "") {
+			$param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction);
+			$this->performedAction = $this->selectedAction;
+		}
+
+		$this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
 //        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
 //            $this->redirect('recruitment/viewCandidates');
 //        }
-        if ($request->isMethod('post')) {
+		if ($request->isMethod('post')) {
 
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $result = $this->form->performAction();
-                $this->redirect('recruitment/addCandidate?id=' . $this->form->candidateId);
-            }
-        }
-    }
+			$this->form->bind($request->getParameter($this->form->getName()));
+			if ($this->form->isValid()) {
+				$result = $this->form->performAction();
+				if (isset($result['messageType'])) {
+					$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+				} else {
+					$message = $this->_getSuccessMessage($this->performedAction);
+					$this->getUser()->setFlash('templateMessage', array('success', $message));
+				}
+				$this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
+			}
+		}
+	}
+
+	private
+
+	function _getSuccessMessage($action) {
+
+		switch ($action) {
+
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
+				$message = __("Candidate Shortlisted Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
+				$message = __("Candidate Rejected Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
+				$message = __("Interview Status Updated Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
+				$message = __("Interview Status Updated Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
+				$message = __("Job Offered Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
+				$message = __("Job offer Marked as Declined Successfully");
+				break;
+			case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
+				$message = __("Candidate Hired Successfully");
+				break;
+		}
+		return $message;
+	}
 
 }
 
