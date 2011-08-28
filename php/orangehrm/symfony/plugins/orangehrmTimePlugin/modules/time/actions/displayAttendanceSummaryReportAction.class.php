@@ -86,10 +86,15 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
         $jobService = new JobService();
         $companyService = new CompanyService();
 
-        if (isset($formValues["employeeId"])) {
-            $empNumber = $formValues["employeeId"];
-            $employee = $employeeService->getEmployee($empNumber);
-            $empName = $employee->getFirstAndLastNames();
+        if (isset($formValues["employeeId"]) || ($formValues["employeeId"] == '-1')) {
+
+            if ($formValues["employeeId"] != '-1') {
+                $empNumber = $formValues["employeeId"];
+                $employee = $employeeService->getEmployee($empNumber);
+                $empName = $employee->getFirstAndLastNames();
+            } else {
+                $empName = "All";
+            }
             $this->getRequest()->setParameter('empName', $empName);
         }
 

@@ -46,7 +46,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             </table>
             <?php echo $form->renderHiddenFields(); ?>
             <div class="formbuttons">
-                <td colspan="2"><input type="submit" class="viewbutton" value="<?php echo __('View') ?>"/></td>
+                <td colspan="2"><input type="submit" id="viewbutton" value="<?php echo __('View') ?>"/></td>
             </div>
         </form>
     </div>
@@ -60,6 +60,29 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employeeFlag;
 
     $(document).ready(function() {
+
+        if(<?php echo $lastEmpNumber; ?> == '-1'){
+            $("#employee_name").val('All');
+            $('#attendanceTotalSummary_employeeId').val('-1');
+        }else{
+            if ($("#employee_name").val() == '') {
+                $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>')
+                .addClass("inputFormatHint");
+            }
+
+            $('#viewbutton').click(function() {
+                $('#attendanceTotalSummaryReportForm input.inputFormatHint').val('');
+                $('#attendanceTotalSummaryReportForm').submit();
+            });
+
+            $("#employee_name").one('focus', function() {
+
+                if ($(this).hasClass("inputFormatHint")) {
+                    $(this).val("");
+                    $(this).removeClass("inputFormatHint");
+                }
+            });
+        }
 
         $("#employee_name").autocomplete(employees, {
 
@@ -104,6 +127,27 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 error.appendTo(element.next().next().next(".errorContainer"));
             }
         });
+
+ 
+
+        if ($("#employee_name").val() == '') {
+            $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>')
+            .addClass("inputFormatHint");
+        }
+
+        $('#viewbutton').click(function() {
+            $('#attendanceTotalSummaryReportForm input.inputFormatHint').val('');
+            $('#attendanceTotalSummaryReportForm').submit();
+        });
+
+        $("#employee_name").one('focus', function() {
+
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeClass("inputFormatHint");
+            }
+        });
+
 
         /* Valid from date format */
         $.validator.addMethod("validFromDateFormat", function(value, element) {

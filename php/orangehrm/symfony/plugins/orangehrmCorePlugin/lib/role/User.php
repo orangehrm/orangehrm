@@ -37,8 +37,13 @@ class User {
     private $candidateHistoryList = array();
     private $isAdmin = false;
     private $isHiringManager = false;
+    private $employeeListForAttendanceTotalSummaryReport;
+    
+    public function getEmployeeListForAttendanceTotalSummaryReport() {
+        return $this->employeeListForAttendanceTotalSummaryReport;
+    }
 
-    public function getAccessibleTimeMenus() {
+        public function getAccessibleTimeMenus() {
 
         return $this->topMenuItemsArray;
     }

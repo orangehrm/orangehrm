@@ -145,10 +145,16 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
     public function getEmployeeList() {
 
-        $employeeArray = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
-        return $employeeArray;
+        $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+        return $employeeList;
     }
 
+    public function getEmployeeListForAttendanceTotalSummaryReport() {
+
+        $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+        return $employeeList;      
+    }
+    
     public function getAllowedActions($workFlow, $state) {
 
         $accessFlowStateMachineService = new AccessFlowStateMachineService();

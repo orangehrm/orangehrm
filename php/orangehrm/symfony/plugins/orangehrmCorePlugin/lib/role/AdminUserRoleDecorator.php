@@ -210,9 +210,26 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
         $employeeList = $this->getEmployeeService()->getEmployeeList();
 
+
         if ($employeeList[0]->getEmpNumber() == null) {
             return null;
         } else {
+            return $employeeList;
+        }
+    }
+
+    public function getEmployeeListForAttendanceTotalSummaryReport() {
+
+        $employeeList = $this->getEmployeeService()->getEmployeeList();
+
+        $employee = new Employee();
+        $employee->setEmpNumber('-1');
+        $employee->setFirstName("All");
+        
+        if ($employeeList[0]->getEmpNumber() == null) {
+            return null;
+        } else {
+            $employeeList->add($employee);
             return $employeeList;
         }
     }

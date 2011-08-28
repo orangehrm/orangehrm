@@ -50,8 +50,8 @@ class ohrmValidatorDateRange extends sfValidatorDate {
         $to = $value["to"];
 
 
-//    $value["from"] = $dateValidator->clean(isset($value["from"]) ? $value["from"] : null);
-//    $value["to"]   = $dateValidator->clean(isset($value["to"]) ? $value["to"] : null);
+    $value["from"] = $dateValidator->clean(isset($value["from"]) ? $value["from"] : null);
+    $value["to"]   = $dateValidator->clean(isset($value["to"]) ? $value["to"] : null);
 
         if (($from != "YYYY-MM-DD") && ($to != "YYYY-MM-DD")) {
 
