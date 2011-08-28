@@ -696,7 +696,7 @@ class ReportGeneratorService {
         
         foreach ($formValues as $key => $value) {
 
-            $pattern = '/#@[\"]*' . $key . '[\)\"]*@,@[a-zA-Z0-9\(\)_\.\-\ ]*@#/';
+            $pattern = '/#@[\"]*' . $key . '[\)\"]*@,@[a-zA-Z0-9\(\)_\.\-\ !\"\=]*@#/';
             
 
             preg_match($pattern, $sql, $matches);

@@ -46,7 +46,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             </table>
             <?php echo $form->renderHiddenFields(); ?>
             <div class="formbuttons">
-                <td colspan="2"><input type="submit" id="viewbutton" value="<?php echo __('View') ?>"/></td>
+                <td colspan="2"><input type="submit" id="viewbutton" class="viewbutton" value="<?php echo __('View') ?>"/></td>
             </div>
         </form>
     </div>
