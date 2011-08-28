@@ -39,7 +39,7 @@
                     <?php foreach ($records as $record): ?>
 
                         <tr> <?php if ($editPunchIn[$i]): ?>
-
+                                
                                 <td> <?php echo $editAttendanceForm['punchInDate_' . $i]->render((array("class" => "inDate"))); ?> &nbsp;<?php echo $editAttendanceForm['punchInTime_' . $i]->render(array("class" => "inTime")); ?><input type="hidden" id="<?php echo "punchInUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchInUtcTime())); ?>"></td>
                                 <td><table cellspacing="0" cellpadding="0" border="0">
                                         <tr>

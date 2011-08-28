@@ -62,7 +62,7 @@ class timeActions extends sfActions {
         $date = $request->getParameter('date');
         $comment = $request->getParameter('comment');
 
-      //  $comment = utf8_encode($comment1);
+        //  $comment = utf8_encode($comment1);
         $employeeId = $request->getParameter('employeeId');
         $dao = new TimesheetDao();
         $timesheetItem = $dao->getTimesheetItemByDateProjectId($timesheetId, $employeeId, $projectId, $activityId, $date);
@@ -116,14 +116,16 @@ class timeActions extends sfActions {
         $customerName = $request->getParameter('customerName');
 
         $projectName = $request->getParameter('projectName');
+        $projectName = htmlspecialchars($projectName, ENT_QUOTES);
         $timesheetDao = new TimesheetDao();
         $customer = $timesheetDao->getCustomerByName($customerName);
         $customerId = $customer->getCustomerId();
 
         $project = $timesheetDao->getProjectByProjectNameAndCustomerId($projectName, $customerId);
+
         $projectId = $project->getProjectId();
 
-        $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId,true);
+        $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId, true);
     }
 
     public function executeViewPendingApprovelTimesheet(sfWebRequest $request) {
