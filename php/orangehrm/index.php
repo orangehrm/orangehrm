@@ -171,9 +171,9 @@ if ($_SESSION['isAdmin'] == 'Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor']) && $_SESSION['isAcceptor']) || (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])) {
-    $arrAllRights[Recruit] = array('add' => false, 'edit' => true, 'delete' => false, 'view' => true);
-    }
+    //if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor']) && $_SESSION['isAcceptor']) || (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])) {
+    //$arrAllRights[Recruit] = array('add' => false, 'edit' => true, 'delete' => false, 'view' => true);
+    //}
     if ($_SESSION['isHiringManager'] || $_SESSION['isInterviewer']) {
         $arrAllRights[Recruit] = array('view' => true);
     }
@@ -286,11 +286,11 @@ if ($authorizeObj->isESS()) {
 
 
 
-if ($authorizeObj->isAdmin()) {
-    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
-} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor() || $authorizeObj->isOfferer()) {
-    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
-}
+//if ($authorizeObj->isAdmin()) {
+//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
+//} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor() || $authorizeObj->isOfferer()) {
+//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
+//}
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
 $allowAdminView = false;
@@ -694,7 +694,6 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 }
 
 /* Start recruitment menu */
-/*
 if ($arrAllRights[Recruit]['view']) {
 
 
@@ -716,28 +715,7 @@ if ($arrAllRights[Recruit]['view']) {
     }
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
-}*/
-
-/* Start recruitment menu */
-if ($arrAllRights[Recruit]['view']) {
-
-
-	$menuItem = new MenuItem("recruit", $lang_Menu_Recruit ,"./index.php?menu_no_top=recruit");
-	$menuItem->setCurrent($_GET['menu_no_top']=="recruit");
-
-	$subs = array();
-	if ($_SESSION['isAdmin']=='Yes') {
-		$subs[] = new MenuItem("vacancies",$lang_Menu_Recruit_JobVacancies , "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
-	}
-
-	if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
-		$subs[] = new MenuItem("applications",$lang_Menu_Recruit_JobApplicants , "lib/controllers/CentralController.php?recruitcode=Application&action=List");
-	}
-
-	$menuItem->setSubMenuItems($subs);
-	$menu[] = $menuItem;
 }
-
 
 /* Performance menu start */
 
@@ -955,7 +933,7 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         </div>
 
         <div id="main-footer" style="clear:both;text-align:center;height:20px;">
-            <a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7-rc.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.
+            <a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.8-beta.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.
         </div>
         <script type="text/javascript">
             //<![CDATA[

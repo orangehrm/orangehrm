@@ -373,6 +373,7 @@ class CandidateDao extends BaseDao {
                 $q->leftJoin('jcv.JobVacancy jv')
                         ->leftJoin('jcv.JobCandidate jc')
                         ->where('jv.hiringManagerId = ?', $empNumber)
+                        ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD))
                         ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber);
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
