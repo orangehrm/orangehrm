@@ -75,8 +75,6 @@ class addCandidateAction extends sfAction {
            $this->edit = false;
         }
 
-        
-
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
         $this->setForm(new AddCandidateForm(array(), $param, true));
 

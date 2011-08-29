@@ -1291,7 +1291,6 @@ create table `ohrm_job_candidate_history`(
 	`id` int(13) not null auto_increment,
 	`candidate_id` int(13) not null,
 	`candidate_vacancy_id` int(13) default null,
-	`candidate_id` int(13) default null,
 	`candidate_vacancy_name` varchar(255) default null,
 	`interview_id` int(13) default null,
 	`action` int(4) not null,
@@ -1304,6 +1303,7 @@ create table `ohrm_job_candidate_history`(
 create table `ohrm_job_interview`(
 	`id` int(13) not null auto_increment,
 	`candidate_vacancy_id` int(13) default null,
+        `candidate_id` int(13) default null,
         `interview_name` varchar(100) not null,
 	`interview_date` date default null,
         `interview_time` time default null,
