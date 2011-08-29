@@ -46,6 +46,7 @@ class CandidateSearchParameters {
     private $allowedVacancyList;
     private $isAdmin;
     private $additionalParams;
+    private $empNumber;
 
     public function getAllowedCandidateList() {
         return $this->allowedCandidateList;
@@ -53,6 +54,10 @@ class CandidateSearchParameters {
 
     public function getIsAdmin() {
         return $this->isAdmin;
+    }
+
+    public function getEmpNumber() {
+        return $this->empNumber;
     }
 
     public function getAllowedVacancyList() {
@@ -259,11 +264,15 @@ class CandidateSearchParameters {
     public function setAttachmentId($attachmentId) {
         $this->attachmentId = $attachmentId;
     }
-    
+
+    public function setEmpNumber($empNumber) {
+        $this->empNumber = $empNumber;
+    }
+
     public function getAdditionalParams() {
         return $this->additionalParams;
     }
-    
+
     public function setAdditionalParams($params) {
         $this->additionalParams = $params;
     }

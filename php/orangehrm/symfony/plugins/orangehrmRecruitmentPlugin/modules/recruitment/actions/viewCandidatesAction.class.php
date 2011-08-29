@@ -82,6 +82,7 @@ class viewCandidatesAction extends sfAction {
         $searchParam->setAllowedCandidateList($allowedCandidateList);
         $searchParam->setAllowedVacancyList($allowedVacancyList);
         $searchParam->setIsAdmin($isAdmin);
+        $searchParam->setEmpNumber($usrObj->getEmployeeNumber());
         $noOfRecords = $searchParam->getLimit();
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
         

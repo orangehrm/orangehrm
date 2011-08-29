@@ -91,15 +91,15 @@ class VacancyDao extends BaseDao {
             $q = Doctrine_Query :: create()
                             ->select('jv.id')
                             ->from('JobVacancy jv');
-            if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
-                $q->where('jv.hiringManagerId = ?', $empNumber);
-            }
-            if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
-                $q->leftJoin('jv.JobCandidateVacancy jcv')
-                        ->leftJoin('jcv.JobInterview ji')
-                        ->leftJoin('ji.JobInterviewInterviewer jii')
-                        ->where('jii.interviewerId = ?', $empNumber);
-            }
+                if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
+                    $q->where('jv.hiringManagerId = ?', $empNumber);
+                }
+                if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
+                    $q->leftJoin('jv.JobCandidateVacancy jcv')
+                            ->leftJoin('jcv.JobInterview ji')
+                            ->leftJoin('ji.JobInterviewInterviewer jii')
+                            ->where('jii.interviewerId = ?', $empNumber);
+                }
             $result = $q->fetchArray();
             $idList = array();
             foreach ($result as $item) {

@@ -142,6 +142,7 @@ class CandidateDao extends BaseDao {
         $keywords = $searchParam->getKeywords();
         $candidateStatus = $searchParam->getCandidateStatus();
         $vacancyStatus = $searchParam->getVacancyStatus();
+        $empNumber = $paramObject->getEmpNumber();
 
 
         $keywordsQueryString = "";
@@ -199,6 +200,9 @@ class CandidateDao extends BaseDao {
 
             if (!empty($keywordsQueryString)) {
                 $q .= $keywordsQueryString;
+            }
+            if ($empNumber != null) {
+                $whereClause .= "OR jc.id NOT IN (SELECT ojcv.candidate_id FROM ohrm_job_candidate_vacancy ojcv) AND jc.added_person = " . $empNumber;
             }
 
             $pdo = Doctrine_Manager::connection()->getDbh();
@@ -335,7 +339,8 @@ class CandidateDao extends BaseDao {
                             ->leftJoin('ch.JobCandidateVacancy jcv')
                             ->whereIn('ch.id', $allowedHistoryList)
                             ->andWhere('ch.candidateId = ?', $candidateId)
-			    ->orderBy('ch.performedDate DESC');;
+                            ->orderBy('ch.performedDate DESC');
+            ;
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -536,6 +541,7 @@ class CandidateDao extends BaseDao {
         $status = $paramObject->getStatus();
         $allowedVacancyList = $paramObject->getAllowedVacancyList();
         $isAdmin = $paramObject->getIsAdmin();
+        $empNumber = $paramObject->getEmpNumber();
 
         $whereClause = '';
         $whereFilters = array();
@@ -561,6 +567,9 @@ class CandidateDao extends BaseDao {
 
 
         $whereClause .= ( count($whereFilters) > 0) ? (' AND ' . implode('AND ', $whereFilters)) : '';
+        if ($empNumber != null) {
+            $whereClause .= "OR jc.id NOT IN (SELECT ojcv.candidate_id FROM ohrm_job_candidate_vacancy ojcv) AND jc.added_person = " . $empNumber;
+        }
 
         return $whereClause;
     }
