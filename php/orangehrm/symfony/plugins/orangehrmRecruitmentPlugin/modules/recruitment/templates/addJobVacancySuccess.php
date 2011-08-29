@@ -115,7 +115,7 @@
  <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
  <div class="paddingLeftRequired"><span>1 </span>: <?php echo __('RSS Feed URL') ?> <span>:</span> <a href="<?php echo public_path('job.rss', true); ?>" target="_new"><?php echo public_path('job.rss', true); ?></a></div>
  <div class="paddingLeftRequired"><span>2 </span>: <?php echo __('Web Page URL') ?> <span>:</span> <a href="<?php echo public_path('index.php/recruitmentApply/viewJobs', true); ?>" target="_new"><?php echo public_path('index.php/recruitmentApply/viewJobs', true); ?></a></div>
-
+<?php print_r($form->getHiringManagerListAsJson()); ?>
 <?php if (isset($vacancyId)) { ?>
                     <br class="clear"/>
                     <br class="clear"/>
@@ -128,7 +128,7 @@
                     //<![CDATA[
                     var hiringManagers = <?php echo str_replace('&#039;', "'", $form->getHiringManagerListAsJson()) ?> ;
                     var hiringManagersArray = eval(hiringManagers);
-                    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
+		    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                     var lang_negativeAmount = "<?php echo __("Number of positions should be a positive integer"); ?>";
                     var lang_tooLargeAmount = "<?php echo __("Number of positions should be less than 99"); ?>";
                     var lang_jobTitleRequired = '<?php echo __("Job Title is required") ?>';

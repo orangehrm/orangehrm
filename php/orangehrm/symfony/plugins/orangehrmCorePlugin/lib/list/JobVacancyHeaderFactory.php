@@ -36,7 +36,7 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 		    'isSortable' => true,
 		    'sortField' => 'e.emp_firstname',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getHiringManagerName'),
+		    'elementProperty' => array('getter' => 'getHiringManagerFullName'),
 		));
 
 		$header4->populateFromArray(array(

@@ -63,6 +63,7 @@ $(document).ready(function() {
 			$(this).removeClass("inputFormatHint");
 		}
 	});
+	alert(hiringManagersArray[6].name);
 });
 
 function isValidForm(){
