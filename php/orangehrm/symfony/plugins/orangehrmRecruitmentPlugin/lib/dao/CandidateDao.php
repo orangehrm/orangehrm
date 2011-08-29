@@ -142,7 +142,7 @@ class CandidateDao extends BaseDao {
         $keywords = $searchParam->getKeywords();
         $candidateStatus = $searchParam->getCandidateStatus();
         $vacancyStatus = $searchParam->getVacancyStatus();
-        $empNumber = $paramObject->getEmpNumber();
+        $empNumber = $searchParam->getEmpNumber();
 
 
         $keywordsQueryString = "";
