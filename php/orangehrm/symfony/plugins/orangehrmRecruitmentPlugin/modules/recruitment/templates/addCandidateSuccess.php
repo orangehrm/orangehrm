@@ -43,6 +43,7 @@
         $allowedVacancylist[] = array("id" => "", "name" => __('-- Select --'));
         $allowedVacancylistWithClosedVacancies[] = array("id" => "", "name" => __('-- Select --'));
         $allowedVacancyIdArray[] = array();
+        $closedVacancyIdArray[] = array();
         foreach ($jobVacancyList as $vacancy) {
             $newVacancyId = $vacancy->getId();
             $newVacancyName = $vacancy->getVacancyName();
@@ -52,6 +53,8 @@
                 $allowedVacancyIdArray[] = $newVacancyId;
                 if ($vacancy->getStatus() == JobVacancy::ACTIVE) {
                     $allowedVacancylist[] = array("id" => $newVacancyId, "name" => $newVacancyName);
+                } else {
+                    $closedVacancyIdArray[] = $newVacancyId;
                 }
             }
         }
@@ -68,7 +71,7 @@
                 <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo $title; ?></h2></div>
                 <form name="frmAddCandidate" id="frmAddCandidate" method="post" action="<?php echo url_for('recruitment/addCandidate?id=' . $candidateId); ?>" enctype="multipart/form-data">
 
-            <?php echo $form['_csrf_token']; ?>
+<?php echo $form['_csrf_token']; ?>
             <?php echo $form["vacancyList"]->render(); ?>
             <br class="clear"/>
 
@@ -76,19 +79,19 @@
                 <label><?php echo __('Full Name'); ?></label>
             </div>
             <div class="column">
-                <?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+<?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="frmDate" class="helpText"><?php echo __('First Name'); ?><span class="required">*</span></label>
             </div>
             <div class="column" id="middleNameDiv">
-                <?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+<?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('Middle Name'); ?></label>
             </div>
             <div class="column" id="middleNameDiv">
-                <?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+<?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
                 <div class="errorHolder"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></label>
@@ -96,12 +99,12 @@
             <br class="clear"/>
             <br class="clear"/>
             <div class="newColumn">
-                <?php echo $form['email']->renderLabel(__('E-Mail') . ' <span class="required">*</span>'); ?>
+<?php echo $form['email']->renderLabel(__('E-Mail') . ' <span class="required">*</span>'); ?>
                 <?php echo $form['email']->render(array("class" => "formInputText")); ?>
                 <div class="errorHolder below"></div>
             </div>
             <div class="newColumn">
-                <?php echo $form['contactNo']->renderLabel(__('Contact No'), array("class " => "contactNoLable")); ?>
+<?php echo $form['contactNo']->renderLabel(__('Contact No'), array("class " => "contactNoLable")); ?>
                 <?php echo $form['contactNo']->render(array("class" => "contactNo")); ?>
                 <div class="errorHolder cntact"></div>
             </div>
@@ -114,20 +117,23 @@
 <!--                <select id="jobDropDown0" class="vacancyDrop" onchange="validate()"><option></option></select>-->
             </div>
 
-            <?php if ($candidateId > 0) : ?>
+<?php if ($candidateId > 0) : ?>
             <?php $existingVacancyList = $actionForm->candidate->getJobCandidateVacancy(); ?>
             <?php if ($existingVacancyList[0]->getVacancyId() > 0) : ?>
                         <div id="actionPane" style="float:left; width:300px; padding-top:0px">
+<?php $i = 0 ?>
                 <?php foreach ($existingVacancyList as $candidateVacancy) {
                 ?>
-                            <div style="height: 18px; padding-top: 11px">
-                    <?php
+                            <div id="<?php echo $i ?>" style="height: 18px; padding-top: 11px">
+<?php
                             if ($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::ACTIVE && in_array($candidateVacancy->getVacancyId(), $form->allowedVacancyList)) {
                                 $widgetName = $candidateVacancy->getId();
-                                echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
-                                echo __("Status") . " : " . ucwords(strtolower($candidateVacancy->getStatus()));
+                                echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown")); ?>
+                                <span class="status" style="font-weight: bold"><?php echo __("Status") . " : " . ucwords(strtolower($candidateVacancy->getStatus())); ?></span>
+<?php
                             }
-                    ?></div>
+                            $i++;
+?></div>
                         <br class="clear" />
                 <?php } ?>
                     </div>
@@ -136,7 +142,7 @@
 
 
                         <br class="clear" /><!--
-                        <span class="addText" id='addButton'><?php //echo __('Add another'); ?></span>
+                        <span class="addText" id='addButton'><?php //echo __('Add another');  ?></span>
                         <div id="vacancyError"></div>
                         <br class="clear" />-->
 
@@ -251,6 +257,7 @@
                                     var allowedVacancylistWithClosedVacancies = <?php echo json_encode($allowedVacancylistWithClosedVacancies); ?>;
                                     var allowedVacancylist = <?php echo json_encode($allowedVacancylist); ?>;
                                     var allowedVacancyIdArray = <?php echo json_encode($allowedVacancyIdArray); ?>;
+                                    var closedVacancyIdArray = <?php echo json_encode($closedVacancyIdArray); ?>;
                                     var lang_identical_rows = "<?php echo __("Cannot assign same vacancy twice"); ?>";
                                     var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
                                     var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";

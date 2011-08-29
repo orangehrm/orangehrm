@@ -1,23 +1,33 @@
 nextId = 0;
+toDisable = new Array();
+item = 0;
 $(document).ready(function() {
 
     var vacancyString = $("#addCandidate_vacancyList").val();
     var vacancyList = (vacancyString.trim()).split("_");
-    var mode = "";
+
 
     if(vacancyString.trim() != ""){ //This happens in the view mode and edit mode
         for(var i=0; i<vacancyList.length; i++){
-            mode = ($.inArray(vacancyList[i], allowedVacancyIdArray) > -1) ? "show with closed vacancies" : "show all vacancies";
-            buildVacancyDrpDwn(vacancyList[i], mode);
+            if($.inArray(vacancyList[i], closedVacancyIdArray) > -1){
+                buildVacancyDrpDwn(vacancyList[i], "show with closed vacancies", true);
+            }
+            else if($.inArray(vacancyList[i], allowedVacancyIdArray) > -1){
+                buildVacancyDrpDwn(vacancyList[i], "show allowed vacancies", true);
+            }
+            else{
+                buildVacancyDrpDwn(vacancyList[i], "show all vacancies", false);
+            }
+            $('.removeText').css("padding-left", "195px");
         }
     }else{ //this happens in the add mode
-        buildVacancyDrpDwn("",  "show allowed vacancies");
+        buildVacancyDrpDwn("",  "show allowed vacancies", true);
         $("#removeButton0").hide();
     }
 
     $(".addText").live('click', function(){
         if((allowedVacancylist.length -1) > nextId){
-            buildVacancyDrpDwn("", "show allowed vacancies");
+            buildVacancyDrpDwn("", "show allowed vacancies", true);
             newId = /\d+(?:\.\d+)?/.exec(this.id);
             $("#removeButton"+newId).css("padding-left", "195px");
             $("#addButton"+newId).hide();
@@ -35,11 +45,13 @@ $(document).ready(function() {
     }else{
         $('.removeText').show();
     }
-
     $('.removeText').live('click', function(){
         result = /\d+(?:\.\d+)?/.exec(this.id);
         if(vacancyString.trim() != ""){
-            $('#deleteConfirmation').dialog('open');
+            if($("#btnSave").attr('value') == lang_edit){
+            }else{
+                $('#deleteConfirmation').dialog('open');
+            }
         }
         else{
             $('#jobDropDown'+result).remove();
@@ -75,6 +87,11 @@ $(document).ready(function() {
             for(i=0; i < widgetList.length; i++) {
                 $(widgetList[i]).removeAttr("disabled");
             }
+            $(".vacancyDrop").each(function(){
+                if($.inArray($(this).attr('id'), toDisable) > -1){                 
+                    $(this).attr('disabled', 'disabled');
+                }
+            });
             $('#radio').show();
             $('#addCandidate_resumeUpdate_1').attr('checked', 'checked');
             $("#btnSave").attr('value', lang_save);
@@ -127,7 +144,7 @@ $(document).ready(function() {
     //    $('#actionPane').hide();
     
     if(candidateId != ""){
-        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume',
+        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop', '.actionDrpDown',
             '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
         for(i=0; i < widgetList.length; i++) {
             $(widgetList[i]).attr("disabled", "disabled");
@@ -170,6 +187,7 @@ $(document).ready(function() {
 
     $('#dialogDeleteBtn').click(function() {
         $('#jobDropDown'+result).remove();
+        $('#'+result).remove();
         $("#addButton"+($('.vacancyDrop').length-1)).show();
         $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
         if(result == $('.vacancyDrop').length-1){
@@ -206,17 +224,25 @@ $(document).ready(function() {
         $("#deleteConfirmationForSave").dialog("close");
     });
 
+    $('.vacancyDrop').change(function(){
+       toRemove = /\d+(?:\.\d+)?/.exec(this.id)
+       $("#"+toRemove).hide();
+    });
 });
 
-function buildVacancyDrpDwn(vacancyId, mode) {
+function buildVacancyDrpDwn(vacancyId, mode, removeBtn) {
     if(nextId < 5){
         var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);
         $('#jobDropDown' + nextId).addClass('jobDropDown');
-        newjobDropDown.after().html('<label><?php echo __(Job Vacancy); ?></label>' +
-            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
-            '<span '+'class="addText"'+ 'id="addButton'+nextId+'">'+'Add another'+'</span>'+
-            '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>');
-
+        htmlTxt =  '<label><?php echo __(Job Vacancy); ?></label>' +
+        '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
+        '<span '+'class="addText"'+ 'id="addButton'+nextId+'">'+'Add another'+'</span>'
+        if(removeBtn){
+            htmlTxt += '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>'
+        }else{
+            toDisable[item] = "jobDropDown"+nextId;
+        }
+        newjobDropDown.after().html(htmlTxt);
         nextId++;
         newjobDropDown.appendTo("#textBoxesGroup");
     }
