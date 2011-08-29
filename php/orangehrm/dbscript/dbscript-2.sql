@@ -697,7 +697,7 @@ INSERT INTO `ohrm_report` VALUES (1, 'Project Report', 1, 1),
 INSERT INTO `ohrm_filter_field` VALUES (1, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectList', 2, 'Runtime', 'true'),
                                        (2, 1, 'activity_show_deleted', 'hs_hr_project_activity.deleted', 'ohrmWidgetInputCheckbox', 2, 'Runtime', 'false'),
                                        (3, 1, 'project_date_range', 'date', 'ohrmWidgetDateRange', 1, 'Runtime', 'false'),
-                                       (4, 1, 'employee', 'hs_hr_employee.emp_number', 'ohrmWidgetEmployeeList', 2, 'Runtime', 'true'),
+                                       (4, 1, 'employee', 'hs_hr_employee.emp_number', 'ohrmWidgetEmployeeListAutoFill', 2, 'Runtime', 'true'),
                                        (5, 1, 'activity_name', 'hs_hr_project_activity.activity_id', 'ohrmWidgetProjectActivityList', 2, 'Runtime', 'false'),
                                        (6, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'Runtime', 'false'),
                                        (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, 'Runtime', 'false');
