@@ -26,47 +26,52 @@ $(document).ready(function() {
     }
 
     $(".addText").live('click', function(){
-        if((allowedVacancylist.length -1) > nextId){
-            buildVacancyDrpDwn("", "show allowed vacancies", true);
-            newId = /\d+(?:\.\d+)?/.exec(this.id);
-            $("#removeButton"+newId).css("padding-left", "195px");
-            $("#addButton"+newId).hide();
-            if((allowedVacancylist.length -1) <= nextId){
-                $("#addButton"+(nextId-1)).hide();
-                $("#removeButton"+(nextId-1)).css("padding-left", "195px");
+       
+        if($("#btnSave").attr('value') == lang_edit){
+        
+        }else{
+            if((allowedVacancylist.length -1) > nextId){
+                buildVacancyDrpDwn("", "show allowed vacancies", true);
+                newId = /\d+(?:\.\d+)?/.exec(this.id);
+                $("#removeButton"+newId).css("padding-left", "195px");
+                $("#addButton"+newId).hide();
+                if((allowedVacancylist.length -1) <= nextId){
+                    $("#addButton"+(nextId-1)).hide();
+                    $("#removeButton"+(nextId-1)).css("padding-left", "195px");
+                }
             }
         }
     });
-    if(allowedVacancylist.length -1 == nextId){
-        $('.addText').hide();
-    }
-    if($('.vacancyDrop').length == 1){
-        $('.removeText').hide();
-    }else{
-        $('.removeText').show();
-    }
-    $('.removeText').live('click', function(){
-        result = /\d+(?:\.\d+)?/.exec(this.id);
-        if(vacancyString.trim() != ""){
-            if($("#btnSave").attr('value') == lang_edit){
-            }else{
-                $('#deleteConfirmation').dialog('open');
-            }
+if(allowedVacancylist.length -1 == nextId){
+    $('.addText').hide();
+}
+if($('.vacancyDrop').length == 1){
+    $('.removeText').hide();
+}else{
+    $('.removeText').show();
+}
+$('.removeText').live('click', function(){
+    result = /\d+(?:\.\d+)?/.exec(this.id);
+    if(vacancyString.trim() != ""){
+        if($("#btnSave").attr('value') == lang_edit){
+        }else{
+            $('#deleteConfirmation').dialog('open');
         }
-        else{
-            $('#jobDropDown'+result).remove();
-            $("#addButton"+($('.vacancyDrop').length-1)).show();
-            $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
-            if(result == $('.vacancyDrop').length-1){
-                $("#addButton"+(nextId-1)).show();
-                $("#removeButton"+(nextId-1)).css("padding-left", "128px");
-            }
-            nextId--;
+    }
+    else{
+        $('#jobDropDown'+result).remove();
+        $("#addButton"+($('.vacancyDrop').length-1)).show();
+        $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
+        if(result == $('.vacancyDrop').length-1){
+            $("#addButton"+(nextId-1)).show();
+            $("#removeButton"+(nextId-1)).css("padding-left", "128px");
         }
-    });
+        nextId--;
+    }
+});
 
-    //Load default Mask if empty
-    var date = trim($("#addCandidate_appliedDate").val());
+//Load default Mask if empty
+var date = trim($("#addCandidate_appliedDate").val());
     //Bind date picker
     daymarker.bindElement("#addCandidate_appliedDate",
     {
@@ -140,8 +145,6 @@ $(document).ready(function() {
             $(this).removeClass("inputFormatHint");
         }
     });
-    
-    //    $('#actionPane').hide();
     
     if(candidateId != ""){
         var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop', '.actionDrpDown',
@@ -225,8 +228,8 @@ $(document).ready(function() {
     });
 
     $('.vacancyDrop').change(function(){
-       toRemove = /\d+(?:\.\d+)?/.exec(this.id)
-       $("#"+toRemove).hide();
+        toRemove = /\d+(?:\.\d+)?/.exec(this.id)
+        $("#"+toRemove).hide();
     });
 });
 
