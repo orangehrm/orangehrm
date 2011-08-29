@@ -351,18 +351,11 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 padding-left: 230px;
                 padding-top: 105px;
                 float: left;
-                width: 450px;
                 
             }
             div#logo {
                 padding-left: 230px;
                 padding-top: 70px;
-            }
-            
-            div#socialNetWork {
-                float :right;
-                padding-right: 190px;
-                padding-top: 100px;
             }
             img {
                 border: none;
@@ -435,9 +428,18 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                     <strong ><font id="validationMsg"><?php echo $InvalidLoginMes; ?></font></strong>
                 </div>
             </form>
-            <div id="footer">
-                <div id="link"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7-rc.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
-                <div id="socialNetwork">
+            <?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
+            <?php if (strstr($browser, "MSIE 8.0")): ?>
+            <?php  $footer = 'width: 700px' ?>
+            <?php  $socialNetwork = 'padding-top: 100px' ?>
+            <?php else: ?>
+            <?php  $footer = 'width: 475px' ?>
+            <?php  $socialNetwork = 'padding-top: 110px' ?>
+
+            <?php endif; ?>
+            <div id="footer" >
+                <div id="link" style="<?php echo $footer?>"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7-rc.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
+                <div id="socialNetwork" style="<?php echo $socialNetwork?>">
                     <a href="http://www.linkedin.com/groups?home=&gid=891077" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/linkedin.png"></a>&nbsp;
                     <a href="http://www.facebook.com/OrangeHRM" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/facebook.png"></a>&nbsp;
                     <a href="http://twitter.com/orangehrm" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/twiter.png"></a>&nbsp;
