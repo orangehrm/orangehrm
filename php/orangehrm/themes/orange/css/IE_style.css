@@ -274,3 +274,7 @@ div.supActionbuttons {
 .notes {
 	width: 320px;
 }
+
+#addCandidate form#frmAddCandidate input#addCandidate_keyWords {
+    width: 298px;
+}
