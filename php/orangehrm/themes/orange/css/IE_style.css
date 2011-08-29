@@ -278,3 +278,7 @@ div.supActionbuttons {
 #addCandidate form#frmAddCandidate input#addCandidate_keyWords {
     width: 298px;
 }
+
+html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div#actionPane div select#viewCandidateAction_5.actionDrpDown {
+    width: 135px;
+}

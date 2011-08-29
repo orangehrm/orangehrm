@@ -54,13 +54,22 @@ class viewJobVacancyAction extends sfAction {
         if (!$usrObj->isAdmin()) {
             $this->redirect('recruitment/viewCandidates');
         }
-	$this->resetable = false;
+        $this->resetable = false;
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
+        $isPaging = $request->getParameter('pageNo');
+        $vacancyId = $request->getParameter('vacancyId');
+        
+        $pageNumber = $isPaging;
+        if(!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }        
+        $this->getUser()->setAttribute('pageNumber', $pageNumber);
+        
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
         $noOfRecords = JobVacancy::NUMBER_OF_RECORDS_PER_PAGE;
-        $offset = ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
 
         $param = array('allowedVacancyList' => $allowedVacancyList);
         $this->setForm(new ViewJobVacancyForm(array(), $param, true));
@@ -70,7 +79,7 @@ class viewJobVacancyAction extends sfAction {
         $srchParams['noOfRecords'] = $noOfRecords;
         $srchParams['offset'] = $offset;
 
-        if (!empty($sortField) && !empty($sortOrder)) {
+        if (!empty($sortField) && !empty($sortOrder) || $vacancyId > 0 || $isPaging > 0) {
             if ($this->getUser()->hasAttribute('searchParameters')) {
                 $srchParams = $this->getUser()->getAttribute('searchParameters');
                 $this->form->setDefaultDataToWidgets($srchParams);
@@ -82,23 +91,27 @@ class viewJobVacancyAction extends sfAction {
         }
 
         list($this->messageType, $this->message) = $this->getUser()->getFlash('vacancyDeletionMessageItems');
-
+        $srchParams['offset'] = $offset;
         $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
 
-        $this->_setListComponent($vacancyList, $noOfRecords, $srchParams);
+        $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber);
         $params = array();
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
             if ($request->isMethod('post')) {
-		$this->resetable = true;
+                
+                $pageNumber = 1;
+                $this->getUser()->setAttribute('pageNumber', $pageNumber);
+                $this->resetable = true;
                 $this->form->bind($request->getParameter($this->form->getName()));
-                if ($this->form->isValid()) {
+                
+                if ($this->form->isValid()) {                    
                     $srchParams = $this->form->getSearchParamsBindwithFormData();
                     $srchParams['noOfRecords'] = $noOfRecords;
-                    $srchParams['offset'] = $offset;
+                    $srchParams['offset'] = 0;
                     $this->getUser()->setAttribute('searchParameters', $srchParams);
                     $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
-                    $this->_setListComponent($vacancyList, $noOfRecords, $srchParams);
+                    $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber);
                 }
             }
         }
@@ -110,8 +123,9 @@ class viewJobVacancyAction extends sfAction {
      * @param <type> $noOfRecords
      * @param <type> $srchParams
      */
-    private function _setListComponent($vacancyList, $noOfRecords, $srchParams) {
+    private function _setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber) {
         $configurationFactory = new JobVacancyHeaderFactory();
+        ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($vacancyList);
         ohrmListComponent::setItemsPerPage($noOfRecords);
