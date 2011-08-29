@@ -21,14 +21,15 @@ $(document).ready(function() {
             newId = /\d+(?:\.\d+)?/.exec(this.id);
             $("#removeButton"+newId).css("padding-left", "195px");
             $("#addButton"+newId).hide();
-            if((allowedVacancylist.length -1) == nextId){
+            if((allowedVacancylist.length -1) <= nextId){
                 $("#addButton"+(nextId-1)).hide();
                 $("#removeButton"+(nextId-1)).css("padding-left", "195px");
             }
-
         }
     });
-
+    if(allowedVacancylist.length -1 == nextId){
+        $('.addText').hide();
+    }
     if($('.vacancyDrop').length == 1){
         $('.removeText').hide();
     }else{
@@ -177,7 +178,6 @@ $(document).ready(function() {
         }
         nextId--;
         $("#deleteConfirmation").dialog("close");
-        alert($('.vacancyDrop').length)
         if($('.vacancyDrop').length == 1){
             $('.removeText').hide();
         }
