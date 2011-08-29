@@ -576,35 +576,43 @@
 				<source>Apply</source>
 				<target>FR_Apply</target>
 			</trans-unit>
-			<trans-unit id="146">
+			<trans-unit id="147">
+                <source>Apply for</source>
+                <target>FR_Apply for</target>
+            </trans-unit>
+			<trans-unit id="148">
+                <source>Submit</source>
+                <target>FR_Submit</target>
+            </trans-unit>
+			<trans-unit id="149">
 				<source>E-mail</source>
 				<target>FR_E-mail</target>
 			</trans-unit>
-			<trans-unit id="147">
+			<trans-unit id="150">
 				<source>Candidate's History</source>
 				<target>FR_Candidate's History</target>
 			</trans-unit>
-			<trans-unit id="148">
+			<trans-unit id="151">
 				<source>Performed Action</source>
 				<target>FR_Performed Action</target>
 			</trans-unit>
-			<trans-unit id="149">
+			<trans-unit id="152">
 				<source>Delete selected record(s)</source>
 				<target>FR_Delete selected record(s)</target>
 			</trans-unit>
-			<trans-unit id="150">
+			<trans-unit id="153">
 				<source>Back to Job List</source>
 				<target>FR_Back to Job List</target>
 			</trans-unit>
-			<trans-unit id="151">
+			<trans-unit id="154">
 				<source>View Interview Details</source>
 				<target>FR_View Interview Details</target>
 			</trans-unit>
-			<trans-unit id="152">
+			<trans-unit id="155">
 				<source>Edit Interview Details</source>
 				<target>FR_Edit Interview Details</target>
 			</trans-unit>
-			<trans-unit id="153">
+			<trans-unit id="156">
 				<source>Cancel</source>
 				<target>FR_Cancel</target>
 			</trans-unit>
