@@ -462,7 +462,6 @@ class TimesheetDao {
             $results = $query->execute();
 
             if ($results[0]->getActivityId() == null) {
-
                 return null;
             } else {
                 return $results;

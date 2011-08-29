@@ -2454,6 +2454,10 @@ class adminActions extends sfActions {
             $this->activityList = "All";
         } else {
             $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
+            $this->allActivityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId,true);
+            if($this->allActivityList == null){
+                $this->noProjectActivity = "yes";
+            }
         }
     }
     
