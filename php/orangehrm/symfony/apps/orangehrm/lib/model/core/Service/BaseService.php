@@ -95,7 +95,15 @@ class BaseService {
             $where = array();
             foreach ($extensions['where'] as $whereParams) {
                 if (!$this->_shouldOmmit($whereParams, $parameters)) {
-                    $where[] = $this->_generateWhereClause($whereParams);
+                    $whereClausePortion = $this->_generateWhereClause($whereParams);
+
+                    $regExp = '/^\[replace\:.{1,}\]/';
+                    if (preg_match($regExp, $whereClausePortion)) {
+                        $replacementRegExp = substr($whereClausePortion, 9, strripos($whereClausePortion, ']', 9) - 9);
+                        $whereClausePortion = preg_replace($regExp, '', $whereClausePortion);
+                        $query = preg_replace($replacementRegExp, '', $query);
+                    }
+                    $where[] = $whereClausePortion;
                 }
             }
 
@@ -207,9 +215,24 @@ class BaseService {
         if (array_key_exists('clause', $whereClauseParams)) {
             $whereClause = $whereClauseParams['clause'];
         } else {
-            $value = "'{$whereClauseParams['value']}'";
-            $whereClause = "`{$whereClauseParams['field']}` {$whereClauseParams['operator']} {$value}";
+            $operator = $whereClauseParams['operator'];
+            
+            if ($operator == 'IN') {
+                $value = "({$whereClauseParams['value']})";
+            } else {
+                $value = "'{$whereClauseParams['value']}'";
+            }
+            
+            $table = isset($whereClauseParams['table']) ? "{$whereClauseParams['table']}." : '';
+            
+            $whereClause = "{$table}`{$whereClauseParams['field']}` {$operator} {$value}";
+            
+            if (array_key_exists('replace', $whereClauseParams)) {
+                $whereClause = "[replace:{$whereClauseParams['replace']}]" . $whereClause;
+            }
+
         }
+        
         return $whereClause;
     }
 
