@@ -1,9 +1,10 @@
 <?php
 if (isset($subComponents[$location])) {
     foreach ($subComponents[$location] as $subComponent) {
-        if (array_key_exists('component', $subComponent)) {
+        if (isset($subComponent['component'])) {
             include_component($subComponent['module'], $subComponent['component']);
-        } elseif (array_key_exists('partial', $subComponent)) {
+        }
+        if (isset($subComponent['partial'])) {
             include_partial("{$subComponent['module']}/{$subComponent['partial']}");
         }
     }
