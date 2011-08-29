@@ -126,6 +126,13 @@ class BaseService {
                 $orderByField = "`{$orderByParams['field']}` {$orderByParams['order']}";
                 $prependingFields = array();
                 $appendingFields = array();
+                
+                if (isset($orderByParams['dependsOn'])) {
+                    if (!preg_match("/{$orderByParams['dependsOn']}/", $query)) {
+                        continue;
+                    }
+                }
+                
                 if (isset($orderByParams['position']) && $orderByParams['position'] == 'before') {
                     $prependingFields[] = $orderByField;
                 } else {
@@ -133,19 +140,21 @@ class BaseService {
                 }
             }
 
-            if (preg_match('/\ ORDER\ BY\ /', $query)) {
-                $prependingFields = empty($prependingFields) ? '' : implode(', ', $prependingFields);
-                $appendingFields = empty($appendingFields) ? '' : implode(', ', $appendingFields);
+            if (!empty($appendingFields) || !empty ($prependingFields)) {
+                if (preg_match('/\ ORDER\ BY\ /', $query)) {
+                    $prependingFields = empty($prependingFields) ? '' : implode(', ', $prependingFields);
+                    $appendingFields = empty($appendingFields) ? '' : implode(', ', $appendingFields);
 
-                $matchedDelimiter = '';
-                list($left, $right) = preg_split('/LIMIT/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
-                $left .= " {$appendingFields}";
-                $query = "{$left} LIMIT {$right}";
+                    $matchedDelimiter = '';
+                    list($left, $right) = preg_split('/LIMIT/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
+                    $left .= " {$appendingFields}";
+                    $query = "{$left} LIMIT {$right}";
 
-                $query = str_replace('ORDER BY ', "ORDER BY {$prependingFields}, ", $query);
-            } else {
-                $orderFieldList = implode(', ', array_merge($prependingFields, $appendingFields));
-                $query .= ' ORDER BY ' . $orderFieldList;
+                    $query = str_replace('ORDER BY ', "ORDER BY {$prependingFields}, ", $query);
+                } else {
+                    $orderFieldList = implode(', ', array_merge($prependingFields, $appendingFields));
+                    $query .= ' ORDER BY ' . $orderFieldList;
+                }
             }
         }
 
