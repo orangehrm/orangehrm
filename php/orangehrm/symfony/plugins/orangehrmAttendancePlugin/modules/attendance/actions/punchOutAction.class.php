@@ -60,20 +60,24 @@ class punchOutAction extends sfAction {
         $this->punchInUtcTime = date('Y-m-d H:i', strtotime($attendanceRecord->getPunchInUtcTime()));
         $this->punchInNote = $attendanceRecord->getPunchInNote();
         $this->form = new AttendanceForm();
+        $this->attendanceFormToImplementCsrfToken = new AttendanceFormToImplementCsrfToken();
         $this->actionPunchOut = $this->getActionName();
 
         $this->allowedActions = $this->userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $attendanceRecord->getState());
         if ($request->isMethod('post')) {
 
             if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $this->allowedActions)) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $this->allowedActions))) {
+                $this->attendanceFormToImplementCsrfToken->bind($request->getParameter('attendance'));
 
-                $punchOutDate = $this->request->getParameter('date');
-                $punchOutTime = $this->request->getParameter('time');
-                $punchOutNote = $this->request->getParameter('note');
-                $timeZoneOffset = $this->request->getParameter('timeZone');
-                // $userDateTime = new DateTime($punchOutTime);
-                $nextState = $this->userObj->getNextState(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
-                $punchOutdateTime = strtotime($punchOutDate . " " . $punchOutTime);
+                if ($this->attendanceFormToImplementCsrfToken->isValid()) {
+
+                    $punchOutDate = $this->request->getParameter('date');
+                    $punchOutTime = $this->request->getParameter('time');
+                    $punchOutNote = $this->request->getParameter('note');
+                    $timeZoneOffset = $this->request->getParameter('timeZone');
+                    // $userDateTime = new DateTime($punchOutTime);
+                    $nextState = $this->userObj->getNextState(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
+                    $punchOutdateTime = strtotime($punchOutDate . " " . $punchOutTime);
 
 
 //                $attendanceRecord->setState($nextState);
@@ -86,10 +90,10 @@ class punchOutAction extends sfAction {
 //                $this->redirect('attendance/punchIn');
 
 
-                $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchOutdateTime - $timeZoneOffset), date('Y-m-d H:i', $punchOutdateTime), $timeZoneOffset / 3600, $punchOutNote);
+                    $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchOutdateTime - $timeZoneOffset), date('Y-m-d H:i', $punchOutdateTime), $timeZoneOffset / 3600, $punchOutNote);
 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
-                $this->redirect('attendance/punchIn');
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+                    $this->redirect('attendance/punchIn');
 
 
 
@@ -106,6 +110,7 @@ class punchOutAction extends sfAction {
 //
 //                $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
 //                $this->redirect('attendance/punchIn');
+                }
             } else {
                 $this->form->bind($request->getParameter('attendance'));
                 if ($this->form->isValid()) {

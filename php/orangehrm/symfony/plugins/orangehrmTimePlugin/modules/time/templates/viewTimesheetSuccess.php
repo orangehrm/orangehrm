@@ -43,14 +43,14 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
         <!--    conifigure the heading accoding to the timesheet period using the num of columns-->
         <tr>
-      
-                <?php if (isset($employeeName)): ?>
-                    <td id="headingText"><?php echo __('Timesheet for ') . $employeeName . __(' for')." ".$headingText." ";
-                    echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
-                <?php else: ?>
-                    <td id="headingText"><?php echo __('Timesheet for ')." ".$headingText." " ;
-            echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
-                <?php endif; ?>
+
+            <?php if (isset($employeeName)): ?>
+                <td id="headingText"><?php echo __('Timesheet for ') . $employeeName . __(' for') . " " . $headingText . " ";
+        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
+            <?php else: ?>
+                <td id="headingText"><?php echo __('Timesheet for ') . " " . $headingText . " ";
+        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
+            <?php endif; ?>
         </tr>
     </table>
     <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
@@ -62,19 +62,19 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <td id="projectColumn" ><?php echo __("Project Name") ?></td>
                         <td id ="activityColumn" ><?php echo __("Activity Name") ?></td>
 
-    <?php foreach ($rowDates as $data): ?>
+                        <?php foreach ($rowDates as $data): ?>
                             <td><?php echo date('D', strtotime($data)); ?> <br/><?php echo date('j', strtotime($data)); ?></td><td class="commentIcon"></td>
-                <?php endforeach; ?>
+                        <?php endforeach; ?>
 
                         <td><?php echo __("Total") ?></td>
                     </tr>
                 </thead>
 
                 <?php if (isset($toggleDate)): ?>
-        <?php $selectedTimesheetStartDate = $toggleDate ?>
-    <?php else: ?>
-        <?php $selectedTimesheetStartDate = $timesheet->getStartDate() ?>
-    <?php endif; ?>
+                    <?php $selectedTimesheetStartDate = $toggleDate ?>
+                <?php else: ?>
+                    <?php $selectedTimesheetStartDate = $timesheet->getStartDate() ?>
+                <?php endif; ?>
                 <?php if ($timesheetRows == null) : ?>
                     <!-- colspan should be based on  the fields in a timesheet-->
                     <tr>
@@ -85,20 +85,20 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                     <?php $class = 'odd'; ?>
                     <?php foreach ($timesheetRows as $timesheetItemRow): ?>
                         <?php if ($format == '1') { ?>
-                <?php $total = '0:00'; ?>
-            <?php } ?>
-                            <?php if ($format == '2') { ?>
-                                <?php $total = 0; ?>
-            <?php } ?>
+                            <?php $total = '0:00'; ?>
+                        <?php } ?>
+                        <?php if ($format == '2') { ?>
+                            <?php $total = 0; ?>
+                        <?php } ?>
 
 
                         <tr class="<?php echo $class; ?>">
-                                <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
+                            <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
                             <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['projectName']); ?>
                             <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['activityName']); ?>
 
-                            <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
-                                <?php if ($format == '1') { ?>
+                                <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
+                                    <?php if ($format == '1') { ?>
                                     <td class="duration"><?php echo ($timesheetItemObjects->getDuration() == null ) ? "0:00" : $timesheetItemObjects->getConvertTime(); ?></td><td class="commentIcon"><?php if ($timesheetItemObjects->getComment() != null): ?><?php echo image_tag('callout.png', 'id=' . $timesheetItemObjects->getTimesheetItemId() . "##" . $timesheetItemRow['projectName'] . "##" . $timesheetItemRow['activityName'] . " class=icon") ?><?php endif; ?></td>
                                 <?php } ?>
                                 <?php if ($format == '2') { ?>
@@ -109,21 +109,21 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                                     <?php $total+=$timesheetItemObjects->getDuration(); ?>
                                 <?php } ?>
                                 <?php if ($format == '2') { ?>
-                                        <?php $total+=$timesheetItemObjects->getConvertTime(); ?>
-                                    <?php } ?>
-                                <?php endforeach; ?>
+                                    <?php $total+=$timesheetItemObjects->getConvertTime(); ?>
+                                <?php } ?>
+                            <?php endforeach; ?>
 
-                                <?php if ($format == '1') { ?>
+                            <?php if ($format == '1') { ?>
                                 <td id= "total"><?php echo $timeService->convertDurationToHours($total) ?><td>
-            <?php } ?>
-            <?php if ($format == '2') { ?>
+                                <?php } ?>
+                                <?php if ($format == '2') { ?>
                                 <td id="total"><?php echo number_format($total, 2, '.', ''); ?><td>
-                        <?php } ?>
+                                <?php } ?>
 
 
                         </tr>
 
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                     <tr><td colspan="100"></tr>
                     <tr class="even">
                         <td id="totalVertical"><?php echo __('Total'); ?></td>
@@ -158,7 +158,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                             <?php if ($format == '1') { ?>
                                 <td id ="totalVerticalValue"><?php echo $timeService->convertDurationToHours($verticalTotal); ?> </td>
-            <?php } ?>
+                            <?php } ?>
                             <?php if ($format == '2') { ?>
                                 <td id ="totalVerticalValue"><?php echo number_format($verticalTotal, 2, '.', ''); ?> </td>
                             <?php } ?>
@@ -169,17 +169,20 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <?php endforeach; ?>
                         <?php if ($format == '1') { ?>
                             <td id="total"><?php echo $timeService->convertDurationToHours($weeksTotal); ?></td>
-                    <?php } ?>
-        <?php if ($format == '2') { ?>
+                        <?php } ?>
+                        <?php if ($format == '2') { ?>
                             <td id="total"><?php echo number_format($weeksTotal, 2, '.', ''); ?></td>
-        <?php } ?>
+                        <?php } ?>
                         <td></td></tr>
-    <?php endif; ?>
+                <?php endif; ?>
 
             </table>
 
 
             <form id="timesheetFrm"  method="post">
+                
+                <?php echo $formToImplementCsrfToken['_csrf_token']; ?>
+             
                 <div class="formbuttons">
 
                     <div><h4><?php echo __('Status: ') ?><?php echo ucwords(strtolower($timesheet->getState())); ?></h4></div>
@@ -190,31 +193,31 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                                value="<?php echo __('Edit'); ?>" />
 
-    <?php endif; ?>
+                    <?php endif; ?>
 
                     <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_SUBMIT, $sf_data->getRaw('allowedActions'))) : ?>
                         <input type="button" class="submitbutton" name="button" id="btnSubmit"
                                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                                value="<?php echo __('Submit'); ?>" />
 
-    <?php endif; ?>
-    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_RESET, $sf_data->getRaw('allowedActions'))) : ?>
+                    <?php endif; ?>
+                    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_RESET, $sf_data->getRaw('allowedActions'))) : ?>
 
                         <input type="button" class="resetButton"  name="button" id="btnReset"
                                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                                value="<?php echo __('Reset') ?>" />
                         <br class="clear"/>
 
-    <?php endif; ?>
+                    <?php endif; ?>
                     <div> 
-    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions')) || (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions')))) : ?>
+                        <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions')) || (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions')))) : ?>
 
                             <div class="commentHeading">
                                 <b><?php echo __("Comment") ?></b>
                             </div>
                             <textarea name="Comment" id="txtComment" rows="3" cols="70" onkeyup="validateComment()"></textarea>
 
-    <?php endif; ?>
+                        <?php endif; ?>
                         <div>
                             <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions'))): ?>
                                 <input type="button" class="approvebutton" name="button" id="btnApprove"
@@ -222,14 +225,14 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                                        value="<?php echo __('Approve') ?>" />
 
 
-    <?php endif; ?>
+                            <?php endif; ?>
 
 
 
 
 
 
-    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions'))) : ?>
+                            <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions'))) : ?>
 
 
                                 <input type="button" class="rejectbutton"  name="button" id="btnReject"
@@ -238,7 +241,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                                 <br class="clear"/>
 
 
-    <?php endif; ?>
+                            <?php endif; ?>
 
                         </div>
 
@@ -249,7 +252,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
             </form>
         </div>
     </div>
-  
+
 
     <br class="clear">
     <br class="clear">
@@ -291,7 +294,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                             <td id="actionLogComment"><?php echo $row->getComment(); ?></td>
                         </tr>
 
-        <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </table>
             </div>
         </div>

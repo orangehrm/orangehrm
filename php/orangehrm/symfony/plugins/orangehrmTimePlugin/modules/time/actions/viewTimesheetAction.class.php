@@ -24,9 +24,9 @@ class viewTimesheetAction extends sfAction {
     private $timesheetActionLog;
 
     public function execute($request) {
-        
-        
-         $this->headingText= $this->getTimesheetPeriodService()->getTimesheetHeading();
+
+
+        $this->headingText = $this->getTimesheetPeriodService()->getTimesheetHeading();
         $this->successMessage = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
         $this->timeService = $this->getTimesheetService();
 
@@ -93,26 +93,30 @@ class viewTimesheetAction extends sfAction {
             $values = array('date' => $startDate, 'employeeId' => $employeeId, 'timesheetId' => $this->timesheet->getTimesheetId(), 'noOfDays' => $noOfDays);
             $form = new TimesheetForm(array(), $values);
             $this->timesheetRows = $form->getTimesheet($startDate, $employeeId, $this->timesheet->getTimesheetId());
-
+            $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
             if ($request->isMethod('post')) {
+                $this->formToImplementCsrfToken->bind($request->getParameter('time'));
 
-                $state = $request->getParameter('state');
-                $comment = $request->getParameter('Comment');
-                $this->timesheet->setState($state);
-                $this->timesheet = $this->getTimesheetService()->saveTimesheet($this->timesheet);
+                if ($this->formToImplementCsrfToken->isValid()) {
 
-                if ($request->getParameter('updateActionLog')) {
+                    $state = $request->getParameter('state');
+                    $comment = $request->getParameter('Comment');
+                    $this->timesheet->setState($state);
+                    $this->timesheet = $this->getTimesheetService()->saveTimesheet($this->timesheet);
 
-                    if ($request->getParameter('resetAction')) {
+                    if ($request->getParameter('updateActionLog')) {
 
-                        $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $this->timesheet->getTimesheetId(), $userId);
-                    } else {
-                        $this->setTimesheetActionLog($state, $comment, $this->timesheet->getTimesheetId(), $userId);
-                    }
+                        if ($request->getParameter('resetAction')) {
 
-                    $submitted = $request->getParameter('submitted');
-                    if (isset($submitted)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully Submitted"));
+                            $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $this->timesheet->getTimesheetId(), $userId);
+                        } else {
+                            $this->setTimesheetActionLog($state, $comment, $this->timesheet->getTimesheetId(), $userId);
+                        }
+
+                        $submitted = $request->getParameter('submitted');
+                        if (isset($submitted)) {
+                            $this->successMessage = array('SUCCESS', __("Timesheet Successfully Submitted"));
+                        }
                     }
                 }
             }
@@ -178,7 +182,7 @@ class viewTimesheetAction extends sfAction {
         $employee = $employeeService->getEmployee($employeeId);
         return $employee->getFirstName() . " " . $employee->getLastName();
     }
-    
+
     protected function getTimesheetPeriodService() {
 
         if (is_null($this->timesheetPeriodService)) {

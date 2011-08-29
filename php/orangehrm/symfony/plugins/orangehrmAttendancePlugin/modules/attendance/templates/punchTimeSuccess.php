@@ -62,6 +62,7 @@
                             <tr><td> <?php echo $form['time']->renderLabel() ?></td><td><?php echo $form['time']->renderError() ?><?php echo $form['time']->render(); ?><span class="timeFormatHint">HH:MM</span></td></tr>
                             <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td><?php echo $form['note']->renderError() ?><?php echo $form['note']->render(); ?></td></tr>
                         <?php else: ?>
+                            <?php echo $attendanceFormToImplementCsrfToken['_csrf_token']; ?>
 
                             <tr><td> <?php echo __('Date'); ?></td><td>&nbsp;<span id="currentDate"></span><input type="hidden" class="date"name="date" value=""/></td></tr>
                             <tr><td>  <?php echo __('Time'); ?></td><td>&nbsp;<span id="currentTime"></span><input  type="hidden" class="time"name="time" value="">&nbsp;&nbsp;&nbsp;&nbsp;<span class="timeFormatHint">HH:MM</span></td></tr>

@@ -72,7 +72,7 @@ class punchInAction extends sfAction {
 
         $this->form = new AttendanceForm();
         $this->actionPunchIn = $this->getActionName();
-
+        $this->attendanceFormToImplementCsrfToken = new AttendanceFormToImplementCsrfToken();
 
 
         if ($request->isMethod('post')) {
@@ -83,16 +83,19 @@ class punchInAction extends sfAction {
 
 
             if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $this->allowedActions)) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $this->allowedActions))) {
+                $this->attendanceFormToImplementCsrfToken->bind($request->getParameter('attendance'));
+           
+                if ($this->attendanceFormToImplementCsrfToken->isValid()) {
 
-               
-                $punchInDate = $this->request->getParameter('date');
-                $punchIntime = $this->request->getParameter('time');
-                $punchInNote = $this->request->getParameter('note');
-                $timeZoneOffset = $this->request->getParameter('timeZone');
+  
+                    $punchInDate = $this->request->getParameter('date');
+                    $punchIntime = $this->request->getParameter('time');
+                    $punchInNote = $this->request->getParameter('note');
+                    $timeZoneOffset = $this->request->getParameter('timeZone');
 
-                $nextState = $this->userObj->getNextState(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, WorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN);
+                    $nextState = $this->userObj->getNextState(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, WorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN);
 
-                $punchIndateTime=strtotime($punchInDate." ".$punchIntime);
+                    $punchIndateTime = strtotime($punchInDate . " " . $punchIntime);
 //                $attendanceRecord->setPunchInUtcTime(date('Y-m-d H:i', time() + $timeStampDiff - $timeZoneOffset * 3600));
 //                $attendanceRecord->setPunchInNote($punchInNote);
 //                $attendanceRecord->setPunchInUserTime(date('Y-m-d H:i', time() + $timeStampDiff));
@@ -101,9 +104,9 @@ class punchInAction extends sfAction {
 //
 //                $this->getAttendanceService()->savePunchRecord($attendanceRecord);z
 
-                $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchIndateTime - $timeZoneOffset), date('Y-m-d H:i', $punchIndateTime), $timeZoneOffset / 3600, $punchInNote);
+                    $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchIndateTime - $timeZoneOffset), date('Y-m-d H:i', $punchIndateTime), $timeZoneOffset / 3600, $punchInNote);
 
-                $this->redirect("attendance/punchOut");
+                    $this->redirect("attendance/punchOut");
 
 //                $clientTimeZone = $this->getAttendanceService()->getLocalTimezone($timeZoneOffset);
 //                date_default_timezone_set($clientTimeZone);
@@ -116,6 +119,7 @@ class punchInAction extends sfAction {
 //                $this->setAttendanceRecord($attendanceRecord, $nextState, gmdate('Y-m-d H:i', time()), date('Y-m-d H:i', strtotime($punchInDate . " " . $punchIntime)), $timeZoneOffset, $punchInNote);
 //
 //                $this->redirect("attendance/punchOut");
+                }
             } else {
 
                 $this->form->bind($request->getParameter('attendance'));
@@ -126,7 +130,7 @@ class punchInAction extends sfAction {
                     $punchIntime = $this->form->getValue('time');
                     $punchInNote = $this->form->getValue('note');
                     $timeZoneOffset = $this->request->getParameter('timeZone');
-                    
+
                     $punchInEditModeTime = mktime(date('H', strtotime($punchIntime)), date('i', strtotime($punchIntime)), 0, date('m', strtotime($punchInDate)), date('d', strtotime($punchInDate)), date('Y', strtotime($punchInDate)));
 
 //                    print_r(date('Y-m-d H:i',$punchInEditModeTime));
@@ -146,7 +150,7 @@ class punchInAction extends sfAction {
 //                    $attendanceRecord->setPunchInNote($punchInNote);
 //                    $attendanceRecord->setPunchInUserTime(date('Y-m-d H:i', $punchInEditModeTime));
 //                    $attendanceRecord->setPunchInTimeOffset($timeZoneOffset);
-                    $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchInEditModeTime - $timeZoneOffset), date('Y-m-d H:i', $punchInEditModeTime), $timeZoneOffset/3600, $punchInNote);
+                    $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchInEditModeTime - $timeZoneOffset), date('Y-m-d H:i', $punchInEditModeTime), $timeZoneOffset / 3600, $punchInNote);
 //                    $this->getAttendanceService()->savePunchRecord($attendanceRecord);
                     $this->redirect("attendance/punchOut");
 
