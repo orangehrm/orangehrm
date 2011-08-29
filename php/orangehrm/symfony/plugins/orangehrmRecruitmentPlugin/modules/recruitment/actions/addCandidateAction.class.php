@@ -29,7 +29,7 @@ class addCandidateAction extends sfAction {
             $this->form = $form;
         }
     }
-    
+
     public function getForm() {
         return $this->form;
     }
@@ -70,9 +70,9 @@ class addCandidateAction extends sfAction {
         $this->candidateId = $request->getParameter('id');
         $reDirect = false;
         $this->edit = true;
-        if (!(in_array($this->candidateId, $allowedCandidateListToDelete))){
-           $reDirect = true;
-           $this->edit = false;
+        if ($this->candidateId > 0 && !(in_array($this->candidateId, $allowedCandidateListToDelete))) {
+            $reDirect = true;
+            $this->edit = false;
         }
 
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
@@ -106,11 +106,10 @@ class addCandidateAction extends sfAction {
 
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
-            
+
             if ($_FILES['addCandidate']['size']['resume'] > 1024000 || $_FILES == null) {
                 $title = ($this->candidateId > 0) ? __('Editing Candidate') : __('Adding Candidate');
-                 $this->templateMessage = array ('WARNING', ''.$title.' Failed. Resume Size Exceeded 1MB');
-                
+                $this->templateMessage = array('WARNING', '' . $title . ' Failed. Resume Size Exceeded 1MB');
             } else {
                 $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
                 $file = $request->getFiles($this->form->getName());
