@@ -18,7 +18,7 @@ $(document).ready(function()
 
             formatItem: function(item) {
 
-                return item.name;
+                return $("<div/>").html(item.name).text();
             }
             ,
             matchContains:true
@@ -115,7 +115,7 @@ $(document).ready(function()
 
             formatItem: function(item) {
 
-                return item.name;
+                return $("<div/>").html(item.name).text();
             }
             ,
             matchContains:true
@@ -244,7 +244,7 @@ function validateEmployee(){
     for (i=0; i < empCount; i++) {
         empName = $.trim($('#employee').val()).toLowerCase();
         arrayName = employeesArray[i].name.toLowerCase();
-
+        arrayName= $("<div/>").html(arrayName).text();
         if (empName == arrayName) {
             $('#attendance_employeeId').val(employeesArray[i].id);
             temp = true
