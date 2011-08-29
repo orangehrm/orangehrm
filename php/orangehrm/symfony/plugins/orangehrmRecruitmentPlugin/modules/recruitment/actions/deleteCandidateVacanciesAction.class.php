@@ -36,12 +36,11 @@ class deleteCandidateVacanciesAction extends sfAction {
     public function execute($request) {
 
         $candidateVacancyIds = $request->getParameter("chkSelectRow");
-        $toBeDeletedCandiateVacancies = $this->getCandidateService()->processCandidatesVacancyArray($candidateVacancyIds);
-              
-        $isDeleteSuccess = $this->getCandidateService()->deleteCandidateVacancies($toBeDeletedCandiateVacancies);
+        $toBeDeletedCandiates = $this->getCandidateService()->processCandidatesVacancyArray($candidateVacancyIds);
+        $isDeleteSuccess = $this->getCandidateService()->deleteCandidate($toBeDeletedCandiates);
         
         if($isDeleteSuccess) {
-            $this->getUser()->setFlash('candidateDeletionMessageItems', array('success', __('Selected Record(s) Deleted Successfully')));
+            $this->getUser()->setFlash('candidateDeletionMessageItems', array('success', __('Selected Candidate(s) Deleted Successfully')));
         }
         $this->redirect('recruitment/viewCandidates');
     }

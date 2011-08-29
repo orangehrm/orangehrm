@@ -42,6 +42,8 @@ $(document).ready(function() {
         daymarker.show("#candidateSearch_toDate");
     });
 
+    $("#helpText").append("<span>"+lang_helpText+"</span>");
+
     //Auto complete
     $("#candidateSearch_candidateName").autocomplete(candidates, {
         formatItem: function(item) {

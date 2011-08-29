@@ -126,7 +126,7 @@
 
             <!-- confirmation box -->
             <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <?php echo __("Delete selected record(s)") . "?"; ?>
+    <?php echo __("Delete Selected Candidate(s)") . "?"; ?>
                 <div class="dialogButtons">
                     <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
                     <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
@@ -158,6 +158,7 @@
                 var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
                 var lang_all = '<?php echo __("All") ?>';
                 var lang_dateError = '<?php echo __("From date should be less than To date") ?>';
+                var lang_helpText = '<?php echo __("Click on a candidate name to perform actions") ?>';
                 var candidatesArray = eval(candidates);
                 var lang_enterValidName = '<?php echo __("Enter valid candidate name") ?>';
                 var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';

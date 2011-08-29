@@ -616,6 +616,50 @@
 				<source>Cancel</source>
 				<target>FR_Cancel</target>
 			</trans-unit>
+			<trans-unit id="154">
+				<source>Selected Candidate(s) Deleted Successfully</source>
+				<target>FR_Selected Candidate(s) Deleted Successfully</target>
+			</trans-unit>
+			<trans-unit id="155">
+				<source>Delete Selected Candidate(s)</source>
+				<target>FR_Delete Selected Candidate(s)</target>
+			</trans-unit>
+			<trans-unit id="156">
+				<source>Candidate Shortlisted Successfully</source>
+				<target>FR_Candidate Shortlisted Successfully</target>
+			</trans-unit>
+			<trans-unit id="157">
+				<source>Candidate Rejected Successfully</source>
+				<target>FR_Candidate Rejected Successfully</target>
+			</trans-unit>
+			<trans-unit id="158">
+				<source>Interview Status Updated Successfully</source>
+				<target>FR_Interview Status Updated Successfully</target>
+			</trans-unit>
+			<trans-unit id="159">
+				<source>Job Offered Successfully</source>
+				<target>FR_Job Offered Successfully</target>
+			</trans-unit>
+			<trans-unit id="160">
+				<source>Job offer Marked as Declined Successfully</source>
+				<target>FR_Job offer Marked as Declined Successfully</target>
+			</trans-unit>
+			<trans-unit id="161">
+				<source>Candidate Hired Successfully</source>
+				<target>FR_Candidate Hired Successfully</target>
+			</trans-unit>
+			<trans-unit id="162">
+				<source>Interview Scheduled Successfully</source>
+				<target>FR_Interview Scheduled Successfully</target>
+			</trans-unit>
+			<trans-unit id="163">
+				<source>Interview Details Updated Successfully</source>
+				<target>FR_Interview Details Updated Successfully</target>
+			</trans-unit>
+			<trans-unit id="164">
+				<source>Action History Details Saved Successfully</source>
+				<target>FR_Action History Details Saved Successfully</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

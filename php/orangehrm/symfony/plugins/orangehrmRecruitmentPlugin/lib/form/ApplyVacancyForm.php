@@ -24,6 +24,18 @@ class ApplyVacancyForm extends BaseForm {
 	private $recruitmentAttachmentService;
 	public $attachment;
 	public $candidateId;
+	private $allowedFileTypes = array(
+	    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+	    "doc" => "application/msword",
+	    "doc" => "application/x-msword",
+	    "doc" => "application/vnd.ms-office",
+	    "odt" => "application/vnd.oasis.opendocument.text",
+	    "pdf" => "application/pdf",
+	    "pdf" => "application/x-pdf",
+	    "rtf" => "application/rtf",
+	    "rtf" => "text/rtf",
+	    "txt" => "text/plain"
+	);
 
 	/**
 	 *
@@ -76,7 +88,7 @@ class ApplyVacancyForm extends BaseForm {
 		    'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
 		    'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100)),
 		    'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-		    'resume' => new sfValidatorFile(array('required' => true, 'max_size' => 1024000)),
+		    'resume' => new sfValidatorFile(array('required' => true, 'max_size' => 1024000, 'validated_file_class' => 'orangehrmValidatedFile')),
 		    'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
 		    'comment' => new sfValidatorString(array('required' => false)),
 		    'vacancyList' => new sfValidatorString(array('required' => false)),
@@ -157,26 +169,28 @@ class ApplyVacancyForm extends BaseForm {
 	 */
 	protected function isValidResume($file) {
 
-		if (($file instanceof sfValidatedFile) && $file->getOriginalName() != "") {
+		$validFile = false;
+
+		$mimeTypes = array_values($this->allowedFileTypes);
+		$originalName = $file->getOriginalName();
+
+		if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
 
 			$fileType = $file->getType();
-			$allowedImageTypes[] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-			$allowedImageTypes[] = "application/msword";
-			$allowedImageTypes[] = "application/x-msword";
-			$allowedImageTypes[] = "application/vnd.oasis.opendocument.text";
-			$allowedImageTypes[] = "application/pdf";
-			$allowedImageTypes[] = "application/zip";
-			$allowedImageTypes[] = "application/x-pdf";
-			$allowedImageTypes[] = "application/rtf";
-			$allowedImageTypes[] = "text/rtf";
-			$allowedImageTypes[] = "text/plain";
 
-			if (!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
-				return false;
+			if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
+				$validFile = true;
 			} else {
-				return true;
+				$fileType = $this->guessTypeFromFileExtension($originalName);
+
+				if (!empty($fileType)) {
+					$file->setType($fileType);
+					$validFile = true;
+				}
 			}
 		}
+
+		return $validFile;
 	}
 
 	/**
@@ -223,6 +237,26 @@ class ApplyVacancyForm extends BaseForm {
 
 		$recruitmentAttachmentService = $this->getRecruitmentAttachmentService();
 		$recruitmentAttachmentService->saveCandidateAttachment($resume);
+	}
+
+	/**
+	 * Guess the file mime type from the file extension
+	 *
+	 * @param  string $file  The absolute path of a file
+	 *
+	 * @return string The mime type of the file (null if not guessable)
+	 */
+	public function guessTypeFromFileExtension($file) {
+
+		$mimeType = null;
+
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+		if (isset($this->allowedFileTypes[$extension])) {
+			$mimeType = $this->allowedFileTypes[$extension];
+		}
+
+		return $mimeType;
 	}
 
 }

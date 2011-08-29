@@ -252,26 +252,24 @@ class CandidateService extends BaseService {
     public function processCandidatesVacancyArray($toBeDeletedCandiateVacancies) {
 
         $candidateVacancies = array();
-        $candidateVacancyArray = array();
+        $candidateIds = array();
 
         if (!empty($toBeDeletedCandiateVacancies)) {
-
+		
             foreach ($toBeDeletedCandiateVacancies as $val) {
                 $candidateVacancies[] = explode("_", $val);
             }
 
             foreach ($candidateVacancies as $record) {
-                $vacancyIdsArray = array();
+                $candidateIds = array();
                 foreach ($candidateVacancies as $value) {
-                    if ($record[0] == $value[0]) {
-                        $vacancyIdsArray[] = $value[1];
-                    }
+			$candidateIds[] = $value[0];
                 }
-                $candidateVacancyArray[$record[0]] = array_unique($vacancyIdsArray);
             }
+	    $candidateIds = array_unique($candidateIds);
         }
 
-        return $candidateVacancyArray;
+        return $candidateIds;
     }
 
     /**
@@ -283,9 +281,9 @@ class CandidateService extends BaseService {
         $this->getEmployeeService()->addEmployee($employee);
     }
 
-    public function deleteCandidate($candidateId) {
+    public function deleteCandidate($candidateIds) {
 
-        return $this->candidateDao->deleteCandidates(array($candidateId));
+        return $this->candidateDao->deleteCandidates($candidateIds);
     }
 
     public function getCandidateListForUserRole($role, $empNumber) {
