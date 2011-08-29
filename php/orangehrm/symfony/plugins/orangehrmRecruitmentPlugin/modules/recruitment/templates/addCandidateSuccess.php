@@ -151,7 +151,7 @@
                             echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
                         } else {
                             $attachment = $form->attachment;
-                            $linkHtml = "<a target=\"_blank\" class=\"fileLink\" href=\"";
+                            $linkHtml = "<div id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"</div>";
                             $linkHtml .= url_for('recruitment/viewCandidateAttachment?attachId=' . $attachment->getId());
                             $linkHtml .= "\">{$attachment->getFileName()}</a>";
 

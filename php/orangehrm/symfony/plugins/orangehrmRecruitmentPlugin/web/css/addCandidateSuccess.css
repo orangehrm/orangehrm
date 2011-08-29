@@ -205,3 +205,7 @@ div.messageBalloon_success {
 .trHover{
     cursor: auto;
 }
+#fileLink{
+	margin-top: 10px;
+	padding-top: 8px;
+}
