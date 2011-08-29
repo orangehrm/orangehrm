@@ -61,7 +61,7 @@ $(document).ready(function() {
         var r = $.ajax({
             type: 'POST',
             url: getActivitiesLink,
-             data: {
+            data: {
                 customerName: array[0],
                 projectName: array[1]
             },
@@ -335,7 +335,8 @@ $(document).ready(function() {
         var i;
         for (i=0; i < projectCount; i++) {
             arrayName = projectsArray[i].name.toLowerCase();
-
+            arrayName = $("<div/>").html(arrayName).text();
+       
             if (projectName == arrayName) {
                 temp = true;
                 break;
