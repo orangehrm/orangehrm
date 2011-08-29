@@ -122,7 +122,6 @@
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
             </div>
 
-<div class="paddingLeftRequired"><?php echo __('Click on a candidate name to perform actions') ?></div>
 
             <!-- confirmation box -->
             <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">

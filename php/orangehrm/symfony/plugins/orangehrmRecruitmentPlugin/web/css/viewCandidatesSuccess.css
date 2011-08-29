@@ -100,3 +100,10 @@ div.formbuttons {
 #btnSrch{
 	margin: 5px 0px 5px 10px;
 }
+
+#helpText{
+	vertical-align: bottom;
+	margin-top: 5px;
+	text-align: right;
+	padding-right: 5px;
+}

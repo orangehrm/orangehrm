@@ -24,6 +24,7 @@ function renderActionBar($buttons, $condition = true) {
             }
             ?>
         </div>
+	<div id="helpText"class="helpText"></div>
         <br class="clear" />
     </div>
 <?php
