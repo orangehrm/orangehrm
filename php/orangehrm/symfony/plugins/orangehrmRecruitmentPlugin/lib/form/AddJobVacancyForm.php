@@ -170,7 +170,7 @@ class AddJobVacancyForm extends BaseForm {
     public function getHiringManagerListAsJson() {
 
         $jsonArray = array();
-        $escapeCharSet = array(38, 39, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
+        $escapeCharSet = array(38, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
