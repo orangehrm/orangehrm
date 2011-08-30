@@ -19,15 +19,39 @@
 
 class viewJobsAction extends sfAction {
     
+    private $vacancyService;
+    
+    /**
+     *
+     * @return <type>
+     */
+    public function getVacancyService() {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+            $this->vacancyService->setVacancyDao(new VacancyDao());
+        }
+        return $this->vacancyService;
+    }
+    
+    /**
+     * Execute Action. Has optional request parameter 'extension'
+     * Set in plugin routing.yml.
+     * 
+     * @param type $request 
+     */
     public function execute($request) {
         
-        $this->setLayout(false);
+        $this->setLayout(false);        
+        $this->publishedVacancies = $this->getVacancyService()->getPublishedVacancies();
         
-        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
-        $jobFeedUrl = public_path('job.rss', true);
-    
-        $this->feed = sfFeedPeer::createFromWeb($jobFeedUrl);
-
+        $extension = $this->getRequestParameter('extension');   
+        
+        if ($extension == 'rss') {
+            $response = $this->getResponse();
+            $response->setContentType('text/xml');
+        }
+        return sfView::SUCCESS . '.' . $extension;
+        
     }
     
 }

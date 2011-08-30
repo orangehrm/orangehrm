@@ -130,6 +130,24 @@ class VacancyDao extends BaseDao {
     }
 
     /**
+     * Get list of vacancies published to web/rss
+     * 
+     * @return type Array of JobVacancy objects
+     * @throws RecruitmentException
+     */
+    public function getPublishedVacancies() {
+        try {
+            $q = Doctrine_Query :: create()
+                         ->from('JobVacancy')
+                         ->where('published_in_feed = ? ', JobVacancy::PUBLISHED)
+                         ->andWhere('status = ?', JobVacancy::ACTIVE);            
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+        
+    /**
      * Retrieve vacancy list
      * @returns doctrine collection
      * @throws DaoException

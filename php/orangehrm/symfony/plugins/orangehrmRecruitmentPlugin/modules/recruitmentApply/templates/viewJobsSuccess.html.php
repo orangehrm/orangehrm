@@ -45,13 +45,13 @@
                         <h2><?php echo __('Latest Jobs'); ?></h2>
                     </div>
 
-                    <?php if(count($feed->getItems()) != 0): ?>
+                    <?php if(count($publishedVacancies) != 0): ?>
                     
                         <div id="toggleJobList">
                             <span id="expandJobList"><?php echo __('Expand all') ?></span> | <span id="collapsJobList"><?php echo __('Collapse all'); ?></span>
                         </div>
 
-                        <?php foreach ($feed->getItems() as $job): ?>
+                        <?php foreach ($publishedVacancies as $vacancy): ?>
 
                             <div class="plusOrMinusmark">
                                 <span class="plusMark">[+]</span><span class="minusMark">[-]</span>
@@ -60,14 +60,14 @@
                             <div class="jobItem">
                                 
                                 <div class="vacancyTitle">
-                                    <h3><?php echo $job->getTitle(); ?></h3>
+                                    <h3><?php echo $vacancy->getName(); ?></h3>
                                 </div>
                                 
-                                <pre class="vacancyShortDescription"><?php echo getShortDescription($job->getDescription(), 250, "..."); ?></pre>
-                                <pre class="vacancyDescription"><?php echo $job->getDescription(); ?></pre>
+                                <pre class="vacancyShortDescription"><?php echo getShortDescription($vacancy->getDescription(), 250, "..."); ?></pre>
+                                <pre class="vacancyDescription"><?php echo $vacancy->getDescription(); ?></pre>
                                 
                                 <input type="button" class="apply" name="applyButton" value="<?php echo __("Apply"); ?>" onmouseout="moutButton(this);" onmouseover="moverButton(this);" />
-                                <a href="<?php echo $job->getLink(); ?>" class="applyLink"></a>
+                                <a href="<?php echo public_path('index.php/recruitmentApply/applyVacancy/id/'.$vacancy->getId(), true); ?>" class="applyLink"></a>
                                 
                             </div>
                             <hr class="verticalLine" />

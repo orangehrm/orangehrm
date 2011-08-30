@@ -137,6 +137,26 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Testing getPublishedVacancies()
+	 */
+	public function testGetPublishedVacancies() {
+
+		$allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
+		$publishedActiveList = array($allVacancyList[0], $allVacancyList[2]);
+
+		$vacancyDao = $this->getMock('VacancyDao');
+
+		$vacancyDao->expects($this->once())
+			->method('getPublishedVacancies')
+			->will($this->returnValue($publishedActiveList));
+
+		$this->vacancyService->setVacancyDao($vacancyDao);
+
+		$readVacancyList = $this->vacancyService->getPublishedVacancies();
+		$this->assertEquals($readVacancyList, $publishedActiveList);
+	}
+        
+	/**
 	 * Testing testGetVacancyList
 	 */
 	public function testSaveJobVacancy() {

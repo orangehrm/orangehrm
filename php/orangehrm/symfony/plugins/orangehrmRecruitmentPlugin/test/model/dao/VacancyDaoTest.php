@@ -106,6 +106,34 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($vacancyList[0] instanceof JobVacancy);
 	}
     
+	/**
+	 * Testing getPublishedVacancies()
+	 */
+	public function testGetPublishedVacancies() {
+            
+            // Get Published, active objects from fixture
+            
+            $allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
+            $publishedActiveList = array();
+            
+            foreach($allVacancyList as $vacancy) {
+                if (($vacancy->getStatus() == JobVacancy::ACTIVE) &&
+                        ($vacancy->getPublishedInFeed() == JobVacancy::PUBLISHED)) {
+                    $publishedActiveList[] = $vacancy;
+                }
+            }
+            
+            // Get Vacancy list and compare with fixture
+            $vacancyList = $this->vacancyDao->getPublishedVacancies();
+            
+            $this->assertEquals(count($vacancyList), count($publishedActiveList));
+            
+            foreach($vacancyList as $vacancy) {
+                $this->assertEquals(JobVacancy::ACTIVE, $vacancy->getStatus());
+                $this->assertTrue($vacancy->getPublishedInFeed());
+            }
+	}
+        
     /**
 	 * Testing getVacancyList for correct number of objects
 	 */

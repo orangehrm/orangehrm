@@ -85,6 +85,16 @@ class VacancyService extends BaseService {
 	public function getAllVacancies($status = "") {
 		return $this->getVacancyDao()->getAllVacancies($status);
 	}
+        
+        /**
+         * Get list of vacancies published to web/rss
+         * 
+         * @return type Array of JobVacancy objects
+         * @throws RecruitmentException
+         */
+        public function getPublishedVacancies() {
+            return $this->getVacancyDao()->getPublishedVacancies();
+        }
 
 	/**
 	 * Retrieve vacancy list
