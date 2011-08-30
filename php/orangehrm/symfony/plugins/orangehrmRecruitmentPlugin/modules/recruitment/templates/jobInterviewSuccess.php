@@ -136,5 +136,6 @@
     var lang_save = "<?php echo __("Save"); ?>";
     var lang_back = "<?php echo __("Back"); ?>";
     var lang_cancel = "<?php echo __("Cancel"); ?>";
+    var editHiringManager = "<?php echo $editHiringManager; ?>";
     //]]>
 </script>
