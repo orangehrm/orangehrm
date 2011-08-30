@@ -685,15 +685,17 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                    ('76','2','JOB OFFERED','HIRING MANAGER','3','REJECTED'),
                                    ('77','2','JOB OFFERED','HIRING MANAGER','9','HIRED'),
                                    ('78','2','OFFER DECLINED','HIRING MANAGER','3','REJECTED'),
-                                   ('79','2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED'),
-                                   ('80','2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'),
-                                    ('81','1','INITIAL','ADMIN','5','PUNCHED IN'),
-                                    ('82','1','PUNCHED IN','ADMIN','6','PUNCHED OUT'),
-                                    ('83','1','PUNCHED IN','ADMIN','2','PUNCHED IN'),
-                                    ('84','1','PUNCHED IN','ADMIN','7','N/A'),
-                                    ('85','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
-                                    ('86','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
-                                    ('87','1','PUNCHED OUT','ADMIN','7','N/A');
+                                   ('79','2','1ST INTERVIEW SCHEDULED','INTERVIEWER','5','1ST INTERVIEW PASSED'),
+                                   ('80','2','1ST INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'),
+                                   ('81','2','2ND INTERVIEW SCHEDULED','INTERVIEWER','5','2ND INTERVIEW PASSED'),
+                                   ('82','2','2ND INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'),
+                                    ('83','1','INITIAL','ADMIN','5','PUNCHED IN'),
+                                    ('84','1','PUNCHED IN','ADMIN','6','PUNCHED OUT'),
+                                    ('85','1','PUNCHED IN','ADMIN','2','PUNCHED IN'),
+                                    ('86','1','PUNCHED IN','ADMIN','7','N/A'),
+                                    ('87','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
+                                    ('88','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
+                                    ('89','1','PUNCHED OUT','ADMIN','7','N/A');
                                     
 INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) WHERE whereCondition2'),
                                        (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#');
