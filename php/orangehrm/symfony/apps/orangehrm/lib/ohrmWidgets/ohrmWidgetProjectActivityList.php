@@ -116,6 +116,7 @@ EOF
 
         $projectService = new ProjectService();
         $projectList = $projectService->getProjectList();
+        $projectId = -1;
 
         foreach ($projectList as $project) {
 
