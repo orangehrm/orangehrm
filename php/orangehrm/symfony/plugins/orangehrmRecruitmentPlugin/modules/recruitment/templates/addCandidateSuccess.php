@@ -279,4 +279,5 @@
                                     var removeAction = '<?php echo JobCandidateVacancy::REMOVE; ?>';
                                     var lang_remove =  '<?php echo __("Remove"); ?>';
                                     var lang_editCandidateTitle = "<?php echo __('Edit Candidate'); ?>";
+                                    var editRights = "<?php echo $edit; ?>";
 </script>

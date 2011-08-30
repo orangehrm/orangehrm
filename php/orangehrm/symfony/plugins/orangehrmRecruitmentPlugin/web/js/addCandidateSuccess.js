@@ -92,8 +92,9 @@ $(document).ready(function() {
             for(i=0; i < widgetList.length; i++) {
                 $(widgetList[i]).removeAttr("disabled");
             }
+            $('.actionDrpDown').removeAttr("disabled");
             $(".vacancyDrop").each(function(){
-                if($.inArray($(this).attr('id'), toDisable) > -1){                 
+                if($.inArray($(this).attr('id'), toDisable) > -1){
                     $(this).attr('disabled', 'disabled');
                 }
             });
@@ -117,8 +118,8 @@ $(document).ready(function() {
                 
                 } else {
                     $('form#frmAddCandidate').submit();
-                }         
-            }       
+                }
+            }
         }
 
     });
@@ -148,10 +149,14 @@ $(document).ready(function() {
     });
     
     if(candidateId != ""){
-        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop', '.actionDrpDown',
+        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop',
             '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
         for(i=0; i < widgetList.length; i++) {
             $(widgetList[i]).attr("disabled", "disabled");
+        }
+
+        if(editRights == 1){
+            $('.actionDrpDown').attr("disabled", "disabled");
         }
         $('#fileUploadSection').hide();
         $('#radio').hide();
