@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
@@ -37,7 +36,7 @@ $styleSheet = CommonFunctions::getTheme();
 $_SESSION['styleSheet'] = $styleSheet;
 
 $wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
-$_SESSION['WPATH']= $wpath[0];
+$_SESSION['WPATH'] = $wpath[0];
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
@@ -49,17 +48,17 @@ $_SESSION['ldap'] = "disabled";
 $_SESSION['ldapStatus'] = "disabled";
 
 if (file_exists($ldapFile)) {
-	require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
-	require_once ROOT_PATH . '/plugins/PlugInFactory.php';
-	$_SESSION['ldap'] = "enabled";
-	require_once $ldapFile;
-	$ldap = PlugInFactory::factory("LDAP");
-	if($ldap->checkAuthorizeLoginUser("Admin") && $ldap->checkAuthorizeModule("Admin")){
-		$ldapStatus = $ldap->retrieveLdapStatus();
-		$_SESSION['ldapStatus'] = $ldapStatus;
-	}else{
-		throw new PlugInFactoryException(PlugInFactoryException::PLUGIN_INSTALL_ERROR);
-	}
+    require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+    require_once ROOT_PATH . '/plugins/PlugInFactory.php';
+    $_SESSION['ldap'] = "enabled";
+    require_once $ldapFile;
+    $ldap = PlugInFactory::factory("LDAP");
+    if ($ldap->checkAuthorizeLoginUser("Admin") && $ldap->checkAuthorizeModule("Admin")) {
+        $ldapStatus = $ldap->retrieveLdapStatus();
+        $_SESSION['ldapStatus'] = $ldapStatus;
+    } else {
+        throw new PlugInFactoryException(PlugInFactoryException::PLUGIN_INSTALL_ERROR);
+    }
 }
 
 /* LDAP Module */
@@ -70,7 +69,7 @@ $benefitsFile = ROOT_PATH . "/plugins/printBenefits/pdfHspSummary.php";
 $_SESSION['printBenefits'] = "disabled";
 
 if (file_exists($benefitsFile)) {
-	$_SESSION['printBenefits'] = "enabled";
+    $_SESSION['printBenefits'] = "enabled";
 }
 
 /* Print Benefits Module */
@@ -78,104 +77,101 @@ if (file_exists($benefitsFile)) {
 /* Saving user time zone offset in session: Begins */
 
 if (!empty($_POST['hdnUserTimeZoneOffset'])) {
-	$_SESSION['userTimeZoneOffset'] = $_POST['hdnUserTimeZoneOffset'];
+    $_SESSION['userTimeZoneOffset'] = $_POST['hdnUserTimeZoneOffset'];
 } else {
-	$_SESSION['userTimeZoneOffset'] = 0;
+    $_SESSION['userTimeZoneOffset'] = 0;
 }
 
 /* Saving user time zone offset in session: Ends */
 
 if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
-	$login = new Login();
+    $login = new Login();
 
-	$rset=$login->filterUser(trim($_POST['txtUserName']));
+    $rset = $login->filterUser(trim($_POST['txtUserName']));
 
-	if (md5("") == $rset[0][1] && $_SESSION['ldapStatus'] == "enabled") {
-			$ldapAuth = $ldap->ldapAuth($rset[0][0], $_POST['txtPassword']);
-			if ($ldapAuth) { // stuff in normal login process
+    if (md5("") == $rset[0][1] && $_SESSION['ldapStatus'] == "enabled") {
+        $ldapAuth = $ldap->ldapAuth($rset[0][0], $_POST['txtPassword']);
+        if ($ldapAuth) { // stuff in normal login process
+            $_SESSION['ladpUser'] = true;
 
-				$_SESSION['ladpUser'] = true;
+            if ($rset[0][5] == 'Enabled') {
+                if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
+                    $_SESSION['user'] = $rset[0][3];
+                    $_SESSION['userGroup'] = $rset[0][4];
+                    $_SESSION['isAdmin'] = $rset[0][7];
+                    $_SESSION['empID'] = $rset[0][6]; // This is employee ID with leading zeros.
+                    $_SESSION['empNumber'] = $rset[0][9]; // This is the real employee ID (emp_number) with no padding.
 
-				if ($rset[0][5]=='Enabled') {
-					if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
-						$_SESSION['user']=$rset[0][3];
-						$_SESSION['userGroup']=$rset[0][4];
-						$_SESSION['isAdmin']=$rset[0][7];
-						$_SESSION['empID']=$rset[0][6]; // This is employee ID with leading zeros.
-						$_SESSION['empNumber']=$rset[0][9]; // This is the real employee ID (emp_number) with no padding.
+                    $_SESSION['fname'] = $rset[0][2];
 
-						$_SESSION['fname']=$rset[0][2];
+                    /* If not an admin user, check if a supervisor and/or project admin */
+                    $isSupervisor = false;
+                    $isProjectAdmin = false;
+                    $isManager = false;
+                    $isDirector = false;
+                    $isAcceptor = false;
+                    $isOfferer = false;
+                    $isHiringManager = false;
+                    $isInterviewer = false;
 
-						/* If not an admin user, check if a supervisor and/or project admin */
-						$isSupervisor = false;
-						$isProjectAdmin = false;
-                		$isManager = false;
-		                $isDirector = false;
-		                $isAcceptor = false;
-		                $isOfferer = false;
-                		$isHiringManager = false;
-                		$isInterviewer = false;
+                    if ($_SESSION['isAdmin'] == 'No') {
 
-						if ($_SESSION['isAdmin'] == 'No') {
+                        $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+                        $isSupervisor = $authorizeObj->isSupervisor();
+                        $isProjectAdmin = $authorizeObj->isProjectAdmin();
+                        $isManager = $authorizeObj->isManager();
+                        $isDirector = $authorizeObj->isDirector();
+                        $isAcceptor = $authorizeObj->isAcceptor();
+                        $isOfferer = $authorizeObj->isOfferer();
+                        $isHiringManager = $authorizeObj->isHiringManager();
+                        $isInterviewer = $authorizeObj->isInterviewer();
+                    }
 
-						$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-						$isSupervisor = $authorizeObj->isSupervisor();
-						$isProjectAdmin = $authorizeObj->isProjectAdmin();
-                    	$isManager = $authorizeObj->isManager();
-	                    $isDirector = $authorizeObj->isDirector();
-	                    $isAcceptor = $authorizeObj->isAcceptor();
-	                    $isOfferer = $authorizeObj->isOfferer();
-                    	$isHiringManager = $authorizeObj->isHiringManager();
-                    	$isInterviewer = $authorizeObj->isInterviewer();
+                    $_SESSION['isSupervisor'] = $isSupervisor;
+                    $_SESSION['isProjectAdmin'] = $isProjectAdmin;
+                    $_SESSION['isManager'] = $isManager;
+                    $_SESSION['isDirector'] = $isDirector;
+                    $_SESSION['isAcceptor'] = $isAcceptor;
+                    $_SESSION['isOfferer'] = $isOfferer;
+                    $_SESSION['isHiringManager'] = $isHiringManager;
+                    $_SESSION['isInterviewer'] = $isInterviewer;
 
-					}
+                    $wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
+                    $_SESSION['WPATH'] = $wpath[0];
 
-					$_SESSION['isSupervisor'] = $isSupervisor;
-					$_SESSION['isProjectAdmin'] = $isProjectAdmin;
-                	$_SESSION['isManager'] = $isManager;
-					$_SESSION['isDirector'] = $isDirector;
-					$_SESSION['isAcceptor'] = $isAcceptor;
-					$_SESSION['isOfferer'] = $isOfferer;
-                	$_SESSION['isHiringManager'] = $isHiringManager;
-                	$_SESSION['isInterviewer'] = $isInterviewer;
+                    // TODO: Can set user specific stylesheet here.
+                    $_SESSION['styleSheet'] = $styleSheet;
 
-					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
-					$_SESSION['WPATH']= $wpath[0];
+                    setcookie('Loggedin', 'True', 0, '/');
 
-					// TODO: Can set user specific stylesheet here.
-					$_SESSION['styleSheet'] = $styleSheet;
+                    header("Location: ./index.php");
+                } else {
+                    $InvalidLogin = 3;
+                }
+            } else {
+                $InvalidLogin = 2;
+            }
+        } else {
+            $InvalidLogin = 1;
+        }
+    } else if (md5($_POST['txtPassword']) == $rset[0][1]) {
+        if ($rset[0][8] == EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
+            $InvalidLogin = 5;
+        } else if ($rset[0][5] == 'Enabled') {
+            if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
+                $_SESSION['user'] = $rset[0][3];
+                $_SESSION['userGroup'] = $rset[0][4];
+                $_SESSION['isAdmin'] = $rset[0][7];
+                $_SESSION['empID'] = $rset[0][6]; // This is employee ID with leading zeros.
+                $_SESSION['empNumber'] = $rset[0][9]; // This is the real employee ID (emp_number) with no padding.
 
-					setcookie('Loggedin', 'True', 0, '/');
+                $_SESSION['fname'] = $rset[0][2];
 
-					header("Location: ./index.php");
-					} else {
-						$InvalidLogin=3;
-					}
-				} else {
-					$InvalidLogin=2;
-				}
-			} else {
-				$InvalidLogin = 1;
-			}
-
-	}else if (md5($_POST['txtPassword']) == $rset[0][1]) {
-		if ($rset[0][8] == EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
-			$InvalidLogin=5;
-		} else if ($rset[0][5]=='Enabled') {
-			if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
-				$_SESSION['user']=$rset[0][3];
-				$_SESSION['userGroup']=$rset[0][4];
-				$_SESSION['isAdmin']=$rset[0][7];
-				$_SESSION['empID']=$rset[0][6]; // This is employee ID with leading zeros.
-				$_SESSION['empNumber']=$rset[0][9]; // This is the real employee ID (emp_number) with no padding.
-
-				$_SESSION['fname']=$rset[0][2];
-
-				/* If not an admin user, check if a supervisor and/or project admin */
-				$isSupervisor = false;
-				$isProjectAdmin = false;
-           		$isManager = false;
+                /* If not an admin user, check if a supervisor and/or project admin */
+                $isSupervisor = false;
+                $isProjectAdmin = false;
+                $isManager = false;
                 $isDirector = false;
                 $isAcceptor = false;
                 $isOfferer = false;
@@ -183,53 +179,84 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 $isInterviewer = false;
 
 
-				if ($_SESSION['isAdmin'] == 'No') {
+                if ($_SESSION['isAdmin'] == 'No') {
 
-					$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-					$isSupervisor = $authorizeObj->isSupervisor();
-					$isProjectAdmin = $authorizeObj->isProjectAdmin();
-                   	$isManager = $authorizeObj->isManager();
+                    $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+                    $isSupervisor = $authorizeObj->isSupervisor();
+                    $isProjectAdmin = $authorizeObj->isProjectAdmin();
+                    $isManager = $authorizeObj->isManager();
                     $isDirector = $authorizeObj->isDirector();
                     $isAcceptor = $authorizeObj->isAcceptor();
                     $isOfferer = $authorizeObj->isOfferer();
                     $isHiringManager = $authorizeObj->isHiringManager();
                     $isInterviewer = $authorizeObj->isInterviewer();
-
-				}
-				$_SESSION['isSupervisor'] = $isSupervisor;
-				$_SESSION['isProjectAdmin'] = $isProjectAdmin;
+                }
+                $_SESSION['isSupervisor'] = $isSupervisor;
+                $_SESSION['isProjectAdmin'] = $isProjectAdmin;
                 $_SESSION['isManager'] = $isManager;
-				$_SESSION['isDirector'] = $isDirector;
-				$_SESSION['isAcceptor'] = $isAcceptor;
-				$_SESSION['isOfferer'] = $isOfferer;
+                $_SESSION['isDirector'] = $isDirector;
+                $_SESSION['isAcceptor'] = $isAcceptor;
+                $_SESSION['isOfferer'] = $isOfferer;
                 $_SESSION['isHiringManager'] = $isHiringManager;
                 $_SESSION['isInterviewer'] = $isInterviewer;
 
-				$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
-				$_SESSION['WPATH']= $wpath[0];
+                $wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
+                $_SESSION['WPATH'] = $wpath[0];
 
-				// TODO: Can set user specific stylesheet here.
-				$_SESSION['styleSheet'] = $styleSheet;
+                // TODO: Can set user specific stylesheet here.
+                $_SESSION['styleSheet'] = $styleSheet;
 
-				setcookie('Loggedin', 'True', 0, '/');
+                setcookie('Loggedin', 'True', 0, '/');
 
-				header("Location: ./index.php");
-			} else {
-				$InvalidLogin=3;
-			}
-		} else $InvalidLogin=2;
-	} else {
-		$InvalidLogin=1;
-	}
+                header("Location: ./index.php");
+            } else {
+                $InvalidLogin = 3;
+            }
+        } else
+            $InvalidLogin=2;
+    } else {
+        $InvalidLogin = 1;
+    }
 }
-
 ?>
 <html>
     <head>
         <title><?php echo $lang_login_title; ?></title>
         <link href="favicon.ico" rel="icon" type="image/gif"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="scripts/jquery/jquery.js"></script>
         <script type="text/javascript">
+
+            function addHint(inputObject, hintImageURL) {
+                inputObject.css('background', "url('" + hintImageURL + "') no-repeat 4px 2px");
+            }
+            
+            function removeHint(inputObject) {
+                inputObject.css('background', '');
+            }
+            $(document).ready(function() {
+            
+                addHint($('#txtUserName'), 'themes/orange/images/login/username-hint.png');
+                addHint($('#txtPassword'), 'themes/orange/images/login/password-hint.png');
+                
+                $('#txtUserName').keyup(function() {
+                    if ($(this).val() == '') {
+                        addHint($(this), 'themes/orange/images/login/username-hint.png');
+                    } else {
+                        removeHint($(this));
+                    }
+                });
+                
+                $('#txtPassword').keyup(function() {
+                    if ($(this).val() == '') {
+                        addHint($(this), 'themes/orange/images/login/password-hint.png');
+                    } else {
+                        removeHint($(this));
+                    }
+                });
+        
+            });
 
             function submitForm() {
 
@@ -282,47 +309,47 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 vertical-align: middle;
                 padding-top:0;
             }
-            
+
             div#login {
-                background-image: url(themes/<?php echo $styleSheet;?>/images/login/login.png);
+                background-image: url(themes/<?php echo $styleSheet; ?>/images/login/login.png);
                 height: 700px;
                 width: 1000px;
                 border-style: hidden;
                 margin: auto;
                 padding-left: 10px;
             }
-            
+
             div#username {
                 padding-top: 154px;
                 padding-left: 510px;
             }
-            
+
             div#password {
                 padding-top: 38px;
                 padding-left: 510px;
             }
-            
+
             input#txtUserName {
                 width: 240px;
                 border: 0px;
                 background-color:transparent;
             }
-            
+
             input#txtPassword {
                 width: 240px;
                 border: 0px;
                 background-color:transparent;
             }
-            
+
             div#loginButton {
                 padding-top: 36px;
                 padding-left: 506px;
                 float: left;
                 width: 130px;
             }
-            
-           .button {
-                background: url(themes/<?php echo $styleSheet;?>/images/login/Login_button.png) no-repeat;
+
+            .button {
+                background: url(themes/<?php echo $styleSheet; ?>/images/login/Login_button.png) no-repeat;
                 cursor:pointer;
                 width: 94px;
                 height: 23px;
@@ -332,7 +359,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 color: #DD7700;
 
             }
-            
+
             div#validtaeMsg {
                 padding-left: 660px; 
                 padding-top: 37px;
@@ -342,16 +369,16 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 background-color: transparent;
                 border: none;
             }
-            
+
             input:focus:not([readonly]):not([type="image"]), select:focus, textarea:focus {
                 background-color: transparent;
             }
-            
+
             div#link {
                 padding-left: 230px;
                 padding-top: 105px;
                 float: left;
-                
+
             }
             div#logo {
                 padding-left: 230px;
@@ -360,8 +387,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
             img {
                 border: none;
             }
-            
-            -->
+
         </style></head>
     <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
         <noscript>
@@ -377,24 +403,24 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
         <?php } ?>
 
         <div id="login">
-            
+
             <div id="logo">
                 <img src="themes/<?php echo $styleSheet; ?>/images/login/logo.png">
             </div>
             <form name="loginForm" id="loginForm" class="loginForm" method="post" action="./login.php" onSubmit="submitForm(); return false;">
                 <input type="hidden" name="actionID"/>
-            <input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="" />
+                <input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="" />
                 <div id="username" class="bodyTXT">
-                <?php if (isset($_POST['txtUserName'])) { ?>
-                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1"/>
-                <?php } else { ?>
-                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" tabindex="1"/>
-                <?php } ?>
+                    <?php if (isset($_POST['txtUserName'])) { ?>
+                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1" />
+                    <?php } else { ?>
+                        <input id="txtUserName" name="txtUserName" type="text" class="loginText" tabindex="1" />
+                    <?php } ?>
                 </div>
 
                 <div id="password" class="bodyTXT"><input type="password" id="txtPassword" name="txtPassword" class="loginText"></div>
                 <div id="loginButton">
-                    <input type="Submit" name="Submit" class="button" value=""/></div>                    
+                    <input type="Submit" name="Submit" class="button" id="loginBtn" value=""/></div>                    
                 <?php
                 if (isset($InvalidLogin)) {
                     switch ($InvalidLogin) {
@@ -422,28 +448,28 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 }
                 ?>
                 <div id="validtaeMsg">
-                    <?php if ($InvalidLoginMes != "&nbsp;") :?>
-                    <img id="validationMark" src="themes/<?php echo $styleSheet;?>/images/login/mark.png">
-                    <?php endif;?>
+                    <?php if ($InvalidLoginMes != "&nbsp;") : ?>
+                        <img id="validationMark" src="themes/<?php echo $styleSheet; ?>/images/login/mark.png">
+                    <?php endif; ?>
                     <strong ><font id="validationMsg"><?php echo $InvalidLoginMes; ?></font></strong>
                 </div>
             </form>
             <?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
             <?php if (strstr($browser, "MSIE 8.0")): ?>
-            <?php  $footer = 'width: 700px' ?>
-            <?php  $socialNetwork = 'padding-top: 100px' ?>
+                <?php $footer = 'width: 700px' ?>
+                <?php $socialNetwork = 'padding-top: 100px' ?>
             <?php else: ?>
-            <?php  $footer = 'width: 475px' ?>
-            <?php  $socialNetwork = 'padding-top: 110px' ?>
+                <?php $footer = 'width: 475px' ?>
+                <?php $socialNetwork = 'padding-top: 110px' ?>
 
             <?php endif; ?>
             <div id="footer" >
-                <div id="link" style="<?php echo $footer?>"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7-rc.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
-                <div id="socialNetwork" style="<?php echo $socialNetwork?>">
-                    <a href="http://www.linkedin.com/groups?home=&gid=891077" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/linkedin.png"></a>&nbsp;
-                    <a href="http://www.facebook.com/OrangeHRM" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/facebook.png"></a>&nbsp;
-                    <a href="http://twitter.com/orangehrm" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/twiter.png"></a>&nbsp;
-                    <a href="http://www.youtube.com/results?search_query=orangehrm&search_type=" target="_blank"><img src="themes/<?php echo $styleSheet;?>/images/login/youtube.png"></a>&nbsp;
+                <div id="link" style="<?php echo $footer ?>"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7-rc.1 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
+                <div id="socialNetwork" style="<?php echo $socialNetwork ?>">
+                    <a href="http://www.linkedin.com/groups?home=&gid=891077" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/linkedin.png"></a>&nbsp;
+                    <a href="http://www.facebook.com/OrangeHRM" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/facebook.png"></a>&nbsp;
+                    <a href="http://twitter.com/orangehrm" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/twiter.png"></a>&nbsp;
+                    <a href="http://www.youtube.com/results?search_query=orangehrm&search_type=" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/youtube.png"></a>&nbsp;
                 </div>
             </div>
         </div>
