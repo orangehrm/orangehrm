@@ -94,16 +94,19 @@ div.formbuttons {
 }
 
 .trHover{
-	cursor: auto;
+    cursor: auto;
 }
 
 #btnSrch{
-	margin: 5px 0px 5px 10px;
+    margin: 5px 0px 5px 10px;
 }
 
-#helpText{
-	vertical-align: bottom;
-	margin-top: 5px;
-	text-align: right;
-	padding-right: 5px;
+#frmList_ohrmListComponent div.actionbar div#helpText.helpText{
+    text-align: left;
+}
+
+#helpMessage{
+    padding-top: 0px;
+    padding-bottom: 3px;
+    padding-left: 5px;
 }
