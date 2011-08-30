@@ -267,10 +267,12 @@
                                     var lang_noMoreThan255 = "<?php echo __("Please enter no more than 255 characters"); ?>";
                                     var lang_edit = "<?php echo __("Edit"); ?>";
                                     var lang_save = "<?php echo __("Save"); ?>";
+                                    var lang_cancel = "<?php echo __("Cancel"); ?>";
                                     var candidateId = "<?php echo $candidateId; ?>";
                                     var attachment = "<?php echo $form->attachment; ?>"
                                     var changeStatusUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
                                     var backBtnUrl = '<?php echo url_for('recruitment/viewCandidates?'); ?>';
+                                    var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
                                     var interviewUrl = '<?php echo url_for('recruitment/jobInterview?'); ?>';
                                     var interviewAction = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW; ?>';
                                     var removeAction = '<?php echo JobCandidateVacancy::REMOVE; ?>';

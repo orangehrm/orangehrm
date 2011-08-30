@@ -42,36 +42,36 @@ $(document).ready(function() {
             }
         }
     });
-if(allowedVacancylist.length -1 == nextId){
-    $('.addText').hide();
-}
-if($('.vacancyDrop').length == 1){
-    $('.removeText').hide();
-}else{
-    $('.removeText').show();
-}
-$('.removeText').live('click', function(){
-    result = /\d+(?:\.\d+)?/.exec(this.id);
-    if(vacancyString.trim() != ""){
-        if($("#btnSave").attr('value') == lang_edit){
-        }else{
-            $('#deleteConfirmation').dialog('open');
-        }
+    if(allowedVacancylist.length -1 == nextId){
+        $('.addText').hide();
     }
-    else{
-        $('#jobDropDown'+result).remove();
-        $("#addButton"+($('.vacancyDrop').length-1)).show();
-        $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
-        if(result == $('.vacancyDrop').length-1){
-            $("#addButton"+(nextId-1)).show();
-            $("#removeButton"+(nextId-1)).css("padding-left", "128px");
-        }
-        nextId--;
+    if($('.vacancyDrop').length == 1){
+        $('.removeText').hide();
+    }else{
+        $('.removeText').show();
     }
-});
+    $('.removeText').live('click', function(){
+        result = /\d+(?:\.\d+)?/.exec(this.id);
+        if(vacancyString.trim() != ""){
+            if($("#btnSave").attr('value') == lang_edit){
+            }else{
+                $('#deleteConfirmation').dialog('open');
+            }
+        }
+        else{
+            $('#jobDropDown'+result).remove();
+            $("#addButton"+($('.vacancyDrop').length-1)).show();
+            $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
+            if(result == $('.vacancyDrop').length-1){
+                $("#addButton"+(nextId-1)).show();
+                $("#removeButton"+(nextId-1)).css("padding-left", "128px");
+            }
+            nextId--;
+        }
+    });
 
-//Load default Mask if empty
-var date = trim($("#addCandidate_appliedDate").val());
+    //Load default Mask if empty
+    var date = trim($("#addCandidate_appliedDate").val());
     //Bind date picker
     daymarker.bindElement("#addCandidate_appliedDate",
     {
@@ -100,6 +100,7 @@ var date = trim($("#addCandidate_appliedDate").val());
             $('#radio').show();
             $('#addCandidate_resumeUpdate_1').attr('checked', 'checked');
             $("#btnSave").attr('value', lang_save);
+            $("#btnBack").attr('value', lang_cancel);
             
         } else {
             
@@ -121,7 +122,7 @@ var date = trim($("#addCandidate_appliedDate").val());
         }
 
     });
-
+    
     $("input[name=addCandidate[resumeUpdate]]").click(function () {
         if(attachment != "" && !$('#addCandidate_resumeUpdate_3').attr("checked")){
             $('#addCandidate_resume').val("");
@@ -174,7 +175,11 @@ var date = trim($("#addCandidate_appliedDate").val());
     });
 
     $('#btnBack').click(function(){
-        window.location.replace(backBtnUrl+'?candidateId='+candidateId);
+        if($("#btnBack").attr('value') == lang_cancel){
+            window.location.replace(cancelBtnUrl+'?id='+candidateId);
+        }else{
+            window.location.replace(backBtnUrl+'?candidateId='+candidateId);
+        }
     });
     
     $('#deleteConfirmation').dialog({

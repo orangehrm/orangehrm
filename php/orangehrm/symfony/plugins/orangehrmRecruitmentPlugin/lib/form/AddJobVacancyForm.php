@@ -18,7 +18,6 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
 class AddJobVacancyForm extends BaseForm {
 
     private $vacancyService;
@@ -91,7 +90,7 @@ class AddJobVacancyForm extends BaseForm {
             if ($vacancy->getStatus() == JobVacancy::ACTIVE) {
                 $this->setDefault('status', $vacancy->getStatus());
             }
-            if($vacancy->getPublishedInFeed() == JobVacancy::PUBLISHED) {
+            if ($vacancy->getPublishedInFeed() == JobVacancy::PUBLISHED) {
                 $this->setDefault('publishedInFeed', $vacancy->getStatus());
             }
         } else {
@@ -123,13 +122,13 @@ class AddJobVacancyForm extends BaseForm {
         if (!empty($status)) {
             $jobVacancy->status = JobVacancy::ACTIVE;
         }
-        
+
         $publishInFeed = $this->getValue('publishedInFeed');
         $jobVacancy->publishedInFeed = JobVacancy::NOT_PUBLISHED;
-        if(!empty($publishInFeed)) {
+        if (!empty($publishInFeed)) {
             $jobVacancy->publishedInFeed = JobVacancy::PUBLISHED;
-        }        
-        
+        }
+
         $this->getVacancyService()->saveJobVacancy($jobVacancy);
 
         return $jobVacancy->getId();
@@ -157,7 +156,9 @@ class AddJobVacancyForm extends BaseForm {
         $jobService = new JobService();
         $jobTitleList = $jobService->getJobTitleList();
         foreach ($jobTitleList as $jobTitle) {
-            $list[$jobTitle->getId()] = $jobTitle->getName();
+            if ($jobTitle->getIsActive() == JobTitle::JOB_STATUS_ACTIVE) {
+                $list[$jobTitle->getId()] = $jobTitle->getName();
+            }
         }
         return $list;
     }
@@ -174,11 +175,11 @@ class AddJobVacancyForm extends BaseForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $employeeList = $employeeService->getEmployeeList();
-        
+
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
-            
-            if($employee->getEmpStatus() != Employee::EMPLOYEE_STATUS_TERMINATED) {
+
+            if ($employee->getEmpStatus() != Employee::EMPLOYEE_STATUS_TERMINATED) {
                 if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
                     $name = $employee->getFirstName() . " " . $employee->getMiddleName();
