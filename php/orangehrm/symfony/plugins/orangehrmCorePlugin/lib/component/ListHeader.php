@@ -27,7 +27,7 @@ class ListHeader extends ComponentProperty {
     protected $elementProperty;
     protected $width;
     protected $isExportable = true;
-    protected $textAlignmentStyle;
+    protected $textAlignmentStyle = "left";
 
     public function getName() {
         return $this->name;
