@@ -23,153 +23,154 @@
  */
 class CandidateHistoryService {
 
-	private $interviewService;
+    private $interviewService;
 
+    public function getCandidateHistoryList($objects) {
+        $list = array();
+        foreach ($objects as $object) {
+            $list[] = $this->getCandidateHistoryRecord($object);
+        }
+        //die;
+        return $list;
+    }
 
-	public function getCandidateHistoryList($objects) {
-		$list = array();
-		foreach ($objects as $object) {
-			$list[] = $this->getCandidateHistoryRecord($object);
-		}
-		//die;
-		return $list;
-	}
+    public function getCandidateHistoryRecord($object) {
 
-	public function getCandidateHistoryRecord($object) {
+        $dto = new CandidateHistoryDto();
+        $dto->setId($object->getId());
+        $temp = explode(" ", $object->getPerformedDate());
+        $dto->setPerformedDate($temp[0]);
+        $dto->setVacancyName($object->getCandidateVacancyName());
+        $description = $this->getCandidateHistoryDescription($object);
+        $dto->setDescription($description);
+        $array = array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY);
+        $link = ($object->getCandidateVacancyId() == null || in_array($object->getAction(), $array) ? "" : __("View"));
+        $dto->setDetails($link);
 
-		$dto = new CandidateHistoryDto();
-		$dto->setId($object->getId());
-		$temp = explode(" ",$object->getPerformedDate());
-		$dto->setPerformedDate($temp[0]);
-		$dto->setVacancyName($object->getCandidateVacancyName());
-		$description = $this->getCandidateHistoryDescription($object);
-		$dto->setDescription($description);
-		$array = array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD,  CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY);
-		$link = ($object->getCandidateVacancyId() == null || in_array($object->getAction(),$array) ? "" : __("View"));
-		$dto->setDetails($link);
+        return $dto;
+    }
 
-		return $dto;
-	}
+    public function getCandidateHistoryDescription($object) {
+        $description = "";
+        switch ($object->getAction()) {
 
-	public function getCandidateHistoryDescription($object) {
-		$description = "";
-		switch ($object->getAction()) {
+            case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD:
+                $description = $this->getDescriptionForAdd($object);
+                break;
+            case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY:
+                $description = $this->getDescriptionForApply($object);
+                break;
+            case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE:
+                $description = $this->getDescriptionForRemove($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY:
+                $description = $this->getDescriptionForAttachVacancy($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
+                $description = $this->getDescriptionForShortList($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
+                $description = $this->getDescriptionForReject($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW:
+                $description = $this->getDescriptionForScheduleInterview($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW:
+                $description = $this->getDescriptionForScheduleInterview($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
+                $description = $this->getDescriptionForMarkInterviewPassed($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
+                $description = $this->getDescriptionForMarkInterviewFailed($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
+                $description = $this->getDescriptionForOfferJob($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
+                $description = $this->getDescriptionForDeclineOffer($object);
+                break;
+            case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
+                $description = $this->getDescriptionForHire($object);
+                break;
+        }
+        return $description;
+    }
 
-			case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD:
-				$description = $this->getDescriptionForAdd($object);
-				break;
-			case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY:
-				$description = $this->getDescriptionForApply($object);
-				break;
-			case CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE:
-				$description = $this->getDescriptionForRemove($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY:
-				$description = $this->getDescriptionForAttachVacancy($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
-				$description = $this->getDescriptionForShortList($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
-				$description = $this->getDescriptionForReject($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW:
-				$description = $this->getDescriptionForScheduleInterview($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
-				$description = $this->getDescriptionForMarkInterviewPassed($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
-				$description = $this->getDescriptionForMarkInterviewFailed($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
-				$description = $this->getDescriptionForOfferJob($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
-				$description = $this->getDescriptionForDeclineOffer($object);
-				break;
-			case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
-				$description = $this->getDescriptionForHire($object);
-				break;
-		}
-		return $description;
-	}
+    /** Description generator block begins * */
+    public function getDescriptionForAdd($object) {
+        return $object->getPerformerName() . " " . __("added") . " " . $object->getJobCandidate()->getFullName();
+    }
 
-	/** Description generator block begins * */
-	public function getDescriptionForAdd($object) {
-		return $object->getPerformerName() . " " . __("added")." ".$object->getJobCandidate()->getFullName();
-	}
+    public function getDescriptionForApply($object) {
+        return __("Applied for the") . " " . $object->getVacancyName();
+    }
 
-	public function getDescriptionForApply($object) {
-		return __("Applied for the") . " " . $object->getVacancyName();
-	}
+    public function getDescriptionForRemove($object) {
+        return $object->getPerformerName() . " " . __("removed") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the vacancy");
+    }
 
-	public function getDescriptionForRemove($object) {
-		return $object->getPerformerName() . " " . __("removed")." ".$object->getJobCandidate()->getFullName()." ".__("from the vacancy");
-	}
+    public function getDescriptionForAttachVacancy($object) {
+        return $object->getPerformerName() . " " . __("assigned the job vacancy");
+    }
 
-	public function getDescriptionForAttachVacancy($object) {
-		return $object->getPerformerName() . " " . __("assigned the job vacancy");
-	}
+    public function getDescriptionForShortList($object) {
+        return __("Shortlisted") . " " . __("by") . " " . $object->getPerformerName();
+    }
 
-	public function getDescriptionForShortList($object) {
-		return __("Shortlisted") . " " . __("by") . " " . $object->getPerformerName();
-	}
+    public function getDescriptionForReject($object) {
+        return $object->getPerformerName() . " " . __("rejected") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the vacancy");
+    }
 
-	public function getDescriptionForReject($object) {
-		return $object->getPerformerName() ." ". __("rejected")." ".$object->getJobCandidate()->getFullName()." ". __("from the vacancy");
-	}
+    public function getDescriptionForScheduleInterview($object) {
 
-	public function getDescriptionForScheduleInterview($object) {
-		
-		$interviewId = $object->getInterviewId();
-		$jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-		$interviewers =  $this->getInterviewService()->getInterviewersByInterviewId($interviewId);
-		if($jobInterview->getInterviewTime() == '00:00:00'){
-			$time = "";
-		} else {
-			$time = __("at") . " " . date('H:i', strtotime($jobInterview->getInterviewTime())) . " " ;
-		}
-		$interviewersNameList = array();
-		foreach ($interviewers as $interviewer) {
-			$interviewersNameList[] = $interviewer->getEmployee()->getFullName();
-		}
-		return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . $jobInterview->getInterviewDate()
-		. " " . $time.__("with") . " " . implode(", ", $interviewersNameList);
+        $interviewId = $object->getInterviewId();
+        $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
+        $interviewers = $this->getInterviewService()->getInterviewersByInterviewId($interviewId);
+        if ($jobInterview->getInterviewTime() == '00:00:00') {
+            $time = "";
+        } else {
+            $time = __("at") . " " . date('H:i', strtotime($jobInterview->getInterviewTime())) . " ";
+        }
+        $interviewersNameList = array();
+        foreach ($interviewers as $interviewer) {
+            $interviewersNameList[] = $interviewer->getEmployee()->getFullName();
+        }
+        return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . $jobInterview->getInterviewDate()
+        . " " . $time . __("with") . " " . implode(", ", $interviewersNameList);
+    }
 
-	}
+    public function getDescriptionForMarkInterviewPassed($object) {
+        $interviewId = $object->getInterviewId();
+        $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
+        return $object->getPerformerName() . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as passed");
+    }
 
-	public function getDescriptionForMarkInterviewPassed($object) {
-		$interviewId = $object->getInterviewId();
-		$jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-		return $object->getPerformerName() ." ".__("marked")." ".$jobInterview->getInterviewName()." ".__("as passed");
-	}
+    public function getDescriptionForMarkInterviewFailed($object) {
+        $interviewId = $object->getInterviewId();
+        $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
+        return $object->getPerformerName() . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as failed");
+    }
 
-	public function getDescriptionForMarkInterviewFailed($object) {
-		$interviewId = $object->getInterviewId();
-		$jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-		return $object->getPerformerName() ." ".__("marked")." ".$jobInterview->getInterviewName()." ".__("as failed");
-	}
+    public function getDescriptionForOfferJob($object) {
+        return $object->getPerformerName() . " " . __("offred the job");
+    }
 
-	public function getDescriptionForOfferJob($object) {
-		return $object->getPerformerName()." ".__("offred the job");
-	}
+    public function getDescriptionForDeclineOffer($object) {
+        return $object->getPerformerName() . " " . __("marked the offer as declined");
+    }
 
-	public function getDescriptionForDeclineOffer($object) {
-		return $object->getPerformerName()." ".__("marked the offer as declined");
-	}
+    public function getDescriptionForHire($object) {
+        return $object->getPerformerName() . " " . __("hired") . " " . $object->getJobCandidate()->getFullName();
+    }
 
-	public function getDescriptionForHire($object) {
-		return $object->getPerformerName()." ".__("hired")." ".$object->getJobCandidate()->getFullName();
-	}
-
-	public function getInterviewService() {
-		if (is_null($this->interviewService)) {
-			$this->interviewService = new JobInterviewService();
-			$this->interviewService->setJobInterviewDao(new JobInterviewDao());
-		}
-		return $this->interviewService;
-	}
+    public function getInterviewService() {
+        if (is_null($this->interviewService)) {
+            $this->interviewService = new JobInterviewService();
+            $this->interviewService->setJobInterviewDao(new JobInterviewDao());
+        }
+        return $this->interviewService;
+    }
 
 }
 

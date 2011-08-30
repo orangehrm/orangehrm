@@ -165,7 +165,7 @@ $(document).ready(function() {
         var candidateVacancyId = idList[1];
         var selectedAction = $(this).val();
         var url = changeStatusUrl;
-        if(selectedAction == interviewAction){
+        if(selectedAction == interviewAction || selectedAction == interviewAction2){
             url = interviewUrl;
         }
         if(selectedAction == removeAction){

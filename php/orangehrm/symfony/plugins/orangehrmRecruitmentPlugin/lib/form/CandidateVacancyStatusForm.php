@@ -122,7 +122,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$candidateHistory->setAction($this->selectedAction);
 		$candidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		if (!empty($interview)) {
-			if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
+			if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
 				$candidateHistory->setInterviewId($interview->getId());
 			}
 		}

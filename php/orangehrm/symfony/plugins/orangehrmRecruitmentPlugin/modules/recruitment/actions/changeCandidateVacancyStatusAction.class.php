@@ -63,7 +63,7 @@ class changeCandidateVacancyStatusAction extends sfAction {
 			$history = $this->getCandidateService()->getCandidateHistoryById($id);
 			$action = $history->getAction();
 			$this->interviewId = $history->getInterviewId();
-			if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW) {
+			if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW ) {
 				if ($this->getUser()->hasFlash('templateMessage')) {
 					list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 					$this->getUser()->setFlash('templateMessage', array($this->messageType, $this->message));

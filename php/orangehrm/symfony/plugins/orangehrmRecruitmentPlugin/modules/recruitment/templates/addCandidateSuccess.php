@@ -275,6 +275,7 @@
                                     var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
                                     var interviewUrl = '<?php echo url_for('recruitment/jobInterview?'); ?>';
                                     var interviewAction = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW; ?>';
+                                    var interviewAction2 = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW; ?>';
                                     var removeAction = '<?php echo JobCandidateVacancy::REMOVE; ?>';
                                     var lang_remove =  '<?php echo __("Remove"); ?>';
                                     var lang_editCandidateTitle = "<?php echo __('Edit Candidate'); ?>";
