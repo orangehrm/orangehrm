@@ -69,9 +69,7 @@ class deleteJobVacancyAction extends sfAction {
         if ($isDeletionSucceeded) {
             $this->getUser()->setFlash('vacancyDeletionMessageItems', array('success', __('Selected Vacancies Deleted Successfully')));
         }
-
-        $this->getJobFeedService()->updateJobFeed();
-        
+       
         $this->redirect('recruitment/viewJobVacancy');
     }
 

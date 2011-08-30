@@ -102,8 +102,7 @@ class addJobVacancyAction extends sfAction {
             if ($this->form->isValid()) {
                 $this->vacancyId = $this->form->save();
                 $this->getUser()->setFlash('templateMessage', array('success', __('Job Vacancy Saved Successfully')));
-                
-                $this->getJobFeedService()->updateJobFeed();
+
                 $this->redirect('recruitment/addJobVacancy?Id='.$this->vacancyId);
             }
         }
