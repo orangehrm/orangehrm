@@ -109,8 +109,8 @@ class CandidateDao extends BaseDao {
                 $param->setVacancyStatus($candidate['vacancyStatus']);
                 $param->setCandidateId($candidate['id']);
                 $param->setVacancyId($candidate['vacancyId']);
-                $param->setCandidateName($candidate['first_name'] . " " .$candidate['middle_name']." ".$candidate['last_name']);
-                $param->setHiringManagerName($candidate['emp_firstname'] . " " . $candidate['emp_middle_name']. " ". $candidate['emp_lastname']);
+                $param->setCandidateName($candidate['first_name'] . " " . $candidate['middle_name'] . " " . $candidate['last_name']);
+                $param->setHiringManagerName($candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname']);
                 $param->setDateOfApplication($candidate['date_of_application']);
                 $param->setAttachmentId($candidate['attachmentId']);
                 $param->setStatusName(ucwords(strtolower($candidate['status'])));
@@ -374,12 +374,14 @@ class CandidateDao extends BaseDao {
                         ->leftJoin('jcv.JobCandidate jc')
                         ->where('jv.hiringManagerId = ?', $empNumber)
                         ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD))
-                        ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber);
+                        ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber)
+                        ->orWhere('ch.performedBy = ?', $empNumber);
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('ch.JobInterview ji ON ji.id = ch.interview_id')
                         ->leftJoin('ji.JobInterviewInterviewer jii')
-                        ->where('jii.interviewerId = ?', $empNumber);
+                        ->where('jii.interviewerId = ?', $empNumber)
+                        ->orWhere('ch.performedBy = ?', $empNumber);
 //                        ->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
             }
             $q->addWhere('ch.candidateId = ?', $candidateId);
