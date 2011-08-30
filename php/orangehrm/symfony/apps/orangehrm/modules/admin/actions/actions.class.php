@@ -2449,6 +2449,7 @@ class adminActions extends sfActions {
 
         $projectId = $request->getParameter("projectId");
         $timesheetDao = new TimesheetDao();
+        $this->noProjectActivity = "no";
 
         if ($projectId == -1) {
             $this->activityList = "All";
