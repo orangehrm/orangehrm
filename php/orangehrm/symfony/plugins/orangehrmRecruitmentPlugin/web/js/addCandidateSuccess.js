@@ -1,6 +1,6 @@
-nextId = 0;
-toDisable = new Array();
-item = 0;
+var nextId = 0;
+var toDisable = new Array();
+var item = 0;
 $(document).ready(function() {
 
     var vacancyString = $("#addCandidate_vacancyList").val();
@@ -52,7 +52,7 @@ $(document).ready(function() {
     }
     $('.removeText').live('click', function(){
         result = /\d+(?:\.\d+)?/.exec(this.id);
-        if(vacancyString.trim() != "" && $("#jobDropDown"+result).val() != ""){
+        if(vacancyString.trim() != "" && result < vacancyList.length){
             if($("#btnSave").attr('value') == lang_edit){
             }else{
                 $('#deleteConfirmation').dialog('open');

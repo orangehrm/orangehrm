@@ -12,5 +12,5 @@ define('WPATH', $scriptPath . "/../../");
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'prod', true);
+$configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'dev', false);
 sfContext::createInstance($configuration)->dispatch();
