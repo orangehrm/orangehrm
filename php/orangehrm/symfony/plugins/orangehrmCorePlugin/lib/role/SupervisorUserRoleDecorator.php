@@ -152,6 +152,10 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     public function getEmployeeListForAttendanceTotalSummaryReport() {
 
         $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+
+        if(empty ($employeeList)){
+            print_r("yes empty");
+        }
         return $employeeList;      
     }
     

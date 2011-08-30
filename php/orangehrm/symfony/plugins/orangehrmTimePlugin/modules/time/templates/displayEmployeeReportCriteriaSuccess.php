@@ -37,6 +37,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     form#reportForm label {
         margin-top: 6px;
         width: 140px;
+        font-weight: normal;
     }
 
     .viewbutton {

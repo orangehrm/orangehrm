@@ -16,7 +16,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 			<h2><?php echo __("Select Employee"); ?></h2>
 		</div>
 		<br class="clear">
-		<form action="<?php echo url_for("time/viewEmployeeTimesheet"); ?>" id="employeeSelectForm" method="post">
+		<form action="<?php echo url_for("time/viewEmployeeTimesheet"); ?>" id="reportForm" method="post">
 
 			<table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
 				<tr>

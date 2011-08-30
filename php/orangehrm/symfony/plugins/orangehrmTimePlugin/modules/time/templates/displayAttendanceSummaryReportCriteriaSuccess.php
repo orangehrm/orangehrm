@@ -23,7 +23,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             <table  border="0" cellpadding="5" cellspacing="0" id="attendanceSummaryReportForm">
                 <tr>
-                    <td><?php echo __('Employee Name') ?></td>
+                    <td><?php echo __('Employee Name') ?><span class="required">*</span></td>
                     <td><?php echo $form['empName']->renderError() ?><?php echo $form['empName']->render(); ?></td>
                 </tr>
                 <tr>

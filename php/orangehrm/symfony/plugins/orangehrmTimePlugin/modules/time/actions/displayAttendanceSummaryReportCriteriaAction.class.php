@@ -25,11 +25,17 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
         $userObj = $this->getContext()->getUser()->getAttribute("user");
         $employeeList = $userObj->getEmployeeListForAttendanceTotalSummaryReport();
 
-        $this->lastEmpNumber = $employeeList->getLast()->getEmpNumber();
-        
+        if (is_array($employeeList)) {
+            $lastRecord = array_pop($employeeList);
+            $this->lastEmpNumber = $lastRecord->getEmpNumber();
+        } else {
+            $this->lastEmpNumber = $employeeList->getLast()->getEmpNumber();
+        }
+
         $this->form = new AttendanceTotalSummaryReportForm();
 
         $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
     }
+
 }
 

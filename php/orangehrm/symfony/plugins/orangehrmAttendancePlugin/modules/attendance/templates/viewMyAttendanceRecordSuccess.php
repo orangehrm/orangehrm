@@ -28,7 +28,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <h2><?php echo __('My Attendance Records'); ?></h2>
         </div>
         <br class="clear">
-        <form action="<?php echo url_for("attendance/viewAttendanceRecord"); ?>" id="employeeSelectForm" method="post">
+        <form action="<?php echo url_for("attendance/viewAttendanceRecord"); ?>" id="reportForm" method="post">
 
             <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
 
