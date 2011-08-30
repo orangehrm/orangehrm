@@ -52,7 +52,7 @@ $(document).ready(function() {
     }
     $('.removeText').live('click', function(){
         result = /\d+(?:\.\d+)?/.exec(this.id);
-        if(vacancyString.trim() != ""){
+        if(vacancyString.trim() != "" && $("#jobDropDown"+result).val() != ""){
             if($("#btnSave").attr('value') == lang_edit){
             }else{
                 $('#deleteConfirmation').dialog('open');
