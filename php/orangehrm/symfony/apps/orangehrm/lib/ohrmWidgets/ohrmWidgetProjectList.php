@@ -69,7 +69,7 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
 
                 $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
             }
-        }else{
+        } else {
             $projectNameList[null] = "--No Projects--";
         }
 
@@ -82,13 +82,21 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
      */
     public function embedWidgetIntoForm(sfForm &$form) {
 
+        $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
+        $projectList = $userObj->getActiveProjectList();
+        $requiredMess = 'Select a project';
+
+        if ($projectList == null) {
+            $requiredMess = "No Projects Defined";
+        }
+
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
         $label = ucwords(str_replace("_", " ", $this->attributes['id']));
         $validator = new sfValidatorString();
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true),array('required' => 'Select a project'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => $requiredMess));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);
