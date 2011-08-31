@@ -192,7 +192,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         }
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Attendance Total Summary Report"));
+        $topMenuItem->setDisplayName(__(" Attendance Summary"));
         $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {

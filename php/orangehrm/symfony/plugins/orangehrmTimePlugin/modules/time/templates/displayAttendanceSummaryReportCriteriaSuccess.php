@@ -66,8 +66,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             $('#attendanceTotalSummary_employeeId').val('-1');
         }else{
             if ($("#employee_name").val() == '') {
-                $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>')
-                .addClass("inputFormatHint");
+                $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>').addClass("inputFormatHint");
             }
 
             $('#viewbutton').click(function() {
@@ -119,8 +118,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 },
                 'attendanceTotalSummary[toDate]': {
                     required: "To Date is required",
-                    validToDate: " To field should be greater than from field/Invalid date",
-                    validToDateFormat: "Please enter a date in the format yyyy-mm-dd"
+                    validToDateFormat: "Please enter a date in the format yyyy-mm-dd",
+                    validToDate: " To field should be greater than from field/Invalid date"
                 }
             },
             errorPlacement: function(error, element) {
@@ -159,7 +158,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 }
                 return true;
             }
-            dt = dt. split("-");
+            dt = dt.split("-");
             return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
         });
 
@@ -170,21 +169,28 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 employeeFlag = validateInput();
                 if(employeeFlag){
                     var date = new Date();
-                    $('#to_date').val(date.getFullYear()+ "-" + date.getMonth() + "-" + date.getDate());
+                    var currentDate = date.getFullYear()+ "-" + ( date.getMonth() + 1 ) + "-" + date.getDate();
+                    $('#to_date').val(currentDate);
                 }
                 return true;
             }
-            dt = dt. split("-");
+            dt = dt.split("-");
             return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
         });
 
-        /* Valid From Date */
+        /* Valid From and To date for appropriate combination Date */
         $.validator.addMethod("validToDate", function(value, element) {
-            
+
             var fromdate    =   $('#from_date').val();
-            var fromdateObj = new Date(fromdate.replace(/-/g," "));
+            var fromDateArray = fromdate.split("-");
+            //var fromdateObj = new Date(fromdate.replace(/-/g," "));
+            var fromdateObj = new Date(fromDateArray[0],fromDateArray[1]-1,fromDateArray[2]);
+            
             var todate      =   $('#to_date').val();
-            var todateObj   =   new Date(todate.replace(/-/g," "));
+            var toDateArray = todate.split("-");
+            //var todateObj   =   new Date(todate.replace(/-/g," "));
+            var todateObj = new Date(toDateArray[0],toDateArray[1]-1,toDateArray[2]);
+
             if(fromdateObj > todateObj){
                 return false;
             } else {
@@ -212,7 +218,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             if (empName == arrayName) {
                 $('#attendanceTotalSummary_employeeId').val(employeesArray[i].id);
-                temp = true
+                temp = true;
                 break;
             }
         }

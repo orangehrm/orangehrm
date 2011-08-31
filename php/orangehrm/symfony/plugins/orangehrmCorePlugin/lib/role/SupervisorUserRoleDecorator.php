@@ -84,7 +84,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(null);
+        $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
 
@@ -107,7 +107,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         }
 
         $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Attendance Total Summary Report"));
+        $topMenuItem->setDisplayName(__(" Attendance Summary"));
         $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
@@ -152,10 +152,6 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     public function getEmployeeListForAttendanceTotalSummaryReport() {
 
         $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
-
-        if(empty ($employeeList)){
-            print_r("yes empty");
-        }
         return $employeeList;      
     }
     

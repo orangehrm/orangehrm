@@ -58,7 +58,7 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(null);
+        $topMenuItem->setLink(ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER);
 
         if (!in_array($topMenuItem, $topMenuItemArray)) {
             array_push($topMenuItemArray, $topMenuItem);
