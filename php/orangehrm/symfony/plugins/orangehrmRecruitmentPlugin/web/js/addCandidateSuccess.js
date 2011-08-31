@@ -51,7 +51,7 @@ $(document).ready(function() {
         $('.removeText').show();
     }
     $('.removeText').live('click', function(){
-	validate();
+
         result = /\d+(?:\.\d+)?/.exec(this.id);
         if(vacancyString.trim() != "" && result < vacancyList.length){
             if($("#btnSave").attr('value') == lang_edit){
@@ -61,6 +61,7 @@ $(document).ready(function() {
         }
         else{
             $('#jobDropDown'+result).remove();
+	    validate();
             $("#addButton"+($('.vacancyDrop').length-1)).show();
             $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
             if(result == $('.vacancyDrop').length-1){
@@ -201,6 +202,7 @@ $(document).ready(function() {
 
     $('#dialogDeleteBtn').click(function() {
         $('#jobDropDown'+result).remove();
+	validate();
         $('#'+result).remove();
         $("#addButton"+($('.vacancyDrop').length-1)).show();
         $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
@@ -319,10 +321,10 @@ function validateVacancy(){
 
     var flag = true;
     $(".messageBalloon_success").remove();
-    //$(".messageBalloon_failure").remove()
+    $(".messageBalloon_failure").remove()
     $('#vacancyError').removeAttr('class');
     $('#vacancyError').html("");
-
+    
     var errorStyle = "background-color:#FFDFDF;";
     var normalStyle = "background-color:#FFFFFF;";
     var vacancyArray = new Array();
