@@ -101,7 +101,8 @@ label.error{
 .helpText {
 	font-size: 8pt;
 	color:#888888;
-	padding-left: 1px;
+	padding-left: 15px;
+    text-align: center;
 }
 
 span.attach{

@@ -125,7 +125,7 @@
 
             <!-- confirmation box -->
             <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <?php echo __("Delete Selected Candidate(s)") . "?"; ?>
+    <?php echo __("All records of the selected candidate(s) will be deleted") . "?"; ?>
                 <div class="dialogButtons">
                     <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
                     <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />

@@ -102,7 +102,7 @@
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                     <input type="button" class="backbutton" name="btnBack" id="btnBack"
-                           value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+   value="<?php echo __("Back"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
 <?php } else { ?>
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
@@ -115,7 +115,7 @@
  <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
  <div class="paddingLeftRequired"><span>1 </span>: <?php echo __('RSS Feed URL') ?> <span>:</span> <?php echo link_to(null, 'recruitmentApply/jobs.rss', array('absolute' => true, 'target' => '_new'));?></div>
  <div class="paddingLeftRequired"><span>2 </span>: <?php echo __('Web Page URL') ?> <span>:</span> <?php echo link_to(null, 'recruitmentApply/jobs.html', array('absolute' => true, 'target' => '_new'));?></div>
-<?php //print_r($form->getHiringManagerListAsJson()); ?>
+
 <?php if (isset($vacancyId)) { ?>
                     <br class="clear"/>
                     <br class="clear"/>

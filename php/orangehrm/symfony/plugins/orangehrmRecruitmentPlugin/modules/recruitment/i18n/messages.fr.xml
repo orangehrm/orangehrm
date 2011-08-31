@@ -621,8 +621,8 @@
 				<target>FR_Selected Candidate(s) Deleted Successfully</target>
 			</trans-unit>
 			<trans-unit id="155">
-				<source>Delete Selected Candidate(s)</source>
-				<target>FR_Delete Selected Candidate(s)</target>
+				<source>All records of the selected candidate(s) will be deleted</source>
+				<target>FR_All records of the selected candidate(s) will be deleted</target>
 			</trans-unit>
 			<trans-unit id="156">
 				<source>Candidate Shortlisted Successfully</source>
