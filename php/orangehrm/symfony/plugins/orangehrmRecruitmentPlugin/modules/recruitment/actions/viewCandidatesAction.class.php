@@ -85,7 +85,7 @@ class viewCandidatesAction extends sfAction {
         $searchParam->setEmpNumber($usrObj->getEmployeeNumber());
         $noOfRecords = $searchParam->getLimit();
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-        
+        $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
         $this->setForm(new viewCandidatesForm(array(), $param, true));
         if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $candidateId > 0) {
             if ($this->getUser()->hasAttribute('searchParameters')) {
@@ -98,7 +98,6 @@ class viewCandidatesAction extends sfAction {
             $this->getUser()->setAttribute('searchParameters', $searchParam);
         }
         $searchParam->setOffset($offset);
-        $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
         $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
 

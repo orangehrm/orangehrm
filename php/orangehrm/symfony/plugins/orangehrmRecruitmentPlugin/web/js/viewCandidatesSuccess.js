@@ -107,6 +107,7 @@ $(document).ready(function() {
    
 	});
 	$('#btnRst').click(function() {
+        $('#frmSrchCandidates').get(0).reset();
 		$('#candidateSearch_jobTitle').val("");
 		$('#candidateSearch_jobVacancy').val("");
 		$('#candidateSearch_hiringManager').val("");
