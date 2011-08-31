@@ -202,7 +202,7 @@ class CandidateDao extends BaseDao {
                 $q .= $keywordsQueryString;
             }
             if ($empNumber != null) {
-                $whereClause .= "OR jc.id NOT IN (SELECT ojcv.candidate_id FROM ohrm_job_candidate_vacancy ojcv) AND jc.added_person = " . $empNumber;
+                $q .= "OR jc.id NOT IN (SELECT ojcv.candidate_id FROM ohrm_job_candidate_vacancy ojcv) AND jc.added_person = " . $empNumber;
             }
 
             $pdo = Doctrine_Manager::connection()->getDbh();
