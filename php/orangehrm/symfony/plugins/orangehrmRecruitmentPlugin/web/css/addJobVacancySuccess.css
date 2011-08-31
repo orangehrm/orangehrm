@@ -106,5 +106,5 @@ form#frmAddJobVacancy div.publishJobVacancy label {
 
 div.messageBalloon_success {
     width: 720px;
-    text-align: center;
+    text-align: left;
 }
