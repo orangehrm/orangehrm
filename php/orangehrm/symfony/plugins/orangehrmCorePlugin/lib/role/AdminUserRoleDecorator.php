@@ -131,7 +131,15 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("Reports"));
         $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
+        $itemIsInArray = false;
+        foreach ($topMenuItemArray as $item) {
+            if ($topMenuItem->getDisplayName() == $item->getDisplayName()) {
+                $itemIsInArray = true;
+                break;
+            }
+        }
+
+        if (!$itemIsInArray) {
             array_push($topMenuItemArray, $topMenuItem);
         }
 
@@ -225,7 +233,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $employee = new Employee();
         $employee->setEmpNumber('-1');
         $employee->setFirstName("All");
-        
+
         if ($employeeList[0]->getEmpNumber() == null) {
             return null;
         } else {
@@ -317,7 +325,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
         $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, AdminUserRoleDecorator::ADMIN_USER, $action);
-       
+
         $employeeList = $this->getEmployeeList();
         if ($actionableStatesList != null) {
             foreach ($employeeList as $employee) {
@@ -435,7 +443,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_CANDIDATES);
-        $tempArray = array(); 
+        $tempArray = array();
         array_push($tempArray, $topMenuItem);
 
         $topMenuItem = new TopMenuItem();

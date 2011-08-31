@@ -86,8 +86,15 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("Reports"));
         $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
+        $itemIsInArray = false;
+        foreach ($topMenuItemArray as $item){
+            if($topMenuItem->getDisplayName() == $item->getDisplayName()){
+                $itemIsInArray = true;
+                break;
+            }
+        }
 
+        if(!$itemIsInArray){
             array_push($topMenuItemArray, $topMenuItem);
         }
 
