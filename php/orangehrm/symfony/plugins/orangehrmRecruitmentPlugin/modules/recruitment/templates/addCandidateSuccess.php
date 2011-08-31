@@ -141,10 +141,10 @@
             <?php endif; ?>
 
 
-                        <br class="clear" /><!--
-                        <span class="addText" id='addButton'><?php //echo __('Add another');  ?></span>
+                        <br class="clear" />
+<!--                        <span class="addText" id='addButton'><?php //echo __('Add another');  ?></span>-->
                         <div id="vacancyError"></div>
-                        <br class="clear" />-->
+                        <br class="clear" />
 
                         <!-- Resume block : Begins -->
                         <div>

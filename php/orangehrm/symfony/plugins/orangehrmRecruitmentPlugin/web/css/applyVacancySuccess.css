@@ -116,7 +116,7 @@ span.attach{
 }
 div.messageBalloon_success {
 	width: 640px;
-	text-align: center;
+	text-align: left;
 }
 div.messageBalloon_warning {
 	width: 640px;

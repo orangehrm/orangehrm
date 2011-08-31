@@ -51,6 +51,7 @@ $(document).ready(function() {
         $('.removeText').show();
     }
     $('.removeText').live('click', function(){
+	validate();
         result = /\d+(?:\.\d+)?/.exec(this.id);
         if(vacancyString.trim() != "" && result < vacancyList.length){
             if($("#btnSave").attr('value') == lang_edit){
