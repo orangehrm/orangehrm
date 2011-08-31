@@ -83,7 +83,8 @@ class addCandidateAction extends sfAction {
         }
 
         $this->jobVacancyList = $this->getVacancyService()->getAllVacancies();
-
+        $this->candidateStatus = JobCandidate::ACTIVE;
+        
         if ($this->candidateId > 0) {
             $allowedCandidateList = $userObj->getAllowedCandidateList();
             if (!in_array($this->candidateId, $allowedCandidateList)) {
@@ -96,6 +97,7 @@ class addCandidateAction extends sfAction {
             $this->_setListComponent($candidateHistoryService->getCandidateHistoryList($candidateHistory));
             $params = array();
             $this->parmetersForListCompoment = $params;
+            $this->candidateStatus = $this->getCandidateService()->getCandidateById($this->candidateId)->getStatus();
         } else {
             if ($reDirect) {
                 $this->redirect('recruitment/viewCandidates');

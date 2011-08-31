@@ -6,6 +6,9 @@ $(document).ready(function() {
     var vacancyString = $("#addCandidate_vacancyList").val();
     var vacancyList = (vacancyString.trim()).split("_");
 
+    if(candidateStatus != activeStatus) {
+        $("#btnSave").attr('disabled', 'disabled');
+    }
 
     if(vacancyString.trim() != ""){ //This happens in the view mode and edit mode
         for(var i=0; i<vacancyList.length; i++){
