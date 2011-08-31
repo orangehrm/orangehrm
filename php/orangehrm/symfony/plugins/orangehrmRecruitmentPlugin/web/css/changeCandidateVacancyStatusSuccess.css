@@ -43,3 +43,7 @@ form#frmCandidateVacancyStatus .secondLabel {
 	width: 140px !important;
 }
 
+div.messageBalloon_success{
+	width: 600px;
+}
+

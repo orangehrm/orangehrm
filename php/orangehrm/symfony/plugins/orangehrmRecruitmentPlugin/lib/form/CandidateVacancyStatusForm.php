@@ -105,6 +105,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 
 		$note = $this->getValue('notes');
 		if ($this->id > 0) {
+		 print_r("in");die;
 			$history = $this->getCandidateService()->getCandidateHistoryById($this->id);
 			$history->setNote($note);
 			$this->getCandidateService()->saveCandidateHistory($history);
@@ -113,9 +114,10 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$resultArray['message'] = __('Action History Details Saved Successfully');
 			return $resultArray;
 		}
-		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+		//$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
 		$interview = $interviews[count($interviews) - 1];
+		print_r($interviews);die;
 		$candidateHistory = new CandidateHistory();
 		$candidateHistory->setCandidateId($this->candidateId);
 		$candidateHistory->setCandidateVacancyId($this->candidateVacancyId);

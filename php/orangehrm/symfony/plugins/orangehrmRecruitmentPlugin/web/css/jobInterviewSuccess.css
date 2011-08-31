@@ -98,3 +98,6 @@ div.interviwerErrors {
     padding-top: 5px;
     font-size: 8pt;
 }
+div.messageBalloon_success{
+	width: 600px;
+}
