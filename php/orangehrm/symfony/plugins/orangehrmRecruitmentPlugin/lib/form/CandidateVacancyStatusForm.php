@@ -105,7 +105,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 
 		$note = $this->getValue('notes');
 		if ($this->id > 0) {
-		 print_r("in");die;
+			
 			$history = $this->getCandidateService()->getCandidateHistoryById($this->id);
 			$history->setNote($note);
 			$this->getCandidateService()->saveCandidateHistory($history);
@@ -114,17 +114,16 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$resultArray['message'] = __('Action History Details Saved Successfully');
 			return $resultArray;
 		}
-		//$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
 		$interview = $interviews[count($interviews) - 1];
-		print_r($interviews);die;
 		$candidateHistory = new CandidateHistory();
 		$candidateHistory->setCandidateId($this->candidateId);
 		$candidateHistory->setCandidateVacancyId($this->candidateVacancyId);
 		$candidateHistory->setAction($this->selectedAction);
 		$candidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		if (!empty($interview)) {
-			if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
+			if ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
 				$candidateHistory->setInterviewId($interview->getId());
 			}
 		}
