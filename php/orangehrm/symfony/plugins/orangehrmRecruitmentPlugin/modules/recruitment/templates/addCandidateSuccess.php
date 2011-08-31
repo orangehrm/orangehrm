@@ -66,7 +66,7 @@
         </div>
 
         <div id="addCandidate">
-            <div class="outerbox" style="width:700px">
+            <div class="outerbox" style="width:800px">
 
                 <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo $title; ?></h2></div>
                 <form name="frmAddCandidate" id="frmAddCandidate" method="post" action="<?php echo url_for('recruitment/addCandidate?id=' . $candidateId); ?>" enctype="multipart/form-data">
@@ -120,7 +120,7 @@
 <?php if ($candidateId > 0) : ?>
             <?php $existingVacancyList = $actionForm->candidate->getJobCandidateVacancy(); ?>
             <?php if ($existingVacancyList[0]->getVacancyId() > 0) : ?>
-                        <div id="actionPane" style="float:left; width:300px; padding-top:0px">
+                        <div id="actionPane" style="float:left; width:400px; padding-top:0px">
 <?php $i = 0 ?>
                 <?php foreach ($existingVacancyList as $candidateVacancy) {
                 ?>
