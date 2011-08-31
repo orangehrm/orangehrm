@@ -27,6 +27,7 @@ class AddCandidateForm extends BaseForm {
 	private $recruitmentAttachmentService;
 	private $addedBy;
 	private $addedHistory;
+	private $removedHistory;
 	public $allowedVacancyList;
 	private $allowedFileTypes = array(
 	    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -215,15 +216,15 @@ class AddCandidateForm extends BaseForm {
 					if (!in_array($id, $vacnacyArray)) {
 						$vacancyName = $candidateVacancy->getVacancyName();
 						$candidateVacancy->delete();
-						$history = new CandidateHistory();
-						$history->candidateId = $this->candidateId;
-						$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
-						$history->performedBy = $this->addedBy;
+						$this->removedHistory = new CandidateHistory();
+						$this->removedHistory->candidateId = $this->candidateId;
+						$this->removedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
+						$this->removedHistory->performedBy = $this->addedBy;
 						$date = ohrm_format_date(date('Y-m-d'));
-						$history->performedDate = $date . " " . date('H:i:s');
-						$history->candidateVacancyName = $vacancyName;
+						$this->removedHistory->performedDate = $date . " " . date('H:i:s');
+						$this->removedHistory->candidateVacancyName = $vacancyName;
 
-						$this->getCandidateService()->saveCandidateHistory($history);
+						//$this->getCandidateService()->saveCandidateHistory($this->removedHistory);
 					} else {
 						$idList[] = $id;
 					}
@@ -250,6 +251,9 @@ class AddCandidateForm extends BaseForm {
 		$this->_saveCandidateVacancies($vacnacyArray, $candidateId);
 		if (!empty($this->addedHistory)) {
 			$this->getCandidateService()->saveCandidateHistory($this->addedHistory);
+		}
+		if (!empty($this->removedHistory)) {
+			$this->getCandidateService()->saveCandidateHistory($this->removedHistory);
 		}
 		return $resultArray;
 	}
