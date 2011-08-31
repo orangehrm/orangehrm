@@ -139,10 +139,10 @@ $(document).ready(function() {
     }
     
     $('#cancelButton').click(function(){
-        if($("#saveBtn").attr('value') == lang_save){
+        if($("#cancelButton").attr('value') == lang_cancel){
             window.location.replace(cancelUrl+'?id='+historyId);
         }
-        if($("#saveBtn").attr('value') == lang_edit){
+        if($("#cancelButton").attr('value') == lang_back){
             window.location.replace(addCandidateUrl);
         }
     });
