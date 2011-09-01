@@ -94,6 +94,8 @@ class addJobVacancyAction extends sfAction {
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+            MessageRegistry::instance()->addMessage($this->message, 'recruitment', 'addJobVacancy', MessageRegistry::PREPEND);
+            $this->message = MessageRegistry::instance()->getMessage('recruitment', 'addJobVacancy');
         }
 
         if ($request->isMethod('post')) {
@@ -102,7 +104,6 @@ class addJobVacancyAction extends sfAction {
             if ($this->form->isValid()) {
                 $this->vacancyId = $this->form->save();
                 $this->getUser()->setFlash('templateMessage', array('success', __('Job Vacancy Saved Successfully')));
-
                 $this->redirect('recruitment/addJobVacancy?Id='.$this->vacancyId);
             }
         }
