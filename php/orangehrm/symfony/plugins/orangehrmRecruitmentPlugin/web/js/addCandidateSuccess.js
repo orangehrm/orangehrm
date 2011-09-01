@@ -162,6 +162,8 @@ $(document).ready(function() {
 
         if(editRights == 1){
             $('.actionDrpDown').attr("disabled", "disabled");
+        } else if(candidateStatus != activeStatus) {
+            $('.actionDrpDown').attr('disabled', 'disabled');
         }
         $('#fileUploadSection').hide();
         $('#radio').hide();
