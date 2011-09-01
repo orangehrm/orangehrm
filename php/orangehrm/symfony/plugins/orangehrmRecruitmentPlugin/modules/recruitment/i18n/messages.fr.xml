@@ -660,6 +660,10 @@
 				<source>Action History Details Saved Successfully</source>
 				<target>FR_Action History Details Saved Successfully</target>
 			</trans-unit>
+            <trans-unit id="165">
+				<source>Archived</source>
+				<target>FR_Archived</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
