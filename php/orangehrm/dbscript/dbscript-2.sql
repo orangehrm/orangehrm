@@ -697,7 +697,7 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                     ('88','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
                                     ('89','1','PUNCHED OUT','ADMIN','7','N/A');
                                     
-INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) WHERE whereCondition2'),
+INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN hs_hr_customer ON (hs_hr_customer.customer_id = hs_hr_project.customer_id) WHERE whereCondition2'),
                                        (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#');
 
 
@@ -737,17 +737,18 @@ INSERT INTO `ohrm_selected_filter_field` VALUES (1, 1, 1, null, null, null),
                                                 (3, 3, 2, null, null, null),
                                                 (3, 5, 1, null, null, null);
 
-INSERT INTO `ohrm_selected_display_field` VALUES (3, 1, 2),
-                                                 (2, 2, 1),
+INSERT INTO `ohrm_selected_display_field` VALUES (2, 2, 1),
                                                  (4, 8, 2);
 
-INSERT INTO `ohrm_composite_display_field` VALUES (1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null);
+INSERT INTO `ohrm_composite_display_field` VALUES (1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null),
+                                                  (2, 'CONCAT(hs_hr_customer.name, " - " ,hs_hr_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null);
 
 INSERT INTO `ohrm_meta_display_field` VALUES (1, 3, 1),
                                              (2, 4, 1);
 
 INSERT INTO `ohrm_selected_composite_display_field` VALUES (1, 1, 3),
-                                                           (2, 1, 4);
+                                                           (2, 1, 4),
+                                                           (3, 2, 2);
 
 INSERT INTO `ohrm_summary_display_field` VALUES (1, 'ROUND(COALESCE(sum(duration)/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right'),
                                                 (2, 'ROUND(COALESCE(sum(TIMESTAMPDIFF(SECOND , ohrm_attendance_record.punch_in_utc_time , ohrm_attendance_record.punch_out_utc_time))/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right');

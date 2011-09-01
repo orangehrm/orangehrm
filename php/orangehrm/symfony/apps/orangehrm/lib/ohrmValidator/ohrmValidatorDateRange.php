@@ -34,7 +34,7 @@ class ohrmValidatorDateRange extends sfValidatorDate {
      * @see sfValidatorBase
      */
     protected function configure($options = array(), $messages = array()) {
-        $this->addMessage('invalid', 'The begin date must be before the end date.');
+        $this->addMessage('invalid', 'From date should be before to date.');
 
         $this->addOption('required', false);
         $this->addMessage('bad_format', '"%value%" does not match the date format ( yyyy-mm-dd).');
