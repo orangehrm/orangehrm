@@ -229,7 +229,9 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
         <script type="text/javascript">
 
             function addHint(inputObject, hintImageURL) {
-                inputObject.css('background', "url('" + hintImageURL + "') no-repeat 4px 2px");
+                if (inputObject.val() == '') {
+                    inputObject.css('background', "url('" + hintImageURL + "') no-repeat 4px 2px");
+                }
             }
             
             function removeHint(inputObject) {
