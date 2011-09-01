@@ -103,7 +103,7 @@ class ohrmValidatorDateRange extends sfValidatorDate {
         }
 
         if ($value["from"] && $value["to"]) {
-            $this->setMessage('invalid', 'The begin date must be before the end date');
+            $this->setMessage('invalid', 'From date should be before to date.');
             $v = new ohrmValidatorSchemaDateRange("project_date_range", sfValidatorSchemaCompare::LESS_THAN_EQUAL, "project_date_range", array('throw_global_error' => true), array('invalid' => $this->getMessage('invalid')));
             $v->clean($value);
         }
