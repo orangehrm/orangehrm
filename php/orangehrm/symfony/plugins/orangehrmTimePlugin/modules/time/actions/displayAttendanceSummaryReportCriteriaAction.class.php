@@ -26,7 +26,7 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
         $employeeList = $userObj->getEmployeeListForAttendanceTotalSummaryReport();
 
         if (is_array($employeeList)) {
-            $lastRecord = array_pop($employeeList);
+            $lastRecord = end($employeeList);
             $this->lastEmpNumber = $lastRecord->getEmpNumber();
         } else {
             $this->lastEmpNumber = $employeeList->getLast()->getEmpNumber();
