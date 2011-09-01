@@ -72,12 +72,12 @@ class CandidateVacancyStatusForm extends BaseForm {
 		}
 		if ($this->id > 0) {
 			$candidateHistory = $this->getCandidateService()->getCandidateHistoryById($this->id);
-			$this->selectedCandidateVacancy = $candidateHistory->getJobCandidateVacancy();
+			$this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($candidateHistory->getCandidateId(), $candidateHistory->getVacancyId());
 			$this->performedActionName = $candidateHistory->getActionName();
 			$date = explode(" ", $candidateHistory->getPerformedDate());
 			$this->performedDate = $date[0];
 			$this->performedBy = $candidateHistory->getPerformerName();
-			$this->candidateVacancyId = $candidateHistory->getCandidateVacancyId();
+			$this->vacancyId = $candidateHistory->getVacancyId();
 			$this->selectedAction = $candidateHistory->getAction();
 		}
 		$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
@@ -119,7 +119,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$interview = $interviews[count($interviews) - 1];
 		$candidateHistory = new CandidateHistory();
 		$candidateHistory->setCandidateId($this->candidateId);
-		$candidateHistory->setCandidateVacancyId($this->candidateVacancyId);
+		$candidateHistory->setVacancyId($this->vacancyId);
 		$candidateHistory->setAction($this->selectedAction);
 		$candidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
 		if (!empty($interview)) {

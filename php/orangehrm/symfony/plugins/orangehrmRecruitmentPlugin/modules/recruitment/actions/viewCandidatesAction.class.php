@@ -65,7 +65,6 @@ class viewCandidatesAction extends sfAction {
         
         $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
-        $this->resetable = false;
 
         $candidateId = $request->getParameter('candidateId');
         $sortField = $request->getParameter('sortField');
@@ -109,7 +108,6 @@ class viewCandidatesAction extends sfAction {
                 $pageNumber = 1;
                 $searchParam->setOffset(0);
                 $this->getUser()->setAttribute('pageNumber', $pageNumber);
-                $this->resetable = true;
 
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {

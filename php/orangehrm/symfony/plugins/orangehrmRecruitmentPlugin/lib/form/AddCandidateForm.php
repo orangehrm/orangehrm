@@ -374,7 +374,7 @@ class AddCandidateForm extends BaseForm {
 					$history = new CandidateHistory();
 					$history->candidateId = $candidateId;
 					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
-					$history->candidateVacancyId = $candidateVacancy->getId();
+					$history->vacancyId = $candidateVacancy->getVacancyId();
 					$history->performedBy = $this->addedBy;
 					$date = ohrm_format_date(date('Y-m-d'));
 					$history->performedDate = $date . " " . date('H:i:s');

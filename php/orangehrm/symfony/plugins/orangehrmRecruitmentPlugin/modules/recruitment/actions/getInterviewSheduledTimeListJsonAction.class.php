@@ -59,7 +59,7 @@ class getInterviewSheduledTimeListJsonAction extends sfAction {
         //print_r(count($dao->getCandidateById($candidateId)->getJobCandidateVacancy()));die;
         
         $service = new JobInterviewService();
-        $service->getInterviewListByCandidateIdAndInterviewDateAndTime(1, '2011-08-10', '10:30:00');
+//        $service->getInterviewListByCandidateIdAndInterviewDateAndTime(1, '2011-08-10', '10:30:00');
         
 
 //        $allowedVacancyList = $this->getUser()->getAttribute('user')->getAllowedVacancyList();

@@ -42,6 +42,10 @@ JobVacancy:
       local: id
       foreign: id
       type: many
+    CandidateHistory:
+      local: id
+      foreign: vacancyId
+      type: many
 
 JobCandidate:
   tableName: ohrm_job_candidate
@@ -126,10 +130,6 @@ JobCandidateVacancy:
       local: candidateId
       foreign: id
       type: one
-    CandidateHistory:
-      local: id
-      foreign: candidateVacancyId
-      type: many
     JobInterview:
       local: id
       foreign: candidateVacancyId
@@ -272,8 +272,8 @@ CandidateHistory:
     candidate_id:
       name: candidate_id as candidateId
       type: integer(13)
-    candidate_vacancy_id:
-      name: candidate_vacancy_id as candidateVacancyId
+    vacancy_id:
+      name: vacancy_id as vacancyId
       type: integer(13)
     candidate_vacancy_name:
       name: candidate_vacancy_name as candidateVacancyName
@@ -296,8 +296,8 @@ CandidateHistory:
       local: candidateId
       foreign: id
       type: one
-    JobCandidateVacancy:
-      local: candidateVacancyId
+    JobVacancy:
+      local: vacancyId
       foreign: id
       type: one
     Employee:

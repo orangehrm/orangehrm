@@ -7,7 +7,7 @@
  * 
  * @property integer $id
  * @property integer $candidateId
- * @property integer $candidateVacancyId
+ * @property integer $vacancyId
  * @property string $candidateVacancyName
  * @property integer $interviewId
  * @property integer $action
@@ -15,36 +15,36 @@
  * @property datetime $performedDate
  * @property string $note
  * @property JobCandidate $JobCandidate
- * @property JobCandidateVacancy $JobCandidateVacancy
+ * @property JobVacancy $JobVacancy
  * @property Employee $Employee
  * @property JobInterview $JobInterview
  * 
- * @method integer             getId()                   Returns the current record's "id" value
- * @method integer             getCandidateId()          Returns the current record's "candidateId" value
- * @method integer             getCandidateVacancyId()   Returns the current record's "candidateVacancyId" value
- * @method string              getCandidateVacancyName() Returns the current record's "candidateVacancyName" value
- * @method integer             getInterviewId()          Returns the current record's "interviewId" value
- * @method integer             getAction()               Returns the current record's "action" value
- * @method integer             getPerformedBy()          Returns the current record's "performedBy" value
- * @method datetime            getPerformedDate()        Returns the current record's "performedDate" value
- * @method string              getNote()                 Returns the current record's "note" value
- * @method JobCandidate        getJobCandidate()         Returns the current record's "JobCandidate" value
- * @method JobCandidateVacancy getJobCandidateVacancy()  Returns the current record's "JobCandidateVacancy" value
- * @method Employee            getEmployee()             Returns the current record's "Employee" value
- * @method JobInterview        getJobInterview()         Returns the current record's "JobInterview" value
- * @method CandidateHistory    setId()                   Sets the current record's "id" value
- * @method CandidateHistory    setCandidateId()          Sets the current record's "candidateId" value
- * @method CandidateHistory    setCandidateVacancyId()   Sets the current record's "candidateVacancyId" value
- * @method CandidateHistory    setCandidateVacancyName() Sets the current record's "candidateVacancyName" value
- * @method CandidateHistory    setInterviewId()          Sets the current record's "interviewId" value
- * @method CandidateHistory    setAction()               Sets the current record's "action" value
- * @method CandidateHistory    setPerformedBy()          Sets the current record's "performedBy" value
- * @method CandidateHistory    setPerformedDate()        Sets the current record's "performedDate" value
- * @method CandidateHistory    setNote()                 Sets the current record's "note" value
- * @method CandidateHistory    setJobCandidate()         Sets the current record's "JobCandidate" value
- * @method CandidateHistory    setJobCandidateVacancy()  Sets the current record's "JobCandidateVacancy" value
- * @method CandidateHistory    setEmployee()             Sets the current record's "Employee" value
- * @method CandidateHistory    setJobInterview()         Sets the current record's "JobInterview" value
+ * @method integer          getId()                   Returns the current record's "id" value
+ * @method integer          getCandidateId()          Returns the current record's "candidateId" value
+ * @method integer          getVacancyId()            Returns the current record's "vacancyId" value
+ * @method string           getCandidateVacancyName() Returns the current record's "candidateVacancyName" value
+ * @method integer          getInterviewId()          Returns the current record's "interviewId" value
+ * @method integer          getAction()               Returns the current record's "action" value
+ * @method integer          getPerformedBy()          Returns the current record's "performedBy" value
+ * @method datetime         getPerformedDate()        Returns the current record's "performedDate" value
+ * @method string           getNote()                 Returns the current record's "note" value
+ * @method JobCandidate     getJobCandidate()         Returns the current record's "JobCandidate" value
+ * @method JobVacancy       getJobVacancy()           Returns the current record's "JobVacancy" value
+ * @method Employee         getEmployee()             Returns the current record's "Employee" value
+ * @method JobInterview     getJobInterview()         Returns the current record's "JobInterview" value
+ * @method CandidateHistory setId()                   Sets the current record's "id" value
+ * @method CandidateHistory setCandidateId()          Sets the current record's "candidateId" value
+ * @method CandidateHistory setVacancyId()            Sets the current record's "vacancyId" value
+ * @method CandidateHistory setCandidateVacancyName() Sets the current record's "candidateVacancyName" value
+ * @method CandidateHistory setInterviewId()          Sets the current record's "interviewId" value
+ * @method CandidateHistory setAction()               Sets the current record's "action" value
+ * @method CandidateHistory setPerformedBy()          Sets the current record's "performedBy" value
+ * @method CandidateHistory setPerformedDate()        Sets the current record's "performedDate" value
+ * @method CandidateHistory setNote()                 Sets the current record's "note" value
+ * @method CandidateHistory setJobCandidate()         Sets the current record's "JobCandidate" value
+ * @method CandidateHistory setJobVacancy()           Sets the current record's "JobVacancy" value
+ * @method CandidateHistory setEmployee()             Sets the current record's "Employee" value
+ * @method CandidateHistory setJobInterview()         Sets the current record's "JobInterview" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -65,7 +65,7 @@ abstract class BaseCandidateHistory extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 13,
              ));
-        $this->hasColumn('candidate_vacancy_id as candidateVacancyId', 'integer', 13, array(
+        $this->hasColumn('vacancy_id as vacancyId', 'integer', 13, array(
              'type' => 'integer',
              'length' => 13,
              ));
@@ -101,8 +101,8 @@ abstract class BaseCandidateHistory extends sfDoctrineRecord
              'local' => 'candidateId',
              'foreign' => 'id'));
 
-        $this->hasOne('JobCandidateVacancy', array(
-             'local' => 'candidateVacancyId',
+        $this->hasOne('JobVacancy', array(
+             'local' => 'vacancyId',
              'foreign' => 'id'));
 
         $this->hasOne('Employee', array(

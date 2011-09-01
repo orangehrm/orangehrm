@@ -57,7 +57,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
                 $actionName = "Reject";
                 break;
             case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW:
-                $actionName = "Schedule 1st Interview";
+                $actionName = "Schedule Interview";
                 break;
             case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
                 $actionName = "Mark Interview Passed";
@@ -75,7 +75,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
                 $actionName = "Hire";
                 break;
             case PluginWorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW:
-                $actionName = "Schedule 2nd Interview";
+                $actionName = "Schedule Interview";
                 break;
         }
         return $actionName;

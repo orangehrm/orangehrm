@@ -319,5 +319,9 @@ class CandidateService extends BaseService {
         return $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
     }
 
+    public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId){
+        return $this->candidateDao->getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId);
+    }
+
 }
 

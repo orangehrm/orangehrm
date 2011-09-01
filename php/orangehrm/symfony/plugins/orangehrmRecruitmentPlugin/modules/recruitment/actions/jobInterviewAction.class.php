@@ -79,14 +79,14 @@ class jobInterviewAction extends sfAction {
 
         if (!empty($this->historyId) && !empty($this->interviewId)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
-            $candidateVacancyId = $history->getCandidateVacancyId();
+            $candidateVacancyId = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($history->getCandidateId(), $history->getVacancyId());
             $selectedAction = $history->getAction();
             $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
         }
         if (!$this->getCandidateService()->isHiringManager($candidateVacancyId, $empNumber) && $this->getCandidateService()->isInterviewer($candidateVacancyId, $empNumber)) {
             $this->editHiringManager = false;
         }
-        $lastAction = $this->getCandidateService()->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
+//        $lastAction = $this->getCandidateService()->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
         $this->setForm(new JobInterviewForm(array(), $param, true));
 
         if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {

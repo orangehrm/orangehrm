@@ -12,27 +12,24 @@
  * @property date $appliedDate
  * @property JobVacancy $JobVacancy
  * @property JobCandidate $JobCandidate
- * @property Doctrine_Collection $CandidateHistory
  * @property Doctrine_Collection $JobInterview
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method integer             getCandidateId()      Returns the current record's "candidateId" value
- * @method integer             getVacancyId()        Returns the current record's "vacancyId" value
- * @method string              getStatus()           Returns the current record's "status" value
- * @method date                getAppliedDate()      Returns the current record's "appliedDate" value
- * @method JobVacancy          getJobVacancy()       Returns the current record's "JobVacancy" value
- * @method JobCandidate        getJobCandidate()     Returns the current record's "JobCandidate" value
- * @method Doctrine_Collection getCandidateHistory() Returns the current record's "CandidateHistory" collection
- * @method Doctrine_Collection getJobInterview()     Returns the current record's "JobInterview" collection
- * @method JobCandidateVacancy setId()               Sets the current record's "id" value
- * @method JobCandidateVacancy setCandidateId()      Sets the current record's "candidateId" value
- * @method JobCandidateVacancy setVacancyId()        Sets the current record's "vacancyId" value
- * @method JobCandidateVacancy setStatus()           Sets the current record's "status" value
- * @method JobCandidateVacancy setAppliedDate()      Sets the current record's "appliedDate" value
- * @method JobCandidateVacancy setJobVacancy()       Sets the current record's "JobVacancy" value
- * @method JobCandidateVacancy setJobCandidate()     Sets the current record's "JobCandidate" value
- * @method JobCandidateVacancy setCandidateHistory() Sets the current record's "CandidateHistory" collection
- * @method JobCandidateVacancy setJobInterview()     Sets the current record's "JobInterview" collection
+ * @method integer             getId()           Returns the current record's "id" value
+ * @method integer             getCandidateId()  Returns the current record's "candidateId" value
+ * @method integer             getVacancyId()    Returns the current record's "vacancyId" value
+ * @method string              getStatus()       Returns the current record's "status" value
+ * @method date                getAppliedDate()  Returns the current record's "appliedDate" value
+ * @method JobVacancy          getJobVacancy()   Returns the current record's "JobVacancy" value
+ * @method JobCandidate        getJobCandidate() Returns the current record's "JobCandidate" value
+ * @method Doctrine_Collection getJobInterview() Returns the current record's "JobInterview" collection
+ * @method JobCandidateVacancy setId()           Sets the current record's "id" value
+ * @method JobCandidateVacancy setCandidateId()  Sets the current record's "candidateId" value
+ * @method JobCandidateVacancy setVacancyId()    Sets the current record's "vacancyId" value
+ * @method JobCandidateVacancy setStatus()       Sets the current record's "status" value
+ * @method JobCandidateVacancy setAppliedDate()  Sets the current record's "appliedDate" value
+ * @method JobCandidateVacancy setJobVacancy()   Sets the current record's "JobVacancy" value
+ * @method JobCandidateVacancy setJobCandidate() Sets the current record's "JobCandidate" value
+ * @method JobCandidateVacancy setJobInterview() Sets the current record's "JobInterview" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -79,10 +76,6 @@ abstract class BaseJobCandidateVacancy extends sfDoctrineRecord
         $this->hasOne('JobCandidate', array(
              'local' => 'candidateId',
              'foreign' => 'id'));
-
-        $this->hasMany('CandidateHistory', array(
-             'local' => 'id',
-             'foreign' => 'candidateVacancyId'));
 
         $this->hasMany('JobInterview', array(
              'local' => 'id',

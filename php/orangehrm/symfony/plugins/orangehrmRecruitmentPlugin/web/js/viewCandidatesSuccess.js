@@ -5,11 +5,6 @@ $(document).ready(function() {
 	if (fromDate == '') {
 		$("#candidateSearch_fromDate").val(dateDisplayFormat);
 	}
-	if(resetable){
-		$('#btnRst').show();
-	}else{
-		$('#btnRst').hide();
-	}
 	//Bind date picker
 	daymarker.bindElement("#candidateSearch_fromDate",
 	{

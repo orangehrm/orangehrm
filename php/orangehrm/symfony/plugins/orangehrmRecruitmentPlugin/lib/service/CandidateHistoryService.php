@@ -44,7 +44,7 @@ class CandidateHistoryService {
         $description = $this->getCandidateHistoryDescription($object);
         $dto->setDescription($description);
         $array = array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY);
-        $link = ($object->getCandidateVacancyId() == null || in_array($object->getAction(), $array) ? "" : __("View"));
+        $link = ($object->getVacancyId() == null || in_array($object->getAction(), $array) ? "" : __("View"));
         $dto->setDetails($link);
 
         return $dto;

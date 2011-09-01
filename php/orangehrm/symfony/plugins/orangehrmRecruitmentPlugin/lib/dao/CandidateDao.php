@@ -333,14 +333,13 @@ class CandidateDao extends BaseDao {
      * @return <type>
      */
     public function getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList) {
+        print_r($allowedHistoryList);
         try {
             $q = Doctrine_Query:: create()
                             ->from('CandidateHistory ch')
-                            ->leftJoin('ch.JobCandidateVacancy jcv')
                             ->whereIn('ch.id', $allowedHistoryList)
                             ->andWhere('ch.candidateId = ?', $candidateId)
                             ->orderBy('ch.performedDate DESC');
-            ;
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -367,24 +366,28 @@ class CandidateDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                             ->select('ch.id')
-                            ->from('CandidateHistory ch')
-                            ->leftJoin('ch.JobCandidateVacancy jcv');
+                            ->from('CandidateHistory ch');
             if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
-                $q->leftJoin('jcv.JobVacancy jv')
-                        ->leftJoin('jcv.JobCandidate jc')
+                $q->leftJoin('ch.JobVacancy jv')
+                        ->leftJoin('ch.JobCandidate jc')
                         ->where('jv.hiringManagerId = ?', $empNumber)
+                        ->andWhere('ch.candidateId = ?', $candidateId)
                         ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD))
-                        ->orWhere('jc.id NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber)
+                        ->orWhere('ch.candidateId NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber)
                         ->orWhere('ch.performedBy = ?', $empNumber);
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('ch.JobInterview ji ON ji.id = ch.interview_id')
                         ->leftJoin('ji.JobInterviewInterviewer jii')
                         ->where('jii.interviewerId = ?', $empNumber)
-                        ->orWhere('ch.performedBy = ?', $empNumber);
+                        ->andWhere('ch.candidateId = ?', $candidateId)
+                        ->orWhere('ch.performedBy = ?', $empNumber)
+                        ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED));
 //                        ->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
             }
-            $q->addWhere('ch.candidateId = ?', $candidateId);
+            if ($role == AdminUserRoleDecorator::ADMIN_USER) {
+                $q->where('ch.candidateId = ?', $candidateId);
+            }
             $result = $q->fetchArray();
             $idList = array();
             foreach ($result as $item) {
@@ -687,6 +690,18 @@ class CandidateDao extends BaseDao {
         
         return $suffix;
         
+    }
+
+    public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId) {
+        try {
+            $q = Doctrine_Query :: create()
+                            ->from('JobCandidateVacancy jcv')
+                            ->where('jcv.candidateId = ?', $candidateId)
+                            ->andWhere('jcv.vacancyId = ?', $vacancyId);
+            return $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
     }
 
 }

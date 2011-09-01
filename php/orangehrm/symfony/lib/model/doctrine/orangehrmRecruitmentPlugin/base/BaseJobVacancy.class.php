@@ -19,6 +19,7 @@
  * @property Employee $Employee
  * @property Doctrine_Collection $JobCandidateVacancy
  * @property Doctrine_Collection $JobVacancyAttachment
+ * @property Doctrine_Collection $CandidateHistory
  * 
  * @method integer             getId()                   Returns the current record's "id" value
  * @method string              getJobTitleCode()         Returns the current record's "jobTitleCode" value
@@ -34,6 +35,7 @@
  * @method Employee            getEmployee()             Returns the current record's "Employee" value
  * @method Doctrine_Collection getJobCandidateVacancy()  Returns the current record's "JobCandidateVacancy" collection
  * @method Doctrine_Collection getJobVacancyAttachment() Returns the current record's "JobVacancyAttachment" collection
+ * @method Doctrine_Collection getCandidateHistory()     Returns the current record's "CandidateHistory" collection
  * @method JobVacancy          setId()                   Sets the current record's "id" value
  * @method JobVacancy          setJobTitleCode()         Sets the current record's "jobTitleCode" value
  * @method JobVacancy          setHiringManagerId()      Sets the current record's "hiringManagerId" value
@@ -48,6 +50,7 @@
  * @method JobVacancy          setEmployee()             Sets the current record's "Employee" value
  * @method JobVacancy          setJobCandidateVacancy()  Sets the current record's "JobCandidateVacancy" collection
  * @method JobVacancy          setJobVacancyAttachment() Sets the current record's "JobVacancyAttachment" collection
+ * @method JobVacancy          setCandidateHistory()     Sets the current record's "CandidateHistory" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -116,5 +119,9 @@ abstract class BaseJobVacancy extends sfDoctrineRecord
         $this->hasMany('JobVacancyAttachment', array(
              'local' => 'id',
              'foreign' => 'id'));
+
+        $this->hasMany('CandidateHistory', array(
+             'local' => 'id',
+             'foreign' => 'vacancyId'));
     }
 }
