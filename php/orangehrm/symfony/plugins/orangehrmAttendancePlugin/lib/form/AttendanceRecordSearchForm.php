@@ -82,7 +82,13 @@ class AttendanceRecordSearchForm extends sfForm {
 
         $employeeService = new EmployeeService();
         $employee = $employeeService->getEmployee($employeeId);
-        return $employee->getFirstName() . " " . $employee->getLastName();
+        if($employee->getMiddleName()!= null){
+        return $employee->getFirstName() . " " . $employee->getMiddleName()." ". $employee->getLastName();
+        
+        }
+        else{
+            return $employee->getFirstName() . " " . $employee->getLastName();
+        }
     }
 
 }

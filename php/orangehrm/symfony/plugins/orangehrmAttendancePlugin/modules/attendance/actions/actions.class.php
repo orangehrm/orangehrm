@@ -83,6 +83,7 @@ class AttendanceActions extends sfActions {
 
         $temppunchInTime = $request->getParameter('punchInTime');
         $timezone = $request->getParameter('timezone');
+         $recordId = $request->getParameter('recordId');
 
         $ti = strtotime($temppunchInTime) - $timezone * 3600;
         $punchInDate = date("Y-m-d", $ti);
@@ -91,7 +92,7 @@ class AttendanceActions extends sfActions {
 
         $employeeId = $request->getParameter('employeeId');
 // $this->isValid=$punchIn;
-        $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecordsWhenEditing($punchIn, $employeeId);
+        $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecordsWhenEditing($punchIn, $employeeId,$recordId);
     }
 
     public function executeValidatePunchOutOverLappingWhenEditing($request) {

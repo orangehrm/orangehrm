@@ -13,7 +13,10 @@ $(document).ready(function()
             
             var timezoneArray= getTimezoneArray();
             var  timezone=  timezoneArray[$(".timezone").val()];
-              var  timeZone=timezone*3600;
+            if(timezone == 'GMT'){
+                timeZone=0;
+            }
+            var  timeZone=timezone*3600;
             if((validateNote())){
                 if((validate())) {
                     if((validateForpunchInOverLapping()==1)) {
@@ -34,6 +37,10 @@ $(document).ready(function()
         $(".punchOutbutton").click(function(){
             var timezoneArray= getTimezoneArray();
             var  timezone=  timezoneArray[$(".timezone").val()];
+             if(timeZone == 'GMT'){
+                        timeZone=0;
+                        
+                    }
             var  timeZone= timezone*3600;
             if((validateNote())){
                 if((validate())) {
@@ -453,6 +460,9 @@ $(document).ready(function()
                     var timezoneArray= getTimezoneArray();
                 
                     var  timeZone=  timezoneArray[$(".timezone").val()];
+                    if(timeZone == 'GMT'){
+                        timeZone=0;
+                    }
                      
            
                     var outTime=outTimeTemp-timeZone*3600*1000;
@@ -513,6 +523,10 @@ $(document).ready(function()
             $('#validationMsg').html("");
             var timezoneArray= getTimezoneArray();
             var  timeZone=  timezoneArray[$(".timezone").val()];
+              if(timeZone == 'GMT'){
+                        timeZone=0;
+                        
+                    }
             var inTime=punchInTime;
             var timezone=timeZone*3600;
  
@@ -564,7 +578,12 @@ $(document).ready(function()
             var inTime =$(".date").val()+" "+$(".time").val();
             var timezoneArray= getTimezoneArray();
             var  timeZone=  timezoneArray[$(".timezone").val()];
-           var  timezone=timeZone*3600;
+             if(timeZone == 'GMT'){
+                        timeZone=0;
+                     
+                    }
+            
+            var  timezone=timeZone*3600;
     
             var r = $.ajax({
                 type: 'POST',

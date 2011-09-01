@@ -122,21 +122,21 @@ class EditAttendanceRecordForm extends sfForm {
             $outOffset = $this->form->getValue('OutOffset_' . $i);
             $punchInDate = $this->form->getValue('punchInDate_' . $i);
             $punchInTime = $this->form->getValue('punchInTime_' . $i);
-            $inNote = $this->form->getValue('inNote_' . $i);
+
             $punchOutDate = $this->form->getValue('punchOutDate_' . $i);
             $punchOutTime = $this->form->getValue('punchOutTime_' . $i);
-            $outNote = $this->form->getValue('outNote_' . $i);
+
 
             $attendanceRecord = $this->getAttendanceService()->getAttendanceRecordById($id);
             $punchInDateTime = $punchInDate . " " . date('H:i', strtotime($punchInTime));
             $punchOutDateTime = $punchOutDate . " " . date('H:i', strtotime($punchOutTime));
 
             $attendanceRecord->setPunchInUserTime($punchInDateTime);
-            $attendanceRecord->setPunchInNote($inNote);
+
 
 
             $timeStampDiff = $inOffset * 3600 - date('Z');
-            $attendanceRecord->setPunchInUtcTime(date('Y-m-d H:i', strtotime($punchInDateTime) + $timeStampDiff - $inOffset * 3600));
+            $attendanceRecord->setPunchInUtcTime(date('Y-m-d H:i', strtotime($punchInDateTime) - $inOffset * 3600));
 
             if ($this->form->getValue('punchOutDate_' . $i) == null) {
 
@@ -144,13 +144,12 @@ class EditAttendanceRecordForm extends sfForm {
                 $attendanceRecord->setPunchOutUserTime(null);
                 $attendanceRecord->setPunchOutUtcTime(null);
             } else {
-                $attendanceRecord->setPunchOutNote($outNote);
+
                 $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
                 $timeStampDiff = $outOffset * 3600 - date('Z');
-                $attendanceRecord->setPunchOutUtcTime(date('Y-m-d H:i', strtotime($punchOutDateTime) + $timeStampDiff - $outOffset * 3600));
-               
+                $attendanceRecord->setPunchOutUtcTime(date('Y-m-d H:i', strtotime($punchOutDateTime) - $outOffset * 3600));
             }
-             $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+            $this->getAttendanceService()->savePunchRecord($attendanceRecord);
         }
     }
 

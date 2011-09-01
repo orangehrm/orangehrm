@@ -48,7 +48,7 @@ class AttendanceDao {
      */
     public function getLastPunchRecord($employeeId, $actionableStatesList) {
 
-       
+
         try {
 
 
@@ -276,8 +276,7 @@ class AttendanceDao {
         }
     }
 
-    
-    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId) {
+    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId) {
 
 
         $isValid = "1";
@@ -294,7 +293,14 @@ class AttendanceDao {
 
 
 
-            if ((count($records1) > 0)) {
+            if ((count($records1) == 1)) {
+                if (($records1[0]->getId() == $recordId)) {
+                    $isValid = "1";
+                } else {
+
+                    $isValid = "0";
+                }
+            } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
             }
@@ -303,7 +309,7 @@ class AttendanceDao {
         }
         return $isValid;
     }
-    
+
     /**
      * checkForPunchOutOverLappingRecordsWhenEditing
      * @param $punchInTime,$punchOutTime,$employeeId
@@ -312,7 +318,7 @@ class AttendanceDao {
     public function checkForPunchOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId) {
 
         $isValid = "1";
-      
+
 
         try {
 

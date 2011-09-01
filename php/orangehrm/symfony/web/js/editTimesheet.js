@@ -177,11 +177,31 @@ $(document).ready(function() {
 
                 }
 
-                else {
+                else  {
                     if(parseFloat($(element).val()) > 24) {
                         $('#validationMsg').html(lang_not_numeric);
                         $(element).attr('style', errorStyle);
                         flag = false;
+                    }
+                    
+                    else{
+                        element = $(this);
+                        id=element.attr('id');
+                        idArray= id.split("_");
+                        var errorStyle = "background-color:#FFDFDF;";
+                        var flag1= validateVerticalTotal(idArray[2]);
+                        if(!flag1){
+                            $('#validationMsg').html(incorrect_total);
+                            $(element).attr('style', errorStyle);
+                           
+                            flag=false;
+                        }
+                        else{
+                            $(".messageBalloon_success").remove();
+                            $('#validationMsg').removeAttr('class');
+                            $('#validationMsg').html(""); 
+                        }
+                        
                     }
                 }
             }
@@ -191,6 +211,9 @@ $(document).ready(function() {
     }
 
     $('.items').change(function() {
+ 
+        
+       
         var flag = validateInput();
         if(!flag) {
             $('#btnSave').attr('disabled', 'disabled');
@@ -199,8 +222,30 @@ $(document).ready(function() {
         else{
             $('#btnSave').removeAttr('disabled');
         }
+       
 
     });
+    
+    function validateVerticalTotal(id){
+       
+        var total=0;
+        var error=false;
+        for(j=0;j<numberOfRows;j++){
+            var temp = parseFloat($("#initialRows_"+j+"_"+id).val().split(":"));
+           
+            total=total+temp;
+            
+        }
+       
+        if(total>24){
+           
+            error=true;
+           
+          
+        }
+       
+        return !error;
+    }
 
 
     function validateRow() {

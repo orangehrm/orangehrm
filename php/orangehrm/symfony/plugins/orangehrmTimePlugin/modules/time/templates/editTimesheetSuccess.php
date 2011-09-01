@@ -161,6 +161,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var backAction='<?php echo $backAction ?>';
     var endDate='<?php echo $endDate ?>';
     var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
+    var numberOfRows='<?php echo $i ?>';
+    var incorrect_total='<?php echo __('Total hours per day cannot exceed 24'); ?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";

@@ -35,7 +35,7 @@
                 <?php if ($record->getPunchOutUserTime() == null): ?>
                     <td></td>
                     <td></td>
-                <?php elseif ($record->getPunchOutUserTime() != $date): ?>
+                <?php elseif (date('Y-m-d',  strtotime($record->getPunchOutUserTime())) != $date): ?>
 
                     <td><span style="color:#98a09f"><?php echo $record->getPunchOutUserTime() ?></span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
                     <td><?php echo $record->getPunchOutNote() ?></td>
