@@ -198,9 +198,11 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
         $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
         $employeeList = $this->getEmployeeList();
+ 
+        
         if ($actionableStatesList != null) {
             foreach ($employeeList as $employee) {
-
+                
                 $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
 
                 if ($timesheetList != null) {

@@ -83,7 +83,7 @@ class AttendanceActions extends sfActions {
 
         $temppunchInTime = $request->getParameter('punchInTime');
         $timezone = $request->getParameter('timezone');
-         $recordId = $request->getParameter('recordId');
+        $recordId = $request->getParameter('recordId');
 
         $ti = strtotime($temppunchInTime) - $timezone * 3600;
         $punchInDate = date("Y-m-d", $ti);
@@ -92,7 +92,7 @@ class AttendanceActions extends sfActions {
 
         $employeeId = $request->getParameter('employeeId');
 // $this->isValid=$punchIn;
-        $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecordsWhenEditing($punchIn, $employeeId,$recordId);
+        $this->isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecordsWhenEditing($punchIn, $employeeId, $recordId);
     }
 
     public function executeValidatePunchOutOverLappingWhenEditing($request) {
@@ -101,6 +101,7 @@ class AttendanceActions extends sfActions {
         $temppunchOutTime = $request->getParameter('punchOutTime');
         $inTimezone = $request->getParameter('inTimezone');
         $outTimezone = $request->getParameter('outTimezone');
+        $recordId = $request->getParameter('recordId');
         $ti = strtotime($temppunchInTime) - $inTimezone;
         $to = strtotime($temppunchOutTime) - $outTimezone;
 
@@ -115,11 +116,8 @@ class AttendanceActions extends sfActions {
 
 
         $employeeId = $request->getParameter('employeeId');
-         $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId);
-   
-       
-        
-        }
+        $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId);
+    }
 
     public function executeGetCurrentTime($request) {
         $timeZoneOffset = $request->getParameter('timeZone');
@@ -135,7 +133,7 @@ class AttendanceActions extends sfActions {
 
     public function executeGetRelatedAttendanceRecords($request) {
 
-      
+
         $this->allowedToDelete = array();
         $this->allowedActions = array();
 
@@ -163,7 +161,7 @@ class AttendanceActions extends sfActions {
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
         $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
- 
+
         if ($this->records != null) {
 
             if ($actionableStates != null) {
