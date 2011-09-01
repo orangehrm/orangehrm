@@ -333,7 +333,6 @@ class CandidateDao extends BaseDao {
      * @return <type>
      */
     public function getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList) {
-        print_r($allowedHistoryList);
         try {
             $q = Doctrine_Query:: create()
                             ->from('CandidateHistory ch')
