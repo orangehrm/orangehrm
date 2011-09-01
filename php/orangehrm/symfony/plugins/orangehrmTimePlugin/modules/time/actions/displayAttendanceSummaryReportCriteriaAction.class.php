@@ -29,6 +29,7 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
             $lastRecord = end($employeeList);
             $this->lastEmpNumber = $lastRecord->getEmpNumber();
         } else {
+            
             $this->lastEmpNumber = $employeeList->getLast()->getEmpNumber();
         }
 

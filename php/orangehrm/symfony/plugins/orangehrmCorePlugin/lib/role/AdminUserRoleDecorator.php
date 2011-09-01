@@ -235,7 +235,8 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $employee->setFirstName("All");
 
         if ($employeeList[0]->getEmpNumber() == null) {
-            return null;
+            $employeeList->add($employee);
+            return $employeeList;
         } else {
             $employeeList->add($employee);
             return $employeeList;
