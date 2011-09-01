@@ -109,7 +109,7 @@ class CandidateDao extends BaseDao {
                 $param->setVacancyStatus($candidate['vacancyStatus']);
                 $param->setCandidateId($candidate['id']);
                 $param->setVacancyId($candidate['vacancyId']);
-                $param->setCandidateName($candidate['first_name'] . " " . $candidate['middle_name'] . " " . $candidate['last_name']);
+                $param->setCandidateName($candidate['first_name'] . " " . $candidate['middle_name'] . " " . $candidate['last_name'] . $this->_getCandidateNameSuffix($candidate['candidateStatus']));
                 $param->setHiringManagerName($candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname']);
                 $param->setDateOfApplication($candidate['date_of_application']);
                 $param->setAttachmentId($candidate['attachmentId']);
@@ -472,7 +472,7 @@ class CandidateDao extends BaseDao {
     public function buildSearchQuery(CandidateSearchParameters $paramObject, $countQuery = false) {
 
         try {
-            $query = "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId";
+            $query = "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
             $query .= "  FROM ohrm_job_candidate jc";
             $query .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
             $query .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
@@ -670,6 +670,23 @@ class CandidateDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+    
+    /**
+     * Get candidate name suffix according to the candidate status
+     * @param integer $statusCode
+     * return string $suffix
+     */
+    private function _getCandidateNameSuffix($statusCode) {
+        
+        $suffix = "";
+        
+        if ($statusCode == JobCandidate::ARCHIVED) {
+            $suffix = " (" . __('Archived') . ")";
+        }
+        
+        return $suffix;
+        
     }
 
 }
