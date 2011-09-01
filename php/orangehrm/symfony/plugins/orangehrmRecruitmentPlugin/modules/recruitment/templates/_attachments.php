@@ -39,7 +39,9 @@
 	<?php echo $form["recruitmentId"]->render(); ?>
 
 	 <div id="addPaneAttachments" style="display: none" >
-	 <div id="attachmentSubHeadingDiv"><h3 id="attachmentSubHeading" style="float:left;"><?php echo __('Add Attachment'); ?></h3><span id="attachmentEditNote"></span></div>
+	 <div id="attachmentSubHeadingDiv"><h3 id="attachmentSubHeading" style="float:left;"><?php echo __('Add Attachment'); ?></h3>
+		 <span id="attachmentEditNote"></span>
+	 </div>
 	 <br class="clear"/>
 	    <div>
 		<?php echo $form['ufile']->renderLabel(__('Select File') . ' <span class="required">*</span>'); ?>
