@@ -16,7 +16,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 			<h2><?php echo __("Select Employee"); ?></h2>
 		</div>
 		<br class="clear">
-		<form action="<?php echo url_for("time/viewEmployeeTimesheet"); ?>" id="reportForm" method="post">
+		<form action="<?php echo url_for("time/viewEmployeeTimesheet"); ?>" id="employeeSelectForm" method="post">
 
 			<table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
 				<tr>
@@ -71,6 +71,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 	var errorMsge;
        
 	$(document).ready(function() {
+       
 
 		$("#employee").autocomplete(employees, {
 
@@ -84,7 +85,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 	);
 
 		$('#employeeSelectForm').submit(function(){
-            
+    
 			$('#validationMsg').removeAttr('class');
 			$('#validationMsg').html("");
 			var projectFlag = validateInput();
@@ -115,7 +116,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		var empDateCount = employeesArray.length;
 		var temp = false;
 		var i;
-        
+   
          if(empDateCount==0){
             
             errorMsge = "No Employees Available in System";
@@ -124,9 +125,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		for (i=0; i < empDateCount; i++) {
 			empName = $.trim($('#employee').val()).toLowerCase();
 			arrayName = employeesArray[i].name.toLowerCase();
-
+ 
 			if (empName == arrayName) {
 				$('#time_employeeId').val(employeesArray[i].id);
+               
 				temp = true
 				break;
 			}
