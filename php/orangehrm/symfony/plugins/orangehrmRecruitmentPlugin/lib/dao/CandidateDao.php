@@ -162,7 +162,7 @@ class CandidateDao extends BaseDao {
             $q .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
             $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
-            $q .= " AND jc.status = '$candidateStatus'";
+            $q .= " AND jc.status IN (" . implode("," , $searchParam->getCandidateStatus()) . ")";
             if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
             }
@@ -479,7 +479,7 @@ class CandidateDao extends BaseDao {
             $query .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $query .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
             $query .= ' WHERE jc.date_of_application  BETWEEN ' . "'{$paramObject->getFromDate()}'" . ' AND ' . "'{$paramObject->getToDate()}'";
-            $query .= " AND jc.status = '{$paramObject->getCandidateStatus()}'";
+            $query .= " AND jc.status IN (" . implode("," , $paramObject->getCandidateStatus()) . ")";
 
             $query .= $this->_buildAdditionalWhereClauses($paramObject);
             $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());

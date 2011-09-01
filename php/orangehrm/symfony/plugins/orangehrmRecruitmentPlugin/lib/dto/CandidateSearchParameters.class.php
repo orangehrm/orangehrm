@@ -28,7 +28,7 @@ class CandidateSearchParameters {
     private $vacancyId;
     private $status;
     private $candidateId;
-    private $candidateStatus = JobCandidate::ACTIVE;
+    private $candidateStatus = array(JobCandidate::ACTIVE);
     private $vacancyStatus = JobVacancy::ACTIVE;
     private $sortField = 'jc.date_of_application';
     private $sortOrder = 'DESC';
@@ -101,6 +101,9 @@ class CandidateSearchParameters {
     }
 
     public function getCandidateStatus() {
+        if($this->getAdditionalParams() != null) {
+            $this->candidateStatus = $this->getAdditionalParams();
+        }
         return $this->candidateStatus;
     }
 
