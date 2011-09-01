@@ -10,7 +10,7 @@ $(document).ready(function() {
         $("#btnSave").attr('disabled', 'disabled');
     }
 
-    if(vacancyString.trim() != ""){ //This happens in the view mode and edit mode
+    if(vacancyString.trim() != "" && invalidFile != 1){ //This happens in the view mode and edit mode
         for(var i=0; i<vacancyList.length; i++){
             if($.inArray(vacancyList[i], closedVacancyIdArray) > -1){
                 buildVacancyDrpDwn(vacancyList[i], "show with closed vacancies", true);

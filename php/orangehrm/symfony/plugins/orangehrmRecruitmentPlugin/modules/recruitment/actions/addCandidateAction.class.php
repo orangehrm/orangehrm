@@ -68,6 +68,7 @@ class addCandidateAction extends sfAction {
         $allowedVacancyList = $userObj->getAllowedVacancyList();
         $allowedCandidateListToDelete = $userObj->getAllowedCandidateListToDelete();
         $this->candidateId = $request->getParameter('id');
+        $this->invalidFile = false;
         $reDirect = false;
         $this->edit = true;
         if ($this->candidateId > 0 && !(in_array($this->candidateId, $allowedCandidateListToDelete))) {
@@ -127,6 +128,7 @@ class addCandidateAction extends sfAction {
                     if (isset($result['messageType'])) {
                         $this->messageType = $result['messageType'];
                         $this->message = $result['message'];
+                        $this->invalidFile = true;
                     } else {
                         $this->candidateId = $result['candidateId'];
                         $this->getUser()->setFlash('templateMessage', array('success', __('Job Candidate Saved Successfully')));

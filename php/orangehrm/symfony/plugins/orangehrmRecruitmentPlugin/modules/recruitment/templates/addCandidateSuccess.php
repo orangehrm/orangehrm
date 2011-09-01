@@ -281,4 +281,5 @@ foreach ($jobVacancyList as $vacancy) {
     var editRights = "<?php echo $edit; ?>";
     var activeStatus = "<?php echo JobCandidate::ACTIVE; ?>";
     var candidateStatus = "<?php echo $candidateStatus; ?>";
+    var invalidFile = "<?php echo $invalidFile; ?>";
 </script>
