@@ -780,8 +780,8 @@ if ($_SESSION['isAdmin'] == 'Yes' && $arrAllRights[Report]['view']) {
 
 /* Start ESS menu */
 if ($_SESSION['isAdmin'] != 'Yes') {
-    $menuItem = new MenuItem("ess", $lang_Menu_Ess, "./index.php?menu_no_top=ess");
-    //$menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "_self");
+    //$menuItem = new MenuItem("ess", $lang_Menu_Ess, "./index.php?menu_no_top=ess");
+    $menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
     //new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configurePim", "rightMenu");
 
     $menuItem->setCurrent($_GET['menu_no_top'] == "ess");

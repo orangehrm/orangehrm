@@ -519,7 +519,7 @@ class leaveActions extends sfActions {
             $this->_setFilters($mode, $request->getGetParameters());
         }
 
-        if ($request->isMethod('post')) { 
+        if ($request->isMethod('post')) {
             $this->_setFilters($mode, $request->getPostParameters());
         }
         
