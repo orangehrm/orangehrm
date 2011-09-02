@@ -44,7 +44,8 @@ class CandidateHistoryService {
         $description = $this->getCandidateHistoryDescription($object);
         $dto->setDescription($description);
         $array = array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY);
-        $link = ($object->getVacancyId() == null || in_array($object->getAction(), $array) ? "" : __("View"));
+        $candidateVacancy = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($object->getCandidateId(), $object->getVacancyId());
+        $link = ($candidateVacancy == null || in_array($object->getAction(), $array) ? "" : __("View"));
         $dto->setDetails($link);
 
         return $dto;
@@ -170,6 +171,14 @@ class CandidateHistoryService {
             $this->interviewService->setJobInterviewDao(new JobInterviewDao());
         }
         return $this->interviewService;
+    }
+
+    public function getCandidateService() {
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
     }
 
 }

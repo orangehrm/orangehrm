@@ -1,31 +1,12 @@
 var nextId = 0;
 var toDisable = new Array();
 var item = 0;
+var vacancyId;
 $(document).ready(function() {
 
-    var vacancyString = $("#addCandidate_vacancyList").val();
-    var vacancyList = (vacancyString.trim()).split("_");
-
+    vacancyId = $('#addCandidate_vacancy').val();
     if(candidateStatus != activeStatus) {
         $("#btnSave").attr('disabled', 'disabled');
-    }
-
-    if(vacancyString.trim() != "" && invalidFile != 1){ //This happens in the view mode and edit mode
-        for(var i=0; i<vacancyList.length; i++){
-            if($.inArray(vacancyList[i], closedVacancyIdArray) > -1){
-                buildVacancyDrpDwn(vacancyList[i], "show with closed vacancies", true);
-            }
-            else if($.inArray(vacancyList[i], allowedVacancyIdArray) > -1){
-                buildVacancyDrpDwn(vacancyList[i], "show allowed vacancies", true);
-            }
-            else{
-                buildVacancyDrpDwn(vacancyList[i], "show all vacancies", false);
-            }
-            $('.removeText').css("padding-left", "195px");
-        }
-    }else{ //this happens in the add mode
-        buildVacancyDrpDwn("",  "show allowed vacancies", true);
-        $("#removeButton0").hide();
     }
 
     $(".addText").live('click', function(){
@@ -45,14 +26,7 @@ $(document).ready(function() {
             }
         }
     });
-    if(allowedVacancylist.length -1 == nextId){
-        $('.addText').hide();
-    }
-    if($('.vacancyDrop').length == 1){
-        $('.removeText').hide();
-    }else{
-        $('.removeText').show();
-    }
+
     $('.removeText').live('click', function(){
 
         result = /\d+(?:\.\d+)?/.exec(this.id);
@@ -64,7 +38,7 @@ $(document).ready(function() {
         }
         else{
             $('#jobDropDown'+result).remove();
-	    validate();
+            validate();
             $("#addButton"+($('.vacancyDrop').length-1)).show();
             $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
             if(result == $('.vacancyDrop').length-1){
@@ -115,7 +89,7 @@ $(document).ready(function() {
                 $('#addCandidate_keyWords.inputFormatHint').val('');
                 getVacancy();
                 if(candidateId != "") {
-                    if((isExistedVacancyGoingToBeDeleted == 1) && (vacancyList[0] != "")) {
+                    if($('#addCandidate_vacancy').val() != vacancyId && vacancyId != "") {
                         $('#deleteConfirmationForSave').dialog('open');
                     } else {
                         $('form#frmAddCandidate').submit();
@@ -128,7 +102,7 @@ $(document).ready(function() {
         }
 
     });
-    
+   
     $("input[name=addCandidate[resumeUpdate]]").click(function () {
         if(attachment != "" && !$('#addCandidate_resumeUpdate_3').attr("checked")){
             $('#addCandidate_resume').val("");
@@ -154,8 +128,8 @@ $(document).ready(function() {
     });
     
     if(candidateId != ""){
-        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop',
-            '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
+        var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop', '#addCandidate_vacancy',
+        '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
         for(i=0; i < widgetList.length; i++) {
             $(widgetList[i]).attr("disabled", "disabled");
         }
@@ -193,7 +167,14 @@ $(document).ready(function() {
             window.location.replace(backBtnUrl+'?candidateId='+candidateId);
         }
     });
-    
+
+    $('#addCandidate_vacancy').change(function(){
+        $('#actionPane').hide();
+        if( $('#addCandidate_vacancy').val() == vacancyId){
+            $('#actionPane').show();
+        }
+    });
+
     $('#deleteConfirmation').dialog({
         autoOpen: false,
         modal: true,
@@ -203,27 +184,6 @@ $(document).ready(function() {
         open: function() {
             $('#dialogCancelBtn').focus();
         }
-    });
-
-    $('#dialogDeleteBtn').click(function() {
-        $('#jobDropDown'+result).remove();
-	validate();
-        $('#'+result).remove();
-        $("#addButton"+($('.vacancyDrop').length-1)).show();
-        $("#removeButton"+($('.vacancyDrop').length-1)).css("padding-left", "128px");
-        if(result == $('.vacancyDrop').length-1){
-            $("#addButton"+(nextId-1)).show();
-            $("#removeButton"+(nextId-1)).css("padding-left", "128px");
-        }
-        nextId--;
-        $("#deleteConfirmation").dialog("close");
-        if($('.vacancyDrop').length == 1){
-            $('.removeText').hide();
-        }
-    });
-    
-    $('#dialogCancelBtn').click(function() {
-        $("#deleteConfirmation").dialog("close");
     });
     
     $('#deleteConfirmationForSave').dialog({
@@ -238,11 +198,14 @@ $(document).ready(function() {
     });
 
     $('#dialogSaveButton').click(function() {
+        $("#deleteConfirmationForSave").dialog("close");
         $('form#frmAddCandidate').submit();
     });
     
     $('#dialogCancelButton').click(function() {
+        $('#addCandidate_vacancy').val(vacancyId);
         $("#deleteConfirmationForSave").dialog("close");
+        $('#actionPane').show();
     });
 
     $('.vacancyDrop').change(function(){
@@ -256,8 +219,8 @@ function buildVacancyDrpDwn(vacancyId, mode, removeBtn) {
         var newjobDropDown = $(document.createElement('div')).attr("id", 'jobDropDown' + nextId);
         $('#jobDropDown' + nextId).addClass('jobDropDown');
         htmlTxt =  '<label><?php echo __(Job Vacancy); ?></label>' +
-        '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
-        '<span '+'class="addText"'+ 'id="addButton'+nextId+'">'+'Add another'+'</span>'
+            '<select  id="jobDropDown' + nextId +'"'+' onchange="validate()"'+' class="vacancyDrop"'+'>'+buildVacancyList(vacancyId, mode)+'</select>'+
+            '<span '+'class="addText"'+ 'id="addButton'+nextId+'">'+'Add another'+'</span>'
         if(removeBtn){
             htmlTxt += '<span '+'class="removeText"'+ 'id="removeButton'+nextId+'">'+lang_remove+'</span>'
         }else{

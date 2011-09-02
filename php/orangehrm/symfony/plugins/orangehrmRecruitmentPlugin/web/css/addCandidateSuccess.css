@@ -209,3 +209,21 @@ div.messageBalloon_success {
 	margin-top: 10px;
 	padding-top: 8px;
 }
+
+#addCandidate_vacancy{
+    width: 210px;
+    margin-top: 14px;
+}
+
+.vacancyDrpLabel{
+    margin-top: 15px;
+}
+
+.outerbox{
+    width: 800px;
+}
+
+#candidateHistoryResults{
+    width: 830px;
+}
+

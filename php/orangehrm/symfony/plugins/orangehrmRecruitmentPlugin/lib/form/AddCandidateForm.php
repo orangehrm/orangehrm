@@ -20,398 +20,388 @@
  */
 class AddCandidateForm extends BaseForm {
 
-	private $vacancyService;
-	private $candidateService;
-	public $attachment;
-	public $candidateId;
-	private $recruitmentAttachmentService;
-	private $addedBy;
-	private $addedHistory;
-	private $removedHistory;
-	public $allowedVacancyList;
-	private $allowedFileTypes = array(
-	    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-	    "doc" => "application/msword",
-	    "doc" => "application/x-msword",
-	    "doc" => "application/vnd.ms-office",
-	    "odt" => "application/vnd.oasis.opendocument.text",
-	    "pdf" => "application/pdf",
-	    "pdf" => "application/x-pdf",
-	    "rtf" => "application/rtf",
-	    "rtf" => "text/rtf",
-	    "txt" => "text/plain"
-	);
+    private $vacancyService;
+    private $candidateService;
+    public $attachment;
+    public $candidateId;
+    private $recruitmentAttachmentService;
+    private $addedBy;
+    private $addedHistory;
+    private $removedHistory;
+    public $allowedVacancyList;
+    private $allowedFileTypes = array(
+        "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "doc" => "application/msword",
+        "doc" => "application/x-msword",
+        "doc" => "application/vnd.ms-office",
+        "odt" => "application/vnd.oasis.opendocument.text",
+        "pdf" => "application/pdf",
+        "pdf" => "application/x-pdf",
+        "rtf" => "application/rtf",
+        "rtf" => "text/rtf",
+        "txt" => "text/plain"
+    );
 
-	const CONTRACT_KEEP = 1;
-	const CONTRACT_DELETE = 2;
-	const CONTRACT_UPLOAD = 3;
+    const CONTRACT_KEEP = 1;
+    const CONTRACT_DELETE = 2;
+    const CONTRACT_UPLOAD = 3;
 
-	/**
-	 * Get VacancyService
-	 * @returns VacncyService
-	 */
-	public function getVacancyService() {
-		if (is_null($this->vacancyService)) {
-			$this->vacancyService = new VacancyService();
-			$this->vacancyService->setVacancyDao(new VacancyDao());
-		}
-		return $this->vacancyService;
-	}
+    /**
+     * Get VacancyService
+     * @returns VacncyService
+     */
+    public function getVacancyService() {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+            $this->vacancyService->setVacancyDao(new VacancyDao());
+        }
+        return $this->vacancyService;
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getCandidateService() {
-		if (is_null($this->candidateService)) {
-			$this->candidateService = new CandidateService();
-			$this->candidateService->setCandidateDao(new CandidateDao());
-		}
-		return $this->candidateService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getCandidateService() {
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getRecruitmentAttachmentService() {
-		if (is_null($this->recruitmentAttachmentService)) {
-			$this->recruitmentAttachmentService = new RecruitmentAttachmentService();
-			$this->recruitmentAttachmentService->setRecruitmentAttachmentDao(new RecruitmentAttachmentDao());
-		}
-		return $this->recruitmentAttachmentService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getRecruitmentAttachmentService() {
+        if (is_null($this->recruitmentAttachmentService)) {
+            $this->recruitmentAttachmentService = new RecruitmentAttachmentService();
+            $this->recruitmentAttachmentService->setRecruitmentAttachmentDao(new RecruitmentAttachmentDao());
+        }
+        return $this->recruitmentAttachmentService;
+    }
 
-	/**
-	 *
-	 */
-	public function configure() {
+    /**
+     *
+     */
+    public function configure() {
 
-		$this->candidateId = $this->getOption('candidateId');
-		$this->allowedVacancyList = $this->getOption('allowedVacancyList');
-		$attachmentList = $this->attachment;
-		if (count($attachmentList) > 0) {
-			$this->attachment = $attachmentList[0];
-		}
+        $this->candidateId = $this->getOption('candidateId');
+        $this->allowedVacancyList = $this->getOption('allowedVacancyList');
+        $attachmentList = $this->attachment;
+        if (count($attachmentList) > 0) {
+            $this->attachment = $attachmentList[0];
+        }
+        $vacancyList = $this->getActiveVacancyList();
+        if ($this->candidateId != null) {
+            $candidateVacancyList = $this->getCandidateService()->getCandidateById($this->candidateId)->getJobCandidateVacancy();
+            $vacancy = $candidateVacancyList[0]->getJobVacancy();
+            if($vacancy->getStatus() == JobVacancy::CLOSED){
+                $vacancyList[$vacancy->getId()] = $vacancy->getVacancyName();
+            }
+        }
 
-		$vacancyList = $this->getVacancyList();
+        
 
-		$resumeUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
-		    self::CONTRACT_DELETE => __('Delete Current'),
-		    self::CONTRACT_UPLOAD => __('Replace Current'));
+        $resumeUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
+            self::CONTRACT_DELETE => __('Delete Current'),
+            self::CONTRACT_UPLOAD => __('Replace Current'));
 
-		// creating widgets
-		$this->setWidgets(array(
-		    'firstName' => new sfWidgetFormInputText(),
-		    'middleName' => new sfWidgetFormInputText(),
-		    'lastName' => new sfWidgetFormInputText(),
-		    'email' => new sfWidgetFormInputText(),
-		    'contactNo' => new sfWidgetFormInputText(),
-		    'resume' => new sfWidgetFormInputFileEditable(
-			    array('edit_mode' => false,
-				'with_delete' => false,
-				'file_src' => '')),
-		    'keyWords' => new sfWidgetFormInputText(),
-		    'comment' => new sfWidgetFormTextArea(),
-		    'appliedDate' => new sfWidgetFormInputText(),
-		    'vacancyList' => new sfWidgetFormInputHidden(),
-		    'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
-		));
+        // creating widgets
+        $this->setWidgets(array(
+            'firstName' => new sfWidgetFormInputText(),
+            'middleName' => new sfWidgetFormInputText(),
+            'lastName' => new sfWidgetFormInputText(),
+            'email' => new sfWidgetFormInputText(),
+            'contactNo' => new sfWidgetFormInputText(),
+            'resume' => new sfWidgetFormInputFileEditable(
+                    array('edit_mode' => false,
+                        'with_delete' => false,
+                        'file_src' => '')),
+            'keyWords' => new sfWidgetFormInputText(),
+            'comment' => new sfWidgetFormTextArea(),
+            'appliedDate' => new sfWidgetFormInputText(),
+            'vacancy' => new sfWidgetFormSelect(array('choices' => $vacancyList)),
+            'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
+        ));
 
-		$this->setValidators(array(
-		    'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-		    'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-		    'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-		    'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
-		    'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-		    'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
-			'validated_file_class' => 'orangehrmValidatedFile')),
-		    'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
-		    'comment' => new sfValidatorString(array('required' => false)),
-		    'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
-		    'vacancyList' => new sfValidatorString(array('required' => false)),
-		    'resumeUpdate' => new sfValidatorString(array('required' => false)),
-		));
+        $this->setValidators(array(
+            'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
+            'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
+            'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
+            'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
+            'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
+            'resume' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
+                'validated_file_class' => 'orangehrmValidatedFile')),
+            'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
+            'comment' => new sfValidatorString(array('required' => false)),
+            'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+            'vacancy' => new sfValidatorString(array('required' => false)),
+            'resumeUpdate' => new sfValidatorString(array('required' => false)),
+        ));
 
-		$this->widgetSchema->setNameFormat('addCandidate[%s]');
-		$this->widgetSchema['appliedDate']->setAttribute('style', 'width:100px');
-		$this->setDefault('appliedDate', ohrm_format_date(date('Y-m-d')));
+        $this->widgetSchema->setNameFormat('addCandidate[%s]');
+        $this->widgetSchema['appliedDate']->setAttribute('style', 'width:100px');
+        $this->setDefault('appliedDate', ohrm_format_date(date('Y-m-d')));
 
-		if ($this->candidateId != null) {
-			$this->setDefaultValues($this->candidateId);
-		}
-	}
+        if ($this->candidateId != null) {
+            $this->setDefaultValues($this->candidateId);
+        }
+    }
 
-	private function setDefaultValues($candidateId) {
+    private function setDefaultValues($candidateId) {
 
-		$candidate = $this->getCandidateService()->getCandidateById($candidateId);
-		$this->setDefault('firstName', $candidate->getFirstName());
-		$this->setDefault('middleName', $candidate->getMiddleName());
-		$this->setDefault('lastName', $candidate->getLastName());
-		$this->setDefault('email', $candidate->getEmail());
-		$this->setDefault('contactNo', $candidate->getContactNumber());
-		$this->attachment = $candidate->getJobCandidateAttachment();
-		$this->setDefault('keyWords', $candidate->getKeywords());
-		$this->setDefault('comment', $candidate->getComment());
-		$this->setDefault('appliedDate', $candidate->getDateOfApplication());
-		$candidateVacancyList = $candidate->getJobCandidateVacancy();
-		$vacancyList = array();
-		foreach ($candidateVacancyList as $candidateVacancy) {
-			$vacancyList[] = $candidateVacancy->getVacancyId();
-		}
-		$this->setDefault('vacancyList', implode("_", $vacancyList));
-	}
+        $candidate = $this->getCandidateService()->getCandidateById($candidateId);
+        $this->setDefault('firstName', $candidate->getFirstName());
+        $this->setDefault('middleName', $candidate->getMiddleName());
+        $this->setDefault('lastName', $candidate->getLastName());
+        $this->setDefault('email', $candidate->getEmail());
+        $this->setDefault('contactNo', $candidate->getContactNumber());
+        $this->attachment = $candidate->getJobCandidateAttachment();
+        $this->setDefault('keyWords', $candidate->getKeywords());
+        $this->setDefault('comment', $candidate->getComment());
+        $this->setDefault('appliedDate', $candidate->getDateOfApplication());
+        $candidateVacancyList = $candidate->getJobCandidateVacancy();
+        $this->setDefault('vacancy', $candidateVacancyList[0]->getVacancyId());
+    }
 
-	/**
-	 *
-	 * @return <type> 
-	 */
-	private function getVacancyList() {
-		$list = array("" => "-- " . __('Select') . " --");
-		$vacancyList = $this->getVacancyService()->getVacancyList();
-		foreach ($vacancyList as $vacancy) {
-			$list[$vacancy->getId()] = $vacancy->getName();
-		}
-		return $list;
-	}
+    private function getActiveVacancyList() {
+        $list = array("" => "-- " . __('Select') . " --");
+        $activeVacancyList = $this->getVacancyService()->getAllVacancies(JobVacancy::ACTIVE);
+        foreach ($activeVacancyList as $vacancy) {
+            $vacancyId = $vacancy->getId();
+            if (in_array($vacancyId, $this->allowedVacancyList)) {
+                $list[$vacancy->getId()] = $vacancy->getName();
+            }
+        }
+        return $list;
+    }
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function save() {
+    /**
+     *
+     * @return string
+     */
+    public function save() {
 
-		$file = $this->getValue('resume');
-		$resumeUpdate = $this->getValue('resumeUpdate');
-		$resume = new JobCandidateAttachment();
-		$resumeId = "";
-		$candidate = new JobCandidate();
-		$vacnacyArray = explode("_", $this->getValue('vacancyList'));
-		$existingVacancyList = array();
-		$empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
-		if ($empNumber == 0) {
-			$empNumber = null;
-		}
-		$this->addedBy = $empNumber;
+        $file = $this->getValue('resume');
+        $resumeUpdate = $this->getValue('resumeUpdate');
+        $resume = new JobCandidateAttachment();
+        $resumeId = "";
+        $candidate = new JobCandidate();
+        $vacancy = $this->getValue('vacancy');
+        $existingVacancyList = array();
+        $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        if ($empNumber == 0) {
+            $empNumber = null;
+        }
+        $this->addedBy = $empNumber;
 
-		if (!empty($file)) {
-			if (!($this->isValidResume($file))) {
-				$resultArray['messageType'] = 'warning';
-				$resultArray['message'] = __('Error Occurred - Invalid File Type');
-				return $resultArray;
-			}
-		}
-		if ($this->candidateId != null) {
-			$candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
-			$storedResume = $candidate->getJobCandidateAttachment();
-			if ($storedResume != "") {
-				$resume = $storedResume;
-			}
-			$existingVacancyList = $candidate->getJobCandidateVacancy();
+        if (!empty($file)) {
+            if (!($this->isValidResume($file))) {
+                $resultArray['messageType'] = 'warning';
+                $resultArray['message'] = __('Error Occurred - Invalid File Type');
+                return $resultArray;
+            }
+        }
+        if ($this->candidateId != null) {
+            $candidate = $this->getCandidateService()->getCandidateById($this->candidateId);
+            $storedResume = $candidate->getJobCandidateAttachment();
+            if ($storedResume != "") {
+                $resume = $storedResume;
+            }
+            $existingVacancyList = $candidate->getJobCandidateVacancy();
+            $candidateVacancy = $existingVacancyList[0];
+            $id = $candidateVacancy->getVacancyId();
+            if (!empty($id)) {
+                if ($id != $vacancy) {
+                    $candidateVacancy->delete();
+                    $vacancyName = $candidateVacancy->getVacancyName();
+                    $this->removedHistory = new CandidateHistory();
+                    $this->removedHistory->candidateId = $this->candidateId;
+                    $this->removedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
+                    $this->removedHistory->performedBy = $this->addedBy;
+                    $date = ohrm_format_date(date('Y-m-d'));
+                    $this->removedHistory->performedDate = $date . " " . date('H:i:s');
+                    $this->removedHistory->candidateVacancyName = $vacancyName;
+                    $this->_saveCandidateVacancies($vacancy, $this->candidateId);
+                }
+            } else {
+                $this->_saveCandidateVacancies($vacancy, $this->candidateId);
+            }
+        }
 
-			$idList = array();
-			if ($existingVacancyList[0]->getVacancyId() != "") {
-				foreach ($existingVacancyList as $candidateVacancy) {
-					$id = $candidateVacancy->getVacancyId();
-					if (!in_array($id, $vacnacyArray)) {
-						$vacancyName = $candidateVacancy->getVacancyName();
-						$candidateVacancy->delete();
-						$this->removedHistory = new CandidateHistory();
-						$this->removedHistory->candidateId = $this->candidateId;
-						$this->removedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
-						$this->removedHistory->performedBy = $this->addedBy;
-						$date = ohrm_format_date(date('Y-m-d'));
-						$this->removedHistory->performedDate = $date . " " . date('H:i:s');
-						$this->removedHistory->candidateVacancyName = $vacancyName;
+        if ($resumeUpdate == self::CONTRACT_DELETE) {
+            $resume->delete();
+        }
+        $candidateId = $this->_getNewlySavedCandidateId($candidate);
 
-						//$this->getCandidateService()->saveCandidateHistory($this->removedHistory);
-					} else {
-						$idList[] = $id;
-					}
-				}
-			}
-			$vacnacyArray = array_diff($vacnacyArray, $idList);
+        $resultArray = array();
+        $resultArray['candidateId'] = $candidateId;
+        if (!empty($file)) {
+            $resumeId = $this->_saveResume($file, $resume, $candidateId);
+        }
+        if ($this->candidateId == "") {
+            $this->_saveCandidateVacancies($vacancy, $candidateId);
+        }
+        if (!empty($this->addedHistory)) {
+            $this->getCandidateService()->saveCandidateHistory($this->addedHistory);
+        }
+        if (!empty($this->removedHistory)) {
+            $this->getCandidateService()->saveCandidateHistory($this->removedHistory);
+        }
+        return $resultArray;
+    }
 
-			$newList = array();
-			foreach ($vacnacyArray as $elements) {
-				$newList[] = $elements;
-			}
-			$vacnacyArray = $newList;
-		}
-		if ($resumeUpdate == self::CONTRACT_DELETE) {
-			$resume->delete();
-		}
-		$candidateId = $this->_getNewlySavedCandidateId($candidate);
+    /**
+     *
+     * @param sfValidatedFile $file
+     * @return <type>
+     */
+    protected function isValidResume($file) {
+        $validFile = false;
 
-		$resultArray = array();
-		$resultArray['candidateId'] = $candidateId;
-		if (!empty($file)) {
-			$resumeId = $this->_saveResume($file, $resume, $candidateId);
-		}
-		$this->_saveCandidateVacancies($vacnacyArray, $candidateId);
-		if (!empty($this->addedHistory)) {
-			$this->getCandidateService()->saveCandidateHistory($this->addedHistory);
-		}
-		if (!empty($this->removedHistory)) {
-			$this->getCandidateService()->saveCandidateHistory($this->removedHistory);
-		}
-		return $resultArray;
-	}
+        $mimeTypes = array_values($this->allowedFileTypes);
+        $originalName = $file->getOriginalName();
 
-	/**
-	 *
-	 * @param sfValidatedFile $file
-	 * @return <type>
-	 */
-	protected function isValidResume($file) {
-		$validFile = false;
+        if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
 
-		$mimeTypes = array_values($this->allowedFileTypes);
-		$originalName = $file->getOriginalName();
+            $fileType = $file->getType();
 
-		if (($file instanceof orangehrmValidatedFile) && $originalName != "") {
+            if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
+                $validFile = true;
+            } else {
+                $fileType = $this->guessTypeFromFileExtension($originalName);
 
-			$fileType = $file->getType();
+                if (!empty($fileType)) {
+                    $file->setType($fileType);
+                    $validFile = true;
+                }
+            }
+        }
 
-			if (!empty($fileType) && in_array($fileType, $mimeTypes)) {
-				$validFile = true;
-			} else {
-				$fileType = $this->guessTypeFromFileExtension($originalName);
+        return $validFile;
+    }
 
-				if (!empty($fileType)) {
-					$file->setType($fileType);
-					$validFile = true;
-				}
-			}
-		}
+    /**
+     *
+     * @param <type> $file
+     * @param <type> $resume
+     * @param <type> $candidateId
+     * @return <type> 
+     */
+    private function _saveResume($file, $resume, $candidateId) {
 
-		return $validFile;
-	}
+        $tempName = $file->getTempName();
+        $resume->fileContent = file_get_contents($tempName);
+        $resume->fileName = $file->getOriginalName();
+        $resume->fileType = $file->getType();
+        $resume->fileSize = $file->getSize();
+        $resume->fileSize = $file->getSize();
+        $resume->candidateId = $candidateId;
 
-	/**
-	 *
-	 * @param <type> $file
-	 * @param <type> $resume
-	 * @param <type> $candidateId
-	 * @return <type> 
-	 */
-	private function _saveResume($file, $resume, $candidateId) {
+        $recruitmentAttachmentService = $this->getRecruitmentAttachmentService();
+        $recruitmentAttachmentService->saveCandidateAttachment($resume);
+    }
 
-		$tempName = $file->getTempName();
-		$resume->fileContent = file_get_contents($tempName);
-		$resume->fileName = $file->getOriginalName();
-		$resume->fileType = $file->getType();
-		$resume->fileSize = $file->getSize();
-		$resume->fileSize = $file->getSize();
-		$resume->candidateId = $candidateId;
+    /**
+     *
+     * @param <type> $candidate
+     * @return <type>
+     */
+    private function _getNewlySavedCandidateId($candidate) {
 
-		$recruitmentAttachmentService = $this->getRecruitmentAttachmentService();
-		$recruitmentAttachmentService->saveCandidateAttachment($resume);
-	}
+        $candidate->firstName = $this->getValue('firstName');
+        $candidate->middleName = $this->getValue('middleName');
+        $candidate->lastName = $this->getValue('lastName');
+        $candidate->email = $this->getValue('email');
+        $candidate->comment = $this->getValue('comment');
+        $candidate->contactNumber = $this->getValue('contactNo');
+        $candidate->keywords = $this->getValue('keyWords');
+        $candidate->addedPerson = $this->addedBy;
 
-	/**
-	 *
-	 * @param <type> $candidate
-	 * @return <type>
-	 */
-	private function _getNewlySavedCandidateId($candidate) {
+        if ($this->getValue('appliedDate') == "") {
+            $candidate->dateOfApplication = ohrm_format_date(date('Y-m-d'));
+        } else {
+            $candidate->dateOfApplication = $this->getValue('appliedDate');
+        }
+        $candidate->status = JobCandidate::ACTIVE;
+        $candidate->modeOfApplication = JobCandidate::MODE_OF_APPLICATION_MANUAL;
 
-		$candidate->firstName = $this->getValue('firstName');
-		$candidate->middleName = $this->getValue('middleName');
-		$candidate->lastName = $this->getValue('lastName');
-		$candidate->email = $this->getValue('email');
-		$candidate->comment = $this->getValue('comment');
-		$candidate->contactNumber = $this->getValue('contactNo');
-		$candidate->keywords = $this->getValue('keyWords');
-		$candidate->addedPerson = $this->addedBy;
+        $candidateService = $this->getCandidateService();
+        if ($this->candidateId != null) {
+            $candidateService->updateCandidate($candidate);
+        } else {
+            $candidateService->saveCandidate($candidate);
+            $this->addedHistory = new CandidateHistory();
+            $this->addedHistory->candidateId = $candidate->getId();
+            $this->addedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
+            $this->addedHistory->performedBy = $this->addedBy;
+            $date = ohrm_format_date(date('Y-m-d'));
+            $this->addedHistory->performedDate = $date . " " . date('H:i:s');
+        }
+        $candidateId = $candidate->getId();
+        return $candidateId;
+    }
 
-		if ($this->getValue('appliedDate') == "") {
-			$candidate->dateOfApplication = ohrm_format_date(date('Y-m-d'));
-		} else {
-			$candidate->dateOfApplication = $this->getValue('appliedDate');
-		}
-		$candidate->status = JobCandidate::ACTIVE;
-		$candidate->modeOfApplication = JobCandidate::MODE_OF_APPLICATION_MANUAL;
+    /**
+     *
+     * @param <type> $vacnacyArray
+     * @param <type> $candidateId
+     */
+    private function _saveCandidateVacancies($vacnacy, $candidateId) {
 
-		$candidateService = $this->getCandidateService();
-		if ($this->candidateId != null) {
-			$candidateService->updateCandidate($candidate);
-		} else {
-			$candidateService->saveCandidate($candidate);
-			$this->addedHistory = new CandidateHistory();
-			$this->addedHistory->candidateId = $candidate->getId();
-			$this->addedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
-			$this->addedHistory->performedBy = $this->addedBy;
-			$date = ohrm_format_date(date('Y-m-d'));
-			$this->addedHistory->performedDate = $date . " " . date('H:i:s');
-			//$this->getCandidateService()->saveCandidateHistory($history);
-		}
-		$candidateId = $candidate->getId();
-		return $candidateId;
-	}
+        if ($vacnacy != null) {
+            $candidateVacancy = new JobCandidateVacancy();
+            $candidateVacancy->candidateId = $candidateId;
+            $candidateVacancy->vacancyId = $vacnacy;
+            $candidateVacancy->status = "APPLICATION INITIATED";
+            if ($this->getValue('appliedDate') == "") {
+                $candidateVacancy->appliedDate = ohrm_format_date(date('Y-m-d'));
+            } else {
+                $candidateVacancy->appliedDate = $this->getValue('appliedDate');
+            }
+            $candidateService = $this->getCandidateService();
+            $candidateService->saveCandidateVacancy($candidateVacancy);
+            $history = new CandidateHistory();
+            $history->candidateId = $candidateId;
+            $history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+            $history->vacancyId = $candidateVacancy->getVacancyId();
+            $history->performedBy = $this->addedBy;
+            $date = ohrm_format_date(date('Y-m-d'));
+            $history->performedDate = $date . " " . date('H:i:s');
+            $history->candidateVacancyName = $candidateVacancy->getVacancyName();
+            $this->getCandidateService()->saveCandidateHistory($history);
+        }
+    }
 
-	/**
-	 *
-	 * @param <type> $vacnacyArray
-	 * @param <type> $candidateId
-	 */
-	private function _saveCandidateVacancies($vacnacyArray, $candidateId) {
-		// print_r($vacnacyArray);die;
-		if ($vacnacyArray[0] != null) {
-			for ($i = 0; $i < sizeof($vacnacyArray) - 1; $i++) {
-				if ($vacnacyArray[$i] != "") {
-					$candidateVacancy = new JobCandidateVacancy();
-					$candidateVacancy->candidateId = $candidateId;
-					$candidateVacancy->vacancyId = $vacnacyArray[$i];
-					$candidateVacancy->status = "APPLICATION INITIATED";
-					if ($this->getValue('appliedDate') == "") {
-						$candidateVacancy->appliedDate = ohrm_format_date(date('Y-m-d'));
-					} else {
-						$candidateVacancy->appliedDate = $this->getValue('appliedDate');
-					}
-					$candidateService = $this->getCandidateService();
-					$candidateService->saveCandidateVacancy($candidateVacancy);
-					$history = new CandidateHistory();
-					$history->candidateId = $candidateId;
-					$history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
-					$history->vacancyId = $candidateVacancy->getVacancyId();
-					$history->performedBy = $this->addedBy;
-					$date = ohrm_format_date(date('Y-m-d'));
-					$history->performedDate = $date . " " . date('H:i:s');
-					$history->candidateVacancyName = $candidateVacancy->getVacancyName();
-					$this->getCandidateService()->saveCandidateHistory($history);
-				}
-			}
-		}
-	}
+    /**
+     *
+     * @return JobCandidateAttachment
+     */
+    public function getResume() {
+        return $this->attachment;
+    }
 
-	/**
-	 *
-	 * @return JobCandidateAttachment
-	 */
-	public function getResume() {
-		return $this->attachment;
-	}
+    /**
+     * Guess the file mime type from the file extension
+     *
+     * @param  string $file  The absolute path of a file
+     *
+     * @return string The mime type of the file (null if not guessable)
+     */
+    public function guessTypeFromFileExtension($file) {
 
-	/**
-	 * Guess the file mime type from the file extension
-	 *
-	 * @param  string $file  The absolute path of a file
-	 *
-	 * @return string The mime type of the file (null if not guessable)
-	 */
-	public function guessTypeFromFileExtension($file) {
+        $mimeType = null;
 
-		$mimeType = null;
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-		$extension = pathinfo($file, PATHINFO_EXTENSION);
+        if (isset($this->allowedFileTypes[$extension])) {
+            $mimeType = $this->allowedFileTypes[$extension];
+        }
 
-		if (isset($this->allowedFileTypes[$extension])) {
-			$mimeType = $this->allowedFileTypes[$extension];
-		}
-
-		return $mimeType;
-	}
+        return $mimeType;
+    }
 
 }
 

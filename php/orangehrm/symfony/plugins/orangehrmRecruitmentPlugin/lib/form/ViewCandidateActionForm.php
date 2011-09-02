@@ -70,8 +70,12 @@ class ViewCandidateActionForm extends BaseForm {
                         $userRoleArray['isAdmin'] = true;
                     }
                     $newlyDecoratedUserObj = $userRoleDecorator->decorateUserRole($userObj, $userRoleArray);
+                    $choicesList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $newlyDecoratedUserObj);
+                    if ($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::CLOSED) {
+                        $choicesList = array("" => __("No Actions"));
+                    }
                     $widgetName = $candidateVacancy->getId();
-                    $this->setWidget($widgetName, new sfWidgetFormSelect(array('choices' => $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $newlyDecoratedUserObj))));
+                    $this->setWidget($widgetName, new sfWidgetFormSelect(array('choices' => $choicesList)));
                     $this->setValidator($widgetName, new sfValidatorString(array('required' => false)));
                 }
             }
