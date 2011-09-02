@@ -238,24 +238,28 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 inputObject.css('background', '');
             }
             $(document).ready(function() {
-            
-                addHint($('#txtUserName'), 'themes/orange/images/login/username-hint.png');
-                addHint($('#txtPassword'), 'themes/orange/images/login/password-hint.png');
+                if ($("#txtUserName").val() == '') {
+                    addHint($('#txtUserName'), 'themes/orange/images/login/username-hint.png');
+                }
                 
+                $('#txtUserName').click(function() {
+                    removeHint($(this));
+                });
+                
+                if ($("#txtPassword").val() == '') {
+                    addHint($('#txtPassword'), 'themes/orange/images/login/password-hint.png');
+                }
+                
+                $('#txtPassword').click(function() {
+                    removeHint($(this));
+                });               
                 $('#txtUserName').keyup(function() {
-                    if ($(this).val() == '') {
-                        addHint($(this), 'themes/orange/images/login/username-hint.png');
-                    } else {
-                        removeHint($(this));
-                    }
+                    removeHint($(this));
                 });
                 
                 $('#txtPassword').keyup(function() {
-                    if ($(this).val() == '') {
-                        addHint($(this), 'themes/orange/images/login/password-hint.png');
-                    } else {
-                        removeHint($(this));
-                    }
+                    removeHint($(this));
+
                 });
         
             });
@@ -414,7 +418,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 <input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="" />
                 <div id="username" class="bodyTXT">
                     <?php if (isset($_POST['txtUserName'])) { ?>
-                    <input id="txtUserName" name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1" />
+                        <input id="txtUserName" name="txtUserName" type="text" class="loginText" value="<?php echo CommonFunctions::escapeHtml($_POST['txtUserName']); ?>" tabindex="1" />
                     <?php } else { ?>
                         <input id="txtUserName" name="txtUserName" type="text" class="loginText" tabindex="1" />
                     <?php } ?>
