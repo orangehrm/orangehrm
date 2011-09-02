@@ -139,6 +139,7 @@
 	$lang_Menu_Admin_Job_PayGrades 				= "Pay Grades";
 	$lang_Menu_Admin_Job_EmpStatus 				= "Employment Status";
 	$lang_Menu_Admin_Job_EEO 					= "EEO Job Categories";
+    $lang_Menu_Admin_Job_WorkShifts             = "Work Shifts";
 
 	$lang_Menu_Admin_Quali 						= "Qualification";
 	$lang_Menu_Admin_Quali_Education 			= "Education";
