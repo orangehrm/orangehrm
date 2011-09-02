@@ -6,7 +6,7 @@ class CandidateHistoryHeaderFactory extends ohrmListConfigurationFactory {
 
 		$headerList = array();
 
-		for ($i = 1; $i < 5; $i++) {
+		for ($i = 1; $i < 4; $i++) {
 			$headerList[$i] = new ListHeader();
 		}
 
@@ -18,20 +18,13 @@ class CandidateHistoryHeaderFactory extends ohrmListConfigurationFactory {
 		));
 
 		$headerList[2]->populateFromArray(array(
-		    'name' => 'Vacancy',
-		    'isSortable' => false,
-		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getVacancyName'),
-		));
-
-		$headerList[3]->populateFromArray(array(
 		    'name' => 'Description',
 		    'isSortable' => false,
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'getDescription'),
 		));
 
-		$headerList[4]->populateFromArray(array(
+		$headerList[3]->populateFromArray(array(
 		    'name' => 'Details',
 		    'isSortable' => false,
 		    'elementType' => 'link',
