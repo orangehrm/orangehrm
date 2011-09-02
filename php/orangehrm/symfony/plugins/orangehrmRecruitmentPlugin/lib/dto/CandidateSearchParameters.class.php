@@ -29,7 +29,7 @@ class CandidateSearchParameters {
     private $status;
     private $candidateId;
     private $candidateStatus = array(JobCandidate::ACTIVE);
-    private $vacancyStatus = JobVacancy::ACTIVE;
+    private $vacancyStatus;
     private $sortField = 'jc.date_of_application';
     private $sortOrder = 'DESC';
     private $candidateName;
