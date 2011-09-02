@@ -18,7 +18,6 @@ table.data-table thead tr th {
 
 table.data-table tbody tr td {
     padding: 7px 10px 7px 8px;
-    text-align: center;
 }
 
 input[type="text"] {

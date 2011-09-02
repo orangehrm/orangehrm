@@ -42,7 +42,6 @@ table.data-table thead tr td {
     padding-right: 4px;
     padding-top: 8px;
     padding-bottom: 8px;
-    text-align: center;
 }
 
 table.data-table tbody tr td {
@@ -129,5 +128,4 @@ table.data-table thead tr th {
 
 table.data-table tbody tr td {
     padding: 7px 10px 7px 8px;
-    text-align: center;
 }
