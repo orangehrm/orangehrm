@@ -18,176 +18,240 @@
  * Boston, MA  02110-1301, USA
  */
 class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
-    const PROJECT_ADMIN_USER = "PROJECT ADMIN";
-    const PROJECT_REPORT_LINK="./symfony/web/index.php/time/displayProjectReportCriteria?reportId=1";
+	const PROJECT_ADMIN_USER = "PROJECT ADMIN";
+	const PROJECT_REPORT_LINK="./symfony/web/index.php/time/displayProjectReportCriteria?reportId=1";
 
-    private $user;
-    private $projectService;
+	private $user;
+	private $projectService;
 
-    public function __construct(User $user) {
+	public function __construct(User $user) {
 
-        $this->user = $user;
-        parent::setEmployeeNumber($user->getEmployeeNumber());
-        parent::setUserId($user->getUserId());
-        parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
-    }
+		$this->user = $user;
+		parent::setEmployeeNumber($user->getEmployeeNumber());
+		parent::setUserId($user->getUserId());
+		parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
+	}
 
-    public function getProjectService() {
+	public function getProjectService() {
 
-        if (is_null($this->projectService)) {
+		if (is_null($this->projectService)) {
 
-            $this->projectService = new ProjectService();
-        }
+			$this->projectService = new ProjectService();
+		}
 
-        return $this->projectService;
-    }
+		return $this->projectService;
+	}
 
-    /**
-     * Set Project Data Access Object
-     * @param ProjectService $projectService
-     * @return void
-     */
-    public function setProjectService(ProjectService $projectService) {
+	/**
+	 * Set Project Data Access Object
+	 * @param ProjectService $projectService
+	 * @return void
+	 */
+	public function setProjectService(ProjectService $projectService) {
 
-        $this->projectService = $projectService;
-    }
+		$this->projectService = $projectService;
+	}
 
-    public function getAccessibleTimeMenus() {
+	public function getAccessibleTimeMenus() {
 
-        $topMenuItemArray = $this->user->getAccessibleTimeMenus();
+		$topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(ProjectAdminUserRoleDecorator::PROJECT_REPORT_LINK);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Reports"));
+		$topMenuItem->setLink(ProjectAdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
-        $itemIsInArray = false;
-        foreach ($topMenuItemArray as $item) {
-            if ($topMenuItem->getDisplayName() == $item->getDisplayName()) {
-                $itemIsInArray = true;
-                break;
-            }
-        }
+		$itemIsInArray = false;
+		foreach ($topMenuItemArray as $item) {
+			if ($topMenuItem->getDisplayName() == $item->getDisplayName()) {
+				$itemIsInArray = true;
+				break;
+			}
+		}
 
-        if (!$itemIsInArray) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!$itemIsInArray) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        return $topMenuItemArray;
-    }
+		return $topMenuItemArray;
+	}
 
-    public function getAccessibleConfigurationSubMenus() {
+	public function getAccessibleTimeSubMenus() {
 
-        $tempArray = $this->user->getAccessibleConfigurationSubMenus();
+		$tempArray = $this->user->getAccessibleTimeSubMenus();
 
-        return $tempArray;
-    }
+		return $tempArray;
+	}
 
-    public function getAccessibleTimeSubMenus() {
+	public function getAccessibleAttendanceSubMenus() {
 
-        $tempArray = $this->user->getAccessibleTimeSubMenus();
+		$tempArray = $this->user->getAccessibleAttendanceSubMenus();
 
-        return $tempArray;
-    }
+		return $tempArray;
+	}
 
-    public function getAccessibleAttendanceSubMenus() {
+	public function getAccessibleReportSubMenus() {
 
-        $tempArray = $this->user->getAccessibleAttendanceSubMenus();
+		$topMenuItemArray = $this->user->getAccessibleReportSubMenus();
 
-        return $tempArray;
-    }
-
-    public function getAccessibleReportSubMenus() {
-
-        $topMenuItemArray = $this->user->getAccessibleReportSubMenus();
-
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Project Reports"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__(" Project Reports"));
+		$topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        return $topMenuItemArray;
-    }
+		return $topMenuItemArray;
+	}
 
-    /**
-     * Get actions that this user can perform on a perticular workflow with the current state
-     * @param int $workFlow
-     * @param string $state
-     * @return string[]
-     */
-    public function getAllowedActions($workFlow, $state) {
+	public function getEmployeeList() {
+		return $this->user->getEmployeeList();
+	}
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $allowedActionsForEssUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER);
+	public function getEmployeeListForAttendanceTotalSummaryReport() {
+		return $this->user->getEmployeeListForAttendanceTotalSummaryReport();
+	}
 
-        $existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
+	/**
+	 * Get actions that this user can perform on a perticular workflow with the current state
+	 * @param int $workFlow
+	 * @param string $state
+	 * @return string[]
+	 */
+	public function getAllowedActions($workFlow, $state) {
 
-        if (is_null($allowedActionsForEssUser)) {
-            return $existingAllowedActions;
-        }
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$allowedActionsForEssUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER);
 
-        $allowedActionsList = array_unique(array_merge($allowedActionsForEssUser, $existingAllowedActions));
+		$existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
 
-        return $allowedActionsList;
-    }
+		if (is_null($allowedActionsForEssUser)) {
+			return $existingAllowedActions;
+		}
 
-    /**
-     * Get next state given workflow, state and action for this user
-     * @param int $workFlow
-     * @param string $state
-     * @param int $action
-     * @return string
-     */
-    public function getNextState($workFlow, $state, $action) {
+		$allowedActionsList = array_unique(array_merge($allowedActionsForEssUser, $existingAllowedActions));
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
+		return $allowedActionsList;
+	}
 
-        $temp = $this->user->getNextState($workFlow, $state, $action);
+	/**
+	 * Get next state given workflow, state and action for this user
+	 * @param int $workFlow
+	 * @param string $state
+	 * @param int $action
+	 * @return string
+	 */
+	public function getNextState($workFlow, $state, $action) {
 
-        if (is_null($tempNextState)) {
-            return $temp;
-        }
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
 
-        return $tempNextState;
-    }
+		$temp = $this->user->getNextState($workFlow, $state, $action);
 
-    public function isAllowedToDefineTimeheetPeriod() {
+		if (is_null($tempNextState)) {
+			return $temp;
+		}
 
-        $isAllowed = $this->user->isAllowedToDefineTimeheetPeriod();
+		return $tempNextState;
+	}
 
-        return $isAllowed;
-    }
+	/**
+	 * Get previous states given workflow, action for this user
+	 * @param int $workFlow
+	 * @param int $action
+	 * @return string
+	 */
+	public function getPreviousStates($workFlow, $action) {
 
-    public function getActiveProjectList() {
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
+		$existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
+		if (is_null($prevoiusStates)) {
+			return $existingPrevoiusStates;
+		} else {
+			$prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
+			return $prevoiusStates;
+		}
+	}
 
-        $activeProjectList = $this->getProjectService()->getActiveProjectListRelatedToProjectAdmin($this->user->getEmployeeNumber());
-        return $activeProjectList;
-    }
+	public function getAllAlowedRecruitmentApplicationStates($flow) {
+		return $this->user->getAllAlowedRecruitmentApplicationStates($flow);
+	}
 
-    public function getActionableStates() {
+	public function getActionableTimesheets() {
+		return $this->user->getActionableTimesheets();
+	}
 
-        return $this->user->getActionableStates();
-    }
-
-    public function getActionableAttendanceStates($actions) {
-
-
-        $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $actionableAttendanceStatesForProjectAdminUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $actions);
+	public function getActionableAttendanceStates($actions) {
 
 
-        $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
+		$accessFlowStateMachinService = new AccessFlowStateMachineService();
+		$actionableAttendanceStatesForProjectAdminUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $actions);
 
-        if (is_null($actionableAttendanceStatesForProjectAdminUser)) {
-            return $actionableAttendanceStates;
-        }
 
-        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForProjectAdminUser, $actionableAttendanceStates));
-        return $actionableAttendanceStatesList;
-    }
+		$actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
+
+		if (is_null($actionableAttendanceStatesForProjectAdminUser)) {
+			return $actionableAttendanceStates;
+		}
+
+		$actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForProjectAdminUser, $actionableAttendanceStates));
+		return $actionableAttendanceStatesList;
+	}
+
+	public function isAllowedToDefineTimeheetPeriod() {
+
+		$isAllowed = $this->user->isAllowedToDefineTimeheetPeriod();
+
+		return $isAllowed;
+	}
+
+	public function getActiveProjectList() {
+
+		$activeProjectList = $this->getProjectService()->getActiveProjectListRelatedToProjectAdmin($this->user->getEmployeeNumber());
+		return $activeProjectList;
+	}
+
+	public function getActionableStates() {
+
+		return $this->user->getActionableStates();
+	}
+
+	public function getAccessibleConfigurationSubMenus() {
+
+		return $this->user->getAccessibleConfigurationSubMenus();
+	}
+
+	public function getAllowedCandidateList() {
+
+		return $this->user->getAllowedCandidateList();
+	}
+
+	public function getAllowedCandidateListToDelete() {
+
+		return $this->user->getAllowedCandidateListToDelete();
+	}
+
+	public function getAllowedVacancyList() {
+		return $this->user->getAllowedVacancyList();
+	}
+
+	public function getAllowedCandidateHistoryList($candidateId) {
+
+		return $this->user->getAllowedCandidateHistoryList($candidateId);
+	}
+
+	public function getAccessibleRecruitmentMenus() {
+		return $this->user->getAccessibleRecruitmentMenus();
+	}
+
+	public function isAdmin() {
+		return $this->user->isAdmin();
+	}
+
+	public function isHiringManager() {
+		return $this->user->isHiringManager();
+	}
 
 }

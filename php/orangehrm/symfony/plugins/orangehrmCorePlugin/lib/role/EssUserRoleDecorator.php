@@ -18,127 +18,213 @@
  * Boston, MA  02110-1301, USA
  */
 class EssUserRoleDecorator extends UserRoleDecorator {
-    const ESS_USER = "ESS USER";
-    const VIEW_MY_TIMESHEET = "./symfony/web/index.php/time/viewMyTimesheet";
-    const PUNCH_ATTENDANCE_RECORD = "./symfony/web/index.php/attendance/punchIn";
-    const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewMyAttendanceRecord";
-    private $user;
+	const ESS_USER = "ESS USER";
+	const VIEW_MY_TIMESHEET = "./symfony/web/index.php/time/viewMyTimesheet";
+	const PUNCH_ATTENDANCE_RECORD = "./symfony/web/index.php/attendance/punchIn";
+	const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewMyAttendanceRecord";
+	private $user;
 
-    public function __construct(User $user) {
+	public function __construct(User $user) {
 
-        $this->user = $user;
-        parent::setEmployeeNumber($user->getEmployeeNumber());
-        parent::setUserId($user->getUserId());
-        parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
-    }
+		$this->user = $user;
+		parent::setEmployeeNumber($user->getEmployeeNumber());
+		parent::setUserId($user->getUserId());
+		parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
+	}
 
-    public function getAccessibleTimeMenus() {
+	public function getAccessibleTimeMenus() {
 
-        $topMenuItemArray = $this->user->getAccessibleTimeMenus();
+		$topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Timesheets"));
-        $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Timesheets"));
+		$topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Attendance"));
-        $topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Attendance"));
+		$topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        return $topMenuItemArray;
-    }
+		return $topMenuItemArray;
+	}
 
-    public function getAccessibleTimeSubMenus() {
-        $topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("My Timesheets"));
-        $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
-        return $topMenuItemArray;
-    }
+	public function getAccessibleTimeSubMenus() {
+		$topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("My Timesheets"));
+		$topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
+		return $topMenuItemArray;
+	}
 
-    public function getAccessibleAttendanceSubMenus() {
-        $topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("My Records"));
-        $topMenuItem->setLink(EssUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+	public function getAccessibleAttendanceSubMenus() {
+		$topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("My Records"));
+		$topMenuItem->setLink(EssUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Punch In/Out"));
-        $topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Punch In/Out"));
+		$topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
-        return $topMenuItemArray;
-    }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
+		return $topMenuItemArray;
+	}
 
-    public function getAllowedActions($workFlow, $state) {
+	public function getAccessibleReportSubMenus() {
+		return $this->user->getAccessibleReportSubMenus();
+	}
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $allowedActionsForEssUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, EssUserRoleDecorator::ESS_USER);
+	public function getEmployeeList() {
+		return $this->user->getEmployeeList();
+	}
 
-        $existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
+	public function getEmployeeListForAttendanceTotalSummaryReport() {
+		return $this->user->getEmployeeListForAttendanceTotalSummaryReport();
+	}
 
-        if (is_null($allowedActionsForEssUser)) {
-            return $existingAllowedActions;
-        }
+	public function getAllowedActions($workFlow, $state) {
 
-        $allowedActionsList = array_unique(array_merge($allowedActionsForEssUser, $existingAllowedActions));
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$allowedActionsForEssUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, EssUserRoleDecorator::ESS_USER);
 
-        return $allowedActionsList;
-    }
+		$existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
 
-    public function getNextState($workFlow, $state, $action) {
+		if (is_null($allowedActionsForEssUser)) {
+			return $existingAllowedActions;
+		}
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, EssUserRoleDecorator::ESS_USER, $action);
-        $temp = $this->user->getNextState($workFlow, $state, $action);
+		$allowedActionsList = array_unique(array_merge($allowedActionsForEssUser, $existingAllowedActions));
 
-        if (is_null($tempNextState)) {
+		return $allowedActionsList;
+	}
 
-            return $temp;
-        }
+	public function getNextState($workFlow, $state, $action) {
 
-        return $tempNextState;
-    }
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, EssUserRoleDecorator::ESS_USER, $action);
+		$temp = $this->user->getNextState($workFlow, $state, $action);
 
-    public function getActionableAttendanceStates($actions) {
+		if (is_null($tempNextState)) {
 
-        $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $actionableAttendanceStatesForEssUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, EssUserRoleDecorator::ESS_USER, $actions);
+			return $temp;
+		}
+
+		return $tempNextState;
+	}
+
+	/**
+	 * Get previous states given workflow, action for this user
+	 * @param int $workFlow
+	 * @param int $action
+	 * @return string
+	 */
+	public function getPreviousStates($workFlow, $action) {
+
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, EssUserRoleDecorator::ESS_USER, $action);
+		$existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
+		if (is_null($prevoiusStates)) {
+			return $existingPrevoiusStates;
+		} else {
+			$prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
+			return $prevoiusStates;
+		}
+	}
+
+	/**
+	 * Get previous states given workflow, action for this user
+	 * @param int $workFlow
+	 * @param int $action
+	 * @return string
+	 */
+	public function getAllAlowedRecruitmentApplicationStates($flow) {
+		return $this->user->getAllAlowedRecruitmentApplicationStates($flow);
+	}
+
+	public function getActionableTimesheets() {
+		return $this->user->getActionableTimesheets();
+	}
+
+	public function getActionableAttendanceStates($actions) {
+
+		$accessFlowStateMachinService = new AccessFlowStateMachineService();
+		$actionableAttendanceStatesForEssUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, EssUserRoleDecorator::ESS_USER, $actions);
 
 
-        $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
+		$actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
 
-        if (is_null($actionableAttendanceStatesForEssUser)) {
-            return $actionableAttendanceStates;
-        }
+		if (is_null($actionableAttendanceStatesForEssUser)) {
+			return $actionableAttendanceStates;
+		}
 
-        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForEssUser, $actionableAttendanceStates));
-        return $actionableAttendanceStatesList;
-    }
+		$actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForEssUser, $actionableAttendanceStates));
+		return $actionableAttendanceStatesList;
+	}
 
-    public function isAllowedToDefineTimeheetPeriod() {
-        return $this->user->isAllowedToDefineTimeheetPeriod();
-    }
+	public function isAllowedToDefineTimeheetPeriod() {
+		return $this->user->isAllowedToDefineTimeheetPeriod();
+	}
 
-    public function getActiveProjectList() {
+	public function getActiveProjectList() {
 
-        $activeProjectList = $this->user->getActiveProjectList();
-        return $activeProjectList;
-    }
+		$activeProjectList = $this->user->getActiveProjectList();
+		return $activeProjectList;
+	}
+
+	public function getActionableStates() {
+
+		return $this->user->getActionableStates();
+	}
+
+	public function getAccessibleConfigurationSubMenus() {
+
+		return $this->user->getAccessibleConfigurationSubMenus();
+	}
+
+	public function getAllowedCandidateList() {
+
+		return $this->user->getAllowedCandidateList();
+	}
+
+	public function getAllowedCandidateListToDelete() {
+
+		return $this->user->getAllowedCandidateListToDelete();
+	}
+
+	public function getAllowedVacancyList() {
+		return $this->user->getAllowedVacancyList();
+	}
+
+	public function getAllowedCandidateHistoryList($candidateId) {
+
+		return $this->user->getAllowedCandidateHistoryList($candidateId);
+	}
+
+	public function getAccessibleRecruitmentMenus() {
+		return $this->user->getAccessibleRecruitmentMenus();
+	}
+
+	public function isAdmin() {
+		return $this->user->isAdmin();
+	}
+
+	public function isHiringManager() {
+		return $this->user->isHiringManager();
+	}
 
 }

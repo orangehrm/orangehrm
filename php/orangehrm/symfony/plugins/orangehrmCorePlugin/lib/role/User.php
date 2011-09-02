@@ -19,149 +19,155 @@
  */
 class User {
 
-    private $topMenuItemsArray = array();
-    private $employeeList = array();
-    private $activeProjectList = array();
-    private $empNumber;
-    private $allowedActions = array();
-    private $nextState;
-    private $userId;
-    private $userTimeZoneOffset;
-    private $canDefineTimesheetPeriod = false;
-    private $actionableStates = array();
-    private $previousStates = array();
-    private $applicationStates = array();
-    private $candidateList = array();
-    private $candidateListToDelete = array();
-    private $vacancyList = array();
-    private $candidateHistoryList = array();
-    private $isAdmin = false;
-    private $isHiringManager = false;
-    private $employeeListForAttendanceTotalSummaryReport;
-    
-    public function getEmployeeListForAttendanceTotalSummaryReport() {
-        return $this->employeeListForAttendanceTotalSummaryReport;
-    }
+	private $topMenuItemsArray = array();
+	private $employeeList = array();
+	private $activeProjectList = array();
+	private $empNumber;
+	private $allowedActions = array();
+	private $nextState;
+	private $userId;
+	private $userTimeZoneOffset;
+	private $canDefineTimesheetPeriod = false;
+	private $actionableStates = array();
+	private $previousStates = array();
+	private $applicationStates = array();
+	private $actionableTimesheets = null;
+	private $candidateList = array();
+	private $candidateListToDelete = array();
+	private $vacancyList = array();
+	private $candidateHistoryList = array();
+	private $isAdmin = false;
+	private $isHiringManager = false;
+	private $employeeListForAttendanceTotalSummaryReport;
 
-        public function getAccessibleTimeMenus() {
+	public function getEmployeeListForAttendanceTotalSummaryReport() {
+		return $this->employeeListForAttendanceTotalSummaryReport;
+	}
 
-        return $this->topMenuItemsArray;
-    }
+	public function getAccessibleTimeMenus() {
 
-    public function getAccessibleTimeSubMenus() {
+		return $this->topMenuItemsArray;
+	}
 
-        return $this->topMenuItemsArray;
-    }
+	public function getActionableTimesheets() {
 
-    public function getPreviousStates($workFlow, $state) {
+		return $this->actionableTimesheets;
+	}
 
-        return $this->previousStates;
-    }
+	public function getAccessibleTimeSubMenus() {
 
-    public function getAllAlowedRecruitmentApplicationStates($workFlow) {
+		return $this->topMenuItemsArray;
+	}
 
-        return $this->applicationStates;
-    }
+	public function getPreviousStates($workFlow, $state) {
 
-    public function getAccessibleConfigurationSubMenus() {
-        return $this->topMenuItemsArray;
-    }
+		return $this->previousStates;
+	}
 
-    public function getAccessibleReportSubMenus() {
-        return $this->topMenuItemsArray;
-    }
+	public function getAllAlowedRecruitmentApplicationStates($workFlow) {
 
-    public function getAccessibleAttendanceSubMenus() {
+		return $this->applicationStates;
+	}
 
-        return $this->topMenuItemsArray;
-    }
+	public function getAccessibleConfigurationSubMenus() {
+		return $this->topMenuItemsArray;
+	}
 
-    public function getAccessibleRecruitmentMenus() {
-        return $this->topMenuItemsArray;
-    }
+	public function getAccessibleReportSubMenus() {
+		return $this->topMenuItemsArray;
+	}
 
-    /** Employee List depends on the decoration order * */
-    public function getEmployeeList() {
+	public function getAccessibleAttendanceSubMenus() {
 
-        return $this->employeeList;
-    }
+		return $this->topMenuItemsArray;
+	}
 
-    public function getEmployeeNumber() {
+	public function getAccessibleRecruitmentMenus() {
+		return $this->topMenuItemsArray;
+	}
 
-        return $this->empNumber;
-    }
+	/** Employee List depends on the decoration order * */
+	public function getEmployeeList() {
 
-    public function setEmployeeNumber($empNumber) {
+		return $this->employeeList;
+	}
 
-        $this->empNumber = $empNumber;
-    }
+	public function getEmployeeNumber() {
 
-    public function getAllowedActions($workFlow, $state) {
+		return $this->empNumber;
+	}
 
-        return $this->allowedActions;
-    }
+	public function setEmployeeNumber($empNumber) {
 
-    public function getNextState($workFlow, $state, $action) {
+		$this->empNumber = $empNumber;
+	}
 
-        return $this->nextState;
-    }
+	public function getAllowedActions($workFlow, $state) {
 
-    public function getUserId() {
+		return $this->allowedActions;
+	}
 
-        return $this->userId;
-    }
+	public function getNextState($workFlow, $state, $action) {
 
-    public function setUserId($userId) {
+		return $this->nextState;
+	}
 
-        $this->userId = $userId;
-    }
+	public function getUserId() {
 
-    public function setUserTimeZoneOffset($timeZoneOffset) {
-        $this->userTimeZoneOffset = $timeZoneOffset;
-    }
+		return $this->userId;
+	}
 
-    public function getUserTimeZoneOffset() {
-        return $this->userTimeZoneOffset;
-    }
+	public function setUserId($userId) {
 
-    public function isAllowedToDefineTimeheetPeriod() {
-        return $this->canDefineTimesheetPeriod;
-    }
+		$this->userId = $userId;
+	}
 
-    public function getActiveProjectList() {
-        return $this->projectList;
-    }
+	public function setUserTimeZoneOffset($timeZoneOffset) {
+		$this->userTimeZoneOffset = $timeZoneOffset;
+	}
 
-    public function setActiveProjectList($activeProjectList) {
-        $this->activeProjectList = $activeProjectList;
-    }
+	public function getUserTimeZoneOffset() {
+		return $this->userTimeZoneOffset;
+	}
 
-    public function getActionableAttendanceStates($actions) {
-        return $this->actionableStates;
-    }
+	public function isAllowedToDefineTimeheetPeriod() {
+		return $this->canDefineTimesheetPeriod;
+	}
 
-    public function getAllowedCandidateList() {
-        return $this->candidateList;
-    }
+	public function getActiveProjectList() {
+		return $this->projectList;
+	}
 
-    public function getAllowedCandidateListToDelete() {
-        return $this->candidateListToDelete;
-    }
+	public function setActiveProjectList($activeProjectList) {
+		$this->activeProjectList = $activeProjectList;
+	}
 
-    public function getAllowedVacancyList() {
-        return $this->vacancyList;
-    }
+	public function getActionableAttendanceStates($actions) {
+		return $this->actionableStates;
+	}
 
-    public function getAllowedCandidateHistoryList($candidateId) {
-        return $this->candidateHistoryList;
-    }
+	public function getAllowedCandidateList() {
+		return $this->candidateList;
+	}
 
-    public function isAdmin() {
-        return $this->isAdmin;
-    }
+	public function getAllowedCandidateListToDelete() {
+		return $this->candidateListToDelete;
+	}
 
-    public function isHiringManager() {
-        return $this->isHiringManager;
-    }
+	public function getAllowedVacancyList() {
+		return $this->vacancyList;
+	}
+
+	public function getAllowedCandidateHistoryList($candidateId) {
+		return $this->candidateHistoryList;
+	}
+
+	public function isAdmin() {
+		return $this->isAdmin;
+	}
+
+	public function isHiringManager() {
+		return $this->isHiringManager;
+	}
 
 }

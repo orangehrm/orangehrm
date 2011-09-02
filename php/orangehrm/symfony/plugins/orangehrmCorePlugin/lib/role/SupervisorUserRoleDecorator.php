@@ -18,241 +18,311 @@
  * Boston, MA  02110-1301, USA
  */
 class SupervisorUserRoleDecorator extends UserRoleDecorator {
-    const SUPERVISOR_USER = "SUPERVISOR";
-    const VIEW_EMPLOYEE_TIMESHEET = "./symfony/web/index.php/time/viewEmployeeTimesheet";
-    const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
-    const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
-    const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
-    private $user;
-    private $employeeService;
-    private $timesheetService;
+	const SUPERVISOR_USER = "SUPERVISOR";
+	const VIEW_EMPLOYEE_TIMESHEET = "./symfony/web/index.php/time/viewEmployeeTimesheet";
+	const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
+	const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
+	const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
+	private $user;
+	private $employeeService;
+	private $timesheetService;
 
-    public function __construct(User $user) {
+	public function __construct(User $user) {
 
-        $this->user = $user;
-        parent::setEmployeeNumber($user->getEmployeeNumber());
-        parent::setUserId($user->getUserId());
-        parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
-    }
+		$this->user = $user;
+		parent::setEmployeeNumber($user->getEmployeeNumber());
+		parent::setUserId($user->getUserId());
+		parent::setUserTimeZoneOffset($user->getUserTimeZoneOffset());
+	}
 
-    public function getTimesheetService() {
+	public function getTimesheetService() {
 
-        if (is_null($this->timesheetService)) {
+		if (is_null($this->timesheetService)) {
 
-            $this->timesheetService = new TimesheetService();
-        }
+			$this->timesheetService = new TimesheetService();
+		}
 
-        return $this->timesheetService;
-    }
+		return $this->timesheetService;
+	}
 
-    /**
-     * Set Timesheet Data Access Object
-     * @param TimesheetService $timesheetService
-     * @return void
-     */
-    public function setTimesheetService(TimesheetService $timesheetService) {
+	/**
+	 * Set Timesheet Data Access Object
+	 * @param TimesheetService $timesheetService
+	 * @return void
+	 */
+	public function setTimesheetService(TimesheetService $timesheetService) {
 
-        $this->timesheetService = $timesheetService;
-    }
+		$this->timesheetService = $timesheetService;
+	}
 
-    /**
-     * Get the Employee Data Access Object
-     * @return EmployeeService
-     */
-    public function getEmployeeService() {
+	/**
+	 * Get the Employee Data Access Object
+	 * @return EmployeeService
+	 */
+	public function getEmployeeService() {
 
-        if (is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
+		if (is_null($this->employeeService)) {
+			$this->employeeService = new EmployeeService();
+		}
 
-        return $this->employeeService;
-    }
+		return $this->employeeService;
+	}
 
-    /**
-     * Set Employee Data Access Object
-     * @param EmployeeService $employeeService
-     * @return void
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
+	/**
+	 * Set Employee Data Access Object
+	 * @param EmployeeService $employeeService
+	 * @return void
+	 */
+	public function setEmployeeService(EmployeeService $employeeService) {
 
-        $this->EmployeeService = $employeeService;
-    }
+		$this->EmployeeService = $employeeService;
+	}
 
-    public function getAccessibleTimeMenus() {
+	public function getAccessibleTimeMenus() {
 
-        $topMenuItemArray = $this->user->getAccessibleTimeMenus();
+		$topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Reports"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Reports"));
+		$topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
-        $itemIsInArray = false;
-        foreach ($topMenuItemArray as $item){
-            if($topMenuItem->getDisplayName() == $item->getDisplayName()){
-                $itemIsInArray = true;
-                break;
-            }
-        }
+		$itemIsInArray = false;
+		foreach ($topMenuItemArray as $item) {
+			if ($topMenuItem->getDisplayName() == $item->getDisplayName()) {
+				$itemIsInArray = true;
+				break;
+			}
+		}
 
-        if(!$itemIsInArray){
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!$itemIsInArray) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        return $topMenuItemArray;
-    }
+		return $topMenuItemArray;
+	}
 
-    public function getAccessibleReportSubMenus() {
+	public function getAccessibleTimeSubMenus() {
 
-        $topMenuItemArray = $this->user->getAccessibleReportSubMenus();
+		$topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Employee Timesheets"));
+		$topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Employee Reports"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
+		return $topMenuItemArray;
+	}
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+	public function getAccessibleAttendanceSubMenus() {
+		$topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__("Employee Records"));
+		$topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
 
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__(" Attendance Summary"));
-        $topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		return $topMenuItemArray;
+	}
 
-        return $topMenuItemArray;
-    }
+	public function getAccessibleReportSubMenus() {
 
-    public function getAccessibleTimeSubMenus() {
+		$topMenuItemArray = $this->user->getAccessibleReportSubMenus();
 
-        $topMenuItemArray = $this->user->getAccessibleTimeSubMenus();
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Timesheets"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__(" Employee Reports"));
+		$topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
-        return $topMenuItemArray;
-    }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-    public function getAccessibleAttendanceSubMenus() {
-        $topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
-        $topMenuItem = new TopMenuItem();
-        $topMenuItem->setDisplayName(__("Employee Records"));
-        $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
+		$topMenuItem = new TopMenuItem();
+		$topMenuItem->setDisplayName(__(" Attendance Summary"));
+		$topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+		if (!in_array($topMenuItem, $topMenuItemArray)) {
+			array_push($topMenuItemArray, $topMenuItem);
+		}
 
-        return $topMenuItemArray;
-    }
+		return $topMenuItemArray;
+	}
 
-    public function getEmployeeList() {
+	public function getEmployeeList() {
 
-        $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
-        return $employeeList;
-    }
+		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+		return $employeeList;
+	}
 
-    public function getEmployeeListForAttendanceTotalSummaryReport() {
+	public function getEmployeeListForAttendanceTotalSummaryReport() {
 
-        $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
-        return $employeeList;      
-    }
-    
-    public function getAllowedActions($workFlow, $state) {
+		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+		return $employeeList;
+	}
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $allowedActionsForSupervisorUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, SupervisorUserRoleDecorator::SUPERVISOR_USER);
+	public function getAllowedActions($workFlow, $state) {
 
-        $existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$allowedActionsForSupervisorUser = $accessFlowStateMachineService->getAllowedActions($workFlow, $state, SupervisorUserRoleDecorator::SUPERVISOR_USER);
 
-        if (is_null($allowedActionsForSupervisorUser)) {
-            return $existingAllowedActions;
-        }
+		$existingAllowedActions = $this->user->getAllowedActions($workFlow, $state);
 
-        $allowedActionsList = array_unique(array_merge($allowedActionsForSupervisorUser, $existingAllowedActions));
+		if (is_null($allowedActionsForSupervisorUser)) {
+			return $existingAllowedActions;
+		}
 
-        return $allowedActionsList;
-    }
+		$allowedActionsList = array_unique(array_merge($allowedActionsForSupervisorUser, $existingAllowedActions));
 
-    public function getNextState($workFlow, $state, $action) {
+		return $allowedActionsList;
+	}
 
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
+	public function getNextState($workFlow, $state, $action) {
 
-        $temp = $this->user->getNextState($workFlow, $state, $action);
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$tempNextState = $accessFlowStateMachineService->getNextState($workFlow, $state, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
 
-        if (is_null($tempNextState)) {
-            return $temp;
-        }
+		$temp = $this->user->getNextState($workFlow, $state, $action);
 
-        return $tempNextState;
-    }
+		if (is_null($tempNextState)) {
+			return $temp;
+		}
 
-    public function getActionableTimesheets() {
-        $pendingApprovelTimesheets = null;
-        $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
-        $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
-        $employeeList = $this->getEmployeeList();
- 
-        
-        if ($actionableStatesList != null) {
-            foreach ($employeeList as $employee) {
-                
-                $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
+		return $tempNextState;
+	}
 
-                if ($timesheetList != null) {
+	/**
+	 * Get previous states given workflow, action for this user
+	 * @param int $workFlow
+	 * @param int $action
+	 * @return string
+	 */
+	public function getPreviousStates($workFlow, $action) {
 
-                    foreach ($timesheetList as $timesheet) {
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
+		$existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
+		if (is_null($prevoiusStates)) {
+			return $existingPrevoiusStates;
+		} else {
+			$prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
+			return $prevoiusStates;
+		}
+	}
 
-                        $pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
-                        $pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
-                        $pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
-                        $pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
-                        $pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
-                        $pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
-                        $pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
-                    }
-                }
-            }
-        }
-          if ($pendingApprovelTimesheets[0] != null) {
+	/**
+	 * Get previous states given workflow, action for this user
+	 * @param int $workFlow
+	 * @param int $action
+	 * @return string
+	 */
+	public function getAllAlowedRecruitmentApplicationStates($flow) {
+		return $this->user->getAllAlowedRecruitmentApplicationStates($flow);
+	}
 
-            return $pendingApprovelTimesheets;
-        } else {
-
-            return null;
-        }
-    }
-
-    public function getActionableAttendanceStates($actions) {
+	public function getActionableTimesheets() {
+		$pendingApprovelTimesheets = null;
+		$accessFlowStateMachinService = new AccessFlowStateMachineService();
+		$action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
+		$actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
+		$employeeList = $this->getEmployeeList();
 
 
-        $accessFlowStateMachinService = new AccessFlowStateMachineService();
-        $actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
+		if ($actionableStatesList != null) {
+			foreach ($employeeList as $employee) {
+
+				$timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
+
+				if ($timesheetList != null) {
+
+					foreach ($timesheetList as $timesheet) {
+
+						$pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
+						$pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
+						$pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
+						$pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
+						$pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
+						$pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
+						$pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
+					}
+				}
+			}
+		}
+		if ($pendingApprovelTimesheets[0] != null) {
+
+			return $pendingApprovelTimesheets;
+		} else {
+
+		 return $this->user->getActionableTimesheets();
+		}
+	}
+
+	public function getActionableAttendanceStates($actions) {
 
 
-        $actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
+		$accessFlowStateMachinService = new AccessFlowStateMachineService();
+		$actionableAttendanceStatesForSupervisorUser = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_ATTENDANCE, SupervisorUserRoleDecorator::SUPERVISOR_USER, $actions);
 
-        if (is_null($actionableAttendanceStatesForSupervisorUser)) {
-            return $actionableAttendanceStates;
-        }
 
-        $actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForSupervisorUser, $actionableAttendanceStates));
-        return $actionableAttendanceStatesList;
-    }
+		$actionableAttendanceStates = $this->user->getActionableAttendanceStates($actions);
 
-    public function isAllowedToDefineTimeheetPeriod() {
-        return $this->user->isAllowedToDefineTimeheetPeriod();
-    }
+		if (is_null($actionableAttendanceStatesForSupervisorUser)) {
+			return $actionableAttendanceStates;
+		}
 
-    public function getActiveProjectList() {
-        $activeProjectList = $this->user->getActiveProjectList();
-        return $activeProjectList;
-    }
+		$actionableAttendanceStatesList = array_unique(array_merge($actionableAttendanceStatesForSupervisorUser, $actionableAttendanceStates));
+		return $actionableAttendanceStatesList;
+	}
+
+	public function isAllowedToDefineTimeheetPeriod() {
+		return $this->user->isAllowedToDefineTimeheetPeriod();
+	}
+
+	public function getActiveProjectList() {
+		$activeProjectList = $this->user->getActiveProjectList();
+		return $activeProjectList;
+	}
+
+	public function getActionableStates() {
+
+		return $this->user->getActionableStates();
+	}
+
+	public function getAccessibleConfigurationSubMenus() {
+
+		return $this->user->getAccessibleConfigurationSubMenus();
+	}
+
+	public function getAllowedCandidateList() {
+
+		return $this->user->getAllowedCandidateList();
+	}
+
+	public function getAllowedCandidateListToDelete() {
+
+		return $this->user->getAllowedCandidateListToDelete();
+	}
+
+	public function getAllowedVacancyList() {
+		return $this->user->getAllowedVacancyList();
+	}
+
+	public function getAllowedCandidateHistoryList($candidateId) {
+
+		return $this->user->getAllowedCandidateHistoryList($candidateId);
+	}
+
+	public function getAccessibleRecruitmentMenus() {
+		return $this->user->getAccessibleRecruitmentMenus();
+	}
+
+	public function isAdmin() {
+		return $this->user->isAdmin();
+	}
+
+	public function isHiringManager() {
+		return $this->user->isHiringManager();
+	}
 
 }
