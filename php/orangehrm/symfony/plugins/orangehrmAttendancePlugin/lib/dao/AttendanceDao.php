@@ -50,16 +50,12 @@ class AttendanceDao {
 
 
         try {
-
-
-
             $query = Doctrine_Query::create()
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
                     ->andWhereIn('state', $actionableStatesList);
             $lastReocord = $query->execute();
             if (is_null($lastReocord[0]->getId())) {
-
                 return null;
             } else {
 

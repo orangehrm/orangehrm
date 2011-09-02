@@ -50,7 +50,13 @@ class punchOutAction extends sfAction {
         $this->currentTime = date('H:i', time() + $timeStampDiff);
 
         $this->timezone = $timeZoneOffset * 3600;
+
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStatesList);
+
+        if (is_null($attendanceRecord)){
+            $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+            $this->redirect("attendance/punchIn");
+        }
         $tempPunchInTime = $attendanceRecord->getPunchInUserTime();
         $this->actionPunchIn = null;
         $this->editmode = null;
@@ -65,7 +71,6 @@ class punchOutAction extends sfAction {
 
         $this->allowedActions = $this->userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $attendanceRecord->getState());
         if ($request->isMethod('post')) {
-
             if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $this->allowedActions)) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $this->allowedActions))) {
                 $this->attendanceFormToImplementCsrfToken->bind($request->getParameter('attendance'));
 
