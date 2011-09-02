@@ -238,32 +238,15 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 inputObject.css('background', '');
             }
             $(document).ready(function() {
-                if ($("#txtUserName").val() == '') {
-                    addHint($('#txtUserName'), 'themes/orange/images/login/username-hint.png');
-                }
-                
+                addHint($('#txtUserName'), 'themes/orange/images/login/username-hint.png');
+
+                addHint($('#txtPassword'), 'themes/orange/images/login/password-hint.png');
                 $('#txtUserName').click(function() {
                     removeHint($(this));
+                    removeHint($("#txtPassword"));
                 });
-                
-                if ($("#txtPassword").val() == '') {
-                    addHint($('#txtPassword'), 'themes/orange/images/login/password-hint.png');
-                }
-                
-                $('#txtPassword').click(function() {
-                    removeHint($(this));
-                });               
-                $('#txtUserName').keyup(function() {
-                    removeHint($(this));
-                });
-                
-                $('#txtPassword').keyup(function() {
-                    removeHint($(this));
-
                 });
         
-            });
-
             function submitForm() {
 
                 if(document.loginForm.txtUserName.value == "") {
