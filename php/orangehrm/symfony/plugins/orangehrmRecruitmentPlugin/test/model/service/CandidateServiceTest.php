@@ -176,9 +176,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testProcessCandidatesVacancyArray() {
         
-        $candidateVacancyId = array('1_2', '1_3', '4_5');
+        $candidateVacancyId = array('1_2', '4_5');
         $result = $this->candidateService->processCandidatesVacancyArray($candidateVacancyId);
-        $expextedResult = array(1=>array(2, 3), 4=>array(5));
+        $expextedResult = array(1, 4);
         $this->assertEquals($expextedResult, $result);
     }
     

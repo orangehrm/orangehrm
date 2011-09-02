@@ -307,9 +307,9 @@ class CandidateService extends BaseService {
         return $query;
     }
 
-    public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId) {
+    /*public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId) {
         return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
-    }
+    }*/
 
     public function isHiringManager($candidateVacancyId, $empNumber) {
         return $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);

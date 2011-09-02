@@ -626,7 +626,7 @@ class CandidateDao extends BaseDao {
      * @param <type> $historyId
      * @return <type> 
      */
-    public function getLastPerformedActionByCandidateVacancyId($candidateVacancyId) {
+    /*public function getLastPerformedActionByCandidateVacancyId($candidateVacancyId) {
 
         try {
             $q = Doctrine_Query:: create()
@@ -639,7 +639,7 @@ class CandidateDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-    }
+    }*/
 
     public function isHiringManager($candidateVacancyId, $empNumber) {
         try {

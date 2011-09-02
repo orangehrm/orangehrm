@@ -552,7 +552,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testSaveCandidateHistory() {
         $candidateHistory = new CandidateHistory();
-        $candidateHistory->candidateVacancyId = 2;
+        $candidateHistory->vacancyId = 2;
         $candidateHistory->candidateId = 1;
         $candidateHistory->action = 2;
         $candidateHistory->performedBy = null;
@@ -739,11 +739,11 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($candidatesHistoryForAdmin), 2);
     }
 
-    public function testGetLastPerformedActionByCandidateVacancyId() {
+    /*public function testGetLastPerformedActionByCandidateVacancyId() {
         $candidateVacancyId = 1;
         $candidatesHistory = $this->candidateDao->getLastPerformedActionByCandidateVacancyId($candidateVacancyId);
         $this->assertEquals(count($candidatesHistory), 1);
-    }
+    }*/
 
     public function testIsHiringManager() {
         $candidateVacancyId = 1;
