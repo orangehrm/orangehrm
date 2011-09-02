@@ -24,8 +24,8 @@ $lan = new Language();
 require_once ROOT_PATH . '/language/default/lang_default_full.php';
 require_once($lan->getLangPath("full.php"));
 
-$url = 'symfony/web/index.php/recruitmentApply/jobs.html';
-//$url = 'lib/controllers/PublicController.php?recruitcode=ApplicantViewJobs';
+//$url = 'symfony/web/index.php/recruitmentApply/jobs.html';
+$url = 'lib/controllers/PublicController.php?recruitcode=ApplicantViewJobs';
 ?>
 <html>
 <head>
