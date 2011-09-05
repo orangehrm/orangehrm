@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.7 
+
+	New Features
+	------------
+    Time module usability improvements
+    Entire Time module is converted into Symfony
+
 New & Changed Features for OrangeHRM ver 2.6.7 beta 1.0
 
 	Symfony converted time module with usability improvements
