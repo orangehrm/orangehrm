@@ -230,8 +230,176 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    /**
+     * 
+     */
+    public function testGetCandidateById() {
+        $candidatesList = TestDataService::loadObjectList('JobCandidate', $this->fixture, 'JobCandidate');
+        
+        $requiredObject = $candidatesList[1];
 
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('getCandidateById')
+                ->with(2)
+                ->will($this->returnValue($requiredObject));
 
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $result = $this->candidateService->getCandidateById(2);
+        $this->assertEquals($requiredObject, $result);
+    }
+    
+    /** 
+     * 
+     */
+    public function testUpdateCandidate() {
+
+        $candidate = new JobCandidate();
+        
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('updateCandidate')
+                ->with($candidate)
+                ->will($this->returnValue($candidate));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->updateCandidate($candidate);
+        $this->assertTrue($return instanceof JobCandidate);
+    }
+    
+    /**
+     * 
+     */
+    public function testSaveCandidateHistory() {
+
+        $candidateHistory = new CandidateHistory();
+
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('saveCandidateHistory')
+                ->with($candidateHistory)
+                ->will($this->returnValue(true));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->saveCandidateHistory($candidateHistory);
+        $this->assertTrue($return);
+    }
+    
+    /**
+     * 
+     */
+    public function testGetCandidateHistoryForCandidateId() {
+
+        $candidatesHistory = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
+        $expectedresult = $candidatesHistory[0];
+
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('getCandidateHistoryForCandidateId')
+                ->with(1,1)
+                ->will($this->returnValue($expectedresult));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->getCandidateHistoryForCandidateId(1,1);
+        $this->assertEquals($expectedresult, $return);
+    }
+    
+    public function testDeleteCandidates() {
+
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('deleteCandidates')
+                ->with(array(1,2))
+                ->will($this->returnValue(true));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->deleteCandidate(array(1,2));
+        $this->assertTrue($return);
+    }
+    
+    
+        /** 
+     * 
+     */
+    public function testGetCandidateListForUserRole() {
+        
+        $exceptedValues = array(1,2);
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('getCandidateListForUserRole')
+                ->with(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1)
+                ->will($this->returnValue($exceptedValues));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->getCandidateListForUserRole(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1);
+        $this->assertEquals($exceptedValues, $return);
+    }
+    
+    public function testGetCanidateHistoryForUserRole() {
+        
+        $exceptedValues = array(1);
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('getCanidateHistoryForUserRole')
+                ->with(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1, 1)
+                ->will($this->returnValue($exceptedValues));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->getCanidateHistoryForUserRole(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1, 1);
+        $this->assertEquals($exceptedValues, $return);
+    }
+    
+    public function testIsHiringManager() {
+        
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('isHiringManager')
+                ->with(1, 1)
+                ->will($this->returnValue(1));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->isHiringManager(1, 1);
+        $this->assertEquals(1, $return);
+    }
+    
+    public function testIsInterviewer() {
+        
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('isInterviewer')
+                ->with(1, 1)
+                ->will($this->returnValue(1));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->isInterviewer(1, 1);
+        $this->assertEquals(1, $return);
+    }
+    
+    public function testGetCandidateVacancyByCandidateIdAndVacancyId() {
+
+        $candidatesVacancy = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
+        $expectedresult = $candidatesVacancy[5];
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('getCandidateVacancyByCandidateIdAndVacancyId')
+                ->with(3,1)
+                ->will($this->returnValue($expectedresult));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->getCandidateVacancyByCandidateIdAndVacancyId(3,1);
+        $this->assertEquals($expectedresult, $return);
+    }
+    
     
 }
 

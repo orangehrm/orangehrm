@@ -242,7 +242,6 @@ class CandidateService extends BaseService {
                 return true;
             }
 
-            return false;
         }
 
         return false;
