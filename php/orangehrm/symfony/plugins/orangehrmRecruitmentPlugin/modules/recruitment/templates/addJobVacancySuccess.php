@@ -94,9 +94,11 @@
                 <?php echo $form['publishedInFeed']->renderLabel(__('Publish in RSS feed(1) and web page(2)')); ?>
                 <br class="clear"/>
             </div>
-
-            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
-
+            
+            <?php if (function_exists("curl_init")):?>
+                <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
+            <?php endif;?>
+            
             <div class="formbuttons">
                 <?php if (isset($vacancyId)) { ?>
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
