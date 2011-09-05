@@ -36,7 +36,7 @@ $(document).ready(function() {
         counter++;
         if(counter == numberOfInterviewers){
             $("#addButton").hide();
-        }
+        }        
         $('#interviewer_'+counter).show();
     });
     
@@ -91,7 +91,6 @@ $(document).ready(function() {
 
     }
 	
-    $('#removeButton1').hide();
     for(var i = 2; i <= numberOfInterviewers; i++){
         $('#interviewer_'+i).hide();
     }
@@ -106,7 +105,9 @@ $(document).ready(function() {
                 $(".addText").show();
             }
             $(".removeText").show();
-            $("#removeButton1").hide();
+            if($('.interviewer').filter(function(){return ( $(this).css('display') === 'block' );}).length == 1) {
+                $('#removeButton1').hide();
+            }
             $("#saveBtn").attr('value', lang_save);
             $("#cancelButton").attr('value', lang_cancel);
             if(editHiringManager != 1){
@@ -147,7 +148,10 @@ $(document).ready(function() {
         }
     });
 
-
+    if($('.interviewer').filter(function(){return ( $(this).css('display') === 'block' );}).length <=1) {
+        $('#removeButton1').hide();
+    }
+    
 });
 
 function validateInterviewers(){
