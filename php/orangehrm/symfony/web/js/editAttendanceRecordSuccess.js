@@ -20,38 +20,253 @@ $(document).ready(function()
         
         });
            
-        var InDate = trim($(".inDate").val());
-        if (InDate == '') {
-            $(".inDate").val(dateDisplayFormat);
-        }
+        $(".inDate").each(function(index, elem){
 
-        //Bind date picker
-        daymarker.bindElement(".inDate",
-        {
-            onSelect: function(date){
-              
-                $(".inDate").trigger('change');            
+            var
 
-            },
-            dateFormat:jsDateFormat
+            // this particular element
+            $elem = $(elem),
+
+            InDate = trim($elem.val());
+
+            if (InDate === '') {
+                $elem.val(dateDisplayFormat);
+            }
+
+            //Bind date picker
+            daymarker.bindElement(elem, { 
+                onSelect: function(date) {
+                    $elem.trigger('change');            
+                }, 
+                dateFormat:jsDateFormat
+            });
+
+            $elem.change(function() {
+        
+                element = $(this)
+                idDate=element.attr('id');
+                idArray= idDate.split("_");
+                //        //   // punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
+                inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
+                inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
+                inDate=element.val();
+                recordId=$("#attendance_recordId_"+idArray[2]).val();
+            
+                outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
+                outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
+        
+                outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+                punchOut= formatDate(outDate)+" "+formatTime(outTime);
+            
+                punchOut= formatDate(outDate)+" "+formatTime(outTime);
+          
+                var outTimeTemp = strToTime(punchOut, dateTimeFormat);
+                punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
+      
+            
+                if((inDate=="")||(inTime=="")){
+                    var errorStyle = "background-color:#FFDFDF;";
+                    element.attr('style', errorStyle);
+                    $('#btnSave').attr('disabled', 'disabled');
+               
+                    $('#validationMsg').attr('class', "messageBalloon_failure");
+                    $('#validationMsg').html(errorForInvalidDateFormat); 
+                
+                }
+                else{
+     
+                    var flag4 = validateDateFormat(inDate);
+
+                    if(!flag4) {
+                        var errorStyle = "background-color:#FFDFDF;";
+                        element.attr('style', errorStyle);
+                        $('#btnSave').attr('disabled', 'disabled');
+               
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html(errorForInvalidDateFormat);
+                    }
+                    else{
+                        $('#btnSave').removeAttr('disabled');
+                        element.removeAttr('style');
+                    }
+            
+           
+
+                    if(flag4){
+                
+                        var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
+                    
+                        if(!flag1){
+                            var errorStyle = "background-color:#FFDFDF;";
+                            element.attr('style', errorStyle);
+                            $('#btnSave').attr('disabled', 'disabled');
+                            $('#validationMsg').attr('class', "messageBalloon_failure");
+                            $('#validationMsg').html(errorForInvalidTime);
+                        }
+                        else{
+                
+                            $('#btnSave').removeAttr('disabled');
+                            element.removeAttr('style');
+                
+                        }
+            
+                        if(flag1){
+                         
+                            var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId,punchOutUtcTime);
+                        
+                            if(punchInOverLappingFlag==0){
+                                var errorStyle = "background-color:#FFDFDF;";
+                                element.attr('style', errorStyle);   
+                            }
+                            else{
+                                $('#btnSave').removeAttr('disabled');
+                                element.removeAttr('style');  
+                 
+                            }
+                        }
+                    }
+   
+                }
+            });
+
+        });
+
+        $(".outDate").each(function(index, elem){
+
+            var
+
+            // this particular element
+            $elem = $(elem),
+
+            OutDate = trim($elem.val());
+
+            if (OutDate === '') {
+                $elem.val(dateDisplayFormat);
+            }
+
+            //Bind date picker
+            daymarker.bindElement(elem, { 
+                onSelect: function(date) {
+                    $elem.trigger('change');            
+                }, 
+                dateFormat:jsDateFormat
+            });
+
+            $elem.change(function() {
+ 
+                element = $(this)
+           
+                idDate=element.attr('id');
+                idArray= idDate.split("_");
+           
+                outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+                inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
+                outTime= $("#attendance_punchOutTime_"+idArray[2]).val();
+                inTime= $("#attendance_punchInTime_"+idArray[2]).val();
+                inDate= $("#attendance_punchInDate_"+idArray[2]).val();
+                outDate=element.val();
+                punchInTime=inDate+" "+inTime;
+                punchOutTime=outDate+" "+outTime;
+                recordId=$("#attendance_recordId_"+idArray[2]).val();
+                // alert(recordId);
+                // outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+                punchIn= formatDate(inDate)+" "+formatTime(inTime);
+            
+                var inTimeTemp = strToTime(punchIn, dateTimeFormat);
+                punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
+            
+            
+            
+                if((outDate=="")||(outTime=="")){
+                    var errorStyle = "background-color:#FFDFDF;";
+                    element.attr('style', errorStyle);
+                    $('#btnSave').attr('disabled', 'disabled');
+               
+                    $('#validationMsg').attr('class', "messageBalloon_failure");
+                    $('#validationMsg').html(errorForInvalidDateFormat); 
+                
+                }
+                else{
+                    $('#btnSave').removeAttr('disabled');
+                    element.removeAttr('style');
+                    $(".messageBalloon_success").remove();
+                    $('#validationMsg').removeAttr('class');
+                    $('#validationMsg').html("");
+            
+            
+       
+                    var flag4 = validateDateFormat(outDate);
+
+                    if(!flag4) {
+                        var errorStyle = "background-color:#FFDFDF;";
+                        element.attr('style', errorStyle);
+                        $('#btnSave').attr('disabled', 'disabled');
+               
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html(errorForInvalidDateFormat);
+                    }
+                    else{
+                        $('#btnSave').removeAttr('disabled');
+                        element.removeAttr('style');
+                    }
+            
+          
+                    if(flag4){
+                
+                        var flag1=validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate);
+
+                        if(!flag1){
+                            var errorStyle = "background-color:#FFDFDF;";
+                            element.attr('style', errorStyle);
+                            $('#btnSave').attr('disabled', 'disabled');
+                            $('#validationMsg').attr('class', "messageBalloon_failure");
+                            $('#validationMsg').html(errorForInvalidTime);
+                        }
+                        else{
+                
+                            $('#btnSave').removeAttr('disabled');
+                            element.removeAttr('style');
+                
+                        }
+                    
+                        if(flag1){
+                        
+                            var flag5=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId);
+                            if(flag5==0){
+                                var errorStyle = "background-color:#FFDFDF;";
+                                element.attr('style', errorStyle);
+                    
+                      
+                            }
+                            else{
+                                $('#btnSave').removeAttr('disabled');
+                                element.removeAttr('style');
+                            }
+                        
+                        }
+               
+                    }
+                }
+            });
+
         });
 
  
-        var OutDate = trim($(".outDate").val());
-        if (OutDate == '') {
-            $(".outDate").val(dateDisplayFormat);
-        }
-
-        //Bind date picker
-        daymarker.bindElement(".outDate",
-        {
-            onSelect: function(date){
-              
-                $(".outDate").trigger('change');            
-
-            },
-            dateFormat:jsDateFormat
-        });
+        //        var OutDate = trim($(".outDate").val());
+        //        if (OutDate == '') {
+        //            $(".outDate").val(dateDisplayFormat);
+        //        }
+        //
+        //        //Bind date picker
+        //        daymarker.bindElement(".outDate",
+        //        {
+        //            onSelect: function(date){
+        //              
+        //                $(".outDate").trigger('change');            
+        //
+        //            },
+        //            dateFormat:jsDateFormat
+        //        });
 
  
        
@@ -83,93 +298,93 @@ $(document).ready(function()
         
         
         
-        $(".inDate").change(function(){
-            element = $(this)
-           
-            idDate=element.attr('id');
-            idArray= idDate.split("_");
-            //        //   // punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
-            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
-            inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
-            inDate=element.val();
-            recordId=$("#attendance_recordId_"+idArray[2]).val();
-            
-            outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
-            outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
-        
-            outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-            punchOut= formatDate(outDate)+" "+formatTime(outTime);
-            
-            punchOut= formatDate(outDate)+" "+formatTime(outTime);
-          
-            var outTimeTemp = strToTime(punchOut, dateTimeFormat);
-            punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
-      
-            
-            if((inDate=="")||(inTime=="")){
-                var errorStyle = "background-color:#FFDFDF;";
-                element.attr('style', errorStyle);
-                $('#btnSave').attr('disabled', 'disabled');
-               
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidDateFormat); 
-                
-            }
-            else{
-     
-                var flag4 = validateDateFormat(inDate);
-
-                if(!flag4) {
-                    var errorStyle = "background-color:#FFDFDF;";
-                    element.attr('style', errorStyle);
-                    $('#btnSave').attr('disabled', 'disabled');
-               
-                    $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidDateFormat);
-                }
-                else{
-                    $('#btnSave').removeAttr('disabled');
-                    element.removeAttr('style');
-                }
-            
-           
-
-                if(flag4){
-                
-                    var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
-                    
-                    if(!flag1){
-                        var errorStyle = "background-color:#FFDFDF;";
-                        element.attr('style', errorStyle);
-                        $('#btnSave').attr('disabled', 'disabled');
-                        $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(errorForInvalidTime);
-                    }
-                    else{
-                
-                        $('#btnSave').removeAttr('disabled');
-                        element.removeAttr('style');
-                
-                    }
-            
-                    if(flag1){
-                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId);
-                        
-                        if(punchInOverLappingFlag==0){
-                            var errorStyle = "background-color:#FFDFDF;";
-                            element.attr('style', errorStyle);   
-                        }
-                        else{
-                            $('#btnSave').removeAttr('disabled');
-                            element.removeAttr('style');  
-                 
-                        }
-                    }
-                }
-   
-            }
-            
-        });
+        //        $(".inDate").change(function(){
+        //            element = $(this)
+        //           
+        //            idDate=element.attr('id');
+        //            idArray= idDate.split("_");
+        //            //        //   // punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
+        //            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
+        //            inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
+        //            inDate=element.val();
+        //            recordId=$("#attendance_recordId_"+idArray[2]).val();
+        //            
+        //            outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
+        //            outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
+        //        
+        //            outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
+        //            punchOut= formatDate(outDate)+" "+formatTime(outTime);
+        //            
+        //            punchOut= formatDate(outDate)+" "+formatTime(outTime);
+        //          
+        //            var outTimeTemp = strToTime(punchOut, dateTimeFormat);
+        //            punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
+        //      
+        //            
+        //            if((inDate=="")||(inTime=="")){
+        //                var errorStyle = "background-color:#FFDFDF;";
+        //                element.attr('style', errorStyle);
+        //                $('#btnSave').attr('disabled', 'disabled');
+        //               
+        //                $('#validationMsg').attr('class', "messageBalloon_failure");
+        //                $('#validationMsg').html(errorForInvalidDateFormat); 
+        //                
+        //            }
+        //            else{
+        //     
+        //                var flag4 = validateDateFormat(inDate);
+        //
+        //                if(!flag4) {
+        //                    var errorStyle = "background-color:#FFDFDF;";
+        //                    element.attr('style', errorStyle);
+        //                    $('#btnSave').attr('disabled', 'disabled');
+        //               
+        //                    $('#validationMsg').attr('class', "messageBalloon_failure");
+        //                    $('#validationMsg').html(errorForInvalidDateFormat);
+        //                }
+        //                else{
+        //                    $('#btnSave').removeAttr('disabled');
+        //                    element.removeAttr('style');
+        //                }
+        //            
+        //           
+        //
+        //                if(flag4){
+        //                
+        //                    var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
+        //                    
+        //                    if(!flag1){
+        //                        var errorStyle = "background-color:#FFDFDF;";
+        //                        element.attr('style', errorStyle);
+        //                        $('#btnSave').attr('disabled', 'disabled');
+        //                        $('#validationMsg').attr('class', "messageBalloon_failure");
+        //                        $('#validationMsg').html(errorForInvalidTime);
+        //                    }
+        //                    else{
+        //                
+        //                        $('#btnSave').removeAttr('disabled');
+        //                        element.removeAttr('style');
+        //                
+        //                    }
+        //            
+        //                    if(flag1){
+        //                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId);
+        //                        
+        //                        if(punchInOverLappingFlag==0){
+        //                            var errorStyle = "background-color:#FFDFDF;";
+        //                            element.attr('style', errorStyle);   
+        //                        }
+        //                        else{
+        //                            $('#btnSave').removeAttr('disabled');
+        //                            element.removeAttr('style');  
+        //                 
+        //                        }
+        //                    }
+        //                }
+        //   
+        //            }
+        //            
+        //        });
         
         $(".icon").click(function() {
            
@@ -225,97 +440,9 @@ $(document).ready(function()
         
         
         $(".outDate").change(function(){
-            element = $(this)
+            
            
-            idDate=element.attr('id');
-            idArray= idDate.split("_");
-            punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
-            outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
-            outTime= $("#attendance_punchOutTime_"+idArray[2]).val();
-            inTime= $("#attendance_punchInTime_"+idArray[2]).val();
-            inDate= $("#attendance_punchInDate_"+idArray[2]).val();
-            outDate=element.val();
-            punchInTime=inDate+" "+inTime;
-            punchOutTime=outDate+" "+outTime;
-             recordId=$("#attendance_recordId_"+idArray[2]).val();
-            // outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-            punchIn= formatDate(inDate)+" "+formatTime(inTime);
-            
-            var inTimeTemp = strToTime(punchIn, dateTimeFormat);
-            punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
-            
-            
-            
-            if((outDate=="")||(outTime=="")){
-                var errorStyle = "background-color:#FFDFDF;";
-                element.attr('style', errorStyle);
-                $('#btnSave').attr('disabled', 'disabled');
-               
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidDateFormat); 
-                
-            }
-            else{
-                $('#btnSave').removeAttr('disabled');
-                element.removeAttr('style');
-                $(".messageBalloon_success").remove();
-                $('#validationMsg').removeAttr('class');
-                $('#validationMsg').html("");
-            
-            
-       
-                var flag4 = validateDateFormat(outDate);
-
-                if(!flag4) {
-                    var errorStyle = "background-color:#FFDFDF;";
-                    element.attr('style', errorStyle);
-                    $('#btnSave').attr('disabled', 'disabled');
-               
-                    $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidDateFormat);
-                }
-                else{
-                    $('#btnSave').removeAttr('disabled');
-                    element.removeAttr('style');
-                }
-            
-          
-                if(flag4){
-                
-                    var flag1=validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate);
-
-                    if(!flag1){
-                        var errorStyle = "background-color:#FFDFDF;";
-                        element.attr('style', errorStyle);
-                        $('#btnSave').attr('disabled', 'disabled');
-                        $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(errorForInvalidTime);
-                    }
-                    else{
-                
-                        $('#btnSave').removeAttr('disabled');
-                        element.removeAttr('style');
-                
-                    }
-                    
-                    if(flag1){
-                        
-                        var flag5=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId);
-                        if(flag5==0){
-                            var errorStyle = "background-color:#FFDFDF;";
-                            element.attr('style', errorStyle);
-                        }
-                        else{
-                            $('#btnSave').removeAttr('disabled');
-                            element.removeAttr('style');
-                        }
-                        
-                    }
-               
-                }
-            }
-        });
+            });
         
         
         $(".outTime").change(function(){
@@ -488,8 +615,8 @@ $(document).ready(function()
                     
                     if(isValidPunchInTime){
                      
-                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId);
-                        
+                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punchOutUtcTime);
+                    
                         if(punchInOverLappingFlag==0){
                             var errorStyle = "background-color:#FFDFDF;";
                             element.attr('style', errorStyle);   
@@ -587,7 +714,7 @@ function updateComment(comment,id,punchInOut){
         
 }
 
-function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId){
+function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punchOutUtcTime){
 
 
     $(".messageBalloon_success").remove();
@@ -601,12 +728,12 @@ function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId){
     var r = $.ajax({
         type: 'POST',
         url: linkForPunchInOverlappingValidation,
-        data: "punchInTime="+inTime+"&employeeId="+employeeId+"&timezone="+timezone+"&recordId="+recordId,
+        data: "punchInTime="+inTime+"&employeeId="+employeeId+"&timezone="+timezone+"&recordId="+recordId+"&punchOutUtcTime="+punchOutUtcTime,
         async: false,
 
         success: function(msg){
             isValid = msg;
-        
+      
    
         }
     });

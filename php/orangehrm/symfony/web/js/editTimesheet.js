@@ -184,25 +184,26 @@ $(document).ready(function() {
                         flag = false;
                     }
                     
-                    else{
-                        element = $(this);
-                        id=element.attr('id');
-                        idArray= id.split("_");
-                        var errorStyle = "background-color:#FFDFDF;";
-                        var flag1= validateVerticalTotal(idArray[2]);
-                        if(!flag1){
-                            $('#validationMsg').html(incorrect_total);
-                            $(element).attr('style', errorStyle);
-                           
-                            flag=false;
-                        }
-                        else{
-                            $(".messageBalloon_success").remove();
-                            $('#validationMsg').removeAttr('class');
-                            $('#validationMsg').html(""); 
-                        }
-                        
-                    }
+//                    else{
+//                        element = $(this);
+//                        id=element.attr('id');
+//                        idArray= id.split("_");
+//                        var errorStyle = "background-color:#FFDFDF;";
+//                        var flag1= validateVerticalTotal(idArray[2]);
+//                 
+//                        if(!flag1){
+//                            $('#validationMsg').html(incorrect_total);
+//                            $(element).attr('style', errorStyle);
+//                           
+//                            flag=false;
+//                        }
+//                        else{
+//                            $(".messageBalloon_success").remove();
+//                            $('#validationMsg').removeAttr('class');
+//                            $('#validationMsg').html(""); 
+//                        }
+//                        
+//                    }
                 }
             }
         });
@@ -212,7 +213,7 @@ $(document).ready(function() {
 
     $('.items').change(function() {
  
-        
+    
        
         var flag = validateInput();
         if(!flag) {
@@ -227,7 +228,7 @@ $(document).ready(function() {
     });
     
     function validateVerticalTotal(id){
-       
+        
         var total=0;
         var error=false;
         for(j=0;j<numberOfRows;j++){
@@ -243,6 +244,7 @@ $(document).ready(function() {
            
           
         }
+
        
         return !error;
     }

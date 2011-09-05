@@ -272,7 +272,7 @@ class AttendanceDao {
         }
     }
 
-    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId) {
+    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId, $punchOutTime) {
 
 
         $isValid = "1";
@@ -300,10 +300,32 @@ class AttendanceDao {
 
                 $isValid = "0";
             }
+            
+            
+              $query2 = Doctrine_Query::create()
+                    ->from("AttendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("punchInUtcTime > ?", $punchInTime)
+                    ->andWhere("punchOutUtcTime < ?", $punchOutTime);
+            $records2 = $query2->execute();
+
+
+
+            if ((count($records2) == 1)) {
+                if (($records2[0]->getId() == $recordId)) {
+                    $isValid = "1";
+                } else {
+
+                    $isValid = "0";
+                }
+            } elseif ((count($records2) > 0)) {
+
+                $isValid = "0";
+            }
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
-        return $isValid;
+        return  $isValid;
     }
 
     /**

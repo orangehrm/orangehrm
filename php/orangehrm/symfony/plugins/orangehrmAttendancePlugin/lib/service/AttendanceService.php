@@ -232,8 +232,8 @@ class AttendanceService {
      * @param $punchInTime, $employeeId
      * @return string 1,0
      */
-    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId) {
-        return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId);
+    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut) {
+        return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut);
     }
     
      /**
