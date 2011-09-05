@@ -212,7 +212,7 @@ class ApplyVacancyForm extends BaseForm {
 			$history->candidateId = $candidateId;
 			$history->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_APPLY;
 			$history->performedDate = $candidateVacancy->appliedDate;
-			$history->candidateVacancyId = $candidateVacancy->getId();
+			$history->vacancyId = $vacnacyId;
 			$history->candidateVacancyName = $candidateVacancy->getVacancyName();
 			$this->getCandidateService()->saveCandidateHistory($history);
 		}

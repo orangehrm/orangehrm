@@ -772,6 +772,13 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
         $this->assertFalse($result);
     }
-
+    
+    public function testGetCandidateVacancyByCandidateIdAndVacancyId() {
+        $candidateId = 1;
+        $vacancyId = 1;
+        $result = $this->candidateDao->getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId);
+        $this->assertTrue($result instanceof JobCandidateVacancy);
+        $this->assertEquals($result->getStatus(),'SHORTLISTED');
+    }
 }
 

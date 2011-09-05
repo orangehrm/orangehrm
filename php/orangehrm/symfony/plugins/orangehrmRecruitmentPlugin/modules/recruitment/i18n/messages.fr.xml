@@ -672,6 +672,10 @@
                 <source>for</source>
                 <target>FR_for</target>
             </trans-unit>
+            <trans-unit id="168">
+                <source>applied for the</source>
+                <target>FR_applied for the</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
