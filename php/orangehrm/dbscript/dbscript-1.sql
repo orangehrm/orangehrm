@@ -1245,6 +1245,7 @@ create table `ohrm_job_candidate_history`(
 	`performed_by` int(13) default null,
         `performed_date` datetime not null,
 	`note` text default null,
+	`interviewers` varchar(255) default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
