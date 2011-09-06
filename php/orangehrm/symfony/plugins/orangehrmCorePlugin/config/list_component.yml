@@ -259,7 +259,7 @@ CandidateHistory:
   hasSelectableRows: false
   unselectableRowIds: []
   idValueGetter: getId
-  title: "Candidate's History"
+  title: "<?php echo __("Candidate's History");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []
