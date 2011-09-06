@@ -91,15 +91,15 @@ class VacancyDao extends BaseDao {
             $q = Doctrine_Query :: create()
                             ->select('jv.id')
                             ->from('JobVacancy jv');
-                if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
-                    $q->where('jv.hiringManagerId = ?', $empNumber);
-                }
-                if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
-                    $q->leftJoin('jv.JobCandidateVacancy jcv')
-                            ->leftJoin('jcv.JobInterview ji')
-                            ->leftJoin('ji.JobInterviewInterviewer jii')
-                            ->where('jii.interviewerId = ?', $empNumber);
-                }
+            if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
+                $q->where('jv.hiringManagerId = ?', $empNumber);
+            }
+            if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
+                $q->leftJoin('jv.JobCandidateVacancy jcv')
+                        ->leftJoin('jcv.JobInterview ji')
+                        ->leftJoin('ji.JobInterviewInterviewer jii')
+                        ->where('jii.interviewerId = ?', $empNumber);
+            }
             $result = $q->fetchArray();
             $idList = array();
             foreach ($result as $item) {
@@ -138,15 +138,15 @@ class VacancyDao extends BaseDao {
     public function getPublishedVacancies() {
         try {
             $q = Doctrine_Query :: create()
-                         ->from('JobVacancy')
-                         ->where('published_in_feed = ? ', JobVacancy::PUBLISHED)
-                         ->andWhere('status = ?', JobVacancy::ACTIVE);            
+                            ->from('JobVacancy')
+                            ->where('published_in_feed = ? ', JobVacancy::PUBLISHED)
+                            ->andWhere('status = ?', JobVacancy::ACTIVE);
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
-        
+
     /**
      * Retrieve vacancy list
      * @returns doctrine collection
@@ -291,6 +291,14 @@ class VacancyDao extends BaseDao {
      * @return boolean
      */
     public function deleteVacancies($toBeDeletedVacancyIds) {
+
+        $query = Doctrine_Query::create()
+                        ->delete()
+                        ->from('JobInterviewInterviewer jii')
+                        ->leftJoin('jii.JobInterview ji')
+                        ->leftJoin('ji.JobCandidateVacancy jcv')
+                        ->leftJoin('jcv.JobVacancy jv')
+                        ->whereIn('jv.id', $toBeDeletedVacancyIds);
 
         $query = Doctrine_Query::create()
                         ->delete()
