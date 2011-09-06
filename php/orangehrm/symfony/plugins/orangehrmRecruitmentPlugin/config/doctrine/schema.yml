@@ -291,6 +291,8 @@ CandidateHistory:
       type: datetime
     note:
       type: string(2147483647)
+    interviewers:
+      type: string(255)
   relations:
     JobCandidate:
       local: candidateId

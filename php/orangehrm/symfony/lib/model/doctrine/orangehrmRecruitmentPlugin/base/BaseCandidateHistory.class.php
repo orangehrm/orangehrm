@@ -14,6 +14,7 @@
  * @property integer $performedBy
  * @property datetime $performedDate
  * @property string $note
+ * @property string $interviewers
  * @property JobCandidate $JobCandidate
  * @property JobVacancy $JobVacancy
  * @property Employee $Employee
@@ -28,6 +29,7 @@
  * @method integer          getPerformedBy()          Returns the current record's "performedBy" value
  * @method datetime         getPerformedDate()        Returns the current record's "performedDate" value
  * @method string           getNote()                 Returns the current record's "note" value
+ * @method string           getInterviewers()         Returns the current record's "interviewers" value
  * @method JobCandidate     getJobCandidate()         Returns the current record's "JobCandidate" value
  * @method JobVacancy       getJobVacancy()           Returns the current record's "JobVacancy" value
  * @method Employee         getEmployee()             Returns the current record's "Employee" value
@@ -41,6 +43,7 @@
  * @method CandidateHistory setPerformedBy()          Sets the current record's "performedBy" value
  * @method CandidateHistory setPerformedDate()        Sets the current record's "performedDate" value
  * @method CandidateHistory setNote()                 Sets the current record's "note" value
+ * @method CandidateHistory setInterviewers()         Sets the current record's "interviewers" value
  * @method CandidateHistory setJobCandidate()         Sets the current record's "JobCandidate" value
  * @method CandidateHistory setJobVacancy()           Sets the current record's "JobVacancy" value
  * @method CandidateHistory setEmployee()             Sets the current record's "Employee" value
@@ -91,6 +94,10 @@ abstract class BaseCandidateHistory extends sfDoctrineRecord
         $this->hasColumn('note', 'string', 2147483647, array(
              'type' => 'string',
              'length' => 2147483647,
+             ));
+        $this->hasColumn('interviewers', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
              ));
     }
 

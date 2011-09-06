@@ -228,7 +228,6 @@ class AddCandidateForm extends BaseForm {
             $id = $candidateVacancy->getVacancyId();
             if (!empty($id)) {
                 if ($id != $vacancy) {
-                    $candidateVacancy->delete();
                     $interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($candidateVacancy);
                     foreach ($interviews as $interview) {
                         $interviewers = $interview->getJobInterviewInterviewer();
@@ -236,6 +235,7 @@ class AddCandidateForm extends BaseForm {
                             $interviewer->delete();
                         }
                     }
+		    $candidateVacancy->delete();
                     $vacancyName = $candidateVacancy->getVacancyName();
                     $this->removedHistory = new CandidateHistory();
                     $this->removedHistory->candidateId = $this->candidateId;

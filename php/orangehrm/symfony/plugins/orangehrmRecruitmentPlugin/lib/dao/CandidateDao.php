@@ -287,6 +287,23 @@ class CandidateDao extends BaseDao {
         }
     }
 
+        /**
+     *
+     * @param JobCandidate $candidate
+     * @return <type>
+     */
+    public function updateCandidateHistory(CandidateHistory $candidateHistory) {
+        try {
+            $q = Doctrine_Query:: create()->update('CandidateHistory')
+                            ->set('interviewers', '?', $candidateHistory->interviewers)
+                            ->where('id = ?', $candidateHistory->id);
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
     /**
      *
      * @param <type> $candidateVacancyId

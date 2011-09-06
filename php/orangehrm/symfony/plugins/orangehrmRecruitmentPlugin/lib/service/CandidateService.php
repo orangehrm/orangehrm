@@ -24,303 +24,311 @@
  */
 class CandidateService extends BaseService {
 
-    private $candidateDao;
+	private $candidateDao;
 
-    /**
-     * Get Candidate Dao
-     * @return CandidateDao
-     */
-    public function getCandidateDao() {
-        return $this->candidateDao;
-    }
+	/**
+	 * Get Candidate Dao
+	 * @return CandidateDao
+	 */
+	public function getCandidateDao() {
+		return $this->candidateDao;
+	}
 
-    /**
-     *
-     * @return EmployeeService 
-     */
-    public function getEmployeeService() {
-        return new EmployeeService();
-    }
+	/**
+	 *
+	 * @return EmployeeService
+	 */
+	public function getEmployeeService() {
+		return new EmployeeService();
+	}
 
-    /**
-     * Set Candidate Dao
-     * @param CandidateDao $candidateDao
-     * @return void
-     */
-    public function setCandidateDao(CandidateDao $candidateDao) {
-        $this->candidateDao = $candidateDao;
-    }
+	/**
+	 * Set Candidate Dao
+	 * @param CandidateDao $candidateDao
+	 * @return void
+	 */
+	public function setCandidateDao(CandidateDao $candidateDao) {
+		$this->candidateDao = $candidateDao;
+	}
 
-    /**
-     * Construct
-     */
-    public function __construct() {
-        $this->candidateDao = new CandidateDao();
-    }
+	/**
+	 * Construct
+	 */
+	public function __construct() {
+		$this->candidateDao = new CandidateDao();
+	}
 
-    /**
-     * Retrieve all candidates
-     * @returns JobCandidate doctrine collection
-     * @throws RecruitmentException
-     */
-    public function getCandidateList($allowedCandidateList) {
-        return $this->getCandidateDao()->getCandidateList($allowedCandidateList);
-    }
+	/**
+	 * Retrieve all candidates
+	 * @returns JobCandidate doctrine collection
+	 * @throws RecruitmentException
+	 */
+	public function getCandidateList($allowedCandidateList) {
+		return $this->getCandidateDao()->getCandidateList($allowedCandidateList);
+	}
 
-    /**
-     * Retrieve  candidate list
-     * @returns  doctrine collection
-     * @throws RecruitmentException
-     */
-    public function searchCandidates($searchParam) {
-        $searchCandidateQuery = $this->buildSearchQuery($searchParam);
-        return $this->getCandidateDao()->searchCandidates($searchCandidateQuery);
-    }
+	/**
+	 * Retrieve  candidate list
+	 * @returns  doctrine collection
+	 * @throws RecruitmentException
+	 */
+	public function searchCandidates($searchParam) {
+		$searchCandidateQuery = $this->buildSearchQuery($searchParam);
+		return $this->getCandidateDao()->searchCandidates($searchCandidateQuery);
+	}
 
-    /**
-     * Retrieve  candidate list
-     * @returns  doctrine collection
-     * @throws RecruitmentException
-     */
-    public function getCandidateRecordsCount($searchParam) {
-        return $this->getCandidateDao()->getCandidateRecordsCount($searchParam);
-    }
+	/**
+	 * Retrieve  candidate list
+	 * @returns  doctrine collection
+	 * @throws RecruitmentException
+	 */
+	public function getCandidateRecordsCount($searchParam) {
+		return $this->getCandidateDao()->getCandidateRecordsCount($searchParam);
+	}
 
-    /**
-     *
-     * @param JobCandidate $candidate
-     * @return <type>
-     */
-    public function saveCandidate(JobCandidate $candidate) {
-        return $this->candidateDao->saveCandidate($candidate);
-    }
+	/**
+	 *
+	 * @param JobCandidate $candidate
+	 * @return <type>
+	 */
+	public function saveCandidate(JobCandidate $candidate) {
+		return $this->candidateDao->saveCandidate($candidate);
+	}
 
-    /**
-     *
-     * @param JobCandidate $candidate
-     * @return <type>
-     */
-    public function getCandidateById($candidateId) {
-        return $this->candidateDao->getCandidateById($candidateId);
-    }
+	/**
+	 *
+	 * @param JobCandidate $candidate
+	 * @return <type>
+	 */
+	public function getCandidateById($candidateId) {
+		return $this->candidateDao->getCandidateById($candidateId);
+	}
 
-    /**
-     *
-     * @param JobCandidateVacancy $candidateVacancy
-     * @return <type>
-     */
-    public function saveCandidateVacancy(JobCandidateVacancy $candidateVacancy) {
-        return $this->candidateDao->saveCandidateVacancy($candidateVacancy);
-    }
+	/**
+	 *
+	 * @param JobCandidateVacancy $candidateVacancy
+	 * @return <type>
+	 */
+	public function saveCandidateVacancy(JobCandidateVacancy $candidateVacancy) {
+		return $this->candidateDao->saveCandidateVacancy($candidateVacancy);
+	}
 
-    /**
-     *
-     * @param <type> $candidate
-     * @return <type>
-     */
-    public function updateCandidate($candidate) {
-        return $this->candidateDao->updateCandidate($candidate);
-    }
+	/**
+	 *
+	 * @param <type> $candidate
+	 * @return <type>
+	 */
+	public function updateCandidate($candidate) {
+		return $this->candidateDao->updateCandidate($candidate);
+	}
 
-    /**
-     *
-     * @param <type> $state
-     * @return <type>
-     */
-    public function getNextActionsForCandidateVacancy($state, $userObj) {
-        $stateMachine = new WorkflowStateMachine();
-        $list = array("" => __('Select Action'));
-        $allowedActions = $userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state);
-        if (empty($allowedActions)) {
-            $list[""] = __('No Actions');
-        } else {
-            foreach ($allowedActions as $action) {
-                $list[$action] = $stateMachine->getRecruitmentActionName($action);
-            }
-        }
-        return $list;
-    }
+	/**
+	 *
+	 * @param CandidateHistory $candidateHistory
+	 * @return <type>
+	 */
+	public function updateCandidateHistory(CandidateHistory $candidateHistory) {
+		return $this->candidateDao->updateCandidateHistory($candidateHistory);
+	}
 
-    /**
-     *
-     * @param <type> $candidateVacancyId
-     * @return <type> 
-     */
-    public function getCandidateVacancyById($candidateVacancyId) {
-        return $this->candidateDao->getCandidateVacancyById($candidateVacancyId);
-    }
+	/**
+	 *
+	 * @param <type> $state
+	 * @return <type>
+	 */
+	public function getNextActionsForCandidateVacancy($state, $userObj) {
+		$stateMachine = new WorkflowStateMachine();
+		$list = array("" => __('Select Action'));
+		$allowedActions = $userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state);
+		if (empty($allowedActions)) {
+			$list[""] = __('No Actions');
+		} else {
+			foreach ($allowedActions as $action) {
+				$list[$action] = $stateMachine->getRecruitmentActionName($action);
+			}
+		}
+		return $list;
+	}
 
-    /**
-     *
-     * @param <type> $state
-     * @param <type> $action
-     * @return <type>
-     */
-    public function getNextStateForCandidateVacancy($state, $action) {
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        return $userObj->getNextState(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state, $action);
-    }
+	/**
+	 *
+	 * @param <type> $candidateVacancyId
+	 * @return <type> 
+	 */
+	public function getCandidateVacancyById($candidateVacancyId) {
+		return $this->candidateDao->getCandidateVacancyById($candidateVacancyId);
+	}
 
-    /**
-     *
-     * @param JobCandidateVacancy $candidateVacancy
-     * @param <type> $action
-     * @return <type>
-     */
-    public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy, $action) {
-        $candidateVacancy->setStatus($this->getNextStateForCandidateVacancy($candidateVacancy->getStatus(), $action));
-        return $this->candidateDao->updateCandidateVacancy($candidateVacancy);
-    }
+	/**
+	 *
+	 * @param <type> $state
+	 * @param <type> $action
+	 * @return <type>
+	 */
+	public function getNextStateForCandidateVacancy($state, $action) {
+		$userObj = sfContext::getInstance()->getUser()->getAttribute('user');
+		return $userObj->getNextState(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state, $action);
+	}
 
-    /**
-     *
-     * @param CandidateHistory $candidateHistory
-     * @return <type>
-     */
-    public function saveCandidateHistory(CandidateHistory $candidateHistory) {
-        return $this->candidateDao->saveCandidateHistory($candidateHistory);
-    }
+	/**
+	 *
+	 * @param JobCandidateVacancy $candidateVacancy
+	 * @param <type> $action
+	 * @return <type>
+	 */
+	public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy, $action) {
+		$candidateVacancy->setStatus($this->getNextStateForCandidateVacancy($candidateVacancy->getStatus(), $action));
+		return $this->candidateDao->updateCandidateVacancy($candidateVacancy);
+	}
 
-    /**
-     *
-     * @param <type> $candidateId
-     * @return <type>
-     */
-    public function getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList) {
-        return $this->candidateDao->getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList);
-    }
+	/**
+	 *
+	 * @param CandidateHistory $candidateHistory
+	 * @return <type>
+	 */
+	public function saveCandidateHistory(CandidateHistory $candidateHistory) {
+		return $this->candidateDao->saveCandidateHistory($candidateHistory);
+	}
 
-    /**
-     *
-     * @param <type> $id
-     * @return <type>
-     */
-    public function getCandidateHistoryById($id) {
-        return $this->candidateDao->getCandidateHistoryById($id);
-    }
+	/**
+	 *
+	 * @param <type> $candidateId
+	 * @return <type>
+	 */
+	public function getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList) {
+		return $this->candidateDao->getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList);
+	}
 
-    /**
-     * Delete Candidate Completely or Delete Candidat-Vacancy Relationship
-     * @param array $toBeDeletedCandiateVacancies
-     * @return boolean
-     */
-    public function deleteCandidateVacancies($candidateVacancies) {
+	/**
+	 *
+	 * @param <type> $id
+	 * @return <type>
+	 */
+	public function getCandidateHistoryById($id) {
+		return $this->candidateDao->getCandidateHistoryById($id);
+	}
 
-        $candidateIds = array();
-        $vacancyIds = array();
-        $toBeDeletedCandidateVacancyArray = array();
+	/**
+	 * Delete Candidate Completely or Delete Candidat-Vacancy Relationship
+	 * @param array $toBeDeletedCandiateVacancies
+	 * @return boolean
+	 */
+	public function deleteCandidateVacancies($candidateVacancies) {
 
-        if (!empty($candidateVacancies)) {
+		$candidateIds = array();
+		$vacancyIds = array();
+		$toBeDeletedCandidateVacancyArray = array();
 
-            foreach ($candidateVacancies as $candidateId => $vacancyIdArray) {
+		if (!empty($candidateVacancies)) {
 
-                $allVacancies = $this->candidateDao->getAllVacancyIdsForCandidate($candidateId);
+			foreach ($candidateVacancies as $candidateId => $vacancyIdArray) {
 
-                if (!(array_diff($allVacancies, $vacancyIdArray))) {
+				$allVacancies = $this->candidateDao->getAllVacancyIdsForCandidate($candidateId);
 
-                    $toBeDeletedCandidates[] = $candidateId;
-                } else {
+				if (!(array_diff($allVacancies, $vacancyIdArray))) {
 
-                    foreach ($vacancyIdArray as $vacancyId) {
-                        $toBeDeletedCandidateVacancyArray[] = array($candidateId, $vacancyId);
-                    }
-                }
-            }
+					$toBeDeletedCandidates[] = $candidateId;
+				} else {
 
-            $canidateDeletion = true;
-            $vacancyDeletion = true;
+					foreach ($vacancyIdArray as $vacancyId) {
+						$toBeDeletedCandidateVacancyArray[] = array($candidateId, $vacancyId);
+					}
+				}
+			}
 
-            if (!empty($toBeDeletedCandidates)) {
-                $canidateDeletion = $this->candidateDao->deleteCandidates($toBeDeletedCandidates);
-            }
+			$canidateDeletion = true;
+			$vacancyDeletion = true;
 
-            if (!empty($toBeDeletedCandidateVacancyArray)) {
-                $vacancyDeletion = $this->candidateDao->deleteCandidateVacancies($toBeDeletedCandidateVacancyArray);
-            }
+			if (!empty($toBeDeletedCandidates)) {
+				$canidateDeletion = $this->candidateDao->deleteCandidates($toBeDeletedCandidates);
+			}
 
-            if ($canidateDeletion && $vacancyDeletion) {
-                return true;
-            }
+			if (!empty($toBeDeletedCandidateVacancyArray)) {
+				$vacancyDeletion = $this->candidateDao->deleteCandidateVacancies($toBeDeletedCandidateVacancyArray);
+			}
 
-        }
+			if ($canidateDeletion && $vacancyDeletion) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Get Vacancies Of Candidates As 2-D Array
-     * @param array $toBeDeletedCandiateVacancies
-     * @return array $toBeDeletedCandiateVacanciesArray
-     */
-    public function processCandidatesVacancyArray($toBeDeletedCandiateVacancies) {
+	/**
+	 * Get Vacancies Of Candidates As 2-D Array
+	 * @param array $toBeDeletedCandiateVacancies
+	 * @return array $toBeDeletedCandiateVacanciesArray
+	 */
+	public function processCandidatesVacancyArray($toBeDeletedCandiateVacancies) {
 
-        $candidateVacancies = array();
-        $candidateIds = array();
+		$candidateVacancies = array();
+		$candidateIds = array();
 
-        if (!empty($toBeDeletedCandiateVacancies)) {
+		if (!empty($toBeDeletedCandiateVacancies)) {
 
-            foreach ($toBeDeletedCandiateVacancies as $val) {
-                $candidateVacancies[] = explode("_", $val);
-            }
+			foreach ($toBeDeletedCandiateVacancies as $val) {
+				$candidateVacancies[] = explode("_", $val);
+			}
 
-            foreach ($candidateVacancies as $record) {
-                $candidateIds = array();
-                foreach ($candidateVacancies as $value) {
-                    $candidateIds[] = $value[0];
-                }
-            }
-            $candidateIds = array_unique($candidateIds);
-        }
+			foreach ($candidateVacancies as $record) {
+				$candidateIds = array();
+				foreach ($candidateVacancies as $value) {
+					$candidateIds[] = $value[0];
+				}
+			}
+			$candidateIds = array_unique($candidateIds);
+		}
 
-        return $candidateIds;
-    }
+		return $candidateIds;
+	}
 
-    /**
-     *
-     * @param <type> $employee
-     */
-    public function addEmployee($employee) {
+	/**
+	 *
+	 * @param <type> $employee
+	 */
+	public function addEmployee($employee) {
 
-        $this->getEmployeeService()->addEmployee($employee);
-    }
+		$this->getEmployeeService()->addEmployee($employee);
+	}
 
-    public function deleteCandidate($candidateIds) {
+	public function deleteCandidate($candidateIds) {
 
-        return $this->candidateDao->deleteCandidates($candidateIds);
-    }
+		return $this->candidateDao->deleteCandidates($candidateIds);
+	}
 
-    public function getCandidateListForUserRole($role, $empNumber) {
-        return $this->candidateDao->getCandidateListForUserRole($role, $empNumber);
-    }
+	public function getCandidateListForUserRole($role, $empNumber) {
+		return $this->candidateDao->getCandidateListForUserRole($role, $empNumber);
+	}
 
-    public function getCanidateHistoryForUserRole($role, $empNumber, $candidateId) {
-        return $this->candidateDao->getCanidateHistoryForUserRole($role, $empNumber, $candidateId);
-    }
+	public function getCanidateHistoryForUserRole($role, $empNumber, $candidateId) {
+		return $this->candidateDao->getCanidateHistoryForUserRole($role, $empNumber, $candidateId);
+	}
 
-    protected function buildSearchQuery($parameterObject) {
-        $query = $this->getCandidateDao()->buildSearchQuery($parameterObject);
+	protected function buildSearchQuery($parameterObject) {
+		$query = $this->getCandidateDao()->buildSearchQuery($parameterObject);
 
-        $serviceName = 'CandidateService';
-        $methodName = 'searchCandidates';
-        $query = $this->decorateQuery($serviceName, $methodName, $query, $parameterObject->getAdditionalParams());
-        return $query;
-    }
+		$serviceName = 'CandidateService';
+		$methodName = 'searchCandidates';
+		$query = $this->decorateQuery($serviceName, $methodName, $query, $parameterObject->getAdditionalParams());
+		return $query;
+	}
 
-    /*public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId) {
-        return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
-    }*/
+	/* public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId) {
+	  return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
+	  } */
 
-    public function isHiringManager($candidateVacancyId, $empNumber) {
-        return $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);
-    }
+	public function isHiringManager($candidateVacancyId, $empNumber) {
+		return $this->candidateDao->isHiringManager($candidateVacancyId, $empNumber);
+	}
 
-    public function isInterviewer($candidateVacancyId, $empNumber) {
-        return $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
-    }
+	public function isInterviewer($candidateVacancyId, $empNumber) {
+		return $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
+	}
 
-    public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId){
-        return $this->candidateDao->getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId);
-    }
+	public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId) {
+		return $this->candidateDao->getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId);
+	}
 
 }
 
