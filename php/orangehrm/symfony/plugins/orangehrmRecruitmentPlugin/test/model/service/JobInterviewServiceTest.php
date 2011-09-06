@@ -87,5 +87,107 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 //            $this->assertEquals(false, $result);
 //        
 //    }
+    
+    public function testGetInterviewById() {
 
+        $interviews = TestDataService::loadObjectList('JobInterview', $this->fixture, 'JobInterview');
+        $expectedresult = $interviews[0];
+
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('getInterviewById')
+                ->with(1)
+                ->will($this->returnValue($expectedresult));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->getInterviewById(1);
+        $this->assertEquals($expectedresult, $return);
+    }
+    
+    public function testGetInterviewersByInterviewId() {
+
+        $interviewInterViewer = TestDataService::loadObjectList('JobInterviewInterviewer', $this->fixture, 'JobInterviewInterviewer');
+        $expectedresult = $interviewInterViewer;
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('getInterviewersByInterviewId')
+                ->with(1)
+                ->will($this->returnValue($expectedresult));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->getInterviewersByInterviewId(1);
+        $this->assertEquals($expectedresult, $return);
+    }
+
+    public function testGetInterviewsByCandidateVacancyId() {
+
+        $interviews = TestDataService::loadObjectList('JobInterview', $this->fixture, 'JobInterview');
+        $expectedresult = $interviews[1];
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('getInterviewsByCandidateVacancyId')
+                ->with(10)
+                ->will($this->returnValue($expectedresult));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->getInterviewsByCandidateVacancyId(10);
+        $this->assertEquals($expectedresult, $return);
+    }
+    
+    public function testSaveJobInterview() {
+
+        $jobInterview = new JobInterview();
+
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('saveJobInterview')
+                ->with($jobInterview)
+                ->will($this->returnValue(true));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->saveJobInterview($jobInterview);
+        $this->assertTrue($return);
+    }
+    
+    public function testUpdateJobInterview() {
+
+        $jobInterview = new JobInterview();
+        
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('updateJobInterview')
+                ->with($jobInterview)
+                ->will($this->returnValue($jobInterview));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->updateJobInterview($jobInterview);
+        $this->assertTrue($return instanceof JobInterview);
+    }
+    
+    public function testGetInterviewScheduledHistoryByInterviewId() {
+
+        $candidateHistory = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
+        $expectedresult = $candidateHistory[2];
+        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao->expects($this->once())
+                ->method('getInterviewScheduledHistoryByInterviewId')
+                ->with(1)
+                ->will($this->returnValue($expectedresult));
+
+        $this->jobInterviewService->setJobInterviewDao($jobInterviewDao);
+
+        $return = $this->jobInterviewService->getInterviewScheduledHistoryByInterviewId(1);
+        $this->assertEquals($expectedresult, $return);
+    }
+    
+    public function testGetJobInterviewDao(){
+        $dao = $this->jobInterviewService->getJobInterviewDao();
+        $this->assertTrue($dao instanceof JobInterviewDao);
+    }
+    
 }

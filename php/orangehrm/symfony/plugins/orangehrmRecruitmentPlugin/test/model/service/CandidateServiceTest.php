@@ -399,7 +399,10 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $return = $this->candidateService->getCandidateVacancyByCandidateIdAndVacancyId(3,1);
         $this->assertEquals($expectedresult, $return);
     }
-    
-    
+
+    public function testGetEmployeeService(){
+        $service = $this->candidateService->getEmployeeService();
+        $this->assertTrue($service instanceof EmployeeService);
+    }
 }
 
