@@ -26,10 +26,12 @@ function renderActionBar($buttons, $condition = true) {
         </div>
 	
         <br class="clear" />
+        
+<?php
+    }?>
         <div id="helpText"class="helpText"></div>
     </div>
 <?php
-    }
 }
 
 function printAssetPaths($assets, $assestsPath = '') {

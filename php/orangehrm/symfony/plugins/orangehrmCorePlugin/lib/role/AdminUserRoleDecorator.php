@@ -289,25 +289,6 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	 * @param int $action
 	 * @return string
 	 */
-	public function getPreviousStates($workFlow, $action) {
-
-		$accessFlowStateMachineService = new AccessFlowStateMachineService();
-		$prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, AdminUserRoleDecorator::ADMIN_USER, $action);
-		$existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
-		if (is_null($prevoiusStates)) {
-			return $existingPrevoiusStates;
-		} else {
-			$prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
-			return $prevoiusStates;
-		}
-	}
-
-	/**
-	 * Get previous states given workflow, action for this user
-	 * @param int $workFlow
-	 * @param int $action
-	 * @return string
-	 */
 	public function getAllAlowedRecruitmentApplicationStates($flow) {
 
 		$accessFlowStateMachineService = new AccessFlowStateMachineService();

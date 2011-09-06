@@ -76,21 +76,6 @@ class AccessFlowStateMachineService {
         }
     }
 
-    public function getPreviousStates($flow, $role, $action) {
-
-        $result = $this->getAccessibleFlowStateMachineDao()->getPreviousStates($flow, $role, $action);
-        if (is_null($result)) {
-
-            return null;
-        } else {
-            $stateList = array();
-            foreach ($result as $rslt) {
-                $stateList[] = $rslt->getState();
-            }
-            return $stateList;
-        }
-    }
-
     public function getAllAlowedRecruitmentApplicationStates($flow, $role) {
 
         $result = $this->getAccessibleFlowStateMachineDao()->getAllAlowedRecruitmentApplicationStates($flow, $role);

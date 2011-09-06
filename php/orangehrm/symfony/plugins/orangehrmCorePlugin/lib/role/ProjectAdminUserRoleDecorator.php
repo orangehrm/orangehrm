@@ -156,25 +156,6 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 		return $tempNextState;
 	}
 
-	/**
-	 * Get previous states given workflow, action for this user
-	 * @param int $workFlow
-	 * @param int $action
-	 * @return string
-	 */
-	public function getPreviousStates($workFlow, $action) {
-
-		$accessFlowStateMachineService = new AccessFlowStateMachineService();
-		$prevoiusStates = $accessFlowStateMachineService->getPreviousStates($workFlow, ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $action);
-		$existingPrevoiusStates = $this->user->getPreviousStates($workFlow, $action);
-		if (is_null($prevoiusStates)) {
-			return $existingPrevoiusStates;
-		} else {
-			$prevoiusStates = array_unique(array_merge($prevoiusStates, $existingPrevoiusStates));
-			return $prevoiusStates;
-		}
-	}
-
 	public function getAllAlowedRecruitmentApplicationStates($flow) {
 		return $this->user->getAllAlowedRecruitmentApplicationStates($flow);
 	}
