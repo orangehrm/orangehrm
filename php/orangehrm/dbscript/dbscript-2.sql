@@ -516,8 +516,6 @@ INSERT INTO `hs_hr_weekends`(`day`, `length`) VALUES (1, 0),
     (6, 8),
     (7, 8);
 
-INSERT INTO `hs_hr_timesheet_submission_period` VALUES (1, 'week', 7, 1, 0, 6, 'Weekly');
-
 INSERT INTO `hs_hr_empstat`
 	(`estat_code`, `estat_name`)
 	VALUES ('EST000', 'Terminated');
@@ -573,9 +571,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0, 'hs_hr_leavetype', 'leave_type_id'),
     (0, 'hs_hr_holidays', 'holiday_id'),
     (0, 'hs_hr_project', 'project_id'),
-    (0, 'hs_hr_timesheet', 'timesheet_id'),
-    (0, 'hs_hr_timesheet_submission_period', 'timesheet_period_id'),
-    (0, 'hs_hr_time_event', 'time_event_id'),
     (1, 'hs_hr_compstructtree', 'id'),
     (0, 'hs_hr_leave_requests', 'leave_request_id'),
     (0, 'hs_hr_project_activity', 'activity_id'),
@@ -586,7 +581,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0, 'hs_hr_hsp_summary', 'summary_id'),
     (0, 'hs_hr_hsp_payment_request', 'id'),
     (0, 'hs_hr_job_spec', 'jobspec_id'),
-    (0, 'hs_hr_attendance', 'attendance_id'),
     (0, 'hs_hr_kpi', 'id'),
     (0, 'hs_hr_performance_review', 'id'),
     (0, 'hs_hr_leave_period', 'leave_period_id'),

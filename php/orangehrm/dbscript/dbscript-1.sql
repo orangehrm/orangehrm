@@ -656,14 +656,6 @@ create table `hs_hr_customer` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_employee_timesheet_period` (
-  `timesheet_period_id` int(11) not null,
-  `employee_id` int(11) not null,
-  primary key  (`timesheet_period_id`,`employee_id`),
-  key `employee_id` (`employee_id`)
-) engine=innodb default charset=utf8;
-
-
 create table `hs_hr_project` (
   `project_id` int(11) not null,
   `customer_id` int(11) not null,
@@ -688,60 +680,6 @@ create table `hs_hr_project_admin` (
   `emp_number` int(11) not null,
   primary key  (`project_id`,`emp_number`),
   key `emp_number` (`emp_number`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_timesheet` (
-  `timesheet_id` int(11) not null,
-  `employee_id` int(11) not null,
-  `timesheet_period_id` int(11) not null,
-  `start_date` datetime default null,
-  `end_date` datetime default null,
-  `status` int(11) default null,
-  `comment` varchar(250) default null,
-  primary key  (`timesheet_id`,`employee_id`,`timesheet_period_id`),
-  key `employee_id` (`employee_id`),
-  key `timesheet_period_id` (`timesheet_period_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_timesheet_submission_period` (
-  `timesheet_period_id` int(11) not null,
-  `name` varchar(100) default null,
-  `frequency` int(11) not null,
-  `period` int(11) default '1',
-  `start_day` int(11) default null,
-  `end_day` int(11) default null,
-  `description` varchar(250) default null,
-  primary key  (`timesheet_period_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_time_event` (
-  `time_event_id` int(11) not null,
-  `project_id` int(11) not null,
-  `activity_id` int(11) not null,
-  `employee_id` int(11) not null,
-  `timesheet_id` int(11) not null,
-  `start_time` datetime default null,
-  `end_time` datetime default null,
-  `reported_date` datetime default null,
-  `duration` int(11) default null,
-  `description` varchar(250) default null,
-  primary key  (`time_event_id`,`project_id`,`employee_id`,`timesheet_id`),
-  key `project_id` (`project_id`),
-  key `activity_id` (`activity_id`),
-  key `employee_id` (`employee_id`),
-  key `timesheet_id` (`timesheet_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_attendance` (
-  `attendance_id` int(11) not null,
-  `employee_id` int(11) not null,
-  `punchin_time` datetime null default null,
-  `punchout_time` datetime null default null,
-  `in_note` varchar(250) null default null,
-  `out_note` varchar(250) null default null,
-  `timestamp_diff` int(11) not null,
-  `status` enum('0','1'),
-  primary key (`attendance_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_unique_id` (
@@ -1687,20 +1625,6 @@ alter table `hs_hr_project_activity`
 alter table `hs_hr_project_admin`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
-
-alter table `hs_hr_employee_timesheet_period`
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
-  add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
-
-alter table `hs_hr_timesheet`
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
-  add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
-
-alter table `hs_hr_time_event`
-  add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
-  add constraint foreign key (`activity_id`) references `hs_hr_project_activity` (`activity_id`) on delete cascade,
-  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_employee_workshift`
   add constraint foreign key (`workshift_id`) references `hs_hr_workshift` (`workshift_id`) on delete cascade,
