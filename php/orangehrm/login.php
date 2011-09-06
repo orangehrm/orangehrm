@@ -108,10 +108,6 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                     /* If not an admin user, check if a supervisor and/or project admin */
                     $isSupervisor = false;
                     $isProjectAdmin = false;
-                    $isManager = false;
-                    $isDirector = false;
-                    $isAcceptor = false;
-                    $isOfferer = false;
                     $isHiringManager = false;
                     $isInterviewer = false;
 
@@ -120,20 +116,12 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                         $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
                         $isSupervisor = $authorizeObj->isSupervisor();
                         $isProjectAdmin = $authorizeObj->isProjectAdmin();
-                        $isManager = $authorizeObj->isManager();
-                        $isDirector = $authorizeObj->isDirector();
-                        $isAcceptor = $authorizeObj->isAcceptor();
-                        $isOfferer = $authorizeObj->isOfferer();
                         $isHiringManager = $authorizeObj->isHiringManager();
                         $isInterviewer = $authorizeObj->isInterviewer();
                     }
 
                     $_SESSION['isSupervisor'] = $isSupervisor;
                     $_SESSION['isProjectAdmin'] = $isProjectAdmin;
-                    $_SESSION['isManager'] = $isManager;
-                    $_SESSION['isDirector'] = $isDirector;
-                    $_SESSION['isAcceptor'] = $isAcceptor;
-                    $_SESSION['isOfferer'] = $isOfferer;
                     $_SESSION['isHiringManager'] = $isHiringManager;
                     $_SESSION['isInterviewer'] = $isInterviewer;
 
@@ -171,10 +159,6 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                 /* If not an admin user, check if a supervisor and/or project admin */
                 $isSupervisor = false;
                 $isProjectAdmin = false;
-                $isManager = false;
-                $isDirector = false;
-                $isAcceptor = false;
-                $isOfferer = false;
                 $isHiringManager = false;
                 $isInterviewer = false;
 
@@ -184,19 +168,11 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                     $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
                     $isSupervisor = $authorizeObj->isSupervisor();
                     $isProjectAdmin = $authorizeObj->isProjectAdmin();
-                    $isManager = $authorizeObj->isManager();
-                    $isDirector = $authorizeObj->isDirector();
-                    $isAcceptor = $authorizeObj->isAcceptor();
-                    $isOfferer = $authorizeObj->isOfferer();
                     $isHiringManager = $authorizeObj->isHiringManager();
                     $isInterviewer = $authorizeObj->isInterviewer();
                 }
                 $_SESSION['isSupervisor'] = $isSupervisor;
                 $_SESSION['isProjectAdmin'] = $isProjectAdmin;
-                $_SESSION['isManager'] = $isManager;
-                $_SESSION['isDirector'] = $isDirector;
-                $_SESSION['isAcceptor'] = $isAcceptor;
-                $_SESSION['isOfferer'] = $isOfferer;
                 $_SESSION['isHiringManager'] = $isHiringManager;
                 $_SESSION['isInterviewer'] = $isInterviewer;
 
