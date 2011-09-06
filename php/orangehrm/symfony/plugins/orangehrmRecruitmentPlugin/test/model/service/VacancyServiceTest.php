@@ -263,8 +263,100 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, $result);
             
     }
-        
     
+    /**
+	 * Testing searchVacanciesCount
+	 */
+    public function testSearchVacanciesCount() {
+
+		$srchParams = array('jobTitle' => 'JOB002', 'jobVacancy' => '2', 'hiringManager' => '2', 'status' => '1');
+		
+		$vacancyDao = $this->getMock('VacancyDao', array('searchVacanciesCount'));
+
+		$vacancyDao->expects($this->once())
+			->method('searchVacanciesCount')
+			->with($srchParams)
+			->will($this->returnValue(1));
+
+		$this->vacancyService->setVacancyDao($vacancyDao);
+		$result = $this->vacancyService->searchVacanciesCount($srchParams);
+
+		$this->assertEquals($result, 1);
+        
+	}
+    
+    /**
+	 * Testing getVacancyById
+	 */
+    public function testGetVacancyById() {
+
+		$vacancyId = 1;
+        $allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
+		$returnedVacancy = $allVacancyList[0];
+		
+		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyById'));
+
+		$vacancyDao->expects($this->once())
+			->method('getVacancyById')
+			->with($vacancyId)
+			->will($this->returnValue($returnedVacancy));
+
+		$this->vacancyService->setVacancyDao($vacancyDao);
+		$result = $this->vacancyService->getVacancyById($vacancyId);
+
+		$this->assertTrue($result instanceof JobVacancy);
+        
+	}
+    
+    /**
+	 * Testing getVacancyListForUserRole
+	 */
+    public function testGetVacancyListForUserRoleForCorrectObjects() {
+
+        $allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
+		$allEmployeeList = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        
+        $parameters = array('HIRING MANAGER', $allEmployeeList[0]);
+		$returnedVacancy[0] = $allVacancyList[0];
+		
+		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyListForUserRole'));
+
+		$vacancyDao->expects($this->once())
+			->method('getVacancyListForUserRole')
+			->with($parameters[0], $parameters[1])
+			->will($this->returnValue($returnedVacancy));
+
+		$this->vacancyService->setVacancyDao($vacancyDao);
+		$result = $this->vacancyService->getVacancyListForUserRole($parameters[0], $parameters[1]);
+
+		$this->assertTrue($result[0] instanceof JobVacancy);
+        
+	}
+    
+    /**
+	 * Testing getVacancyListForUserRole
+	 */
+    public function testGetVacancyListForUserRoleForCorrectNumberOfResults() {
+
+        $allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
+		$allEmployeeList = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        
+        $parameters = array('HIRING MANAGER', $allEmployeeList[0]);
+		$returnedVacancy[0] = $allVacancyList[0];
+		
+		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyListForUserRole'));
+
+		$vacancyDao->expects($this->once())
+			->method('getVacancyListForUserRole')
+			->with($parameters[0], $parameters[1])
+			->will($this->returnValue($returnedVacancy));
+
+		$this->vacancyService->setVacancyDao($vacancyDao);
+		$result = $this->vacancyService->getVacancyListForUserRole($parameters[0], $parameters[1]);
+
+		$this->assertEquals(1, count($result));
+        
+	}
 
 }
 

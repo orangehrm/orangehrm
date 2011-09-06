@@ -630,17 +630,6 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $result);
     }
 
-    public function testDeleteCandidatesTestFalse() {
-
-        $candidatesId = array(100, 107, 123);
-        $result = $this->candidateDao->deleteCandidates($candidatesId);
-        $this->assertEquals(false, $result);
-
-        $candidatesId = array(100, 101, 102);
-        $result = $this->candidateDao->deleteCandidates($candidatesId);
-        $this->assertEquals(false, $result);
-    }
-
     public function testDeleteCandidateVacancies() {
 
         $toBeDeletedRecords = array(array(2, 3), array(1, 3), array(3, 3));
