@@ -13,8 +13,6 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     // for compatibility / remove and enable only the plugins you want
     $this->enablePlugins(array('sfDoctrinePlugin',
-                               'sfWebBrowserPlugin',
-                               'sfFeed2Plugin',
                                'orangehrmCorePlugin',
                                'orangehrmPimPlugin',
                                'orangehrmCoreLeavePlugin',

@@ -20,7 +20,6 @@
 class addJobVacancyAction extends sfAction {
 
     private $vacancyService;
-    private $jobFeedService;
 
     /**
      * Get VacancyService
@@ -40,27 +39,6 @@ class addJobVacancyAction extends sfAction {
      */
     public function setVacancyService(VacancyService $vacancyService) {
         $this->vacancyService = $vacancyService;
-    }
-    
-    /**
-     * Get JobFeedService
-     * @returns JobFeedService Object
-     */
-    public function getJobFeedService() {
-        
-        if (is_null($this->jobFeedService)) {
-            $this->jobFeedService = new JobFeedService();
-        }
-        
-        return $this->jobFeedService;       
-    }
-
-    /**
-     * Set JobFeedService
-     * @param JobFeedService $jobFeedService
-     */
-    public function setJobFeedService(JobFeedService $jobFeedService) {
-        $this->vacancyService = $jobFeedService;
     }
     
     /**

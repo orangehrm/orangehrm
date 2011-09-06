@@ -20,7 +20,6 @@
 class deleteJobVacancyAction extends sfAction {
 
     private $vacancyService;
-    private $jobFeedService;
 
     /**
      * Get VacancyService
@@ -35,27 +34,6 @@ class deleteJobVacancyAction extends sfAction {
         return $this->vacancyService;
     }
     
-    /**
-     * Get JobFeedService
-     * @returns JobFeedService Object
-     */
-    public function getJobFeedService() {
-        
-        if (is_null($this->jobFeedService)) {
-            $this->jobFeedService = new JobFeedService();
-        }
-        
-        return $this->jobFeedService;       
-    }
-
-    /**
-     * Set JobFeedService
-     * @param JobFeedService $jobFeedService
-     */
-    public function setJobFeedService(JobFeedService $jobFeedService) {
-        $this->vacancyService = $jobFeedService;
-    }
-
     /**
      *
      * @param <type> $request
