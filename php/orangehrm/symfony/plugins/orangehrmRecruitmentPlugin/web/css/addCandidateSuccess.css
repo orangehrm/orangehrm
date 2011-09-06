@@ -170,7 +170,7 @@ table.data-table th {
     padding: 2px 8px;
 }
 .actionDrpDown{
-    width: 130px;
+    width: 150px;
     -moz-border-radius:3px 3px 3px 3px;
     background:-moz-linear-gradient(center top , #F9F9F9, #E3E3E3) repeat scroll 0 0 transparent;
     border-color:#CCCCCC #BBBBBB #A0A0A0;
