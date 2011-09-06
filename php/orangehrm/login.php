@@ -453,7 +453,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
             <?php endif; ?>
             <div id="footer" >
-                <div id="link" style="<?php echo $footer ?>"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.7 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
+                <div id="link" style="<?php echo $footer ?>"><lable><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.6.8-beta.2 &copy; OrangeHRM Inc. 2005 - 2011 All rights reserved.</lable></div>
                 <div id="socialNetwork" style="<?php echo $socialNetwork ?>">
                     <a href="http://www.linkedin.com/groups?home=&gid=891077" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/linkedin.png"></a>&nbsp;
                     <a href="http://www.facebook.com/OrangeHRM" target="_blank"><img src="themes/<?php echo $styleSheet; ?>/images/login/facebook.png"></a>&nbsp;
