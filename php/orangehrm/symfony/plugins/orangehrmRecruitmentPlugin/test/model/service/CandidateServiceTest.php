@@ -478,16 +478,5 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $return);       
     }
     
-    public function testGetNextStateForCandidateVacancy() {
-        
-        $userObj = $this->getMock('User',array ('getNextState'));
-        $userObj->expects($this->once())
-                ->method('getNextState')
-                ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 'SHORTLISTED', 3)
-                ->will($this->returnValue('REJECTED'));
-        $return = $this->candidateService->getNextStateForCandidateVacancy('SHORTLISTED', 3);
-        var_dump($return);die;
-        //$this->assertEquals('REJECTED', $return); 
-    }
 }
 
