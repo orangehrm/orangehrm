@@ -436,11 +436,11 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         
         $candidatesVacancy = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
         $candidateVacancy = $candidatesVacancy[0];
-        
+        $userObj = new User();
         $candidateService = $this->getMock('CandidateService', array ('getNextStateForCandidateVacancy'));
         $candidateService->expects($this->any())
                 ->method('getNextStateForCandidateVacancy')
-                ->with('SHORTLISTED',3)
+                ->with('SHORTLISTED', 3, $userObj)
                 ->will($this->returnValue('REJECTED'));
         
         $candidateDao = $this->getMock('CandidateDao');
@@ -450,7 +450,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue(1));
 
         $candidateService->setCandidateDao($candidateDao);
-        $return = $candidateService->updateCandidateVacancy($candidateVacancy,3);
+        $return = $candidateService->updateCandidateVacancy($candidateVacancy,3, $userObj);
         $this->assertEquals(1, $return);              
     }
     
@@ -476,6 +476,34 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $employee = new Employee();
         $return = $this->candidateService->addEmployee($employee);
         $this->assertEquals(true, $return);       
+    }
+    
+        public function testUpdateCandidateHistory() {
+
+        $candidateHistory = new CandidateHistory();
+        
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('updateCandidateHistory')
+                ->with($candidateHistory)
+                ->will($this->returnValue(1));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $return = $this->candidateService->updateCandidateHistory($candidateHistory);
+        $this->assertEquals(1, $return);
+    }
+    
+     public function testGetNextStateForCandidateVacancy() {
+        
+        $userObj = $this->getMock('User',array ('getNextState'));
+        $userObj->expects($this->once())
+                ->method('getNextState')
+                ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 'SHORTLISTED', 3)
+                ->will($this->returnValue('REJECTED'));
+
+        $return = $this->candidateService->getNextStateForCandidateVacancy('SHORTLISTED',3, $userObj);
+        $this->assertEquals('REJECTED', $return);              
     }
     
 }
