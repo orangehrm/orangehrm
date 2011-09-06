@@ -48,7 +48,6 @@ require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/controllers/RepViewController.php';
 require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 require_once ROOT_PATH . '/lib/controllers/BenefitsController.php';
-require_once ROOT_PATH . '/lib/controllers/RecruitmentController.php';
 
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitle.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobSpec.php';
