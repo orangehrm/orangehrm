@@ -746,12 +746,12 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetCandidateHistoryForInterviewerRole() {
         $candidatesHistoryForInterviewer = $this->candidateDao->getCanidateHistoryForUserRole(InterviewerUserRoleDecorator::INTERVIEWER, 3, 1);
-        $this->assertEquals(count($candidatesHistoryForInterviewer), 2);
+        $this->assertEquals(count($candidatesHistoryForInterviewer), 3);
     }
 
     public function testGetCandidateHistoryForAdminRole() {
         $candidatesHistoryForAdmin = $this->candidateDao->getCanidateHistoryForUserRole(AdminUserRoleDecorator::ADMIN_USER, null, 1);
-        $this->assertEquals(count($candidatesHistoryForAdmin), 2);
+        $this->assertEquals(count($candidatesHistoryForAdmin), 3);
     }
 
     /*public function testGetLastPerformedActionByCandidateVacancyId() {
