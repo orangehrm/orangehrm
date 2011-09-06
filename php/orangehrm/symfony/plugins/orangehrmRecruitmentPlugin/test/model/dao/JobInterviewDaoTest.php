@@ -49,7 +49,7 @@ class JobInterviewDaoTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGetInterviewListByCandidateIdAndInterviewDateAndTimeForExistingResults() {
 
-		$interviewList = $this->jobInterviewDao->getInterviewListByCandidateIdAndInterviewDateAndTime(4, '2011-08-18', '9:00:00', '11:00:00');
+		$interviewList = $this->jobInterviewDao->getInterviewListByCandidateIdAndInterviewDateAndTime(1, '2011-08-03', '8:30:00', '10:30:00');
 		$this->assertEquals(1, count($interviewList));
 	}
 

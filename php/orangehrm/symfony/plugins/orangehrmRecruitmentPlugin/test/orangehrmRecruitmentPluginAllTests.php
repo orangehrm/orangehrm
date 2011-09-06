@@ -21,6 +21,7 @@ class orangehrmRecruitmentPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/VacancyServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/RecruitmentAttachmentServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/JobInterviewServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/CandidateHistoryServiceTest.php');
 
 
 

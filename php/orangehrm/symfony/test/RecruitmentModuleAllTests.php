@@ -60,6 +60,7 @@ class PluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/VacancyServiceTest.php');        
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/RecruitmentAttachmentServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/JobInterviewServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/service/CandidateHistoryServiceTest.php');
 
         return $suite;
 
