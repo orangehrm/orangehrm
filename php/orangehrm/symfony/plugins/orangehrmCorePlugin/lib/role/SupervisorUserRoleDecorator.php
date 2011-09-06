@@ -132,7 +132,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItemArray = $this->user->getAccessibleReportSubMenus();
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__(" Employee Reports"));
+		$topMenuItem->setDisplayName(__("Employee Reports"));
 		$topMenuItem->setLink(SupervisorUserRoleDecorator::EMPLOYEE_REPORT_LINK);
 
 		if (!in_array($topMenuItem, $topMenuItemArray)) {
@@ -140,7 +140,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		}
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__(" Attendance Summary"));
+		$topMenuItem->setDisplayName(__("Attendance Summary"));
 		$topMenuItem->setLink(AdminUserRoleDecorator::ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK);
 
 		if (!in_array($topMenuItem, $topMenuItemArray)) {
