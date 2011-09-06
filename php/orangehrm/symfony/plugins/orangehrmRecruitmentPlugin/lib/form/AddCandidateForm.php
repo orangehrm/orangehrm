@@ -105,12 +105,12 @@ class AddCandidateForm extends BaseForm {
         if ($this->candidateId != null) {
             $candidateVacancyList = $this->getCandidateService()->getCandidateById($this->candidateId)->getJobCandidateVacancy();
             $vacancy = $candidateVacancyList[0]->getJobVacancy();
-            if($vacancy->getStatus() == JobVacancy::CLOSED){
+            if ($vacancy->getStatus() == JobVacancy::CLOSED) {
                 $vacancyList[$vacancy->getId()] = $vacancy->getVacancyName();
             }
         }
 
-        
+
 
         $resumeUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
             self::CONTRACT_DELETE => __('Delete Current'),
@@ -224,10 +224,13 @@ class AddCandidateForm extends BaseForm {
             if (!empty($id)) {
                 if ($id != $vacancy) {
                     $candidateVacancy->delete();
-//		    $interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($candidateVacancy);
-//		    foreach ($interviews as $interview){
-//		     $interview->getJobInterviewInterviewer()->delete();
-//		    }
+                    $interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($candidateVacancy);
+                    foreach ($interviews as $interview) {
+                        $interviewers = $interview->getJobInterviewInterviewer();
+                        foreach ($interviewers as $interviewer) {
+                            $interviewer->delete();
+                        }
+                    }
                     $vacancyName = $candidateVacancy->getVacancyName();
                     $this->removedHistory = new CandidateHistory();
                     $this->removedHistory->candidateId = $this->candidateId;

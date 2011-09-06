@@ -65,7 +65,7 @@
                 <?php if (!($form->id > 0)): ?>
                     <input type="button" class="savebutton" name="actionBtn" id="actionBtn"
                            value="<?php echo __($form->actionName); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                       <?php else: ?>
+                       <?php elseif($enableEdit): ?>
                             <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __('Edit'); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                        <?php endif; ?>
