@@ -94,7 +94,7 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItemArray = $this->user->getAccessibleReportSubMenus();
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__(" Project Reports"));
+		$topMenuItem->setDisplayName(__("Project Reports"));
 		$topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
 

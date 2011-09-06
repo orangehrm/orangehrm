@@ -21,8 +21,23 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
 
     public function execute($request) {
 
+        $userObj = $this->getContext()->getUser()->getAttribute('user');
+        $accessibleMenus = $userObj->getAccessibleReportSubMenus();
+        $hasRight = false;
+
+        foreach ($accessibleMenus as $menu) {
+            if ($menu->getDisplayName() === "Attendance Summary") {
+                $hasRight = true;
+                break;
+            }
+        }
+
+        if (!$hasRight) {
+            return $this->renderText("You are not allowed to view this page!");
+        }
+
         $this->reportId = $request->getParameter("reportId");
-        $userObj = $this->getContext()->getUser()->getAttribute("user");
+        
         $employeeList = $userObj->getEmployeeListForAttendanceTotalSummaryReport();
 
         if (is_array($employeeList)) {

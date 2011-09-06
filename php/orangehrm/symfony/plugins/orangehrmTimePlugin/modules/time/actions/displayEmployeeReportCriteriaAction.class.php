@@ -19,6 +19,24 @@
  */
 class displayEmployeeReportCriteriaAction extends displayReportCriteriaAction {
 
+    public function execute($request) {
+        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
+        $accessibleMenus = $this->userObj->getAccessibleReportSubMenus();
+        $hasRight = false;
+
+        foreach ($accessibleMenus as $menu) {
+            if ($menu->getDisplayName() === "Employee Reports") {
+                $hasRight = true;
+                break;
+            }
+        }
+
+        if (!$hasRight) {
+            return $this->renderText("You are not allowed to view this page!");
+        }
+        parent::execute($request);
+    }
+
     public function setReportCriteriaInfoInRequest($formValues) {
 
         $employeeService = new EmployeeService();
