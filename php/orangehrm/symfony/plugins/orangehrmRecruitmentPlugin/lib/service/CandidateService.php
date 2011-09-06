@@ -289,8 +289,8 @@ class CandidateService extends BaseService {
 	 */
 	public function addEmployee($employee) {
 
-		$this->getEmployeeService()->addEmployee($employee);
-	}
+        return $this->getEmployeeService()->addEmployee($employee);
+    }
 
 	public function deleteCandidate($candidateIds) {
 

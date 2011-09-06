@@ -206,6 +206,33 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testDeleteCandidateVacanciesForFalse() {
+        $toBeDeletedRecords = array();
+        $result = $this->candidateService->deleteCandidateVacancies($toBeDeletedRecords);
+        $this->assertEquals(false ,$result);
+        
+        $candidateId = 1;
+        $toBeDeleteCandidateIds = array(1);
+        $toBeDeletedRecords = array(1 =>array(1, 3));
+        
+        $candidateDao = $this->getMock('CandidateDao', array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'));
+        
+        $candidateDao->expects($this->any())
+                     ->method('getAllVacancyIdsForCandidate')
+                     ->with($candidateId)
+                     ->will($this->returnValue(array(1, 3)));
+        
+        $candidateDao->expects($this->once())
+                     ->method('deleteCandidates')
+                     ->with($toBeDeleteCandidateIds)
+                     ->will($this->returnValue(false));        
+       
+        $this->candidateService->setCandidateDao($candidateDao);
+        $result = $this->candidateService->deleteCandidateVacancies($toBeDeletedRecords);
+        $this->assertEquals(false ,$result);
+    }
+
+
     public function testDeleteCandidateVacanciesTestDeleteCandidateVacancy(){
         
         $candidateId = 2;
@@ -403,6 +430,64 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetEmployeeService(){
         $service = $this->candidateService->getEmployeeService();
         $this->assertTrue($service instanceof EmployeeService);
+    }
+    
+    public function testUpdateCandidateVacancy() {
+        
+        $candidatesVacancy = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
+        $candidateVacancy = $candidatesVacancy[0];
+        
+        $candidateService = $this->getMock('CandidateService', array ('getNextStateForCandidateVacancy'));
+        $candidateService->expects($this->any())
+                ->method('getNextStateForCandidateVacancy')
+                ->with('SHORTLISTED',3)
+                ->will($this->returnValue('REJECTED'));
+        
+        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao->expects($this->once())
+                ->method('updateCandidateVacancy')
+                ->with($candidateVacancy)
+                ->will($this->returnValue(1));
+
+        $candidateService->setCandidateDao($candidateDao);
+        $return = $candidateService->updateCandidateVacancy($candidateVacancy,3);
+        $this->assertEquals(1, $return);              
+    }
+    
+    public function testGetNextActionsForCandidateVacancy() {
+        
+        $userObj = new User();
+        $return = $this->candidateService->getNextActionsForCandidateVacancy(3, $userObj);
+        $this->assertEquals(array("" => __('No Actions')), $return);
+        $expectedArray = array("" => "Select Action", 3 => "Reject", 4 => "Schedule Interview" );
+        $allowedActions = array(3, 4);
+        
+        $userObj = $this->getMock('User',array ('getAllowedActions'));
+        $userObj->expects($this->once())
+                ->method('getAllowedActions')
+                ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 2)
+                ->will($this->returnValue($allowedActions));
+        $return = $this->candidateService->getNextActionsForCandidateVacancy(2, $userObj);
+        $this->assertEquals($expectedArray, $return);
+    }
+    
+    public function testAddEmployee() {
+        
+        $employee = new Employee();
+        $return = $this->candidateService->addEmployee($employee);
+        $this->assertEquals(true, $return);       
+    }
+    
+    public function testGetNextStateForCandidateVacancy() {
+        
+        $userObj = $this->getMock('User',array ('getNextState'));
+        $userObj->expects($this->once())
+                ->method('getNextState')
+                ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 'SHORTLISTED', 3)
+                ->will($this->returnValue('REJECTED'));
+        $return = $this->candidateService->getNextStateForCandidateVacancy('SHORTLISTED', 3);
+        var_dump($return);die;
+        //$this->assertEquals('REJECTED', $return); 
     }
 }
 
