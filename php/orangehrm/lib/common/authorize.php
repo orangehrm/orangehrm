@@ -40,10 +40,6 @@ class authorize {
 	public $roleSupervisor = "Supervisor";
 	public $roleESS = "ESS";
 	public $roleProjectAdmin = "ProjectAdmin";
-    public $roleManager = "Manager";
-    public $roleDirector = "Director";
-    public $roleAcceptor = "Acceptor";
-    public $roleOfferer = "Offerer";
     public $roleHiringManager = "HiringManager";
     public $roleInterviewer = "Interviewer";
 
@@ -53,8 +49,6 @@ class authorize {
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
 	const AUTHORIZE_ROLE_ESS = 'ESS';
 	const AUTHORIZE_ROLE_PROJECT_ADMIN = "ProjectAdmin";
-    const AUTHORIZE_ROLE_MANAGER = 'Manager';
-    const AUTHORIZE_ROLE_DIRECTOR = 'Director';
 
     const YES = 'Yes';
     const NO = 'No';
@@ -182,77 +176,6 @@ class authorize {
 	}
 
     /**
-     * Check whether the user is a Manager
-     *
-     * @return boolean
-     */
-    private function _checkIsManager() {
-
-        $isManager = false;
-        $id = $this->getEmployeeId();
-
-        if (!empty($id)) {
-            $empInfo = new EmpInfo();
-            $isManager = $empInfo->isManager($id);
-        }
-        return $isManager;
-    }
-
-    /**
-     * Check whether the user is a Director
-     *
-     * @return boolean True if a director, false otherwise
-     */
-    private function _checkIsDirector() {
-
-        $isDirector = false;
-        $id = $this->getEmployeeId();
-
-        if (!empty($id)) {
-            $empInfo = new EmpInfo();
-            $isDirector = $empInfo->isDirector($id);
-        }
-        return $isDirector;
-    }
-
-    /**
-     * Check whether the user is an Acceptor that can approve job offers
-     *
-     * @return boolean True if an acceptor, false otherwise
-     */
-    private function _checkIsAcceptor() {
-
-        $isAcceptor = false;
-        $id = $this->getEmployeeId();
-
-        if (!empty($id)) {
-            $empInfo = new EmpInfo();
-            $isAcceptor = $empInfo->isAcceptor($id);
-        }
-
-        return $isAcceptor;
-
-    }
-
-    /**
-     * Check whether the user is an Offerer that can approve job offers
-     *
-     * @return boolean True if an offerer, false otherwise
-     */
-    private function _checkIsOfferer() {
-
-        $isOfferer = false;
-        $id = $this->getEmployeeId();
-
-        if (!empty($id)) {
-            $empInfo = new EmpInfo();
-            $isOfferer = $empInfo->isOfferer($id);
-        }
-
-        return $isOfferer;
-    }
-
-    /**
      * Check whether the user is an HiringManager that can approve job offers
      *
      * @return boolean True if an hiring manager, false otherwise
@@ -314,42 +237,6 @@ class authorize {
 	public function isProjectAdmin() {
 		return $this->_chkRole($this->roleProjectAdmin);
 	}
-
-    /**
-     * Checks whether a Manager
-     *
-     * @return boolean true if a Manager. False otherwise
-     */
-    public function isManager() {
-        return $this->_chkRole($this->roleManager);
-    }
-
-    /**
-     * Checks whether a Director
-     *
-     * @return boolean true if a Director. False otherwise
-     */
-    public function isDirector() {
-        return $this->_chkRole($this->roleDirector);
-    }
-
-    /**
-     * Checks whether an Acceptor
-     *
-     * @return boolean true if an Acceptor. False otherwise
-     */
-//    public function isAcceptor() {
-//        return $this->_chkRole($this->roleAcceptor);
-//    }
-
-    /**
-     * Checks whether an Offerer
-     *
-     * @return boolean true if an Offerer. False otherwise
-     */
-    public function isOfferer() {
-        return $this->_chkRole($this->roleOfferer);
-    }
 
     /**
      * Checks whether an HiringManager
