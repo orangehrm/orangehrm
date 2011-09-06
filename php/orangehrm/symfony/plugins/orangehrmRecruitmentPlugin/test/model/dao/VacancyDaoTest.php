@@ -218,5 +218,22 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->vacancyDao->getVacancyListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
         $this->assertEquals(count($result), 4);
     }
+
+    public function testGetVacancyById(){
+	    $vacancyId = 1;
+	    $result = $this->vacancyDao->getVacancyById($vacancyId);
+	    $this->assertTrue($result instanceof JobVacancy);
+	    $this->assertEquals($result->getJobTitleCode(), 'JOB001');
+	    $this->assertEquals($result->getNoOfPositions(), 2);
+	    $this->assertEquals($result->getStatus(), 1);
+    }
+
+    public function testsSearchVacanciesCount(){
+
+	    $srchParams = array('jobTitle' => 'JOB001','jobVacancy' => 1,'hiringManager' => 1,'status' => 1);
+	    $result = $this->vacancyDao->searchVacanciesCount($srchParams);
+	    $this->assertEquals($result, 1);
+
+    }
     
 }

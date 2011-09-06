@@ -128,5 +128,43 @@ class RecruitmentAttachmentDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(sizeof($vacancyList), 2);
 	}
 
+	public function testGetInterviewAttachments() {
+
+		$interviewId = 1;
+		$attachments = $this->recruitmentAttachmentDao->getInterviewAttachments($interviewId);
+		$this->assertTrue($attachments[0] instanceof JobInterviewAttachment);
+		$this->assertEquals(sizeof($attachments), 2);
+	}
+
+	public function testGetVacancyAttachment() {
+
+		$attachId = 1;
+		$attachment = $this->recruitmentAttachmentDao->getVacancyAttachment($attachId);
+		$this->assertTrue($attachment instanceof JobVacancyAttachment);
+		$this->assertEquals($attachment->fileName, 'xyz.txt');
+		$this->assertEquals($attachment->fileSize, 512);
+
+	}
+
+	public function testGetInterviewAttachment() {
+
+		$attachId = 1;
+		$attachment = $this->recruitmentAttachmentDao->getInterviewAttachment($attachId);
+		$this->assertTrue($attachment instanceof JobInterviewAttachment);
+		$this->assertEquals($attachment->fileName, 'resume.pdf');
+		$this->assertEquals($attachment->fileSize, 512);
+
+	}
+
+	public function testGetCandidateAttachment() {
+
+		$attachId = 1;
+		$attachment = $this->recruitmentAttachmentDao->getCandidateAttachment($attachId);
+		$this->assertTrue($attachment instanceof JobCandidateAttachment);
+		$this->assertEquals($attachment->fileName, 'xyz.txt');
+		$this->assertEquals($attachment->fileSize, 512);
+
+	}
+
 }
 

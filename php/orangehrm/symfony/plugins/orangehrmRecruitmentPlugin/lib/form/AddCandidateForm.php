@@ -82,6 +82,14 @@ class AddCandidateForm extends BaseForm {
         return $this->recruitmentAttachmentService;
     }
 
+    public function getInterviewService() {
+        if (is_null($this->interviewService)) {
+            $this->interviewService = new JobInterviewService();
+            $this->interviewService->setJobInterviewDao(new JobInterviewDao());
+        }
+        return $this->interviewService;
+    }
+
     /**
      *
      */
@@ -216,6 +224,10 @@ class AddCandidateForm extends BaseForm {
             if (!empty($id)) {
                 if ($id != $vacancy) {
                     $candidateVacancy->delete();
+//		    $interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($candidateVacancy);
+//		    foreach ($interviews as $interview){
+//		     $interview->getJobInterviewInterviewer()->delete();
+//		    }
                     $vacancyName = $candidateVacancy->getVacancyName();
                     $this->removedHistory = new CandidateHistory();
                     $this->removedHistory->candidateId = $this->candidateId;

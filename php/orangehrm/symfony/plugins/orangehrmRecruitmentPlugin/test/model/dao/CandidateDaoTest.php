@@ -115,6 +115,21 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
 
+    public function testGetCandidateListCountForJobTitleAndKeywords() {
+
+        $searchParam = new CandidateSearchParameters();
+        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setKeywords("java,oracle");
+	$searchParam->setVacancyId(1);
+	$searchParam->setHiringManagerId(2);
+	$searchParam->setCandidateName('Yasitha Pandi');
+	$searchParam->setStatus("REJECTED");
+	$searchParam->setModeOfApplication(1);
+
+        $count = $this->candidateDao->getCandidateRecordsCount($searchParam);
+        $this->assertEquals($count, 0);
+    }
+
     /**
      * Testing  getCandidateList when only vacancyId is provided
      */
@@ -721,7 +736,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetCandidateListForAdminRole() {
         $candidatesForAdmin = $this->candidateDao->getCandidateListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-        $this->assertEquals(count($candidatesForAdmin), 9);
+        $this->assertEquals(count($candidatesForAdmin), 10);
     }
 
     public function testGetCandidateHistoryForHiringManagerRole() {

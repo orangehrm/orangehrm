@@ -63,4 +63,9 @@ JobInterviewInterviewer:
 CandidateHistory:
   0: {id: 1, candidateId: 1, candidateVacancyId: 1, interviewId: 1, action: 1, performedBy: 3, performedDate: '2011-06-07', note: 'This is my first note'}
   1: {id: 2, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 1, performedBy: 4, performedDate: '2011-06-13', note: 'This is my second note'}
-  
+  2: {id: 3, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 4, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+
+JobInterviewAttachment:
+  0: {id: 1, interviewId: 1, file_name: 'resume.pdf', file_type: '.txt', file_size: '512', attachment_type: '1', comment: 'This is my first attachment'}
+  1: {id: 2, interviewId: 1, file_name: 'xyz.txt', file_type: '.txt', file_size: '256', attachment_type: '1', comment: 'I attached my Resume'}
+  2: {id: 3, interviewId: 2, file_name: 'cv.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1', comment: 'This is my CV'}
