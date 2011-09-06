@@ -189,22 +189,10 @@ class viewCandidatesForm extends BaseForm {
             if ($value == "INITIAL") {
                 unset($uniqueStatesList[$key]);
             } else {
-                $value = $this->__getStatusName($value);
                 $list[$value] = ucwords(strtolower($value));
             }
         }
         return $list;
-    }
-
-    private function __getStatusName($status) {
-        if ($status == "1ST INTERVIEW SCHEDULED" || $status == "2ND INTERVIEW SCHEDULED") {
-            $statusName = "INTERVIEW SCHEDULED";
-        } else if ($status == "1ST INTERVIEW PASSED" || $status =="2ND INTERVIEW PASSED") {
-            $statusName = "INTERVIEW PASSED";
-        } else {
-            $statusName = $status;
-        }
-        return $statusName;
     }
 
     /**

@@ -85,7 +85,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 		$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
 		$this->hiringManagerName = $this->selectedCandidateVacancy->getHiringManager();
-		$this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatusName()));
+		$this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatus()));
 
 		$this->setWidget('notes', new sfWidgetFormTextArea());
 		$this->setValidator('notes', new sfValidatorString(array('required' => false, 'max_length' => 2147483647)));
@@ -114,7 +114,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$resultArray['message'] = __('Action History Details Saved Successfully');
 			return $resultArray;
 		}
-		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction, sfContext::getInstance()->getUser()->getAttribute('user'));
 		$interviews = $this->getInterviewService()->getInterviewsByCandidateVacancyId($this->candidateVacancyId);
 		$interview = $interviews[count($interviews) - 1];
 		$candidateHistory = new CandidateHistory();

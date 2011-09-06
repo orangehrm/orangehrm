@@ -49,6 +49,14 @@ class ViewCandidateActionForm extends BaseForm {
         $this->candidateService = $candidateService;
     }
 
+    public function getInterviewService() {
+        if (is_null($this->interviewService)) {
+            $this->interviewService = new JobInterviewService();
+            $this->interviewService->setJobInterviewDao(new JobInterviewDao());
+        }
+        return $this->interviewService;
+    }
+
     /**
      *
      */
@@ -71,6 +79,10 @@ class ViewCandidateActionForm extends BaseForm {
                     }
                     $newlyDecoratedUserObj = $userRoleDecorator->decorateUserRole($userObj, $userRoleArray);
                     $choicesList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $newlyDecoratedUserObj);
+                    $interviewCount = count($this->getInterviewService()->getInterviewsByCandidateVacancyId($candidateVacancy->getId()));
+                    if ($interviewCount == JobInterview::NO_OF_INTERVIEWS) {
+                        unset($choicesList[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]);
+                    }
                     if ($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::CLOSED) {
                         $choicesList = array("" => __("No Actions"));
                     }

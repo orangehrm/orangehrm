@@ -20,256 +20,258 @@
  */
 class JobInterviewForm extends BaseForm {
 
-	public $candidateName;
-	public $vacancyName;
-	public $numberOfInterviewers = 5;
-	public $candidateVacancyId;
-	public $selectedAction;
-	public $candidateId;
-	public $vacancyId;
-	public $historyId;
-	public $currentStatus;
-	private $candidateService;
-	private $selectedCandidateVacancy;
-	private $interviewService;
-	private $defaultTime = '00:00:00';
+    public $candidateName;
+    public $vacancyName;
+    public $numberOfInterviewers = 5;
+    public $candidateVacancyId;
+    public $selectedAction;
+    public $candidateId;
+    public $vacancyId;
+    public $historyId;
+    public $currentStatus;
+    private $candidateService;
+    private $selectedCandidateVacancy;
+    private $interviewService;
+    private $defaultTime = '00:00:00';
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getCandidateService() {
-		if (is_null($this->candidateService)) {
-			$this->candidateService = new CandidateService();
-			$this->candidateService->setCandidateDao(new CandidateDao());
-		}
-		return $this->candidateService;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getCandidateService() {
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
+    }
 
-	public function getInterviewService() {
-		if (is_null($this->interviewService)) {
-			$this->interviewService = new JobInterviewService();
-			$this->interviewService->setJobInterviewDao(new JobInterviewDao());
-		}
-		return $this->interviewService;
-	}
+    public function getInterviewService() {
+        if (is_null($this->interviewService)) {
+            $this->interviewService = new JobInterviewService();
+            $this->interviewService->setJobInterviewDao(new JobInterviewDao());
+        }
+        return $this->interviewService;
+    }
 
-	public function configure() {
+    public function configure() {
 
-		$this->candidateVacancyId = $this->getOption('candidateVacancyId');
-		$this->selectedAction = $this->getOption('selectedAction');
-		$this->id = $this->getOption('id');
-		$this->interviewId = $this->getOption('interviewId');
-		$this->historyId = $this->getOption('historyId');
+        $this->candidateVacancyId = $this->getOption('candidateVacancyId');
+        $this->selectedAction = $this->getOption('selectedAction');
+        $this->id = $this->getOption('id');
+        $this->interviewId = $this->getOption('interviewId');
+        $this->historyId = $this->getOption('historyId');
 
-		if ($this->candidateVacancyId > 0 && ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW)) {
-			$this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyById($this->candidateVacancyId);
-			$this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
-			$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
-			$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
-			$this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
-			$this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatusName()));
-		}
+
+        if ($this->candidateVacancyId > 0 && ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW)) {
+            $this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyById($this->candidateVacancyId);
+            $this->vacancyId = $this->selectedCandidateVacancy->getVacancyId();
+            $this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
+            $this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
+            $this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
+            $this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatus()));
+        }
+
 //creating widgets
-		$this->setWidgets(array(
-		    'name' => new sfWidgetFormInputText(),
-		    'date' => new sfWidgetFormInputText(),
-		    'time' => new sfWidgetFormInputText(),
-		    'note' => new sfWidgetFormTextArea(),
-		    'selectedInterviewerList' => new sfWidgetFormInputHidden(),
-		));
+        $this->setWidgets(array(
+            'name' => new sfWidgetFormInputText(),
+            'date' => new sfWidgetFormInputText(),
+            'time' => new sfWidgetFormInputText(),
+            'note' => new sfWidgetFormTextArea(),
+            'selectedInterviewerList' => new sfWidgetFormInputHidden(),
+        ));
 
-		for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
-			$this->setWidget('interviewer_' . $i, new sfWidgetFormInputText());
-		}
+        for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
+            $this->setWidget('interviewer_' . $i, new sfWidgetFormInputText());
+        }
 
-		$inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-		$this->setValidators(array(
-		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
-		    'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
-			    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
-		    'time' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
-		    'note' => new sfValidatorString(array('required' => false)),
-		    'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
-		));
-		for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
-			$this->setValidator('interviewer_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 100)));
-		}
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $this->setValidators(array(
+            'name' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
+            'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+            'time' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+            'note' => new sfValidatorString(array('required' => false)),
+            'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
+        ));
+        for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
+            $this->setValidator('interviewer_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 100)));
+        }
 
-		$this->widgetSchema->setNameFormat('jobInterview[%s]');
+        $this->widgetSchema->setNameFormat('jobInterview[%s]');
 
-		if ($this->id != null) {
-			$this->setDefaultValues($this->id);
-		}
-	}
+        if ($this->id != null) {
+            $this->setDefaultValues($this->id);
+        }
+    }
 
-	private function setDefaultValues($interviewId) {
+    private function setDefaultValues($interviewId) {
 
-		$interview = $this->getInterviewService()->getInterviewById($interviewId);
-		$this->setDefault('name', $interview->getInterviewName());
-		$this->setDefault('date', $interview->getInterviewDate());
-		if ($interview->getInterviewTime() == $this->defaultTime) {
-			$this->setDefault('time', "");
-		} else {
-			$this->setDefault('time', date('H:i', strtotime($interview->getInterviewTime())));
-		}
-		$this->setDefault('note', $interview->getNote());
+        $interview = $this->getInterviewService()->getInterviewById($interviewId);
+        $this->setDefault('name', $interview->getInterviewName());
+        $this->setDefault('date', $interview->getInterviewDate());
+        if ($interview->getInterviewTime() == $this->defaultTime) {
+            $this->setDefault('time', "");
+        } else {
+            $this->setDefault('time', date('H:i', strtotime($interview->getInterviewTime())));
+        }
+        $this->setDefault('note', $interview->getNote());
 
-		$interviewers = $interview->getJobInterviewInterviewer();
-		$this->setDefault('interviewer_1', $interviewers[0]->getEmployee()->getFullName());
-		for ($i = 1; $i <= count($interviewers); $i++) {
-			$this->setDefault('interviewer_' . $i, $interviewers[$i - 1]->getEmployee()->getFullName());
-		}
-		$this->setDefault('selectedInterviewerList', count($interviewers));
-	}
+        $interviewers = $interview->getJobInterviewInterviewer();
+        $this->setDefault('interviewer_1', $interviewers[0]->getEmployee()->getFullName());
+        for ($i = 1; $i <= count($interviewers); $i++) {
+            $this->setDefault('interviewer_' . $i, $interviewers[$i - 1]->getEmployee()->getFullName());
+        }
+        $this->setDefault('selectedInterviewerList', count($interviewers));
+    }
 
-	public function save() {
+    public function save() {
 
-		$interviewArray = array();
-		if (empty($this->interviewId)) {
-			$newJobInterview = new JobInterview();
-			$newCandidateHistory = new CandidateHistory();
-			$interviewArray = $this->getValue('selectedInterviewerList');
-			$selectedInterviewerArrayList = explode(",", $interviewArray);
-		} else {
-			$newCandidateHistory = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
-			$selectedInterviewerList = $this->getValue('selectedInterviewerList');
-			$selectedInterviewerArrayList = explode(",", $selectedInterviewerList);
-			$newJobInterview = $this->getInterviewService()->getInterviewById($this->interviewId);
-			$existingInterviewers = $newJobInterview->getJobInterviewInterviewer();
+        $interviewArray = array();
+        if (empty($this->interviewId)) {
+            $newJobInterview = new JobInterview();
+            $newCandidateHistory = new CandidateHistory();
+            $interviewArray = $this->getValue('selectedInterviewerList');
+            $selectedInterviewerArrayList = explode(",", $interviewArray);
+        } else {
+            $newCandidateHistory = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
+            $selectedInterviewerList = $this->getValue('selectedInterviewerList');
+            $selectedInterviewerArrayList = explode(",", $selectedInterviewerList);
+            $newJobInterview = $this->getInterviewService()->getInterviewById($this->interviewId);
+            $existingInterviewers = $newJobInterview->getJobInterviewInterviewer();
 
-			$idList = array();
-			if ($existingInterviewers[0]->getInterviewerId() != "") {
-				foreach ($existingInterviewers as $existingInterviewer) {
-					$id = $existingInterviewer->getInterviewerId();
-					if (!in_array($id, $selectedInterviewerArrayList)) {
-						$existingInterviewer->delete();
-					} else {
-						$idList[] = $id;
-					}
-				}
-			}
+            $idList = array();
+            if ($existingInterviewers[0]->getInterviewerId() != "") {
+                foreach ($existingInterviewers as $existingInterviewer) {
+                    $id = $existingInterviewer->getInterviewerId();
+                    if (!in_array($id, $selectedInterviewerArrayList)) {
+                        $existingInterviewer->delete();
+                    } else {
+                        $idList[] = $id;
+                    }
+                }
+            }
 
-			$this->resultArray = array();
+            $this->resultArray = array();
 
-			$selectedInterviewerArrayList = array_diff($selectedInterviewerArrayList, $idList);
-			$newList = array();
-			foreach ($selectedInterviewerArrayList as $elements) {
-				$newList[] = $elements;
-			}
-			$selectedInterviewerArrayList = $newList;
-		}
-		$interviewId = $this->saveInterview($newJobInterview, $selectedInterviewerArrayList);
-		$this->saveCandidateHistory($newCandidateHistory, $interviewId);
+            $selectedInterviewerArrayList = array_diff($selectedInterviewerArrayList, $idList);
+            $newList = array();
+            foreach ($selectedInterviewerArrayList as $elements) {
+                $newList[] = $elements;
+            }
+            $selectedInterviewerArrayList = $newList;
+        }
+        $interviewId = $this->saveInterview($newJobInterview, $selectedInterviewerArrayList);
+        $this->saveCandidateHistory($newCandidateHistory, $interviewId);
 
-		return $this->resultArray;
-	}
+        return $this->resultArray;
+    }
 
-	protected function saveInterview($newJobInterview, $selectedInterviewerArrayList) {
+    protected function saveInterview($newJobInterview, $selectedInterviewerArrayList) {
 
-		$name = $this->getValue('name');
-		$date = $this->getValue('date');
-		$time = $this->getValue('time');
-		$note = $this->getValue('note');
-		$newJobInterview->setInterviewName($name);
-		$newJobInterview->setInterviewDate($date);
-		if (!empty($time)) {
-			$newJobInterview->setInterviewTime($time);
-		} else {
-			$newJobInterview->setInterviewTime($this->defaultTime);
-		}
-		$newJobInterview->setNote($note);
-		$newJobInterview->setCandidateVacancyId($this->candidateVacancyId);
-		$newJobInterview->setCandidateId($this->candidateId);
-		if (!empty($this->interviewId)) {
-			$this->getInterviewService()->updateJobInterview($newJobInterview);
-			$this->resultArray['messageType'] = 'success';
-			$this->resultArray['message'] = __('Interview Details Updated Successfully');
-		} else {
-			$newJobInterview->save();
-		}
+        $name = $this->getValue('name');
+        $date = $this->getValue('date');
+        $time = $this->getValue('time');
+        $note = $this->getValue('note');
+        $newJobInterview->setInterviewName($name);
+        $newJobInterview->setInterviewDate($date);
+        if (!empty($time)) {
+            $newJobInterview->setInterviewTime($time);
+        } else {
+            $newJobInterview->setInterviewTime($this->defaultTime);
+        }
+        $newJobInterview->setNote($note);
+        $newJobInterview->setCandidateVacancyId($this->candidateVacancyId);
+        $newJobInterview->setCandidateId($this->candidateId);
+        if (!empty($this->interviewId)) {
+            $this->getInterviewService()->updateJobInterview($newJobInterview);
+            $this->resultArray['messageType'] = 'success';
+            $this->resultArray['message'] = __('Interview Details Updated Successfully');
+        } else {
+            $newJobInterview->save();
+        }
 
-		$interviewId = $newJobInterview->getId();
-		if (!empty($selectedInterviewerArrayList)) {
-			for ($i = 0; $i < count($selectedInterviewerArrayList); $i++) {
-				$newInterviewer = new JobInterviewInterviewer();
-				$newInterviewer->setInterviewerId($selectedInterviewerArrayList[$i]);
-				$newInterviewer->setInterviewId($interviewId);
-				$newInterviewer->save();
-			}
-		}
+        $interviewId = $newJobInterview->getId();
+        if (!empty($selectedInterviewerArrayList)) {
+            for ($i = 0; $i < count($selectedInterviewerArrayList); $i++) {
+                $newInterviewer = new JobInterviewInterviewer();
+                $newInterviewer->setInterviewerId($selectedInterviewerArrayList[$i]);
+                $newInterviewer->setInterviewId($interviewId);
+                $newInterviewer->save();
+            }
+        }
 
-		return $interviewId;
-	}
+        return $interviewId;
+    }
 
-	protected function saveCandidateHistory($newCandidateHistory, $interviewId) {
+    protected function saveCandidateHistory($newCandidateHistory, $interviewId) {
 
-		$newCandidateHistory->setAction($this->selectedAction);
-		$newCandidateHistory->setCandidateId($this->candidateId);
+        $newCandidateHistory->setAction($this->selectedAction);
+        $newCandidateHistory->setCandidateId($this->candidateId);
 
-		$empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
-		if ($empNumber == 0) {
-			$empNumber = null;
-		}
+        $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        if ($empNumber == 0) {
+            $empNumber = null;
+        }
 
-		$newCandidateHistory->setVacancyId($this->selectedCandidateVacancy->getVacancyId());
-		$newCandidateHistory->setPerformedBy($empNumber);
-		$date = ohrm_format_date(date('Y-m-d'));
-		$newCandidateHistory->setPerformedDate($date . " " . date('H:i:s'));
-		$newCandidateHistory->setNote($note = $this->getValue('note'));
-		$newCandidateHistory->setInterviewId($interviewId);
-		$newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
-		$newCandidateHistory->setInterviewers($this->getInterviewInterviewers($interviewId));
-		if (!empty($this->interviewId)) {
-			$result = $this->getCandidateService()->updateCandidateHistory($newCandidateHistory);
-		} else {
-			$result = $this->getCandidateService()->saveCandidateHistory($newCandidateHistory);
-		}
-		if (empty($this->interviewId)) {
-			$this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
-			$this->historyId = $newCandidateHistory->getId();
-		}
-	}
+        $newCandidateHistory->setVacancyId($this->selectedCandidateVacancy->getVacancyId());
+        $newCandidateHistory->setPerformedBy($empNumber);
+        $date = ohrm_format_date(date('Y-m-d'));
+        $newCandidateHistory->setPerformedDate($date . " " . date('H:i:s'));
+        $newCandidateHistory->setNote($note = $this->getValue('note'));
+        $newCandidateHistory->setInterviewId($interviewId);
+        $newCandidateHistory->setCandidateVacancyName($this->selectedCandidateVacancy->getVacancyName());
+        $newCandidateHistory->setInterviewers($this->getInterviewInterviewers($interviewId));
+        if (!empty($this->interviewId)) {
+            $result = $this->getCandidateService()->updateCandidateHistory($newCandidateHistory);
+        } else {
+            $result = $this->getCandidateService()->saveCandidateHistory($newCandidateHistory);
+        }
+        if (empty($this->interviewId)) {
+            $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+            $this->historyId = $newCandidateHistory->getId();
+        }
+    }
 
-	public function getEmployeeListAsJson() {
+    public function getEmployeeListAsJson() {
 
-		$jsonArray = array();
-		$escapeCharSet = array(38, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
-		$employeeService = new EmployeeService();
-		$employeeService->setEmployeeDao(new EmployeeDao());
+        $jsonArray = array();
+        $escapeCharSet = array(38, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
+        $employeeService = new EmployeeService();
+        $employeeService->setEmployeeDao(new EmployeeDao());
 
-		$employeeList = $employeeService->getEmployeeList();
-		$employeeUnique = array();
-		foreach ($employeeList as $employee) {
+        $employeeList = $employeeService->getEmployeeList();
+        $employeeUnique = array();
+        foreach ($employeeList as $employee) {
 
-			if (!isset($employeeUnique[$employee->getEmpNumber()])) {
+            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
-				$name = $employee->getFirstName() . " " . $employee->getMiddleName();
-				$name = trim(trim($name) . " " . $employee->getLastName());
+                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
+                $name = trim(trim($name) . " " . $employee->getLastName());
 
-				foreach ($escapeCharSet as $char) {
-					$name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-				}
+                foreach ($escapeCharSet as $char) {
+                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                }
 
-				$employeeUnique[$employee->getEmpNumber()] = $name;
-				$jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-			}
-		}
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+            }
+        }
 
-		$jsonString = json_encode($jsonArray);
+        $jsonString = json_encode($jsonArray);
 
-		return $jsonString;
-	}
+        return $jsonString;
+    }
 
-	protected function getInterviewInterviewers($interviewId) {
+    protected function getInterviewInterviewers($interviewId) {
 
-		$interviewers = $this->getInterviewService()->getInterviewersByInterviewId($interviewId);
-		$interviewersStr = "";
-		foreach ($interviewers as $interviewer) {
-			$interviewersStr = $interviewersStr . $interviewer->getInterviewerId() . "_";
-		}
-		return $interviewersStr;
-	}
+        $interviewers = $this->getInterviewService()->getInterviewersByInterviewId($interviewId);
+        $interviewersStr = "";
+        foreach ($interviewers as $interviewer) {
+            $interviewersStr = $interviewersStr . $interviewer->getInterviewerId() . "_";
+        }
+        return $interviewersStr;
+    }
 
 }
 

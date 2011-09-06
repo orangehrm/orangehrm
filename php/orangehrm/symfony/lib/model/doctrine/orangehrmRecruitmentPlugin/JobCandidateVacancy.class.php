@@ -28,16 +28,4 @@ class JobCandidateVacancy extends PluginJobCandidateVacancy {
     public function getDateOfApplication() {
         return $this->getJobCandidate()->getDateOfApplication();
     }
-
-public function getStatusName(){
-    if ($this->getStatus() == "1ST INTERVIEW SCHEDULED" || $this->getStatus() == "2ND INTERVIEW SCHEDULED") {
-            $statusName = "INTERVIEW SCHEDULED";
-        } else if ($this->getStatus() == "1ST INTERVIEW PASSED" || $this->getStatus() =="2ND INTERVIEW PASSED") {
-            $statusName = "INTERVIEW PASSED";
-        } else {
-            $statusName = $this->getStatus();
-        }
-        return $statusName;
-}
-
 }

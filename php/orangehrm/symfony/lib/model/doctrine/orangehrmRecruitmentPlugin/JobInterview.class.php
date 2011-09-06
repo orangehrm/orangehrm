@@ -12,5 +12,4 @@
  */
 class JobInterview extends PluginJobInterview {
 
-	const TYPE = "INTERVIEW";
 }

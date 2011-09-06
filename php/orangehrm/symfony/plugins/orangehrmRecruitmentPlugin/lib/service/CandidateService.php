@@ -165,8 +165,7 @@ class CandidateService extends BaseService {
 	 * @param <type> $action
 	 * @return <type>
 	 */
-	public function getNextStateForCandidateVacancy($state, $action) {
-		$userObj = sfContext::getInstance()->getUser()->getAttribute('user');
+	public function getNextStateForCandidateVacancy($state, $action, $userObj) {
 		return $userObj->getNextState(PluginWorkflowStateMachine::FLOW_RECRUITMENT, $state, $action);
 	}
 
@@ -176,9 +175,9 @@ class CandidateService extends BaseService {
 	 * @param <type> $action
 	 * @return <type>
 	 */
-	public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy, $action) {
+	public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy, $action, $userObj) {
 		$candidateVacancy->setStatus($this->getNextStateForCandidateVacancy($candidateVacancy->getStatus(), $action));
-		return $this->candidateDao->updateCandidateVacancy($candidateVacancy);
+		return $this->candidateDao->updateCandidateVacancy($candidateVacancy, $userObj);
 	}
 
 	/**
