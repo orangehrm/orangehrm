@@ -62,19 +62,19 @@ class viewCandidatesAction extends sfAction {
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
         $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
-        
+
         $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
-
+        list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateDeletionMessageItems');
         $candidateId = $request->getParameter('candidateId');
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
         $isPaging = $request->getParameter('pageNo');
-        
+
         $pageNumber = $isPaging;
         if(!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
             $pageNumber = $this->getUser()->getAttribute('pageNumber');
-        }        
+        }
         $this->getUser()->setAttribute('pageNumber', $pageNumber);
 
         $searchParam = new CandidateSearchParameters();
@@ -117,8 +117,6 @@ class viewCandidatesAction extends sfAction {
                     $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
                 }
             }
-
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateDeletionMessageItems');
         }
     }
     

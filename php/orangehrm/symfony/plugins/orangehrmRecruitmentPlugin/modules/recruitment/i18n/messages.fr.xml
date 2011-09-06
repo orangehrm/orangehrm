@@ -457,8 +457,8 @@
                 <target>FR_Reject</target>
             </trans-unit>
             <trans-unit id="114">
-                <source>Click on a candidate name to perform actions</source>
-                <target>FR_Click on a candidate name to perform actions</target>
+                <source>Click on a candidate to perform actions</source>
+                <target>FR_Click on a candidate to perform actions</target>
             </trans-unit>
             <trans-unit id="115">
                 <source>Delete selected record(s)?</source>

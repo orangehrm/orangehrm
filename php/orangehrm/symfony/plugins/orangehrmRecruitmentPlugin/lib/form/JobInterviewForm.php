@@ -68,7 +68,7 @@ class JobInterviewForm extends BaseForm {
             $this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
             $this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
             $this->candidateId = $this->selectedCandidateVacancy->getCandidateId();
-            $this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatus()));
+            $this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatusName()));
         }
 //creating widgets
         $this->setWidgets(array(

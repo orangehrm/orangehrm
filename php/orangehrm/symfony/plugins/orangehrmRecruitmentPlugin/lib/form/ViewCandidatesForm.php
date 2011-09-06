@@ -28,7 +28,7 @@ class viewCandidatesForm extends BaseForm {
     private $vacancyService;
     private $allowedCandidateList;
     private $allowedVacancyList;
-    public  $allowedCandidateListToDelete;
+    public $allowedCandidateListToDelete;
 
     /**
      * Get CandidateService
@@ -185,11 +185,26 @@ class viewCandidatesForm extends BaseForm {
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $allowedStates = $userObj->getAllAlowedRecruitmentApplicationStates(PluginWorkflowStateMachine::FLOW_RECRUITMENT);
         $uniqueStatesList = array_unique($allowedStates);
-
-        foreach ($uniqueStatesList as $state) {
-            $list[$state] = ucwords(strtolower($state));
+        foreach ($uniqueStatesList as $key => &$value) {
+            if ($value == "INITIAL") {
+                unset($uniqueStatesList[$key]);
+            } else {
+                $value = $this->__getStatusName($value);
+                $list[$value] = ucwords(strtolower($value));
+            }
         }
         return $list;
+    }
+
+    private function __getStatusName($status) {
+        if ($status == "1ST INTERVIEW SCHEDULED" || $status == "2ND INTERVIEW SCHEDULED") {
+            $statusName = "INTERVIEW SCHEDULED";
+        } else if ($status == "1ST INTERVIEW PASSED" || $status =="2ND INTERVIEW PASSED") {
+            $statusName = "INTERVIEW PASSED";
+        } else {
+            $statusName = $status;
+        }
+        return $statusName;
     }
 
     /**

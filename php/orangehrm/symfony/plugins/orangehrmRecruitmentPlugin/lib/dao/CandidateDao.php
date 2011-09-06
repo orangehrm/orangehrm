@@ -113,13 +113,24 @@ class CandidateDao extends BaseDao {
                 $param->setHiringManagerName($candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname']);
                 $param->setDateOfApplication($candidate['date_of_application']);
                 $param->setAttachmentId($candidate['attachmentId']);
-                $param->setStatusName(ucwords(strtolower($candidate['status'])));
+                $param->setStatusName(ucwords(strtolower($this->__getStatusName($candidate['status']))));
                 $candidatesList[] = $param;
             }
             return $candidatesList;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+
+    private function __getStatusName($status) {
+        if ($status == "1ST INTERVIEW SCHEDULED" || $status == "2ND INTERVIEW SCHEDULED") {
+            $statusName = "INTERVIEW SCHEDULED";
+        } else if ($status == "1ST INTERVIEW PASSED" || $status =="2ND INTERVIEW PASSED") {
+            $statusName = "INTERVIEW PASSED";
+        } else {
+            $statusName = $status;
+        }
+        return $statusName;
     }
 
     /**

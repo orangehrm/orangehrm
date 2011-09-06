@@ -113,7 +113,6 @@
         </form>
     </div>
 </div>
-
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
@@ -159,7 +158,7 @@
                 var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
                 var lang_all = '<?php echo __("All") ?>';
                 var lang_dateError = '<?php echo __("From date should be less than To date") ?>';
-                var lang_helpText = '<?php echo __("Click on a candidate name to perform actions") ?>';
+                var lang_helpText = '<?php echo __("Click on a candidate to perform actions") ?>';
                 var candidatesArray = eval(candidates);
                 var lang_enterValidName = '<?php echo __("Enter valid candidate name") ?>';
                 var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';

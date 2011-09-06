@@ -85,7 +85,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 		$this->candidateName = $this->selectedCandidateVacancy->getCandidateName();
 		$this->vacancyName = $this->selectedCandidateVacancy->getVacancyName();
 		$this->hiringManagerName = $this->selectedCandidateVacancy->getHiringManager();
-		$this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatus()));
+		$this->currentStatus = ucwords(strtolower($this->selectedCandidateVacancy->getStatusName()));
 
 		$this->setWidget('notes', new sfWidgetFormTextArea());
 		$this->setValidator('notes', new sfValidatorString(array('required' => false, 'max_length' => 2147483647)));

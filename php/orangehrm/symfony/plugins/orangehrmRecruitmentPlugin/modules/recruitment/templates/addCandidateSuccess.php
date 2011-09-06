@@ -130,7 +130,7 @@
                                 $widgetName = $candidateVacancy->getId();
                                 echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
                     ?>
-                                <span class="status" style="font-weight: bold"><?php echo __("Status") . " : " . ucwords(strtolower($candidateVacancy->getStatus())); ?></span>
+                                <span class="status" style="font-weight: bold"><?php echo __("Status") . " : " . ucwords(strtolower($candidateVacancy->getStatusName())); ?></span>
                     <?php
                             }
                             $i++;
