@@ -130,10 +130,6 @@ class authorize {
 
 		$roles[$this->roleSupervisor] = $this->_checkIsSupervisor();
 		$roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
-        $roles[$this->roleManager] = $this->_checkIsManager();
-        $roles[$this->roleDirector] = $this->_checkIsDirector();
-        $roles[$this->roleAcceptor] = $this->_checkIsAcceptor();
-        $roles[$this->roleOfferer] = $this->_checkIsOfferer();
         $roles[$this->roleHiringManager] = $this->_checkIsHiringManager();
         $roles[$this->roleInterviewer] = $this->_checkIsInterviewer();
 
@@ -342,9 +338,9 @@ class authorize {
      *
      * @return boolean true if an Acceptor. False otherwise
      */
-    public function isAcceptor() {
-        return $this->_chkRole($this->roleAcceptor);
-    }
+//    public function isAcceptor() {
+//        return $this->_chkRole($this->roleAcceptor);
+//    }
 
     /**
      * Checks whether an Offerer
