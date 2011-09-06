@@ -228,7 +228,7 @@ class JobInterviewForm extends BaseForm {
             $result = $this->getCandidateService()->saveCandidateHistory($newCandidateHistory);
         }
         if (empty($this->interviewId)) {
-            $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction);
+            $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction, sfContext::getInstance()->getUser()->getAttribute('user'));
             $this->historyId = $newCandidateHistory->getId();
         }
     }
