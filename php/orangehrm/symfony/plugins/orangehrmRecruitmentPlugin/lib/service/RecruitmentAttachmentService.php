@@ -94,7 +94,7 @@ class RecruitmentAttachmentService extends BaseService {
 			return $this->recruitmentAttachmentDao->getVacancyAttachment($id);
 		} elseif($screen == JobInterview::TYPE){
 			return $this->recruitmentAttachmentDao->getInterviewAttachment($id);
-		}
+		} else return false;
 	}
 
 	/**
@@ -108,7 +108,7 @@ class RecruitmentAttachmentService extends BaseService {
 			return $this->recruitmentAttachmentDao->getVacancyAttachments($id);
 		} elseif($screen == JobInterview::TYPE){
 			return $this->recruitmentAttachmentDao->getInterviewAttachments($id);
-		}
+		} else return false;	
 	}
 
 	public function getNewAttachment($screen, $id){

@@ -95,4 +95,147 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($readVacancyList, $testVacancyList);
 	}
 
+	/**
+	 * Testing getVacancyAttachments
+	 */
+	public function testGetCandidateAttachment() {
+
+		$candidateId = 1;
+		$candidateList = TestDataService::loadObjectList('JobCandidateAttachment', $this->fixture, 'JobCandidateAttachment');
+		$testCandidateList = array($candidateList[0], $candidateList[1]);
+
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getCandidateAttachment')
+			->will($this->returnValue($testCandidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+
+		$readCandidateList = $this->recruitmentAttachmentService->getCandidateAttachment($candidateId);
+
+		$this->assertEquals($readCandidateList, $testCandidateList);
+	}
+
+	public function testGetRecruitmentAttachmentDao() {
+
+		$dao = $this->recruitmentAttachmentService->getRecruitmentAttachmentDao();
+		$this->assertTrue($dao instanceof RecruitmentAttachmentDao);
+	}
+
+	public function testGetAttachmentForCandidate() {
+
+		$id = 1;
+		$screen = "CANDIDATE";
+		$candidateList = TestDataService::loadObjectList('JobCandidateAttachment', $this->fixture, 'JobCandidateAttachment');
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getCandidateAttachment')
+			->will($this->returnValue($candidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+
+		$attachment = $this->recruitmentAttachmentService->getAttachment($id, $screen);
+		$this->assertEquals($attachment, $candidateList);
+	}
+
+	public function testGetAttachmentForVacancy() {
+
+		$id = 1;
+		$screen = "VACANCY";
+		$candidateList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getVacancyAttachment')
+			->will($this->returnValue($candidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+		$attachment = $this->recruitmentAttachmentService->getAttachment($id, $screen);
+		$this->assertEquals($attachment, $candidateList);
+	}
+
+	public function testGetAttachmentForInterview() {
+
+		$id = 1;
+		$screen = "INTERVIEW";
+		$candidateList = TestDataService::loadObjectList('JobInterviewAttachment', $this->fixture, 'JobInterviewAttachment');
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getInterviewAttachment')
+			->will($this->returnValue($candidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+		$attachment = $this->recruitmentAttachmentService->getAttachment($id, $screen);
+		$this->assertEquals($attachment, $candidateList);
+	}
+
+	public function testGetAttachmentForInvalidScreen() {
+
+		$id = 1;
+		$screen = "INVALID";
+		$attachment = $this->recruitmentAttachmentService->getAttachment($id, $screen);
+		$this->assertFalse($attachment);
+	}
+
+	public function testGetAttachmentsForVacancy() {
+
+		$id = 1;
+		$screen = "VACANCY";
+		$candidateList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getVacancyAttachments')
+			->will($this->returnValue($candidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+		$attachment = $this->recruitmentAttachmentService->getAttachments($id, $screen);
+		$this->assertEquals($attachment, $candidateList);
+	}
+
+	public function testGetAttachmentsForInterview() {
+
+		$id = 1;
+		$screen = "INTERVIEW";
+		$candidateList = TestDataService::loadObjectList('JobInterviewAttachment', $this->fixture, 'JobInterviewAttachment');
+		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+
+		$recruitmentAttachmentDao->expects($this->once())
+			->method('getInterviewAttachments')
+			->will($this->returnValue($candidateList));
+
+		$this->recruitmentAttachmentService->setRecruitmentAttachmentDao($recruitmentAttachmentDao);
+		$attachment = $this->recruitmentAttachmentService->getAttachments($id, $screen);
+		$this->assertEquals($attachment, $candidateList);
+	}
+
+	public function testGetAttachmentsForInvalidScreen() {
+
+		$id = 1;
+		$screen = "INVALID";
+		$attachment = $this->recruitmentAttachmentService->getAttachments($id, $screen);
+		$this->assertFalse($attachment);
+	}
+
+	public function testGetNewAttachmentForVacancy() {
+
+		$id = 1;
+		$screen = "VACANCY";
+		$attach = $this->recruitmentAttachmentService->getNewAttachment($screen, $id);
+		$this->assertTrue($attach instanceof JobVacancyAttachment);
+		$this->assertEquals($attach->getVacancyId(), 1);
+	}
+
+	public function testGetNewAttachmentForInterview() {
+
+		$id = 1;
+		$screen = "INTERVIEW";
+		$attach = $this->recruitmentAttachmentService->getNewAttachment($screen, $id);
+		$this->assertTrue($attach instanceof JobInterviewAttachment);
+		$this->assertEquals($attach->getInterviewId(), 1);
+	}
+
 }
