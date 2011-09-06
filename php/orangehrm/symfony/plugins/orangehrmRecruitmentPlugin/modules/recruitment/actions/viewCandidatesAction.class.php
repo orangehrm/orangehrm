@@ -121,7 +121,7 @@ class viewCandidatesAction extends sfAction {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateDeletionMessageItems');
         }
     }
-
+    
     /**
      *
      * @param <type> $candidates
