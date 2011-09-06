@@ -162,7 +162,7 @@ class CandidateDao extends BaseDao {
             $q .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
             $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
-            $q .= " AND jc.status IN (" . implode("," , $searchParam->getCandidateStatus()) . ")";
+            $q .= " AND jc.status IN (" . implode(",", $searchParam->getCandidateStatus()) . ")";
             if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
             }
@@ -436,10 +436,7 @@ class CandidateDao extends BaseDao {
                             ->whereIn('id', $toBeDeletedCandidateIds);
 
             $result = $q->execute();
-            if ($result > 0) {
-                return true;
-            }
-            return false;
+            return true;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -481,7 +478,7 @@ class CandidateDao extends BaseDao {
             $query .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $query .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
             $query .= ' WHERE jc.date_of_application  BETWEEN ' . "'{$paramObject->getFromDate()}'" . ' AND ' . "'{$paramObject->getToDate()}'";
-            $query .= " AND jc.status IN (" . implode("," , $paramObject->getCandidateStatus()) . ")";
+            $query .= " AND jc.status IN (" . implode(",", $paramObject->getCandidateStatus()) . ")";
 
             $query .= $this->_buildAdditionalWhereClauses($paramObject);
             $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());
@@ -626,20 +623,20 @@ class CandidateDao extends BaseDao {
      * @param <type> $historyId
      * @return <type> 
      */
-    /*public function getLastPerformedActionByCandidateVacancyId($candidateVacancyId) {
+    /* public function getLastPerformedActionByCandidateVacancyId($candidateVacancyId) {
 
-        try {
-            $q = Doctrine_Query:: create()
-                            ->select('action')
-                            ->from('CandidateHistory')
-                            ->where('candidate_vacancy_id = ?', $candidateVacancyId)
-                            ->orderBy('id DESC');
-            $list = $q->fetchOne();
-            return $list->getAction();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }*/
+      try {
+      $q = Doctrine_Query:: create()
+      ->select('action')
+      ->from('CandidateHistory')
+      ->where('candidate_vacancy_id = ?', $candidateVacancyId)
+      ->orderBy('id DESC');
+      $list = $q->fetchOne();
+      return $list->getAction();
+      } catch (Exception $e) {
+      throw new DaoException($e->getMessage());
+      }
+      } */
 
     public function isHiringManager($candidateVacancyId, $empNumber) {
         try {
@@ -673,22 +670,21 @@ class CandidateDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
-    
+
     /**
      * Get candidate name suffix according to the candidate status
      * @param integer $statusCode
      * return string $suffix
      */
     private function _getCandidateNameSuffix($statusCode) {
-        
+
         $suffix = "";
-        
+
         if ($statusCode == JobCandidate::ARCHIVED) {
             $suffix = " (" . __('Archived') . ")";
         }
-        
+
         return $suffix;
-        
     }
 
     public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId) {
