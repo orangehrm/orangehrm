@@ -66,28 +66,6 @@ class AccessFlowStateMachineDao {
         }
     }
 
-    public function getPreviousStates($flow, $role, $action) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->from("WorkflowStateMachine")
-                            ->where("workflow = ?", $flow)
-                            ->andWhere("role = ?", $role)
-                            ->andWhere("action = ?", $action);
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
     public function getActionableStates($flow, $role, $actions) {
 
         try {
