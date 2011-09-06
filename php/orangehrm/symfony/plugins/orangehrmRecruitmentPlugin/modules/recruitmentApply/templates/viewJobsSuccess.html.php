@@ -24,7 +24,7 @@
 
     <head>
         
-        <title><?php echo __('Active Jobs'); ?></title>
+        <title><?php echo __('Active Job Vacancies'); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         
         <?php use_stylesheet('../orangehrmRecruitmentPlugin/css/viewJobsSuccess'); ?>
@@ -42,7 +42,7 @@
                 <div class="maincontent">
 
                     <div class="mainHeading">
-                        <h2><?php echo __('Active Jobs'); ?></h2>
+                        <h2><?php echo __('Active Job Vacancies'); ?></h2>
                     </div>
 
                     <?php if(count($publishedVacancies) != 0): ?>

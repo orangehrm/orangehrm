@@ -353,8 +353,8 @@
                 <target>FR_Error Occurred - Invalid File Type</target>
             </trans-unit>
             <trans-unit id="88">
-                <source>Latest Jobs</source>
-                <target>FR_Latest Jobs</target>
+                <source>Active Job Vacancies</source>
+                <target>FR_Active Job Vacancies</target>
             </trans-unit>
             <trans-unit id="89">
                 <source>Expand all</source>
