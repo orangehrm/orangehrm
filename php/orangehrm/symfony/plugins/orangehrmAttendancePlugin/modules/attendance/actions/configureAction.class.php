@@ -51,6 +51,21 @@ class configureAction extends sfAction {
 
     public function execute($request) {
 
+        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
+        $accessibleMenus = $this->userObj->getAccessibleAttendanceSubMenus();
+        $hasRight = false;
+
+        foreach ($accessibleMenus as $menu) {
+            if ($menu->getDisplayName() === "Configuration") {
+                $hasRight = true;
+                break;
+            }
+        }
+
+        if (!$hasRight) {
+            return $this->renderText("You are not allowed to view this page!");
+        }
+
         $this->form = new ConfigureForm();
 
         if ($this->getUser()->hasFlash('templateMessage')) {
