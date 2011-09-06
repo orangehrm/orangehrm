@@ -40,7 +40,7 @@
 
 	 <div id="addPaneAttachments" style="display: none" >
 	 <div id="attachmentSubHeadingDiv"><h3 id="attachmentSubHeading" style="float:left;"><?php echo __('Add Attachment'); ?></h3>
-		 <span id="attachmentEditNote"></span>
+		 <div id="attachmentEditNote"></div>
 	 </div>
 	 <br class="clear"/>
 	    <div>
@@ -64,7 +64,7 @@
                        title="<?php echo __("Upload File");?>"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 <input type="button" class="plainbtn" id="btnCommentOnly" style="width: 140px" value="<?php echo __("Save Comment Only"); ?>" />
-                <input type="button" class="plainbtn" id="cancelButton" value="<?php echo __("Cancel"); ?>" />
+                <input type="button" class="plainbtn" id="athCancelButton" value="<?php echo __("Cancel"); ?>" />
             </div>
 	</form>
 

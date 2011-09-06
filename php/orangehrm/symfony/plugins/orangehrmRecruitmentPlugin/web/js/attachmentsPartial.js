@@ -22,8 +22,8 @@ $(document).ready(function() {
 		$('#actionButtons').show();
 	});
 	
-	$('#cancelButton').click(function(){
-		validator.resetForm();
+	$('#athCancelButton').click(function(){
+		validator.resetForm();		
 		$('.editLink').show();
 		$('#addPaneAttachments').hide();
 		$('#btnAddAttachment').show();
