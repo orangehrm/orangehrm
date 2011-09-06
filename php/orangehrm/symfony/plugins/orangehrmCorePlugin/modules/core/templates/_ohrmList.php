@@ -2,7 +2,7 @@
 <?php
 if ($tableWidth == 'auto') {
     $outboxWidth = 0;
-    foreach ($columns as $header){
+    foreach ($columns as $header) {
         $outboxWidth = $outboxWidth + $header->getWidth();
     }
     $outboxWidth .= 'px';
@@ -13,31 +13,29 @@ if ($tableWidth == 'auto') {
 function renderActionBar($buttons, $condition = true) {
     if ($condition && count($buttons) > 0) {
 ?>
-    <div class="actionbar">
-        <div class="formbuttons">
-            <?php
-            foreach ($buttons as $key => $buttonProperties) {
-                $button = new Button();
-                $button->setProperties($buttonProperties);
-                $button->setIdentifier($key);
-                echo $button->__toString(), "\n";
-            }
-            ?>
-        </div>
-	
-        <br class="clear" />
-        
-<?php
-    }?>
-        <div id="helpText"class="helpText"></div>
+        <div class="actionbar">
+            <div class="formbuttons">
+        <?php
+        foreach ($buttons as $key => $buttonProperties) {
+            $button = new Button();
+            $button->setProperties($buttonProperties);
+            $button->setIdentifier($key);
+            echo $button->__toString(), "\n";
+        }
+        ?>
     </div>
+
+    <br class="clear" />
+
+    <?php } ?>
+</div>
 <?php
 }
 
 function printAssetPaths($assets, $assestsPath = '') {
 
     if (count($assets) > 0) {
-        
+
         foreach ($assets as $key => $asset) {
             $assetType = substr($asset, strrpos($asset, '.') + 1);
 
@@ -65,49 +63,51 @@ function printButtonEventBindings($buttons) {
     }
 }
 ?>
-<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth;?>">
-    <?php if (!empty ($title)) { ?>
-    <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
+<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth; ?>">
+<?php if (!empty($title)) { ?>
+        <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
 
-<?php if($partial != null):?>
-    <div style="padding-left: 10px; padding-top: 10px;">
-        <?php
+<?php if ($partial != null): ?>
+        <div style="padding-left: 10px; padding-top: 10px;">
+<?php
         include_partial($partial, $sf_data->getRaw('params'));
-        ?>
+?>
     </div>
- <?php endif;?>
+<?php endif; ?>
 
-    <?php } ?>
+<?php } ?>
 
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
-        <?php
+<?php
+    if (count($buttons) > 0) {
+        renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE);
+        echo "<br class=\"clear\" />";
+    }
 
-            if (count($buttons) > 0) {
-                renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE);
-                echo "<br class=\"clear\" />";
-            }
+    if (isset($extraButtons)) {
+        renderActionBar($extraButtons);
+        echo "<br class=\"clear\" />";
+    }
 
-            if (isset($extraButtons)) {
-                renderActionBar($extraButtons);
-                echo "<br class=\"clear\" />";
-            }
-            
-            include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
-        ?>
-        <?php if ($pager->haveToPaginate()) { ?>
-        <div class="navigationHearder">
-            <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager));?></div>
-            <br class="clear" />
-        </div>
-        <?php } ?>
+    include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
+?>
+        <div id="helpText"class="helpText"></div>
+        <?php if ($pager->haveToPaginate()) {
+ ?>
+            <div class="navigationHearder">
+                <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager)); ?></div>
+                <br class="clear" />
+            </div>
+<?php } ?>
 
         <table style="border-collapse: collapse; width: <?php echo $tableWidth; ?>; text-align: left;" class="data-table">
             <colgroup align="right">
-                <?php if ($hasSelectableRows) { ?>
-                <col width="50" />
-                <?php } ?>
-                <?php foreach ($columns as $header) { ?>
-                <col width="<?php echo $header->getWidth(); ?>" />
+<?php if ($hasSelectableRows) { ?>
+                    <col width="50" />
+<?php } ?>
+                <?php foreach ($columns as $header) {
+ ?>
+                    <col width="<?php echo $header->getWidth(); ?>" />
                 <?php } ?>
             </colgroup>
             <thead>
@@ -129,7 +129,7 @@ function printButtonEventBindings($buttons) {
                         if ($header->isSortable()) {
                             $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
                             $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
-                            
+
                             $sortOrderStyle = ($currentSortOrder == '') ? 'null' : $currentSortOrder;
                             $sortOrderStyle = ($currentSortField == $header->getSortField()) ? $sortOrderStyle : 'null';
 
@@ -148,7 +148,7 @@ function printButtonEventBindings($buttons) {
                             $headerCell = new HeaderCell();
                             $headerCell->setProperties(array(
                                 'label' => __($header->getName()),
-                                )
+                                    )
                             );
                         }
                     ?>
@@ -198,7 +198,7 @@ function printButtonEventBindings($buttons) {
                                     ohrmListSummaryHelper::collectValue($cell->toValue(), $summary['summaryFunction']);
                                 }
                     ?>
-                                <td class="<?php echo $header->getTextAlignmentStyle();?>"><?php echo $cell->__toString(); ?></td>
+                                <td class="<?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $cell->__toString(); ?></td>
                     <?php
                             }
                     ?>
@@ -217,76 +217,77 @@ function printButtonEventBindings($buttons) {
                 <?php
                     }
                 ?>
-            </tbody>
-            <?php if ($hasSummary) { ?>
-            <tfoot>
-                <tr>
+                </tbody>
+            <?php if ($hasSummary) {
+ ?>
+                        <tfoot>
+                            <tr>
                     <?php
-                    $firstHeader = true;
-                    foreach ($columns as $header) {
-                        if ($header->getName() == $summary['summaryField']) {
-                            $aggregateValue = ohrmListSummaryHelper::getAggregateValue($summary['summaryFunction'], $summary['summaryFieldDecimals']);
-                            if ($firstHeader) {
-                                $aggregateValue = $summary['summaryLabel'] . ':' . $aggregateValue;
-                                $firstHeader = false;
+                        $firstHeader = true;
+                        foreach ($columns as $header) {
+                            if ($header->getName() == $summary['summaryField']) {
+                                $aggregateValue = ohrmListSummaryHelper::getAggregateValue($summary['summaryFunction'], $summary['summaryFieldDecimals']);
+                                if ($firstHeader) {
+                                    $aggregateValue = $summary['summaryLabel'] . ':' . $aggregateValue;
+                                    $firstHeader = false;
+                                }
+                                //echo tag('td', $aggregateValue);
+                                echo "<td class='right'>" . $aggregateValue . '</td>';
+                            } else {
+                                $tdValue = '&nbsp;';
+                                if ($firstHeader) {
+                                    $tdValue = $summary['summaryLabel'];
+                                    $firstHeader = false;
+                                }
+                                //echo tag('td', $tdValue);
+                                echo "<td>" . $tdValue . '</td>';
                             }
-                            //echo tag('td', $aggregateValue);
-                            echo "<td class='right'>" . $aggregateValue . '</td>';
-                        } else {
-                            $tdValue = '&nbsp;';
-                            if ($firstHeader) {
-                                $tdValue = $summary['summaryLabel'];
-                                $firstHeader = false;
-                            }
-                            //echo tag('td', $tdValue);
-                            echo "<td>" . $tdValue . '</td>';
                         }
-                    }
                     ?>
-                </tr>
-            </tfoot>
-            <?php } ?>
-        </table>
-        
-        <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
-        <br class="clear" />
-    </form>
-    
-</div>
+                    </tr>
+                </tfoot>
+<?php } ?>
+                </table>
+
+<?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
+                    <br class="clear" />
+                </form>
+
+            </div>
 
 <?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>
 
 <?php
-    $assestsPath = "../{$pluginName}/";
+                    $assestsPath = "../{$pluginName}/";
 
-    if (isset($assets)) {
-        printAssetPaths($assets, $assestsPath);
-    }
+                    if (isset($assets)) {
+                        printAssetPaths($assets, $assestsPath);
+                    }
 
-    if (isset($extraAssets)) {
-        printAssetPaths($extraAssets);
-    }
+                    if (isset($extraAssets)) {
+                        printAssetPaths($extraAssets);
+                    }
 ?>
 
-<script type="text/javascript">
+                    <script type="text/javascript">
 
-    var rootPath = '<?php echo public_path('/'); ?>';
+                        var rootPath = '<?php echo public_path('/'); ?>';
 
-    $(document).ready(function() {
-        ohrmList_init();
+                        $(document).ready(function() {
+                            ohrmList_init();
 
 <?php
-    foreach ($jsInitMethods as $methodName) {
-        echo "\t{$methodName}();", "\n";
-    }
+                    foreach ($jsInitMethods as $methodName) {
+                        echo "\t{$methodName}();", "\n";
+                    }
 
-    if (isset($buttons)) {
-        printButtonEventBindings($buttons);
-    }
+                    if (isset($buttons)) {
+                        printButtonEventBindings($buttons);
+                    }
 
-    if (isset($extraButtons)) {
-        printButtonEventBindings($extraButtons);
-    }
+                    if (isset($extraButtons)) {
+                        printButtonEventBindings($extraButtons);
+                    }
 ?>
     });
 
