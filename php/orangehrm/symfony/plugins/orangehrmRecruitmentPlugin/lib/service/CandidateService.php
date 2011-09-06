@@ -176,8 +176,8 @@ class CandidateService extends BaseService {
 	 * @return <type>
 	 */
 	public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy, $action, $userObj) {
-		$candidateVacancy->setStatus($this->getNextStateForCandidateVacancy($candidateVacancy->getStatus(), $action));
-		return $this->candidateDao->updateCandidateVacancy($candidateVacancy, $userObj);
+		$candidateVacancy->setStatus($this->getNextStateForCandidateVacancy($candidateVacancy->getStatus(), $action, $userObj));
+		return $this->candidateDao->updateCandidateVacancy($candidateVacancy);
 	}
 
 	/**
