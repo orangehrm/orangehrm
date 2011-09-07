@@ -292,20 +292,23 @@ class VacancyDao extends BaseDao {
      */
     public function deleteVacancies($toBeDeletedVacancyIds) {
 
-        $query = Doctrine_Query::create()
-                        ->delete()
+        $q = Doctrine_Query::create()
                         ->from('JobInterviewInterviewer jii')
                         ->leftJoin('jii.JobInterview ji')
                         ->leftJoin('ji.JobCandidateVacancy jcv')
                         ->leftJoin('jcv.JobVacancy jv')
                         ->whereIn('jv.id', $toBeDeletedVacancyIds);
+        $results = $q->execute();
+        foreach ($results as $result) {
+            $result->delete();
+        }
 
-        $query = Doctrine_Query::create()
+        $qr = Doctrine_Query::create()
                         ->delete()
                         ->from('JobVacancy v')
                         ->whereIn('v.id', $toBeDeletedVacancyIds);
 
-        $noOfAffectedRows = $query->execute();
+        $noOfAffectedRows = $qr->execute();
 
         if ($noOfAffectedRows > 0) {
             return true;
