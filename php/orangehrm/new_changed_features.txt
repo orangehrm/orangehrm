@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.6.8 
+
+	New Features
+	------------
+    Recruitment module usability improvements
+    Entire Recruitment module is converted into Symfony
+
 New & Changed Features for OrangeHRM ver 2.6.7 
 
 	New Features
