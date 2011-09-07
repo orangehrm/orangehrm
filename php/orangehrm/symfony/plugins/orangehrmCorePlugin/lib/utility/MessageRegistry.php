@@ -7,7 +7,6 @@ class MessageRegistry {
     const REPLACE_AT = 4;
 
     private static $instance;
-    private $messages = array();
 
     /**
      *
@@ -21,39 +20,56 @@ class MessageRegistry {
     }
 
     public function addMessage($message, $module, $action, $mode = self::APPEND, $replaceAt = 0) {
-        if (!isset($this->messages[$module])) {
-            $this->messages[$module] = array();
+        $sfUser = sfContext::getInstance()->getUser();
+
+        if (is_null($sfUser->getAttribute('message', null, 'system'))) {
+            $sfUser->setAttribute('message', array(), 'system');
+            $messageContainer = array();
+        } else {
+            $messageContainer = $sfUser->getAttribute('message', array(), 'system');
         }
 
-        if (!isset($this->messages[$module][$action])) {
-            $this->messages[$module][$action] = array();
+        if (!isset($messageContainer[$module])) {
+            $messageContainer[$module] = array();
+        }
+
+        if (!isset($messageContainer[$module][$action])) {
+            $messageContainer[$module][$action] = array();
         }
 
         switch ($mode) {
             case self::PREPEND:
-                array_unshift($this->messages[$module][$action], $message);
+                array_unshift($messageContainer[$module][$action], $message);
                 break;
             case self::REPLACE_AT:
-                $this->messages[$module][$action][$replaceAt] = $message;
+                $messageContainer[$module][$action][$replaceAt] = $message;
                 break;
             case self::REPLACE_ALL:
-                $this->messages[$module][$action] = array($message);
+                $messageContainer[$module][$action] = array($message);
                 break;
             case self::APPEND:
             default:
-                $this->messages[$module][$action][] = $message;
+                $messageContainer[$module][$action][] = $message;
                 break;
         }
+
+        $sfUser->setAttribute('message', $messageContainer, 'system');
     }
 
-    public function getMessage($module, $action, $formatted = true, $separator = ' ') {
-//        echo $module, $action;
-//        print_r($this->messages[$module][$action]);
-        if (!isset($this->messages[$module][$action])) {
-            $this->messages[$module][$action] = array();
+    public function getMessage($module, $action, $formatted = true, $separator = '; ') {
+        $message = sfContext::getInstance()->getUser()->getAttribute('message', array(), 'system');
+
+        if (!isset($message[$module][$action])) {
+            $message[$module][$action] = array();
         }
 
-        return ($formatted) ? implode($separator, $this->messages[$module][$action]) : $this->messages[$module][$action];
+        MessageRegistry::instance()->flushMessage();
+
+        return ($formatted) ? implode($separator, $message[$module][$action]) : $message[$module][$action];
+    }
+
+    public function flushMessage() {
+        sfContext::getInstance()->getUser()->setAttribute('message', array(), 'system');
     }
 
 }
