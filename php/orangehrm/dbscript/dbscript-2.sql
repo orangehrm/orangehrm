@@ -691,7 +691,7 @@ INSERT INTO `ohrm_filter_field` VALUES (1, 1, 'project_name', 'hs_hr_project.pro
                                        (4, 1, 'employee', 'hs_hr_employee.emp_number', 'ohrmWidgetEmployeeListAutoFill', 2, 'Runtime', 'true'),
                                        (5, 1, 'activity_name', 'hs_hr_project_activity.activity_id', 'ohrmWidgetProjectActivityList', 2, 'Runtime', 'true'),
                                        (6, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'Runtime', 'true'),
-                                       (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, 'Runtime', 'false');
+                                       (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, 'Runtime', null);
 
 INSERT INTO `ohrm_display_field` VALUES (1, 'hs_hr_project.name', 'Project Name', 'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null),
                                         (2, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'link', '<xml><labelGetter>activityname</labelGetter><placeholderGetters><id>activity_id</id><total>totalduration</total><projectId>projectId</projectId><from>fromDate</from><to>toDate</to></placeholderGetters><urlPattern>../../displayProjectActivityDetailsReport?reportId=3#activityId={id}#total={total}#from={from}#to={to}#projectId={projectId}</urlPattern></xml>', 200, '0', null),

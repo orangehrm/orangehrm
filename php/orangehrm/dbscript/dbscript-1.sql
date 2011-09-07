@@ -971,7 +971,7 @@ create table `ohrm_filter_field` (
   `filter_field_widget` varchar(255),
   `condition_no` int(20) not null,
   `type` varchar(255) not null,
-  `required` varchar(10),
+  `required` varchar(10) default null,
   primary key (`filter_field_id`),
   key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;

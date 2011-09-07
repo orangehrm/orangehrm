@@ -17,24 +17,28 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class ohrmFormGenerator {
 
     public function generateForm($widgetNameList) {
 
         $form = new ReportForm();
-        
-        foreach($widgetNameList as $widget) {
+
+        foreach ($widgetNameList as $widget) {
             $widgetName = $widget['widgetName'];
             $labelName = $widget['labelName'];
             $required = $widget['required'];
-            $ohrmWidget = new $widgetName(array(),array('id'=>$labelName,'required' => $required));
+
+            if ($widget["required"] != null) {
+                $ohrmWidget = new $widgetName(array(), array('id' => $labelName, 'required' => $required));
+            }else{
+                $ohrmWidget = new $widgetName(array(), array('id' => $labelName));
+            }
+            
             $ohrmWidget->embedWidgetIntoForm($form);
         }
 
         return $form;
-
     }
-   
+
 }
 
