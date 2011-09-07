@@ -115,8 +115,6 @@ class AddCandidateForm extends BaseForm {
             
         }
 
-
-
         $resumeUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
             self::CONTRACT_DELETE => __('Delete Current'),
             self::CONTRACT_UPLOAD => __('Replace Current'));
@@ -245,6 +243,7 @@ class AddCandidateForm extends BaseForm {
                     $date = ohrm_format_date(date('Y-m-d'));
                     $this->removedHistory->performedDate = $date . " " . date('H:i:s');
                     $this->removedHistory->candidateVacancyName = $vacancyName;
+                    $this->removedHistory->vacancyId = $id;
                     $this->_saveCandidateVacancies($vacancy, $this->candidateId);
                 }
             } else {
