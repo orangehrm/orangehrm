@@ -32,26 +32,6 @@
 	            <input type="text" value="<?php echo $mailnot[-1]; ?>" class="formInputText" id="txtMailAddress_-1" name="txtMailAddress_-1"/>
 	            
 	            <br class="clear"/>
-                <input type="checkbox"  class="formCheckbox" value="4" name="notificationMessageStatus[]" <?php if(isset($notficationList[4]) && $notficationList[4]==1){ echo "checked='checked'";}?>/>
-	            <label for="txtSkillName"><?php echo __("Job Applications")?></label>
-	            <input type="text" value="<?php echo $mailnot[4]; ?>" class="formInputText" id="txtMailAddress_4" name="txtMailAddress_4"/>
-	            
-	            <br class="clear"/>
-                <input type="checkbox"  class="formCheckbox" value="5" name="notificationMessageStatus[]" <?php if(isset($notficationList[5]) && $notficationList[5]==1){ echo "checked='checked'";}?>/>
-	            <label for="txtSkillName"><?php echo __("New Employee Hire Approval Requests")?></label>
-	            <input type="text" value="<?php echo $mailnot[5]; ?>" class="formInputText" id="txtMailAddress_5" name="txtMailAddress_5"/>
-	            
-	            <br class="clear"/>
-                <input type="checkbox"  class="formCheckbox" value="6" name="notificationMessageStatus[]" <?php if(isset($notficationList[6]) && $notficationList[6]==1){ echo "checked='checked'";}?>/>
-	            <label for="txtSkillName"><?php echo __("Tasks Sent on Hiring of Employee")?></label>
-	            <input type="text" value="<?php echo $mailnot[6]; ?>" class="formInputText" id="txtMailAddress_6" name="txtMailAddress_6"/>
-	            
-	            <br class="clear"/>
-                <input type="checkbox"  class="formCheckbox" value="7" name="notificationMessageStatus[]" <?php if(isset($notficationList[7]) && $notficationList[7]==1){ echo "checked='checked'";}?>/>
-	            <label for="txtSkillName"><?php echo __("Notifications of Hiring New Employees")?></label>
-	            <input type="text" value="<?php echo $mailnot[7]; ?>" class="formInputText" id="txtMailAddress_7" name="txtMailAddress_7"/>
-	            
-	            <br class="clear"/>
 	            <input type="checkbox"  class="formCheckbox" value="3" name="notificationMessageStatus[]" <?php if(isset($notficationList[3]) && $notficationList[3]==1){ echo "checked='checked'";}?>/>
                 <label for="txtSkillName"><?php echo __("HSP Notifications")?></label>
 	            <input type="text" value="<?php echo $mailnot[3]; ?>" class="formInputText" id="txtMailAddress_3" name="txtMailAddress_3"/>
