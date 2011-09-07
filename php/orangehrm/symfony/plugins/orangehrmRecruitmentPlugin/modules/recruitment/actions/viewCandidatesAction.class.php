@@ -65,7 +65,7 @@ class viewCandidatesAction extends sfAction {
 
         $isAdmin = $usrObj->isAdmin();
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
-        list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateDeletionMessageItems');
+        list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateListMessageItems');
         $candidateId = $request->getParameter('candidateId');
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
