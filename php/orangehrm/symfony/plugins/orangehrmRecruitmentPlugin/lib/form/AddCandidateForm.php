@@ -109,10 +109,10 @@ class AddCandidateForm extends BaseForm {
             $vacancy = $candidateVacancyList[0]->getJobVacancy();
             if ($vacancy->getStatus() == JobVacancy::CLOSED) {
                 $vacancyList[$vacancy->getId()] = $vacancy->getVacancyName();
-            }else{
+            } elseif ($vacancy->getStatus() == JobVacancy::ACTIVE) {
                 $vacancyList[$vacancy->getId()] = $vacancy->getName();
             }
-
+            
         }
 
 
@@ -176,7 +176,8 @@ class AddCandidateForm extends BaseForm {
         $this->setDefault('comment', $candidate->getComment());
         $this->setDefault('appliedDate', $candidate->getDateOfApplication());
         $candidateVacancyList = $candidate->getJobCandidateVacancy();
-        $this->setDefault('vacancy', $candidateVacancyList[0]->getVacancyId());
+        $defaultVacancy = ($candidateVacancyList[0]->getVacancyId() == "") ? "" : $candidateVacancyList[0]->getVacancyId();
+        $this->setDefault('vacancy', $defaultVacancy);
     }
 
     private function getActiveVacancyList() {
@@ -235,7 +236,7 @@ class AddCandidateForm extends BaseForm {
                             $interviewer->delete();
                         }
                     }
-		    $candidateVacancy->delete();
+                    $candidateVacancy->delete();
                     $vacancyName = $candidateVacancy->getVacancyName();
                     $this->removedHistory = new CandidateHistory();
                     $this->removedHistory->candidateId = $this->candidateId;
