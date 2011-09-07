@@ -75,7 +75,7 @@ CandidateHistory:
   11: {id: 12, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 15, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
   12: {id: 13, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 16, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
   13: {id: 14, candidateId: 1, candidateVacancyId: 3, interviewId: 1, action: 17, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
-  14: {id: 15, candidateId: 1, candidateVacancyId: 3, interviewId: 2, action: 4, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+  14: {id: 15, candidateId: 1, candidateVacancyId: 3, interviewId: 2, action: 4, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note', interviewers: '1_3_'}
 
 JobInterviewAttachment:
   0: {id: 1, interviewId: 1, file_name: 'resume.pdf', file_type: '.txt', file_size: '512', attachment_type: '1', comment: 'This is my first attachment'}
