@@ -413,15 +413,6 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("importexport", $lang_Menu_Admin_DataImportExport, "#");
-    $subsubs = array();
-    $subsubs[] = new MenuItem("importexport", $lang_Menu_Admin_DataExportDefine, "index.php?uniqcode=CEX&menu_no_top=eim");
-    $subsubs[] = new MenuItem("importexport", $lang_Menu_Admin_DataExport, "index.php?uniqcode=CSE&menu_no_top=eim");
-    $subsubs[] = new MenuItem("importexport", $lang_Menu_Admin_DataImportDefine, "index.php?uniqcode=CIM&menu_no_top=eim");
-    $subsubs[] = new MenuItem("importexport", $lang_Menu_Admin_DataImport, "index.php?uniqcode=IMP&menu_no_top=eim");
-    $sub->setSubMenuItems($subsubs);
-    $subs[] = $sub;
-
     if ($_SESSION['ldap'] == "enabled") {
         $subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
     }
