@@ -99,7 +99,7 @@ class addCandidateAction extends sfAction {
             $this->parmetersForListCompoment = $params;
             $this->candidateStatus = $this->getCandidateService()->getCandidateById($this->candidateId)->getStatus();
         } else {
-            if (!$userObj->isAdmin() || !$userObj->isHiringManager()) {
+            if (!($userObj->isAdmin() || $userObj->isHiringManager())) {
                 $this->redirect('recruitment/viewCandidates');
             }
         }
