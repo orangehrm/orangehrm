@@ -31,6 +31,16 @@ class addEmployeeAction extends basePimAction {
     }
 
     public function execute($request) {
+        
+        /* LDAP plugin installation check: Begins */
+        
+        if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
+            $this->ldapInstalled = true;
+        } else {
+            $this->ldapInstalled = false;
+        }
+                
+        /* LDAP plugin installation check: Ends */
 
         $this->showBackButton = true;
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();

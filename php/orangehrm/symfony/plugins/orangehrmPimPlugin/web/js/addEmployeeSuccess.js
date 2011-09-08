@@ -57,16 +57,20 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validateLoginName", function(value, element) {
-        if($("#chkLogin").attr('checked') == true) {
+        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
             if(value.length < 5) {
                 return false;
             }
-        }
+        } else if ($("#chkLogin").attr('checked') == true && ldapInstalled) {
+            if(value.length < 1) {
+                return false;
+            }
+		}
         return true;
     });
 
     $.validator.addMethod("validatePassword", function(value, element) {
-        if($("#chkLogin").attr('checked') == true) {
+        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
             if(value.length < 4) {
                 return false;
             }
@@ -75,7 +79,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validateReCheckPassword", function(value, element) {
-        if($("#chkLogin").attr('checked') == true) {
+        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
             if(value != $("#user_password").val()) {
                 return false;
             }

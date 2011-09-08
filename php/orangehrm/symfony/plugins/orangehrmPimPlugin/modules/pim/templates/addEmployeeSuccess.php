@@ -13,7 +13,8 @@
     var lang_statusRequired = "<?php echo __("Please select a status");?>";
     var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
     var createUserAccount = "<?php echo $createUserAccount;?>";
-
+    var ldapInstalled = <?php echo ($ldapInstalled)?'true':'false'; ?>;
+    
     //]]>
 </script>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
