@@ -1,5 +1,6 @@
 <?php
 
+define('ROOT_PATH', dirname(__FILE__).'/..');
 
 class PluginController {
 	
@@ -9,7 +10,7 @@ class PluginController {
 		$pluginController->routePlugin($_REQUEST);
 	}
 	
-	public function getPluginController($name){	
+	public function getPluginController($name){
 		switch ($name) {
 			case 'CSVPluginController':
 				return new CSVPluginController();
@@ -22,13 +23,12 @@ class PluginController {
 	}
 }
 
-require_once 'plugins/PlugInFactory.php';
-require_once 'plugins/AbstractPluginCommon.php';
-require_once 'plugins/InterfacePluginCommon.php';
+require_once 'PlugInFactory.php';
+require_once 'AbstractPluginCommon.php';
+require_once 'InterfacePluginCommon.php';
 
 // these includes should be dynamicaly include from the xml
-require_once  'plugins/csv/CSVPluginController.php';
-
+require_once  'csv/CSVPluginController.php';
 
 $pluginController = new PluginController($_REQUEST['route']);
 	
