@@ -418,7 +418,6 @@ class AssignLeaveForm extends sfForm {
     public function getEmployeeListAsJson() {
 
         $jsonArray	=	array();
-        $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
@@ -444,10 +443,6 @@ class AssignLeaveForm extends sfForm {
 
 
                 $name = $employee->getFullName();
-
-                foreach($escapeCharSet as $char) {
-                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-                }
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
                 $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber(), 'workShift' => $workShiftLength);
