@@ -247,10 +247,15 @@ class viewCandidatesForm extends BaseForm {
     public function getCandidateListAsJson() {
 
         $jsonArray = array();
+        $escapeCharSet = array(38, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
         $candidateList = $this->getCandidateService()->getCandidateList($this->allowedCandidateList);
         foreach ($candidateList as $candidate) {
 
             $name = trim($candidate->getFullName());
+
+            foreach ($escapeCharSet as $char) {
+                $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+            }
 
             $jsonArray[] = array('name' => $name, 'id' => $candidate->getId());
         }
