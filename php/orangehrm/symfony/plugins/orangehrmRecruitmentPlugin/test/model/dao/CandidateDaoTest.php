@@ -565,6 +565,14 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result, 1);
     }
 
+    public function testUpdateCandidateHistory() {
+
+        $candidateVacancyList = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
+        $candidateVacancyList[1]->interviewers = '1_2_';
+        $result = $this->candidateDao->updateCandidateHistory($candidateVacancyList[1]);
+        $this->assertEquals($result, 1);
+    }
+
     public function testSaveCandidateHistory() {
         $candidateHistory = new CandidateHistory();
         $candidateHistory->vacancyId = 2;
