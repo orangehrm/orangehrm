@@ -75,7 +75,6 @@ class addCandidateAction extends sfAction {
             $reDirect = true;
             $this->edit = false;
         }
-
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
         $this->setForm(new AddCandidateForm(array(), $param, true));
 
@@ -100,7 +99,7 @@ class addCandidateAction extends sfAction {
             $this->parmetersForListCompoment = $params;
             $this->candidateStatus = $this->getCandidateService()->getCandidateById($this->candidateId)->getStatus();
         } else {
-            if ($reDirect) {
+            if (!$userObj->isAdmin() || !$userObj->isHiringManager()) {
                 $this->redirect('recruitment/viewCandidates');
             }
         }
