@@ -49,9 +49,9 @@ class applyVacancyAction extends sfAction {
     public function execute($request) {
 
         $this->vacancyId = $request->getParameter('id');
-        $this->candidateId = $request->getParameter('candidateId');
-
-        $param = array('candidateId' => $this->candidateId);
+        //$this->candidateId = $request->getParameter('candidateId');
+	$this->getResponse()->setTitle(__("Vacancy Apply Form"));
+        //$param = array('candidateId' => $this->candidateId);
         $this->setForm(new ApplyVacancyForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -59,9 +59,14 @@ class applyVacancyAction extends sfAction {
         }
         if (!empty($this->vacancyId)) {
             $vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
+	    if(empty ($vacancy)){
+		   $this->redirect('recruitmentApply/jobs.html');
+	    }
             $this->description = $vacancy->getDescription();
             $this->name = $vacancy->getName();
-        }	
+        } else {
+		$this->redirect('recruitmentApply/jobs.html');
+	}
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
@@ -82,8 +87,13 @@ class applyVacancyAction extends sfAction {
                         $this->message = $result['message'];
                     } else {
                         $this->candidateId = $result['candidateId'];
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Your Application for the Position of ' . $this->name . ' Was Received')));
-                        $this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
+			if(!empty ($this->candidateId)){
+			    $this->messageType = 'success';
+                            $this->message = __('Your Application for the Position of ' . $this->name . ' Was Received');
+			}
+			
+                        //$this->getUser()->setFlash('templateMessage', array('success', __('Your Application for the Position of ' . $this->name . ' Was Received')));
+                        //$this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
                     }                    
                 }
             }

@@ -1,11 +1,14 @@
 $(document).ready(function() {
+	$("#uploaded").hide();
     if(candidateId > 0) {
         $(".formInputText").attr('disabled', 'disabled');
         $(".formInput").attr('disabled', 'disabled');
         $(".contactNo").attr('disabled', 'disabled');
         $(".keyWords").attr('disabled', 'disabled');
+        $("#cvHelp").hide();
+        $("#uploaded").show();
         $("#btnSave").hide();
-    }
+    }	
 	stretchy(document.getElementById('txtArea'));
 	//stretchy($('#txtArea').val());
 	var isCollapse = false;
@@ -30,7 +33,7 @@ $(document).ready(function() {
 			$('#addCandidate_vacancyList').val(vacancyId);
 			$('#addCandidate_keyWords.inputFormatHint').val('');
 			$('form#frmAddCandidate').attr({
-				action:linkForApplyVacancy+"?id="+vacancyId+"&candidateId="+candidateId
+				action:linkForApplyVacancy+"?id="+vacancyId
 			});
 			$('form#frmAddCandidate').submit();
 		}

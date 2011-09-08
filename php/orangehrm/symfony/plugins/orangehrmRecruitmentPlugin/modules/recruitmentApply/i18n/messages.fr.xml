@@ -112,6 +112,10 @@
                 <source>Enter comma separated words...</source>
                 <target>FR_Enter comma separated words...</target>
             </trans-unit>
+	    <trans-unit id="28">
+                <source>Vacancy Apply Form</source>
+                <target>FR_Vacancy Apply Form</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

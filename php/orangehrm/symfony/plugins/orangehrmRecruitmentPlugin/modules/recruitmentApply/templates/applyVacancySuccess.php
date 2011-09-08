@@ -93,24 +93,18 @@
 
             <div class="hrLine" >&nbsp;</div>
             <br class="clear" />
-            <div>
+            <div class="resumeDiv">
 
                 <?php
-                if ($form->attachment == "") {
+                if ($candidateId == "") {
                     echo $form['resume']->renderLabel(__('Resume'). '<span class="required">*</span>', array("class " => "resume"));
                     echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
                     echo "<div class=\"errorHolder below\"></div><br class=\"clear\"/>";
                     echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
                 } else {
-                    $attachment = $form->attachment;
-                    $linkHtml = "<a target=\"_blank\" class=\"fileLink\" href=\"";
-                    $linkHtml .= url_for('recruitment/viewCandidateAttachment?attachId=' . $attachment->getId());
-                    $linkHtml .= "\">{$attachment->getFileName()}</a>";
-                    
-                    echo "<label>".__("Resume")."</label>";
-                    echo $linkHtml;
-                    echo "<br class=\"clear\"/>";
-                    
+		    echo "<span class=\"resumeUp\">".__('Resume')."</span>";
+                    echo "<span class=\"fileLink\">".__('Uploaded')."</span>";
+
                 }
                 ?>
 	    </div>

@@ -115,11 +115,11 @@ span.attach{
 	padding-left: 140px;
 }
 div.messageBalloon_success {
-	width: 640px;
+	width: 670px;
 	text-align: left;
 }
 div.messageBalloon_warning {
-	width: 640px;
+	width: 7000px;
 	text-align: center;
 }
 #backLink{
@@ -127,4 +127,21 @@ div.messageBalloon_warning {
 	text-decoration: underline;
 	padding-left: 10px;
 	cursor: pointer;
+}
+#uploaded{
+	float: left;
+	margin-left: 135px;
+}
+
+.resumeDiv{
+	float: left;
+}
+
+.fileLink{
+	margin-top: 5px;
+	margin-left: 75px;
+}
+
+.resumeUp{
+	padding-left: 20px;
 }
