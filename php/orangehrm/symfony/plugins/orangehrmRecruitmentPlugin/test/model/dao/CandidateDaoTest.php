@@ -125,6 +125,10 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 	$searchParam->setCandidateName('Yasitha Pandi');
 	$searchParam->setStatus("REJECTED");
 	$searchParam->setModeOfApplication(1);
+	$searchParam->setIsAdmin(false);
+    $searchParam->setAllowedCandidateList(array(1,2,3,4,5));
+    $searchParam->setAllowedVacancyList(array(1,2,3));
+    $searchParam->setEmpNumber(2);
 
         $count = $this->candidateDao->getCandidateRecordsCount($searchParam);
         $this->assertEquals($count, 0);
@@ -137,6 +141,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
         $searchParam = new CandidateSearchParameters();
         $searchParam->setVacancyId(1);
+        $searchParam->setSortField('jc.first_name');
+        $searchParam->setSortOrder('ASC');
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
@@ -150,6 +156,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setVacancyId(1);
         $searchParam->setKeywords("java,oracle");
+        $searchParam->setSortField('e.emp_firstname');
+        $searchParam->setSortOrder('ASC');
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
@@ -162,6 +170,10 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
         $searchParam = new CandidateSearchParameters();
         $searchParam->setHiringManagerId(1);
+        $searchParam->setIsAdmin(false);
+        $searchParam->setAllowedCandidateList(array(1,2,3,4,5));
+        $searchParam->setAllowedVacancyList(array(1,2,3));
+        $searchParam->setEmpNumber(2);
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);

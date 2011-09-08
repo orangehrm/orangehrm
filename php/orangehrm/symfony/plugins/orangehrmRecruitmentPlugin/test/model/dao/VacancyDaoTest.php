@@ -61,6 +61,14 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 		$hiringMangersList = $this->vacancyDao->getHiringManagersList("", 1);
 		$this->assertEquals($hiringMangersList, array(array('id' => 1, 'name' => "Kayla Abbey")));
 	}
+    
+    /**
+	 * Testing getHiringManagerList
+	 */
+	public function testGetHiringManagersListWithVacancyList() {
+		$hiringMangersList = $this->vacancyDao->getHiringManagersList("", 1, array(5, 1, 4));
+		$this->assertEquals($hiringMangersList, array(array('id' => 1, 'name' => "Kayla Abbey")));
+	}
 
 	/**
 	 * Testing getVacancyListForJobTitle
@@ -151,6 +159,14 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 		$vacancyList = $this->vacancyDao->getAllVacancies();
 		$this->assertTrue($vacancyList[0] instanceof JobVacancy);
 	}
+    
+    /**
+	 * Testing getAllVacancies
+	 */
+	public function testGetAllVacanciesWithStatus() {
+		$vacancyList = $this->vacancyDao->getAllVacancies(JobVacancy::ACTIVE);
+		$this->assertEquals(3, count($vacancyList));
+	}
 
 	/**
 	 * Testing getVacancyList
@@ -173,6 +189,17 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	public function testSearchVacancies() {
 
 		$srchParams = array('jobTitle' => 'JOB002', 'jobVacancy' => 2, 'hiringManager' => 2, 'status' => 1, 'offset' => 0, 'noOfRecords' => 1);
+		$vacancyList = TestDataService::fetchObject('JobVacancy', 2);
+		$result = $this->vacancyDao->searchVacancies($srchParams);
+		$this->assertEquals($vacancyList, $result[0]);
+	}
+    
+    /**
+	 * Testing searchVacancies
+	 */
+    public function testSearchVacanciesWithEmployeeFirstName() {
+
+		$srchParams = array('jobTitle' => 'JOB002', 'jobVacancy' => 2, 'hiringManager' => 2, 'status' => 1, 'offset' => 0, 'noOfRecords' => 1, 'orderField' => 'e.emp_firstname');
 		$vacancyList = TestDataService::fetchObject('JobVacancy', 2);
 		$result = $this->vacancyDao->searchVacancies($srchParams);
 		$this->assertEquals($vacancyList, $result[0]);
