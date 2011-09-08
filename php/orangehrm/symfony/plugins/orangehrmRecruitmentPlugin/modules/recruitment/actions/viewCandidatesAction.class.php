@@ -64,6 +64,9 @@ class viewCandidatesAction extends sfAction {
         $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
 
         $isAdmin = $usrObj->isAdmin();
+        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer())) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
         list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateListMessageItems');
         $candidateId = $request->getParameter('candidateId');

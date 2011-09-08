@@ -40,7 +40,7 @@ class addJobVacancyAction extends sfAction {
     public function setVacancyService(VacancyService $vacancyService) {
         $this->vacancyService = $vacancyService;
     }
-    
+
     /**
      * @param sfForm $form
      * @return
@@ -50,7 +50,7 @@ class addJobVacancyAction extends sfAction {
             $this->form = $form;
         }
     }
-    
+
     public function getForm() {
         $this->form->request = $this->getRequest();
         return $this->form;
@@ -61,8 +61,8 @@ class addJobVacancyAction extends sfAction {
      * @param <type> $request
      */
     public function execute($request) {
-
-        if(!$this->getUser()->getAttribute('user')->isAdmin()){
+        $usrObj = $this->getUser()->getAttribute('user');
+        if (!$usrObj->isAdmin()) {
             $this->redirect('recruitment/viewCandidates');
         }
 
@@ -82,7 +82,7 @@ class addJobVacancyAction extends sfAction {
             if ($this->form->isValid()) {
                 $this->vacancyId = $this->form->save();
                 $this->getUser()->setFlash('templateMessage', array('success', __('Job Vacancy Saved Successfully')));
-                $this->redirect('recruitment/addJobVacancy?Id='.$this->vacancyId);
+                $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
             }
         }
     }

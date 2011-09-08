@@ -38,6 +38,7 @@ class User {
 	private $candidateHistoryList = array();
 	private $isAdmin = false;
 	private $isHiringManager = false;
+	private $isInterviewer = false;
 	private $employeeListForAttendanceTotalSummaryReport;
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
@@ -168,6 +169,10 @@ class User {
 
 	public function isHiringManager() {
 		return $this->isHiringManager;
+	}
+
+	public function isInterviewer() {
+		return $this->isInterviewer;
 	}
 
 }

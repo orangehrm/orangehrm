@@ -51,6 +51,9 @@ class changeCandidateVacancyStatusAction extends sfAction {
     public function execute($request) {
 
         $usrObj = $this->getUser()->getAttribute('user');
+        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer())) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
         $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
@@ -72,6 +75,13 @@ class changeCandidateVacancyStatusAction extends sfAction {
                 $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
             }
             $this->performedAction = $action;
+            print_r($action);
+            if ($usrObj->isInterviewer()) {
+                $this->enableEdit = false;
+                if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
+                    $this->enableEdit = true;
+                }
+            }
         }
         $candidateVacancyId = $request->getParameter('candidateVacancyId');
         $this->selectedAction = $request->getParameter('selectedAction');
@@ -80,6 +90,11 @@ class changeCandidateVacancyStatusAction extends sfAction {
             $param = array('id' => $id);
         }
         if ($candidateVacancyId > 0 && $this->selectedAction != "") {
+            $candidateVacancy = $this->getCandidateService()->getCandidateVacancyById($candidateVacancyId);
+            $nextActionList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $usrObj);
+            if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
+                $this->redirect('recruitment/viewCandidates');
+            }
             $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction);
             $this->performedAction = $this->selectedAction;
         }
@@ -88,9 +103,9 @@ class changeCandidateVacancyStatusAction extends sfAction {
 //        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
 //            $this->redirect('recruitment/viewCandidates');
 //        }
-        if (!in_array($this->form->candidateId, $allowedCandidateListToDelete)) {
-            $this->enableEdit = false;
-        }
+//        if (!in_array($this->form->candidateId, $allowedCandidateListToDelete)) {
+//            $this->enableEdit = false;
+//        }
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));

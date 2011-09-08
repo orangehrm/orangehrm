@@ -214,5 +214,9 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
 		return true;
 	}
 
+	public function isInterviewer() {
+		return $this->user->isInterviewer();
+	}
+
 }
 

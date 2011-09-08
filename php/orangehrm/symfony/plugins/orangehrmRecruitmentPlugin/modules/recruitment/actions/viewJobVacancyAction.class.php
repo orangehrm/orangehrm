@@ -60,10 +60,10 @@ class viewJobVacancyAction extends sfAction {
         $vacancyId = $request->getParameter('vacancyId');
         
         $pageNumber = $isPaging;
-        if(!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
-            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        if(!is_null($this->getUser()->getAttribute('vacancyPageNumber')) && !($pageNumber >= 1)) {
+            $pageNumber = $this->getUser()->getAttribute('vacancyPageNumber');
         }        
-        $this->getUser()->setAttribute('pageNumber', $pageNumber);
+        $this->getUser()->setAttribute('vacancyPageNumber', $pageNumber);
         
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
@@ -100,7 +100,7 @@ class viewJobVacancyAction extends sfAction {
             if ($request->isMethod('post')) {
                 
                 $pageNumber = 1;
-                $this->getUser()->setAttribute('pageNumber', $pageNumber);
+                $this->getUser()->setAttribute('vacancyPageNumber', $pageNumber);
                 $this->form->bind($request->getParameter($this->form->getName()));
                 
                 if ($this->form->isValid()) {                    
