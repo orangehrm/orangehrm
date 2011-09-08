@@ -27,8 +27,9 @@ function renderActionBar($buttons, $condition = true) {
 
     <br class="clear" />
 
-    <?php } ?>
+   
 </div>
+ <?php } ?>
 <?php
 }
 
