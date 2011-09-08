@@ -676,6 +676,18 @@
                 <source>applied for the</source>
                 <target>FR_applied for the</target>
             </trans-unit>
+			<trans-unit id="169">
+                <source>Shortlisted for</source>
+                <target>FR_Shortlisted for</target>
+            </trans-unit>
+			<trans-unit id="170">
+                <source>by</source>
+                <target>FR_by</target>
+            </trans-unit>
+			<trans-unit id="171">
+                <source>Admin removed</source>
+                <target>FR_Admin removed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
