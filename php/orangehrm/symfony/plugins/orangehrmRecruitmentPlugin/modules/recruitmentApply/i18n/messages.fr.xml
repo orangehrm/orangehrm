@@ -112,9 +112,17 @@
                 <source>Enter comma separated words...</source>
                 <target>FR_Enter comma separated words...</target>
             </trans-unit>
-	    <trans-unit id="28">
+			<trans-unit id="28">
                 <source>Vacancy Apply Form</source>
                 <target>FR_Vacancy Apply Form</target>
+            </trans-unit>
+			<trans-unit id="29">
+                <source>Your Application for the Position of Associate QA Was Received</source>
+                <target>FR_Your Application for the Position of Associate QA Was Received</target>
+            </trans-unit>
+			<trans-unit id="30">
+                <source>Error Occurred - Invalid File Type</source>
+                <target>FR_Error Occurred - Invalid File Type</target>
             </trans-unit>
         </body>
     </file>
