@@ -113,49 +113,49 @@ class leaveActions extends sfActions {
         $this->leaveRequestService = $leaveRequestService;
     }
 
-	/**
-	 * Gets the array of dates for a given month
-	 *
-	 * @param int $month Month as integer (eg: January = 1, February = 2, ...)
-	 * @return array Array of days for the given month
-	 */
-	public function executeLoadDatesforMonth(sfWebRequest $request) {
-        
-		$month = (int) $request->getParameter('month');
-		$isLeapYear = ($request->getParameter('isLeapYear') !== 'false');
+    /**
+     * Gets the array of dates for a given month
+     *
+     * @param int $month Month as integer (eg: January = 1, February = 2, ...)
+     * @return array Array of days for the given month
+     */
+    public function executeLoadDatesforMonth(sfWebRequest $request) {
+
+        $month = (int) $request->getParameter('month');
+        $isLeapYear = ($request->getParameter('isLeapYear') !== 'false');
 
         $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
         return $this->renderText(json_encode($this->getLeavePeriodService()->getListOfDates($month, $isLeapYear)));
 
-	}
+    }
 
-	/**
-	 * Gets the end date of the leave period given the start month and start date
-	 */
-	public function executeLoadLeavePeriodEndDate(sfWebRequest $request) {
+    /**
+     * Gets the end date of the leave period given the start month and start date
+     */
+    public function executeLoadLeavePeriodEndDate(sfWebRequest $request) {
 
         $month = (int) $request->getParameter('month');
-		$date = (int) $request->getParameter('date');
-		$format = $request->getParameter('format', 'F d');
+        $date = (int) $request->getParameter('date');
+        $format = $request->getParameter('format', 'F d');
 
         $endDateElements = explode(' ', $this->getLeavePeriodService()->calculateEndDate($month, $date, null, $format));
         $endDate = __($endDateElements[0]) . ' ' . $endDateElements[1];
 
         return $this->renderText($endDate);
 
-	}
+    }
 
-	/**
-	 * Checks whether the start date of the current leave period will be a past date, given the start month and start date
-	 */
-	public function executeGetCurrentStartDate(sfWebRequest $request) {
-        
-		$month = (int) $request->getParameter('month');
-		$date = (int) $request->getParameter('date');
+    /**
+     * Checks whether the start date of the current leave period will be a past date, given the start month and start date
+     */
+    public function executeGetCurrentStartDate(sfWebRequest $request) {
+
+        $month = (int) $request->getParameter('month');
+        $date = (int) $request->getParameter('date');
 
         return $this->renderText($this->getLeavePeriodService()->calculateStartDate($month, $date, null));
 
-	}
+    }
 
     /**
      * Add Work Week
@@ -248,7 +248,7 @@ class leaveActions extends sfActions {
         if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
             $this->forward('leave', 'viewMyLeaveList');
         }
-        
+
         $this->setForm(new HolidayForm());
         $editId = $request->getParameter('hdnEditId');
 
@@ -288,7 +288,7 @@ class leaveActions extends sfActions {
                     $holidayObject = $this->getHolidayService()->readHoliday($hid);
                     // if the selected date is already in a holiday not allow to add
                     /*if(($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate()) || $holidayObjectDate->getRecurring() == 1) {
-                        $allowToAdd = false;
+                      $allowToAdd = false;
                     }*/
                     if($date != $holidayObjectDate->getDate() && $holidayObjectDate->getRecurring()) {
                         $allowToAdd = false;
@@ -305,12 +305,12 @@ class leaveActions extends sfActions {
                 if(!$allowToAdd && !is_null($date)) {
                     $this->templateMessage = array('WARNING', __('The Date Is Already Assigned to Another Holiday'));
                 } else {
-                    
+
                     //first creating the leave period if the date belongs to next leave period
                     if($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($post['txtDate']))) {
                         $this->getLeavePeriodService()->createNextLeavePeriod($post['txtDate']);
                     }
-                    
+
                     $holidayObject = $this->getHolidayService()->readHoliday($post['hdnHolidayId']);
                     $holidayObject->setDescription($post['txtDescription']);
                     $holidayObject->setDate($post['txtDate']);
@@ -397,121 +397,121 @@ class leaveActions extends sfActions {
      */
     /*public function executeViewLeaveList(sfWebRequest $request) {
 
-        $this->setTemplate('viewLeaveList');
+      $this->setTemplate('viewLeaveList');
 
-        $fromDate = $request->getPostParameter('calFromDate', null);
-        $toDate = $request->getPostParameter('calToDate', null);
-        $subunitId = $request->getPostParameter('cmbSubunit', null);
-        $statuses = $request->getParameter('chkSearchFilter', array());
+      $fromDate = $request->getPostParameter('calFromDate', null);
+      $toDate = $request->getPostParameter('calToDate', null);
+      $subunitId = $request->getPostParameter('cmbSubunit', null);
+      $statuses = $request->getParameter('chkSearchFilter', array());
 
-        $leavePeriodId = $request->getParameter('leavePeriodId', null);
-        $leaveTypeId = $request->getParameter('leaveTypeId', null);
-        $employeeId = $request->getParameter('employeeId', null);
-        $employeeId = (empty($employeeId))? $request->getParameter("txtEmpID"):'';
+      $leavePeriodId = $request->getParameter('leavePeriodId', null);
+      $leaveTypeId = $request->getParameter('leaveTypeId', null);
+      $employeeId = $request->getParameter('employeeId', null);
+      $employeeId = (empty($employeeId))? $request->getParameter("txtEmpID"):'';
 
-        $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
+      $statuses = (trim($request->getParameter('status') != ""))?array($request->getParameter('status')):$statuses;
 
-        $page = $request->getParameter('page', 1);
-        $message = $this->getUser()->getFlash('message', '');
-        $messageType = $this->getUser()->getFlash('messageType', '');
+      $page = $request->getParameter('page', 1);
+      $message = $this->getUser()->getFlash('message', '');
+      $messageType = $this->getUser()->getFlash('messageType', '');
 
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
-        
-        if(trim($leavePeriodId) != "") {
-            $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
-        } else {
-            $leavePeriodId = $leavePeriod->getLeavePeriodId();
-        }
-        $employee = null;
-        $overrideShowBackButton = false;
-        $leaveRequest = null;
- 
-        $id = (int) $request->getParameter('id');
+      $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
 
-        if (empty($id)) {
+      if(trim($leavePeriodId) != "") {
+      $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
+      } else {
+      $leavePeriodId = $leavePeriod->getLeavePeriodId();
+      }
+      $employee = null;
+      $overrideShowBackButton = false;
+      $leaveRequest = null;
 
-            $mode = LeaveListForm::MODE_DEFAULT_LIST;
+      $id = (int) $request->getParameter('id');
 
-            $employeeService = $this->getEmployeeService();
-            $employeeFilter = null;
+      if (empty($id)) {
 
-            if (trim($employeeId) == "") {
-                $this->_setLoggedInUserDetails();
-                
-                if ($this->userType == "Supervisor") {
-                        $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
-                }
+      $mode = LeaveListForm::MODE_DEFAULT_LIST;
 
-                $employeeFilter = $employeeService->filterEmployeeListBySubUnit($employeeFilter, $subunitId);
+      $employeeService = $this->getEmployeeService();
+      $employeeFilter = null;
 
-            } else {
-                $employeeFilter = $employeeService->getEmployee($employeeId);
-                //this is a dirty workaround but witout modyfying searchLeaveRequests of Dao it is difficult
-                if(!$employeeFilter instanceof Employee) {
-                    $employeeFilter = new Employee();
-                    $employeeFilter->setEmpNumber(0);
-                }
-                $employee = $employeeFilter;
-                if(!empty($subunitId) && $subunitId > 0) {
-                    $employeeFilter = $employeeService->filterEmployeeListBySubUnit(array(0 => $employee), $subunitId);
-                }
-                $overrideShowBackButton = true;
-            }
+      if (trim($employeeId) == "") {
+      $this->_setLoggedInUserDetails();
 
-            $dateRange = new DateRange($fromDate, $toDate);
+      if ($this->userType == "Supervisor") {
+      $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
+      }
 
-            $searchParams = new ParameterObject(array(
-                'dateRange' => $dateRange,
-                'statuses' => $statuses,
-                'employeeFilter' => $employeeFilter,
-                'leavePeriod' => $leavePeriodId,
-                'leaveType' => $leaveTypeId
-            ));
+      $employeeFilter = $employeeService->filterEmployeeListBySubUnit($employeeFilter, $subunitId);
 
-            $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
-            $list = $result['list'];
-            $recordCount = $result['meta']['record_count'];
+      } else {
+      $employeeFilter = $employeeService->getEmployee($employeeId);
+      //this is a dirty workaround but witout modyfying searchLeaveRequests of Dao it is difficult
+      if(!$employeeFilter instanceof Employee) {
+      $employeeFilter = new Employee();
+      $employeeFilter->setEmpNumber(0);
+      }
+      $employee = $employeeFilter;
+      if(!empty($subunitId) && $subunitId > 0) {
+      $employeeFilter = $employeeService->filterEmployeeListBySubUnit(array(0 => $employee), $subunitId);
+      }
+      $overrideShowBackButton = true;
+      }
 
-            $this->page = $page;
-            $this->recordCount = $recordCount;
+      $dateRange = new DateRange($fromDate, $toDate);
 
-            if ($recordCount == 0 && $request->isMethod("post")) {
-                $message = 'No Records Found';
-                $messageType = 'notice';
-            }
+      $searchParams = new ParameterObject(array(
+      'dateRange' => $dateRange,
+      'statuses' => $statuses,
+      'employeeFilter' => $employeeFilter,
+      'leavePeriod' => $leavePeriodId,
+      'leaveType' => $leaveTypeId
+      ));
 
-        } else {
+      $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
+      $list = $result['list'];
+      $recordCount = $result['meta']['record_count'];
 
-            $mode = LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
-            $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
-            $list = $this->getLeaveRequestService()->searchLeave($id);
-            $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($id);
-        }
+      $this->page = $page;
+      $this->recordCount = $recordCount;
 
-        $this->_setLoggedInUserDetails();
+      if ($recordCount == 0 && $request->isMethod("post")) {
+      $message = 'No Records Found';
+      $messageType = 'notice';
+      }
 
-        $leaveListForm = new LeaveListForm($mode, $leavePeriod, $employee, $request, $this->loggedUserId, $leaveRequest);
+      } else {
 
-        $list = (count($list)==0)?null:$list;
-        $leaveListForm->setList($list);
-        $leaveListForm->setShowBackButton($overrideShowBackButton);
-        $leaveListForm->setEmployeeListAsJson($this->getEmployeeListAsJson());
-        
-        $this->leaveRequestId = $id;
-        $this->form = $leaveListForm;
-        $this->quotaArray = $this->form->getQuotaArray($list);
-        $this->mode = $mode;
-        $this->message = $message;
-        $this->messageType = $messageType;
-        $this->baseUrl = 'leave/viewLeaveList';
+      $mode = LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
+      $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
+      $list = $this->getLeaveRequestService()->searchLeave($id);
+      $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($id);
+      }
+
+      $this->_setLoggedInUserDetails();
+
+      $leaveListForm = new LeaveListForm($mode, $leavePeriod, $employee, $request, $this->loggedUserId, $leaveRequest);
+
+      $list = (count($list)==0)?null:$list;
+      $leaveListForm->setList($list);
+      $leaveListForm->setShowBackButton($overrideShowBackButton);
+      $leaveListForm->setEmployeeListAsJson($this->getEmployeeListAsJson());
+
+      $this->leaveRequestId = $id;
+      $this->form = $leaveListForm;
+      $this->quotaArray = $this->form->getQuotaArray($list);
+      $this->mode = $mode;
+      $this->message = $message;
+      $this->messageType = $messageType;
+      $this->baseUrl = 'leave/viewLeaveList';
     }*/
-   
+
     public function executeViewMyLeaveList(sfWebRequest $request) {
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
         $this->setTemplate('viewLeaveList');
-        
+
         $id = (int) $request->getParameter('id');
         $mode = empty($id) ? LeaveListForm::MODE_MY_LEAVE_LIST : LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
 
@@ -522,25 +522,25 @@ class leaveActions extends sfActions {
         if ($request->isMethod('post')) {
             $this->_setFilters($mode, $request->getPostParameters());
         }
-        
-        if ($request->getParameter('page')) {
-            $this->_setPage($mode, $request->getParameter('page'));
-        }
 
         // Reset filters if requested to
         if ($request->hasParameter('reset')) {
-            
             $this->_setFilters($mode, array());
-            $this->_setPage($mode, 1);
-        } 
-        
-        $filters = $this->_getFilters($mode);
-
-        $page = $this->_getPage($mode);
-        if (empty($page)) {
-            $page = 1;
         }
 
+        $filters = $this->_getFilters($mode);
+
+        $isPaging = $request->getParameter('pageNo');
+
+        $pageNumber = $isPaging;
+        if (!is_null($this->getUser()->getAttribute('myLeaveListPageNumber')) && !($pageNumber >= 1)) {
+            $pageNumber = $this->getUser()->getAttribute('myLeaveListPageNumber');
+        }
+        $this->getUser()->setAttribute('myLeaveListPageNumber', $pageNumber);
+
+        $noOfRecordsPerPage = 2;//sfConfig::get('app_items_per_page');        
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecordsPerPage) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecordsPerPage;
+        
         $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
         $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
         $toDate = $this->_getFilterValue($filters, 'calToDate', null);
@@ -548,7 +548,7 @@ class leaveActions extends sfActions {
 
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
-        
+
         $leaveTypeId = trim($this->_getFilterValue($filters, 'leaveTypeId'));
         $statuses = (trim($this->_getFilterValue($filters, 'status') != ""))?array($this->_getFilterValue($filters, 'status')):$statuses;
 
@@ -568,17 +568,19 @@ class leaveActions extends sfActions {
             $dateRange = new DateRange($fromDate, $toDate);
 
             $searchParams = new ParameterObject(array(
-                'dateRange' => $dateRange,
-                'statuses' => $statuses,
-                'leavePeriod' => $leavePeriodId,
-                'employeeFilter' => $employee
-            ));
+                        'dateRange' => $dateRange,
+                        'statuses' => $statuses,
+                        'leavePeriod' => $leavePeriodId,
+                        'employeeFilter' => $employee,
+                        'offset' => $offset,
+                        'noOfRecordsPerPage' => $noOfRecordsPerPage
+                    ));
 
             if(!empty($leaveTypeId)) {
                 $searchParams->setParameter('leaveType', $leaveTypeId);
             }
 
-            $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
+            $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $pageNumber);
             $list = $result['list'];
             $recordCount = $result['meta']['record_count'];
 
@@ -595,7 +597,7 @@ class leaveActions extends sfActions {
             $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
             $employee = $this->getLeaveRequestService()->fetchLeaveRequest($id)->getEmployee();
             $list = $this->getLeaveRequestService()->searchLeave($id);
-            $this->leaveRequestId = $id;           
+            $this->leaveRequestId = $id;
 
         }
 
@@ -608,12 +610,6 @@ class leaveActions extends sfActions {
         $this->messageType = $messageType;
         $this->baseUrl = 'leave/viewMyLeaveList';
         $this->pagingUrl = '@my_leave_request_list';
-
-        $this->pager = new SimplePager('MyLeaveList', sfConfig::get('app_items_per_page'));
-
-        $this->pager->setPage($page);
-        $this->pager->setNumResults($recordCount);
-        $this->pager->init();
         
         if ($mode === LeaveListForm::MODE_MY_LEAVE_LIST) {
             LeaveListConfigurationFactory::setListMode(LeaveListForm::MODE_MY_LEAVE_LIST);
@@ -623,13 +619,13 @@ class leaveActions extends sfActions {
                 'labelGetter' => array('getLeaveDateRange'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
                 'urlPattern' => public_path('index.php/leave/viewMyLeaveList/id/{id}'),
-                ));
+            ));
 
             $configurationFactory->getHeader(4)->setElementProperty(array(
                 'labelGetter' => array('getStatus'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
                 'urlPattern' => public_path('index.php/leave/viewMyLeaveList/id/{id}'),
-                ));
+            ));
 
             $methodName = 'searchLeaveRequests';
             $params = array($searchParams, $page, 'list');
@@ -641,9 +637,13 @@ class leaveActions extends sfActions {
         } else {
             // TODO: Warn
         }
-        
+
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($list);
+
+        ohrmListComponent::setPageNumber($pageNumber);
+        ohrmListComponent::setItemsPerPage($noOfRecordsPerPage);
+        ohrmListComponent::setNumberOfRecords($recordCount);
 
         $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $methodName, $params, $employee);
     }
@@ -654,7 +654,7 @@ class leaveActions extends sfActions {
         $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
         $employeeService = new EmployeeService();
         $employeeList = array();
-        
+
         if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
             $employeeList = $employeeService->getEmployeeList();
         }
@@ -678,7 +678,7 @@ class leaveActions extends sfActions {
         $jsonString = " [".implode(",",$jsonArray)."]";
         return $jsonString;
     }
-    
+
     /**
      * Change leave status
      * 
@@ -822,14 +822,14 @@ class leaveActions extends sfActions {
         }
     }
 
-	/**
-	 * Displays a warning for non admin users if Leave Period is not defined
-	 *
-	 * @param sfWebRequest $request
-	 */
-	public function executeShowLeavePeriodNotDefinedWarning(sfWebRequest $request) {
-
-	}
+    /**
+     * Displays a warning for non admin users if Leave Period is not defined
+     *
+     * @param sfWebRequest $request
+     */
+    public function executeShowLeavePeriodNotDefinedWarning(sfWebRequest $request) {
+        
+    }
 
     public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams, $employee) {
         $dataRetriever = new ExportDataRetriever();
@@ -842,24 +842,6 @@ class leaveActions extends sfActions {
         $this->getUser()->setAttribute('persistant.exportFileName', 'my-leave-list');
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave List');
         $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'of ' . $employee->getFullName() );
-    }
-
-
-    /**
-     * Set's the current page number in the user session.
-     * @param $page int Page Number
-     * @return None
-     */
-    protected function _setPage($mode, $page) {
-        $this->getUser()->setAttribute($mode . '.page', $page, 'leave_module');
-    }
-
-    /**
-     * Get the current page number from the user session.
-     * @return int Page number
-     */
-    protected function _getPage($mode) {
-        return $this->getUser()->getAttribute($mode . '.page', 1, 'leave_module');
     }
 
     /**
@@ -878,13 +860,13 @@ class leaveActions extends sfActions {
     protected function _getFilters($mode) {
         return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_module');
     }
-    
+
     protected function _getFilterValue($filters, $parameter, $default = null) {
         $value = $default;
         if (isset($filters[$parameter])) {
             $value = $filters[$parameter];
         }
-            
+
         return $value;
     }
 

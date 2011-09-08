@@ -247,8 +247,8 @@ class LeaveRequestDao extends BaseDao {
 	public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false) {
 		$this->_markApprovedLeaveAsTaken();
 		
-		$limit = sfConfig::get('app_items_per_page');
-		$offset = ($page - 1) * $limit;
+		$limit = $searchParameters->getParameter('noOfRecordsPerPage');
+		$offset = $searchParameters->getParameter('offset');
 
 		$list = array();
 
