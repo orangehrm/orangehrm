@@ -25,8 +25,8 @@
                 <target>FR_Apply</target>
             </trans-unit>
 			<trans-unit id="6">
-                <source>E-mail</source>
-                <target>FR_E-mail</target>
+                <source>E-Mail</source>
+                <target>FR_E-Mail</target>
             </trans-unit>
 			<trans-unit id="7">
                 <source>Apply for</source>
@@ -64,9 +64,53 @@
                 <source>Submit</source>
                 <target>FR_Submit</target>
             </trans-unit>	
-			<trans-unit id="15">
+			<trans-unit id="16">
                 <source>Back to Job List</source>
                 <target>FR_Back to Job List</target>
+            </trans-unit>
+			<trans-unit id="17">
+                <source>Error Occurred - Invalid File Type</source>
+                <target>FR_Error Occurred - Invalid File Type</target>
+            </trans-unit>
+			<trans-unit id="18">
+                <source>Enter comma separated words...</source>
+                <target>FR_Enter comma separated words...</target>
+            </trans-unit>
+			<trans-unit id="19">
+                <source>First name is required</source>
+                <target>FR_First name is required</target>
+            </trans-unit>
+			<trans-unit id="20">
+                <source>Last name is required</source>
+                <target>FR_Last name is required</target>
+            </trans-unit>
+			<trans-unit id="21">
+                <source>E-mail is required</source>
+                <target>FR_E-mail is required</target>
+            </trans-unit>
+			<trans-unit id="22">
+                <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+                <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+            </trans-unit>
+			<trans-unit id="23">
+                <source>Please enter no more than 30 characters</source>
+                <target>FR_Please enter no more than 30 characters</target>
+            </trans-unit>
+			<trans-unit id="24">
+                <source>Enter a valid contact number</source>
+                <target>FR_Enter a valid contact number</target>
+            </trans-unit>
+			<trans-unit id="25">
+                <source>Please enter no more than 255 characters</source>
+                <target>FR_Please enter no more than 255 characters</target>
+            </trans-unit>
+			<trans-unit id="26">
+                <source>Please attach your resume</source>
+                <target>FR_Please attach your resume</target>
+            </trans-unit>
+			<trans-unit id="27">
+                <source>Enter comma separated words...</source>
+                <target>FR_Enter comma separated words...</target>
             </trans-unit>
         </body>
     </file>
