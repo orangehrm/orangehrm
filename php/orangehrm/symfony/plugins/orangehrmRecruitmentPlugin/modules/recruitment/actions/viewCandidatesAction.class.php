@@ -75,18 +75,17 @@ class viewCandidatesAction extends sfAction {
         $isPaging = $request->getParameter('pageNo');
 
         $pageNumber = $isPaging;
-        if(!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
+        if (!is_null($this->getUser()->getAttribute('pageNumber')) && !($pageNumber >= 1)) {
             $pageNumber = $this->getUser()->getAttribute('pageNumber');
         }
         $this->getUser()->setAttribute('pageNumber', $pageNumber);
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setAllowedCandidateList($allowedCandidateList);
-        $searchParam->setAllowedVacancyList($allowedVacancyList);
+
         $searchParam->setIsAdmin($isAdmin);
         $searchParam->setEmpNumber($usrObj->getEmployeeNumber());
         $noOfRecords = $searchParam->getLimit();
-        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
         $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
         $this->setForm(new viewCandidatesForm(array(), $param, true));
         if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $candidateId > 0) {
@@ -99,6 +98,8 @@ class viewCandidatesAction extends sfAction {
         } else {
             $this->getUser()->setAttribute('searchParameters', $searchParam);
         }
+        $searchParam->setAllowedCandidateList($allowedCandidateList);
+        $searchParam->setAllowedVacancyList($allowedVacancyList);
         $searchParam->setOffset($offset);
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
         $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
@@ -122,7 +123,7 @@ class viewCandidatesAction extends sfAction {
             }
         }
     }
-    
+
     /**
      *
      * @param <type> $candidates

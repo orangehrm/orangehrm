@@ -92,6 +92,7 @@ class addCandidateAction extends sfAction {
             }
             $this->actionForm = new ViewCandidateActionForm(array(), $param, true);
             $allowedHistoryList = $userObj->getAllowedCandidateHistoryList($this->candidateId);
+
             $candidateHistory = $this->getCandidateService()->getCandidateHistoryForCandidateId($this->candidateId, $allowedHistoryList);
             $candidateHistoryService = new CandidateHistoryService();
             $this->_setListComponent($candidateHistoryService->getCandidateHistoryList($candidateHistory));

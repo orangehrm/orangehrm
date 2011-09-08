@@ -400,6 +400,7 @@ class CandidateDao extends BaseDao {
                         ->orWhere('ch.performedBy = ?', $empNumber)
                         ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST));
 //                        ->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
+
             }
             if ($role == AdminUserRoleDecorator::ADMIN_USER) {
                 $q->where('ch.candidateId = ?', $candidateId);
