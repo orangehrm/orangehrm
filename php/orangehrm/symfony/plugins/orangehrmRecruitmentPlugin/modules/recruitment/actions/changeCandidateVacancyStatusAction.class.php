@@ -75,7 +75,7 @@ class changeCandidateVacancyStatusAction extends sfAction {
                 $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
             }
             $this->performedAction = $action;
-            if ($usrObj->isInterviewer() && !$usrObj->isHiringManager()) {
+            if ($this->getCandidateService()->isInterviewer($this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($history->getCandidateId(), $history->getVacancyId()), $usrObj->getEmployeeNumber())) {
                 $this->enableEdit = false;
                 if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED || $action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED) {
                     $this->enableEdit = true;
