@@ -29,6 +29,11 @@ function initLeaveSummary() {
         recheckEmpId();
         adjustEmpId();
         $('#hdnAction').val('search');
+        
+        if($("#leaveSummary_txtEmpName").val() == lang_typeHint || $("#leaveSummary_txtEmpName").val() =="") {
+            $('#leaveSummary_cmbEmpId').val(0);
+        }
+        
         $('#frmLeaveSummarySearch').submit();
     });
 
@@ -65,7 +70,13 @@ function handleResetButton() {
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html('');
 
-    $('.formInputText').removeAttr('style');    
+    $('.formInputText').removeAttr('style');  
+    
+    $("#leaveSummary_txtEmpName").val('');
+    $('#leaveSummary_cmbEmpId').val('0');
+    $('#frmLeaveSummarySearch select').find('option:first').attr('selected','selected');
+    $('#frmLeaveSummarySearch').submit();
+    
 }
 function adjustEmpId() {
 

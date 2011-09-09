@@ -198,7 +198,21 @@ $searchActionButtons = $form->getSearchActionButtons();
         }
 
 	$(document).ready(function(){
+        
+        var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
+        
+        if ($("#txtEmployee").val() == '' || $("#txtEmployee").val() == lang_typeHint) {
+            $("#txtEmployee").addClass("inputFormatHint").val(lang_typeHint);
+        }
+        
+        $("#txtEmployee").one('focus', function() {
 
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeClass("inputFormatHint");
+            }
+       });
+       
         var data	= <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson());?>
         //Auto complete
         $("#txtEmployee").autocomplete(data, {

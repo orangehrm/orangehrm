@@ -87,7 +87,7 @@ class LeaveSummaryForm extends sfForm {
             $this->formValidators['hdnSubjectedLeavePeriod'] = new sfValidatorString(array('required' => false));
 
             $employeeId = 0;
-            $empName = __("All");
+            $empName = "";
             if(!is_null($this->searchParam['employeeId'])) {
                 $employeeId = $this->searchParam['employeeId'];
                 $employeeService = $this->getEmployeeService();
@@ -311,9 +311,7 @@ class LeaveSummaryForm extends sfForm {
             }
         }
 
-		$jsonArray[] = array('name'=>'All', 'id' => '0');
-
-        $jsonString = json_encode($jsonArray);
+		$jsonString = json_encode($jsonArray);
 
         return $jsonString;
 
@@ -406,7 +404,7 @@ class LeaveSummaryForm extends sfForm {
     public function getSearchClues() {
 
         if ($this->getValues()) {
-
+            
             return $this->_adjustSearchClues($this->getValues());
 
         } else {

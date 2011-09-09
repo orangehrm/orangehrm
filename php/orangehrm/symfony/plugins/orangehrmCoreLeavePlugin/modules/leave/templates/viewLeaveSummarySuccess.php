@@ -44,7 +44,6 @@
 <tr>
     <td><?php echo __('Employee'); ?></td>
     <td><?php echo $form['txtEmpName']->render(array('style' => 'text-align:left')); ?>
-        <div class="typeHint"><?php echo __('Type for hints'); ?>...</div>
         <?php echo $form['cmbEmpId']->render(); ?>
     </td>
     <td><?php echo __('Job Title'); ?></td>
@@ -65,7 +64,7 @@
     <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
     <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
     <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
-    <input type="reset" value="<?php echo __('Reset') ?>" class="savebutton" />
+    <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
         </div>
 <?php } elseif ($form->userType == 'ESS') { ?>
     <table id="tblSearchCriteria" border="0">
@@ -110,6 +109,23 @@
 <?php //} // End of if ($recordsCount > 0) ?>
 
 <script type="text/javascript">
+    
+    var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
+    
+    $(document).ready(function() {
+        
+        if ($("#leaveSummary_txtEmpName").val() == "" || $("#leaveSummary_txtEmpName").val() == lang_typeHint) {
+            $("#leaveSummary_txtEmpName").addClass("inputFormatHint").val(lang_typeHint);
+        }
+        
+        $("#leaveSummary_txtEmpName").one('focus', function() {
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeClass("inputFormatHint");
+            }
+        });
+        
+    });
 
 /* Define language strings here */
 var lang_not_numeric = '<?php echo __('Enter a Positive Number Less Than 365 with Two Decimal Places'); ?>';
