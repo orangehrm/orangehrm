@@ -538,8 +538,7 @@ class leaveActions extends sfActions {
         }
         $this->getUser()->setAttribute('myLeaveListPageNumber', $pageNumber);
 
-        $noOfRecordsPerPage = 2;//sfConfig::get('app_items_per_page');        
-        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecordsPerPage) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecordsPerPage;
+        $noOfRecordsPerPage = sfConfig::get('app_items_per_page');
         
         $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
         $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
@@ -572,7 +571,6 @@ class leaveActions extends sfActions {
                         'statuses' => $statuses,
                         'leavePeriod' => $leavePeriodId,
                         'employeeFilter' => $employee,
-                        'offset' => $offset,
                         'noOfRecordsPerPage' => $noOfRecordsPerPage
                     ));
 

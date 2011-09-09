@@ -147,7 +147,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 'statuses' => $statuses,
                 'employeeFilter' => $employeeFilter,
                 'leavePeriod' => $leavePeriodId,
-                'leaveType' => $leaveTypeId
+                'leaveType' => $leaveTypeId,
+                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page')
             ));
 
             $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);

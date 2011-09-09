@@ -248,7 +248,7 @@ class LeaveRequestDao extends BaseDao {
 		$this->_markApprovedLeaveAsTaken();
 		
 		$limit = $searchParameters->getParameter('noOfRecordsPerPage');
-		$offset = $searchParameters->getParameter('offset');
+		$offset = ($page > 0) ? (($page - 1) * $limit) : 0;
 
 		$list = array();
 
