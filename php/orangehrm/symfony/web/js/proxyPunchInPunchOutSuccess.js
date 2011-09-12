@@ -659,11 +659,11 @@ function getTimezoneArray() {
     timezoneArray[18] = '-8.00';
     timezoneArray[19] = '-7.00';
     timezoneArray[20] = '-6.00';
-    timezoneArray[21] = '-7.00';
-    timezoneArray[22] = '-5.00';
-    timezoneArray[23] = '-4.00';
-    timezoneArray[24] = '-3.50';
-    timezoneArray[25] = '-3.00';
+    timezoneArray[21] = '-5.00';
+    timezoneArray[22] = '-4.00';
+    timezoneArray[23] = '-3.50';
+    timezoneArray[24] = '-3.00';
+    timezoneArray[25] = '-2.00';
     timezoneArray[26] = '-1.00';
 
     return timezoneArray;

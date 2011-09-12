@@ -36,33 +36,33 @@ class ProxyPunchInPunchOutForm extends AttendanceForm {
      public function getTimezoneArray() {
 
 
-        $this->timezoneArray[0] = 'GMT';
-        $this->timezoneArray[1] = '+1.00';
-        $this->timezoneArray[2] = '+2.00';
-        $this->timezoneArray[3] = '+3.00';
-        $this->timezoneArray[4] = '+4.00';
-        $this->timezoneArray[5] = '+5.00';
-        $this->timezoneArray[6] = '+5.50';
-        $this->timezoneArray[7] = '+6.00';
-        $this->timezoneArray[8] = '+7.00';
-        $this->timezoneArray[9] = '+8.00';
-        $this->timezoneArray[10] = '+9.00';
-        $this->timezoneArray[11] = '+9.50';
-        $this->timezoneArray[12] = '+10.00';
-        $this->timezoneArray[13] = '+11.00';
-        $this->timezoneArray[14] = '+12.00';
-        $this->timezoneArray[15] = '-11.00';
-        $this->timezoneArray[16] = '-10.00';
-        $this->timezoneArray[17] = '-9.00';
-        $this->timezoneArray[18] = '-8.00';
-        $this->timezoneArray[19] = '-7.00';
-        $this->timezoneArray[20] = '-6.00';
-        $this->timezoneArray[21] = '-7.00';
-        $this->timezoneArray[22] = '-5.00';
-        $this->timezoneArray[23] = '-4.00';
-        $this->timezoneArray[24] = '-3.50';
-        $this->timezoneArray[25] = '-3.00';
-        $this->timezoneArray[26] = '-1.00';
+        $this->timezoneArray[0] = '(GMT)';
+        $this->timezoneArray[1] = '(GMT+01.00) Europe/Belgrade';
+        $this->timezoneArray[2] = '(GMT+02.00) Europe/Minsk';
+        $this->timezoneArray[3] = '(GMT+03.00) Asia/Kuwait';
+        $this->timezoneArray[4] = '(GMT+04.00) Asia/Muscat';
+        $this->timezoneArray[5] = '(GMT+05.00) Asia/Yekaterinburg';
+        $this->timezoneArray[6] = '(GMT+05.50) Asia/Kolkata';
+        $this->timezoneArray[7] = '(GMT+06.00) Asia/Dhaka';
+        $this->timezoneArray[8] = '(GMT+07.00) Asia/Krasnoyarsk';
+        $this->timezoneArray[9] = '(GMT+08.00) Asia/Brunei';
+        $this->timezoneArray[10] = '(GMT+09.00) Asia/Seoul';
+        $this->timezoneArray[11] = '(GMT+09.50) Australia/Darwin';
+        $this->timezoneArray[12] = '(GMT+10.00) Australia/Canberra';
+        $this->timezoneArray[13] = '(GMT+11.00) Asia/Magadan';
+        $this->timezoneArray[14] = '(GMT+12.00) Pacific/Fiji';
+        $this->timezoneArray[15] = '(GMT-11.00) Pacific/Midway';
+        $this->timezoneArray[16] = '(GMT-10.00) Pacific/Honolulu';
+        $this->timezoneArray[17] = '(GMT-09.00) America/Anchorage';
+        $this->timezoneArray[18] = '(GMT-08.00) America/Los_Angeles';
+        $this->timezoneArray[19] = '(GMT-07.00) America/Denver';
+        $this->timezoneArray[20] = '(GMT-06.00) America/Tegucigalpa';
+        $this->timezoneArray[21] = '(GMT-05.00) America/New_York';
+        $this->timezoneArray[22] = '(GMT-04.00) America/Halifax';
+        $this->timezoneArray[23] = '(GMT-03.50) America/St_Johns';
+        $this->timezoneArray[24] = '(GMT-03.00) America/Argentina/Buenos_Aires';
+        $this->timezoneArray[25] = '(GMT-02.00) Atlantic/South_Georgia';
+        $this->timezoneArray[26] = '(GMT-01.00) Atlantic/Azores';
         
         return $this->timezoneArray;
     }

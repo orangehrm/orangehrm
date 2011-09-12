@@ -20,7 +20,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 			<table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
 				<tr>
-					<td><?php echo __('Employee Name') ?></td>
+					<td><?php echo __('Employee Name'). ' <span class="required">*</span>' ?></td>
 					<td><?php echo $form['employeeName']->renderError() ?><?php echo $form['employeeName']->render(); ?></td>
 					<td><input type="submit" class="viewbutton1" value="<?php echo __('View') ?>"  onmouseover="moverButton(this);" onmouseout="moutButton(this);"/></td>
 					<?php echo $form->renderHiddenFields(); ?>
@@ -30,7 +30,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 	</div>
 </div>
-
+   <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 <?php if (!($pendingApprovelTimesheets == null)): ?>
 						<div class="outerbox" style="width:500px">
 							<div class="maincontent">

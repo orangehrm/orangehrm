@@ -209,6 +209,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <br class="clear"/>
 
                     <?php endif; ?>
+                         <br class="clear"/>
+                         <br class="clear"/>
                     <div> 
                         <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions')) || (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions')))) : ?>
 
@@ -218,7 +220,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                             <textarea name="Comment" id="txtComment" rows="3" cols="70" onkeyup="validateComment()"></textarea>
 
                         <?php endif; ?>
-                        <div>
+                        <div id="actionBtns" style="padding-top: 3px">
                             <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions'))): ?>
                                 <input type="button" class="approvebutton" name="button" id="btnApprove"
                                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
@@ -226,10 +228,6 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
 
                             <?php endif; ?>
-
-
-
-
 
 
                             <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions'))) : ?>
@@ -253,8 +251,6 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         </div>
     </div>
 
-
-    <br class="clear">
     <br class="clear">
     <br class="clear">
 

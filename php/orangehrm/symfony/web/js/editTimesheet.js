@@ -339,7 +339,7 @@ $(document).ready(function() {
         return flag;
     }
 
-    $('#timeComment').change(function() {
+    $('#timeComment').keyup(function() {
         
        
         var flag = validateTimehseetItemComment();

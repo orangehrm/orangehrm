@@ -87,7 +87,11 @@
             </form>
 
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time: "); ?><?php echo $punchInTime; ?>&nbsp;<?php echo $punchInNote; ?></div>
+                <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo $punchInTime; ?></div>
+                <?php if (!empty($punchInNote)):?>
+                <br class="clear">
+                <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note : "); ?></div><div style="float:left"><?php echo $punchInNote;?></div>
+            <?php endif; ?>
             <?php endif; ?><br class="clear">
         </div>
 

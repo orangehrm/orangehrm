@@ -69,7 +69,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <?php endforeach; ?>
                 </tr>
             </thead>
-
+            <tr> <td colspan="100"></td></tr>
             <?php $i = 0 ?>
 
             <?php if ($timesheetItemValuesArray == null): ?>
@@ -78,7 +78,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <?php echo $timesheetForm['initialRows'][$i]['projectId'] ?><td>&nbsp;<?php echo $timesheetForm['initialRows'][$i]['projectName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectName'] ?></td>
                     <?php echo $timesheetForm['initialRows'][$i]['projectActivityId'] ?><td>&nbsp;<?php echo $timesheetForm['initialRows'][$i]['projectActivityName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName'] ?></td>
                     <?php for ($j = 0; $j < $noOfDays; $j++) { ?>
-                        <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><?php echo $timesheetForm['initialRows'][$i][$j] ?><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon") ?></td>
+                        <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $timesheetForm['initialRows'][$i][$j] ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon") ?></div></td>
                     <?php } ?>
                 </tr>
 
@@ -91,7 +91,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                         <?php echo $timesheetForm['initialRows'][$i]['projectId'] ?><td><?php if ($row['isProjectDeleted'] == 1) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectName'] ?></td>
                         <?php echo $timesheetForm['initialRows'][$i]['projectActivityId'] ?><td><?php if ($row['isActivityDeleted'] == 1) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName'] ?></td>
                         <?php for ($j = 0; $j < $noOfDays; $j++) { ?>
-                            <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center" class="<?php echo $row['projectId'] . "##" . $row['activityId'] . "##" . $currentWeekDates[$j] . "##" . $row['timesheetItems'][$currentWeekDates[$j]]->getComment(); ?>"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><?php echo $timesheetForm['initialRows'][$i][$j] ?><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon") ?></td>
+                             <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center" class="<?php echo $row['projectId'] . "##" . $row['activityId'] . "##" . $currentWeekDates[$j] . "##" . $row['timesheetItems'][$currentWeekDates[$j]]->getComment(); ?>"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $timesheetForm['initialRows'][$i][$j] ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon") ?></div></td>
                         <?php } ?>
                     </tr>
                     <?php $i++ ?>

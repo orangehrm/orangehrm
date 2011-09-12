@@ -24,7 +24,7 @@
                 <?php echo $form['initialRows'][$num]['projectId'] ?><td>&nbsp;<?php echo $form['initialRows'][$num]['projectName']->renderError() ?><?php echo $form['initialRows'][$num]['projectName'] ?></td>
 		<?php echo $form['initialRows'][$num]['projectActivityId'] ?><td>&nbsp;<?php echo $form['initialRows'][$num]['projectActivityName']->renderError() ?><?php echo $form['initialRows'][$num]['projectActivityName'] ?></td>
 		<?php for ($j = 0; $j < $noOfDays; $j++) { ?>
-			<?php echo $form['initialRows'][$num]['TimesheetItemId'.$j] ?><td style="text-align:center"><?php echo $form['initialRows'][$num][$j]->renderError() ?><?php echo $form['initialRows'][$num][$j] ?><?php echo image_tag('callout.png', 'id=commentBtn_'.$j.'_' . $num . " class=commentIcon") ?></td>
+			<?php echo $form['initialRows'][$num]['TimesheetItemId'.$j] ?><td style="text-align:center"><?php echo $form['initialRows'][$num][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $form['initialRows'][$num][$j] ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_'.$j.'_' . $num . " class=commentIcon") ?></div></td>
 		<?php } ?>
 	</tr>
 </table>

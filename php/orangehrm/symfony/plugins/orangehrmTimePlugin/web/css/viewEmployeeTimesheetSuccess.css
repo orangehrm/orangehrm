@@ -1,24 +1,9 @@
-/* 
-    Document   : viewEmployeeTimesheetSuccess
-    Created on : May 5, 2011, 10:44:47 AM
-    Author     : orangehrm
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
 root { 
     display: block;
 }
 #tablehead{
     font-weight: bold;
 }
-
-    
 
 .inputFormatHint {
     color: #D8D8D8;
@@ -34,4 +19,11 @@ root {
     font-size: 11px;
     font-weight: bold !important;
     min-width: 75px;
-    width: auto;}
+    width: auto;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}

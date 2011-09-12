@@ -163,11 +163,11 @@ class AttendanceService {
         $this->timezoneArray[18] = '-8.00';
         $this->timezoneArray[19] = '-7.00';
         $this->timezoneArray[20] = '-6.00';
-        $this->timezoneArray[21] = '-7.00';
-        $this->timezoneArray[22] = '-5.00';
-        $this->timezoneArray[23] = '-4.00';
-        $this->timezoneArray[24] = '-3.50';
-        $this->timezoneArray[25] = '-3.00';
+        $this->timezoneArray[21] = '-5.00';
+        $this->timezoneArray[22] = '-4.00';
+        $this->timezoneArray[23] = '-3.50';
+        $this->timezoneArray[24] = '-3.00';
+        $this->timezoneArray[25] = '-2.00';
         $this->timezoneArray[26] = '-1.00';
 
         return $this->timezoneArray;
