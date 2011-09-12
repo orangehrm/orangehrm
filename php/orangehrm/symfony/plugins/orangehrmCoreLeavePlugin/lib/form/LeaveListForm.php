@@ -216,7 +216,7 @@ class LeaveListForm extends sfForm {
 
             $employeeName = trim($this->_getFilterParam('txtEmployee'));
             if($employeeName == "" && $this->employee instanceof Employee) {
-                $employeeName = $this->employee->getFirstName() . " " . $this->employee->getLastName();
+                $employeeName = $this->employee->getFirstName() . " " . $this->employee->getMiddleName() . " " . $this->employee->getLastName();
             }
             $this->setWidget('txtEmployee', new sfWidgetFormInput(array('default' => $employeeName)));
         }

@@ -92,7 +92,7 @@ class LeaveSummaryForm extends sfForm {
                 $employeeId = $this->searchParam['employeeId'];
                 $employeeService = $this->getEmployeeService();
                 $employee = $employeeService->getEmployee($this->searchParam['employeeId']);
-                $empName = $employee->getFirstName() . " " . $employee->getLastName();
+                $empName = $employee->getFirstName(). " " . $employee->getMiddleName() . " " . $employee->getLastName();
             }
 
             /* Setting default values */
