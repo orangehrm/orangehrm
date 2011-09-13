@@ -57,7 +57,7 @@ $(document).ready(function() {
        
       
         var array = decodedfullName.split(' - ');
-     
+        //     alert(array[0])
         var r = $.ajax({
             type: 'POST',
             url: getActivitiesLink,
@@ -67,7 +67,7 @@ $(document).ready(function() {
             },
            
             success: function(msg){
-                
+                //                alert(msg);
                 $(temp).html(msg);
                 var flag = validateProject();
                 if(!flag) {
@@ -161,7 +161,7 @@ $(document).ready(function() {
         $('.items').each(function(){
             element = $(this);
             $(element).removeAttr('style');
-
+    
             if($(element).val()){
                 if(!(/^[0-9]+\.?[0-9]?[0-9]?$/).test($(element).val())) {
                     var temp = $(element).val().split(":");
@@ -183,27 +183,29 @@ $(document).ready(function() {
                         $(element).attr('style', errorStyle);
                         flag = false;
                     }
-                    
-                //                    else{
-                //                        element = $(this);
-                //                        id=element.attr('id');
-                //                        idArray= id.split("_");
-                //                        var errorStyle = "background-color:#FFDFDF;";
-                //                        var flag1= validateVerticalTotal(idArray[2]);
-                //
-                //                        if(!flag1){
-                //                            $('#validationMsg').html(incorrect_total);
-                //                            $(element).attr('style', errorStyle);
-                //
-                //                            flag=false;
-                //                        }
-                //                        else{
-                //                            $(".messageBalloon_success").remove();
-                //                            $('#validationMsg').removeAttr('class');
-                //                            $('#validationMsg').html("");
-                //                        }
-                //
-                //                    }
+                }
+
+            
+            
+                if(flag){
+          
+                    id=element.attr('id');
+                    idArray= id.split("_");
+                    var errorStyle = "background-color:#FFDFDF;";
+                    var flag1=  validateVerticalTotal(idArray[2]);
+                 
+                    if(!flag1){
+                        $('#validationMsg').html(incorrect_total);
+                        $(element).attr('style', errorStyle);
+                                         
+                        flag=false;
+                    }
+                    else{
+                        $(".messageBalloon_success").remove();
+                        $('#validationMsg').removeAttr('class');
+                    }
+                                            
+                
                 }
             }
         });
@@ -217,6 +219,7 @@ $(document).ready(function() {
        
         var flag = validateInput();
         if(!flag) {
+           
             $('#btnSave').attr('disabled', 'disabled');
             $('#validationMsg').attr('class', "messageBalloon_failure");
         }
@@ -228,14 +231,25 @@ $(document).ready(function() {
     });
     
     function validateVerticalTotal(id){
-        
+    
         var total=0;
+        
         var error=false;
-        for(j=0;j<numberOfRows;j++){
-            var temp = parseFloat($("#initialRows_"+j+"_"+id).val().split(":"));
-           
-            total=total+temp;
+        for(j=0;j<rows-1;j++){
+       
+
+            if((/^[0-9]+\.?[0-9]?[0-9]?$/).test($("#initialRows_"+j+"_"+id).val())) {
+                var temp=parseFloat($("#initialRows_"+j+"_"+id).val());
             
+                total=total+temp;
+            }
+            else{
+                var temp = $("#initialRows_"+j+"_"+id).val().split(":");
+                temp[0]= parseFloat(temp[0]);
+                temp[1]= parseFloat(temp[1])
+               
+                total=total+(temp[0]*3600+temp[1]*60)/3600;
+            }
         }
        
         if(total>24){
