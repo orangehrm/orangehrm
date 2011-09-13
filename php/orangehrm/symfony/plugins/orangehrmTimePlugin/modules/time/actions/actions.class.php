@@ -62,7 +62,7 @@ class timeActions extends sfActions {
         $date = $request->getParameter('date');
         $comment = $request->getParameter('comment');
 
-        //  $comment = utf8_encode($comment1);
+   
         $employeeId = $request->getParameter('employeeId');
         $dao = new TimesheetDao();
         $timesheetItem = $dao->getTimesheetItemByDateProjectId($timesheetId, $employeeId, $projectId, $activityId, $date);
@@ -70,14 +70,14 @@ class timeActions extends sfActions {
             $newTimesheetItem = new TimesheetItem();
             $newTimesheetItem->setTimesheetId($timesheetId);
             $newTimesheetItem->setDate($date);
-            $newTimesheetItem->setComment($comment);
+            $newTimesheetItem->setComment(trim($comment));
             $newTimesheetItem->setProjectId($projectId);
             $newTimesheetItem->setEmployeeId($employeeId);
             $newTimesheetItem->setActivityId($activityId);
 
             $dao->saveTimesheetItem($newTimesheetItem);
         } else {
-            $timesheetItem[0]->setComment($comment);
+            $timesheetItem[0]->setComment(trim($comment));
             $dao->saveTimesheetItem($timesheetItem[0]);
         }
     }
@@ -106,6 +106,7 @@ class timeActions extends sfActions {
         $timesheetItem = $dao->getTimesheetItemByDateProjectId($timesheetId, $employeeId, $projectId, $activityId, $date);
 
         $this->comment = $timesheetItem[0]->getComment();
+        return $this->renderText($this->comment);
     }
 
     public function executeGetRelatedActiviesForAutoCompleteAjax(sfWebRequest $request) {

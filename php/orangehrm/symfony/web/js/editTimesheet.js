@@ -103,7 +103,7 @@ $(document).ready(function() {
             var comment = $("#timeComment").val();
 
    
-            saveComment(timesheetId,activityId,date,comment, employeeId);
+            saveComment(timesheetId, activityId, date, comment, employeeId);
             $("#commentDialog").dialog('close');
         }
 	
@@ -184,26 +184,26 @@ $(document).ready(function() {
                         flag = false;
                     }
                     
-//                    else{
-//                        element = $(this);
-//                        id=element.attr('id');
-//                        idArray= id.split("_");
-//                        var errorStyle = "background-color:#FFDFDF;";
-//                        var flag1= validateVerticalTotal(idArray[2]);
-//                 
-//                        if(!flag1){
-//                            $('#validationMsg').html(incorrect_total);
-//                            $(element).attr('style', errorStyle);
-//                           
-//                            flag=false;
-//                        }
-//                        else{
-//                            $(".messageBalloon_success").remove();
-//                            $('#validationMsg').removeAttr('class');
-//                            $('#validationMsg').html(""); 
-//                        }
-//                        
-//                    }
+                //                    else{
+                //                        element = $(this);
+                //                        id=element.attr('id');
+                //                        idArray= id.split("_");
+                //                        var errorStyle = "background-color:#FFDFDF;";
+                //                        var flag1= validateVerticalTotal(idArray[2]);
+                //
+                //                        if(!flag1){
+                //                            $('#validationMsg').html(incorrect_total);
+                //                            $(element).attr('style', errorStyle);
+                //
+                //                            flag=false;
+                //                        }
+                //                        else{
+                //                            $(".messageBalloon_success").remove();
+                //                            $('#validationMsg').removeAttr('class');
+                //                            $('#validationMsg').html("");
+                //                        }
+                //
+                //                    }
                 }
             }
         });
@@ -368,9 +368,8 @@ $(document).ready(function() {
         activityId = $("#"+activityNameId).val();
         var comment = getComment(timesheetId,activityId,date,employeeId);
 
-
-        var decoded = $("<div/>").html(comment).text();
-        $("#timeComment").val(decoded);
+        //        var decoded = $("<div/>").html(comment).text();
+        $("#timeComment").val(comment);
         var projectNameId = "initialRows_"+rowNo+"_projectName";
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";
 
@@ -432,46 +431,31 @@ $(document).ready(function() {
 
     function saveComment(timesheetId,activityId,date,comment,employeeId) {
 
+        var data = 'timesheetId=' + timesheetId + '&activityId=' + activityId + '&date=' + date+ '&comment=' + encodeURIComponent(comment)+ '&employeeId=' + employeeId;
 
         var r=$.ajax({
             type: 'POST',
             url: commentlink,
-            data: {
-                timesheetId: timesheetId,
-                activityId:  activityId,
-                date:        date,
-                comment:     comment,
-                employeeId:  employeeId
-            },
+            data: data,
             async: false
         }).responseText;
         return r;
 
     }
 
-    function getComment(timesheetId,activityId,date,employeeId){
+    function getComment(timesheetId, activityId, date, employeeId){
 	
         var r = $.ajax({
             type: 'POST',
             url: linkToGetComment,
-            data: {
-                timesheetId: timesheetId,
-                activityId:  activityId,
-                date:        date,
-                employeeId:  employeeId
-            },
-            //data: "timesheetId="+timesheetId+"&activityId="+activityId+"&date="+date+"&employeeId="+employeeId,
+            data: "timesheetId="+timesheetId+"&activityId="+activityId+"&date="+date+"&employeeId="+employeeId,
             async: false,
-
             success: function(comment){
                 cmnt= comment;
-
             }
         });
         return cmnt;
     }
-
-
 
 });
 
