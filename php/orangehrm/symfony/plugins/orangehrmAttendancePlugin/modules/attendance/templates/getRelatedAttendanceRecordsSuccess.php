@@ -1,8 +1,6 @@
 <?php echo stylesheet_tag('../orangehrmAttendancePlugin/css/getRelatedAttendanceRecordsSuccess'); ?>
 <?php echo javascript_include_tag('getRelatedAttendanceRecordsSuccess'); ?>
 
-
-
 <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
     <thead id="tableHead" >
         <tr><td id="checkBox" style="width: 50px;"></td>
@@ -96,12 +94,12 @@
     </form>
 </div>
 
-<div id="dialogBox" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>">
+<div id="dialogBox" class="dialogBox" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>">
     <?php echo __("Selected attenadnce records will be deleted?"); ?>
 
     <div>
-        <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="ok" class="plainbtn" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="cancel" class="plainbtn" value="<?php echo __('Cancel'); ?>" /></div>
+        <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="dialogOk" class="plainbtn okBtn" value="<?php echo __('Ok'); ?>" />
+        <input type="button" id="dialogCancel" class="plainbtn cancelBtn" value="<?php echo __('Cancel'); ?>" /></div>
 
 </div>
 

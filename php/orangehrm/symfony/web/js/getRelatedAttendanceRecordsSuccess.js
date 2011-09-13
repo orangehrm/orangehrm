@@ -1,3 +1,4 @@
+var global = 1
 $(document).ready(function()
     {
         $('#msg').removeAttr('class');
@@ -8,21 +9,18 @@ $(document).ready(function()
             height: 50
         });
 
-        $("#cancel").click(function() {
-            $("#dialogBox").dialog('close');
+        $(".cancelBtn").click(function() {
+            $(".dialogBox").dialog('close');
         });
     
-        $("#ok").click(function() {
+        $(".okBtn").click(function() {
             $(".toDelete").each(function(){
                 element = $(this)
-
                 if($( element).is(':checked')){
       
                     var id=$(element).attr('id');
-                   
-                   
-                    if(deleteAttendanceRecords(id)){
-                   
+                  
+                    if(deleteAttendanceRecords(id)){           
                         $(element).parent().parent().remove();
                     }
                
@@ -32,13 +30,9 @@ $(document).ready(function()
                     }
                 }
             }
-                    
-
-            );     
-            $("#dialogBox").dialog('close');
+            );
+            $(".dialogBox").dialog('close');
             getRelatedAttendanceRecords(employeeId,date,actionRecorder);
-            
-         
                 
         });
     
@@ -50,7 +44,7 @@ $(document).ready(function()
         
         });
      
-        $(".delete").click(function(){
+        $("#btnDelete").click(function(){
             $('#msg').removeAttr('class');
             $('#msg').html("");
             if(!isRowsSelected()){
@@ -85,9 +79,7 @@ function deleteAttendanceRecords(id){
             id:id
         },
         async: false,
-
         success: function(status){
-
             stt=status;
         }
     });

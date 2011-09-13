@@ -26,10 +26,7 @@ $(document).ready(function()
         });
 
         $('#DateBtn').click(function(){
-
-
             daymarker.show("#attendance_date");
-
 
         });
     
@@ -41,13 +38,8 @@ $(document).ready(function()
             
                 var date=$(".date").val();
                 
-                getRelatedAttendanceRecords(employeeId,date,actionRecorder);
-            //  proxyPunchInOut(empId);
-                    
-                    
+                getRelatedAttendanceRecords(employeeId,date,actionRecorder);               
             }  
-        
-    
 
         });
     }
@@ -88,26 +80,17 @@ $(document).ready(function()
             
                 var date=$(".date").val();
                 
-                getRelatedAttendanceRecords(employeeId,date,actionRecorder);
-            //  proxyPunchInOut(empId);
-                    
+                getRelatedAttendanceRecords(employeeId,date,actionRecorder);        
                     
             }  
-        
-    
 
-        });
-        
-        
-        
+        });       
         
     }
     
 });
 function validateInputDate(){
-    
- 
-   
+  
     errFlag = false;
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');

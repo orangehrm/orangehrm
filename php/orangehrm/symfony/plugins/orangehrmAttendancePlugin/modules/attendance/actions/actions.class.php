@@ -127,9 +127,6 @@ class AttendanceActions extends sfActions {
 
     public function executeGetCurrentTime($request) {
         $timeZoneOffset = $request->getParameter('timeZone');
-
-//        $userObj = $this->getContext()->getUser()->getAttribute('user');
-//        $timeZoneOffset = $userObj->getUserTimeZoneOffset();
         $timeStampDiff = $timeZoneOffset - date('Z');
         $currentDate = date('Y-m-d', time() + $timeStampDiff);
         $currentTime = date('H:i', time() + $timeStampDiff);
@@ -184,7 +181,6 @@ class AttendanceActions extends sfActions {
                     }
                 }
             }
-
 
             $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
             $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
@@ -251,6 +247,8 @@ class AttendanceActions extends sfActions {
         $attendanceRecordId = $request->getParameter('id');
 
         $this->isDeleted = $this->getAttendanceService()->deleteAttendanceRecords($attendanceRecordId);
+
+        return $this->renderText($this->isDeleted);
     }
 
     public function executeProxyPunchInPunchOut($request) {
@@ -410,4 +408,3 @@ class AttendanceActions extends sfActions {
 
 }
 
-?>

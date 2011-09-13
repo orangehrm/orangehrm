@@ -1,18 +1,10 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-$(document).ready(function()
-{
+$(document).ready(function(){
     
     if(trigger){
        
         $("#recordsTable").hide();
-        // var isValidDate= validateInputDate();
         getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
-        $("#employee").removeClass("inputFormatHint");
-        
-           
+        $("#employee").removeClass("inputFormatHint");    
     
         $("#employee").autocomplete(employees, {
 
@@ -42,11 +34,7 @@ $(document).ready(function()
         });
 
         $('#DateBtn').click(function(){
-
-
             daymarker.show("#attendance_date");
-
-
         });
     
         $("#employee").click(function(){
@@ -56,23 +44,6 @@ $(document).ready(function()
             }
 
         });
-    
-        //    $('#employee').change(function() {
-        //        
-        //         
-        //			$('#validationMsg').removeAttr('class');
-        //			$('#validationMsg').html("");
-        //
-        //         var isValidEmployee= validateEmployee();
-        //         
-        //         if(!isValidEmployee) {
-        //				$('#btnSave').attr('disabled', 'disabled');
-        //				$('#validationMsg').attr('class', "messageBalloon_failure");
-        //				$('#validationMsg').html(errorMsge);
-        //				
-        //			}
-        //
-        //        });
     
         $('#attendance_date').change(function() {
             $('#validationMsg').removeAttr('class');
@@ -94,23 +65,14 @@ $(document).ready(function()
                     var empId= $('#attendance_employeeId').val();
                     var date=$(".date").val();
                 
-                    getRelatedAttendanceRecords(empId,date,actionRecorder);
-                //  proxyPunchInOut(empId);
-                    
-                    
+                    getRelatedAttendanceRecords(empId,date,actionRecorder);   
                 }
             }
-         
-
-        });
-        
+        });      
     }
     else{
 
         $("#recordsTable").hide();
-  
-   
-    
         $("#employee").autocomplete(employees, {
 
             formatItem: function(item) {
@@ -130,20 +92,14 @@ $(document).ready(function()
         //Bind date picker
         daymarker.bindElement("#attendance_date",
         {
-            onSelect: function(date){
-              
+            onSelect: function(date){            
                 $("#attendance_date").trigger('change');            
-
             },
             dateFormat:jsDateFormat
         });
 
         $('#DateBtn').click(function(){
-
-
             daymarker.show("#attendance_date");
-
-
         });
     
         $("#employee").click(function(){
@@ -151,25 +107,7 @@ $(document).ready(function()
                 this.value = "";
                 $(this).removeClass("inputFormatHint");
             }
-
         });
-    
-        //    $('#employee').change(function() {
-        //        
-        //         
-        //			$('#validationMsg').removeAttr('class');
-        //			$('#validationMsg').html("");
-        //
-        //         var isValidEmployee= validateEmployee();
-        //         
-        //         if(!isValidEmployee) {
-        //				$('#btnSave').attr('disabled', 'disabled');
-        //				$('#validationMsg').attr('class', "messageBalloon_failure");
-        //				$('#validationMsg').html(errorMsge);
-        //				
-        //			}
-        //
-        //        });
     
         $('#attendance_date').change(function() {
             $('#validationMsg').removeAttr('class');
@@ -192,8 +130,6 @@ $(document).ready(function()
                     var date=$(".date").val();
           
                     getRelatedAttendanceRecords(empId,date,actionRecorder);
-                //  proxyPunchInOut(empId);
-                    
                     
                 }
             }
@@ -204,9 +140,7 @@ $(document).ready(function()
 });
 
 function validateInputDate(){
-    
- 
-   
+
     errFlag = false;
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
@@ -228,8 +162,8 @@ function validateInputDate(){
     return !errFlag ;
     
 }
+
 function validateEmployee(){
-	    
 		
     var empCount = employeesArray.length;
         
@@ -262,7 +196,7 @@ function validateEmployee(){
     }
 }
     
-function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
+function getRelatedAttendanceRecords(employeeId, date, actionRecorder){
       
     $.post(
         linkForGetRecords,
@@ -284,43 +218,3 @@ function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
     return false;
         
 }
-
-//function proxyPunchInOut(empId){
-//    
-//    $.post(
-//        linkForProxyPunchInOut,
-//        {
-//            employeeId: empId
-//            
-//        },
-//        
-//        function(data, textStatus) {
-//                      
-//            if( data != ''){
-//                $("#punchInOut").show();
-//                $('#punchInOutForm').html(data);    
-//            }
-//                    
-//        });
-//                    
-//    return false;
-//    
-//    
-//    
-//    
-//}
-
-// function loadParams(notificationType){
-//                $.post(
-//                  '<?php echo url_for('notification/addParams'); ?>',
-//                  { id: notificationType },
-//                  function(data, textStatus) {
-//                      
-//                      if( data != ''){
-//                        $('#eventParams').html(data);    
-//                      }
-//                    
-//                  });
-//                    
-//                 return false;
-//            }

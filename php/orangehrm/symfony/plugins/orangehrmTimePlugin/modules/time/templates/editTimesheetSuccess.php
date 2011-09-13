@@ -169,5 +169,3 @@ for ($i = 0; $i < count($currentWeekDates); $i++) {
 }
 ?>
 </script>
-<!--ka 2759
-0112694331-6-->
