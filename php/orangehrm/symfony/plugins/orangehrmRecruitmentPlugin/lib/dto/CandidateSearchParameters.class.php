@@ -101,8 +101,11 @@ class CandidateSearchParameters {
     }
 
     public function getCandidateStatus() {
-        if($this->getAdditionalParams() != null) {
-            $this->candidateStatus = $this->getAdditionalParams();
+        $additionalParams = $this->getAdditionalParams();
+        if(is_array($additionalParams) && array_key_exists('candidateArchiveOptions', $additionalParams)) {
+            $this->candidateStatus = explode(',', $additionalParams);
+        } else {
+            $this->candidateStatus = array();
         }
         return $this->candidateStatus;
     }

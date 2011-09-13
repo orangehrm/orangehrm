@@ -46,7 +46,7 @@ class CandidateDao extends BaseDao {
     public function getCandidateList($allowedCandidateList, $status = JobCandidate::ACTIVE) {
         try {
             $q = Doctrine_Query :: create()
-                            ->from('JobCandidate jc');
+                    ->from('JobCandidate jc');
             if ($allowedCandidateList != null) {
                 $q->whereIn('jc.id', $allowedCandidateList);
             }
@@ -63,8 +63,8 @@ class CandidateDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                            ->select('jc.id')
-                            ->from('JobCandidate jc');
+                    ->select('jc.id')
+                    ->from('JobCandidate jc');
             if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
                 $q->leftJoin('jc.JobCandidateVacancy jcv')
                         ->leftJoin('jcv.JobVacancy jv')
@@ -140,7 +140,6 @@ class CandidateDao extends BaseDao {
         $fromDate = $searchParam->getFromDate();
         $toDate = $searchParam->getToDate();
         $keywords = $searchParam->getKeywords();
-        $candidateStatus = $searchParam->getCandidateStatus();
         $vacancyStatus = $searchParam->getVacancyStatus();
         $empNumber = $searchParam->getEmpNumber();
 
@@ -162,7 +161,12 @@ class CandidateDao extends BaseDao {
             $q .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
             $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
-            $q .= " AND jc.status IN (" . implode(",", $searchParam->getCandidateStatus()) . ")";
+
+            $candidateStatuses = $searchParam->getCandidateStatus();
+            if (!empty($candidateStatuses)) {
+                $q .= " AND jc.status IN (" . implode(",", $searchParam->getCandidateStatus()) . ")";
+            }
+
             if ($allowedCandidateList != null && !$isAdmin) {
                 $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
             }
@@ -260,15 +264,15 @@ class CandidateDao extends BaseDao {
     public function updateCandidate(JobCandidate $candidate) {
         try {
             $q = Doctrine_Query:: create()->update('JobCandidate')
-                            ->set('firstName', '?', $candidate->firstName)
-                            ->set('lastName', '?', $candidate->lastName)
-                            ->set('contactNumber', '?', $candidate->contactNumber)
-                            ->set('keywords', '?', $candidate->keywords)
-                            ->set('email', '?', $candidate->email)
-                            ->set('middleName', '?', $candidate->middleName)
-                            ->set('dateOfApplication', '?', $candidate->dateOfApplication)
-                            ->set('comment', '?', $candidate->comment)
-                            ->where('id = ?', $candidate->id);
+                    ->set('firstName', '?', $candidate->firstName)
+                    ->set('lastName', '?', $candidate->lastName)
+                    ->set('contactNumber', '?', $candidate->contactNumber)
+                    ->set('keywords', '?', $candidate->keywords)
+                    ->set('email', '?', $candidate->email)
+                    ->set('middleName', '?', $candidate->middleName)
+                    ->set('dateOfApplication', '?', $candidate->dateOfApplication)
+                    ->set('comment', '?', $candidate->comment)
+                    ->where('id = ?', $candidate->id);
 
             return $q->execute();
         } catch (Exception $e) {
@@ -276,7 +280,7 @@ class CandidateDao extends BaseDao {
         }
     }
 
-        /**
+    /**
      *
      * @param JobCandidate $candidate
      * @return <type>
@@ -284,8 +288,8 @@ class CandidateDao extends BaseDao {
     public function updateCandidateHistory(CandidateHistory $candidateHistory) {
         try {
             $q = Doctrine_Query:: create()->update('CandidateHistory')
-                            ->set('interviewers', '?', $candidateHistory->interviewers)
-                            ->where('id = ?', $candidateHistory->id);
+                    ->set('interviewers', '?', $candidateHistory->interviewers)
+                    ->where('id = ?', $candidateHistory->id);
 
             return $q->execute();
         } catch (Exception $e) {
@@ -301,8 +305,8 @@ class CandidateDao extends BaseDao {
     public function getCandidateVacancyById($candidateVacancyId) {
         try {
             $q = Doctrine_Query :: create()
-                            ->from('JobCandidateVacancy jcv')
-                            ->where('jcv.id = ?', $candidateVacancyId);
+                    ->from('JobCandidateVacancy jcv')
+                    ->where('jcv.id = ?', $candidateVacancyId);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -317,8 +321,8 @@ class CandidateDao extends BaseDao {
     public function updateCandidateVacancy(JobCandidateVacancy $candidateVacancy) {
         try {
             $q = Doctrine_Query:: create()->update('JobCandidateVacancy')
-                            ->set('status', '?', $candidateVacancy->status)
-                            ->where('id = ?', $candidateVacancy->id);
+                    ->set('status', '?', $candidateVacancy->status)
+                    ->where('id = ?', $candidateVacancy->id);
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -352,10 +356,10 @@ class CandidateDao extends BaseDao {
     public function getCandidateHistoryForCandidateId($candidateId, $allowedHistoryList) {
         try {
             $q = Doctrine_Query:: create()
-                            ->from('CandidateHistory ch')
-                            ->whereIn('ch.id', $allowedHistoryList)
-                            ->andWhere('ch.candidateId = ?', $candidateId)
-                            ->orderBy('ch.performedDate DESC');
+                    ->from('CandidateHistory ch')
+                    ->whereIn('ch.id', $allowedHistoryList)
+                    ->andWhere('ch.candidateId = ?', $candidateId)
+                    ->orderBy('ch.performedDate DESC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -370,8 +374,8 @@ class CandidateDao extends BaseDao {
     public function getCandidateHistoryById($id) {
         try {
             $q = Doctrine_Query:: create()
-                            ->from('CandidateHistory')
-                            ->where('id = ?', $id);
+                    ->from('CandidateHistory')
+                    ->where('id = ?', $id);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -381,8 +385,8 @@ class CandidateDao extends BaseDao {
     public function getCanidateHistoryForUserRole($role, $empNumber, $candidateId) {
         try {
             $q = Doctrine_Query :: create()
-                            ->select('ch.id')
-                            ->from('CandidateHistory ch');
+                    ->select('ch.id')
+                    ->from('CandidateHistory ch');
             if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
                 $q->leftJoin('ch.JobVacancy jv')
                         ->leftJoin('ch.JobCandidate jc')
@@ -400,7 +404,6 @@ class CandidateDao extends BaseDao {
                         ->orWhere('ch.performedBy = ?', $empNumber)
                         ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED));
 //                        ->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
-
             }
             if ($role == AdminUserRoleDecorator::ADMIN_USER) {
                 $q->where('ch.candidateId = ?', $candidateId);
@@ -426,8 +429,8 @@ class CandidateDao extends BaseDao {
         try {
 
             $q = Doctrine_Query:: create()
-                            ->from('JobCandidateVacancy v')
-                            ->where('v.candidateId = ?', $candidateId);
+                    ->from('JobCandidateVacancy v')
+                    ->where('v.candidateId = ?', $candidateId);
             $vacancies = $q->execute();
 
             $vacancyIdsForCandidate = array();
@@ -449,9 +452,9 @@ class CandidateDao extends BaseDao {
 
         try {
             $q = Doctrine_Query:: create()
-                            ->delete()
-                            ->from('JobCandidate')
-                            ->whereIn('id', $toBeDeletedCandidateIds);
+                    ->delete()
+                    ->from('JobCandidate')
+                    ->whereIn('id', $toBeDeletedCandidateIds);
 
             $result = $q->execute();
             return true;
@@ -469,9 +472,9 @@ class CandidateDao extends BaseDao {
 
         try {
             $q = Doctrine_Query:: create()
-                            ->delete()
-                            ->from('JobCandidateVacancy cv')
-                            ->where('candidateId = ? AND vacancyId = ?', $toBeDeletedRecords[0]);
+                    ->delete()
+                    ->from('JobCandidateVacancy cv')
+                    ->where('candidateId = ? AND vacancyId = ?', $toBeDeletedRecords[0]);
             for ($i = 1; $i < count($toBeDeletedRecords); $i++) {
                 $q->orWhere('candidateId = ? AND vacancyId = ?', $toBeDeletedRecords[$i]);
             }
@@ -496,10 +499,14 @@ class CandidateDao extends BaseDao {
             $query .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $query .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
             $query .= ' WHERE jc.date_of_application  BETWEEN ' . "'{$paramObject->getFromDate()}'" . ' AND ' . "'{$paramObject->getToDate()}'";
-            $query .= " AND jc.status IN (" . implode(",", $paramObject->getCandidateStatus()) . ")";
+
+            $candidateStatuses = $paramObject->getCandidateStatus();
+            if (!empty($candidateStatuses)) {
+                $query .= " AND jc.status IN (" . implode(",", $candidateStatuses) . ")";
+            }
 
             $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());
-            $query .= $this->_buildAdditionalWhereClauses($paramObject);   
+            $query .= $this->_buildAdditionalWhereClauses($paramObject);
             $query .= " ORDER BY " . $this->_buildSortQueryClause($paramObject->getSortField(), $paramObject->getSortOrder());
             $query .= " LIMIT " . $paramObject->getOffset() . ", " . $paramObject->getLimit();
             return $query;
@@ -630,8 +637,7 @@ class CandidateDao extends BaseDao {
             $candidateName = preg_replace('!\s+!', ' ', $candidateName);
             $candidateName = "'%" . $candidateName . "%'";
 
-            $this->_addAdditionalWhereClause($where, $candidateFullNameClause,
-                    $candidateName, 'LIKE');
+            $this->_addAdditionalWhereClause($where, $candidateFullNameClause, $candidateName, 'LIKE');
         }
     }
 
@@ -658,11 +664,11 @@ class CandidateDao extends BaseDao {
     public function isHiringManager($candidateVacancyId, $empNumber) {
         try {
             $q = Doctrine_Query :: create()
-                            ->select('COUNT(*)')
-                            ->from('JobCandidateVacancy jcv')
-                            ->leftJoin('jcv.JobVacancy jv')
-                            ->where('jcv.id = ?', $candidateVacancyId)
-                            ->andWhere('jv.hiringManagerId = ?', $empNumber);
+                    ->select('COUNT(*)')
+                    ->from('JobCandidateVacancy jcv')
+                    ->leftJoin('jcv.JobVacancy jv')
+                    ->where('jcv.id = ?', $candidateVacancyId)
+                    ->andWhere('jv.hiringManagerId = ?', $empNumber);
 
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
             return ($count > 0);
@@ -674,12 +680,12 @@ class CandidateDao extends BaseDao {
     public function isInterviewer($candidateVacancyId, $empNumber) {
         try {
             $q = Doctrine_Query :: create()
-                            ->select('COUNT(*)')
-                            ->from('JobInterviewInterviewer jii')
-                            ->leftJoin('jii.JobInterview ji')
-                            ->leftJoin('ji.JobCandidateVacancy jcv')
-                            ->where('jcv.id = ?', $candidateVacancyId)
-                            ->andWhere('jii.interviewerId = ?', $empNumber);
+                    ->select('COUNT(*)')
+                    ->from('JobInterviewInterviewer jii')
+                    ->leftJoin('jii.JobInterview ji')
+                    ->leftJoin('ji.JobCandidateVacancy jcv')
+                    ->where('jcv.id = ?', $candidateVacancyId)
+                    ->andWhere('jii.interviewerId = ?', $empNumber);
 
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
             return ($count > 0);
@@ -707,13 +713,13 @@ class CandidateDao extends BaseDao {
     public function getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId) {
         try {
             $q = Doctrine_Query :: create()
-                            ->from('JobCandidateVacancy jcv')
-                            ->where('jcv.candidateId = ?', $candidateId)
-                            ->andWhere('jcv.vacancyId = ?', $vacancyId);
+                    ->from('JobCandidateVacancy jcv')
+                    ->where('jcv.candidateId = ?', $candidateId)
+                    ->andWhere('jcv.vacancyId = ?', $vacancyId);
             return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-        }
+}
