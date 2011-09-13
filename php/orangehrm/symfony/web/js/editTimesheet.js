@@ -180,6 +180,7 @@ $(document).ready(function() {
                 else  {
                     if(parseFloat($(element).val()) > 24) {
                         $('#validationMsg').html(lang_not_numeric);
+                        var errorStyle = "background-color:#FFDFDF;";
                         $(element).attr('style', errorStyle);
                         flag = false;
                     }

@@ -147,9 +147,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";
     var timesheetId="<?php echo $timesheetId; ?>"
-    var lang_not_numeric = '<?php echo __('Enter a Positive Duration in the Format of HH:mm or 0.0h'); ?>';
-    var rows_are_duplicate = '<?php echo __('You cannot have duplicate rows'); ?>';
-    var project_name_is_wrong = '<?php echo __('Enter an existing project name'); ?>';
+    var lang_not_numeric = '<?php echo __('Enter a Positive Duration(Should Less Than 24) in the Format of HH:mm or 0.0h'); ?>';
+    var rows_are_duplicate = '<?php echo __('Time Sheet Records Duplicated'); ?>';
+    var project_name_is_wrong = '<?php echo __('Please Select an Existing Project'); ?>';
     var please_select_an_activity = '<?php echo __('Please select a valid activity'); ?>';
     var select_a_row = '<?php echo __('Select a row to delete'); ?>';
     var employeeId = '<?php echo $employeeId; ?>';
@@ -162,10 +162,12 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var endDate='<?php echo $endDate ?>';
     var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
     var numberOfRows='<?php echo $i ?>';
-    var incorrect_total='<?php echo __('Total hours per day cannot exceed 24'); ?>';
+    var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";
 }
 ?>
 </script>
+<!--ka 2759
+0112694331-6-->
