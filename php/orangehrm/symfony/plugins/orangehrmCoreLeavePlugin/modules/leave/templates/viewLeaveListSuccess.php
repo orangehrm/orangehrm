@@ -369,6 +369,7 @@ $searchActionButtons = $form->getSearchActionButtons();
             });
 
             $('#btnSearch').click(function() {
+                $('#frmFilterLeave').attr('action', $('#frmFilterLeave').attr('action') + '/pageNo/1');
                 $('#frmFilterLeave').submit();
             });
 
