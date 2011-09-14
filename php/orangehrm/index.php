@@ -523,7 +523,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
 
 /* Start leave menu */
 if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
-    $menuItem = new MenuItem("leave", $lang_Menu_Leave, "./index.php?menu_no_top=leave");
+    $menuItem = new MenuItem("leave", $lang_Menu_Leave, "./index.php?menu_no_top=leave&reset=1");
     $menuItem->setCurrent($_GET['menu_no_top'] == "leave");
 
     $subs = array();

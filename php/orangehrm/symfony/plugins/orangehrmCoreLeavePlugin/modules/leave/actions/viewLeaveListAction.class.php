@@ -71,7 +71,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
         // Reset filters if requested to
         if ($request->hasParameter('reset')) {
-            
+            $this->isDefaultPage = 1;
             $this->_setFilters($mode, array());
             $this->_setPage($mode, 1);
         } 
@@ -88,13 +88,13 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
         $toDate = $this->_getFilterValue($filters, 'calToDate', null);
         $subunitId = $this->_getFilterValue($filters, 'cmbSubunit', null);
-        $statuses = $this->_getFilterValue($filters, 'chkSearchFilter', array());
+        $statuses = $request->hasParameter('reset') ? 1 : $this->_getFilterValue($filters, 'chkSearchFilter', array());
 
         $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
         $leaveTypeId = $this->_getFilterValue($filters, 'leaveTypeId', null);
         $employeeId = $request->getParameter('employeeId', null);
         $employeeId = empty($employeeId)? $this->_getFilterValue($filters, "txtEmpID"):'';
-
+      
       
         $statuses = (trim($this->_getFilterValue($filters, 'status')) != "") ? array($this->_getFilterValue($filters, 'status')):$statuses;
 

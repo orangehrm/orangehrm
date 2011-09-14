@@ -8,6 +8,8 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 ?>
 
+<?php $isDefaultPageView = !empty($isDefaultPage) ? $isDefaultPage : 0; ?>
+
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveListSuccess'); ?>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
@@ -200,6 +202,11 @@ $searchActionButtons = $form->getSearchActionButtons();
 	$(document).ready(function(){
         
         var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
+        var isInitialPage = "<?php echo $isDefaultPageView; ?>";
+        
+        if(isInitialPage == 1){
+            $('#chkSearchFilter_1').attr('checked', 'checked');
+        }
         
         if ($("#txtEmployee").val() == '' || $("#txtEmployee").val() == lang_typeHint) {
             $("#txtEmployee").addClass("inputFormatHint").val(lang_typeHint);
