@@ -184,7 +184,7 @@ class addEmployeeAction extends basePimAction {
                 $user->user_password = md5($posts['user_password']);
                 $user->emp_number = $empNumber;
                 $user->status = $posts['status'];
-                $user->created_by = "USR001";
+                $user->created_by = $_SESSION['user'];
                 $user->is_admin = "No";
                 $user->date_entered = date("Y-m-d");
                 $userService->saveUser($user);
