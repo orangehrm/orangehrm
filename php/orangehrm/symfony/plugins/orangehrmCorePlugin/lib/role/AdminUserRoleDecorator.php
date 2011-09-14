@@ -305,7 +305,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	public function getActionableTimesheets() {
 
 		$accessFlowStateMachinService = new AccessFlowStateMachineService();
-		$action = PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE;
+		$action = array(PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
 		$actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, AdminUserRoleDecorator::ADMIN_USER, $action);
 
 		$employeeList = $this->getEmployeeList();

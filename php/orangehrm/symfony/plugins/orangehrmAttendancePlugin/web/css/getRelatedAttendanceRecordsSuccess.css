@@ -54,8 +54,7 @@ thead td {
 }
 
 .toDelete{
-
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .odd{
@@ -72,5 +71,5 @@ thead td {
 }
 #totalVerticalValue{
 
-	font-weight: bold;
+    font-weight: bold;
 }
