@@ -69,7 +69,7 @@ function printButtonEventBindings($buttons) {
         <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
 
 <?php if ($partial != null): ?>
-        <div style="padding-left: 10px; padding-top: 10px;">
+        <div style="padding-left: 5px; padding-top: 5px;">
 <?php
         include_partial($partial, $sf_data->getRaw('params'));
 ?>
@@ -153,7 +153,7 @@ function printButtonEventBindings($buttons) {
                             );
                         }
                     ?>
-                        <th style="text-align: <?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $headerCell->__toString(); ?></th>
+                        <th style="text-align: <?php echo $header->getTextAlignmentStyleForHeader(); ?>"><?php echo $headerCell->__toString(); ?></th>
                     <?php } ?>
                 </tr>
             </thead>

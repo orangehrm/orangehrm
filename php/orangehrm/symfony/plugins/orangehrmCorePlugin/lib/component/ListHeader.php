@@ -28,6 +28,7 @@ class ListHeader extends ComponentProperty {
     protected $width;
     protected $isExportable = true;
     protected $textAlignmentStyle = "left";
+    protected $textAlignmentStyleForHeader = "left";
 
     public function getName() {
         return $this->name;
@@ -121,9 +122,22 @@ class ListHeader extends ComponentProperty {
         }
     }
 
+    public function setTextAlignmentStyleForHeader($textAlignmentStyleForHeader) {
+
+        if (in_array($textAlignmentStyleForHeader, $this->textAlignmentStyles)) {
+            $this->textAlignmentStyleForHeader = $textAlignmentStyleForHeader;
+        } else {
+            throw new Exception('Tried to assign an unsupported text alignment style');
+        }
+    }
+
     public function getTextAlignmentStyle() {
 
         return $this->textAlignmentStyle;
+    }
+    public function getTextAlignmentStyleForHeader() {
+
+        return $this->textAlignmentStyleForHeader;
     }
 
 }

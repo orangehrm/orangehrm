@@ -147,7 +147,8 @@ ProjectReport:
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
-  assets: []
+  assets:
+    - report.css
   jsInitMethods: []
 
 EmployeeReport:
@@ -167,7 +168,8 @@ EmployeeReport:
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
-  assets: []
+  assets:
+    - report.css
   jsInitMethods: []
   
 ProjectActivityDetailsReport:
@@ -183,7 +185,8 @@ ProjectActivityDetailsReport:
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
-  assets: []
+  assets:
+    - report.css
   jsInitMethods: []
 
 AttendanceSummaryReport:
@@ -203,7 +206,8 @@ AttendanceSummaryReport:
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
-  assets: []
+  assets:
+    - report.css
   jsInitMethods: []
 
 Candidate:
