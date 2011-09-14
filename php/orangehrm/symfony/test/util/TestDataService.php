@@ -26,13 +26,20 @@ class TestDataService {
     private static $tableNames;
 
     public static function populate($fixture) {
+        
+        self::_populateUsingPdoTransaction($fixture);
+        //self::_populateUsingDoctrineObjects($fixture);
+
+    }
     
+    private static function _populateUsingDoctrineObjects($fixture) {
+ 
         self::_setData($fixture);
 
         self::_disableConstraints();
 
         self::_truncateTables();
-
+        
         foreach (self::$data as $tableName => $tableData) {
 
             $count = 0;
@@ -53,8 +60,108 @@ class TestDataService {
 
         }
 
-        self::_enableConstraints();
+        self::_enableConstraints();        
+        
+    }
 
+    private static function _populateUsingPdoTransaction($fixture) {
+        
+        self::_setData($fixture);
+
+        self::_disableConstraints();
+
+        self::_truncateTables();        
+        
+        $pdo = self::_getDbConnection();
+        
+        try {
+            
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->beginTransaction();
+            
+            foreach (self::$data as $tableName => $tableData) {
+                
+                $queryArray = self::_generatePdoInsertQueryArray($tableName, $tableData);
+                
+                foreach ($queryArray as $query) { 
+                    $pdo->exec($query);
+                }
+                
+            }           
+            
+            $pdo->commit();
+            
+        } catch (Exception $e) {
+            
+            $pdo->rollBack();
+            echo "\n\n Transaction failed: " . $e->getMessage() . "\n\n";
+            
+        }
+        
+        self::_enableConstraints();        
+       
+    }
+    
+    private static function _generatePdoInsertQueryArray($tableAlias, $tableData) {
+        
+       return self::_generateMultipleInsertQueryArray($tableAlias, $tableData);
+       
+       /* Multiple inserts have to be used since some fixtures contains different no
+        * of rows for same data set */
+        
+    } 
+    
+    public static function _generateMultipleInsertQueryArray($tableAlias, $tableData) {
+        
+        $tableObject = self::_getTableObject($tableAlias);
+        $tableName = $tableObject->getTableName();
+        $queryArray = array();
+        
+        foreach ($tableData as $item) {
+            
+            $columnString = self::_generateInsetQueryColumnString($item, $tableObject);
+            $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
+
+        }
+
+        $queryArray[] = "UPDATE `hs_hr_unique_id` SET `last_id` = " . count($tableData) . " WHERE `table_name` = '$tableName'";
+        
+        return $queryArray;     
+        
+    }    
+    
+    private static function _generateInsetQueryColumnString($dataArray, $tableObject) {
+        
+        $columnString = "(";
+        
+        $count = count($dataArray);
+        $i = 1;
+        
+        foreach ($dataArray as $key => $value) {
+            
+            $columnName = $tableObject->getColumnName($key);
+            
+            if ($i < $count) {
+                $columnString .= "`$columnName`, ";
+            } else {
+                $columnString .= "`$columnName`";
+            }
+            
+            $i++;
+            
+        }        
+        
+        $columnString .= ")";
+        
+        return $columnString;
+        
+    }
+    
+    private static function _getTableObject($tableAlias) {
+
+        $ormObject = new $tableAlias;
+        return $ormObject->getTable();
+        
     }
 
     public static function adjustUniqueId($tableName, $count, $isAlias = false) {
