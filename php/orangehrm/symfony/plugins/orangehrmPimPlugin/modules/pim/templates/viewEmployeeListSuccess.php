@@ -212,6 +212,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         var employees = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson())?> ;
         var supervisors = <?php echo str_replace('&#039;',"'",$form->getSupervisorListAsJson())?> ;
+        var isRequestForReset = <?php echo $isRequestToReset ? 'true' : 'false'; ?>;
+
+        if(isRequestForReset) {
+            resetSearchCriteria();
+        }
 
         // Handle hints
         if ($("#empsearch_id").val() == '') {
@@ -284,15 +289,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             $('#search_form').submit();
 	});
        
-	$('#resetBtn').click(function() {
-            $("#empsearch_employee_name").val('');
-            $("#empsearch_supervisor_name").val('');
-            $("#empsearch_id").val('');
-            $("#empsearch_job_title").val('0');
-            $("#empsearch_employee_status").val('0');
-            $("#empsearch_sub_unit").val('0');
-            $('#search_form').submit();
-	});
+	$('#resetBtn').click(resetSearchCriteria);
 
         $('#addBtn').click(function() {
             location.href = "<?php echo url_for('pim/addEmployee') ?>";
@@ -349,6 +346,18 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         });
 
     });
+    
+    function resetSearchCriteria() {
+    
+        $("#empsearch_employee_name").val('');
+        $("#empsearch_supervisor_name").val('');
+        $("#empsearch_id").val('');
+        $("#empsearch_job_title").val('0');
+        $("#empsearch_employee_status").val('0');
+        $("#empsearch_sub_unit").val('0');
+        $('#search_form').submit();
+    
+    }
 
     
 

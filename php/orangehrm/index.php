@@ -450,7 +450,7 @@ $_SESSION['PIM_MENU_TYPE'] = PIM_MENU_TYPE;
 /* PIM menu start */
 if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRights[PIM]['view']) {
 
-    $menuItem = new MenuItem("pim", $lang_Menu_Pim, "./index.php?menu_no_top=hr");
+    $menuItem = new MenuItem("pim", $lang_Menu_Pim, "./index.php?menu_no_top=hr&reset=1");
     $menuItem->setCurrent($_GET['menu_no_top'] == "hr");
     $enablePimMenu = false;
     if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top'] == "hr") && isset($_GET['reqcode']) && $arrRights['view']) {
@@ -468,7 +468,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
     }
 
     //$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
-    $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./symfony/web/index.php/pim/viewEmployeeList", "rightMenu");
+    $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./symfony/web/index.php/pim/viewEmployeeList/reset/1", "rightMenu");
     if ($arrAllRights[PIM]['add']) {
         $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
     }
@@ -877,7 +877,7 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
 } elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
     //$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 
-    $home = "./symfony/web/index.php/pim/viewEmployeeList";
+    $home = "./symfony/web/index.php/pim/viewEmployeeList/reset/1";
     if (isset($_GET['uri'])) {
         $home = $_GET['uri'];
     } elseif (isset($_GET['id'])) {

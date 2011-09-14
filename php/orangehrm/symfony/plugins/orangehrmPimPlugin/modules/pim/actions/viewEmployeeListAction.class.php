@@ -77,8 +77,11 @@ class viewEmployeeListAction extends basePimAction {
         }
 
         // Reset filters if requested to
-        if ($request->hasParameter('_reset')) {
+        if ($request->hasParameter('reset')) {
+            $this->isRequestToReset = true;
             $this->setFilters(array());
+        } else {
+            $this->isRequestToReset = false;
         }
 
         $sort = $this->sorter->getSort();
