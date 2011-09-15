@@ -244,12 +244,12 @@ class LeaveRequestDao extends BaseDao {
 	 * @param int $page
 	 * @return array
 	 */
-	public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false) {
+	public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false) {
 		$this->_markApprovedLeaveAsTaken();
 		
 		$limit = $searchParameters->getParameter('noOfRecordsPerPage');
 		$offset = ($page > 0) ? (($page - 1) * $limit) : 0;
-
+        
 		$list = array();
 
 		$q = Doctrine_Query::create()
@@ -262,6 +262,7 @@ class LeaveRequestDao extends BaseDao {
 		$employeeFilter = $searchParameters->getParameter('employeeFilter');
 		$leavePeriod = $searchParameters->getParameter('leavePeriod');
 		$leaveType = $searchParameters->getParameter('leaveType');
+        $withTerminatedEmployee = $searchParameters->getParameter('cmbWithTerminated');
 
 		$fromDate = $dateRange->getFromDate();
 		$toDate = $dateRange->getToDate();
@@ -271,7 +272,7 @@ class LeaveRequestDao extends BaseDao {
 			if (!empty($fromDate) && !empty($toDate)) {
 				$q->andWhere("l.leave_date >= '{$fromDate}'");
 				$q->andWhere("l.leave_date <= '{$toDate}'");
-			}
+                }
 			
 			if (!empty($statuses)) {
 				$q->whereIn("l.leave_status", $statuses);
@@ -282,12 +283,12 @@ class LeaveRequestDao extends BaseDao {
 			if (is_numeric($employeeFilter) && $employeeFilter > 0) {
 				$q->andWhere('lr.empNumber = ?', (int) $employeeFilter);
 			} elseif ($employeeFilter instanceof  Employee) {
-				$q->andWhere('lr.empNumber = ?', $employeeFilter->getEmpNumber());
+                    $q->andWhere('lr.empNumber = ?', $employeeFilter->getEmpNumber());
 			} elseif (is_array($employeeFilter)) {
 				$empNumbers = array();
 				foreach ($employeeFilter as $employee) {
-					$empNumbers[] = $employee->getEmpNumber();
-				}
+                        $empNumbers[] = $employee->getEmpNumber();
+                    }
 				$q->whereIn('lr.empNumber', $empNumbers);
 			}
 		} else {
@@ -305,13 +306,19 @@ class LeaveRequestDao extends BaseDao {
 		    $leaveTypeId = ($leaveType instanceof LeaveType) ? $leaveType->getLeaveTypeId() : $leaveType;
 		    $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
 		}
-
+        if (!$isMyLeaveList) {
+            if(empty($withTerminatedEmployee)) {
+                $q->leftJoin('lr.Employee em')
+                    ->where('em.emp_status != ?', PluginEmployee::EMPLOYEE_STATUS_TERMINATED)
+                    ->orWhere('em.emp_status IS NULL');
+            }
+        }
         $q->orderBy('l.leave_date DESC');
 
 		$count = $q->count();
 
                 if ($isCSVPDFExport) {
-                    $limit = $count;
+                    $limit = $count; 
                     $offset = 0;
                 }
                 $q->offset($offset);

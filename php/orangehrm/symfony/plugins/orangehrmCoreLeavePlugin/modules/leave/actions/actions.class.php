@@ -544,7 +544,7 @@ class leaveActions extends sfActions {
         $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
         $toDate = $this->_getFilterValue($filters, 'calToDate', null);
         $statuses = $this->_getFilterValue($filters, 'chkSearchFilter', array());
-
+        
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
@@ -578,7 +578,7 @@ class leaveActions extends sfActions {
                 $searchParams->setParameter('leaveType', $leaveTypeId);
             }
 
-            $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $pageNumber);
+            $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $pageNumber, false, true);
             $list = $result['list'];
             $recordCount = $result['meta']['record_count'];
 

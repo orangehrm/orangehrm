@@ -41,11 +41,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(15, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(15, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -77,11 +78,11 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
-
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20, true);
         /* Checking records count */
-        $this->assertEquals(5, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(5, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
 
         /* Checking values and order */
 
@@ -113,11 +114,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(3, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(3, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
 
         /* Checking values and order */
 
@@ -150,11 +152,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -186,11 +189,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = 'JOB001';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
 
         /* Checking values and order */
 
@@ -223,11 +227,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = 'LOC001';
         $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -260,11 +265,12 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbJobTitle'] = '';
         $clues['cmbLocation'] = '';
         $clues['subordinates'] = array(2, 5);
+        $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -289,33 +295,69 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
     }
 
 
+    public function testFetchRawLeaveSummaryRecordsTerminatedEmployees() {
+        
+        $clues['cmbEmpId'] = '';
+        $clues['userType'] = '';
+        $clues['cmbLeaveType'] = '';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
+        
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        $this->assertEquals(12, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        
+       /* Checking values and order */
+
+        while ($row = $result->fetch()) {
+            $rows[] = $row;
+        }
+
+        $this->assertEquals(12, count($rows));
+        
+        $this->assertEquals(2, $rows[0]['empNumber']);
+        $this->assertEquals('Ashley', $rows[0]['empFirstName']);
+        $this->assertEquals('Abel', $rows[0]['empLastName']);
+        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
+        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
+        
+        $this->assertEquals(2, $rows[1]['empNumber']);
+        $this->assertEquals(3, $rows[3]['empNumber']);
+
+    }
+
+    public function testFetchRawLeaveSummaryRecordsLeaveTypeTerminatedEmployee() {
+
+        $clues['cmbEmpId'] = '';
+        $clues['userType'] = '';
+        $clues['cmbLeaveType'] = 'LTY001';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
+
+        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
+        /* Checking records count */
+        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+
+        /* Checking values and order */
+
+        while ($row = $result->fetch()) {
+            $rows[] = $row;
+        }
+        $this->assertEquals(4, count($rows));
+
+        $this->assertEquals(2, $rows[0]['empNumber']);
+        $this->assertEquals(5, $rows[3]['empNumber']);
 
 
-
+    }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>

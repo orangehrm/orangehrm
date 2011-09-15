@@ -73,6 +73,9 @@ class LeaveSummaryForm extends sfForm {
 
             /* Setting sub divisions */
             $this->_setSubDivisionWidgets();
+            
+            /* Setting terminated employee */
+            $this->_setTerminatedEmployeeWidgets();
 
             /* Setting txtEmpName */
             $this->formWidgets['txtEmpName'] = new sfWidgetFormInput();
@@ -239,6 +242,13 @@ class LeaveSummaryForm extends sfForm {
 
         $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));
         $this->formValidators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($subUnitList)));
+
+    }
+    
+    private function _setTerminatedEmployeeWidgets() {
+
+        $this->formWidgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox();
+        $this->formValidators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
 
     }
 
@@ -419,6 +429,7 @@ class LeaveSummaryForm extends sfForm {
             $clues['cmbLocation'] = 0;
             $clues['cmbSubDivision'] = 0;
             $clues['cmbJobTitle'] = 0;
+            $clues['cmbWithTerminated'] = 0;
 
             return $this->_adjustSearchClues($clues);
 

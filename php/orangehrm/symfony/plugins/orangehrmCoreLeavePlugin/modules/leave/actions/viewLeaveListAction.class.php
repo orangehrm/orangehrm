@@ -89,7 +89,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $toDate = $this->_getFilterValue($filters, 'calToDate', null);
         $subunitId = $this->_getFilterValue($filters, 'cmbSubunit', null);
         $statuses = $request->hasParameter('reset') ? 1 : $this->_getFilterValue($filters, 'chkSearchFilter', array());
-
+        $terminatedEmp = $this->_getFilterValue($filters, 'cmbWithTerminated', null);
+        
         $leavePeriodId = $this->_getFilterValue($filters, 'leavePeriodId', null);
         $leaveTypeId = $this->_getFilterValue($filters, 'leaveTypeId', null);
         $employeeId = $request->getParameter('employeeId', null);
@@ -114,7 +115,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
 
         if ($mode == LeaveListForm::MODE_DEFAULT_LIST) {
-
+            
             $employeeService = $this->getEmployeeService();
             $employeeFilter = null;
 
@@ -125,7 +126,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 }
 
                 $employeeFilter = $employeeService->filterEmployeeListBySubUnit($employeeFilter, $subunitId);
-
+                
             } else {
                 $employeeFilter = $employeeService->getEmployee($employeeId);
                 //this is a dirty workaround but witout modyfying searchLeaveRequests of Dao it is difficult
@@ -148,7 +149,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 'employeeFilter' => $employeeFilter,
                 'leavePeriod' => $leavePeriodId,
                 'leaveType' => $leaveTypeId,
-                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page')
+                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page'),
+                'cmbWithTerminated' => $terminatedEmp
             ));
 
             $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
@@ -305,7 +307,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $employeeList = array();
 
         if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
-            $employeeList = $employeeService->getEmployeeList();
+            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
         }
 
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {
@@ -313,16 +315,16 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         }
         $employeeUnique = array();
         foreach($employeeList as $employee) {
-            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
-                $name = $employee->getFullName();
+                if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+                    $name = $employee->getFullName();
 
-                foreach($escapeCharSet as $char) {
-                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                    foreach($escapeCharSet as $char) {
+                        $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
+                    }
+                    $employeeUnique[$employee->getEmpNumber()] = $name;
+                    $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
                 }
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
             }
-        }
 
         $jsonString = json_encode($jsonArray);
 
@@ -374,7 +376,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
      * @return unknown_type
      */
     protected function _getFilters($mode) {
-        return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_module');
+        return $this->getUser()->getAttribute(  $mode . '.filters', null, 'leave_module');
     }
     
     protected function _getFilterValue($filters, $parameter, $default = null) {

@@ -395,7 +395,9 @@
         $dateRange = new DateRangeStub();
 
         $searchParameters->setParameter('dateRange', $dateRange);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -428,6 +430,31 @@
         $this->assertEquals(5, $requestList[18]->getEmpNumber());
 
     }
+    
+    public function testSearchLeaveRequestsAllTerminatedEmployee() {
+
+        $searchParameters = new ParameterStub();
+        $dateRange = new DateRangeStub();
+
+        $searchParameters->setParameter('dateRange', $dateRange);
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','');
+        
+        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
+        $requestList = $searchResult['list'];
+        $requestCount = $searchResult['meta']['record_count'];
+
+        /* Checking type */
+
+        foreach ($requestList as $request) {
+            $this->assertTrue($request instanceof LeaveRequest);
+        }
+
+        /* Checking count */
+
+        $this->assertEquals(8, count($requestList));
+        $this->assertEquals(8, $requestCount);
+    }
 
     public function testSearchLeaveRequestsDateRange() {
 
@@ -437,7 +464,9 @@
         $dateRange->setToDate('2010-09-30');
 
         $searchParameters->setParameter('dateRange', $dateRange);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -480,8 +509,10 @@
 
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('statuses', array(1, -1, 3));
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
+        
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
 
@@ -521,7 +552,9 @@
 
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('employeeFilter', 1);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -561,7 +594,9 @@
         $dateRange = new DateRangeStub();
 
         $searchParameters->setParameter('dateRange', $dateRange);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $employee = new Employee();
         $employee->setEmpNumber(1);
         $searchParameters->setParameter('employeeFilter', $employee);
@@ -605,7 +640,9 @@
         $dateRange = new DateRangeStub();
 
         $searchParameters->setParameter('dateRange', $dateRange);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $employee1 = new Employee();
         $employee1->setEmpNumber(1);
         $employee2 = new Employee();
@@ -653,7 +690,9 @@
 
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('leavePeriod', 1);
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -694,7 +733,9 @@
 
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('leaveType', 'LTY001');
-
+        $searchParameters->setParameter('noOfRecordsPerPage', 50);
+        $searchParameters->setParameter('cmbWithTerminated','on');
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];

@@ -213,6 +213,7 @@ class LeaveListForm extends sfForm {
 
             $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));
             $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));
+            $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox());
 
             $employeeName = trim($this->_getFilterParam('txtEmployee'));
             if($employeeName == "" && $this->employee instanceof Employee) {

@@ -59,6 +59,10 @@
     <td><?php echo __('Records Per Page'); ?></td>
     <td colspan="3"><?php echo $form['cmbRecordsCount']->render(); ?></td>
 </tr>
+<tr>
+    <td><?php echo __('With Terminated Employees'); ?></td>
+    <td colspan="3"><?php echo $form['cmbWithTerminated']->render(); ?></td>
+</tr>
 </table>
     <div class="formbuttons">
     <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />

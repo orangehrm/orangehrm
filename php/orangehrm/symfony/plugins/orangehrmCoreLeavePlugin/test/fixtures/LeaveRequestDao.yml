@@ -1,9 +1,9 @@
 Employee:
-  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
-  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham'}
-  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
-  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson'}
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', emp_status: 'EST000'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', emp_status: NULL}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', emp_status: NULL}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', emp_status: 'EST001'}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', emp_status: NULL}
 
 LeaveType:
   0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1, leaveRules: '<leaveRule>1</leaveRule>'}

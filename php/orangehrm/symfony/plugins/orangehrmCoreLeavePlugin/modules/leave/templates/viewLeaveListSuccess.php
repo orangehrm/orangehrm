@@ -54,6 +54,10 @@ $searchActionButtons = $form->getSearchActionButtons();
 				<?php echo $form['cmbSubunit']->renderLabel(__("Sub Unit"), array('class' => 'mainLabel')); ?>
 				<?php echo $form['cmbSubunit']->render(); ?>
 			<?php } ?>
+            <?php if (isset($form['cmbWithTerminated'])) { ?>
+				<br class="clear" />
+				<label class="mainLabel"><?php echo __('With Terminated Employees'); ?></label><?php echo $form['cmbWithTerminated']->render(); ?>
+			<?php } ?>
             <br class="clear" />
                         <div class="buttonWrapper">
 			<?php foreach ($searchActionButtons as $id => $button) {

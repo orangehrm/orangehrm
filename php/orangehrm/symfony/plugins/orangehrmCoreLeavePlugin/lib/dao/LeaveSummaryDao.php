@@ -45,7 +45,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 	}*/
 
-    public function fetchRawLeaveSummaryRecords($clues, $offset=0, $limit=20) {
+    public function fetchRawLeaveSummaryRecords($clues, $offset=0, $limit=20, $includeTerminated = false) {
         
         $q = "SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
@@ -55,9 +55,9 @@ class LeaveSummaryDao extends BaseDao {
         if (!empty($clues['cmbLocation'])) {
             $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
         }
-
+        
         $where = array();
-
+        
         if (!empty($clues['cmbEmpId'])) {
             $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
         } elseif ($clues['userType'] == 'Supervisor') {
@@ -79,7 +79,12 @@ class LeaveSummaryDao extends BaseDao {
         if (!empty($clues['cmbLocation'])) {
             $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
         }
-
+                
+        if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
+            $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
+            $where[] = "(a.emp_status !='{$status}' OR a.emp_status IS NULL)";           
+        }
+        
         //$where[] = "b.available_flag = 1";
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
@@ -103,14 +108,14 @@ class LeaveSummaryDao extends BaseDao {
 
     }
 
-    public function fetchRawLeaveSummaryRecordsCount($clues) {
+    public function fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated = false) {
 
         $q = "SELECT COUNT(*) FROM (hs_hr_employee a, hs_hr_leavetype b)";
 
         if (!empty($clues['cmbLocation'])) {
             $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
         }
-
+        
         $where = array();
 
         if (!empty($clues['cmbEmpId'])) {
@@ -134,7 +139,11 @@ class LeaveSummaryDao extends BaseDao {
         if (!empty($clues['cmbLocation'])) {
             $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
         }
-
+        
+        if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
+            $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
+            $where[] = "(a.emp_status !='{$status}' OR a.emp_status IS NULL)";           
+        }
         //$where[] = "b.available_flag = 1";
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
