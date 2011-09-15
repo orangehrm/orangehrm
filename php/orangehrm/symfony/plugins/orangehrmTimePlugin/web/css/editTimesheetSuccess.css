@@ -86,3 +86,9 @@ root {
     
     padding-left: 6px;
 }
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}

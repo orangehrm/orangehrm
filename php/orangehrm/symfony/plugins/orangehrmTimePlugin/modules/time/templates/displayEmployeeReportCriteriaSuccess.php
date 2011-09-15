@@ -17,7 +17,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     <div class="mainHeading"><h2 id="reportToHeading"><?php echo __($reportName); ?></h2></div>
     <form action="<?php echo url_for("time/displayEmployeeReportCriteria?reportId=2"); ?>" id="reportForm" method="post">
 
-<!--        <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">-->
         <div class="employeeTable">
             <br class="clear"/>
 
@@ -29,7 +28,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <br class="clear"/>
             <?php endforeach;?>
             <?php echo $reportForm->renderHiddenFields(); ?>
-<!--        </table>--></div>
+        </div>
 
         <div class="formbuttons">
             <td colspan="2"><input type="button" id="viewbutton" class="viewbutton" value="<?php echo __('View') ?>"/></td>

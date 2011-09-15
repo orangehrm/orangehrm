@@ -31,6 +31,8 @@ $(document).ready(function() {
       
     });
 
+    $(".deletedRow").attr("disabled", "disabled");
+
     $(".project").each(function(){
         element = $(this)
         if($(element).val() == 'Type for hints...'){
@@ -215,9 +217,6 @@ $(document).ready(function() {
     }
 
     $('.items').change(function() {
- 
-    
-       
         var flag = validateInput();
         if(!flag) {
            
@@ -376,14 +375,21 @@ $(document).ready(function() {
         $("#commentError").html("");
         $("#timeComment").val("");
         classStr = $(this).attr("id").split("_");
-
+        deleteStr = $(this).attr("class").split(" ");
+        
+        if(deleteStr[1] == "deletedRow"){
+            $("#timeComment").attr("disabled", "disabled")
+            $("#commentSave").hide()
+        }else{
+            $("#timeComment").removeAttr("disabled")
+            $("#commentSave").show()
+            }
         var rowNo = classStr[2];
         date = currentWeekDates[classStr[1]];
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";
         activityId = $("#"+activityNameId).val();
         var comment = getComment(timesheetId,activityId,date,employeeId);
 
-        //        var decoded = $("<div/>").html(comment).text();
         $("#timeComment").val(comment);
         var projectNameId = "initialRows_"+rowNo+"_projectName";
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";

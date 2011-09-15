@@ -86,12 +86,13 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             <?php else: ?>
                 <?php foreach ($timesheetItemValuesArray as $row): ?>
+                <?php $dltClassName = ($row['isProjectDeleted'] == 1 || $row['isActivityDeleted'] == 1) ? "deletedRow" : ""?>
                     <tr>
                         <td id="<?php echo $row['projectId'] . "_" . $row['activityId'] . "_" . $timesheetId . "_" . $employeeId ?>"><?php echo $timesheetForm['initialRows'][$i]['toDelete'] ?></td>
-                        <?php echo $timesheetForm['initialRows'][$i]['projectId'] ?><td><?php if ($row['isProjectDeleted'] == 1) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectName'] ?></td>
-                        <?php echo $timesheetForm['initialRows'][$i]['projectActivityId'] ?><td><?php if ($row['isActivityDeleted'] == 1) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName'] ?></td>
+                        <?php echo $timesheetForm['initialRows'][$i]['projectId'] ?><td><?php if ($row['isProjectDeleted'] == 1) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectName']->render(array("class" => $dltClassName))?></td>
+                        <?php echo $timesheetForm['initialRows'][$i]['projectActivityId'] ?><td><?php if (($row['isActivityDeleted'] == 1)) { ?><span class="required">*</span><?php } else{?>&nbsp;<?php } ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName']->renderError() ?><?php echo $timesheetForm['initialRows'][$i]['projectActivityName']->render(array("class" => $dltClassName)) ?></td>
                         <?php for ($j = 0; $j < $noOfDays; $j++) { ?>
-                             <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center" class="<?php echo $row['projectId'] . "##" . $row['activityId'] . "##" . $currentWeekDates[$j] . "##" . $row['timesheetItems'][$currentWeekDates[$j]]->getComment(); ?>"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $timesheetForm['initialRows'][$i][$j] ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon") ?></div></td>
+                             <?php echo $timesheetForm['initialRows'][$i]['TimesheetItemId' . $j] ?><td style="text-align:center" class="<?php echo $row['projectId'] . "##" . $row['activityId'] . "##" . $currentWeekDates[$j] . "##" . $row['timesheetItems'][$currentWeekDates[$j]]->getComment(); ?>"><?php echo $timesheetForm['initialRows'][$i][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $timesheetForm['initialRows'][$i][$j]->render(array("class" => $dltClassName)) ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_' . $j . '_' . $i . " class=commentIcon ".$dltClassName) ?></div></td>
                         <?php } ?>
                     </tr>
                     <?php $i++ ?>
@@ -115,7 +116,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     </form>
 </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo __("Deleted projects/activities are marked with an asterik");?>&nbsp;<span class="required">*</span>.
+  <div class="paddingLeftRequired"><span class="required">*</span><?php echo __(' Deleted project activities are not editable.') ?> </div>
 <!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Comment'); ?>">

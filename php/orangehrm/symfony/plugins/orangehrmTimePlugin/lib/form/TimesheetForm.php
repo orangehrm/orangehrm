@@ -64,15 +64,14 @@ class TimesheetForm extends sfForm {
                         continue;
                     }
                 }
-//				$customer = $project->getCustomer();
-//				$customerName = $customer->getName();
+
                 $activities = $this->getTimesheetDao()->getProjectActivitiesByPorjectId($project->getProjectId(), true);
                 $activityArray = null;
                 foreach ($activities as $activity) {
 
                     $activityArray[$activity->getActivityId()] = $activity->getName();
                 }
-
+                
                 $rowForm->setWidget('projectActivityName', new sfWidgetFormSelect(array('choices' => $activityArray), array('style' => 'width:225px', 'class' => 'projectActivity')));
                 $rowForm->setDefault('projectName', $numberOfRows[$i]['projectName']);
                 $rowForm->setDefault('projectActivityId', $numberOfRows[$i]['activityId']);
