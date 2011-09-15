@@ -5,7 +5,6 @@
  */
 
 require_once "../../../lib/confs/Conf.php";
-require_once "../../../symfony/plugins/orangehrmRecruitmentPlugin/lib/service/JobFeedService.php";
 
 /* Setting records limit */
 
