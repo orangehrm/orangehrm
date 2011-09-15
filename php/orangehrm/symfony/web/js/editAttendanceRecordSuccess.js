@@ -15,10 +15,14 @@ $(document).ready(function()
             $(".nonEditable").attr('readonly', true);
         
         });
+
+        for(var j=1; j<=nonEditableOutDate.length; j++){
+            $("#attendance_punchOutDate_"+j).attr("disabled", "disabled")
+            $("#attendance_punchOutTime_"+j).attr("disabled", "disabled")
+        }
            
         $(".inDate").each(function(index, elem){
 
-            var
 
             // this particular element
             $elem = $(elem),

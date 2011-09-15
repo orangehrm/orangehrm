@@ -20,6 +20,7 @@
 class EditAttendanceRecordForm extends sfForm {
 
     private $attendanceService;
+    public $nonEditableOutDate = array();
 
     public function configure() {
         $employeeId = $this->getOption('employeeId');
@@ -27,10 +28,6 @@ class EditAttendanceRecordForm extends sfForm {
         $records = $this->getAttendanceService()->getAttendanceRecord($employeeId, $date);
         $totalRows = sizeOf($records);
         if ($records != null) {
-//        $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
-//        $actionableStates = $this->userObj->getActionableAttendanceStates($actions);
-
-
 
             for ($i = 1; $i <= $totalRows; $i++) {
 
@@ -80,6 +77,9 @@ class EditAttendanceRecordForm extends sfForm {
                     $this->setDefault('punchOutDate_' . $i, date('Y-m-d', strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('punchOutTime_' . $i, date('H:i', strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('outNote_' . $i, $record->getPunchOutNote());
+                    if(date('Y-m-d', strtotime($record->getPunchOutUserTime())) != $date){
+                        $this->nonEditableOutDate[] = $i;
+                    }
                 }
 
                 $i++;

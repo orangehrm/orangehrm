@@ -140,7 +140,6 @@
 
 
 </div>
-
 <!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Punch in/out note'); ?>">
@@ -167,7 +166,7 @@
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLappingWhenEditing') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLappingWhenEditing') ?>';
-    
+    var nonEditableOutDate = <?php echo json_encode($editAttendanceForm->nonEditableOutDate); ?>;
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
     var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
@@ -177,6 +176,6 @@
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>'
     var commentError='<?php echo __('Comment should be less than 250 characters'); ?>';
-       
+
      
 </script>
