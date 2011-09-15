@@ -1020,4 +1020,12 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
+    
+    public function getEmailList() {
+        try {
+            return $this->employeeDao->getEmailList();
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }   
+    }
 }

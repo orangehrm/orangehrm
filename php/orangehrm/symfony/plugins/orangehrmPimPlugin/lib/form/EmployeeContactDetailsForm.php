@@ -22,6 +22,7 @@ class EmployeeConactDetailsForm extends sfForm {
     private $employeeService;
     private $widgets = array();
     public $fullName;
+    public $empNumber;
 
     /**
      * Get EmployeeService
@@ -47,8 +48,8 @@ class EmployeeConactDetailsForm extends sfForm {
 
         $countries = $this->getCountryList();
         $states = $this->getStatesList();
-        $empNumber = $this->getOption('empNumber');
-        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $this->empNumber = $this->getOption('empNumber');
+        $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
         $this->fullName = $employee->getFullName();
 
         //creating widgets
@@ -101,6 +102,45 @@ class EmployeeConactDetailsForm extends sfForm {
         ));
 
         $this->widgetSchema->setNameFormat('contact[%s]');
+        
+        // set up your post validator method
+        $this->validatorSchema->setPostValidator(
+          new sfValidatorCallback(array(
+            'callback' => array($this, 'postValidation')
+          ))
+        );
+    }
+    
+    public function postValidation($validator, $values) {
+        
+        $emails = $this->getEmailList();
+        
+        $errorList = array();
+        $emailList = array();
+        foreach ($emails as $email) {
+            if($email['empNo'] == $this->empNumber) {
+                continue;
+            }
+            $emailList[] = $email['workEmail'];
+            $emailList[] = $email['othEmail'];
+        } 
+
+        if($values['emp_work_email'] == $values['emp_oth_email']) {
+            $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+        }
+        if (in_array($values['emp_work_email'], $emailList)) {
+            $errorList['emp_work_email'] = new sfValidatorError($validator, __("This email already exists"));
+        }
+        if (in_array($values['emp_oth_email'], $emailList)) {
+            $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+        }
+        if (count($errorList) > 0) {
+
+            throw new sfValidatorErrorSchema($validator, $errorList);
+        }
+
+        return $values;
+        
     }
 
     /**
@@ -163,6 +203,20 @@ class EmployeeConactDetailsForm extends sfForm {
         $states = $this->getCountryService()->getProvinceList();
         foreach($states as $state) {
             $list[$state->province_code] = $state->province_name;
+        }
+        return $list;
+    }
+    
+    /**
+     * Returns email List
+     * @return array
+     */
+    public function getEmailList() {
+        $list = array();
+        $emailList = $this->getEmployeeService()->getEmailList();
+        foreach($emailList as $k=>$email) {
+            $list[] = array('empNo' => $email['empNumber'], 'workEmail' => $email['emp_work_email'], 'othEmail' => $email['emp_oth_email']);
+
         }
         return $list;
     }

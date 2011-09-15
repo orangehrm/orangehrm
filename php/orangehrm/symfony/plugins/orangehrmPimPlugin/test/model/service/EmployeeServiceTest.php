@@ -1885,5 +1885,16 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
     }
     
-
+    public function testGetEmailList() {
+        
+        $list = array(0 => array( 'empNo' => 1, 'workEmail' => 'kayla@xample.com', 'othEmail' => 'kayla2@xample.com' ));
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getEmailList')
+             ->will($this->returnValue($list));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getEmailList();
+        $this->assertEquals($list, $result);
+    }
 }

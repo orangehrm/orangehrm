@@ -1367,4 +1367,17 @@ class EmployeeDao extends BaseDao {
             throw new PIMServiceException($e->getMessage());
         }
     }
+    
+    public function getEmailList() {
+        try {
+            $q = Doctrine_Query :: create()
+                    ->select('e.emp_work_email, e.emp_oth_email')
+                    ->from('Employee e');
+                    
+            return $q->execute();
+            
+        }catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

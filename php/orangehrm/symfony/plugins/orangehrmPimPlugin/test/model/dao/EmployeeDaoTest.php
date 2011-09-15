@@ -909,5 +909,14 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse(array_search('LKR', $unassignedCurrencies->toArray()));
     }
     
+    public function testGetEmailList() {
+        
+        $result = $this->employeeDao->getEmailList();
+        $list = array();
+        foreach($result as $k=>$email) {
+            $list[] = array('empNo' => $email['empNumber'], 'workEmail' => $email['emp_work_email'], 'othEmail' => $email['emp_oth_email']);
+        }
+        $this->assertEquals('kayla@xample.com', $list[0]['workEmail']);
+    }
     
 }

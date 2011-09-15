@@ -19,7 +19,16 @@
     var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
     var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
     var fileModified = 0;
-
+    var emails = <?php echo json_encode($form->getEmailList()); ?>;
+    var emailList =eval(emails);
+    var lang_emailExistmsg = "<?php echo __("This email already exists"); ?>";
+    
+    <?php if (isset($empNumber)) { ?>
+                    var empNumber = '<?php echo $empNumber; ?>';
+    <?php } else { ?>
+                    var empNumber = "";
+    <?php } ?>
+    
     //]]>
 </script>
 
