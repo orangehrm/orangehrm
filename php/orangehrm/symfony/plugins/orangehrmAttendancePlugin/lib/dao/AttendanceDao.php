@@ -141,21 +141,16 @@ class AttendanceDao {
      * @return string 1,0
      */
     public function checkForPunchInOverLappingRecords($punchInTime, $employeeId) {
-
-
         $isValid = "1";
-
 
         try {
 
             $query1 = Doctrine_Query::create()
                     ->from("AttendanceRecord")
                     ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime < ?", $punchInTime)
+                    ->andWhere("punchInUtcTime <= ?", $punchInTime)
                     ->andWhere("punchOutUtcTime > ?", $punchInTime);
             $records1 = $query1->execute();
-
-
 
             if ((count($records1) > 0)) {
 
@@ -283,7 +278,7 @@ class AttendanceDao {
             $query1 = Doctrine_Query::create()
                     ->from("AttendanceRecord")
                     ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime < ?", $punchInTime)
+                    ->andWhere("punchInUtcTime <= ?", $punchInTime)
                     ->andWhere("punchOutUtcTime > ?", $punchInTime);
             $records1 = $query1->execute();
 
@@ -305,7 +300,7 @@ class AttendanceDao {
               $query2 = Doctrine_Query::create()
                     ->from("AttendanceRecord")
                     ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime > ?", $punchInTime)
+                    ->andWhere("punchInUtcTime >= ?", $punchInTime)
                     ->andWhere("punchOutUtcTime < ?", $punchOutTime);
             $records2 = $query2->execute();
 

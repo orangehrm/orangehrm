@@ -1,7 +1,6 @@
 $(document).ready(function()
     {
         
-        //       alert( $('#commentLable_1_3_66').val());
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
         
         $("#commentDialog").dialog({
@@ -9,9 +8,6 @@ $(document).ready(function()
             width: 350,
             height: 300
         });
-        
-        
-        
         
         $(".nonEditable").each(function(){
             element = $(this)
@@ -46,7 +42,7 @@ $(document).ready(function()
                 element = $(this)
                 idDate=element.attr('id');
                 idArray= idDate.split("_");
-                //        //   // punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
+
                 inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
                 inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
                 inDate=element.val();
@@ -89,8 +85,6 @@ $(document).ready(function()
                         $('#btnSave').removeAttr('disabled');
                         element.removeAttr('style');
                     }
-            
-           
 
                     if(flag4){
                 
@@ -112,7 +106,7 @@ $(document).ready(function()
             
                         if(flag1){
                          
-                            var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId,punchOutUtcTime);
+                            var punchInOverLappingFlag = validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId,punchOutUtcTime);
                         
                             if(punchInOverLappingFlag==0){
                                 var errorStyle = "background-color:#FFDFDF;";
@@ -132,8 +126,6 @@ $(document).ready(function()
         });
 
         $(".outDate").each(function(index, elem){
-
-            var
 
             // this particular element
             $elem = $(elem),
@@ -168,8 +160,6 @@ $(document).ready(function()
                 punchInTime=inDate+" "+inTime;
                 punchOutTime=outDate+" "+outTime;
                 recordId=$("#attendance_recordId_"+idArray[2]).val();
-                // alert(recordId);
-                // outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
                 punchIn= formatDate(inDate)+" "+formatTime(inTime);
             
                 var inTimeTemp = strToTime(punchIn, dateTimeFormat);
@@ -193,8 +183,6 @@ $(document).ready(function()
                     $('#validationMsg').removeAttr('class');
                     $('#validationMsg').html("");
             
-            
-       
                     var flag4 = validateDateFormat(outDate);
 
                     if(!flag4) {
@@ -209,8 +197,7 @@ $(document).ready(function()
                         $('#btnSave').removeAttr('disabled');
                         element.removeAttr('style');
                     }
-            
-          
+                     
                     if(flag4){
                 
                         var flag1=validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate);
@@ -234,9 +221,7 @@ $(document).ready(function()
                             var flag5=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId);
                             if(flag5==0){
                                 var errorStyle = "background-color:#FFDFDF;";
-                                element.attr('style', errorStyle);
-                    
-                      
+                                element.attr('style', errorStyle);                     
                             }
                             else{
                                 $('#btnSave').removeAttr('disabled');
@@ -250,27 +235,6 @@ $(document).ready(function()
             });
 
         });
-
- 
-        //        var OutDate = trim($(".outDate").val());
-        //        if (OutDate == '') {
-        //            $(".outDate").val(dateDisplayFormat);
-        //        }
-        //
-        //        //Bind date picker
-        //        daymarker.bindElement(".outDate",
-        //        {
-        //            onSelect: function(date){
-        //              
-        //                $(".outDate").trigger('change');            
-        //
-        //            },
-        //            dateFormat:jsDateFormat
-        //        });
-
- 
-       
-       
        
         $(".cancel").click(function() {
             if(actionRecorder=="viewEmployee"){
@@ -288,6 +252,7 @@ $(document).ready(function()
         
             $('form#employeeRecordsForm').submit();
         });
+
         $(".save").click(function() {
            
             $('form#employeeRecordsForm').attr({
@@ -295,96 +260,6 @@ $(document).ready(function()
             });
             $('form#employeeRecordsForm').submit();
         });
-        
-        
-        
-        //        $(".inDate").change(function(){
-        //            element = $(this)
-        //           
-        //            idDate=element.attr('id');
-        //            idArray= idDate.split("_");
-        //            //        //   // punchOutUtcTime=$("#punchOutUtcTime_"+idArray[2]).val();
-        //            inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
-        //            inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
-        //            inDate=element.val();
-        //            recordId=$("#attendance_recordId_"+idArray[2]).val();
-        //            
-        //            outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
-        //            outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
-        //        
-        //            outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-        //            punchOut= formatDate(outDate)+" "+formatTime(outTime);
-        //            
-        //            punchOut= formatDate(outDate)+" "+formatTime(outTime);
-        //          
-        //            var outTimeTemp = strToTime(punchOut, dateTimeFormat);
-        //            punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
-        //      
-        //            
-        //            if((inDate=="")||(inTime=="")){
-        //                var errorStyle = "background-color:#FFDFDF;";
-        //                element.attr('style', errorStyle);
-        //                $('#btnSave').attr('disabled', 'disabled');
-        //               
-        //                $('#validationMsg').attr('class', "messageBalloon_failure");
-        //                $('#validationMsg').html(errorForInvalidDateFormat); 
-        //                
-        //            }
-        //            else{
-        //     
-        //                var flag4 = validateDateFormat(inDate);
-        //
-        //                if(!flag4) {
-        //                    var errorStyle = "background-color:#FFDFDF;";
-        //                    element.attr('style', errorStyle);
-        //                    $('#btnSave').attr('disabled', 'disabled');
-        //               
-        //                    $('#validationMsg').attr('class', "messageBalloon_failure");
-        //                    $('#validationMsg').html(errorForInvalidDateFormat);
-        //                }
-        //                else{
-        //                    $('#btnSave').removeAttr('disabled');
-        //                    element.removeAttr('style');
-        //                }
-        //            
-        //           
-        //
-        //                if(flag4){
-        //                
-        //                    var flag1=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
-        //                    
-        //                    if(!flag1){
-        //                        var errorStyle = "background-color:#FFDFDF;";
-        //                        element.attr('style', errorStyle);
-        //                        $('#btnSave').attr('disabled', 'disabled');
-        //                        $('#validationMsg').attr('class', "messageBalloon_failure");
-        //                        $('#validationMsg').html(errorForInvalidTime);
-        //                    }
-        //                    else{
-        //                
-        //                        $('#btnSave').removeAttr('disabled');
-        //                        element.removeAttr('style');
-        //                
-        //                    }
-        //            
-        //                    if(flag1){
-        //                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId);
-        //                        
-        //                        if(punchInOverLappingFlag==0){
-        //                            var errorStyle = "background-color:#FFDFDF;";
-        //                            element.attr('style', errorStyle);   
-        //                        }
-        //                        else{
-        //                            $('#btnSave').removeAttr('disabled');
-        //                            element.removeAttr('style');  
-        //                 
-        //                        }
-        //                    }
-        //                }
-        //   
-        //            }
-        //            
-        //        });
         
         $(".icon").click(function() {
            
@@ -436,14 +311,7 @@ $(document).ready(function()
                 $("#commentLable_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).html(displayedComment)
                 $("#commentDialog").dialog('close');
             }
-        });
-        
-        
-        $(".outDate").change(function(){
-            
-           
-            });
-        
+        });      
         
         $(".outTime").change(function(){
             element = $(this)
@@ -463,9 +331,7 @@ $(document).ready(function()
             
             var inTimeTemp = strToTime(punchIn, dateTimeFormat);
             punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
-            
-            
-            
+                     
             if((outTime=="") || (outDate=="")){
                         
                 var errorStyle = "background-color:#FFDFDF;";
@@ -516,9 +382,9 @@ $(document).ready(function()
                     
                     if(isValidPunchOutTime){
                         
-                        var flag7=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId);
+                        var flag7 = validatePunchOutOverLapping(punchInTime, inTimezone, punchOutTime, outTimezone, recordId);
                     
-                        if(flag7==0){
+                        if(flag7 == 0){
                             var errorStyle = "background-color:#FFDFDF;";
                             element.attr('style', errorStyle);
                         }
@@ -526,13 +392,9 @@ $(document).ready(function()
                             $('#btnSave').removeAttr('disabled');
                             element.removeAttr('style');
                         }
-                    }
-                
+                    }           
                 }
-            }
-             
-             
-             
+            }         
         });
             
         $(".inTime").change(function(){
@@ -542,7 +404,6 @@ $(document).ready(function()
             idArray= idTime.split("_");
             recordId=$("#attendance_recordId_"+idArray[2]).val();
       
-            //            punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
             inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
             inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
             inTime=element.val();
@@ -554,11 +415,7 @@ $(document).ready(function()
             
             var outTimeTemp = strToTime(punchOut, dateTimeFormat);
             punchOutUtcTime=outTimeTemp-outTimezone*3600*1000;
-            
-            
         
-
-            //            
             if((inTime=="") || (inDate=="")){
                         
                 var errorStyle = "background-color:#FFDFDF;";
@@ -568,8 +425,7 @@ $(document).ready(function()
                 $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(errorForInvalidTimeFormat);    
                 
-            }
-            
+            }            
             else{
             
                 $('#btnSave').removeAttr('disabled');
@@ -596,7 +452,7 @@ $(document).ready(function()
                 }
                 
                 if(errorTimeFlag){
-                    var isValidPunchInTime=validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
+                    var isValidPunchInTime = validatePunchInTime(punchOutUtcTime,inTimezone,inTime,inDate);
                     if(!isValidPunchInTime){
                         var errorStyle = "background-color:#FFDFDF;";
                         element.attr('style', errorStyle);
@@ -613,9 +469,8 @@ $(document).ready(function()
                     }
                     
                     
-                    if(isValidPunchInTime){
-                     
-                        var punchInOverLappingFlag=validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punchOutUtcTime);
+                    if(isValidPunchInTime){                
+                        var punchInOverLappingFlag = validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punchOutUtcTime);
                     
                         if(punchInOverLappingFlag==0){
                             var errorStyle = "background-color:#FFDFDF;";
@@ -623,22 +478,12 @@ $(document).ready(function()
                         }
                         else{
                             $('#btnSave').removeAttr('disabled');
-                            element.removeAttr('style');  
-                 
+                            element.removeAttr('style');                 
                         }
                     }
-                }
-                
-                
-                
-                
+                }              
             }
-        });
-            
-            
-        
-        
-        
+        });     
         
     });
     
@@ -655,11 +500,6 @@ function validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTime
     var outTime =punchOutTime;
     var inTimezone=inTimezone*3600;
     var outTimezone=outTimezone*3600;
-    //    alert(outTime)
-    //     alert(inTimezone)
-    //     alert(outTimezone)
-    //     alert(inTime)
-    //     
     var r = $.ajax({
         type: 'POST',
         url: linkForOverLappingValidation,
@@ -669,8 +509,6 @@ function validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTime
         success: function(msg){
 
             isValid = msg;
-  
-
         }
     });
  
@@ -679,15 +517,11 @@ function validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTime
 
         $('#btnSave').attr('disabled', 'disabled');
         $('#validationMsg').attr('class', "messageBalloon_failure");
-        $('#validationMsg').html(errorForOverLappingTime);
-     
-        
+        $('#validationMsg').html(errorForOverLappingTime);    
 
     }
 
     return isValid;
-
-
 
 }
     
@@ -706,11 +540,7 @@ function updateComment(comment,id,punchInOut){
         },
         async: false
     }).responseText;
-    return r;
-        
-        
-        
-        
+    return r;   
         
 }
 
@@ -721,7 +551,6 @@ function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punch
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
 
-    //alert(inTime)
     var inTime = inDate+" "+inTime;
     var timezone=inTimezone;
    
@@ -733,8 +562,7 @@ function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punch
 
         success: function(msg){
             isValid = msg;
-      
-   
+
         }
     });
 
@@ -744,9 +572,6 @@ function validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punch
         $('#btnSave').attr('disabled', 'disabled');
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForOverLappingTime);
-    //        $(".time").attr('style', errorStyle);
-    //        $("#attendance_date").attr('style', errorStyle);
-
     }
 
     return isValid;
@@ -861,9 +686,8 @@ function strToTime(str, format) {
 
 }
 
-function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
+function validatePunchInTime(punchOutUtcTime, inTimezone, inTime, date){
 
-  
     var dateArray=date.split('-');
     
     if(dateArray[1].search([0])== -1){
@@ -873,9 +697,7 @@ function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
         else{
             formtMonth="0"+dateArray[1];
         }
-
     }
-
     else{
 
         formtMonth=dateArray[1];
@@ -891,7 +713,6 @@ function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
         }
 
     }
-
     else{
         formtDate=dateArray[2];
     }
@@ -901,18 +722,15 @@ function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
   
     var timeArray=inTime.split(':')
     
-    if(timeArray[0]<10){
-        if(timeArray[0].search([0])== -1){
+    if(timeArray[0] < 10){
 
-            formtHour="0"+timeArray[0];
+        if(timeArray[0].search([0]) == -1){
+            formtHour = "0" + timeArray[0];
         }
         else{
-
-            formtHour=timeArray[0];
+            formtHour = timeArray[0];
         }
-
     }
-
     else{
         formtHour=timeArray[0];
     }
@@ -928,23 +746,18 @@ function validatePunchInTime(punchOutUtcTime,inTimezone,inTime,date){
 
             formtMin=timeArray[1];
         }
-
     }
-
     else{
-
         formtMin=timeArray[1];  
     }
 
     var formtdFullTime=formtHour+":"+formtMin;
-
 
     var outTime = punchOutUtcTime
     var inTimeTemp = strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat);
     var inTime=inTimeTemp-inTimezone*3600*1000;
 
     if (inTime > outTime) {
-
         errFlag = true;
     }
     return !errFlag;
