@@ -221,7 +221,11 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
                     removeHint($(this));
                     removeHint($("#txtPassword"));
                 });
+                $('#txtUserName').keyup(function() {
+                    removeHint($(this));
+                    removeHint($("#txtPassword"));
                 });
+            });
         
             function submitForm() {
 
