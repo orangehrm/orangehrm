@@ -53,41 +53,6 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($candidatesList[0] instanceof JobCandidate);
     }
 
-//    /**
-//     * Testing  getCandidateList when only jobTitle is provided
-//     */
-//    public function testGetCandidateListForJobTitleTest() {
-//
-//
-//        $searchParam = new CandidateSearchParameters();
-//
-//        $searchParam->setJobTitleCode('JOB001');
-//        $searchParam->setCandidateId(1);
-//        $searchParam->setVacancyId(1);
-//
-//
-//        $allCandidateVacancyList = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
-//
-////        $expectedArray[0] = array('vacancyName' => 'SE 2011', 'candidateName' => 'Yasitha Pandi', 'hiringManager' => 'Kayla Abbey', 'dateOfApplication' => '2011-06-03', 'status' => 'Shortlisted');
-//
-//        $expectedCandidateVacancyList = array();
-//
-//        foreach ($allCandidateVacancyList as $candidateVacancy) {
-//
-//            if ($searchParam->getJobTitleCode() == $candidateVacancy->getJobVacancy()->getJobTitleCode() && $searchParam->getCandidateId() == $candidateVacancy->getJobCandidate()->getId() && $searchParam->getVacancyId() == $candidateVacancy->getJobVacancy()->getId()) {
-//                $candidateVacancy->getJobCandidate();
-//                $expectedCandidateVacancyList[] = $candidateVacancy;
-//            }
-//        }
-//
-//        $expected = $this->extractResultsToArray($expectedCandidateVacancyList);
-//
-//        $returnedCandidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
-//
-//        $actual = $this->extractResultsToArray($returnedCandidateVacancyList);
-//        $this->assertEquals($actual, $expected);
-//    }
-
     private function extractResultsToArray($candidateVacancyList) {
         $stateMachine = new WorkflowStateMachine();
         $i = 0;
@@ -661,56 +626,6 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, $result);
     }
 
-//    public function testSaveCandidateHistoryTest() {
-//
-//        $candidateHistory = new CandidateHistory();
-//        $candidateHistory->candidateVacancyId = 2;
-//        $candidateHistory->candidateId = 1;
-//        $candidateHistory->action = 2;
-//        $candidateHistory->performedBy = null;
-//        $candidateHistory->performedDate = '2011-04-05';
-//        $candidateHistory->note = 'dvfsdfds';
-//
-//        $newJobInterview = new JobInterview();
-//
-//        $newJobInterview->setInterviewName("HR Interview");
-//        $newJobInterview->setInterviewDate("2011-04-03");
-//        $newJobInterview->setInterviewTime("08:48");
-//        $newJobInterview->setNote("new note");
-//        $candidateHistory->setJobInterview($newJobInterview);
-//        $result = $this->candidateDao->SaveCandidateHistory($candidateHistory);
-//        $this->assertTrue($result);
-//    }
-//
-//    public function testSaveCandidateHistoryTestAgain() {
-//
-//        $candidateHistory = new CandidateHistory();
-//        $candidateHistory->candidateVacancyId = 2;
-//        $candidateHistory->candidateId = 1;
-//        $candidateHistory->action = 2;
-//        $candidateHistory->performedBy = null;
-//        $candidateHistory->performedDate = '2011-04-05';
-//        $candidateHistory->note = 'dvfsdfds';
-//
-//        $newJobInterview = new JobInterview();
-//
-//        $newJobInterview->setInterviewName("HR Interview");
-//        $newJobInterview->setInterviewDate("2011-04-03");
-//        $newJobInterview->setInterviewTime("08:48");
-//        $newJobInterview->setNote("new note");
-//
-//        $newJobInterviewInterviewer = new JobInterviewInterviewer();
-//        $newJobInterviewInterviewer->setInterviewerId(5);
-//
-//        $newJobInterviewInterviewer1 = clone $newJobInterviewInterviewer;
-//        $newJobInterviewInterviewer1->setInterviewerId(2);
-//
-//        $newJobInterview->getJobInterviewInterviewer()->add($newJobInterviewInterviewer);
-//        $newJobInterview->getJobInterviewInterviewer()->add($newJobInterviewInterviewer1);
-//        $candidateHistory->setJobInterview($newJobInterview);
-//        $result = $this->candidateDao->SaveCandidateHistory($candidateHistory);
-//        $this->assertTrue($result);
-//    }
 
     public function testSaveJobInterview() {
 
