@@ -121,24 +121,27 @@ class EmployeeConactDetailsForm extends sfForm {
             if($email['empNo'] == $this->empNumber) {
                 continue;
             }
-            $emailList[] = $email['workEmail'];
-            $emailList[] = $email['othEmail'];
+            if($email['workEmail']){
+                $emailList[] = $email['workEmail'];
+            }
+            if($email['othEmail']){
+                $emailList[] = $email['othEmail'];
+            }
         } 
 
-        if($values['emp_work_email'] == $values['emp_oth_email']) {
-            $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
-        }
-        if (in_array($values['emp_work_email'], $emailList)) {
-            $errorList['emp_work_email'] = new sfValidatorError($validator, __("This email already exists"));
-        }
-        if (in_array($values['emp_oth_email'], $emailList)) {
-            $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
-        }
-        if (count($errorList) > 0) {
+            if($values['emp_work_email'] == $values['emp_oth_email']) {
+                $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+            }
+            if (in_array($values['emp_work_email'], $emailList)) {
+                $errorList['emp_work_email'] = new sfValidatorError($validator, __("This email already exists"));
+            }
+            if (in_array($values['emp_oth_email'], $emailList)) {
+                $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+            }
+            if (count($errorList) > 0) {
 
-            throw new sfValidatorErrorSchema($validator, $errorList);
-        }
-
+                throw new sfValidatorErrorSchema($validator, $errorList);
+            }
         return $values;
         
     }
