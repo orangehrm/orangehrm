@@ -172,7 +172,7 @@ table.data-table th {
 .actionDrpDown{
     width: 150px;
     -moz-border-radius:3px 3px 3px 3px;
-    background:-moz-linear-gradient(center top , #F9F9F9, #E3E3E3) repeat scroll 0 0 transparent;
+    background-color: #CDCDCD !important;
     border-color:#CCCCCC #BBBBBB #A0A0A0;
     border-left:1px solid #BBBBBB;
     border-right:1px solid #BBBBBB;
@@ -180,7 +180,7 @@ table.data-table th {
     border-width:1px;
     color:#000000;
     cursor:pointer;
-    font:90% arial,sans-serif;
+    font:98% arial,sans-serif;
     margin:0 8px 0 0;
     outline:medium none;
     padding:3px 8px;
@@ -197,6 +197,7 @@ div.messageBalloon_warning {
     width: 640px;
     text-align: left;
 }
+
 div.messageBalloon_success {
     width: 740px;
     text-align: left;
@@ -206,8 +207,8 @@ div.messageBalloon_success {
     cursor: auto;
 }
 #fileLink{
-	margin-top: 10px;
-	padding-top: 8px;
+    margin-top: 10px;
+    padding-top: 8px;
 }
 
 #addCandidate_vacancy{

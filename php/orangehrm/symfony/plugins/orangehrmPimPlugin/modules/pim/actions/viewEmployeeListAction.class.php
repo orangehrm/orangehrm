@@ -60,6 +60,11 @@ class viewEmployeeListAction extends basePimAction {
         if ($request->getParameter('page')) {
             $this->setPage($request->getParameter('page'));
         }
+         // Reset filters if requested to
+        if ($request->hasParameter('reset')) {
+            $this->setFilters(array());
+            $this->setPage(1);
+        }
 
         $params = array('userType'=> $userType, 'loggedInUserId'=>$this->getUser()->getEmployeeNumber());
         $this->form = new EmployeeSearchForm($this->getFilters(), $params);
@@ -74,14 +79,6 @@ class viewEmployeeListAction extends basePimAction {
             }
 
             $this->setPage(1);
-        }
-
-        // Reset filters if requested to
-        if ($request->hasParameter('reset')) {
-            $this->isRequestToReset = true;
-            $this->setFilters(array());
-        } else {
-            $this->isRequestToReset = false;
         }
 
         $sort = $this->sorter->getSort();
