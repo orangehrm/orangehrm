@@ -51,8 +51,8 @@ JobVacancyAttachment:
   2: {id: 3, vacancyId: 2, file_name: 'resume.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1', comment: 'This is my CV'}
 
 JobInterview:
-  0: {id: 1, interviewName: 'HR Interview', interviewDate: '2011-08-03', interviewTime: '09:00:00', note: 'HR interview'}
-  1: {id: 2, interviewName: 'Technical Interview', interviewDate: '2011-08-18', interviewTime: '00:00:00', note: 'HR interview'}
+  0: {id: 1, candidateVacancyId: 1, candidateId: 1, interviewName: 'HR Interview', interviewDate: '2011-08-03', interviewTime: '09:00:00', note: 'HR interview'}
+  1: {id: 2, candidateVacancyId: 1, candidateId: 1, interviewName: 'Technical Interview', interviewDate: '2011-08-18', interviewTime: '00:00:00', note: 'HR interview'}
 
 JobInterviewInterviewer:
   0: {interviewId: 1, interviewerId: 3}
