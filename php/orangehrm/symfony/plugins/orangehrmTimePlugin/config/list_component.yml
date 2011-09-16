@@ -63,8 +63,11 @@ ProjectActivityDetailsReport:
   title: 'Project Activity Details Report'
   hasSummary: false
   summary: []
-  buttons: []
-  buttonsPosition: before-data
+  buttons:
+    Back:
+      label: Back
+      function: handleBackButton
+  buttonsPosition: after-data
   formMethod: post
   formAction: '#'
   assets: []

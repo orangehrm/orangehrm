@@ -25,11 +25,12 @@ abstract class displayReportAction extends sfAction {
     public function execute($request) {
 
         $reportId = $request->getParameter("reportId");
+        $backRequest = $request->getParameter("backRequest");
 
         $reportableGeneratorService = new ReportGeneratorService();
 
         $sql = $request->getParameter("sql");
-       
+
         $reportableService = new ReportableService();
         $report = $reportableService->getReport($reportId);
         $useFilterField = $report->getUseFilterField();
@@ -37,18 +38,17 @@ abstract class displayReportAction extends sfAction {
         if (!$useFilterField) {
             $this->setCriteriaForm();
             if ($request->isMethod('post')) {
-             
+
                 $this->form->bind($request->getParameter($this->form->getName()));
 
                 if ($this->form->isValid()) {
-                    
+
                     $reportGeneratorService = new ReportGeneratorService();
                     $formValues = $this->form->getValues();
                     $this->setReportCriteriaInfoInRequest($formValues);
                     $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
                 }
             }
-            
         } else {
 
             if ($request->isMethod("get")) {
@@ -61,6 +61,15 @@ abstract class displayReportAction extends sfAction {
                 $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
                 $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
                 $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
+            }
+        }
+
+        if ($reportId == 1) {
+            if (!isset($backRequest)) {
+                $this->getUser()->setAttribute("reportCriteriaSql", $sql);
+            }
+            if (isset($backRequest) && $this->getUser()->hasAttribute("reportCriteriaSql")) {
+                $sql = $this->getUser()->getAttribute("reportCriteriaSql");
             }
         }
         
@@ -77,7 +86,6 @@ abstract class displayReportAction extends sfAction {
         ohrmListComponent::setListData($dataSet);
 
         $this->parmetersForListComponent = $this->setParametersForListComponent();
-        
     }
 
     abstract public function setParametersForListComponent();
@@ -98,12 +106,16 @@ abstract class displayReportAction extends sfAction {
         $this->confFactory = $configurationFactory;
     }
 
-    public function setReportCriteriaInfoInRequest($formValues) {}
+    public function setReportCriteriaInfoInRequest($formValues) {
 
-    public function setCriteriaForm(){}
+    }
+
+    public function setCriteriaForm() {
+
+    }
 
     public function setForm($form) {
-       $this->form = $form;
+        $this->form = $form;
     }
 
 }
