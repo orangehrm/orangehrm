@@ -58,7 +58,6 @@ class AttendanceDao {
             if (is_null($lastReocord[0]->getId())) {
                 return null;
             } else {
-
                 return $lastReocord[0];
             }
         } catch (Exception $ex) {

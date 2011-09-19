@@ -84,14 +84,14 @@ class AttendanceActions extends sfActions {
         $temppunchInTime = $request->getParameter('punchInTime');
         $timezone = $request->getParameter('timezone');
         $recordId = $request->getParameter('recordId');
-         $punchOutUtcTime = $request->getParameter('punchOutUtcTime');
+        $punchOutUtcTime = $request->getParameter('punchOutUtcTime');
 
         $ti = strtotime($temppunchInTime) - $timezone * 3600;
         $punchInDate = date("Y-m-d", $ti);
         $punchInTime = date("H:i:s", $ti);
         $punchIn = $punchInDate . " " . $punchInTime;
-       
-        $to=$punchOutUtcTime/1000;
+
+        $to = $punchOutUtcTime / 1000;
         $punchOutDate = date("Y-m-d", $to);
         $punchOutTime = date("H:i:s", $to);
         $punchOut = $punchOutDate . " " . $punchOutTime;
@@ -122,7 +122,7 @@ class AttendanceActions extends sfActions {
 
 
         $employeeId = $request->getParameter('employeeId');
-        $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId);
+        $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
 
     public function executeGetCurrentTime($request) {
@@ -164,7 +164,7 @@ class AttendanceActions extends sfActions {
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
         $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
-
+        $recArray = array();
         if ($this->records != null) {
 
             if ($actionableStates != null) {
@@ -199,11 +199,12 @@ class AttendanceActions extends sfActions {
                 }
             }
 
-            $i = 0;
             foreach ($this->records as $record) {
-                $this->allowedToDelete[$i] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $decoratedUser);
-                $i++;
+                $this->allowedToDelete[] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $decoratedUser);
+                $recArray[] = $record;
             }
+        }else{
+            $attendanceRecord = null;
         }
 
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
@@ -211,25 +212,25 @@ class AttendanceActions extends sfActions {
 
         $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
 
-
-
         if ($actionableStates != null) {
 
-            $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStates);
-
-
+            if (!empty($recArray)) {
+                $lastRecordPunchOutTime = $recArray[count($this->records)-1]->getPunchOutUserTime();
+                if (empty($lastRecordPunchOutTime)) {
+                    $attendanceRecord = "";
+                }else{
+                    $attendanceRecord = null;
+                }
+            }
+            
             foreach ($actionableStates as $actionableState) {
 
                 $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
-
-
                 if (!is_null($allowedActionsArray)) {
 
                     $allowedActionsList = array_unique(array_merge($allowedActionsArray, $allowedActionsList));
                 }
             }
-
-
 
             if ((is_null($attendanceRecord)) && (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, $allowedActionsList))) {
 
