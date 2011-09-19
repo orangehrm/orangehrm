@@ -147,7 +147,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
     }
 
     public function getEmployeeList() {
-
+        
         $employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
         return $employeeList;
     }
@@ -203,17 +203,15 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         $accessFlowStateMachinService = new AccessFlowStateMachineService();
         $action = array(PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
         $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
-        $employeeList = $this->getEmployeeList();
 
-        $employeeUnique = array();
-        foreach ($employeeList as $employee) {
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-                $employeeUnique[$employee->getEmpNumber()] = $employee;
-            }
+        $subordinateListObjects = $this->getEmployeeService()->getSubordinateListForEmployee($this->getEmployeeNumber());
+        $subordinateList = array();
+        foreach($subordinateListObjects as $subordinate){
+           $subordinateList[] =  $subordinate->getSubordinate();
         }
 
         if ($actionableStatesList != null) {
-            foreach ($employeeUnique as $employee) {
+            foreach ($subordinateList as $employee) {
 
                 $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
 
