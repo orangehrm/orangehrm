@@ -32,9 +32,9 @@ class UserRoleFactory {
         if ($this->userEmployeeId == null) {
             $userRoleArray['isSupervisor'] = false;
         } else {
-            if (!$this->isAdmin($userId)) {
-                $userRoleArray['isSupervisor'] = $this->isSupervisorRoleRelatedToEmployee($userId, $employeeId);
-            }
+//            if (!$this->isAdmin($userId)) {
+            $userRoleArray['isSupervisor'] = $this->isSupervisorRoleRelatedToEmployee($userId, $employeeId);
+//            }
         }
 
         $userRoleArray['isAdmin'] = $this->isAdmin($userId);
@@ -71,15 +71,16 @@ class UserRoleFactory {
         $userRoleArray = $this->getUserRoleRelatedToEmployee($userId, $employeeId);
 
         if ($userRoleArray['isAdmin']) {
-            
-            return new AdminUserRoleDecorator($userObj);
-        } elseif ($userRoleArray['isSupervisor']) {
-            
-            return new SupervisorUserRoleDecorator($userObj);
-        } else {
-            
-            return new EssUserRoleDecorator($userObj);
+            $userObj =  new AdminUserRoleDecorator($userObj);
         }
+
+        if ($userRoleArray['isSupervisor']) {
+            $userObj =   new SupervisorUserRoleDecorator($userObj);
+        }
+        if (!$userRoleArray['isAdmin'] && !$userRoleArray['isSupervisor']) {
+            $userObj = new EssUserRoleDecorator($userObj);
+        }
+        return $userObj;
     }
 
 }

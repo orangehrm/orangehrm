@@ -40,15 +40,26 @@ class EssUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("Timesheets"));
         $topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
-            array_push($topMenuItemArray, $topMenuItem);
-        }
+        $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Attendance"));
         $topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
 
-        if (!in_array($topMenuItem, $topMenuItemArray)) {
+        $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+
+        return $topMenuItemArray;
+    }
+
+    private function __chkAndPutItemsToArray($topMenuItemArray, $topMenuItem) {
+        $itemIsInArray = false;
+        foreach ($topMenuItemArray as $item) {
+            if ($topMenuItem->getDisplayName() == $item->getDisplayName()) {
+                $itemIsInArray = true;
+                break;
+            }
+        }
+        if (!$itemIsInArray) {
             array_push($topMenuItemArray, $topMenuItem);
         }
 
