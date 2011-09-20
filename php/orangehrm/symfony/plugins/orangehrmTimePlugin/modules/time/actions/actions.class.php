@@ -127,7 +127,7 @@ class timeActions extends sfActions {
 
         $projectId = $project->getProjectId();
 
-        $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId, true);
+        $this->activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
     }
 
     public function executeViewPendingApprovelTimesheet(sfWebRequest $request) {

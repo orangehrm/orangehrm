@@ -431,12 +431,12 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_CANDIDATES);
         $tempArray = $this->user->getAccessibleRecruitmentMenus();
-        $topMenuItemArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
+        $tempArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
 
         $topMenuItem = new TopMenuItem();
         $topMenuItem->setDisplayName(__("Vacancies"));
         $topMenuItem->setLink(AdminUserRoleDecorator::VIEW_VACANCIES);
-        $topMenuItemArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
+        $tempArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
 
         return $tempArray;
     }

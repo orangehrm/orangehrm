@@ -133,6 +133,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             },
             errorPlacement: function(error, element) {
                 error.appendTo( element.prev('label') );
+                error.appendTo( element.prev().prev().prev().prev('label') );
             }
 
         });

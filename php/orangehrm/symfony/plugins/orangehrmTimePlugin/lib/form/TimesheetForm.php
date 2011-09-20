@@ -71,7 +71,7 @@ class TimesheetForm extends sfForm {
 
                     $activityArray[$activity->getActivityId()] = $activity->getName();
                 }
-                
+
                 $rowForm->setWidget('projectActivityName', new sfWidgetFormSelect(array('choices' => $activityArray), array('style' => 'width:225px', 'class' => 'projectActivity')));
                 $rowForm->setDefault('projectName', $numberOfRows[$i]['projectName']);
                 $rowForm->setDefault('projectActivityId', $numberOfRows[$i]['activityId']);
@@ -225,11 +225,11 @@ class TimesheetForm extends sfForm {
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $clientTimeZoneOffset = $userObj->getUserTimeZoneOffset();
         date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
-      
+
         if ($startDate < $endDate) {
             $dates_range[] = $startDate;
 
-            $startDate = strtotime($startDate) ;
+            $startDate = strtotime($startDate);
             $endDate = strtotime($endDate);
 
 
@@ -237,7 +237,6 @@ class TimesheetForm extends sfForm {
                 $startDate = mktime(0, 0, 0, date("m", $startDate), date("d", $startDate) + 1, date("Y", $startDate));
                 $dates_range[] = date('Y-m-d', $startDate);
             }
-            
         }
         return $dates_range;
     }
@@ -288,8 +287,9 @@ class TimesheetForm extends sfForm {
 
 
         foreach ($projectList as $project) {
-
-            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
+//            if ($project->getDeleted() != Projects::PROJECT_DELETED) {
+                $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
+//            }
         }
 
         $jsonString = json_encode($jsonArray);

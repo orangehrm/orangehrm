@@ -192,7 +192,7 @@ class InterviewerUserRoleDecorator extends UserRoleDecorator {
         $topMenuItem->setDisplayName(__("Candidates"));
         $topMenuItem->setLink(InterviewerUserRoleDecorator::VIEW_CANDIDATES);
         $tempArray = $this->user->getAccessibleRecruitmentMenus();
-        $topMenuItemArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
+        $tempArray = $this->__chkAndPutItemsToArray($tempArray, $topMenuItem);
 
         return $tempArray;
     }

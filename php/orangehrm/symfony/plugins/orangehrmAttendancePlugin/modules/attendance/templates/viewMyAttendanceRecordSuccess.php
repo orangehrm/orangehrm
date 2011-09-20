@@ -30,14 +30,16 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <br class="clear">
         <form action="<?php echo url_for("attendance/viewAttendanceRecord"); ?>" id="reportForm" method="post">
 
-            <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
+            <table  border="0" cellpadding="0" cellspacing="0" class="employeeTable">
 
-                <tr><td><?php echo __('Date') ?></td>
-                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
+                <tr><td style="width:60px; padding-left: 5px"><?php echo __('Date') ?></td>
+                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;</td>
+                    <td><input id="DateBtn" type="button" name="" value="" class="calendarBtn" style="margin: 0px"/></td>
                     <?php echo $form->renderHiddenFields(); ?>
                 </tr>
             </table>
         </form>
+        <br class="clear">
     </div>
 </div>
 
