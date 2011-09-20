@@ -6,7 +6,7 @@ $(document).ready(function()
         $("#commentDialog").dialog({
             autoOpen: false,
             width: 350,
-            height: 300
+            height: 235
         });
         
         $(".nonEditable").each(function(){
@@ -293,8 +293,19 @@ $(document).ready(function()
             $("#commentDialog").dialog('close');
         });
 
-        $("#commentSave").click(function() {
+        $("#punchInOutNote").keyup(function() {
             var comment=  $("#punchInOutNote").val();
+            if(comment.length > 250) {
+                $('#noteError').html(commentError);
+            }else{
+                $('#noteError').html("");
+            }
+        });
+
+
+        $("#commentSave").click(function() {
+            
+            var comment =  $("#punchInOutNote").val();
             if(comment.length > 250) {
                 $('#noteError').html(commentError);
                 return;

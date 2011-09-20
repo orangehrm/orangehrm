@@ -145,9 +145,10 @@
 <div id="commentDialog" title="<?php echo __('Punch in/out note'); ?>">
     <form action="updateComment" method="post" id="frmCommentSave">
 
-        <textarea name="punchInOutNote" id="punchInOutNote" cols="40" rows="10" class="commentTextArea"></textarea>
+        <textarea name="punchInOutNote" id="punchInOutNote" cols="35" rows="8" class="commentTextArea"></textarea>
         <br class="clear" />
         <div class="error" id="noteError"></div>
+        <br class="clear" />
         <div><input type="button" id="commentSave" class="plainbtn" value="<?php echo __('Save'); ?>" />
             <input type="button" id="commentCancel" class="plainbtn" value="<?php echo __('Cancel'); ?>" /></div>
     </form>

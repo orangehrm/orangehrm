@@ -20,45 +20,51 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <div class="employeeTable">
             <br class="clear"/>
 
-             <?php foreach($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList')  as $label):?>
-            <div>
-            <?php echo $reportForm[$label['labelName']]->renderLabel();?>
-			<?php echo $reportForm[$label['labelName']]->render();?><?php echo $reportForm[$label['labelName']]->renderError();?>
+            <?php foreach ($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList') as $label): ?>
+                <div>
+                <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
+                <?php echo $reportForm[$label['labelName']]->render(); ?><?php echo $reportForm[$label['labelName']]->renderError(); ?>
             </div>
             <br class="clear"/>
-            <?php endforeach;?>
+            <?php endforeach; ?>
             <?php echo $reportForm->renderHiddenFields(); ?>
-        </div>
+            </div>
 
-        <div class="formbuttons">
-            <td colspan="2"><input type="button" id="viewbutton" class="viewbutton" value="<?php echo __('View') ?>"/></td>
-        </div>
-    </form>
-</div>
-<div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
+            <div class="formbuttons">
+                <td colspan="2"><input type="button" id="viewbutton" class="viewbutton" value="<?php echo __('View') ?>"/></td>
+            </div>
+        </form>
+    </div>
+    <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 
-<style type="text/css">
-    form#reportForm label {
-        margin-top: 6px;
-        width: 140px;
-        font-weight: normal;
-    }
+    <style type="text/css">
+        form#reportForm label {
+            margin-top: 6px;
+            width: 140px;
+            font-weight: normal;
+        }
+        #time_activity_name{
+            width: 160px;
+        }
+        #time_project_name{
+            width: 160px;
+        }
 
-    .viewbutton {
-        margin-left: 20px;
-    }
+        .viewbutton {
+            margin-left: 20px;
+        }
 
-    .paddingLeftRequired{
-        font-size: 8pt;
-        padding-left: 15px;
-        padding-top: 5px;
-    }
-    html body div#outerbox.outerbox div.maincontent form#reportForm div.employeeTable div label label.error{
-        width: 300px !important;
-}
-</style>
+        .paddingLeftRequired{
+            font-size: 8pt;
+            padding-left: 15px;
+            padding-top: 5px;
+        }
+        html body div#outerbox.outerbox div.maincontent form#reportForm div.employeeTable div label label.error{
+            width: 300px !important;
+        }
+    </style>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#viewbutton').click(function() {
                 if(isValidForm()) {
