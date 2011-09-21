@@ -11,11 +11,11 @@
         <div class="employeeTable">
             <br class="clear"/>
             <?php foreach ($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList') as $label): ?>
-                <div>
-                <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
-                <?php echo $reportForm[$label['labelName']]->render(); ?>
-            </div>
-            <br class="clear"/>
+            <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
+            <?php echo $reportForm[$label['labelName']]->render(); ?>
+                <div class="errorDiv" style="padding-right: 165px; float: right"></div>
+                <br class="clear"/>
+                <br class="clear"/>
             <?php endforeach; ?>
             <?php echo $reportForm->renderHiddenFields(); ?>
             </div>
@@ -43,8 +43,8 @@
             padding-left: 15px;
             padding-top: 5px;
         }
-        html body div#outerbox.outerbox div.maincontent form#reportForm div.employeeTable div label label.error{
-            width: 300px !important;
+        label.error{
+            width: 230px !important;
         }
 
     </style>
@@ -130,9 +130,10 @@
 
             },
             errorPlacement: function(error, element) {
-                error.appendTo( element.prev('label') );
-                error.appendTo( element.prev().prev().prev().prev('label') );
-            }
+                error.appendTo(element.prev('label'));
+                error.appendTo(element.next().next().next('div.errorDiv'));}
+            //                    error.appendTo(element.prev().prev().prev().prev('label'));}
+  
 
         });
         return true;

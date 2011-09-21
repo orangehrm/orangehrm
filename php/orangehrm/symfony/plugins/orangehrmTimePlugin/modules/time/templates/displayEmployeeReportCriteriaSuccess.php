@@ -21,11 +21,13 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <br class="clear"/>
 
             <?php foreach ($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList') as $label): ?>
-                <div>
-                <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
-                <?php echo $reportForm[$label['labelName']]->render(); ?><?php echo $reportForm[$label['labelName']]->renderError(); ?>
-            </div>
-            <br class="clear"/>
+                <!--                <div>-->
+            <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
+            <?php echo $reportForm[$label['labelName']]->render(); ?><?php echo $reportForm[$label['labelName']]->renderError(); ?>
+                <div class="errorDiv" style="padding-right: 165px; float: right"></div>
+                <!--            </div>-->
+                <br class="clear"/>
+                <br class="clear"/>
             <?php endforeach; ?>
             <?php echo $reportForm->renderHiddenFields(); ?>
             </div>
@@ -59,8 +61,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             padding-left: 15px;
             padding-top: 5px;
         }
-        html body div#outerbox.outerbox div.maincontent form#reportForm div.employeeTable div label label.error{
-            width: 300px !important;
+        label.error{
+            width: 230px !important;
         }
     </style>
 
@@ -139,7 +141,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             },
             errorPlacement: function(error, element) {
                 error.appendTo( element.prev('label') );
-                error.appendTo( element.prev().prev().prev().prev('label') );
+                error.appendTo(element.next().next().next('div.errorDiv'));
             }
 
         });
