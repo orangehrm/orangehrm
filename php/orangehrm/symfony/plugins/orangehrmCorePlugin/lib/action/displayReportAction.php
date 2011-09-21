@@ -63,16 +63,19 @@ abstract class displayReportAction extends sfAction {
                 $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
             }
         }
-
+        $paramArray = array();
         if ($reportId == 1) {
             if (!isset($backRequest)) {
                 $this->getUser()->setAttribute("reportCriteriaSql", $sql);
+                $this->getUser()->setAttribute("parametersForListComponent", $this->setParametersForListComponent());
             }
             if (isset($backRequest) && $this->getUser()->hasAttribute("reportCriteriaSql")) {
                 $sql = $this->getUser()->getAttribute("reportCriteriaSql");
+                $paramArray = $this->getUser()->getAttribute("parametersForListComponent");
             }
         }
-        
+
+        $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
         $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
         $headers = $reportableGeneratorService->getHeaders($reportId);
 
@@ -85,7 +88,7 @@ abstract class displayReportAction extends sfAction {
         $this->setListHeaderPartial();
         ohrmListComponent::setListData($dataSet);
 
-        $this->parmetersForListComponent = $this->setParametersForListComponent();
+        $this->parmetersForListComponent = $params;
     }
 
     abstract public function setParametersForListComponent();
