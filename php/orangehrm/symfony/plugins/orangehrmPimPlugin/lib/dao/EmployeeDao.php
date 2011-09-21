@@ -900,6 +900,21 @@ class EmployeeDao extends BaseDao {
         }
     }
 
+    public function getSubordinateIdList(){
+        try {
+            $idList = array();
+            $q = Doctrine_Query :: create()->select("rt.subordinateId")
+                            ->from('ReportTo rt');
+            $reportToList = $q->execute();
+            foreach ($reportToList as $reportTo) {
+                array_push($idList, $reportTo->getSubordinateId());
+            }
+            return $idList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
     /**
      * Returns Employee List as Json
      * @param boolean $workShift

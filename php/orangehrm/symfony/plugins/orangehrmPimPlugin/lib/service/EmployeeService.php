@@ -1028,4 +1028,7 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }   
     }
+    public function getSubordinateIdList(){
+        return $this->employeeDao->getSubordinateIdList();
+    }
 }

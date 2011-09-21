@@ -300,12 +300,20 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
         $subordinateListObjects = $this->getEmployeeService()->getSubordinateListForEmployee($this->getEmployeeNumber());
         $subordinateList = array();
-        foreach($subordinateListObjects as $subordinate){
-           $subordinateList[] =  $subordinate->getSubordinate();
+        $employeeList = array();
+        foreach ($subordinateListObjects as $subordinate) {
+            $subordinateList[] = $subordinate->getSubordinate();
+        }
+        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdList();
+        $allEmployeeList = $this->getEmployeeList();
+        foreach ($allEmployeeList as $employee) {
+            if (!in_array($employee->getEmpNumber(), $subordinateIdList)) {
+                $employeeList[] = $employee;
+            }
         }
 
         if ($actionableStatesList != null) {
-            foreach ($subordinateList as $employee) {
+            foreach (array_merge($subordinateList, $employeeList) as $employee) {
 
                 $timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
 
