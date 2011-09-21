@@ -17,6 +17,11 @@
                 <input type="text" value="<?php echo $mailnot[1]; ?>" class="formInputText" id="txtMailAddress_1" name="txtMailAddress_1"/>
 	            <br class="clear"/>
                 
+                <input type="checkbox"  class="formCheckbox" value="<?php echo MailNotification::LEAVE_ASSIGNMENT ?>" name="notificationMessageStatus[]" <?php if(isset($notficationList[MailNotification::LEAVE_ASSIGNMENT]) && $notficationList[MailNotification::LEAVE_ASSIGNMENT] == MailNotification::STATUS_SUBSCRIBED) { echo "checked='checked'"; } ?>/>
+                <label for="txtSkillName"><?php echo __("Leave Assignments")?></label> 
+                <input type="text" value="<?php echo $mailnot[MailNotification::LEAVE_ASSIGNMENT]; ?>" class="formInputText" id="txtMailAddress_<?php echo MailNotification::LEAVE_ASSIGNMENT ?>" name="txtMailAddress_<?php echo MailNotification::LEAVE_ASSIGNMENT ?>"/>
+	            <br class="clear"/>
+                
                 <input type="checkbox"  class="formCheckbox" value="2" name="notificationMessageStatus[]" <?php if(isset($notficationList[2]) && $notficationList[2]==1){ echo "checked='checked'";}?>/>
 	            <label for="txtSkillName"><?php echo __("Leave Approvals")?></label>	            
 	            <input type="text" value="<?php echo $mailnot[2]; ?>" class="formInputText" id="txtMailAddress_2" name="txtMailAddress_2"/>

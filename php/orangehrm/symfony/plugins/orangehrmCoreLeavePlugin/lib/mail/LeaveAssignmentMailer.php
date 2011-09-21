@@ -46,7 +46,7 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
         $this->recipient = $this->leaveRequest->getEmployee();
 
     }
-
+    
     public function sendToAssignee() {
 
         $to = $this->recipient->getEmpWorkEmail();
@@ -79,12 +79,103 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
         }
 
     }
+    
+    /*
+     * Send mail notifications to supervisors of the assignee
+     */
+    public function sendToSupervisors() {
+        
+        $supervisors = $this->recipient->getSupervisors();
+
+        if (count($supervisors) > 0) {
+
+            foreach ($supervisors as $supervisor) {
+
+                $to = $supervisor->getEmpWorkEmail();
+
+                if (!empty($to) && ((empty($this->performer) || (($this->performer instanceof Employee) && ($to != $this->performer->getEmpWorkEmail()))))) {
+
+                    try {
+
+                        $this->message->setFrom($this->getSystemFrom());
+                        $this->message->setTo($to);
+
+                        $message = new LeaveAssignmentMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
+
+                        $this->message->setSubject($message->generateSubjectForSupervisors());
+                        $this->message->setBody($message->generateBodyForSupervisors());
+
+                        $this->mailer->send($this->message);
+
+                        $logMessage = "Leave application email was sent to $to";
+                        $this->logResult('Success', $logMessage);
+
+                    } catch (Exception $e) {
+
+                        $logMessage = "Couldn't send leave application email to $to";
+                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $this->logResult('Failure', $logMessage);
+
+                    }
+
+                }
+
+            }
+
+        }
+        
+    }
+    
+    /*
+     * Send mail notifications to subscribers
+     */
+    public function sendToSubscribers() {
+
+        $mailNotificationService = new MailService();
+        $subscription = $mailNotificationService->getSubscription(MailNotification::LEAVE_ASSIGNMENT);
+
+        if ($subscription instanceof MailNotification) {
+
+            if ($subscription->getStatus() == MailNotification::STATUS_SUBSCRIBED) {
+
+                $to = $subscription->getEmail();
+
+                try {
+
+                    $this->message->setFrom($this->getSystemFrom());
+                    $this->message->setTo($to);
+
+                    $message = new LeaveAssignmentMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
+
+                    $this->message->setSubject($message->generateSubscriberSubject());
+                    $this->message->setBody($message->generateSubscriberBody());
+                    
+                    $this->mailer->send($this->message);
+
+                    $logMessage = "Leave application subscription email was sent to $to";
+                    $this->logResult('Success', $logMessage);
+
+                } catch (Exception $e) {
+
+                    $logMessage = "Couldn't send leave application subscription email to $to";
+                    $logMessage .= '. Reason: '.$e->getMessage();
+                    $this->logResult('Failure', $logMessage);
+
+                }
+
+            }
+
+        }
+
+    }
 
     public function send() {
 
         if (!empty($this->mailer)) {
 
             $this->sendToAssignee();
+            $this->sendToSupervisors();
+            $this->sendToSubscribers();
 
         }
 

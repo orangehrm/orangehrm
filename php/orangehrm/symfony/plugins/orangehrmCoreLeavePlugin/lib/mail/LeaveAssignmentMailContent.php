@@ -32,6 +32,18 @@ class LeaveAssignmentMailContent extends orangehrmLeaveMailContent {
         return $this->subjectTemplate;
 
     }
+    
+    public function getSubjectTemplateForSupervisors() {
+        
+        if (empty($this->subjectTemplateForSupervisors)) {
+
+            $this->subjectTemplateForSupervisors = trim($this->readFile($this->templateDirectoryPath . 'leaveAssignmentSubjectForSupervisors.txt'));
+
+        }
+
+        return $this->subjectTemplateForSupervisors;
+        
+    }
 
     public function getSubjectReplacements() {
 
@@ -47,6 +59,20 @@ class LeaveAssignmentMailContent extends orangehrmLeaveMailContent {
         return $this->subjectReplacements;
 
     }
+    
+    public function getSubjectReplacementsForSupervisors() {
+        
+        if (empty($this->subjectReplacementsForSupervisors)) {
+
+            $this->subjectReplacementsForSupervisors = array('performerFullName' => $this->replacements['performerFullName'],
+                                                             'assigneeFullName' => $this->replacements['assigneeFullName']
+                                                            );
+
+        }
+
+        return $this->subjectReplacementsForSupervisors;
+        
+    }
 
     public function getBodyTemplate() {
 
@@ -57,6 +83,18 @@ class LeaveAssignmentMailContent extends orangehrmLeaveMailContent {
         }
 
         return $this->bodyTemplate;
+
+    }
+    
+    public function getBodyTemplateForSupervisors() {
+
+        if (empty($this->bodyTemplateForSupervisors)) {
+
+            $this->bodyTemplateForSupervisors = $this->readFile($this->templateDirectoryPath . 'leaveAssignmentBodyForSupervisors.txt');
+
+        }
+
+        return $this->bodyTemplateForSupervisors;
 
     }
 
@@ -74,14 +112,75 @@ class LeaveAssignmentMailContent extends orangehrmLeaveMailContent {
         return $this->bodyReplacements;
         
     }
+    
+    public function getBodyReplacementsForSupervisors() {
 
-    public function getSubscriberSubjectTemplate() {}
+        if (empty($this->bodyReplacementsForSupervisors)) {
 
-    public function getSubscriberSubjectReplacements() {}
+            $this->bodyReplacementsForSupervisors = array('recipientFirstName' => $this->replacements['recipientFirstName'],
+                                                          'performerFullName' => $this->replacements['performerFullName'],
+                                                          'assigneeFullName' => $this->replacements['assigneeFullName'],
+                                                          'leaveDetails' => $this->replacements['leaveDetails']
+                                                         );
 
-    public function getSubscriberBodyTemplate() {}
+        }
 
-    public function getSubscriberBodyReplacements() {}
+        return $this->bodyReplacementsForSupervisors;
+        
+    }
+
+    public function getSubscriberSubjectTemplate() {
+        
+        if (empty($this->subscriberSubjectTemplate)) {
+
+            $this->subscriberSubjectTemplate = trim($this->readFile($this->templateDirectoryPath . 'leaveAssignmentSubscriberSubject.txt'));
+
+        }
+
+        return $this->subscriberSubjectTemplate;
+        
+    }
+
+    public function getSubscriberSubjectReplacements() {
+        
+        if (empty($this->subscriberSubjectReplacements)) {
+
+            $this->subscriberSubjectReplacements = array('performerFullName' => $this->replacements['performerFullName'],
+                                                         'assigneeFullName' => $this->replacements['assigneeFullName']
+                                                        );
+
+        }
+
+        return $this->subscriberSubjectReplacements;
+        
+    }
+
+    public function getSubscriberBodyTemplate() {
+        
+        if (empty($this->subscriberBodyTemplate)) {
+
+            $this->subscriberBodyTemplate = $this->readFile($this->templateDirectoryPath . 'leaveAssignmentSubscriberBody.txt');
+
+        }
+
+        return $this->subscriberBodyTemplate;
+        
+    }
+
+    public function getSubscriberBodyReplacements() {
+        
+        if (empty($this->subscriberBodyReplacements)) {
+
+            $this->subscriberBodyReplacements = array('performerFullName' => $this->replacements['performerFullName'],
+                                                      'assigneeFullName' => $this->leaveRequest->getEmployee()->getFirstAndLastNames(),
+                                                      'leaveDetails' => $this->replacements['leaveDetails']
+                                                      );
+
+        }
+
+        return $this->subscriberBodyReplacements;
+        
+    }
 
     
 }

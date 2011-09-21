@@ -22,9 +22,13 @@
 abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
 
     protected $subjectTemplate;
+    protected $subjectTemplateForSupervisors;
     protected $subjectReplacements = array();
+    protected $subjectReplacementsForSupervisors = array();
     protected $bodyTemplate;
+    protected $bodyTemplateForSupervisors;
     protected $bodyReplacements = array();
+    protected $bodyReplacementsForSupervisors = array();
     protected $subscriberSubjectTemplate;
     protected $subscriberSubjectReplacements = array();
     protected $subscriberBodyTemplate;
@@ -167,11 +171,19 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
         return $this->replaceContent($this->getSubjectTemplate(), $this->getSubjectReplacements());
 
     }
+    
+    public function generateSubjectForSupervisors() {
+        return $this->replaceContent($this->getSubjectTemplateForSupervisors(), $this->getSubjectReplacementsForSupervisors());
+    }
 
     public function generateBody() {
 
         return $this->replaceContent($this->getBodyTemplate(), $this->getBodyReplacements());
 
+    }
+    
+    public function generateBodyForSupervisors() {
+        return $this->replaceContent($this->getBodyTemplateForSupervisors(), $this->getBodyReplacementsForSupervisors());
     }
 
     public function generateSubscriberSubject() {
@@ -202,6 +214,7 @@ abstract class orangehrmLeaveMailContent extends orangehrmMailContent {
 
         if ($this->leaveRequest instanceof LeaveRequest) {
             $this->replacements['leaveType'] = $this->leaveRequest->getLeaveTypeName();
+            $this->replacements['assigneeFullName'] = $this->leaveRequest->getEmployee()->getFirstAndLastNames();
         }
 
         $numberOfDays = 0;
