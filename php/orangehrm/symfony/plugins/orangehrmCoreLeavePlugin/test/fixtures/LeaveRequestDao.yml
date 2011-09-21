@@ -1,14 +1,16 @@
 Employee:
   0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', emp_status: 'EST000'}
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', emp_status: NULL}
-  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', emp_status: NULL}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham'}
   3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', emp_status: 'EST001'}
-  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', emp_status: NULL}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson'}
+  5: {empNumber: 6, firstName: 'Jane', lastName: 'Edward'}
 
 LeaveType:
-  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1, leaveRules: '<leaveRule>1</leaveRule>'}
-  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1, leaveRules: '<leaveRule>2</leaveRule>'}
-  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0, leaveRules: '<leaveRule>3</leaveRule>'}
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0}
+  3: {leaveTypeId: 'LTY004', leaveTypeName: 'Annual', availableFlag: 1}
 
 LeavePeriod:
   0: {leavePeriodId: 1, startDate: '2010-01-01', endDate: '2010-12-31'}
@@ -34,7 +36,8 @@ LeaveRequest:
   16: {leave_request_id: 17, leave_period_id: 1, leave_type_id: 'LTY002', leave_type_name: 'Medical', date_applied: '2010-08-15', empNumber: 5, leave_comments: 'my comment6'}
   17: {leave_request_id: 18, leave_period_id: 1, leave_type_id: 'LTY002', leave_type_name: 'Medical', date_applied: '2010-03-15', empNumber: 5, leave_comments: 'my comment7'}
   18: {leave_request_id: 19, leave_period_id: 2, leave_type_id: 'LTY001', leave_type_name: 'Casual', date_applied: '2010-08-20', empNumber: 5, leave_comments: 'my comment8'}
-
+  19: {leave_request_id: 20, leave_period_id: 2, leave_type_id: 'LTY004', leave_type_name: 'Casual', date_applied: '2011-01-01', empNumber: 6, leave_comments: 'my comment8'}
+  
 Leave:
   0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-09-01', leave_status: 1}
   1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-09-02', leave_status: 1}
@@ -68,3 +71,6 @@ Leave:
   29: {leave_id: 30, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 18, leave_type_id: 'LTY002', employee_id: 5, leave_date: '2010-05-13', leave_status: 3}
   30: {leave_id: 31, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 19, leave_type_id: 'LTY001', employee_id: 5, leave_date: '2011-02-07', leave_status: 1}
   31: {leave_id: 32, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 19, leave_type_id: 'LTY001', employee_id: 5, leave_date: '2011-02-08', leave_status: 1}
+  32: {leave_id: 33, leave_length_hours: 1, leave_length_days: 1, leave_request_id: 20, leave_type_id: 'LTY004', employee_id: 6, leave_date: '2011-01-01', leave_status: 1, start_time: '10:00', end_time: '11:00'}
+  33: {leave_id: 34, leave_length_hours: 1, leave_length_days: 1, leave_request_id: 20, leave_type_id: 'LTY004', employee_id: 6, leave_date: '2011-01-01', leave_status: 1, start_time: '11:00', end_time: '12:00'}
+  34: {leave_id: 35, leave_length_hours: 1, leave_length_days: 0.25, leave_request_id: 20, leave_type_id: 'LTY004', employee_id: 6, leave_date: '2011-01-01', leave_status: 1, start_time: '13:00', end_time: '14:00'}

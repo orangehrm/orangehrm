@@ -178,8 +178,10 @@ class applyLeaveAction extends sfAction {
         if($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if($this->form->isValid()) {
-                if(!$this->hasOverlapLeave($this->form)) {
-                    $this->saveLeaveRequest($this->form);
+                if(!$this->hasOverlapLeave($this->form)) {                    
+                    if(!$this->applyMoreThanAllowedForAday ($this->form)){
+                        $this->saveLeaveRequest($this->form);
+                    }                    
                 }
             }
         }
@@ -224,9 +226,17 @@ class applyLeaveAction extends sfAction {
     protected function hasOverlapLeave(sfForm $form) {
         $post   =	$form->getValues();
 
+        $fromTime = '';
+        $toTime = '';
+        if(strlen($post['txtFromTime'])>0){
+                $fromTime =  date("H:i:s",strtotime($post['txtFromTime']));
+        }
+        if(strlen($post['txtToTime'])>0){
+                $toTime =  date("H:i:s",strtotime($post['txtToTime']));
+        }
+        
         //find duplicate leaves
-        $overlapLeaves  = $this->getLeaveRequestService()->getOverlappingLeave($post['txtFromDate'],$post['txtToDate'],
-                $post['txtEmpID']);
+        $overlapLeaves  = $this->getLeaveRequestService()->getOverlappingLeave($post['txtFromDate'],$post['txtToDate'], $post['txtEmpID'], $fromTime, $toTime);
         $this->overlapLeaves    = $overlapLeaves;
         if(count($overlapLeaves) == 0) {
             $this->overlapLeaves = null;
@@ -309,6 +319,62 @@ class applyLeaveAction extends sfAction {
             $this->templateMessage = array('WARNING', __('Make Sure Leave Request Contain Work Days'));
         }
     }
+    
+    /**
+     *
+     * @param integer $employeeId
+     * @return integer 
+     */
+    protected function getWorkShiftDurationForEmployee($employeeId){
+         $workshift = $this->getEmployeeService()->getWorkShift($employeeId);
+
+        if($workshift == null ){            
+            $definedDuration =   sfConfig::get('app_orangehrm_core_leave_plugin_default_work_shift_length_hours');
+        } else {
+            $definedDuration = $workshift->getWorkShift()->getHoursPerDay();
+        }
+        return $definedDuration;
+    }
+    
+    
+    /**
+     *
+     * @param sfForm $form
+     * @return boolean 
+     */
+    public function applyMoreThanAllowedForAday($form){
+
+        $post   =	$form->getValues();
+
+        $fromTime =  date("H:i:s",strtotime($post['txtFromTime']));
+        $toTime =  date("H:i:s",strtotime($post['txtToTime']));
+
+        if( $post['txtFromDate'] == $post['txtToDate'] ){           
+            $totalDuration  = $this->getLeaveRequestService()->getTotalLeaveDuration($post['txtEmpID'], $post['txtFromDate']);
+        }
+        
+        if(($totalDuration + $post['txtLeaveTotalTime']) > $this->getWorkShiftDurationForEmployee($post['txtEmpID'])) {
+            
+            $dateRange = new DateRange();
+            $dateRange->setFromDate($post['txtFromDate']);
+            $dateRange->setToDate($post['txtFromDate']);
+            $searchParameters['dateRange'] = $dateRange;
+            $searchParameters['employeeFilter'] = $post['txtEmpID'];
+            
+            $parameter = new ParameterObject($searchParameters);
+            $leaveRequests = $this->getLeaveRequestService()->searchLeaveRequests($parameter);
+           
+            if(count($leaveRequests['list'])> 0 ){
+                foreach ($leaveRequests['list'] as $leaveRequest) {                   
+                      $this->overlapLeaves [] = $leaveRequest->getLeave();                
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }   
+    
 
     /**
      * isEmployeeAllowedToApply

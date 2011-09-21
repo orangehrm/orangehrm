@@ -132,21 +132,70 @@ class LeaveRequestDao extends BaseDao {
 	 * @param $leaveEndDate
 	 * @return Leave
 	 */
-	public function getOverlappingLeave( $leaveStartDate, $leaveEndDate ,$empId){
-		try {
-			$q = Doctrine_Query::create()
-			->from('Leave l')
-			->where('l.leave_date >= ?',$leaveStartDate)
-			->andWhere('l.leave_date <= ?',$leaveEndDate)
-			->andWhere('l.employee_id = ?',$empId)
-         ->andWhereNotIn('l.leave_status', array(Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY));
+	public function getOverlappingLeave( $leaveStartDate, $leaveEndDate ,$empId, $startTime = '00:00:00', $endTime='23:59:00', $hoursPerday = null ){
 
-			$leaveList = $q->execute();
-			return $leaveList;
+        try {
+            $q = Doctrine_Query::create()
+			->from('Leave l');
+            
+            $q->andWhere('l.employee_id ='.$empId);
+            $q->andWhereNotIn('l.leave_status', array(Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY));
+            
+            if( $leaveStartDate == $leaveEndDate ){
+                
+                $or [] = "('".$leaveStartDate." ".$startTime."'<= CONCAT(leave_date,' ',start_time) AND CONCAT(leave_date,' ',end_time) <='".$leaveEndDate." ".$endTime."')";
+                $or [] = "(CONCAT(leave_date,' ',start_time) <='".$leaveStartDate." ".$startTime."' AND '".$leaveEndDate." ".$endTime."' <= CONCAT(leave_date,' ',end_time))";
+                $or [] = "('".$leaveStartDate." ".$startTime."'< CONCAT(leave_date,' ',start_time) AND CONCAT(leave_date,' ',start_time) <'".$leaveEndDate." ".$endTime."')";
+                $or [] = "('".$leaveStartDate." ".$startTime."'< CONCAT(leave_date,' ',end_time) AND CONCAT(leave_date,' ',end_time) <'".$leaveEndDate." ".$endTime."')";
+                $or [] = "('".$leaveStartDate." ".$startTime."'= CONCAT(leave_date,' ',end_time) AND CONCAT(leave_date,' ',end_time) ='".$leaveEndDate." ".$endTime."')";
+                $or [] = "((leave_date ='".$leaveEndDate."') AND ((start_time = '00:00:00' AND end_time='00:00:00')))";
+
+                $orString = implode(" OR ", $or);
+                $orString ="(".$orString.")";
+            } else {
+                
+                $or [] = "('".$leaveStartDate."'<= leave_date AND leave_date <='".$leaveEndDate."')";
+                $or [] = "( leave_date <='".$leaveStartDate."' AND '".$leaveEndDate."'<= leave_date )";
+                $or [] = "('".$leaveStartDate."'< leave_date AND leave_date <'".$leaveEndDate."')";
+                $or [] = "('".$leaveStartDate."'< leave_date AND leave_date <'".$leaveEndDate."')";
+                $or [] = "('".$leaveStartDate."'= leave_date OR leave_date ='".$leaveEndDate."')";
+
+                $orString = implode(" OR ", $or);
+                $orString ="(".$orString.")";
+            }
+            
+		
+            $q->andWhere($orString);
+            $leaveListArray = $q->execute();
+			return $leaveListArray;
 		} catch( Exception $e) {
 			throw new DaoException( $e->getMessage());
 		}
 	}
+        
+
+        /**
+         *
+         * @param type $employeeId
+         * @param type $date
+         * @return type 
+         */
+        public function getTotalLeaveDuration ($employeeId , $date){
+             $this->_markApprovedLeaveAsTaken();
+
+             $leaveStatusNotConsider = array(Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+              
+             $q = Doctrine_Query::create()
+                ->select('SUM(leave_length_hours) as total_duration')
+                ->from('Leave')
+                ->where("employee_id =?",$employeeId)
+                ->andWhereNotIn("leave_status ", $leaveStatusNotConsider)
+                ->andWhere("leave_date =?", $date);
+             
+            $diration = $q->fetchOne();
+
+            return $diration->getTotalDuration();
+        }
 
 	/**
 	 * Count leave records in the Leave table
@@ -247,7 +296,7 @@ class LeaveRequestDao extends BaseDao {
 	public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false) {
 		$this->_markApprovedLeaveAsTaken();
 		
-		$limit = $searchParameters->getParameter('noOfRecordsPerPage');
+		$limit = !is_null($searchParameters->getParameter('noOfRecordsPerPage')) ? $searchParameters->getParameter('noOfRecordsPerPage') : sfConfig::get('app_items_per_page');
 		$offset = ($page > 0) ? (($page - 1) * $limit) : 0;
         
 		$list = array();

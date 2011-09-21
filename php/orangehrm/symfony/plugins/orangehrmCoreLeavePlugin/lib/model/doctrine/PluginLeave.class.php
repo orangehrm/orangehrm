@@ -80,4 +80,12 @@ abstract class PluginLeave extends BaseLeave {
     public function getDetailedLeaveListRequestIdHolderValue() {
         return "0";
     }
+    public function getLeaveDurationAsAString(){
+      
+        if( $this->getStartTime() != '00:00:00' || $this->getEndTime() != '00:00:00'){
+            return "(".(date("H:i", strtotime( $this->getStartTime())))." - ".date("H:i", strtotime( $this->getEndTime())).")";
+        } else {
+            return '';
+        }
+    }
 }

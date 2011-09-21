@@ -212,9 +212,9 @@ class LeaveRequestService extends BaseService {
      * @param int $empId
      * @return Leave List
      */
-    public function getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId) {
+    public function getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId, $startTime = '00:00', $endTime='59:00', $hoursPerday = '8') {
 
-        return $this->leaveRequestDao->getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId);
+        return $this->leaveRequestDao->getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId,  $startTime, $endTime, $hoursPerday);
 
     }
 
@@ -707,6 +707,17 @@ class LeaveRequestService extends BaseService {
      */
     private function _filterCancellations($element) {
         return ($element == 'markedForCancellation');
+    }
+    
+
+    /**
+     *
+     * @param type $employeeId
+     * @param type $date
+     * @return double
+     */
+    public function getTotalLeaveDuration($employeeId, $date){
+        return $this->getLeaveRequestDao()->getTotalLeaveDuration($employeeId, $date);
     }
 
 

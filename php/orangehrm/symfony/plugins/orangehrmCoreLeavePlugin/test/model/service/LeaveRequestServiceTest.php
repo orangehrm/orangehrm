@@ -292,13 +292,14 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getOverlappingLeave'));
         $leaveRequestDao->expects($this->once())
                 ->method('getOverlappingLeave')
-                ->with('2010-02-03', '2010-02-05', 12)
+                ->with('2010-02-03', '2010-02-05', 12, '00:00:00','00:00:00', 8)
                 ->will($this->returnValue($leaveList));
 
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
-        $returnVal = $this->leaveRequestService->getOverlappingLeave('2010-02-03', '2010-02-05', 12);
+        $returnVal = $this->leaveRequestService->getOverlappingLeave('2010-02-03', '2010-02-05', 12, '00:00:00','00:00:00', 8);
         $this->assertTrue($returnVal == $leaveList);
     }
+    
 
     public function testSaveLeave() {
 
@@ -609,6 +610,23 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         }
         
     }
+        
+        
+       public function testGetTotalLeaveDuration() {
+
+        $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
+
+        $leaveRequestDao = $this->getMock('LeaveRequestDao', array('getTotalLeaveDuration'));
+        $leaveRequestDao->expects($this->once())
+                ->method('getTotalLeaveDuration')
+                ->will($this->returnValue(10));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
+        $returnVal = $this->leaveRequestService->getTotalLeaveDuration('2010-02-03', '2010-02-05', 12, '00:00:00','00:00:00', 8);
+
+        $this->assertEquals(10, $returnVal);
+      }
+
 
     public function testChangeLeaveStatus() {
 

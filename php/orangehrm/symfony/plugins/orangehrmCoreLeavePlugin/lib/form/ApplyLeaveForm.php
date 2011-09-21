@@ -41,7 +41,7 @@ class ApplyLeaveForm extends sfForm {
             'txtComment' => new sfWidgetFormTextarea(), 
             'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
         	'txtToTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
-        	'txtLeaveTotalTime' => new sfWidgetFormInput(),
+        	'txtLeaveTotalTime' => new sfWidgetFormInput(array(), array('readonly' => 'readonly')),
         ));
 
         $this->setValidators(array(
