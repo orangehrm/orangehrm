@@ -215,6 +215,9 @@ DisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
+    default:
+      type: string(255)
+
 
 CompositeDisplayField:
   tableName: ohrm_composite_display_field
@@ -265,6 +268,8 @@ CompositeDisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
+    default:
+      type: string(255)
 
 SelectedCompositeDisplayField:
   tableName: ohrm_selected_composite_display_field
@@ -428,6 +433,8 @@ SummaryDisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
+    default:
+      type: string(255)
 
 SelectedGroupField:
   tableName: ohrm_selected_group_field

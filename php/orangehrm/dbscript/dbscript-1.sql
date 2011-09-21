@@ -1001,6 +1001,7 @@ create table `ohrm_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
+  `default` varchar(255) null,
   primary key (`display_field_id`)
 ) engine=innodb default charset=utf8;
 
@@ -1017,6 +1018,7 @@ create table `ohrm_composite_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
+  `default` varchar(255) null,
   primary key (`composite_display_field_id`)
 ) engine=innodb default charset=utf8;
 
@@ -1084,6 +1086,7 @@ create table `ohrm_summary_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
+  `default` varchar(255) null,
   primary key (`summary_display_field_id`)
 ) engine=innodb default charset=utf8;
 

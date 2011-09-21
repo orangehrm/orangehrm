@@ -13,6 +13,7 @@ class AncientNationalityListConfigurationFactory extends ohrmListConfigurationFa
             'elementType' => 'link',
             'elementProperty' => array(
                 'labelGetter' => 0,
+                'default' => 'default link value',
                 'placeholderGetters' => array('id' => 0),
                 'urlPattern' => '../../../lib/controllers/CentralController.php?id={id}&uniqcode=NAT&capturemode=updatemode'),
         ));
@@ -20,7 +21,7 @@ class AncientNationalityListConfigurationFactory extends ohrmListConfigurationFa
         $header2->populateFromArray(array(
             'name' => 'Name',
             'elementType' => 'label',
-            'elementProperty' => array('getter' => 1),
+            'elementProperty' => array('getter' => 1, 'default' => 'default label value',),
         ));
 
         $this->headers = array($header1, $header2);

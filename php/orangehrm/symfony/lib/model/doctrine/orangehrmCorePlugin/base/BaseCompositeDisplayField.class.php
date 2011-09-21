@@ -17,6 +17,7 @@
  * @property string $width
  * @property string $isExportable
  * @property string $textAlignmentStyle
+ * @property string $default
  * @property Doctrine_Collection $SelectedCompositeDisplayField
  * 
  * @method integer               getCompositeDisplayFieldId()       Returns the current record's "compositeDisplayFieldId" value
@@ -31,6 +32,7 @@
  * @method string                getWidth()                         Returns the current record's "width" value
  * @method string                getIsExportable()                  Returns the current record's "isExportable" value
  * @method string                getTextAlignmentStyle()            Returns the current record's "textAlignmentStyle" value
+ * @method string                getDefault()                       Returns the current record's "default" value
  * @method Doctrine_Collection   getSelectedCompositeDisplayField() Returns the current record's "SelectedCompositeDisplayField" collection
  * @method CompositeDisplayField setCompositeDisplayFieldId()       Sets the current record's "compositeDisplayFieldId" value
  * @method CompositeDisplayField setName()                          Sets the current record's "name" value
@@ -44,6 +46,7 @@
  * @method CompositeDisplayField setWidth()                         Sets the current record's "width" value
  * @method CompositeDisplayField setIsExportable()                  Sets the current record's "isExportable" value
  * @method CompositeDisplayField setTextAlignmentStyle()            Sets the current record's "textAlignmentStyle" value
+ * @method CompositeDisplayField setDefault()                       Sets the current record's "default" value
  * @method CompositeDisplayField setSelectedCompositeDisplayField() Sets the current record's "SelectedCompositeDisplayField" collection
  * 
  * @package    orangehrm
@@ -114,6 +117,10 @@ abstract class BaseCompositeDisplayField extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => false,
              'length' => 20,
+             ));
+        $this->hasColumn('default', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
              ));
     }
 

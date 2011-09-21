@@ -693,14 +693,14 @@ INSERT INTO `ohrm_filter_field` VALUES (1, 1, 'project_name', 'hs_hr_project.pro
                                        (6, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'Runtime', 'true'),
                                        (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, 'Runtime', null);
 
-INSERT INTO `ohrm_display_field` VALUES (1, 'hs_hr_project.name', 'Project Name', 'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null),
+INSERT INTO `ohrm_display_field` VALUES (1, 'hs_hr_project.name', 'Project Name', 'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null, null),
                                         (2, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'link', '<xml><labelGetter>activityname</labelGetter><placeholderGetters><id>activity_id</id><total>totalduration</total><projectId>projectId</projectId><from>fromDate</from><to>toDate</to></placeholderGetters><urlPattern>../../displayProjectActivityDetailsReport?reportId=3#activityId={id}#total={total}#from={from}#to={to}#projectId={projectId}</urlPattern></xml>', 200, '0', null),
-                                        (3, 'hs_hr_project_activity.project_id', 'Project Id', null, 'false', null, null, 'label', '<xml><getter>project_id</getter></xml>', 75, '0', 'right'),
-                                        (4, 'hs_hr_project_activity.activity_id', 'Activity Id', null,  'false', null, null, 'label', '<xml><getter>activity_id</getter></xml>', 75, '0', 'right'),
-                                        (5, 'ohrm_timesheet_item.duration', 'Time (hours)', null, 'false', null, null, 'label', '<xml><getter>duration</getter></xml>', 75, '0', 'right'),
-                                        (6, 'hs_hr_employee.emp_firstname', 'Employee Firstname', null,  'false', null, null, 'label', '<xml><getter>emp_firstname</getter></xml>', 200, '0', null),
-                                        (7, 'hs_hr_employee.emp_lastname', 'Employee Lastname', null, 'false', null, null, 'label', '<xml><getter>emp_lastname</getter></xml>', 200, '0', null),
-                                        (8, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'label', '<xml><getter>activityname</getter></xml>', 200, '0', null);
+                                        (3, 'hs_hr_project_activity.project_id', 'Project Id', null, 'false', null, null, 'label', '<xml><getter>project_id</getter></xml>', 75, '0', 'right', null),
+                                        (4, 'hs_hr_project_activity.activity_id', 'Activity Id', null,  'false', null, null, 'label', '<xml><getter>activity_id</getter></xml>', 75, '0', 'right', null),
+                                        (5, 'ohrm_timesheet_item.duration', 'Time (hours)', null, 'false', null, null, 'label', '<xml><getter>duration</getter></xml>', 75, '0', 'right', null),
+                                        (6, 'hs_hr_employee.emp_firstname', 'Employee Firstname', null,  'false', null, null, 'label', '<xml><getter>emp_firstname</getter></xml>', 200, '0', null, null),
+                                        (7, 'hs_hr_employee.emp_lastname', 'Employee Lastname', null, 'false', null, null, 'label', '<xml><getter>emp_lastname</getter></xml>', 200, '0', null, null),
+                                        (8, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'label', '<xml><getter>activityname</getter></xml>', 200, '0', null, null);
 
 INSERT INTO `ohrm_group_field` VALUES (1, 'activity id', 'GROUP BY hs_hr_project_activity.activity_id', null),
                                       (2, 'employee number', 'GROUP BY hs_hr_employee.emp_number', null);
@@ -719,8 +719,8 @@ INSERT INTO `ohrm_selected_filter_field` VALUES (1, 1, 1, null, null, null),
 INSERT INTO `ohrm_selected_display_field` VALUES (2, 2, 1),
                                                  (4, 8, 2);
 
-INSERT INTO `ohrm_composite_display_field` VALUES (1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null),
-                                                  (2, 'CONCAT(hs_hr_customer.name, " - " ,hs_hr_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null);
+INSERT INTO `ohrm_composite_display_field` VALUES (1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null, 'Deleted Employee'),
+                                                  (2, 'CONCAT(hs_hr_customer.name, " - " ,hs_hr_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null, null);
 
 INSERT INTO `ohrm_meta_display_field` VALUES (1, 3, 1),
                                              (2, 4, 1);

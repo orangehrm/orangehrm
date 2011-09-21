@@ -86,6 +86,7 @@ abstract class displayReportAction extends sfAction {
         ohrmListComponent::setConfigurationFactory($configurationFactory);
 
         $this->setListHeaderPartial();
+        
         ohrmListComponent::setListData($dataSet);
 
         $this->parmetersForListComponent = $params;
