@@ -44,7 +44,7 @@ class punchOutAction extends sfAction {
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
         $actionableStatesList = $this->userObj->getActionableAttendanceStates($actions);
         $timeZoneOffset = $this->userObj->getUserTimeZoneOffset();
-
+        print_r($timeZoneOffset);
         $timeStampDiff = $timeZoneOffset * 3600 - date('Z');
         $this->currentDate = date('Y-m-d', time() + $timeStampDiff);
         $this->currentTime = date('H:i', time() + $timeStampDiff);

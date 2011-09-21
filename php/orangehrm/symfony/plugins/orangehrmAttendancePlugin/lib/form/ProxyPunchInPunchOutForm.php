@@ -19,7 +19,25 @@
  */
 class ProxyPunchInPunchOutForm extends AttendanceForm {
 
+    private $attendanceService;
+
+    public function getAttendanceService() {
+
+        if (is_null($this->attendanceService)) {
+
+            $this->attendanceService = new AttendanceService();
+        }
+
+        return $this->attendanceService;
+    }
+
+    public function setAttendanceService(AttendanceService $attendanceService) {
+
+        $this->attendanceService = $attendanceService;
+    }
+
     public function configure() {
+        $timeZone = $this->getOption('timezone');
 
         $this->formWidgets['timezone'] = new sfWidgetFormSelect(array('choices' => $this->getTimezoneArray()), array('class' => 'timezone'));
         $this->setWidgets($this->formWidgets);
@@ -30,6 +48,9 @@ class ProxyPunchInPunchOutForm extends AttendanceForm {
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
         parent::configure();
+        
+        $index = array_keys($this->getAttendanceService()->getTimezoneArray(), $timeZone);
+        $this->setDefault('timezone', $index[0]);
     }
     
     
