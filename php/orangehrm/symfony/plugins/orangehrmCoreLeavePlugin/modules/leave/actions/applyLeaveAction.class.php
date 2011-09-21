@@ -30,6 +30,7 @@ class applyLeaveAction extends sfAction {
     private $leaveTypeService;
     private $leavePeriodService;
     private $leaveNotificationService;
+    private $leaveEntitlementService;
 
     /**
      * Get Employee number
@@ -147,6 +148,25 @@ class applyLeaveAction extends sfAction {
     public function setLeaveNotificationService(LeaveNotificationService $leaveNotificationService) {
         $this->leaveNotificationService = $leaveNotificationService;
     }
+    
+    /**
+     * Get LeaveEntitlementService
+     * return LeaveEntitlementService
+     */
+    public function getLeaveEntitlementService() {
+        if(is_null($this->leaveEntitlementService)) {
+            $this->leaveEntitlementService = new LeaveEntitlementService();
+        }
+        return $this->leaveEntitlementService;
+    }
+    
+    /**
+     * Set LeaveEntitlementService
+     * @param type $leaveEntitlementService 
+     */
+    public function setLeaveEntitlementService($leaveEntitlementService) {
+        $this->leaveEntitlementService = $leaveEntitlementService;
+    }
 
     public function execute($request) {
 
@@ -252,31 +272,37 @@ class applyLeaveAction extends sfAction {
         }
         $leaves	=	$form->createLeaveObjectListForAppliedRange();
         $holidayCount = 0;
+        $requestedLeaveDays = 0;
         $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
         foreach($leaves as $k => $leave) {
             if(in_array($leave->getLeaveStatus(), $holidays)) {
-                $holidayCount++;
+                $holidayCount++;                
             }
+            $requestedLeaveDays += $leave->getLeaveLengthDays();
         }
 
         //this is to see whether employee applies leave only during weekends or standard holidays
         if($holidayCount != count($leaves)) {
             if($this->isEmployeeAllowedToApply($leaveType)) {
-                try {
-                    $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
+                if($this->getLeaveEntitlementService()->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest)) {
+                    try {
+                        $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest,$leaves);
 
-                    if($this->form->isOverlapLeaveRequest()){
-                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                        if($this->form->isOverlapLeaveRequest()){
+                            $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
+                        }
+
+                        //sending leave apply notification
+
+                        $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
+                        $leaveApplicationMailer->send();
+
+                        $this->templateMessage = array('SUCCESS', __('Leave Request Successfully Submitted'));
+                    } catch(Exception $e) {
+                        $this->templateMessage = array('WARNING', __('Leave Quota will Exceed'));
                     }
-
-                    //sending leave apply notification
-
-                    $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
-                    $leaveApplicationMailer->send();
-
-                    $this->templateMessage = array('SUCCESS', __('Leave Request Successfully Submitted'));
-                } catch(Exception $e) {
-                    $this->templateMessage = array('WARNING', __('Leave Period Does Not Exist'));
+                } else {
+                    $this->templateMessage = array('WARNING', __('Leve Request Exceeds Leave Balance'));
                 }
             }
         } else {

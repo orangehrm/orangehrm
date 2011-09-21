@@ -242,4 +242,83 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
 
     }
     
+//    /**
+//     * Test isEmployeeRequestProtectLeaveQuota For true Result
+//     */
+//    public function testIsEmployeeRequestProtectLeaveQuotaForTrue() {
+//        
+//        $requestedLeaveDays = 2;
+//        $leaveEntitlements  = TestDataService::loadObjectList('EmployeeLeaveEntitlement', $this->fixture, 'EmployeeLeaveEntitlement');
+//        $parameters = array($leaveEntitlements[0]->getEmployeeId(), $leaveEntitlements[0]->getLeaveTypeId(), $leaveEntitlements[0]->getLeavePeriodId());
+//        
+//        $leaveEntitlementDao    = $this->getMock('LeaveEntitlementDao', array('getEmployeeLeaveEntitlement'));
+//        $leaveEntitlementDao->expects($this->once())
+//                            ->method('getEmployeeLeaveEntitlement')
+//                            ->with($parameters[0], $parameters[1], $parameters[2])
+//                            ->will($this->returnValue($leaveEntitlements[0]));
+//        $this->leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
+//        
+//        $this->leaveEntitlementService = $this->getMock('LeaveEntitlementService', array('getEmployeeLeaveEntitlementDays'));
+//        $this->leaveEntitlementService->expects($this->once())
+//                                ->method('getEmployeeLeaveEntitlementDays')
+//                                ->with($parameters[0], $parameters[1], $parameters[2])
+//                                ->will($this->returnValue($leaveEntitlements[0]->getNoOfDaysAllotted()));
+//
+//        $leaveRequestService = $this->getMock('LeaveRequestService', array('getNumOfAvaliableLeave'));
+//        $leaveRequestService->expects($this->once())
+//                            ->method('getNumOfAvaliableLeave')
+//                            ->with($parameters[0], $parameters[1])
+//                            ->will($this->returnValue(15));        
+//
+//        
+//        $this->leaveEntitlementService->setLeaveRequestService($leaveRequestService);
+//        
+//        
+//        
+//        
+//        $result = $this->leaveEntitlementService->isEmployeeRequestProtectLeaveQuota($requestedLeaveDays, $leaveEntitlements[0]);
+//        $this->assertTrue($result);
+//        
+//    }
+//    
+//    /**
+//     * Test isEmployeeRequestProtectLeaveQuota For false Result
+//     */
+//    public function testIsEmployeeRequestProtectLeaveQuotaForFalse() {
+//        
+//        $requestedLeaveDays = 6;
+//        $leaveEntitlements  = TestDataService::loadObjectList('EmployeeLeaveEntitlement', $this->fixture, 'EmployeeLeaveEntitlement');
+//        $parameters = array($leaveEntitlements[0]->getEmployeeId(), $leaveEntitlements[0]->getLeaveTypeId(), $leaveEntitlements[0]->getLeavePeriodId());
+//        
+//        $leaveEntitlementService = $this->getMock('LeaveEntitlementService', array('getEmployeeLeaveEntitlementDays'));
+//        $leaveEntitlementService->expects($this->once())
+//                                ->method('getEmployeeLeaveEntitlementDays')
+//                                ->with($parameters[0], $parameters[1], $parameters[2])
+//                                ->will($this->returnValue($leaveEntitlements[0]->getNoOfDaysAllotted()));
+//
+//        $leaveEntitlementDao    = $this->getMock('LeaveEntitlementDao', array('getEmployeeLeaveEntitlement'));
+//        $leaveEntitlementDao->expects($this->once())
+//                            ->method('getEmployeeLeaveEntitlement')
+//                            ->with($parameters[0], $parameters[1], $parameters[2])
+//                            ->will($this->returnValue($leaveEntitlements[0]));
+//        
+//        $leaveRequestService = $this->getMock('LeaveRequestService', array('getNumOfAvaliableLeave'));
+//        $leaveRequestService->expects($this->once())
+//                            ->method('getNumOfAvaliableLeave')
+//                            ->with($parameters[0], $parameters[1])
+//                            ->will($this->returnValue(15));
+//        
+//        $leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
+//        $leaveEntitlementService->setLeaveRequestService($leaveRequestService);
+//        
+//        
+//        
+//        
+//        
+//        
+//        $result = $leaveEntitlementService->isEmployeeRequestProtectLeaveQuota($requestedLeaveDays, $leaveEntitlements[0]);
+//        $this->assertFalse($result);
+//        
+//    }
+    
 }
