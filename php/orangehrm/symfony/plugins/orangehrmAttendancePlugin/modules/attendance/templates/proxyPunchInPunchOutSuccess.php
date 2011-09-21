@@ -57,7 +57,7 @@
             </form>
 
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time: "); ?><?php echo $punchInTime; ?>&nbsp;<?php echo $punchInNote; ?></div>
+                <div>&nbsp; <?php echo __("Last punch in time").": "; ?><?php echo $punchInTime; ?>&nbsp;<?php echo $punchInNote; ?></div>
             <?php endif; ?><br class="clear">          
 
 

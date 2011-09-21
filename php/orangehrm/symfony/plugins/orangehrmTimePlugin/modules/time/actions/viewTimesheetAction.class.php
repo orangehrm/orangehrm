@@ -101,7 +101,7 @@ class viewTimesheetAction extends sfAction {
 
                     $state = $request->getParameter('state');
                     if (isset($state)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully ") . ucwords(strtolower($state)));
+                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully")." " . ucwords(strtolower($state)));
                     }
                     $comment = $request->getParameter('Comment');
                     $this->timesheet->setState($state);

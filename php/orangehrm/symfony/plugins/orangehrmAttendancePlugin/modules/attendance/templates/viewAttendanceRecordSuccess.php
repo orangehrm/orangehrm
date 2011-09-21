@@ -68,7 +68,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 
 <script type="text/javascript">
-    //  dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
+    
     var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
     var dateDisplayFormat = dateFormat.toUpperCase();
@@ -81,6 +81,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var trigger='<?php echo $trigger; ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
-     var actionRecorder='<?php echo $actionRecorder; ?>';
+    var actionRecorder='<?php echo $actionRecorder; ?>';
 
 </script>

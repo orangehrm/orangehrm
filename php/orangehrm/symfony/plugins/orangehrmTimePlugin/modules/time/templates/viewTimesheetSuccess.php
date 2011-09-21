@@ -63,13 +63,13 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <td id ="activityColumn" ><?php echo __("Activity Name") ?></td>
 
                         <?php foreach ($rowDates as $data): ?>
-                            <td><?php echo date('D', strtotime($data)); ?> <br/><?php echo date('j', strtotime($data)); ?></td><td class="commentIcon"></td>
+                            <td><?php echo __(date('D', strtotime($data))); ?> <br/><?php echo date('j', strtotime($data)); ?></td><td class="commentIcon"></td>
                         <?php endforeach; ?>
 
                         <td><?php echo __("Total") ?></td>
                     </tr>
                 </thead>
-
+                    <tr><td id="noRecordsColumn" colspan="100"></td></tr>
                 <?php if (isset($toggleDate)): ?>
                     <?php $selectedTimesheetStartDate = $toggleDate ?>
                 <?php else: ?>

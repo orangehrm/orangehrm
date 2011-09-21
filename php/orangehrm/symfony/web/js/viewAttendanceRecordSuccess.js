@@ -151,14 +151,14 @@ function validateInputDate(){
         
     var dateArray=$(".date").val().split('-');
     
-    
-    if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
         
+    if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
+
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidFormat);
         $("#attendance_date").attr('style', errorStyle);
         errFlag = true;
-    }   
+    }  
     return !errFlag ;
     
 }

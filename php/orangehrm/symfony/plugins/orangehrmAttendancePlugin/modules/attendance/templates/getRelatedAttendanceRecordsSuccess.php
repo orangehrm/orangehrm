@@ -8,14 +8,14 @@
             <td><?php echo __("Punch In Note"); ?></td>
             <td><?php echo __("Punch Out"); ?></td>
             <td><?php echo __("Punch Out Note"); ?></td>
-            <td><?php echo __("Duration(Hours) "); ?></td>
+            <td><?php echo __("Duration(Hours)"); ?></td>
         </tr>
     </thead>     
     <?php $class = 'odd'; ?>
     <?php $i = 0; ?>
     <?php $total = 0; ?>
     <?php if ($records == null): ?>  <tr>
-            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo "No attendance records to display!" ?></td>
+            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo __("No attendance records to display")."!" ?></td>
         </tr> <?php else: ?> 
 
         <?php foreach ($records as $record): ?>
@@ -95,7 +95,7 @@
 </div>
 
 <div id="dialogBox" class="dialogBox" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>">
-    <?php echo __("Selected attenadnce records will be deleted?"); ?>
+    <?php echo __("Selected attenadnce records will be deleted")."?"; ?>
 
     <div>
         <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="dialogOk" class="plainbtn okBtn" value="<?php echo __('Ok'); ?>" />

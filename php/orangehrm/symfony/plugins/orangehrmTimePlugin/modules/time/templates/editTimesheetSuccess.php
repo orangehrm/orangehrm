@@ -41,7 +41,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <?php if ($noOfColumns == 7): ?>
     <?php if (isset($employeeName)): ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . __(' for Week ') ?><?php echo $currentWeekDates[0] ?> </h2>
+        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . " ".__('for Week')." " ?><?php echo $currentWeekDates[0] ?> </h2>
     <?php else: ?>
         <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for Week  ') ?><?php echo " " . $currentWeekDates[0] ?> </h2>
     <?php endif; ?>
@@ -65,7 +65,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <td id="projectName"><?php echo __('Project Name') ?></td>
                     <td id="activityName"><?php echo __('Activity Name') ?></td>
                     <?php foreach ($currentWeekDates as $date): ?>
-                        <td align="center" style="padding-right: 15px"><?php echo date('D', strtotime($date)); ?> <br/><?php echo date('j', strtotime($date)); ?></td>
+                        <td align="center" style="padding-right: 15px"><?php echo __(date('D', strtotime($date))); ?> <br/><?php echo date('j', strtotime($date)); ?></td>
                     <?php endforeach; ?>
                 </tr>
             </thead>
@@ -116,15 +116,15 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     </form>
 </div>
-  <div class="paddingLeftRequired"><span class="required">*</span><?php echo __(' Deleted project activities are not editable.') ?> </div>
+  <div class="paddingLeftRequired"><span class="required">*</span><?php echo " ".__('Deleted project activities are not editable') ?> </div>
 <!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Comment'); ?>">
     <form action="updateComment" method="post" id="frmCommentSave">
         <div>
             <table>
-                <tr><td><?php echo __("Project Name ") ?></td><td><span id="commentProjectName"></span></td></tr>
-                <tr><td><?php echo __("Activity Name ") ?></td><td><span id="commentActivityName"></span></td></tr>
+                <tr><td><?php echo __("Project Name") ?></td><td><span id="commentProjectName"></span></td></tr>
+                <tr><td><?php echo __("Activity Name") ?></td><td><span id="commentActivityName"></span></td></tr>
                 <tr><td><?php echo __("Date") ?></td><td><span id="commentDate"></span></td></tr>
             </table>
         </div>
