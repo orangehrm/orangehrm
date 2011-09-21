@@ -38,6 +38,7 @@ class ProxyPunchInPunchOutForm extends AttendanceForm {
 
     public function configure() {
         $timeZone = $this->getOption('timezone');
+        $date = $this->getOption('date');
 
         $this->formWidgets['timezone'] = new sfWidgetFormSelect(array('choices' => $this->getTimezoneArray()), array('class' => 'timezone'));
         $this->setWidgets($this->formWidgets);
@@ -51,6 +52,7 @@ class ProxyPunchInPunchOutForm extends AttendanceForm {
         
         $index = array_keys($this->getAttendanceService()->getTimezoneArray(), $timeZone);
         $this->setDefault('timezone', $index[0]);
+        $this->setDefault('date', $date);
     }
     
     

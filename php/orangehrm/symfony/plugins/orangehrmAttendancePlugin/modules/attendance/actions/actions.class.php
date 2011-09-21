@@ -288,7 +288,7 @@ class AttendanceActions extends sfActions {
 
             $this->action['PunchOut'] = true;
         }
-        $param = array('timezone'=> $timeZoneOffset);
+        $param = array('timezone'=> $timeZoneOffset, 'date' => $this->date);
         $this->form = new ProxyPunchInPunchOutForm(array(), $param, true);
 
         if ($this->action['PunchIn']) {
@@ -312,9 +312,6 @@ class AttendanceActions extends sfActions {
                         $punchInNote = $this->form->getValue('note');
                         $timeValue = $this->form->getValue('timezone');
                         $employeeTimezone = $this->getAttendanceService()->getTimezone($timeValue);
-                        print_r($employeeTimezone."test");
-                        print_r($timeValue."test");
-                        die;
                         if ($employeeTimezone == 'GMT') {
                             $employeeTimezone = 0;
                         }
@@ -355,9 +352,6 @@ class AttendanceActions extends sfActions {
                         $punchOutDate = $this->form->getValue('date');
                         $timeValue = $this->form->getValue('timezone');
                         $employeeTimezone = $this->getAttendanceService()->getTimezone($timeValue);
-                        print_r($employeeTimezone."test");
-                        print_r($timeValue."test");
-                        die;
                         if ($employeeTimezone == 'GMT') {
                             $employeeTimezone = 0;
                         }

@@ -3,7 +3,7 @@ $(document).ready(function()
 
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
-        $(".date").val(currentDate);
+//        $(".date").val(currentDate);
         $(".time").val(currentTime);
 
         //if(editMode){
