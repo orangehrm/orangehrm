@@ -112,7 +112,7 @@ class EmployeeConactDetailsForm extends sfForm {
     }
     
     public function postValidation($validator, $values) {
-        
+
         $emails = $this->getEmailList();
         
         $errorList = array();
@@ -127,10 +127,11 @@ class EmployeeConactDetailsForm extends sfForm {
             if($email['othEmail']){
                 $emailList[] = $email['othEmail'];
             }
-        } 
-
-            if($values['emp_work_email'] == $values['emp_oth_email']) {
-                $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+        }
+            if($values['emp_work_email'] !="" && $values['emp_oth_email'] != "") {
+                if($values['emp_work_email'] == $values['emp_oth_email']) {
+                    $errorList['emp_oth_email'] = new sfValidatorError($validator, __("This email already exists"));
+                }
             }
             if (in_array($values['emp_work_email'], $emailList)) {
                 $errorList['emp_work_email'] = new sfValidatorError($validator, __("This email already exists"));
