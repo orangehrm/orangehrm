@@ -17,7 +17,7 @@
  * @property string $width
  * @property string $isExportable
  * @property string $textAlignmentStyle
- * @property string $default
+ * @property string $defaultValue
  * @property Doctrine_Collection $AvailableDisplayField
  * @property Doctrine_Collection $SelectedDisplayField
  * @property Doctrine_Collection $MetaDisplayField
@@ -34,7 +34,7 @@
  * @method string              getWidth()                 Returns the current record's "width" value
  * @method string              getIsExportable()          Returns the current record's "isExportable" value
  * @method string              getTextAlignmentStyle()    Returns the current record's "textAlignmentStyle" value
- * @method string              getDefault()               Returns the current record's "default" value
+ * @method string              getDefaultValue()          Returns the current record's "defaultValue" value
  * @method Doctrine_Collection getAvailableDisplayField() Returns the current record's "AvailableDisplayField" collection
  * @method Doctrine_Collection getSelectedDisplayField()  Returns the current record's "SelectedDisplayField" collection
  * @method Doctrine_Collection getMetaDisplayField()      Returns the current record's "MetaDisplayField" collection
@@ -50,7 +50,7 @@
  * @method DisplayField        setWidth()                 Sets the current record's "width" value
  * @method DisplayField        setIsExportable()          Sets the current record's "isExportable" value
  * @method DisplayField        setTextAlignmentStyle()    Sets the current record's "textAlignmentStyle" value
- * @method DisplayField        setDefault()               Sets the current record's "default" value
+ * @method DisplayField        setDefaultValue()          Sets the current record's "defaultValue" value
  * @method DisplayField        setAvailableDisplayField() Sets the current record's "AvailableDisplayField" collection
  * @method DisplayField        setSelectedDisplayField()  Sets the current record's "SelectedDisplayField" collection
  * @method DisplayField        setMetaDisplayField()      Sets the current record's "MetaDisplayField" collection
@@ -124,7 +124,7 @@ abstract class BaseDisplayField extends sfDoctrineRecord
              'notnull' => false,
              'length' => 20,
              ));
-        $this->hasColumn('default', 'string', 255, array(
+        $this->hasColumn('default_value as defaultValue', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              ));

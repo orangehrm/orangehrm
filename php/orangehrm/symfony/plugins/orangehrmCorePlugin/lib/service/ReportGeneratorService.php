@@ -439,7 +439,7 @@ class ReportGeneratorService {
         $xmlIterator = new SimpleXMLIterator($elementPropertyXmlString);
 
         $elementPropertyArray = $this->simplexmlToArray($xmlIterator);
-        $elementPropertyArray['default'] = $displayField->getDefault();
+        $elementPropertyArray['default'] = $displayField->getDefaultValue();
 
         $properties['elementProperty'] = $elementPropertyArray;
         $temp = "header" . $headerNo;

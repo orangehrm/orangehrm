@@ -215,7 +215,8 @@ DisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
-    default:
+    default_value:
+      name: default_value as defaultValue
       type: string(255)
 
 
@@ -268,7 +269,8 @@ CompositeDisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
-    default:
+    default_value:
+      name: default_value as defaultValue
       type: string(255)
 
 SelectedCompositeDisplayField:
@@ -433,7 +435,8 @@ SummaryDisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
-    default:
+    default_value:
+      name: default_value as defaultValue
       type: string(255)
 
 SelectedGroupField:

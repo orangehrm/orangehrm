@@ -17,7 +17,7 @@
  * @property string $width
  * @property string $isExportable
  * @property string $textAlignmentStyle
- * @property string $default
+ * @property string $defaultValue
  * @property Doctrine_Collection $SelectedGroupField
  * 
  * @method integer             getSummaryDisplayFieldId() Returns the current record's "summaryDisplayFieldId" value
@@ -32,7 +32,7 @@
  * @method string              getWidth()                 Returns the current record's "width" value
  * @method string              getIsExportable()          Returns the current record's "isExportable" value
  * @method string              getTextAlignmentStyle()    Returns the current record's "textAlignmentStyle" value
- * @method string              getDefault()               Returns the current record's "default" value
+ * @method string              getDefaultValue()          Returns the current record's "defaultValue" value
  * @method Doctrine_Collection getSelectedGroupField()    Returns the current record's "SelectedGroupField" collection
  * @method SummaryDisplayField setSummaryDisplayFieldId() Sets the current record's "summaryDisplayFieldId" value
  * @method SummaryDisplayField setFunction()              Sets the current record's "function" value
@@ -46,7 +46,7 @@
  * @method SummaryDisplayField setWidth()                 Sets the current record's "width" value
  * @method SummaryDisplayField setIsExportable()          Sets the current record's "isExportable" value
  * @method SummaryDisplayField setTextAlignmentStyle()    Sets the current record's "textAlignmentStyle" value
- * @method SummaryDisplayField setDefault()               Sets the current record's "default" value
+ * @method SummaryDisplayField setDefaultValue()          Sets the current record's "defaultValue" value
  * @method SummaryDisplayField setSelectedGroupField()    Sets the current record's "SelectedGroupField" collection
  * 
  * @package    orangehrm
@@ -118,7 +118,7 @@ abstract class BaseSummaryDisplayField extends sfDoctrineRecord
              'notnull' => false,
              'length' => 20,
              ));
-        $this->hasColumn('default', 'string', 255, array(
+        $this->hasColumn('default_value as defaultValue', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              ));
