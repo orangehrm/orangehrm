@@ -12,3 +12,8 @@
 .paddingLeft {
     padding-left: 13px;
 }
+
+#messageBalloon_warning {
+    margin: 10px 10px 10px 30px;
+    padding: 8px 8px 8px 15px;
+}

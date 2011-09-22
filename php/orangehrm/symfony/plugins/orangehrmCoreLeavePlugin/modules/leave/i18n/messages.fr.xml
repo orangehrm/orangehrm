@@ -460,6 +460,14 @@
         <source>At Least One Day Should Be a Working Day</source>
         <target>FR_At Least One Day Should Be a Working Day</target>
       </trans-unit>
+      <trans-unit id="221">
+        <source>Total Leave Requests for the Day Exceed Workshift Length</source>
+        <target>FR_Total Leave Requests for the Day Exceed Workshift Length</target>
+      </trans-unit>
+      <trans-unit id="222">
+        <source>Leve Request Exceeds Leave Balance</source>
+        <target>FR_Leve Request Exceeds Leave Balance</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

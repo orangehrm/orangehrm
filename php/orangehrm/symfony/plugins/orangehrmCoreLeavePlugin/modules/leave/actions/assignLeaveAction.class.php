@@ -163,12 +163,15 @@ class assignLeaveAction extends sfAction {
                 if(empty($post['txtEmpID'])) {
                     $this->templateMessage = array('WARNING', __("Employee Does Not Exist"));
                 }
-                
-                if(!empty($post['txtEmpID']) && !$this->hasOverlapLeave($this->form)) {
-                    if(!$this->applyMoreThanAllowedForAday ($this->form)){
+               
+                if(!empty($post['txtEmpID']) && !$this->applyMoreThanAllowedForAday ($this->form)) {					
+                    if(!$this->hasOverlapLeave($this->form)){
                         $this->saveLeaveRequest($this->form);
-                    }                    
-                }
+                    }
+                } elseif(!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday ($this->form)) {
+					$this->templateMessage = array('WARNING', __("Total Leave Requests for the Day Exceed Workshift Length"));
+                    $this->overlapLeaves = 0;
+				}
             }
         }
     }

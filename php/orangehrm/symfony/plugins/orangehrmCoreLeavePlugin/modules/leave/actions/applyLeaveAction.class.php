@@ -178,10 +178,13 @@ class applyLeaveAction extends sfAction {
         if($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if($this->form->isValid()) {
-                if(!$this->hasOverlapLeave($this->form)) {                    
-                    if(!$this->applyMoreThanAllowedForAday ($this->form)){
+                if(!$this->applyMoreThanAllowedForAday ($this->form)) {                    
+                    if(!$this->hasOverlapLeave($this->form)){
                         $this->saveLeaveRequest($this->form);
-                    }                    
+                    }
+                } elseif($this->applyMoreThanAllowedForAday ($this->form)) {
+                    $this->templateMessage = array('WARNING', __("Total Leave Requests for the Day Exceed Workshift Length"));
+                    $this->overlapLeaves = 0;
                 }
             }
         }

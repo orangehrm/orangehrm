@@ -18,3 +18,8 @@
     padding-top: 10px;
     vertical-align:top;
 }
+
+#messageBalloon_warning {
+    margin: 10px 10px 10px 30px;
+    padding: 8px 8px 8px 15px;
+}
