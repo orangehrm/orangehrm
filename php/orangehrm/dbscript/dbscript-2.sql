@@ -694,7 +694,7 @@ INSERT INTO `ohrm_filter_field` VALUES (1, 1, 'project_name', 'hs_hr_project.pro
                                        (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, 'Runtime', null);
 
 INSERT INTO `ohrm_display_field` VALUES (1, 'hs_hr_project.name', 'Project Name', 'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null, null),
-                                        (2, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'link', '<xml><labelGetter>activityname</labelGetter><placeholderGetters><id>activity_id</id><total>totalduration</total><projectId>projectId</projectId><from>fromDate</from><to>toDate</to></placeholderGetters><urlPattern>../../displayProjectActivityDetailsReport?reportId=3#activityId={id}#total={total}#from={from}#to={to}#projectId={projectId}</urlPattern></xml>', 200, '0', null),
+                                        (2, 'hs_hr_project_activity.name', 'Activity Name', 'activityname', 'false', null, null, 'link', '<xml><labelGetter>activityname</labelGetter><placeholderGetters><id>activity_id</id><total>totalduration</total><projectId>projectId</projectId><from>fromDate</from><to>toDate</to></placeholderGetters><urlPattern>../../displayProjectActivityDetailsReport?reportId=3#activityId={id}#total={total}#from={from}#to={to}#projectId={projectId}</urlPattern></xml>', 200, '0', null, null),
                                         (3, 'hs_hr_project_activity.project_id', 'Project Id', null, 'false', null, null, 'label', '<xml><getter>project_id</getter></xml>', 75, '0', 'right', null),
                                         (4, 'hs_hr_project_activity.activity_id', 'Activity Id', null,  'false', null, null, 'label', '<xml><getter>activity_id</getter></xml>', 75, '0', 'right', null),
                                         (5, 'ohrm_timesheet_item.duration', 'Time (hours)', null, 'false', null, null, 'label', '<xml><getter>duration</getter></xml>', 75, '0', 'right', null),
@@ -729,8 +729,8 @@ INSERT INTO `ohrm_selected_composite_display_field` VALUES (1, 1, 3),
                                                            (2, 1, 4),
                                                            (3, 2, 2);
 
-INSERT INTO `ohrm_summary_display_field` VALUES (1, 'ROUND(COALESCE(sum(duration)/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right'),
-                                                (2, 'ROUND(COALESCE(sum(TIMESTAMPDIFF(SECOND , ohrm_attendance_record.punch_in_utc_time , ohrm_attendance_record.punch_out_utc_time))/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right');
+INSERT INTO `ohrm_summary_display_field` VALUES (1, 'ROUND(COALESCE(sum(duration)/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right', null),
+                                                (2, 'ROUND(COALESCE(sum(TIMESTAMPDIFF(SECOND , ohrm_attendance_record.punch_in_utc_time , ohrm_attendance_record.punch_out_utc_time))/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right', null);
 
 INSERT INTO `ohrm_selected_group_field` VALUES (1, 1, 1),
                                                (1, 1, 2),
