@@ -30,7 +30,7 @@
     <item>
       <title><![CDATA[<?php echo $vacancy->name;?>]]></title>
       <link><?php echo public_path('index.php/recruitmentApply/applyVacancy/id/'.$vacancy->getId(), true); ?></link>
-      <description><![CDATA[<?php echo $vacancy->description;?>]]>
+      <description><![CDATA[<pre><?php echo wordwrap($vacancy->description, 110); ?></pre>]]>
       </description>
     </item>
 <?php endforeach; ?>    
