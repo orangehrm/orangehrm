@@ -171,7 +171,8 @@ $(document).ready(function()
             
             
             
-                if((outDate=="")||(outTime=="")){
+//                if((outDate=="")||(outTime=="")){
+                if(false){
                     var errorStyle = "background-color:#FFDFDF;";
                     element.attr('style', errorStyle);
                     $('#btnSave').attr('disabled', 'disabled');
