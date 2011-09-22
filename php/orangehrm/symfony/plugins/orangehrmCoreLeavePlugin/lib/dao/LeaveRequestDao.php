@@ -356,10 +356,9 @@ class LeaveRequestDao extends BaseDao {
 		    $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
 		}
         if (!$isMyLeaveList) {
-            if(empty($withTerminatedEmployee)) {
+            if(empty($withTerminatedEmployee)) {                
                 $q->leftJoin('lr.Employee em')
-                    ->where('em.emp_status != ?', PluginEmployee::EMPLOYEE_STATUS_TERMINATED)
-                    ->orWhere('em.emp_status IS NULL');
+                  ->andWhere("(em.emp_status != '".PluginEmployee::EMPLOYEE_STATUS_TERMINATED."' OR em.emp_status IS NULL)");
             }
         }
         $q->orderBy('l.leave_date DESC');

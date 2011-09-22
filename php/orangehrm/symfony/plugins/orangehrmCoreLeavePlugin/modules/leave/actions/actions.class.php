@@ -526,6 +526,9 @@ class leaveActions extends sfActions {
         // Reset filters if requested to
         if ($request->hasParameter('reset')) {
             $this->_setFilters($mode, array());
+            $this->isMyLeaveListDefaultView = true;
+        } else {
+            $this->isMyLeaveListDefaultView = false;
         }
 
         $filters = $this->_getFilters($mode);

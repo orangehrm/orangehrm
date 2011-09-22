@@ -208,8 +208,14 @@ $searchActionButtons = $form->getSearchActionButtons();
         var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
         var isInitialPage = "<?php echo $isDefaultPageView; ?>";
         
+        var isMyLeaveListDefaultView = <?php echo $isMyLeaveListDefaultView ? 'true' : 'false'; ?>;
+        
         if(isInitialPage == 1){
             $('#chkSearchFilter_1').attr('checked', 'checked');
+        }
+        
+        if(isMyLeaveListDefaultView) {
+            $('.checkbox').attr('checked', 'checked');
         }
         
         if ($("#txtEmployee").val() == '' || $("#txtEmployee").val() == lang_typeHint) {
