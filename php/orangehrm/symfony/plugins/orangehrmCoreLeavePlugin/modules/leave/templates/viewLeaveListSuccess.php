@@ -279,14 +279,14 @@ $searchActionButtons = $form->getSearchActionButtons();
             });
 
             $('input#checkAll').click(function() {
-                $(this).siblings('input:checkbox').attr('checked', $(this).attr('checked'));
+                $(this).siblings('.checkbox').attr('checked', $(this).attr('checked'));
             });
 
-            $('input:checkbox').each(function() {
+            $('.checkbox').each(function() {
                 if ($(this).attr('id') != 'checkAll') {
                     $(this).click(function() {
                         var allChecked = true;
-                        $(this).siblings('input:checkbox').each(function() {
+                        $(this).siblings('.checkbox').each(function() {
                             if ($(this).attr('id') != 'checkAll') {
                                     allChecked = (allChecked && $(this).attr('checked'));
                             }

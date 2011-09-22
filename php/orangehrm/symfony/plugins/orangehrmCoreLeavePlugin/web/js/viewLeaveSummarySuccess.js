@@ -75,6 +75,7 @@ function handleResetButton() {
     $("#leaveSummary_txtEmpName").val('');
     $('#leaveSummary_cmbEmpId').val('0');
     $('#frmLeaveSummarySearch select').find('option:first').attr('selected','selected');
+    $('#leaveSummary_cmbWithTerminated').removeAttr('checked');
     $('#frmLeaveSummarySearch').submit();
     
 }
