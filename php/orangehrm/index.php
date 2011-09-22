@@ -829,11 +829,6 @@ if ($_SESSION['isAdmin'] != 'Yes') {
     $menu[] = $menuItem;
 }
 
-/* Start bug tracker menu */
-$menuItem = new MenuItem("bug", "Bug Tracker", "./index.php?menu_no_top=bug");
-$menuItem->setCurrent($_GET['menu_no_top'] == "bug");
-
-$menu[] = $menuItem;
 
 /* Start help menu */
 $menuItem = new MenuItem("help", $lang_Menu_Help, '#');
@@ -845,6 +840,7 @@ $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/b
 $subs[] = new MenuItem("support", $lang_Menu_Home_Training, "http://www.orangehrm.com/training.php?utm_source=application_traning&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_AddOns, "http://www.orangehrm.com/addon-plans.shtml?utm_source=application_addons&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Customizations, "http://www.orangehrm.com/customizations.php?utm_source=application_cus&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("bug", "Bug Tracker", "./index.php?menu_no_top=bug");
 
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
