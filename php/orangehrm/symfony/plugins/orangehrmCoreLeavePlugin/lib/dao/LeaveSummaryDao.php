@@ -49,7 +49,7 @@ class LeaveSummaryDao extends BaseDao {
         
         $q = "SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
-              b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag FROM
+              b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag, a.emp_status As empStatus FROM
               (hs_hr_employee a, hs_hr_leavetype b)";
 
         if (!empty($clues['cmbLocation'])) {

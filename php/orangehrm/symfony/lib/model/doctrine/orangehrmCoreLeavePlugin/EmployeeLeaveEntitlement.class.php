@@ -16,6 +16,7 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
     private $leaveScheduled;
     private $leaveTaken;
     private $editableLeaveTypeIds;
+    private $employeeStatus;
 
     public function __construct($table = null, $isNewEntry = false) {
         parent::__construct($table, $isNewEntry);
@@ -52,6 +53,17 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
                 return true;
             }
         }
+    }
+    
+    public function getEmployeeStatus() {
+        if(empty($this->employeeStatus)) {
+            $this->employeeStatus = '';
+        }
+        return $this->employeeStatus;
+    }
+    
+    public function setEmployeeStatus($status) {
+        $this->employeeStatus = $status;
     }
 
     public function isThereLeaveTaken() {

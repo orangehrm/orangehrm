@@ -70,12 +70,12 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
                   */
                 'linkable' => array('isThereLeaveScheduled', array()),
                 'labelGetter' => array('getLeaveScheduled'),
-                'placeholderGetters' => array('id' => 'getEmployeeId', 'lty' => 'getLeaveTypeId', 'lpi' => 'getLeavePeriodId'),
-                'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}',
+                'placeholderGetters' => array('id' => 'getEmployeeId', 'lty' => 'getLeaveTypeId', 'lpi' => 'getLeavePeriodId', 'empstat' => 'getEmployeeStatus'),
+                'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}&EmpStatus={empstat}',
                 'hasHiddenField' => true,
                 'hiddenFieldName' => 'hdnLeavePeriodId[]',
                 'hiddenFieldValueGetter' => 'getLeavePeriodId',
-                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}',
+                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}&EmpStatus={empstat}',
             ),
         ));
 

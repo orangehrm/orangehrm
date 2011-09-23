@@ -217,7 +217,7 @@ class LeaveListForm extends sfForm {
             if(is_null($this->_getFilterParam('cmbWithTerminated'))) {
                 $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox());
             } else if($this->_getFilterParam('cmbWithTerminated') == 'on') {
-                $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'single', 'default' => true)));
+                $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on', 'default' => true)));
             }
 
             $employeeName = trim($this->_getFilterParam('txtEmployee'));

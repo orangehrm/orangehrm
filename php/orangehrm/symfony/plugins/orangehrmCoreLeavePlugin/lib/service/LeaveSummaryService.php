@@ -61,6 +61,7 @@ class LeaveSummaryService extends BaseService {
 
                 $employeeName = $row['empFirstName'].' '.$row['empLastName'];
                 $employeeId = $row['empNumber'];
+                $employeeStatus = $row['empStatus'];
                 $leaveType = $row['leaveTypeName'];
                 $leaveTypeId = $row['leaveTypeId'];
                 $leavePeriodId = $clues['cmbLeavePeriod']?$clues['cmbLeavePeriod']:$leavePeriodService->getCurrentLeavePeriod();
@@ -109,6 +110,7 @@ class LeaveSummaryService extends BaseService {
                     $employeeLeaveEntitlementObject = new EmployeeLeaveEntitlement();
 
                     $employeeLeaveEntitlementObject->setEmployeeId($employeeId);
+                    $employeeLeaveEntitlementObject->setEmployeeStatus($employeeStatus);
                     $employeeLeaveEntitlementObject->setLeaveTypeId($leaveTypeId);
                     $employeeLeaveEntitlementObject->setNoOfDaysAllotted($leaveEntitled);
                     $employeeLeaveEntitlementObject->setLeaveBroughtForward($leaveBroughtForward);
