@@ -68,8 +68,12 @@ class TimesheetForm extends sfForm {
                 $activities = $this->getTimesheetDao()->getProjectActivitiesByPorjectId($project->getProjectId(), true);
                 $activityArray = null;
                 foreach ($activities as $activity) {
-
-                    $activityArray[$activity->getActivityId()] = $activity->getName();
+                    if ($activity->getDeleted() != 1) {
+                        $activityArray[$activity->getActivityId()] = $activity->getName();
+                    }
+                    if($activity->getActivityId() == $numberOfRows[$i]['activityId'] && $activity->getDeleted() == 1){
+                        $activityArray[$activity->getActivityId()] = $activity->getName();
+                    }
                 }
 
                 $rowForm->setWidget('projectActivityName', new sfWidgetFormSelect(array('choices' => $activityArray), array('style' => 'width:225px', 'class' => 'projectActivity')));
@@ -288,7 +292,7 @@ class TimesheetForm extends sfForm {
 
         foreach ($projectList as $project) {
 //            if ($project->getDeleted() != Projects::PROJECT_DELETED) {
-                $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
+            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
 //            }
         }
 

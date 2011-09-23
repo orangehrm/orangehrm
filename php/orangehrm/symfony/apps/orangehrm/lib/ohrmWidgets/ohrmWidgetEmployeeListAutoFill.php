@@ -140,7 +140,6 @@ EOF
     public function getEmployeeListAsJson($employeeList) {
 
         $jsonArray = array();
-        $escapeCharSet = array(38, 39, 34, 60, 61, 62, 63, 64, 58, 59, 94, 96);
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
@@ -151,10 +150,6 @@ EOF
 
                 $name = $employee->getFirstName() . " " . $employee->getMiddleName();
                 $name = trim(trim($name) . " " . $employee->getLastName());
-
-                foreach ($escapeCharSet as $char) {
-                    $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-                }
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
                 $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
