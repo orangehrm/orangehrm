@@ -66,7 +66,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 							<script type="text/javascript">
 
-								var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
+								var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray = eval(employees);
 	var errorMsge;
        

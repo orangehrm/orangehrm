@@ -13,6 +13,7 @@
 class viewEmployeeTimesheetForm extends sfFormSymfony {
 
     private $timesheetService;
+    public $employeeList;
 
     public function getTimesheetService() {
 
@@ -41,14 +42,14 @@ class viewEmployeeTimesheetForm extends sfFormSymfony {
         ));
     }
 
-    public function getEmployeeListAsJson($employeeList) {
+    public function getEmployeeListAsJson() {
 
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $employeeUnique = array();
-        foreach ($employeeList as $employee) {
+        foreach ($this->employeeList as $employee) {
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
