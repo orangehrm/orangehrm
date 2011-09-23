@@ -714,6 +714,7 @@ INSERT INTO `ohrm_selected_filter_field` VALUES (1, 1, 1, null, null, null),
                                                 (2, 6, 2, null, null, null),
                                                 (2, 7, 5, null, null, null),
                                                 (3, 3, 2, null, null, null),
+                                                (3, 7, 3, null, null, null),
                                                 (3, 5, 1, null, null, null);
 
 INSERT INTO `ohrm_selected_display_field` VALUES (2, 2, 1),
