@@ -54,7 +54,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 <script type="text/javascript">
 
-    var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
+    var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
     var employeeFlag;

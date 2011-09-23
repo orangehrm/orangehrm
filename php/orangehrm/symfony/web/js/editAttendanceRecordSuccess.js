@@ -34,10 +34,10 @@ $(document).ready(function()
             }
 
             //Bind date picker
-            daymarker.bindElement(elem, { 
+            daymarker.bindElement(elem, {
                 onSelect: function(date) {
-                    $elem.trigger('change');            
-                }, 
+                    $elem.trigger('change');
+                },
                 dateFormat:jsDateFormat
             });
 
@@ -70,7 +70,7 @@ $(document).ready(function()
                     $('#btnSave').attr('disabled', 'disabled');
                
                     $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidDateFormat); 
+                    $('#validationMsg').html(errorForInvalidDateFormat);
                 
                 }
                 else{
@@ -114,11 +114,11 @@ $(document).ready(function()
                         
                             if(punchInOverLappingFlag==0){
                                 var errorStyle = "background-color:#FFDFDF;";
-                                element.attr('style', errorStyle);   
+                                element.attr('style', errorStyle);
                             }
                             else{
                                 $('#btnSave').removeAttr('disabled');
-                                element.removeAttr('style');  
+                                element.removeAttr('style');
                  
                             }
                         }
@@ -130,7 +130,6 @@ $(document).ready(function()
         });
 
         $(".outDate").each(function(index, elem){
-
             // this particular element
             $elem = $(elem),
 
@@ -141,10 +140,10 @@ $(document).ready(function()
             }
 
             //Bind date picker
-            daymarker.bindElement(elem, { 
+            daymarker.bindElement(elem, {
                 onSelect: function(date) {
-                    $elem.trigger('change');            
-                }, 
+                    $elem.trigger('change');
+                },
                 dateFormat:jsDateFormat
             });
 
@@ -171,14 +170,14 @@ $(document).ready(function()
             
             
             
-//                if((outDate=="")||(outTime=="")){
-                if(false){
+                if((outDate=="")||(outTime=="")){
+                    //                if(false){
                     var errorStyle = "background-color:#FFDFDF;";
                     element.attr('style', errorStyle);
                     $('#btnSave').attr('disabled', 'disabled');
                
                     $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidDateFormat); 
+                    $('#validationMsg').html(errorForInvalidDateFormat);
                 
                 }
                 else{
@@ -226,7 +225,7 @@ $(document).ready(function()
                             var flag5=validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId);
                             if(flag5==0){
                                 var errorStyle = "background-color:#FFDFDF;";
-                                element.attr('style', errorStyle);                     
+                                element.attr('style', errorStyle);
                             }
                             else{
                                 $('#btnSave').removeAttr('disabled');
@@ -253,7 +252,7 @@ $(document).ready(function()
                 $('form#employeeRecordsForm').attr({
                     action:linkToViewMyRecords+"?employeeId="+employeeId+"&date="+recordDate+"&trigger="+true
                 });
-            }   
+            }
         
             $('form#employeeRecordsForm').submit();
         });
@@ -327,7 +326,7 @@ $(document).ready(function()
                 $("#commentLable_"+classStr[1]+"_"+classStr[2]+"_"+classStr[0]).html(displayedComment)
                 $("#commentDialog").dialog('close');
             }
-        });      
+        });
         
         $(".outTime").change(function(){
             element = $(this)
@@ -355,7 +354,7 @@ $(document).ready(function()
                 $('#btnSave').attr('disabled', 'disabled');
                
                 $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidTimeFormat);    
+                $('#validationMsg').html(errorForInvalidTimeFormat);
                 
             }else{
                 $('#btnSave').removeAttr('disabled');
@@ -372,7 +371,7 @@ $(document).ready(function()
                     $('#btnSave').attr('disabled', 'disabled');
                
                     $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidTimeFormat);   
+                    $('#validationMsg').html(errorForInvalidTimeFormat);
                 }
                 else{
                    
@@ -387,13 +386,13 @@ $(document).ready(function()
                         $('#btnSave').attr('disabled', 'disabled');
                
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(errorForInvalidTime);  
+                        $('#validationMsg').html(errorForInvalidTime);
                         
                     }
                     else{
                         $('#btnSave').removeAttr('disabled');
-                        element.removeAttr('style');  
-                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style'); 
+                        element.removeAttr('style');
+                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style');
                     }
                     
                     if(isValidPunchOutTime){
@@ -408,9 +407,9 @@ $(document).ready(function()
                             $('#btnSave').removeAttr('disabled');
                             element.removeAttr('style');
                         }
-                    }           
+                    }
                 }
-            }         
+            }
         });
             
         $(".inTime").change(function(){
@@ -439,9 +438,9 @@ $(document).ready(function()
                 $('#btnSave').attr('disabled', 'disabled');
                
                 $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidTimeFormat);    
+                $('#validationMsg').html(errorForInvalidTimeFormat);
                 
-            }            
+            }
             else{
             
                 $('#btnSave').removeAttr('disabled');
@@ -459,7 +458,7 @@ $(document).ready(function()
                     $('#btnSave').attr('disabled', 'disabled');
                
                     $('#validationMsg').attr('class', "messageBalloon_failure");
-                    $('#validationMsg').html(errorForInvalidTimeFormat);   
+                    $('#validationMsg').html(errorForInvalidTimeFormat);
                 }
                 else{
                    
@@ -475,31 +474,31 @@ $(document).ready(function()
                         $('#btnSave').attr('disabled', 'disabled');
                
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(errorForInvalidTime);  
+                        $('#validationMsg').html(errorForInvalidTime);
                         
                     }
                     else{
                         $('#btnSave').removeAttr('disabled');
-                        element.removeAttr('style');  
-                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style'); 
+                        element.removeAttr('style');
+                        $("#attendance_punchInDate_"+idArray[2]).removeAttr('style');
                     }
                     
                     
-                    if(isValidPunchInTime){                
+                    if(isValidPunchInTime){
                         var punchInOverLappingFlag = validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId, punchOutUtcTime);
                     
                         if(punchInOverLappingFlag==0){
                             var errorStyle = "background-color:#FFDFDF;";
-                            element.attr('style', errorStyle);   
+                            element.attr('style', errorStyle);
                         }
                         else{
                             $('#btnSave').removeAttr('disabled');
-                            element.removeAttr('style');                 
+                            element.removeAttr('style');
                         }
                     }
-                }              
+                }
             }
-        });     
+        });
         
     });
     
@@ -781,8 +780,9 @@ function validatePunchInTime(punchOutUtcTime, inTimezone, inTime, date){
 
 
 function validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate){
+    alert(outDate)
         
-    var dateArray=outDate.split('-');
+    var dateArray = outDate.split('-');
     
     if(dateArray[1].search([0])== -1){
         if((dateArray[1]==11) || (dateArray[1]==12)){

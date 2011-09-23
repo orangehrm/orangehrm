@@ -21,6 +21,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
     private $jobService;
     private $companyService;
+    public $emoloyeeList;
 
     public function configure() {
 
@@ -132,14 +133,14 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $this->setValidator('employeeStatus', new sfValidatorChoice(array('choices' => array_keys($choices))));
     }
 
-    public function getEmployeeListAsJson($employeeList) {
+    public function getEmployeeListAsJson() {
 
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $employeeUnique = array();
-        foreach ($employeeList as $employee) {
+        foreach ($this->emoloyeeList as $employee) {
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 

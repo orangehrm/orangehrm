@@ -50,7 +50,7 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
 
         $this->form = new AttendanceTotalSummaryReportForm();
 
-        $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
+        $this->form->emoloyeeList = $employeeList;
     }
 
 }
