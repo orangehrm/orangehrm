@@ -88,7 +88,7 @@
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
-    var errorForInvalidNote='<?php echo __('Invalid note') ?>';
+    var errorForInvalidNote='<?php echo __('Note should be less than 250 characters') ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
    
 
