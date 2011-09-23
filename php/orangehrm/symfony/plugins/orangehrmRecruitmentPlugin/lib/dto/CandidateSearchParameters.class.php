@@ -100,12 +100,12 @@ class CandidateSearchParameters {
         return $this->candidateId;
     }
 
-    public function getCandidateStatus() {
+    public function getCandidateStatus($withDefault = true) {
         $additionalParams = $this->getAdditionalParams();
         if(is_array($additionalParams) && array_key_exists('candidateArchiveOptions', $additionalParams)) {
             $this->candidateStatus = explode(',', $additionalParams);
         } else {
-            $this->candidateStatus = array();
+            $this->candidateStatus = ($withDefault) ? array(JobCandidate::ACTIVE) : array();
         }
         return $this->candidateStatus;
     }
