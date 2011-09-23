@@ -97,6 +97,8 @@ class viewCandidatesAction extends sfAction {
             $searchParam->setSortOrder($sortOrder);
         } else {
             $this->getUser()->setAttribute('searchParameters', $searchParam);
+            $offset = 0;
+            $pageNumber = 1;
         }
         $searchParam->setAllowedCandidateList($allowedCandidateList);
         $searchParam->setAllowedVacancyList($allowedVacancyList);
