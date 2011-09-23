@@ -68,14 +68,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#viewbutton').click(function() {
-                if(isValidForm()) {
-                    $('#reportForm').submit();
-                }
-            });
-        });
+//            $('#viewbutton').click(function() {
+//                if(isValidForm()) {
+//                    $('#reportForm').submit();
+//                }
+//            });
+//        });
 
-        function isValidForm(){
+//        function isValidForm(){
 
             var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
             var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
@@ -145,6 +145,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             }
 
         });
-        return true;
-    }
+        });
+//        return true;
+//    }
 </script>
