@@ -112,7 +112,13 @@ class BaseService {
                 if (preg_match('/\ WHERE\ /', $query)) {
                     $matchedDelimiter = '';
                     list($left, $matchedDelimiter, $right) = preg_split('/(GROUP\ BY|ORDER\ BY|LIMIT)/', $query, 2, PREG_SPLIT_DELIM_CAPTURE);
-                    $left = rtrim($left) . ' AND ' . $whereClause . ' ';
+
+                    if (isset($whereParams['position']) && $whereParams['position'] == 'begining') {
+                        $left = str_replace('WHERE', 'WHERE ' . $whereClause . ' AND ', $left);
+                    } else {
+                        $left = rtrim($left) . ' AND ' . $whereClause . ' ';
+                    }
+
                     $query = $left . $matchedDelimiter . $right;
                 } else {
                     $query .= ' WHERE ' . $whereClause;
@@ -126,13 +132,13 @@ class BaseService {
                 $orderByField = "`{$orderByParams['field']}` {$orderByParams['order']}";
                 $prependingFields = array();
                 $appendingFields = array();
-                
+
                 if (isset($orderByParams['dependsOn'])) {
                     if (!preg_match("/{$orderByParams['dependsOn']}/", $query)) {
                         continue;
                     }
                 }
-                
+
                 if (isset($orderByParams['position']) && $orderByParams['position'] == 'before') {
                     $prependingFields[] = $orderByField;
                 } else {
@@ -140,7 +146,7 @@ class BaseService {
                 }
             }
 
-            if (!empty($appendingFields) || !empty ($prependingFields)) {
+            if (!empty($appendingFields) || !empty($prependingFields)) {
                 if (preg_match('/\ ORDER\ BY\ /', $query)) {
                     $prependingFields = empty($prependingFields) ? '' : implode(', ', $prependingFields);
                     $appendingFields = empty($appendingFields) ? '' : implode(', ', $appendingFields);
@@ -225,23 +231,22 @@ class BaseService {
             $whereClause = $whereClauseParams['clause'];
         } else {
             $operator = $whereClauseParams['operator'];
-            
+
             if ($operator == 'IN') {
                 $value = "({$whereClauseParams['value']})";
             } else {
                 $value = "'{$whereClauseParams['value']}'";
             }
-            
+
             $table = isset($whereClauseParams['table']) ? "{$whereClauseParams['table']}." : '';
-            
+
             $whereClause = "{$table}`{$whereClauseParams['field']}` {$operator} {$value}";
-            
+
             if (array_key_exists('replace', $whereClauseParams)) {
                 $whereClause = "[replace:{$whereClauseParams['replace']}]" . $whereClause;
             }
-
         }
-        
+
         return $whereClause;
     }
 
