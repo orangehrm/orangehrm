@@ -102,7 +102,7 @@ $(document).ready(function() {
    
 	});
 	$('#btnRst').click(function() {
-        $('#frmSrchCandidates').get(0).reset();
+                $('#frmSrchCandidates').get(0).reset();
 		$('#candidateSearch_jobTitle').val("");
 		$('#candidateSearch_jobVacancy').val("");
 		$('#candidateSearch_hiringManager').val("");
@@ -114,6 +114,7 @@ $(document).ready(function() {
 		$('#candidateSearch_candidateName').val("");
 		$('#candidateSearch_keywords').val("");
 		$('#candidateSearch_selectedCandidate').val("");
+                $('#frmSrchCandidates *[name^="additionalParams"]').val("");
 		$('#frmSrchCandidates').submit();
 
 	});
