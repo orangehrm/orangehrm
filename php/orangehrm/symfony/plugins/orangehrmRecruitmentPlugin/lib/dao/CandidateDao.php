@@ -127,90 +127,11 @@ class CandidateDao extends BaseDao {
      * @param CandidateSearchParameters $searchParam
      * @return <type>
      */
-    public function getCandidateRecordsCount(CandidateSearchParameters $searchParam) {
+    public function getCandidateRecordsCount($countQuery) {
 
-        $allowedCandidateList = $searchParam->getAllowedCandidateList();
-        $allowedVacancyList = $searchParam->getAllowedVacancyList();
-        $isAdmin = $searchParam->getIsAdmin();
-        $jobTitleCode = $searchParam->getJobTitleCode();
-        $jobVacancyId = $searchParam->getVacancyId();
-        $hiringManagerId = $searchParam->getHiringManagerId();
-        $status = $searchParam->getStatus();
-        $modeOfApplication = $searchParam->getModeOfApplication();
-        $fromDate = $searchParam->getFromDate();
-        $toDate = $searchParam->getToDate();
-        $keywords = $searchParam->getKeywords();
-        $vacancyStatus = $searchParam->getVacancyStatus();
-        $empNumber = $searchParam->getEmpNumber();
-
-
-        $keywordsQueryString = "";
-        if (!empty($keywords)) {
-            $keywords = str_replace("'", "\'", $keywords);
-            $words = explode(",", $keywords);
-            $length = count($words);
-            for ($i = 0; $i < $length; $i++) {
-                $keywordsQueryString .= ' AND jc.keywords LIKE ' . "'" . '%' . trim($words[$i]) . '%' . "'";
-            }
-        }
         try {
-
-            $q = "SELECT COUNT(*)";
-            $q .= " FROM ohrm_job_candidate jc";
-            $q .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
-            $q .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
-            $q .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
-            $q .= ' where jc.date_of_application  BETWEEN ' . "'$fromDate'" . ' AND ' . "'$toDate'";
-
-            $candidateStatuses = $searchParam->getCandidateStatus();
-            if (!empty($candidateStatuses)) {
-                $q .= " AND jc.status IN (" . implode(",", $searchParam->getCandidateStatus()) . ")";
-            }
-
-            if ($allowedCandidateList != null && !$isAdmin) {
-                $q .= " AND jc.id IN (" . implode(",", $allowedCandidateList) . ")";
-            }
-            if ($allowedVacancyList != null && !$isAdmin) {
-                $q .= " AND jv.id IN (" . implode(",", $allowedVacancyList) . ")";
-            }
-            $where = array();
-
-            if (!empty($jobTitleCode) || !empty($jobVacancyId) || !empty($hiringManagerId) || $status != "") {
-                $q .= " AND jv.status = '$vacancyStatus'";
-            }
-
-            if (!empty($jobTitleCode)) {
-                $where[] = "jv.job_title_code = '$jobTitleCode'";
-            }
-            if (!empty($jobVacancyId)) {
-                $where[] = "jv.id  = '$jobVacancyId'";
-            }
-            if (!empty($hiringManagerId)) {
-                $where[] = "jv.hiring_manager_id  = '$hiringManagerId'";
-            }
-            if ($status != "") {
-                $where[] = "jcv.status  = '$status'";
-            }
-
-            $this->_addCandidateNameClause($where, $searchParam);
-
-            if (!empty($modeOfApplication)) {
-                $where[] = "jc.mode_of_application  = '$modeOfApplication'";
-            }
-
-            if (count($where) > 0) {
-                $q .= " AND " . implode('AND ', $where);
-            }
-
-            if (!empty($keywordsQueryString)) {
-                $q .= $keywordsQueryString;
-            }
-            if ($empNumber != null) {
-                $q .= "OR jc.id NOT IN (SELECT ojcv.candidate_id FROM ohrm_job_candidate_vacancy ojcv) AND jc.added_person = " . $empNumber;
-            }
-
             $pdo = Doctrine_Manager::connection()->getDbh();
-            $res = $pdo->query($q);
+            $res = $pdo->query($countQuery);
             $count = $res->fetch();
             return $count[0];
         } catch (Exception $e) {
@@ -492,7 +413,7 @@ class CandidateDao extends BaseDao {
     public function buildSearchQuery(CandidateSearchParameters $paramObject, $countQuery = false) {
 
         try {
-            $query = "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
+            $query = ($countQuery) ? "SELECT COUNT(*)" : "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
             $query .= "  FROM ohrm_job_candidate jc";
             $query .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
             $query .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";

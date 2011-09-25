@@ -82,8 +82,9 @@ class CandidateService extends BaseService {
 	 * @returns  doctrine collection
 	 * @throws RecruitmentException
 	 */
-	public function getCandidateRecordsCount($searchParam) {
-		return $this->getCandidateDao()->getCandidateRecordsCount($searchParam);
+	public function getCandidateRecordsCount($parameterObject) {
+            $countQuery = $this->buildSearchCountQuery($parameterObject);
+            return $this->getCandidateDao()->getCandidateRecordsCount($countQuery);
 	}
 
 	/**
@@ -312,6 +313,15 @@ class CandidateService extends BaseService {
 		$query = $this->decorateQuery($serviceName, $methodName, $query, $parameterObject->getAdditionalParams());
 		return $query;
 	}
+        
+        protected function buildSearchCountQuery($parameterObject) {
+            $query = $this->getCandidateDao()->buildSearchQuery($parameterObject, true);
+            
+            $serviceName = 'CandidateService';
+            $methodName = 'getCandidateRecordsCount';
+            $query = $this->decorateQuery($serviceName, $methodName, $query, $parameterObject->getAdditionalParams());
+            return $query;
+        }
 
 	/* public function getLastPerformedActionByCandidateVAcancyId($candidateVacancyId) {
 	  return $this->candidateDao->getLastPerformedActionByCandidateVAcancyId($candidateVacancyId);
