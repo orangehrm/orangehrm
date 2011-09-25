@@ -29,6 +29,14 @@ class applyVacancyAction extends sfAction {
             $this->form = $form;
         }
     }
+    
+    /**
+     *
+     * @return ApplyVacancyForm 
+     */
+    public function getForm() {
+        return $this->form;
+    }
 
     /**
      *
@@ -47,6 +55,8 @@ class applyVacancyAction extends sfAction {
      * @param <type> $request
      */
     public function execute($request) {
+        $param = null;
+        $this->candidateId = null;
 
         $this->vacancyId = $request->getParameter('id');
         //$this->candidateId = $request->getParameter('candidateId');
