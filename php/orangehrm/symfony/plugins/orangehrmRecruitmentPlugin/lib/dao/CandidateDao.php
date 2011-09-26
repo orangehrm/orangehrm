@@ -429,7 +429,9 @@ class CandidateDao extends BaseDao {
             $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());
             $query .= $this->_buildAdditionalWhereClauses($paramObject);
             $query .= " ORDER BY " . $this->_buildSortQueryClause($paramObject->getSortField(), $paramObject->getSortOrder());
-            $query .= " LIMIT " . $paramObject->getOffset() . ", " . $paramObject->getLimit();
+            if (!$countQuery) {
+                $query .= " LIMIT " . $paramObject->getOffset() . ", " . $paramObject->getLimit();
+            }
             return $query;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
