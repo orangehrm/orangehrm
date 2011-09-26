@@ -32,20 +32,22 @@ $(document).ready(function() {
     });
 
     $(".deletedRow").attr("disabled", "disabled");
+    $("#separator").hide();
 
     $(".project").each(function(){
         element = $(this)
         if($(element).val() == 'Type for hints...'){
             $(element).addClass("inputFormatHint");
-        }	
+        }
+	$(element).val($(element).val().replace("##", ""));
     });
 
     //Auto complete
     $(".project").autocomplete(projectsForAutoComplete, {
 
         formatItem: function(item) {
-
-            return $("<div/>").html(item.name).text();
+	    var temp = $("<div/>").html(item.name).text();
+            return temp.replace("##", "");
         }
         ,
         matchContains:true
@@ -58,7 +60,8 @@ $(document).ready(function() {
         var decodedfullName = $("<div/>").html(item.name).text();
        
       
-        var array = decodedfullName.split(' - ');
+        var array = decodedfullName.split(' - ##');
+	
         //     alert(array[0])
         var r = $.ajax({
             type: 'POST',
@@ -335,7 +338,7 @@ $(document).ready(function() {
             var temp = false;
             var i;
             for (i=0; i < projectCount; i++) {
-                arrayName = projectsArray[i].name.toLowerCase();
+                arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
                 arrayName = $("<div/>").html(arrayName).text();
                 if (proName == arrayName) {
                     
