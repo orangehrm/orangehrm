@@ -95,9 +95,9 @@
                 <br class="clear"/>
             </div>
             
-            <?php if (function_exists("curl_init")):?>
+
                 <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
-            <?php endif;?>
+
             
             <div class="formbuttons">
                 <?php if (isset($vacancyId)) { ?>
