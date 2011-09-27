@@ -674,7 +674,7 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                     ('74','1','PUNCHED IN','ADMIN','7','N/A'),
                                     ('75','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
                                     ('76','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
-                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A')
+                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A'),
                                     ('78','0','INITIAL','ADMIN','7','NOT SUBMITTED'),
                                     ('79','0','INITIAL','ESS USER','7','NOT SUBMITTED'),
                                     ('80','0','INITIAL','SUPERVISOR','7','NOT SUBMITTED');
