@@ -591,7 +591,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0,'ohrm_attendance_record', 'id'),
     (0, 'ohrm_job_vacancy', 'id'),
     (0, 'ohrm_job_candidate', 'id'),
-    (77,'ohrm_workflow_state_machine', 'id'),
+    (80,'ohrm_workflow_state_machine', 'id'),
     (0, 'ohrm_job_candidate_attachment', 'id'),
     (0, 'ohrm_job_vacancy_attachment', 'id'),
     (0, 'ohrm_job_candidate_vacancy', 'id'),
@@ -674,7 +674,10 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                     ('74','1','PUNCHED IN','ADMIN','7','N/A'),
                                     ('75','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
                                     ('76','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
-                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A');
+                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A')
+                                    ('78','0','INITIAL','ADMIN','7','NOT SUBMITTED'),
+                                    ('79','0','INITIAL','ESS USER','7','NOT SUBMITTED'),
+                                    ('80','0','INITIAL','SUPERVISOR','7','NOT SUBMITTED');
                                     
 INSERT INTO `ohrm_report_group` VALUES (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN hs_hr_customer ON (hs_hr_customer.customer_id = hs_hr_project.customer_id) WHERE whereCondition2'),
                                        (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND "#@toDate@,@CURDATE()@#" ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#');

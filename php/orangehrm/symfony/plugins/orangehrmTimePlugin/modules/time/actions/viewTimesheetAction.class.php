@@ -25,6 +25,8 @@ class viewTimesheetAction extends sfAction {
 
     public function execute($request) {
 
+        $this->createTimesheetForm = new CreateTimesheetForm();
+        $this->currentDate=date('Y-m-d');
 
         $this->headingText = $this->getTimesheetPeriodService()->getTimesheetHeading();
         $this->successMessage = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
@@ -69,7 +71,9 @@ class viewTimesheetAction extends sfAction {
                 $startDate = $this->getStartDate($dateOptions);
             } else {
 
-                $startDate = $selectedTimesheetStartDate;                                        // this sets the start day as the start date set by the search drop down or the coming back from the edit action
+                $startDate = $selectedTimesheetStartDate;
+
+                // this sets the start day as the start date set by the search drop down or the coming back from the edit action
             }
 
             /* This action is checks whether the start date set. If not the current date is set. */
@@ -101,7 +105,7 @@ class viewTimesheetAction extends sfAction {
 
                     $state = $request->getParameter('state');
                     if (isset($state)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully")." " . ucwords(strtolower($state)));
+                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully") . " " . ucwords(strtolower($state)));
                     }
                     $comment = $request->getParameter('Comment');
                     $this->timesheet->setState($state);
@@ -129,7 +133,7 @@ class viewTimesheetAction extends sfAction {
             //decorate the user according the role that he plays on the employee who timesheet is being viewed.
             $userRoleFactory = new UserRoleFactory();
             $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
-
+            $this->allowedToCreateTimesheets=$decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
             $this->allowedActions = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState);
             $this->submitNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_SUBMIT);
             $this->approveNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE);

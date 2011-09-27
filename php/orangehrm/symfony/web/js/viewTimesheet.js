@@ -1,59 +1,173 @@
 $(document).ready(function(){
+    
+    dateTimeFormat= 'yyyy-MM-dd HH:mm';
+    
+    $("#createTimesheet").hide();
+    
+    var rDate = trim($("#time_date").val());
+    if (rDate == '') {
+        $("#time_date").val(dateDisplayFormat);
+    }
 
-    $("#commentDialog").dialog({
-                autoOpen: false,
-                width: 350,
-                height: 225
-        });
+    //Bind date picker
+    daymarker.bindElement("#time_date",
+    {
+        onSelect: function(date){
 
-    $("#btnEdit").click(function(){
-        $('form#timesheetFrm').attr({
-            action:linkForEditTimesheet+"?employeeId="+employeeId+"&timesheetId="+timesheetId+"&actionName="+actionName
-        });
-        $('form#timesheetFrm').submit();
+
+            $("#time_date").trigger('change');
+        },
+        dateFormat:jsDateFormat
     });
 
-    $("#btnSubmit").click(function(){
-        $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
-            action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
-            });
-        $('form#timesheetFrm').submit();
-    });
+    $('#DateBtn').click(function(){
 
-    $("#btnReject").click(function(){
+
+        daymarker.show("#time_date");
+
+
+    });
+  
+    $("#time_date").change(function() {
+        $('#validationMsg').removeAttr('class');
+        $('#validationMsg').html("");
+        var startdate=$("#time_date").val();
+      
+        if(startdate.isValidDate()){
+            
+            
+            var currentDate = new Date();
+            var startDate = new Date(startdate);
+         
+            if (currentDate < startDate)
+            { 
+                 $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html("Start date should be lees than current date");
+            }else{
+             
+                //            var r = $.ajax({
+                //                type: 'POST',
+                //                url: validateStartDate,
+                //                data: "startDate="+startdate,
+                //                async: false,
+                //
+                //                success: function(msg){
+                //                    //            var array = msg.split('##');
+                //                    //            question = array[0];
+                //                    //            date = array[1];
+                //                    isValid=msg;
+                //                    alert(msg)
+                //                }
+                //            });
        
-          if(validateComment()){
+             
+                //            url1=validateStartDate+"?startDate="+startdate
+                //            $.getJSON(url1, function(data) {
+                //        
+                //                isValid=data;
+                //             
+                //                 
+                //               
+                //            })
+                //    if(isValid){
+        
+                url=createTimesheet+"?startDate="+startdate+"&employeeId="+employeeId
+                $.getJSON(url, function(data) {
+                
+                    if(data[0]==1){
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html("Timesheet overlaps with existing timesheets");
+                    }
+                    if(data[0]==3){
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                        $('#validationMsg').html("Timesheet already exists"); 
+                    }
+                    if(data[0]==2){
+                        startDate=data[1].split(' ');
+                        $('form#createTimesheetForm').attr({
+                            
+                            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
+                            action:linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId
+                        });
+                        $('form#createTimesheetForm').submit();
+                    }
+        
+        
+                })
+            //            }
+            //            else{
+            //                $('#validationMsg').attr('class', "messageBalloon_failure");
+            //                $('#validationMsg').html("Invalid Start date");
+            //            }
+            
+        
+                
+            }
+        }
+    else{
+        $('#validationMsg').attr('class', "messageBalloon_failure");
+        $('#validationMsg').html("Invalid date");
+    }
+    });
+    
+    
+
+$("#commentDialog").dialog({
+    autoOpen: false,
+    width: 350,
+    height: 225
+});
+
+$("#btnEdit").click(function(){
+    $('form#timesheetFrm').attr({
+        action:linkForEditTimesheet+"?employeeId="+employeeId+"&timesheetId="+timesheetId+"&actionName="+actionName
+    });
+    $('form#timesheetFrm').submit();
+});
+
+$("#btnSubmit").click(function(){
+    $('form#timesheetFrm').attr({
+        //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
+        action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
+    });
+    $('form#timesheetFrm').submit();
+});
+
+$("#btnReject").click(function(){
+       
+    if(validateComment()){
 
         $('form#timesheetFrm').attr({
             //action:linkForViewTimesheet+"?state=REJECTED"+"&date="+date
             action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
-            });
+        });
         $('form#timesheetFrm').submit();
-          }
-    });
+    }
+});
 
-    $("#btnReset").click(function(){
-        $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
-            action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
-            });
-        $('form#timesheetFrm').submit();
+$("#btnReset").click(function(){
+    $('form#timesheetFrm').attr({
+        //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
+        action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
     });
+    $('form#timesheetFrm').submit();
+});
 
-    $("#btnApprove").click(function(){
-        if(validateComment()){
+$("#btnApprove").click(function(){
+    if(validateComment()){
         $('form#timesheetFrm').attr({
             //action:linkForViewTimesheet+"?state=APPROVED"+"&date="+date
             action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
-            });
-        $('form#timesheetFrm').submit();
-        }
-    });
-     $("#commentCancel").click(function() {
-                $("#commentDialog").dialog('close');
         });
-
+        $('form#timesheetFrm').submit();
+    }
+});
+$("#commentCancel").click(function() {
+    $("#commentDialog").dialog('close');
+});
+$("#btnAddTimesheet").click(function(){
+    $("#createTimesheet").show();
+});
 
 //$('#txtComment').change(function() {
 //
@@ -77,19 +191,19 @@ $(document).ready(function(){
 
 $(".icon").click(function(){
 
-      $("#timeComment").attr("disabled","disabled");
-        //removing errors message in the comment box
-        $("#commentError").html("");
-        var array = ($(this).attr('id')).split('##');
-        timesheetItemId = array[0];
+    $("#timeComment").attr("disabled","disabled");
+    //removing errors message in the comment box
+    $("#commentError").html("");
+    var array = ($(this).attr('id')).split('##');
+    timesheetItemId = array[0];
 
-        var comment = getComment(timesheetItemId);
-         var decoded = $("<div/>").html(comment).text();
-        $("#timeComment").val(decoded);
-        $("#commentProjectName").text(":"+" "+array[1]);
-        $("#commentActivityName").text(":"+" "+array[2]);
-        $("#commentDate").text(":"+" "+date);
-        $("#commentDialog").dialog('open');
+    var comment = getComment(timesheetItemId);
+    var decoded = $("<div/>").html(comment).text();
+    $("#timeComment").val(decoded);
+    $("#commentProjectName").text(":"+" "+array[1]);
+    $("#commentActivityName").text(":"+" "+array[2]);
+    $("#commentDate").text(":"+" "+date);
+    $("#commentDialog").dialog('open');
 
 
 });
@@ -111,7 +225,7 @@ function clicked(dropdown){
     var dates = dateString.split(" ");
 
     location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+dates[0]+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;
-    //document.getElementById('startDates').value
+//document.getElementById('startDates').value
 }
 
 function getComment(timesheetItemId){
@@ -133,17 +247,17 @@ function getComment(timesheetItemId){
 
 function viewComment(e){
 
-        $("#timeComment").attr("disabled","disabled");
-        //removing errors message in the comment box
-        $("#commentError").html("");
-        var array = ($(e.target).attr('id')).split('##');
-        timesheetItemId = array[0];
-        var comment = getComment(timesheetItemId);
-        $("#timeComment").val(comment);
-        $("#commentProjectName").text(":"+" "+array[1]);
-        $("#commentActivityName").text(":"+" "+array[2]);
-        $("#commentDate").text(":"+" "+date);
-        $("#commentDialog").dialog('open');
+    $("#timeComment").attr("disabled","disabled");
+    //removing errors message in the comment box
+    $("#commentError").html("");
+    var array = ($(e.target).attr('id')).split('##');
+    timesheetItemId = array[0];
+    var comment = getComment(timesheetItemId);
+    $("#timeComment").val(comment);
+    $("#commentProjectName").text(":"+" "+array[1]);
+    $("#commentActivityName").text(":"+" "+array[2]);
+    $("#commentDate").text(":"+" "+date);
+    $("#commentDialog").dialog('open');
 
 }
 
@@ -158,8 +272,8 @@ function validateComment(){
 
     errFlag1 = false; 
     $('#btnApprove').removeAttr('disabled');
-        $('#btnReject').removeAttr('disabled');
-        $("#txtComment").removeAttr('style');
+    $('#btnReject').removeAttr('disabled');
+    $("#txtComment").removeAttr('style');
     // $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
@@ -177,5 +291,20 @@ function validateComment(){
     }
 
     return !errFlag1;
+
+}
+
+
+String.prototype.isValidDate = function() {
+    var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+    var matches = IsoDateRe.exec(this);
+    if (!matches) return false;
+  
+
+    var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
+
+    return ((composedDate.getMonth() == (matches[2] - 1)) &&
+        (composedDate.getDate() == matches[3]) &&
+        (composedDate.getFullYear() == matches[1]));
 
 }

@@ -30,6 +30,8 @@ class viewMyTimesheetAction extends sfAction {
         //timesheetStartDate is from the edit timesheet
         //$startDateSelectedFromDropDown set when the user is accessing the view from the search drop down
         //$startDateOfTheTimesheetForUpdates is set when the user performs an action on the timesheet,and it is used to update the timesheet
+        $this->createTimesheetForm = new CreateTimesheetForm();
+        $this->currentDate = date('Y-m-d');
         $this->headingText = $this->getTimesheetPeriodService()->getTimesheetHeading();
 
         $this->successMessage = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
@@ -40,7 +42,7 @@ class viewMyTimesheetAction extends sfAction {
         $this->timeService = $this->getTimesheetService();
         $clientTimeZoneOffset = $this->userObj->getUserTimeZoneOffset();
         $serverTimezoneOffset = ((int) date('Z'));
-        $timeStampDiff = $clientTimeZoneOffset * 3600 -  $serverTimezoneOffset;
+        $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
 
         if ($request->isMethod('post')) {
 
@@ -162,7 +164,7 @@ class viewMyTimesheetAction extends sfAction {
         $user = new User();
         $decoratedUser = new EssUserRoleDecorator($user);
         $this->allowedActions = $decoratedUser->getAllowedActions(WorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState);
-
+        $this->allowedToCreateTimesheets = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
         $this->submitNextState = $decoratedUser->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, WorkflowStateMachine::TIMESHEET_ACTION_SUBMIT);
         $this->approveNextState = $decoratedUser->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, WorkflowStateMachine::TIMESHEET_ACTION_APPROVE);
         $this->rejectNextState = $decoratedUser->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, WorkflowStateMachine::TIMESHEET_ACTION_REJECT);

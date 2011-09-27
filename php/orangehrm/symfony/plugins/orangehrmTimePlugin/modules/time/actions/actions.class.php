@@ -62,7 +62,7 @@ class timeActions extends sfActions {
         $date = $request->getParameter('date');
         $comment = $request->getParameter('comment');
 
-   
+
         $employeeId = $request->getParameter('employeeId');
         $dao = new TimesheetDao();
         $timesheetItem = $dao->getTimesheetItemByDateProjectId($timesheetId, $employeeId, $projectId, $activityId, $date);
@@ -168,6 +168,64 @@ class timeActions extends sfActions {
     public function executeOverLappingTimesheetError(sfWebRequest $request) {
 
         $this->messageData = array('NOTICE', __("No Timesheet Found For Current Date"));
+    }
+
+    public function executeCreateTimesheet(sfWebRequest $request) {
+        //   $userObj = $this->getContext()->getUser()->getAttribute('user');
+        //   $userId = $this->userObj->getUserId();
+        //  $userEmployeeNumber = $this->userObj->getEmployeeNumber();
+
+        $this->setLayout(false);
+        sfConfig::set('sf_web_debug', false);
+        sfConfig::set('sf_debug', false);
+
+
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
+        }
+
+        $employeeId = $request->getParameter("employeeId");
+        $startDate = $request->getParameter("startDate");
+
+//        $userRoleFactory = new UserRoleFactory();
+//        $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
+//
+//        $allowedActions = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
+        $statusArray = $this->getTimesheetService()->createTimesheets($startDate, $employeeId);
+        switch ($statusArray['state']) {
+
+            case $statusArray['state'] == 1:
+                $msg = "1";
+                return $this->renderText(json_encode($msg));
+            case $statusArray['state'] == 2:
+                $msg = array("2", $statusArray['startDate']);
+
+                return $this->renderText(json_encode($msg));
+                //  $msg = __("Timesheet created successfully");
+
+                break;
+            case $statusArray['state'] == 3:
+                $msg = "3";
+//                $msg = __("Timesheet already exists");
+                return $this->renderText(json_encode($msg));
+                break;
+        }
+    }
+
+    public function executeValidateStartDate(sfWebRequest $request) {
+
+//        $this->setLayout(false);
+//        sfConfig::set('sf_web_debug', false);
+//        sfConfig::set('sf_debug', false);
+//
+//        if ($this->getRequest()->isXmlHttpRequest()) {
+//            $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
+//        }
+        $startDate = $request->getParameter("startDate");
+        $this->status = $this->getTimesheetService()->validateStartDate($startDate);
+        return $this->status;
+        // return $this->renderText(json_encode($status));
     }
 
 }

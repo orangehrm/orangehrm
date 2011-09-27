@@ -101,10 +101,8 @@ class TimesheetService {
 
         $timesheet = $this->getTimesheetDao()->getTimesheetById($timesheetId);
 
-        if(!$timesheet instanceof Timesheet)
-        {
+        if (!$timesheet instanceof Timesheet) {
             $timesheet = new Timesheet();
-
         }
 
         return $timesheet;
@@ -357,7 +355,7 @@ class TimesheetService {
     }
 
     public function checkForOverlappingTimesheets($startDate, $endDate, $employeeId) {
-       
+
         return $this->getTimesheetDao()->checkForOverlappingTimesheets($startDate, $endDate, $employeeId);
     }
 
@@ -367,23 +365,23 @@ class TimesheetService {
     }
 
     public function createPreviousTimesheets($currentTimesheetStartDate, $employeeId) {
-      
+
         // this method is for creating past timesheets.This would get conflicted if the user changes the timesheet period and does not loging to the system for couple of weeks
-       
-       
+
+
 
         $previousTimesheetEndDate = mktime(0, 0, 0, date("m", strtotime($currentTimesheetStartDate)), date("d", strtotime($currentTimesheetStartDate)) - 1, date("Y", strtotime($currentTimesheetStartDate)));
         $datesInTheCurrentTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d", $previousTimesheetEndDate));
-     
+
         $timesheetStartingDate = $datesInTheCurrentTimesheetPeriod[0];
         $endDate = end($datesInTheCurrentTimesheetPeriod);
 
-  
+
 
 
         if ($this->checkForOverlappingTimesheets($timesheetStartingDate, $endDate, $employeeId) == 1) {
 
-          
+
             $accessFlowStateMachineService = new AccessFlowStateMachineService();
             $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
             $timesheet = new Timesheet();
@@ -440,6 +438,52 @@ class TimesheetService {
             $statusValuesArray['message'] = $timesheetStartingDate;
         }
         return $statusValuesArray;
+    }
+
+    public function createTimesheets($startDate, $employeeId) {
+
+        $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
+        $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
+        $endDate = end($datesInTheCurrenTimesheetPeriod);
+        $timesheet = $this->getTimesheetByStartDateAndEmployeeId($timesheetStartingDate, $employeeId);
+        if ($timesheet == null) {
+            if ($this->checkForOverlappingTimesheets($timesheetStartingDate, $endDate, $employeeId) == 0) {
+
+                $statusValuesArray['state'] = 1;
+            } else {
+
+
+                $accessFlowStateMachineService = new AccessFlowStateMachineService();
+                $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
+                $timesheet = new Timesheet();
+                $timesheet->setState($tempNextState);
+                $timesheet->setStartDate($timesheetStartingDate);
+                $timesheet->setEndDate($endDate);
+                $timesheet->setEmployeeId($employeeId);
+                $timesheet = $this->saveTimesheet($timesheet);
+                $statusValuesArray['state'] = 2;
+                $statusValuesArray['startDate']=$timesheetStartingDate;
+            }
+        } else {
+            $statusValuesArray['state'] = 3;
+        }
+        return $statusValuesArray;
+    }
+
+    public function validateStartDate($startDate) {
+
+        $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
+        $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
+  
+    
+        if ($timesheetStartingDate == $startDate) {
+           
+            return true;
+            
+       } else {
+
+            return false;
+        }
     }
 
 }
