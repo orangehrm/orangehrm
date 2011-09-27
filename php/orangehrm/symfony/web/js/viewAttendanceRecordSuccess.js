@@ -149,10 +149,10 @@ function validateInputDate(){
 
     var errorStyle = "background-color:#FFDFDF;";
         
-    var dateArray=$(".date").val().split('-');
+    var date=$(".date").val();
     
         
-    if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
+    if(!date.isValidDate()){
 
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidFormat);
@@ -217,4 +217,18 @@ function getRelatedAttendanceRecords(employeeId, date, actionRecorder){
                     
     return false;
         
+}
+
+String.prototype.isValidDate = function() {
+    var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+    var matches = IsoDateRe.exec(this);
+    if (!matches) return false;
+  
+
+    var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
+
+    return ((composedDate.getMonth() == (matches[2] - 1)) &&
+        (composedDate.getDate() == matches[3]) &&
+        (composedDate.getFullYear() == matches[1]));
+
 }
