@@ -88,12 +88,14 @@ class ohrmValidatorDateRange extends sfValidatorDate {
             }
         } else if (($from == "YYYY-MM-DD") && ($to != "YYYY-MM-DD")) {
             if ($to != "") {
+	        $value["from"] = null;
                 $this->setMessage('invalid', 'Insert a valid "to" date');
                 $this->setMessage("bad_format", "To date value does not match the date format ( yyyy-mm-dd).");
                 parent::doClean($value["to"]);
             }
         } else if (($from != "YYYY-MM-DD") && ($to == "YYYY-MM-DD")) {
             if ($from != "") {
+		$value['to'] = null;
                 $this->setMessage('invalid', 'Insert a valid "from" date');
                 $this->setMessage("bad_format", "From date value does not match the date format ( yyyy-mm-dd).");
                 parent::doClean($value["from"]);

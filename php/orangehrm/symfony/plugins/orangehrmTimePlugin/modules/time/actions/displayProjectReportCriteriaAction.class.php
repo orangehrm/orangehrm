@@ -58,8 +58,10 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
     public function setStaticColumns($formValues) {
 
-        $staticColumns["fromDate"] = "1970-01-01";
-        $staticColumns["toDate"] = date("Y-m-d");
+//        $staticColumns["fromDate"] = "1970-01-01";
+//        $staticColumns["toDate"] = date("Y-m-d");
+        $staticColumns["fromDate"] = "";
+        $staticColumns["toDate"] = "";
 
         if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
 
