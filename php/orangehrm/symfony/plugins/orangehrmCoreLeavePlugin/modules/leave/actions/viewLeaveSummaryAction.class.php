@@ -26,6 +26,9 @@
  */
 class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
+    private $employeeService;
+
+
     /**
      * @param sfForm $form
      * @return
@@ -36,6 +39,25 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         }
     }
 
+    /**
+     * Get EmployeeService
+     * @return EmployeeService object
+     */
+    public function getEmployeeService() {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * Sets EmployeeService
+     * @param EmployeeService $service
+     */
+    public function setEmployeeService(EmployeeService $service) {
+        $this->employeeService = $service;
+    }
+    
     /**
      * Get instance of form used by this action.
      * Allows subclasses to override the form class used in the action.
@@ -50,6 +72,9 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $userDetails = $this->getLoggedInUserDetails();
         $searchParam = array();
         $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "")?trim($request->getParameter("employeeId")):null;
+        if(!is_null($searchParam['employeeId']) && ($this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getEmpStatus() == Employee::EMPLOYEE_STATUS_TERMINATED)) {
+            $searchParam['cmbWithTerminated'] = 'on';
+        }
         $params = array_merge($searchParam, $userDetails);
 
         $this->setForm($this->getFormInstance(array(), $params, true));
@@ -83,7 +108,9 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
         $clues = $this->form->getSearchClues();
         $clues['loggedUserId'] = $userDetails['loggedUserId'];
-        
+        if(!is_null($searchParam['employeeId']) && ($this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getEmpStatus() == Employee::EMPLOYEE_STATUS_TERMINATED)) {
+            $clues['cmbWithTerminated'] = 'on';
+        }
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
         $pageNo = $request->getParameter('hdnAction') == 'search'? 1 : $request->getParameter('pageNo', 1);
         $offset = ($pageNo - 1)*$noOfRecords;

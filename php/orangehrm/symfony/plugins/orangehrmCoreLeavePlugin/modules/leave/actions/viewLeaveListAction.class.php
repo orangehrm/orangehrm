@@ -57,7 +57,18 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $mode = empty($id) ? LeaveListForm::MODE_DEFAULT_LIST : LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
 
         if ($this->_isRequestFromLeaveSummary($request)) {
-            $this->_setFilters($mode, $request->getGetParameters());
+            
+            $filters = $request->getGetParameters();            
+            $empId = $request->getGetParameter('txtEmpID');
+            
+            if (!empty($empId)) {
+                $empStatus = $this->getEmployeeService()->getEmployee($empId)->getEmpStatus();
+                if($empStatus == Employee::EMPLOYEE_STATUS_TERMINATED) {
+                   $filters['cmbWithTerminated'] = 'on';
+                }                
+            }
+            $this->_setFilters($mode, $filters);
+            
         }
 
         if ($request->isMethod('post')) { 
@@ -83,11 +94,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             $page = 1;
         }
         
-        if($request->getParameter('EmpStatus') == Employee::EMPLOYEE_STATUS_TERMINATED) {
-            $filters['cmbWithTerminated'] = 'on';
-        }
-        
-                
         $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
         $toDate = $this->_getFilterValue($filters, 'calToDate', null);
         $subunitId = $this->_getFilterValue($filters, 'cmbSubunit', null);
