@@ -98,16 +98,6 @@ $searchActionButtons = $form->getSearchActionButtons();
 
 <!-- end of comment dialog-->
 
-<div id="overQuotaDialog" title="OrangeHRM - <?php echo __('Confirmation Required');?>" style="display: none;">
-<?php echo __("Approving this leave will exceed this employee's"); ?><br />
-<?php echo __("leave balance for this leave type. Do you want to continue?"); ?>
-<br /><br />
-<div class="dialogButtons">
-<input type="button" id="overQuotaYes" class="savebutton" value="<?php echo __('Yes') ?>" />
-<input type="button" id="overQuotaNo" class="savebutton" value="<?php echo __('No') ?>" />
-</div>
-</div>
-
 <input type="hidden" id="overQuotaSelectId" value="" />
 <input type="hidden" id="leaveRequestHiddenId" value="" />
 
@@ -438,61 +428,6 @@ $searchActionButtons = $form->getSearchActionButtons();
 
             });
 
-
-            /* Checking over quota: Begins */
-
-            /* Registering overQuota dialog */
-            $("#overQuotaDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                width: 350,
-                height: 90,
-                position: 'middle'
-            });
-
-            /* Calculating to-approve leave sum */
-            $('.quotaSelect').change(function(){
-
-                if ($(this).val() == 'markedForApproval') {
-
-                    var overQuotaSelectId = $(this).attr('id');
-                    //var leaveRequestHiddenId = $(this).siblings('.requestIdHolder').attr('id');
-
-                    /* Tthis problem came on relying on dom structure, so better avoid in future */
-                    var ids = overQuotaSelectId.split("_");
-                    var leaveRequestHiddenId = "leaveRequest" + "-" + ids[ids.length - 1];
-                    var key = $(this).siblings('.quotaHolder').attr('name');
-                    var sum = 0;
-
-                    $('.quotaSelect').each(function(){
-                        if ($(this).val() == 'markedForApproval' &&
-                            $(this).siblings('.quotaHolder').attr('name') == key) {
-                            sum += parseFloat($(this).siblings('.quotaHolder').val());
-                        }
-                    });
-
-                    if (sum > quota[key]) {
-                        $("#overQuotaSelectId").val(overQuotaSelectId);
-                        $("#leaveRequestHiddenId").val(leaveRequestHiddenId);
-                        $("#overQuotaDialog").dialog('open');
-                    }
-                }
-
-            });
-
-            /* overQuota dialog actions */
-            $("#overQuotaYes").click(function(){
-                $("#overQuotaDialog").dialog('close');
-            });
-
-            $("#overQuotaNo").click(function(){
-
-                $("#"+$("#overQuotaSelectId").val()).val('');
-                $("#"+$("#leaveRequestHiddenId").val()).val('');
-
-                $("#overQuotaDialog").dialog('close');
-
-            });
 
         $('.data-table tbody tr.r1').hover(function() {
             $(this).removeClass();

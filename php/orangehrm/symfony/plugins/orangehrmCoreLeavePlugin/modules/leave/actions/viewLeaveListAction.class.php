@@ -158,7 +158,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 'employeeFilter' => $employeeFilter,
                 'leavePeriod' => $leavePeriodId,
                 'leaveType' => $leaveTypeId,
-                'noOfRecordsPerPage' => 3,
+                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page'),
                 'cmbWithTerminated' => $terminatedEmp
             ));
 
@@ -171,7 +171,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 $messageType = 'notice';
             }
 
-            $this->pager = new SimplePager('LeaveList', 3);
+            $this->pager = new SimplePager('LeaveList', sfConfig::get('app_items_per_page'));
 
             $this->pager->setPage($page);
             $this->pager->setNumResults($recordCount);
@@ -250,7 +250,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($list);
-        ohrmListComponent::setItemsPerPage(3);
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
         ohrmListComponent::setNumberOfRecords($recordCount);
         ohrmListComponent::$pageNumber = $page;
         $offset = $page * sfConfig::get('app_items_per_page');
