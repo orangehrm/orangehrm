@@ -15,11 +15,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */ ?>
-   <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-    <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
-    <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-    <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
+<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
+<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
+<?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
 
 <?php
@@ -82,7 +82,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         <form  id="createTimesheetForm" action=""  method="post">
             <?php echo $createTimesheetForm['_csrf_token']; ?>
 
-            <?php echo $createTimesheetForm['date']->renderLabel(__('Select A Day To Create Timesheet')); ?>
+            <?php echo $createTimesheetForm['date']->renderLabel(__('Select a Day to Create Timesheet')); ?>
             <?php echo $createTimesheetForm['date']->render(); ?><input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/>
             <?php echo $createTimesheetForm['date']->renderError() ?>
             <br class="clear"/>
@@ -131,7 +131,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                         <tr class="<?php echo $class; ?>">
                             <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
-				<td id="columnName"><?php echo html_entity_decode(str_replace("##", "", $timesheetItemRow['projectName'])); ?>
+                            <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['projectName']); ?>
                             <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['activityName']); ?>
 
                                 <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
@@ -348,10 +348,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
             <div><input type="button" id="commentCancel" class="plainbtn" value="<?php echo __('Close'); ?>" /></div>
         </form>
     </div>
-
-
     <script type="text/javascript">
-            
+                                                    
         var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
         var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
         var dateDisplayFormat = dateFormat.toUpperCase();
@@ -370,9 +368,12 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
         var validateStartDate="<?php echo url_for('time/validateStartDate'); ?>";
         var createTimesheet="<?php echo url_for('time/createTimesheet'); ?>";
-  
+        var returnEndDate="<?php echo url_for('time/returnEndDate'); ?>";
+        var currentDate= "<?php echo $currentDate; ?>";
+                                          
 
 
 
     </script>
+
 <?php endif; ?>

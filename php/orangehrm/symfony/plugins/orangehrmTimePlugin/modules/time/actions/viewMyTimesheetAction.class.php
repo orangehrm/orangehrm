@@ -45,13 +45,13 @@ class viewMyTimesheetAction extends sfAction {
         $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
 
         if ($request->isMethod('post')) {
-
-            $timesheet = $this->setTimesheetState($request);
-            $comment = $request->getParameter('Comment');
-
-
-
             if ($request->getParameter('updateActionLog')) {
+                $timesheet = $this->setTimesheetState($request);
+                $comment = $request->getParameter('Comment');
+
+
+
+
                 if ($request->getParameter('resetAction')) {
 
                     $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $timesheet->getTimesheetId(), $userId);

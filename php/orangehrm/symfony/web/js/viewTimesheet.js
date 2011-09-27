@@ -1,21 +1,21 @@
 $(document).ready(function(){
-    
+   
     dateTimeFormat= 'yyyy-MM-dd HH:mm';
     
     $("#createTimesheet").hide();
     
-    var rDate = trim($("#time_date").val());
+    var rDate = trim($(".date").val());
     if (rDate == '') {
-        $("#time_date").val(dateDisplayFormat);
+        $(".date").val(dateDisplayFormat);
     }
 
     //Bind date picker
-    daymarker.bindElement("#time_date",
+    daymarker.bindElement(".date",
     {
         onSelect: function(date){
 
 
-            $("#time_date").trigger('change');
+            $(".date").trigger('change');
         },
         dateFormat:jsDateFormat
     });
@@ -23,64 +23,42 @@ $(document).ready(function(){
     $('#DateBtn').click(function(){
 
 
-        daymarker.show("#time_date");
+        daymarker.show(".date");
 
 
     });
   
-    $("#time_date").change(function() {
+    $(".date").change(function() {
         $('#validationMsg').removeAttr('class');
         $('#validationMsg').html("");
-        var startdate=$("#time_date").val();
+        var startdate=$(".date").val();
       
         if(startdate.isValidDate()){
-            
-            
-            var currentDate = new Date();
-            var startDate = new Date(startdate);
          
-            if (currentDate < startDate)
+            var endDate= calculateEndDate(Date_toYMD()); 
+         
+            var startDate = new Date(startdate);
+            var newEndDate= new Date(endDate);
+
+           
+            
+            if (newEndDate < startDate)
             { 
-                 $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html("Start date should be lees than current date");
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+                $('#validationMsg').html("It is Not Possible to Create Future Timesheets");
             }else{
              
-                //            var r = $.ajax({
-                //                type: 'POST',
-                //                url: validateStartDate,
-                //                data: "startDate="+startdate,
-                //                async: false,
-                //
-                //                success: function(msg){
-                //                    //            var array = msg.split('##');
-                //                    //            question = array[0];
-                //                    //            date = array[1];
-                //                    isValid=msg;
-                //                    alert(msg)
-                //                }
-                //            });
-       
-             
-                //            url1=validateStartDate+"?startDate="+startdate
-                //            $.getJSON(url1, function(data) {
-                //        
-                //                isValid=data;
-                //             
-                //                 
-                //               
-                //            })
-                //    if(isValid){
         
                 url=createTimesheet+"?startDate="+startdate+"&employeeId="+employeeId
                 $.getJSON(url, function(data) {
                 
                     if(data[0]==1){
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html("Timesheet overlaps with existing timesheets");
+                        $('#validationMsg').html("Timesheet Overlaps with Existing Timesheets");
                     }
                     if(data[0]==3){
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html("Timesheet already exists"); 
+                        $('#validationMsg').html("Timesheet Already Exists"); 
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
@@ -104,109 +82,109 @@ $(document).ready(function(){
                 
             }
         }
-    else{
-        $('#validationMsg').attr('class', "messageBalloon_failure");
-        $('#validationMsg').html("Invalid date");
-    }
+        else{
+            $('#validationMsg').attr('class', "messageBalloon_failure");
+            $('#validationMsg').html("Invalid date");
+        }
     });
     
     
 
-$("#commentDialog").dialog({
-    autoOpen: false,
-    width: 350,
-    height: 225
-});
-
-$("#btnEdit").click(function(){
-    $('form#timesheetFrm').attr({
-        action:linkForEditTimesheet+"?employeeId="+employeeId+"&timesheetId="+timesheetId+"&actionName="+actionName
+    $("#commentDialog").dialog({
+        autoOpen: false,
+        width: 350,
+        height: 225
     });
-    $('form#timesheetFrm').submit();
-});
 
-$("#btnSubmit").click(function(){
-    $('form#timesheetFrm').attr({
-        //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
-        action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
+    $("#btnEdit").click(function(){
+        $('form#timesheetFrm').attr({
+            action:linkForEditTimesheet+"?employeeId="+employeeId+"&timesheetId="+timesheetId+"&actionName="+actionName
+        });
+        $('form#timesheetFrm').submit();
     });
-    $('form#timesheetFrm').submit();
-});
 
-$("#btnReject").click(function(){
+    $("#btnSubmit").click(function(){
+        $('form#timesheetFrm').attr({
+            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
+            action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
+        });
+        $('form#timesheetFrm').submit();
+    });
+
+    $("#btnReject").click(function(){
        
-    if(validateComment()){
+        if(validateComment()){
 
-        $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=REJECTED"+"&date="+date
-            action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
-        });
-        $('form#timesheetFrm').submit();
-    }
-});
-
-$("#btnReset").click(function(){
-    $('form#timesheetFrm').attr({
-        //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
-        action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
+            $('form#timesheetFrm').attr({
+                //action:linkForViewTimesheet+"?state=REJECTED"+"&date="+date
+                action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
+            });
+            $('form#timesheetFrm').submit();
+        }
     });
-    $('form#timesheetFrm').submit();
-});
 
-$("#btnApprove").click(function(){
-    if(validateComment()){
+    $("#btnReset").click(function(){
         $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=APPROVED"+"&date="+date
-            action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
+            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
+            action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
         });
         $('form#timesheetFrm').submit();
-    }
-});
-$("#commentCancel").click(function() {
-    $("#commentDialog").dialog('close');
-});
-$("#btnAddTimesheet").click(function(){
-    $("#createTimesheet").show();
-});
+    });
 
-//$('#txtComment').change(function() {
-//
-//
-//    var flag= validateComment();
-//
-//    if(!flag) {
-//        $('#btnApprove').attr('disabled', 'disabled');
-//        $('#btnReject').attr('disabled', 'disabled');
-//        $('#validationMsg').attr('class', "messageBalloon_failure");
-//    }
-//    else{
-//        $('#btnApprove').removeAttr('disabled');
-//        $('#btnReject').removeAttr('disabled');
-//        $("#txtComment").removeAttr('style');
-//    }
-//
-//
-//});
+    $("#btnApprove").click(function(){
+        if(validateComment()){
+            $('form#timesheetFrm').attr({
+                //action:linkForViewTimesheet+"?state=APPROVED"+"&date="+date
+                action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
+            });
+            $('form#timesheetFrm').submit();
+        }
+    });
+    $("#commentCancel").click(function() {
+        $("#commentDialog").dialog('close');
+    });
+    $("#btnAddTimesheet").click(function(){
+        $("#createTimesheet").show();
+    });
 
-
-$(".icon").click(function(){
-
-    $("#timeComment").attr("disabled","disabled");
-    //removing errors message in the comment box
-    $("#commentError").html("");
-    var array = ($(this).attr('id')).split('##');
-    timesheetItemId = array[0];
-
-    var comment = getComment(timesheetItemId);
-    var decoded = $("<div/>").html(comment).text();
-    $("#timeComment").val(decoded);
-    $("#commentProjectName").text(":"+" "+array[1]);
-    $("#commentActivityName").text(":"+" "+array[2]);
-    $("#commentDate").text(":"+" "+date);
-    $("#commentDialog").dialog('open');
+    //$('#txtComment').change(function() {
+    //
+    //
+    //    var flag= validateComment();
+    //
+    //    if(!flag) {
+    //        $('#btnApprove').attr('disabled', 'disabled');
+    //        $('#btnReject').attr('disabled', 'disabled');
+    //        $('#validationMsg').attr('class', "messageBalloon_failure");
+    //    }
+    //    else{
+    //        $('#btnApprove').removeAttr('disabled');
+    //        $('#btnReject').removeAttr('disabled');
+    //        $("#txtComment").removeAttr('style');
+    //    }
+    //
+    //
+    //});
 
 
-});
+    $(".icon").click(function(){
+
+        $("#timeComment").attr("disabled","disabled");
+        //removing errors message in the comment box
+        $("#commentError").html("");
+        var array = ($(this).attr('id')).split('##');
+        timesheetItemId = array[0];
+
+        var comment = getComment(timesheetItemId);
+        var decoded = $("<div/>").html(comment).text();
+        $("#timeComment").val(decoded);
+        $("#commentProjectName").text(":"+" "+array[1]);
+        $("#commentActivityName").text(":"+" "+array[2]);
+        $("#commentDate").text(":"+" "+date);
+        $("#commentDialog").dialog('open');
+
+
+    });
 
 
 
@@ -225,7 +203,7 @@ function clicked(dropdown){
     var dates = dateString.split(" ");
 
     location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+dates[0]+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;
-//document.getElementById('startDates').value
+
 }
 
 function getComment(timesheetItemId){
@@ -274,7 +252,7 @@ function validateComment(){
     $('#btnApprove').removeAttr('disabled');
     $('#btnReject').removeAttr('disabled');
     $("#txtComment").removeAttr('style');
-    // $(".messageBalloon_success").remove();
+
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
 
@@ -307,4 +285,44 @@ String.prototype.isValidDate = function() {
         (composedDate.getDate() == matches[3]) &&
         (composedDate.getFullYear() == matches[1]));
 
+}
+
+function calculateEndDate(startDate){
+
+    var r = $.ajax({
+        type: 'POST',
+        url:  returnEndDate,
+        data: "startDate="+startDate,
+        async: false,
+
+        success: function(msg){
+           
+            var array = msg.split(' ');
+            date1 = array[0];
+           
+        }
+        
+    });
+   
+    return date1;
+  
+
+        
+}
+
+
+
+function Date_toYMD() {
+    var dt=new Date();
+    var year, month, day;
+    year = String(dt.getFullYear());
+    month = String(dt.getMonth() + 1);
+    if (month.length == 1) {
+        month = "0" + month;
+    }
+    day = String(dt.getDate());
+    if (day.length == 1) {
+        day = "0" + day;
+    }
+    return year + "-" + month + "-" + day;
 }

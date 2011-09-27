@@ -25,8 +25,16 @@ class viewTimesheetAction extends sfAction {
 
     public function execute($request) {
 
+
+        /* Decorated user object in the user session, which can be used only to get user's employee number, user id, employee list and accessible Time menus */
+        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
+        $userId = $this->userObj->getUserId();
+        $userEmployeeNumber = $this->userObj->getEmployeeNumber();
+        $employeeId = $request->getParameter('employeeId');
+        $this->employeeName = $this->getEmployeeName($employeeId);
+
         $this->createTimesheetForm = new CreateTimesheetForm();
-        $this->currentDate=date('Y-m-d');
+        $this->currentDate = date('Y-m-d');
 
         $this->headingText = $this->getTimesheetPeriodService()->getTimesheetHeading();
         $this->successMessage = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
@@ -48,14 +56,9 @@ class viewTimesheetAction extends sfAction {
         if ($this->getContext()->getUser()->hasFlash('errorMessage')) {
 
             $this->messageData = array('NOTICE', __($this->getContext()->getUser()->getFlash('errorMessage')));
+           
         } else {
 
-            /* Decorated user object in the user session, which can be used only to get user's employee number, user id, employee list and accessible Time menus */
-            $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-            $userId = $this->userObj->getUserId();
-            $userEmployeeNumber = $this->userObj->getEmployeeNumber();
-            $employeeId = $request->getParameter('employeeId');
-            $this->employeeName = $this->getEmployeeName($employeeId);
 
             $this->dateForm = new startDaysListForm(array(), array('employeeId' => $employeeId));
             $dateOptions = $this->dateForm->getDateOptions();
@@ -133,7 +136,7 @@ class viewTimesheetAction extends sfAction {
             //decorate the user according the role that he plays on the employee who timesheet is being viewed.
             $userRoleFactory = new UserRoleFactory();
             $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
-            $this->allowedToCreateTimesheets=$decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
+            $this->allowedToCreateTimesheets = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
             $this->allowedActions = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState);
             $this->submitNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_SUBMIT);
             $this->approveNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE);

@@ -462,7 +462,7 @@ class TimesheetService {
                 $timesheet->setEmployeeId($employeeId);
                 $timesheet = $this->saveTimesheet($timesheet);
                 $statusValuesArray['state'] = 2;
-                $statusValuesArray['startDate']=$timesheetStartingDate;
+                $statusValuesArray['startDate'] = $timesheetStartingDate;
             }
         } else {
             $statusValuesArray['state'] = 3;
@@ -474,16 +474,24 @@ class TimesheetService {
 
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
-  
-    
+
+
         if ($timesheetStartingDate == $startDate) {
-           
+
             return true;
-            
-       } else {
+        } else {
 
             return false;
         }
+    }
+
+    public function returnEndDate($startDate) {
+
+        $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
+        $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
+        $endDate = end($datesInTheCurrenTimesheetPeriod);
+        
+        return $endDate;
     }
 
 }

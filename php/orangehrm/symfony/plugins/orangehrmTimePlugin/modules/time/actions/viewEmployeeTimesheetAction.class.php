@@ -22,7 +22,7 @@ class viewEmployeeTimesheetAction extends sfAction {
     private $employeeNumber;
     private $timesheetService;
 
-     public function getTimesheetService() {
+    public function getTimesheetService() {
 
         if (is_null($this->timesheetService)) {
 
@@ -31,7 +31,6 @@ class viewEmployeeTimesheetAction extends sfAction {
 
         return $this->timesheetService;
     }
-
 
     public function execute($request) {
 
@@ -49,13 +48,13 @@ class viewEmployeeTimesheetAction extends sfAction {
                 $startDaysListForm = new startDaysListForm(array(), array('employeeId' => $this->employeeId));
                 $dateOptions = $startDaysListForm->getDateOptions();
 
-                if($dateOptions == null){
+                if ($dateOptions == null) {
 
                     $this->getContext()->getUser()->setFlash('errorMessage', "There is no timesheet to view");
-
+                    $this->redirect('time/createTimesheetForSubourdinate?' . http_build_query(array('employeeId' => $this->employeeId)));
                 }
 
-                $this->redirect('time/viewTimesheet?'. http_build_query(array('employeeId' => $this->employeeId)));
+                $this->redirect('time/viewTimesheet?' . http_build_query(array('employeeId' => $this->employeeId)));
             }
         }
 
@@ -64,9 +63,7 @@ class viewEmployeeTimesheetAction extends sfAction {
 
 
         $this->pendingApprovelTimesheets = $userObj->getActionableTimesheets();
-     
     }
-
 
 }
 
