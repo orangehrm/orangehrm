@@ -103,7 +103,7 @@ class CandidateSearchParameters {
     public function getCandidateStatus($withDefault = true) {
         $additionalParams = $this->getAdditionalParams();
         if(is_array($additionalParams) && array_key_exists('candidateArchiveOptions', $additionalParams)) {
-            $this->candidateStatus = explode(',', $additionalParams);
+            $this->candidateStatus = explode(',', $additionalParams['candidateArchiveOptions']);
         } else {
             $this->candidateStatus = ($withDefault) ? array(JobCandidate::ACTIVE) : array();
         }
