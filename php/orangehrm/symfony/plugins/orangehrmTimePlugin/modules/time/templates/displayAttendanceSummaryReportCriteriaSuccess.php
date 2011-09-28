@@ -108,16 +108,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         //Validation
         $("#attendanceTotalSummaryReportForm").validate({
             rules: {
-                'attendanceTotalSummary[fromDate]':{required: true, validFromDateFormat: true},
-                'attendanceTotalSummary[toDate]':{required: true, validToDateFormat: true, validToDate: true}
+                'attendanceTotalSummary[fromDate]':{validFromDateFormat: true},
+                'attendanceTotalSummary[toDate]':{validToDateFormat: true, validToDate: true}
             },
             messages: {
                 'attendanceTotalSummary[fromDate]': {
-                    required: "From Date is required",
                     validFromDateFormat: "Please enter a date in the format yyyy-mm-dd"
                 },
                 'attendanceTotalSummary[toDate]': {
-                    required: "To Date is required",
                     validToDateFormat: "Please enter a date in the format yyyy-mm-dd",
                     validToDate: " To field should be greater than from field/Invalid date"
                 }
