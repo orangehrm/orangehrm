@@ -37,6 +37,10 @@ $(document).ready(function(){
          
             var endDate= calculateEndDate(Date_toYMD()); 
          
+            var endDateArray = endDate.split("-");
+            endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
+            var startDateArray=startdate.split("-");
+            startdate = new Date(startDateArray[0],startDateArray[1]-1,startDateArray[2]); 
             var startDate = new Date(startdate);
             var newEndDate= new Date(endDate);
 
