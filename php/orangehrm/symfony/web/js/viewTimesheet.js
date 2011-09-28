@@ -36,15 +36,18 @@ $(document).ready(function(){
         if(startdate.isValidDate()){
          
             var endDate= calculateEndDate(Date_toYMD()); 
-         
-            var endDateArray = endDate.split("-");
+    
+            startDateArray = startdate.split("-");           
+            endDateArray=endDate.split("-");
+            
+             startdate1 = new Date(startDateArray[0],startDateArray[1]-1,startDateArray[2]); 
             endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
-            var startDateArray=startdate.split("-");
-            startdate = new Date(startDateArray[0],startDateArray[1]-1,startDateArray[2]); 
-            var startDate = new Date(startdate);
+            
+            
+            var startDate = new Date(startdate1);
             var newEndDate= new Date(endDate);
 
-           
+     
             
             if (newEndDate < startDate)
             { 
@@ -52,7 +55,7 @@ $(document).ready(function(){
                 $('#validationMsg').html("It is Not Possible to Create Future Timesheets");
             }else{
              
-        
+      
                 url=createTimesheet+"?startDate="+startdate+"&employeeId="+employeeId
                 $.getJSON(url, function(data) {
                 
@@ -66,6 +69,7 @@ $(document).ready(function(){
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
+                        
                         $('form#createTimesheetForm').attr({
                             
                             //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
