@@ -192,10 +192,10 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals('-10', $this->attendanceService->getTimezone($value));
 
         $value = 22;
-        $this->assertEquals('-5', $this->attendanceService->getTimezone($value));
+        $this->assertEquals('-4.00', $this->attendanceService->getTimezone($value));
 
         $value = 25;
-        $this->assertEquals('-3', $this->attendanceService->getTimezone($value));
+        $this->assertEquals('-2.00', $this->attendanceService->getTimezone($value));
     }
 
     public function testGetTimezoneArray() {
