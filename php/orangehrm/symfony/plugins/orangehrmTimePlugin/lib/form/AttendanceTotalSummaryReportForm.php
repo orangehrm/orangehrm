@@ -42,8 +42,8 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
         $this->setValidator('empName', new sfValidatorString(array('required' => false)));
         $this->setValidator('employeeId', new sfValidatorInteger());
-        $this->setValidator('fromDate', new sfValidatorDate());
-        $this->setValidator('toDate', new sfValidatorDate());
+        $this->setValidator('fromDate', new sfValidatorDate(array('required' => false)));
+        $this->setValidator('toDate', new sfValidatorDate(array('required' => false)));
         $this->widgetSchema->setNameFormat('attendanceTotalSummary[%s]');
     }
 

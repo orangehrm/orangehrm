@@ -154,7 +154,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
                 employeeFlag = validateInput();
                 if(employeeFlag){
-                    $('#from_date').val("1970-01-01");
+                    $('#from_date').val("");
                 }
                 return true;
             }
@@ -170,7 +170,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 if(employeeFlag){
                     var date = new Date();
                     var currentDate = date.getFullYear()+ "-" + ( date.getMonth() + 1 ) + "-" + date.getDate();
-                    $('#to_date').val(currentDate);
+                    $('#to_date').val("");
                 }
                 return true;
             }

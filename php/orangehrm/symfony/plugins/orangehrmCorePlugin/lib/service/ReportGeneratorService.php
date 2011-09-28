@@ -704,7 +704,7 @@ class ReportGeneratorService {
                 $str = $matches[0];
               
                 $array = explode("@", $str);
-                if (($value == '-1') || ($value == '0')) {
+                if (($value == '-1') || ($value == '0') || ($value == '')) {
                     $sql = str_replace($str, $array[3], $sql);
                 } else {
                     $value = str_replace($key, $value, $array[1]);
