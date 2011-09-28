@@ -104,6 +104,7 @@ $(document).ready(function(){
     });
 
     $("#btnSubmit").click(function(){
+     
         $('form#timesheetFrm').attr({
             //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
             action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true

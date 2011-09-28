@@ -28,7 +28,7 @@ class CreateTimesheetForm extends sfForm {
 
         $this->setWidgets($this->formWidgets);
 
-        $this->formValidators['date'] = new sfValidatorDate(array(), array('required' => __('Enter Date')));
+        $this->formValidators['date'] = new sfValidatorDate(array(), array('required' => false));
         $this->widgetSchema->setNameFormat('time[%s]');
 
         $this->setValidators($this->formValidators);
