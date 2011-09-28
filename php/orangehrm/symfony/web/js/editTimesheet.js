@@ -406,7 +406,7 @@ $(document).ready(function() {
         for (i=0; i < projectCount; i++) {
             arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
             arrayName = $("<div/>").html(arrayName).text();
-       
+	    
             if (projectName == arrayName) {
                 temp = true;
                 break;

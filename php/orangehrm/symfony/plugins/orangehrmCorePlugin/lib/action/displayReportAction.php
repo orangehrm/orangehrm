@@ -38,11 +38,8 @@ abstract class displayReportAction extends sfAction {
         if (!$useFilterField) {
             $this->setCriteriaForm();
             if ($request->isMethod('post')) {
-
                 $this->form->bind($request->getParameter($this->form->getName()));
-
                 if ($this->form->isValid()) {
-
                     $reportGeneratorService = new ReportGeneratorService();
                     $formValues = $this->form->getValues();
                     $this->setReportCriteriaInfoInRequest($formValues);
@@ -60,7 +57,7 @@ abstract class displayReportAction extends sfAction {
 
                 $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
                 $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
-                $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
+                $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);	
             }
         }
         $paramArray = array();
