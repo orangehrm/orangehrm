@@ -15,7 +15,7 @@
     <?php $i = 0; ?>
     <?php $total = 0; ?>
     <?php if ($records == null): ?>  <tr>
-            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo __("No attendance records to display")."!" ?></td>
+            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo __("No attendance records to display") . "!" ?></td>
         </tr> <?php else: ?> 
 
         <?php foreach ($records as $record): ?>
@@ -27,29 +27,29 @@
 
                 <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td>
                 <td><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchInTimeOffset(); ?></span></td>
-                <td><?php echo $record->getPunchInNote() ?></td>
+                <td style="vertical-align: text-top"><?php echo $record->getPunchInNote() ?></td>
 
 
                 <?php if ($record->getPunchOutUserTime() == null): ?>
                     <td></td>
                     <td></td>
-                <?php elseif (date('Y-m-d',  strtotime($record->getPunchOutUserTime())) != $date): ?>
+                <?php elseif (date('Y-m-d', strtotime($record->getPunchOutUserTime())) != $date): ?>
 
                     <td><span style="color:#98a09f"><?php echo $record->getPunchOutUserTime() ?></span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
                     <td><?php echo $record->getPunchOutNote() ?></td>
                 <?php else: ?>
 
                     <td><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
-                    <td><?php echo $record->getPunchOutNote() ?></td>
+                    <td style="vertical-align: text-top"><?php echo $record->getPunchOutNote() ?></td>
                 <?php endif; ?>
 
 
                 <?php if ($record->getPunchOutUtcTime() == null): ?>
 
-                    <td><?php echo "0"; ?></td>
+                    <td style="vertical-align: text-top"><?php echo "0"; ?></td>
 
                 <?php else: ?>
-                    <td><?php echo round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?></td>
+                    <td style="vertical-align: text-top"><?php echo round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?></td>
                     <?php $total = $total + round((strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime())) / 3600, 2) ?>
                 <?php endif; ?>
             </tr>
@@ -95,7 +95,7 @@
 </div>
 
 <div id="dialogBox" class="dialogBox" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>">
-    <?php echo __("Selected attenadance records will be deleted")."?"; ?>
+    <?php echo __("Selected attenadance records will be deleted") . "?"; ?>
 
     <div>
         <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="dialogOk" class="plainbtn okBtn" value="<?php echo __('Ok'); ?>" />

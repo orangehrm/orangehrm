@@ -38,7 +38,7 @@
                             <td> <?php echo $form['date']->renderError() ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td></td></tr>
                         <tr><td> <?php echo $form['time']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['time']->renderError() ?><?php echo $form['time']->render(); ?><span class="timeFormatHint">HH:MM</span></td></tr>
                         <tr><td> <?php echo $form['timezone']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['timezone']->renderError() ?><?php echo $form['timezone']->render(); ?></td></tr>
-                        <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['note']->renderError() ?><?php echo $form['note']->render(); ?></td></tr>
+                        <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['note']->renderError() ?><?php echo $form['note']->render(array("onkeyup" => "validateNote()")); ?></td></tr>
 
 
                         <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, $sf_data->getRaw('allowedActions'))) : ?>
@@ -55,12 +55,13 @@
                     </tbody>
                 </table>
             </form>
-
-            <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time").": "; ?><?php echo $punchInTime; ?>&nbsp;<?php echo $punchInNote; ?></div>
-            <?php endif; ?><br class="clear">          
-
-
+            <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
+                <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo $punchInTime; ?></div>
+                <?php if (!empty($punchInNote)): ?>
+                    <br class="clear">
+                    <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note : "); ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
+                <?php endif; ?>
+            <?php endif; ?><br class="clear">
 
 
         </div> 

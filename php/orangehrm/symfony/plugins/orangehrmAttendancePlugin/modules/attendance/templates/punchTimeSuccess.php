@@ -60,14 +60,14 @@
                                 <td><?php echo $form['date']->renderLabel() ?></td>
                                 <td> <?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td></tr>
                             <tr><td> <?php echo $form['time']->renderLabel() ?></td><td><?php echo $form['time']->renderError() ?><?php echo $form['time']->render(); ?><span class="timeFormatHint">HH:MM</span></td></tr>
-                            <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td><?php echo $form['note']->renderError() ?><?php echo $form['note']->render(); ?></td></tr>
+                            <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td><?php echo $form['note']->renderError() ?><?php echo $form['note']->render(array("onkeyup" => "validateNote()")); ?></td></tr>
                         <?php else: ?>
                             <?php echo $attendanceFormToImplementCsrfToken['_csrf_token']; ?>
 
                             <tr><td> <?php echo __('Date'); ?></td><td>&nbsp;<span id="currentDate"></span><input type="hidden" class="date"name="date" value=""/></td></tr>
                             <tr><td>  <?php echo __('Time'); ?></td><td>&nbsp;<span id="currentTime"></span><input  type="hidden" class="time"name="time" value="">&nbsp;&nbsp;&nbsp;&nbsp;<span class="timeFormatHint">HH:MM</span></td></tr>
 
-                            <tr><td id="noteLable"><?php echo __('Note'); ?></td><td>&nbsp;<textarea id="note" class="note" name="note" rows="5" cols="50"></textarea> </td></tr>
+                            <tr><td id="noteLable"><?php echo __('Note'); ?></td><td>&nbsp;<textarea id="note" class="note" name="note" rows="5" cols="50" onkeyup="validateNote()"></textarea> </td></tr>
                         <?php endif; ?>
 
 
