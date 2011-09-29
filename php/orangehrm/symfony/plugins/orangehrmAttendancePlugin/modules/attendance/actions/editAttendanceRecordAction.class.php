@@ -72,7 +72,10 @@ class editAttendanceRecordAction extends sfAction {
                 if ($this->editAttendanceForm->isValid()) {
                  
 
-                    $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
+                    $errorArray = $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
+		    if(!empty ($errorArray)){
+			    $this->redirect('attendance/editAttendanceRecord?employeeId='.$this->employeeId.'&date='.$this->date.'&actionRecorder='.$this->actionRecorder);
+		    } else {
                     $messageData = array('SUCCESS', __(' Records Saved Successfully'));
                     if ($this->actionRecorder == "viewMy") {
                         $this->redirect('attendance/viewMyAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
@@ -80,6 +83,7 @@ class editAttendanceRecordAction extends sfAction {
                     if ($this->actionRecorder == "viewEmployee") {
                         $this->redirect('attendance/viewAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
                     }
+		    }
                 }
             }
         }

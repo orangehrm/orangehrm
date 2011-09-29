@@ -188,4 +188,13 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(5, $attendanceRecord->getEmployeeId());
     }
 
+    public function testCheckForPunchInOutOverLappingRecordsWhenEditing(){
+
+	$punchInTime = "2011-04-20 1:30:00";
+	$punchOutTime = "2011-04-20 5:10:00";
+	$employeeId = 2;
+	$recordId = 2;
+	$isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
+	$this->assertEquals(0, $isDeleted);
+    }
 }
