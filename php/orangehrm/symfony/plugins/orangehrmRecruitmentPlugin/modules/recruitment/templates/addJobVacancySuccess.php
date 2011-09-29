@@ -95,10 +95,8 @@
                 <br class="clear"/>
             </div>
             
-
                 <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
 
-            
             <div class="formbuttons">
                 <?php if (isset($vacancyId)) { ?>
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
