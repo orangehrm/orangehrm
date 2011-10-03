@@ -136,6 +136,22 @@
                 <source>Note should be less than 250 characters</source>
                 <target>FR_Note should be less than 250 characters</target>
             </trans-unit>
+            <trans-unit id="34">
+                <source>Ok</source>
+                <target>FR_Ok</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>No Rows Selected</source>
+                <target>FR_No Rows Selected</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Time should be in yyyy-MM-dd format</source>
+                <target>FR_Time should be in yyyy-MM-dd format</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Time should be in HH:mm format</source>
+                <target>FR_Time should be in HH:mm format</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

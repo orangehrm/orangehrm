@@ -264,6 +264,10 @@
                 <source>Proceed with Time Module</source>
                 <target>FR_Proceed with Time Module</target>
             </trans-unit>
+             <trans-unit id="66">
+                <source>Edit Timesheet for Week </source>
+                <target>FR_Edit Timesheet for Week </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

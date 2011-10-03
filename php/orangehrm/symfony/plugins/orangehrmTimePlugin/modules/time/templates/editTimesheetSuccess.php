@@ -43,7 +43,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     <?php if (isset($employeeName)): ?>
         <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . " ".__('for Week')." " ?><?php echo $currentWeekDates[0] ?> </h2>
     <?php else: ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for Week  ') ?><?php echo " " . $currentWeekDates[0] ?> </h2>
+        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for Week ') ?><?php echo " " . $currentWeekDates[0] ?> </h2>
     <?php endif; ?>
 <?php endif; ?>
 <?php if ($noOfColumns == 30 || $noOfColumns == 31): ?>

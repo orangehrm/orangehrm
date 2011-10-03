@@ -50,7 +50,7 @@ $(document).ready(function()
             if(!isRowsSelected()){
 
                 $('#msg').attr('class', "messageBalloon_warning");
-                $('#msg').html("No Rows Selected");
+                $('#msg').html(lang_noRowsSelected);
 
             }
             else{
