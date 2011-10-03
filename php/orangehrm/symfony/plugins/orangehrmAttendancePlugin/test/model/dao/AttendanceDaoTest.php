@@ -190,10 +190,17 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testCheckForPunchInOutOverLappingRecordsWhenEditing(){
 
-	$punchInTime = "2011-04-20 1:30:00";
-	$punchOutTime = "2011-04-20 5:10:00";
-	$employeeId = 2;
-	$recordId = 2;
+//	$punchInTime = "2011-04-20 1:30:00";
+//	$punchOutTime = "2011-04-20 5:10:00";
+//	$employeeId = 2;
+//	$recordId = 21;
+//	$isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
+//	$this->assertEquals(0, $isDeleted);
+	
+	$punchInTime = "2012-02-27 23:10:00";
+	$punchOutTime = "2012-02-28 23:15:00";
+	$employeeId = 5;
+	$recordId = 22;
 	$isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
 	$this->assertEquals(0, $isDeleted);
     }

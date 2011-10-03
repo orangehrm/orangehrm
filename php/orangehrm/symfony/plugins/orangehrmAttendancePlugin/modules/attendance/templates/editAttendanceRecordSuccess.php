@@ -177,6 +177,6 @@
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>'
     var commentError='<?php echo __('Comment should be less than 250 characters'); ?>';
-
+    var errorRows = '<?php echo $errorRows; ?>';
      
 </script>

@@ -17,6 +17,7 @@ class editAttendanceRecordAction extends sfAction {
         $this->date = $request->getParameter('date');
 
         $this->actionRecorder = $request->getParameter('actionRecorder');
+        $this->errorRows = $request->getParameter('errorRows');
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $userId = $userObj->getUserId();
         $userEmployeeNumber = $userObj->getEmployeeNumber();
@@ -74,7 +75,8 @@ class editAttendanceRecordAction extends sfAction {
 
                     $errorArray = $this->editAttendanceForm->save($totalRows, $this->editAttendanceForm);
 		    if(!empty ($errorArray)){
-			    $this->redirect('attendance/editAttendanceRecord?employeeId='.$this->employeeId.'&date='.$this->date.'&actionRecorder='.$this->actionRecorder);
+			    $errorStr = json_encode($errorArray);
+			    $this->redirect('attendance/editAttendanceRecord?employeeId='.$this->employeeId.'&date='.$this->date.'&actionRecorder='.$this->actionRecorder.'&errorRows='.$errorStr);
 		    } else {
                     $messageData = array('SUCCESS', __(' Records Saved Successfully'));
                     if ($this->actionRecorder == "viewMy") {
