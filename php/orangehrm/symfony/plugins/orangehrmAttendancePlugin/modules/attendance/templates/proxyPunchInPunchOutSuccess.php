@@ -56,10 +56,10 @@
                 </table>
             </form>
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo $punchInTime; ?></div>
+                <div>&nbsp; <?php echo __("Last punch in time")." : "; ?><?php echo $punchInTime; ?></div>
                 <?php if (!empty($punchInNote)): ?>
                     <br class="clear">
-                    <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note : "); ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
+                    <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note")." : "; ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
                 <?php endif; ?>
             <?php endif; ?><br class="clear">
 
@@ -85,9 +85,9 @@
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
     var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
-    var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
+    var errorForInvalidTimeFormat='<?php echo __('Time should be in HH:mm format') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
+    var errorForInvalidDateFormat='<?php echo __('Time should be in yyyy-MM-dd format') ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var errorForInvalidNote='<?php echo __('Note should be less than 250 characters') ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
