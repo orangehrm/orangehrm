@@ -236,6 +236,34 @@
                 <source>Actions performed on the timesheet</source>
                 <target>FR_Actions performed on the timesheet</target>
             </trans-unit>
+             <trans-unit id="59">
+                <source>Define Timesheet Period</source>
+                <target>FR_Define Timesheet Period</target>
+            </trans-unit>
+             <trans-unit id="60">
+                <source>First Day of Week</source>
+                <target>FR_First Day of Week</target>
+            </trans-unit>
+             <trans-unit id="61">
+                <source>Timesheet period start day has not been defiend. Please contact HR Admin</source>
+                <target>FR_Timesheet period start day has not been defiend. Please contact HR Admin</target>
+            </trans-unit>
+             <trans-unit id="62">
+                <source>First day of week is required</source>
+                <target>FR_First day of week is required</target>
+            </trans-unit>
+             <trans-unit id="63">
+                <source>Timesheet period start day has been set</source>
+                <target>FR_Timesheet period start day has been set</target>
+            </trans-unit>
+             <trans-unit id="64">
+                <source>Timesheet period start day has been set</source>
+                <target>FR_Timesheet period start day has been set</target>
+            </trans-unit>
+             <trans-unit id="65">
+                <source>Proceed with Time Module</source>
+                <target>FR_Proceed with Time Module</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
