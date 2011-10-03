@@ -277,7 +277,7 @@ class TimesheetForm extends sfForm {
 
             $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##" . $project->getName(), 'id' => $project->getProjectId());
         }
-
+	    
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;

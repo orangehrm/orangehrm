@@ -143,7 +143,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var rows = <?php print_r($timesheetForm['initialRows']->count() + 1) ?>;
     var link = "<?php echo url_for('time/addRow') ?>";
     var commentlink = "<?php echo url_for('time/updateTimesheetItemComment') ?>";
-    var projectsForAutoComplete=<?php echo $timesheetForm->getProjectListAsJson(); ?>;
+    var projectsForAutoComplete= <?php echo $timesheetForm->getProjectListAsJson(); ?>;
     var projects = <?php echo $timesheetForm->getProjectListAsJsonForValidation(); ?>;
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";

@@ -48,7 +48,7 @@ $(document).ready(function(){
             
             if (newEndDate < startDate)
             { 
-                $('#validationMsg').attr('class', "messageBalloon_failures");
+                $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(lang_noFutureTimesheets);
             }else{
              

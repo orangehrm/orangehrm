@@ -41,8 +41,8 @@
                 <target>FR_OrangeHRM - Confirmation Required</target>
             </trans-unit>
             <trans-unit id="10">
-                <source>Selected attenadnce records will be deleted</source>
-                <target>FR_Selected attenadnce records will be deleted</target>
+                <source>Selected attendance records will be deleted</source>
+                <target>FR_Selected attendance records will be deleted</target>
             </trans-unit>
             <trans-unit id="11">
                 <source>Total</source>

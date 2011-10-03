@@ -58,6 +58,7 @@ abstract class displayReportAction extends sfAction {
                 $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
                 $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
                 $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);	
+		print_r($sql);
             }
         }
         $paramArray = array();
@@ -74,6 +75,7 @@ abstract class displayReportAction extends sfAction {
 
         $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
         $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
+	print_r($dataSet);
         $headers = $reportableGeneratorService->getHeaders($reportId);
 
         $this->setConfigurationFactory();
