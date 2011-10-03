@@ -294,7 +294,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
     <?php if ($actionLogRecords != null): ?>
 
         <h2 id="actionLogHeading">
-            &nbsp;&nbsp;&nbsp;<?php echo __("Actions performed on the timesheet "); ?>
+            &nbsp;&nbsp;&nbsp;<?php echo __("Actions performed on the timesheet"); ?>
         </h2>
         <div class="outerbox" style="width: auto">
             <div class="maincontent" style="width: auto">
@@ -370,7 +370,10 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var createTimesheet="<?php echo url_for('time/createTimesheet'); ?>";
         var returnEndDate="<?php echo url_for('time/returnEndDate'); ?>";
         var currentDate= "<?php echo $currentDate; ?>";
-                                          
+        var lang_noFutureTimesheets= "<?php echo __("It is Not Possible to Create Future Timesheets"); ?>";
+	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
+	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
+	var lang_invalidDate= "<?php echo __("Invalid Date"); ?>";
 
 
 

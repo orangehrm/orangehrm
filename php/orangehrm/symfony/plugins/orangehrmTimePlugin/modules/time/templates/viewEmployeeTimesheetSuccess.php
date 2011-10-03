@@ -64,9 +64,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <?php endif; ?>
 
 
-							<script type="text/javascript">
+<script type="text/javascript">
 
-								var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray = eval(employees);
 	var errorMsge;
        
@@ -119,7 +119,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
    
          if(empDateCount==0){
             
-            errorMsge = "No Employees Available in System";
+            errorMsge = '<?php echo __("No Employees Available in System"); ?>';
             return false;
         }
 		for (i=0; i < empDateCount; i++) {
@@ -136,10 +136,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		if(temp){
 			return true;
 		}else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-			errorMsge = "Please Select an Employee";
+			errorMsge = '<?php echo __("Please Select an Employee"); ?>';
 			return false;
 		}else{
-			errorMsge = "Invalid Employee Name";
+			errorMsge = '<?php echo __("Invalid Employee Name"); ?>';
 			return false;
 		}
 	}

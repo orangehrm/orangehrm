@@ -38,7 +38,7 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == 'Type for hints...'){
+            if($("#employee").val() == lang_typeForHints){
                 this.value = "";
                 $(this).removeClass("inputFormatHint");
             }
@@ -103,7 +103,7 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == 'Type for hints...'){
+            if($("#employee").val() == lang_typeForHints){
                 this.value = "";
                 $(this).removeClass("inputFormatHint");
             }
@@ -172,7 +172,7 @@ function validateEmployee(){
         
     if(empCount==0){
             
-        errorMsge = "No Employees Available in System";
+        errorMsge = lang_noEmployees;
         return false;
     }
     for (i=0; i < empCount; i++) {
@@ -188,10 +188,10 @@ function validateEmployee(){
     if(temp){
         return true;
     }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-        errorMsge = "Please Select an Employee";
+        errorMsge = lang_selectEmployee;
         return false;
     }else{
-        errorMsge = "Invalid Employee Name";
+        errorMsge = lang_invalidEmployee;
         return false;
     }
 }

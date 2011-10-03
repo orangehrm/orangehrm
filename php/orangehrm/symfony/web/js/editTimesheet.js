@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     $(".project").click(function(){
         element = $(this)
-        if($(element).val() == 'Type for hints...'){
+        if($(element).val() == typeForHints){
             this.value = "";
             $(this).removeClass("inputFormatHint");
         }
@@ -36,7 +36,7 @@ $(document).ready(function() {
 
     $(".project").each(function(){
         element = $(this)
-        if($(element).val() == 'Type for hints...'){
+        if($(element).val() == typeForHints){
             $(element).addClass("inputFormatHint");
         }
 	$(element).val($(element).val().replace("##", ""));
@@ -415,10 +415,10 @@ $(document).ready(function() {
 
         if($("#"+projectNameId).val()=="" || $("#"+projectNameId).val()=="Type for hints..." || $("#"+activityNameId).val()=='-1'){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html("Please select a project and an activity");
+            $('#validationMsg').html(lang_selectProjectAndActivity);
         } else if( temp==false){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html("Enter an existing project name");
+            $('#validationMsg').html(lang_enterExistingProject);
         }else{
             $("#commentProjectName").text(":"+" "+$("#"+projectNameId).val());
             $("#commentActivityName").text(":"+" "+$("#"+activityNameId+" :selected").text());

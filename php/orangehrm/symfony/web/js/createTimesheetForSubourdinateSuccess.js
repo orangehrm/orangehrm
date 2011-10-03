@@ -48,8 +48,8 @@ $(document).ready(function(){
             
             if (newEndDate < startDate)
             { 
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html("It is Not Possible to Create Future Timesheets");
+                $('#validationMsg').attr('class', "messageBalloon_failures");
+                $('#validationMsg').html(lang_noFutureTimesheets);
             }else{
              
         
@@ -58,11 +58,11 @@ $(document).ready(function(){
                 
                     if(data[0]==1){
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html("Timesheet Overlaps with Existing Timesheets");
+                        $('#validationMsg').html(lang_overlappingTimesheets);
                     }
                     if(data[0]==3){
                         $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html("Timesheet Already Exists"); 
+                        $('#validationMsg').html(lang_timesheetExists); 
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
@@ -88,7 +88,7 @@ $(document).ready(function(){
         }
         else{
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html("Invalid date");
+            $('#validationMsg').html(lang_invalidDate);
         }
     });
     

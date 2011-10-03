@@ -38,8 +38,8 @@ class TimesheetForm extends sfForm {
 
             $emptyRowForm = new TimesheetRowForm(array(), $values);
 
-            $emptyRowForm->setDefault('projectName', 'Type for hints...');
-            $emptyRowForm->setDefault('projectActivity', 'Select an Activity...');
+            $emptyRowForm->setDefault('projectName', __('Type for hints...'));
+            $emptyRowForm->setDefault('projectActivity', __('Select an Activity...'));
             for ($i = 0; $i < $noOfDays; $i++) {
                 $emptyRowForm->setDefault($i, '');
             }

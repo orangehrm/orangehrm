@@ -116,6 +116,26 @@
                 <source>My Attendance Records</source>
                 <target>FR_My Attendance Records</target>
             </trans-unit>
+            <trans-unit id="29">
+                <source>Record Saved Successfully</source>
+                <target>FR_Record Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Type for hints...</source>
+                <target>FR_Type for hints...</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Please Select an Employee</source>
+                <target>FR_Please Select an Employee</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Time should be in yyyy-MM-dd HH:mm format</source>
+                <target>FR_Time should be in yyyy-MM-dd HH:mm format</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Note should be less than 250 characters</source>
+                <target>FR_Note should be less than 250 characters</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
