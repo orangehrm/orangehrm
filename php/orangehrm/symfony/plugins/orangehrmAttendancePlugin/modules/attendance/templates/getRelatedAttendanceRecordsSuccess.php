@@ -25,8 +25,8 @@
                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
 
 
-                <td id="checkBox"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td>
-                <td><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchInTimeOffset(); ?></span></td>
+                <td id="checkBox" style="vertical-align: text-top"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td>
+                <td style="vertical-align: text-top"><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchInTimeOffset(); ?></span></td>
                 <td style="vertical-align: text-top"><?php echo $record->getPunchInNote() ?></td>
 
 
@@ -35,11 +35,11 @@
                     <td></td>
                 <?php elseif (date('Y-m-d', strtotime($record->getPunchOutUserTime())) != $date): ?>
 
-                    <td><span style="color:#98a09f"><?php echo $record->getPunchOutUserTime() ?></span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
-                    <td><?php echo $record->getPunchOutNote() ?></td>
+                    <td style="vertical-align: text-top"><span style="color:#98a09f"><?php echo $record->getPunchOutUserTime() ?></span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
+                    <td style="vertical-align: text-top"><?php echo $record->getPunchOutNote() ?></td>
                 <?php else: ?>
 
-                    <td><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
+                    <td style="vertical-align: text-top"><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
                     <td style="vertical-align: text-top"><?php echo $record->getPunchOutNote() ?></td>
                 <?php endif; ?>
 
