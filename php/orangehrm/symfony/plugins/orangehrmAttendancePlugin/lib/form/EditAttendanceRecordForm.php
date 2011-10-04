@@ -130,21 +130,12 @@ class EditAttendanceRecordForm extends sfForm {
 			$punchInDateTime = $punchInDate . " " . date('H:i', strtotime($punchInTime));
 			$punchOutDateTime = $punchOutDate . " " . date('H:i', strtotime($punchOutTime));
 
-			$ti = strtotime($punchInTime) - $inOffset * 3600;
-			$to = strtotime($punchOutTime) - $outOffset * 3600;
-
-
-			$punchInDate = date("Y-m-d", $ti);
-			$punchInTime = date("H:i:s", $ti);
-			$punchIn = $punchInDate . " " . $punchInTime;
-
-			$punchOutDate = date("Y-m-d", $to);
-			$punchOutTime = date("H:i:s", $to);
-			$punchOut = $punchOutDate . " " . $punchOutTime;
-
-
+            
 			$employeeId = $this->getAttendanceService()->getAttendanceRecordById($id)->getEmployeeId();
-			$this->isValid = $this->getAttendanceService()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $id);
+            $punchInUtcTime=date('Y-m-d H:i', strtotime($punchInDateTime) - $inOffset * 3600);
+            $punchOutUtcTime=date('Y-m-d H:i', strtotime($punchOutDateTime) - $outOffset * 3600);
+         
+			$this->isValid = $this->getAttendanceService()->checkForPunchInOutOverLappingRecordsWhenEditing($punchInUtcTime, $punchOutUtcTime, $employeeId, $id);
 
 			if ($this->isValid == '0') {			
 				$errorArray[] = $i;
@@ -173,6 +164,7 @@ class EditAttendanceRecordForm extends sfForm {
 			}
 		}
 		return $errorArray;
+        
 	}
 
 }
