@@ -152,6 +152,10 @@
                 <source>Time should be in HH:mm format</source>
                 <target>FR_Time should be in HH:mm format</target>
             </trans-unit>
+            <trans-unit id="38">
+                <source>Invalid Employee Name</source>
+                <target>FR_Invalid Employee Name</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

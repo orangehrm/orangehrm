@@ -82,9 +82,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
-    var lang_typeForHints='<?php echo __("Type for hints...") ?>';
-    var lang_selectEmployee='<?php echo __("Please Select an Employee") ?>';
-    var lang_noEmployees='<?php echo __("No Employees Available in System") ?>';
-    var lang_invalidEmployee='<?php echo __("Invalid Employee Name") ?>';
+    var lang_typeForHints='<?php echo __("Type for hints..."); ?>';
+    var lang_selectEmployee='<?php echo __("Please Select an Employee"); ?>';
+    var lang_noEmployees='<?php echo __("No Employees Available in System"); ?>';
+    var lang_invalidEmployee='<?php echo __("Invalid Employee Name"); ?>';
 
 </script>
