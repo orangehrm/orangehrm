@@ -448,7 +448,7 @@ $(document).ready(function()
                     maxTimestamp = strToTime(formtedFullDate+" 24:00", dateTimeFormat);
 
                     if (punchedTimestamp >= maxTimestamp) {
-                        alert("Invalid Max Time");
+                        $('#validationMsg').html(errorForInvalidFormat);
                         errFlag = true;
                     }
 

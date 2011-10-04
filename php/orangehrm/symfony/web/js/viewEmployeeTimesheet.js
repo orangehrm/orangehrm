@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 
 $("#employee").click(function(){
-		if($("#employee").val() == 'Type for hints...'){
+		if($("#employee").val() == lang_typeForHints){
 			this.value = "";
 			$(this).removeClass("inputFormatHint");
 		}

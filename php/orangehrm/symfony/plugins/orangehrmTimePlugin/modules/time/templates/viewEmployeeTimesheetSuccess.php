@@ -67,6 +67,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <script type="text/javascript">
 
 	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+	var lang_typeForHints = '<?php echo __("Type for hints..."); ?>';
 	var employeesArray = eval(employees);
 	var errorMsge;
        

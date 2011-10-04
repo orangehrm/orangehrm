@@ -129,8 +129,8 @@
                 <target>FR_Please Select an Employee</target>
             </trans-unit>
             <trans-unit id="32">
-                <source>Time should be in yyyy-MM-dd HH:mm format</source>
-                <target>FR_Time should be in yyyy-MM-dd HH:mm format</target>
+                <source>Please enter a valid time in HH:mm format</source>
+                <target>FR_Please enter a valid time in HH:mm format</target>
             </trans-unit>
             <trans-unit id="33">
                 <source>Note should be less than 250 characters</source>
@@ -145,8 +145,8 @@
                 <target>FR_No Rows Selected</target>
             </trans-unit>
             <trans-unit id="36">
-                <source>Time should be in yyyy-MM-dd format</source>
-                <target>FR_Time should be in yyyy-MM-dd format</target>
+                <source>Please enter a valid date in yyyy-MM-dd format</source>
+                <target>FR_Please enter a valid date in yyyy-MM-dd format</target>
             </trans-unit>
             <trans-unit id="37">
                 <source>Time should be in HH:mm format</source>

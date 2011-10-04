@@ -72,7 +72,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
     var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
     var dateDisplayFormat = dateFormat.toUpperCase();
-    var errorForInvalidFormat='<?php echo __('Invalid Date'); ?>';
+    var errorForInvalidFormat='<?php echo __('Please enter a valid date in yyyy-MM-dd format'); ?>';
     var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;

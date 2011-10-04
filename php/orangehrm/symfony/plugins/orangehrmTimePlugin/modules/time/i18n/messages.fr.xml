@@ -268,6 +268,14 @@
                 <source>Edit Timesheet for Week </source>
                 <target>FR_Edit Timesheet for Week </target>
             </trans-unit>
+             <trans-unit id="67">
+                <source>No Rows Selected</source>
+                <target>FR_No Rows Selected</target>
+            </trans-unit>
+             <trans-unit id="68">
+                <source>There is no timesheet to view</source>
+                <target>FR_There is no timesheet to view</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
