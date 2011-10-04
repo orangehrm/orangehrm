@@ -331,7 +331,7 @@ function getCandidateHistoryQPartial($i, $recordLimit, $vacancyId, $vacancyName,
     
     $note = mysqli_real_escape_string($dbConnection, $note);
     
-    $q = " ($i, $i, $vacancyId, '$vacancyName', NULL, 16, NULL, '$performedDate', '$note')";
+    $q = " ($i, $i, $vacancyId, '$vacancyName', NULL, 16, NULL, '$performedDate', '$note', NULL)";
 
     if ($i < ($recordLimit - 1)) {
         $q .= ",";
