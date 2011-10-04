@@ -12,14 +12,7 @@ class ProjectConfiguration extends sfProjectConfiguration
   public function setup()
   {
     // for compatibility / remove and enable only the plugins you want
-    $this->enablePlugins(array('sfDoctrinePlugin',
-                               'orangehrmCorePlugin',
-                               'orangehrmPimPlugin',
-                               'orangehrmCoreLeavePlugin',
-                               'orangehrmTimePlugin',
-                               'orangehrmAttendancePlugin',
-                               'orangehrmRecruitmentPlugin',
-        ));
+    $this->enableAllPluginsExcept(array());
 
     // Set up logging - use different config for test environment
     $logConfig = (sfConfig::get('sf_environment') == 'test') ? 'log4php_test.properties' : 'log4php.properties';
