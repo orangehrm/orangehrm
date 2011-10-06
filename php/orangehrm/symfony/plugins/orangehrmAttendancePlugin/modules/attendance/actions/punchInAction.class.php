@@ -82,7 +82,7 @@ class punchInAction extends sfAction {
             $attendanceRecord->setEmployeeId($this->employeeId);
 
 
-            if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $this->allowedActions)) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN, $this->allowedActions))) {
+            if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, $this->allowedActions)) ) {
                 $this->attendanceFormToImplementCsrfToken->bind($request->getParameter('attendance'));
            
                 if ($this->attendanceFormToImplementCsrfToken->isValid()) {

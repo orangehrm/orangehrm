@@ -272,7 +272,7 @@ class AttendanceDao {
      * @return string 1,0
      */
     public function checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId) {
-
+       
         $isValid = "1";
 
         try {

@@ -27,6 +27,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const ATTENDANCE_ACTION_PROXY_PUNCH_IN=5;
     const ATTENDANCE_ACTION_PROXY_PUNCH_OUT=6;
     const ATTENDANCE_ACTION_DELETE=7;
+     const ATTENDANCE_ACTION_EDIT_PUNCH_TIME=8;
 
 
     const RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY = 1;

@@ -85,15 +85,15 @@ class configureAction extends sfAction {
 
                 if ($configuration1 == 'on') {
 
-                    $isPunchInEditable = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_INITIAL);
+                    $isPunchInEditable = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_INITIAL);
 
                     if (!$isPunchInEditable) {
-                        $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_INITIAL);
+                        $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_INITIAL);
                     }
-                    $isPunchOutEditable = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, AttendanceRecord::STATE_PUNCHED_IN);
+                    $isPunchOutEditable = $this->getAttendanceService()->getSavedConfiguration(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_PUNCHED_IN);
 
                     if (!$isPunchOutEditable) {
-                        $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, AttendanceRecord::STATE_PUNCHED_IN);
+                        $this->saveConfigurartion(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_PUNCHED_IN);
                     }
                 }
                 if ($configuration2 == 'on') {
@@ -185,8 +185,8 @@ class configureAction extends sfAction {
                 }
                 if ($configuration1 == null) {
 
-                    $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, AttendanceRecord::STATE_INITIAL);
-                    $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, AttendanceRecord::STATE_PUNCHED_IN);
+                    $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_INITIAL);
+                    $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_PUNCHED_IN, configureAction::ESS_USER, WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, AttendanceRecord::STATE_PUNCHED_IN);
                 }
 
                 if ($configuration2 == null) {

@@ -70,6 +70,11 @@ $(document).ready(function()
 		
                 outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
                 outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
+                
+                if(outDate=="" || outTime=="" ){
+                   outDate=null;
+                   outTime=null;
+                    }
 		
                 outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
                 punchOut= formatDate(outDate)+" "+formatTime(outTime);
@@ -907,7 +912,7 @@ function formatDate(date){
     
     
     var dateArray=date.split('-');
-    
+       
     if(dateArray[1].search([0])== -1){
         if((dateArray[1]==11) || (dateArray[1]==12)){
             formtMonth=dateArray[1];

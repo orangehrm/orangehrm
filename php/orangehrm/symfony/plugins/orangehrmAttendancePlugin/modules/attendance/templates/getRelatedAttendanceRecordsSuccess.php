@@ -83,12 +83,12 @@
                    <?php if ($allowedActions['PunchIn']) : ?>
                 <input type="button" class="punch" name="button" id="btnPunchIn"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                       value="<?php echo __('Punch In'); ?>" />
+                       value="<?php echo __('Add Attendance Records'); ?>" />
                    <?php endif; ?>
                    <?php if ($allowedActions['PunchOut']) : ?>
                 <input type="button" class="punch" name="button" id="btnPunchOut"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                       value="<?php echo __('Punch Out'); ?>" />
+                       value="<?php echo __('Add Attendance Records'); ?>" />
                    <?php endif; ?>
         </div>
     </form>

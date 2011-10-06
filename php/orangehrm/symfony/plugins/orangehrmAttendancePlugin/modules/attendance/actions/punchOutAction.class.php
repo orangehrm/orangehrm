@@ -70,7 +70,7 @@ class punchOutAction extends sfAction {
 
         $this->allowedActions = $this->userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $attendanceRecord->getState());
         if ($request->isMethod('post')) {
-            if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, $this->allowedActions)) && (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $this->allowedActions))) {
+            if (!(in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME, $this->allowedActions))) {
                 $this->attendanceFormToImplementCsrfToken->bind($request->getParameter('attendance'));
 
                 if ($this->attendanceFormToImplementCsrfToken->isValid()) {
