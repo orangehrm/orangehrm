@@ -52,11 +52,12 @@ class punchOutAction extends sfAction {
 
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStatesList);
 
-        if (is_null($attendanceRecord)){
+        if (is_null($attendanceRecord)) {
             $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
             $this->redirect("attendance/punchIn");
         }
         $tempPunchInTime = $attendanceRecord->getPunchInUserTime();
+        $this->recordId = $attendanceRecord->getId();
         $this->actionPunchIn = null;
         $this->editmode = null;
 

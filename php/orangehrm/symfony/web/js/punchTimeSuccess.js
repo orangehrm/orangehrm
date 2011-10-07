@@ -492,18 +492,21 @@ $(document).ready(function()
 
             var inTime=punchInTime;
             var timezone=gmtHours;
+            
+          
 
             var outTime =$(".date").val()+" "+$(".time").val();
 
             var r = $.ajax({
                 type: 'POST',
                 url: linkForOverLappingValidation,
-                data: "punchInTime="+inTime+"&punchOutTime="+outTime+"&employeeId="+employeeId+"&timezone="+timezone,
+                data: "punchInTime="+inTime+"&punchOutTime="+outTime+"&employeeId="+employeeId+"&timezone="+timezone+"&recordId="+recordId,
                 async: false,
 
                 success: function(msg){
 
                     isValid = msg;
+                   
          
                 }
             });

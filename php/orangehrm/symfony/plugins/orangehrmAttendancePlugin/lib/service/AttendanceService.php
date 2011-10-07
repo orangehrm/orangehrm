@@ -70,9 +70,9 @@ class AttendanceService {
      * @param $punchInTime, $punchOutTime, $employeeId
      * @return string 1,0
      */
-    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId) {
+    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId) {
 
-        return $this->getAttendanceDao()->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId);
+        return $this->getAttendanceDao()->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
     }
 
     /**

@@ -46,6 +46,7 @@ class AttendanceActions extends sfActions {
         $temppunchInTime = $request->getParameter('punchInTime');
         $temppunchOutTime = $request->getParameter('punchOutTime');
         $timezone = $request->getParameter('timezone');
+        $recordId = $request->getParameter('recordId');
 
         $ti = strtotime($temppunchInTime) - $timezone;
         $to = strtotime($temppunchOutTime) - $timezone;
@@ -61,7 +62,7 @@ class AttendanceActions extends sfActions {
 
 
         $employeeId = $request->getParameter('employeeId');
-        $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecords($punchIn, $punchOut, $employeeId);
+        $this->isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecords($punchIn, $punchOut, $employeeId,$recordId);
     }
 
     public function executeValidatePunchInOverLapping($request) {
@@ -203,7 +204,7 @@ class AttendanceActions extends sfActions {
                 $this->allowedToDelete[] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $decoratedUser);
                 $recArray[] = $record;
             }
-        }else{
+        } else {
             $attendanceRecord = null;
         }
 
@@ -215,14 +216,14 @@ class AttendanceActions extends sfActions {
         if ($actionableStates != null) {
 
             if (!empty($recArray)) {
-                $lastRecordPunchOutTime = $recArray[count($this->records)-1]->getPunchOutUserTime();
+                $lastRecordPunchOutTime = $recArray[count($this->records) - 1]->getPunchOutUserTime();
                 if (empty($lastRecordPunchOutTime)) {
                     $attendanceRecord = "";
-                }else{
+                } else {
                     $attendanceRecord = null;
                 }
             }
-            
+
             foreach ($actionableStates as $actionableState) {
 
                 $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
@@ -288,7 +289,7 @@ class AttendanceActions extends sfActions {
 
             $this->action['PunchOut'] = true;
         }
-        $param = array('timezone'=> $timeZoneOffset, 'date' => $this->date);
+        $param = array('timezone' => $timeZoneOffset, 'date' => $this->date);
         $this->form = new ProxyPunchInPunchOutForm(array(), $param, true);
 
         if ($this->action['PunchIn']) {

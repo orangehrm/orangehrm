@@ -128,10 +128,12 @@
     
 
     var employeeId='<?php echo $employeeId; ?>';
+    var recordId='<?php echo $recordId; ?>';
     var currentTime='<?php echo $currentTime; ?>';
     var currentDate='<?php echo $currentDate; ?>';
     var punchInTime='<?php echo $punchInTime; ?>';
     var timeZone='<?php echo $timezone; ?>';
+    
     var punchInNote='<?php echo json_encode($punchInNote); ?>';
     var punchInUtcTime='<?php echo $punchInUtcTime; ?>';
                                               

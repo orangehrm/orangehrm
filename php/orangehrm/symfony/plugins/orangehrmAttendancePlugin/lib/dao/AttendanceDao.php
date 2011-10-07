@@ -70,7 +70,7 @@ class AttendanceDao {
      * @param $punchInTime,$punchOutTime,$employeeId
      * @return string 1,0
      */
-    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId) {
+    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId) {
 
         $isValid = "1";
 
@@ -83,7 +83,9 @@ class AttendanceDao {
                     ->andWhere("punchInUtcTime < ?", $punchOutTime);
             $records1 = $query1->execute();
 
-            if ((count($records1) > 1)) {
+         if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
+                
+            } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
             }
@@ -91,15 +93,10 @@ class AttendanceDao {
             $query2 = Doctrine_Query::create()
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchOutUtcTime > ?", $punchInTime)
+                    ->andWhere("punchOutUtcTime >= ?", $punchInTime)
                     ->andWhere("punchOutUtcTime < ?", $punchOutTime);
             $records2 = $query2->execute();
-
-            if ((count($records2) > 0)) {
-
-
-                $isValid = "0";
-            }
+         
 
 
             $query3 = Doctrine_Query::create()
@@ -272,7 +269,7 @@ class AttendanceDao {
      * @return string 1,0
      */
     public function checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId) {
-       
+
         $isValid = "1";
 
         try {
