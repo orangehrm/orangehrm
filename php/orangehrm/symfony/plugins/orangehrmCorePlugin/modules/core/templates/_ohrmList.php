@@ -111,51 +111,98 @@ function printButtonEventBindings($buttons) {
                     <col width="<?php echo $header->getWidth(); ?>" />
                 <?php } ?>
             </colgroup>
-            <thead>
-                <tr>
+
                     <?php
+                    
+                    $headerRow1 = '';
+                    $headerRow2 = '';
+                    
                     if ($hasSelectableRows) {
-                        $selectAllCheckobx = new Checkbox();
-                        $selectAllCheckobx->setProperties(array(
+                        $selectAllCheckbox = new Checkbox();
+                        $selectAllCheckbox->setProperties(array(
                             'id' => 'ohrmList_chkSelectAll',
                             'name' => 'chkSelectAll'
                         ));
-                        $selectAllCheckobx->setIdentifier('Select_All');
-                        echo content_tag('th', $selectAllCheckobx->__toString());
+                        
+                        $selectAllCheckbox->setIdentifier('Select_All');                                            
+                        $selectAllRowspan = $showGroupHeaders ? 2 : 1;     
+                        
+                        $headerRow1 .= content_tag('th', $selectAllCheckbox->__toString(),
+                                                   array('rowspan' => $selectAllRowspan)) . "\n";
+                    }
+
+
+                    foreach ($headerGroups as $group) {
+                        
+                        $rowspan = 1;
+
+                        if ($showGroupHeaders) {
+                            if ($group->showHeader()) {
+                                
+                                $headerCell = new HeaderCell();
+                                $headerCell->setProperties(array(
+                                    'label' => __($group->getName()),
+                                        )
+                                );
+                                
+                                $groupColspan = $group->getHeaderCount();
+                                $headerRow1 .= content_tag('th', $headerCell->__toString(),
+                                               array('style' => 'text-align: center',
+                                                     'colspan' => $groupColspan)) . "\n";
+                                
+
+                            } else {
+                                
+                                // If we are displaying group headers and this is a
+                                // group without a header, set rowspan = 2.                                
+                                $rowspan = 2;
+                            }
+                        }
+                        
+                        foreach ($group->getHeaders() as $header) {
+                            if ($header->isSortable()) {
+                                $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
+                                $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
+
+                                $sortOrderStyle = ($currentSortOrder == '') ? 'null' : $currentSortOrder;
+                                $sortOrderStyle = ($currentSortField == $header->getSortField()) ? $sortOrderStyle : 'null';
+
+                                $currentModule = sfContext::getInstance()->getModuleName();
+                                $currentAction = sfContext::getInstance()->getActionName();
+
+                                $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}/sortField/{$header->getSortField()}/sortOrder/{$nextSortOrder}", true);
+
+                                $headerCell = new SortableHeaderCell();
+                                $headerCell->setProperties(array(
+                                    'label' => __($header->getName()),
+                                    'sortUrl' => $sortUrl,
+                                    'currentSortOrder' => $sortOrderStyle,
+                                ));
+                            } else {
+                                $headerCell = new HeaderCell();
+                                $headerCell->setProperties(array(
+                                    'label' => __($header->getName()),
+                                        )
+                                );
+                            }
+
+                            $headerCellHtml = '<th style="text-align: ' . $header->getTextAlignmentStyleForHeader() . '"' .
+                                              ' rowspan="' . $rowspan .
+                                              '">' . $headerCell->__toString() . "</th>\n";
+                            
+                            if ($group->showHeader()) {
+                                $headerRow2 .= $headerCellHtml;
+                            } else {
+                                $headerRow1 .= $headerCellHtml;
+                            }
+                        } 
                     }
                     ?>
-
-                    <?php
-                    foreach ($columns as $header) {
-                        if ($header->isSortable()) {
-                            $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
-                            $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
-
-                            $sortOrderStyle = ($currentSortOrder == '') ? 'null' : $currentSortOrder;
-                            $sortOrderStyle = ($currentSortField == $header->getSortField()) ? $sortOrderStyle : 'null';
-
-                            $currentModule = sfContext::getInstance()->getModuleName();
-                            $currentAction = sfContext::getInstance()->getActionName();
-
-                            $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}?sortField={$header->getSortField()}&sortOrder={$nextSortOrder}", true);
-
-                            $headerCell = new SortableHeaderCell();
-                            $headerCell->setProperties(array(
-                                'label' => __($header->getName()),
-                                'sortUrl' => $sortUrl,
-                                'currentSortOrder' => $sortOrderStyle,
-                            ));
-                        } else {
-                            $headerCell = new HeaderCell();
-                            $headerCell->setProperties(array(
-                                'label' => __($header->getName()),
-                                    )
-                            );
-                        }
-                    ?>
-                        <th style="text-align: <?php echo $header->getTextAlignmentStyleForHeader(); ?>"><?php echo $headerCell->__toString(); ?></th>
-                    <?php } ?>
-                </tr>
+            <thead>
+                <tr><?php echo $headerRow1;?></tr>            
+                <?php if (!empty($headerRow2)) { ?>
+                <tr><?php echo $headerRow2;?></tr>
+                <?php } ?>
             </thead>
 
             <tbody>
@@ -164,12 +211,14 @@ function printButtonEventBindings($buttons) {
                         $rowCssClass = 'even';
 
                         foreach ($data as $object) {
-                            $idValue = ($object instanceof sfOutputEscaperArrayDecorator) ? $object[$idValueGetter] : $object->$idValueGetter();
+                            
                             $rowCssClass = ($rowCssClass === 'odd') ? 'even' : 'odd';
                 ?>
                             <tr class="<?php echo $rowCssClass; ?>">
                     <?php
                             if ($hasSelectableRows) {
+                                $idValue = ($object instanceof sfOutputEscaperArrayDecorator) ? $object[$idValueGetter] : $object->$idValueGetter();
+                                
                                 if (in_array($idValue, $unselectableRowIds->getRawValue())) {
                                     $selectCellHtml = '&nbsp;';
                                 } else {
@@ -198,8 +247,13 @@ function printButtonEventBindings($buttons) {
                                 if ($hasSummary && $header->getName() == $summary['summaryField']) {
                                     ohrmListSummaryHelper::collectValue($cell->toValue(), $summary['summaryFunction']);
                                 }
+                                
+                                $verticalStyle = '';
+                                if ($properties['isValueList']) {
+                                    $verticalStyle = "style='vertical-align:top;'";
+                                }
                     ?>
-                                <td class="<?php echo $header->getTextAlignmentStyle(); ?>"><?php echo $cell->__toString(); ?></td>
+                                <td class="<?php echo $header->getTextAlignmentStyle(); ?>" <?php echo $verticalStyle;?>><?php echo $cell->__toString(); ?></td>
                     <?php
                             }
                     ?>

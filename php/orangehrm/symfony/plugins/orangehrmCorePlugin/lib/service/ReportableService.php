@@ -50,11 +50,17 @@ class ReportableService {
      * @param integer $reportId
      * @return SelectedFilterField[]
      */
-    public function getSelectedFilterFields($reportId) {
+    public function getSelectedFilterFields($reportId, $order) {
 
-        $selectedFilterFields = $this->getReportableDao()->getSelectedFilterFields($reportId);
+        $selectedFilterFields = $this->getReportableDao()->getSelectedFilterFields($reportId, $order);
 
         return $selectedFilterFields;
+    }
+    
+    public function getSelectedFilterFieldNames($reportId, $order) {
+        $selectedFilterFields = $this->getReportableDao()->getSelectedFilterFieldNames($reportId, $order);
+
+        return $selectedFilterFields;        
     }
 
     /**
@@ -69,6 +75,18 @@ class ReportableService {
         return $selectedDisplayFields;
     }
 
+    /**
+     * Gets selected display fields group array.
+     * @param integer $reportId
+     * @return SelectedDisplayFieldGroup[]
+     */
+    public function getSelectedDisplayFieldGroups($reportId) {
+
+        $selectedDisplayFields = $this->getReportableDao()->getSelectedDisplayFieldGroups($reportId);
+
+        return $selectedDisplayFields;
+    }    
+    
     /**
      * Gets meta display fields array.
      * @param integer $reportId
@@ -106,6 +124,50 @@ class ReportableService {
     }
 
     /**
+     * Gets all display field groups for given report group
+     */
+    public function getDisplayFieldGroupsForReportGroup($reportGroupId) {
+        $displayGroups = $this->getReportableDao()->getDisplayFieldGroupsForReportGroup($reportGroupId);
+
+        return $displayGroups;
+    }
+    
+    /**
+     * Gets all display field groups for given report group
+     */
+    public function getGroupedDisplayFieldsForReportGroup($reportGroupId) {
+        $displayFields = $this->getReportableDao()->getDisplayFieldsForReportGroup($reportGroupId);
+
+        // Organize by groups
+        $groups = array();
+        $defaultGroup = array(new DisplayFieldGroup(), array());
+        
+        foreach ($displayFields as $field) {
+            
+            $displayGroupId = $field->getDisplayFieldGroupId();
+            
+            if (empty($displayGroupId)) {
+                $defaultGroup[1][] = $field;
+            } else {
+
+                if (!isset($groups[$displayGroupId])) {
+                    $displayFieldGroup = $field->getDisplayFieldGroup();
+                    $groups[$displayGroupId] = array($displayFieldGroup, array($field));
+                } else {
+                    $groups[$displayGroupId][1][] = $field;
+                }
+            }              
+        }
+        
+        // Add the default group if it has any fields
+        if (count($defaultGroup[1]) > 0) {
+            $groups[] = $defaultGroup;
+        }
+
+        return $groups;
+    }    
+    
+    /**
      * Gets selected group field for the given report id.
      * @param integer $reportId
      * @return SelectedGroupField
@@ -124,6 +186,12 @@ class ReportableService {
         return $runtimeFilterFields;
     }
 
+    public function getFilterFieldsForReportGroup($reportGroupId) {
+        $filterFields = $this->getReportableDao()->getFilterFieldsForReportGroup($reportGroupId);
+        
+        return $filterFields;
+    }
+    
     /**
      * Executes the query and return the results as an array.
      * @param string $sql
@@ -165,5 +233,136 @@ class ReportableService {
         return $selectedCompositeDisplayField;
     }
 
+    public function getAllPredefinedReports($type, $sortField = 'name', $sortOrder = 'ASC'){
+        
+        $reports = $this->getReportableDao()->getAllPredefinedReports($type, $sortField, $sortOrder);
+        return $reports;
+    }
+
+    public function getSelectedFilterFieldsByType($reportId, $type, $order){
+        $selectedFilterFields = $this->getReportableDao()->getSelectedFilterFieldsByType($reportId, $type, $order);
+        return $selectedFilterFields;
+    }
+
+    /**
+     * 
+     * @param <type> $type
+     * @param <type> $searchString
+     * @return <type> 
+     */
+    public function getPredefinedReportsByPartName($type, $searchString, $noOfRecords = NULL , $offset = NULL, $sortField = 'name', $sortOrder = 'ASC'){
+        $reports = $this->getReportableDao()->getPredefinedReportsByPartName($type, $searchString, $noOfRecords, $offset, $sortField, $sortOrder);
+        return $reports;
+    }
+    
+    
+    /**
+     * 
+     * @param <type> $type
+     * @param <type> $searchString
+     * @return <type> 
+     */
+    public function getPredefinedReportCountByPartName($type, $searchString){
+        $count = $this->getReportableDao()->getPredefinedReportCountByPartName($type, $searchString);
+        return $count;
+    }    
+
+    /**
+     * Delete reports given report ids.
+     * @param integer[] $reportIds
+     * @return integer
+     */
+    public function deleteReports($reportIds){
+        $results = $this->getReportableDao()->deleteReports($reportIds);
+        return $results;
+    }
+
+    public function getPredefinedReportsCount($type) {
+        $results = $this->getReportableDao()->getPredefinedReportsCount($type);
+        return $results;
+    }
+
+    public function getPredefinedReports($type, $noOfRecords, $offset, $sortField = 'name', $sortOrder = 'ASC') {
+        $reportList = $this->getReportableDao()->getPredefinedReports($type, $noOfRecords, $offset, $sortField, $sortOrder);
+        return $reportList;
+    }
+
+    public function saveReport($reportName, $reportGroupId, $useFilterField, $type){
+        $result = $this->getReportableDao()->saveReport($reportName, $reportGroupId, $useFilterField, $type);
+        return $result;
+    }
+    
+    public function updateReportName($reportId, $name) {
+        $result = $this->getReportableDao()->updateReportName($reportId, $name);
+        return $result;
+    }
+
+    public function saveSelectedFilterField($reportId, $filterFieldId, $filterFieldOrder, $value1, $value2, $whereCondition, $type){
+        $result = $this->getReportableDao()->saveSelectedFilterField($reportId, $filterFieldId, $filterFieldOrder, $value1, $value2, $whereCondition, $type);
+        return $result;
+    }
+
+    public function saveSelectedDispalyField($displayFieldId, $reportId){
+        $result = $this->getReportableDao()->saveSelectedDispalyField($displayFieldId, $reportId);
+        return $result;
+    }
+    
+   public function saveSelectedDisplayFieldGroup($displayFieldGroupId, $reportId){
+        $result = $this->getReportableDao()->saveSelectedDisplayFieldGroup($displayFieldGroupId, $reportId);
+        return $result;
+    }
+        
+
+    /**
+     * Gets a filter field given name
+     * @param string $name
+     * @return FilterField
+     */
+    public function getFilterFieldByName($name){
+        $filterField = $this->getReportableDao()->getFilterFieldByName($name);
+        return $filterField;
+    }
+
+    public function removeSelectedFilterFields($reportId) {
+        $this->getReportableDao()->removeSelectedFilterFields($reportId);
+    }
+    /**
+     * Saves a custom display field.
+     * @param string[] $columns
+     * @return DisplayField
+     */
+    public function saveCustomDisplayField($columns){
+        $displayField = $this->getReportableDao()->saveCustomDisplayField($columns);
+        return $displayField;
+    }
+
+    /**
+     *
+     * @param <type> $customDisplayFieldName
+     * @return <type> 
+     */
+    public function deleteCustomDisplayField($customDisplayFieldName) {
+        $result = $this->getReportableDao()->deleteCustomDisplayField($customDisplayFieldName);
+        return $result;
+    }
+
+    /**
+     *
+     * @param <type> $name
+     * @return <type> 
+     */
+    public function getDisplayFieldByName($name) {
+        $result = $this->getReportableDao()->getDisplayFieldByName($name);
+        return $result;
+    }
+    
+    public function removeSelectedDisplayFields($reportId) {
+        $this->getReportableDao()->removeSelectedDisplayFields($reportId);
+    }
+    
+    public function removeSelectedDisplayFieldGroups($reportId) {
+        $this->getReportableDao()->removeSelectedDisplayFieldGroups($reportId);
+    }    
+    
 }
 

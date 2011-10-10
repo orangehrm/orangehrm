@@ -9,33 +9,39 @@
  * @property string $name
  * @property integer $reportGroupId
  * @property boolean $useFilterField
+ * @property string $type
  * @property ReportGroup $ReportGroup
  * @property Doctrine_Collection $SelectedFilterField
  * @property Doctrine_Collection $SelectedCompositeDisplayField
  * @property Doctrine_Collection $SelectedDisplayField
  * @property Doctrine_Collection $SelectedGroupField
  * @property Doctrine_Collection $MetaDisplayField
+ * @property Doctrine_Collection $SelectedDisplayFieldGroup
  * 
  * @method integer             getReportId()                      Returns the current record's "reportId" value
  * @method string              getName()                          Returns the current record's "name" value
  * @method integer             getReportGroupId()                 Returns the current record's "reportGroupId" value
  * @method boolean             getUseFilterField()                Returns the current record's "useFilterField" value
+ * @method string              getType()                          Returns the current record's "type" value
  * @method ReportGroup         getReportGroup()                   Returns the current record's "ReportGroup" value
  * @method Doctrine_Collection getSelectedFilterField()           Returns the current record's "SelectedFilterField" collection
  * @method Doctrine_Collection getSelectedCompositeDisplayField() Returns the current record's "SelectedCompositeDisplayField" collection
  * @method Doctrine_Collection getSelectedDisplayField()          Returns the current record's "SelectedDisplayField" collection
  * @method Doctrine_Collection getSelectedGroupField()            Returns the current record's "SelectedGroupField" collection
  * @method Doctrine_Collection getMetaDisplayField()              Returns the current record's "MetaDisplayField" collection
+ * @method Doctrine_Collection getSelectedDisplayFieldGroup()     Returns the current record's "SelectedDisplayFieldGroup" collection
  * @method Report              setReportId()                      Sets the current record's "reportId" value
  * @method Report              setName()                          Sets the current record's "name" value
  * @method Report              setReportGroupId()                 Sets the current record's "reportGroupId" value
  * @method Report              setUseFilterField()                Sets the current record's "useFilterField" value
+ * @method Report              setType()                          Sets the current record's "type" value
  * @method Report              setReportGroup()                   Sets the current record's "ReportGroup" value
  * @method Report              setSelectedFilterField()           Sets the current record's "SelectedFilterField" collection
  * @method Report              setSelectedCompositeDisplayField() Sets the current record's "SelectedCompositeDisplayField" collection
  * @method Report              setSelectedDisplayField()          Sets the current record's "SelectedDisplayField" collection
  * @method Report              setSelectedGroupField()            Sets the current record's "SelectedGroupField" collection
  * @method Report              setMetaDisplayField()              Sets the current record's "MetaDisplayField" collection
+ * @method Report              setSelectedDisplayFieldGroup()     Sets the current record's "SelectedDisplayFieldGroup" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -48,6 +54,7 @@ abstract class BaseReport extends sfDoctrineRecord
     {
         $this->setTableName('ohrm_report');
         $this->hasColumn('report_id as reportId', 'integer', null, array(
+             'autoincrement' => true,
              'type' => 'integer',
              'primary' => true,
              ));
@@ -63,6 +70,11 @@ abstract class BaseReport extends sfDoctrineRecord
         $this->hasColumn('use_filter_field as useFilterField', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
+             ));
+        $this->hasColumn('type', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 255,
              ));
     }
 
@@ -91,6 +103,10 @@ abstract class BaseReport extends sfDoctrineRecord
              'foreign' => 'report_id'));
 
         $this->hasMany('MetaDisplayField', array(
+             'local' => 'reportId',
+             'foreign' => 'report_id'));
+
+        $this->hasMany('SelectedDisplayFieldGroup', array(
              'local' => 'reportId',
              'foreign' => 'report_id'));
     }

@@ -24,7 +24,7 @@ abstract class displayReportCriteriaAction extends sfAction {
     public function execute($request) {
 
         $reportId = $request->getParameter("reportId");
-        
+       
         $reportGeneratorService = new ReportGeneratorService();
         $runtimeFilterFieldWidgetNamesAndLabelsList = $reportGeneratorService->getRuntimeFilterFieldWidgetNamesAndLabels($reportId);
         $this->reportName = $reportGeneratorService->getReportName($reportId);
@@ -43,8 +43,9 @@ abstract class displayReportCriteriaAction extends sfAction {
 
                 $formValues = $this->reportForm->getValues();
 
-                $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $formValues);
-                $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
+                $reportableService = new ReportableService();
+                $selectedFilterFieldList = $reportableService->getSelectedFilterFields($reportId, true);
+                $runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($selectedFilterFieldList,$formValues);
 
                 $staticColumns = null;
                 if($this->hasStaticColumns()){
@@ -54,7 +55,6 @@ abstract class displayReportCriteriaAction extends sfAction {
                 $this->setReportCriteriaInfoInRequest($formValues);
                 $this->getRequest()->setParameter('sql', $sql);
                 $this->getRequest()->setParameter('reportId', $reportId);
-
                 $this->setForward();
             }
         }

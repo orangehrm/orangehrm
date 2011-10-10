@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.6.10
+     New Features
+     ------------
+     PIM Employee Reports
+
 New & Changed Features for OrangeHRM ver 2.6.9 
 
 	Bug Fixes

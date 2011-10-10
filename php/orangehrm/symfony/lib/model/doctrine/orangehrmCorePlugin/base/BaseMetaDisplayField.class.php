@@ -51,10 +51,12 @@ abstract class BaseMetaDisplayField extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Report', array(
              'local' => 'report_id',
-             'foreign' => 'reportId'));
+             'foreign' => 'reportId',
+             'onDelete' => 'cascade'));
 
         $this->hasOne('DisplayField', array(
              'local' => 'display_field_id',
-             'foreign' => 'displayFieldId'));
+             'foreign' => 'displayFieldId',
+             'onDelete' => 'cascade'));
     }
 }

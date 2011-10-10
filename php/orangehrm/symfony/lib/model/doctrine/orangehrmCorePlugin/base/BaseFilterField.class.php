@@ -11,7 +11,6 @@
  * @property clob $whereClausePart
  * @property string $filterFieldWidget
  * @property integer $conditionNo
- * @property string $type
  * @property string $required
  * @property ReportGroup $ReportGroup
  * @property Doctrine_Collection $SelectedFilterField
@@ -22,7 +21,6 @@
  * @method clob                getWhereClausePart()     Returns the current record's "whereClausePart" value
  * @method string              getFilterFieldWidget()   Returns the current record's "filterFieldWidget" value
  * @method integer             getConditionNo()         Returns the current record's "conditionNo" value
- * @method string              getType()                Returns the current record's "type" value
  * @method string              getRequired()            Returns the current record's "required" value
  * @method ReportGroup         getReportGroup()         Returns the current record's "ReportGroup" value
  * @method Doctrine_Collection getSelectedFilterField() Returns the current record's "SelectedFilterField" collection
@@ -32,7 +30,6 @@
  * @method FilterField         setWhereClausePart()     Sets the current record's "whereClausePart" value
  * @method FilterField         setFilterFieldWidget()   Sets the current record's "filterFieldWidget" value
  * @method FilterField         setConditionNo()         Sets the current record's "conditionNo" value
- * @method FilterField         setType()                Sets the current record's "type" value
  * @method FilterField         setRequired()            Sets the current record's "required" value
  * @method FilterField         setReportGroup()         Sets the current record's "ReportGroup" value
  * @method FilterField         setSelectedFilterField() Sets the current record's "SelectedFilterField" collection
@@ -72,11 +69,6 @@ abstract class BaseFilterField extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('type', 'string', 255, array(
-             'type' => 'string',
-             'notnull' => true,
-             'length' => 255,
-             ));
         $this->hasColumn('required', 'string', 10, array(
              'type' => 'string',
              'notnull' => false,
@@ -89,7 +81,8 @@ abstract class BaseFilterField extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('ReportGroup', array(
              'local' => 'report_group_id',
-             'foreign' => 'reportGroupId'));
+             'foreign' => 'reportGroupId',
+             'onDelete' => 'cascade'));
 
         $this->hasMany('SelectedFilterField', array(
              'local' => 'filterFieldId',

@@ -51,10 +51,12 @@ abstract class BaseSelectedCompositeDisplayField extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Report', array(
              'local' => 'report_id',
-             'foreign' => 'reportId'));
+             'foreign' => 'reportId',
+             'onDelete' => 'cascade'));
 
         $this->hasOne('CompositeDisplayField', array(
              'local' => 'composite_display_field_id',
-             'foreign' => 'compositeDisplayFieldId'));
+             'foreign' => 'compositeDisplayFieldId',
+             'onDelete' => 'cascade'));
     }
 }

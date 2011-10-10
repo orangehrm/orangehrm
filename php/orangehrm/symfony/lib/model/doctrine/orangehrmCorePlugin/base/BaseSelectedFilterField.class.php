@@ -8,26 +8,29 @@
  * @property integer $reportId
  * @property integer $filterFieldId
  * @property integer $filterFieldOrder
- * @property string $value
+ * @property string $value1
+ * @property string $value2
  * @property string $whereCondition
- * @property clob $whereClause
+ * @property string $type
  * @property Report $Report
  * @property FilterField $FilterField
  * 
  * @method integer             getReportId()         Returns the current record's "reportId" value
  * @method integer             getFilterFieldId()    Returns the current record's "filterFieldId" value
  * @method integer             getFilterFieldOrder() Returns the current record's "filterFieldOrder" value
- * @method string              getValue()            Returns the current record's "value" value
+ * @method string              getValue1()           Returns the current record's "value1" value
+ * @method string              getValue2()           Returns the current record's "value2" value
  * @method string              getWhereCondition()   Returns the current record's "whereCondition" value
- * @method clob                getWhereClause()      Returns the current record's "whereClause" value
+ * @method string              getType()             Returns the current record's "type" value
  * @method Report              getReport()           Returns the current record's "Report" value
  * @method FilterField         getFilterField()      Returns the current record's "FilterField" value
  * @method SelectedFilterField setReportId()         Sets the current record's "reportId" value
  * @method SelectedFilterField setFilterFieldId()    Sets the current record's "filterFieldId" value
  * @method SelectedFilterField setFilterFieldOrder() Sets the current record's "filterFieldOrder" value
- * @method SelectedFilterField setValue()            Sets the current record's "value" value
+ * @method SelectedFilterField setValue1()           Sets the current record's "value1" value
+ * @method SelectedFilterField setValue2()           Sets the current record's "value2" value
  * @method SelectedFilterField setWhereCondition()   Sets the current record's "whereCondition" value
- * @method SelectedFilterField setWhereClause()      Sets the current record's "whereClause" value
+ * @method SelectedFilterField setType()             Sets the current record's "type" value
  * @method SelectedFilterField setReport()           Sets the current record's "Report" value
  * @method SelectedFilterField setFilterField()      Sets the current record's "FilterField" value
  * 
@@ -53,19 +56,22 @@ abstract class BaseSelectedFilterField extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('value', 'string', 255, array(
+        $this->hasColumn('value1', 'string', 255, array(
              'type' => 'string',
-             'notnull' => true,
+             'length' => 255,
+             ));
+        $this->hasColumn('value2', 'string', 255, array(
+             'type' => 'string',
              'length' => 255,
              ));
         $this->hasColumn('where_condition as whereCondition', 'string', 255, array(
              'type' => 'string',
-             'notnull' => true,
              'length' => 255,
              ));
-        $this->hasColumn('where_clause as whereClause', 'clob', null, array(
-             'type' => 'clob',
+        $this->hasColumn('type', 'string', 255, array(
+             'type' => 'string',
              'notnull' => true,
+             'length' => 255,
              ));
     }
 

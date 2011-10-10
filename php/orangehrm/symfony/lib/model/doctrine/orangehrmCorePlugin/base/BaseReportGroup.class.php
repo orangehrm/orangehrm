@@ -10,23 +10,26 @@
  * @property clob $core_sql
  * @property Doctrine_Collection $Report
  * @property Doctrine_Collection $FilterField
- * @property Doctrine_Collection $AvailableDisplayField
+ * @property Doctrine_Collection $AbstractDisplayField
  * @property Doctrine_Collection $AvailableGroupField
+ * @property Doctrine_Collection $DisplayFieldGroup
  * 
- * @method integer             getReportGroupId()         Returns the current record's "reportGroupId" value
- * @method string              getName()                  Returns the current record's "name" value
- * @method clob                getCoreSql()               Returns the current record's "core_sql" value
- * @method Doctrine_Collection getReport()                Returns the current record's "Report" collection
- * @method Doctrine_Collection getFilterField()           Returns the current record's "FilterField" collection
- * @method Doctrine_Collection getAvailableDisplayField() Returns the current record's "AvailableDisplayField" collection
- * @method Doctrine_Collection getAvailableGroupField()   Returns the current record's "AvailableGroupField" collection
- * @method ReportGroup         setReportGroupId()         Sets the current record's "reportGroupId" value
- * @method ReportGroup         setName()                  Sets the current record's "name" value
- * @method ReportGroup         setCoreSql()               Sets the current record's "core_sql" value
- * @method ReportGroup         setReport()                Sets the current record's "Report" collection
- * @method ReportGroup         setFilterField()           Sets the current record's "FilterField" collection
- * @method ReportGroup         setAvailableDisplayField() Sets the current record's "AvailableDisplayField" collection
- * @method ReportGroup         setAvailableGroupField()   Sets the current record's "AvailableGroupField" collection
+ * @method integer             getReportGroupId()        Returns the current record's "reportGroupId" value
+ * @method string              getName()                 Returns the current record's "name" value
+ * @method clob                getCoreSql()              Returns the current record's "core_sql" value
+ * @method Doctrine_Collection getReport()               Returns the current record's "Report" collection
+ * @method Doctrine_Collection getFilterField()          Returns the current record's "FilterField" collection
+ * @method Doctrine_Collection getAbstractDisplayField() Returns the current record's "AbstractDisplayField" collection
+ * @method Doctrine_Collection getAvailableGroupField()  Returns the current record's "AvailableGroupField" collection
+ * @method Doctrine_Collection getDisplayFieldGroup()    Returns the current record's "DisplayFieldGroup" collection
+ * @method ReportGroup         setReportGroupId()        Sets the current record's "reportGroupId" value
+ * @method ReportGroup         setName()                 Sets the current record's "name" value
+ * @method ReportGroup         setCoreSql()              Sets the current record's "core_sql" value
+ * @method ReportGroup         setReport()               Sets the current record's "Report" collection
+ * @method ReportGroup         setFilterField()          Sets the current record's "FilterField" collection
+ * @method ReportGroup         setAbstractDisplayField() Sets the current record's "AbstractDisplayField" collection
+ * @method ReportGroup         setAvailableGroupField()  Sets the current record's "AvailableGroupField" collection
+ * @method ReportGroup         setDisplayFieldGroup()    Sets the current record's "DisplayFieldGroup" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -64,11 +67,15 @@ abstract class BaseReportGroup extends sfDoctrineRecord
              'local' => 'reportGroupId',
              'foreign' => 'report_group_id'));
 
-        $this->hasMany('AvailableDisplayField', array(
+        $this->hasMany('AbstractDisplayField', array(
              'local' => 'reportGroupId',
              'foreign' => 'report_group_id'));
 
         $this->hasMany('AvailableGroupField', array(
+             'local' => 'reportGroupId',
+             'foreign' => 'report_group_id'));
+
+        $this->hasMany('DisplayFieldGroup', array(
              'local' => 'reportGroupId',
              'foreign' => 'report_group_id'));
     }

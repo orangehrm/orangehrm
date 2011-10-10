@@ -24,7 +24,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->reportGeneratorService = new ReportGeneratorService();
-        TestDataService::truncateTables(array('MetaDisplayField', 'SelectedCompositeDisplayField', 'CompositeDisplayField', 'SelectedGroupField', 'SummaryDisplayField', 'SelectedDisplayField', 'DisplayField', 'SelectedFilterField', 'FilterField', 'GroupField', 'Report', 'ReportGroup', 'ProjectActivity', 'Project', 'Customer'));
+        TestDataService::truncateTables(array('SelectedDisplayFieldGroup', 'DisplayFieldGroup', 'MetaDisplayField', 'SelectedCompositeDisplayField', 'CompositeDisplayField', 'SelectedGroupField', 'SummaryDisplayField', 'SelectedDisplayField', 'DisplayField', 'SelectedFilterField', 'FilterField', 'GroupField', 'Report', 'ReportGroup', 'ProjectActivity', 'Project', 'Customer'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml');
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml';
     }
@@ -54,15 +54,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $report = TestDataService::fetchObject('Report', $reportId);
 
         $selectedFilterFields = new Doctrine_Collection("SelectedFilterField");
-        $runtimeFilterFields = new Doctrine_Collection("FilterField");
 
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 1)));
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 2)));
 
-        $runtimeFilterFields->add(TestDataService::fetchObject('FilterField', 1));
-        $runtimeFilterFields->add(TestDataService::fetchObject('FilterField', 2));
-
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFields', 'getRuntimeFilterFields'));
+        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFieldsByType'));
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -70,13 +66,8 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue($report));
 
         $reportableServiceMock->expects($this->once())
-                ->method('getSelectedFilterFields')
-                ->with($reportId)
+                ->method('getSelectedFilterFieldsByType')
                 ->will($this->returnValue($selectedFilterFields));
-
-        $reportableServiceMock->expects($this->once())
-                ->method('getRuntimeFilterFields')
-                ->will($this->returnValue($runtimeFilterFields));
 
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
         $runtimeFilterFieldWidgetNamesAndLabels = $this->reportGeneratorService->getRuntimeFilterFieldWidgetNamesAndLabels($reportId);
@@ -100,7 +91,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportableServiceMock = $this->getMock('ReportableService', array('getSelectedFilterFields'));
         $reportableServiceMock->expects($this->once())
                 ->method('getSelectedFilterFields')
-                ->with($reportId)
+                ->with($reportId, true)
                 ->will($this->returnValue($selecteFilterFields));
 
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
@@ -139,15 +130,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $report = TestDataService::fetchObject('Report', $reportId);
 
         $selectedFilterFields = new Doctrine_Collection("SelectedFilterField");
-        $runtimeFilterFields = new Doctrine_Collection("FilterField");
 
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 1)));
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 2)));
 
-        $runtimeFilterFields->add(TestDataService::fetchObject('FilterField', 1));
-        $runtimeFilterFields->add(TestDataService::fetchObject('FilterField', 2));
-
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFields', 'getRuntimeFilterFields'));
+        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFieldsByType'));
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -155,13 +142,8 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue($report));
 
         $reportableServiceMock->expects($this->once())
-                ->method('getSelectedFilterFields')
-                ->with($reportId)
+                ->method('getSelectedFilterFieldsByType')
                 ->will($this->returnValue($selectedFilterFields));
-
-        $reportableServiceMock->expects($this->once())
-                ->method('getRuntimeFilterFields')
-                ->will($this->returnValue($runtimeFilterFields));
 
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
         $selectedRuntimeFilterFieldList = $this->reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
@@ -175,7 +157,19 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGenerateRuntimeWhereClauseConditions() {
 
-        $selectedRuntimeFilterFields = TestDataService::loadObjectList('FilterField', $this->fixture, 'FilterField');
+        $userRoleArray['isAdmin'] = true;
+        $userObj = new User();
+        $simpleUserRoleFactory = new SimpleUserRoleFactory();
+        $decoratedUser = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
+
+        sfContext::getInstance()->getUser()->setAttribute("user", $decoratedUser);
+
+//        $selectedRuntimeFilterFields = TestDataService::loadObjectList('FilterField', $this->fixture, 'FilterField');
+        $selectedRuntimeFilterFields = new Doctrine_Collection("FilterField");
+        $selectedRuntimeFilterFields->add(TestDataService::fetchObject('FilterField', 1));
+        $selectedRuntimeFilterFields->add(TestDataService::fetchObject('FilterField', 2));
+        $selectedRuntimeFilterFields->add(TestDataService::fetchObject('FilterField', 3));
+        
         $values = array('project_name' => 2, 'project_date_range' => Array('from' => 2011 - 05 - 17, 'to' => 2011 - 05 - 24), 'activity_show_deleted' => '');
 
         $conditionArray = $this->reportGeneratorService->generateRuntimeWhereClauseConditions($selectedRuntimeFilterFields, $values);
@@ -283,11 +277,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("totalduration", $elementPropertyArray["placeholderGetters"]["total"]);
     }
 
-    public function testGetHeaders() {
+    public function testGetHeaderGroups() {
 
         $reportId = 1;
 
-        $headers = $this->reportGeneratorService->getHeaders($reportId);
+        $headers = $this->reportGeneratorService->getHeaderGroups($reportId);
 
         $this->assertTrue(true);
     }
@@ -336,7 +330,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportGeneratorServiceMock->setReportableService($reportableServiceMock);
         $sql = $reportGeneratorServiceMock->generateSql($reportId, $conditionArray, $staticColumns);
 
-        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '2011-07-25' AS toDate , hs_hr_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) WHERE hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0 GROUP BY hs_hr_project_activity.activity_id", $sql);
+        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '" . $staticColumns["toDate"] . "' AS toDate , hs_hr_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) WHERE hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0 GROUP BY hs_hr_project_activity.activity_id", $sql);
     }
 
     public function testLinkFilterFieldIdsToFormValues() {
@@ -347,7 +341,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
             'project_date_range' => array('from' => '2011-01-12', 'to' => '2011-09-23')
         );
 
-        
+
         $selectedRuntimeFilterFieldList = new Doctrine_Collection("FilterField");
 
         $selectedRuntimeFilterFieldList->add(TestDataService::fetchObject('FilterField', 1));
@@ -360,17 +354,66 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('on', $filterFieldIdAndValueArray[1]['value']);
     }
 
-    public function testGenerateWhereClauseConditionArray() {
+    public function testConstructWhereStatementForUneryOperator() {
 
-        $filterFieldIdsAndValues = array(
-            '0' => array('filterFieldId' => 1, 'value' => 2),
-            '1' => array('filterFieldId' => 2, 'value' => 'on'));
+        $selectedFilterField = TestDataService::fetchObject('SelectedFilterField', array(2, 4));
+        $whereCondition = '=';
 
-        $conditionArray = $this->reportGeneratorService->generateWhereClauseConditionArray($filterFieldIdsAndValues);
+        $whereClause = $this->reportGeneratorService->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
+        $this->assertEquals("hs_hr_project.project_id = 'nus'", $whereClause);
+    }
 
-        $this->assertEquals(1, count($conditionArray));
-        $this->assertEquals('hs_hr_project.project_id = 2', $conditionArray[2]);
+    public function testConstructWhereStatementForBetweenOperator() {
+
+        $selectedFilterField = TestDataService::fetchObject('SelectedFilterField', array(2, 5));
+        $whereCondition = 'BETWEEN';
+
+        $whereClause = $this->reportGeneratorService->constructWhereStatementForBetweenOperator($selectedFilterField, $whereCondition);
         
+        $this->assertEquals("hs_hr_emp_basicsalary.ebsal_basic_salary BETWEEN '12000' AND '25000'", $whereClause);
+    }
+
+    public function testGenerateWhereClauseForPredefinedReport(){
+
+        $selectedFilterField = TestDataService::fetchObject('SelectedFilterField', array(2, 4));
+
+        $whereClause = $this->reportGeneratorService->generateWhereClauseForPredefinedReport($selectedFilterField);
+
+        $this->assertEquals("hs_hr_project.project_id = 'nus'", $whereClause);
+    }
+
+    public function testGenerateWhereClauseConditionArrayForPredefinedFilterFields(){
+
+        $selectedFilterFieldList = new Doctrine_Collection("SelectedFilterField");
+        $values = null;
+
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 4)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 5)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 6)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 7)));
+
+        $conditionArray = $this->reportGeneratorService->generateWhereClauseConditionArray($selectedFilterFieldList, $values);
+
+        $this->assertEquals(2, count($conditionArray));
+        $this->assertEquals("hs_hr_project.project_id = 'nus' AND hs_hr_employee.city_code = 'C123'", $conditionArray[2]);
+    }
+
+//    public function testGenerateWhereClauseConditionArrayForRuntimeFilterFields(){
+//
+//        $selectedFilterFieldList = new Doctrine_Collection("SelectedFilterField");
+//        $formValues = null;
+//
+//
+//    }
+
+    public function testSaveSelectedDisplayFields(){
+        
+        $displayFieldIds = array('0' => 1, '1' => 2);
+        $reportId = 1;
+
+        $this->reportGeneratorService->saveSelectedDisplayFields($displayFieldIds, $reportId);
+        
+        $this->assertTrue(true);
     }
 
 }

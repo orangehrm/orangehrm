@@ -71,6 +71,7 @@ Report:
   columns:
     report_id:
       name: report_id as reportId
+      autoincrement: true
       type: integer
       notnull: true
       primary: true
@@ -85,6 +86,9 @@ Report:
       name: use_filter_field as useFilterField
       type: boolean
       notnull: true
+    type:
+      type: string(255)
+      notnull: false
   relations:
     ReportGroup:
       onDelete: cascade
@@ -117,14 +121,12 @@ FilterField:
        name: condition_no as conditionNo
        type: integer
        notnull: true
-     type:
-       type: string(255)
-       notnull: true
      required:
        type: string(10)
        notnull: false
    relations:
     ReportGroup:
+      onDelete: cascade
       local: report_group_id
       foreign: reportGroupId
       
@@ -145,17 +147,16 @@ SelectedFilterField:
       name: filter_field_order as filterFieldOrder
       type: integer
       notnull: true
-    value:
+    value1:
       type: string(255)
-      notnull: true
+    value2:
+      type: string(255)
     where_condition:
       name: where_condition as whereCondition
       type: string(255)
-      notnull: true
-    where_clause:
-      name: where_clause as whereClause
-      type: clob
-      notnull: true
+    type:
+       type: string(255)
+       notnull: true
   relations:
     Report:
       onDelete: cascade
@@ -166,14 +167,12 @@ SelectedFilterField:
       local: filter_field_id
       foreign: filterFieldId
 
-DisplayField:
-  tableName: ohrm_display_field
+AbstractDisplayField:
   columns:
-    display_field_id:
-      name: display_field_id as displayFieldId
-      type: integer
-      notnull: true
-      primary: true
+    report_group_id:
+       name: report_group_id as reportGroupId
+       type: integer
+       notnull: true
     name:
       type: string(255)
       notnull: true
@@ -215,60 +214,61 @@ DisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
+    is_value_list:
+      name: is_value_list as isValueList
+      type: boolean
+      notnull: true
+    display_field_group_id:
+      type: integer
+      unsigned: true
+      notnull: false
     default_value:
       name: default_value as defaultValue
       type: string(255)
+      notnull: false
+    is_encrypted:
+      name: is_encrypted as isEncrypted
+      type: boolean
+      notnull: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+    DisplayFieldGroup:
+      onDelete: cascade
+      local: display_field_group_id
+      foreign: id
 
+DisplayField:
+  inheritance:
+    type: concrete
+    extends: AbstractDisplayField
+  tableName: ohrm_display_field
+  columns:
+    display_field_id:
+      name: display_field_id as displayFieldId
+      autoincrement: true
+      type: integer
+      notnull: true
+      primary: true
+    display_field_group_id:
+      name: display_field_group_id
+      type: true
+      notnull: true
 
 CompositeDisplayField:
   tableName: ohrm_composite_display_field
+  inheritance:
+    type: concrete
+    extends: AbstractDisplayField
   columns:
     composite_display_field_id:
       name: composite_display_field_id as compositeDisplayFieldId
       type: integer
       notnull: true
       primary: true
-    name:
-      type: string(1000)
-      notnull: true
-    label:
-      type: string(255)
-      notnull: true
-    field_alias:
-      name: field_alias as fieldAlias
-      type: string(255)
-      notnull: false
-    is_sortable:
-      name: is_sortable as isSortable
-      type: string(10)
-      notnull: true
-    sort_order:
-      name: sort_order as sortOrder
-      type: string(255)
-      notnull: false
-    sort_field:
-      name: sort_field as sortField
-      type: string(255)
-      notnull: false
-    element_type:
-      name: element_type as elementType
-      type: string(255)
-      notnull: true
-    element_property:
-      name: element_property as elementProperty
-      type: string(1000)
-      notnull: true
-    width:
-      type: string(255)
-      notnull: true
-    is_exportable:
-      name: is_exportable as isExportable
-      type: string(10)
-      notnull: false
-    text_alignment_style:
-      name: text_alignment_style as textAlignmentStyle
-      type: string(20)
-      notnull: false
+      autoincrement: true
     default_value:
       name: default_value as defaultValue
       type: string(255)
@@ -292,33 +292,13 @@ SelectedCompositeDisplayField:
       primary: true
   relations:
     Report:
+      onDelete: cascade
       local: report_id
       foreign: reportId
     CompositeDisplayField:
+      onDelete: cascade
       local: composite_display_field_id
       foreign: compositeDisplayFieldId
-
-AvailableDisplayField:
-  tableName: ohrm_available_display_field
-  columns:
-    report_group_id:
-      name: report_group_id as reportGroupId
-      type: integer
-      notnull: true
-      primary: true
-    display_field_id:
-      name: display_field_id as displayFieldId
-      type: integer
-      notnull: true
-      primary: true
-  relations:
-    ReportGroup:
-      onDelete: cascade
-      local: report_group_id
-      foreign: reportGroupId
-    DisplayField:
-      local: display_field_id
-      foreign: displayFieldId
 
 GroupField:
   tableName: ohrm_group_field
@@ -358,6 +338,7 @@ AvailableGroupField:
       local: report_group_id
       foreign: reportGroupId
     GroupField:
+      onDelete: cascade
       local: group_field_id
       foreign: groupFieldId
 
@@ -368,6 +349,7 @@ SelectedDisplayField:
       type: integer
       notnull: true
       primary: true
+      autoincrement: true
     display_field_id:
       name: display_field_id as displayFieldId
       type: integer
@@ -380,9 +362,11 @@ SelectedDisplayField:
       primary: true
   relations:
     Report:
+      onDelete: cascade
       local: report_id
       foreign: reportId
     DisplayField:
+      onDelete: cascade
       local: display_field_id
       foreign: displayFieldId
 
@@ -435,9 +419,18 @@ SummaryDisplayField:
       name: text_alignment_style as textAlignmentStyle
       type: string(20)
       notnull: false
+    is_value_list:
+      name: is_value_list as isValueList
+      type: boolean
+      notnull: true
+    display_field_group_id:
+      type: integer
+      unsigned: true
+      notnull: false
     default_value:
       name: default_value as defaultValue
       type: string(255)
+      notnull: false
 
 SelectedGroupField:
   tableName: ohrm_selected_group_field
@@ -490,8 +483,55 @@ MetaDisplayField:
       primary: true
   relations:
     Report:
+      onDelete: cascade
       local: report_id
       foreign: reportId
     DisplayField:
+      onDelete: cascade
       local: display_field_id
       foreign: displayFieldId
+      
+DisplayFieldGroup:
+  tableName: ohrm_display_field_group
+  columns:
+    id:
+      type: integer
+      notnull: true
+      unsigned: true
+      primary: true
+    report_group_id:
+      type: integer
+      notnull: true
+    name:
+      type: string(255)
+      notnull: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+      
+SelectedDisplayFieldGroup:
+  tableName: ohrm_selected_display_field_group
+  columns:
+    id:
+      type: integer
+      unsigned: true
+      notnull: true
+      primary: true
+    report_id:
+      type: integer
+      notnull: true
+    display_field_group_id:
+      type: int
+      unsigned: true
+      notnull: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId    
+    DisplayFieldGroup:
+      onDelete: cascade
+      local: display_field_group_id
+      foreign: id

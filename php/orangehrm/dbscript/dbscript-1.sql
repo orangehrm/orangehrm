@@ -955,10 +955,11 @@ create table `ohrm_report_group` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_report` (
-  `report_id` bigint(20) not null,
+  `report_id` bigint(20) not null auto_increment,
   `name` varchar(255) not null,
   `report_group_id` bigint(20) not null,
   `use_filter_field` boolean not null,
+  `type` varchar(255) default null,
   primary key (`report_id`),
   key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
@@ -980,16 +981,18 @@ create table `ohrm_selected_filter_field` (
   `report_id` bigint(20) not null,
   `filter_field_id` bigint(20) not null,
   `filter_field_order` bigint(20) not null,
-  `value` varchar(255) default null,
+  `value1` varchar(255) default null,
+  `value2` varchar(255) default null,
   `where_condition` varchar(255) default null,
-  `where_clause` mediumtext default null,
+  `type` varchar(255) not null,
   primary key (`report_id`,`filter_field_id`),
   key `report_id` (`report_id`),
   key `filter_field_id` (`filter_field_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_display_field` (
-  `display_field_id` bigint(20) not null,
+  `display_field_id` bigint(20) not null auto_increment,
+  `report_group_id` bigint(20) not null,
   `name` varchar(255) not null,
   `label` varchar(255) not null,
   `field_alias` varchar(255),
@@ -1001,12 +1004,17 @@ create table `ohrm_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
-  `default_value` varchar(255) null,
-  primary key (`display_field_id`)
+  `is_value_list` boolean not null default false,
+  `display_field_group_id` int unsigned,
+  `default_value` varchar(255) default null,
+  `is_encrypted` boolean not null default false,
+  primary key (`display_field_id`),
+  key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_composite_display_field` (
-  `composite_display_field_id` bigint(20) not null,
+  `composite_display_field_id` bigint(20) not null auto_increment,
+  `report_group_id` bigint(20) not null,
   `name` varchar(1000) not null,
   `label` varchar(255) not null,
   `field_alias` varchar(255),
@@ -1018,16 +1026,12 @@ create table `ohrm_composite_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
-  `default_value` varchar(255) null,
-  primary key (`composite_display_field_id`)
-) engine=innodb default charset=utf8;
-
-create table `ohrm_available_display_field` (
-  `report_group_id` bigint(20) not null,
-  `display_field_id` bigint(20) not null,
-  primary key (`report_group_id`,`display_field_id`),
-  key `report_group_id` (`report_group_id`),
-  key `display_field_id` (`display_field_id`)
+  `is_value_list` boolean not null default false,
+  `display_field_group_id` int unsigned,
+  `default_value` varchar(255) default null,
+  `is_encrypted` boolean not null default false,
+  primary key (`composite_display_field_id`),
+  key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_group_field` (
@@ -1047,7 +1051,7 @@ create table `ohrm_available_group_field` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_selected_display_field` (
-  `id` bigint(20) not null,
+  `id` bigint(20) not null auto_increment,
   `display_field_id` bigint(20) not null,
   `report_id` bigint(20) not null,
   primary key (`id`,`display_field_id`,`report_id`),
@@ -1086,7 +1090,9 @@ create table `ohrm_summary_display_field` (
   `width` varchar(255) not null,
   `is_exportable` varchar(10),
   `text_alignment_style` varchar(20),
-  `default_value` varchar(255) null,
+  `is_value_list` boolean not null default false,
+  `display_field_group_id` int unsigned,
+  `default_value` varchar(255) default null,
   primary key (`summary_display_field_id`)
 ) engine=innodb default charset=utf8;
 
@@ -1098,6 +1104,20 @@ create table `ohrm_selected_group_field` (
   key `group_field_id` (`group_field_id`),
   key `summary_display_field_id` (`summary_display_field_id`),
   key `report_id` (`report_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_display_field_group` (
+  `id` int unsigned not null auto_increment,
+  `report_group_id` bigint not null,
+  `name` varchar(255) not null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_selected_display_field_group` (
+  `id` int unsigned not null auto_increment,
+  `report_id` bigint not null,
+  `display_field_group_id` int unsigned not null,
+  primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_job_vacancy`(
@@ -1211,26 +1231,37 @@ alter table ohrm_available_group_field
        add constraint foreign key (group_field_id)
                              references ohrm_group_field(group_field_id);
 
-
-alter table ohrm_available_display_field
-       add constraint foreign key (display_field_id)
-                             references ohrm_display_field(display_field_id);
-
-alter table ohrm_available_display_field
-       add constraint foreign key (report_group_id)
-                             references ohrm_report_group(report_group_id);
-
 alter table ohrm_filter_field
        add constraint foreign key (report_group_id)
-                             references ohrm_report_group(report_group_id);
+                             references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_display_field
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_display_field
+       add constraint foreign key (display_field_group_id)
+                             references ohrm_display_field_group(id) on delete set null;
+
+alter table ohrm_composite_display_field
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_composite_display_field
+       add constraint foreign key (display_field_group_id)
+                             references ohrm_display_field_group(id) on delete set null;
+
+alter table ohrm_summary_display_field
+       add constraint foreign key (display_field_group_id)
+                             references ohrm_display_field_group(id) on delete set null;
 
 alter table ohrm_selected_group_field
        add constraint foreign key (report_id)
-                             references ohrm_report(report_id);
+                             references ohrm_report(report_id) on delete cascade;
 
 alter table ohrm_selected_group_field
        add constraint foreign key (group_field_id)
-                             references ohrm_group_field(group_field_id);
+                             references ohrm_group_field(group_field_id) on delete cascade;
 
 alter table ohrm_selected_group_field
        add constraint foreign key (summary_display_field_id)
@@ -1238,39 +1269,51 @@ alter table ohrm_selected_group_field
 
 alter table ohrm_selected_filter_field
        add constraint foreign key (report_id)
-                             references ohrm_report(report_id);
+                             references ohrm_report(report_id) on delete cascade;
 
 alter table ohrm_selected_filter_field
        add constraint foreign key (filter_field_id)
-                             references ohrm_filter_field(filter_field_id);
+                             references ohrm_filter_field(filter_field_id) on delete cascade;
 
 alter table ohrm_selected_display_field
        add constraint foreign key (report_id)
-                             references ohrm_report(report_id);
+                             references ohrm_report(report_id) on delete cascade;
 
 alter table ohrm_selected_display_field
        add constraint foreign key (display_field_id)
-                             references ohrm_display_field(display_field_id);
+                             references ohrm_display_field(display_field_id) on delete cascade;
 
 alter table ohrm_selected_composite_display_field
        add constraint foreign key (report_id)
-                             references ohrm_report(report_id);
+                             references ohrm_report(report_id) on delete cascade;
 
 alter table ohrm_selected_composite_display_field
        add constraint foreign key (composite_display_field_id)
-                             references ohrm_composite_display_field(composite_display_field_id);
+                             references ohrm_composite_display_field(composite_display_field_id) on delete cascade;
 
 alter table ohrm_meta_display_field
        add constraint foreign key (report_id)
-                             references ohrm_report(report_id);
+                             references ohrm_report(report_id) on delete cascade;
 
 alter table ohrm_meta_display_field
        add constraint foreign key (display_field_id)
-                             references ohrm_display_field(display_field_id);
+                             references ohrm_display_field(display_field_id) on delete cascade;
 
 alter table ohrm_report
        add constraint foreign key (report_group_id)
                              references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_display_field_group
+       add constraint foreign key (report_group_id)
+                             references ohrm_report_group(report_group_id) on delete cascade;
+
+alter table ohrm_selected_display_field_group
+       add constraint foreign key (report_id)
+                             references ohrm_report(report_id) on delete cascade;
+
+alter table ohrm_selected_display_field_group
+       add constraint foreign key (display_field_group_id)
+                             references ohrm_display_field_group(id) on delete cascade;
 
 alter table ohrm_timesheet_action_log
        add constraint foreign key (performed_by)

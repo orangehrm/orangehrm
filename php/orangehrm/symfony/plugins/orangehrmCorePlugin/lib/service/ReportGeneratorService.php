@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ReportGeneratorService {
+    const LIST_SEPARATOR = "|\n|";
 
     // ReportableService Data Access Object
     private $reportableService;
@@ -52,7 +53,7 @@ class ReportGeneratorService {
      */
     public function getSelectedFilterFieldIdsByReportId($reportId) {
 
-        $selectedFilterFields = $this->getReportableService()->getSelectedFilterFields($reportId);
+        $selectedFilterFields = $this->getReportableService()->getSelectedFilterFields($reportId, true);
 
         if ($selectedFilterFields != null) {
 
@@ -119,22 +120,16 @@ class ReportGeneratorService {
     public function getRuntimeFilterFieldWidgetNamesAndLabels($reportId) {
 
         $reportGroupId = $this->getReportGroupIdOfAReport($reportId);
-        $selectedFilterFieldIds = $this->getSelectedFilterFieldIdsByReportId($reportId);
 
-        if (($reportGroupId != null) && ($selectedFilterFieldIds != null)) {
-            $type = PluginAvailableFilterField::RUNTIME_FILTER_FIELD;
+        $type = PluginAvailableFilterField::RUNTIME_FILTER_FIELD;
+        $runtimeSelectedFilterFields = $this->getReportableService()->getSelectedFilterFieldsByType($reportId, $type, true);
 
-            $runtimeFilterFields = $this->getReportableService()->getRuntimeFilterFields($reportGroupId, $type, $selectedFilterFieldIds);
-
-            if ($runtimeFilterFields == null) {
-                return null;
-            }
-
-            $orderedRuntimeFilterFields = $this->orderRuntimeFilterFields($selectedFilterFieldIds, $runtimeFilterFields);
+        if (($reportGroupId != null) && ($runtimeSelectedFilterFields != null)) {
 
             $runtimeFilterFieldWidgetNamesAndLabels = array();
 
-            foreach ($orderedRuntimeFilterFields as $runtimeFilterField) {
+            foreach ($runtimeSelectedFilterFields as $runtimeSelectedFilterField) {
+                $runtimeFilterField = $runtimeSelectedFilterField->getFilterField();
                 $tempArray['widgetName'] = $runtimeFilterField->getFilterFieldWidget();
                 $tempArray['labelName'] = $runtimeFilterField->getName();
                 $tempArray['required'] = $runtimeFilterField->getRequired();
@@ -188,22 +183,17 @@ class ReportGeneratorService {
     public function getSelectedRuntimeFilterFields($reportId) {
 
         $reportGroupId = $this->getReportGroupIdOfAReport($reportId);
-        $selectedFilterFieldIds = $this->getSelectedFilterFieldIdsByReportId($reportId);
-
-        if ($selectedFilterFieldIds == null) {
-            return null;
-        }
 
         $type = PluginAvailableFilterField::RUNTIME_FILTER_FIELD;
-        $selectedRuntimeFilterFieldList = $this->getReportableService()->getRuntimeFilterFields($reportGroupId, $type, $selectedFilterFieldIds);
 
-        if ($selectedRuntimeFilterFieldList == null) {
-            return null;
+        $runtimeSelectedFilterFields = $this->getReportableService()->getSelectedFilterFieldsByType($reportId, $type, true);
+        $runtimeFilterFieldList = new Doctrine_Collection("FilterField");
+
+        foreach ($runtimeSelectedFilterFields as $runtimeSelectedFilterField) {
+            $runtimeFilterFieldList->add($runtimeSelectedFilterField->getFilterField());
         }
 
-        $runtimeFilterFields = $this->orderRuntimeFilterFields($selectedFilterFieldIds, $selectedRuntimeFilterFieldList);
-
-        return $runtimeFilterFields;
+        return $runtimeFilterFieldList;
     }
 
     /**
@@ -275,13 +265,47 @@ class ReportGeneratorService {
 
         if ($selectStatement == null) {
 
-            $selectStatement = $displayField->getName();
+            if ($displayField->getIsValueList()) {
+                //$selectStatement = "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPERATOR '|\\n|' )";
+
+                $enc = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+
+                if ($displayField->getIsEncrypted()) {
+                    $selectStatement = "GROUP_CONCAT(DISTINCT " . $enc . " SEPARATOR '|\\n|' ) ";
+                } else {
+                    $selectStatement = "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
+                }
+            } else {
+
+                if ($displayField->getIsEncrypted()) {
+                    $selectStatement = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+                } else {
+                    $selectStatement = $displayField->getName();
+                }
+            }
 
             if (!$displayField->getFieldAlias() == null) {
                 $selectStatement = $selectStatement . " AS " . $displayField->getFieldAlias();
             }
         } else {
-            $selectStatement = $selectStatement . "," . $displayField->getName();
+
+            if ($displayField->getIsValueList()) {
+                //$selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
+                $enc = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+
+                if ($displayField->getIsEncrypted()) {
+                    $selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $enc . " SEPARATOR '|\\n|' ) ";
+                } else {
+                    $selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
+                }
+            } else {
+                if ($displayField->getIsEncrypted()) {
+                    $selectStatement = $selectStatement . "," . 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+                } else {
+                    $selectStatement = $selectStatement . "," . $displayField->getName();
+                }
+            }
+
             if (!$displayField->getFieldAlias() == null) {
                 $selectStatement = $selectStatement . " AS " . $displayField->getFieldAlias();
             }
@@ -356,100 +380,178 @@ class ReportGeneratorService {
      * @param integer $reportId
      * @return ListHeader[]
      */
-    public function getHeaders($reportId) {
+    public function getHeaderGroups($reportId) {
 
-        $headers = array();
+        $selectedDisplayFields = array();
 
-        $headerNo = 1;
+        $compositeFields = $this->getCompositeDisplayFields($reportId);
+        $summaryFields = $this->getSummaryDisplayFields($reportId);
+        $displayFields = $this->getSelectedDisplayFields($reportId);
 
-        $this->generateCompositeDisplayFieldHeaders($reportId, $headers, $headerNo);
-        $this->generateSelectedDisplayFieldHeaders($reportId, $headers, $headerNo);
-        $this->generateSummaryDisplayFieldHeaders($reportId, $headers, $headerNo);
+        $selectedDisplayFields = array_merge($selectedDisplayFields, $compositeFields, $summaryFields, $displayFields);
 
-        return $headers;
+        $headerGroups = $this->getHeaderGroupsForDisplayFields($reportId, $selectedDisplayFields);
+
+        return $headerGroups;
     }
 
     /**
-     * Generates headers for composite display fields that are to be used in the list component.
+     * Get list of selected composite display fields for given report
      * @param integer $reportId
-     * @param ListHeader[] $headers
-     * @return ListHeader[]
+     * @return CompositeDisplayField[]
      */
-    private function generateCompositeDisplayFieldHeaders($reportId, &$headers, &$headerNo) {
+    private function getCompositeDisplayFields($reportId) {
+
+        $compositeDisplayFields = array();
 
         $selectedCompositeDisplayFields = $this->getReportableService()->getSelectedCompositeDisplayFields($reportId);
 
         if ($selectedCompositeDisplayFields != null) {
             foreach ($selectedCompositeDisplayFields as $selectedCompositeDisplayField) {
 
-                $compositeDisplayField = $selectedCompositeDisplayField->getCompositeDisplayField();
-
-                $this->setHeaderProperties($compositeDisplayField, $headers, $headerNo);
+                $compositeDisplayFields[] = $selectedCompositeDisplayField->getCompositeDisplayField();
             }
         }
+
+        return $compositeDisplayFields;
     }
 
-    private function generateSummaryDisplayFieldHeaders($reportId, &$headers, &$headerNo) {
+    /**
+     * Get list of selected summary display fields for given report
+     * @param integer $reportId
+     * @return SummaryDisplayField[]
+     */
+    private function getSummaryDisplayFields($reportId) {
+
+        $summaryDisplayFields = array();
 
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
 
         if ($selectedGroupField != null) {
-            $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
-            $this->setHeaderProperties($summaryDisplayField, $headers, $headerNo);
+            $summaryDisplayFields[] = $selectedGroupField->getSummaryDisplayField();
         }
+
+        return $summaryDisplayFields;
     }
 
-    private function generateSelectedDisplayFieldHeaders($reportId, &$headers, &$headerNo) {
+    /**
+     * Get list of selected selected display fields for given report
+     * @param integer $reportId
+     * @return SelectedDisplayField[]
+     */
+    private function getSelectedDisplayFields($reportId) {
+
+        $displayFields = array();
 
         $selectedDisplayFields = $this->getReportableService()->getSelectedDisplayFields($reportId);
 
         if ($selectedDisplayFields != null) {
             foreach ($selectedDisplayFields as $selectedDisplayField) {
-
-                $displayField = $selectedDisplayField->getDisplayField();
-
-                $this->setHeaderProperties($displayField, $headers, $headerNo);
+                $displayFields[] = $selectedDisplayField->getDisplayField();
             }
         }
+        return $displayFields;
     }
 
-    private function setHeaderProperties($displayField, &$headers, &$headerNo) {
+    /**
+     * Get list of header groups for the given display fields.
+     * @param array $displayFields Array of DisplayFields
+     * @return array ListHeaderGroup 
+     */
+    private function getHeaderGroupsForDisplayFields($reportId, $displayFields) {
 
-        if ($displayField->getIsSortable() == "false") {
-            $isSorbale = false;
-        } else {
-            $isSorbale = true;
+        $headerGroups = array();
+
+        // Default Group - for headers without a display group
+        $defaultGroup = new ListHeaderGroup(array());
+
+        $selectedDisplayGroupIds = array();
+        $selectedDisplayGroups = $this->getReportableService()->getSelectedDisplayFieldGroups($reportId);
+
+        if (!empty($selectedDisplayGroups)) {
+            foreach ($selectedDisplayGroups as $group) {
+                $selectedDisplayGroupIds[] = $group['display_field_group_id'];
+            }
         }
 
-        $properties = array(
-            'name' => $displayField->getLabel(),
-            'isSortable' => $isSorbale,
-            'sortOrder' => $displayField->getSortOrder(),
-            'sortField' => $displayField->getSortField(),
-            'elementType' => $displayField->getElementType(),
-            'width' => $displayField->getWidth(),
-            'isExportable' => $displayField->getIsExportable(),
-            'textAlignmentStyle' => $displayField->getTextAlignmentStyle()
-        );
 
-        $properties = array_filter($properties, 'strlen');
+        foreach ($displayFields as $displayField) {
 
-        $elementPropertyXmlString = $this->escapeSpecialCharacters($displayField->getElementProperty());
+            if ($displayField->getIsSortable() == "false") {
+                $isSortable = false;
+            } else {
+                $isSortable = true;
+            }
 
-        $xmlIterator = new SimpleXMLIterator($elementPropertyXmlString);
+            if ($displayField->getIsValueList()) {
+                $isValueList = true;
+            } else {
+                $isValueList = false;
+            }
 
-        $elementPropertyArray = $this->simplexmlToArray($xmlIterator);
+            $properties = array(
+                'name' => $displayField->getLabel(),
+                'isSortable' => $isSortable,
+                'sortOrder' => $displayField->getSortOrder(),
+                'sortField' => $displayField->getSortField(),
+                'elementType' => $displayField->getElementType(),
+                'width' => $displayField->getWidth(),
+                'isExportable' => $displayField->getIsExportable(),
+                'textAlignmentStyle' => $displayField->getTextAlignmentStyle(),
+            );
         $elementPropertyArray['default'] = $displayField->getDefaultValue();
 
-        $properties['elementProperty'] = $elementPropertyArray;
-        $temp = "header" . $headerNo;
+            $properties = array_filter($properties, 'strlen');
 
-        ${$temp} = new ListHeader;
-        ${$temp}->populateFromArray($properties);
+            $elementPropertyXmlString = $this->escapeSpecialCharacters($displayField->getElementProperty());
 
-        $headerNo++;
+            $xmlIterator = new SimpleXMLIterator($elementPropertyXmlString);
 
-        $headers[] = ${$temp};
+            $elementPropertyArray = $this->simplexmlToArray($xmlIterator);
+
+            $elementPropertyArray['isValueList'] = $isValueList;
+            $elementPropertyArray['listSeparator'] = self::LIST_SEPARATOR;
+
+            if ($displayField->getDefaultValue() != null) {
+                $elementPropertyArray['default'] = $displayField->getDefaultValue();
+            }
+
+            $properties['elementProperty'] = $elementPropertyArray;
+
+            $header = new ListHeader;
+            $header->populateFromArray($properties);
+
+            // Set to correct display group
+            $displayGroupId = $displayField->getDisplayFieldGroupId();
+
+            if ($displayGroupId === null) {
+                $defaultGroup->addHeader($header);
+            } else {
+                if (!isset($headerGroups[$displayGroupId])) {
+                    $displayFieldGroup = $displayField->getDisplayFieldGroup();
+
+                    if (in_array($displayGroupId, $selectedDisplayGroupIds)) {
+                        $groupName = $displayFieldGroup->getName();
+                    } else {
+                        $groupName = null;
+                    }
+
+                    // Check if group is selected in report.
+
+                    $headerGroup = new ListHeaderGroup(array($header), $groupName);
+                    $headerGroups[$displayGroupId] = $headerGroup;
+                } else {
+                    $headerGroups[$displayGroupId]->addHeader($header);
+                }
+            }
+        }
+
+        // Add the default group if it has any headers
+        if ($defaultGroup->getHeaderCount() > 0) {
+            $headerGroups[] = $defaultGroup;
+        }
+
+        return $headerGroups;
     }
 
     /*
@@ -525,6 +627,10 @@ class ReportGeneratorService {
 
         foreach ($conditionArray as $key => $condition) {
             $searchString = "whereCondition" . $key;
+
+            if (empty($condition)) {
+                $condition = 'TRUE';
+            }
             $sql = str_replace($searchString, $condition, $sql);
         }
 
@@ -602,38 +708,49 @@ class ReportGeneratorService {
      * @param array $filterFieldIdsAndValues
      * @return string[]
      */
-    public function generateWhereClauseConditionArray($filterFieldIdsAndValues) {
+    public function generateWhereClauseConditionArray($selectedFilterFields, $formValues) {
 
         $conditionArray = array();
 
-        if (!empty($filterFieldIdsAndValues)) {
+        foreach ($selectedFilterFields as $selectedFilterField) {
 
-            foreach ($filterFieldIdsAndValues as $filterFieldIdAndValue) {
+            $type = $selectedFilterField->getType();
+            $filterFieldId = $selectedFilterField->getFilterFieldId();
 
-                $runtimeFilterField = $this->getReportableService()->getFilterFieldById($filterFieldIdAndValue["filterFieldId"]);
+            if ($type == "Predefined") {
+                $predefinedFilterField = $this->getReportableService()->getFilterFieldById($filterFieldId);
+
+                $conditionNo = $predefinedFilterField->getConditionNo();
+                $whereClause = $this->generateWhereClauseForPredefinedReport($selectedFilterField);
+                if (array_key_exists($conditionNo, $conditionArray)) {
+                    $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $whereClause;
+                } else {
+                    $conditionArray[$conditionNo] = $whereClause;
+                }
+            } else if ($type == "Runtime") {
+                $runtimeFilterField = $selectedFilterField->getFilterField();
 
                 $labelName = $runtimeFilterField->getName();
                 $widgetName = $runtimeFilterField->getFilterFieldWidget();
                 $widget = new $widgetName(array(), array('id' => $labelName));
+                $value = $formValues[$runtimeFilterField->getName()];
 
                 $conditionNo = $runtimeFilterField->getConditionNo();
 
                 if (array_key_exists($conditionNo, $conditionArray)) {
 
-                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $filterFieldIdAndValue["value"]) != null) {
-                        $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $filterFieldIdAndValue["value"]);
+                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value) != null) {
+                        $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value);
                     }
                 } else {
-                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $filterFieldIdAndValue["value"]) != null) {
-                        $conditionArray[$conditionNo] = $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $filterFieldIdAndValue["value"]);
+                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value) != null) {
+                        $conditionArray[$conditionNo] = $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value);
                     }
                 }
             }
-
-            return $conditionArray;
-        } else {
-            return null;
         }
+
+        return $conditionArray;
     }
 
     /**
@@ -656,8 +773,13 @@ class ReportGeneratorService {
      */
     public function getReportName($reportId) {
 
+        $reportName = NULL;
+
         $report = $this->getReportableService()->getReport($reportId);
-        $reportName = $report->getName();
+
+        if (!empty($report)) {
+            $reportName = $report->getName();
+        }
 
         return $reportName;
     }
@@ -693,16 +815,16 @@ class ReportGeneratorService {
         if (isSet($groupByClause)) {
             $sql = $sql . " " . $groupByClause;
         }
-        
+
         foreach ($formValues as $key => $value) {
 
             $pattern = '/#@[\"]*' . $key . '[\)\"]*@,@[a-zA-Z0-9\(\)_\.\-\ !\"\=]*@#/';
-            
+
 
             preg_match($pattern, $sql, $matches);
             if (!empty($matches)) {
                 $str = $matches[0];
-              
+
                 $array = explode("@", $str);
                 if (($value == '-1') || ($value == '0') || ($value == '')) {
                     $sql = str_replace($str, $array[3], $sql);
@@ -717,13 +839,13 @@ class ReportGeneratorService {
     }
 
     public function generateWhereClause() {
-$value = "no";
+        $value = "no";
         $jobTitle = "jobTitle";
         $sql = 'select #@jobTitle)@,@de_f-a.u_lt @# where';
         $pattern = '/#@[\"]*' . $jobTitle . "[\)]*[\"]*@,@[a-zA-Z_\.\-\ ]*@#/";
 
         preg_match($pattern, $sql, $matches);
-        
+
         $str = $matches[0];
         $array = explode("@", $str);
 
@@ -740,15 +862,167 @@ $value = "no";
 //        print_r($value);
     }
 
-    public function my_name($matches) {
-        $value = "no";
-        $array = explode("@", $matches[0]);
+//    public function my_name($matches) {
+//        $value = "no";
+//        $array = explode("@", $matches[0]);
+//
+//        if ($value == null) {
+//            return $array[3];
+//        }
+//        return $array[1];
+//    }
 
-        if ($value == null) {
-            return $array[3];
+    public function generateWhereClauseForPredefinedReport($selectedFilterField) {
+
+        $whereCondition = $selectedFilterField->getWhereCondition();
+        $whereClause = null;
+
+        switch ($whereCondition) {
+            case "=":
+                $whereClause = $this->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
+                break;
+            case ">":
+                $whereClause = $this->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
+                break;
+            case "<":
+                $whereClause = $this->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
+                break;
+            case "<>":
+                $whereClause = $this->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
+                break;
+            case "BETWEEN":
+                $whereClause = $this->constructWhereStatementForBetweenOperator($selectedFilterField, $whereCondition);
+                break;
+            default:
+                break;
         }
-        return $array[1];
+
+        return $whereClause;
+    }
+
+    public function constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition) {
+        $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
+        $value1 = $selectedFilterField->getValue1();
+        $whereClause = $whereClausePart . " " . $whereCondition . " '" . $value1 . "'";
+        return $whereClause;
+    }
+
+    public function constructWhereStatementForBetweenOperator($selectedFilterField, $whereCondition) {
+        $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
+        $value1 = $selectedFilterField->getValue1();
+        $value2 = $selectedFilterField->getValue2();
+        $whereClause = $whereClausePart . " BETWEEN '" . $value1 . "' AND '" . $value2 . "'";
+        return $whereClause;
+    }
+
+    public function saveSelectedFilterFields($formValues, $reportId, $type) {
+
+        $reportableService = $this->getReportableService();
+        $reportableService->removeSelectedFilterFields($reportId);
+
+        foreach ($formValues as $key => $value) {
+
+            $filterField = $this->getReportableService()->getFilterFieldByName($key);
+            $filterFieldId = $filterField->getFilterFieldId();
+            $filterFieldOrder = 0;
+
+            $widgetName = $filterField->getFilterFieldWidget();
+            $widget = new $widgetName();
+
+            if (array_key_exists("comparision", $value)) {
+                $widget->setWhereClauseCondition($value['comparision']);
+
+                if (is_array($value)) {
+                    $value1 = next($value);
+                    $value2 = next($value);
+                } else {
+                    $value1 = next($value);
+                    $value2 = null;
+                }
+            } else {
+                if (is_array($value)) {
+                    $value1 = current($value);
+                } else {
+                    $value1 = $value;
+                }
+            }
+
+            $whereClausePart = $widget->generateWhereClausePart("fieldName", $value1);
+            if ($whereClausePart == null) {
+                $whereCondition = null;
+            } else {
+                $whereCondition = $widget->getWhereClauseCondition();
+            }
+
+            $this->getReportableService()->saveSelectedFilterField($reportId, $filterFieldId, $filterFieldOrder, $value1, $value2, $whereCondition, $type);
+        }
+    }
+
+    public function saveSelectedDisplayFields($displayFieldIds, $reportId) {
+
+        $reportableService = $this->getReportableService();
+        $reportableService->removeSelectedDisplayFields($reportId);
+
+        foreach ($displayFieldIds as $displayFieldId) {
+            $reportableService->saveSelectedDispalyField($displayFieldId, $reportId);
+        }
+    }
+
+    public function saveSelectedDisplayFieldGroups($displayFieldGroupIds, $reportId) {
+
+        $reportableService = $this->getReportableService();
+        $reportableService->removeSelectedDisplayFieldGroups($reportId);
+
+        foreach ($displayFieldGroupIds as $displayFieldGroupId) {
+            $reportableService->saveSelectedDisplayFieldGroup($displayFieldGroupId, $reportId);
+        }
+    }
+
+    /**
+     *
+     * @param <type> $customField
+     * @param <type> $reportGroupId
+     * @return <type>
+     */
+    public function saveCustomDisplayField($customField, $reportGroupId) {
+        $reportableService = $this->getReportableService();
+        $reportableService->removeSelectedDisplayFieldGroups($reportId);
+
+        $customFieldNo = $customField->getFieldNum();
+        $name = "hs_hr_employee.custom" . $customFieldNo;
+
+        $displayField = $this->getReportableService()->getDisplayFieldByName($name);
+
+        if ($displayField != null) {
+            $columns['displayFieldId'] = $displayField[0]->getDisplayFieldId();
+        }
+
+        $columns['reportGroupId'] = $reportGroupId;
+        $columns['name'] = $name;
+        $columns['label'] = $customField->getName();
+        $columns['fieldAlias'] = "customField" . $customFieldNo;
+        $columns['isSortable'] = "false";
+        $columns['sortOrder'] = null;
+        $columns['sortField'] = null;
+        $columns['elementType'] = "label";
+        $columns['elementProperty'] = "<xml><getter>customField" . $customFieldNo . "</getter></xml>";
+        $columns['width'] = "200";
+        $columns['isExportable'] = "0";
+        $columns['textAlignmentStyle'] = null;
+        $columns['isValueList'] = "0";
+        $columns['displayFieldGroupId'] = "16";
+        $columns['defaultValue'] = "---";
+        $columns['isEncrypted'] = false;
+
+        return $this->getReportableService()->saveCustomDisplayField($columns);
+    }
+
+    public function deleteCustomDisplayFieldList($customFieldList) {
+
+        foreach ($customFieldList as $customField) {
+            $customDisplayFieldName = "hs_hr_employee.custom" . $customField;
+            $result = $this->getReportableService()->deleteCustomDisplayField($customDisplayFieldName);
+        }
     }
 
 }
-

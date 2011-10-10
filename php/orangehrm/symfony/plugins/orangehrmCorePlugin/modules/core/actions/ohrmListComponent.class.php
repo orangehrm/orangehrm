@@ -44,6 +44,8 @@ class ohrmListComponent extends sfComponent {
         $this->currentSortField = $request->getParameter('sortField', '');
         $this->currentSortOrder = $request->getParameter('sortOrder', '');
 
+        $this->showGroupHeaders = self::$configurationFactory->showGroupHeaders();
+        $this->headerGroups = self::$configurationFactory->getHeaderGroups();
         $this->columns = self::$configurationFactory->getHeaders();
         $this->data = self::$listData;
         $this->className = self::$configurationFactory->getClassName();

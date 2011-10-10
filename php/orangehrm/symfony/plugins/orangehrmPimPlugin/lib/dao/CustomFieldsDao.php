@@ -83,7 +83,8 @@ class CustomFieldsDao extends BaseDao {
                 $customFields->save();
             }
 
-            return true;
+            return $customFields;
+//            return true;
         } catch (Doctrine_Exception $e) {
             throw new DaoException($e->getMessage());
         }

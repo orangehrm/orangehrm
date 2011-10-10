@@ -19,112 +19,126 @@
  */
 abstract class displayReportAction extends sfAction {
 
-	private $confFactory;
-	private $form;
+    private $confFactory;
+    private $form;
 
-	public function execute($request) {
+    public function execute($request) {
 
-		$reportId = $request->getParameter("reportId");
-		$backRequest = $request->getParameter("backRequest");
+        $reportId = $request->getParameter("reportId");
+        $backRequest = $request->getParameter("backRequest");
 
-		$reportableGeneratorService = new ReportGeneratorService();
+        $reportableGeneratorService = new ReportGeneratorService();
 
-		$sql = $request->getParameter("sql");
+        $sql = $request->getParameter("sql");
 
-		$reportableService = new ReportableService();
-		$report = $reportableService->getReport($reportId);
-		$useFilterField = $report->getUseFilterField();
+        $reportableService = new ReportableService();
+        $this->report = $reportableService->getReport($reportId);
 
-		if (!$useFilterField) {
-			$this->setCriteriaForm();
-			if ($request->isMethod('post')) {
-				$this->form->bind($request->getParameter($this->form->getName()));
-				if ($this->form->isValid()) {
-					$reportGeneratorService = new ReportGeneratorService();
-					$formValues = $this->form->getValues();
-					$this->setReportCriteriaInfoInRequest($formValues);
-					$sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
-				}
-			}
-		} else {
+        if (empty($this->report)) {
+            return $this->renderText(__('Invalid Report Specified'));
+        }
 
-			if ($request->isMethod("get")) {
+        $useFilterField = $this->report->getUseFilterField();
+        if (!$useFilterField) {
 
-				$reportGeneratorService = new ReportGeneratorService();
-				$selectedRuntimeFilterFieldList = $reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
+            $this->setCriteriaForm();
+            if ($request->isMethod('post')) {
 
-				$values = $this->setValues();
+                $this->form->bind($request->getParameter($this->form->getName()));
 
-				$linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
-				$runtimeWhereClause = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
-				$sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClause);
-			}
-		}
-		$paramArray = array();
-		if ($reportId == 1) {
-			if (!isset($backRequest)) {
-				$this->getUser()->setAttribute("reportCriteriaSql", $sql);
-				$this->getUser()->setAttribute("parametersForListComponent", $this->setParametersForListComponent());
-			}
-			if (isset($backRequest) && $this->getUser()->hasAttribute("reportCriteriaSql")) {
-				$sql = $this->getUser()->getAttribute("reportCriteriaSql");
-				$paramArray = $this->getUser()->getAttribute("parametersForListComponent");
-			}
-		}
+                if ($this->form->isValid()) {
+                    $reportGeneratorService = new ReportGeneratorService();
+                    $formValues = $this->form->getValues();
+                    $this->setReportCriteriaInfoInRequest($formValues);
+                    $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
+                }
+            }
+        } else {
 
-		$params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
-		$dataSet = $reportableGeneratorService->generateReportDataSet($sql);
+            if ($request->isMethod("get")) {
+                $reportGeneratorService = new ReportGeneratorService();
+//                $selectedRuntimeFilterFieldList = $reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
 
-		if ($reportId == 3) {
-			if (empty($dataSet[0]['employeeName']) && $dataSet[0]['totalduration'] == 0) {
-				$dataSet = null;
-			}
-		}
+                $selectedFilterFieldList = $reportableService->getSelectedFilterFields($reportId, false);
+                
+                $values = $this->setValues();
 
-		$headers = $reportableGeneratorService->getHeaders($reportId);
 
-		$this->setConfigurationFactory();
-		$configurationFactory = $this->getConfFactory();
-		$configurationFactory->setHeaders($headers);
+//                $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
+//                $runtimeWhereClauseConditionArray = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
 
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
+                $runtimeWhereClauseConditionArray = $reportGeneratorService->generateWhereClauseConditionArray($selectedFilterFieldList, $values);
+                $sql = $reportGeneratorService->generateSql($reportId, $runtimeWhereClauseConditionArray);
+            }
+        }
 
-		$this->setListHeaderPartial();
+        $paramArray = array();
 
-		ohrmListComponent::setListData($dataSet);
+        if ($reportId == 1) {
+            if (!isset($backRequest)) {
+                $this->getUser()->setAttribute("reportCriteriaSql", $sql);
+                $this->getUser()->setAttribute("parametersForListComponent", $this->setParametersForListComponent());
+            }
+            if (isset($backRequest) && $this->getUser()->hasAttribute("reportCriteriaSql")) {
+                $sql = $this->getUser()->getAttribute("reportCriteriaSql");
+                $paramArray = $this->getUser()->getAttribute("parametersForListComponent");
+            }
+        }
 
-		$this->parmetersForListComponent = $params;
-	}
 
-	abstract public function setParametersForListComponent();
+        $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
+        $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
 
-	abstract public function setConfigurationFactory();
+        $headerGroups = $reportableGeneratorService->getHeaderGroups($reportId);
 
-	abstract public function setListHeaderPartial();
+        $this->setConfigurationFactory();
+        $configurationFactory = $this->getConfFactory();
+        $configurationFactory->setHeaderGroups($headerGroups);
 
-	abstract public function setValues();
+        if ($reportId == 3) {
+            if (empty($dataSet[0]['employeeName']) && $dataSet[0]['totalduration'] == 0) {
+                $dataSet = null;
+            }
+        }
 
-	public function getConfFactory() {
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
 
-		return $this->confFactory;
-	}
+        $this->setListHeaderPartial();
 
-	public function setConfFactory(ListConfigurationFactory $configurationFactory) {
+        ohrmListComponent::setListData($dataSet);
 
-		$this->confFactory = $configurationFactory;
-	}
+        $this->parmetersForListComponent = $params;
+    }
 
-	public function setReportCriteriaInfoInRequest($formValues) {
-		
-	}
+    abstract public function setParametersForListComponent();
 
-	public function setCriteriaForm() {
-		
-	}
+    abstract public function setConfigurationFactory();
 
-	public function setForm($form) {
-		$this->form = $form;
-	}
+    abstract public function setListHeaderPartial();
+
+    abstract public function setValues();
+
+    public function getConfFactory() {
+
+        return $this->confFactory;
+    }
+
+    public function setConfFactory(ListConfigurationFactory $configurationFactory) {
+
+        $this->confFactory = $configurationFactory;
+    }
+
+    public function setReportCriteriaInfoInRequest($formValues) {
+        
+    }
+
+    public function setCriteriaForm() {
+        
+    }
+
+    public function setForm($form) {
+        $this->form = $form;
+    }
 
 }
 

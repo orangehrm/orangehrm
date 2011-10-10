@@ -6,41 +6,66 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
     
     const RECORD = 'record';
 
-    protected $headers;
+    protected $headerGroups;
     protected $className = 'stdClass';
     protected $runtimeDefinitions = array();
+    protected $initialized = false;
     protected static $userType;
     protected static $userId;
 
+    public function getHeaderGroups() {
+        
+        $this->__init();
+        return $this->headerGroups;
+    }
+    
+    public function setHeaderGroups(array $headerGroups) {
+        $this->headerGroups = $headerGroups;
+    }
+    
+    /**
+     * Checks if group headers should be displayed in report.
+     * 
+     * Returns true if at least one header group needs to be displayed.
+     * 
+     * @return type bool true if group headers need to be displayed, false if not.
+     */
+    public function showGroupHeaders() {        
+        $this->__init();
+        
+        foreach ($this->headerGroups as $group) {
+            
+            if ($group->showHeader()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public function getHeaders() {
-        if (empty($this->headers)) {
-            $this->init();
+        
+        $this->__init();
+        $headers = array();
+
+        foreach ($this->headerGroups as $headerGroup) {
+            $headers = array_merge($headers, $headerGroup->getHeaders());
         }
 
-        return $this->headers;
+        return $headers;
     }
 
     public function setHeaders(array $headers) {
-        $this->headers = $headers;
-    }
-
-    public function setHeader($index, ListHeader $header) {
-
-        if (empty($this->headers)) {
-            $this->init();
-        }
-
-        $this->headers[$index] = $header;
+        $this->headerGroups = array(new ListHeaderGroup($headers));
     }
 
     public function getHeader($index) {
 
-        if (empty($this->headers)) {
-            $this->init();
-        }
+        $this->__init();
+        
+        $headers = $this->getHeaders();
 
-        if (isset($this->headers[$index])) {
-            return $this->headers[$index];
+        if (isset($headers[$index])) {
+            return $headers[$index];
         } else {
             throw new Exception('No headers set at index ' . $index);
         }
@@ -63,7 +88,29 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
     }
 
     protected function init() {
-        $this->headers = array();
+        $this->headerGroups = array(new ListHeaderGroup(array()));
+    }
+    
+    public function __set($name, $value) {
+        if ($name === 'headers') {
+            $this->setHeaders($value);
+        }
+    }
+    
+    public function __get($name) {
+        if ($name === 'headers') {
+            return $this->getHeaders();
+        } else {
+            return null;
+        }
+    }
+    
+    private function __init() {
+        
+        if (!$this->initialized) {
+            $this->init();
+            $this->initialized = true;
+        }
     }
 
 }

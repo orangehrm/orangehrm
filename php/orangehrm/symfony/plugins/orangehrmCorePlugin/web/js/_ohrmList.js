@@ -1,16 +1,11 @@
 function ohrmList_init() {
-    $('.data-table tbody tr').hover(function() {  // highlight on mouse over
-        $(this).removeClass();
+    $('.data-table > tbody > tr').hover(function() {  // highlight on mouse over
         $(this).addClass("trHover");
-    });
-
-    $('.data-table tbody tr').mouseout(function() { // redraw table raws with alternate colors
-       var even = true;
-       $('.data-table tbody tr').each(function() {
-           $(this).addClass((even) ? 'odd' : 'even');
-           even = !even;
-        });
-    });
+    },
+    function() {
+        $(this).removeClass("trHover");
+    }
+);
 
     $('#ohrmList_chkSelectAll').click(function() {
         $('.data-table input[id^="ohrmList_chkSelectRecord_"]').attr('checked', $(this).attr('checked'));

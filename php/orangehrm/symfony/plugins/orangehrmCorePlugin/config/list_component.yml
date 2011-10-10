@@ -278,3 +278,58 @@ CandidateHistory:
   assets:
     - addCandidateSuccess.css
   jsInitMethods: []
+
+PredefinedReport:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getReportId
+  title: ''
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons: []
+  buttonsPosition: ''
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+PimPredefinedReport:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: '0'
+  title: ''
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons: []
+  buttonsPosition: ''
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+ViewPredefinedReport:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getReportId
+  title: ''
+  tableWidth: auto
+  hasSummary: false
+  isValueList: ''
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addPredefinedReport
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/core/viewDefinedPredefinedReports'
+  assets: []
+  jsInitMethods: []

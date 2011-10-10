@@ -465,6 +465,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
         $subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields, "./symfony/web/index.php/pim/listCustomFields");
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
+        
     }
 
     //$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
@@ -473,6 +474,17 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
         $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
     }
 
+    if ($_SESSION['isAdmin'] == 'Yes') {
+        
+        $sub = new MenuItem("reports", $lang_Menu_Reports, "#");
+        $subsubs = array();
+        $subsubs[] = new MenuItem("viewreports", $lang_Menu_Reports_ViewReports, "./symfony/web/index.php/core/viewPredefinedReports", "rightMenu");
+        $subsubs[] = new MenuItem("definereports", $lang_Menu_Reports_DefineReports, "./symfony/web/index.php/core/viewDefinedPredefinedReports", "rightMenu");
+        $sub->setSubMenuItems($subsubs);
+        $subs[] = $sub;
+        
+    }
+    
     if (PIM_MENU_TYPE == 'dropdown') {
         $sub = new MenuItem("personal", $lang_pim_tabs_Personal, "#", null, $enablePimMenu);
         $subsubs = array();
@@ -755,7 +767,7 @@ $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
 
 /* Start reports menu */
-if ($_SESSION['isAdmin'] == 'Yes' && $arrAllRights[Report]['view']) {
+/*if ($_SESSION['isAdmin'] == 'Yes' && $arrAllRights[Report]['view']) {
     $menuItem = new MenuItem("report", $lang_Menu_Reports, "./index.php?menu_no_top=rep");
     $menuItem->setCurrent($_GET['menu_no_top'] == "rep");
 
@@ -767,7 +779,7 @@ if ($_SESSION['isAdmin'] == 'Yes' && $arrAllRights[Report]['view']) {
     }
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
-}
+}*/
 
 /* Start ESS menu */
 if ($_SESSION['isAdmin'] != 'Yes') {

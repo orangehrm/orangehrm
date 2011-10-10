@@ -29,7 +29,8 @@
   <body>
   
     <?php echo $sf_content ?>
-    
+    <?php $skipRoundBorder = $sf_request->getAttribute('skipRoundBorder');
+    if (!isset($skipRoundBorder)) { ?>
 	<script type="text/javascript">
 //<![CDATA[	    
 
@@ -38,5 +39,6 @@
 			}
 //]]>	
 	</script>    
+    <?php } ?>
   </body>
 </html>

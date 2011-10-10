@@ -35,6 +35,7 @@ abstract class BaseSelectedDisplayField extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'primary' => true,
+             'autoincrement' => true,
              ));
         $this->hasColumn('display_field_id as displayFieldId', 'integer', null, array(
              'type' => 'integer',
@@ -51,10 +52,12 @@ abstract class BaseSelectedDisplayField extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Report', array(
              'local' => 'report_id',
-             'foreign' => 'reportId'));
+             'foreign' => 'reportId',
+             'onDelete' => 'cascade'));
 
         $this->hasOne('DisplayField', array(
              'local' => 'display_field_id',
-             'foreign' => 'displayFieldId'));
+             'foreign' => 'displayFieldId',
+             'onDelete' => 'cascade'));
     }
 }

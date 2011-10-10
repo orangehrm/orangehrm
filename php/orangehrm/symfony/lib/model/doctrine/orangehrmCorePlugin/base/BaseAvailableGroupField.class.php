@@ -49,6 +49,7 @@ abstract class BaseAvailableGroupField extends sfDoctrineRecord
 
         $this->hasOne('GroupField', array(
              'local' => 'group_field_id',
-             'foreign' => 'groupFieldId'));
+             'foreign' => 'groupFieldId',
+             'onDelete' => 'cascade'));
     }
 }
