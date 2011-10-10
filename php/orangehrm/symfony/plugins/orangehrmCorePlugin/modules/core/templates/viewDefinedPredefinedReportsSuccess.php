@@ -13,7 +13,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     <div class="outerbox" style="width: 600px;">
     <div class="maincontent">
         <div class="mainHeading">
-            <h2><?php echo __("Define Employee Reports"); ?></h2>
+            <h2><?php echo __("Employee Reports"); ?></h2>
         </div>
         <br class="clear">
         <form action="<?php echo url_for("core/viewDefinedPredefinedReports"); ?>" id="searchForm" method="post">

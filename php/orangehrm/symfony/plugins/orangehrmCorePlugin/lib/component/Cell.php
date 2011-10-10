@@ -23,6 +23,10 @@ abstract class Cell implements PopulatableFromArray {
     public function getPropertyValue($name, $default = null) {
         return isset($this->properties[$name]) ? $this->properties[$name] : $default;
     }
+    
+    public function hasProperty($name) {
+        return isset($this->properties[$name]);
+    }
 
     public function getDataObject() {
         return $this->dataObject;

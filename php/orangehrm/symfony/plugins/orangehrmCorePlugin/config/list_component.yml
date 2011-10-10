@@ -279,22 +279,6 @@ CandidateHistory:
     - addCandidateSuccess.css
   jsInitMethods: []
 
-PredefinedReport:
-  pluginName: orangehrmCorePlugin
-  hasSelectableRows: false
-  unselectableRowIds: []
-  idValueGetter: getReportId
-  title: ''
-  tableWidth: auto
-  hasSummary: false
-  summary: []
-  buttons: []
-  buttonsPosition: ''
-  formMethod: post
-  formAction: '#'
-  assets: []
-  jsInitMethods: []
-
 PimPredefinedReport:
   pluginName: orangehrmCorePlugin
   hasSelectableRows: false

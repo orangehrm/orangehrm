@@ -21,14 +21,20 @@ class LinkCell extends Cell {
             }
 
             if (preg_match('/^index.php/', $url)) {
+                sfProjectConfiguration::getActive()->loadHelpers('url');
                 $url = public_path($url, true);
             }
 
             $linkAttributes = array(
                 'href' => $url,
             );
-
-            return content_tag('a', $this->getValue('labelGetter'), $linkAttributes) 
+                
+            if ($this->hasProperty('labelGetter')) {
+                $label = $this->getValue('labelGetter');
+            } else {
+                $label = $this->getPropertyValue('label', 'Undefined');
+            }
+            return content_tag('a', $label, $linkAttributes) 
                     . $this->getHiddenFieldHTML();
         } else {
             return $this->toValue();
