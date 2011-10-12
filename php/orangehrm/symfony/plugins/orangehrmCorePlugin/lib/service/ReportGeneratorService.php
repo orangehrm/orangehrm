@@ -388,7 +388,7 @@ class ReportGeneratorService {
         $summaryFields = $this->getSummaryDisplayFields($reportId);
         $displayFields = $this->getSelectedDisplayFields($reportId);
 
-        $selectedDisplayFields = array_merge($selectedDisplayFields, $compositeFields, $summaryFields, $displayFields);
+        $selectedDisplayFields = array_merge($selectedDisplayFields, $compositeFields, $displayFields, $summaryFields);
 
         $headerGroups = $this->getHeaderGroupsForDisplayFields($reportId, $selectedDisplayFields);
 
