@@ -36,6 +36,10 @@ class ohrmReportWidgetGenderDropDown extends sfWidgetForm implements ohrmEmbedda
         foreach ($this->getOption('choices') as $key => $option) {
             $attributes = array('value' => self::escapeOnce($key));
 
+            if ($key == $value) {
+                $attributes['selected'] = 'selected';
+            }
+
             $options[] = $this->renderContentTag(
                             'option',
                             self::escapeOnce($option),
