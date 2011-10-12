@@ -28,10 +28,7 @@ class ohrmWidgetEmployeeListAutoFill extends sfWidgetFormInput implements ohrmEn
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
 
-        $inputField = parent::render($name, $value, $attributes, $errors);
-        $hiddenField = parent::render($name, $value, $attributes, $errors);
-        
-        $html = $inputField . $hiddenField;
+        $html = parent::render($name, $value, $attributes, $errors);
 
         $javaScript = $javaScript = sprintf(<<<EOF
 <script type="text/javascript">

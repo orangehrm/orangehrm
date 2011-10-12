@@ -27,17 +27,14 @@ use_javascript('orangehrm.datepicker.js');
                    echo $form['_csrf_token'];
                    echo $form['report_id']->render();
                    
-                   echo $form['report_name']->renderLabel(__("Report Name"));
+                   echo $form['report_name']->renderLabel(__("Report Name") . "<span class='required'> * </span>");
                    echo $form['report_name']->render();
                    echo $form['report_name']->renderError();
-                   
-                   
-                   
-        ?>
+            ?>
        </fieldset>
         <fieldset id="criteria_selection">
             <?php 
-               echo $form['criteria_list']->renderLabel(__("Constraints"));
+               echo $form['criteria_list']->renderLabel(__("Selection Criteria"));
                echo $form['criteria_list']->render();
                echo $form['criteria_list']->renderError();            
             ?>
@@ -153,6 +150,7 @@ use_javascript('orangehrm.datepicker.js');
         </form>
     </div>
 </div>
+    <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 </div>
 
 <style type="text/css">
@@ -212,6 +210,20 @@ use_javascript('orangehrm.datepicker.js');
     #report_display_field_list,
     #btnAddDisplayField {
         margin-top: 10px;
+    }
+
+    .paddingLeftRequired{
+        font-size: 8pt;
+        padding-left: 15px;
+        padding-top: 5px;
+    }
+
+    div.error{
+        padding-left: 140px;
+    }
+
+    fieldset#name_fieldset ul.error_list li{
+        padding-left: 140px;
     }
 </style>
 

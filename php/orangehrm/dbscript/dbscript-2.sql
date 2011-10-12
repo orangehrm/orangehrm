@@ -682,7 +682,7 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
 INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
    (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN hs_hr_customer ON (hs_hr_customer.customer_id = hs_hr_project.customer_id) WHERE whereCondition2'),
    (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#'),
-    (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
+   (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
                     LEFT JOIN hs_hr_emp_emergency_contacts ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
                     LEFT JOIN hs_hr_compstructtree ON 
@@ -797,7 +797,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (6, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'true'),
     (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, null),
     (8, 3, 'employee_name', 'hs_hr_employee.emp_number', 'ohrmReportWidgetEmployeeListAutoFill', 1, null),
-    (9, 3, 'pay_grade', 'hs_pr_salary_grade.sal_grd_name', 'ohrmReportWidgetPayGradeDropDown', 1, null),
+    (9, 3, 'pay_grade', 'hs_hr_emp_basicsalary.sal_grd_code', 'ohrmReportWidgetPayGradeDropDown', 1, null),
     (10, 3, 'education', 'hs_hr_emp_education.edu_code', 'ohrmReportWidgetEducationtypeDropDown', 1, null),
     (11, 3, 'employment_status', 'hs_hr_empstat.estat_code', 'ohrmWidgetEmploymentStatusList', 1, null),
     (12, 3, 'service_period', 'datediff(current_date(), hs_hr_employee.joined_date)/365', 'ohrmReportWidgetServicePeriod', 1, null),
@@ -875,17 +875,13 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (43, 3, 'DATE(hs_hr_emp_work_experience.eexp_from_date)', 'From', 'expFrom',  'false', null, null, 'label', '<xml><getter>expFrom</getter></xml>', 100, '0', null, true, 10, '---', false),
     (44, 3, 'DATE(hs_hr_emp_work_experience.eexp_to_date)', 'To', 'expTo',  'false', null, null, 'label', '<xml><getter>expTo</getter></xml>', 100, '0', null, true, 10, '---', false),
     (45, 3, 'hs_hr_emp_work_experience.eexp_comments', 'Comment', 'expComment',  'false', null, null, 'label', '<xml><getter>expComment</getter></xml>', 200, '0', null, true, 10, '---', false),
-    (46, 3, 'hs_hr_education.edu_deg', 'Course', 'eduCourse',  'false', null, null, 'label', '<xml><getter>eduCourse</getter></xml>', 200, '0', null, true, 11, '---', false),
-    (47, 3, 'hs_hr_emp_education.edu_major', 'Major/Specialization', 'eduMajorOrSpecialization',  'false', null, null, 'label', '<xml><getter>eduMajorOrSpecialization</getter></xml>', 200, '0', null, true, 11, '---', false),
+    (47, 3, 'CONCAT(hs_hr_education.edu_uni, " , " ,hs_hr_education.edu_deg)', 'Program', 'eduProgram',  'false', null, null, 'label', '<xml><getter>eduProgram</getter></xml>', 200, '0', null, true, 11, '---', false),
     (48, 3, 'hs_hr_emp_education.edu_year', 'Year', 'eduYear',  'false', null, null, 'label', '<xml><getter>eduYear</getter></xml>', 100, '0', null, true, 11, '---', false),
     (49, 3, 'hs_hr_emp_education.edu_gpa', 'GPA/Score', 'eduGPAOrScore',  'false', null, null, 'label', '<xml><getter>eduGPAOrScore</getter></xml>', 80, '0', null, true, 11, '---', false),
-    (50, 3, 'DATE(hs_hr_emp_education.edu_start_date)', 'Start Date', 'eduStartDate',  'false', null, null, 'label', '<xml><getter>eduStartDate</getter></xml>', 100, '0', null, true, 11, '---', false),
-    (51, 3, 'DATE(hs_hr_emp_education.edu_end_date)', 'End Date', 'eduEndDate',  'false', null, null, 'label', '<xml><getter>eduEndDate</getter></xml>', 100, '0', null, true, 11, '---', false),
     (52, 3, 'hs_hr_skill.skill_name', 'Skill', 'skill',  'false', null, null, 'label', '<xml><getter>skill</getter></xml>', 200, '0', null, true, 12, '---', false),
     (53, 3, 'hs_hr_emp_skill.years_of_exp', 'Years of Experience', 'skillYearsOfExperience',  'false', null, null, 'label', '<xml><getter>skillYearsOfExperience</getter></xml>', 135, '0', null, true, 12, '---', false),
     (54, 3, 'hs_hr_emp_skill.comments', 'Comments', 'skillComments',  'false', null, null, 'label', '<xml><getter>skillComments</getter></xml>', 200, '0', null, true, 12, '---', false),
     (55, 3, 'hs_hr_language.lang_name', 'Language', 'langName',  'false', null, null, 'label', '<xml><getter>langName</getter></xml>', 200, '0', null, true, 13, '---', false),
-    (56, 3, 'hs_hr_emp_language.elang_type', 'Fluency', 'langFluency',  'false', null, null, 'label', '<xml><getter>langFluency</getter></xml>', 200, '0', null, true, 13, '---', false),
     (57, 3, 'CASE hs_hr_emp_language.competency WHEN 1 THEN "Poor" WHEN 2 THEN "Basic" WHEN 3 THEN "Good" WHEN 4 THEN "Mother Tongue" END', 'Competency', 'langCompetency',  'false', null, null, 'label', '<xml><getter>langCompetency</getter></xml>', 130, '0', null, true, 13, '---', false),
     (58, 3, 'hs_hr_emp_language.comments', 'Comments', 'langComments',  'false', null, null, 'label', '<xml><getter>langComments</getter></xml>', 200, '0', null, true, 13, '---', false),
     (59, 3, 'hs_hr_licenses.licenses_desc', 'License Type', 'empLicenseType',  'false', null, null, 'label', '<xml><getter>empLicenseType</getter></xml>', 200, '0', null, true, 14, '---', false),
@@ -925,7 +921,6 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (93, 3, 'supervisor.emp_lastname', 'Last Name', 'supervisorLastName',  'false', null, null, 'label', '<xml><getter>supervisorLastName</getter></xml>', 200, '0', null, true, 9, '---', false),
     (94, 3, 'subordinate.emp_lastname', 'Last Name', 'subordinateLastName',  'false', null, null, 'label', '<xml><getter>subordinateLastName</getter></xml>', 200, '0', null, true, 8, '---', false),
     (95, 3, 'CASE hs_hr_emp_passport.ep_passport_type_flg WHEN 1 THEN "Passport" WHEN 2 THEN "Visa" END', 'Document Type', 'documentType',  'false', null, null, 'label', '<xml><getter>documentType</getter></xml>', 200, '0', null, true, 5, '---', false),
-    (96, 3, 'hs_hr_education.edu_uni', 'Institute', 'eduInstitute',  'false', null, null, 'label', '<xml><getter>eduInstitute</getter></xml>', 200, '0', null, true, 11, '---', false),
     (97, 3, 'hs_hr_employee.emp_other_id', 'Other Id', 'otherId', 'false', null, null, 'label', '<xml><getter>otherId</getter></xml>', 100, '0', null, false, 1, '---', false);
     
 INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES 
@@ -986,17 +981,13 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (39, 43, 5),
     (40, 44, 5),
     (41, 45, 5),
-    (42, 46, 5),
     (43, 47, 5),
     (44, 48, 5),
     (45, 49, 5),
-    (46, 50, 5),
-    (47, 51, 5),
     (48, 52, 5),
     (49, 53, 5),
     (50, 54, 5),
     (51, 55, 5),
-    (52, 56, 5),
     (53, 57, 5),
     (54, 58, 5),
     (55, 59, 5),
@@ -1036,7 +1027,6 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (89, 93, 5),
     (90, 94, 5),
     (91, 95, 5),
-    (92, 96, 5),
     (93, 97, 5);
     
 INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_field_group_id`) VALUES
