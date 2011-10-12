@@ -255,7 +255,9 @@ $(document).ready(function() {
     $('#report_display_groups').change(function(){
         updateDisplayFieldList();
     });
-    $('ul#filter_fields li a').live('click', function() {
+    $('ul#filter_fields li a').live('click', function(event) {
+        event.preventDefault();
+        
         var li = $(this).parent();
         $(this).remove();
         li.children(':input').attr('disabled', 'disabled');            
@@ -273,7 +275,8 @@ $(document).ready(function() {
         $('#report_criteria_list').append("<option value='" + value + "'>" + label + "</option>");
     });
     
-    $('ul#display_groups > li a').live('click', function() {
+    $('ul#display_groups > li a').live('click', function(event) {
+        event.preventDefault();
         var li = $(this).parent();
         li.find('li').each(function() {
             $(this).find('input').attr('checked', false);
@@ -290,7 +293,8 @@ $(document).ready(function() {
         updateDisplayFieldList();
     });
 
-    $('ul#display_groups ul.display_field_ul li a').live('click', function() {
+    $('ul#display_groups ul.display_field_ul li a').live('click', function(event) {
+        event.preventDefault();
         var li = $(this).parent();       
         li.find('input').attr('checked', false);
         li.hide();
