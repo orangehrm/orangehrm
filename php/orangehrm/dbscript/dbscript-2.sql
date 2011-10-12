@@ -808,7 +808,8 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
     (18, 3, 'sub_unit', 'hs_hr_compstructtree.id', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
-    (20, 3, 'location', 'hs_hr_location.loc_code', 'ohrmReportWidgetLocationDropDown', 1, null);
+    (20, 3, 'location', 'hs_hr_location.loc_code', 'ohrmReportWidgetLocationDropDown', 1, null),
+    (21, 1, 'is_deleted', 'hs_hr_project_activity.deleted', '', 2, null);
 
 INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`) VALUES
     (1, 3, 'Personal'),
@@ -931,9 +932,11 @@ INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `gr
     (1, 'activity id', 'GROUP BY hs_hr_project_activity.activity_id', null),
     (2, 'employee number', 'GROUP BY hs_hr_employee.emp_number', null);
 
-INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filter_field_order`, `value1`, `value2`, `where_condition`, `type`) VALUES (1, 1, 1, null, null, null, 'Runtime'),
+INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filter_field_order`, `value1`, `value2`, `where_condition`, `type`) VALUES
+    (1, 1, 1, null, null, null, 'Runtime'),
     (1, 3, 2, null, null, null, 'Runtime'),
     (1, 7, 3, null, null, null, 'Runtime'),
+    (1, 21, 4, '0', null, '=', 'Predefined'),
     (2, 3, 4, null, null, null, 'Runtime'),
     (2, 4, 1, null, null, null, 'Runtime'),
     (2, 5, 3, null, null, null, 'Runtime'),
