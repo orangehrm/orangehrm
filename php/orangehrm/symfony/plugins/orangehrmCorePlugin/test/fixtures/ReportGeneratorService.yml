@@ -39,17 +39,17 @@ SelectedFilterField:
   5: {report_id: 2, filter_field_id: 7, filter_field_order: 4, value1: '0777123456', value2: null, where_condition: '=', type: 'Predefined'}
 
 DisplayField:
-  0: {display_field_id: 1, report_group_id: 1, name: 'hs_hr_project.name', label: 'Project Name', field_alias: 'projectname', cell_type: 'text', is_sortable: 'true', sort_order: 'ASC', sort_field: 'projectname', element_type: 'label', element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, display_field_group_id: null, default_value: '', is_encrypted: false}
-  1: {display_field_id: 2, report_group_id: 1, name: 'hs_hr_project_activity.name', label: 'Activity Name', field_alias: 'activityname', cell_type: 'text', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activityname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, display_field_group_id: null, default_value: '', is_encrypted: false}
-  2: {display_field_id: 3, report_group_id: 1, name: 'hs_hr_project_activity.project_id', label: 'Project Id', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>project_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right, text_alignment_style: false, is_value_list: 0, display_field_group_id: null, default_value: '', is_encrypted: false}
-  3: {display_field_id: 4, report_group_id: 1,  name: 'hs_hr_project_activity.activity_id', label: 'Activity Id', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activity_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right, text_alignment_style: false, is_value_list: 0, display_field_group_id: null, default_value: '', is_encrypted: false}
+  0: {display_field_id: 1, report_group_id: 1, name: 'hs_hr_project.name', label: 'Project Name', field_alias: 'projectname', is_sortable: 'true', sort_order: 'ASC', sort_field: 'projectname', element_type: 'label', element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
+  1: {display_field_id: 2, report_group_id: 1, name: 'hs_hr_project_activity.name', label: 'Activity Name', field_alias: 'activityname', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activityname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
+  2: {display_field_id: 3, report_group_id: 1, name: 'hs_hr_project_activity.project_id', label: 'Project Id', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>project_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
+  3: {display_field_id: 4, report_group_id: 1,  name: 'hs_hr_project_activity.activity_id', label: 'Activity Id', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activity_id</getter></xml>', width: 75, is_exportable: 0, text_alignment_style: right, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
 
 SelectedDisplayField:
   0: {id: 1, display_field_id: 1, report_id: 1}
   1: {id: 2, display_field_id: 2, report_id: 1}
 
 SummaryDisplayField:
-  0: {summary_display_field_id: 1, function: 'ROUND(COALESCE(sum(duration)/3600, 0),2)', label: 'Time (hours)', field_alias: 'totalduration', cell_type: 'numeric', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>totalduration</getter></xml>', width: 100, is_exportable: 'false', text_alignment_style: 'right', type: 'group', is_value_list: 0}
+  0: {summary_display_field_id: 1, function: 'ROUND(COALESCE(sum(duration)/3600, 0),2)', label: 'Time (hours)', field_alias: 'totalduration', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>totalduration</getter></xml>', width: 100, is_exportable: 'false', text_alignment_style: 'right', is_value_list: 0}
 
 SelectedGroupField:
   0: {group_field_id: 1, summary_display_field_id: 1, report_id: 1}
