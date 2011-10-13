@@ -34,14 +34,20 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
 
+        $empName = null;
+        
         if ($value != null) {
             $service = new EmployeeService();
-            $employee = $service->getEmployee($value);
-            $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-            $name = trim(trim($name) . " " . $employee->getLastName());
+            if (!is_array($value)) {
+                $employee = $service->getEmployee($value);
+                if (!empty($employee)) {
+                    $empName = $employee->getFirstName() . " " . $employee->getMiddleName();
+                    $empName = trim(trim($empName) . " " . $employee->getLastName());
+                }
+            }
         }
 
-        $values = array_merge(array('empName' => '', 'empId' => ''), is_null($value) ? array() : array('empName' => $name, 'empId' => $value));
+        $values = array_merge(array('empName' => '', 'empId' => ''), is_null($value) ? array() : array('empName' => $empName, 'empId' => $value));
 
         $html = strtr($this->translate($this->getOption('template')), array(
                     '%empId%' => $this->getOption($this->attributes['id'] . '_' . 'empId')->render($name . '[empId]', $values['empId'], array('id' => $this->attributes['id'] . '_' . 'empId')),
@@ -191,14 +197,34 @@ EOF
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
         $label = ucwords(str_replace("_", " ", $this->attributes['id']));
-        $validator = new sfValidatorPass();
-//        $validator = new sfValidatorString();
-//        if (isset($this->attributes['required']) && ($this->attributes['required'] == "true")) {
-//            $label .= "<span class='required'> * </span>";
-//            $validator = new sfValidatorString(array('required' => true), array('required' => 'Select a project'));
-//        }
+        $required = false;
+        
+        $required = false;
+        
+        if (isset($this->attributes['required']) && ($this->attributes['required'] == "true")) {
+            $label .= "<span class='required'> * </span>";
+            $required = true;            
+        } 
+        
+        $validator = new sfValidatorCallback(array('callback' => array($this, 'validate'), 'required' => $required), 
+                 array('required' => __('Please select an employee')));
+        
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);
+    }
+    
+    public function validate($callBackValidator, $value, $args) {
+        $empId = isset($value['empId']) ? $value['empId'] : null;
+        
+        if ($callBackValidator->getOption('required') && empty($empId)) {
+            throw new sfValidatorError($callBackValidator, 'required');
+        } 
+        
+        if (!empty($empId)) {
+            // validate a number
+        }
+        
+        return($value);
     }
 
     /**
