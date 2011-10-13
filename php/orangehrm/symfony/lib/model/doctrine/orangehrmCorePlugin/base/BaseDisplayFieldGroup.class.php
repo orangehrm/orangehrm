@@ -8,6 +8,7 @@
  * @property integer $id
  * @property integer $report_group_id
  * @property string $name
+ * @property boolean $is_list
  * @property ReportGroup $ReportGroup
  * @property Doctrine_Collection $AbstractDisplayField
  * @property Doctrine_Collection $SelectedDisplayFieldGroup
@@ -15,12 +16,14 @@
  * @method integer             getId()                        Returns the current record's "id" value
  * @method integer             getReportGroupId()             Returns the current record's "report_group_id" value
  * @method string              getName()                      Returns the current record's "name" value
+ * @method boolean             getIsList()                    Returns the current record's "is_list" value
  * @method ReportGroup         getReportGroup()               Returns the current record's "ReportGroup" value
  * @method Doctrine_Collection getAbstractDisplayField()      Returns the current record's "AbstractDisplayField" collection
  * @method Doctrine_Collection getSelectedDisplayFieldGroup() Returns the current record's "SelectedDisplayFieldGroup" collection
  * @method DisplayFieldGroup   setId()                        Sets the current record's "id" value
  * @method DisplayFieldGroup   setReportGroupId()             Sets the current record's "report_group_id" value
  * @method DisplayFieldGroup   setName()                      Sets the current record's "name" value
+ * @method DisplayFieldGroup   setIsList()                    Sets the current record's "is_list" value
  * @method DisplayFieldGroup   setReportGroup()               Sets the current record's "ReportGroup" value
  * @method DisplayFieldGroup   setAbstractDisplayField()      Sets the current record's "AbstractDisplayField" collection
  * @method DisplayFieldGroup   setSelectedDisplayFieldGroup() Sets the current record's "SelectedDisplayFieldGroup" collection
@@ -48,6 +51,11 @@ abstract class BaseDisplayFieldGroup extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'length' => 255,
+             ));
+        $this->hasColumn('is_list', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => false,
              ));
     }
 

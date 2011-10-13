@@ -1007,6 +1007,7 @@ create table `ohrm_display_field` (
   `display_field_group_id` int unsigned,
   `default_value` varchar(255) default null,
   `is_encrypted` boolean not null default false,
+  `is_meta` boolean not null default false,
   primary key (`display_field_id`),
   key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
@@ -1029,6 +1030,7 @@ create table `ohrm_composite_display_field` (
   `display_field_group_id` int unsigned,
   `default_value` varchar(255) default null,
   `is_encrypted` boolean not null default false,
+  `is_meta` boolean not null default false,
   primary key (`composite_display_field_id`),
   key `report_group_id` (`report_group_id`)
 ) engine=innodb default charset=utf8;
@@ -1109,6 +1111,7 @@ create table `ohrm_display_field_group` (
   `id` int unsigned not null auto_increment,
   `report_group_id` bigint not null,
   `name` varchar(255) not null,
+  `is_list` boolean not null default false,
   primary key (`id`)
 ) engine=innodb default charset=utf8;
 

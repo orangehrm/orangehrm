@@ -200,7 +200,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
         $selectStatement = $this->reportGeneratorService->getSelectConditionWithoutSummaryFunction($reportId);
 
-        $this->assertEquals('CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName , hs_hr_project.name AS projectname,hs_hr_project_activity.name AS activityname , hs_hr_project_activity.project_id,hs_hr_project_activity.activity_id', $selectStatement);
+        $this->assertEquals('hs_hr_project.name AS projectname,hs_hr_project_activity.name AS activityname,CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName,hs_hr_project_activity.project_id,hs_hr_project_activity.activity_id', $selectStatement);        
     }
 
     /* Tests generateSql method */
@@ -416,7 +416,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(true);
     }
 
-    public function testConstructSelectStatementPartUsingDisplayField() {
+    public function testConstructSelectClauseForDisplayField() {
         
         $displayField = new DisplayField();
         $fieldName = 'Acme';
@@ -461,7 +461,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
             }
             
             $selectStatement = null;
-            $selectStatement = $this->reportGeneratorService->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
+            $selectStatement = $this->reportGeneratorService->constructSelectClauseForDisplayField($selectStatement, $displayField);
             
             $this->assertEquals($expected, $selectStatement);
             
@@ -469,7 +469,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
             $expected = 'x,' . $expected;
                     
-            $selectStatement = $this->reportGeneratorService->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
+            $selectStatement = $this->reportGeneratorService->constructSelectClauseForDisplayField($selectStatement, $displayField);
             $this->assertEquals($expected, $selectStatement);
             
         }

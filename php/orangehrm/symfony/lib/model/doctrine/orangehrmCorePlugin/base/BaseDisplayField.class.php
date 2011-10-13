@@ -7,15 +7,18 @@
  * 
  * @property integer $displayFieldId
  * @property 1 $display_field_group_id
+ * @property boolean $is_meta
  * @property Doctrine_Collection $SelectedDisplayField
  * @property Doctrine_Collection $MetaDisplayField
  * 
  * @method integer             getDisplayFieldId()         Returns the current record's "displayFieldId" value
  * @method 1                   getDisplayFieldGroupId()    Returns the current record's "display_field_group_id" value
+ * @method boolean             getIsMeta()                 Returns the current record's "is_meta" value
  * @method Doctrine_Collection getSelectedDisplayField()   Returns the current record's "SelectedDisplayField" collection
  * @method Doctrine_Collection getMetaDisplayField()       Returns the current record's "MetaDisplayField" collection
  * @method DisplayField        setDisplayFieldId()         Sets the current record's "displayFieldId" value
  * @method DisplayField        setDisplayFieldGroupId()    Sets the current record's "display_field_group_id" value
+ * @method DisplayField        setIsMeta()                 Sets the current record's "is_meta" value
  * @method DisplayField        setSelectedDisplayField()   Sets the current record's "SelectedDisplayField" collection
  * @method DisplayField        setMetaDisplayField()       Sets the current record's "MetaDisplayField" collection
  * 
@@ -38,6 +41,11 @@ abstract class BaseDisplayField extends AbstractDisplayField
         $this->hasColumn('display_field_group_id', '1', null, array(
              'type' => '1',
              'notnull' => true,
+             ));
+        $this->hasColumn('is_meta', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => false,
              ));
     }
 

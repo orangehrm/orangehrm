@@ -230,6 +230,10 @@ AbstractDisplayField:
       name: is_encrypted as isEncrypted
       type: boolean
       notnull: true
+    is_meta:
+      type: boolean
+      notnull: true
+      default: false      
   relations:
     ReportGroup:
       onDelete: cascade
@@ -256,7 +260,7 @@ DisplayField:
       name: display_field_group_id
       type: true
       notnull: true
-
+      
 CompositeDisplayField:
   tableName: ohrm_composite_display_field
   inheritance:
@@ -505,6 +509,10 @@ DisplayFieldGroup:
     name:
       type: string(255)
       notnull: true
+    is_list:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     ReportGroup:
       onDelete: cascade

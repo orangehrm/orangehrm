@@ -205,54 +205,116 @@ class ReportGeneratorService {
 
         $selectCondition = null;
 
-        $selectStatementPartWithSelectedDisplayFields = $this->constructSelectStatementPartWithSelectedDisplayFields($reportId);
-        $selectCondition = $selectStatementPartWithSelectedDisplayFields;
+        $displayFields = $this->getSelectedDisplayFields($reportId);
+        $metaFields = $this->getSelectedMetaDisplayFields($reportId);
+        $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);        
 
-        $selectStatementWithPartMetaDisplayFields = $this->constructSelectStatementPartWithMetaDisplayFields($reportId);
+        $selectedDisplayFields = array_merge($displayFields, $compositeFields, $metaFields);
 
-        if ($selectStatementWithPartMetaDisplayFields != null) {
-            if ($selectCondition != null) {
-                $selectCondition = $selectCondition . " , " . $selectStatementWithPartMetaDisplayFields;
-            } else {
-                $selectCondition = $selectStatementWithPartMetaDisplayFields;
-            }
-        }
-
-        $selectStatementWithPartCompositeDisplayFields = $this->constructSelectStatementPartWithCompositeDisplayField($reportId);
-
-        if ($selectStatementWithPartCompositeDisplayFields != null) {
-            if ($selectCondition != null) {
-                $selectCondition = $selectStatementWithPartCompositeDisplayFields . " , " . $selectCondition;
-            } else {
-                $selectCondition = $selectStatementWithPartCompositeDisplayFields;
-            }
-        }
+        $selectCondition = $this->constructSelectStatement($selectedDisplayFields);
 
         return $selectCondition;
     }
+    
+    public function getAllSelectedFieldsGrouped($reportId) {
+        $displayFields = $this->getSelectedDisplayFields($reportId);
+        $metaFields = $this->getSelectedMetaDisplayFields($reportId);
+        $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);        
 
-    /**
-     * Constructs select statement part with selected display fields.
-     * @param integer $reportId
-     * @return string
-     */
-    public function constructSelectStatementPartWithSelectedDisplayFields($reportId) {
+        $selectedDisplayFields = array_merge($selectedDisplayFields, $compositeFields, $displayFields, $summaryFields);
+        $headerGroups = array();
 
-        $selectedDisplayFields = $this->getReportableService()->getSelectedDisplayFields($reportId);
+        // Default Group - for headers without a display group
+        $defaultGroup = new DisplayFieldGroup();
+        //$defaultGroup;
 
-        $selectStatement = null;
+        $selectedDisplayGroupIds = array();
+        $selectedDisplayGroups = $this->getReportableService()->getSelectedDisplayFieldGroups($reportId);
 
-        if ($selectedDisplayFields != null) {
-
-            foreach ($selectedDisplayFields as $selectedDisplayField) {
-
-                $displayField = $selectedDisplayField->getDisplayField();
-
-                $selectStatement = $this->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
+        if (!empty($selectedDisplayGroups)) {
+            foreach ($selectedDisplayGroups as $group) {
+                $selectedDisplayGroupIds[] = $group['display_field_group_id'];
             }
         }
 
-        return $selectStatement;
+
+        foreach ($displayFields as $displayField) {
+
+            if ($displayField->getIsSortable() == "false") {
+                $isSortable = false;
+            } else {
+                $isSortable = true;
+            }
+
+            if ($displayField->getIsValueList()) {
+                $isValueList = true;
+            } else {
+                $isValueList = false;
+            }
+
+            $properties = array(
+                'name' => $displayField->getLabel(),
+                'isSortable' => $isSortable,
+                'sortOrder' => $displayField->getSortOrder(),
+                'sortField' => $displayField->getSortField(),
+                'elementType' => $displayField->getElementType(),
+                'width' => $displayField->getWidth(),
+                'isExportable' => $displayField->getIsExportable(),
+                'textAlignmentStyle' => $displayField->getTextAlignmentStyle(),
+            );
+        $elementPropertyArray['default'] = $displayField->getDefaultValue();
+
+            $properties = array_filter($properties, 'strlen');
+
+            $elementPropertyXmlString = $this->escapeSpecialCharacters($displayField->getElementProperty());
+
+            $xmlIterator = new SimpleXMLIterator($elementPropertyXmlString);
+
+            $elementPropertyArray = $this->simplexmlToArray($xmlIterator);
+
+            $elementPropertyArray['isValueList'] = $isValueList;
+            $elementPropertyArray['listSeparator'] = self::LIST_SEPARATOR;
+
+            if ($displayField->getDefaultValue() != null) {
+                $elementPropertyArray['default'] = $displayField->getDefaultValue();
+            }
+
+            $properties['elementProperty'] = $elementPropertyArray;
+
+            $header = new ListHeader;
+            $header->populateFromArray($properties);
+
+            // Set to correct display group
+            $displayGroupId = $displayField->getDisplayFieldGroupId();
+
+            if ($displayGroupId === null) {
+                $defaultGroup->addHeader($header);
+            } else {
+                if (!isset($headerGroups[$displayGroupId])) {
+                    $displayFieldGroup = $displayField->getDisplayFieldGroup();
+
+                    if (in_array($displayGroupId, $selectedDisplayGroupIds)) {
+                        $groupName = $displayFieldGroup->getName();
+                    } else {
+                        $groupName = null;
+                    }
+
+                    // Check if group is selected in report.
+
+                    $headerGroup = new ListHeaderGroup(array($header), $groupName);
+                    $headerGroups[$displayGroupId] = $headerGroup;
+                } else {
+                    $headerGroups[$displayGroupId]->addHeader($header);
+                }
+            }
+        }
+
+        // Add the default group if it has any headers
+        if ($defaultGroup->getHeaderCount() > 0) {
+            $headerGroups[] = $defaultGroup;
+        }
+
+        return $headerGroups;        
     }
 
     /**
@@ -261,7 +323,7 @@ class ReportGeneratorService {
      * @param DisplayField $displayField
      * @return string 
      */
-    public function constructSelectStatementPartUsingDisplayField($selectStatement, $displayField) {
+    public function constructSelectClauseForDisplayField($selectStatement, $displayField) {
         
         $clause = $displayField->getName();
         
@@ -286,49 +348,16 @@ class ReportGeneratorService {
     }
 
     /**
-     * Constructs select statement part with composite display fields.
-     * @param string $statement
-     * @param integer $reportId
-     * @return string 
-     */
-    public function constructSelectStatementPartWithCompositeDisplayField($reportId) {
-
-        $selectedCompositeDisplayFields = $this->getReportableService()->getSelectedCompositeDisplayFields($reportId);
-
-        $selectStatement = null;
-
-        if ($selectedCompositeDisplayFields != null) {
-
-            foreach ($selectedCompositeDisplayFields as $selectedCompositeDisplayField) {
-
-                $compositeDisplayField = $selectedCompositeDisplayField->getCompositeDisplayField();
-
-                $selectStatement = $this->constructSelectStatementPartUsingDisplayField($selectStatement, $compositeDisplayField);
-            }
-        }
-
-        return $selectStatement;
-    }
-
-    /**
      * Constructs select statement part with meta display fields.
      * @param integer $reportId
      * @return string 
      */
-    public function constructSelectStatementPartWithMetaDisplayFields($reportId) {
-
-        $metaDisplayFields = $this->getReportableService()->getMetaDisplayFields($reportId);
+    public function constructSelectStatement(array $displayFields) {
 
         $selectStatement = null;
 
-        if ($metaDisplayFields != null) {
-
-            foreach ($metaDisplayFields as $metaDisplayField) {
-
-                $displayField = $metaDisplayField->getDisplayField();
-
-                $selectStatement = $this->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
-            }
+        foreach ($displayFields as $displayField) {
+            $selectStatement = $this->constructSelectClauseForDisplayField($selectStatement, $displayField);
         }
 
         return $selectStatement;
@@ -355,8 +384,8 @@ class ReportGeneratorService {
 
         $selectedDisplayFields = array();
 
-        $compositeFields = $this->getCompositeDisplayFields($reportId);
-        $summaryFields = $this->getSummaryDisplayFields($reportId);
+        $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);
+        $summaryFields = $this->getSelectedSummaryDisplayFields($reportId);
         $displayFields = $this->getSelectedDisplayFields($reportId);
 
         $selectedDisplayFields = array_merge($selectedDisplayFields, $compositeFields, $displayFields, $summaryFields);
@@ -371,7 +400,7 @@ class ReportGeneratorService {
      * @param integer $reportId
      * @return CompositeDisplayField[]
      */
-    private function getCompositeDisplayFields($reportId) {
+    private function getSelectedCompositeDisplayFields($reportId) {
 
         $compositeDisplayFields = array();
 
@@ -392,7 +421,7 @@ class ReportGeneratorService {
      * @param integer $reportId
      * @return SummaryDisplayField[]
      */
-    private function getSummaryDisplayFields($reportId) {
+    private function getSelectedSummaryDisplayFields($reportId) {
 
         $summaryDisplayFields = array();
 
@@ -424,6 +453,25 @@ class ReportGeneratorService {
         return $displayFields;
     }
 
+    /**
+     * Get list of selected selected display fields for given report
+     * @param integer $reportId
+     * @return SelectedDisplayField[]
+     */
+    private function getSelectedMetaDisplayFields($reportId) {
+
+        $displayFields = array();
+
+        $metaDisplayFields = $this->getReportableService()->getMetaDisplayFields($reportId);
+
+        if ($metaDisplayFields != null) {
+            foreach ($metaDisplayFields as $metaField) {
+                $displayFields[] = $metaField->getDisplayField();
+            }
+        }
+        return $displayFields;
+    }
+    
     /**
      * Get list of header groups for the given display fields.
      * @param array $displayFields Array of DisplayFields
@@ -577,6 +625,7 @@ class ReportGeneratorService {
         $coreSql = $reportGroup->getCoreSql();
 
         $selectStatement = $this->getSelectConditionWithoutSummaryFunction($reportId);
+        
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
         $summaryDisplayField = null;
 

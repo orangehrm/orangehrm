@@ -99,15 +99,17 @@ class ohrmFormGenerator {
 
                 foreach ($displayFields as $field) {
                     
-                    $fieldId = 'display_field_' . $field->displayFieldId;
+                    if (!$field->getIsMeta()) {
+                        $fieldId = 'display_field_' . $field->displayFieldId;
 
-                    $filterWidget = new sfWidgetFormInputCheckbox(array('label' => $field->label,
-                                                                 'value_attribute_value' => $field->displayFieldId), 
-                                                                 array('id' => $fieldId, 
-                                                                 'name' => 'display_fields[]'));
-                    
-                    $form->setWidget($fieldId, $filterWidget);
-                    $fields[] = $fieldId;
+                        $filterWidget = new sfWidgetFormInputCheckbox(array('label' => $field->label,
+                                                                     'value_attribute_value' => $field->displayFieldId), 
+                                                                     array('id' => $fieldId, 
+                                                                     'name' => 'display_fields[]'));
+
+                        $form->setWidget($fieldId, $filterWidget);
+                        $fields[] = $fieldId;
+                    }
                 }
 
                 $form->displayFieldGroups[$groupId] = $fields;
