@@ -75,20 +75,22 @@ $(document).ready(function() {
         }else if($('#' + idValue + '_comparision').val() == '1'){
             $('#' + idValue + '_from').show();
             $('#' + idValue + '_to').hide();
-            $('#' + idValue + '_from_Button').show();
+            $('#' + idValue + '_from_Button').show().css('display', 'inline');
             $('#' + idValue + '_to_Button').hide();
         }else if($('#' + idValue + '_comparision').val() == '2'){
             $('#' + idValue + '_from').show();
             $('#' + idValue + '_to').hide();
-            $('#' + idValue + '_from_Button').show();
+            $('#' + idValue + '_from_Button').show().css('display', 'inline');
             $('#' + idValue + '_to_Button').hide();
         }else if($('#' + idValue + '_comparision').val() == '3'){
             $('#' + idValue + '_from').show();
             $('#' + idValue + '_to').show();
-            $('#' + idValue + '_from_Button').show();
-            $('#' + idValue + '_to_Button').show();
+            $('#' + idValue + '_from_Button').show().css('display', 'inline');
+            $('#' + idValue + '_to_Button').show().css('display', 'inline');
         }
     });
+    
+    $('#' + idValue + '_comparision').trigger('change');
  });
  </script>
 EOF
