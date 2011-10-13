@@ -79,6 +79,8 @@ $(document).ready(function() {
             $('#' + idValue + '_value2').show();
         }
     });
+    
+    $('#' + idValue + '_comparision').trigger('change');
  });
  </script>
 EOF
