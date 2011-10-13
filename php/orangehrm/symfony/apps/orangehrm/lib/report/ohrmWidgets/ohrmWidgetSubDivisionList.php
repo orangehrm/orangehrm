@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEmbeddableWidget {
+class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
 
     private $whereClauseCondition;
     private $subDivisionList;
@@ -36,6 +36,10 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEmbeddableWi
 
         foreach ($this->getOption('choices') as $key => $option) {
             $attributes = array('value' => self::escapeOnce($key));
+
+            if ($key == $value) {
+                $attributes['selected'] = 'selected';
+            }
 
             $options[] = $this->renderContentTag(
                             'option',
@@ -145,4 +149,7 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEmbeddableWi
         }
     }
 
+    public function getDefaultValue(SelectedFilterField $selectedFilterField) {
+        return $selectedFilterField->value1;
+    }
 }
