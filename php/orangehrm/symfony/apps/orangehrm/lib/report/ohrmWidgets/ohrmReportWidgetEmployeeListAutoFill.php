@@ -34,7 +34,14 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
 
-        $values = array_merge(array('empName' => '', 'empId' => ''), is_array($value) ? $value : array());
+        if ($value != null) {
+            $service = new EmployeeService();
+            $employee = $service->getEmployee($value);
+            $name = $employee->getFirstName() . " " . $employee->getMiddleName();
+            $name = trim(trim($name) . " " . $employee->getLastName());
+        }
+
+        $values = array_merge(array('empName' => '', 'empId' => ''), is_null($value) ? array() : array('empName' => $name, 'empId' => $value));
 
         $html = strtr($this->translate($this->getOption('template')), array(
                     '%empId%' => $this->getOption($this->attributes['id'] . '_' . 'empId')->render($name . '[empId]', $values['empId'], array('id' => $this->attributes['id'] . '_' . 'empId')),
@@ -229,7 +236,7 @@ EOF
      * @return string
      */
     public function generateWhereClausePart($fieldName, $value) {
-     
+
         $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
 
         return $whereClausePart;
