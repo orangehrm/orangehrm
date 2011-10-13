@@ -1069,15 +1069,6 @@ create table `ohrm_selected_composite_display_field` (
   key `report_id` (`report_id`)
 ) engine=innodb default charset=utf8;
 
-create table `ohrm_meta_display_field` (
-  `id` bigint(20) not null,
-  `display_field_id` bigint(20) not null,
-  `report_id` bigint(20) not null,
-  primary key (`id`,`display_field_id`,`report_id`),
-  key `display_field_id` (`display_field_id`),
-  key `report_id` (`report_id`)
-) engine=innodb default charset=utf8;
-
 create table `ohrm_summary_display_field` (
   `summary_display_field_id` bigint(20) not null,
   `function` varchar(1000) not null,
@@ -1292,14 +1283,6 @@ alter table ohrm_selected_composite_display_field
 alter table ohrm_selected_composite_display_field
        add constraint foreign key (composite_display_field_id)
                              references ohrm_composite_display_field(composite_display_field_id) on delete cascade;
-
-alter table ohrm_meta_display_field
-       add constraint foreign key (report_id)
-                             references ohrm_report(report_id) on delete cascade;
-
-alter table ohrm_meta_display_field
-       add constraint foreign key (display_field_id)
-                             references ohrm_display_field(display_field_id) on delete cascade;
 
 alter table ohrm_report
        add constraint foreign key (report_group_id)

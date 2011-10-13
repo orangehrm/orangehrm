@@ -60,9 +60,5 @@ CompositeDisplayField:
 SelectedCompositeDisplayField:
   0: {id: 1, composite_display_field_id: 1, report_id: 1}
 
-MetaDisplayField:
-  0: {id: 1, display_field_id: 3, report_id: 1}
-  1: {id: 2, display_field_id: 4, report_id: 1}
-
 
 

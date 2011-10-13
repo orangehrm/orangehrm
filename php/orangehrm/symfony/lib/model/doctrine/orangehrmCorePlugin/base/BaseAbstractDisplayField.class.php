@@ -21,6 +21,7 @@
  * @property integer $display_field_group_id
  * @property string $defaultValue
  * @property boolean $isEncrypted
+ * @property boolean $is_meta
  * @property ReportGroup $ReportGroup
  * @property DisplayFieldGroup $DisplayFieldGroup
  * 
@@ -40,6 +41,7 @@
  * @method integer              getDisplayFieldGroupId()    Returns the current record's "display_field_group_id" value
  * @method string               getDefaultValue()           Returns the current record's "defaultValue" value
  * @method boolean              getIsEncrypted()            Returns the current record's "isEncrypted" value
+ * @method boolean              getIsMeta()                 Returns the current record's "is_meta" value
  * @method ReportGroup          getReportGroup()            Returns the current record's "ReportGroup" value
  * @method DisplayFieldGroup    getDisplayFieldGroup()      Returns the current record's "DisplayFieldGroup" value
  * @method AbstractDisplayField setReportGroupId()          Sets the current record's "reportGroupId" value
@@ -58,6 +60,7 @@
  * @method AbstractDisplayField setDisplayFieldGroupId()    Sets the current record's "display_field_group_id" value
  * @method AbstractDisplayField setDefaultValue()           Sets the current record's "defaultValue" value
  * @method AbstractDisplayField setIsEncrypted()            Sets the current record's "isEncrypted" value
+ * @method AbstractDisplayField setIsMeta()                 Sets the current record's "is_meta" value
  * @method AbstractDisplayField setReportGroup()            Sets the current record's "ReportGroup" value
  * @method AbstractDisplayField setDisplayFieldGroup()      Sets the current record's "DisplayFieldGroup" value
  * 
@@ -147,6 +150,11 @@ abstract class BaseAbstractDisplayField extends sfDoctrineRecord
         $this->hasColumn('is_encrypted as isEncrypted', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
+             ));
+        $this->hasColumn('is_meta', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => false,
              ));
     }
 

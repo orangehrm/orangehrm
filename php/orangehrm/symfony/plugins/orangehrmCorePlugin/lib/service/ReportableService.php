@@ -92,9 +92,9 @@ class ReportableService {
      * @param integer $reportId
      * @return SelectedDisplayField[]
      */
-    public function getMetaDisplayFields($reportId) {
+    public function getMetaDisplayFields($reportGroupId) {
 
-        $metaDisplayFields = $this->getReportableDao()->getMetaDisplayFields($reportId);
+        $metaDisplayFields = $this->getReportableDao()->getMetaDisplayFields($reportGroupId);
 
         return $metaDisplayFields;
     }
@@ -132,40 +132,10 @@ class ReportableService {
         return $displayGroups;
     }
     
-    /**
-     * Gets all display field groups for given report group
-     */
-    public function getGroupedDisplayFieldsForReportGroup($reportGroupId) {
+    public function getDisplayFieldsForReportGroup($reportGroupId) {
         $displayFields = $this->getReportableDao()->getDisplayFieldsForReportGroup($reportGroupId);
-
-        // Organize by groups
-        $groups = array();
-        $defaultGroup = array(new DisplayFieldGroup(), array());
-        
-        foreach ($displayFields as $field) {
-            
-            $displayGroupId = $field->getDisplayFieldGroupId();
-            
-            if (empty($displayGroupId)) {
-                $defaultGroup[1][] = $field;
-            } else {
-
-                if (!isset($groups[$displayGroupId])) {
-                    $displayFieldGroup = $field->getDisplayFieldGroup();
-                    $groups[$displayGroupId] = array($displayFieldGroup, array($field));
-                } else {
-                    $groups[$displayGroupId][1][] = $field;
-                }
-            }              
-        }
-        
-        // Add the default group if it has any fields
-        if (count($defaultGroup[1]) > 0) {
-            $groups[] = $defaultGroup;
-        }
-
-        return $groups;
-    }    
+        return $displayFields;
+    }  
     
     /**
      * Gets selected group field for the given report id.

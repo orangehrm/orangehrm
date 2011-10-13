@@ -26,7 +26,7 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->reportableDao = new ReportableDao();
-        TestDataService::truncateTables(array('SelectedCompositeDisplayField','CompositeDisplayField','MetaDisplayField', 'SelectedGroupField', 'GroupField', 'SelectedDisplayField', 'SelectedFilterField', 'FilterField', 'Report', 'ReportGroup', 'ProjectActivity', 'Project', 'Customer'));
+        TestDataService::truncateTables(array('SelectedCompositeDisplayField','CompositeDisplayField','DisplayField', 'SelectedGroupField', 'GroupField', 'SelectedDisplayField', 'SelectedFilterField', 'FilterField', 'Report', 'ReportGroup', 'ProjectActivity', 'Project', 'Customer'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportableDao.yml');
     }
 
@@ -75,24 +75,21 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetMetaDisplayFields() {
 
-        $reportId = 1;
-        $results = $this->reportableDao->getMetaDisplayFields($reportId);
+        $reportGroupId = 1;
+        $results = $this->reportableDao->getMetaDisplayFields($reportGroupId);
 
-        $this->assertTrue($results[0] instanceOf MetaDisplayField);
+        $this->assertTrue($results[0] instanceOf DisplayField);
         $this->assertEquals(2, count($results));
-        $this->assertEquals(2, $results[1]->getDisplayFieldId());
-        $this->assertEquals(1, $results[1]->getReportId());
-        $this->assertEquals(2, $results[1]->getId());
     }
 
     /* Test case for getMetaDisplayFields for non existing reportId method */
 
-    public function testGetMetaDisplayFieldsNonExistingReportId() {
+    public function testGetMetaDisplayFieldsNonExistingReportGroupId() {
 
-        $reportId = 2;
+        $reportGroupId = 111;
         $results = $this->reportableDao->getMetaDisplayFields($reportId);
 
-        $this->assertEquals(null, $results);
+        $this->assertTrue(null, $results);
     }
 
     /* Test case for getReport method */

@@ -925,14 +925,14 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (98, 3, 'hs_hr_emp_emergency_contacts.eec_seqno', 'ecSeqNo', 'ecSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 3, '---', false, true),
     (99, 3, 'hs_hr_emp_dependents.ed_seqno', 'SeqNo', 'edSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 4, '---', false, true),
     (100, 3, 'hs_hr_emp_passport.ep_seqno', 'SeqNo', 'epSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 5, '---', false, true),
-    (101, 3, 'hs_hr_basicsalary.id', 'salaryId', 'salaryId',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 7, '---', false, true),
+    (101, 3, 'hs_hr_emp_basicsalary.id', 'salaryId', 'salaryId',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 7, '---', false, true),
     (102, 3, 'subordinate.emp_number', 'subordinateId', 'subordinateId',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 8, '---', false, true),
     (103, 3, 'supervisor.emp_number', 'supervisorId', 'supervisorId',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 9, '---', false, true),
     (104, 3, 'hs_hr_emp_work_experience.eexp_seqno', 'workExpSeqNo', 'workExpSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 10, '---', false, true),
     (105, 3, 'hs_hr_emp_education.edu_code', 'empEduCode', 'empEduCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 11, '---', false, true),
     (106, 3, 'hs_hr_emp_skill.skill_code', 'empSkillCode', 'empSkillCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 12, '---', false, true),
     (107, 3, 'hs_hr_emp_language.lang_code', 'empLangCode', 'empLangCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
-    (108, 3, 'hs_hr_emp_language.elangType', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
+    (108, 3, 'hs_hr_emp_language.elang_type', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (109, 3, 'hs_hr_emp_licenses.licenses_code', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
     (111, 3, 'hs_hr_emp_member_detail.membtype_code', 'membershipTypeCode', 'membershipTypeCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true);
@@ -1063,9 +1063,6 @@ INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_fiel
 
 INSERT INTO `ohrm_composite_display_field` (`composite_display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES (1, 1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null, false, null, 'Deleted Employee', false, false),
                                                   (2, 1, 'CONCAT(hs_hr_customer.name, " - " ,hs_hr_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null, false, null, null, false, false);
-
-INSERT INTO `ohrm_meta_display_field` (`id`, `display_field_id`, `report_id`)  VALUES (1, 3, 1),
-                                             (2, 4, 1);
 
 INSERT INTO `ohrm_selected_composite_display_field` (`id`, `composite_display_field_id`, `report_id`) VALUES (1, 1, 3),
                                                            (2, 1, 4),

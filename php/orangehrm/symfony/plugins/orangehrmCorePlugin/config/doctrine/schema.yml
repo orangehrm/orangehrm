@@ -467,33 +467,6 @@ SelectedGroupField:
       onDelete: cascade
       local: summary_display_field_id
       foreign: summaryDisplayFieldId
-
-MetaDisplayField:
-  tableName: ohrm_meta_display_field
-  columns:
-    id:
-      type: integer
-      notnull: true
-      primary: true
-    display_field_id:
-      name: display_field_id as displayFieldId
-      type: integer
-      notnull: true
-      primary: true
-    report_id:
-      name: report_id as reportId
-      type: integer
-      notnull: true
-      primary: true
-  relations:
-    Report:
-      onDelete: cascade
-      local: report_id
-      foreign: reportId
-    DisplayField:
-      onDelete: cascade
-      local: display_field_id
-      foreign: displayFieldId
       
 DisplayFieldGroup:
   tableName: ohrm_display_field_group

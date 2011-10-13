@@ -26,7 +26,7 @@ class definePredefinedReportAction extends sfAction {
 
         $reportableService = new ReportableService();
 
-        $displayFieldGroups = $reportableService->getGroupedDisplayFieldsForReportGroup($this->reportGroup);
+        $displayFieldGroups = $reportGeneratorService->getGroupedDisplayFieldsForReportGroup($this->reportGroup);
         $filterWidgets = $reportableService->getFilterFieldsForReportGroup($this->reportGroup);
 
         $reportId = $request->getParameter('reportId');

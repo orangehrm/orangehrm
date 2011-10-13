@@ -146,20 +146,18 @@ class ReportableDao {
      * @param integer $reportId
      * @return array of Doctring objects
      */
-    public function getMetaDisplayFields($reportId) {
+    public function getMetaDisplayFields($reportGroupId) {
 
         try {
 
             $query = Doctrine_Query::create()
-                            ->from("MetaDisplayField")
-                            ->where("report_id = ?", $reportId);
+                            ->from("DisplayField")
+                            ->where("report_group_id = ?", $reportGroupId)
+                            ->andWhere('is_meta = ?', 1);
             $results = $query->execute();
 
-            if ($results[0]->getId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
+            return $results;
+
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }

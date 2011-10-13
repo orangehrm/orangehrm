@@ -15,7 +15,6 @@
  * @property Doctrine_Collection $SelectedCompositeDisplayField
  * @property Doctrine_Collection $SelectedDisplayField
  * @property Doctrine_Collection $SelectedGroupField
- * @property Doctrine_Collection $MetaDisplayField
  * @property Doctrine_Collection $SelectedDisplayFieldGroup
  * 
  * @method integer             getReportId()                      Returns the current record's "reportId" value
@@ -28,7 +27,6 @@
  * @method Doctrine_Collection getSelectedCompositeDisplayField() Returns the current record's "SelectedCompositeDisplayField" collection
  * @method Doctrine_Collection getSelectedDisplayField()          Returns the current record's "SelectedDisplayField" collection
  * @method Doctrine_Collection getSelectedGroupField()            Returns the current record's "SelectedGroupField" collection
- * @method Doctrine_Collection getMetaDisplayField()              Returns the current record's "MetaDisplayField" collection
  * @method Doctrine_Collection getSelectedDisplayFieldGroup()     Returns the current record's "SelectedDisplayFieldGroup" collection
  * @method Report              setReportId()                      Sets the current record's "reportId" value
  * @method Report              setName()                          Sets the current record's "name" value
@@ -40,7 +38,6 @@
  * @method Report              setSelectedCompositeDisplayField() Sets the current record's "SelectedCompositeDisplayField" collection
  * @method Report              setSelectedDisplayField()          Sets the current record's "SelectedDisplayField" collection
  * @method Report              setSelectedGroupField()            Sets the current record's "SelectedGroupField" collection
- * @method Report              setMetaDisplayField()              Sets the current record's "MetaDisplayField" collection
  * @method Report              setSelectedDisplayFieldGroup()     Sets the current record's "SelectedDisplayFieldGroup" collection
  * 
  * @package    orangehrm
@@ -99,10 +96,6 @@ abstract class BaseReport extends sfDoctrineRecord
              'foreign' => 'report_id'));
 
         $this->hasMany('SelectedGroupField', array(
-             'local' => 'reportId',
-             'foreign' => 'report_id'));
-
-        $this->hasMany('MetaDisplayField', array(
              'local' => 'reportId',
              'foreign' => 'report_id'));
 

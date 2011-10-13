@@ -459,16 +459,19 @@ class ReportGeneratorService {
      * @return SelectedDisplayField[]
      */
     private function getSelectedMetaDisplayFields($reportId) {
-
+        
+        $report = $this->getReportableService()->getReport($reportId);
+        $reportGroupId = $report->getReportGroupId();
         $displayFields = array();
-
-        $metaDisplayFields = $this->getReportableService()->getMetaDisplayFields($reportId);
-
-        if ($metaDisplayFields != null) {
-            foreach ($metaDisplayFields as $metaField) {
-                $displayFields[] = $metaField->getDisplayField();
+        
+        $metaFields = $this->getReportableService()->getMetaDisplayFields($reportGroupId);
+        
+        if (!empty($metaFields)) {
+            foreach ($metaFields as $displayField) {
+                $displayFields[] = $displayField;
             }
         }
+
         return $displayFields;
     }
     
@@ -1057,5 +1060,47 @@ class ReportGeneratorService {
             $result = $this->getReportableService()->deleteCustomDisplayField($customDisplayFieldName);
         }
     }
+    
+    /**
+     * Gets all display field groups for given report group
+     */
+    public function getGroupedDisplayFieldsForReportGroup($reportGroupId) {
+        $displayFields = $this->getReportableService()->getDisplayFieldsForReportGroup($reportGroupId);
+
+        $groups = getGroupedDisplayFields($displayFields);
+        
+        return $groups;
+    }
+    
+    public function getGroupedDisplayFields($displayFields) {
+        
+        // Organize by groups
+        $groups = array();
+        $defaultGroup = array(new DisplayFieldGroup(), array());
+        
+        foreach ($displayFields as $field) {
+            
+            $displayGroupId = $field->getDisplayFieldGroupId();
+            
+            if (empty($displayGroupId)) {
+                $defaultGroup[1][] = $field;
+            } else {
+
+                if (!isset($groups[$displayGroupId])) {
+                    $displayFieldGroup = $field->getDisplayFieldGroup();
+                    $groups[$displayGroupId] = array($displayFieldGroup, array($field));
+                } else {
+                    $groups[$displayGroupId][1][] = $field;
+                }
+            }              
+        }
+        
+        // Add the default group if it has any fields
+        if (count($defaultGroup[1]) > 0) {
+            $groups[] = $defaultGroup;
+        }
+
+        return $groups;
+    }      
 
 }
