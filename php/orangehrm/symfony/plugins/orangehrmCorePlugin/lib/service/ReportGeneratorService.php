@@ -864,6 +864,9 @@ class ReportGeneratorService {
             case "BETWEEN":
                 $whereClause = $this->constructWhereStatementForBetweenOperator($selectedFilterField, $whereCondition);
                 break;
+            case "IN":
+                $whereClause = $this->constructWhereStatementForInOperator($selectedFilterField, $whereCondition);
+                break;
             default:
                 break;
         }
@@ -883,6 +886,13 @@ class ReportGeneratorService {
         $value1 = $selectedFilterField->getValue1();
         $value2 = $selectedFilterField->getValue2();
         $whereClause = $whereClausePart . " BETWEEN '" . $value1 . "' AND '" . $value2 . "'";
+        return $whereClause;
+    }
+
+    public function constructWhereStatementForInOperator($selectedFilterField, $whereCondition){
+        $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
+        $value1 = $selectedFilterField->getValue1();
+        $whereClause = $whereClausePart . " " . $whereCondition . " " . "(" . $value1 . ")";
         return $whereClause;
     }
 
