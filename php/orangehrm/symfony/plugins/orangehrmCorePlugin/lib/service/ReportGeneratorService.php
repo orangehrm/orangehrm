@@ -205,15 +205,22 @@ class ReportGeneratorService {
 
         $selectCondition = null;
 
+        $displayGroups = $this->getGroupedDisplayFieldsForReport($reportId);        
+        $selectCondition = $this->constructSelectStatement($displayGroups);
+
+        return $selectCondition;
+    }
+    
+    public function getGroupedDisplayFieldsForReport($reportId) {
         $displayFields = $this->getSelectedDisplayFields($reportId);
         $metaFields = $this->getSelectedMetaDisplayFields($reportId);
         $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);        
 
         $selectedDisplayFields = array_merge($displayFields, $compositeFields, $metaFields);
 
-        $selectCondition = $this->constructSelectStatement($selectedDisplayFields);
-
-        return $selectCondition;
+        $displayGroups = $this->getGroupedDisplayFields($selectedDisplayFields);    
+        
+        return $displayGroups;
     }
     
     public function getAllSelectedFieldsGrouped($reportId) {
@@ -347,17 +354,67 @@ class ReportGeneratorService {
         return $selectStatement;
     }
 
+    
+    public function constructSelectClauseForListGroup($selectStatement, $displayFieldGroup, $displayFields) {
+        
+        $fieldList = '';
+        
+        $isEncryptEnabled = KeyHandler::keyExists();
+        
+        foreach ($displayFields as $field) {
+            $fieldName = $field->getName();
+            
+            if ($isEncryptEnabled && $field->getIsEncrypted()) {
+                $fieldName = 'AES_DECRYPT(UNHEX('. $fieldName . '),"' . KeyHandler::readKey() . '")';
+            }
+            
+            // If null, change to empty string since CONCAT_WS will skip nulls, causing problems with the field list order.
+            $fieldName = 'IFNULL(' . $fieldName . ",'')";
+            
+            if (empty($fieldList)) {
+                $fieldList = $fieldName;
+            } else {
+                $fieldList .= ',' . $fieldName;
+            }
+        }
+        
+        $alias = "DisplayFieldGroup" . $displayFieldGroup->getId();
+        
+        $clause = "CONCAT_WS('|^^|', " . $fieldList . ")";        
+        $clause = "GROUP_CONCAT(DISTINCT " . $clause . " SEPARATOR '|\\n|' ) AS " . $alias;
+        
+        if (empty($selectStatement)) {
+            $selectStatement = $clause;
+        } else {
+            $selectStatement .= ',' . $clause;
+        }
+
+        return $selectStatement;
+           
+    }
     /**
      * Constructs select statement part with meta display fields.
      * @param integer $reportId
      * @return string 
      */
-    public function constructSelectStatement(array $displayFields) {
+    public function constructSelectStatement(array $displayFieldGroups) {
 
         $selectStatement = null;
 
-        foreach ($displayFields as $displayField) {
-            $selectStatement = $this->constructSelectClauseForDisplayField($selectStatement, $displayField);
+        foreach ($displayFieldGroups as $groupDetails) {
+            $group = $groupDetails[0];
+            $displayFields = $groupDetails[1];
+            
+            if (count($displayFields) > 0) {
+                if ($group->getIsList()) {
+                        $selectStatement = $this->constructSelectClauseForListGroup($selectStatement, $group, $displayFields);
+                } else {
+
+                    foreach ($displayFields as $displayField) {
+                        $selectStatement = $this->constructSelectClauseForDisplayField($selectStatement, $displayField);
+                    }
+                } 
+            }
         }
 
         return $selectStatement;
@@ -368,13 +425,74 @@ class ReportGeneratorService {
      * @param string $sql
      * @return string[]
      */
-    public function generateReportDataSet($sql) {
+    public function generateReportDataSet($reportId, $sql) {
 
-        $dataSet = $result = $this->getReportableService()->executeSql($sql);
+        $dataSet = $this->getReportableService()->executeSql($sql);
 
+        $dataSet = $this->processListsInDataSet($reportId, $dataSet);
         return $dataSet;
     }
 
+    public function processListsInDataSet($reportId, $dataSet) {
+        $displayGroups = $this->getGroupedDisplayFieldsForReport($reportId);
+        
+        for($rowNdx = 0; $rowNdx < count($dataSet); $rowNdx++) {
+            $dataRow = $dataSet[$rowNdx];
+
+            foreach ($displayGroups as $groupDetails) {
+                
+                $group = $groupDetails[0];
+                $displayFields = $groupDetails[1];
+
+                if ($group->getIsList() && count($displayFields) > 0) {
+                    
+                    $groupAlias = 'DisplayFieldGroup' . $group->getId();
+                    
+                    $groupValue = $dataRow[$groupAlias];
+                    
+                    $fieldValues = array();
+                    
+                    foreach($displayFields as $displayField) {
+                        $fieldValues[$displayField->getFieldAlias()] = array();
+                    }
+                            
+                    if (!empty($groupValue)) {
+                        
+                        $rows = explode(self::LIST_SEPARATOR, $groupValue);
+                        foreach ($rows as $row) {
+                            $fields = explode('|^^|', $row);
+                            $fieldNdx = 0;
+                            
+                            foreach($displayFields as $displayField) {
+                                
+                                if (isset($fields[$fieldNdx])) {
+                                    $fieldValue = $fields[$fieldNdx];
+                                } else {
+                                    $fieldValue = "";
+                                }
+                                
+                                $fieldValues[$displayField->getFieldAlias()][] = $fieldValue; 
+                                $fieldNdx++;
+                                
+                            }
+                        }
+                        
+                    }
+                    
+                    foreach($fieldValues as $key=>$value) {
+                        $dataRow[$key] = $value;
+                    }
+                    
+
+                }
+            }
+            
+            $dataSet[$rowNdx] = $dataRow;            
+        }
+
+        return $dataSet;
+    }
+    
     /**
      * Generates all headers that are to be used in the list component for a given report.
      * @param integer $reportId
@@ -459,7 +577,7 @@ class ReportGeneratorService {
      * @return SelectedDisplayField[]
      */
     private function getSelectedMetaDisplayFields($reportId) {
-        
+
         $report = $this->getReportableService()->getReport($reportId);
         $reportGroupId = $report->getReportGroupId();
         $displayFields = array();
@@ -1076,7 +1194,10 @@ class ReportGeneratorService {
         
         // Organize by groups
         $groups = array();
-        $defaultGroup = array(new DisplayFieldGroup(), array());
+        $defaultDisplayFieldGroup = new DisplayFieldGroup();
+        $defaultDisplayFieldGroup->setIsList(false);
+        
+        $defaultGroup = array($defaultDisplayFieldGroup, array());
         
         foreach ($displayFields as $field) {
             

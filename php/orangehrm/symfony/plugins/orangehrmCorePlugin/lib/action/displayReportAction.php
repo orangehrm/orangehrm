@@ -87,7 +87,7 @@ abstract class displayReportAction extends sfAction {
 
 
         $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
-        $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
+        $dataSet = $reportableGeneratorService->generateReportDataSet($reportId, $sql);
 
         $headerGroups = $reportableGeneratorService->getHeaderGroups($reportId);
 

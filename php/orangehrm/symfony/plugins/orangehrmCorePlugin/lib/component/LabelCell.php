@@ -12,22 +12,19 @@ class LabelCell extends Cell {
         
         $isValueList = $this->getPropertyValue('isValueList', false);
 
-        if ($isValueList) {
-            $separator = $this->getPropertyValue('listSeparator', ',');
-            if (!empty($separator)) {
-                $lines = explode($separator, $value);
-
-                if (count($lines) > 1) {
-                    $value = '<table class="valueListCell"><tbody>';
-                    foreach ($lines as $line) {
-                        if (!$line && $default) {
-                            $value .= '<tr><td>' . $default . '</td></tr>';
-                        } else {
-                            $value .= '<tr><td> &bull; ' . $line . '</td></tr>';
-                        }
+        if ($isValueList && is_array($value)) {
+            
+            $lines = $value;
+            if (count($lines) >= 1) {
+                $value = '<table class="valueListCell"><tbody>';
+                foreach ($lines as $line) {
+                    if (!$line && $default) {
+                        $value .= '<tr><td>' . $default . '</td></tr>';
+                    } else {
+                        $value .= '<tr><td> &bull; ' . $line . '</td></tr>';
                     }
-                    $value .= '</tbody></table>';
                 }
+                $value .= '</tbody></table>';
             }
         }
 
