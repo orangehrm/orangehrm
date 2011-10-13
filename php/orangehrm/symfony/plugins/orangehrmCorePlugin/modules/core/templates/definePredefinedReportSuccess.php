@@ -201,6 +201,15 @@ use_javascript('orangehrm.datepicker.js');
     div#defineReportContainer {
         width: 900px;
     }
+
+    fieldset#name_fieldset,
+    #criteria_selection,
+    #criteria_fieldset_inactive,
+    #criteria_fieldset,
+    #display_field_selection,
+    #display_fieldset{
+        border-color: #FAD163;
+    }
     
     #report_report_name,
     #report_criteria_list,

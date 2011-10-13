@@ -10,7 +10,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
-    <div class="outerbox" style="width: 600px;">
+    <div class="outerbox" style="width: 590px;">
     <div class="maincontent">
         <div class="mainHeading">
             <h2><?php echo __("Employee Reports"); ?></h2>
