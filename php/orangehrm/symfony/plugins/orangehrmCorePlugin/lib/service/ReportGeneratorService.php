@@ -1067,7 +1067,7 @@ class ReportGeneratorService {
     public function getGroupedDisplayFieldsForReportGroup($reportGroupId) {
         $displayFields = $this->getReportableService()->getDisplayFieldsForReportGroup($reportGroupId);
 
-        $groups = getGroupedDisplayFields($displayFields);
+        $groups = $this->getGroupedDisplayFields($displayFields);
         
         return $groups;
     }
