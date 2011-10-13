@@ -416,5 +416,64 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(true);
     }
 
+    public function testConstructSelectStatementPartUsingDisplayField() {
+        
+        $displayField = new DisplayField();
+        $fieldName = 'Acme';
+        $displayField->setName($fieldName);
+        
+        
+        $options = array(
+                      array('is_value_list' => true, 'is_encrypted' => true, 'field_alias' => 'Abcd'),
+                      array('is_value_list' => true, 'is_encrypted' => true, 'field_alias' => null),
+                      array('is_value_list' => true, 'is_encrypted' => false, 'field_alias' => 'Abcd'),
+                      array('is_value_list' => true, 'is_encrypted' => false, 'field_alias' => null),
+                      array('is_value_list' => false, 'is_encrypted' => false, 'field_alias' => 'Abcd'),
+                      array('is_value_list' => false, 'is_encrypted' => false, 'field_alias' => null),
+                      array('is_value_list' => false, 'is_encrypted' => true, 'field_alias' => 'Abcd'),
+                      array('is_value_list' => false, 'is_encrypted' => true, 'field_alias' => null)
+    
+            );            
+        
+        $encrypt = KeyHandler::keyExists();
+        
+        if ($encrypt) {
+            $key = KeyHandler::readKey();
+        }
+        
+        foreach ($options as $option) {
+            $displayField = new DisplayField();
+            $displayField->setName($fieldName);
+            $displayField->setIsValueList($option['is_value_list']);
+            $displayField->setIsEncrypted($option['is_encrypted']);
+            $displayField->setFieldAlias($option['field_alias']);
+            
+            $expected = $fieldName;
+            
+            if ($encrypt && $option['is_encrypted']) {
+                $expected = 'AES_DECRYPT(UNHEX('. $fieldName . '),"' . $key . '")';
+            }
+            if ($option['is_value_list']) {
+                $expected = 'GROUP_CONCAT(DISTINCT ' . $expected . " SEPARATOR '|" . '\n' . "|' ) ";
+            }
+            if ($option['field_alias']) {
+                $expected = $expected . ' AS ' . $option['field_alias'];
+            }
+            
+            $selectStatement = null;
+            $selectStatement = $this->reportGeneratorService->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
+            
+            $this->assertEquals($expected, $selectStatement);
+            
+            $selectStatement = "x";
+
+            $expected = 'x,' . $expected;
+                    
+            $selectStatement = $this->reportGeneratorService->constructSelectStatementPartUsingDisplayField($selectStatement, $displayField);
+            $this->assertEquals($expected, $selectStatement);
+            
+        }
+    }
+
 }
 

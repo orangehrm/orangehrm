@@ -261,54 +261,25 @@ class ReportGeneratorService {
      * @param DisplayField $displayField
      * @return string 
      */
-    private function constructSelectStatementPartUsingDisplayField($selectStatement, $displayField) {
-
-        if ($selectStatement == null) {
-
-            if ($displayField->getIsValueList()) {
-                //$selectStatement = "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPERATOR '|\\n|' )";
-
-                $enc = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
-
-                if ($displayField->getIsEncrypted()) {
-                    $selectStatement = "GROUP_CONCAT(DISTINCT " . $enc . " SEPARATOR '|\\n|' ) ";
-                } else {
-                    $selectStatement = "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
-                }
-            } else {
-
-                if ($displayField->getIsEncrypted()) {
-                    $selectStatement = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
-                } else {
-                    $selectStatement = $displayField->getName();
-                }
-            }
-
-            if (!$displayField->getFieldAlias() == null) {
-                $selectStatement = $selectStatement . " AS " . $displayField->getFieldAlias();
-            }
+    public function constructSelectStatementPartUsingDisplayField($selectStatement, $displayField) {
+        
+        $clause = $displayField->getName();
+        
+        if (KeyHandler::keyExists() && $displayField->getIsEncrypted()) {
+            $clause = 'AES_DECRYPT(UNHEX('. $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+        }
+        if ($displayField->getIsValueList()) {
+            $clause = "GROUP_CONCAT(DISTINCT " . $clause . " SEPARATOR '|\\n|' ) ";
+        }
+        $fieldAlias = $displayField->getFieldAlias();
+        if (!empty($fieldAlias)) {
+            $clause = $clause . " AS " . $fieldAlias;
+        }
+        
+        if (empty($selectStatement)) {
+            $selectStatement = $clause;
         } else {
-
-            if ($displayField->getIsValueList()) {
-                //$selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
-                $enc = 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
-
-                if ($displayField->getIsEncrypted()) {
-                    $selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $enc . " SEPARATOR '|\\n|' ) ";
-                } else {
-                    $selectStatement = $selectStatement . "," . "GROUP_CONCAT(DISTINCT " . $displayField->getName() . " SEPARATOR '|\\n|' ) ";
-                }
-            } else {
-                if ($displayField->getIsEncrypted()) {
-                    $selectStatement = $selectStatement . "," . 'AES_DECRYPT(UNHEX(' . $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
-                } else {
-                    $selectStatement = $selectStatement . "," . $displayField->getName();
-                }
-            }
-
-            if (!$displayField->getFieldAlias() == null) {
-                $selectStatement = $selectStatement . " AS " . $displayField->getFieldAlias();
-            }
+            $selectStatement .= ',' . $clause;
         }
 
         return $selectStatement;
