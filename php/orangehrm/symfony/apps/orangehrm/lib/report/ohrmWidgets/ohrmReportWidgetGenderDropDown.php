@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ohrmReportWidgetGenderDropDown extends sfWidgetForm implements ohrmEmbeddableWidget {
+class ohrmReportWidgetGenderDropDown extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
 
     private $whereClauseCondition;
 
@@ -119,16 +119,19 @@ class ohrmReportWidgetGenderDropDown extends sfWidgetForm implements ohrmEmbedda
      */
     public function generateWhereClausePart($fieldName, $value) {
 
-        if($value == '-1'){
+        if ($value == '-1') {
             $whereClausePart = null;
-        }else if($value == '1'){
+        } else if ($value == '1') {
             $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "male";
-        }else {
+        } else {
             $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "female";
         }
-        
+
         return $whereClausePart;
     }
- 
+
+    public function getDefaultValue(SelectedFilterField $selectedFilterField) {
+        return $selectedFilterField->value1;
+    }
 }
 
