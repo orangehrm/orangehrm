@@ -475,7 +475,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
     }
 
     if ($_SESSION['isAdmin'] == 'Yes') {
-        $subs[] = new MenuItem("reports", $lang_Menu_Reports, "./symfony/web/index.php/core/viewDefinedPredefinedReports", "rightMenu");
+        $subs[] = new MenuItem("reports", $lang_Menu_Reports, "./symfony/web/index.php/core/viewDefinedPredefinedReports/reportGroup/3/reportType/PIM_DEFINED", "rightMenu");
     }
     
     if (PIM_MENU_TYPE == 'dropdown') {

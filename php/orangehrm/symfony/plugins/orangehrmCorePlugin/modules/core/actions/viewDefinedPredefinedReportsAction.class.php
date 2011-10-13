@@ -12,6 +12,8 @@ class viewDefinedPredefinedReportsAction extends sfAction {
             return $this->renderText("You are not allowed to view this page!");
         }
 
+        $this->getReportGroupAndType($request);
+        
         $pageNumber = 1;
         $sortField = 'name';
         $sortOrder = 'ASC';       
@@ -20,7 +22,7 @@ class viewDefinedPredefinedReportsAction extends sfAction {
         $searchString = null;        
         
         $this->searchForm = new ViewPredefinedReportsSearchForm();
-        $reportList = $reportableService->getAllPredefinedReports("PIM_DEFINED");
+        $reportList = $reportableService->getAllPredefinedReports($this->reportType);
         $totalRecords = count($reportList);
         $this->reportJsonList = $this->searchForm->getReportListAsJson($reportList);
 
@@ -60,10 +62,10 @@ class viewDefinedPredefinedReportsAction extends sfAction {
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
         
         if ($searchString != null) {
-            $reports = $reportableService->getPredefinedReportsByPartName("PIM_DEFINED", $searchString, $noOfRecords, $offset,  $sortField, $sortOrder);
-            $totalRecords = $reportableService->getPredefinedReportCountByPartName("PIM_DEFINED", $searchString);
+            $reports = $reportableService->getPredefinedReportsByPartName($this->reportType, $searchString, $noOfRecords, $offset,  $sortField, $sortOrder);
+            $totalRecords = $reportableService->getPredefinedReportCountByPartName($this->reportType, $searchString);
         } else {
-            $reports = $reportableService->getPredefinedReports("PIM_DEFINED", $noOfRecords, $offset, $sortField, $sortOrder);
+            $reports = $reportableService->getPredefinedReports($this->reportType, $noOfRecords, $offset, $sortField, $sortOrder);
         }
 
         $this->_saveSearchParams($searchString, $pageNumber, $sortField, $sortOrder);
@@ -110,5 +112,21 @@ class viewDefinedPredefinedReportsAction extends sfAction {
             }            
         }       
     }      
+    
+    function getReportGroupAndType($request) {
+        $this->reportType = $request->getParameter('reportType');
+        $this->reportGroup = $request->getParameter('reportGroup');
+        
+        if (empty($this->reportType)) {
+            $this->reportType = $this->getUser()->getAttribute('PredefinedReportType');
+        } else {
+            $this->getUser()->setAttribute('PredefinedReportType', $this->reportType);
+        }
+        if (empty($this->reportGroup)) {
+            $this->reportGroup = $this->getUser()->getAttribute('PredefinedReportGroup');
+        } else {
+            $this->getUser()->setAttribute('PredefinedReportGroup', $this->reportGroup);
+        }
+    }    
 }
 

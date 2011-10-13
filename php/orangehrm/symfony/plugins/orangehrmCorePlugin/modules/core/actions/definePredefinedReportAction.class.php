@@ -20,15 +20,14 @@ class definePredefinedReportAction extends sfAction {
             return $this->renderText("You are not allowed to view this page!");
         }
         
+        $this->getReportGroupAndType($request);
+        
         $reportGeneratorService = new ReportGeneratorService();
-
-        // Hard coded for now. Should be taken from request
-        $pimReportGroup = 3;
 
         $reportableService = new ReportableService();
 
-        $displayFieldGroups = $reportableService->getGroupedDisplayFieldsForReportGroup($pimReportGroup);
-        $filterWidgets = $reportableService->getFilterFieldsForReportGroup($pimReportGroup);
+        $displayFieldGroups = $reportableService->getGroupedDisplayFieldsForReportGroup($this->reportGroup);
+        $filterWidgets = $reportableService->getFilterFieldsForReportGroup($this->reportGroup);
 
         $reportId = $request->getParameter('reportId');
         $reportName;
@@ -65,7 +64,7 @@ class definePredefinedReportAction extends sfAction {
                 
                 // If report_id not available, create report
                 if (empty($reportId)) {
-                    $report = $reportableService->saveReport($reportName, $pimReportGroup, true, 'PIM_DEFINED');
+                    $report = $reportableService->saveReport($reportName, $this->reportGroup, true, $this->reportType);
                     $reportId = $report->getReportId();
                 } else {
                     $report = $reportableService->getReport($reportId);
@@ -112,6 +111,22 @@ class definePredefinedReportAction extends sfAction {
                 
                
             }
+        }
+    }
+    
+    function getReportGroupAndType($request) {
+        $this->reportType = $request->getParameter('reportType');
+        $this->reportGroup = $request->getParameter('reportGroup');
+        
+        if (empty($this->reportType)) {
+            $this->reportType = $this->getUser()->getAttribute('PredefinedReportType');
+        } else {
+            $this->getUser()->setAttribute('PredefinedReportType', $this->reportType);
+        }
+        if (empty($this->reportGroup)) {
+            $this->reportGroup = $this->getUser()->getAttribute('PredefinedReportGroup');
+        } else {
+            $this->getUser()->setAttribute('PredefinedReportGroup', $this->reportGroup);
         }
     }
 
