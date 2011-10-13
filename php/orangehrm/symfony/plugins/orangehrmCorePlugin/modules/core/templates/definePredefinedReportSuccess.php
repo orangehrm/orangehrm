@@ -274,9 +274,9 @@ $(document).ready(function() {
         var label = li.children('label').text();
         var value = li.attr('id').substr(3);
         
-        var inputFields = li.find(':input').length;
+        var inputFields = li.find(':input:not([type=hidden])').length;
         if (inputFields > 1) {
-            li.find(':input').hide();
+            li.find(':input:not([type=hidden])').hide();
         }
         
         // move to inactive list and add to drop down.
