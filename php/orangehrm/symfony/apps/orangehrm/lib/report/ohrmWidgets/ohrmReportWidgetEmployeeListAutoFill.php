@@ -35,10 +35,15 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
 
         $empName = null;
+        $empId = null;
         
         if ($value != null) {
             $service = new EmployeeService();
-            if (!is_array($value)) {
+            if (is_array($value)) {
+                $empId = isset($value['empId']) ? $value['empId'] : '';
+                $empName = isset($value['empName']) ? $value['empName'] : '';
+            } else {
+                $empId = $value;
                 $employee = $service->getEmployee($value);
                 if (!empty($employee)) {
                     $empName = $employee->getFirstName() . " " . $employee->getMiddleName();
@@ -47,7 +52,7 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
             }
         }
 
-        $values = array_merge(array('empName' => '', 'empId' => ''), is_null($value) ? array() : array('empName' => $empName, 'empId' => $value));
+        $values = array_merge(array('empName' => '', 'empId' => ''), is_null($value) ? array() : array('empName' => $empName, 'empId' => $empId));
 
         $html = strtr($this->translate($this->getOption('template')), array(
                     '%empId%' => $this->getOption($this->attributes['id'] . '_' . 'empId')->render($name . '[empId]', $values['empId'], array('id' => $this->attributes['id'] . '_' . 'empId')),
