@@ -172,8 +172,6 @@ EOF
                 $name = $employee->getFirstName() . " " . $employee->getMiddleName();
                 $name = trim(trim($name) . " " . $employee->getLastName());
 
-
-
                 $employeeUnique[$employee->getEmpNumber()] = $name;
                 $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
             }
