@@ -185,6 +185,10 @@ use_javascript('orangehrm.datepicker.js');
         color: red;
     }
     
+    ul#filter_fields li input[type="text"] {
+        padding-left: 0px;
+    }    
+    
     ul#display_groups li a {
         display: inline-block;
         float: none;
@@ -234,6 +238,13 @@ use_javascript('orangehrm.datepicker.js');
     fieldset#name_fieldset ul.error_list li{
         padding-left: 140px;
     }
+    
+    select#report_criteria_list,
+    select#report_display_groups,
+    select#report_display_field_list{
+        width: 150px;
+        height: 18px;
+    }
 </style>
 
 <script type="text/javascript">
@@ -242,6 +253,7 @@ $(document).ready(function() {
     $('#filter_fields_inactive').find(':input').attr('disabled', 'disabled');
     
     // update display fields
+    updateDisplayGroupList();
     updateDisplayFieldList();
     
     function updateDisplayFieldList() {
@@ -258,6 +270,34 @@ $(document).ready(function() {
         });
         
         var numFields = $('#report_display_field_list').find('option').length;
+        
+        if (numFields > 0) {
+            $("#btnAddDisplayField").removeAttr('disabled');
+        } else {
+            $("#btnAddDisplayField").attr('disabled', 'disabled');
+        }        
+        
+    }
+    
+    function updateDisplayGroupList() {
+        $('#report_display_groups option').remove();
+        $('#display_groups ul.display_field_ul').each(function() {
+
+            if ($(this).children('li:hidden').length > 0) {
+                var id = $(this).siblings('input').attr('id');
+                var label = $(this).siblings('label').text();
+
+                // Look for and remove "(Include Header)" text from label
+                var includeHeaderStart = label.indexOf('(');
+
+                label = label.substring(0, includeHeaderStart);                
+                $('#report_display_groups').append('<option value="' + id + '">' + label + '</option>');                 
+            }
+        });
+        
+        if ($('#report_display_groups option').length > 0) {
+            $("#btnAddDisplayGroup").removeAttr('disabled');
+        }        
         
     }
     
@@ -282,6 +322,8 @@ $(document).ready(function() {
         // move to inactive list and add to drop down.
         li.appendTo($('#filter_fields_inactive'));
         $('#report_criteria_list').append("<option value='" + value + "'>" + label + "</option>");
+        
+        $("#btnAddConstraint").removeAttr('disabled');
     });
     
     $('ul#display_groups > li a').live('click', function(event) {
@@ -298,7 +340,7 @@ $(document).ready(function() {
         
         groupInput.attr('checked', false);
         li.hide();
-        
+        updateDisplayGroupList();
         updateDisplayFieldList();
     });
 
@@ -308,7 +350,10 @@ $(document).ready(function() {
         li.find('input').attr('checked', false);
         li.hide();
         var groupId = li.parents('ul.display_field_ul').parent().children('input').attr('id');
-        $('#report_display_groups option[value=' + groupId + ']').show();
+        
+        if ($('#report_display_groups option[value=' + groupId + ']').length == 0) {
+            updateDisplayGroupList();
+        }
 
         updateDisplayFieldList();
     });
@@ -349,11 +394,16 @@ $(document).ready(function() {
 
         $('#' + selectedItem + "_comparision").show();    
         selectedLi.prepend(delLink).appendTo($('#filter_fields'));
+        
+        if ($('#report_criteria_list option').length == 0) {
+            $(this).attr('disabled', 'disabled');
+        }
+        
     });   
 
     $("#btnAddDisplayGroup").click(function() {        
                
-        var selectedItem = $('#report_display_groups option:selected').hide();
+        var selectedItem = $('#report_display_groups option:selected').remove();
         selectedItem.attr('selected', false);
         var nextChild = selectedItem.next();
         if (!nextChild) {
@@ -371,6 +421,10 @@ $(document).ready(function() {
         
         updateDisplayFieldList();
         clearErrors();
+        
+        if ($('#report_display_groups option').length == 0) {
+            $(this).attr('disabled', 'disabled');
+        }        
     }); 
     
     $("#btnAddDisplayField").click(function() {        
@@ -392,6 +446,7 @@ $(document).ready(function() {
         
         updateDisplayFieldList();
         clearErrors();
+                
     }); 
     
     $("#btnSave").click(function() {
