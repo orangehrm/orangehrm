@@ -742,10 +742,13 @@ class ReportGeneratorService {
 
                 $conditionNo = $predefinedFilterField->getConditionNo();
                 $whereClause = $this->generateWhereClauseForPredefinedReport($selectedFilterField);
-                if (array_key_exists($conditionNo, $conditionArray)) {
-                    $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $whereClause;
-                } else {
-                    $conditionArray[$conditionNo] = $whereClause;
+
+                if (!empty($whereClause)) {
+                    if (array_key_exists($conditionNo, $conditionArray)) {
+                        $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $whereClause;
+                    } else {
+                        $conditionArray[$conditionNo] = $whereClause;
+                    }
                 }
             } else if ($type == "Runtime") {
                 $runtimeFilterField = $selectedFilterField->getFilterField();

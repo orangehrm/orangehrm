@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ohrmReportWidgetLocationDropDown extends sfWidgetForm implements ohrmEmbeddableWidget {
+class ohrmReportWidgetLocationDropDown extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
 
     private $whereClauseCondition;
 
@@ -35,6 +35,10 @@ class ohrmReportWidgetLocationDropDown extends sfWidgetForm implements ohrmEmbed
 
         foreach ($this->getOption('choices') as $key => $option) {
             $attributes = array('value' => self::escapeOnce($key));
+
+            if ($key == $value) {
+                $attributes['selected'] = 'selected';
+            }
 
             $options[] = $this->renderContentTag(
                             'option',
@@ -123,12 +127,15 @@ class ohrmReportWidgetLocationDropDown extends sfWidgetForm implements ohrmEmbed
 
         if ($value == '-1') {
             $whereClausePart = null;
-        } else{
+        } else {
             $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
         }
-        
+
         return $whereClausePart;
     }
 
+    public function getDefaultValue(SelectedFilterField $selectedFilterField) {
+        return $selectedFilterField->value1;
+    }
 }
 
