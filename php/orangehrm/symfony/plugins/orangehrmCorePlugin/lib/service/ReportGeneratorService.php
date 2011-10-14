@@ -1099,9 +1099,10 @@ class ReportGeneratorService {
                 } else {
                     $value1 = $value;
                 }
+                $value2 = null;
             }
 
-            $whereClausePart = $widget->generateWhereClausePart("fieldName", $value1);
+            $whereClausePart = $widget->generateWhereClausePart("fieldName", $value);
             if ($whereClausePart == null) {
                 $whereCondition = null;
             } else {
