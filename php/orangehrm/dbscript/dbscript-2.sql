@@ -705,12 +705,12 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (emp_location.loc_code = hs_hr_location.loc_code)
                     LEFT JOIN hs_hr_job_spec ON 
                         (hs_hr_job_title.jobspec_id = hs_hr_job_spec.jobspec_id) 
-                    LEFT JOIN hs_pr_salary_grade ON 
-                        (hs_hr_job_title.sal_grd_code = hs_pr_salary_grade.sal_grd_code) 
                     LEFT JOIN hs_hr_emp_contract_extend ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
                     LEFT JOIN hs_hr_emp_basicsalary ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
+                    LEFT JOIN hs_pr_salary_grade ON 
+                        (hs_hr_emp_basicsalary.sal_grd_code = hs_pr_salary_grade.sal_grd_code) 
                     LEFT JOIN hs_hr_currency_type ON 
                         (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id) 
                     LEFT JOIN hs_hr_payperiod ON 
