@@ -60,20 +60,20 @@ $(document).ready(function() {
     var idValue = '%s';
 
     if($('#' + idValue + '_comparision').val() == ''){
-        $('#' + idValue + '_value1').hide();
-        $('#' + idValue + '_value2').hide();
+        $('#' + idValue + '_value1').hide().val('');
+        $('#' + idValue + '_value2').hide().val('');
     }
 
     $('#' + idValue + '_comparision').change(function(){
         if($('#' + idValue + '_comparision').val() == ''){
-            $('#' + idValue + '_value1').hide();
-            $('#' + idValue + '_value2').hide();
+            $('#' + idValue + '_value1').hide().val('');
+            $('#' + idValue + '_value2').hide().val('');
         }else if($('#' + idValue + '_comparision').val() == '1'){
             $('#' + idValue + '_value1').show();
-            $('#' + idValue + '_value2').hide();
+            $('#' + idValue + '_value2').hide().val('');
         }else if($('#' + idValue + '_comparision').val() == '2'){
             $('#' + idValue + '_value1').show();
-            $('#' + idValue + '_value2').hide();
+            $('#' + idValue + '_value2').hide().val('');
         }else if($('#' + idValue + '_comparision').val() == '3'){
             $('#' + idValue + '_value1').show();
             $('#' + idValue + '_value2').show();

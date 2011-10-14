@@ -59,8 +59,8 @@ $(document).ready(function() {
     var idValue = '%s';
 
     if($('#' + idValue + '_comparision').val() == ''){
-        $('#' + idValue + '_from').hide();
-        $('#' + idValue + '_to').hide();
+        $('#' + idValue + '_from').hide().val('');
+        $('#' + idValue + '_to').hide().val('');
         $('#' + idValue + '_from_Button').hide();
         $('#' + idValue + '_to_Button').hide();
     }
@@ -68,18 +68,18 @@ $(document).ready(function() {
     $('#' + idValue + '_comparision').change(function(){
         if($('#' + idValue + '_comparision').val() == ''){
 
-            $('#' + idValue + '_from').hide();
+            $('#' + idValue + '_from').hide().val('');
             $('#' + idValue + '_from_Button').hide();
             $('#' + idValue + '_to_Button').hide();
-            $('#' + idValue + '_to').hide();
+            $('#' + idValue + '_to').hide().val('');
         }else if($('#' + idValue + '_comparision').val() == '1'){
             $('#' + idValue + '_from').show();
-            $('#' + idValue + '_to').hide();
+            $('#' + idValue + '_to').hide().val('');
             $('#' + idValue + '_from_Button').show().css('display', 'inline');
             $('#' + idValue + '_to_Button').hide();
         }else if($('#' + idValue + '_comparision').val() == '2'){
             $('#' + idValue + '_from').show();
-            $('#' + idValue + '_to').hide();
+            $('#' + idValue + '_to').hide().val('');
             $('#' + idValue + '_from_Button').show().css('display', 'inline');
             $('#' + idValue + '_to_Button').hide();
         }else if($('#' + idValue + '_comparision').val() == '3'){
@@ -135,7 +135,7 @@ EOF
     }
 
     /**
-     * Gets whereClauseCondition. ( if whereClauseCondition is set returns that, else returns default condition )
+     * Gets whereClauseCondition. ( if whereClauseCondition is set returns that, elseF returns default condition )
      * @return string ( a condition )
      */
     public function getWhereClauseCondition() {

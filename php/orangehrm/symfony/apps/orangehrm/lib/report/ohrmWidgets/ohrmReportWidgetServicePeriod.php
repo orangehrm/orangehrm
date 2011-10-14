@@ -40,22 +40,22 @@ class ohrmReportWidgetServicePeriod extends sfWidgetForm implements ohrmEnhanced
 $(document).ready(function() {
 
     if($('#%s' + '_comparision').val() == ''){
-        $('#%s' + '_value1').hide();
-        $('#%s' + '_value2').hide();
+        $('#%s' + '_value1').hide().val('');
+        $('#%s' + '_value2').hide().val('');
     }
 
     $('#%s' + '_comparision').change(function(){
         if($('#%s' + '_comparision').val() == ''){
-            $('#%s' + '_value1').hide();
-            $('#%s' + '_value2').hide();
+            $('#%s' + '_value1').hide().val('');
+            $('#%s' + '_value2').hide().val('');
         }else if($('#%s' + '_comparision').val() == '1'){
             getHints('#%s' + '_value1','%s');
             $('#%s' + '_value1').show();
-            $('#%s' + '_value2').hide();
+            $('#%s' + '_value2').hide().val('');
         }else if($('#%s' + '_comparision').val() == '2'){
             getHints('#%s' + '_value1','%s');
             $('#%s' + '_value1').show();
-            $('#%s' + '_value2').hide();
+            $('#%s' + '_value2').hide().val('');
         }else if($('#%s' + '_comparision').val() == '3'){
             getHints('#%s' + '_value1','%s');
             getHints('#%s' + '_value2','%s');
@@ -63,6 +63,8 @@ $(document).ready(function() {
             $('#%s' + '_value2').show();
         }
     });
+    
+    $('#%s' + '_comparision').trigger('change');
  });
 
 function getHints( id , message ){
@@ -105,6 +107,7 @@ EOF
                         "Type in years..",
                         $this->attributes['id'],
                         "Type in years..",
+                        $this->attributes['id'],
                         $this->attributes['id'],
                         $this->attributes['id']);
 
