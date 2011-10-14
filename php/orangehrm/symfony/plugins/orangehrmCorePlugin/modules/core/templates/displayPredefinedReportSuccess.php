@@ -48,6 +48,10 @@
         vertical-align: top;
     }
 
+    .outerbox table.data-table table.valueListCell tbody {
+        border-width: 0;
+    }
+    
     .headerCell{
         font-weight: bold;
         font-size: 12px;
