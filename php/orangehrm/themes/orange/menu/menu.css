@@ -353,6 +353,10 @@ div#top-menu ul#nav li#recruit.l1 ul.l2 li.l2 a {
 	/*background: transparent url(icons/users.gif) no-repeat center left;*/
 }
 
+#nav li#admin ul li.l3 a.users span {
+    width: 18em;
+}
+
 #nav li.l2 a.email {
 	/*background: transparent url(icons/email_notifications.gif) no-repeat center left;*/
 }

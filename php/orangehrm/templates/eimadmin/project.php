@@ -275,7 +275,7 @@ for ($i=0;$i<count($employees);$i++) {
 }
 
 #employeeSearchAC {
-    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+    z-index:9000; /* z-index needed on top instance for ie and sf absolute inside relative issue */
     float:left;
     margin-right:5px;
 }
@@ -371,7 +371,7 @@ for ($i=0;$i<count($employees);$i++) {
 				<tr>
 				<th class="listViewThS1">
 					<input type='checkbox' class='checkbox' name='allCheck' value=''
-						<?php echo $disabled; ?> onClick="checkUncheckAll();">
+						<?php echo $disabled; ?> onClick="checkUncheckAll();" />
 				</th>
 				<th class="listViewThS1"><?php echo $lang_Admin_Project_EmployeeName; ?></th>
 				</tr>
@@ -385,7 +385,7 @@ for ($i=0;$i<count($employees);$i++) {
     		<tr>
        			<td class="<?php echo $cssClass?>">
        				<input type='checkbox' class='checkbox' name='chkLocID[]'
-       					<?php echo $disabled; ?> value='<?php echo $admin->getEmpNumber();?>'></td>
+       					<?php echo $disabled; ?> value='<?php echo $admin->getEmpNumber();?>' /></td>
 		 		<td class="<?php echo $cssClass?>"><?php echo $admin->getName(); ?></td>
 			</tr>
 		 	<?php
@@ -427,7 +427,7 @@ for ($i=0;$i<count($employees);$i++) {
 						</div>
 					</div>
 
-                  	<input type="hidden" readonly name="projAdminID" id="projAdminID" value="" />
+                  	<input type="hidden" readonly="readonly" name="projAdminID" id="projAdminID" value="" />
                     <input type="button" class="addbutton" id="addBtn"
                         onclick="<?php echo $saveAdminBtnAction; ?>;" tabindex="7"
                         onmouseover="moverButton(this);" onmouseout="moutButton(this);"

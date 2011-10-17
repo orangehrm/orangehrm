@@ -12,7 +12,7 @@ class coreActions extends sfActions {
 //        ohrmListComponent::setListData($nationalityService->getNationalityList());
         ohrmListComponent::setListData(array(
             array(1, 'Spartan'),
-            array(2, ''),
+            array(2, 'Atlantian'),
             array(3, 'Persian'),
         ));
 

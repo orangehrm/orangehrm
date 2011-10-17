@@ -24,7 +24,7 @@ Config:
       type: string(100)
       primary: true
     value:
-      type: string(100)
+      type: string(255)
       default: ''
       notnull: true      
 
@@ -467,7 +467,7 @@ SelectedGroupField:
       onDelete: cascade
       local: summary_display_field_id
       foreign: summaryDisplayFieldId
-      
+
 DisplayFieldGroup:
   tableName: ohrm_display_field_group
   columns:

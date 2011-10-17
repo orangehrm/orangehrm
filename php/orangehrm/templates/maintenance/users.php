@@ -126,7 +126,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
             }
         }
 
-<?php if (($_SESSION['ldap'] != "enabled") && ($new || ($adminUser == 'No'))) {?>
+<?php if ((isset($_SESSION['ldap']) && $_SESSION['ldap'] != "enabled") && ($new || ($adminUser == 'No'))) {?>
 
         var password = trim($('txtUserPassword').value);
         var confirmPassword = trim($('txtUserConfirmPassword').value);
@@ -251,11 +251,11 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                 <br class="clear"/>
 
                 <?php if ($new || ($adminUser == 'No')) { ?>
-                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_Password; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
+                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_Password; ?><span class="required"><?php echo (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
                     <input type="password" id="txtUserPassword" name="txtUserPassword" class="formInputText"
                         tabindex="<?php echo $tabIndex++;?>"/>
 
-                    <label for="txtUserConfirmPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
+                    <label for="txtUserConfirmPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?><span class="required"><?php echo (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
                     <input type="password" id="txtUserConfirmPassword" name="txtUserConfirmPassword"
                         class="formInputText" tabindex="<?php echo $tabIndex++;?>"/>
                     <br class="clear"/>

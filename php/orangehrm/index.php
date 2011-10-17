@@ -81,9 +81,9 @@ if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
     exit();
 }
 
-if (!isset($_SESSION['fname'])) {
+if (!isset($_SESSION['user'])) {
 
-    header("Location: ./login.php");
+    header("Location: ./symfony/web/index.php/auth/login");
     exit();
 }
 
@@ -395,6 +395,10 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
     $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
     $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
+    if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmSecurityAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
+        $subsubs[] = new MenuItem('users', 'Configure Security Authentication', './symfony/web/index.php/securityAuthentication/securityAuthenticationConfigure', 'rightMenu');
+    }
+
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
@@ -413,7 +417,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    if ($_SESSION['ldap'] == "enabled") {
+    if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
         $subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
     }
 
@@ -465,7 +469,6 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
         $subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields, "./symfony/web/index.php/pim/listCustomFields");
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
-        
     }
 
     //$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
@@ -860,7 +863,7 @@ if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'
                     "./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id={$_SESSION['user']}");
 }
 
-$optionMenu[] = new MenuItem("logout", $lang_index_Logout, "./index.php?ACT=logout");
+$optionMenu[] = new MenuItem("logout", $lang_index_Logout, './symfony/web/index.php/auth/logout', '_parent');
 
 // Decide on home page
 if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) {

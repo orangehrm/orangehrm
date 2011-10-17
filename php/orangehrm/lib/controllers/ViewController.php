@@ -66,7 +66,7 @@ require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 
-if ($_SESSION['ldap'] == "enabled") {
+if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
     require_once ROOT_PATH . '/plugins/ldap/LdapDetails.php';
 }
 

@@ -114,7 +114,7 @@ require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Workshift.php';
-if ($_SESSION['ldap'] == "enabled") {
+if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
 	require_once ROOT_PATH . '/plugins/ldap/EXTRACTOR_LdapDetails.php';
 }
 
@@ -737,7 +737,7 @@ switch ($moduletype) {
 										}
 										break;
 						case 'LDAP'	:
-										if(isset($_POST['sqlState']) && $_SESSION['ldap'] == "enabled") {
+										if(isset($_POST['sqlState']) && isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
 											$extractor = new EXTRACTOR_LdapDetails();
 										}
 										break;

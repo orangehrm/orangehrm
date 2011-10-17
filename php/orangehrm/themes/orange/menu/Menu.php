@@ -112,8 +112,10 @@ try {
 <?php 
 	 if ($optionMenu) {
 	      foreach ($optionMenu as $optionItem) {
+                  $target = $optionItem->getTarget();
+                  $target = empty($target) ? 'rightMenu' : $target;
 ?>
-	 <li><a href="<?php echo $optionItem->getLink();?>" target="rightMenu"><?php echo $optionItem->getMenuText(); ?></a></li>
+	 <li><a href="<?php echo $optionItem->getLink();?>" target="<?php echo $target; ?>"><?php echo $optionItem->getMenuText(); ?></a></li>
 <?php   
 		}
 	 }    

@@ -14,8 +14,6 @@ class SessionInfoFetcherFilter extends sfFilter {
 
     public function execute($filterChain) {
 
-
-
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == "Yes") {
             $userRoleArray['isAdmin'] = true;
         } else {
@@ -50,10 +48,16 @@ class SessionInfoFetcherFilter extends sfFilter {
         if (isset($_SESSION['empNumber'])) {
             $userObj->setEmployeeNumber($_SESSION['empNumber']);
         }
+
         if (isset($_SESSION['user'])) {
             $userObj->setUserId($_SESSION['user']);
         }
-        $userObj->setUserTimeZoneOffset($_SESSION['userTimeZoneOffset']);
+
+        if (isset($_SESSION['userTimeZoneOffset'])) {
+            $userObj->setUserTimeZoneOffset($_SESSION['userTimeZoneOffset']);
+        } else {
+            $userObj->setUserTimeZoneOffset(0);
+        }
 
         $simpleUserRoleFactory = new SimpleUserRoleFactory();
         $decoratedUser = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);

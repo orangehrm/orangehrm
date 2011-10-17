@@ -65,7 +65,7 @@ class ConfigService extends BaseService {
     public function __construct() {
         
     }
-    
+
     /**
      * Get Logger instance. Creates if not already created.
      *
@@ -77,7 +77,7 @@ class ConfigService extends BaseService {
         }
 
         return($this->logger);
-    }    
+    }
 
     /**
      *
@@ -98,7 +98,7 @@ class ConfigService extends BaseService {
      * @param type $key
      * @param type $value 
      */
-    private function _setConfigValue($key, $value) {
+    protected function _setConfigValue($key, $value) {
         try {
             $this->getConfigDao()->setValue($key, $value);
         } catch (DaoException $e) {
