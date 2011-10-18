@@ -21,7 +21,7 @@ class LinkCell extends Cell {
             }
 
             if (preg_match('/^index.php/', $url)) {
-                sfProjectConfiguration::getActive()->loadHelpers('url');
+                sfProjectConfiguration::getActive()->loadHelpers('Url');
                 $url = public_path($url, true);
             }
 
