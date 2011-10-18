@@ -447,8 +447,7 @@ $(document).ready(function()
                     maxTimestamp = strToTime(formtedFullDate+" 24:00", dateTimeFormat);
 
                     if (punchedTimestamp >= maxTimestamp) {
-                        $('#validationMsg').attr('class', "messageBalloon_failure");
-			$('#validationMsg').html(errorForInvalidTimeFormat);
+                        alert("Invalid Max Time");
                         errFlag = true;
                     }
 
@@ -489,7 +488,29 @@ $(document).ready(function()
         }
 
 
-     
+        function validateNote(){
+
+            errFlag1 = false;
+
+            // $(".messageBalloon_success").remove();
+            $('#validationMsg').removeAttr('class');
+            $('#validationMsg').html("");
+
+            var errorStyle = "background-color:#FFDFDF;";
+
+            if ($(".note").val().length > 250) {
+                $('.punchOutbutton').attr('disabled', 'disabled');
+                $('.punchInbutton').attr('disabled', 'disabled');
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+                $('#validationMsg').html(errorForInvalidNote);
+                $(".note").attr('style', errorStyle);
+                  
+                errFlag1 = true;
+            }
+
+            return !errFlag1;
+
+        }
 
         function validatePunchOutOverLapping(){
 
@@ -648,28 +669,3 @@ function getTimezoneArray() {
 
 
 
-   function validateNote(){
-
-            errFlag1 = false;
-
-             $('.punchOutbutton').removeAttr('disabled');
-            $('.punchInbutton').removeAttr('disabled');
-            $(".note").removeAttr('style');
-            $('#validationMsg').removeAttr('class');
-            $('#validationMsg').html("");
-
-            var errorStyle = "background-color:#FFDFDF;";
-
-            if ($(".note").val().length > 250) {
-                $('.punchOutbutton').attr('disabled', 'disabled');
-                $('.punchInbutton').attr('disabled', 'disabled');
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidNote);
-                $(".note").attr('style', errorStyle);
-                  
-                errFlag1 = true;
-            }
-
-            return !errFlag1;
-
-        }

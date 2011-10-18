@@ -42,7 +42,7 @@ class CandidateHeaderFactory extends ohrmListConfigurationFactory {
 		    'isSortable' => true,
 		    'sortField' => 'jc.date_of_application',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getDateOfApplication'),
+		    'elementProperty' => array('getter' => 'getDisplayDateOfApplication'),
 		));
 
 		$headerList[5]->populateFromArray(array(

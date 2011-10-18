@@ -1,41 +1,4 @@
 $(document).ready(function() {
-   
-    //Load default Mask if empty
-    var fromDate = trim($("#candidateSearch_fromDate").val());
-    if (fromDate == '') {
-        $("#candidateSearch_fromDate").val(dateDisplayFormat);
-    }
-    //Bind date picker
-    daymarker.bindElement("#candidateSearch_fromDate",
-    {
-        onSelect: function(date){
-        //$("#candidateSearch_fromDate").valid();
-        },
-        dateFormat:jsDateFormat
-    });
-
-    $('#frmDateBtn').click(function(){
-        daymarker.show("#candidateSearch_fromDate");
-    });
-
-    //Load default Mask if empty
-    var toDate = trim($("#candidateSearch_toDate").val());
-    if (toDate == '') {
-        $("#candidateSearch_toDate").val(dateDisplayFormat);
-    }
-
-    //Bind date picker
-    daymarker.bindElement("#candidateSearch_toDate",
-    {
-        onSelect: function(date){
-        //$("#candidateSearch_toDate").valid();
-        },
-        dateFormat:jsDateFormat
-    });
-
-    $('#toDateBtn').click(function(){
-        daymarker.show("#candidateSearch_toDate");
-    });
 
     $("#helpText").append("<span id='helpMessage'></span>");
     if($("#helpMessage").text() == ""){
@@ -49,8 +12,6 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-        //$("#candidateSearch_selectedCandidate").val(item.id);
-        //$("label.error").hide();
 
         });
     var jobTitle = $('#candidateSearch_jobTitle').val();
@@ -271,6 +232,7 @@ function getVacancyListJson(vcUrl, para){
 }
 
 function isValidForm(){
+    var fromdate = $('#candidateSearch_fromDate').val();
     $.validator.addMethod("canNameValidation", function(value, element, params) {
         var temp = false;
         var canCount = candidatesArray.length;
@@ -298,29 +260,6 @@ function isValidForm(){
         return temp;
     });
 
-    $.validator.addMethod("dateComparison", function(value, element, params) {
-        var temp = false;
-
-        var fromdate	=	$('#candidateSearch_fromDate').val();
-        var todate	=	$('#candidateSearch_toDate').val();
-        
-        if(fromdate.trim() == "" || todate.trim() == "" || fromdate == dateDisplayFormat || todate == dateDisplayFormat){
-            temp = true;
-        }else{
-            fromdate = (fromdate).split("-");
-            var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-        
-            todate = (todate).split("-");
-            var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-            if ( fromdate <= todate){
-                temp = true;
-            }
-        }
-        return temp;
-
-    });
-
     var validator = $("#frmSrchCandidates").validate({
 
         rules: {
@@ -330,19 +269,22 @@ function isValidForm(){
             'candidateSearch[fromDate]' : {
                 valid_date: function() {
                     return {
-                        format:jsDateFormat,
-                        displayFormat:dateDisplayFormat,
+                        format:datepickerDateFormat,
                         required:false
                     }
-                },
-                dateComparison:true
+                }
             },
             'candidateSearch[toDate]' : {
                 valid_date: function() {
                     return {
-                        format:jsDateFormat,
-                        displayFormat:dateDisplayFormat,
+                        format:datepickerDateFormat,
                         required:false
+                    }
+                },
+                date_range: function() {
+                    return {
+                        format:datepickerDateFormat,
+                        fromDate:fromdate
                     }
                 }
             }
@@ -352,20 +294,18 @@ function isValidForm(){
                 canNameValidation: lang_enterValidName
             },
             'candidateSearch[fromDate]' : {
-                dateComparison : lang_dateError,
                 valid_date: lang_validDateMsg
             },
             'candidateSearch[toDate]' : {
-                valid_date: lang_validDateMsg
+                valid_date: lang_validDateMsg,
+                date_range: lang_dateError
             }
 
         },
         errorPlacement: function(error, element) {
 
             error.appendTo( element.prev('label') );
-            //        error.appendTo(element.next('div.errorHolder'));
-            //        error.insertAfter(element.next().next(".clear"));
-            error.appendTo(element.next().next('div.errorHolder'));
+            error.appendTo(element.parent().children('div.errorHolder'));
         }
 
     });

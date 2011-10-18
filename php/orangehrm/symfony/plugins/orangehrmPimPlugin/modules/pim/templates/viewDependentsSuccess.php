@@ -96,9 +96,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     <?php echo $form['dateOfBirth']->renderLabel(__('Date of Birth')); ?>
     <?php echo $form['dateOfBirth']->render(array("class" => "formDateInput")); ?>
-    <input id="dobBtn" type="button" name="" value="  " class="calendarBtn" />
     <br class="clear"/>
-
     
     <?php if (($allowEdit)) { ?>
             <div class="formbuttons">
@@ -154,14 +152,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             <td class="dependentName"><a href="#"><?php echo $dependent->name; ?></a></td>
             <input type="hidden" id="relationType_<?php echo  $dependent->seqno;?>" value="<?php echo $dependent->relationship_type;?>" />
             <input type="hidden" id="relationship_<?php echo  $dependent->seqno;?>" value="<?php echo $dependent->relationship;?>" />
-            <input type="hidden" id="dateOfBirth_<?php echo  $dependent->seqno;?>" value="<?php echo ohrm_format_date($dependent->date_of_birth);?>" />
+            <input type="hidden" id="dateOfBirth_<?php echo  $dependent->seqno;?>" value="<?php echo set_datepicker_date_format($dependent->date_of_birth);?>" />
             <td>
                 <?php if ($dependent->relationship_type != 'other') { echo __($dependent->relationship_type); ?>
                 <?php } else { echo $dependent->relationship; } ?>
             </td>
             <td></td>
             <?php
-                echo '<td>' . ohrm_format_date($dependent->date_of_birth) .  '</td>';
+                echo '<td>' . set_datepicker_date_format($dependent->date_of_birth) .  '</td>';
                 echo '</tr>';
                 $row++;
             } ?>
@@ -185,16 +183,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     //<![CDATA[
 
     // Move to separate js after completing initial work
-    var dateFormat	= '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
 
     function clearAddForm() {
         $('#dependent_seqNo').val('');
         $('#dependent_name').val('');
         $('#dependent_relationshipType').val('');
         $('#dependent_relationship').val('');
-        $('#dependent_dateOfBirth').val(dateDisplayFormat);
+        $('#dependent_dateOfBirth').val(datepickerDateFormat);
         $('div#addPaneDependent label.error').hide();
         $('div#messagebar').hide();
     }
@@ -246,12 +243,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             }
         });
 
-        //Load default Mask if empty
-        var hDate = trim($("#dependent_dateOfBirth").val());
-        if (hDate == '') {
-            $("#dependent_dateOfBirth").val(dateDisplayFormat);
-        }
-        
         hideShowRelationshipOther();
         
         // Edit a emergency contact in the list
@@ -271,7 +262,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#dependent_relationship').val(relationship);
 
             if ($.trim(dateOfBirth) == '') {
-                dateOfBirth = dateDisplayFormat;
+                dateOfBirth = datepickerDateFormat;
             }
             $('#dependent_dateOfBirth').val(dateOfBirth);
 
@@ -285,18 +276,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
             $(".paddingLeftRequired").show();
 
-        });
-
-        //Bind date picker
-        daymarker.bindElement("#dependent_dateOfBirth",
-            {onSelect: function(date){
-                $("#dependent_dateOfBirth").valid();
-                },
-            dateFormat:jsDateFormat
-            });
-
-        $('#dobBtn').click(function(){
-           daymarker.show("#dependent_dateOfBirth");
         });
 
         $('#dependent_relationshipType').change(function() {
@@ -327,9 +306,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             
             hideShowRelationshipOther();
 
-            //
-            //            // hide validation error messages
-            //            $("label.errortd[generated='true']").css('display', 'none');
             $('#addPaneDependent').css('display', 'block');
 
             $(".paddingLeftRequired").show();
@@ -355,7 +331,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     return $('#dependent_relationshipType').val() == 'other';
                 }},
                 'dependent[dateOfBirth]' : {valid_date: function() {
-                        return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}
+                        return {format:datepickerDateFormat, required:false}
                     }
                 },
                 maxlength:100
@@ -373,7 +349,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     maxlength:'<?php echo __("Maximum character limit exceeded.");?>'
                 },
                 'dependent[dateOfBirth]' : {
-                    valid_date: '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
+                    valid_date: lang_validDateMsg
                 }
             },
             errorPlacement: function(error, element) {

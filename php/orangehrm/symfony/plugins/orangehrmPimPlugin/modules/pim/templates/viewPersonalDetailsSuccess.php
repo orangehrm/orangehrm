@@ -14,11 +14,8 @@
     var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
     var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
-
-    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var readonlyFlag = 0;
     <?php if($essMode) { ?>
         readonlyFlag = 1;
@@ -97,8 +94,7 @@
                                                         <td><?php echo __("Driver's License Number"); ?></td>
                                                         <td><?php echo $form['txtLicenNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                         <td><?php echo __('License Expiry Date'); ?></td>
-                                                        <td><?php echo $form['txtLicExpDate']->render(array('size'=>'10','class'=>'formInputText', "maxlength" => 11)); ?>
-                                                            <input id="licExpDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                                        <td><?php echo $form['txtLicExpDate']->render(array('class'=>'formInputText')); ?>
                                                             <br class="clear" />
                                                         </td>
                                                     </tr>
@@ -119,9 +115,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td><?php echo __("Date of Birth"); ?></td>
-                                                        <td><?php echo $form['DOB']->render(array("class" => "formInputText", "maxlength" => 11)); ?>
-                                                            <input id="dateOfBirthBtn" type="button" name="Submit" value="  " class="calendarBtn" 
-                                                                   <?php echo $essMode ? 'disabled="disabled"' : '';?> />
+                                                        <td><?php echo $form['DOB']->render(array("class" => "formInputText")); ?>
                                                             <br class="clear" />
                                                         </td>
                                                         <td>&nbsp;</td>

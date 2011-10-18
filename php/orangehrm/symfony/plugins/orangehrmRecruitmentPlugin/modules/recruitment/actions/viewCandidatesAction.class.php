@@ -128,11 +128,11 @@ class viewCandidatesAction extends sfAction {
 
     /**
      *
-     * @param array $candidates
-     * @param int $noOfRecordsPerPage
+     * @param <type> $candidates
+     * @param <type> $noOfRecords
      * @param CandidateSearchParameters $searchParam
      */
-    private function _setListComponent($usrObj, $candidates, $noOfRecordsPerPage, CandidateSearchParameters $searchParam, $pageNumber) {
+    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam, $pageNumber) {
 
         $configurationFactory = new CandidateHeaderFactory();
 
@@ -145,7 +145,7 @@ class viewCandidatesAction extends sfAction {
         ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($candidates);
-        ohrmListComponent::setItemsPerPage($noOfRecordsPerPage);
+        ohrmListComponent::setItemsPerPage($noOfRecords);
         ohrmListComponent::setNumberOfRecords($this->getCandidateService()->getCandidateRecordsCount($searchParam));
     }
 

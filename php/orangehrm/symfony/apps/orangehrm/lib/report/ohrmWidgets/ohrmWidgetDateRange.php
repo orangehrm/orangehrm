@@ -54,14 +54,7 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
         $widgetSchema[$this->attributes['id']] = $this;
         $widgetSchema[$this->attributes['id']]->setLabel(ucwords(str_replace("_", " ", $this->attributes['id'])));
 
-//        $form->setValidator('date_period', new sfValidatorString());
-
         $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateRange(array(), array("invalid" => "Insert a correct date"));
-//        $validatorSchema[$this->attributes['id']] = new sfValidatorPass();
-//        $validatorSchema->setPostValidator(new ohrmValidatorSchemaDateRange($this->attributes['id'], ohrmValidatorSchemaDateRange::LESS_THAN_EQUAL, $this->attributes['id'],
-//                        array('throw_global_error' => true),
-//                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')
-//        ));
     }
 
     /**
@@ -117,8 +110,6 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
             }
         }
 
-//        print_r($fromDate);
-//        print_r($toDate);
 
         return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
     }

@@ -139,7 +139,7 @@ class CandidateHistoryService {
         for($i=0; $i < sizeof($interviewers)-1; $i++){
             $interviewersNameList[] = $employeeService->getEmployee($interviewers[$i])->getFullName();
         }
-        return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . $jobInterview->getInterviewDate()
+        return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . set_datepicker_date_format($jobInterview->getInterviewDate())
         . " " . $time . __("with") . " " . implode(", ", $interviewersNameList)." ".__("for")." ".$object->getCandidateVacancyName();
     }
 

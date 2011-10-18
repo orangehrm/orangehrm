@@ -542,7 +542,10 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('showTaxExemptions', 0),
     ('timesheet_time_format', '1'),
     ('timesheet_period_set', 'No'),
-    ('timesheet_period_and_start_date', '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>');
+    ('timesheet_period_and_start_date', '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>'),
+    ('admin.localization.default_language', 'en'),
+    ('admin.localization.use_browser_language', 'No'),
+    ('admin.localization.default_date_format', 'Y-m-d');
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');

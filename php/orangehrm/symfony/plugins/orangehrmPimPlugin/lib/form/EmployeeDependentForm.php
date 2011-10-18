@@ -62,7 +62,7 @@ class EmployeeDependentForm extends BaseForm {
             'name' => new sfWidgetFormInputText(),
             'relationshipType' => new sfWidgetFormSelect(array('choices' => $relationshipChoices)),
             'relationship' => new sfWidgetFormInputText(),
-            'dateOfBirth' => new sfWidgetFormInputText(),
+            'dateOfBirth' => new ohrmWidgetDatePickerNew(array(), array('id' => 'dependent_dateOfBirth')),
         ));
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
@@ -74,7 +74,7 @@ class EmployeeDependentForm extends BaseForm {
             'relationshipType' => new sfValidatorChoice(array('choices' => array_keys($relationshipChoices))),
             'relationship' => new sfValidatorString(array('required' => false, 'trim'=>true, 'max_length'=>100)),
             'dateOfBirth' =>  new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false),
-                              array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+                              array('invalid'=>'Date format should be '. $inputDatePattern)),
 
         ));
 

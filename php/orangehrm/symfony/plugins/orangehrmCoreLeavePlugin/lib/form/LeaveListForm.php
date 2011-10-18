@@ -1,15 +1,15 @@
 <?php
+
 /**
  * Form class for leave list
  */
 class LeaveListForm extends sfForm {
-
-    const MODE_SUPERVISOR_DETAILED_LIST	= 'detailed_supervisor_list';
-    const MODE_HR_ADMIN_DETAILED_LIST	= 'detailed_hr_admin_list';
-    const MODE_MY_LEAVE_LIST			= 'my_leave_list';
-    const MODE_MY_LEAVE_DETAILED_LIST	= 'my_leave_detailed_list';
-    const MODE_TAKEN_LEAVE_LIST			= 'my_taken_leave_list';
-    const MODE_DEFAULT_LIST				= 'default_list';
+    const MODE_SUPERVISOR_DETAILED_LIST = 'detailed_supervisor_list';
+    const MODE_HR_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
+    const MODE_MY_LEAVE_LIST = 'my_leave_list';
+    const MODE_MY_LEAVE_DETAILED_LIST = 'my_leave_detailed_list';
+    const MODE_TAKEN_LEAVE_LIST = 'my_taken_leave_list';
+    const MODE_DEFAULT_LIST = 'default_list';
 
     private $mode;
     private $leavePeriod = null;
@@ -46,16 +46,14 @@ class LeaveListForm extends sfForm {
         $this->leaveRequest = $leaveRequest;
 
         $this->_init();
-
     }
 
     public function configure() {
 
         $this->setWidgets(array(
-            'calFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'calFromDate')),
-            'calToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'calToDate')),
+            'calFromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calFromDate')),
+            'calToDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calToDate')),
         ));
-
     }
 
     /**
@@ -70,7 +68,7 @@ class LeaveListForm extends sfForm {
             $replacements = array($this->employee->getFullName());
         } elseif ($this->mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
             $str = "";
-            if($this->leaveRequest instanceof LeaveRequest) {
+            if ($this->leaveRequest instanceof LeaveRequest) {
                 $str .= "(" . $this->getLeaveDateRange($this->leaveRequest->getLeaveRequestId()) . ") - ";
             }
             $str .= $this->employee->getFullName();
@@ -82,7 +80,7 @@ class LeaveListForm extends sfForm {
         } elseif ($this->mode === self::MODE_MY_LEAVE_LIST) {
             $title = __('My Leave List');
             $replacements = null;
-        } elseif($this->mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
+        } elseif ($this->mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
             $title = __('My Leave Details');
             $replacements = null;
         } else {
@@ -91,7 +89,6 @@ class LeaveListForm extends sfForm {
         }
 
         return vsprintf(__($title), $replacements);
-
     }
 
     /**
@@ -107,7 +104,7 @@ class LeaveListForm extends sfForm {
     }
 
     public function getLeavePeriodService() {
-        if(is_null($this->leavePeriodService)) {
+        if (is_null($this->leavePeriodService)) {
             $leavePeriodService = new LeavePeriodService();
             $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
             $this->leavePeriodService = $leavePeriodService;
@@ -128,7 +125,7 @@ class LeaveListForm extends sfForm {
         $statusList = $leave->getStatusTextList();
 
         $postStatuses = $this->_getFilterParam('chkSearchFilter');
-        $postStatuses = (trim($this->_getFilterParam('status') != ""))?array($this->_getFilterParam('status')):$postStatuses;
+        $postStatuses = (trim($this->_getFilterParam('status') != "")) ? array($this->_getFilterParam('status')) : $postStatuses;
         $postStatuses = is_array($postStatuses) ? $postStatuses : array();
 
         foreach ($statusList as $status => $text) {
@@ -146,11 +143,9 @@ class LeaveListForm extends sfForm {
             $attributes['class'] = 'checkbox';
             $attributes['id'] = 'checkAll';
             array_unshift($filterControls, new ohrmWidgetCheckbox('allCheck', 'all', array('content' => __("All"), 'class' => 'subLabelNew'), $attributes));
-
         }
 
         return $filterControls;
-
     }
 
     public function setList($list) {
@@ -166,7 +161,7 @@ class LeaveListForm extends sfForm {
     }
 
     public function isDetailed() {
-        return !($this->mode == self::MODE_DEFAULT_LIST || $this->mode == self::MODE_MY_LEAVE_LIST);
+        return!($this->mode == self::MODE_DEFAULT_LIST || $this->mode == self::MODE_MY_LEAVE_LIST);
     }
 
     public function setShowBackButton($value) {
@@ -177,15 +172,15 @@ class LeaveListForm extends sfForm {
 
         $startDate = $this->_getFilterParam('calFromDate');
         $endDate = $this->_getFilterParam('calToDate');
-        
-        if(empty($startDate) && empty($endDate)) {
 
-            if($this->leavePeriod instanceof LeavePeriod) {
-                $startDate = $this->leavePeriod->getStartDate();
-                $endDate = $this->leavePeriod->getEndDate();
+        if (empty($startDate) && empty($endDate)) {
+
+            if ($this->leavePeriod instanceof LeavePeriod) {
+                $startDate = set_datepicker_date_format($this->leavePeriod->getStartDate());
+                $endDate = set_datepicker_date_format($this->leavePeriod->getEndDate());
             }
         }
-        
+
         $this->getWidget('calFromDate')->setDefault($startDate);
         $this->getWidget('calToDate')->setDefault($endDate);
 
@@ -197,7 +192,7 @@ class LeaveListForm extends sfForm {
 
             $tree = $companyService->getSubDivisionTree();
 
-            foreach($tree as $node) {
+            foreach ($tree as $node) {
 
                 // Add nodes, indenting correctly. Skip root node
                 if ($node->getId() != 1) {
@@ -207,26 +202,25 @@ class LeaveListForm extends sfForm {
             }
 
             $employeeId = trim($this->_getFilterParam('txtEmpId'));
-            if($employeeId == "" && $this->employee instanceof Employee) {
+            if ($employeeId == "" && $this->employee instanceof Employee) {
                 $employeeId = $this->employee->getEmpNumber();
             }
 
             $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));
             $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));
-            
-            if(is_null($this->_getFilterParam('cmbWithTerminated'))) {
+
+            if (is_null($this->_getFilterParam('cmbWithTerminated'))) {
                 $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox());
-            } else if($this->_getFilterParam('cmbWithTerminated') == 'on') {
+            } else if ($this->_getFilterParam('cmbWithTerminated') == 'on') {
                 $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on', 'default' => true)));
             }
 
             $employeeName = trim($this->_getFilterParam('txtEmployee'));
-            if($employeeName == "" && $this->employee instanceof Employee) {
+            if ($employeeName == "" && $this->employee instanceof Employee) {
                 $employeeName = $this->employee->getFirstName() . " " . $this->employee->getMiddleName() . " " . $this->employee->getLastName();
             }
             $this->setWidget('txtEmployee', new sfWidgetFormInput(array('default' => $employeeName)));
         }
-
     }
 
     public function getEmployeeListAsJson() {
@@ -236,6 +230,7 @@ class LeaveListForm extends sfForm {
     public function setEmployeeListAsJson($str) {
         $this->empJson = $str;
     }
+
     public function renderItemActions($item) {
 
         $actionClasses = array();
@@ -244,20 +239,18 @@ class LeaveListForm extends sfForm {
         if ($item instanceof LeaveRequest) {
 
             if ($item->canApprove() && $this->mode != self::MODE_MY_LEAVE_LIST &&
-                $item->getEmployeeId() != $this->loggedUserId) {
+                    $item->getEmployeeId() != $this->loggedUserId) {
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_APPROVED] = 'markedForApproval';
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_REJECTED] = 'markedForRejection';
-
             }
 
             if ($item->canCancel(Auth::instance()->hasRole(Auth::ADMIN_ROLE))) {
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_CANCELLED] = 'markedForCancellation';
             }
-
         } elseif ($item instanceof Leave) {
 
             if ($item->canApprove() && $this->mode != self::MODE_MY_LEAVE_DETAILED_LIST &&
-                $item->getEmployeeId() != $this->loggedUserId) {
+                    $item->getEmployeeId() != $this->loggedUserId) {
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_APPROVED] = 'markedForApproval';
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_REJECTED] = 'markedForRejection';
             }
@@ -265,21 +258,18 @@ class LeaveListForm extends sfForm {
             if ($item->canCancel(Auth::instance()->hasRole(Auth::ADMIN_ROLE))) {
                 $actionClasses[Leave::LEAVE_STATUS_LEAVE_CANCELLED] = 'markedForCancellation';
             }
-
         } else {
 
             throw new Exception('Invalid type of item passed');
-
         }
 
-        $returnArray = array(""=>__("Select Action"));
+        $returnArray = array("" => __("Select Action"));
 
         foreach ($actionClasses as $key => $class) {
-            $returnArray[$class] =  __($this->tips[$class]);
+            $returnArray[$class] = __($this->tips[$class]);
         }
 
         return array('select_options' => $returnArray);
-
     }
 
     public function getActionButtons() {
@@ -288,17 +278,12 @@ class LeaveListForm extends sfForm {
             $this->actionButtons['btnSave'] = new ohrmWidgetButton('btnSave', "Save", array('class' => 'savebutton'));
         }
 
-        /*if ($this->mode != self::MODE_DEFAULT_LIST || $this->showBackButton) {
-            $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
-        }*/
-
         // showing back button only on details
-        if($this->isDetailed()) {
+        if ($this->isDetailed()) {
             $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
         }
-        
-        return $this->actionButtons;
 
+        return $this->actionButtons;
     }
 
     public function getLeaveDateRange($leaveRequestId) {
@@ -313,18 +298,15 @@ class LeaveListForm extends sfForm {
 
         if ($count == 1) {
 
-            return ohrm_format_date($leaveList[0]->getLeaveDate());
-
+            return set_datepicker_date_format($leaveList[0]->getLeaveDate());
         } else {
 
-            $range = ohrm_format_date($leaveList[0]->getLeaveDate());
+            $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
             $range .= " " . __('to') . " ";
-            $range .= ohrm_format_date($leaveList[$count-1]->getLeaveDate());
+            $range .= set_datepicker_date_format($leaveList[$count - 1]->getLeaveDate());
 
             return $range;
-
         }
-
     }
 
     protected function _isOverQuotaAllowed($leaveTypeId) {
@@ -338,7 +320,6 @@ class LeaveListForm extends sfForm {
         }
 
         return true;
-
     }
 
     public function getQuotaClass($leaveTypeId) {
@@ -348,7 +329,6 @@ class LeaveListForm extends sfForm {
         } else {
             return ' quotaSelect';
         }
-
     }
 
     public function getQuotaArray($leaveRequestList) {
@@ -365,61 +345,55 @@ class LeaveListForm extends sfForm {
 
                 if (!$this->_isOverQuotaAllowed($leaveTypeId)) {
 
-                    $key = $employeeId.'-';
-                    $key .= $leaveTypeId.'-';
+                    $key = $employeeId . '-';
+                    $key .= $leaveTypeId . '-';
                     $key .= $leavePeriodId;
 
                     $leaveEntitlementService = new LeaveEntitlementService();
                     $leaveEntitlementService->setLeaveEntitlementDao(
-                                              new LeaveEntitlementDao());
+                            new LeaveEntitlementDao());
 
                     $leaveBalance = $leaveEntitlementService->getLeaveBalance(
-                                                              $employeeId,
-                                                              $leaveTypeId,
-                                                              $leavePeriodId);
+                                    $employeeId,
+                                    $leaveTypeId,
+                                    $leavePeriodId);
 
                     $quotaArray[$key] = $leaveBalance;
-
                 }
-
             }
-
         } elseif ($leaveRequestList[0] instanceof Leave) {
 
             $employeeId = $leaveRequestList[0]->getEmployeeId();
             $leaveTypeId = $leaveRequestList[0]->getLeaveTypeId();
             $leavePeriodId = $leaveRequestList[0]->getLeaveRequest()
-                                                 ->getLeavePeriodId();
+                            ->getLeavePeriodId();
 
-            $key = $employeeId.'-';
-            $key .= $leaveTypeId.'-';
+            $key = $employeeId . '-';
+            $key .= $leaveTypeId . '-';
             $key .= $leavePeriodId;
 
             $leaveEntitlementService = new LeaveEntitlementService();
             $leaveEntitlementService->setLeaveEntitlementDao(
-                                      new LeaveEntitlementDao());
+                    new LeaveEntitlementDao());
 
             $leaveBalance = $leaveEntitlementService->getLeaveBalance(
-                                                      $employeeId, $leaveTypeId,
-                                                      $leavePeriodId);
+                            $employeeId, $leaveTypeId,
+                            $leavePeriodId);
 
             $quotaArray[$key] = $leaveBalance;
-
         }
 
         return $quotaArray;
-
     }
-    
+
     private function _getFilterParam($paramName) {
         $value = null;
-        
+
         if (isset($this->filters[$paramName])) {
             $value = $this->filters[$paramName];
         }
-        
+
         return $value;
     }
-
 
 }

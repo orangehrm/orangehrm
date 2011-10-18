@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     $(".project").click(function(){
         element = $(this)
-        if($(element).val() == typeForHints){
+        if($(element).val() == 'Type for hints...'){
             this.value = "";
             $(this).removeClass("inputFormatHint");
         }
@@ -32,22 +32,20 @@ $(document).ready(function() {
     });
 
     $(".deletedRow").attr("disabled", "disabled");
-    $("#separator").hide();
 
     $(".project").each(function(){
         element = $(this)
-        if($(element).val() == typeForHints){
+        if($(element).val() == 'Type for hints...'){
             $(element).addClass("inputFormatHint");
-        }
-	$(element).val($(element).val().replace("##", ""));
+        }	
     });
 
     //Auto complete
     $(".project").autocomplete(projectsForAutoComplete, {
 
         formatItem: function(item) {
-	    var temp = $("<div/>").html(item.name).text();
-            return temp.replace("##", "");
+
+            return $("<div/>").html(item.name).text();
         }
         ,
         matchContains:true
@@ -60,8 +58,7 @@ $(document).ready(function() {
         var decodedfullName = $("<div/>").html(item.name).text();
        
       
-        var array = decodedfullName.split(' - ##');
-	
+        var array = decodedfullName.split(' - ');
         //     alert(array[0])
         var r = $.ajax({
             type: 'POST',
@@ -338,7 +335,7 @@ $(document).ready(function() {
             var temp = false;
             var i;
             for (i=0; i < projectCount; i++) {
-                arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
+                arrayName = projectsArray[i].name.toLowerCase();
                 arrayName = $("<div/>").html(arrayName).text();
                 if (proName == arrayName) {
                     
@@ -404,9 +401,9 @@ $(document).ready(function() {
         var temp = false;
         var i;
         for (i=0; i < projectCount; i++) {
-            arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
+            arrayName = projectsArray[i].name.toLowerCase();
             arrayName = $("<div/>").html(arrayName).text();
-	    
+       
             if (projectName == arrayName) {
                 temp = true;
                 break;
@@ -415,10 +412,10 @@ $(document).ready(function() {
 
         if($("#"+projectNameId).val()=="" || $("#"+projectNameId).val()=="Type for hints..." || $("#"+activityNameId).val()=='-1'){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(lang_selectProjectAndActivity);
+            $('#validationMsg').html("Please select a project and an activity");
         } else if( temp==false){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(lang_enterExistingProject);
+            $('#validationMsg').html("Enter an existing project name");
         }else{
             $("#commentProjectName").text(":"+" "+$("#"+projectNameId).val());
             $("#commentActivityName").text(":"+" "+$("#"+activityNameId+" :selected").text());

@@ -20,7 +20,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
-            'elementProperty' => array('getter' => 'getLeaveDate'),
+            'elementProperty' => array('getter' => 'getFormattedLeaveDateToView'),
         ));
 
         $header3->populateFromArray(array(

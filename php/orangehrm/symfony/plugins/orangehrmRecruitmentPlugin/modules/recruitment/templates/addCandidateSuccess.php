@@ -126,7 +126,6 @@
                 ?>
                             <div id="<?php echo $i ?>" style="height: 18px; padding-top: 11px">
                     <?php
-//                            if ($candidateVacancy->getJobVacancy()->getStatus() == JobVacancy::ACTIVE && in_array($candidateVacancy->getVacancyId(), $form->allowedVacancyList)) {
                                 $widgetName = $candidateVacancy->getId();
                                 echo $actionForm[$widgetName]->render(array("class" => "actionDrpDown"));
                     ?>
@@ -190,7 +189,6 @@
                     <div>
                 <?php echo $form['appliedDate']->renderLabel(__('Date of Application'), array("class " => "appDate")); ?>
                 <?php echo $form['appliedDate']->render(array("class" => "formDateInput")); ?>
-                        <input id="frmDateBtn" type="button" name="" value="  " class="calendarBtn" />
                         <div class="errorHolder below"></div>
                     </div>
                     <br class="clear" />
@@ -213,11 +211,9 @@
 
 <?php if ($candidateId > 0) : ?>
 <?php $existingVacancyList = $actionForm->candidate->getJobCandidateVacancy(); ?>
-<?php //if ($existingVacancyList[0]->getVacancyId() > 0) :  ?>
                                     <div id="candidateHistoryResults">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
                                 </div>
-<?php //endif; ?>
 <?php endif; ?>
 
                                     <!-- confirmation box for removing vacancies-->
@@ -240,9 +236,7 @@
 
                                 <script type="text/javascript">
                                     //<![CDATA[
-                                    var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
-                                    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-                                    var dateDisplayFormat = dateFormat.toUpperCase();
+                                    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
                                     var lang_firstNameRequired = "<?php echo __("First name is required"); ?>";
                                     var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
                                     var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
@@ -256,7 +250,7 @@
                                     var lang_identical_rows = "<?php echo __("Cannot assign same vacancy twice"); ?>";
                                     var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
                                     var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";
-                                    var currentDate = '<?php echo date("Y-m-d"); ?>';
+                                    var currentDate = '<?php echo set_datepicker_date_format(date("Y-m-d")); ?>';
                                     var lang_dateValidation = "<?php echo __("Date of Application should be less than current date"); ?>";
                                     var lang_validPhoneNo = "<?php echo __("Enter a valid contact number"); ?>";
                                     var lang_noMoreThan255 = "<?php echo __("Please enter no more than 255 characters"); ?>";

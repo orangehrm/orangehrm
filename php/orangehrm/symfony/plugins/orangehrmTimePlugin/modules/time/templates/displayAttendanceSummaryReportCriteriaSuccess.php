@@ -54,6 +54,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
 <script type="text/javascript">
 
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+
+
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
@@ -108,16 +113,36 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         //Validation
         $("#attendanceTotalSummaryReportForm").validate({
             rules: {
-                'attendanceTotalSummary[fromDate]':{validFromDateFormat: true},
-                'attendanceTotalSummary[toDate]':{validToDateFormat: true, validToDate: true}
+                'attendanceTotalSummary[fromDate]':{
+                    valid_date: function() {
+                        return {
+                            format:datepickerDateFormat,
+                            required:false
+                        }
+                    }
+                },
+                'attendanceTotalSummary[toDate]':{
+                    valid_date: function() {
+                        return {
+                            format:datepickerDateFormat,
+                            required:false
+                        }
+                    },
+                    date_range: function() {
+                        return {
+                            format:datepickerDateFormat,
+                            fromDate:$('#from_date').val()
+                        }
+                    }
+                }
             },
             messages: {
                 'attendanceTotalSummary[fromDate]': {
-                    validFromDateFormat: "Please enter a date in the format yyyy-mm-dd"
+                    valid_date: lang_invalidDate
                 },
                 'attendanceTotalSummary[toDate]': {
-                    validToDateFormat: "Please enter a date in the format yyyy-mm-dd",
-                    validToDate: " To field should be greater than from field/Invalid date"
+                    valid_date: lang_invalidDate ,
+                    date_range: lang_dateError
                 }
             },
             errorPlacement: function(error, element) {
@@ -143,58 +168,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 $(this).val("");
                 $(this).removeClass("inputFormatHint");
             }
-        });
-
-
-        /* Valid from date format */
-        $.validator.addMethod("validFromDateFormat", function(value, element) {
-            var dt = value.toString();
-            if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
-                employeeFlag = validateInput();
-                if(employeeFlag){
-                    $('#from_date').val("");
-                }
-                return true;
-            }
-            dt = dt.split("-");
-            return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
-        });
-
-        /* Valid to date format */
-        $.validator.addMethod("validToDateFormat", function(value, element) {
-            var dt = value.toString();
-            if(dt == "" || dt.toLowerCase() == "yyyy-mm-dd") {
-                employeeFlag = validateInput();
-                if(employeeFlag){
-                    var date = new Date();
-                    var currentDate = date.getFullYear()+ "-" + ( date.getMonth() + 1 ) + "-" + date.getDate();
-                    $('#to_date').val("");
-                }
-                return true;
-            }
-            dt = dt.split("-");
-            return validateDate(parseInt(dt[2], 10), parseInt(dt[1], 10), parseInt(dt[0], 10));
-        });
-
-        /* Valid From and To date for appropriate combination Date */
-        $.validator.addMethod("validToDate", function(value, element) {
-
-            var fromdate    =   $('#from_date').val();
-            var fromDateArray = fromdate.split("-");
-            //var fromdateObj = new Date(fromdate.replace(/-/g," "));
-            var fromdateObj = new Date(fromDateArray[0],fromDateArray[1]-1,fromDateArray[2]);
-            
-            var todate      =   $('#to_date').val();
-            var toDateArray = todate.split("-");
-            //var todateObj   =   new Date(todate.replace(/-/g," "));
-            var todateObj = new Date(toDateArray[0],toDateArray[1]-1,toDateArray[2]);
-
-            if(fromdateObj > todateObj){
-                return false;
-            } else {
-                return true;
-            }
-
         });
     });
 

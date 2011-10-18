@@ -29,6 +29,7 @@ class startDaysListForm extends sfFormSymfony {
 
         $timesheets = $timesheetService->getTimesheetByEmployeeId($employeeId);
         $dateOptions = array();
+        $dateOptionsToDrpDwn = array();
 
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $userId = $userObj->getUserId();
@@ -50,14 +51,15 @@ class startDaysListForm extends sfFormSymfony {
 
             if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_VIEW, $allowedActions)) {
 
-                $dateOptions[$i] = ($timesheet->getStartDate() . " to " . $timesheet->getEndDate());
+                $dateOptions[$i] = $timesheet->getStartDate(). " to " . $timesheet->getEndDate();
+                $dateOptionsToDrpDwn[$i] = set_datepicker_date_format($timesheet->getStartDate() ). " to " . set_datepicker_date_format($timesheet->getEndDate());
                 $i++;
             }
         }
 	}
         $this->dateOptions = array_reverse($dateOptions);
 	
-        return  array_reverse($dateOptions);
+        return  array_reverse($dateOptionsToDrpDwn);
     }
 
     public function returnSelectedIndex($enteredStartDate, $employeeId) {

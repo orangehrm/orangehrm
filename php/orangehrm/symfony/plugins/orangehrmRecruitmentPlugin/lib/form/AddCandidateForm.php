@@ -112,7 +112,6 @@ class AddCandidateForm extends BaseForm {
             } elseif ($vacancy->getStatus() == JobVacancy::ACTIVE) {
                 $vacancyList[$vacancy->getId()] = $vacancy->getName();
             }
-            
         }
 
         $resumeUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
@@ -132,10 +131,12 @@ class AddCandidateForm extends BaseForm {
                         'file_src' => '')),
             'keyWords' => new sfWidgetFormInputText(),
             'comment' => new sfWidgetFormTextArea(),
-            'appliedDate' => new sfWidgetFormInputText(),
+            'appliedDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'addCandidate_appliedDate')),
             'vacancy' => new sfWidgetFormSelect(array('choices' => $vacancyList)),
             'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
         ));
+
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         $this->setValidators(array(
             'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
@@ -147,14 +148,15 @@ class AddCandidateForm extends BaseForm {
                 'validated_file_class' => 'orangehrmValidatedFile')),
             'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
             'comment' => new sfValidatorString(array('required' => false)),
-            'appliedDate' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
+            'appliedDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'vacancy' => new sfValidatorString(array('required' => false)),
             'resumeUpdate' => new sfValidatorString(array('required' => false)),
         ));
 
         $this->widgetSchema->setNameFormat('addCandidate[%s]');
         $this->widgetSchema['appliedDate']->setAttribute('style', 'width:100px');
-        $this->setDefault('appliedDate', ohrm_format_date(date('Y-m-d')));
+        $this->setDefault('appliedDate', set_datepicker_date_format(date('Y-m-d')));
 
         if ($this->candidateId != null) {
             $this->setDefaultValues($this->candidateId);
@@ -172,7 +174,7 @@ class AddCandidateForm extends BaseForm {
         $this->attachment = $candidate->getJobCandidateAttachment();
         $this->setDefault('keyWords', $candidate->getKeywords());
         $this->setDefault('comment', $candidate->getComment());
-        $this->setDefault('appliedDate', $candidate->getDateOfApplication());
+        $this->setDefault('appliedDate', set_datepicker_date_format($candidate->getDateOfApplication()));
         $candidateVacancyList = $candidate->getJobCandidateVacancy();
         $defaultVacancy = ($candidateVacancyList[0]->getVacancyId() == "") ? "" : $candidateVacancyList[0]->getVacancyId();
         $this->setDefault('vacancy', $defaultVacancy);
@@ -240,7 +242,7 @@ class AddCandidateForm extends BaseForm {
                     $this->removedHistory->candidateId = $this->candidateId;
                     $this->removedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_REMOVE;
                     $this->removedHistory->performedBy = $this->addedBy;
-                    $date = ohrm_format_date(date('Y-m-d'));
+                    $date = date('Y-m-d');
                     $this->removedHistory->performedDate = $date . " " . date('H:i:s');
                     $this->removedHistory->candidateVacancyName = $vacancyName;
                     $this->removedHistory->vacancyId = $id;
@@ -341,7 +343,7 @@ class AddCandidateForm extends BaseForm {
         $candidate->addedPerson = $this->addedBy;
 
         if ($this->getValue('appliedDate') == "") {
-            $candidate->dateOfApplication = ohrm_format_date(date('Y-m-d'));
+            $candidate->dateOfApplication = date('Y-m-d');
         } else {
             $candidate->dateOfApplication = $this->getValue('appliedDate');
         }
@@ -357,7 +359,7 @@ class AddCandidateForm extends BaseForm {
             $this->addedHistory->candidateId = $candidate->getId();
             $this->addedHistory->action = CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD;
             $this->addedHistory->performedBy = $this->addedBy;
-            $date = ohrm_format_date(date('Y-m-d'));
+            $date = date('Y-m-d');
             $this->addedHistory->performedDate = $date . " " . date('H:i:s');
         }
         $candidateId = $candidate->getId();
@@ -377,7 +379,7 @@ class AddCandidateForm extends BaseForm {
             $candidateVacancy->vacancyId = $vacnacy;
             $candidateVacancy->status = "APPLICATION INITIATED";
             if ($this->getValue('appliedDate') == "") {
-                $candidateVacancy->appliedDate = ohrm_format_date(date('Y-m-d'));
+                $candidateVacancy->appliedDate = date('Y-m-d');
             } else {
                 $candidateVacancy->appliedDate = $this->getValue('appliedDate');
             }
@@ -388,7 +390,7 @@ class AddCandidateForm extends BaseForm {
             $history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
             $history->vacancyId = $candidateVacancy->getVacancyId();
             $history->performedBy = $this->addedBy;
-            $date = ohrm_format_date(date('Y-m-d'));
+            $date = date('Y-m-d');
             $history->performedDate = $date . " " . date('H:i:s');
             $history->candidateVacancyName = $candidateVacancy->getVacancyName();
             $this->getCandidateService()->saveCandidateHistory($history);

@@ -45,6 +45,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
     public function execute($request) {
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         
         $this->setTemplate('viewLeaveList');
         $this->_setLoggedInUserDetails();
@@ -57,18 +58,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $mode = empty($id) ? LeaveListForm::MODE_DEFAULT_LIST : LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
 
         if ($this->_isRequestFromLeaveSummary($request)) {
-            
-            $filters = $request->getGetParameters();            
-            $empId = $request->getGetParameter('txtEmpID');
-            
-            if (!empty($empId)) {
-                $empStatus = $this->getEmployeeService()->getEmployee($empId)->getEmpStatus();
-                if($empStatus == Employee::EMPLOYEE_STATUS_TERMINATED) {
-                   $filters['cmbWithTerminated'] = 'on';
-                }                
-            }
-            $this->_setFilters($mode, $filters);
-            
+            $this->_setFilters($mode, $request->getGetParameters());
         }
 
         if ($request->isMethod('post')) { 
@@ -94,8 +84,13 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             $page = 1;
         }
         
-        $fromDate = $this->_getFilterValue($filters, 'calFromDate', null);
-        $toDate = $this->_getFilterValue($filters, 'calToDate', null);
+        if($request->getParameter('EmpStatus') == Employee::EMPLOYEE_STATUS_TERMINATED) {
+            $filters['cmbWithTerminated'] = 'on';
+        }
+        
+        $localizationService = new LocalizationService();
+        $fromDate = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $this->_getFilterValue($filters, 'calFromDate', null));
+        $toDate = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $this->_getFilterValue($filters, 'calToDate', null));
         $subunitId = $this->_getFilterValue($filters, 'cmbSubunit', null);
         $statuses = $request->hasParameter('reset') ? 1 : $this->_getFilterValue($filters, 'chkSearchFilter', array());
         $terminatedEmp = $this->_getFilterValue($filters, 'cmbWithTerminated', null);
@@ -149,7 +144,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 }
                 $overrideShowBackButton = true;
             }
-
             $dateRange = new DateRange($fromDate, $toDate);
 
             $searchParams = new ParameterObject(array(
@@ -158,7 +152,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 'employeeFilter' => $employeeFilter,
                 'leavePeriod' => $leavePeriodId,
                 'leaveType' => $leaveTypeId,
-                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page'),
+                'noOfRecordsPerPage' => 3,
                 'cmbWithTerminated' => $terminatedEmp
             ));
 
@@ -171,7 +165,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 $messageType = 'notice';
             }
 
-            $this->pager = new SimplePager('LeaveList', sfConfig::get('app_items_per_page'));
+            $this->pager = new SimplePager('LeaveList', 3);
 
             $this->pager->setPage($page);
             $this->pager->setNumResults($recordCount);
@@ -250,7 +244,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($list);
-        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
+        ohrmListComponent::setItemsPerPage(3);
         ohrmListComponent::setNumberOfRecords($recordCount);
         ohrmListComponent::$pageNumber = $page;
         $offset = $page * sfConfig::get('app_items_per_page');

@@ -93,8 +93,8 @@ class viewCandidatesForm extends BaseForm {
             'selectedCandidate' => new sfWidgetFormInputHidden(),
             'keywords' => new sfWidgetFormInputText(),
             'modeOfApplication' => new sfWidgetFormSelect(array('choices' => $modeOfApplication)),
-            'fromDate' => new sfWidgetFormInputText(),
-            'toDate' => new sfWidgetFormInputText(),
+            'fromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'candidateSearch_fromDate')),
+            'toDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'candidateSearch_toDate'))
         ));
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
@@ -110,9 +110,9 @@ class viewCandidatesForm extends BaseForm {
             'keywords' => new sfValidatorString(array('required' => false)),
             'modeOfApplication' => new sfValidatorString(array('required' => false)),
             'fromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'toDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
         ));
         $this->widgetSchema->setNameFormat('candidateSearch[%s]');
     }
@@ -156,8 +156,8 @@ class viewCandidatesForm extends BaseForm {
         $displayFromDate = ($searchParam->getFromDate() == $newSearchParam->getFromDate()) ? "" : $searchParam->getFromDate();
         $displayToDate = ($searchParam->getToDate() == $newSearchParam->getToDate()) ? "" : $searchParam->getToDate();
 
-        $this->setDefault('fromDate', $displayFromDate);
-        $this->setDefault('toDate', $displayToDate);
+        $this->setDefault('fromDate', set_datepicker_date_format($displayFromDate));
+        $this->setDefault('toDate', set_datepicker_date_format($displayToDate));
         $this->setDefault('keywords', $searchParam->getKeywords());
         $this->setDefault('candidateName', $searchParam->getCandidateName());
     }

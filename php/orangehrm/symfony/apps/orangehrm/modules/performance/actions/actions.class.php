@@ -625,9 +625,11 @@ class performanceActions extends sfActions {
                     $review->setJobTitleCode($empJobCode);
                     $review->setSubDivisionId($subDivisionId);
                     $review->setCreationDate(date('Y-m-d'));
-                    $review->setPeriodFrom( date("Y-m-d",strtotime($request->getParameter("txtPeriodFromDate-0"))));
-                    $review->setPeriodTo(date("Y-m-d",strtotime($request->getParameter("txtPeriodToDate-0"))) );
-                    $review->setDueDate(date("Y-m-d",strtotime($request->getParameter("txtDueDate-0"))) );
+                    $localizationService = new LocalizationService();
+                    $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+                    $review->setPeriodFrom( date("Y-m-d",strtotime($localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $request->getParameter("txtPeriodFromDate-0")))));
+                    $review->setPeriodTo(date("Y-m-d",strtotime($localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern,$request->getParameter("txtPeriodToDate-0")))) );
+                    $review->setDueDate(date("Y-m-d",strtotime($localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern,$request->getParameter("txtDueDate-0")))));
                     $review->setState(PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED);
                     $review->setKpis($xmlStr);
 
@@ -804,12 +806,13 @@ class performanceActions extends sfActions {
     protected function getReviewSearchClues($request, $suffix='') {
         
             $clues = array();
-
+            $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+            $localizationService = new LocalizationService();
             if ( $request instanceof  sfWebRequest) {
 
-                $clues['from'] = $request->getParameter('txtPeriodFromDate'.$suffix);
-                $clues['to'] = $request->getParameter('txtPeriodToDate'.$suffix);
-                $clues['due'] = $request->getParameter('txtDueDate'.$suffix);
+                $clues['from'] = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $request->getParameter('txtPeriodFromDate'.$suffix));
+                $clues['to'] = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $request->getParameter('txtPeriodToDate'.$suffix));
+                $clues['due'] = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $request->getParameter('txtDueDate'.$suffix));
                 $clues['jobCode'] = $request->getParameter('txtJobTitleCode'.$suffix);
                 $clues['divisionId'] = $request->getParameter('txtSubDivisionId'.$suffix);
                 $clues['empName'] = $request->getParameter('txtEmpName'.$suffix);
@@ -820,7 +823,7 @@ class performanceActions extends sfActions {
 
             } elseif ( $request instanceof  PerformanceReview ) {
 
-      
+
                 $clues['from'] = $request->getPeriodFrom();
                 $clues['to'] = $request->getPeriodTo();
                 $clues['due'] = $request->getDueDate();

@@ -28,14 +28,18 @@ form#frmEmpImmigration textarea {
 }
 
 .helpText {
-   font-size: 8pt;
-   color:#888888;
-   padding-left: 40px;
+    font-size: 8pt;
+    color:#888888;
+    padding-left: 40px;
 }
 
 .hrLine {
     width: 98%;
     border-top:1px solid #FAD163;
     display:block;
+}
+
+form#frmEmpImmigration div label label.error{
+    padding-left: 120px;
 }
 

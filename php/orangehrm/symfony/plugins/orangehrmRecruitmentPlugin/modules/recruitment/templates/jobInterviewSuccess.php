@@ -70,7 +70,6 @@
             <br class="clear" />
             <?php echo $form['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
             <?php echo $form['date']->render(array("class" => "formInputText", "maxlength" => 25)); ?>            
-            <input id="frmDateBtn" type="button" name="" value="  " class="calendarBtn" />
             <div class="errorHolder"></div>
             <br class="clear" />
             <?php echo $form['time']->renderLabel(__('Time')); ?>
@@ -111,10 +110,8 @@
     //<![CDATA[
     var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
     var cancelUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
-    var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
-    var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => strtoupper($sf_user->getDateFormat()))) ?>';
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeeList = eval(employees);
     var numberOfInterviewers = <?php echo $form->numberOfInterviewers; ?>;

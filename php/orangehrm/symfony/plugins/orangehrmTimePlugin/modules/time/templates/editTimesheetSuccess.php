@@ -41,16 +41,16 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <?php if ($noOfColumns == 7): ?>
     <?php if (isset($employeeName)): ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . " ".__('for Week')." " ?><?php echo $currentWeekDates[0] ?> </h2>
+<h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . " ".__('for Week')." " ?><?php echo set_datepicker_date_format($currentWeekDates[0]) ?> </h2>
     <?php else: ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for Week ') ?><?php echo " " . $currentWeekDates[0] ?> </h2>
+        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for Week  ') ?><?php echo " " . set_datepicker_date_format($currentWeekDates[0]) ?> </h2>
     <?php endif; ?>
 <?php endif; ?>
 <?php if ($noOfColumns == 30 || $noOfColumns == 31): ?>
     <?php if (isset($employeeName)): ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . __(' for Month starting on ') ?><?php echo $currentWeekDates[0] ?> </h2>
+        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for ') . $employeeName . __(' for Month starting on ') ?><?php echo set_datepicker_date_format($currentWeekDates[0]) ?> </h2>
     <?php else: ?>
-        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for  Month ') ?><?php echo $currentWeekDates[0] ?> </h2>
+        <h2> &nbsp;&nbsp;&nbsp;<?php echo __('Edit Timesheet for  Month ') ?><?php set_datepicker_date_format($currentWeekDates[0]) ?> </h2>
     <?php endif; ?>
 <?php endif; ?>
 
@@ -143,7 +143,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var rows = <?php print_r($timesheetForm['initialRows']->count() + 1) ?>;
     var link = "<?php echo url_for('time/addRow') ?>";
     var commentlink = "<?php echo url_for('time/updateTimesheetItemComment') ?>";
-    var projectsForAutoComplete= <?php echo $timesheetForm->getProjectListAsJson(); ?>;
+    var projectsForAutoComplete=<?php echo $timesheetForm->getProjectListAsJson(); ?>;
     var projects = <?php echo $timesheetForm->getProjectListAsJsonForValidation(); ?>;
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";
@@ -164,10 +164,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
     var numberOfRows='<?php echo $i ?>';
     var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
-    var typeForHints='<?php echo __('Type for hints...'); ?>';
-    var lang_selectProjectAndActivity='<?php echo __('Please select a project and an activity'); ?>';
-    var lang_enterExistingProject='<?php echo __("Enter an existing project name"); ?>';
-    var lang_noRecords='<?php echo __("No Rows Selected"); ?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";

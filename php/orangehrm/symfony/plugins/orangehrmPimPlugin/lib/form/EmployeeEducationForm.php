@@ -58,8 +58,8 @@ class EmployeeEducationForm extends sfForm {
             'major' => new sfWidgetFormInputText(),
             'year' => new sfWidgetFormInputText(),
             'gpa' => new sfWidgetFormInputText(),
-            'start_date' => new sfWidgetFormInputText(),
-            'end_date' => new sfWidgetFormInputText(),
+            'start_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_start_date')),
+            'end_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_end_date'))
         );
 
         $this->widgets['emp_number']->setDefault($empNumber);
@@ -78,11 +78,11 @@ class EmployeeEducationForm extends sfForm {
 
         $this->setValidator('start_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be YYYY-MM-DD')));
+                array('invalid'=>'Date format should be'. $inputDatePattern)));
 
         $this->setValidator('end_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be YYYY-MM-DD')));
+                array('invalid'=>'Date format should be'. $inputDatePattern)));
 
         $this->widgetSchema->setNameFormat('education[%s]');
     }

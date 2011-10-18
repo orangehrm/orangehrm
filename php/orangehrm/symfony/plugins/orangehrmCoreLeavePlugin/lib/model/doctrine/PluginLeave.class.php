@@ -19,7 +19,6 @@ abstract class PluginLeave extends BaseLeave {
         self::LEAVE_STATUS_LEAVE_APPROVED => 'Scheduled',
         self::LEAVE_STATUS_LEAVE_TAKEN => 'Taken',
     );
-
     private $nonWorkingDayStatuses = array(
         self::LEAVE_STATUS_LEAVE_WEEKEND,
         self::LEAVE_STATUS_LEAVE_HOLIDAY,
@@ -80,12 +79,18 @@ abstract class PluginLeave extends BaseLeave {
     public function getDetailedLeaveListRequestIdHolderValue() {
         return "0";
     }
-    public function getLeaveDurationAsAString(){
-      
-        if( $this->getStartTime() != '00:00:00' || $this->getEndTime() != '00:00:00'){
-            return "(".(date("H:i", strtotime( $this->getStartTime())))." - ".date("H:i", strtotime( $this->getEndTime())).")";
+
+    public function getLeaveDurationAsAString() {
+
+        if ($this->getStartTime() != '00:00:00' || $this->getEndTime() != '00:00:00') {
+            return "(" . (date("H:i", strtotime($this->getStartTime()))) . " - " . date("H:i", strtotime($this->getEndTime())) . ")";
         } else {
             return '';
         }
     }
+
+    public function getFormattedLeaveDateToView() {
+        return set_datepicker_date_format($this->getLeaveDate());
+    }
+
 }

@@ -85,7 +85,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'txtOtherID' => new sfWidgetFormInputText(),
             'cmbMarital' => new sfWidgetFormSelect(array('choices'=>array(0 => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other')))),
             'chkSmokeFlag' => new sfWidgetFormInputCheckbox(),
-            'txtLicExpDate' => new sfWidgetFormInputText(),
+            'txtLicExpDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'personal_txtLicExpDate')),
             'txtMilitarySer' => new sfWidgetFormInputText(),
             'cmbEthnicRace' => new sfWidgetFormSelect(array('choices'=> $this->getEthnicalRaceList())),
         );
@@ -112,7 +112,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
         }
 
         $this->widgets['chkSmokeFlag']->setAttribute('value', 1);
-        $this->widgets['txtLicExpDate']->setAttribute('value', ohrm_format_date($employee->emp_dri_lice_exp_date));
+        $this->widgets['txtLicExpDate']->setAttribute('value', set_datepicker_date_format($employee->emp_dri_lice_exp_date));
         $this->widgets['txtMilitarySer']->setAttribute('value', $employee->militaryService);
         $this->widgets['optGender']->setDefault($this->gender);
         $this->widgets['txtOtherID']->setAttribute('value', $employee->otherId);
@@ -129,8 +129,8 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $this->widgets['txtSINNo'] = new sfWidgetFormInputText();
             $this->widgets['txtSINNo']->setAttribute('value', $employee->sin);
 
-            $this->widgets['DOB'] = new sfWidgetFormInputText();
-            $this->widgets['DOB']->setAttribute('value', ohrm_format_date($employee->emp_birthday));
+            $this->widgets['DOB'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'personal_DOB'));
+            $this->widgets['DOB']->setAttribute('value', set_datepicker_date_format($employee->emp_birthday));
             
             $this->widgets['txtLicenNo'] = new sfWidgetFormInputText();
             $this->widgets['txtLicenNo']->setAttribute('value', $employee->licenseNo);
@@ -162,12 +162,11 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
 
         ));
-        //if (!$ess) {
+
             $this->setValidator('txtNICNo', new sfValidatorString(array('required' => false)));
             $this->setValidator('txtSINNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'First Name Length exceeded 30 characters')));
             $this->setValidator('txtLicenNo', new sfValidatorString(array('required' => false, 'max_length' => 30), array('max_length' => 'License No length exceeded 30 characters')));
-            $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")));
-        //}
+            $this->setValidator('DOB', new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)));
 
         $this->widgetSchema->setNameFormat('personal[%s]');
     }

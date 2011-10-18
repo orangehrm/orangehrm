@@ -49,7 +49,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 				<?php foreach ($sf_data->getRaw('pendingApprovelTimesheets') as $pendingApprovelTimesheet): ?>
 							<tr>
 								<td><?php echo $pendingApprovelTimesheet['employeeFirstName'] . " " . $pendingApprovelTimesheet['employeeLastName']; ?></td>
-								<td><?php echo$pendingApprovelTimesheet['timesheetStartday'] . " to " . $pendingApprovelTimesheet['timesheetEndDate'] ?></td>
+                                                                <td><?php echo set_datepicker_date_format($pendingApprovelTimesheet['timesheetStartday']). " to " . set_datepicker_date_format($pendingApprovelTimesheet['timesheetEndDate']) ?></td>
 								<td><input type="hidden" name="timesheetId" value="<?php echo $pendingApprovelTimesheet['timesheetId']; ?>" /></td>
 								<td><input type="hidden" name="employeeId" value="<?php echo $pendingApprovelTimesheet['employeeId']; ?>" /></td>
 								<td><input type="hidden" name="startDate" value="<?php echo $pendingApprovelTimesheet['timesheetStartday']; ?>" /></td>
@@ -64,10 +64,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <?php endif; ?>
 
 
-<script type="text/javascript">
+							<script type="text/javascript">
 
-	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
-	var lang_typeForHints = '<?php echo __("Type for hints..."); ?>';
+								var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray = eval(employees);
 	var errorMsge;
        
@@ -120,7 +119,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
    
          if(empDateCount==0){
             
-            errorMsge = '<?php echo __("No Employees Available in System"); ?>';
+            errorMsge = "No Employees Available in System";
             return false;
         }
 		for (i=0; i < empDateCount; i++) {
@@ -137,10 +136,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		if(temp){
 			return true;
 		}else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-			errorMsge = '<?php echo __("Please Select an Employee"); ?>';
+			errorMsge = "Please Select an Employee";
 			return false;
 		}else{
-			errorMsge = '<?php echo __("Invalid Employee Name"); ?>';
+			errorMsge = "Invalid Employee Name";
 			return false;
 		}
 	}

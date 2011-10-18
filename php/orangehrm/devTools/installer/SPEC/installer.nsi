@@ -149,7 +149,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
     SectionEnd
 
-    Section "OrangeHRM 2.6.10" SecOrangeHRM
+    Section "OrangeHRM 2.6.11" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
@@ -193,7 +193,7 @@ Section "-Register the application"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "InstallLocation" "$INSTDIR"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "2.2"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" "2"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "2.6.10"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "2.6.11"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "${Organization}"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "HelpLink" "http://orangehrm.com/home/index.php?option=com_content&task=blogsection&id=13&Itemid=87"

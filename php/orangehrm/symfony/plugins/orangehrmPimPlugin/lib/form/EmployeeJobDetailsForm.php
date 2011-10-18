@@ -68,14 +68,14 @@ class EmployeeJobDetailsForm extends BaseForm {
             'job_title' => new sfWidgetFormSelect(array('choices'=>$jobTitles)),
 
             'emp_status' => new sfWidgetFormSelect(array('choices'=>$employeeStatuses)), // employement status
-            'terminated_date' => new sfWidgetFormInputText(),
+            'terminated_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_terminated_date')),
             'termination_reason' => new sfWidgetFormTextarea(),
             'eeo_category' => new sfWidgetFormSelect(array('choices'=>$eeoCategories)),
             'sub_unit' => new sfWidgetFormSelect(array('choices'=>$subDivisions)), // sub division id
             'location' => new sfWidgetFormSelect(array('choices'=>$locations)), // sub division name (not used)
-            'joined_date' => new sfWidgetFormInputText(),
-            'contract_start_date' => new sfWidgetFormInputText(),
-            'contract_end_date' => new sfWidgetFormInputText(),
+            'joined_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_joined_date')),
+            'contract_start_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_contract_start_date')),
+            'contract_end_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_contract_end_date')),
             'contract_file' => new sfWidgetFormInputFile(), 
             'contract_update' => new sfWidgetFormChoice(array('expanded' => true, 'choices'  => $contractUpdateChoices)),
         ));
@@ -86,7 +86,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         if (!empty($jobTitleId)) {
             $this->setDefault('job_title', $jobTitleId);
             $this->setDefault('emp_status', $employee->emp_status);
-            $this->setDefault('terminated_date', ohrm_format_date($employee->terminated_date));
+            $this->setDefault('terminated_date', set_datepicker_date_format($employee->terminated_date));
             $this->setDefault('termination_reason', $employee->termination_reason);
 
             $jobSpec = $employee->jobTitle->JobSpecifications;
@@ -113,12 +113,12 @@ class EmployeeJobDetailsForm extends BaseForm {
         $contracts = $employee->contracts;
         if (count($contracts) > 0) {
             $contract = $contracts[0];
-            $this->setDefault('contract_start_date', ohrm_format_date($contract->start_date));
-            $this->setDefault('contract_end_date', ohrm_format_date($contract->end_date));
+            $this->setDefault('contract_start_date', set_datepicker_date_format($contract->start_date));
+            $this->setDefault('contract_end_date', set_datepicker_date_format($contract->end_date));
         }
 
         
-        $this->setDefault('joined_date', ohrm_format_date($employee->joined_date));
+        $this->setDefault('joined_date', set_datepicker_date_format($employee->joined_date));
                 
         $this->setDefault('contract_update', self::CONTRACT_KEEP);
 
@@ -129,20 +129,20 @@ class EmployeeJobDetailsForm extends BaseForm {
             'emp_status' => new sfValidatorString(array('required' => false)),
             'terminated_date' => new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+                array('invalid'=>'Date format should be '. $inputDatePattern)),
             'termination_reason' => new sfValidatorString(array('required' => false)),
             'eeo_category' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($eeoCategories))),
             'sub_unit' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($subDivisions))),
             'location' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($locations))),
             'joined_date' => new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+                array('invalid'=>'Date format should be '. $inputDatePattern)),
             'contract_start_date' => new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+                array('invalid'=>'Date format should be '. $inputDatePattern)),
             'contract_end_date' => new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be '. strtoupper($inputDatePattern))),
+                array('invalid'=>'Date format should be '. $inputDatePattern)),
             
             'contract_file' => new sfValidatorFile(array('required' => false, 
                 'max_size'=>1000000), array('max_size' => __('Contract Details File Size Exceeded.'))),

@@ -56,8 +56,8 @@ class EmployeeLicenseForm extends sfForm {
             'emp_number' => new sfWidgetFormInputHidden(),
             'code' => new sfWidgetFormSelect(array('choices' => $this->_getLicenseList())),
             'license_no' => new sfWidgetFormInputText(),
-            'date' => new sfWidgetFormInputText(),
-            'renewal_date' => new sfWidgetFormInputText(),
+            'date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'license_date')),
+            'renewal_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'license_renewal_date'))
         );
 
         $this->widgets['emp_number']->setDefault($empNumber);
@@ -73,11 +73,11 @@ class EmployeeLicenseForm extends sfForm {
 
         $this->setValidator('date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be YYYY-MM-DD')));
+                array('invalid'=>'Date format should be'. $inputDatePattern)));
 
         $this->setValidator('renewal_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be YYYY-MM-DD')));
+                array('invalid'=>'Date format should be'. $inputDatePattern)));
 
         $this->widgetSchema->setNameFormat('license[%s]');
     }

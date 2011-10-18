@@ -33,23 +33,21 @@ class ohrmWidgetDatePickerNew extends sfWidgetFormInput {
                     'type' => 'button',
                     'id' => "{$this->attributes['id']}_Button",
                     'class' => 'calendarBtn',
-                    'style' => 'float: none; display: inline; margin-left: 16px;',
+                    'style' => 'float: none; display: inline; margin-left: 6px;',
                     'value' => '',
                 ));
 
         $javaScript = sprintf(<<<EOF
  <script type="text/javascript">
 
-    var dateFormat        = '%s' ;
-    var jsDateFormat = '%s';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '%s';
 
     $(document).ready(function(){
 
         var rDate = trim($("#%s").val());
-        if (rDate == '') {
-            $("#%s").val(dateDisplayFormat);
-        }
+            if (rDate == '') {
+                $("#%s").val(datepickerDateFormat);
+            }
 
         //Bind date picker
         daymarker.bindElement("#%s",
@@ -57,7 +55,7 @@ class ohrmWidgetDatePickerNew extends sfWidgetFormInput {
             onSelect: function(date){
 
             },
-            dateFormat:jsDateFormat
+            dateFormat : datepickerDateFormat
         });
 
         $('#%s_Button').click(function(){
@@ -68,8 +66,7 @@ class ohrmWidgetDatePickerNew extends sfWidgetFormInput {
 </script>
 EOF
                         ,
-                        sfContext::getInstance()->getUser()->getDateFormat(),
-                        get_js_date_format(sfContext::getInstance()->getUser()->getDateFormat()),
+                        get_datepicker_date_format(sfContext::getInstance()->getUser()->getDateFormat()),
                         $this->attributes['id'],
                         $this->attributes['id'],
                         $this->attributes['id'],

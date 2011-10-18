@@ -43,7 +43,7 @@ class HolidayForm extends sfForm
         $this->setWidgets(array(
                 'hdnHolidayId' => new sfWidgetFormInputHidden(),
                 'txtDescription' => new sfWidgetFormInput(),
-                'txtDate' => new sfWidgetFormInput(),
+                'txtDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'holiday_txtDate')),
                 'chkRecurring' => new sfWidgetFormInputCheckbox(),
                 'selLength' => new sfWidgetFormSelect( array('choices'=>$this->getDaysLengthList()), array('add_empty'=>false)),
 
@@ -56,7 +56,7 @@ class HolidayForm extends sfForm
                 'chkRecurring' => new sfValidatorString(array('required' => false)),
                 'txtDescription' => new sfValidatorString(array('required' => true, 'max_length'=>200),array('required'=>'Holiday Name is required', 'max_length'=>'Name of Holiday length exceeded')),
                 'txtDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true),
-                                                   array('required'=>'Date field is required', 'invalid'=>'Date format should be YYYY-MM-DD')),
+                                                   array('required'=>'Date field is required', 'invalid'=>'Date format should be '.$inputDatePattern)),
 
                 'selLength' => new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())))
         ));
@@ -138,7 +138,7 @@ class HolidayForm extends sfForm
             $this->setDefault('txtDescription', $holidayObject->getDescription());
 
             sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
-            $this->setDefault('txtDate', ohrm_format_date($holidayObject->getDate()));
+            $this->setDefault('txtDate', set_datepicker_date_format($holidayObject->getDate()));
             $chkRecurring = $holidayObject->getRecurring()=='1'?true:false;
             $this->setDefault('chkRecurring', $chkRecurring);
             $this->setDefault('selLength', $holidayObject->getLength());

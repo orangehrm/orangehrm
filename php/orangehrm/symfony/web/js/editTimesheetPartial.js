@@ -12,7 +12,7 @@ $(document).ready(function() {
         if(!isRowsSelected()){
 
             $('#validationMsg').attr('class', "messageBalloon_warning");
-            $('#validationMsg').html(lang_noRecords);
+            $('#validationMsg').html("No Rows Selected");
 
         }
         else if(isDeleteAllRows()){

@@ -14,7 +14,7 @@ class CandidateHistoryHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Performed Date',
 		    'isSortable' => false,
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getPerformedDate'),
+		    'elementProperty' => array('getter' => 'getFormattedPerformedDateToDisplay'),
 		));
 
 		$headerList[2]->populateFromArray(array(

@@ -60,9 +60,9 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'country' => new sfWidgetFormSelect(array('choices' => $this->countries)),
                 'number' => new sfWidgetFormInputText(),
                 'i9_status' => new sfWidgetFormInputText(),
-                'passport_issue_date' => new sfWidgetFormInputText(),
-                'passport_expire_date' => new sfWidgetFormInputText(),
-                'i9_review_date' => new sfWidgetFormInputText(),
+                'passport_issue_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_issue_date')),
+                'passport_expire_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_expire_date')),
+                'i9_review_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_i9_review_date')),
                 'comments' => new sfWidgetFormTextarea(),
         ));
 
@@ -76,9 +76,9 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'country' => new sfValidatorString(array('required' => false)),
                 'number' => new sfValidatorString(array('required' => true, 'trim'=>true)),
                 'i9_status' => new sfValidatorString(array('required' => false, 'trim'=>true)),
-                'passport_issue_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
-                'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
-                'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
+                'passport_issue_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)),
+                'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)),
+                'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)),
                 'comments' => new sfValidatorString(array('required' => false))
         ));
 

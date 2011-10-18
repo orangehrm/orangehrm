@@ -11,7 +11,7 @@
 
                         <?php echo $form['_csrf_token']; ?>
 
-			<input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId()?>"></input>
+			<input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId()?>"/>
 			<input type="hidden" name="saveMode" id="saveMode" value="" />
 
               	<div id="formWrapper">
@@ -25,7 +25,7 @@
                      <label class="detail"><?php echo $performanceReview->getReviewer()->getFirstName()?> <?php echo $performanceReview->getReviewer()->getLastName()?></label>
                    <br class="clear"/>
 				     <label class="detailHearder"><?php echo __("Review Period")?></label>
-                     <label class="detail"><?php echo $performanceReview->getPeriodFrom()?>-<?php echo $performanceReview->getPeriodTo()?></label>
+                                     <label class="detail"><?php echo set_datepicker_date_format($performanceReview->getPeriodFrom())?>-<?php echo set_datepicker_date_format($performanceReview->getPeriodTo())?></label>
                    <br class="clear"/>
 					 <label class="detailHearder"><?php echo __("Status")?></label>
                      <label class="detail"><?php echo $performanceReview->getTextStatus()?> </label>

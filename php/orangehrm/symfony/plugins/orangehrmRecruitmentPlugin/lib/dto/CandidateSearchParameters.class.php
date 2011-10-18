@@ -283,5 +283,9 @@ class CandidateSearchParameters {
         $this->additionalParams = $params;
     }
 
+    public function getDisplayDateOfApplication(){
+        return set_datepicker_date_format($this->dateOfApplication);
+    }
+
 }
 

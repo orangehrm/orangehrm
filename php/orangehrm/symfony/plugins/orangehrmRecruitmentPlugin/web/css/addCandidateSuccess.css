@@ -228,3 +228,8 @@ div.messageBalloon_success {
     width: 830px;
 }
 
+form#frmAddCandidate div label.appDate label.error{
+    padding-left: 120px;
+}
+
+

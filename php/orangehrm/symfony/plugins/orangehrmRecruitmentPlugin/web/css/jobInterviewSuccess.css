@@ -76,7 +76,7 @@ div .interviewer{
 }
 
 #jobInterview_name{
-	width: 260px;
+    width: 260px;
 }
 
 label.error {
@@ -99,18 +99,22 @@ div.interviwerErrors {
     font-size: 8pt;
 }
 div.messageBalloon_success{
-	width: 600px;
+    width: 600px;
 }
 
 div.outerbox{
-	width: 680px;
+    width: 680px;
 }
 
 h3{
-	color:#000000;
-	padding-left: 10px;
+    color:#000000;
+    padding-left: 10px;
 }
 
 #attachmentSubHeadingDiv{
-	float: left;
+    float: left;
+}
+
+form#frmJobInterview label label.error{
+    padding-left: 0px;
 }

@@ -51,7 +51,7 @@
                         ?>
 
                         <option value="<?php echo $id;?>" <?php echo $selected;?>>
-                            <?php echo ohrm_format_date($leavePeriod->getStartDate()) . " " . __("to") . " " . ohrm_format_date($leavePeriod->getEndDate());?>
+                            <?php echo set_datepicker_date_format($leavePeriod->getStartDate()) . " " . __("to") . " " . set_datepicker_date_format($leavePeriod->getEndDate());?>
                         </option>
 
                         <?php
@@ -118,7 +118,7 @@
                        <a href="<?php echo url_for('leave/defineHoliday/?hdnEditId=' . $holiday->getHolidayId());?>"><?php echo $holiday->getDescription(); ?></a>
                     </td>
                     <td>
-                            <?php echo ohrm_format_date($holiday->getFdate()); ?>
+                            <?php echo set_datepicker_date_format($holiday->getFdate()); ?>
                     </td>
 
                     <td>
@@ -136,9 +136,6 @@
             </tbody>
             
         </table>
-
-<!--<div><span class="error" id="messageLayer1"></span></div>--> 
-<!--<div><span class="error" id="messageLayer2"></span></div>--> 
 
     </form>
     

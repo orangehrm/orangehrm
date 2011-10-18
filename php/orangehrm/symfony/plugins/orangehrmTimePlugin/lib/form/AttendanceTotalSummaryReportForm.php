@@ -40,10 +40,14 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
         $this->_setEmployeeStatusWidget();
 
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
         $this->setValidator('empName', new sfValidatorString(array('required' => false)));
         $this->setValidator('employeeId', new sfValidatorInteger());
-        $this->setValidator('fromDate', new sfValidatorDate(array('required' => false)));
-        $this->setValidator('toDate', new sfValidatorDate(array('required' => false)));
+        $this->setValidator('fromDate', new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+                        array('invalid' => 'Date format should be ' . $inputDatePattern)));
+        $this->setValidator('toDate', new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+                        array('invalid' => 'Date format should be ' . $inputDatePattern)));
         $this->widgetSchema->setNameFormat('attendanceTotalSummary[%s]');
     }
 

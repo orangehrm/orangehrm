@@ -79,8 +79,8 @@ class ohrmValidatorSchemaDateRange extends sfValidatorSchema
     {
       throw new InvalidArgumentException('You must pass an array parameter to the clean() method');
     }
-    $leftValue  = isset($values[$this->getOption('left_field')]) ? $values[$this->getOption('left_field')] : null;
-    $rightValue = isset($values[$this->getOption('right_field')]) ? $values[$this->getOption('right_field')] : null;
+    $leftValue  = isset($values['from']) ? $values['from']: null;
+    $rightValue = isset($values['to']) ? $values['to']: null;
 
     switch ($this->getOption('operator'))
     {

@@ -38,8 +38,8 @@ class TimesheetForm extends sfForm {
 
             $emptyRowForm = new TimesheetRowForm(array(), $values);
 
-            $emptyRowForm->setDefault('projectName', __('Type for hints...'));
-            $emptyRowForm->setDefault('projectActivity', __('Select an Activity...'));
+            $emptyRowForm->setDefault('projectName', 'Type for hints...');
+            $emptyRowForm->setDefault('projectActivity', 'Select an Activity...');
             for ($i = 0; $i < $noOfDays; $i++) {
                 $emptyRowForm->setDefault($i, '');
             }
@@ -193,7 +193,7 @@ class TimesheetForm extends sfForm {
             foreach ($rows as $row) {
 
                 $rowArray['projectId'] = $row[0]["projectId"];
-                $rowArray['projectName'] = $row[0]->getProject()->getCustomer()->getName() . " - ##" . $row[0]->getProject()->getName();
+                $rowArray['projectName'] = $row[0]->getProject()->getCustomer()->getName() . " - " . $row[0]->getProject()->getName();
                 $rowArray['isProjectDeleted'] = $row[0]->getProject()->getDeleted();
                 $rowArray['activityId'] = $row[0]["activityId"];
                 $rowArray['activityName'] = $row[0]->getProjectActivity()->getName();
@@ -275,9 +275,9 @@ class TimesheetForm extends sfForm {
 
         foreach ($projectList as $project) {
 
-            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##" . $project->getName(), 'id' => $project->getProjectId());
+            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
         }
-	    
+
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;
@@ -292,7 +292,7 @@ class TimesheetForm extends sfForm {
 
         foreach ($projectList as $project) {
 //            if ($project->getDeleted() != Projects::PROJECT_DELETED) {
-            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##"  . $project->getName(), 'id' => $project->getProjectId());
+            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - " . $project->getName(), 'id' => $project->getProjectId());
 //            }
         }
 

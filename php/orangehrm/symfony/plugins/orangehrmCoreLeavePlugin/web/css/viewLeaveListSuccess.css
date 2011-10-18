@@ -1,39 +1,39 @@
 input.checkbox {
-	vertical-align: middle;
+    vertical-align: middle;
     margin-right: 30px;
 }
 
 input#calFromDate,input#calToDate {
-	float: none;
-	display: inline;
-	margin-right: -10px;
+    float: none;
+    display: inline;
+    margin-right: -10px;
 }
 
 label.mainLabel {
-	font-weight: bold;
-	float: none;
-	display: inline-block;
-	width: 150px;
+    font-weight: bold;
+    float: none;
+    display: inline-block;
+    width: 150px;
 }
 
 label.subLabel {
-	float: none;
-	display: inline;
-	width: auto;
-	margin: 4px 6px 4px 4px;
+    float: none;
+    display: inline;
+    width: auto;
+    margin: 4px 6px 4px 4px;
 }
 
 div.actionbuttons {
-	width: 99%;
-	padding: 4px;
-	margin: 0px;
-	display: block;
-	float: none;
-	border-top: solid 1px #ff9900;
+    width: 99%;
+    padding: 4px;
+    margin: 0px;
+    display: block;
+    float: none;
+    border-top: solid 1px #ff9900;
 }
 
 table.data-table td {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 table.data-table thead tr td {
@@ -69,8 +69,8 @@ label.subLabelNew {
     padding-left: 0px;
 }
 
-input.calendarBtn[type="button"] {
-    margin-right: 30px;
+input.calendarBtn{
+    margin-left: 15px !important;
 }
 
 #overQuotaDialog {
@@ -128,4 +128,9 @@ table.data-table thead tr th {
 
 table.data-table tbody tr td {
     padding: 7px 10px 7px 8px;
+}
+
+form#frmFilterLeave label.mainLabel label.error{
+    padding-left: 153px;
+    font-weight: normal;
 }

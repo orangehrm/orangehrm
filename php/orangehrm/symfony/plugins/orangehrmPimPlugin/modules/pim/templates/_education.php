@@ -45,13 +45,11 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             <br class="clear"/>
 
             <?php echo $form['start_date']->renderLabel(__('Start Date')); ?>
-            <?php echo $form['start_date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
-            <input id="startDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+            <?php echo $form['start_date']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
             <?php echo $form['end_date']->renderLabel(__('End Date')); ?>
-            <?php echo $form['end_date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
-            <input id="endDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+            <?php echo $form['end_date']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
 
@@ -83,9 +81,8 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 
                     foreach ($educations as $education) {
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        //empty($education->from_date)
-                        $startDate = ohrm_format_date($education->start_date);
-                        $endDate = ohrm_format_date($education->end_date);
+                        $startDate = set_datepicker_date_format($education->start_date);
+                        $endDate = set_datepicker_date_format($education->end_date);
                         $eduDesc = htmlspecialchars($education->Education->edu_uni . ", " . $education->Education->edu_deg);
                     ?>
                         <tr class="<?php echo $cssClass; ?>">
@@ -125,22 +122,20 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
     var lang_addEducation = "<?php echo __('Add Education'); ?>";
     var lang_editEducation = "<?php echo __('Edit Education'); ?>";
     var lang_educationRequired = "<?php echo __("Program is required"); ?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%' => $sf_user->getDateFormat())) ?>";
-    var lang_startDateAfterEndDate = "<?php echo __('Start date should be before end date'); ?>";
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after the start date'); ?>";
     var lang_selectEducationToDelete = "<?php echo __('Please Select At Least One Education Item To Delete'); ?>";
     var lang_majorMaxLength = "<?php echo __('Major cannot exceed 100 characters in length'); ?>";
     var lang_gpaMaxLength = "<?php echo __('GPA/Score cannot exceed 25 characters in length'); ?>";
     var lang_yearShouldBeNumber = "<?php echo __('Year should be a number'); ?>";
 
-    var dateFormat  = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>
 </script>
 
 <script type="text/javascript">
     //<![CDATA[
-
+    var startDate = "";
     $(document).ready(function() {
 
         //hide add section
@@ -149,7 +144,6 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 
         //hiding the data table if records are not available
         if($("div#tblEducation table.data-table .chkbox").length == 0) {
-            //$("#tblEducation").hide();
             $("#editEducation").hide();
             $("#delEducation").hide();
         }
@@ -191,8 +185,8 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $("#education_major").val("");
             $("#education_year").val("");
             $("#education_gpa").val("");
-            $("#education_start_date").val(dateDisplayFormat);
-            $("#education_end_date").val(dateDisplayFormat);
+            $("#education_start_date").val(datepickerDateFormat);
+            $("#education_end_date").val(datepickerDateFormat);
 
             //show add form
             $("#changeEducation").show();
@@ -214,29 +208,10 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 
         $("#btnEducationSave").click(function() {
             clearMessageBar();
-
+            startDate = $('#education_start_date').val();
             $("#frmEducation").submit();
         });
-
-        /* Valid From Date */
-        $.validator.addMethod("validFromDate2", function(value, element) {
-
-            var fromdate	=	$('#education_start_date').val();
-            fromdate = (fromdate).split("-");
-
-            var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-            var todate		=	$('#education_end_date').val();
-            todate = (todate).split("-");
-            var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-            if(fromdateObj > todateObj){
-                return false;
-            }
-            else{
-                return true;
-            }
-        });
-
+        
         //form validation
         var educationValidator =
             $("#frmEducation").validate({
@@ -245,20 +220,21 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                 'education[major]': {required: false, maxlength: 100},
                 'education[year]': {required: false, digits: true},
                 'education[gpa]': {required: false, maxlength: 25},
-                'education[start_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate2:true},
-                'education[end_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}}
+                'education[start_date]': {valid_date: function(){return {format: datepickerDateFormat, required:false}}},
+                'education[end_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false}}, date_range: function() {return {format:datepickerDateFormat, fromDate:startDate}}}
             },
             messages: {
                 'education[code]': {required: lang_educationRequired},
                 'education[major]': {maxlength: lang_majorMaxLength},
                 'education[year]': {digits: lang_yearShouldBeNumber},
                 'education[gpa]': {maxlength: lang_gpaMaxLength},
-                'education[start_date]': {valid_date: lang_invalidDate, validFromDate2: lang_startDateAfterEndDate},
-                'education[end_date]': {valid_date: lang_invalidDate}
+                'education[start_date]': {valid_date: lang_invalidDate},
+                'education[end_date]': {valid_date: lang_invalidDate, date_range:lang_EndDateBeforeSatrtDate }
             },
 
             errorElement : 'div',
             errorPlacement: function(error, element) {
+                error.appendTo(element.prev('label'));
                 error.insertAfter(element.next(".clear"));
                 error.insertAfter(element.next().next(".clear"));
 
@@ -298,30 +274,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $('#static_education_code').hide().val("");
 
         });
-
-
-        daymarker.bindElement("#education_start_date", {
-            onSelect: function(date){
-                $("#education_start_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-        $('#startDateBtn').click(function() {
-            daymarker.show("#education_start_date");
-        });
-
-        daymarker.bindElement("#education_end_date", {
-            onSelect: function(date){
-                $("#education_end_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-        $('#endDateBtn').click(function() {
-            daymarker.show("#education_end_date");
-        });
-    
+   
         $('form#frmDelEducation a.edit').live('click', function(event) {
             event.preventDefault();
             clearMessageBar();
@@ -359,10 +312,10 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $("#education_end_date").val($("#end_date_" + code).val());
         
             if ($("#education_start_date").val() == '') {
-                $("#education_start_date").val(dateDisplayFormat);
+                $("#education_start_date").val(datepickerDateFormat);
             }
             if ($("#education_end_date").val() == '') {
-                $("#education_end_date").val(dateDisplayFormat);
+                $("#education_end_date").val(datepickerDateFormat);
             }
         
             $("#educationRequiredNote").show();

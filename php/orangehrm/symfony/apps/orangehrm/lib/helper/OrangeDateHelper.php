@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -24,15 +25,24 @@
  * @param Date $date in YYYY-MM-DD format
  * @return formatted date.
  */
-function ohrm_format_date($date) {
-    $context = sfContext::getInstance();
-    $context->getConfiguration()->loadHelpers('Date');
-    $dateFormat = $context->getUser()->getDateFormat();
 
-    return format_date($date, $dateFormat);
+function set_datepicker_date_format($date) {
+
+    $dateFormat = sfContext::getInstance()->getUser()->getDateFormat();
+
+    if (empty($date)) {
+        $formattedDate = null;
+    } else {
+        $dateArray = explode('-', $date);
+        $dateTime = new DateTime();
+        $dateTime->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+        $formattedDate = $dateTime->format($dateFormat);
+    }
+
+    return $formattedDate;
 }
 
-function get_js_date_format($symfonyDateFormat) {
+function get_datepicker_date_format($symfonyDateFormat) {
     $jsDateFormat = "";
 
     $len = strlen($symfonyDateFormat);
@@ -40,17 +50,34 @@ function get_js_date_format($symfonyDateFormat) {
     for ($i = 0; $i < $len; $i++) {
         $char = $symfonyDateFormat{$i};
         switch ($char) {
-            case 'M':
+            case 'j':
+                $jsDateFormat .= 'd';
+                break;
+            case 'd':
+                $jsDateFormat .= 'dd';
+                break;
+            case 'l':
+                $jsDateFormat .= 'DD';
+                break;
+            case 'L':
+                $jsDateFormat .= 'DD';
+                break;
+            case 'n':
                 $jsDateFormat .= 'm';
+                break;
+            case 'm':
+                $jsDateFormat .= 'mm';
+                break;
+            case 'F':
+                $jsDateFormat .= 'MM';
+                break;
+            case 'Y':
+                $jsDateFormat .= 'yy';
                 break;
             default:
                 $jsDateFormat .= $char;
                 break;
         }
     }
-
-    // Replace yy with y
-    $jsDateFormat = str_replace('yy', 'y', $jsDateFormat);
-
     return($jsDateFormat);
 }

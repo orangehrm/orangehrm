@@ -90,8 +90,8 @@ class EmployeeMembershipForm extends BaseForm {
             'subscriptionPaidBy' => new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy)),
             'subscriptionAmount' => new sfWidgetFormInputText(),
             'currency' => new sfWidgetFormSelect(array('choices' => $currency)),
-            'subscriptionCommenceDate' => new sfWidgetFormInputText(),
-            'subscriptionRenewalDate' => new sfWidgetFormInputText(),
+            'subscriptionCommenceDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionCommenceDate')),
+            'subscriptionRenewalDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionRenewalDate'))
         ));
 
 
@@ -106,9 +106,9 @@ class EmployeeMembershipForm extends BaseForm {
             'subscriptionAmount' => new sfValidatorNumber(array('required' => false)),
             'currency' => new sfValidatorString(array('required' => false)),
             'subscriptionCommenceDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'subscriptionRenewalDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
         ));
         $this->widgetSchema->setNameFormat('membership[%s]');
     }

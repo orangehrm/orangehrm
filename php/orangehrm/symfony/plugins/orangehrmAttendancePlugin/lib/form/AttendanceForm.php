@@ -24,13 +24,16 @@ class AttendanceForm extends sfForm {
     
     public function configure() {
 
-        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'));
+//        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'));
+        $this->formWidgets['date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'attendance_date','class' => 'date', 'margin' => '0'));
         $this->formWidgets['time'] = new sfWidgetFormInputText(array(), array('class' => 'time'));
         $this->formWidgets['note'] = new sfWidgetFormTextarea(array(), array('class' => 'note', 'rows' => '5', 'cols' => '40'));
 
         $this->setWidgets($this->formWidgets);
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
-        $this->formValidators['date'] = new sfValidatorDate(array(), array('required' => __('Enter Date')));
+        $this->formValidators['date'] = new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern));
         $this->formValidators['time'] = new sfValidatorDateTime(array(), array('required' => __('Enter Time')));
         $this->formValidators['note'] = new sfValidatorString(array('required' => false));
 

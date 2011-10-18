@@ -47,7 +47,6 @@ class LeaveSummaryForm extends sfForm {
         $this->userType = $this->getOption('userType');
         $this->loggedUserId = $this->getOption('loggedUserId');
         $this->searchParam['employeeId'] = $this->getOption('employeeId');
-        $this->searchParam['cmbWithTerminated'] = $this->getOption('cmbWithTerminated');
         $this->empId = $this->getOption('empId');
 
         $this->_setCurrentLeavePeriodId(); // This should be called before _setLeavePeriodWidgets()
@@ -104,10 +103,6 @@ class LeaveSummaryForm extends sfForm {
             $this->setDefault('cmbEmpId', $employeeId);
             $this->setDefault('cmbLeavePeriod', $this->currentLeavePeriodId);
             $this->setDefault('hdnSubjectedLeavePeriod', $this->_getLeavePeriod());
-            
-            if($this->searchParam['cmbWithTerminated'] == 'on') {
-                $this->setDefault('cmbWithTerminated', true);
-            }
 
         }
 
@@ -143,9 +138,9 @@ class LeaveSummaryForm extends sfForm {
 
         foreach ($leavePeriodList as $leavePeriod) {
 
-            $choices[$leavePeriod->getLeavePeriodId()] = ohrm_format_date($leavePeriod->getStartDate())
+            $choices[$leavePeriod->getLeavePeriodId()] = set_datepicker_date_format($leavePeriod->getStartDate())
                                                          . " " .  __('to') . " "
-                                                         . ohrm_format_date($leavePeriod->getEndDate());
+                                                         . set_datepicker_date_format($leavePeriod->getEndDate());
 
         }
 
@@ -252,7 +247,7 @@ class LeaveSummaryForm extends sfForm {
     
     private function _setTerminatedEmployeeWidgets() {
 
-        $this->formWidgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
+        $this->formWidgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox();
         $this->formValidators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
 
     }

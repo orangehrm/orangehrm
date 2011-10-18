@@ -55,8 +55,8 @@ class WorkExperienceForm extends sfForm {
             'seqno' => new sfWidgetFormInputHidden(),
             'employer' => new sfWidgetFormInputText(),
             'jobtitle' => new sfWidgetFormInputText(),
-            'from_date' => new sfWidgetFormInputText(),
-            'to_date' => new sfWidgetFormInputText(),
+            'from_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_from_date')),
+            'to_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_to_date')),
             'comments' => new sfWidgetFormTextarea()
         );
 
@@ -75,12 +75,12 @@ class WorkExperienceForm extends sfForm {
         $this->setValidator('from_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
                 array('required'=>'Date field is required', 
-                      'invalid'=>'Date format should be ' . strtoupper($inputDatePattern))));
+                      'invalid'=>'Date format should be ' . $inputDatePattern)));
 
         $this->setValidator('to_date', new ohrmDateValidator(
                 array('date_format'=>$inputDatePattern, 'required' => false),
                 array('required'=>'Date field is required', 
-                      'invalid'=>'Date format should be ' . strtoupper($inputDatePattern))));
+                      'invalid'=>'Date format should be ' . $inputDatePattern)));
 
         $this->setValidator('comments', new sfValidatorString(array('required' => false,
             'max_length' => 200)));

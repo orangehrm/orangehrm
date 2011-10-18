@@ -69,10 +69,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <script type="text/javascript">
     
-    var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
-    var errorForInvalidFormat='<?php echo __('Please enter a valid date in yyyy-MM-dd format'); ?>';
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var errorForInvalidFormat='<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
     var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
@@ -82,9 +80,5 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
-    var lang_typeForHints='<?php echo __("Type for hints..."); ?>';
-    var lang_selectEmployee='<?php echo __("Please Select an Employee"); ?>';
-    var lang_noEmployees='<?php echo __("No Employees Available in System"); ?>';
-    var lang_invalidEmployee='<?php echo __("Invalid Employee Name"); ?>';
 
 </script>

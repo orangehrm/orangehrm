@@ -17,60 +17,59 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js')?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
 
 <!-- Datepicker Plugin-->
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-<?php echo javascript_include_tag('orangehrm.datepicker.js')?>
+<?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
 <div class="formpageNarrow">
 
-    <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+    <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 
     <div class="outerbox">
-        <div class="mainHeading"><h2><?php echo ($editMode) ? __('Edit') . " " . __('Holiday') : __('Add') . " ".  __('Holiday'); ?></h2></div>
+        <div class="mainHeading"><h2><?php echo ($editMode) ? __('Edit') . " " . __('Holiday') : __('Add') . " " . __('Holiday'); ?></h2></div>
 
         <div id="errorDiv"> </div>
-        <?php if($form->hasErrors())
-        {?>
-            <?php echo $form['hdnHolidayId']->renderError(); ?>
-            <?php echo $form['txtDescription']->renderError(); ?>
-            <?php echo $form['txtDate']->renderError(); ?>
-            <?php echo $form['chkRecurring']->renderError(); ?>
-            <?php echo $form['selLength']->renderError(); ?>
-    <?php }?>
+        <?php if ($form->hasErrors()) {
+        ?>
+        <?php echo $form['hdnHolidayId']->renderError(); ?>
+        <?php echo $form['txtDescription']->renderError(); ?>
+        <?php echo $form['txtDate']->renderError(); ?>
+        <?php echo $form['chkRecurring']->renderError(); ?>
+        <?php echo $form['selLength']->renderError(); ?>
+        <?php } ?>
 
 
         <form id="frmHoliday" name="frmHoliday" method="post" action="<?php echo url_for('leave/defineHoliday') ?>" >
-            <?php echo $form['_csrf_token']?>
-            <?php if ($editMode)
-            { ?>
-            <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="yes" />
-                <?php } else
-            { ?>
-            <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="no" />
-                <?php } ?>
+            <?php echo $form['_csrf_token'] ?>
+            <?php if ($editMode) {
+            ?>
+                <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="yes" />
+            <?php } else {
+            ?>
+                <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="no" />
+            <?php } ?>
             <?php echo $form['hdnHolidayId']->render(); ?>
-            <?php echo $form['txtDescription']->renderLabel(__('Name') .' <span class="required">*</span>'); ?>
-<?php echo $form['txtDescription']->render(array("class" => "formInputText")); ?>
+            <?php echo $form['txtDescription']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['txtDescription']->render(array("class" => "formInputText")); ?>
             <div class="errorContainer"></div>
             <br class="clear"/>
 
-            <?php echo $form['txtDate']->renderLabel(__('Date').' <span class="required">*</span>'); ?>
-<?php echo $form['txtDate']->render(array("class" => "formDateInput")); ?>
-            <input id="DateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+            <?php echo $form['txtDate']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['txtDate']->render(array("class" => "formDateInput")); ?>
             <div class="errorContainer"></div>
             <br class="clear"/>
 
             <?php echo $form['chkRecurring']->renderLabel(__('Repeats Annually')); ?>
-<?php echo $form['chkRecurring']->render( array('class'=>'formCheckbox')); ?>
+            <?php echo $form['chkRecurring']->render(array('class' => 'formCheckbox')); ?>
             <br class="clear"/>
 
             <?php echo $form['selLength']->renderLabel(__('Full Day') . '/' . __('Half Day')); ?>
-<?php echo $form['selLength']->render(array("class" => "formSelect")); ?>
+            <?php echo $form['selLength']->render(array("class" => "formSelect")); ?>
             <br class="clear"/>
 
             <div class="formbuttons">
@@ -80,35 +79,33 @@
             </div>
         </form>
     </div>
-    <div class="requirednotice"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+    <div class="requirednotice"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 </div>
+<style type="text/css">
+    label label.error{
+        padding-left: 120px;
+    }
+</style>
 
-    <script type="text/javascript">
+<script type="text/javascript">
     //<![CDATA[
     
     $(document).ready(function() {
         
-        var dateFormat	= '<?php echo $sf_user->getDateFormat();?>';
-        var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
+        var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
         var lang_DateIsRequired = "<?php echo __("Date is required"); ?>";
-        var lang_DateFormatIsWrong = "<?php echo __("Date should be in the format: %format%", array('%format%' => $sf_user->getDateFormat())); ?>";
+        var lang_DateFormatIsWrong = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
         var lang_NameIsRequired = "<?php echo __("Name is required"); ?>";
         var lang_NameIsOverLimit = "<?php echo __("Name should be less than %length% characters", array('%length%' => 200)); ?>";
 
-        //Load default Mask if empty
-        var hDate 	= 	trim($("#holiday_txtDate").val());
-        if(hDate == ''){
-            $("#holiday_txtDate").val(dateFormat);
-        }
-               
         //Validation
         $("#frmHoliday").validate({
             rules: {
-                'holiday[txtDate]': { 
+                'holiday[txtDate]': {
                     required: true,
-                    valid_date: function(){ return {format:jsDateFormat} }
-                    },
+                    valid_date: function(){ return {format:datepickerDateFormat} }
+                },
                 'holiday[txtDescription]': {required: true, maxlength: 200}
             },
             messages: {
@@ -122,6 +119,7 @@
                 }
             },
             errorPlacement: function(error, element) {
+                error.appendTo(element.prev('label'));
                 error.appendTo(element.next().next(".errorContainer"));
                 error.appendTo(element.next(".errorContainer"));
             },
@@ -136,21 +134,9 @@
             $("#holiday_txtDate").attr("class", "formDateInput hasDatepicker");
             $(".errorContainer").html("");
         });
-        
-        //Bind date picker
-        daymarker.bindElement("#holiday_txtDate",
-            {onSelect: function(date){
-                $("#holiday_txtDate").valid();
-                },
-            dateFormat:jsDateFormat
-            });
-
-        $('#DateBtn').click(function(){
-           daymarker.show("#holiday_txtDate");
-        });
-        
+               
         // Back button
-        $('#btnBack').click(function(){            
+        $('#btnBack').click(function(){
             window.location.href = '<?php echo url_for('leave/viewHolidayList'); ?>';
         });
 
@@ -158,9 +144,9 @@
             $("#frmHoliday").submit();
         });
 
-    }); // ready():Ends
+    }); 
 
 
 
     //]]>
-    </script>
+</script>

@@ -14,16 +14,14 @@
     var lang_editWorkExperience = "<?php echo __('Edit Work Experience');?>";
     var lang_companyRequired = "<?php echo __("Company is required");?>";
     var lang_jobTitleRequired = "<?php echo __("Job Title is required");?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>";
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 200 characters');?>";
-    var lang_fromDateLessToDate = "<?php echo __('From date should be before to date');?>";
+    var lang_fromDateLessToDate = "<?php echo __('To date should be after From date');?>";
     var lang_selectWrkExprToDelete = "<?php echo __('Select Work Experience From The List To Delete');?>";
     var lang_jobTitleMaxLength = "<?php echo __('Job Title length cannot exceed 120 characters');?>";
     var lang_companyMaxLength = "<?php echo __('Job Title length cannot exceed 100 characters');?>";
 
-    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>
 </script>
 
@@ -100,13 +98,11 @@
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['from_date']->renderLabel(__('From')); ?>
-                                            <?php echo $workExperienceForm['from_date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
-                                            <input id="fromDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                            <?php echo $workExperienceForm['from_date']->render(array("class" => "formInputText")); ?>
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['to_date']->renderLabel(__('To')); ?>
-                                            <?php echo $workExperienceForm['to_date']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
-                                            <input id="toDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
+                                            <?php echo $workExperienceForm['to_date']->render(array("class" => "formInputText")); ?>
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['comments']->renderLabel(__('Comment')); ?>
@@ -142,9 +138,8 @@
                                                     $row = 0;
                                                     foreach ($workExperiences as $workExperience) {
                                                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                                                        //empty($workExperience->from_date)
-                                                        $fromDate = ohrm_format_date($workExperience->from_date);
-                                                        $toDate = ohrm_format_date($workExperience->to_date);
+                                                        $fromDate = set_datepicker_date_format($workExperience->from_date);
+                                                        $toDate = set_datepicker_date_format($workExperience->to_date);
                                                         ?>
                                                     <tr class="<?php echo $cssClass;?>">
                                                 <td class="check"><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />

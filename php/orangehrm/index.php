@@ -340,7 +340,16 @@ $menu = array();
 if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
+    
+    $sub = new MenuItem("configuration", "Configuration", "#");
+    $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
+    $sub->setSubMenuItems($subsubs);
+
+    $subs = array();
+    $subs[] = $sub;
+
     $sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
+    $subsubs = array();
     $subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Gen, "index.php?uniqcode=GEN&menu_no_top=eim");
     $subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Locations, "index.php?uniqcode=LOC&menu_no_top=eim");
     $subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_CompStruct, "index.php?uniqcode=CST&menu_no_top=eim");
@@ -348,7 +357,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub->setSubMenuItems($subsubs);
 
-    $subs = array();
+
     $subs[] = $sub;
 
     $sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
@@ -467,6 +476,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
         $subsubs = array();
         $subsubs[] = new MenuItem("pimconfig", "Optional Fields", "./symfony/web/index.php/pim/configurePim", "rightMenu");
         $subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields, "./symfony/web/index.php/pim/listCustomFields");
+        $subsubs[] = new MenuItem("customfields", "Data Import", "./symfony/web/index.php/admin/pimCsvImport");
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
     }

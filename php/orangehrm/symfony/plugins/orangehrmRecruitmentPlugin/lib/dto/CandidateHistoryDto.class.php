@@ -65,4 +65,8 @@ class CandidateHistoryDto {
 		$this->details = $details;
 	}
 
+        public function getFormattedPerformedDateToDisplay(){
+            return set_datepicker_date_format($this->getPerformedDate());
+        }
+
 }

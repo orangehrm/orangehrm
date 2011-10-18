@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,37 +17,45 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class OrangeI18NFilter extends sfFilter {
+
+    private $configService;
+
+    /**
+     * to get confuguration service
+     * @return <type>
+     */
+    public function getConfigService() {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+            $this->configService->setConfigDao(new ConfigDao());
+        }
+        return $this->configService;
+    }
+
+    /**
+     *  to set configuration service
+     * @param ConfigService $configService
+     */
+    public function setConfigService(ConfigService $configService) {
+        $this->configService = $configService;
+    }
 
     public function execute($filterChain) {
 
-
-        //
-        // Get culture and datepattern here:
-        //
-        // Eg: from settings file or database config table.
-        //
-        // If no date pattern, we can get the date pattern from
-        // the user culture:
-        //
-        // $dateFormat = new sfDateFormat($userCulture);
-        //
-        // $datePattern = $dateFormat->getPattern('d'); // short date pattern
-        // $timePattern = $dateFormat->getPattern('t'); // short time pattern
-        //
-        // (also: $culture->DateTimeFormat->getShortDatePattern();)
-        //
-
-        $userCulture = $this->getContext()->getUser()->getCulture();
-        $datePattern = 'yyyy-MM-dd';
+        $languages = $this->getContext()->getRequest()->getLanguages();
+        $userCulture = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
+        $localizationService = new LocalizationService();
+        $languageToSet = (!empty($languages[0]) && $this->getConfigService()->getAdminLocalizationUseBrowserLanguage() == "Yes" && key_exists($languages[0], $localizationService->getSupportedLanguageListFromYML())) ? $languages[0] : $userCulture;
+        $datePattern = $this->getContext()->getUser()->getDateFormat();
+        $datePattern = isset($datePattern) ? $datePattern : $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
 
         $user = $this->getContext()->getUser();
-        $user->setCulture($userCulture);
+        $user->setCulture($languageToSet);
         $user->setDateFormat($datePattern);
-
 
         // Execute next filter in filter chain
         $filterChain->execute();
     }
+
 }

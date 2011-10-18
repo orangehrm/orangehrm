@@ -34,6 +34,9 @@ class ConfigService extends BaseService {
     const KEY_TIMESHEET_TIME_FORMAT = 'timesheet_time_format';
     const KEY_TIMESHEET_PERIOD_AND_START_DATE = 'timesheet_period_and_start_date';
     const KEY_TIMESHEET_PERIOD_SET = 'timesheet_period_set';
+    const KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE = 'admin.localization.default_language';
+    const KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE = 'admin.localization.use_browser_language';
+    const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
 
     /**
      * Get ConfigDao
@@ -65,7 +68,7 @@ class ConfigService extends BaseService {
     public function __construct() {
         
     }
-
+    
     /**
      * Get Logger instance. Creates if not already created.
      *
@@ -77,7 +80,7 @@ class ConfigService extends BaseService {
         }
 
         return($this->logger);
-    }
+    }    
 
     /**
      *
@@ -98,7 +101,7 @@ class ConfigService extends BaseService {
      * @param type $key
      * @param type $value 
      */
-    protected function _setConfigValue($key, $value) {
+    private function _setConfigValue($key, $value) {
         try {
             $this->getConfigDao()->setValue($key, $value);
         } catch (DaoException $e) {
@@ -177,6 +180,30 @@ class ConfigService extends BaseService {
     public function showPimTaxExemptions() {
         $val = $this->_getConfigValue(self::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         return ($val == 1);
+    }
+
+    public function setAdminLocalizationDefaultLanguage($value){
+        $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE, $value);
+    }
+
+    public function setAdminLocalizationUseBrowserLanguage($value){
+        $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE, $value);
+    }
+
+    public function setAdminLocalizationDefaultDateFormat($value){
+        $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT, $value);
+    }
+
+    public function getAdminLocalizationUseBrowserLanguage(){
+        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE);
+    }
+
+    public function getAdminLocalizationDefaultDateFormat(){
+        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT);
+    }
+
+    public function getAdminLocalizationDefaultLanguage(){
+        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
     }
 
 }

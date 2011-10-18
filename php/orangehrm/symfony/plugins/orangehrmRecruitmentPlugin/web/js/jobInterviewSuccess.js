@@ -1,25 +1,6 @@
 var counter;
 $(document).ready(function() {
     counter = 1;
-    //Load default Mask if empty
-    var fromDate = trim($("#jobInterview_date").val());
-    if (fromDate == '') {
-        $("#jobInterview_date").val(dateDisplayFormat);
-    }
-
-    //Bind date picker
-    daymarker.bindElement("#jobInterview_date",
-    {
-        onSelect: function(date){
-        //$("#candidateSearch_fromDate").valid();
-        },
-        dateFormat:jsDateFormat
-    });
-
-    $('#frmDateBtn').click(function(){
-        daymarker.show("#jobInterview_date");
-    });
-
     //Auto complete
     $(".formInputInterviewer").autocomplete(employees, {
         formatItem: function(item) {
@@ -292,7 +273,7 @@ function isValidForm(){
         
         var date = trim(value)
         
-        if((date == "") || (date == dateDisplayFormat)) {
+        if((date == "") || (date == datepickerDateFormat)) {
             return false;
         }
         return true;
@@ -331,8 +312,7 @@ function isValidForm(){
                 dateRequired: true,
                 valid_date: function() {
                     return {
-                        format:jsDateFormat,
-                        displayFormat:dateDisplayFormat,
+                        format:datepickerDateFormat,
                         required:false
                     }
                 }
@@ -379,6 +359,7 @@ function isValidForm(){
         },
 
         errorPlacement: function(error, element) {
+            error.appendTo(element.prev('label'));
             
             if(element.next().hasClass('errorHolder')) {
                 error.appendTo(element.next('div.errorHolder'));

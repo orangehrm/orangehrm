@@ -84,10 +84,10 @@
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
-    var errorForInvalidFormat='<?php echo __('Please enter a valid time in HH:mm format'); ?>';
-    var errorForInvalidTimeFormat='<?php echo __('Please enter a valid time in HH:mm format') ?>';
+    var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
+    var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __('Please enter a valid date in yyyy-MM-dd format') ?>';
+    var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var errorForInvalidNote='<?php echo __('Note should be less than 250 characters') ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';

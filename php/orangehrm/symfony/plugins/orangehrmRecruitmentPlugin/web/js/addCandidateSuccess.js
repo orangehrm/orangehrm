@@ -49,20 +49,6 @@ $(document).ready(function() {
         }
     });
 
-    //Load default Mask if empty
-    var date = trim($("#addCandidate_appliedDate").val());
-    //Bind date picker
-    daymarker.bindElement("#addCandidate_appliedDate",
-    {
-        onSelect: function(date){
-        },
-        dateFormat:jsDateFormat
-    });
-
-    $('#frmDateBtn').click(function(){
-        daymarker.show("#addCandidate_appliedDate");
-    });
-
     $('#btnSave').click(function() {
         var isExistedVacancyGoingToBeDeleted = 0;
         if($("#btnSave").attr('value') == lang_edit) {
@@ -329,28 +315,24 @@ function validateVacancy(){
 
 function isValidForm(){
 
-    $.validator.addMethod("dateComparison", function(value, element, params) {
-        var temp = false;
+    $.validator.addMethod('date_range_comp', function(value, element, params) {
 
-        var fromdate        =        $('#addCandidate_appliedDate').val();
-        var todate        =        currentDate;
+    var valid = false;
+    var fromDate = $.trim(value);
+    var toDate = $.trim(currentDate);
+    var format = datepickerDateFormat;
 
-        if(fromdate.trim() == "" || todate.trim() == "" || fromdate == dateDisplayFormat || todate == dateDisplayFormat){
-            temp = true;
-        }else{
-            fromdate = (fromdate).split("-");
-            var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-
-            todate = (todate).split("-");
-            var todateObj        =        new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-            if ( fromdate <= todate){
-                temp = true;
-            }
+    if(fromDate == format || toDate == format || fromDate == "" || toDate =="") {
+        valid = true;
+    }else{
+        var parsedFromDate = $.datepicker.parseDate(format, fromDate);
+        var parsedToDate = $.datepicker.parseDate(format, toDate);
+        if(parsedFromDate <= parsedToDate){
+            valid = true;
         }
-        return temp;
-
-    });
+    }
+    return valid;
+});
 
     var validator = $("#frmAddCandidate").validate({
 
@@ -386,15 +368,14 @@ function isValidForm(){
             'addCandidate[appliedDate]' : {
                 valid_date: function() {
                     return {
-                        format:jsDateFormat,
-                        displayFormat:dateDisplayFormat,
+                        format:datepickerDateFormat,
                         required:false
 
                     }
                 },
-                dateComparison: true
-            }
-        },
+                    date_range_comp: true
+                }
+            },
         messages: {
             'addCandidate[firstName]' : {
                 required: lang_firstNameRequired,
@@ -426,15 +407,13 @@ function isValidForm(){
 
             'addCandidate[appliedDate]' : {
                 valid_date: lang_validDateMsg,
-                dateComparison:lang_dateValidation
+                date_range_comp:lang_dateValidation
             }
 
         },
         errorPlacement: function(error, element) {
-
+            error.appendTo(element.prev('label'));
             error.appendTo(element.next('div.errorHolder'));
-            //these are specially for date boxes
-            error.appendTo(element.next().next('div.errorHolder'));
 
         }
 

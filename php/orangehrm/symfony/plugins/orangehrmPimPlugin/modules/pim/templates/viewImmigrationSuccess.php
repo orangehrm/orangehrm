@@ -10,16 +10,13 @@
     var lang_invalidIssueDate = "<?php echo __('Invalid issued date'); ?>";
     var lang_invalidExpireDate = "<?php echo __('Invalid expiry date'); ?>";
     var lang_invalidReviewDate = "<?php echo __('Invalid review date'); ?>";
-    var lang_issuedGreaterExpiry = "<?php echo __('Issued date should be less than expiry date'); ?>";
+    var lang_issuedGreaterExpiry = "<?php echo __('Expiry date should be after the issued date'); ?>";
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
     var lang_deleteErrorMsg = "<?php echo __('Select at least One Record to Delete');?>";
-    var lang_invalidDate = "<?php echo __("Please enter a valid date in %format% format", array('%format%'=>strtoupper($sf_user->getDateFormat()))) ?>";
-
-    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
 
     //]]>
@@ -65,12 +62,10 @@
 
                                             <?php echo $form['passport_issue_date']->renderLabel(__('Issued Date')); ?>
                                             <?php echo $form['passport_issue_date']->render(array("class" => "formInputText")); ?>
-                                            <input id="passportIssueDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
 
                                             <?php echo $form['passport_expire_date']->renderLabel(__('Expiry Date')); ?>
                                             <?php echo $form['passport_expire_date']->render(array("class" => "formInputText")); ?>
-                                            <input id="passportExpireDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
 
                                             <?php echo $form['i9_status']->renderLabel(__('Eligible Status')); ?>
@@ -83,7 +78,6 @@
 
                                             <?php echo $form['i9_review_date']->renderLabel(__('Eligible Review Date')); ?>
                                             <?php echo $form['i9_review_date']->render(array("class" => "formInputText")); ?>
-                                            <input id="i9ReviewDateBtn" type="button" name="Submit" value="  " class="calendarBtn" />
                                             <br class="clear" />
 
                                             <?php echo $form['comments']->renderLabel(__('Comments')); ?>
@@ -133,9 +127,9 @@
                                                 <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
                                                 <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->number); ?>" />
                                                 <?php
-                                                    $passport_issue_date = ohrm_format_date($passport->passport_issue_date);
-                                                    $passport_expire_date = ohrm_format_date($passport->passport_expire_date);
-                                                    $i9_review_date = ohrm_format_date($passport->i9_review_date);
+                                                    $passport_issue_date = set_datepicker_date_format($passport->passport_issue_date);
+                                                    $passport_expire_date = set_datepicker_date_format($passport->passport_expire_date);
+                                                    $i9_review_date = set_datepicker_date_format($passport->i9_review_date);
                                                 ?>
                                                 <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
                                                 <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />

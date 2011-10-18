@@ -127,3 +127,19 @@ div#licenseMessagebar {
 label {
     margin-top: 5px;
 }
+form#frmWorkExperience label div.error{
+    margin-top: 5px;
+    width: 300px;
+    margin-left: 120px;
+}
+form#frmEducation label div.error{
+    margin-top: 5px;
+    width: 300px;
+    margin-left: 120px;
+}
+
+form#frmLicense label div.error{
+    margin-top: 5px;
+    width: 300px;
+    margin-left: 120px;
+}

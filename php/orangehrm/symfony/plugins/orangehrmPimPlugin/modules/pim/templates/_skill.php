@@ -105,10 +105,6 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
     var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
     var lang_yearsOfExpShouldBeNumber = "<?php echo __('Years of Experience should be a number');?>";
     var lang_yearsOfExpMax = "<?php echo __('Years of Experience should be less than 100');?>";
-
-    var dateFormat  = '<?php echo $sf_user->getDateFormat();?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat());?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
     //]]>
 </script>
 
@@ -178,8 +174,6 @@ $(document).ready(function() {
         $("#skill_major").val("");
         $("#skill_year").val("");
         $("#skill_gpa").val("");
-        $("#skill_start_date").val("");
-        $("#skill_end_date").val("");
 
         //show add form
         $("#changeSkill").show();
@@ -248,29 +242,6 @@ $(document).ready(function() {
         $('#static_skill_code').hide().val("");
     });
 
-
-    daymarker.bindElement("#skill_start_date", {
-        onSelect: function(date){
-            $("#skill_start_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-    $('#startDateBtn').click(function() {
-        daymarker.show("#skill_start_date");
-    });
-
-    daymarker.bindElement("#skill_end_date", {
-        onSelect: function(date){
-            $("#skill_end_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-    $('#endDateBtn').click(function() {
-        daymarker.show("#skill_end_date");
-    });
-    
     $('form#frmDelSkill a.edit').live('click', function(event) {
         event.preventDefault();
         clearMessageBar();

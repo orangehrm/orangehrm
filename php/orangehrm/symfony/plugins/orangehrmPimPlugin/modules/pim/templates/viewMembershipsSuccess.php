@@ -90,12 +90,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
                             <?php echo $form['subscriptionCommenceDate']->renderLabel(__('Subscription Commence Date')); ?>
                             <?php echo $form['subscriptionCommenceDate']->render(array("class" => "formDateInput")); ?>
-                            <input id="cDateBtn" type="button" name="" value="  " class="calendarBtn" />
                             <br class="clear"/>
 
                             <?php echo $form['subscriptionRenewalDate']->renderLabel(__('Subscription Renewal Date')); ?>
                             <?php echo $form['subscriptionRenewalDate']->render(array("class" => "formDateInput")); ?>
-                            <input id="rDateBtn" type="button" name="" value="  " class="calendarBtn" />
                             <br class="clear"/>
 
                             <?php if ($allowEdit) {
@@ -162,8 +160,8 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                     echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
                                     echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionAmount . '</td>';
                                     echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
-                                    echo "<td class='memship'valigh='top'>" . ohrm_format_date($memship->subscriptionCommenceDate) . '</td>';
-                                    echo "<td class='memship'valigh='top'>" . ohrm_format_date($memship->subscriptionRenewalDate) . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionCommenceDate) . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionRenewalDate) . '</td>';
                                     echo '</tr>';
                                     $row++;
                                 }
@@ -187,18 +185,16 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     //<![CDATA[
 
                     var fileModified = 0;
-                    var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
-                    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-                    var dateDisplayFormat = dateFormat.toUpperCase();
+                    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
                     var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
                     var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
                     var selectAMembershipType = '<?php echo __("Membership type is required"); ?>';
                     var selectAMembership = '<?php echo __("Membership is required"); ?>';
-                    var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%'=>$sf_user->getDateFormat())) ?>'
+                    var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
                     var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
-                    var dateError = '<?php echo __("Renewal date should be greater than commence date"); ?>';
+                    var dateError = '<?php echo __("Renewal date should be after the commence date"); ?>';
                     var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
                     var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
                     //]]>

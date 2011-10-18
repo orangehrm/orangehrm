@@ -75,10 +75,10 @@ class JobInterviewForm extends BaseForm {
 //creating widgets
         $this->setWidgets(array(
             'name' => new sfWidgetFormInputText(),
-            'date' => new sfWidgetFormInputText(),
+            'date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'jobInterview_date')),
             'time' => new sfWidgetFormInputText(),
             'note' => new sfWidgetFormTextArea(),
-            'selectedInterviewerList' => new sfWidgetFormInputHidden(),
+            'selectedInterviewerList' => new sfWidgetFormInputHidden()
         ));
 
         for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
@@ -89,10 +89,10 @@ class JobInterviewForm extends BaseForm {
         $this->setValidators(array(
             'name' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
             'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
-                    array('invalid' => 'Date format should be ' . strtoupper($inputDatePattern))),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'time' => new sfValidatorString(array('required' => false, 'max_length' => 30)),
             'note' => new sfValidatorString(array('required' => false)),
-            'selectedInterviewerList' => new sfValidatorString(array('required' => false)),
+            'selectedInterviewerList' => new sfValidatorString(array('required' => false))
         ));
         for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
             $this->setValidator('interviewer_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 100)));
@@ -109,7 +109,7 @@ class JobInterviewForm extends BaseForm {
 
         $interview = $this->getInterviewService()->getInterviewById($interviewId);
         $this->setDefault('name', $interview->getInterviewName());
-        $this->setDefault('date', $interview->getInterviewDate());
+        $this->setDefault('date', set_datepicker_date_format($interview->getInterviewDate()));
         if ($interview->getInterviewTime() == $this->defaultTime) {
             $this->setDefault('time', "");
         } else {
@@ -216,7 +216,7 @@ class JobInterviewForm extends BaseForm {
 
         $newCandidateHistory->setVacancyId($this->selectedCandidateVacancy->getVacancyId());
         $newCandidateHistory->setPerformedBy($empNumber);
-        $date = ohrm_format_date(date('Y-m-d'));
+        $date = date('Y-m-d');
         $newCandidateHistory->setPerformedDate($date . " " . date('H:i:s'));
         $newCandidateHistory->setNote($note = $this->getValue('note'));
         $newCandidateHistory->setInterviewId($interviewId);

@@ -19,7 +19,7 @@ $(document).ready(function(){
 
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -30,7 +30,7 @@ $(document).ready(function(){
                 $("#attendance_date").trigger('change');            
 
             },
-            dateFormat:jsDateFormat
+            dateFormat:datepickerDateFormat
         });
 
         $('#DateBtn').click(function(){
@@ -38,7 +38,7 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == lang_typeForHints){
+            if($("#employee").val() == 'Type for hints...'){
                 this.value = "";
                 $(this).removeClass("inputFormatHint");
             }
@@ -86,7 +86,7 @@ $(document).ready(function(){
 
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -95,7 +95,7 @@ $(document).ready(function(){
             onSelect: function(date){            
                 $("#attendance_date").trigger('change');            
             },
-            dateFormat:jsDateFormat
+            dateFormat:datepickerDateFormat
         });
 
         $('#DateBtn').click(function(){
@@ -103,7 +103,7 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == lang_typeForHints){
+            if($("#employee").val() == 'Type for hints...'){
                 this.value = "";
                 $(this).removeClass("inputFormatHint");
             }
@@ -148,11 +148,8 @@ function validateInputDate(){
     $(".date").removeAttr('style');
 
     var errorStyle = "background-color:#FFDFDF;";
-        
-    var date=$(".date").val();
-    
-        
-    if(!date.isValidDate()){
+          
+    if((!validateDate($(".date").val(), datepickerDateFormat))){
 
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidFormat);
@@ -172,7 +169,7 @@ function validateEmployee(){
         
     if(empCount==0){
             
-        errorMsge = lang_noEmployees;
+        errorMsge = "No Employees Available in System";
         return false;
     }
     for (i=0; i < empCount; i++) {
@@ -188,10 +185,10 @@ function validateEmployee(){
     if(temp){
         return true;
     }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-        errorMsge = lang_selectEmployee;
+        errorMsge = "Please Select an Employee";
         return false;
     }else{
-        errorMsge = lang_invalidEmployee;
+        errorMsge = "Invalid Employee Name";
         return false;
     }
 }
@@ -217,18 +214,4 @@ function getRelatedAttendanceRecords(employeeId, date, actionRecorder){
                     
     return false;
         
-}
-
-String.prototype.isValidDate = function() {
-    var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
-    var matches = IsoDateRe.exec(this);
-    if (!matches) return false;
-  
-
-    var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
-
-    return ((composedDate.getMonth() == (matches[2] - 1)) &&
-        (composedDate.getDate() == matches[3]) &&
-        (composedDate.getFullYear() == matches[1]));
-
 }

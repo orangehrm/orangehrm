@@ -21,11 +21,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <br class="clear"/>
 
             <?php foreach ($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList') as $label): ?>
-                <!--                <div>-->
             <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
             <?php echo $reportForm[$label['labelName']]->render(); ?><?php echo $reportForm[$label['labelName']]->renderError(); ?>
                 <div class="errorDiv" style="padding-right: 165px; float: right"></div>
-                <!--            </div>-->
                 <br class="clear"/>
                 <br class="clear"/>
             <?php endforeach; ?>
@@ -68,43 +66,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     <script type="text/javascript">
         $(document).ready(function() {
-//            $('#viewbutton').click(function() {
-//                if(isValidForm()) {
-//                    $('#reportForm').submit();
-//                }
-//            });
-//        });
 
-//        function isValidForm(){
-
-            var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
-            var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-            var dateDisplayFormat = dateFormat.toUpperCase();
-            var lang_dateError = '<?php echo __("From date should be less than To date") ?>';
-            var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => strtoupper($sf_user->getDateFormat()))) ?>'
-
-        $.validator.addMethod("dateComparison", function(value, element, params) {
-            var temp = false;
-
-            var fromdate	=	$('#project_date_range_from_date').val();
-            var todate	=	$('#project_date_range_to_date').val();
-
-            if(fromdate.trim() == "" || todate.trim() == "" || fromdate == dateDisplayFormat || todate == dateDisplayFormat){
-                temp = true;
-            }else{
-                fromdate = (fromdate).split("-");
-                var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-
-                todate = (todate).split("-");
-                var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-                if ( fromdate <= todate){
-                    temp = true;
-                }
-            }
-            return temp;
-
-        });
+            var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+            var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
+            var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+            var lang_required = '<?php echo __("Project name is required") ?>';
 
         var validator = $("#reportForm").validate({
 
@@ -112,40 +78,41 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 'time[project_date_range][from]' : {
                     valid_date: function() {
                         return {
-                            format:jsDateFormat,
-                            displayFormat:dateDisplayFormat,
+                            format:datepickerDateFormat,
                             required:false
                         }
-                    },
-                    dateComparison:true
-                },
+                    }},
                 'time[project_date_range][to]' : {
                     valid_date: function() {
                         return {
-                            format:jsDateFormat,
-                            displayFormat:dateDisplayFormat,
+                            format:datepickerDateFormat,
                             required:false
+                        }
+                    },
+                    date_range: function() {
+                        return {
+                            format:datepickerDateFormat,
+                            fromDate:$('#project_date_range_from_date').val()
                         }
                     }
                 }
             },
             messages: {
                 'time[project_date_range][from]' : {
-                    dateComparison : lang_dateError,
                     valid_date: lang_validDateMsg
                 },
                 'time[project_date_range][to]' : {
-                    valid_date: lang_validDateMsg
+                    valid_date: lang_validDateMsg,
+                    date_range:lang_dateError
                 }
 
             },
             errorPlacement: function(error, element) {
-                error.appendTo( element.prev('label') );
-                error.appendTo(element.next().next().next('div.errorDiv'));
-            }
+                error.appendTo(element.prev('label'));
+                error.appendTo(element.next().next().next('div.errorDiv'));}
+            //                    error.appendTo(element.prev().prev().prev().prev('label'));}
+
 
         });
-        });
-//        return true;
-//    }
+    });
 </script>

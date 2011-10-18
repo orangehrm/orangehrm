@@ -10,7 +10,8 @@ function clearMessageBar() {
 $(document).ready(function() {
     //--this section is for work experience
 
-    
+    var fromDate = "";
+
     function addEditLinks() {
         // called here to avoid double adding links - When in edit mode and cancel is pressed.
         removeEditLinks();
@@ -29,7 +30,6 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($(".chkbox1").length == 0) {
-        //$("#tblWorkExperience").hide();
         $("#editWorkExperience").hide();
         $("#delWorkExperience").hide();
     }
@@ -68,8 +68,8 @@ $(document).ready(function() {
         $("#experience_seqno").val("");
         $("#experience_employer").val("");
         $("#experience_jobtitle").val("");
-        $("#experience_from_date").val(dateDisplayFormat);
-        $("#experience_to_date").val(dateDisplayFormat);
+        $("#experience_from_date").val(datepickerDateFormat);
+        $("#experience_to_date").val(datepickerDateFormat);
         $("#experience_comments").val("");
 
         //show add work experience form
@@ -92,49 +92,72 @@ $(document).ready(function() {
 
     $("#btnWorkExpSave").click(function() {
         clearMessageBar();
-        
+        fromDate = $('#experience_from_date').val();
         $("#frmWorkExperience").submit();
-    });
-
-    /* Valid From Date */
-    $.validator.addMethod("validFromDate", function(value, element) {
-
-        var fromdate	=	$('#experience_from_date').val();
-        fromdate = (fromdate).split("-");
-
-        var fromdateObj = new Date(parseInt(fromdate[0],10), parseInt(fromdate[1],10) - 1, parseInt(fromdate[2],10));
-        var todate		=	$('#experience_to_date').val();
-        todate = (todate).split("-");
-        var todateObj	=	new Date(parseInt(todate[0],10), parseInt(todate[1],10) - 1, parseInt(todate[2],10));
-
-        if(fromdateObj > todateObj){
-            return false;
-        }
-        else{
-            return true;
-        }
     });
 
     //form validation
     var workExperienceValidator =
-        $("#frmWorkExperience").validate({
+    $("#frmWorkExperience").validate({
         rules: {
-            'experience[employer]': {required: true, maxlength: 100},
-            'experience[jobtitle]': {required: true, maxlength: 120},
-            'experience[from_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}, validFromDate:true},
-            'experience[to_date]': {valid_date: function(){return {format:jsDateFormat, displayFormat:dateDisplayFormat, required:false}}},
-            'experience[comments]': {maxlength: 200}
+            'experience[employer]': {
+                required: true,
+                maxlength: 100
+            },
+            'experience[jobtitle]': {
+                required: true,
+                maxlength: 120
+            },
+            'experience[from_date]': {
+                valid_date: function(){
+                    return {
+                        format:datepickerDateFormat,
+                        required:false
+                    }
+                }
+            },
+            'experience[to_date]': {
+                valid_date: function(){
+                    return {
+                        format:datepickerDateFormat,
+                        required:false
+                    }
+                },
+                date_range: function() {
+                    return {
+                        format:datepickerDateFormat,
+                        fromDate:fromDate
+                    }
+                }
+            },
+            'experience[comments]': {
+                maxlength: 200
+            }
         },
         messages: {
-            'experience[employer]': {required: lang_companyRequired, maxlength: lang_companyMaxLength},
-            'experience[jobtitle]': {required: lang_jobTitleRequired, maxlength: lang_jobTitleMaxLength},
-            'experience[from_date]': {valid_date: lang_invalidDate, validFromDate: lang_fromDateLessToDate},
-            'experience[to_date]': {valid_date: lang_invalidDate},
-            'experience[comments]': {maxlength: lang_commentLength}
+            'experience[employer]': {
+                required: lang_companyRequired,
+                maxlength: lang_companyMaxLength
+            },
+            'experience[jobtitle]': {
+                required: lang_jobTitleRequired,
+                maxlength: lang_jobTitleMaxLength
+            },
+            'experience[from_date]': {
+                valid_date: lang_invalidDate
+            },
+            'experience[to_date]': {
+                valid_date: lang_invalidDate,
+                date_range: lang_fromDateLessToDate
+            },
+            'experience[comments]': {
+                maxlength: lang_commentLength
+            }
         },
 
         errorElement : 'div',
         errorPlacement: function(error, element) {
+            error.appendTo(element.prev('label'));
             error.insertAfter(element.next(".clear"));
             error.insertAfter(element.next().next(".clear"));
 
@@ -159,29 +182,6 @@ $(document).ready(function() {
 
         $(".chkbox1").show();
         $("#workCheckAll").show();
-    });
-
-
-    daymarker.bindElement("#experience_from_date", {
-        onSelect: function(date){
-            $("#experience_from_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-    $('#fromDateBtn').click(function() {
-        daymarker.show("#experience_from_date");
-    });
-
-    daymarker.bindElement("#experience_to_date", {
-        onSelect: function(date){
-            $("#experience_to_date").valid();
-            },
-            dateFormat:jsDateFormat
-        });
-
-    $('#toDateBtn').click(function() {
-        daymarker.show("#experience_to_date");
     });
     
     $('form#frmDelWorkExperience table a.edit').live('click', function(event) {
@@ -209,16 +209,16 @@ $(document).ready(function() {
         $("#experience_comments").val($("#comment_" + seqno).val());
 
         if ($("#experience_from_date").val() == '') {
-            $("#experience_from_date").val(dateDisplayFormat);
+            $("#experience_from_date").val(datepickerDateFormat);
         }
         if ($("#experience_to_date").val() == '') {
-            $("#experience_to_date").val(dateDisplayFormat);
+            $("#experience_to_date").val(datepickerDateFormat);
         }
 
         $("#workExpRequiredNote").show();
 
         $(".chkbox1").hide();
-        $("#workCheckAll").hide();       
+        $("#workCheckAll").hide();
     });
 
 });

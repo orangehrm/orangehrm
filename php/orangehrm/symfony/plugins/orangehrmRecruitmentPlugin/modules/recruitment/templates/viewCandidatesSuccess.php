@@ -86,13 +86,11 @@
             <div class="column" id="frmDateDiv">
                 <?php echo $form['fromDate']->renderLabel(__('Date of Application')); ?>
                 <?php echo $form['fromDate']->render(array("class" => "formDateInput")); ?>
-                <input id="frmDateBtn" type="button" name="" value="  " class="calendarBtn" />
                 <br class="clear"/>
                 <label id="frmDate" class="helpText"><?php echo __('From'); ?></label>
             </div>
             <div class="column" id="toDateDiv">
                 <?php echo $form['toDate']->render(array("class" => "formDateInput")); ?>
-                <input id="toDateBtn" type="button" name="" value="  " class="calendarBtn" /> 
                 <div class="errorHolder toDate"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('To'); ?></label>
@@ -100,32 +98,32 @@
 
             <?php include_component('core', 'ohrmPluginPannel', array('location' => 'candidate-search-fields')); ?>
 
-            <div class="actionbar" style="border-top: 1px solid #FAD163; margin-top: 3px">
-                <div class="actionbuttons">
-                    <input type="button" class="searchbutton" name="btnSrch" id="btnSrch"
-                           value="<?php echo __("Search"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                    <input type="button" class="resetbutton" name="btnSrch" id="btnRst"
-                           value="<?php echo __("Reset"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                <div class="actionbar" style="border-top: 1px solid #FAD163; margin-top: 3px">
+                    <div class="actionbuttons">
+                        <input type="button" class="searchbutton" name="btnSrch" id="btnSrch"
+                               value="<?php echo __("Search"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                        <input type="button" class="resetbutton" name="btnSrch" id="btnRst"
+                               value="<?php echo __("Reset"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    </div>
+                    <br class="clear"/>
                 </div>
                 <br class="clear"/>
-            </div>
-            <br class="clear"/>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
+    <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+        <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+    </div>
 
-<div id="candidatesSrchResults">
+    <div id="candidatesSrchResults">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
             </div>
 
 
             <!-- confirmation box -->
             <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    
-	    <?php echo __("Selected candidate(s) will be deleted") . "?"; ?>
+
+    <?php echo __("Selected candidate(s) will be deleted") . "?"; ?>
 
                 <div class="dialogButtons">
                     <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
@@ -133,8 +131,8 @@
                 </div>
             </div>
             <form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('recruitment/viewCandidates'); ?>">
-                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;  ?>" />
-                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />            
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;   ?>" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
             </form>
 
             <script type="text/javascript">
@@ -147,17 +145,15 @@
 
                 }
                 //<![CDATA[
-                var dateFormat	= '<?php echo $sf_user->getDateFormat(); ?>';
-                var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-                var dateDisplayFormat = dateFormat.toUpperCase();
-                var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => strtoupper($sf_user->getDateFormat()))) ?>'
+                var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+                var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
                 var candidates = <?php echo str_replace('&#039;', "'", $form->getCandidateListAsJson()) ?> ;
                 var vacancyListUrl = '<?php echo url_for('recruitment/getVacancyListForJobTitleJson?jobTitle='); ?>';
                 var hiringManagerListUrlForJobTitle = '<?php echo url_for('recruitment/getHiringManagerListJson?jobTitle='); ?>';
                 var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?vacancyId='); ?>';
                 var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
                 var lang_all = '<?php echo __("All") ?>';
-                var lang_dateError = '<?php echo __("From date should be less than To date") ?>';
+                var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
                 var lang_helpText = '<?php echo __("Click on a candidate to perform actions") ?>';
                 var candidatesArray = eval(candidates);
                 var lang_enterValidName = '<?php echo __("Enter valid candidate name") ?>';

@@ -89,11 +89,11 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         $leaveCount = count($this->leave);
 
         if ($leaveCount == 1) {
-            return ohrm_format_date($this->leave[0]->getLeaveDate());
+            return set_datepicker_date_format($this->leave[0]->getLeaveDate());
         } else {
             $leaveRequestStartDate = $this->leave[0]->getLeaveDate();
             $leaveRequestEndDate = $this->leave[$leaveCount - 1]->getLeaveDate();
-            return sprintf('%s %s %s', ohrm_format_date($leaveRequestStartDate), __('to'), ohrm_format_date($leaveRequestEndDate));
+            return sprintf('%s %s %s', set_datepicker_date_format($leaveRequestStartDate), __('to'), set_datepicker_date_format($leaveRequestEndDate));
         }
     }
 

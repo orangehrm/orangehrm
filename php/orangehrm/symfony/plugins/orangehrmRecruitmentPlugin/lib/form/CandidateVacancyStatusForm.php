@@ -75,7 +75,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$this->selectedCandidateVacancy = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($candidateHistory->getCandidateId(), $candidateHistory->getVacancyId());
 			$this->performedActionName = $candidateHistory->getActionName();
 			$date = explode(" ", $candidateHistory->getPerformedDate());
-			$this->performedDate = $date[0];
+			$this->performedDate = set_datepicker_date_format($date[0]);
 			$this->performedBy = $candidateHistory->getPerformerName();
 			$this->vacancyId = $candidateHistory->getVacancyId();
 			$this->selectedAction = $candidateHistory->getAction();
@@ -132,7 +132,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$empNumber = null;
 		}
 		$candidateHistory->setPerformedBy($empNumber);
-		$date = ohrm_format_date(date('Y-m-d'));
+		$date = date('Y-m-d');
 		$candidateHistory->setPerformedDate($date . " " . date('H:i:s'));
 		$candidateHistory->setNote($note);
 
@@ -150,7 +150,6 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$employee->jobTitle = $this->selectedCandidateVacancy->getJobVacancy()->getJobTitle();
 
 			$this->getCandidateService()->addEmployee($employee);
-			//$this->getCandidateService()->deleteCandidate($this->selectedCandidateVacancy->getCandidateId());
 		}
 	}
 

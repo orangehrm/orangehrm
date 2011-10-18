@@ -68,7 +68,7 @@
         <tr class="tableArrangetr">
             <td align="left"><?php echo __("Current Leave Period"); ?></td>
             <td class="valueLabel">
-            <?php echo ohrm_format_date($currentLeavePeriod->getStartDate()) . " " . __("to") . " " . ohrm_format_date($currentLeavePeriod->getEndDate());?>
+            <?php echo set_datepicker_date_format($currentLeavePeriod->getStartDate()) . " " . __("to") . " " . set_datepicker_date_format($currentLeavePeriod->getEndDate());?>
             </td>
         </tr>
         <?php } ?>
@@ -151,7 +151,6 @@
             }
             $('#lblEndDateFollowingYear').html(followingYearText);
 		    $('.datesForNonLeapYears').hide();
-		    //$('#messagebar').html('');
 		    $('#messagebar').hide();
 		});
 
