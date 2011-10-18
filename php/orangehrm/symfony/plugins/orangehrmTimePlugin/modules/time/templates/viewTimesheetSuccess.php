@@ -15,6 +15,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */ ?>
+<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
+<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
+<?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
+
+
 <?php
 $noOfColumns = sizeof($sf_data->getRaw('rowDates'));
 $width = 350 + $noOfColumns * 75;
@@ -46,13 +53,43 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
             <?php if (isset($employeeName)): ?>
                 <td id="headingText"><?php echo __('Timesheet for ') . $employeeName . __(' for') . " " . $headingText . " ";
-        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
+        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?>
+                    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_CREATE, $sf_data->getRaw('allowedToCreateTimesheets'))): ?>
+                        <input type="button" class="addTimesheetbutton" name="button" id="btnAddTimesheet"
+                               onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                               value="<?php echo __('Add Timesheet') ?>" />
+                           <?php endif; ?>
+                </td>
+
             <?php else: ?>
                 <td id="headingText"><?php echo __('Timesheet for ') . " " . $headingText . " ";
-        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?></td>
+        echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?>
+                    <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_CREATE, $sf_data->getRaw('allowedToCreateTimesheets'))): ?>
+                        <input type="button" class="addTimesheetbutton" name="button" id="btnAddTimesheet"
+                               onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                               value="<?php echo __('Add Timesheet') ?>" />
+                           <?php endif; ?>
+                </td>
+
+
             <?php endif; ?>
         </tr>
     </table>
+
+
+    <div id="createTimesheet">
+        <br class="clear"/>
+        <form  id="createTimesheetForm" action=""  method="post">
+            <?php echo $createTimesheetForm['_csrf_token']; ?>
+
+            <?php echo $createTimesheetForm['date']->renderLabel(__('Select a Day to Create Timesheet')); ?>
+            <?php echo $createTimesheetForm['date']->render(); ?><input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/>
+            <?php echo $createTimesheetForm['date']->renderError() ?>
+            <br class="clear"/>
+        </form>
+
+    </div>
+
     <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
     <div class="outerbox" style="width: <?php echo $width . 'px' ?>;">
         <div class="maincontent">
@@ -69,7 +106,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <td><?php echo __("Total") ?></td>
                     </tr>
                 </thead>
-                    <tr><td id="noRecordsColumn" colspan="100"></td></tr>
+                <tr><td id="noRecordsColumn" colspan="100"></td></tr>
                 <?php if (isset($toggleDate)): ?>
                     <?php $selectedTimesheetStartDate = $toggleDate ?>
                 <?php else: ?>
@@ -94,7 +131,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                         <tr class="<?php echo $class; ?>">
                             <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
-                            <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['projectName']); ?>
+				<td id="columnName"><?php echo str_replace("##", "", html_entity_decode($timesheetItemRow['projectName'])); ?>
                             <td id="columnName"><?php echo html_entity_decode($timesheetItemRow['activityName']); ?>
 
                                 <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
@@ -180,9 +217,9 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
 
             <form id="timesheetFrm"  method="post">
-                
+
                 <?php echo $formToImplementCsrfToken['_csrf_token']; ?>
-             
+
                 <div class="formbuttons">
 
                     <div><h4><?php echo __('Status: ') ?><?php echo ucwords(strtolower($timesheet->getState())); ?></h4></div>
@@ -209,8 +246,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <br class="clear"/>
 
                     <?php endif; ?>
-                         <br class="clear"/>
-                         <br class="clear"/>
+                    <br class="clear"/>
+                    <br class="clear"/>
                     <div> 
                         <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_APPROVE, $sf_data->getRaw('allowedActions')) || (in_array(WorkflowStateMachine::TIMESHEET_ACTION_REJECT, $sf_data->getRaw('allowedActions')))) : ?>
 
@@ -257,13 +294,14 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
     <?php if ($actionLogRecords != null): ?>
 
         <h2 id="actionLogHeading">
-            &nbsp;&nbsp;&nbsp;<?php echo __("Actions performed on the timesheet :"); ?>
+            &nbsp;&nbsp;&nbsp;<?php echo __("Actions performed on the timesheet"); ?>
         </h2>
         <div class="outerbox" style="width: auto">
             <div class="maincontent" style="width: auto">
                 <table border="0" cellpadding="5" cellspacing="0" class="actionLog-table">
                     <thead>
                         <tr>
+        <!--                                    <td id="actionlogStatusAlignment"> </td>-->
                             <td id="actionlogStatus"><?php echo __('Action'); ?></td>
                             <td id="actionlogPerform"><?php echo __('Performed By'); ?></td>
                             <td id="actionLogDate"><?php echo __('Date'); ?></td>
@@ -281,7 +319,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         endif;
                         ?>
 
-                        <tr>   
+                        <tr>
+            <!--                    <td id="actionlogStatusAlignment"> </td>-->
                             <td id="actionlogStatus"><?php echo ucfirst(strtolower($row->getAction())); ?></td>
                             <td id="actionlogPerform"><?php echo $performedBy; ?></td>
                             <td id="actionLogDate"><?php echo set_datepicker_date_format($row->getDateTime()); ?></td>
@@ -309,9 +348,9 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
             <div><input type="button" id="commentCancel" class="plainbtn" value="<?php echo __('Close'); ?>" /></div>
         </form>
     </div>
-
-
     <script type="text/javascript">
+                                                    
+         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var submitNextState = "<?php echo $submitNextState; ?>";
         var approveNextState = "<?php echo $approveNextState; ?>";
         var submitNextState = "<?php echo $submitNextState; ?>";
@@ -325,9 +364,17 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var date = "<?php echo $selectedTimesheetStartDate ?>";
         var actionName = "<?php echo $actionName; ?>";
         var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
-
+        var validateStartDate="<?php echo url_for('time/validateStartDate'); ?>";
+        var createTimesheet="<?php echo url_for('time/createTimesheet'); ?>";
+        var returnEndDate="<?php echo url_for('time/returnEndDate'); ?>";
+        var currentDate= "<?php echo $currentDate; ?>";
+        var lang_noFutureTimesheets= "<?php echo __("It is Not Possible to Create Future Timesheets"); ?>";
+	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
+	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
+	var lang_invalidDate= "<?php echo __("Invalid Date"); ?>";
 
 
 
     </script>
+
 <?php endif; ?>

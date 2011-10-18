@@ -6,7 +6,7 @@ $(document).ready(function(){
     
     var rDate = trim($(".date").val());
     if (rDate == '') {
-        $(".date").val(dateDisplayFormat);
+        $(".date").val(datepickerDateFormat);
     }
 
     //Bind date picker
@@ -17,15 +17,11 @@ $(document).ready(function(){
 
             $(".date").trigger('change');
         },
-        dateFormat:jsDateFormat
+        dateFormat:datepickerDateFormat
     });
 
     $('#DateBtn').click(function(){
-
-
         daymarker.show(".date");
-
-
     });
   
     $(".date").change(function() {
@@ -71,8 +67,6 @@ $(document).ready(function(){
                         startDate=data[1].split(' ');
                         
                         $('form#createTimesheetForm').attr({
-                            
-                            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
                             action:linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId
                         });
                         $('form#createTimesheetForm').submit();
@@ -80,13 +74,6 @@ $(document).ready(function(){
         
         
                 })
-            //            }
-            //            else{
-            //                $('#validationMsg').attr('class', "messageBalloon_failure");
-            //                $('#validationMsg').html("Invalid Start date");
-            //            }
-            
-        
                 
             }
         }
@@ -114,7 +101,6 @@ $(document).ready(function(){
     $("#btnSubmit").click(function(){
      
         $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
             action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
         });
         $('form#timesheetFrm').submit();
@@ -125,7 +111,6 @@ $(document).ready(function(){
         if(validateComment()){
 
             $('form#timesheetFrm').attr({
-                //action:linkForViewTimesheet+"?state=REJECTED"+"&date="+date
                 action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
             });
             $('form#timesheetFrm').submit();
@@ -134,7 +119,6 @@ $(document).ready(function(){
 
     $("#btnReset").click(function(){
         $('form#timesheetFrm').attr({
-            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
             action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
         });
         $('form#timesheetFrm').submit();
@@ -143,7 +127,6 @@ $(document).ready(function(){
     $("#btnApprove").click(function(){
         if(validateComment()){
             $('form#timesheetFrm').attr({
-                //action:linkForViewTimesheet+"?state=APPROVED"+"&date="+date
                 action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
             });
             $('form#timesheetFrm').submit();
@@ -155,26 +138,6 @@ $(document).ready(function(){
     $("#btnAddTimesheet").click(function(){
         $("#createTimesheet").show();
     });
-
-    //$('#txtComment').change(function() {
-    //
-    //
-    //    var flag= validateComment();
-    //
-    //    if(!flag) {
-    //        $('#btnApprove').attr('disabled', 'disabled');
-    //        $('#btnReject').attr('disabled', 'disabled');
-    //        $('#validationMsg').attr('class', "messageBalloon_failure");
-    //    }
-    //    else{
-    //        $('#btnApprove').removeAttr('disabled');
-    //        $('#btnReject').removeAttr('disabled');
-    //        $("#txtComment").removeAttr('style');
-    //    }
-    //
-    //
-    //});
-
 
     $(".icon").click(function(){
 
@@ -191,12 +154,7 @@ $(document).ready(function(){
         $("#commentActivityName").text(":"+" "+array[2]);
         $("#commentDate").text(":"+" "+date);
         $("#commentDialog").dialog('open');
-
-
     });
-
-
-
 });
 
 

@@ -69,7 +69,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 								var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray = eval(employees);
 	var errorMsge;
-       
+       var lang_typeForHints = "Type for hints...";
 	$(document).ready(function() {
        
 
@@ -144,13 +144,5 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		}
 	}
 
-
-    
-
-//	function getEmployeeData(e){
-//		var data = $(e.target).parent().attr("class").split("##");
-//		var url = 'viewPendingApprovelTimesheet?timesheetId='+data[0]+'&employeeId='+data[1]+'&timesheetStartday='+data[2];
-//		$(location).attr('href',url);
-//	}
 </script>
 
