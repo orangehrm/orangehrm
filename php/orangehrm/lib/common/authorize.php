@@ -111,7 +111,7 @@ class authorize {
     private function _roles() {
         $roles = null;
         $isAdmin = $this->getIsAdmin();
-        $empId = $this->getEmployeeId();
+        $empId = (int) $this->getEmployeeId();
 
         if ($isAdmin === authorize::YES) {
             $roles[$this->roleAdmin] = true;
