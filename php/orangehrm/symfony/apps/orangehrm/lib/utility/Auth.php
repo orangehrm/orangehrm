@@ -67,7 +67,7 @@ class Auth {
      */
     private function __construct() {
 
-    	if (isset($_SESSION['fname'])) {
+    	if (isset($_SESSION['user'])) {
     		$this->loggedIn = true;
                 $this->empNumber = $_SESSION['empID']; 
                 $this->loggedInUserId = $_SESSION['user'];

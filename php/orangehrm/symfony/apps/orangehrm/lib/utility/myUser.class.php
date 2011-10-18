@@ -113,7 +113,7 @@ class myUser extends sfUser implements sfSecurityUser {
             return true;
         } else {
             // Checks orangehrm session variable
-            return isset($_SESSION['fname']);
+            return isset($_SESSION['user']);
         }
     }
 
