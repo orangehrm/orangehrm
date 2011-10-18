@@ -315,6 +315,22 @@ class VacancyDao extends BaseDao {
         }
 
         return false;
+    }    
+    
+    /**
+     *
+     * @param type $empNumber 
+     * @return Doctrine_Collection
+     */
+    public function searchInterviews($empNumber) {
+        try {
+            $query = Doctrine_Query::create()
+                    ->from('JobInterview ji')
+                    ->where('ji.interviewerId = ?', $empNumber);
+            return $query->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
     }
 
 }

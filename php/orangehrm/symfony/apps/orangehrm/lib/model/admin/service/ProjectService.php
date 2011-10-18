@@ -378,4 +378,19 @@ class ProjectService extends BaseService {
         
         return $projectList;
     }
+    
+    /**
+     *
+     * @param int $empNumber 
+     * @return array
+     */
+    public function isProjectAdmin($empNumber) {
+        try {
+            $projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber);
+            return (count($projects) > 0);
+        } catch (Exception $e) {
+            // TODO: Warn
+            return false;
+        }
+    }
 }

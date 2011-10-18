@@ -1,7 +1,6 @@
 <?php
 
-/*
- * 
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -21,7 +20,6 @@
  */
 
 /**
- * Description of CompanyService
  *
  * @author orange
  */
@@ -42,13 +40,19 @@ class AuthorizeService extends BaseService {
     public $roleESS = "ESS";
     public $roleProjectAdmin = "ProjectAdmin";
     public $roleManager = "Manager";
-    public $roleDirector = "Director";
+    public $roleDirector = "Offerer";
     public $roleAcceptor = "Acceptor";
     public $roleOfferer = "Offerer";
+    public $roleHiringManager = "Offerer";
+    
     private $employeeService;
+    private $projectService;
+    private $vacancyService;
+    
     private $employeeID;
     private $isAdmin;
     private $roles;
+    private static $currentUserId;
 
     /**
      * Get EmployeeService
@@ -68,6 +72,44 @@ class AuthorizeService extends BaseService {
      */
     public function setEmployeeService(EmployeeService $employeeService) {
         $this->employeeService = $employeeService;
+    }
+    
+    /**
+     *
+     * @return ProjectService  
+     */
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+        }
+        return $this->projectService;
+    }
+    
+    /**
+     *
+     * @param ProjectService $projectService 
+     */
+    public function setProjectService($projectService) {
+        $this->projectService = $projectService;
+    }
+    
+    /**
+     *
+     * @return VacancyService
+     */
+    public function getVacancyService() {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+        }
+        return $this->vacancyService;
+    }
+    
+    /**
+     *
+     * @param VacancyService $cacancyService 
+     */
+    public function setVacancyService($cacancyService) {
+        $this->vacancyService = $vacancyService;
     }
 
     public function setEmployeeId($employeeId) {
@@ -92,6 +134,13 @@ class AuthorizeService extends BaseService {
 
     public function getRoles() {
         return $this->roles;
+    }
+
+    public static function getCurrentUserId() {
+        if (empty(self::$currentUserId)) {
+            self::$currentUserId = @$_SESSION['user'];
+        }
+        return self::$currentUserId;
     }
 
     /**
@@ -129,6 +178,8 @@ class AuthorizeService extends BaseService {
         $roles[$this->roleDirector] = $this->_checkIsDirector();
         $roles[$this->roleAcceptor] = $this->_checkIsAcceptor();
         $roles[$this->roleOfferer] = $this->_checkIsOfferer();
+        $roles[$this->roleHiringManager] = $this->_checkIsHiringManager();
+        $roles[$this->roleInterviewer] = $this->_checkIsInterviewer();
 
         if (!empty($empId)) {
             $roles[$this->roleESS] = true;
@@ -162,7 +213,27 @@ class AuthorizeService extends BaseService {
      */
     private function _checkIsProjectAdmin($projectId = null) {
 
-        return false;
+        try {
+            
+            $id = (int) $this->getEmployeeId();
+            
+            if (!empty($id)) {
+                return $this->getProjectService()->isProjectAdmin($id);
+            }
+        } catch (Exception $e) {
+            // TODO: Warn
+            return false;
+        }
+    }
+
+    /**
+     * Check whether the user is an HiringManager that can approve job offers
+     *
+     * @return boolean True if an hiring manager, false otherwise
+     */
+    private function _checkIsHiringManager() {
+
+        return $this->_checkIsManager();
     }
 
     /**
@@ -171,6 +242,28 @@ class AuthorizeService extends BaseService {
      * @return boolean
      */
     private function _checkIsManager() {
+
+        $id = (int) $this->getEmployeeId();
+
+        if (!empty($id)) {
+            return $this->getVacancyService()->isHiringManager($id);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether the user is an Interviewer who can interview candidates
+     *
+     * @return boolean True if an interviewer, false otherwise
+     */
+    private function _checkIsInterviewer() {
+
+        $id = (int) $this->getEmployeeId();
+
+        if (!empty($id)) {
+            return $this->getVacancyService()->isInterviewer($id);
+        }
 
         return false;
     }
@@ -285,8 +378,7 @@ class AuthorizeService extends BaseService {
      * @return boolean
      */
     public function isTheSupervisor($subordinateId) {
-
-        return false;
+        return $isSupervisor = $this->getEmployeeService()->isSupervisor($subordinateId);
     }
 
     /**
