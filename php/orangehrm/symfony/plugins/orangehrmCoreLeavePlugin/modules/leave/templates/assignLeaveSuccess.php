@@ -147,6 +147,52 @@
             }
         );
 
+        var rDate = trim($("#assignleave_txtFromDate").val());
+            if (rDate == '') {
+                $("#assignleave_txtFromDate").val(datepickerDateFormat);
+            }
+
+        //Bind date picker
+        daymarker.bindElement("#assignleave_txtFromDate",
+        {
+            onSelect: function(date){
+            fromDateBlur(date)
+            },
+            dateFormat : datepickerDateFormat
+        });
+
+        $('#assignleave_txtFromDate_Button').click(function(){
+            daymarker.show("#assignleave_txtFromDate");
+
+        });
+        $('#assignleave_txtFromDate').click(function(){
+            daymarker.show("#assignleave_txtFromDate");
+
+        });
+
+        var tDate = trim($("#assignleave_txtToDate").val());
+            if (tDate == '') {
+                $("#assignleave_txtToDate").val(datepickerDateFormat);
+            }
+
+        //Bind date picker
+        daymarker.bindElement("#assignleave_txtToDate",
+        {
+            onSelect: function(date){
+            toDateBlur(date)
+            },
+            dateFormat : datepickerDateFormat
+        });
+
+        $('#assignleave_txtToDate_Button').click(function(){
+            daymarker.show("#assignleave_txtToDate");
+
+        });
+        $('#assignleave_txtToDate').click(function(){
+            daymarker.show("#assignleave_txtToDate");
+
+        });
+
             //Show From if same date
             if(trim($("#assignleave_txtFromDate").val()) != datepickerDateFormat && trim($("#assignleave_txtToDate").val()) != datepickerDateFormat){
                 if( trim($("#assignleave_txtFromDate").val()) == trim($("#assignleave_txtToDate").val())) {
@@ -155,56 +201,6 @@
                     $("#trTime3").show();
                 }
             }
-
-
-            //Bind blur event of From Date
-            $("#assignleave_txtFromDate").change(function() {
-                alert("test")
-                var fromDateValue 	= 	trim($("#assignleave_txtFromDate").val());
-                if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
-                    var toDateValue	=	trim($("#assignleave_txtToDate").val());
-                    if(validateDate(fromDateValue, datepickerDateFormat)){
-                        if(fromDateValue == toDateValue) {
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();
-                        }
-                        if(!validateDate(toDateValue, datepickerDateFormat)){
-                            $("#assignleave_txtToDate").val(fromDateValue);
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();                            
-                        }
-                    }
-                    else {
-                        $("#trTime1").hide();
-                        $("#trTime2").hide();
-                        $("#trTime3").show();
-                    }
-                }
-            });
-
-            //Bind blur event of To Date
-            $("#assignleave_txtToDate").each(function() {
-
-                var toDateValue	=	trim($("#assignleave_txtToDate").val());
-                if(toDateValue != datepickerDateFormat && toDateValue != ""){
-                    var fromDateValue 	= 	trim($("#assignleave_txtFromDate").val());
-
-                    if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
-
-                        if(fromDateValue == toDateValue) {
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();
-                        } else {
-                            $("#trTime1").hide();
-                            $("#trTime2").hide();
-                            $("#trTime3").hide();
-                        }
-                    }
-                }
-            });
 
             // Bind On change event of From Time
             $('#assignleave_txtFromTime').change(function() {
@@ -418,6 +414,52 @@
 
         $("#assignleave_txtToTime").valid();
     }
+
+    function fromDateBlur(date){
+        var fromDateValue 	= 	trim(date);
+                if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
+                    var toDateValue	=	trim($("#assignleave_txtToDate").val());
+                    if(validateDate(fromDateValue, datepickerDateFormat)){
+                        if(fromDateValue == toDateValue) {
+                            $("#trTime1").show();
+                            $("#trTime2").show();
+                            $("#trTime3").show();
+                        }
+                        if(!validateDate(toDateValue, datepickerDateFormat)){
+                            $("#assignleave_txtToDate").val(fromDateValue);
+                            $("#trTime1").show();
+                            $("#trTime2").show();
+                            $("#trTime3").show();
+                        }
+                    }
+                    else {
+                        $("#trTime1").hide();
+                        $("#trTime2").hide();
+                        $("#trTime3").show();
+                    }
+                }
+    }
+
+    function toDateBlur(date){
+         var toDateValue	=	trim(date);
+                if(toDateValue != datepickerDateFormat && toDateValue != ""){
+                    var fromDateValue 	= 	trim($("#assignleave_txtFromDate").val());
+
+                    if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
+
+                        if(fromDateValue == toDateValue) {
+                            $("#trTime1").show();
+                            $("#trTime2").show();
+                            $("#trTime3").show();
+                        } else {
+                            $("#trTime1").hide();
+                            $("#trTime2").hide();
+                            $("#trTime3").hide();
+                        }
+                    }
+                }
+    }
+
 
 
 </script>
