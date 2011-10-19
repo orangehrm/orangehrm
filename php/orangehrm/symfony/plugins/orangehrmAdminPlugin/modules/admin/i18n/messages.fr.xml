@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+    <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+        <header/>
+        <body>
+            <trans-unit id="1">
+                <source>Localization</source>
+                <target>FR_Localization</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Date Format</source>
+                <target>FR_Date Format</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Use browser language if set</source>
+                <target>FR_Use browser language if set</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Language Details Successfully Saved</source>
+                <target>FR_Language Details Successfully Saved</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Ok</source>
+                <target>FR_Ok</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Supported Languages</source>
+                <target>FR_Supported Languages</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Following languages are supported by OrangeHRM</source>
+                <target>FR_Following languages are supported by OrangeHRM</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
