@@ -20,16 +20,6 @@
  */
 class CsvDataImportService extends BaseService {
 
-	private $csvDataImportDao;
-
-	public function getCsvDataImportDao() {
-		return $this->csvDataImportDao;
-	}
-
-	public function setCsvDataImportDao(CsvDataImportDao $csvDataImportDao) {
-		$this->csvDataImportDao = $csvDataImportDao;
-	}
-
 	public function import($file, $importType) {
 
 		$factory = new CsvDataImportFactory();

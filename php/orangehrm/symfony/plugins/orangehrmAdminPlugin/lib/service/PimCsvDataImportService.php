@@ -20,23 +20,12 @@
  */
 class PimCsvDataImportService extends BaseService {
 	
-
-	private $pimCsvDataImportDao;
-
-	public function getPimCsvDataImportDao() {
-		return $this->pimCsvDataImportDao;
-	}
 	
 	public function getCsvDataImportService() {
 		if (is_null($this->csvDataImportService)) {
 			$this->csvDataImportService = new CsvDataImportService();
-			$this->csvDataImportService->setCsvDataImportDao(new CsvDataImportDao());
 		}
 		return $this->csvDataImportService;
-	}
-	
-	public function setPimCsvDataImportDao(PimCsvDataImportDao $pimCsvDataImportDao) {
-		$this->pimCsvDataImportDao = $pimCsvDataImportDao;
 	}
 	
 	public function import($file){
