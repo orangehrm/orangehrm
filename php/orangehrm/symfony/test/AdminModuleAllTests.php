@@ -55,6 +55,7 @@ class PluginAllTests
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/service/LocalizationServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/service/PimCsvDataImportServiceTest.php');
 
         return $suite;
 
