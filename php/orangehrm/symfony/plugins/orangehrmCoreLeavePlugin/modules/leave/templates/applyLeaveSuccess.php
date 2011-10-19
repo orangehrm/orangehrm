@@ -124,31 +124,10 @@
 	 
 	$.datepicker.setDefaults({showOn: 'click'});
 	 
-	var dateFormat	=	'YYYY-MM-DD' ;
-	//Load default Mask if empty
-	 var fromDateValue 	= 	trim($("#applyleave_txtFromDate").val());
-	 if(fromDateValue == ''){
-		 $("#applyleave_txtFromDate").val(dateFormat);
-	 }
-
-	 var toDateValue	=	trim($("#applyleave_txtToDate").val());
-	 if(toDateValue == ''){
-		 $("#applyleave_txtToDate").val(dateFormat);
-	 }
-
-	 //Clear Date format when click 
-	 $("#applyleave_txtFromDate").click(function(){
-		 if(trim($("#applyleave_txtFromDate").val()) == dateFormat)
-		 	$("#applyleave_txtFromDate").val('');
-	 });
-
-	 $("#applyleave_txtToDate").click(function(){
-		 if(trim($("#applyleave_txtToDate").val()) == dateFormat)
-		 	$("#applyleave_txtToDate").val('');
-	 });
+	var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
 	 //Show From if same date 
-	 if(trim($("#applyleave_txtFromDate").val()) != dateFormat && trim($("#applyleave_txtToDate").val()) != dateFormat){
+	 if(trim($("#applyleave_txtFromDate").val()) != datepickerDateFormat && trim($("#applyleave_txtToDate").val()) != datepickerDateFormat){
 		 if( trim($("#applyleave_txtFromDate").val()) == trim($("#applyleave_txtToDate").val())) {
 			 $("#trTime1").show();
              $("#trTime2").show();
@@ -240,19 +219,6 @@
            daymarker.show("#applyleave_txtToDate");
         });
         
-        
-     /*   $("#applyleave_txtFromDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, onSelect:function(theDate){showTimepaneFromDate(theDate,dateFormat)}});
-		$('#fromDateBtn').click(function(){
-			//$("#applyleave_txtFromDate").val('');
-            $("#applyleave_txtFromDate").datepicker('show');
-		});
-        $("#applyleave_txtToDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, onSelect:function(theDate){showTimepaneToDate(theDate)}});
-		$('#toDateBtn').click(function(){
-			//$("#applyleave_txtToDate").val('');
-            $("#applyleave_txtToDate").datepicker('show');
-		});
-		*/
-		
 		//Validation 	
 		 $("#frmLeaveApply").validate({
 				 rules: {
@@ -442,16 +408,6 @@
 
 		if (fromdate < todate) {
 			var difference = todate - fromdate;
-		    
-			//var hoursDifference = Math.floor(difference/1000/60/60);
-			//difference -= hoursDifference*1000*60*60
-			 
-		    //var minutesDifference = Math.floor(difference/1000/60);
-		    //difference -= minutesDifference*1000*60
-					
-			
-			//$('#applyleave_txtLeaveTotalTime').val(hoursDifference+':'+minutesDifference);
-			//$('#applyleave_txtLeaveTotalTime').val(parseFloat(difference/3600000));
 			var floatDeference	=	parseFloat(difference/3600000) ;
 			$('#applyleave_txtLeaveTotalTime').val(Math.round(floatDeference*Math.pow(10,2))/Math.pow(10,2));
 		}

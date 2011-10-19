@@ -22,9 +22,6 @@ class EditAttendanceRecordRowForm extends sfForm {
      private $attendanceService;
 
     public function configure() {
-//        $employeeId = $this->getOption('employeeId');
-//        $date = $this->getOption('date');
-      //  $records = $this->getAttendanceService()->getAttendanceRecord($employeeId, $date);
         $this->setWidgets(array(
             'punchIn' => new sfWidgetFormInputText(array(), array()),
             'inNote' => new sfWidgetFormInputText(array(), array()),

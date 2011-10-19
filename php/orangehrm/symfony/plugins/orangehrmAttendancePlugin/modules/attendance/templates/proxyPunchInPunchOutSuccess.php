@@ -35,7 +35,7 @@
 
                         <tr>
                             <td><?php echo $form['date']->renderLabel() ?></td>
-                            <td> <?php echo $form['date']->renderError() ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td></td></tr>
+                            <td> <?php echo $form['date']->renderError() ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['date']->render();?></td></tr>
                         <tr><td> <?php echo $form['time']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['time']->renderError() ?><?php echo $form['time']->render(); ?><span class="timeFormatHint">HH:MM</span></td></tr>
                         <tr><td> <?php echo $form['timezone']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['timezone']->renderError() ?><?php echo $form['timezone']->render(); ?></td></tr>
                         <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['note']->renderError() ?><?php echo $form['note']->render(array("onkeyup" => "validateNote()")); ?></td></tr>
@@ -56,7 +56,8 @@
                 </table>
             </form>
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time")." : "; ?><?php echo $punchInTime; ?></div>
+            <?php $dateArray = explode(" ", $punchInTime)?>
+            <div>&nbsp; <?php echo __("Last punch in time")." : "; ?><?php echo set_datepicker_date_format($dateArray[0])." ".$dateArray[1]; ?></div>
                 <?php if (!empty($punchInNote)): ?>
                     <br class="clear">
                     <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note")." : "; ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
@@ -72,10 +73,7 @@
 
 <script type="text/javascript">
     //<![CDATA[
-    //  dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
-    var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var selectedDate='<?php echo $date; ?>';
     var currentTime='<?php echo $currentTime; ?>';
@@ -84,7 +82,7 @@
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
-    var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
+    var errorForInvalidFormat='<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
     var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';

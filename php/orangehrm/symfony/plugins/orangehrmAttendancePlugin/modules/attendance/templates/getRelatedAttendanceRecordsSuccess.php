@@ -24,9 +24,9 @@
             <tr class="<?php echo $class; ?>">
                 <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
 
-
+                <?php $inUserTimeArray = explode(" ", $record->getPunchInUserTime())?>
                 <td id="checkBox" style="vertical-align: text-top"><?php if ($allowedToDelete[$i]): ?><input type="checkbox" id="<?php echo $record->getId() ?>" class="toDelete" value="" ><?php endif; ?></td>
-                <td style="vertical-align: text-top"><?php echo $record->getPunchInUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchInTimeOffset(); ?></span></td>
+                <td style="vertical-align: text-top"><?php echo set_datepicker_date_format($inUserTimeArray[0])." ".$inUserTimeArray[1] ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchInTimeOffset(); ?></span></td>
                 <td style="vertical-align: text-top"><?php echo $record->getPunchInNote() ?></td>
 
 
@@ -38,8 +38,8 @@
                     <td style="vertical-align: text-top"><span style="color:#98a09f"><?php echo $record->getPunchOutUserTime() ?></span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
                     <td style="vertical-align: text-top"><?php echo $record->getPunchOutNote() ?></td>
                 <?php else: ?>
-
-                    <td style="vertical-align: text-top"><?php echo $record->getPunchOutUserTime() ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
+                    <?php $outUserTimeArray = explode(" ", $record->getPunchOutUserTime())?>
+                    <td style="vertical-align: text-top"><?php echo set_datepicker_date_format($outUserTimeArray[0])." ".$outUserTimeArray[1] ?><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#98a09f"><?php echo " GMT " . $record->getPunchOutTimeOffset(); ?></span></td>
                     <td style="vertical-align: text-top"><?php echo $record->getPunchOutNote() ?></td>
                 <?php endif; ?>
 

@@ -24,7 +24,6 @@ class AttendanceForm extends sfForm {
     
     public function configure() {
 
-//        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'));
         $this->formWidgets['date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'attendance_date','class' => 'date', 'margin' => '0'));
         $this->formWidgets['time'] = new sfWidgetFormInputText(array(), array('class' => 'time'));
         $this->formWidgets['note'] = new sfWidgetFormTextarea(array(), array('class' => 'note', 'rows' => '5', 'cols' => '40'));

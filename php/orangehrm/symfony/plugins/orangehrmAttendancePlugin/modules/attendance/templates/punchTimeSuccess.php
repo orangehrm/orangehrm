@@ -87,7 +87,8 @@
             </form>
 
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo $punchInTime; ?></div>
+            <?php $dateTimeArray = explode(" ", $punchInTime)?>
+            <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo set_datepicker_date_format($dateTimeArray[0])." ".$dateTimeArray[1]; ?></div>
                 <?php if (!empty($punchInNote)):?>
                 <br class="clear">
                 <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note : "); ?></div><div style="float:left"><?php echo $punchInNote;?></div>
@@ -123,10 +124,10 @@
 
     var actionPunchOut='<?php echo $actionPunchOut; ?>';
     
-
+    var recordId = '<?php echo $recordId; ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var currentTime='<?php echo $currentTime; ?>';
-    var currentDate='<?php echo $currentDate; ?>';
+    var currentDate='<?php echo set_datepicker_date_format($currentDate); ?>';
     var punchInTime='<?php echo $punchInTime; ?>';
     var timeZone='<?php echo $timezone; ?>';
     var punchInNote='<?php echo json_encode($punchInNote); ?>';
@@ -153,7 +154,7 @@
 
             var d = new Date()
             var timeZone = -d.getTimezoneOffset()*60;
-
+            var array = new Array();
             var r = $.ajax({
                 type: 'POST',
                 url: getCurrentTimeLink,
@@ -165,13 +166,12 @@
 
                 }
             });
-            document.getElementById("currentDate").innerHTML = array[0];
+            var parsedDate = $.datepicker.parseDate('yy-mm-dd', array[0]);
+            document.getElementById("currentDate").innerHTML = $.datepicker.formatDate(datepickerDateFormat, parsedDate);
             document.getElementById("currentTime").innerHTML = array[1];
             $(".time").val(array[1]);
             $(".date").val(array[0]);
-
-
-
+            
             var t=setTimeout("getCurrentTime();",60000);
 
         }

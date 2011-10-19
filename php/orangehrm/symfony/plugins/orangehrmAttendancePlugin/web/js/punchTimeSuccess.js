@@ -2,6 +2,8 @@ $(document).ready(function(){
 
     dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
+    alert(currentDate)
+
     $(".date").val(currentDate);
     $(".time").val(currentTime);
 
@@ -23,17 +25,11 @@ $(document).ready(function(){
 
     $(".punchOutbutton").click(function(){
 
-      //  if((validate())) {
-
-          //  if(validatePunchOutOverLapping()==1){
-
                 $('form#punchTimeForm').attr({
 
                     action:linkForPunchOut+"?timeZone="+gmtHours
                 });
                 $('form#punchTimeForm').submit();
-          //  }
-      //  }
 
     });
 
@@ -44,7 +40,7 @@ $(document).ready(function(){
 //Load default Mask if empty
 var rDate = trim($("#attendance_date").val());
     if (rDate == '') {
-        $("#attendance_date").val(dateDisplayFormat);
+        $("#attendance_date").val(datepickerDateFormat);
     }
 
     //Bind date picker
@@ -55,7 +51,7 @@ var rDate = trim($("#attendance_date").val());
 
              $("#attendance_date").trigger('change');
         },
-        dateFormat:jsDateFormat
+        dateFormat:datepickerDateFormat
     });
 
     $('#DateBtn').click(function(){
@@ -241,8 +237,6 @@ var rDate = trim($("#attendance_date").val());
 
 function validate() {
 
-
-
     errFlag = false;
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
@@ -286,14 +280,6 @@ function validate() {
             errFlag = true;
         }
 
-
-    //		if ($(".note").val().length > 250) {
-    //			alert("Invalid Note");
-    //			errFlag = true;
-    //		}
-    //alert("hi1")
-    //alert(!errFlag);
-
     }
     return !errFlag ;
 }
@@ -336,17 +322,11 @@ function validatePunchOutOverLapping(){
     }
 
     return isValid;
-
-
-
 }
 
 
 
 function validateForpunchInOverLapping(){
-
-
-
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
@@ -380,11 +360,7 @@ if (isValid==0) {
 
     return isValid;
 
-
-
 }
-
-
  }
 
 });

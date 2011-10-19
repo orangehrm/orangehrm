@@ -280,6 +280,7 @@
                 error.appendTo(element.prev('label'));
                 //this is for leave type
                 error.insertAfter(element.next(".clear"));
+                error.insertAfter(element.next().next(".clear"));
                 error.insertAfter(element.next().next().next(".clear"));
             }
         });

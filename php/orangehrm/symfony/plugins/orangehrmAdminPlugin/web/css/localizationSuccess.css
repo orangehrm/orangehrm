@@ -2,7 +2,7 @@ root {
     display: block;
 }
 
-#messageBar {
+html body div#messagebar {
     margin: 5px 15px 5px 15px;
     width: 600px
 }

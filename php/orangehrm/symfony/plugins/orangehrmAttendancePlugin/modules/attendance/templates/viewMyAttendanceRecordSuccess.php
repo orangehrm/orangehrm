@@ -60,11 +60,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 
 <script type="text/javascript">
-    //  dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
-    var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
-    var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var errorForInvalidFormat='<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
     var errorMsge;
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>';
     var employeeId='<?php echo $employeeId; ?>';

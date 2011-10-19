@@ -27,6 +27,7 @@ class EditAttendanceRecordForm extends sfForm {
         $date = $this->getOption('date');
         $records = $this->getAttendanceService()->getAttendanceRecord($employeeId, $date);
         $totalRows = sizeOf($records);
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         if ($records != null) {
 
             for ($i = 1; $i <= $totalRows; $i++) {
@@ -46,10 +47,12 @@ class EditAttendanceRecordForm extends sfForm {
                 $this->setValidator('recordId_' . $i, new sfValidatorString());
                 $this->setValidator('InOffset_' . $i, new sfValidatorString());
                 $this->setValidator('OutOffset_' . $i, new sfValidatorString());
-                $this->setValidator('punchInDate_' . $i, new sfValidatorDate(array('required' => __('Enter Punch In Date'))));
+                $this->setValidator('punchInDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchInTime_' . $i, new sfValidatorDateTime(array('required' => __('Enter Punch In Time'))));
                 $this->setValidator('inNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
-                $this->setValidator('punchOutDate_' . $i, new sfValidatorDate(array('required' => false)));
+                $this->setValidator('punchOutDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchOutTime_' . $i, new sfValidatorDateTime(array('required' => false)));
                 $this->setValidator('outNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
             }
@@ -61,7 +64,7 @@ class EditAttendanceRecordForm extends sfForm {
 
                     $this->setDefault('recordId_' . $i, $record->getId());
                     $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
-                    $this->setDefault('punchInDate_' . $i, date('Y-m-d', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('punchInDate_' . $i, date($inputDatePattern, strtotime($record->getPunchInUserTime())));
                     $this->setDefault('punchInTime_' . $i, date('H:i', strtotime($record->getPunchInUserTime())));
                     $this->setDefault('inNote_' . $i, $record->getPunchInNote());
                     $this->setDefault('outNote_' . $i, "");
@@ -71,10 +74,10 @@ class EditAttendanceRecordForm extends sfForm {
                     $this->setDefault('recordId_' . $i, $record->getId());
                     $this->setDefault('InOffset_' . $i, $record->getPunchInTimeOffset());
                     $this->setDefault('OutOffset_' . $i, $record->getPunchOutTimeOffset());
-                    $this->setDefault('punchInDate_' . $i, date('Y-m-d', strtotime($record->getPunchInUserTime())));
+                    $this->setDefault('punchInDate_' . $i, date($inputDatePattern, strtotime($record->getPunchInUserTime())));
                     $this->setDefault('punchInTime_' . $i, date('H:i', strtotime($record->getPunchInUserTime())));
                     $this->setDefault('inNote_' . $i, $record->getPunchInNote());
-                    $this->setDefault('punchOutDate_' . $i, date('Y-m-d', strtotime($record->getPunchOutUserTime())));
+                    $this->setDefault('punchOutDate_' . $i, date($inputDatePattern, strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('punchOutTime_' . $i, date('H:i', strtotime($record->getPunchOutUserTime())));
                     $this->setDefault('outNote_' . $i, $record->getPunchOutNote());
                     if (date('Y-m-d', strtotime($record->getPunchOutUserTime())) != $date) {

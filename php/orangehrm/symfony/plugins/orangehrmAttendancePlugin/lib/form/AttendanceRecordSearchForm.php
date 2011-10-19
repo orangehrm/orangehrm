@@ -33,7 +33,7 @@ class AttendanceRecordSearchForm extends sfForm {
         if ($trigger) {
             
             $this->setDefault('employeeName', $this->getEmployeeName($employeeId));
-            $this->setDefault('date', $date);
+            $this->setDefault('date', set_datepicker_date_format($date));
        
             } else {
             

@@ -11,7 +11,7 @@ $(document).ready(function()
         getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -22,7 +22,7 @@ $(document).ready(function()
                 $("#attendance_date").trigger('change');            
 
             },
-            dateFormat:jsDateFormat
+            dateFormat:datepickerDateFormat
         });
 
         $('#DateBtn').click(function(){
@@ -49,7 +49,7 @@ $(document).ready(function()
      
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -60,7 +60,7 @@ $(document).ready(function()
                 $("#attendance_date").trigger('change');            
 
             },
-            dateFormat:jsDateFormat
+            dateFormat:datepickerDateFormat
         });
 
         $('#DateBtn').click(function(){
@@ -78,9 +78,9 @@ $(document).ready(function()
             if(isValidDate){
                    
                 var date=$(".date").val();
-               
+               var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
                 
-                getRelatedAttendanceRecords(employeeId,date,actionRecorder);        
+                getRelatedAttendanceRecords(employeeId,$.datepicker.formatDate("yy-mm-dd", parsedDate),actionRecorder);
                     
             }  
 
@@ -102,7 +102,7 @@ function validateInputDate(){
     var date=$(".date").val();
     
         
-    if(!date.isValidDate()){
+    if(!validateDate(date, datepickerDateFormat)){
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidFormat);
         $("#attendance_date").attr('style', errorStyle);

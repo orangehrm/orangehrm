@@ -52,7 +52,7 @@ class ProxyPunchInPunchOutForm extends AttendanceForm {
         
         $index = array_keys($this->getAttendanceService()->getTimezoneArray(), $timeZone);
         $this->setDefault('timezone', $index[0]);
-        $this->setDefault('date', $date);
+        $this->setDefault('date', set_datepicker_date_format($date));
     }
     
     

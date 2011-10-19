@@ -1,15 +1,3 @@
-/* 
-    Document   : editAttendanceRecordSuccess
-    Created on : Nov 7, 2011, 3:41:28 PM
-    Author     : orangehrm
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
 
 root { 
     display: block;
@@ -56,9 +44,12 @@ table.employeeTable thead td{
     width: auto;
 }
 
-.inDate,.outDate,.inTime,.nonEditable,.outTime{
+.inTime,.nonEditable,.outTime{
     width: 70px;
     
+}
+.inDate,.outDate{
+     width: 120px;
 }
 .punch{
     width: 250px;

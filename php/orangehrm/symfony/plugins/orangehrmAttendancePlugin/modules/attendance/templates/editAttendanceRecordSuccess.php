@@ -157,9 +157,7 @@
 
 <script type="text/javascript">
   
-    var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var recordDate='<?php echo $date; ?>';
     var linkToViewEmployeeRecords='<?php echo url_for('attendance/viewAttendanceRecord'); ?>'
@@ -170,7 +168,7 @@
     var nonEditableOutDate = <?php echo json_encode($editAttendanceForm->nonEditableOutDate); ?>;
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
-    var errorForInvalidFormat='<?php echo __('Time should be in yyyy-MM-dd HH:mm format'); ?>';
+    var errorForInvalidFormat='<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
     var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';

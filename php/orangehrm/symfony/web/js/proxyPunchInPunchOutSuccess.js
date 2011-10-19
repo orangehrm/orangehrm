@@ -19,8 +19,6 @@ $(document).ready(function()
                     if((validateForpunchInOverLapping()==1)) {
                        
                         $('form#punchTimeForm').attr({
-                         
-
                             action:linkForProxyPunchAction+"?timeZone="+timeZone+"&path="+true+"&employeeId="+employeeId+"&date="+selectedDate
                         });
                         $('form#punchTimeForm').submit();
@@ -56,37 +54,6 @@ $(document).ready(function()
             }
 
         });
-
-
-
-
-
-
-        //Load default Mask if empty
-        var rDate = trim($("#attendance_date").val());
-        if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
-        }
-
-        //Bind date picker
-        daymarker.bindElement("#attendance_date",
-        {
-            onSelect: function(date){
-
-
-                $("#attendance_date").trigger('change');
-            },
-            dateFormat:jsDateFormat
-        });
-
-        $('#DateBtn').click(function(){
-
-
-            daymarker.show("#attendance_date");
-
-
-        });
-
 
         function strToTime(str, format) {
 
@@ -318,12 +285,12 @@ $(document).ready(function()
 
             var errorStyle = "background-color:#FFDFDF;";
  
-            var dateArray=$(".date").val().split('-');
+            var date=$(".date").val();
             var timeArray=$(".time").val().split(':')
 
             //implement the when - is not there this breaks
 
-            if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
+            if(!validateDate(date, datepickerDateFormat)){
         
                 $('.punchOutbutton').attr('disabled', 'disabled');
                 $('#validationMsg').attr('class', "messageBalloon_failure");
@@ -334,44 +301,11 @@ $(document).ready(function()
             }
 
             else{
-
-
-                if(dateArray[1].search([0])== -1){
-                    if((dateArray[1]==11) || (dateArray[1]==12)){
-                        formtMonth=dateArray[1];
-                    }
-                    else{
-                        formtMonth="0"+dateArray[1];
-                    }
-
-                }
-
-                else{
-
-                    formtMonth=dateArray[1];
-                }
-
-                if(dateArray[2]<= 9){
-                    if(dateArray[2].search([0])== -1){
-                        formtDate="0"+dateArray[2];
-                    }
-
-                    else{
-                        formtDate=dateArray[2]
-                    }
-
-                }
-
-                else{
-                    formtDate=dateArray[2];
-                }
-
-
-                var formtedFullDate=dateArray[0]+"-"+formtMonth+"-"+formtDate;
+                var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+                var formtedFullDate=$.datepicker.formatDate("yy-mm-dd", parsedDate);
 
    
             }
-
 
             if((timeArray[0]>24)||(timeArray[0]<0)||(timeArray[1]>59)||(timeArray[1]<0)){
 
@@ -429,9 +363,6 @@ $(document).ready(function()
 
                 if (!strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat)) {
 
-
-
-
                     $('.punchOutbutton').attr('disabled', 'disabled');
                     $('#validationMsg').attr('class', "messageBalloon_failure");
                     $('#validationMsg').html(errorForInvalidFormat);
@@ -474,16 +405,9 @@ $(document).ready(function()
                         $("#attendance_date").attr('style', errorStyle);
                         errFlag = true;
                     }
-
-
-
                 }
-
-
             }
 
-
-   
             return !errFlag ;
         }
 
@@ -556,21 +480,14 @@ $(document).ready(function()
             }
 
             return isValid;
-
-
-
         }
 
 
 
         function validateForpunchInOverLapping(){
-
-
-
             $(".messageBalloon_success").remove();
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
-
 
             var inTime =$(".date").val()+" "+$(".time").val();
             var timezoneArray= getTimezoneArray();
@@ -610,9 +527,7 @@ $(document).ready(function()
         }
 
         function getCurrentTime(){
-
-
-            var r = $.ajax({
+          var r = $.ajax({
                 type: 'POST',
                 url: getCurrentTimeLink,
                 async: false,
@@ -626,10 +541,6 @@ $(document).ready(function()
             });
 
         }
-
-
-
-
     });
 
 function getTimezoneArray() {

@@ -38,9 +38,6 @@ class editAttendanceRecordAction extends sfAction {
             $user = new User();
             $decoratedUser = new EssUserRoleDecorator($user);
         }
-
-
-
         $i = 1;
         foreach ($this->records as $record) {
 

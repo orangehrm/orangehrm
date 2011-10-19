@@ -30,7 +30,7 @@ $(document).ready(function()
             InDate = trim($elem.val());
 
             if (InDate === '') {
-                $elem.val(dateDisplayFormat);
+                $elem.val(datepickerDateFormat);
             }
 
             //Bind date picker
@@ -38,7 +38,7 @@ $(document).ready(function()
                 onSelect: function(date) {
                     $elem.trigger('change');
                 },
-                dateFormat:jsDateFormat
+                dateFormat:datepickerDateFormat
             });
 
             $elem.change(function() {
@@ -49,10 +49,10 @@ $(document).ready(function()
 
                 inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
                 inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
-                inDate=element.val();
+                inDate=convertToYMDFormat(element.val());
                 recordId=$("#attendance_recordId_"+idArray[2]).val();
             
-                outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
+                outDate=convertToYMDFormat($("#attendance_punchOutDate_"+idArray[2]).val());
                 outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
         
                 outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
@@ -60,7 +60,7 @@ $(document).ready(function()
             
                 punchOut= formatDate(outDate)+" "+formatTime(outTime);
           
-                var outTimeTemp = strToTime(punchOut, dateTimeFormat);
+                var outTimeTemp = strToTime(punchOut, datepickerDateFormat);
                 punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
       
             
@@ -109,7 +109,7 @@ $(document).ready(function()
                         }
             
                         if(flag1){
-                         
+                         alert(inDate)
                             var punchInOverLappingFlag = validateForpunchInOverLapping(inTimezone,inTime, inDate,recordId,punchOutUtcTime);
                         
                             if(punchInOverLappingFlag==0){
@@ -136,7 +136,7 @@ $(document).ready(function()
             OutDate = trim($elem.val());
 
             if (OutDate === '') {
-                $elem.val(dateDisplayFormat);
+                $elem.val(datepickerDateFormat);
             }
 
             //Bind date picker
@@ -144,7 +144,7 @@ $(document).ready(function()
                 onSelect: function(date) {
                     $elem.trigger('change');
                 },
-                dateFormat:jsDateFormat
+                dateFormat:datepickerDateFormat
             });
 
             $elem.change(function() {
@@ -158,20 +158,19 @@ $(document).ready(function()
                 inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
                 outTime= $("#attendance_punchOutTime_"+idArray[2]).val();
                 inTime= $("#attendance_punchInTime_"+idArray[2]).val();
-                inDate= $("#attendance_punchInDate_"+idArray[2]).val();
-                outDate=element.val();
+                inDate= convertToYMDFormat($("#attendance_punchInDate_"+idArray[2]).val());
+                outDate=convertToYMDFormat(element.val());
                 punchInTime=inDate+" "+inTime;
                 punchOutTime=outDate+" "+outTime;
                 recordId=$("#attendance_recordId_"+idArray[2]).val();
                 punchIn= formatDate(inDate)+" "+formatTime(inTime);
             
-                var inTimeTemp = strToTime(punchIn, dateTimeFormat);
+                var inTimeTemp = strToTime(punchIn, datepickerDateFormat);
                 punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
             
             
             
                 if((outDate=="")||(outTime=="")){
-                    //                if(false){
                     var errorStyle = "background-color:#FFDFDF;";
                     element.attr('style', errorStyle);
                     $('#btnSave').attr('disabled', 'disabled');
@@ -335,9 +334,9 @@ $(document).ready(function()
             punchInUtcTime=$("#punchInUtcTime_"+idArray[2]).val();
             outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
             inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
-            outDate=   $("#attendance_punchOutDate_"+idArray[2]).val();
+            outDate=   convertToYMDFormat($("#attendance_punchOutDate_"+idArray[2]).val());
             inTime=   $("#attendance_punchInTime_"+idArray[2]).val();
-            inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
+            inDate=   convertToYMDFormat($("#attendance_punchInDate_"+idArray[2]).val());
             recordId=$("#attendance_recordId_"+idArray[2]).val();
             outTime=element.val();
             punchInTime= inDate+" "+inTime;
@@ -347,7 +346,6 @@ $(document).ready(function()
             var inTimeTemp = strToTime(punchIn, dateTimeFormat);
             punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
                      
-//            if((outTime=="") || (outDate=="")){
             if(!outDate.isValidDate()){
                         
                 var errorStyle = "background-color:#FFDFDF;";
@@ -421,10 +419,10 @@ $(document).ready(function()
             recordId=$("#attendance_recordId_"+idArray[2]).val();
       
             inTimezone=$("#attendance_InOffset_"+idArray[2]).val();
-            inDate=   $("#attendance_punchInDate_"+idArray[2]).val();
+            inDate=   convertToYMDFormat($("#attendance_punchInDate_"+idArray[2]).val());
             inTime=element.val();
         
-            outDate=$("#attendance_punchOutDate_"+idArray[2]).val();
+            outDate=convertToYMDFormat($("#attendance_punchOutDate_"+idArray[2]).val());
             outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
             outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
             punchOut= formatDate(outDate)+" "+formatTime(outTime);
@@ -504,7 +502,6 @@ $(document).ready(function()
     });
     
 function validatePunchOutOverLapping(punchInTime,inTimezone,punchOutTime,outTimezone,recordId){
-      
     var isValid;
 
     $(".messageBalloon_success").remove();
@@ -601,15 +598,10 @@ function validateDateFormat(date) {
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
-
-   
-        
-    var dateArray=date.split('-');
-    
-    
+ 
     //implement the when - is not there this breaks
 
-    if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
+    if(!validateDate(date, "yy-mm-dd")){
         
         $('#btnSave').attr('disabled', 'disabled');
             
@@ -629,9 +621,7 @@ function validateTimeFormat(time){
     $('#validationMsg').html("");
 
     var timeArray=time.split(':')
-    
-    
-    
+
     if((timeArray[0]>24)||(timeArray[0]<0)||(timeArray[1]>59)||(timeArray[1]<0)){
 
         $('#btnSave').attr('disabled', 'disabled');
@@ -971,6 +961,11 @@ function formatTime(time){
           (composedDate.getDate() == matches[3]) &&
           (composedDate.getFullYear() == matches[1]));
 
+}
+
+function convertToYMDFormat(date){
+    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+    return $.datepicker.formatDate("yy-mm-dd", parsedDate);
 }
 
     

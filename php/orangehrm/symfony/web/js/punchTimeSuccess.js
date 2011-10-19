@@ -6,10 +6,9 @@ $(document).ready(function()
 
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
-        $(".date").val(currentDate);
-        $(".time").val(currentTime);
+//        $(".date").val(currentDate);
+//        $(".time").val(currentTime);
 
-        //  if(editMode){
 
         $(".punchInbutton").click(function(){
             
@@ -36,8 +35,6 @@ $(document).ready(function()
 
         $(".punchOutbutton").click(function(){
 
-         
-
             if((validateNote())){
                 if((validate())) {
    
@@ -58,15 +55,10 @@ $(document).ready(function()
 
         });
 
-
-
-
-
-
         //Load default Mask if empty
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(dateDisplayFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -77,7 +69,7 @@ $(document).ready(function()
 
                 $("#attendance_date").trigger('change');
             },
-            dateFormat:jsDateFormat
+            dateFormat:datepickerDateFormat
         });
 
         $('#DateBtn').click(function(){
@@ -430,9 +422,6 @@ $(document).ready(function()
 
                 if (!strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat)) {
 
-
-
-
                     $('.punchOutbutton').attr('disabled', 'disabled');
                     $('#validationMsg').attr('class', "messageBalloon_failure");
                     $('#validationMsg').html(errorForInvalidFormat);
@@ -469,15 +458,9 @@ $(document).ready(function()
                         errFlag = true;
                     }
 
-
-
                 }
-
-
             }
 
-
-   
             return !errFlag ;
         }
 
@@ -493,10 +476,9 @@ $(document).ready(function()
             var inTime=punchInTime;
             var timezone=gmtHours;
             
-          
+
 
             var outTime =$(".date").val()+" "+$(".time").val();
-
             var r = $.ajax({
                 type: 'POST',
                 url: linkForOverLappingValidation,
@@ -529,8 +511,6 @@ $(document).ready(function()
 
 
         }
-
-
 
         function validateForpunchInOverLapping(){
 
@@ -570,57 +550,35 @@ $(document).ready(function()
 
             return isValid;
         }
-
-    //    function getCurrentTime(){
-    //
-    //
-    //        var r = $.ajax({
-    //        type: 'POST',
-    //        url: getCurrentTimeLink,
-    //        async: false,
-    //
-    //        success: function(msg){
-    //            isValid = msg[0];
-    //
-    //            
-    //
-    //        }
-    //    });
-    //
-    //    }
-
-
-
-
     });
     
     
-        function validateNote(){
+function validateNote(){
 
-            errFlag1 = false;
+    errFlag1 = false;
 
-            // $(".messageBalloon_success").remove();
-            $('.punchOutbutton').removeAttr('disabled');
-            $('.punchInbutton').removeAttr('disabled');
-            $(".note").removeAttr('style');
-            $('#validationMsg').removeAttr('class');
-            $('#validationMsg').html("");
+    // $(".messageBalloon_success").remove();
+    $('.punchOutbutton').removeAttr('disabled');
+    $('.punchInbutton').removeAttr('disabled');
+    $(".note").removeAttr('style');
+    $('#validationMsg').removeAttr('class');
+    $('#validationMsg').html("");
 
-            var errorStyle = "background-color:#FFDFDF;";
+    var errorStyle = "background-color:#FFDFDF;";
 
-            if ($(".note").val().length > 250) {
-                $('.punchOutbutton').attr('disabled', 'disabled');
-                $('.punchInbutton').attr('disabled', 'disabled');
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidNote);
-                $(".note").attr('style', errorStyle);
+    if ($(".note").val().length > 250) {
+        $('.punchOutbutton').attr('disabled', 'disabled');
+        $('.punchInbutton').attr('disabled', 'disabled');
+        $('#validationMsg').attr('class', "messageBalloon_failure");
+        $('#validationMsg').html(errorForInvalidNote);
+        $(".note").attr('style', errorStyle);
                   
-                errFlag1 = true;
-            }
+        errFlag1 = true;
+    }
 
-            return !errFlag1;
+    return !errFlag1;
 
-        }
+}
 
 
 
