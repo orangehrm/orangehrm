@@ -341,12 +341,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
     
-    $sub = new MenuItem("configuration", "Configuration", "#");
-    $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
-    $sub->setSubMenuItems($subsubs);
-
     $subs = array();
-    $subs[] = $sub;
 
     $sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
     $subsubs = array();
@@ -424,6 +419,12 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs[] = new MenuItem("project", $lang_Menu_Admin_Projects, "index.php?uniqcode=PRJ&menu_no_top=eim");
     $subsubs[] = new MenuItem("project", $lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
     $sub->setSubMenuItems($subsubs);
+    $subs[] = $sub;
+    
+    $sub = new MenuItem("configuration", "Configuration", "#");
+    $subsubs = array();
+    $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
+    $sub->setSubMenuItems($subsubs);    
     $subs[] = $sub;
 
     if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
