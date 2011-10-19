@@ -64,7 +64,8 @@ class startDaysListForm extends sfFormSymfony {
 
     public function returnSelectedIndex($enteredStartDate, $employeeId) {
 
-        $datesArray = $this->getStartAndEndDates($employeeId);
+        //$datesArray = $this->getStartAndEndDates($employeeId);
+        $datesArray = $this->dateOptions;
         $i = 0;
 
         foreach ($datesArray as $startDate) {

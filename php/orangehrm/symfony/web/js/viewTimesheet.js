@@ -29,22 +29,20 @@ $(document).ready(function(){
         $('#validationMsg').html("");
         var startdate=$(".date").val();
       
-        if(startdate.isValidDate()){
+        if(validateDate(startdate, datepickerDateFormat)){
          
             var endDate= calculateEndDate(Date_toYMD()); 
     
             startDateArray = startdate.split("-");           
             endDateArray=endDate.split("-");
             
-             startdate1 = new Date(startDateArray[0],startDateArray[1]-1,startDateArray[2]); 
+             startdate1 =  $.datepicker.parseDate(datepickerDateFormat, startdate); 
             endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
             
             
             var startDate = new Date(startdate1);
             var newEndDate= new Date(endDate);
-
-     
-            
+             
             if (newEndDate < startDate)
             { 
                 $('#validationMsg').attr('class', "messageBalloon_failure");
@@ -167,9 +165,10 @@ function clicked(dropdown){
 
     var selectedIndex = document.getElementById('startDates').value;
     var dateString = document.getElementById('startDates').options[selectedIndex].text;
-    var dates = dateString.split(" ");
+    var dates = dateString.split(" to ");
+    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, dates[0])
 
-    location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+dates[0]+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;
+    location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+$.datepicker.formatDate('yy-mm-dd', parsedDate)+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;
 
 }
 
@@ -205,12 +204,6 @@ function viewComment(e){
     $("#commentDialog").dialog('open');
 
 }
-
-
-
-
-
-
 
 
 function validateComment(){
@@ -270,11 +263,8 @@ function calculateEndDate(startDate){
         }
         
     });
-   
-    return date1;
-  
 
-        
+    return date1;        
 }
 
 
