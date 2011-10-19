@@ -350,7 +350,7 @@ FunctionEnd
   LangString DESC_SecApache ${LANG_ENGLISH} "Apache web server"
   LangString DESC_SecMySQL ${LANG_ENGLISH} "MySQL database server"
   LangString DESC_SecPHP ${LANG_ENGLISH} "PHP Hypertext Preprocessor"
-  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 2.6.10"
+  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 2.6.11"
   LangString DESC_SecGrpExtraComponents ${LANG_ENGLISH} "Extra components to make OrangeHRM better"
 
   LangString DESC_SecSendmail ${LANG_ENGLISH} "Sendmail mail transfer agent"
