@@ -1,4 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.6.11
+
+     New Features
+     ------------
+     Ability to localize PIM, Leave, Time, Recruitment and Performance modules
+     Basic data import in PIM
+
 New & Changed Features for OrangeHRM ver 2.6.10
+
      New Features
      ------------
      PIM Employee Reports
