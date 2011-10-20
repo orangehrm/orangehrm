@@ -44,7 +44,7 @@
 						 </th>
 	                     <?php foreach( $performanceReview->getPerformanceReviewComment() as $comment){?>
 	                     	<tr>
-	                     		<td ><?php echo $comment->getCreateDate()?></td>
+                                    <td ><?php echo set_datepicker_date_format($comment->getCreateDate())?></td>
 	                     		<td ><?php echo ($comment->getEmployee()->getFullName() != '')? $comment->getEmployee()->getFullName():'Admin'?></td>
 	                     		<td ><?php echo $comment->getComment()?></td>
 	                     	</tr>
