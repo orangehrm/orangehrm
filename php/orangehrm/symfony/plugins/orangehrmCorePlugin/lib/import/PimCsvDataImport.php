@@ -19,6 +19,10 @@
  *
  */
 class PimCsvDataImport extends CsvDataImport {
+	
+	private $employeeService;
+	private $nationalityService;
+	private $countryService;
 
 	public function import($data) {
 
@@ -86,19 +90,19 @@ class PimCsvDataImport extends CsvDataImport {
 		if (!empty($code)) {
 			$employee->setCountry($code);
 		}
-		if (strlen($data[17]) <= 25) {
+		if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
 			$employee->setEmpHmTelephone($data[17]);
 		}
-		if (strlen($data[18]) <= 25) {
+		if (strlen($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
 			$employee->setEmpMobile($data[18]);
 		}
-		if (strlen($data[19]) <= 25) {
+		if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
 			$employee->setEmpWorkTelephone($data[19]);
 		}
-		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50) {
+		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[21])) {
 			$employee->setEmpWorkEmail($data[20]);
 		}
-		if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50) {
+		if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
 			$employee->setEmpOthEmail($data[21]);
 		}
 
@@ -109,6 +113,19 @@ class PimCsvDataImport extends CsvDataImport {
 
 	private function isValidEmail($email) {
 		return eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email);
+	}
+
+	private function isUniqueEmail($email) {
+
+		$emailList = $this->getEmployeeService()->getEmailList();
+		$isUnique = true;
+		foreach ($emailList as $empEmail) {
+			
+			if($empEmail['emp_work_email'] == $email || $empEmail['emp_oth_email'] == $email){
+				$isUnique = false;
+			}
+		}
+		return $isUnique;
 	}
 
 	private function isValidDate($date) {
@@ -142,6 +159,12 @@ class PimCsvDataImport extends CsvDataImport {
 		}
 	}
 
+	public function isValidPhoneNumber($number) {
+		if (preg_match('/^\+?[0-9 \-]+$/', $number)) {
+			return true;
+		}
+	}
+
 	public function getCountryService() {
 		if (is_null($this->countryService)) {
 			$this->countryService = new CountryService();
@@ -154,6 +177,14 @@ class PimCsvDataImport extends CsvDataImport {
 			$this->nationalityService = new NationalityService();
 		}
 		return $this->nationalityService;
+	}
+
+	public function getEmployeeService() {
+		if (is_null($this->employeeService)) {
+			$this->employeeService = new EmployeeService();
+			$this->employeeService->setEmployeeDao(new EmployeeDao());
+		}
+		return $this->employeeService;
 	}
 
 }
