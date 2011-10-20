@@ -150,8 +150,8 @@ class ApplyVacancyForm extends BaseForm {
         $candidate->comment = $this->getValue('comment');
         $candidate->contactNumber = $this->getValue('contactNo');
         $candidate->keywords = $this->getValue('keyWords');
-        $date = ohrm_format_date(date('Y-m-d'));
-        $candidate->dateOfApplication = ohrm_format_date($date . " " . date('H:i:s'));
+        $date = date('Y-m-d');
+        $candidate->dateOfApplication = $date . " " . date('H:i:s');
         $candidate->status = JobCandidate::ACTIVE;
         $candidate->modeOfApplication = JobCandidate::MODE_OF_APPLICATION_ONLINE;
 
@@ -205,7 +205,7 @@ class ApplyVacancyForm extends BaseForm {
             $candidateVacancy->candidateId = $candidateId;
             $candidateVacancy->vacancyId = $vacnacyId;
             $candidateVacancy->status = "APPLICATION INITIATED";
-            $candidateVacancy->appliedDate = ohrm_format_date(date('Y-m-d'));
+            $candidateVacancy->appliedDate = date('Y-m-d');
             $candidateService = $this->getCandidateService();
             $candidateService->saveCandidateVacancy($candidateVacancy);
             $history = new CandidateHistory();

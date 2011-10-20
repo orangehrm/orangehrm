@@ -36,7 +36,7 @@ $(document).ready(function(){
             startDateArray = startdate.split("-");           
             endDateArray=endDate.split("-");
             
-             startdate1 =  $.datepicker.parseDate(datepickerDateFormat, startdate); 
+            startdate1 =  $.datepicker.parseDate(datepickerDateFormat, startdate);
             endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
             
             
@@ -200,7 +200,8 @@ function viewComment(e){
     $("#timeComment").val(comment);
     $("#commentProjectName").text(":"+" "+array[1]);
     $("#commentActivityName").text(":"+" "+array[2]);
-    $("#commentDate").text(":"+" "+date);
+    var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
+    $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
     $("#commentDialog").dialog('open');
 
 }

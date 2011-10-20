@@ -371,7 +371,6 @@ $(document).ready(function() {
 
     $('.commentIcon').click(function(){
 
- 
         $("#commentError").html("");
         $("#timeComment").val("");
         classStr = $(this).attr("id").split("_");
@@ -383,7 +382,7 @@ $(document).ready(function() {
         }else{
             $("#timeComment").removeAttr("disabled")
             $("#commentSave").show()
-            }
+        }
         var rowNo = classStr[2];
         date = currentWeekDates[classStr[1]];
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";
@@ -419,7 +418,8 @@ $(document).ready(function() {
         }else{
             $("#commentProjectName").text(":"+" "+$("#"+projectNameId).val());
             $("#commentActivityName").text(":"+" "+$("#"+activityNameId+" :selected").text());
-            $("#commentDate").text(":"+" "+date);
+            var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
+            $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
             $("#commentDialog").dialog('open');
         }
 
