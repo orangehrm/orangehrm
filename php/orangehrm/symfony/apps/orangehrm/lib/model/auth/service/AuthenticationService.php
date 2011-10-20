@@ -204,6 +204,7 @@ class AuthenticationService extends BaseService {
         $_SESSION['WPATH'] = str_replace('/symfony/web/', '', public_path('/'));
         $_SESSION['styleSheet'] = $styleSheet;
         $_SESSION['userTimeZoneOffset'] = $additionalData['timeZoneOffset'];
+        $_SESSION['printBenefits'] = 'enabled';
     }
 
 }
