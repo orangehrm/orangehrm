@@ -25,6 +25,19 @@
 class ConfigDao extends BaseDao {
 
     /**
+     * Get Logger instance. Creates if not already created.
+     *
+     * @return Logger
+     */
+    protected function getLogger() {
+        if (is_null($this->logger)) {
+            $this->logger = Logger::getLogger('core.ConfigDao');
+        }
+
+        return($this->logger);
+    }
+    
+    /**
      * Set $key to given $value
      * @param type $key Key
      * @param type $value Value
