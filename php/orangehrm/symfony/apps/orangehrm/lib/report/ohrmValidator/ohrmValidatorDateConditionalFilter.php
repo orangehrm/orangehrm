@@ -4,42 +4,33 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
 
     protected function configure($options = array(), $messages = array()) {
         parent::configure($options, $messages);
+         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         
         $this->addOption('values', array('from', 'to'));
         $this->addMessage('value1_required', 'Date value required');
         $this->addMessage('value2_required', 'Second date required');
         $this->addMessage('value1_value2_required', 'Both date values required');
         $this->addMessage('value1_greater_than_value2', 'Second date should be after or equal to first date');
-        $this->addMessage('value1_invalid', 'Please enter a valid date in YYYY-MM-DD format.');
-        $this->addMessage('value2_invalid', 'Please enter a valid date in YYYY-MM-DD format.');
-        $this->addMessage('value1_and_value2_invalid', 'Please enter a valid dates in YYYY-MM-DD format.');
+        $this->addMessage('value1_invalid', 'Date does not match the date format '.get_datepicker_date_format($inputDatePattern));
+        $this->addMessage('value2_invalid', 'Date does not match the date format '.get_datepicker_date_format($inputDatePattern));
+        $this->addMessage('value1_and_value2_invalid', 'Please enter valid dates in format of '.get_datepicker_date_format($inputDatePattern));
         
     }
     
     protected function isValid($value) {
-        
-        $date = $this->getDate($value);
-
-        if (is_null($date)) {
-            return false;
-        } else {
-            $formattedValue = $date->format('Y-m-d');
-            $trimmedValue = trim($value);
-
-            return $trimmedValue == $formattedValue;
-        }       
-        
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $localizationService = new LocalizationService();
+        $result = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $value);
+        return ($result == "Invalid date") ? false : $result;
     }
 
     protected function validatedBetween($value1, $value2) {
         $valid = false;
-        $date1 = getDate($value1);
-        $date2 = getDate($value2);
-        
+        $date1 = $this->getDate($this->isValid($value1));
+        $date2 = $this->getDate($this->isValid($value2));
         if (!empty($date1) && !empty($date2)) {
             $valid = $date2 >= $date1;
         }
-        
         return $valid;
     }
     
@@ -80,7 +71,6 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
                 $valid = false;
             }
         }
-
         return($dateTime);        
     }
     

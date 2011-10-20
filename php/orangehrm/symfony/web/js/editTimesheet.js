@@ -44,8 +44,8 @@ $(document).ready(function() {
     $(".project").autocomplete(projectsForAutoComplete, {
 
         formatItem: function(item) {
-
-            return $("<div/>").html(item.name).text();
+	    var temp = $("<div/>").html(item.name).text();
+            return temp.replace("##", "");
         }
         ,
         matchContains:true
@@ -58,7 +58,8 @@ $(document).ready(function() {
         var decodedfullName = $("<div/>").html(item.name).text();
        
       
-        var array = decodedfullName.split(' - ');
+        var array = decodedfullName.split(' - ##');
+	
         //     alert(array[0])
         var r = $.ajax({
             type: 'POST',
@@ -335,7 +336,7 @@ $(document).ready(function() {
             var temp = false;
             var i;
             for (i=0; i < projectCount; i++) {
-                arrayName = projectsArray[i].name.toLowerCase();
+                arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
                 arrayName = $("<div/>").html(arrayName).text();
                 if (proName == arrayName) {
                     
@@ -400,7 +401,7 @@ $(document).ready(function() {
         var temp = false;
         var i;
         for (i=0; i < projectCount; i++) {
-            arrayName = projectsArray[i].name.toLowerCase();
+            arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
             arrayName = $("<div/>").html(arrayName).text();
        
             if (projectName == arrayName) {
@@ -411,10 +412,10 @@ $(document).ready(function() {
 
         if($("#"+projectNameId).val()=="" || $("#"+projectNameId).val()=="Type for hints..." || $("#"+activityNameId).val()=='-1'){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html("Please select a project and an activity");
+            $('#validationMsg').html(lang_selectProjectAndActivity);
         } else if( temp==false){
             $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html("Enter an existing project name");
+            $('#validationMsg').html(lang_enterExistingProject);
         }else{
             $("#commentProjectName").text(":"+" "+$("#"+projectNameId).val());
             $("#commentActivityName").text(":"+" "+$("#"+activityNameId+" :selected").text());

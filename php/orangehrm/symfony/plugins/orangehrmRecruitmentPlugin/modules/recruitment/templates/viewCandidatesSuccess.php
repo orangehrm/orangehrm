@@ -35,10 +35,8 @@
 
 <?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
 <?php if (strstr($browser, "MSIE 8.0")): ?>
-<?php //$drpDownWidth = 'width: 268px' ?>
 <?php $textBoxWidth = 'width: 44%' ?>
 <?php else: ?>
-<?php //$drpDownWidth = 'width: 270px' ?>
 <?php $textBoxWidth = 'width: 42.5%' ?>
 <?php endif; ?>
 

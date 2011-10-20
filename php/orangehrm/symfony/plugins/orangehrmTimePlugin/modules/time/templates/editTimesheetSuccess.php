@@ -167,6 +167,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
     var numberOfRows='<?php echo $i ?>';
     var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
+    var typeForHints='<?php echo __('Type for hints...'); ?>';
+    var lang_selectProjectAndActivity='<?php echo __('Please select a project and an activity'); ?>';
+    var lang_enterExistingProject='<?php echo __("Enter an existing project name"); ?>';
+    var lang_noRecords='<?php echo __("No Rows Selected"); ?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";

@@ -468,6 +468,10 @@
         <source>Leve Request Exceeds Leave Balance</source>
         <target>FR_Leve Request Exceeds Leave Balance</target>
       </trans-unit>
+      <trans-unit id="223">
+        <source>With Terminated Employees</source>
+        <target>FR_With Terminated Employees</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

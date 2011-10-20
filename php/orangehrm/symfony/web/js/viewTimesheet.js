@@ -149,7 +149,8 @@ $(document).ready(function(){
         $("#timeComment").val(decoded);
         $("#commentProjectName").text(":"+" "+array[1]);
         $("#commentActivityName").text(":"+" "+array[2]);
-        $("#commentDate").text(":"+" "+date);
+        var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
+        $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
         $("#commentDialog").dialog('open');
     });
 });
