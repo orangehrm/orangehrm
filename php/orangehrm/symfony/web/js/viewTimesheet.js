@@ -32,8 +32,7 @@ $(document).ready(function(){
         if(validateDate(startdate, datepickerDateFormat)){
          
             var endDate= calculateEndDate(Date_toYMD()); 
-    
-            startDateArray = startdate.split("-");           
+             
             endDateArray=endDate.split("-");
             
             startdate1 =  $.datepicker.parseDate(datepickerDateFormat, startdate);

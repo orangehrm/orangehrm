@@ -48,9 +48,7 @@
 
 <script type="text/javascript">
                                                     
-    var dateFormat        = '<?php echo $sf_user->getDateFormat(); ?>';
-    var jsDateFormat = '<?php echo get_js_date_format($sf_user->getDateFormat()); ?>';
-    var dateDisplayFormat = dateFormat.toUpperCase();
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var employeeId = "<?php echo $employeeId; ?>";
     var linkForViewTimesheet="<?php echo url_for('time/viewTimesheet') ?>";
     var validateStartDate="<?php echo url_for('time/validateStartDate'); ?>";
@@ -60,5 +58,5 @@
     var lang_noFutureTimesheets= "<?php echo __("It is Not Possible to Create Future Timesheets"); ?>";
     var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
     var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
-    var lang_invalidDate= "<?php echo __("Invalid Date"); ?>";
+    var lang_invalidDate= '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
 </script>
