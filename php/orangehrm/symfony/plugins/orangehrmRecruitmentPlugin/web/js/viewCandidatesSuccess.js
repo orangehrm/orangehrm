@@ -12,8 +12,8 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-
-        });
+        $("#candidateSearch_candidateName").valid();
+    });
     var jobTitle = $('#candidateSearch_jobTitle').val();
     var vacancyId = $('#candidateSearch_jobVacancy').val();
     var hiringManagerId = $('#candidateSearch_hiringManager').val();
@@ -55,11 +55,9 @@ $(document).ready(function() {
     });
 
     $('#btnSrch').click(function() {
-        if(isValidForm()){
-            $('#candidateSearch_candidateName.inputFormatHint').val('');
-            $('#candidateSearch_keywords.inputFormatHint').val('');
-            $('#frmSrchCandidates').submit();
-        }
+        $('#candidateSearch_candidateName.inputFormatHint').val('');
+        $('#candidateSearch_keywords.inputFormatHint').val('');
+        $('#frmSrchCandidates').submit();
    
     });
     $('#btnRst').click(function() {
@@ -176,62 +174,6 @@ $(document).ready(function() {
         }
 
     });
-
-});
-
-function addCandidate(){
-    window.location.replace(addCandidateUrl);
-}
-
-
-function getHiringManagerListJson(url, para){
-
-    $.getJSON(url, function(data) {
-
-        //var data = $.unique(data1);
-
-        var numOptions = data.length;
-        var optionHtml = '<option value="">'+lang_all+'</option>';
-
-        for (var i = 0; i < numOptions; i++) {
-            if(data[i].id == para){
-                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
-            }else{
-                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-            }
-        }
-
-        $("#candidateSearch_hiringManager").html(optionHtml);
-
-    })
-
-}
-
-function getVacancyListJson(vcUrl, para){
-    $.getJSON(vcUrl, function(data) {
-
-        var numOptions = 0;
-        if(data != null){
-            numOptions = data.length;
-        }
-        var optionHtml = '<option value="">'+lang_all+'</option>';
-
-        for (var i = 0; i < numOptions; i++) {
-
-            if(data[i].id == para){
-                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
-            }
-            else{
-                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-            }
-        }
-
-        $("#candidateSearch_jobVacancy").html(optionHtml);
-
-    })
-}
-
-function isValidForm(){
     var fromdate = $('#candidateSearch_fromDate').val();
     $.validator.addMethod("canNameValidation", function(value, element, params) {
         var temp = false;
@@ -309,5 +251,55 @@ function isValidForm(){
         }
 
     });
-    return true;
+
+});
+
+function addCandidate(){
+    window.location.replace(addCandidateUrl);
+}
+
+
+function getHiringManagerListJson(url, para){
+
+    $.getJSON(url, function(data) {
+
+        var numOptions = data.length;
+        var optionHtml = '<option value="">'+lang_all+'</option>';
+
+        for (var i = 0; i < numOptions; i++) {
+            if(data[i].id == para){
+                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
+            }else{
+                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+            }
+        }
+
+        $("#candidateSearch_hiringManager").html(optionHtml);
+
+    })
+
+}
+
+function getVacancyListJson(vcUrl, para){
+    $.getJSON(vcUrl, function(data) {
+
+        var numOptions = 0;
+        if(data != null){
+            numOptions = data.length;
+        }
+        var optionHtml = '<option value="">'+lang_all+'</option>';
+
+        for (var i = 0; i < numOptions; i++) {
+
+            if(data[i].id == para){
+                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
+            }
+            else{
+                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+            }
+        }
+
+        $("#candidateSearch_jobVacancy").html(optionHtml);
+
+    })
 }
