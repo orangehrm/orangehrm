@@ -6,14 +6,11 @@ $(document).ready(function()
 
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
-//        $(".date").val(currentDate);
-//        $(".time").val(currentTime);
+        $(".date").val(currentDate);
+        $(".time").val(currentTime);
 
 
         $(".punchInbutton").click(function(){
-            
-            
-
             if((validateNote())){
 
                 if((validate())) {
@@ -311,12 +308,12 @@ $(document).ready(function()
 
             var errorStyle = "background-color:#FFDFDF;";
         
-            var dateArray=$(".date").val().split('-');
+            var date=$(".date").val();
             var timeArray=$(".time").val().split(':')
     
             //implement the when - is not there this breaks
 
-            if((dateArray[1]<1)||(dateArray[1]>12)||(dateArray[2]>31)||(dateArray[2]<1)){
+            if(!validateDate(date, datepickerDateFormat)){
         
                 $('.punchOutbutton').attr('disabled', 'disabled');
                 $('#validationMsg').attr('class', "messageBalloon_failure");
@@ -327,41 +324,7 @@ $(document).ready(function()
             }
 
             else{
-
-
-                if(dateArray[1].search([0])== -1){
-                    if((dateArray[1]==11) || (dateArray[1]==12)){
-                        formtMonth=dateArray[1];
-                    }
-                    else{
-                        formtMonth="0"+dateArray[1];
-                    }
-
-                }
-
-                else{
-
-                    formtMonth=dateArray[1];
-                }
-
-                if(dateArray[2]<= 9){
-                    if(dateArray[2].search([0])== -1){
-                        formtDate="0"+dateArray[2];
-                    }
-
-                    else{
-                        formtDate=dateArray[2]
-                    }
-
-                }
-
-                else{
-                    formtDate=dateArray[2];
-                }
-
-
-                var formtedFullDate=dateArray[0]+"-"+formtMonth+"-"+formtDate;
-
+                var formtedFullDate=convertDateToYMDFormat(date);
    
             }
 
@@ -475,10 +438,7 @@ $(document).ready(function()
 
             var inTime=punchInTime;
             var timezone=gmtHours;
-            
-
-
-            var outTime =$(".date").val()+" "+$(".time").val();
+            var outTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
             var r = $.ajax({
                 type: 'POST',
                 url: linkForOverLappingValidation,
@@ -521,7 +481,7 @@ $(document).ready(function()
             $('#validationMsg').html("");
 
 
-            var inTime =$(".date").val()+" "+$(".time").val();
+            var inTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
             var timezone=gmtHours;
 
             var r = $.ajax({
@@ -579,6 +539,12 @@ function validateNote(){
     return !errFlag1;
 
 }
+
+function convertDateToYMDFormat(date){
+    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+    return $.datepicker.formatDate("yy-mm-dd", parsedDate);
+}
+
 
 
 

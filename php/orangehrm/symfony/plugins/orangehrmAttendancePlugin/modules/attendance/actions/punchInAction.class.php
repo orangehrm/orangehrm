@@ -57,7 +57,7 @@ class punchInAction extends sfAction {
 
 
         if (is_null($attendanceRecord)) {
-
+           
             $this->allowedActions = $this->userObj->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL);
         } else {
 

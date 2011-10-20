@@ -451,7 +451,7 @@ $(document).ready(function()
             var inTime=punchInTime;
             var timezone=timeZone*3600;
  
-            var outTime =$(".date").val()+" "+$(".time").val();
+            var outTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
 
             var r = $.ajax({
                 type: 'POST',
@@ -489,7 +489,7 @@ $(document).ready(function()
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
 
-            var inTime =$(".date").val()+" "+$(".time").val();
+            var inTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
             var timezoneArray= getTimezoneArray();
             var  timeZone=  timezoneArray[$(".timezone").val()];
              if(timeZone == 'GMT'){
@@ -575,6 +575,11 @@ function getTimezoneArray() {
     timezoneArray[26] = '-1.00';
 
     return timezoneArray;
+}
+
+function convertDateToYMDFormat(date){
+    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+    return $.datepicker.formatDate("yy-mm-dd", parsedDate);
 }
 
 
