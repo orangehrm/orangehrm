@@ -44,11 +44,11 @@ class AuthorizeService extends BaseService {
     public $roleAcceptor = "Acceptor";
     public $roleOfferer = "Offerer";
     public $roleHiringManager = "Offerer";
-    
+
     private $employeeService;
     private $projectService;
     private $vacancyService;
-    
+
     private $employeeID;
     private $isAdmin;
     private $roles;
@@ -73,7 +73,7 @@ class AuthorizeService extends BaseService {
     public function setEmployeeService(EmployeeService $employeeService) {
         $this->employeeService = $employeeService;
     }
-    
+
     /**
      *
      * @return ProjectService  
@@ -84,7 +84,7 @@ class AuthorizeService extends BaseService {
         }
         return $this->projectService;
     }
-    
+
     /**
      *
      * @param ProjectService $projectService 
@@ -92,7 +92,7 @@ class AuthorizeService extends BaseService {
     public function setProjectService($projectService) {
         $this->projectService = $projectService;
     }
-    
+
     /**
      *
      * @return VacancyService
@@ -103,7 +103,7 @@ class AuthorizeService extends BaseService {
         }
         return $this->vacancyService;
     }
-    
+
     /**
      *
      * @param VacancyService $cacancyService 
@@ -214,16 +214,17 @@ class AuthorizeService extends BaseService {
     private function _checkIsProjectAdmin($projectId = null) {
 
         try {
-            
+
             $id = (int) $this->getEmployeeId();
-            
+
             if (!empty($id)) {
                 return $this->getProjectService()->isProjectAdmin($id);
             }
         } catch (Exception $e) {
             // TODO: Warn
-            return false;
         }
+
+        return false;
     }
 
     /**

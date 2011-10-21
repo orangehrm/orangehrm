@@ -364,7 +364,7 @@ class ProjectService extends BaseService {
         return $this->getProjectDao()->getActiveProjectList();
     }
 
-    public function getActiveProjectListRelatedToProjectAdmin($empNo) {
+    public function getActiveProjectListRelatedToProjectAdmin($empNo, $emptyIfNotAprojectAdmin = false) {
 
         $projectAdmins = $this->getProjectDao()->getProjectAdminRecordsByEmpNo($empNo);
 
@@ -372,6 +372,10 @@ class ProjectService extends BaseService {
 
         foreach($projectAdmins as $projectAdmin) {
             $projectIdArray[] = $projectAdmin->getProjectId();
+        }
+
+        if (empty($projectIdArray)) {
+            return array();
         }
 
         $projectList = $this->getProjectDao()->getActiveProjectsByProjectIds($projectIdArray);
@@ -386,7 +390,7 @@ class ProjectService extends BaseService {
      */
     public function isProjectAdmin($empNumber) {
         try {
-            $projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber);
+            $projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber, true);
             return (count($projects) > 0);
         } catch (Exception $e) {
             // TODO: Warn
