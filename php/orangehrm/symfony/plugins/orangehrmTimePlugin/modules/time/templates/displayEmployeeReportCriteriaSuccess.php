@@ -65,12 +65,26 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     </style>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-
-            var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+                    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
             var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
             var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
             var lang_required = '<?php echo __("Project name is required") ?>';
+
+        $(document).ready(function() {
+
+
+         $('#viewbutton').click(function() {
+            if($('#project_date_range_from_date').val() == datepickerDateFormat){
+                var parsedDate = $.datepicker.parseDate("yy-mm-dd", "1970-01-01");
+                $('#project_date_range_from_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
+            }
+            if($('#project_date_range_to_date').val() == datepickerDateFormat){
+               var parsedDate = $.datepicker.parseDate("yy-mm-dd", Date_toYMD());
+                $('#project_date_range_to_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
+            }
+            $('#reportForm').submit();
+        });
+
 
         var validator = $("#reportForm").validate({
 
@@ -115,4 +129,19 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         });
     });
+
+        function Date_toYMD() {
+    var dt=new Date();
+    var year, month, day;
+    year = String(dt.getFullYear());
+    month = String(dt.getMonth() + 1);
+    if (month.length == 1) {
+        month = "0" + month;
+    }
+    day = String(dt.getDate());
+    if (day.length == 1) {
+        day = "0" + day;
+    }
+    return year + "-" + month + "-" + day;
+}
 </script>

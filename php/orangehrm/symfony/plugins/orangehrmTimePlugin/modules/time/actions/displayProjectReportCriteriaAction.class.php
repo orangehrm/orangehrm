@@ -38,7 +38,7 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
     }
 
     public function setReportCriteriaInfoInRequest($formValues) {
-        
+
         $projectService = new ProjectService();
         $projectId = $formValues["project_name"];
         $projectName = $projectService->getProjectName($projectId);
@@ -58,10 +58,10 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
     public function setStaticColumns($formValues) {
 
-//        $staticColumns["fromDate"] = "1970-01-01";
-//        $staticColumns["toDate"] = date("Y-m-d");
-        $staticColumns["fromDate"] = "";
-        $staticColumns["toDate"] = "";
+        $staticColumns["fromDate"] = "1970-01-01";
+        $staticColumns["toDate"] = date("Y-m-d");
+        // $staticColumns["fromDate"] = "";
+        //$staticColumns["toDate"] = "";
 
         if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
 
@@ -87,7 +87,7 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
         if ($formValues["only_inlclude_approved_timesheets"] == "on") {
             $staticColumns["onlyIncludeApprovedTimesheets"] = "on";
-        }else{
+        } else {
             $staticColumns["onlyIncludeApprovedTimesheets"] = "off";
         }
 

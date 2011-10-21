@@ -57,9 +57,6 @@ $(document).ready(function() {
 
 	
 });
-if(candidateId >0) {
-    $('#btnSave').hide();
-}
 
 function stretchy(element) {
 	var value= element.value;

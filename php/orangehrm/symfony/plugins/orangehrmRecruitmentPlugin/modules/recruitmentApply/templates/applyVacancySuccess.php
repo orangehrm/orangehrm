@@ -134,7 +134,7 @@
     //<![CDATA[
     var description	= '<?php $description; ?>';
     var vacancyId	= '<?php echo $vacancyId; ?>';
-    var candidateId	= '<?php echo $candidateId; ?>';
+    var candidateId	= '<?php echo ($candidateId !="") ? $candidateId : 0;?>';
     var lang_firstNameRequired = "<?php echo __("First name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
     var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
