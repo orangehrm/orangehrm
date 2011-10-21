@@ -161,6 +161,9 @@ class VacancyService extends BaseService {
     public function isHiringManager($empNumber) {
         try {
             $results = $this->searchVacancies(array(
+                'jobTitle' => null,
+                'jobVacancy' => null,
+                'status' => null,
                 'hiringManager' => $empNumber,
                 'offset' => 0,
                 'noOfRecords' => 1,
@@ -180,7 +183,7 @@ class VacancyService extends BaseService {
      */
     public function isInterviewer($empNumber) {
         try {
-            $result = $this->getVacancyDao()->searchInterviews($empNumber); 
+            $result = $this->getVacancyDao()->searchInterviews($empNumber);
             return ($result->count() > 0);
         } catch (DaoException $e) {
             // TODO: Warn
