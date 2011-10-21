@@ -326,7 +326,7 @@ class VacancyDao extends BaseDao {
         try {
             $query = Doctrine_Query::create()
                     ->from('JobInterview ji')
-                    ->where('ji.interviewerId = ?', $empNumber);
+                    ->where('ji.JobInterviewInterviewer.interviewerId = ?', $empNumber);
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

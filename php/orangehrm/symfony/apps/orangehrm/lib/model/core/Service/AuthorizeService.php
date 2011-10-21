@@ -44,6 +44,7 @@ class AuthorizeService extends BaseService {
     public $roleAcceptor = "Acceptor";
     public $roleOfferer = "Offerer";
     public $roleHiringManager = "Offerer";
+    public $roleInterviewer = "Interviewer";
 
     private $employeeService;
     private $projectService;

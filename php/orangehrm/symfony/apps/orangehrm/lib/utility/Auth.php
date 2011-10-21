@@ -40,7 +40,7 @@ class Auth {
     const PROJECTADMIN_ROLE = 'ProjectAdmin';
     const MANAGER_ROLE = 'Manager';
     const DIRECTOR_ROLE = 'Director';
-    const INTERVIEWER = 'Acceptor'; // Someone involved with interview events (called ACCEPTOR in authorize.php)
+    const INTERVIEWER = 'Interviewer'; // Someone involved with interview events (called ACCEPTOR in authorize.php)
     const HIRINGMANAGER_ROLE = 'Offerer'; // Called Offerer in authorize.php		 
 
     /** Is current user logged in */
