@@ -58,9 +58,10 @@ $(document).ready(function() {
         var decodedfullName = $("<div/>").html(item.name).text();
        
       
-        var array = decodedfullName.split(' - ##');
+        var array = decodedfullName.split(' - ');
 	
-        //     alert(array[0])
+  //           alert(array)
+    //         alert(array[0])
         var r = $.ajax({
             type: 'POST',
             url: getActivitiesLink,

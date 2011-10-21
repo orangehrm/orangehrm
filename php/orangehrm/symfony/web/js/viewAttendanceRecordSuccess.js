@@ -38,9 +38,9 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == 'Type for hints...'){
-                this.value = "";
-                $(this).removeClass("inputFormatHint");
+            if($("#employee").hasClass("inputFormatHint")){
+                $("#employee").removeClass("inputFormatHint");
+                $("#employee").val("");
             }
 
         });
@@ -103,9 +103,9 @@ $(document).ready(function(){
         });
     
         $("#employee").click(function(){
-            if($("#employee").val() == 'Type for hints...'){
-                this.value = "";
-                $(this).removeClass("inputFormatHint");
+            if($("#employee").hasClass("inputFormatHint")){
+                $("#employee").removeClass("inputFormatHint");
+                $("#employee").val("");
             }
         });
     
