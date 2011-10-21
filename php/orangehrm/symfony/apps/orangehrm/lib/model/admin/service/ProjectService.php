@@ -370,8 +370,10 @@ class ProjectService extends BaseService {
 
         $projectIdArray = array();
 
-        foreach($projectAdmins as $projectAdmin) {
-            $projectIdArray[] = $projectAdmin->getProjectId();
+        if (!is_null($projectAdmins)) {
+            foreach($projectAdmins as $projectAdmin) {
+                $projectIdArray[] = $projectAdmin->getProjectId();
+            }
         }
 
         if (empty($projectIdArray)) {
