@@ -58,7 +58,18 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $mode = empty($id) ? LeaveListForm::MODE_DEFAULT_LIST : LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
 
         if ($this->_isRequestFromLeaveSummary($request)) {
-            $this->_setFilters($mode, $request->getGetParameters());
+            
+            $filters = $request->getGetParameters();            
+            $empId = $request->getGetParameter('txtEmpID');
+            
+            if (!empty($empId)) {
+                $empStatus = $this->getEmployeeService()->getEmployee($empId)->getEmpStatus();
+                if($empStatus == Employee::EMPLOYEE_STATUS_TERMINATED) {
+                   $filters['cmbWithTerminated'] = 'on';
+                }                
+            }
+            $this->_setFilters($mode, $filters);
+            
         }
 
         if ($request->isMethod('post')) { 
@@ -152,7 +163,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 'employeeFilter' => $employeeFilter,
                 'leavePeriod' => $leavePeriodId,
                 'leaveType' => $leaveTypeId,
-                'noOfRecordsPerPage' => 3,
+                'noOfRecordsPerPage' => sfConfig::get('app_items_per_page'),
                 'cmbWithTerminated' => $terminatedEmp
             ));
 
@@ -165,7 +176,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 $messageType = 'notice';
             }
 
-            $this->pager = new SimplePager('LeaveList', 3);
+            $this->pager = new SimplePager('LeaveList', sfConfig::get('app_items_per_page'));
 
             $this->pager->setPage($page);
             $this->pager->setNumResults($recordCount);
@@ -244,7 +255,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
 
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($list);
-        ohrmListComponent::setItemsPerPage(3);
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
         ohrmListComponent::setNumberOfRecords($recordCount);
         ohrmListComponent::$pageNumber = $page;
         $offset = $page * sfConfig::get('app_items_per_page');

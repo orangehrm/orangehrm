@@ -91,8 +91,10 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
 
         $fromDate = "1970-01-01";
         $toDate = date("Y-m-d");
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $datepickerDateFormat = get_datepicker_date_format($inputDatePattern);
 
-        if (($dateRanges["from"] != "YYYY-MM-DD") && ($dateRanges["to"] != "YYYY-MM-DD")) {
+        if (($dateRanges["from"] != $datepickerDateFormat) && ($dateRanges["to"] != $datepickerDateFormat)) {
 
             if (($dateRanges["to"] != "")) {
                 $toDate = $dateRanges["to"];
@@ -100,11 +102,11 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
             if (($dateRanges["from"] != "")) {
                 $fromDate = $dateRanges["from"];
             }
-        } else if (($dateRanges["from"] == "YYYY-MM-DD") && ($dateRanges["to"] != "YYYY-MM-DD")) {
+        } else if (($dateRanges["from"] == $datepickerDateFormat) && ($dateRanges["to"] != $datepickerDateFormat)) {
             if (($dateRanges["to"] != "")) {
                 $toDate = $dateRanges["to"];
             }
-        } else if (($dateRanges["from"] != "YYYY-MM-DD") && ($dateRanges["to"] == "YYYY-MM-DD")) {
+        } else if (($dateRanges["from"] != $datepickerDateFormat) && ($dateRanges["to"] == $datepickerDateFormat)) {
             if (($dateRanges["from"] != "")) {
                 $fromDate = $dateRanges["from"];
             }

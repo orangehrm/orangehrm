@@ -56,14 +56,14 @@
         var lang_required = '<?php echo __("Project name is required") ?>';
     $(document).ready(function() {
         $('#viewbutton').click(function() {
-            if($('#project_date_range_from_date').val() == datepickerDateFormat){
-                var parsedDate = $.datepicker.parseDate("yy-mm-dd", "1970-01-01");
-                $('#project_date_range_from_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
-            }
-            if($('#project_date_range_to_date').val() == datepickerDateFormat){
-               var parsedDate = $.datepicker.parseDate("yy-mm-dd", Date_toYMD());
-                $('#project_date_range_to_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
-            }
+//            if($('#project_date_range_from_date').val() == datepickerDateFormat){
+//                var parsedDate = $.datepicker.parseDate("yy-mm-dd", "1970-01-01");
+//                $('#project_date_range_from_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
+//            }
+//            if($('#project_date_range_to_date').val() == datepickerDateFormat){
+//               var parsedDate = $.datepicker.parseDate("yy-mm-dd", Date_toYMD());
+//                $('#project_date_range_to_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
+//            }
             $('#reportForm').submit();
         });
 

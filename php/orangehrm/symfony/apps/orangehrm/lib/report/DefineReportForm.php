@@ -49,6 +49,7 @@ class DefineReportForm extends sfForm {
     
     public function getSelectedFilterValues() {
         $allValues = $this->getValues();
+        print_r($allValues);
         
         return array_intersect_key($allValues, $this->selectedFilterWidgets);        
     }

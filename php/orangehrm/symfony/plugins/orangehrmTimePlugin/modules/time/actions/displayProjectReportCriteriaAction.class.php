@@ -58,12 +58,12 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
     public function setStaticColumns($formValues) {
 
-        $staticColumns["fromDate"] = "1970-01-01";
-        $staticColumns["toDate"] = date("Y-m-d");
-        // $staticColumns["fromDate"] = "";
-        //$staticColumns["toDate"] = "";
+        $staticColumns["fromDate"] = "";
+        $staticColumns["toDate"] = "";
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $datepickerDateFormat = get_datepicker_date_format($inputDatePattern);
 
-        if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
+        if (($formValues["project_date_range"]["from"] != $datepickerDateFormat) && ($formValues["project_date_range"]["to"] != $datepickerDateFormat)) {
 
             if ($formValues["project_date_range"]["from"] != '') {
                 $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
@@ -71,12 +71,12 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
             if ($formValues["project_date_range"]["to"] != '') {
                 $staticColumns["toDate"] = $formValues["project_date_range"]["to"];
             }
-        } else if (($formValues["project_date_range"]["from"] != "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] == "YYYY-MM-DD")) {
+        } else if (($formValues["project_date_range"]["from"] != $datepickerDateFormat) && ($formValues["project_date_range"]["to"] == $datepickerDateFormat)) {
 
             if ($formValues["project_date_range"]["from"] != '') {
                 $staticColumns["fromDate"] = $formValues["project_date_range"]["from"];
             }
-        } else if (($formValues["project_date_range"]["from"] == "YYYY-MM-DD") && ($formValues["project_date_range"]["to"] != "YYYY-MM-DD")) {
+        } else if (($formValues["project_date_range"]["from"] == $datepickerDateFormat) && ($formValues["project_date_range"]["to"] != $datepickerDateFormat)) {
 
             if ($formValues["project_date_range"]["to"] != '') {
                 $staticColumns["toDate"] = $formValues["project_date_range"]["to"];

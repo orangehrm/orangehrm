@@ -35,8 +35,8 @@ class ohrmReportWidgetJoinedDate extends sfWidgetForm implements ohrmEnhancedEmb
         );
 
         $this->addOption($this->id . '_' . 'comparision', new sfWidgetFormChoice(array('choices' => $choices)));
-        $this->addOption($this->id . '_' . 'from', new ohrmWidgetDatePickerNew(array(), array('id' => $this->id . '_' . 'from')));
-        $this->addOption($this->id . '_' . 'to', new ohrmWidgetDatePickerNew(array(), array('id' => $this->id . '_' . 'to')));
+        $this->addOption($this->id . '_' . 'from', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'from')));
+        $this->addOption($this->id . '_' . 'to', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'to')));
 
 
         $this->addOption('template', '%comparision% &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp %from% &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp %to%');
@@ -112,16 +112,8 @@ EOF
 
         $widgetSchema[$this->attributes['id']] = $this;
         $widgetSchema[$this->attributes['id']]->setLabel(ucwords(str_replace("_", " ", $this->attributes['id'])));
-//$form->setValidator('date_period', new sfValidatorString());
-        //$validatorSchema[$this->attributes['id']] = new ohrmValidatorDateRange(array(), array("invalid" => "Insert a correct date"));
         $requiredMessage = __("Please select comparison");
         $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateConditionalFilter(array(), array('required' => $requiredMessage));        
-        
-//        $validatorSchema[$this->attributes['id']] = new sfValidatorPass();
-//        $validatorSchema->setPostValidator(new ohrmValidatorSchemaDateRange($this->attributes['id'], ohrmValidatorSchemaDateRange::LESS_THAN_EQUAL, $this->attributes['id'],
-//                        array('throw_global_error' => true),
-//                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')
-//        ));
     }
 
     /**

@@ -245,11 +245,45 @@ use_javascript('orangehrm.datepicker.js');
     </style>
 
     <script type="text/javascript">
-        var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-        var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
-        var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
-           
     $(document).ready(function() {
+
+         var datepickerDateFormat = 'yy-mm-dd';
+
+        var rDate = trim($("#joined_date_from").val());
+            if (rDate == '') {
+                $("#joined_date_from").val(datepickerDateFormat);
+            }
+
+        //Bind date picker
+        daymarker.bindElement("#joined_date_from",
+        {
+            onSelect: function(date){
+
+            },
+            dateFormat : datepickerDateFormat
+        });
+
+        $('#joined_date_from_Button').click(function(){
+            daymarker.show("#joined_date_from");
+    });
+
+        var rDate = trim($("#joined_date_to").val());
+            if (rDate == '') {
+                $("#joined_date_to").val(datepickerDateFormat);
+            }
+
+        //Bind date picker
+        daymarker.bindElement("#joined_date_to",
+        {
+            onSelect: function(date){
+
+            },
+            dateFormat : datepickerDateFormat
+        });
+
+        $('#joined_date_to_Button').click(function(){
+            daymarker.show("#joined_date_to");
+    });
 
            
         $('#filter_fields_inactive').find(':input').attr('disabled', 'disabled');

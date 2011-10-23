@@ -37,9 +37,9 @@
  ?>
 
             <tr>
-                <td class="odd"><?php echo $leave->getLeaveDate() ?></td>
+                <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveDate()) ?></td>
                 <td class="odd"><?php echo $leave->getLeaveLengthHours() ?></td>
-                <td class="odd"><?php echo $leave->getLeaveRequest()->getLeavePeriod()->getStartDate() ?></td>
+                <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveRequest()->getLeavePeriod()->getStartDate()) ?></td>
                 <td class="odd"><?php echo $leave->getLeaveRequest()->getLeaveTypeName() ?></td>
                 <td class="odd"><?php echo __($leave->getTextLeaveStatus()); ?></td>
                 <td class="odd"><?php echo $leave->getLeaveComments() ?></td>

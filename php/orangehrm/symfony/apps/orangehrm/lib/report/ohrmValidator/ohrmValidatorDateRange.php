@@ -34,11 +34,11 @@ class ohrmValidatorDateRange extends ohrmDateValidator {
      * @see sfValidatorBase
      */
     protected function configure($options = array(), $messages = array()) {
-                $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         $this->addMessage('invalid', 'From date should be before to date.');
 
         $this->addOption('required', false);
-        $this->addMessage('bad_format', '"%value%" does not match the date format '.get_datepicker_date_format($inputDatePattern));
+        $this->addMessage('bad_format', '"%value%" does not match the date format ' . get_datepicker_date_format($inputDatePattern));
         $this->addMessage('max', 'The date must be before %max%.');
         $this->addMessage('min', 'The date must be after %min%.');
 
@@ -62,8 +62,8 @@ class ohrmValidatorDateRange extends ohrmDateValidator {
         $from = $value["from"];
         $to = $value["to"];
 
-    $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-    $datepickerDateFormat = get_datepicker_date_format($inputDatePattern);
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $datepickerDateFormat = get_datepicker_date_format($inputDatePattern);
 
         if (($from != $datepickerDateFormat) && ($to != $datepickerDateFormat)) {
             try {
@@ -74,7 +74,7 @@ class ohrmValidatorDateRange extends ohrmDateValidator {
                 } catch (Exception $exc) {
                     $this->setMessage('invalid', 'Insert valid "from" and "to" date');
 
-                    $this->setMessage("bad_format", "From date and To date values do not match the date format ".$datepickerDateFormat);
+                    $this->setMessage("bad_format", "From date and To date values do not match the date format " . $datepickerDateFormat);
                     throw $exc;
                 }
                 $this->setMessage('invalid', 'Insert a valid "from" date');
@@ -91,21 +91,18 @@ class ohrmValidatorDateRange extends ohrmDateValidator {
             if ($to != "") {
                 $value["to"] = parent::doClean($value["to"]);
                 $this->setMessage('invalid', 'Insert a valid "to" date');
-                $this->setMessage("bad_format", "To date value does not match the date format ".$datepickerDateFormat);
+                $this->setMessage("bad_format", "To date value does not match the date format " . $datepickerDateFormat);
             }
         } else if (($from != $datepickerDateFormat) && ($to == $datepickerDateFormat)) {
             if ($from != "") {
                 $value["from"] = parent::doClean($value["from"]);
                 $this->setMessage('invalid', 'Insert a valid "from" date');
-                $this->setMessage("bad_format", "From date value does not match the date format ".$datepickerDateFormat);
+                $this->setMessage("bad_format", "From date value does not match the date format " . $datepickerDateFormat);
             }
         } else if (($from == $datepickerDateFormat) && ($to == $datepickerDateFormat)) {
-            $value["from"] = "YYYY-MM-DD";
-            $value["to"] = "YYYY-MM-DD";
             return $value;
         }
-
-        if ($value["from"] && $value["to"]) {
+        if ($value["from"] != $datepickerDateFormat && $value["to"] != $datepickerDateFormat && $value["from"] != "" && $value["to"] != "") {
             $this->setMessage('invalid', 'From date should be before to date.');
             $v = new ohrmValidatorSchemaDateRange("project_date_range", sfValidatorSchemaCompare::LESS_THAN_EQUAL, "project_date_range", array('throw_global_error' => true), array('invalid' => $this->getMessage('invalid')));
             $v->clean($value);

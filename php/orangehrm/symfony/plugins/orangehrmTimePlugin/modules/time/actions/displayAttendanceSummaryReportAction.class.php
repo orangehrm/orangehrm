@@ -119,8 +119,8 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
             $subUnitName = $companyStructure->getTitle();
             $this->getRequest()->setParameter("subUnit", $subUnitName);
         }
-        $formValues["fromDate"] = ($formValues["fromDate"] == "") ? '1970-01-01': $formValues["fromDate"];
-        $formValues["toDate"] = ($formValues["toDate"] == "") ? date('Y-m-d'): $formValues["toDate"];
+        //$formValues["fromDate"] = ($formValues["fromDate"] == "") ? '1970-01-01': $formValues["fromDate"];
+       // $formValues["toDate"] = ($formValues["toDate"] == "") ? date('Y-m-d'): $formValues["toDate"];
         $this->getRequest()->setParameter('attendanceDateRangeFrom', $formValues["fromDate"]);
         $this->getRequest()->setParameter('attendanceDateRangeTo', $formValues["toDate"]);
     }

@@ -37,7 +37,8 @@ $(document).ready(function() {
         element = $(this)
         if($(element).val() == 'Type for hints...'){
             $(element).addClass("inputFormatHint");
-        }	
+        }
+	$(element).val($(element).val().replace("##", ""));
     });
 
     //Auto complete
@@ -57,11 +58,9 @@ $(document).ready(function() {
         var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
         var decodedfullName = $("<div/>").html(item.name).text();
        
-      
-        var array = decodedfullName.split(' - ');
+      alert(decodedfullName)
+        var array = decodedfullName.split(' - ##');
 	
-  //           alert(array)
-    //         alert(array[0])
         var r = $.ajax({
             type: 'POST',
             url: getActivitiesLink,
