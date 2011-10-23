@@ -109,7 +109,7 @@ function isRowsSelected(){
 }
 
 function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
-        
+
     $.post(
         linkForGetRecords,
         {

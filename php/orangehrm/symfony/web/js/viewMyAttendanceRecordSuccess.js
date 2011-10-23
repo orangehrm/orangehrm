@@ -36,8 +36,8 @@ $(document).ready(function()
             if(isValidDate){
                    
                 var date=$(".date").val();
-                
-                getRelatedAttendanceRecords(employeeId,date,actionRecorder);               
+                var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+                getRelatedAttendanceRecords(employeeId,$.datepicker.formatDate("yy-mm-dd", parsedDate),actionRecorder);
             }  
 
         });

@@ -64,8 +64,9 @@ $(document).ready(function(){
                 if(isValidDate){
                     var empId= $('#attendance_employeeId').val();
                     var date=$(".date").val();
+                    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
                 
-                    getRelatedAttendanceRecords(empId,date,actionRecorder);   
+                    getRelatedAttendanceRecords(empId,$.datepicker.formatDate("yy-mm-dd", parsedDate),actionRecorder);
                 }
             }
         });      

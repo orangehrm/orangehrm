@@ -18,7 +18,7 @@ class viewMyAttendanceRecordAction extends sfAction {
         $userObj = $this->getContext()->getUser()->getAttribute("user");
         $this->employeeId = $userObj->getEmployeeNumber();
         $this->date = $this->request->getParameter('date');
-         $this->trigger = $request->getParameter('trigger');
+        $this->trigger = $request->getParameter('trigger');
         $this->actionRecorder="viewMy";
         $values = array('date' => $this->date, 'employeeId' => $this->employeeId, 'trigger' => $this->trigger);
         $this->form = new AttendanceRecordSearchForm(array(), $values);
