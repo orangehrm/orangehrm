@@ -292,8 +292,8 @@ class PerformanceReviewService extends BaseService {
                 $content = file_get_contents(sfConfig::get('sf_root_dir')."/apps/orangehrm/modules/performance/templates/email/".self::EMAIL_TEMPLATE_ADD_REVIEW);
                 $varibles = array('#reviewerName'=> $review->getReviewer()->getFirstName(),
                                   '#empName' => $review->getEmployee()->getFullName(),
-                                  '#period' => $review->getPeriodFrom().' '.$review->getPeriodTo(),
-                                  '#dueDate' => $review->getDueDate());
+                                  '#period' => set_datepicker_date_format($review->getPeriodFrom()).' '.set_datepicker_date_format($review->getPeriodTo()),
+                                  '#dueDate' => set_datepicker_date_format($review->getDueDate()));
                 $mailBody = strtr($content, $varibles);
 
                 $mailService = new EmailService();

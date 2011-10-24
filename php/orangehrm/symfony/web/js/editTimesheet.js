@@ -58,7 +58,6 @@ $(document).ready(function() {
         var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
         var decodedfullName = $("<div/>").html(item.name).text();
        
-      alert(decodedfullName)
         var array = decodedfullName.split(' - ##');
 	
         var r = $.ajax({
@@ -70,7 +69,6 @@ $(document).ready(function() {
             },
            
             success: function(msg){
-                //                alert(msg);
                 $(temp).html(msg);
                 var flag = validateProject();
                 if(!flag) {
