@@ -507,7 +507,7 @@ class leaveActions extends sfActions {
     }*/
 
     public function executeViewMyLeaveList(sfWebRequest $request) {
-
+        
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
         $this->setTemplate('viewLeaveList');
@@ -561,7 +561,8 @@ class leaveActions extends sfActions {
             $leavePeriodId = $leavePeriod->getLeavePeriodId();
         }
         $employeeService = $this->getEmployeeService();
-        $employee = $employeeService->getEmployee(Auth::instance()->getEmployeeNumber());
+        $empNumber = Auth::instance()->getEmployeeNumber();
+        $employee = $employeeService->getEmployee($empNumber);
 
         $recordCount = 0;
 
@@ -573,7 +574,7 @@ class leaveActions extends sfActions {
                         'dateRange' => $dateRange,
                         'statuses' => $statuses,
                         'leavePeriod' => $leavePeriodId,
-                        'employeeFilter' => $employee,
+                        'employeeFilter' => $empNumber,
                         'noOfRecordsPerPage' => $noOfRecordsPerPage
                     ));
 
@@ -841,7 +842,7 @@ class leaveActions extends sfActions {
         $dataRetriever->setDataRetrievalService($dataRetrievalService);
         $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
         $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
-
+        
         $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
         $this->getUser()->setAttribute('persistant.exportFileName', 'my-leave-list');
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave List');
