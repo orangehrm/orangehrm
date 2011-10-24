@@ -94,9 +94,9 @@
 
                         <?php if ($record->getPunchOutUtcTime() == null): ?>
 
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date("Y-m-d H:i", mktime(0, 0, 0, 7, 1, 2030)); ?>"></td>
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable", "width" =>'120px')); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date("Y-m-d H:i", mktime(0, 0, 0, 7, 1, 2030)); ?>"></td>
                         <?php else: ?>
-                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable")); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchOutUtcTime())); ?>"></td>
+                            <td><?php echo $editAttendanceForm['punchOutDate_' . $i]->render(array("class" => "nonEditable", "width" =>'120px')); ?>&nbsp;<?php echo $editAttendanceForm['punchOutTime_' . $i]->render(array("class" => "nonEditable")); ?><input type="hidden" id="<?php echo "punchOutUtcTime_" . $i; ?>" value="<?php echo date('Y-m-d H:i', strtotime($record->getPunchOutUtcTime())); ?>"></td>
                         <?php endif; ?>
                         <td><table cellspacing="0" cellpadding="0" border="0">
                                 <tr>

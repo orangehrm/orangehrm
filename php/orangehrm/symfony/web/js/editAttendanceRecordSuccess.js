@@ -79,7 +79,7 @@ $(document).ready(function()
                 var outTimeTemp = strToTime(punchOut, datepickerDateFormat);
                 punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
       
-            
+
                 if((inDate=="")||(inTime=="")){
                     var errorStyle = "background-color:#FFDFDF;";
                     element.attr('style', errorStyle);
@@ -962,23 +962,28 @@ function formatTime(time){
     
 }
 
- String.prototype.isValidDate = function() {
-  var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
-  var matches = IsoDateRe.exec(this);
-  if (!matches) return false;
+String.prototype.isValidDate = function() {
+    var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+    var matches = IsoDateRe.exec(this);
+    if (!matches) return false;
 
 
-  var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
+    var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
 
-  return ((composedDate.getMonth() == (matches[2] - 1)) &&
-          (composedDate.getDate() == matches[3]) &&
-          (composedDate.getFullYear() == matches[1]));
+    return ((composedDate.getMonth() == (matches[2] - 1)) &&
+        (composedDate.getDate() == matches[3]) &&
+        (composedDate.getFullYear() == matches[1]));
 
 }
 
 function convertToYMDFormat(date){
-    var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
-    return $.datepicker.formatDate("yy-mm-dd", parsedDate);
+    try{
+        var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
+        return $.datepicker.formatDate("yy-mm-dd", parsedDate);
+    } catch (error) {
+        //alert(error)
+    }
+
 }
 
     
