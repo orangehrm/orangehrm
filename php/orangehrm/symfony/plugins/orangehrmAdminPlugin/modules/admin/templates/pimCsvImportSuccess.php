@@ -25,19 +25,18 @@
             </div>
 	    <br class="clear"/>
 	    <div class="hrLine"></div>
-	    <div id="helpText1"><?php echo '* '.__("Column order should not be changed"); ?></div>
-	    <br class="clear"/>
-	    
-	    <div id="helpText1"><?php echo '* '.__("First Name and Last Name is compulsory");?></div>
-	    <br class="clear"/>
+            <ul id="ulInstructions">
+                <li><?php echo __("Column order should not be changed"); ?></li>
+                <li><?php echo __("First Name and Last Name is compulsory");?></li>
+                <li><?php echo __("All date fields should be in YYYY-mm-dd format");?></li>
+                <li><?php echo __("If gender is specified, value should be either %male or %female", array(
+                    '%male' => '<span class="boldText">' . __('Male') . '</span>',
+                    '%female' => '<span class="boldText">' . __('Female') . '</span>',
+                )); ?></li>
+                <li><?php echo __("Sample csv file "); ?><a title="<?php echo __("Download"); ?>" target="_blank" class="download"
+                       href="<?php echo url_for('admin/sampleCsvDownload');?>"><?php echo __("Download"); ?></a></li>
+            </ul>
 
-            <div id="helpText1"><?php echo '* '.__("All date fields should be in YYYY-mm-dd format");?></div>
-	    <br class="clear"/>
-	    
-	    <div id="helpText1"><?php echo '* '.__("Sample csv file "); ?><a title="<?php echo __("Download"); ?>" target="_blank" class="download"
-                           href="<?php echo url_for('admin/sampleCsvDownload');?>"><?php echo __("Download"); ?></a></div>
-	    <br class="clear"/>
-	    
 	    <div class="formbuttons">
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __("Upload"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>

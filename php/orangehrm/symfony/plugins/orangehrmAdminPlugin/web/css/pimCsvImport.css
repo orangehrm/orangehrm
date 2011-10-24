@@ -28,3 +28,17 @@
 #messagebar{
     width: 540px;
 }
+
+span.boldText {
+    font-weight: bold;
+}
+
+ul#ulInstructions {
+    list-style-type: square !important;
+    margin-left: 30px;
+}
+
+ul#ulInstructions li {
+    list-style-type: square !important;
+    margin-bottom: 2px;
+}
