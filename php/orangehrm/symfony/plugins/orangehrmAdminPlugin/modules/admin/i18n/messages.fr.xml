@@ -80,6 +80,10 @@
                 <source>Error Occurred - Invalid File Type</source>
                 <target>FR_Error Occurred - Invalid File Type</target>
             </trans-unit>
+            <trans-unit id="20">
+                <source>If gender is specified, value should be either %male or %female</source>
+                <target>FR_If gender is specified, value should be either %male or %female</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
