@@ -72,9 +72,9 @@ $(document).ready(function()
                 outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
         
                 outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-                punchOut= formatDate(outDate)+" "+formatTime(outTime);
+                punchOut= outDate+" "+formatTime(outTime);
             
-                punchOut= formatDate(outDate)+" "+formatTime(outTime);
+                punchOut= outDate+" "+formatTime(outTime);
           
                 var outTimeTemp = strToTime(punchOut, datepickerDateFormat);
                 punchOutUtcTime= outTimeTemp-outTimezone*3600*1000;
@@ -179,7 +179,7 @@ $(document).ready(function()
                 punchInTime=inDate+" "+inTime;
                 punchOutTime=outDate+" "+outTime;
                 recordId=$("#attendance_recordId_"+idArray[2]).val();
-                punchIn= formatDate(inDate)+" "+formatTime(inTime);
+                punchIn= inDate+" "+formatTime(inTime);
             
                 var inTimeTemp = strToTime(punchIn, datepickerDateFormat);
                 punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
@@ -273,7 +273,6 @@ $(document).ready(function()
         });
 
         $(".save").click(function() {
-           
             $('form#employeeRecordsForm').attr({
                 action:linkToEdit+"?employeeId="+employeeId+"&date="+recordDate+"&formSubmitAction="+true+"&actionRecorder="+actionRecorder
             });
@@ -357,7 +356,7 @@ $(document).ready(function()
             outTime=element.val();
             punchInTime= inDate+" "+inTime;
             punchOutTime= outDate+" "+outTime;
-            punchIn= formatDate(inDate)+" "+formatTime(inTime);
+            punchIn= inDate+" "+formatTime(inTime);
             
             var inTimeTemp = strToTime(punchIn, dateTimeFormat);
             punchInUtcTime=inTimeTemp-inTimezone*3600*1000;
@@ -441,7 +440,7 @@ $(document).ready(function()
             outDate=convertToYMDFormat($("#attendance_punchOutDate_"+idArray[2]).val());
             outTime=$("#attendance_punchOutTime_"+idArray[2]).val();
             outTimezone=$("#attendance_OutOffset_"+idArray[2]).val();
-            punchOut= formatDate(outDate)+" "+formatTime(outTime);
+            punchOut= outDate+" "+formatTime(outTime);
             
             var outTimeTemp = strToTime(punchOut, dateTimeFormat);
             punchOutUtcTime=outTimeTemp-outTimezone*3600*1000;
@@ -777,7 +776,7 @@ function validatePunchInTime(punchOutUtcTime, inTimezone, inTime, date){
     var inTimeTemp = strToTime(formtedFullDate+" "+formtdFullTime, dateTimeFormat);
     var inTime=inTimeTemp-inTimezone*3600*1000;
 
-    if (inTime > outTime) {
+    if (outTime != 0 && inTime > outTime) {
         errFlag = true;
     }
     return !errFlag;
@@ -878,10 +877,10 @@ function validatePunchOutTime(punchInUtcTime,outTimezone,outTime,outDate){
 }
 
 function formatDate(date){
-    
-    
+
+
     var dateArray=date.split('-');
-    
+
     if(dateArray[1].search([0])== -1){
         if((dateArray[1]==11) || (dateArray[1]==12)){
             formtMonth=dateArray[1];
@@ -915,7 +914,7 @@ function formatDate(date){
 
     var formtedFullDate=dateArray[0]+"-"+formtMonth+"-"+formtDate;
     return formtedFullDate;
-    
+
 }
 
 function formatTime(time){

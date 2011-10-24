@@ -51,7 +51,7 @@ class EditAttendanceRecordForm extends sfForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchInTime_' . $i, new sfValidatorDateTime(array('required' => __('Enter Punch In Time'))));
                 $this->setValidator('inNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
-                $this->setValidator('punchOutDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                $this->setValidator('punchOutDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchOutTime_' . $i, new sfValidatorDateTime(array('required' => false)));
                 $this->setValidator('outNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
