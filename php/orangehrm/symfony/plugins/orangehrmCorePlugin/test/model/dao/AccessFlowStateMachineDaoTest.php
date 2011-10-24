@@ -61,7 +61,7 @@ class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
 
         $workflowStateMachineRecord = new WorkflowStateMachine();
 
-        $workflowStateMachineRecord->setAction(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT);
+        $workflowStateMachineRecord->setAction(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME);
         $workflowStateMachineRecord->setState(PluginAttendanceRecord::STATE_CREATED);
         $workflowStateMachineRecord->setResultingState(PluginAttendanceRecord::STATE_CREATED);
         $workflowStateMachineRecord->setWorkflow(PluginWorkflowStateMachine::FLOW_ATTENDANCE);
@@ -70,7 +70,7 @@ class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
         $this->accessFlowStateMachineDao->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
 
         $this->assertNotNull($workflowStateMachineRecord->getId());
-        $this->assertEquals($workflowStateMachineRecord->getAction(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT);
+        $this->assertEquals($workflowStateMachineRecord->getAction(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME);
         $this->assertEquals($workflowStateMachineRecord->getState(), PluginAttendanceRecord::STATE_CREATED);
     }
 

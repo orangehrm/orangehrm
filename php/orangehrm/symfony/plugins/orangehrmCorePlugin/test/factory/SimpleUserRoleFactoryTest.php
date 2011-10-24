@@ -24,7 +24,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
         $userRoleArray = array('isAdmin' => true, 'isSupervisor' => false, 'isEssUser' => false);
         
         $userDecorated = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
-        $menuItemArray = $userDecorated->getAccessibleTimesheetSubMenus();
+        $menuItemArray = $userDecorated->getAccessibleTimeSubMenus();
         $menuItem = $menuItemArray[0]->getDisplayName();
 
         $this->assertTrue($userDecorated instanceof User);
@@ -46,7 +46,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
         $userRoleArray = array('isAdmin' => true, 'isSupervisor' => false, 'isEssUser' => true);
 
         $userDecorated = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
-        $menuItemArray = $userDecorated->getAccessibleTimesheetSubMenus();
+        $menuItemArray = $userDecorated->getAccessibleTimeSubMenus();
         $menuItem1 = $menuItemArray[0]->getDisplayName();
         $menuItem2 = $menuItemArray[1]->getDisplayName();
 
@@ -68,7 +68,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
         $userRoleArray = array('isAdmin' => false, 'isSupervisor' => true, 'isEssUser' => true);
 
         $userDecorated = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
-        $menuItemArray = $userDecorated->getAccessibleTimesheetSubMenus();
+        $menuItemArray = $userDecorated->getAccessibleTimeSubMenus();
         $menuItem1 = $menuItemArray[0]->getDisplayName();
         $menuItem2 = $menuItemArray[1]->getDisplayName();
 
@@ -90,7 +90,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
         $userRoleArray = array('isAdmin' => false, 'isSupervisor' => false, 'isEssUser' => true);
 
         $userDecorated = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
-        $menuItemArray = $userDecorated->getAccessibleTimesheetSubMenus();
+        $menuItemArray = $userDecorated->getAccessibleTimeSubMenus();
         $menuItem = $menuItemArray[0]->getDisplayName();
 
         $this->assertTrue($userDecorated instanceof User);
