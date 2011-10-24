@@ -107,7 +107,7 @@ class TestDataService {
        return self::_generateMultipleInsertQueryArray($tableAlias, $tableData);
        
        /* Multiple inserts have to be used since some fixtures contains different no
-        * of rows for same data set */
+        * of columns for same data set */
         
     } 
     
@@ -140,11 +140,12 @@ class TestDataService {
         foreach ($dataArray as $key => $value) {
             
             $columnName = $tableObject->getColumnName($key);
-            
+
+            /* Had to remove backtick (`) since hs_hr_config's "key" column contains them */
             if ($i < $count) {
-                $columnString .= "`$columnName`, ";
+                $columnString .= "$columnName, ";
             } else {
-                $columnString .= "`$columnName`";
+                $columnString .= "$columnName";
             }
             
             $i++;
