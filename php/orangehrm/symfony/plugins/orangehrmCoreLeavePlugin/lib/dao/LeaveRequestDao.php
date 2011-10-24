@@ -332,7 +332,7 @@ class LeaveRequestDao extends BaseDao {
             } elseif (is_array($employeeFilter)) {
                 $empNumbers = array();
                 foreach ($employeeFilter as $employee) {
-                    $empNumbers[] = $employee->getEmpNumber();
+                    $empNumbers[] = ($employee instanceof Employee) ? $employee->getEmpNumber() : $employee;
                 }
                 $q->whereIn('lr.empNumber', $empNumbers);
             }

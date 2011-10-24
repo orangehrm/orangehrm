@@ -154,7 +154,16 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                     $employeeFilter = $employeeService->filterEmployeeListBySubUnit(array(0 => $employee), $subunitId);
                 }
                 $overrideShowBackButton = true;
+            }            
+            
+            if (is_array($employeeFilter)) {
+                $empNumbers = array();
+                foreach ($employeeFilter as $employeeElement) {
+                    $empNumbers[] = ($employeeElement instanceof Employee) ? $employeeElement->getEmpNumber() : $employeeElement;
+                }
+                $employeeFilter = $empNumbers;
             }
+
             $dateRange = new DateRange($fromDate, $toDate);
 
             $searchParams = new ParameterObject(array(
