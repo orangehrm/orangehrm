@@ -48,6 +48,8 @@ class punchInAction extends sfAction {
         $this->currentDate = date('Y-m-d', time() + $timeStampDiff);
         $this->currentTime = date('H:i', time() + $timeStampDiff);
         $this->timezone = $timeZoneOffset * 3600;
+        $localizationService = new LocalizationService();
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -88,7 +90,7 @@ class punchInAction extends sfAction {
                 if ($this->attendanceFormToImplementCsrfToken->isValid()) {
 
   
-                    $punchInDate = $this->request->getParameter('date');
+                    $punchInDate = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $this->request->getParameter('date'));
                     $punchIntime = $this->request->getParameter('time');
                     $punchInNote = $this->request->getParameter('note');
                     $timeZoneOffset = $this->request->getParameter('timeZone');
