@@ -19,7 +19,7 @@
  *
  */
 class PimCsvDataImport extends CsvDataImport {
-	
+
 	private $employeeService;
 	private $nationalityService;
 	private $countryService;
@@ -79,9 +79,7 @@ class PimCsvDataImport extends CsvDataImport {
 		if (strlen($data[13]) <= 70) {
 			$employee->setCity($data[13]);
 		}
-		if (strlen($data[14]) <= 70) {
-			$employee->setProvince($data[14]);
-		}
+		
 		if (strlen($data[15]) <= 10) {
 			$employee->setEmpZipcode($data[15]);
 		}
@@ -89,6 +87,14 @@ class PimCsvDataImport extends CsvDataImport {
 		$code = $this->isValidCountry($data[16]);
 		if (!empty($code)) {
 			$employee->setCountry($code);
+			if (strtolower($data[16]) == 'united states') {				
+				$code = $this->isValidProvince($data[14]);
+				if(!empty($code)){
+					$employee->setProvince($code);
+				}
+			} else if (strlen($data[14]) <= 70) {
+				$employee->setProvince($data[14]);
+			}
 		}
 		if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
 			$employee->setEmpHmTelephone($data[17]);
@@ -99,7 +105,7 @@ class PimCsvDataImport extends CsvDataImport {
 		if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
 			$employee->setEmpWorkTelephone($data[19]);
 		}
-		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[21])) {
+		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[20])) {
 			$employee->setEmpWorkEmail($data[20]);
 		}
 		if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
@@ -120,8 +126,8 @@ class PimCsvDataImport extends CsvDataImport {
 		$emailList = $this->getEmployeeService()->getEmailList();
 		$isUnique = true;
 		foreach ($emailList as $empEmail) {
-			
-			if($empEmail['emp_work_email'] == $email || $empEmail['emp_oth_email'] == $email){
+
+			if ($empEmail['emp_work_email'] == $email || $empEmail['emp_oth_email'] == $email) {
 				$isUnique = false;
 			}
 		}
@@ -155,6 +161,17 @@ class PimCsvDataImport extends CsvDataImport {
 		foreach ($countries as $country) {
 			if (strtolower($country->cou_name) == strtolower($name)) {
 				return $country->cou_code;
+			}
+		}
+	}
+	
+	private function isValidProvince($name) {
+
+		$provinces = $this->getCountryService()->getProvinceList();
+		
+		foreach ($provinces as $province) {
+			if (strtolower($province->province_name) == strtolower($name)) {
+				return $province->province_code;
 			}
 		}
 	}
