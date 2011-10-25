@@ -472,6 +472,10 @@
         <source>With Terminated Employees</source>
         <target>FR_With Terminated Employees</target>
       </trans-unit>
+      <trans-unit id="224">
+        <source>No Leave Types with Leave Balance</source>
+        <target>FR_No Leave Types with Leave Balance</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
