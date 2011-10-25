@@ -75,15 +75,15 @@ $(document).ready(function(){
                     }
         
         
-                })
+                }) 
             //            }
             //            else{
             //                $('#validationMsg').attr('class', "messageBalloon_failure");
             //                $('#validationMsg').html("Invalid Start date");
             //            }
-            
-        
                 
+
+
             }
         }
         else{

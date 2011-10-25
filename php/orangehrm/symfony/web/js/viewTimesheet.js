@@ -34,10 +34,15 @@ $(document).ready(function(){
             var endDate= calculateEndDate(Date_toYMD()); 
              
             endDateArray=endDate.split("-");
+            try{
+            var parsedDate = $.datepicker.parseDate(datepickerDateFormat, startdate);
             
-            startdate1 =  $.datepicker.parseDate(datepickerDateFormat, startdate);
+            var startdate1 =  $.datepicker.formatDate('yy-mm-dd', parsedDate);
+            }
+            catch(error){
+
+            }
             endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
-            
             
             var startDate = new Date(startdate1);
             var newEndDate= new Date(endDate);
@@ -48,8 +53,7 @@ $(document).ready(function(){
                 $('#validationMsg').html(lang_noFutureTimesheets);
             }else{
              
-      
-                url=createTimesheet+"?startDate="+startdate+"&employeeId="+employeeId
+                url=createTimesheet+"?startDate="+startdate1+"&employeeId="+employeeId
                 $.getJSON(url, function(data) {
                 
                     if(data[0]==1){
@@ -62,7 +66,6 @@ $(document).ready(function(){
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
-                        
                         $('form#createTimesheetForm').attr({
                             action:linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId
                         });
@@ -158,7 +161,6 @@ $(document).ready(function(){
 
 var timesheetItemId;
 var question;
-//var date;
 var close= "close";
 
 function clicked(dropdown){
