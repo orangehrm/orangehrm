@@ -760,7 +760,18 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (supervisor.emp_number = supervisor_list.erep_sup_emp_number)
                     LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON 
                         (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id) 
-                WHERE whereCondition1
+                WHERE hs_hr_employee.emp_number in (
+                    SELECT hs_hr_employee.emp_number FROM hs_hr_employee
+                        LEFT JOIN hs_hr_emp_basicsalary ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
+                        LEFT JOIN hs_hr_emp_education ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_education.emp_number) 
+                        LEFT JOIN hs_hr_emp_skill ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
+                        LEFT JOIN hs_hr_emp_language ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
+                    WHERE whereCondition1
+                )
                 GROUP BY 
                      hs_hr_employee.emp_number,
                      hs_hr_employee.emp_lastname,
@@ -802,16 +813,16 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (8, 3, 'employee_name', 'hs_hr_employee.emp_number', 'ohrmReportWidgetEmployeeListAutoFill', 1, null),
     (9, 3, 'pay_grade', 'hs_hr_emp_basicsalary.sal_grd_code', 'ohrmReportWidgetPayGradeDropDown', 1, null),
     (10, 3, 'education', 'hs_hr_emp_education.edu_code', 'ohrmReportWidgetEducationtypeDropDown', 1, null),
-    (11, 3, 'employment_status', 'hs_hr_empstat.estat_code', 'ohrmWidgetEmploymentStatusList', 1, null),
+    (11, 3, 'employment_status', 'hs_hr_employee.emp_status', 'ohrmWidgetEmploymentStatusList', 1, null),
     (12, 3, 'service_period', 'datediff(current_date(), hs_hr_employee.joined_date)/365', 'ohrmReportWidgetServicePeriod', 1, null),
     (13, 3, 'joined_date', 'hs_hr_employee.joined_date', 'ohrmReportWidgetJoinedDate', 1, null),
-    (14, 3, 'job_title', 'hs_hr_job_title.jobtit_code', 'ohrmWidgetJobTitleList', 1, null),
-    (15, 3, 'language', 'hs_hr_language.lang_code', 'ohrmReportWidgetLanguageDropDown', 1, null),
-    (16, 3, 'skill', 'hs_hr_skill.skill_code', 'ohrmReportWidgetSkillDropDown', 1, null),
+    (14, 3, 'job_title', 'hs_hr_employee.job_title_code', 'ohrmWidgetJobTitleList', 1, null),
+    (15, 3, 'language', 'hs_hr_emp_language.lang_code', 'ohrmReportWidgetLanguageDropDown', 1, null),
+    (16, 3, 'skill', 'hs_hr_emp_skill.skill_code', 'ohrmReportWidgetSkillDropDown', 1, null),
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
-    (18, 3, 'sub_unit', 'hs_hr_compstructtree.id', 'ohrmWidgetSubDivisionList', 1, null),
+    (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
-    (20, 3, 'location', 'hs_hr_location.loc_code', 'ohrmReportWidgetLocationDropDown', 1, null),
+    (20, 3, 'location', 'emp_location.loc_code', 'ohrmReportWidgetLocationDropDown', 1, null),
     (21, 1, 'is_deleted', 'hs_hr_project_activity.deleted', '', 2, null);
 
 INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`, `is_list`) VALUES
