@@ -84,6 +84,10 @@
                 <source>If gender is specified, value should be either %male or %female</source>
                 <target>FR_If gender is specified, value should be either %male or %female</target>
             </trans-unit>
+            <trans-unit id="21">
+                <source>Include not more than 100 records in the file</source>
+                <target>FR_Include not more than 100 records in the file</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

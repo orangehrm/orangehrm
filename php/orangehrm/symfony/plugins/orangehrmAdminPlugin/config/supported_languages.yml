@@ -1,4 +1,3 @@
 languages:
   0: {key: 'en', value: 'English'}
-  1: {key: 'fr', value: 'French'}
-  2: {key: 'en_US', value: 'US English'}
+  1: {key: 'en_US', value: 'US English'}
