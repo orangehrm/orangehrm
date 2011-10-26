@@ -24,7 +24,9 @@ class TestDataService {
     private static $dbConnection;
     private static $data;
     private static $tableNames;
-
+    private static $lastFixture = null;
+    private static $insertQueryCache = null;
+    
     public static function populate($fixture) {
         
         self::_populateUsingPdoTransaction($fixture);
@@ -34,7 +36,7 @@ class TestDataService {
     
     private static function _populateUsingDoctrineObjects($fixture) {
  
-        self::_setData($fixture);
+        self::_setData($fixture);       
 
         self::_disableConstraints();
 
@@ -66,7 +68,15 @@ class TestDataService {
 
     private static function _populateUsingPdoTransaction($fixture) {
         
-        self::_setData($fixture);
+        // Don't reload already loaded fixtures
+        $useCache = true;
+        if (self::$lastFixture != $fixture) {
+            
+            self::_setData($fixture);
+            self::$lastFixture = $fixture;
+            $useCache = false;
+            self::$insertQueryCache = NULL;
+        }         
 
         self::_disableConstraints();
 
@@ -79,15 +89,24 @@ class TestDataService {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
             
-            foreach (self::$data as $tableName => $tableData) {
-                
-                $queryArray = self::_generatePdoInsertQueryArray($tableName, $tableData);
-                
-                foreach ($queryArray as $query) { 
+            if ($useCache) {
+                foreach (self::$insertQueryCache as $query) {
                     $pdo->exec($query);
                 }
+            } else {
+                self::$insertQueryCache = array();
                 
-            }           
+                foreach (self::$data as $tableName => $tableData) {
+
+                    $queryArray = self::_generatePdoInsertQueryArray($tableName, $tableData);
+                    self::$insertQueryCache = array_merge(self::$insertQueryCache, $queryArray);
+                    
+                    foreach ($queryArray as $query) { 
+                        $pdo->exec($query);
+                    }
+
+                }       
+            }
             
             $pdo->commit();
             
@@ -187,10 +206,9 @@ class TestDataService {
     }
 
     private static function _setData($fixture) {
-
+        
         self::$data = sfYaml::load($fixture);
         self::_setTableNames();
-
     }
 
     private static function _setTableNames() {
@@ -215,17 +233,31 @@ class TestDataService {
 
     private static function _truncateTables() {
 
-        $db = self::_getDbConnection();
+        if (count(self::$tableNames) > 0) {
+            $pdo = self::_getDbConnection();
+            self::_disableConstraints();
+            
+            try {
 
-        self::_disableConstraints();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->beginTransaction();
 
-        foreach (self::$tableNames as $tableName) {
-            $db->query("DELETE FROM $tableName");
-            self::adjustUniqueId($tableName, 0);
+                foreach (self::$tableNames as $tableName) {
+                    $pdo->query("DELETE FROM $tableName");
+                }
+
+                $fixUniqueIdQuery = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" . 
+                        implode("','", self::$tableNames) ."')";
+                $pdo->exec($fixUniqueIdQuery);
+                $pdo->commit();
+            
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                echo "\n\n Transaction failed: " . $e->getMessage() . "\n\n";
+            }            
+            
+            self::_enableConstraints();
         }
-
-        self::_enableConstraints();
-
     }
 
     /**
