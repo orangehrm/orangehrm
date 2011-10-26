@@ -48,7 +48,8 @@ $(document).ready(function(){
             catch(error){
 
             }
-            var startDate = new Date(startdate1);
+            var startDateArray=startdate1.split("-");
+            var startDate = new Date(startDateArray[0], startDateArray[1]-1, startDateArray[2]);
             var newEndDate= new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]);
 
            

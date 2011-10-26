@@ -42,11 +42,10 @@ $(document).ready(function(){
             catch(error){
 
             }
-            endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]); 
-            
-            var startDate = new Date(startdate1);
+            endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]);
+            var startDateArray=startdate1.split("-");
+            var startDate = new Date(startDateArray[0], startDateArray[1]-1, startDateArray[2]);
             var newEndDate= new Date(endDate);
-             
             if (newEndDate < startDate)
             { 
                 $('#validationMsg').attr('class', "messageBalloon_failure");
