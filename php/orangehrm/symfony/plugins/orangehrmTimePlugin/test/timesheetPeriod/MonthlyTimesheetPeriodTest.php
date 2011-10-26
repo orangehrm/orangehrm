@@ -68,6 +68,14 @@ class MonthlyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
 
     public function testGetDatesOfTheTimesheetPeriod() {
 
+        $userObj = new User();
+        
+        // This is necessary to make timeStampDiff 0 in MonthlyTimesheetPeriod::getDatesOfTheTimesheetPeriod
+        // $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
+        $serverTimezoneOffset = ((int) date('Z'));
+        $userObj->setUserTimeZoneOffset($serverTimezoneOffset / 3600);
+        sfContext::getInstance()->getUser()->setAttribute('user', $userObj);
+         
         $startDate = "2011-12-12";
         $endDate = "2011-12-31";
         $returnedDatesArray = $this->monthlyTimesheetPeriod->getDatesOfTheTimesheetPeriod($startDate, $endDate);
@@ -76,6 +84,7 @@ class MonthlyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
         $startDate = "2012-02-20";
         $endDate = "2012-03-15";
         $returnedDatesArray = $this->monthlyTimesheetPeriod->getDatesOfTheTimesheetPeriod($startDate, $endDate);
+
         $this->assertEquals($returnedDatesArray[0], "2012-02-20");
         $this->assertEquals(end($returnedDatesArray), "2012-03-15");
         $this->assertEquals($returnedDatesArray[9], "2012-02-29");
