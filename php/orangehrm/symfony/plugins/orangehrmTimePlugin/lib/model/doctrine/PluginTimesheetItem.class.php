@@ -27,7 +27,6 @@ abstract class PluginTimesheetItem extends BaseTimesheetItem
 
 		$old = explode(":", $oldPlayTime);
 		$play = explode(":", $PlayTimeToAdd);
-		print_r($old[0]."-".$old[1]);die;
 		$hours = $old[0] + $play[0];
 		$minutes = $old[1] + $play[1];
 		if ($minutes > 59) {

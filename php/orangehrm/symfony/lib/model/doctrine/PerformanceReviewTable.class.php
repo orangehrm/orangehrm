@@ -80,7 +80,7 @@ ORDER BY jobtit_name;
      * @return array
      */
 	public function getEmployeePerformanceReviewListQuery($sortField = null, $sortOrder = null, array $filters = null) {
-		print_r($filters);
+
 	    $searchByStatus = false;
 
 	    /*

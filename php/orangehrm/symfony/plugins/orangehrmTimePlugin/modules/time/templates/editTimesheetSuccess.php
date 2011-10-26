@@ -143,7 +143,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <!-- end of comment dialog-->
 <script type="text/javascript">
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var rows = <?php print_r($timesheetForm['initialRows']->count() + 1) ?>;
+    var rows = <?php echo $timesheetForm['initialRows']->count() + 1 ?>;
     var link = "<?php echo url_for('time/addRow') ?>";
     var commentlink = "<?php echo url_for('time/updateTimesheetItemComment') ?>";
     var projectsForAutoComplete=<?php echo $timesheetForm->getProjectListAsJson(); ?>;

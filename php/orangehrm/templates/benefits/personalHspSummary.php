@@ -19,7 +19,6 @@
  */
 
 if ($_SESSION['isAdmin'] == 'Yes') {
-	echo "<pre>"; print_r($records); echo "</pre>"; exit();
 	$year = $records[2];
 	$summary = $records[1];
 } else {

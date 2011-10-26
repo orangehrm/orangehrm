@@ -999,22 +999,8 @@ class ReportGeneratorService {
             $value = str_replace($jobTitle, $value, $array[1]);
             $sql = str_replace($str, $value, $sql);
         }
-        print_r($sql);
-//        preg_match($pattern, $str, $matches);
-//        print_r($matches);
-//        $value = preg_replace_callback($pattern, array(&$this, 'my_name'), $str);
-//        print_r($value);
-    }
 
-//    public function my_name($matches) {
-//        $value = "no";
-//        $array = explode("@", $matches[0]);
-//
-//        if ($value == null) {
-//            return $array[3];
-//        }
-//        return $array[1];
-//    }
+    }
 
     public function generateWhereClauseForPredefinedReport($selectedFilterField) {
 

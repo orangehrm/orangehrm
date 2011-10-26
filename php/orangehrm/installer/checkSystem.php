@@ -325,7 +325,6 @@ function sysCheckPassed() {
 
           		echo "<tr> <td colspan='2'> ";
           		echo "<font color='red'>* Web server requires write privilege to the following directory</font> ";
-          		print_r(ROOT_PATH .'/lib/confs');
           		echo "</td> </tr>";
           		$printMoreInfoLink = true;
           	}
