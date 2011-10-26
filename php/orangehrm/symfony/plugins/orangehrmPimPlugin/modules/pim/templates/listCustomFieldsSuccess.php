@@ -195,6 +195,7 @@ if (isset($messageType)) {
         if (fieldsInUse == 0) {
             $('#customFieldAddPane').css('display', 'block');
             $('#customFieldListPane').css('display', 'none');
+            $('#btnCancel').css('display', 'none');
         } else {
             $('#customFieldAddPane').css('display', 'none');
             //$('#customFieldListPane').css('display', 'block');
