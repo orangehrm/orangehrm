@@ -114,17 +114,6 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('timesheet', $result->getName());
     }
 
-    public function testGetAvailableFilterFields() {
-
-        $reportGroupId = 1;
-        $type = "Runtime";
-        $selectedFilterFieldIds = array(1, 2);
-
-        $results = $this->reportableDao->getAvailableFilterFields($reportGroupId, $type, $selectedFilterFieldIds);
-
-        $this->assertEquals(2, count($results));
-    }
-
     /* Tests getGroupField method */
 
     public function testGetGroupField() {
