@@ -51,11 +51,14 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
         
 		$currentDate = '2011-06-30';
 		$key = 'timesheet_period_and_start_date';
-		$xmlString = TestDataService::fetchObject('Config', $key);
+		
+                $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
+                $value = $xmlString[0]['value']; 
+        
 		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('getDefinedTimesheetPeriod'));
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('getDefinedTimesheetPeriod')
-			->will($this->returnValue($xmlString->getValue()));
+			->will($this->returnValue($value));
 
 		$this->timesheetPeriodService->setTimesheetPeriodDao($timesheetPeriodDaoMock);
 		$array = $this->timesheetPeriodService->getDefinedTimesheetPeriod($currentDate);
@@ -68,7 +71,10 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
 	public function testIsTimesheetPeriodDefined() {
 
 		$key = 'timesheet_period_set';
-		$boolean = TestDataService::fetchObject('Config', $key);
+               
+                $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
+                $boolean = $xmlString[0]['value'];
+                
 		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('isTimesheetPeriodDefined'));
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('isTimesheetPeriodDefined')
@@ -106,11 +112,16 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
         
         		
 		$key = 'timesheet_period_and_start_date';
-		$xmlString = TestDataService::fetchObject('Config', $key);
+		
+                // Note: fetchObject fails due to primary key 'key' being a reserved word.
+                //$xmlString = TestDataService::fetchObject('Config', $key);
+                $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
+                $value = $xmlString[0]['value'];                 
+                
 		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('getDefinedTimesheetPeriod'));
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('getDefinedTimesheetPeriod')
-			->will($this->returnValue($xmlString->getValue()));
+			->will($this->returnValue($value));
 
 		$this->timesheetPeriodService->setTimesheetPeriodDao($timesheetPeriodDaoMock);
 		$timesheetHeading = $this->timesheetPeriodService->getTimesheetHeading();

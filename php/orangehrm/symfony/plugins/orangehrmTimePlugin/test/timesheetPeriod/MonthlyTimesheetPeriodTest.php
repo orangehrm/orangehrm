@@ -30,9 +30,10 @@ class MonthlyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
     public function testCalculateDaysInTheTimesheetPeriod() {
 
         $key = 'timesheet_period_and_start_date';
-        $xmlString = TestDataService::fetchObject('Config', $key);
+        
+        $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
+        $xmlString = $xmlString[0]['value'];         
 
-        $xmlString = $xmlString['value'];
         $xmlString = simplexml_load_String($xmlString);
 
 

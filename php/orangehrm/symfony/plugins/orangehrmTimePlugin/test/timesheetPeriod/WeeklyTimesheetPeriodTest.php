@@ -18,9 +18,9 @@ class WeeklyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
     public function testCalculateDaysInTheTimesheetPeriod() {
 
         $key = 'timesheet_period_and_start_date';
-        $xmlString = TestDataService::fetchObject('Config', $key);
+        $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
 
-        $xmlString = $xmlString['value'];        
+        $xmlString = $xmlString[0]['value'];        
         $xmlString = simplexml_load_String($xmlString);
         
         $currentDate = '2011-04-24';
