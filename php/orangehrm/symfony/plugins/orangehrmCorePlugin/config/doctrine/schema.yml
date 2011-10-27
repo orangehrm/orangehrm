@@ -19,8 +19,7 @@ UniqueId:
 Config:
   tableName: hs_hr_config
   columns:
-    `key`:
-      name: `key` as key
+    key:
       type: string(100)
       primary: true
     value:

@@ -40,7 +40,7 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($results[0] instanceOf SelectedFilterField);
         $this->assertEquals(2, count($results));
         $this->assertEquals(1, $results[0]->getFilterFieldId());
-        $this->assertEquals('3000', $results[0]->getValue());
+        $this->assertEquals('3000', $results[0]->getValue1());
     }
 
     /* Test case for getSelectedDisplayFields method */

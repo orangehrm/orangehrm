@@ -17,16 +17,14 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
 	protected function setUp() {
 	
 		$this->timesheetPeriodService = new TimesheetPeriodService();
-		$handle = mysql_connect("localhost","root","renukshan");
-		$db = mysql_select_db("test_time", $handle);
-		$query1 = "DELETE FROM `test_time`.`hs_hr_config` WHERE `hs_hr_config`.`key` = 'timesheet_period_and_start_date'";
-		$query2 = "DELETE FROM `test_time`.`hs_hr_config` WHERE `hs_hr_config`.`key` = 'timesheet_period_set'";
-		$query3 = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('timesheet_period_set', 'Yes')";
-		$query4 = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('timesheet_period_and_start_date', '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>')";
-		mysql_query($query1);
-		mysql_query($query2);
-		mysql_query($query3);
-		mysql_query($query4);
+                $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+		$query1 = "DELETE FROM hs_hr_config WHERE `key` = 'timesheet_period_and_start_date' OR " .	
+                          "`key` = 'timesheet_period_set'";
+		$query2 = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('timesheet_period_set', 'Yes')";
+		$query3 = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('timesheet_period_and_start_date', '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>')";
+		$pdo->exec($query1);
+		$pdo->exec($query2);
+		$pdo->exec($query3);
 	}
 
 	public function testGetTimesheetPeriodDao() {
@@ -44,6 +42,13 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
 
 	public function testGetDefinedTimesheetPeriod() {
 
+                // This is necessary to make timeStampDiff 0 in MonthlyTimesheetPeriod::getDatesOfTheTimesheetPeriod
+                // $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
+                $userObj = new User();
+                $serverTimezoneOffset = ((int) date('Z'));
+                $userObj->setUserTimeZoneOffset($serverTimezoneOffset / 3600);
+                sfContext::getInstance()->getUser()->setAttribute('user', $userObj); 
+        
 		$currentDate = '2011-06-30';
 		$key = 'timesheet_period_and_start_date';
 		$xmlString = TestDataService::fetchObject('Config', $key);

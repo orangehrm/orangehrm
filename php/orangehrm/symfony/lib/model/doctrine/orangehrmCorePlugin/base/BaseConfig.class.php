@@ -23,7 +23,7 @@ abstract class BaseConfig extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('hs_hr_config');
-        $this->hasColumn('`key` as key', 'string', 100, array(
+        $this->hasColumn('key', 'string', 100, array(
              'type' => 'string',
              'primary' => true,
              'length' => 100,

@@ -28,6 +28,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase{
 	public $leaveType ;
   	public $leavePeriod ;
   	public $employee ;
+        protected $empNumber;
+        protected $leavePeriodId;
+        protected $leaveTypeId;
 
         protected function setUp() {
 
@@ -40,7 +43,8 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase{
 //                $leaveType->setLeaveRules($leaveTypeData['leaveType']['LT_001']['rule']);
                 $leaveTypeDao->saveLeaveType( $leaveType );
                 $this->leaveType	=	$leaveType;
-
+                $this->leaveTypeId = $leaveType->getLeaveTypeId();
+                
                 // Save leave Period
                 $leavePeriodData = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leavePeriod.yml');
                 $leavePeriodService	=	new LeavePeriodService();
@@ -50,11 +54,13 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase{
                 $leavePeriod->setEndDate($leavePeriodData['leavePeriod']['1']['endDate']);
                 $leavePeriodService->saveLeavePeriod($leavePeriod);
                 $this->leavePeriod		=	$leavePeriod;
-
+                $this->leavePeriodId = $leavePeriod->getLeavePeriodId();
+                
                 // Save Employee
                 $employeeservice		=	new EmployeeService();
-                $this->employee			=	new Employee();
+                $this->employee			=	new Employee();                
                 $employeeservice->addEmployee($this->employee);
+                $this->empNumber = $this->employee->getEmpNumber();
 
                 // save leave quota
                 $this->leaveEntitlement = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveEntitlement.yml');
@@ -68,19 +74,19 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase{
 
             $q = Doctrine_Query::create()
                         ->delete('Employee em')
-                        ->where('em.empNumber=?',$this->employee->getEmpNumber());
+                        ->where('em.empNumber=?', $this->empNumber);
 
              $q->execute ();
 
              $q = Doctrine_Query::create()
                         ->delete('LeaveType lt')
-                        ->where('lt.leaveTypeId=?', $this->leaveType->getLeaveTypeId());
+                        ->where('lt.leaveTypeId=?', $this->leaveTypeId);
 
              $q->execute ();
 
              $q = Doctrine_Query::create()
                         ->delete('LeavePeriod lp')
-                        ->where('lp.leavePeriodId=?',$this->leavePeriod->getLeavePeriodId());
+                        ->where('lp.leavePeriodId=?',$this->leavePeriodId);
 
              $q->execute ();
 

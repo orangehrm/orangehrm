@@ -10,7 +10,6 @@ class WeeklyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
     private $weeklyTimesheetPeriod;
 
     protected function setUp() {
-        TestDataService::truncateTables(array('Config'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/WeeklyTimesheetPeriod.yml');
 
         $this->weeklyTimesheetPeriod = new WeeklyTimesheetPeriod();
@@ -21,9 +20,17 @@ class WeeklyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
         $key = 'timesheet_period_and_start_date';
         $xmlString = TestDataService::fetchObject('Config', $key);
 
-        $xmlString = $xmlString['value'];
+        $xmlString = $xmlString['value'];        
         $xmlString = simplexml_load_String($xmlString);
+        
         $currentDate = '2011-04-24';
+        
+        // This is necessary to make timeStampDiff 0 in MonthlyTimesheetPeriod::getDatesOfTheTimesheetPeriod
+        // $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
+        $userObj = new User();
+        $serverTimezoneOffset = ((int) date('Z'));
+        $userObj->setUserTimeZoneOffset($serverTimezoneOffset / 3600);
+        sfContext::getInstance()->getUser()->setAttribute('user', $userObj);        
 
         $datesArray = $this->weeklyTimesheetPeriod->calculateDaysInTheTimesheetPeriod($currentDate, $xmlString);
         $this->assertEquals($datesArray[0], "2011-04-20");
