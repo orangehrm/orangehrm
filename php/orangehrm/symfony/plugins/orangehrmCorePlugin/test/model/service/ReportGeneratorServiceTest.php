@@ -24,7 +24,6 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->reportGeneratorService = new ReportGeneratorService();
-        TestDataService::truncateTables(array('SelectedDisplayFieldGroup', 'DisplayFieldGroup', 'MetaDisplayField', 'SelectedCompositeDisplayField', 'CompositeDisplayField', 'SelectedGroupField', 'SummaryDisplayField', 'SelectedDisplayField', 'DisplayField', 'SelectedFilterField', 'FilterField', 'GroupField', 'Report', 'ReportGroup', 'ProjectActivity', 'Project', 'Customer'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml');
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml';
     }
