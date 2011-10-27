@@ -83,7 +83,7 @@ class TestDataService {
         self::_truncateTables();        
         
         $pdo = self::_getDbConnection();
-        
+        $query = "";
         try {
             
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -113,7 +113,8 @@ class TestDataService {
         } catch (Exception $e) {
             
             $pdo->rollBack();
-            echo "\n\n Transaction failed: " . $e->getMessage() . "\n\n";
+            echo __FILE__ .  ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
+             "\nQuery: [" . $query . "]\n" . "Fixture: " . $fixture . "\n\n";
             
         }
         
@@ -214,7 +215,14 @@ class TestDataService {
     private static function _setTableNames() {
 
         foreach (self::$data as $key => $value) {
-            self::$tableNames[] = Doctrine::getTable($key)->getTableName();
+
+            $table = Doctrine::getTable($key)->getTableName();
+            if (!empty($table)) {
+                self::$tableNames[] = $table;
+            } else {
+                echo __FILE__ .  ':' .__LINE__ . ") Skipping unknown table alias: " . $alias . 
+                        "\n" . "Fixture: " . self::$lastFixture . "\n\n"; 
+            }            
         }
 
     }
@@ -236,6 +244,7 @@ class TestDataService {
         if (count(self::$tableNames) > 0) {
             $pdo = self::_getDbConnection();
             self::_disableConstraints();
+            $query = '';
             
             try {
 
@@ -243,17 +252,20 @@ class TestDataService {
                 $pdo->beginTransaction();
 
                 foreach (self::$tableNames as $tableName) {
-                    $pdo->query("DELETE FROM $tableName");
+                    $query = 'DELETE FROM ' .  $tableName;
+                    $pdo->query($query);                    
                 }
 
-                $fixUniqueIdQuery = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" . 
+                $query = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" . 
                         implode("','", self::$tableNames) ."')";
-                $pdo->exec($fixUniqueIdQuery);
+                $pdo->exec($query);
+                
                 $pdo->commit();
             
             } catch (Exception $e) {
                 $pdo->rollBack();
-                echo "\n\n Transaction failed: " . $e->getMessage() . "\n\n";
+                echo __FILE__ .  ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() . 
+                        "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
             }            
             
             self::_enableConstraints();
@@ -285,7 +297,12 @@ class TestDataService {
     public static function truncateTables($aliasArray) {
 
         foreach ($aliasArray as $alias) {
-            self::$tableNames[] = Doctrine::getTable($alias)->getTableName();
+            $table = Doctrine::getTable($alias)->getTableName();
+            if (!empty($table)) {
+                self::$tableNames[] = $table;
+            } else {
+                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
+            }
         }
 
         self::_truncateTables();
