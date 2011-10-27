@@ -631,53 +631,7 @@ EthnicRace:
       local: ethnic_race_code
       foreign: ethnic_race_code
       type: many
-
-Customer:
-  tableName: hs_hr_customer
-  columns:
-    customer_id:
-      type: integer(4)
-      primary: true
-    deleted:
-      type: integer(1)
-      default: '0'
-    name: string(100)
-    description: string(250)
-  relations:
-    Project:
-      local: customer_id
-      foreign: customer_id
-      type: many
-      
-Project:
-  tableName: hs_hr_project
-  columns:
-    project_id:
-      type: integer(4)
-      primary: true
-    customer_id:
-      type: integer(4)
-      primary: true
-    deleted:
-      type: integer(1)
-      default: '0'
-    name: string(100)
-    description: string(250)
-  relations:
-    Customer:
-      local: customer_id
-      foreign: customer_id
-      type: one
-    ProjectActivity:
-      local: project_id
-      foreign: project_id
-      type: many
-    ProjectAdmin:
-      local: project_id
-      foreign: project_id
-      type: many
-  
- 
+       
 ProjectActivity:
   tableName: hs_hr_project_activity
   columns:
@@ -696,25 +650,6 @@ ProjectActivity:
       local: project_id
       foreign: project_id
       type: one
-
-ProjectAdmin:
-  tableName: hs_hr_project_admin
-  columns:
-    project_id:
-      type: integer(4)
-      primary: true
-    emp_number:
-      type: integer(4)
-      primary: true
-  relations:
-    Project:
-      local: project_id
-      foreign: project_id
-      type: one
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one 
 
 CustomFields:
   tableName: hs_hr_custom_fields

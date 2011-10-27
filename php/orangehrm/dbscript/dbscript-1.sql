@@ -655,9 +655,26 @@ create table `hs_hr_customer` (
   primary key  (`customer_id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_customer` (
+  `customer_id` int(11) not null auto_increment,
+  `name` varchar(100) not null,
+  `description` varchar(255) default null,
+  `deleted` tinyint(1) default 0,
+  primary key  (`customer_id`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_project` (
   `project_id` int(11) not null,
+  `customer_id` int(11) not null,
+  `name` varchar(100) default null,
+  `description` varchar(250) default null,
+  `deleted` tinyint(1) default 0,
+  primary key  (`project_id`,`customer_id`),
+  key `customer_id` (`customer_id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_project` (
+  `project_id` int(11) not null auto_increment,
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
@@ -676,6 +693,13 @@ create table `hs_hr_project_activity` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_project_admin` (
+  `project_id` int(11) not null,
+  `emp_number` int(11) not null,
+  primary key  (`project_id`,`emp_number`),
+  key `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_project_admin` (
   `project_id` int(11) not null,
   `emp_number` int(11) not null,
   primary key  (`project_id`,`emp_number`),
@@ -1650,11 +1674,28 @@ alter table `hs_hr_project`
   add constraint foreign key (`customer_id`)
 	references `hs_hr_customer` (`customer_id`)
 		on delete restrict;
+
+alter table `ohrm_project`
+  add constraint foreign key (`customer_id`)
+   	references `ohrm_customer` (`customer_id`)
+		on delete restrict;
+
 alter table `hs_hr_project_activity`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade;
 
+alter table `hs_hr_project_activity`
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
+
 alter table `hs_hr_project_admin`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
+  add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_project_admin`
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
+  add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `ohrm_project_admin`
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_employee_workshift`

@@ -68,6 +68,7 @@
  * @property Doctrine_Collection $salary
  * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
+ * @property Doctrine_Collection $ProjectAdmin
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $subordinates
@@ -87,7 +88,6 @@
  * @property Doctrine_Collection $EmployeeLicense
  * @property Nationality $Nationality
  * @property EthnicRace $EthnicRace
- * @property Doctrine_Collection $ProjectAdmin
  * @property Doctrine_Collection $Users
  * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $PerformanceReview
@@ -156,6 +156,7 @@
  * @method Doctrine_Collection getSalary()                   Returns the current record's "salary" collection
  * @method Doctrine_Collection getContracts()                Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
+ * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "ProjectAdmin" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
@@ -175,7 +176,6 @@
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method EthnicRace          getEthnicRace()               Returns the current record's "EthnicRace" value
- * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "ProjectAdmin" collection
  * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
  * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
@@ -243,6 +243,7 @@
  * @method Employee            setSalary()                   Sets the current record's "salary" collection
  * @method Employee            setContracts()                Sets the current record's "contracts" collection
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
+ * @method Employee            setProjectAdmin()             Sets the current record's "ProjectAdmin" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
@@ -262,7 +263,6 @@
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setEthnicRace()               Sets the current record's "EthnicRace" value
- * @method Employee            setProjectAdmin()             Sets the current record's "ProjectAdmin" collection
  * @method Employee            setUsers()                    Sets the current record's "Users" collection
  * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
@@ -557,6 +557,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
+        $this->hasMany('ProjectAdmin', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',
              'foreign' => 'employee_id'));
@@ -633,10 +637,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasOne('EthnicRace', array(
              'local' => 'ethnic_race_code',
              'foreign' => 'ethnic_race_code'));
-
-        $this->hasMany('ProjectAdmin', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
 
         $this->hasMany('Users', array(
              'local' => 'emp_number',

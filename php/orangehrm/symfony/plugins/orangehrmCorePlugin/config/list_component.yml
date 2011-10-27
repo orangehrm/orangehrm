@@ -262,6 +262,27 @@ JobVacancy:
     - viewJobVacancySuccess.css
   jsInitMethods: []
 
+Customer:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getCustomerId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteCustomer'
+  assets: []
+  jsInitMethods: []
+
 CandidateHistory:
   pluginName: orangehrmRecruitmentPlugin
   hasSelectableRows: false

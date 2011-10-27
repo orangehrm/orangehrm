@@ -1,0 +1,69 @@
+Customer:
+  tableName: ohrm_customer
+  columns:
+    customer_id:
+      name: customer_id as customerId
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(255)
+  relations:
+    Project:
+      local: customer_id
+      foreign: customer_id
+      type: many
+      
+Project:
+  tableName: ohrm_project
+  columns:
+    project_id:
+      name: project_id as projectId
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    customer_id:
+      name : customer_id as customerId
+      type: integer(4)
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(250)
+  relations:
+    Customer:
+      local: customer_id
+      foreign: customer_id
+      type: one
+    ProjectActivity:
+      local: project_id
+      foreign: project_id
+      type: many
+    ProjectAdmin:
+      local: project_id
+      foreign: project_id
+      type: many
+      
+ProjectAdmin:
+  tableName: ohrm_project_admin
+  columns:
+    project_id:
+      type: integer(4)
+      primary: true
+      name: project_id as projectId
+    emp_number:
+      type: integer(4)
+      primary: true
+      name: emp_number as empNumber
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one 

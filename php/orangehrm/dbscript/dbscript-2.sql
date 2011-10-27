@@ -683,7 +683,7 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                     ('80','0','INITIAL','SUPERVISOR','7','NOT SUBMITTED');
                                     
 INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
-   (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN hs_hr_customer ON (hs_hr_customer.customer_id = hs_hr_project.customer_id) WHERE whereCondition2'),
+   (1,'timesheet', 'SELECT selectCondition FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = hs_hr_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2'),
    (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#'),
    (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
                     LEFT JOIN hs_hr_emp_emergency_contacts ON 
@@ -803,12 +803,12 @@ INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_f
     (5, 'PIM Sample Report', 3, 1, 'PIM_DEFINED');
 
 INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
-    (1, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectList', 2, 'true'),
+    (1, 1, 'project_name', 'ohrm_project.project_id', 'ohrmWidgetProjectList', 2, 'true'),
     (2, 1, 'activity_show_deleted', 'hs_hr_project_activity.deleted', 'ohrmWidgetInputCheckbox', 2, 'false'),
     (3, 1, 'project_date_range', 'date', 'ohrmWidgetDateRange', 1, 'false'),
     (4, 1, 'employee', 'hs_hr_employee.emp_number', 'ohrmWidgetEmployeeListAutoFill', 2, 'true'),
     (5, 1, 'activity_name', 'hs_hr_project_activity.activity_id', 'ohrmWidgetProjectActivityList', 2, 'true'),
-    (6, 1, 'project_name', 'hs_hr_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'true'),
+    (6, 1, 'project_name', 'ohrm_project.project_id', 'ohrmWidgetProjectListWithAllOption', 2, 'true'),
     (7, 1, 'only_inlclude_approved_timesheets', 'ohrm_timesheet.state', 'ohrmWidgetApprovedTimesheetInputCheckBox', 2, null),
     (8, 3, 'employee_name', 'hs_hr_employee.emp_number', 'ohrmReportWidgetEmployeeListAutoFill', 1, null),
     (9, 3, 'pay_grade', 'hs_hr_emp_basicsalary.sal_grd_code', 'ohrmReportWidgetPayGradeDropDown', 1, null),
@@ -844,7 +844,7 @@ INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`, `is_list
     (16, 3, 'Custom Fields', false);
 
 INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES
-    (1, 1, 'hs_hr_project.name', 'Project Name',                'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null, false, null, null, false, false),
+    (1, 1, 'ohrm_project.name', 'Project Name',                'projectname',  'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 200, '0', null, false, null, null, false, false),
     (2, 1, 'hs_hr_project_activity.name', 'Activity Name',      'activityname', 'false', null, null, 'link', '<xml><labelGetter>activityname</labelGetter><placeholderGetters><id>activity_id</id><total>totalduration</total><projectId>projectId</projectId><from>fromDate</from><to>toDate</to><approved>onlyIncludeApprovedTimesheets</approved></placeholderGetters><urlPattern>../../displayProjectActivityDetailsReport?reportId=3#activityId={id}#total={total}#from={from}#to={to}#projectId={projectId}#onlyIncludeApprovedTimesheets={approved}</urlPattern></xml>', 200, '0', null, false, null, null, false, false),
     (3, 1, 'hs_hr_project_activity.project_id', 'Project Id',    null, 'false', null, null, 'label', '<xml><getter>project_id</getter></xml>', 75, '0', 'right', false, null, null, false, true),
     (4, 1, 'hs_hr_project_activity.activity_id', 'Activity Id',  null,  'false', null, null, 'label', '<xml><getter>activity_id</getter></xml>', 75, '0', 'right', false, null, null, false, true),
@@ -1077,7 +1077,7 @@ INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_fiel
     (15, 5, 15);
 
 INSERT INTO `ohrm_composite_display_field` (`composite_display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES (1, 1, 'CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname)', 'Employee Name', 'employeeName', 'false', null, null, 'label', '<xml><getter>employeeName</getter></xml>', 300, '0', null, false, null, 'Deleted Employee', false, false),
-                                                  (2, 1, 'CONCAT(hs_hr_customer.name, " - " ,hs_hr_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null, false, null, null, false, false);
+                                                  (2, 1, 'CONCAT(ohrm_customer.name, " - " ,ohrm_project.name)', 'Project Name', 'projectname', 'false', null, null, 'label', '<xml><getter>projectname</getter></xml>', 300, '0', null, false, null, null, false, false);
 
 INSERT INTO `ohrm_selected_composite_display_field` (`id`, `composite_display_field_id`, `report_id`) VALUES (1, 1, 3),
                                                            (2, 1, 4),
