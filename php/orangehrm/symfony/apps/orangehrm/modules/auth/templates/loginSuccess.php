@@ -210,4 +210,8 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         
         $('#frmLogin').submit(validateLogin);
     });
+    
+    if (window.top.location.href != location.href) {
+        window.top.location.href = location.href;
+    }
 </script>
