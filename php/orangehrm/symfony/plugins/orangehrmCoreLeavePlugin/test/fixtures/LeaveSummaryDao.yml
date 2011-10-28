@@ -13,16 +13,16 @@ JobTitle:
   1: {id: 'JOB002', name: 'Production Manager', description: 'PM'}
 
 LeaveType:
-  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1, leaveRules: '<leaveRule>1</leaveRule>'}
-  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1, leaveRules: '<leaveRule>2</leaveRule>'}
-  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0, leaveRules: '<leaveRule>3</leaveRule>'}
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0}
 
 Employee:
   0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 2, job_title_code: 'JOB001', emp_status: 'EST000'}
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', work_station: 2, emp_status: NULL}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', work_station: 2}
   2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 3, job_title_code: 'JOB002', emp_status: 'EST001'}
-  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', emp_status: NULL}
-  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 'JOB001', emp_status: NULL}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 'JOB001'}
 
 EmpLocation:
   0: {empNumber: 1, loc_code: 'LOC001'}
