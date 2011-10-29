@@ -29,7 +29,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($userDecorated instanceof User);
         $this->assertEquals( 1, count($menuItemArray));
-        $this->assertEquals("Employee Timesheet", $menuItem);
+        $this->assertEquals("Employee Timesheets", $menuItem);
 
        
         
@@ -52,8 +52,8 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($userDecorated instanceof User);
         $this->assertEquals( 2, count($menuItemArray));
-        $this->assertEquals("My Timesheet", $menuItem1);
-        $this->assertEquals("Employee Timesheet", $menuItem2);
+        $this->assertEquals("My Timesheets", $menuItem1);
+        $this->assertEquals("Employee Timesheets", $menuItem2);
 
     }
 
@@ -74,8 +74,8 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($userDecorated instanceof User);
         $this->assertEquals( 2, count($menuItemArray));
-        $this->assertEquals("My Timesheet", $menuItem1);
-        $this->assertEquals("Employee Timesheet", $menuItem2);
+        $this->assertEquals("My Timesheets", $menuItem1);
+        $this->assertEquals("Employee Timesheets", $menuItem2);
 
     }
 
@@ -95,7 +95,7 @@ class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($userDecorated instanceof User);
         $this->assertEquals( 1, count($menuItemArray));
-        $this->assertEquals("My Timesheet", $menuItem);
+        $this->assertEquals("My Timesheets", $menuItem);
 
 
     }

@@ -559,19 +559,19 @@
         
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
-        $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
+        $this->assertEquals(19, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(2, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
+        $this->assertEquals('2010-08-20', $requestList[0]->getDateApplied());
+        $this->assertEquals(5, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(19, $requestList[18]->getLeaveRequestId());
-        $this->assertEquals(2, $requestList[18]->getLeavePeriodId());
-        $this->assertEquals('LTY001', $requestList[18]->getLeaveTypeId());
-        $this->assertEquals('Casual', $requestList[18]->getLeaveTypeName());
-        $this->assertEquals('2010-08-20', $requestList[18]->getDateApplied());
-        $this->assertEquals(5, $requestList[18]->getEmpNumber());
+        $this->assertEquals(9, $requestList[18]->getLeaveRequestId());
+        $this->assertEquals(1, $requestList[18]->getLeavePeriodId());
+        $this->assertEquals('LTY003', $requestList[18]->getLeaveTypeId());
+        $this->assertEquals('Company', $requestList[18]->getLeaveTypeName());
+        $this->assertEquals('2010-06-08', $requestList[18]->getDateApplied());
+        $this->assertEquals(1, $requestList[18]->getEmpNumber());
 
     }
     
@@ -628,19 +628,19 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(8, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
+        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
         $this->assertEquals(1, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(15, $requestList[8]->getLeaveRequestId());
+        $this->assertEquals(1, $requestList[8]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[8]->getLeavePeriodId());
-        $this->assertEquals('LTY002', $requestList[8]->getLeaveTypeId());
-        $this->assertEquals('Medical', $requestList[8]->getLeaveTypeName());
-        $this->assertEquals('2010-08-13', $requestList[8]->getDateApplied());
-        $this->assertEquals(3, $requestList[8]->getEmpNumber());
+        $this->assertEquals('LTY001', $requestList[8]->getLeaveTypeId());
+        $this->assertEquals('Casual', $requestList[8]->getLeaveTypeName());
+        $this->assertEquals('2010-08-30', $requestList[8]->getDateApplied());
+        $this->assertEquals(1, $requestList[8]->getEmpNumber());
         
     }
 
@@ -673,19 +673,19 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(17, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
-        $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
+        $this->assertEquals('LTY002', $requestList[0]->getLeaveTypeId());
+        $this->assertEquals('Medical', $requestList[0]->getLeaveTypeName());
+        $this->assertEquals('2010-08-15', $requestList[0]->getDateApplied());
+        $this->assertEquals(5, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(16, $requestList[8]->getLeaveRequestId());
+        $this->assertEquals(10, $requestList[8]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[8]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[8]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[8]->getLeaveTypeName());
-        $this->assertEquals('2010-08-14', $requestList[8]->getDateApplied());
-        $this->assertEquals(5, $requestList[8]->getEmpNumber());
+        $this->assertEquals('2010-06-09', $requestList[8]->getDateApplied());
+        $this->assertEquals(1, $requestList[8]->getEmpNumber());
 
     }
 
@@ -716,18 +716,18 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(8, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
+        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
         $this->assertEquals(1, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(11, $requestList[10]->getLeaveRequestId());
+        $this->assertEquals(9, $requestList[10]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[10]->getLeavePeriodId());
-        $this->assertEquals('LTY002', $requestList[10]->getLeaveTypeId());
-        $this->assertEquals('Medical', $requestList[10]->getLeaveTypeName());
-        $this->assertEquals('2010-06-10', $requestList[10]->getDateApplied());
+        $this->assertEquals('LTY003', $requestList[10]->getLeaveTypeId());
+        $this->assertEquals('Company', $requestList[10]->getLeaveTypeName());
+        $this->assertEquals('2010-06-08', $requestList[10]->getDateApplied());
         $this->assertEquals(1, $requestList[10]->getEmpNumber());
 
     }
@@ -762,18 +762,18 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(8, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
+        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
         $this->assertEquals(1, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(11, $requestList[10]->getLeaveRequestId());
+        $this->assertEquals(9, $requestList[10]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[10]->getLeavePeriodId());
-        $this->assertEquals('LTY002', $requestList[10]->getLeaveTypeId());
-        $this->assertEquals('Medical', $requestList[10]->getLeaveTypeName());
-        $this->assertEquals('2010-06-10', $requestList[10]->getDateApplied());
+        $this->assertEquals('LTY003', $requestList[10]->getLeaveTypeId());
+        $this->assertEquals('Company', $requestList[10]->getLeaveTypeName());
+        $this->assertEquals('2010-06-08', $requestList[10]->getDateApplied());
         $this->assertEquals(1, $requestList[10]->getEmpNumber());
 
     }
@@ -811,19 +811,19 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(14, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
+        $this->assertEquals('2010-08-12', $requestList[0]->getDateApplied());
+        $this->assertEquals(2, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(14, $requestList[13]->getLeaveRequestId());
+        $this->assertEquals(9, $requestList[13]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[13]->getLeavePeriodId());
-        $this->assertEquals('LTY001', $requestList[13]->getLeaveTypeId());
-        $this->assertEquals('Casual', $requestList[13]->getLeaveTypeName());
-        $this->assertEquals('2010-08-12', $requestList[13]->getDateApplied());
-        $this->assertEquals(2, $requestList[13]->getEmpNumber());
+        $this->assertEquals('LTY003', $requestList[13]->getLeaveTypeId());
+        $this->assertEquals('Company', $requestList[13]->getLeaveTypeName());
+        $this->assertEquals('2010-06-08', $requestList[13]->getDateApplied());
+        $this->assertEquals(1, $requestList[13]->getEmpNumber());
 
     }
 
@@ -854,12 +854,12 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(17, $requestList[0]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
-        $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
+        $this->assertEquals('LTY002', $requestList[0]->getLeaveTypeId());
+        $this->assertEquals('Medical', $requestList[0]->getLeaveTypeName());
+        $this->assertEquals('2010-08-15', $requestList[0]->getDateApplied());
+        $this->assertEquals(5, $requestList[0]->getEmpNumber());
 
         $this->assertEquals(18, $requestList[17]->getLeaveRequestId());
         $this->assertEquals(1, $requestList[17]->getLeavePeriodId());
@@ -897,19 +897,19 @@
 
         /* Checking values and order */
 
-        $this->assertEquals(1, $requestList[0]->getLeaveRequestId());
-        $this->assertEquals(1, $requestList[0]->getLeavePeriodId());
+        $this->assertEquals(19, $requestList[0]->getLeaveRequestId());
+        $this->assertEquals(2, $requestList[0]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[0]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
+        $this->assertEquals('2010-08-20', $requestList[0]->getDateApplied());
+        $this->assertEquals(5, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(19, $requestList[9]->getLeaveRequestId());
-        $this->assertEquals(2, $requestList[9]->getLeavePeriodId());
+        $this->assertEquals(10, $requestList[9]->getLeaveRequestId());
+        $this->assertEquals(1, $requestList[9]->getLeavePeriodId());
         $this->assertEquals('LTY001', $requestList[9]->getLeaveTypeId());
         $this->assertEquals('Casual', $requestList[9]->getLeaveTypeName());
-        $this->assertEquals('2010-08-20', $requestList[9]->getDateApplied());
-        $this->assertEquals(5, $requestList[9]->getEmpNumber());
+        $this->assertEquals('2010-06-09', $requestList[9]->getDateApplied());
+        $this->assertEquals(1, $requestList[9]->getEmpNumber());
 
     }
 
