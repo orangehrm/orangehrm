@@ -591,25 +591,25 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	 public function testCount() {
 
-		$this->_runQuery("TRUNCATE table hs_hr_project_activity");
-	 	$this->assertEquals(0, $this->_count("hs_hr_project_activity"));
-	 	$this->_runQuery("INSERT INTO hs_hr_project_activity(activity_id, project_id, name, deleted) " .
+		$this->_runQuery("TRUNCATE table ohrm_project_activity");
+	 	$this->assertEquals(0, $this->_count("ohrm_project_activity"));
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
 				        "VALUES(1, 1, 'Programming', 0)");
-		$this->assertEquals(1, $this->_count("hs_hr_project_activity"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity"));
 
-	 	$this->_runQuery("INSERT INTO hs_hr_project_activity(activity_id, project_id, name, deleted) " .
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
 				        "VALUES(2, 2, 'QA', 0)");
-		$this->assertEquals(2, $this->_count("hs_hr_project_activity"));
+		$this->assertEquals(2, $this->_count("ohrm_project_activity"));
 
-	 	$this->_runQuery("INSERT INTO hs_hr_project_activity(activity_id, project_id, name, deleted) " .
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
 				        "VALUES(3, 2, 'Meetings', 0)");
-		$this->assertEquals(3, $this->_count("hs_hr_project_activity"));
+		$this->assertEquals(3, $this->_count("ohrm_project_activity"));
 
-		$this->assertEquals(1, $this->_count("hs_hr_project_activity", "activity_id = 1"));
-		$this->assertEquals(2, $this->_count("hs_hr_project_activity", "project_id = 2"));
-		$this->assertEquals(1, $this->_count("hs_hr_project_activity", "name = 'Meetings'"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "activity_id = 1"));
+		$this->assertEquals(2, $this->_count("ohrm_project_activity", "project_id = 2"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Meetings'"));
 
-		$this->assertEquals(0, $this->_count("hs_hr_project_activity", "name = 'Test'"));
+		$this->assertEquals(0, $this->_count("ohrm_project_activity", "name = 'Test'"));
 	 }
 
 
@@ -618,12 +618,12 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddCustomer() {
 
-		$this->assertEquals(1, $this->_count("hs_hr_customer"));
+		$this->assertEquals(1, $this->_count("ohrm_customer"));
 		$this->customerId = 2;
 		$this->customerName = "Qwerty";
 		$this->_addCustomer();
-		$this->assertEquals(2, $this->_count("hs_hr_customer"));
-		$this->assertEquals(1, $this->_count("hs_hr_customer", "name = '{$this->customerName}'"));
+		$this->assertEquals(2, $this->_count("ohrm_customer"));
+		$this->assertEquals(1, $this->_count("ohrm_customer", "name = '{$this->customerName}'"));
 	}
 
 	/**
@@ -631,12 +631,12 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddProjects() {
 
-		$this->assertEquals(2, $this->_count("hs_hr_project"));
+		$this->assertEquals(2, $this->_count("ohrm_project"));
 		$this->projects = array( 3 => "Project X", 4 => "Project Y");
 		$this->_addProjects();
-		$this->assertEquals(4, $this->_count("hs_hr_project"));
-		$this->assertEquals(1, $this->_count("hs_hr_project", "name = 'Project X'"));
-		$this->assertEquals(1, $this->_count("hs_hr_project", "name = 'Project Y'"));
+		$this->assertEquals(4, $this->_count("ohrm_project"));
+		$this->assertEquals(1, $this->_count("ohrm_project", "name = 'Project X'"));
+		$this->assertEquals(1, $this->_count("ohrm_project", "name = 'Project Y'"));
 	}
 
 	/**
@@ -644,18 +644,18 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddActivity() {
 		$this->activities = null;
-		$count = $this->_count("hs_hr_project_activity");
+		$count = $this->_count("ohrm_project_activity");
 
 		$this->_addActivity(1, "Test1");
-		$this->assertEquals(1, $this->_count("hs_hr_project_activity", "name = 'Test1' and deleted = 0"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test1' and deleted = 0"));
 		$this->assertTrue(isset($this->activities[1]));
 		$this->assertTrue(isset($this->activities[1]['Test1']));
 
 		$this->_addActivity(1, "Test2", true);
-		$this->assertEquals(1, $this->_count("hs_hr_project_activity", "name = 'Test2' and deleted = 1"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test2' and deleted = 1"));
 		$this->assertTrue(isset($this->activities[1]['Test2']));
 
-		$this->assertEquals($count + 2, $this->_count("hs_hr_project_activity"));
+		$this->assertEquals($count + 2, $this->_count("ohrm_project_activity"));
 	}
 
 	/**
@@ -683,12 +683,12 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetNextId() {
-		$this->assertEquals(2, $this->_getNextId("hs_hr_customer", "customer_id"));
+		$this->assertEquals(2, $this->_getNextId("ohrm_customer", "customer_id"));
 
 		$this->customerId = 5;
 		$this->customerName = "Qwerty";
 		$this->_addCustomer();
-		$this->assertEquals(6, $this->_getNextId("hs_hr_customer", "customer_id"));
+		$this->assertEquals(6, $this->_getNextId("ohrm_customer", "customer_id"));
 
 	}
 
@@ -853,7 +853,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 * Add customer used by unit test
 	 */
 	private function _addCustomer() {
-		$template = "INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(%d, '%s', '%s', 0)";
+		$template = "INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(%d, '%s', '%s', 0)";
 		$sql = sprintf($template, $this->customerId, $this->customerName, "Desc. " . $this->customerName);
 		$this->_runQuery($sql);
 	}
@@ -863,10 +863,10 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	private function _addProjects() {
 
-		$template = "INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+		$template = "INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
 				    "VALUES(%d, %d, '%s', '%s', 0)";
 
-		$id = $this->_count("hs_hr_project") + 1;
+		$id = $this->_count("ohrm_project") + 1;
 		foreach ($this->projects as $project) {
 			$sql = sprintf($template, $id, $this->customerId, $project, "Desc. " . $project);
 			$this->_runQuery($sql);
@@ -1123,10 +1123,10 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
     private function _truncateTables() {
 
-        $this->_runQuery("TRUNCATE TABLE `hs_hr_project_activity`");
+        $this->_runQuery("TRUNCATE TABLE `ohrm_project_activity`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_time_event`");
-		$this->_runQuery("TRUNCATE TABLE `hs_hr_project`");
-		$this->_runQuery("TRUNCATE TABLE `hs_hr_customer`");
+		$this->_runQuery("TRUNCATE TABLE `ohrm_project`");
+		$this->_runQuery("TRUNCATE TABLE `ohrm_customer`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_timesheet`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_employee`");
     }

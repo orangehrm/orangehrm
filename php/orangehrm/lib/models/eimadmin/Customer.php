@@ -34,7 +34,7 @@ class Customer {
     /**
      * Table Name
      */
-    const TABLE_NAME = 'hs_hr_customer';
+    const TABLE_NAME = 'ohrm_customer';
 
     //Table field names
 
@@ -173,7 +173,7 @@ class Customer {
     }
 
     public function deleteCustomer() {
-        $sql = sprintf("UPDATE hs_hr_customer c LEFT JOIN hs_hr_project p ON (c.customer_id = p.customer_id) " .
+        $sql = sprintf("UPDATE ohrm_customer c LEFT JOIN ohrm_project p ON (c.customer_id = p.customer_id) " .
                 "SET c.deleted = 1, p.deleted = 1 " .
                 "WHERE c.customer_id = %s", $this->getCustomerId());
 
@@ -386,7 +386,7 @@ class Customer {
     public function haveTimeItems($customerIds) {
 
 
-        $q = "(SELECT `project_id` FROM `hs_hr_project` WHERE `customer_id` IN(" . implode(", ", $customerIds) . "))";
+        $q = "(SELECT `project_id` FROM `ohrm_project` WHERE `customer_id` IN(" . implode(", ", $customerIds) . "))";
         $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($q);
         $projectIds=$dbConnection->dbObject->getArray($result);

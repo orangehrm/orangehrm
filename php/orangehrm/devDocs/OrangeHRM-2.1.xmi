@@ -36,7 +36,7 @@
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="144" type="13" name="description" />
      </UML:Classifier.feature>
     </UML:Class>
-    <UML:Class isSpecification="false" isLeaf="false" visibility="public" namespace="m1" xmi.id="114" isRoot="false" isAbstract="false" name="hs_hr_project" >
+    <UML:Class isSpecification="false" isLeaf="false" visibility="public" namespace="m1" xmi.id="114" isRoot="false" isAbstract="false" name="ohrm_project" >
      <UML:Classifier.feature>
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="120" type="2" name="project_id" />
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="121" type="2" name="customer_id" />
@@ -45,7 +45,7 @@
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="124" type="5" name="deleted" />
      </UML:Classifier.feature>
     </UML:Class>
-    <UML:Class isSpecification="false" isLeaf="false" visibility="public" namespace="m1" xmi.id="115" isRoot="false" isAbstract="false" name="hs_hr_customer" >
+    <UML:Class isSpecification="false" isLeaf="false" visibility="public" namespace="m1" xmi.id="115" isRoot="false" isAbstract="false" name="ohrm_customer" >
      <UML:Classifier.feature>
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="116" type="2" name="customer_id" />
       <UML:Attribute isSpecification="false" visibility="private" xmi.id="117" type="13" name="name" />

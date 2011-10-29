@@ -52,7 +52,7 @@ HsHrEmpLocations:
       foreign: emp_number
       type: one
 HsHrProjectActivity:
-  tableName: hs_hr_project_activity
+  tableName: ohrm_project_activity
   columns:
     activity_id:
       type: integer(4)
@@ -175,7 +175,7 @@ HsHrEmpChildren:
       foreign: emp_number
       type: one
 HsHrProjectAdmin:
-  tableName: hs_hr_project_admin
+  tableName: ohrm_project_admin
   columns:
     project_id:
       type: integer(4)
@@ -363,7 +363,7 @@ HsHrVersions:
       foreign: version
       type: many
 HsHrProject:
-  tableName: hs_hr_project
+  tableName: ohrm_project
   columns:
     project_id:
       type: integer(4)
@@ -2085,7 +2085,7 @@ HsHrCompProperty:
       notnull: true
     emp_id: integer(4)
 HsHrCustomer:
-  tableName: hs_hr_customer
+  tableName: ohrm_customer
   columns:
     customer_id:
       type: integer(4)

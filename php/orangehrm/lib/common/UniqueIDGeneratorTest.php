@@ -21,7 +21,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 	private $connection;
 
 	private $tableInfo = array(array("hs_hr_compstructtree", "id", null),
-							array("hs_hr_customer", "customer_id", null),
+							array("ohrm_customer", "customer_id", null),
 							array("hs_hr_education", "edu_code", "EDU"),
 							array("hs_hr_eec", "eec_code", "EEC"),
 							array("hs_hr_employee", "emp_number", null),
@@ -38,8 +38,8 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 							array("hs_hr_membership_type", "membtype_code", "MEM"),
 							array("hs_hr_module", "mod_id", "MOD"),
 							array("hs_hr_nationality", "nat_code", "NAT"),
-							array("hs_hr_project", "project_id", null),
-							array("hs_hr_project_activity", "activity_id", null),
+							array("ohrm_project", "project_id", null),
+							array("ohrm_project_activity", "activity_id", null),
 							array("hs_hr_skill", "skill_code", "SKI"),
 							array("hs_hr_time_event", "time_event_id", null),
 							array("hs_hr_timesheet", "timesheet_id", null),
@@ -90,14 +90,14 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		}
 		mysql_free_result($result);
 
-		$tableList = array('hs_hr_language', 'hs_hr_project', 'hs_hr_customer');
+		$tableList = array('hs_hr_language', 'ohrm_project', 'ohrm_customer');
 		$this->_backupTables($tableList);
 		
 
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_unique_id`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_language`"));
-        $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_project`"));
-        $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_customer`"));
+        $this->assertTrue(mysql_query("TRUNCATE TABLE `ohrm_project`"));
+        $this->assertTrue(mysql_query("TRUNCATE TABLE `ohrm_customer`"));
     }
 
     /**
@@ -109,8 +109,8 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_unique_id`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_language`"));
-        $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_project`"));
-        $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_customer`"));
+        $this->assertTrue(mysql_query("TRUNCATE TABLE `ohrm_project`"));
+        $this->assertTrue(mysql_query("TRUNCATE TABLE `ohrm_customer`"));
 
 		foreach($this->oldValues['AUTO_INC_PK_TABLE']['hs_hr_unique_id'] as $row) {
 			$this->assertTrue(mysql_query("INSERT INTO `hs_hr_unique_id` VALUES (NULL, '" . implode("', '", $row) . "')"), mysql_error());
@@ -312,7 +312,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$langId = "lang_code";
 
 		// A table with int ID's
-		$cusTable = "hs_hr_customer";
+		$cusTable = "ohrm_customer";
 		$cusId = "customer_id";
 
 		// Try with empty hs_hr_language and hs_hr_nationality tables
@@ -323,7 +323,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $this->_getLastId($cusTable, $cusId));
 
 		$this->assertTrue(mysql_query('INSERT INTO hs_hr_language(lang_code, lang_name) VALUES("LAN019", "Japanese")'));
-		$this->assertTrue(mysql_query('INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
+		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
 
 		$idGen->initTable($this->connection);
 		$this->assertEquals(19, $this->_getLastId($langTable, $langId));
@@ -372,7 +372,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$langId = "lang_code";
 
 		// A table with int ID's
-		$cusTable = "hs_hr_customer";
+		$cusTable = "ohrm_customer";
 		$cusId = "customer_id";
 
 		// Try with empty hs_hr_language and hs_hr_nationality tables
@@ -383,7 +383,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $this->_getLastId($cusTable, $cusId));
 
 		$this->assertTrue(mysql_query('INSERT INTO hs_hr_language(lang_code, lang_name) VALUES("LAN019", "Japanese")'));
-		$this->assertTrue(mysql_query('INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
+		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
 
 		$idGen->resetIDs();
 		$this->assertEquals(19, $this->_getLastId($langTable, $langId));

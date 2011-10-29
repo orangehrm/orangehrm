@@ -174,7 +174,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $conditionArray = $this->reportGeneratorService->generateRuntimeWhereClauseConditions($selectedRuntimeFilterFields, $values);
 
         $this->assertEquals(2, count($conditionArray));
-        $this->assertEquals("hs_hr_project.project_id = 2 AND hs_hr_project_activity.deleted = 0", $conditionArray[2]);
+        $this->assertEquals("ohrm_project.project_id = 2 AND ohrm_project_activity.deleted = 0", $conditionArray[2]);
         $this->assertEquals("( date BETWEEN '1989' AND '1982' )", $conditionArray[1]);
     }
 
@@ -199,7 +199,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
         $selectStatement = $this->reportGeneratorService->getSelectConditionWithoutSummaryFunction($reportId);
 
-        $this->assertEquals('hs_hr_project.name AS projectname,hs_hr_project_activity.name AS activityname,CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName,hs_hr_project_activity.project_id,hs_hr_project_activity.activity_id', $selectStatement);        
+        $this->assertEquals('ohrm_project.name AS projectname,ohrm_project_activity.name AS activityname,CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName,ohrm_project_activity.project_id,ohrm_project_activity.activity_id', $selectStatement);        
     }
 
     /* Tests generateSql method */
@@ -228,7 +228,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($reportId)
                 ->will($this->returnValue($selectedGroupField));
 
-        $selectConditionWithoutSummaryFunction = "hs_hr_project_activity.name AS activityname";
+        $selectConditionWithoutSummaryFunction = "ohrm_project_activity.name AS activityname";
 
         $reportGeneratorServiceMock = $this->getMock('ReportGeneratorService', array('getSelectConditionWithoutSummaryFunction'));
 
@@ -237,11 +237,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($reportId)
                 ->will($this->returnValue($selectConditionWithoutSummaryFunction));
 
-        $conditionArray = array('2' => "hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0");
+        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0");
         $reportGeneratorServiceMock->setReportableService($reportableServiceMock);
         $sql = $reportGeneratorServiceMock->generateSql($reportId, $conditionArray);
 
-        $this->assertEquals("SELECT hs_hr_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) WHERE hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0 GROUP BY hs_hr_project_activity.activity_id", $sql);
+        $this->assertEquals("SELECT ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
     }
 
     /* Test getProjectActivityNameByActivityId */
@@ -311,7 +311,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($reportId)
                 ->will($this->returnValue($selectedGroupField));
 
-        $selectConditionWithoutSummaryFunction = "hs_hr_project_activity.name AS activityname";
+        $selectConditionWithoutSummaryFunction = "ohrm_project_activity.name AS activityname";
 
         $reportGeneratorServiceMock = $this->getMock('ReportGeneratorService', array('getSelectConditionWithoutSummaryFunction'));
 
@@ -325,11 +325,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $staticColumns["fromDate"] = "1970-01-01";
         $staticColumns["toDate"] = date("Y-m-d");
 
-        $conditionArray = array('2' => "hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0");
+        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0");
         $reportGeneratorServiceMock->setReportableService($reportableServiceMock);
         $sql = $reportGeneratorServiceMock->generateSql($reportId, $conditionArray, $staticColumns);
 
-        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '" . $staticColumns["toDate"] . "' AS toDate , hs_hr_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM hs_hr_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = hs_hr_project_activity.activity_id) LEFT JOIN hs_hr_project ON (hs_hr_project.project_id = hs_hr_project_activity.project_id) WHERE hs_hr_project.project_id = 1 AND hs_hr_project_activity.deleted = 0 GROUP BY hs_hr_project_activity.activity_id", $sql);
+        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '" . $staticColumns["toDate"] . "' AS toDate , ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
     }
 
     public function testLinkFilterFieldIdsToFormValues() {
@@ -359,7 +359,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $whereCondition = '=';
 
         $whereClause = $this->reportGeneratorService->constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition);
-        $this->assertEquals("hs_hr_project.project_id = 'nus'", $whereClause);
+        $this->assertEquals("ohrm_project.project_id = 'nus'", $whereClause);
     }
 
     public function testConstructWhereStatementForBetweenOperator() {
@@ -378,7 +378,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
         $whereClause = $this->reportGeneratorService->generateWhereClauseForPredefinedReport($selectedFilterField);
 
-        $this->assertEquals("hs_hr_project.project_id = 'nus'", $whereClause);
+        $this->assertEquals("ohrm_project.project_id = 'nus'", $whereClause);
     }
 
     public function testGenerateWhereClauseConditionArrayForPredefinedFilterFields(){
@@ -394,7 +394,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $conditionArray = $this->reportGeneratorService->generateWhereClauseConditionArray($selectedFilterFieldList, $values);
 
         $this->assertEquals(2, count($conditionArray));
-        $this->assertEquals("hs_hr_project.project_id = 'nus' AND hs_hr_employee.city_code = 'C123'", $conditionArray[2]);
+        $this->assertEquals("ohrm_project.project_id = 'nus' AND hs_hr_employee.city_code = 'C123'", $conditionArray[2]);
     }
 
 //    public function testGenerateWhereClauseConditionArrayForRuntimeFilterFields(){

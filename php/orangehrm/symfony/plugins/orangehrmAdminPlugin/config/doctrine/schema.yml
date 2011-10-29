@@ -66,4 +66,23 @@ ProjectAdmin:
     Employee:
       local: emp_number
       foreign: emp_number
-      type: one 
+      type: one
+
+ProjectActivity:
+  tableName: ohrm_project_activity
+  columns:
+    activity_id:
+      type: integer(4)
+      primary: true
+    project_id:
+      type: integer(4)
+      notnull: true
+    deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one

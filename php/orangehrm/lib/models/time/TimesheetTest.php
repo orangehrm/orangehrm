@@ -71,14 +71,14 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) VALUES ('010', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
 
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
+		$this->assertTrue(mysql_query("INSERT INTO `ohrm_customer` (`customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
-    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
+    	$this->assertTrue(mysql_query("INSERT INTO `ohrm_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
     	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
     				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*7).", 'Testing')"));
 
-		$this->assertTrue(mysql_query("INSERT IGNORE INTO `hs_hr_project_activity`(activity_id, project_id, name) " .
+		$this->assertTrue(mysql_query("INSERT IGNORE INTO `ohrm_project_activity`(activity_id, project_id, name) " .
 				    "VALUES (10, 10, 'Test Activity')"));
     	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
     				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*7)."', 0)"));
@@ -122,9 +122,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("TRUNCATE TABLE hs_hr_timesheet"));
     	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection));
 
-    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `project_id` IN (10)", $this->connection));
-    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` IN (10)", $this->connection));
-    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `ohrm_project_activity` WHERE `project_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `ohrm_project` WHERE `project_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `ohrm_customer` WHERE `customer_id` IN (10)", $this->connection));
     	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` IN (10)", $this->connection));
 
     	$this->_runQuery("UPDATE `hs_hr_timesheet_submission_period` SET `start_day` = 0, `end_day` = 6 WHERE `timesheet_period_id` = 1");

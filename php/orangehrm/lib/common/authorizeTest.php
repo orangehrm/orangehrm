@@ -100,11 +100,11 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");
 
-        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) " .
         			"VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
         			"VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
         			"VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
     }
 
@@ -122,9 +122,9 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
 	 * Deletes test data created during test
 	 */
 	private function _deleteTestData() {
-		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
-        mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
 
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` in (11, 12, 13, 14, 15)", $this->connection);
 
@@ -276,7 +276,7 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
     public function testIsProjectAdmin() {
     	$authObj = new authorize("012", 'No');
         $this->assertFalse($authObj->isProjectAdmin(), "Not a project admin");
-        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        $this->assertTrue(mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(12, 1)"));
 
 		$authObj = new authorize("012", 'No');
@@ -291,7 +291,7 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
 
     	$authObj = new authorize("012", 'No');
     	$this->assertFalse($authObj->isProjectAdminOf(1), "Not a project admin");
-        mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(12, 1)");
 
 		$authObj = new authorize("012", 'No');
@@ -312,14 +312,14 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
        $this->assertFalse($authObj->isActionPermitted('TAX'), 'Supervisor should not be permitted action TAX');
        
        // Project Admin
-       $query = "INSERT INTO hs_hr_project_admin (project_id, emp_number) VALUES(1, 11)";
+       $query = "INSERT INTO ohrm_project_admin (project_id, emp_number) VALUES(1, 11)";
        $this->assertTrue(mysql_query($query), mysql_error());
        $authObj = new authorize('011', 'No');
        
        $this->assertTrue($authObj->isActionPermitted('PAC'), 'Project Admin should be permitted action PAC');
        $this->assertFalse($authObj->isActionPermitted('TAX'), 'Project Admin should not be permitted action TAX'); 
        
-       $query = "DELETE FROM hs_hr_project_admin WHERE project_id = 1 AND emp_number = 11";
+       $query = "DELETE FROM ohrm_project_admin WHERE project_id = 1 AND emp_number = 11";
        $this->assertTrue(mysql_query($query), mysql_error());
        
        // ESS User

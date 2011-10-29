@@ -125,7 +125,7 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($groupField instanceof GroupField);
         $this->assertEquals(1, $groupField->getGroupFieldId());
         $this->assertEquals("activity id", $groupField->getName());
-        $this->assertEquals("GROUP BY hs_hr_project_activity.activity_id", $groupField->getGroupByClause());
+        $this->assertEquals("GROUP BY ohrm_project_activity.activity_id", $groupField->getGroupByClause());
     }
 
     /* Tests getGroupField method */

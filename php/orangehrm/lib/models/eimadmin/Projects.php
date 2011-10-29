@@ -38,7 +38,7 @@ class Projects {
     const PROJECT_NOT_DELETED = 0;
     const PROJECT_DELETED = 1;
 
-    const PROJECT_DB_TABLE = 'hs_hr_project';
+    const PROJECT_DB_TABLE = 'ohrm_project';
     const PROJECT_DB_FIELD_PROJECT_ID = 'project_id';
     const PROJECT_DB_FIELD_CUSTOMER_ID = 'customer_id';
     const PROJECT_DB_FIELD_NAME = 'name';
@@ -65,7 +65,7 @@ class Projects {
      *  Table Name
      *
      */
-    const TABLE_NAME = 'hs_hr_project';
+    const TABLE_NAME = 'ohrm_project';
 
     /**
      * 	Setter method followed by getter method for each
@@ -451,7 +451,7 @@ class Projects {
      */
     public function retrieveCustomerName($projectId) {
 
-        $query = "SELECT `name` from `hs_hr_customer` WHERE `customer_id` = (SELECT `customer_id` FROM `hs_hr_project` WHERE `project_id` = $projectId)";
+        $query = "SELECT `name` from `ohrm_customer` WHERE `customer_id` = (SELECT `customer_id` FROM `ohrm_project` WHERE `project_id` = $projectId)";
 
         $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($query);

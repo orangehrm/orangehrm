@@ -26,7 +26,7 @@ require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
 
 class ProjectActivity {
 
-	const TABLE_NAME           = 'hs_hr_project_activity';
+	const TABLE_NAME           = 'ohrm_project_activity';
 	const DB_FIELD_NAME        = 'name';
 	const DB_FIELD_PROJECT_ID  = 'project_id';
 	const DB_FIELD_ACTIVITY_ID = 'activity_id';

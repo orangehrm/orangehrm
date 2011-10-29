@@ -34,7 +34,7 @@ abstract class BaseProjectActivity extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('hs_hr_project_activity');
+        $this->setTableName('ohrm_project_activity');
         $this->hasColumn('activity_id', 'integer', 4, array(
              'type' => 'integer',
              'primary' => true,

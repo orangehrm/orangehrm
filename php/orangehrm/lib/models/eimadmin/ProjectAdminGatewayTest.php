@@ -66,17 +66,17 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
 
-		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
-        mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
 
 		// Insert a project and customer and employees for use in the test
-        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) " .
         			"VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
         			"VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
         			"VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
         mysql_query("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name) " .
         			"VALUES(1, '0011', 'Rajasinghe', 'Saman', 'Marlon')");
@@ -94,9 +94,9 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
-        mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
     }
 
@@ -345,7 +345,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $gw->removeAdmins($projectId = 14, $empList = array(2, 1)));
 		$this->assertEquals(3, $this->_countAdmins());
 
-        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        $this->assertTrue(mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(3, 1)"));
 		$this->assertEquals(1, mysql_affected_rows());
 
@@ -389,7 +389,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_array($list));
 		$this->assertEquals(0, count($list));
 
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
         			"VALUES(21, 1, 'Test project 1', 'a test proj 1', 0)");
 
 		// Get admins for valid project with no admins
@@ -500,13 +500,13 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	$this->assertFalse($gw->isAdmin($empNumber = 2, $projectId = 21));
 
     	// Deleted projects not considered when project Id not given
-        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 1"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 1"));
 		$this->assertEquals(1, mysql_affected_rows());
 
     	$this->assertFalse($gw->isAdmin($empNumber = 1));
     	$this->assertTrue($gw->isAdmin($empNumber = 1, $projectId = 1));
 
-        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 2"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 2"));
 		$this->assertEquals(1, mysql_affected_rows());
 
     	$this->assertFalse($gw->isAdmin($empNumber = 2));
@@ -584,7 +584,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		}
 
 		// Verify that deleted projects are not returned by default
-        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 1"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 1"));
 		$this->assertEquals(1, mysql_affected_rows());
 
 		$list = $gw->getProjectsForAdmin(1);
@@ -619,7 +619,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
      */
     private function _countAdmins($where = null) {
 
-    	$sql = "SELECT COUNT(*) FROM hs_hr_project_admin";
+    	$sql = "SELECT COUNT(*) FROM ohrm_project_admin";
     	if (!empty($where)) {
     		$sql .= " WHERE " . $where;
     	}
@@ -634,13 +634,13 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
      */
     private function _insertAdmins() {
 
-        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        $this->assertTrue(mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(1, 1)"));
 		$this->assertEquals(1, mysql_affected_rows());
-        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        $this->assertTrue(mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(2, 1)"));
 		$this->assertEquals(1, mysql_affected_rows());
-        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        $this->assertTrue(mysql_query("INSERT INTO ohrm_project_admin(emp_number, project_id) " .
         			"VALUES(2, 2)"));
 		$this->assertEquals(1, mysql_affected_rows());
     }
@@ -649,7 +649,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
      * Clears project admin table
      */
      private function _deleteAllAdmins() {
-     	mysql_query("TRUNCATE TABLE hs_hr_project_admin");
+     	mysql_query("TRUNCATE TABLE ohrm_project_admin");
      }
 }
 

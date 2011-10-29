@@ -72,7 +72,7 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
                        		"time_to_sec(timediff( if(end_time > '$dayEnd', '$dayEnd', end_time), if(start_time < '$dayStart', '$dayStart', start_time) )),  " .
                        		"e.duration) as duration " .                      
 
-               "FROM hs_hr_project_activity a LEFT JOIN hs_hr_time_event e ON " .
+               "FROM ohrm_project_activity a LEFT JOIN hs_hr_time_event e ON " .
                         "(a.activity_id = e.activity_id) AND " .
                         
                         "(" .
@@ -144,7 +144,7 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
                        "COALESCE(" .
                        		"time_to_sec(timediff( if(end_time > '$dayEnd', '$dayEnd', end_time), if(start_time < '$dayStart', '$dayStart', start_time) )),  " .
                        		"te.duration) as duration " . 
-               "FROM hs_hr_time_event te LEFT JOIN hs_hr_project_activity a on (a.activity_id = te.activity_id) " .
+               "FROM hs_hr_time_event te LEFT JOIN ohrm_project_activity a on (a.activity_id = te.activity_id) " .
                "     LEFT JOIN hs_hr_employee e on (te.employee_id = e.emp_number) " .
                "WHERE " .
                       " te.activity_id = $activityId AND " .

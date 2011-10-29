@@ -65,16 +65,16 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
-		mysql_query("TRUNCATE TABLE `hs_hr_project`");
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`");
+		mysql_query("TRUNCATE TABLE `ohrm_project`");
+		mysql_query("TRUNCATE TABLE `ohrm_customer`");
 
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1001','zanfer1','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1002','zanfer2','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1003','zanfer3','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1004','zanfer4','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1005','zanfer5','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1006','zanfer6','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1007','zanfer7','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1001','zanfer1','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1002','zanfer2','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1003','zanfer3','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1004','zanfer4','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1005','zanfer5','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1006','zanfer6','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1007','zanfer7','forrw',0 )");
 		UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -85,8 +85,8 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
 	protected function tearDown() {
-		mysql_query("TRUNCATE TABLE `hs_hr_project`");
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`");
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
 		UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -134,15 +134,15 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
     	$this->assertNull($res, "record found");
 
     	// Add 2 projects to customer 1001
-    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    	$this->assertTrue(mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted)" .
     			" VALUES(1, 1001, 'Test Project1', 'description', 0)"), mysql_error());
-    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    	$this->assertTrue(mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted)" .
     			" VALUES(2, 1001, 'Test Project2', 'description', 0)"), mysql_error());
 
 		// Add 2 projects to customer 1002
-    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    	$this->assertTrue(mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted)" .
     			" VALUES(3, 1002, 'Test Project3', 'description', 0)"), mysql_error());
-    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    	$this->assertTrue(mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted)" .
     			" VALUES(4, 1002, 'Test Project4', 'description', 0)"), mysql_error());
 
 		// Delete customer and verify that customer was deleted.
@@ -154,18 +154,18 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
     	$this->assertNull($res, "record found");
 
     	// Verify that projects belonging to customer was deleted.
-		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1001 AND deleted=0");
+		$count = $this->_getCount("SELECT COUNT(*) FROM ohrm_project WHERE customer_id=1001 AND deleted=0");
 		$this->assertEquals(0, $count, "Projects not deleted when customer deleted.");
 
 		// Verify that deleted was set to 1
-		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1001 AND deleted=1");
+		$count = $this->_getCount("SELECT COUNT(*) FROM ohrm_project WHERE customer_id=1001 AND deleted=1");
 		$this->assertEquals(2, $count, "deleted value not correct for projects belonging to deleted customer.");
 
 		// Verify that customer 1002 was not deleted.
        	$this->assertNotNull($this->classCustomer->fetchCustomer("1002"), "Customer 1002 was deleted as well!");
 
 		// Verify that projects belonging to customer 1002 was NOT deleted
-		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1002 AND deleted=0");
+		$count = $this->_getCount("SELECT COUNT(*) FROM ohrm_project WHERE customer_id=1002 AND deleted=0");
 		$this->assertEquals(2, $count, "Customer 1002's projects were deleted as well!.");
 
     }
@@ -240,7 +240,7 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 	    $this->assertEquals($res->getCustomerStatus(), 0, 'Customer status is wrong');
 
 	    // Fetch deleted customer
-	    $this->assertTrue(mysql_query("UPDATE `hs_hr_customer` SET deleted=1 WHERE customer_id=1005"));
+	    $this->assertTrue(mysql_query("UPDATE `ohrm_customer` SET deleted=1 WHERE customer_id=1005"));
 
         $this->assertNull($this->classCustomer->fetchCustomer("1005"), "Deleted customer fetched");
 

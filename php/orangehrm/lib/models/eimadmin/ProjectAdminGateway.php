@@ -31,7 +31,7 @@ require_once ROOT_PATH .'/lib/models/eimadmin/Projects.php';
  */
 class ProjectAdminGateway {
 
-	const TABLE_NAME                      = 'hs_hr_project_admin';
+	const TABLE_NAME                      = 'ohrm_project_admin';
 	const PROJECT_ADMIN_FIELD_PROJECT_ID  = 'project_id';
 	const PROJECT_ADMIN_FIELD_EMP_NUMBER  = 'emp_number';
 
@@ -251,7 +251,7 @@ class ProjectAdminGateway {
 	}
 
 	/**
-	 * Queries the hs_hr_project_admin and hs_hr_project tables with the given conditions
+	 * Queries the ohrm_project_admin and ohrm_project tables with the given conditions
 	 *
 	 * @param int  $empNumber The employee number to filter by
 	 * @param int  $projectId The project ID to filter by

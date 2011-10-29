@@ -331,8 +331,8 @@ class ConstraintHandler {
 	private function _cleanRestrictConstraint($constraint) {
 
 		/*
-		 * The only restrict constraints are hs_hr_project and hs_hr_compstructtree
-		 * Entries in hs_hr_project are not deleted, in hs_hr_compstructtree
+		 * The only restrict constraints are ohrm_project and hs_hr_compstructtree
+		 * Entries in ohrm_project are not deleted, in hs_hr_compstructtree
 		 * loc_code can be set to null (but shouldn't be necessary
 		 * since we prevent deletion of locations if in use),
 		 * so consider this the same as a null constraint.

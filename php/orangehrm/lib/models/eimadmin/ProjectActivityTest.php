@@ -63,16 +63,16 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
         mysql_select_db($conf->dbname);
 
 		// NOTE: TRUNCATE TABLE resets AUTO_INCREMENT values and starts counting from the beginning.
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
-		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
-        mysql_query("TRUNCATE TABLE `hs_hr_project_activity`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project_activity`", $this->connection);
 
 		// Insert a project and customer for use in the test
-        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(0, 'Internal customer', 'description', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(1, 'Test customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(0, 'Internal customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
         
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
@@ -83,9 +83,9 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
-        mysql_query("TRUNCATE TABLE `hs_hr_project_activity`", $this->connection);
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project_activity`", $this->connection);
+		mysql_query("TRUNCATE TABLE `ohrm_customer`", $this->connection);
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -142,7 +142,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		}
 
 		// Save a valid new activity
-		$activity1Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+		$activity1Id = UniqueIDGenerator::getInstance()->getLastId("ohrm_project_activity", "activity_id") + 1;
 
 		$activity1 = new ProjectActivity();
 		$activity1->setProjectId(1);
@@ -151,13 +151,13 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($activity1Id, $activity1->getId(), "activity ID not updated with auto_increment value");
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity");
+		$result = mysql_query("SELECT * FROM ohrm_project_activity");
 		$this->assertEquals(1, mysql_num_rows($result), "Only one row should be inserted");
 		$row = mysql_fetch_assoc($result);
 		$this->_checkRow($activity1, $row);
 
 		// Save a second activity.
-		$activity2Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+		$activity2Id = UniqueIDGenerator::getInstance()->getLastId("ohrm_project_activity", "activity_id") + 1;
 
 		$activity2 = new ProjectActivity();
 		$activity2->setProjectId(1);
@@ -166,7 +166,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($activity2Id, $activity2->getId(), "activity ID not updated with auto_increment value");
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity ORDER BY activity_id ASC");
+		$result = mysql_query("SELECT * FROM ohrm_project_activity ORDER BY activity_id ASC");
 		$this->assertEquals(2, mysql_num_rows($result), "Only one row should be inserted");
 
 		// check both rows
@@ -179,7 +179,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$activity1->save();
 		$this->assertEquals($activity1Id, $activity1->getId(), "activity ID should not change");
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity1Id");
+		$result = mysql_query("SELECT * FROM ohrm_project_activity WHERE activity_id = $activity1Id");
 		$this->_checkRow($activity1, mysql_fetch_assoc($result));
 
 		// Change attributes and save activity using new object
@@ -188,7 +188,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$activity3->setName("Installing");
 		$activity3->save();
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity2Id");
+		$result = mysql_query("SELECT * FROM ohrm_project_activity WHERE activity_id = $activity2Id");
 		$this->_checkRow($activity3, mysql_fetch_assoc($result));
 
 		// Verify that saving an activity without changes does not throw an exception
@@ -208,7 +208,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		}
 
 		// Save an activity for the project 0
-		$activity3Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+		$activity3Id = UniqueIDGenerator::getInstance()->getLastId("ohrm_project_activity", "activity_id") + 1;
 
 		$activity3 = new ProjectActivity();
 		$activity3->setProjectId(0);
@@ -217,7 +217,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($activity3Id, $activity3->getId(), "activity ID not updated with auto_increment value");
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity3Id");
+		$result = mysql_query("SELECT * FROM ohrm_project_activity WHERE activity_id = $activity3Id");
 		$this->_checkRow($activity3, mysql_fetch_assoc($result));
     }
 
@@ -411,7 +411,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
     	$this->assertEquals($actList[$obj->getId()], $obj);
 
 		// multiple matches
-		mysql_query("UPDATE hs_hr_project_activity SET name = 'test name' where project_id = 1");
+		mysql_query("UPDATE ohrm_project_activity SET name = 'test name' where project_id = 1");
     	$list = ProjectActivity::getActivitiesWithName(1, "test name");
     	$this->assertEquals(2, count($list));
 
@@ -477,7 +477,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		// create some activites
 		$actList = $this->_getTestActivities();
 		$this->_createActivites($actList);
-		mysql_query("UPDATE hs_hr_project_activity SET deleted = 0");
+		mysql_query("UPDATE ohrm_project_activity SET deleted = 0");
 
 		// delete one and check
 		$ids = array(1);
@@ -501,7 +501,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$num = $this->_getNumActivities("deleted = 1");
 		$this->assertEquals(1, $num);
 
-		mysql_query("UPDATE hs_hr_project_activity SET deleted = 0");
+		mysql_query("UPDATE ohrm_project_activity SET deleted = 0");
 
 		// verify that only activies in given project are deleted.
 		// NOTE: 1,2,3 belong to projId 1, 4 to projId 2
@@ -540,7 +540,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      */
     private function _getNumActivities($where = null) {
 
-    	$sql = "SELECT COUNT(*) FROM hs_hr_project_activity";
+    	$sql = "SELECT COUNT(*) FROM ohrm_project_activity";
     	if (!empty($where)) {
     		$sql .= " WHERE " . $where;
     	}
@@ -593,7 +593,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      */
     private function _createActivites($activities) {
 		foreach ($activities as $activity) {
-			$sql = sprintf("INSERT INTO hs_hr_project_activity(activity_id, project_id, name, deleted) " .
+			$sql = sprintf("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
                            "VALUES(%d, %d, '%s', %d)",
                            $activity->getId(), $activity->getProjectId(), $activity->getName(),
                            ($activity->isDeleted() ? 1 : 0));

@@ -70,11 +70,11 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$this->_deleteTestData();
 		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) VALUES ('010', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
 
-    	mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
+    	mysql_query("INSERT INTO `ohrm_customer` (`customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
-    	mysql_query("INSERT INTO `hs_hr_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
+    	mysql_query("INSERT INTO `ohrm_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
-    	mysql_query("INSERT INTO `hs_hr_project_activity` (`activity_id`, `project_id`, `name`) VALUES (10, 10, 'Test');");
+    	mysql_query("INSERT INTO `ohrm_project_activity` (`activity_id`, `project_id`, `name`) VALUES (10, 10, 'Test');");
 
     	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
     				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*6).", 'Testing')");
@@ -117,9 +117,9 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection);
 
-		mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `activity_id` = 10", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);
+		mysql_query("DELETE FROM `ohrm_project_activity` WHERE `activity_id` = 10", $this->connection);
+    	mysql_query("DELETE FROM `ohrm_project` WHERE `project_id` = 10", $this->connection);
+    	mysql_query("DELETE FROM `ohrm_customer` WHERE `customer_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 10", $this->connection);
     }
 

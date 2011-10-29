@@ -631,7 +631,7 @@ create table `hs_hr_mailnotifications` (
 	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_customer` (
+create table `ohrm_customer` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
@@ -648,7 +648,7 @@ create table `hs_hr_employee_timesheet_period` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_project` (
+create table `ohrm_project` (
   `project_id` int(11) not null,
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
@@ -658,7 +658,7 @@ create table `hs_hr_project` (
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_project_activity` (
+create table `ohrm_project_activity` (
   `activity_id` int(11) not null,
   `project_id` int(11) not null,
   `name` varchar(100) default null,
@@ -667,7 +667,7 @@ create table `hs_hr_project_activity` (
   key `project_id` (`project_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_project_admin` (
+create table `ohrm_project_admin` (
   `project_id` int(11) not null,
   `emp_number` int(11) not null,
   primary key  (`project_id`,`emp_number`),
@@ -867,17 +867,17 @@ create table `hs_hr_emp_locations` (
   primary key  (`emp_number`, `loc_code`)
 ) engine=innodb default charset=utf8;
 
-INSERT INTO `hs_hr_customer`
+INSERT INTO `ohrm_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")
   ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
-INSERT INTO `hs_hr_project`
+INSERT INTO `ohrm_project`
   (`project_id`, `customer_id`, `name`, `description`)
   VALUES (0, 0, 'Internal', "Used to track special time events")
   ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
-INSERT INTO `hs_hr_project_activity`
+INSERT INTO `ohrm_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time')
   ON DUPLICATE KEY UPDATE `name`= 'Work time';

@@ -638,7 +638,7 @@ create table `hs_hr_mailnotifications` (
 	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_customer` (
+create table `ohrm_customer` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
@@ -655,7 +655,7 @@ create table `hs_hr_employee_timesheet_period` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_project` (
+create table `ohrm_project` (
   `project_id` int(11) not null,
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
@@ -665,7 +665,7 @@ create table `hs_hr_project` (
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_project_activity` (
+create table `ohrm_project_activity` (
   `activity_id` int(11) not null,
   `project_id` int(11) not null,
   `name` varchar(100) default null,
@@ -674,7 +674,7 @@ create table `hs_hr_project_activity` (
   key `project_id` (`project_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_project_admin` (
+create table `ohrm_project_admin` (
   `project_id` int(11) not null,
   `emp_number` int(11) not null,
   primary key  (`project_id`,`emp_number`),
@@ -1208,15 +1208,15 @@ alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
        						references hs_hr_users (id) on delete cascade;
 
-alter table `hs_hr_project`
+alter table `ohrm_project`
   add constraint foreign key (`customer_id`)
-	references `hs_hr_customer` (`customer_id`)
+	references `ohrm_customer` (`customer_id`)
 		on delete restrict;
-alter table `hs_hr_project_activity`
-  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade;
+alter table `ohrm_project_activity`
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
 
-alter table `hs_hr_project_admin`
-  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
+alter table `ohrm_project_admin`
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_employee_timesheet_period`
@@ -1230,8 +1230,8 @@ alter table `hs_hr_timesheet`
 
 alter table `hs_hr_time_event`
   add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
-  add constraint foreign key (`activity_id`) references `hs_hr_project_activity` (`activity_id`) on delete cascade,
-  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
+  add constraint foreign key (`activity_id`) references `ohrm_project_activity` (`activity_id`) on delete cascade,
+  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_employee_workshift`
@@ -1808,7 +1808,7 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(6, 'Hourly'
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_customer', 'customer_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_title', 'jobtit_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(6, 'hs_hr_empstat', 'estat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(8, 'hs_hr_eec', 'eec_code');
@@ -1828,13 +1828,13 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave', 'leave_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'hs_hr_leavetype', 'leave_type_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_holidays', 'holiday_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project', 'project_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_project', 'project_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet', 'timesheet_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet_submission_period', 'timesheet_period_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_time_event', 'time_event_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(1, 'hs_hr_compstructtree', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave_requests', 'leave_request_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project_activity', 'activity_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_project_activity', 'activity_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_workshift', 'workshift_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_export', 'export_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');

@@ -71,15 +71,15 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
 
-        mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
 
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1001','zanfer1','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1002','zanfer2','forrw',0 )");
-        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1003','zanfer3','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1001','zanfer1','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1002','zanfer2','forrw',0 )");
+        mysql_query("INSERT INTO `ohrm_customer` VALUES ('1003','zanfer3','forrw',0 )");
 
-        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1001','1001','p1','w',0 )");
-        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1002','1002','p2','w',0 )");
-        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1003','1003','p3','w',0 )");
+        mysql_query("INSERT INTO `ohrm_project` VALUES ('1001','1001','p1','w',0 )");
+        mysql_query("INSERT INTO `ohrm_project` VALUES ('1002','1002','p2','w',0 )");
+        mysql_query("INSERT INTO `ohrm_project` VALUES ('1003','1003','p3','w',0 )");
 		UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -91,9 +91,9 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
      */
 	protected function tearDown() {
 
-	    mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+	    mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
 
-		mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (1001, 1002, 1003);", $this->connection);
+		mysql_query("DELETE FROM `ohrm_customer` WHERE `customer_id` IN (1001, 1002, 1003);", $this->connection);
 		UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -153,7 +153,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
       	}
 
       	// Delete one project
-      	mysql_query("UPDATE `hs_hr_project` SET deleted = 1 WHERE project_id = 1001");
+      	mysql_query("UPDATE `ohrm_project` SET deleted = 1 WHERE project_id = 1001");
 
       	// By default, all projects are returned
       	$res = $this->classProject->fetchProjects();
