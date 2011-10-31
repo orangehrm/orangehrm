@@ -49,6 +49,17 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	public function deleteProject($projectId) {
+
+		try {
+			$project = Doctrine :: getTable('Project')->find($projectId);
+			$project->setDeleted(Project::DELETED_PROJECT);
+			$project->save();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>
