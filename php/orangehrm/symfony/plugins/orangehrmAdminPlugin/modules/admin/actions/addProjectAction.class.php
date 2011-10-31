@@ -31,7 +31,9 @@ class addProjectAction extends sfAction {
 
 	public function execute($request) {
 
-		$this->setForm(new AddProjectForm());
+		$this->projectId = $request->getParameter('projectId');
+		$values = array('projectId' => $this->projectId);
+		$this->setForm(new AddProjectForm(array(),$values));
 		$this->customerForm = new AddCustomerForm();
 
 		if ($this->getUser()->hasFlash('templateMessage')) {

@@ -22,7 +22,7 @@ $(document).ready(function() {
     }).result(function(event, item) {
 
         $('#addProject_customerId').val(item.id);
-        });
+    });
         
     $('.projectAdminError').css('display','none');
     
@@ -121,6 +121,17 @@ $(document).ready(function() {
             $('#frmAddProject').submit()
         }   
     });
+    
+    if(projectId>0){
+        var noOfInterviewers = $('#addProject_projectAdminList').val();
+        var i;
+        for(i=2; i<=noOfInterviewers; i++){
+            $('#projectAdmin_'+(i)).show();
+            var index = countArray.indexOf(i);
+            countArray.splice(index, 1);
+        }
+        
+    }
      
 });
 

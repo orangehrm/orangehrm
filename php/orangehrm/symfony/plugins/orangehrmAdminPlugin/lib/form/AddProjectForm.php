@@ -21,7 +21,16 @@
 class AddProjectForm extends BaseForm {
 
 	private $customerService;
+	private $projectId;
 	public $numberOfProjectAdmins = 5;
+
+	public function getProjectService() {
+		if (is_null($this->projectService)) {
+			$this->projectService = new ProjectService();
+			$this->projectService->setProjectDao(new ProjectDao());
+		}
+		return $this->projectService;
+	}
 
 	public function getCustomerService() {
 		if (is_null($this->customerService)) {
@@ -32,6 +41,8 @@ class AddProjectForm extends BaseForm {
 	}
 
 	public function configure() {
+
+		$this->projectId = $this->getOption('projectId');
 
 		$this->setWidgets(array(
 		    'projectId' => new sfWidgetFormInputHidden(),
@@ -60,20 +71,66 @@ class AddProjectForm extends BaseForm {
 		}
 
 		$this->widgetSchema->setNameFormat('addProject[%s]');
+
+		if ($this->projectId != null) {
+			$this->setDefaultValues($this->projectId);
+		}
+	}
+
+	private function setDefaultValues($projectId) {
+		$project = $this->getProjectService()->getProjectById($this->projectId);
+		$this->setDefault('projectId', $projectId);
+		$this->setDefault('customerId', $project->getCustomer()->getCustomerId());
+		$this->setDefault('customerName', $project->getCustomer()->getName());
+		$this->setDefault('projectName', $project->getName());
+		$this->setDefault('description', $project->getDescription());
+
+		$admins = $project->getProjectAdmin();
+		$this->setDefault('projectAdmin_1', $admins[0]->getEmployee()->getFullName());
+		for ($i = 1; $i <= count($admins); $i++) {
+			$this->setDefault('projectAdmin_' . $i, $admins[$i - 1]->getEmployee()->getFullName());
+		}
+		$this->setDefault('projectAdminList', count($admins));
 	}
 
 	public function save() {
+		$id = $this->getValue('projectId');
+		if (empty($id)) {
+			
+			$project = new Project();
+			$projectAdminsArray = $this->getValue('projectAdminList');
+			$projectAdmins = explode(",", $projectAdminsArray);
+			$projectId = $this->saveProject($project);
+			$this->saveProjectAdmins($projectAdmins, $projectId);
+		} else {
 
-		$project = new Project();
-		$project->setCustomerId($this->getValue('customerId'));
-		$project->setName($this->getValue('projectName'));
-		$project->setDescription($this->getValue('description'));
-		$project->setDeleted(Project::ACTIVE_PROJECT);
-		$project->save();
-		$projectId = $project->getProjectId();
-		$projectAdminsArray = $this->getValue('projectAdminList');
-		$projectAdmins = explode(",", $projectAdminsArray);
-		$this->saveProjectAdmins($projectAdmins, $projectId);
+			$project = $this->getProjectService()->getProjectById($id);
+			$projectId = $this->saveProject($project);
+			$projectAdminList = $this->getValue('projectAdminList');
+			$projectAdmins = explode(",", $projectAdminList);
+			$existingProjectAdmins = $project->getProjectAdmin();
+			$idList = array();
+			if ($existingProjectAdmins[0]->getEmpNumber() != "") {
+				foreach ($existingProjectAdmins as $existingProjectAdmin) {
+					$id = $existingProjectAdmin->getEmpNumber();
+					if (!in_array($id, $projectAdmins)) {
+						$existingProjectAdmin->delete();
+					} else {
+						$idList[] = $id;
+					}
+				}
+			}
+
+			$this->resultArray = array();
+
+			$adminList = array_diff($projectAdmins, $idList);
+			$newList = array();
+			foreach ($adminList as $admin) {
+				$newList[] = $admin;
+			}
+			$projectAdmins = $newList;
+			$this->saveProjectAdmins($projectAdmins, $project->getProjectId());
+		}
 	}
 
 	protected function saveProjectAdmins($projectAdmins, $projectId) {
@@ -86,6 +143,16 @@ class AddProjectForm extends BaseForm {
 				$projectAdmin->save();
 			}
 		}
+	}
+
+	protected function saveProject($project) {
+		
+		$project->setCustomerId($this->getValue('customerId'));
+		$project->setName($this->getValue('projectName'));
+		$project->setDescription($this->getValue('description'));
+		$project->setDeleted(Project::ACTIVE_PROJECT);
+		$project->save();
+		return $project->getProjectId();
 	}
 
 	protected function getCustomerList() {

@@ -64,6 +64,10 @@ class ProjectService extends BaseService {
 	public function deleteProject($projectId){
 		return $this->projectDao->deleteProject($projectId);
 	}
+	
+	public function getProjectById($projectId){
+		return $this->projectDao->getProjectById($projectId);
+	}
 }
 
 ?>

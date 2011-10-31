@@ -60,6 +60,15 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	public function getProjectById($projectId) {
+
+		try {
+			return Doctrine :: getTable('Project')->find($projectId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>

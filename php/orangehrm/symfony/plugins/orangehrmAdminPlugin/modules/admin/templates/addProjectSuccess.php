@@ -116,4 +116,5 @@
     var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
     var lang_identical_rows = "<?php echo __("Cannot assign same employee twice"); ?>";
+    var projectId = '<?php echo $projectId; ?>';
 </script>
