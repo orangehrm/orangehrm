@@ -45,7 +45,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
             'urlPattern' => 'index.php?id={id}&amp;status={status}'
         ));
 
-        $expectedLink = '<a href="index.php?id=1&amp;status=active">Label</a>';
+        $expectedLink = '<a href="http://' . $_SERVER['PHP_SELF'] . '/index.php?id=1&amp;status=active">Label</a>';
         $this->assertEquals($expectedLink, $this->linkCell->__toString());
     }
 
@@ -121,7 +121,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
             ),
             'urlPattern' => 'index.php?id={id}&amp;status={status}'
         ));
-        $expectedLink = '<a href="index.php?id=1&amp;status=active">Label</a>';
+        $expectedLink = '<a href="http://' . $_SERVER['PHP_SELF'] . '/index.php?id=1&amp;status=active">Label</a>';
         $this->assertEquals($expectedLink, $this->linkCell->__toString());
     }
 

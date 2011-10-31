@@ -69,7 +69,7 @@ class LabelCellTest extends PHPUnit_Framework_TestCase {
             'hiddenFieldValueGetter' => array('getObject', 'getDescription'),
         ));
 
-        $this->assertEquals('Sample class<input type="hidden" name="hdnTest" id="hdnTest[]" value="Sample class" />', $this->labelCell->__toString());
+        $this->assertEquals('Sample class<input type="hidden" name="hdnTest" id="hdnTest[]" class="" value="Sample class" />', $this->labelCell->__toString());
     }
 
     public function testCellshPlaceholderGetters() {
@@ -85,7 +85,7 @@ class LabelCellTest extends PHPUnit_Framework_TestCase {
             'hiddenFieldValueGetter' => array('getObject', 'getDescription'),
         ));
 
-        $xpectedOutput = 'Sample class<input type="hidden" name="hdnTest" id="hdnTest[1]" value="Sample class" />';
+        $xpectedOutput = 'Sample class<input type="hidden" name="hdnTest" id="hdnTest[1]" class="" value="Sample class" />';
         $this->assertEquals($xpectedOutput, $this->labelCell->__toString());
     }
 

@@ -30,10 +30,10 @@ class HeaderCellTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test__toString() {
-        $this->assertEquals('Heading', $this->headerCell->__toString());
+        $this->assertEquals('<span class="headerCell">Heading</span>', $this->headerCell->__toString());
 
         $this->headerCell->setProperties(array('label' => 'First Name'));
-        $this->assertEquals('First Name', $this->headerCell->__toString());
+        $this->assertEquals('<span class="headerCell">First Name</span>', $this->headerCell->__toString());
     }
 
 }
