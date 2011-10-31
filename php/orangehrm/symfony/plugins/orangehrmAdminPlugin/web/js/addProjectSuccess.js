@@ -24,6 +24,10 @@ $(document).ready(function() {
         $('#addProject_customerId').val(item.id);
     });
         
+    $('#btnCancel').click(function() {
+        window.location.replace(cancelBtnUrl);
+    });
+       
     $('.projectAdminError').css('display','none');
     
     for(var i = 0; i <= numberOfProjectAdmins-2; i++){

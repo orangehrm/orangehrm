@@ -114,6 +114,7 @@
     var lang_exceed255Chars = '<?php echo __("Cannot exceed 255 charactors"); ?>';
     var custUrl = '<?php echo url_for("admin/saveCustomerJson"); ?>';
     var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
+    var cancelBtnUrl = '<?php echo url_for("admin/viewProjects"); ?>';
     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
     var lang_identical_rows = "<?php echo __("Cannot assign same employee twice"); ?>";
     var projectId = '<?php echo $projectId; ?>';

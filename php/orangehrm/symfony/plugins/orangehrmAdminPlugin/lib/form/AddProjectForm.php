@@ -21,7 +21,7 @@
 class AddProjectForm extends BaseForm {
 
 	private $customerService;
-	private $projectId;
+	public $projectId;
 	public $numberOfProjectAdmins = 5;
 
 	public function getProjectService() {
@@ -94,9 +94,10 @@ class AddProjectForm extends BaseForm {
 	}
 
 	public function save() {
+		
 		$id = $this->getValue('projectId');
 		if (empty($id)) {
-			
+
 			$project = new Project();
 			$projectAdminsArray = $this->getValue('projectAdminList');
 			$projectAdmins = explode(",", $projectAdminsArray);
@@ -131,6 +132,7 @@ class AddProjectForm extends BaseForm {
 			$projectAdmins = $newList;
 			$this->saveProjectAdmins($projectAdmins, $project->getProjectId());
 		}
+		return $project->getProjectId();
 	}
 
 	protected function saveProjectAdmins($projectAdmins, $projectId) {
@@ -146,7 +148,7 @@ class AddProjectForm extends BaseForm {
 	}
 
 	protected function saveProject($project) {
-		
+
 		$project->setCustomerId($this->getValue('customerId'));
 		$project->setName($this->getValue('projectName'));
 		$project->setDescription($this->getValue('description'));

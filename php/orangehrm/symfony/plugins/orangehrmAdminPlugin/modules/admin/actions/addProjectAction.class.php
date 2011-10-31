@@ -33,20 +33,21 @@ class addProjectAction extends sfAction {
 
 		$this->projectId = $request->getParameter('projectId');
 		$values = array('projectId' => $this->projectId);
-		$this->setForm(new AddProjectForm(array(),$values));
+		$this->setForm(new AddProjectForm(array(), $values));
 		$this->customerForm = new AddCustomerForm();
 
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
-		
+
 		if ($request->isMethod('post')) {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
-				$this->form->save();
+				
+				$projectId = $this->form->save();
 				$this->getUser()->setFlash('templateMessage', array('success', __('Project added Successfully')));
-				$this->redirect('admin/addProject');
+				$this->redirect('admin/addProject?projectId=' . $projectId);
 			}
 		}
 	}

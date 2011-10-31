@@ -27,8 +27,8 @@
 <?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewCustomersSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/viewCustomersSuccess'); ?>
+<?php use_stylesheet('../orangehrmAdminPlugin/css/viewProjectsSuccess'); ?>
+<?php use_javascript('../orangehrmAdminPlugin/js/viewProjectsSuccess'); ?>
 
  <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
