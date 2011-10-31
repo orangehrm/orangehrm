@@ -17,11 +17,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class viewProjectsAction extends sfAction {
 
-	
-		/**
+	private $projectService;
+
+	public function getProjectService() {
+		if (is_null($this->projectService)) {
+			$this->projectService = new ProjectService();
+			$this->projectService->setProjectDao(new ProjectDao());
+		}
+		return $this->projectService;
+	}
+
+	/**
 	 *
 	 * @param <type> $request
 	 */
@@ -32,9 +40,9 @@ class viewProjectsAction extends sfAction {
 		$sortOrder = $request->getParameter('sortOrder');
 
 		$pageNumber = $isPaging;
-		$noOfRecords = Customer::NO_OF_RECORDS_PER_PAGE;
+		$noOfRecords = Project::NO_OF_RECORDS_PER_PAGE;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-		$customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);
+		$customerList = $this->getProjectService()->getProjectList($noOfRecords, $offset, $sortField, $sortOrder);
 		$this->_setListComponent($customerList, $noOfRecords, $pageNumber);
 		$params = array();
 		$this->parmetersForListCompoment = $params;
@@ -43,6 +51,23 @@ class viewProjectsAction extends sfAction {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
 	}
+	
+	/**
+	 *
+	 * @param <type> $customerList
+	 * @param <type> $noOfRecords
+	 * @param <type> $pageNumber
+	 */
+	private function _setListComponent($customerList, $noOfRecords, $pageNumber) {
+
+		$configurationFactory = new ProjectHeaderFactory();
+		ohrmListComponent::setPageNumber($pageNumber);
+		ohrmListComponent::setConfigurationFactory($configurationFactory);
+		ohrmListComponent::setListData($customerList);
+		ohrmListComponent::setItemsPerPage($noOfRecords);
+		ohrmListComponent::setNumberOfRecords($this->getProjectService()->getProjectCount());
+	}
+
 }
 
 ?>

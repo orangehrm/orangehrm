@@ -1,6 +1,6 @@
 <?php
 
-class CustomerHeaderFactory extends ohrmListConfigurationFactory{
+class CustomerHeaderFactory extends ohrmListConfigurationFactory {
 	
 		protected function init() {
 

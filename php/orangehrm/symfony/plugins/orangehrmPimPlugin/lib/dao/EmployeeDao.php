@@ -35,7 +35,7 @@ class EmployeeDao extends BaseDao {
             if ($employee->getEmpNumber() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($employee);
-                $employee->setEmpNumber($idGenService->getNextID());
+                $employee->setEmpNumber($idGenService->getNextID());		
             }
             $employee->save();
             return true;

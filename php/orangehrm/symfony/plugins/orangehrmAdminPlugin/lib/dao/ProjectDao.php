@@ -20,6 +20,35 @@
 
 class ProjectDao extends BaseDao {
 	
+	public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC') {
+
+		$sortField = ($sortField == "") ? 'name' : $sortField;
+		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->orderBy($sortField . ' ' . $sortOrder)
+				->offset($offset)
+				->limit($limit);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+	
+	public function getProjectCount() {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT);
+			$count = $q->execute()->count();
+			return $count;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>

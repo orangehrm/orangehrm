@@ -20,6 +20,8 @@
  */
 class PimCsvImportForm extends BaseForm {
 
+	private $pimCsvDataImportService;
+	
 	public function getPimCsvDataImportService() {
 		if (is_null($this->pimCsvDataImportService)) {
 			$this->pimCsvDataImportService = new PimCsvDataImportService();

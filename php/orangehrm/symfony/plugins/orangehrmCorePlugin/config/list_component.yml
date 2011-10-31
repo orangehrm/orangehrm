@@ -283,6 +283,27 @@ Customer:
   assets: []
   jsInitMethods: []
 
+Project:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getProjectId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteProject'
+  assets: []
+  jsInitMethods: []
+
 CandidateHistory:
   pluginName: orangehrmRecruitmentPlugin
   hasSelectableRows: false

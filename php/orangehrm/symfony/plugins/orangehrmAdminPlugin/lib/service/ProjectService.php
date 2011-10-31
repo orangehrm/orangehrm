@@ -44,6 +44,22 @@ class ProjectService extends BaseService {
 	public function setProjectDao(ProjectDao $projectDao) {
 		$this->projectDao = $projectDao;
 	}
+
+	/**
+	 *
+	 * @param type $noOfRecords
+	 * @param type $offset
+	 * @param type $sortField
+	 * @param type $sortOrder
+	 * @return type 
+	 */
+	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder){
+		return $this->projectDao->getProjectList($noOfRecords, $offset, $sortField, $sortOrder);
+	}
+	
+	public function getProjectCount(){
+		return $this->projectDao->getProjectCount();
+	}
 }
 
 ?>
