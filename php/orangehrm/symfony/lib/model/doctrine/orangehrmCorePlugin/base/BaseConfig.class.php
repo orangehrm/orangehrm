@@ -28,11 +28,11 @@ abstract class BaseConfig extends sfDoctrineRecord
              'primary' => true,
              'length' => 100,
              ));
-        $this->hasColumn('value', 'string', 255, array(
+        $this->hasColumn('value', 'string', 512, array(
              'type' => 'string',
              'default' => '',
              'notnull' => true,
-             'length' => 255,
+             'length' => 512,
              ));
     }
 

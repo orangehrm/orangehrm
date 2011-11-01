@@ -24,7 +24,7 @@ Config:
       type: string(100)
       primary: true
     value:
-      type: string(255)
+      type: string(512)
       default: ''
       notnull: true      
 
