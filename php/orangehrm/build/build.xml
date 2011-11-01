@@ -238,7 +238,11 @@
 
   <target name="phpdoc" depends="prepare">
       <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
-          sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>
+          output="HTML:Smarty:PHP">
+              <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/service">
+                    <include name="EmployeeService.php" />
+              </fileset>
+          </phpdoc>
   </target>
 
   <target name="lint" depends="prepare">

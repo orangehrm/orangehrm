@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -20,7 +20,7 @@
 
 /**
  * Employee Service
- *
+ * @package pim
  */
 class EmployeeService extends BaseService {
 
@@ -29,6 +29,7 @@ class EmployeeService extends BaseService {
     /**
      * Get Employee Dao
      * @return EmployeeDao
+     * @ignore
      */
     public function getEmployeeDao() {
         return $this->employeeDao;
@@ -38,6 +39,7 @@ class EmployeeService extends BaseService {
      * Set Employee Dao
      * @param EmployeeDao $employeeDao
      * @return void
+     * @ignore
      */
     public function setEmployeeDao(EmployeeDao $employeeDao) {
         $this->employeeDao = $employeeDao;
@@ -45,17 +47,33 @@ class EmployeeService extends BaseService {
 
     /**
      * Construct
+     * @ignore
      */
     public function __construct() {
         $this->employeeDao = new EmployeeDao();
     }
 
     /**
-     * Add a new employee
-     *
+     * Save an employee
+     * 
+     * If empNumber is not set, it will be set to next available value and a 
+     * new employee will be added.
+     * 
+     * If empNumber is set, and it belongs to an existing employee, the employee
+     * is updated.
+     * 
+     * If empNumber is set and it does not belong to an existing employee, a 
+     * new employee is added. The caller has to update the unique id using 
+     * IDGeneratorService.
+     * 
+     * @version 2.6.11
      * @param Employee $employee
      * @return boolean
      * @throws PIMServiceException
+     * 
+     * @todo Change return type to saved object
+     * @todo Change method name to saveEmployee
+     * @todo Improve exception, pass $e
      */
     public function addEmployee(Employee $employee) {
         try {
@@ -66,9 +84,12 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get employee with given empNumber
+     * Get employee for given empNumber
+     * 
+     * @version 2.6.11
      * @param int $empNumber Employee number
-     * @return Employee
+     * @return Employee Employee instance if found or NULL
+     * @throws PIMServiceException
      */
     public function getEmployee($empNumber) {
         try {
@@ -81,8 +102,10 @@ class EmployeeService extends BaseService {
     /**
      * Get the default employee id to be used for next employee being
      * added to the system.
-     *
+     * 
      * @return employee id based on empNumber
+     * 
+     * @ignore
      */
     public function getDefaultEmployeeId() {
         $idGenService = new IDGeneratorService();
@@ -95,6 +118,8 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns Collection
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function getPicture($empNumber) {
         try {
@@ -110,6 +135,8 @@ class EmployeeService extends BaseService {
      * @param boolean $isESS
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function savePersonalDetails(Employee $employee, $isESS = false) {
         try {
@@ -124,6 +151,8 @@ class EmployeeService extends BaseService {
      * @param Employee $employee
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function saveContactDetails(Employee $employee) {
         try {
@@ -137,6 +166,8 @@ class EmployeeService extends BaseService {
      * Get Emergency contacts for given employee
      * @param int $empNumber Employee Number
      * @return array Emergency Contacts as array
+     * 
+     * @ignore
      */
     public function getEmergencyContacts($empNumber) {
         try {
@@ -152,6 +183,8 @@ class EmployeeService extends BaseService {
      * @param array() $emergencyContactsToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
         try {
@@ -167,6 +200,8 @@ class EmployeeService extends BaseService {
      * @param array() $entriesToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
 
@@ -181,6 +216,8 @@ class EmployeeService extends BaseService {
      * Get dependents for given employee
      * @param int $empNumber Employee Number
      * @return array Dependents as array
+     * 
+     * @ignore
      */
     public function getDependents($empNumber) {
         try {
@@ -196,6 +233,8 @@ class EmployeeService extends BaseService {
      * @param array() $entriesToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
         try {
@@ -211,6 +250,8 @@ class EmployeeService extends BaseService {
      * @param array() $entriesToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
         try {
@@ -225,6 +266,8 @@ class EmployeeService extends BaseService {
      * Check if employee with given empNumber is a supervisor
      * @param int $empNumber
      * @return bool - True if given employee is a supervisor, false if not
+     * 
+     * @ignore
      */
     public function isSupervisor($empNumber) {
         try {
@@ -239,6 +282,8 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     public function deletePhoto($empNumber) {
         try {
@@ -253,6 +298,8 @@ class EmployeeService extends BaseService {
      * @param EmpPicture $empPicture
      * @returns boolean
      * @throws PIMServiceException
+     * 
+     * @ignore
      */
     function saveEmployeePicture(EmpPicture $empPicture) {
         try {
@@ -266,6 +313,7 @@ class EmployeeService extends BaseService {
      * save immigration
      * @param EmpPassport $empPassport
      * @returns boolean
+     * @ignore
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
         return $this->employeeDao->saveEmployeePassport($empPassport);
@@ -276,6 +324,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $sequenceNo
      * @returns Collection/EmpPassport
+     * @ignore
      */
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         return $this->employeeDao->getEmployeePassport($empNumber, $sequenceNo);
@@ -285,6 +334,7 @@ class EmployeeService extends BaseService {
      * save WorkExperience
      * @param EmpWorkExperience $empWorkExp
      * @returns boolean
+     * @ignore
      */
     public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
         return $this->employeeDao->saveWorkExperience($empWorkExp);
@@ -295,6 +345,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $sequenceNo
      * @returns Collection/WorkExperience
+     * @ignore
      */
     public function getWorkExperience($empNumber, $sequenceNo = null) {
         return $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
@@ -305,6 +356,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param array() $workExperienceToDelete
      * @returns boolean
+     * @ignore
      */
     public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
         return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
@@ -315,6 +367,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $eduCode
      * @returns Collection/Education
+     * @ignore
      */
     public function getEducation($empNumber, $eduCode = null) {
         return $this->employeeDao->getEducation($empNumber, $eduCode);
@@ -325,6 +378,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param array() $educationToDelete
      * @returns boolean
+     * @ignore
      */
     public function deleteEducation($empNumber, $educationToDelete) {
         return $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
@@ -334,6 +388,7 @@ class EmployeeService extends BaseService {
      * save Education
      * @param EmployeeEducation $education
      * @returns boolean
+     * @ignore
      */
     public function saveEducation(EmployeeEducation $education) {
         return $this->employeeDao->saveEducation($education);
@@ -344,6 +399,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $eduCode
      * @returns Collection/Skill
+     * @ignore
      */
     public function getSkill($empNumber, $skillCode = null) {
         return $this->employeeDao->getSkill($empNumber, $skillCode);
@@ -354,6 +410,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param array() $skillToDelete
      * @returns boolean
+     * @ignore
      */
     public function deleteSkill($empNumber, $skillToDelete) {
         return $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
@@ -363,6 +420,7 @@ class EmployeeService extends BaseService {
      * save Skill
      * @param EmployeeSkill $skill
      * @returns boolean
+     * @ignore
      */
     public function saveSkill(EmployeeSkill $skill) {
         return $this->employeeDao->saveSkill($skill);
@@ -373,6 +431,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $eduCode
      * @returns Collection/Language
+     * @ignore
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
         return $this->employeeDao->getLanguage($empNumber, $languageCode, $languageType);
@@ -383,6 +442,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param array() $languageToDelete (array of langCode->LangType)
      * @return int - number of records deleted. False if did not delete anything.
+     * @ignore
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
         return $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
@@ -392,6 +452,7 @@ class EmployeeService extends BaseService {
      * save Language
      * @param EmployeeLanguage $language
      * @returns boolean
+     * @ignore
      */
     public function saveLanguage(EmployeeLanguage $language) {
         return $this->employeeDao->saveLanguage($language);
@@ -402,6 +463,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param int $eduCode
      * @returns Collection/License
+     * @ignore
      */
     public function getLicense($empNumber, $licenseCode = null) {
         return $this->employeeDao->getLicense($empNumber, $licenseCode);
@@ -412,6 +474,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @param array() $licenseToDelete
      * @returns boolean
+     * @ignore
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
         return $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
@@ -421,6 +484,7 @@ class EmployeeService extends BaseService {
      * save License
      * @param EmployeeLicense $license
      * @returns boolean
+     * @ignore
      */
     public function saveLicense(EmployeeLicense $license) {
         return $this->employeeDao->saveLicense($license);
@@ -430,6 +494,7 @@ class EmployeeService extends BaseService {
      * Get attachment
      * @param type $empNumber - employee number
      * @param type $screen - screen attached to
+     * @ignore
      */
     public function getAttachments($empNumber, $screen) {
         try {
@@ -445,6 +510,7 @@ class EmployeeService extends BaseService {
      * @param array $attachmentsToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * @ignore
      */
     public function deleteAttachments($empNumber, $attachmentsToDelete) {
         try {
@@ -459,6 +525,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns Collection
      * @throws PIMServiceException
+     * @ignore
      */
     public function getAttachment($empNumber, $attachId) {
         try {
@@ -473,8 +540,9 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns EmpPicture
      * @throws PIMServiceException
+     * @ignore
      */
-    function readEmployeePicture($empNumber) {
+    public function readEmployeePicture($empNumber) {
         try {
             return $this->employeeDao->readEmployeePicture($empNumber);
         } catch (Exception $e) {
@@ -486,6 +554,7 @@ class EmployeeService extends BaseService {
      * Returns Employee List
      * @returns Collection
      * @throws PIMServiceException
+     * @ignore
      */
     public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
         try {
@@ -500,6 +569,7 @@ class EmployeeService extends BaseService {
      *
      * @returns Collection
      * @throws DaoException
+     * @ignore
      */
     public function getSupervisorList() {
         try {
@@ -515,6 +585,7 @@ class EmployeeService extends BaseService {
      * @param String $value
      * @return Collection
      * @throws PIMServiceException
+     * @ignore
      */
     public function searchEmployee($field, $value) {
         try {
@@ -528,6 +599,7 @@ class EmployeeService extends BaseService {
      * Returns Employee Count
      * @returns int
      * @throws PIMServiceException
+     * @ignore
      */
     public function getEmployeeCount() {
         try {
@@ -542,6 +614,7 @@ class EmployeeService extends BaseService {
      * @param int $supervisorId
      * @returns Collection
      * @throws PIMServiceException
+     * @ignore
      */
     public function getSupervisorEmployeeList($supervisorId) {
         try {
@@ -556,6 +629,7 @@ class EmployeeService extends BaseService {
      * @param boolean $workShift
      * @returns String
      * @throws PIMServiceException
+     * @ignore
      */
     public function getEmployeeListAsJson($workShift = false) {
         try {
@@ -569,6 +643,7 @@ class EmployeeService extends BaseService {
      * Retrieve Supervisor Employee Chain
      * @param int $supervisorId
      * @throws PIMServiceException
+     * @ignore
      */
     public function getSupervisorEmployeeChain($supervisorId) {
         try {
@@ -584,6 +659,7 @@ class EmployeeService extends BaseService {
      * @param String $subUnitId
      * @returns array()
      * @throws PIMServiceException
+     * @ignore
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
         try {
@@ -612,6 +688,7 @@ class EmployeeService extends BaseService {
      * @param array $empList
      * @returns int
      * @throws PIMServiceException
+     * @ignore
      */
     public function deleteEmployee($empList = array()) {
         try {
@@ -625,7 +702,8 @@ class EmployeeService extends BaseService {
      * Checks if the given employee id is in use.
      * @throws PIMServiceException
      * @param  $employeeId
-     * @return ?#M#P#CEmployeeService.employeeDao.isEmployeeIdInUse
+     * @return EmployeeService.employeeDao.isEmployeeIdInUse
+     * @ignore
      */
     public function isEmployeeIdInUse($employeeId) {
         try {
@@ -642,7 +720,8 @@ class EmployeeService extends BaseService {
      * @param  $first
      * @param  $middle
      * @param  $last
-     * @return ?#M#P#CEmployeeService.employeeDao.checkForEmployeeWithSameName
+     * @return EmployeeService.employeeDao.checkForEmployeeWithSameName
+     * @ignore
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
@@ -652,6 +731,13 @@ class EmployeeService extends BaseService {
         }
     }
 
+    /**
+     *
+     * @param type $employeeId
+     * @param type $currentDate
+     * @return type 
+     * @ignore
+     */
     public function getEmployeeYearsOfService($employeeId, $currentDate) {
         $employee = $this->getEmployee($employeeId);
         if (!($employee instanceof Employee)) {
@@ -660,6 +746,13 @@ class EmployeeService extends BaseService {
         return $this->getDurationInYears($employee->getJoinedDate(), $currentDate);
     }
 
+    /**
+     *
+     * @param type $fromDate
+     * @param type $toDate
+     * @return type 
+     * @ignore
+     */
     public function getDurationInYears($fromDate, $toDate) {
         $years = 0;
         $secondsOfYear = 60 * 60 * 24 * 365;
@@ -755,6 +848,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns EmployeeWorkShift
      * @throws PIMServiceException
+     * @ignore
      */
     public function getWorkShift($empNumber) {
         try {
@@ -769,6 +863,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber
      * @returns EmpUsTaxExemption
      * @throws PIMServiceException
+     * @ignore
      */
     public function getEmployeeTaxExemptions($empNumber) {
         try {
@@ -783,6 +878,7 @@ class EmployeeService extends BaseService {
      * @param EmpUsTaxExemption $empUsTaxExemption
      * @returns boolean
      * @throws PIMServiceException
+     * @ignore
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         try {
@@ -797,6 +893,7 @@ class EmployeeService extends BaseService {
      * @param Employee $employee
      * @returns boolean
      * @throws PIMServiceException
+     * @ignore
      */
     public function saveJobDetails(Employee $employee) {
         try {
@@ -810,6 +907,7 @@ class EmployeeService extends BaseService {
      * Get membership details for given employee
      * @param int $empNumber Employee Number
      * @return array membership details as array
+     * @ignore
      */
     public function getMembershipDetails($empNumber) {
         try {
@@ -823,6 +921,7 @@ class EmployeeService extends BaseService {
      * Get membership details for given employee
      * @param int $empNumber Employee Number
      * @return array membership details as array
+     * @ignore
      */
     public function getMembershipDetail($empNumber, $membershipType, $membership) {
         try {
@@ -837,6 +936,7 @@ class EmployeeService extends BaseService {
      * @param array() $membershipsToDelete
      * @returns boolean
      * @throws PIMServiceException
+     * @ignore
      */
     public function deleteMembershipDetails($membershipsToDelete) {
 
@@ -865,6 +965,7 @@ class EmployeeService extends BaseService {
      * @param boolean $asArray
      * @returns Collection
      * @throws DaoException
+     * @ignore
      */
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
         try {
@@ -879,6 +980,7 @@ class EmployeeService extends BaseService {
      * @param EmpBasicsalary $empBasicsalary
      * @returns boolean
      * @throws PIMServiceException
+     * @ignore
      */
     public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
         try {
@@ -894,6 +996,7 @@ class EmployeeService extends BaseService {
      * @param array() $salaryToDelete
      * @returns boolean
      * @throws DaoException
+     * @ignore
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
         try {
@@ -908,6 +1011,7 @@ class EmployeeService extends BaseService {
      * @param ReportingMethod $reportingMethod
      * @returns ReportingMethod $reportingMethod
      * @throws PIMServiceException
+     * @ignore
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {
         try {
@@ -921,6 +1025,7 @@ class EmployeeService extends BaseService {
      * Get Reporting Method for a given reporting method id
      * @param int $reportingMethodId
      * @return ReportingMethod doctrine object
+     * @ignore
      */
     public function getReportingMethod($reportingMethodId) {
         try {
@@ -933,6 +1038,7 @@ class EmployeeService extends BaseService {
     /**
      * Get Reporting Method List
      * @return ReportingMethod doctrine Collection
+     * @ignore
      */
     public function getReportingMethodList() {
         try {
@@ -946,6 +1052,7 @@ class EmployeeService extends BaseService {
      * get supervisor list
      * @param $empNumber
      * @return Doctine collection ReportTo
+     * @ignore
      */
     public function getSupervisorListForEmployee($empNumber) {
 
@@ -960,6 +1067,7 @@ class EmployeeService extends BaseService {
      * get subordinate list
      * @param $empNumber
      * @return Doctine collection ReportTo
+     * @ignore
      */
     public function getSubordinateListForEmployee($empNumber) {
 
@@ -974,6 +1082,7 @@ class EmployeeService extends BaseService {
      * Get report to details object
      * @param int $supNumber $subNumber $reportingMethod
      * @return ReportTo object
+     * @ignore
      */
     public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
 
@@ -988,6 +1097,7 @@ class EmployeeService extends BaseService {
      * Delete reportTo object
      * @param $supOrSubListToDelete array
      * @return boolean
+     * @ignore
      */
     public function deleteReportToObject($supOrSubListToDelete) {
 
@@ -1012,6 +1122,7 @@ class EmployeeService extends BaseService {
      * Check if user with given userId is an admin
      * @param string $userId
      * @return bool - True if given user is an admin, false if not
+     * @ignore
      */
     public function isAdmin($userId) {
         try {
@@ -1021,6 +1132,11 @@ class EmployeeService extends BaseService {
         }
     }
     
+    /**
+     *
+     * @return type 
+     * @ignore
+     */
     public function getEmailList() {
         try {
             return $this->employeeDao->getEmailList();
@@ -1028,6 +1144,12 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }   
     }
+    
+    /**
+     *
+     * @return type 
+     * @ignore
+     */
     public function getSubordinateIdList(){
         return $this->employeeDao->getSubordinateIdList();
     }
