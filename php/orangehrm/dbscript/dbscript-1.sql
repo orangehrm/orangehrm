@@ -1219,6 +1219,17 @@ create table `ohrm_job_interview_interviewer`(
 	primary key (`interview_id`, `interviewer_id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_department` (
+  `id` smallint(6) unsigned not null auto_increment,
+  `name` varchar(100) not null unique,
+  `unit_id` varchar(100) default null,
+  `description` varchar(400),
+  `lft` smallint(6) unsigned default null,
+  `rgt` smallint(6) unsigned default null,
+  `level` smallint(6) unsigned default null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_available_group_field
        add constraint foreign key (group_field_id)
                              references ohrm_group_field(group_field_id);

@@ -1,3 +1,20 @@
+Department:
+  tableName: ohrm_department
+  actAs: [NestedSet]
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+      notnull: true
+    unit_id:
+      name: unit_id as unitId
+      type: string(100)
+    description:
+      type: string(400)
+
 Customer:
   tableName: ohrm_customer
   columns:
