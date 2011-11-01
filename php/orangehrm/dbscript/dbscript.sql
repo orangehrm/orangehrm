@@ -9,7 +9,7 @@ create table `hs_hr_geninfo` (
 
 create table `hs_hr_config` (
 	`key` varchar(100) not null default '',
-	`value` varchar(100) not null default '',
+	`value` varchar(512) not null default '',
 	primary key (`key`)
 ) engine=innodb default charset=utf8;
 
