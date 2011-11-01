@@ -23,6 +23,8 @@ $(document).ready(function() {
 
         $('#addProject_customerId').val(item.id);
     });
+    
+    $('#addActivity').hide();
         
     $('#btnCancel').click(function() {
         window.location.replace(cancelBtnUrl);
@@ -140,6 +142,10 @@ $(document).ready(function() {
     $('#btnActSave').click(function(){
         $('#addProjectActivity_projectId').val(projectId);
         $('#frmAddActivity').submit()
+    });
+    
+    $('#btnAdd').click(function(){
+        $('#addActivity').show();
     });
     
     $("#frmAddActivity").validate({

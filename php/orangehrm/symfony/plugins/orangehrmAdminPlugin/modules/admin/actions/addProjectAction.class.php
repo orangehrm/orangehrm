@@ -19,6 +19,16 @@
  */
 class addProjectAction extends sfAction {
 
+	private $projectService;
+
+	public function getProjectService() {
+		if (is_null($this->projectService)) {
+			$this->projectService = new ProjectService();
+			$this->projectService->setProjectDao(new ProjectDao());
+		}
+		return $this->projectService;
+	}
+
 	/**
 	 * @param sfForm $form
 	 * @return
@@ -35,11 +45,16 @@ class addProjectAction extends sfAction {
 		$values = array('projectId' => $this->projectId);
 		$this->setForm(new AddProjectForm(array(), $values));
 		$this->customerForm = new AddCustomerForm();
-		
-		if(!empty($this->projectId)){
+
+		if (!empty($this->projectId)) {
 			$this->activityForm = new AddProjectActivityForm();
+			//For list activities
+			$activityList = $this->getProjectService()->getProjectActivity($this->projectId);
+			$this->_setListComponent($activityList);
+			$params = array();
+			$this->parmetersForListCompoment = $params;
 		}
-		
+
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
@@ -48,12 +63,25 @@ class addProjectAction extends sfAction {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
-				
+
 				$projectId = $this->form->save();
 				$this->getUser()->setFlash('templateMessage', array('success', __('Project Added Successfully')));
 				$this->redirect('admin/addProject?projectId=' . $projectId);
 			}
 		}
+	}
+
+	/**
+	 *
+	 * @param <type> $customerList
+	 * @param <type> $noOfRecords
+	 * @param <type> $pageNumber
+	 */
+	private function _setListComponent($customerList, $noOfRecords, $pageNumber) {
+
+		$configurationFactory = new ProjectActivityHeaderFactory();
+		ohrmListComponent::setConfigurationFactory($configurationFactory);
+		ohrmListComponent::setListData($customerList);
 	}
 
 }

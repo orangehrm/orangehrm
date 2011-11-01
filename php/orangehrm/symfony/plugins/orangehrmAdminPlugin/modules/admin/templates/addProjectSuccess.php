@@ -63,7 +63,7 @@
 	    <br class="clear"/>
 	    
 	    
-	    <div class="formbuttons">
+	    <div class="actionbuttons">
                     <input type="button" class="savebutton" name="btnSave" id="btnSave"
                            value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                     <input type="button" class="cancelbutton" name="btnCancel" id="btnCancel"
@@ -88,13 +88,18 @@
             <?php echo $activityForm['activityName']->render(array("class" => "formInput", "maxlength" => 52)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
-	    <div class="formbuttons">
+	    <div class="actionbuttons">
                     <input type="button" class="savebutton" name="btnActSave" id="btnActSave"
                            value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 
 	    </div>
 			
     </div>
+    <br class="clear"/>
+</div>
+
+<div id="activityList">
+    <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 <?php } ?>
 

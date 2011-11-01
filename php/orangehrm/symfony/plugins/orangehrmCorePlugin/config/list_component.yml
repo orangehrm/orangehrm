@@ -304,6 +304,29 @@ Project:
   assets: []
   jsInitMethods: []
 
+ProjectActivity:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getActivityId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+    Copy:
+      label: Copy From
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteProjectActivity'
+  assets: []
+  jsInitMethods: []
+
 CandidateHistory:
   pluginName: orangehrmRecruitmentPlugin
   hasSelectableRows: false
