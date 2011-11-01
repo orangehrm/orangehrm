@@ -666,7 +666,7 @@ create table `ohrm_project` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_project_activity` (
-  `activity_id` int(11) not null,
+  `activity_id` int(11) not null auto_increment,
   `project_id` int(11) not null,
   `name` varchar(110) default null,
   `deleted` tinyint(1) default 0,

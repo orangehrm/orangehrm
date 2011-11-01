@@ -78,8 +78,8 @@
 <?php if(!empty($projectId)) { ?>
 <div id="addActivity">
     <div class="outerbox">
-        <div class="mainHeading"><h2 id="addActivityHeading"><?php echo __("Add Activity"); ?></h2></div>
-            <form name="frmAddActivity" id="frmAddActivity" method="post" action="<?php echo url_for('admin/addProject'); ?>" >
+        <div class="mainHeading"><h2 id="addActivityHeading"><?php echo __("Add Project Activity"); ?></h2></div>
+            <form name="frmAddActivity" id="frmAddActivity" method="post" action="<?php echo url_for('admin/addProjectActivity'); ?>" >
 
             <?php echo $activityForm['_csrf_token']; ?>
             <?php echo $activityForm->renderHiddenFields(); ?>
@@ -87,7 +87,7 @@
 	    <?php echo $activityForm['activityName']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
             <?php echo $activityForm['activityName']->render(array("class" => "formInput", "maxlength" => 52)); ?>
             <div class="errorHolder"></div>
-	    
+	    <br class="clear"/>
 	    <div class="formbuttons">
                     <input type="button" class="savebutton" name="btnActSave" id="btnActSave"
                            value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
@@ -133,10 +133,12 @@
     var numberOfProjectAdmins = <?php echo $form->numberOfProjectAdmins; ?>;
     var lang_typeHint = '<?php echo __("Type for hints")."..."; ?>';
     var lang_nameRequired = '<?php echo __("Customer name is required"); ?>';
+    var lang_activityNameRequired = '<?php echo __("Activity name is required"); ?>';
     var lang_validCustomer = '<?php echo __("Enter a valid customer name"); ?>';
     var lang_projectRequired = '<?php echo __("Project name is required"); ?>';
     var lang_exceed50Chars = '<?php echo __("Cannot exceed 50 charactors"); ?>';
     var lang_exceed255Chars = '<?php echo __("Cannot exceed 255 charactors"); ?>';
+    var lang_exceed100Chars = '<?php echo __("Cannot exceed 100 charactors"); ?>';
     var custUrl = '<?php echo url_for("admin/saveCustomerJson"); ?>';
     var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
     var cancelBtnUrl = '<?php echo url_for("admin/viewProjects"); ?>';

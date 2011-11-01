@@ -74,9 +74,12 @@ ProjectActivity:
     activity_id:
       type: integer(4)
       primary: true
+      name: activity_id as activityId
+      autoincrement: true
     project_id:
       type: integer(4)
       notnull: true
+      name: project_id as projectId
     deleted:
       type: integer(1)
       default: '0'

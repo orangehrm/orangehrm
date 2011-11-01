@@ -118,7 +118,7 @@ $(document).ready(function() {
     });
     
     $('#btnSave').click(function() {
-        //if user clicks on Edit make all fields editable
+       
         if(isValidForm()){
             removeTypeHints();
             setProjectAdmins();
@@ -136,6 +136,34 @@ $(document).ready(function() {
         }
         
     }
+    
+    $('#btnActSave').click(function(){
+        $('#addProjectActivity_projectId').val(projectId);
+        $('#frmAddActivity').submit()
+    });
+    
+    $("#frmAddActivity").validate({
+
+        rules: {
+            'addProjectActivity[activityName]' : {
+                required:true,
+                maxlength: 100
+            }
+
+        },
+        messages: {
+            'addProjectActivity[activityName]' : {
+                required:lang_activityNameRequired,
+                maxlength: lang_exceed100Chars
+            }
+
+        },
+        errorPlacement: function(error, element) {
+
+            error.appendTo(element.next('div.errorHolder'));
+
+        }
+    });
      
 });
 

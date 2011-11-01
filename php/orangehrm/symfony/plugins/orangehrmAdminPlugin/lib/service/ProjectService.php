@@ -17,9 +17,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class ProjectService extends BaseService {
-	
+
 	private $projectDao;
 
 	/**
@@ -53,21 +52,80 @@ class ProjectService extends BaseService {
 	 * @param type $sortOrder
 	 * @return type 
 	 */
-	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder){
+	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder) {
 		return $this->projectDao->getProjectList($noOfRecords, $offset, $sortField, $sortOrder);
 	}
-	
-	public function getProjectCount(){
+
+	public function getProjectCount() {
 		return $this->projectDao->getProjectCount();
 	}
-	
-	public function deleteProject($projectId){
+
+	public function deleteProject($projectId) {
 		return $this->projectDao->deleteProject($projectId);
 	}
-	
-	public function getProjectById($projectId){
+
+	public function getProjectById($projectId) {
 		return $this->projectDao->getProjectById($projectId);
 	}
+
+	/**
+	 * Set Project Data Access Object
+	 * @param ProjectDao() $ProjectDao
+	 * @return void
+	 */
+	public function setTimesheetDao(ProjectDao $projectDao) {
+
+		$this->projectDao = $projectDao;
+	}
+
+	/**
+	 * Gets project name given project id.
+	 * @param integer $projectId
+	 * @return string
+	 */
+	public function getProjectName($projectId) {
+
+		$project = $this->readProject($projectId);
+		$projectName = $project->getCustomer()->getName() . " - " . $project->getName();
+
+		return $projectName;
+	}
+
+	/**
+	 * When ProjectAdmin[] is given, this method extracts project ids and give it as an array.
+	 * @param ProjectAdmin[] $projectAdmins
+	 * @return integer[]
+	 */
+	public function extractProjectIdsFromProjectAdminRecords($projectAdmins) {
+
+		$projectId = array();
+		foreach ($projectAdmins as $projectAdmin) {
+			$projectId[] = $projectAdmin->getProjectId();
+		}
+
+		return $projectId;
+	}
+
+	public function getActiveProjectList() {
+
+		return $this->getProjectDao()->getActiveProjectList();
+	}
+
+	public function getActiveProjectListRelatedToProjectAdmin($empNo) {
+
+		$projectAdmins = $this->getProjectDao()->getProjectAdminRecordsByEmpNo($empNo);
+
+		$projectIdArray = array();
+
+		foreach ($projectAdmins as $projectAdmin) {
+			$projectIdArray[] = $projectAdmin->getProjectId();
+		}
+
+		$projectList = $this->getProjectDao()->getActiveProjectsByProjectIds($projectIdArray);
+
+		return $projectList;
+	}
+
 }
 
 ?>
