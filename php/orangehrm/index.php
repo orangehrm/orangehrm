@@ -415,7 +415,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub = new MenuItem("project", $lang_Menu_Admin_ProjectInfo, "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("project", $lang_Menu_Admin_Customers, "index.php?uniqcode=CUS&menu_no_top=eim");
+    $subsubs[] = new MenuItem("project", __("Customers"), "./symfony/web/index.php/admin/viewCustomers");
     $subsubs[] = new MenuItem("project", $lang_Menu_Admin_Projects, "index.php?uniqcode=PRJ&menu_no_top=eim");
     $subsubs[] = new MenuItem("project", $lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
     $sub->setSubMenuItems($subsubs);

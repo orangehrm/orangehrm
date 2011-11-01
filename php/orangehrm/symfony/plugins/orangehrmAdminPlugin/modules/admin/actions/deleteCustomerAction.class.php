@@ -34,7 +34,7 @@ class deleteCustomerAction extends sfAction {
 				
 				$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Customers Deleted Successfully')));
+			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Customer(s) Deleted Successfully')));
 		}
 
 		$this->redirect('admin/viewCustomers');

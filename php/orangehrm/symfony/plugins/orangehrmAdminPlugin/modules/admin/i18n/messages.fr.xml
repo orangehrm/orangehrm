@@ -88,6 +88,34 @@
                 <source>Include not more than 100 records in the file</source>
                 <target>FR_Include not more than 100 records in the file</target>
             </trans-unit>            
+            <trans-unit id="22">
+                <source>Customers</source>
+                <target>FR_Customers</target>
+            </trans-unit>            
+            <trans-unit id="23">
+                <source>Customer name is required</source>
+                <target>FR_Customer name is required</target>
+            </trans-unit>            
+            <trans-unit id="24">
+                <source>Cannot exceed 255 charactors</source>
+                <target>FR_Cannot exceed 255 charactors</target>
+            </trans-unit>            
+            <trans-unit id="25">
+                <source>Customer added Successfully</source>
+                <target>FR_Customer added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="26">
+                <source>Selected Customer(s) Deleted Successfully</source>
+                <target>FR_Selected Customer(s) Deleted Successfully</target>
+            </trans-unit>            
+            <trans-unit id="27">
+                <source>Customer Added Successfully</source>
+                <target>FR_Customer Added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="28">
+                <source>Customer Updated Successfully</source>
+                <target>FR_Customer Updated Successfully</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

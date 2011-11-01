@@ -267,7 +267,7 @@ Customer:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getCustomerId
-  title: ''
+  title: "<?php echo __("Customers");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []

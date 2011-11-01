@@ -43,8 +43,8 @@ class addCustomerAction extends sfAction {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
-				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __('Customer added Successfully')));
+				$result = $this->form->save();
+				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
 				$this->redirect('admin/viewCustomers');
 			}
 		}

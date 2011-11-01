@@ -60,17 +60,23 @@ class AddCustomerForm extends BaseForm {
 
 	public function save() {
 
+		$this->resultArray = array();
 		$customerId = $this->getValue('customerId');
 		if($customerId > 0){
 			$service = $this->getCustomerService();
 			$customer = $service->getCustomerById($customerId);
+			$this->resultArray['messageType'] = 'success';
+			$this->resultArray['message'] = __('Customer Updated Successfully');
 		}else {
 			$customer = new Customer();
+			$this->resultArray['messageType'] = 'success';
+			$this->resultArray['message'] = __('Customer Added Successfully');
 		}
 			
 		$customer->setName($this->getValue('customerName'));
 		$customer->setDescription($this->getValue('description'));
 		$customer->save();
+		return $this->resultArray;
 	}
 
 }
