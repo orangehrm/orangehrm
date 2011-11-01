@@ -78,6 +78,7 @@ class AddProjectForm extends BaseForm {
 	}
 
 	private function setDefaultValues($projectId) {
+		
 		$project = $this->getProjectService()->getProjectById($this->projectId);
 		$this->setDefault('projectId', $projectId);
 		$this->setDefault('customerId', $project->getCustomer()->getCustomerId());
@@ -137,7 +138,7 @@ class AddProjectForm extends BaseForm {
 
 	protected function saveProjectAdmins($projectAdmins, $projectId) {
 
-		if (!empty($projectAdmins)) {
+		if ($projectAdmins[0] != null) {
 			for ($i = 0; $i < count($projectAdmins); $i++) {
 				$projectAdmin = new ProjectAdmin();
 				$projectAdmin->setProjectId($projectId);

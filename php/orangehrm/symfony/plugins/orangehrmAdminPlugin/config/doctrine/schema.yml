@@ -80,7 +80,7 @@ ProjectActivity:
     deleted:
       type: integer(1)
       default: '0'
-    name: string(100)
+    name: string(110)
   relations:
     Project:
       local: project_id

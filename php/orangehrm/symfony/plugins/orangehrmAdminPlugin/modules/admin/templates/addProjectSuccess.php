@@ -73,6 +73,31 @@
     </form>
 </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+<br class="clear"/>
+
+<?php if(!empty($projectId)) { ?>
+<div id="addActivity">
+    <div class="outerbox">
+        <div class="mainHeading"><h2 id="addActivityHeading"><?php echo __("Add Activity"); ?></h2></div>
+            <form name="frmAddActivity" id="frmAddActivity" method="post" action="<?php echo url_for('admin/addProject'); ?>" >
+
+            <?php echo $activityForm['_csrf_token']; ?>
+            <?php echo $activityForm->renderHiddenFields(); ?>
+	    <br class="clear"/>
+	    <?php echo $activityForm['activityName']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
+            <?php echo $activityForm['activityName']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <div class="errorHolder"></div>
+	    
+	    <div class="formbuttons">
+                    <input type="button" class="savebutton" name="btnActSave" id="btnActSave"
+                           value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                
+	    </div>
+			
+    </div>
+</div>
+<?php } ?>
+
 <div id="customerDialog" title="<?php echo __('Add Customer')?>"  style="display:none;">
 
 <div class="dialogButtons">

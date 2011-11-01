@@ -7,3 +7,11 @@ div.formbuttons {
     margin-top:0px;
     text-align:left;
 }
+
+.null {
+    font-size: 12px !important;
+}
+
+.headerCell {
+    font-size: 12px !important;
+}

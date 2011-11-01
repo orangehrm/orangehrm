@@ -668,7 +668,7 @@ create table `ohrm_project` (
 create table `ohrm_project_activity` (
   `activity_id` int(11) not null,
   `project_id` int(11) not null,
-  `name` varchar(100) default null,
+  `name` varchar(110) default null,
   `deleted` tinyint(1) default 0,
   primary key  (`activity_id`),
   key `project_id` (`project_id`)
