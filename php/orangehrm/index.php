@@ -427,12 +427,12 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub->setSubMenuItems($subsubs);    
     $subs[] = $sub;
 
-    if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
-        $subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
-    }
-
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmAuditTrailPlugin') && $arrAllRights[Admin]['view']) {
         $subs[] = new MenuItem('audittrail', 'Audit Trail', './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
+    }
+    
+    if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmLDAPAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
+        $subs[] = new MenuItem('ldap', 'LDAP Configuration', './symfony/web/index.php/ldapAuthentication/configureLDAPAuthentication', 'rightMenu');
     }
 
     $menuItem->setSubMenuItems($subs);
