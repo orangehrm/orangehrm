@@ -80,6 +80,13 @@ $tree->addScriptContent("
     }
     #tooltip h3, #tooltip div { margin: 0; }
 
+    html body label{
+        width: 200px;
+        padding-left: 20px;
+        font-size: 15px;
+        margin-top: 0px;
+}
+
 </style>
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
@@ -96,10 +103,12 @@ $tree->addScriptContent("
 <br class="clear"/>
 <div id="messageDiv"></div>
 <br class="clear"/>
-<div id="editButton" style="text-align: left; padding-left: 10px">
+<!--<div id="editButton" style="text-align: left; padding-left: 10px">-->
+        <label><?php echo __("Organization Structure") ?></label>
     <input type="button" class="editbutton" name="btnEdit" id="btnEdit"
            value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-</div>
+<!--</div>-->
+<br class="clear"/>
 <br class="clear"/>
 <div id="divDepartmentTreeContainer"><?php $tree->render(); ?></div>
 
