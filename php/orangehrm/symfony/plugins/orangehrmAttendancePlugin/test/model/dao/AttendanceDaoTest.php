@@ -87,23 +87,24 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $punchInTime = "2011-06-10 15:21:00";
         $punchOutTime = "2011-06-10 15:40:00";
         $employeeId = 5;
+        $recordId=121;
 
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId);
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
 
-        $this->assertEquals($records, 1);
-
-        $punchInTime = "2011-06-10 15:21:00";
-        $punchOutTime = "2011-06-10 15:50:00";
-        $employeeId = 5;
-
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId);
         $this->assertEquals($records, 0);
 
         $punchInTime = "2011-06-10 15:21:00";
         $punchOutTime = "2011-06-10 15:50:00";
         $employeeId = 5;
 
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId);
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
+        $this->assertEquals($records, 0);
+
+        $punchInTime = "2011-06-10 15:21:00";
+        $punchOutTime = "2011-06-10 15:50:00";
+        $employeeId = 5;
+
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
         $this->assertEquals($records, 0);
     }
 

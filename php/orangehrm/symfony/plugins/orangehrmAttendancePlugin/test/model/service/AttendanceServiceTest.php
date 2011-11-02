@@ -84,16 +84,17 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $punchOutTime = "2011-06-10 15:40:00";
         $employeeId = 5;
         $isValid = "0";
+        $recordId = 121;
 
         $attendanceDaoMock = $this->getMock('AttendanceDao', array('checkForPunchOutOverLappingRecords'));
         $attendanceDaoMock->expects($this->once())
                 ->method('checkForPunchOutOverLappingRecords')
-                ->with($punchInTime, $punchOutTime, $employeeId)
+                ->with($punchInTime, $punchOutTime, $employeeId, $recordId)
                 ->will($this->returnValue($isValid));
 
         $this->attendanceService->setAttendanceDao($attendanceDaoMock);
 
-        $this->assertEquals($isValid, $this->attendanceService->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId));
+        $this->assertEquals($isValid, $this->attendanceService->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId  ));
     }
 
     public function testCheckForPunchInOverLappingRecords() {
@@ -226,6 +227,5 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $timezone = $this->attendanceService->getLocalTimezone($offset);
         $this->assertEquals('Asia/Dhaka', $timezone);
     }
-
 
 }
