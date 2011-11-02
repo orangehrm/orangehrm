@@ -115,7 +115,7 @@ EOF
         $activityNameList = array();
 
         $projectService = new ProjectService();
-        $projectList = $projectService->getProjectList();
+        $projectList = $projectService->getActiveProjectList();
         $projectId = -1;
 
         foreach ($projectList as $project) {
