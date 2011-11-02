@@ -121,8 +121,8 @@ $form->printRequiredFieldsNotice(); ?></div>
     <div id="dltConfirmationMsg"></div>
     <input type="hidden" id="dltNodeId" value=""/>
     <div class="dialogButtons">
-        <input type="button" id="dialogYes" class="savebutton" value="<?php echo __('Yes'); ?>" />
-        <input type="button" id="dialogNo" class="savebutton" value="<?php echo __('No'); ?>" />
+        <input type="button" id="dialogYes" class="savebutton" value="<?php echo __('Ok'); ?>" />
+        <input type="button" id="dialogNo" class="savebutton" value="<?php echo __('Cancel'); ?>" />
     </div>
 </div>
 
@@ -134,7 +134,7 @@ $form->printRequiredFieldsNotice(); ?></div>
     var lang_editUnit = "<?php echo __("Edit Unit"); ?>";
     var lang_noDescriptionSpecified = "<?php echo __("No description specified"); ?>";
     var lang_confirmationPart1 = "<?php echo __("You are going to delete"); ?>";
-    var lang_confirmationPart2 = "<?php echo __("and all elements under it. This action cannot be undone. Are you sure you want to continue ?"); ?>";
+    var lang_confirmationPart2 = "<?php echo __("and all the sub units under it will be permanantly deleted"); ?>";
 
     $(document).ready(function() {
 
@@ -293,7 +293,7 @@ $form->printRequiredFieldsNotice(); ?></div>
         $('#dltConfirmationMsg').text("")
         nodeName = $('#treeLink_edit_' + nodeId).html();
         $('#dltNodeId').attr('value', nodeId)
-        $('#dltConfirmationMsg').append(lang_confirmationPart1+" "+nodeName+" "+lang_confirmationPart2)
+        $('#dltConfirmationMsg').append(nodeName+" "+lang_confirmationPart2)
         $("#dltDialog").dialog("open")
     }
 
