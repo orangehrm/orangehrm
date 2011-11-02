@@ -15,6 +15,33 @@ Department:
     description:
       type: string(400)
 
+Organization:
+  tableName: ohrm_organization_gen_info
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name: string(100)
+    tax_id:
+      name: tax_id as taxId
+      type: string(30)
+    registration_number:
+      name: registration_number as registraionNumber
+      type: string(30)
+    phone: string(30)
+    fax: string(30)
+    email: string(30)
+    country: string(30)
+    province: string(30)
+    city: string(30)
+    zip_code:
+      name: zip_code as zipCode
+      type: string(30)
+    street1: string(100)
+    street2: string(100)
+    note: string(255)
+    
 Customer:
   tableName: ohrm_customer
   columns:

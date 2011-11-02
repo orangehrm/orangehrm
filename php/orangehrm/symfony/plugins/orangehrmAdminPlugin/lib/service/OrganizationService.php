@@ -17,38 +17,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class addCustomerAction extends sfAction {
+class OrganizationService extends BaseService {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    private $organizationDao;
+    
+    public function __construct() {
+        $this->organizationDao = new OrganizationDao();
+    }
 
-	public function execute($request) {
+    public function getOrganizationDao() {
+        return $this->organizationDao;
+    }
 
-		$this->customerId = $request->getParameter('customerId');
-		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(),$values));
+    public function setOrganizationDao(OrganizationDao $organizationDao) {
+        $this->organizationDao = $organizationDao;
+    }
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-
-		if ($request->isMethod('post')) {
-
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-				$this->redirect('admin/viewCustomers');
-			}
-		}
-	}
+    public function getOrganizationGeneralInformation(){
+        return $this->getOrganizationDao()->getOrganizationGeneralInformation();
+    }
 
 }
 

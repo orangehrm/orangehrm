@@ -1,5 +1,6 @@
 <?php
 
+require_once 'PHPUnit/Framework.php';
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,38 +18,26 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class addCustomerAction extends sfAction {
+require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+class DepartmentDaoTest extends PHPUnit_Framework_TestCase {
 
-	public function execute($request) {
+    private $departmentDao;
+    protected $fixture;
 
-		$this->customerId = $request->getParameter('customerId');
-		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(),$values));
+    /**
+     * Set up method
+     */
+    protected function setUp() {
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
+        $this->departmentDao = new DepartmentDao();
+        //$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
+        //TestDataService::populate($this->fixture);
+    }
 
-		if ($request->isMethod('post')) {
-
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-				$this->redirect('admin/viewCustomers');
-			}
-		}
-	}
+    public function testSetOrganizationName(){
+        $this->assertEquals($this->departmentDao->setOrganizationName("OrangeHRM"), 1);
+    }
 
 }
 

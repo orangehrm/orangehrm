@@ -343,11 +343,11 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     
     $subs = array();
 
-    $sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
+    $sub = new MenuItem("companyinfo", "Organization", "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Gen, "index.php?uniqcode=GEN&menu_no_top=eim");
+    $subsubs[] = new MenuItem("companyinfo", "General Information", "./symfony/web/index.php/admin/viewOrganizationGeneralInformation");
     $subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Locations, "index.php?uniqcode=LOC&menu_no_top=eim");
-    $subsubs[] = new MenuItem("companyinfo", "Structure", "./symfony/web/index.php/admin/viewDepartmentTree");
+    $subsubs[] = new MenuItem("companyinfo", "Company Structure", "./symfony/web/index.php/admin/viewDepartmentTree");
     $subsubs[] = new MenuItem("companyproperty", $lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
 
     $sub->setSubMenuItems($subsubs);

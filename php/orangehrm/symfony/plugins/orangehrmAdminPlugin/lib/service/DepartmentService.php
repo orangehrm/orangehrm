@@ -21,54 +21,25 @@ class DepartmentService extends BaseService {
      * @return Department
      */
     public function readDepartment($id) {
-        try {
-            return $this->getDepartmentDao()->readDepartment($id);
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
+        return $this->getDepartmentDao()->readDepartment($id);
     }
 
-    /**
-     *
-     * @param Department $nstitution
-     * @return boolean
-     * @throws NUSAdminServiceException
-     */
     public function saveDepartment(Department $department) {
-        try {
-            return $this->getDepartmentDao()->saveDepartment($department);
-        } catch (Exception $e) {
-            throw new NUSAdminServiceException($e->getMessage());
-        }
+        return $this->getDepartmentDao()->saveDepartment($department);
     }
 
-    /**
-     *
-     * @param Department $parentDepartment
-     * @param Department $department
-     * @return boolean
-     * @throws  NUSAdminServiceException
-     */
+
     public function addDepartment(Department $parentDepartment, Department $department) {
-        try {
-            return $this->getDepartmentDao()->addDepartment($parentDepartment, $department);
-        } catch (Exception $e) {
-            throw new NUSAdminServiceException($e->getMessage());
-        }
+        return $this->getDepartmentDao()->addDepartment($parentDepartment, $department);
     }
 
-    /**
-     *
-     * @param Department $department
-     * @return boolean
-     * @throws NUSAdminServiceException
-     */
+
     public function deleteDepartment(Department $department) {
-        try {
-            return $this->getDepartmentDao()->deleteDepartment($department);
-        } catch (Exception $e) {
-            throw new NUSAdminServiceException($e->getMessage());
-        }
+        return $this->getDepartmentDao()->deleteDepartment($department);
+    }
+
+    public function setOrganizationName($name){
+        return $this->getDepartmentDao()->setOrganizationName($name);
     }
 
 }

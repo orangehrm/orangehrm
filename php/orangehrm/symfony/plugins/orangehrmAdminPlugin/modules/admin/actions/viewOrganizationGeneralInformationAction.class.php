@@ -16,39 +16,34 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-class addCustomerAction extends sfAction {
+class viewOrganizationGeneralInformationAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-	public function execute($request) {
+    public function execute($request) {
 
-		$this->customerId = $request->getParameter('customerId');
-		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(),$values));
+        $this->setForm(new OrganizationGeneralInformationForm());
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
 
-		if ($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-				$this->redirect('admin/viewCustomers');
-			}
-		}
-	}
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $result = $this->form->save();
+                $this->getUser()->setFlash('templateMessage', array('success', __('Organization Information Saved Successfully')));
+                $this->redirect('admin/viewOrganizationGeneralInformation');
+            }
+        }
+    }
 
 }
 

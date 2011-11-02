@@ -1230,6 +1230,24 @@ create table `ohrm_department` (
   primary key (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_organization_gen_info` (
+  `id` int(4) not null auto_increment,
+  `name` varchar(100) not null,
+  `tax_id` varchar(30) default null,
+  `registration_number` varchar(30) default null,
+  `phone` varchar(30) default null,
+  `fax` varchar(30) default null,
+  `email` varchar(30) default null,
+  `country` varchar(30) default null,
+  `province` varchar(30) default null,
+  `city` varchar(30) default null,
+  `zip_code` varchar(30) default null,
+  `street1` varchar(100) default null,
+  `street2` varchar(100) default null,
+  `note` varchar(255) default null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_available_group_field
        add constraint foreign key (group_field_id)
                              references ohrm_group_field(group_field_id);

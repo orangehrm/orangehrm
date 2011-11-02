@@ -81,4 +81,15 @@ class DepartmentDao extends BaseDao {
         }
     }
 
+    public function setOrganizationName($name){
+        try {
+        $q = Doctrine_Query:: create()->update('Department')
+                    ->set('name', '?', $name)
+                    ->where('id = 1');
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }

@@ -17,38 +17,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class addCustomerAction extends sfAction {
+class OrganizationDao extends BaseDao {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
-
-	public function execute($request) {
-
-		$this->customerId = $request->getParameter('customerId');
-		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(),$values));
-
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-
-		if ($request->isMethod('post')) {
-
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-				$this->redirect('admin/viewCustomers');
-			}
-		}
-	}
+    public function getOrganizationGeneralInformation() {
+        try {
+            return Doctrine :: getTable('Organization')->find(1);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
 }
 

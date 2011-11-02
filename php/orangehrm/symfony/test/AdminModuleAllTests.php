@@ -50,7 +50,8 @@ class PluginAllTests
         $suite = new PHPUnit_Framework_TestSuite('AdminModuleAllTest');
 
         /* Dao Test Cases */
-        //$suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmRecruitmentPlugin/test/model/dao/CandidateDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/dao/OrganizationDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/dao/DepartmentDaoTest.php');
       
 
         /* Service Test Cases */
