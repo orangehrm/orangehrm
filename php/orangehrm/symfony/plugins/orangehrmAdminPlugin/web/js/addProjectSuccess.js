@@ -24,6 +24,18 @@ $(document).ready(function() {
         $('#addProject_customerId').val(item.id);
     });
     
+    //project auto complete
+    $(".project").autocomplete(projects, {
+        formatItem: function(item) {
+            return item.name;
+        },
+        matchContains:true
+    }).result(function(event, item) {
+        $('#errorHolderCopy').text("");
+        var url = urlForGetActivity+item.id;
+        getActivityList(url);
+    });
+    
     $('#addActivity').hide();
         
     $('#btnCancel').click(function() {
@@ -75,11 +87,39 @@ $(document).ready(function() {
         position: 'middle'
     });
     
+    $("#copyActivity").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 500,
+        height: 'auto',
+        position: 'middle'
+    });
+    
     $("#dialogCancel").click(function(){
         $("#customerDialog").dialog("close");
     });
     
+    $("#btnCopy").click(function(){
+        $("#copyActivity").dialog("open");
+    });
+    
+    $("#btnCopyCancel").click(function(){
+        $("#copyActivity").dialog("close");
+        $('.activityDiv').remove();
+        $('#errorHolderCopy').text("");
+        $('.project').val("");
+    });
+    
+    $('#btnCopyDig').hide();
+    
     $('.formInputProjectAdmin').each(function(){
+        if($(this).parent().css('display') == 'block') {
+            if ($(this).val() == '' || $(this).val() == lang_typeHint) {
+                $(this).addClass("inputFormatHint").val(lang_typeHint);
+            }
+        }
+    });
+    $('.project').each(function(){
         if($(this).parent().css('display') == 'block') {
             if ($(this).val() == '' || $(this).val() == lang_typeHint) {
                 $(this).addClass("inputFormatHint").val(lang_typeHint);
@@ -105,6 +145,15 @@ $(document).ready(function() {
     });
    
     $('.formInputCustomer').one('focus', function() {
+        
+        if ($(this).hasClass("inputFormatHint")) {
+            $(this).val("");
+            $(this).removeClass("inputFormatHint");
+        }
+
+    });
+    
+    $('.project').click(function() {
         
         if ($(this).hasClass("inputFormatHint")) {
             $(this).val("");
@@ -144,8 +193,59 @@ $(document).ready(function() {
         $('#frmAddActivity').submit()
     });
     
+    $('#btnActCancel').click(function(){
+        $('#addActivity').hide();
+    });
+    
+    $('#btnCopyDig').click(function() {
+
+		var checked = $('#frmCopyAct input:checked').length;
+
+		if ( checked > 0 ) {
+			$('#frmCopyAct').submit();
+		} else {
+            $('#errorHolderCopy').text(lang_noActivitiesSelected);
+        }
+	});
+    
     $('#btnAdd').click(function(){
         $('#addActivity').show();
+        $('#addProjectActivity_activityId').val("");
+        $('#addProjectActivity_activityName').val("");
+    });
+    
+    $('#btnDelete').attr('disabled', 'disabled');
+
+        
+    $("#ohrmList_chkSelectAll").click(function() {
+        if($(":checkbox").length == 1) {
+            $('#btnDelete').attr('disabled','disabled');
+        }
+        else {
+            if($("#ohrmList_chkSelectAll").is(':checked')) {
+                $('#btnDelete').removeAttr('disabled');
+            } else {
+                $('#btnDelete').attr('disabled','disabled');
+            }
+        }
+    });
+    
+    $(':checkbox[name*="chkSelectRow[]"]').click(function() {
+        if($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
+            $('#btnDelete').removeAttr('disabled');
+        } else {
+            $('#btnDelete').attr('disabled','disabled');
+        }
+    });
+    
+    $('a[href="javascript:"]').click(function(){
+        var name = $(this).closest("a").text();
+        var row = $(this).closest("tr");
+        var activityId = row.find('input').val();
+        $('#addProjectActivity_activityId').val(activityId);
+        $('#addProjectActivity_activityName').val(name);
+        $('#addActivity').show();
+
     });
     
     $("#frmAddActivity").validate({
@@ -289,6 +389,32 @@ function validateProjectAdmins(){
     return flag;
 }
 
+function getActivityList(url){
+    
+    $.getJSON(url, function(data) {
+        $('.activityDiv').remove();
+        if(data == "") {
+            $('#errorHolderCopy').text(lang_noActivities);
+        } else {
+            $('#btnCopyDig').show();
+            buildActivityList(data);
+        }
+    })
+}
+
+function buildActivityList(data){
+    
+    var i;
+    for (i=0; i<data.length; i++){
+
+       var newActivity = $(document.createElement('div')).attr("class", 'activityDiv');    
+
+        newActivity.after().html('<input type="checkbox" checked="yes" name="activityNames[]" value="'+data[i].name+'" class="check"/>' +
+            '<span '+'class="activityName"'+'">'+data[i].name+'</span>'+'<br class="clear" />');
+
+        newActivity.appendTo("#copyActivityList");
+    }
+}
 
 function isValidForm(){
     

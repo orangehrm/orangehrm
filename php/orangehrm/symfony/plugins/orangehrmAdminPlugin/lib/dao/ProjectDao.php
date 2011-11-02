@@ -68,6 +68,40 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	public function getProjectActivityById($activityId) {
+
+		try {
+			return Doctrine :: getTable('ProjectActivity')->find($activityId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+	
+	public function getAllActiveProjects() {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+	
+	public function getActivityListByProjectId($projectId) {
+		
+		try {
+			$q = Doctrine_Query :: create()
+				->from('ProjectActivity')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->andWhere('project_id = ?', $projectId);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
 	/**
 	 * Retrieve Active Projects

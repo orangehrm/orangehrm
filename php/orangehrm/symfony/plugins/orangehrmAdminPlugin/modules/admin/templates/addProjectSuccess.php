@@ -91,6 +91,8 @@
 	    <div class="actionbuttons">
                     <input type="button" class="savebutton" name="btnActSave" id="btnActSave"
                            value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    <input type="button" class="cancelbutton" name="btnActCancel" id="btnActCancel"
+                           value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 
 	    </div>
 			
@@ -130,11 +132,36 @@
 </div>
 </div>
 
+<div id="copyActivity" title="<?php echo __('Copy Activity')?>"  style="display:none;">
+	<br class="clear"/>
+	<label for="addProjectActivity_activityName"><? echo __("Project Name"); ?> <span class="required">*</span></label>            
+	<input type="text" id="projectName" maxlength="52" class="project" name="projectName">
+	<div id="errorHolderCopy"></div>
+	<br class="clear">
+	<br class="clear">
+	<form name="frmCopyAct" id="frmCopyAct" method="post" action="<?php echo url_for('admin/copyActivity?projectId='.$projectId);?>">
+	<?php echo $copyActForm['_csrf_token']; ?>
+	<div id="copyActivityList">
+		
+	</div>
+	<br class="clear">
+	<div class="actionbuttons">
+                    <input type="button" class="savebutton" name="btnCopyDig" id="btnCopyDig"
+                           value="<?php echo __("Copy"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    <input type="button" class="cancelbutton" name="btnCopyCancel" id="btnCopyCancel"
+                           value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                
+	</div>
+	</form>
+</div>
+
 <script type="text/javascript">
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeeList = eval(employees);
     var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
     var customerList = eval(customers);
+    var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()) ?> ;
+    var projectList = eval(projects);
     var numberOfProjectAdmins = <?php echo $form->numberOfProjectAdmins; ?>;
     var lang_typeHint = '<?php echo __("Type for hints")."..."; ?>';
     var lang_nameRequired = '<?php echo __("Customer name is required"); ?>';
@@ -146,8 +173,11 @@
     var lang_exceed100Chars = '<?php echo __("Cannot exceed 100 charactors"); ?>';
     var custUrl = '<?php echo url_for("admin/saveCustomerJson"); ?>';
     var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
+    var urlForGetActivity = '<?php echo url_for("admin/getActivityListJason?projectId="); ?>';
     var cancelBtnUrl = '<?php echo url_for("admin/viewProjects"); ?>';
     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
     var lang_identical_rows = "<?php echo __("Cannot assign same employee twice"); ?>";
+    var lang_noActivities = "<?php echo __("No assigned activities"); ?>";
+    var lang_noActivitiesSelected = "<?php echo __("No activities selected"); ?>";
     var projectId = '<?php echo $projectId; ?>';
 </script>

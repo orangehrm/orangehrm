@@ -71,6 +71,18 @@ class ProjectService extends BaseService {
 	public function getProjectActivity($projectId) {
 		return $this->projectDao->getProjectActivity($projectId);
 	}
+	
+	public function getProjectActivityById($activityId) {
+		return $this->projectDao->getProjectActivityById($activityId);
+	}
+	
+	public function getAllActiveProjects() {
+		return $this->projectDao->getAllActiveProjects();
+	}
+	
+	public function getActivityListByProjectId($projectId) {
+		return $this->projectDao->getActivityListByProjectId($projectId);
+	}
 
 	/**
 	 * Set Project Data Access Object

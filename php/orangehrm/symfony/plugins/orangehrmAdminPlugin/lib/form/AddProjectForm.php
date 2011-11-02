@@ -210,6 +210,23 @@ class AddProjectForm extends BaseForm {
 
 		return $jsonString;
 	}
+	
+	public function getProjectListAsJson() {
+
+		$jsonArray = array();
+
+		$projectList = $this->getProjectService()->getAllActiveProjects();
+
+
+		foreach ($projectList as $project) {
+
+			$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
+		}
+
+		$jsonString = json_encode($jsonArray);
+
+		return $jsonString;
+	}
 
 }
 

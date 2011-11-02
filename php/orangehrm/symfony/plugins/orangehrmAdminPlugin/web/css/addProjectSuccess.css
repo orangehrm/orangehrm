@@ -132,3 +132,17 @@ div.actionbuttons{
 #activityList {
     width: 730px;
 }
+#messagebar{
+    width: 640px;
+}
+.project{
+    width: 250px;
+}
+#errorHolderCopy {
+    font-size: 11px;
+    color: red;
+    margin-left: 140px;
+}
+.check{
+    margin-right: 10px;
+}

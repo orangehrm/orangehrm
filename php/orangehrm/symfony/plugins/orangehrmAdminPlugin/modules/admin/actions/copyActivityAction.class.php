@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+class copyActivityAction extends sfAction {
 
-class AddProjectActivityForm extends BaseForm {
-	
 	private $projectService;
 
 	public function getProjectService() {
@@ -30,43 +28,42 @@ class AddProjectActivityForm extends BaseForm {
 		}
 		return $this->projectService;
 	}
-	
-	public function configure() {
 
-		$this->setWidgets(array(
-		    'projectId' => new sfWidgetFormInputHidden(),
-		    'activityId' => new sfWidgetFormInputHidden(),
-		    'activityName' => new sfWidgetFormInputText(),
-		    
-		));
-
-		$this->setValidators(array(
-		    'projectId' => new sfValidatorNumber(array('required' => true)),
-		    'activityId' => new sfValidatorNumber(array('required' => false)),
-		    'activityName' => new sfValidatorString(array('required' => true, 'max_length' => 102)),
-		    
-		));
-
-		$this->widgetSchema->setNameFormat('addProjectActivity[%s]');
-
-	}
-	
-	public function save(){
-		
-		$projectId = $this->getValue('projectId');
-		$activityId = $this->getValue('activityId');
-		
-		if(!empty ($activityId)){
-			$activity = $this->getProjectService()->getProjectActivityById($activityId);
-		} else {
-			$activity = new ProjectActivity();
+	/**
+	 * @param sfForm $form
+	 * @return
+	 */
+	public function setForm(sfForm $form) {
+		if (is_null($this->form)) {
+			$this->form = $form;
 		}
-		
-		$activity->setProjectId($projectId);
-		$activity->setName($this->getValue('activityName'));
-		$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
-		$activity->save();
-		return $projectId;
+	}
+
+	/**
+	 *
+	 * @param <type> $request
+	 */
+	public function execute($request) {
+
+		$this->setForm(new CopyActivityForm());
+		$projectId = $request->getParameter('projectId');
+		$this->form->bind($request->getParameter($this->form->getName()));
+
+		if ($this->form->isValid()) {
+			$activityNameList = $request->getParameter('activityNames', array());
+			$activities = new Doctrine_Collection('ProjectActivity');
+			foreach ($activityNameList as $activityName){
+				$activity = new ProjectActivity();
+				$activity->setProjectId($projectId);
+				$activity->setName($activityName);
+				$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
+				$activities->add($activity);	
+			}
+			$activities->save();
+			
+			$this->getUser()->setFlash('templateMessage', array('success', __('Activity Copy Successfully')));
+			$this->redirect('admin/addProject?projectId=' . $projectId);
+		}
 	}
 
 }

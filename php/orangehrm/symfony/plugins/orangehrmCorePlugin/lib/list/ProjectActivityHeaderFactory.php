@@ -8,9 +8,10 @@ class ProjectActivityHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header1->populateFromArray(array(
 		    'name' => 'Activity Name',
+		    'width' => '95%',
 		    'elementType' => 'link',
 		     'elementProperty' => array(
-			'labelGetter' => 'getActivityId',
+			'labelGetter' => 'getName',
 			'urlPattern' => 'javascript:'),
 		));
 
