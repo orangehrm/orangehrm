@@ -58,7 +58,11 @@ class CustomFieldsService extends BaseService {
     */
    public function saveCustomField(CustomFields $customFields) {
       try {
-         return $this->customFieldsDao->saveCustomField($customFields);
+          $reportGeneratorService = new ReportGeneratorService();
+          $customFields = $this->customFieldsDao->saveCustomField($customFields);
+          $reportGeneratorService->saveCustomDisplayField($customFields, "3");
+          return $customFields;
+//         return $this->customFieldsDao->saveCustomField($customFields);
       } catch(DataDuplicationException $e) {
          //this is for backward compatibility, need to identify the references and update them
          throw new DuplicateNameException($e->getMessage());
@@ -75,6 +79,8 @@ class CustomFieldsService extends BaseService {
     */
    public function deleteCustomField($customFieldList) {
       try {
+          $reportGeneratorService = new ReportGeneratorService();
+          $reportGeneratorService->deleteCustomDisplayFieldList($customFieldList);
          return $this->customFieldsDao->deleteCustomField($customFieldList);
       } catch(Exception $e) {
          throw new AdminServiceException($e->getMessage());
