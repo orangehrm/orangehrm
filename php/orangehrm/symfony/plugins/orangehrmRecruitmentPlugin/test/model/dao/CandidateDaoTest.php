@@ -85,17 +85,21 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setJobTitleCode('JOB002');
         $searchParam->setKeywords("java,oracle");
-	$searchParam->setVacancyId(1);
-	$searchParam->setHiringManagerId(2);
-	$searchParam->setCandidateName('Yasitha Pandi');
-	$searchParam->setStatus("REJECTED");
-	$searchParam->setModeOfApplication(1);
-	$searchParam->setIsAdmin(false);
-    $searchParam->setAllowedCandidateList(array(1,2,3,4,5));
-    $searchParam->setAllowedVacancyList(array(1,2,3));
-    $searchParam->setEmpNumber(2);
+        $searchParam->setVacancyId(1);
+        $searchParam->setHiringManagerId(2);
+        $searchParam->setCandidateName('Yasitha Pandi');
+        $searchParam->setStatus("REJECTED");
+        $searchParam->setModeOfApplication(1);
+        $searchParam->setIsAdmin(false);
+        $searchParam->setAllowedCandidateList(array(1, 2, 3, 4, 5));
+        $searchParam->setAllowedVacancyList(array(1, 2, 3));
+        $searchParam->setEmpNumber(2);
+        $searchParam->setAdditionalParams(array());
 
-        $count = $this->candidateDao->getCandidateRecordsCount($searchParam);
+        $candidateService = new TestableCandidateService();
+        $countQuery = $candidateService->buildSearchCountQueryForTest($searchParam);
+
+        $count = $this->candidateDao->getCandidateRecordsCount($countQuery);
         $this->assertEquals($count, 0);
     }
 
@@ -136,8 +140,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setHiringManagerId(1);
         $searchParam->setIsAdmin(false);
-        $searchParam->setAllowedCandidateList(array(1,2,3,4,5));
-        $searchParam->setAllowedVacancyList(array(1,2,3));
+        $searchParam->setAllowedCandidateList(array(1, 2, 3, 4, 5));
+        $searchParam->setAllowedVacancyList(array(1, 2, 3));
         $searchParam->setEmpNumber(2);
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
@@ -180,27 +184,27 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertEquals(2, count($candidateVacancyList));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
-        
+
         $candidateId1 = $candidateVacancyList[0];
         $candidateId2 = $candidateVacancyList[1];
-        
+
         $this->assertTrue($candidateId1 == 8 || $candidateId2 = 8);
         $this->assertTrue($candidateId1 == 9 || $candidateId2 = 9);
-        
+
         // With middle name
         $searchParam->setCandidateName('Kamal S Karunarathne');
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertEquals(2, count($candidateVacancyList));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
-        
+
         $candidateId1 = $candidateVacancyList[0];
         $candidateId2 = $candidateVacancyList[1];
-        
+
         $this->assertTrue($candidateId1 == 6 || $candidateId2 = 6);
-        $this->assertTrue($candidateId1 == 7 || $candidateId2 = 7);        
+        $this->assertTrue($candidateId1 == 7 || $candidateId2 = 7);
     }
-    
+
     /**
      * Testing  getCandidateList when Candidate name and keywords are provided
      */
@@ -317,7 +321,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $searchParam->setVacancyId(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateName('Chanaka Bandara');
-        
+
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
@@ -626,7 +630,6 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(false, $result);
     }
 
-
     public function testSaveJobInterview() {
 
         $newJobInterview = new JobInterview();
@@ -678,11 +681,11 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($candidatesHistoryForAdmin), 15);
     }
 
-    /*public function testGetLastPerformedActionByCandidateVacancyId() {
-        $candidateVacancyId = 1;
-        $candidatesHistory = $this->candidateDao->getLastPerformedActionByCandidateVacancyId($candidateVacancyId);
-        $this->assertEquals(count($candidatesHistory), 1);
-    }*/
+    /* public function testGetLastPerformedActionByCandidateVacancyId() {
+      $candidateVacancyId = 1;
+      $candidatesHistory = $this->candidateDao->getLastPerformedActionByCandidateVacancyId($candidateVacancyId);
+      $this->assertEquals(count($candidatesHistory), 1);
+      } */
 
     public function testIsHiringManager() {
         $candidateVacancyId = 1;
@@ -711,13 +714,22 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->candidateDao->isInterviewer($candidateVacancyId, $empNumber);
         $this->assertFalse($result);
     }
-    
+
     public function testGetCandidateVacancyByCandidateIdAndVacancyId() {
         $candidateId = 1;
         $vacancyId = 1;
         $result = $this->candidateDao->getCandidateVacancyByCandidateIdAndVacancyId($candidateId, $vacancyId);
         $this->assertTrue($result instanceof JobCandidateVacancy);
-        $this->assertEquals($result->getStatus(),'SHORTLISTED');
+        $this->assertEquals($result->getStatus(), 'SHORTLISTED');
     }
+
+}
+
+class TestableCandidateService extends CandidateService {
+
+    public function buildSearchCountQueryForTest($parameterObject) {
+        return parent::buildSearchCountQuery($parameterObject);
+    }
+
 }
 
