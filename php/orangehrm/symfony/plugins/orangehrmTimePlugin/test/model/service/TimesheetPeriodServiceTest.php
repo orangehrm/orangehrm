@@ -62,8 +62,9 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
 
 		$this->timesheetPeriodService->setTimesheetPeriodDao($timesheetPeriodDaoMock);
 		$array = $this->timesheetPeriodService->getDefinedTimesheetPeriod($currentDate);
-		$this->assertEquals($array[0],'2011-06-27');
-		$this->assertEquals($array[4],'2011-07-01');
+    
+		$this->assertEquals($array[0],'2011-06-27 00:00');
+		$this->assertEquals($array[4],'2011-07-01 00:00');
 
 
 	}

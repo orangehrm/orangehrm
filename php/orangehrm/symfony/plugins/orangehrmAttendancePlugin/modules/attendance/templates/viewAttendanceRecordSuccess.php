@@ -1,4 +1,4 @@
-<?php echo javascript_include_tag('viewAttendanceRecordSuccess'); ?>
+<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/viewAttendanceRecordSuccess'); ?>
 
 
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>

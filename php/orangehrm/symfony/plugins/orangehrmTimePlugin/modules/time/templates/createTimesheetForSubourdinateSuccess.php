@@ -22,7 +22,7 @@
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/createTimesheetForSubourdinateSuccess'); ?>
-<?php echo javascript_include_tag('createTimesheetForSubourdinateSuccess'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/createTimesheetForSubourdinateSuccess'); ?>
 
 <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
 

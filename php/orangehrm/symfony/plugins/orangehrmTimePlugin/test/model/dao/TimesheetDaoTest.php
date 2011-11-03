@@ -504,6 +504,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetTimesheetTimeFormat() {
 
         $format = $this->timesheetDao->getTimesheetTimeFormat();
+  
         $this->assertEquals('1', $format);
     }
 

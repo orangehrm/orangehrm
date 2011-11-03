@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php echo javascript_include_tag('configure'); ?>
+<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/configure'); ?>
 <?php echo stylesheet_tag('../orangehrmAttendancePlugin/css/configureSuccess'); ?>
 
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 470px;">

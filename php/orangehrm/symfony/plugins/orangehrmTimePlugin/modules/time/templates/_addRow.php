@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php echo javascript_include_tag('editTimesheet'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/editTimesheet'); ?>
 <table  class = "data-table" cellpadding ="0" border="0" cellspacing="0">
 	<tr>
 	    <td><?php echo $form['initialRows'][$num]['toDelete'] ?></td>

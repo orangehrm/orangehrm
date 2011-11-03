@@ -1,5 +1,5 @@
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/viewEmployeeTimesheetSuccess'); ?>
-<?php echo javascript_include_tag('viewEmployeeTimesheet'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/viewEmployeeTimesheet'); ?>
 
 <?php
 use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');

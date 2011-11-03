@@ -22,8 +22,8 @@ $width = 450 + $noOfColumns * 75;
 ?>
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/editTimesheetSuccess'); ?>
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/time'); ?>
-<?php echo javascript_include_tag('editTimesheet'); ?>
-<?php echo javascript_include_tag('editTimesheetPartial'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/editTimesheet'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/editTimesheetPartial'); ?>
 <?php
 use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
 use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');

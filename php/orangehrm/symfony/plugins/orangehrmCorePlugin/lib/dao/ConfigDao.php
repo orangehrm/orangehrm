@@ -67,7 +67,7 @@ class ConfigDao extends BaseDao {
                  ->from('Config c')
                  ->where('c.key = ?', $key);
             $value = $q->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
-
+      
             return $value;
         } catch (Exception $e) {
             $this->getLogger()->error("Exception in getValue:" . $e);

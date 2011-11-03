@@ -1,6 +1,6 @@
 $(document).ready(function()
     {
-        
+       
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
         
         $("#commentDialog").dialog({

@@ -8,7 +8,7 @@ $(document).ready(function(){
     
     var rDate = trim($(".date").val());
     if (rDate == '') {
-        $(".date").val(dateDisplayFormat);
+        $(".date").val(datepickerDateFormat);
     }
 
     //Bind date picker
@@ -19,7 +19,7 @@ $(document).ready(function(){
 
             $(".date").trigger('change');
         },
-        dateFormat:jsDateFormat
+        dateFormat:datepickerDateFormat
     });
 
     $('#DateBtn').click(function(){
@@ -35,13 +35,21 @@ $(document).ready(function(){
         $('#validationMsg').html("");
         var startdate=$(".date").val();
    
-        if(startdate.isValidDate()){
+        if(validateDate(startdate, datepickerDateFormat)){
          
             var endDate= calculateEndDate(Date_toYMD()); 
-        
-            startDateArray=startdate.split('-');
+       
             endDateArray=endDate.split('-');
-            var startDate = new Date(startDateArray[0],startDateArray[1]-1,startDateArray[2]);
+             try{
+            var parsedDate = $.datepicker.parseDate(datepickerDateFormat, startdate);
+
+            var startdate1 =  $.datepicker.formatDate('yy-mm-dd', parsedDate);
+            }
+            catch(error){
+
+            }
+            var startDateArray=startdate1.split("-");
+            var startDate = new Date(startDateArray[0], startDateArray[1]-1, startDateArray[2]);
             var newEndDate= new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]);
 
            
@@ -53,7 +61,7 @@ $(document).ready(function(){
             }else{
              
         
-                url=createTimesheet+"?startDate="+startdate+"&employeeId="+employeeId
+                url=createTimesheet+"?startDate="+startdate1+"&employeeId="+employeeId
                 $.getJSON(url, function(data) {
                 
                     if(data[0]==1){
@@ -67,23 +75,15 @@ $(document).ready(function(){
                     if(data[0]==2){
                         startDate=data[1].split(' ');
                         $('form#createTimesheetForm').attr({
-                            
-                            //action:linkForViewTimesheet+"?state=SUBMITTED"+"&date="+date
                             action:linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId
                         });
                         $('form#createTimesheetForm').submit();
                     }
         
         
-                }) 
-            //            }
-            //            else{
-            //                $('#validationMsg').attr('class', "messageBalloon_failure");
-            //                $('#validationMsg').html("Invalid Start date");
-            //            }
+                })
+        
                 
-
-
             }
         }
         else{

@@ -27,7 +27,7 @@ $noOfColumns = sizeof($sf_data->getRaw('rowDates'));
 $width = 350 + $noOfColumns * 75;
 ?>
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/viewTimesheetSuccess'); ?>
-<?php echo javascript_include_tag('viewTimesheet'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/viewTimesheet'); ?>
 <?php
 use_stylesheet('../../../themes/orange/css/style.css');
 use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');

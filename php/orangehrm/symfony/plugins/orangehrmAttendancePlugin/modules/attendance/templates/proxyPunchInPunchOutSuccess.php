@@ -1,6 +1,6 @@
 
 <?php echo stylesheet_tag('../orangehrmAttendancePlugin/css/proxyPunchInOutSuccess'); ?>
-<?php echo javascript_include_tag('proxyPunchInPunchOutSuccess'); ?>
+<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/proxyPunchInPunchOutSuccess'); ?>
 
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */ ?>
 <?php echo stylesheet_tag('../orangehrmTimePlugin/css/defineTimesheetPeriodSuccess'); ?>
-<?php echo javascript_include_tag('defineTimesheetPeriod'); ?>
+<?php echo javascript_include_tag('../orangehrmTimePlugin/js/defineTimesheetPeriod'); ?>
 
 <div id="messagebar" style="margin-left: 16px;width: 450px;" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
