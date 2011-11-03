@@ -122,7 +122,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getEmployee($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }
     }
     
@@ -169,7 +169,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->saveEmployeePicture($pic);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         } 
     }
     
@@ -207,7 +207,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->readEmployeePicture($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }        
     }    
 
@@ -240,7 +240,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getPicture($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -274,7 +274,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deletePhoto($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }        
     }
     
@@ -316,7 +316,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->savePersonalDetails($employee, $isEss);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -359,7 +359,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->saveContactDetails($employee);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -393,7 +393,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteEmergencyContacts($empNumber, $contactsToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
 
@@ -427,7 +427,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteImmigration($empNumber, $immigrationToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
      
@@ -476,7 +476,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getDependents($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -510,7 +510,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteDependents($empNumber, $entriesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -544,7 +544,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteChildren($empNumber, $entriesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -577,7 +577,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->isSupervisor($empNumber);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }               
     }
     
@@ -963,7 +963,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getAttachments($empNumber, $screen);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }  
         
     } 
@@ -998,7 +998,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }         
     }
     
@@ -1041,7 +1041,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }  
         
     }
@@ -1083,7 +1083,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getEmployeeList($sortField, $orderBy);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }
     
@@ -1122,7 +1122,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getSupervisorList();
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }
     
@@ -1163,7 +1163,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->searchEmployee($field, $value);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }    
     
@@ -1194,7 +1194,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         try {
             $result = $this->employeeService->getEmployeeCount();
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }    
     
@@ -1234,7 +1234,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }
     
@@ -1273,7 +1273,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getEmployeeListAsJson($workShift);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }         
     }
 
@@ -1313,7 +1313,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }
     
@@ -1371,7 +1371,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->filterEmployeeListBySubUnit(NULL, $subUnitId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }           
     }
     
@@ -1407,7 +1407,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteEmployee($employeesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }
         
     }
@@ -1441,7 +1441,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->isEmployeeIdInUse($employeeId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }
         
     }
@@ -1478,7 +1478,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->checkForEmployeeWithSameName($first, $middle, $last);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertInstanceOf('PIMServiceException', $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }
         
     }
