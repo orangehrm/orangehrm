@@ -284,7 +284,7 @@ $form->printRequiredFieldsNotice(); ?></div>
         _clearMessage();
         nodeName = $('#treeLink_edit_' + nodeId).html();
         $('#lblParentNotice').remove();
-        $('<label id="lblParentNotice">'+lang_addNote +'<span class="boldText">' + nodeName + '</span></label>').insertAfter($('#txtDescription').next('br'));
+        $('<label id="lblParentNotice">'+lang_addNote +' <span class="boldText">' + nodeName + '</span></label>').insertAfter($('#txtDescription').next('br'));
 
         $('#hdnParent').val(nodeId);
         showForm();
