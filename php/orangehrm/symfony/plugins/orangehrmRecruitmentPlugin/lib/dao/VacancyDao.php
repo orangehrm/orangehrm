@@ -32,7 +32,7 @@ class VacancyDao extends BaseDao {
     public function getHiringManagersList($jobTitle, $vacancyId, $allowedVacancyList=null) {
         try {
             $q = Doctrine_Query::create()
-                            ->select('jv.hiringManagerId, e.firstName')
+                            ->select('jv.hiringManagerId, e.empNumber, e.firstName, e.middleName, e.lastName')
                             ->from('JobVacancy jv')
                             ->leftJoin('jv.Employee e');
             if ($allowedVacancyList != null) {
