@@ -85,7 +85,7 @@
             <?php echo $activityForm->renderHiddenFields(); ?>
 	    <br class="clear"/>
 	    <?php echo $activityForm['activityName']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
-            <?php echo $activityForm['activityName']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $activityForm['activityName']->render(array("class" => "formInput", "maxlength" => 102)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    <div class="actionbuttons">

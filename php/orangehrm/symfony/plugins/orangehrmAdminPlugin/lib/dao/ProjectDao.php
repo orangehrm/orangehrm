@@ -68,7 +68,7 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
+
 	public function getProjectActivityById($activityId) {
 
 		try {
@@ -77,7 +77,7 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
+
 	public function getAllActiveProjects() {
 
 		try {
@@ -89,9 +89,9 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
+
 	public function getActivityListByProjectId($projectId) {
-		
+
 		try {
 			$q = Doctrine_Query :: create()
 				->from('ProjectActivity')
@@ -260,6 +260,24 @@ class ProjectDao extends BaseDao {
 				return true;
 			}
 			return false;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	/**
+	 * Retrieve Project by Id
+	 * @param int $id
+	 * @returns Project
+	 * @throws DaoException
+	 */
+	public function readProject($id) {
+		try {
+			$q = Doctrine_Query::create()
+				->from('Project')
+				->where("project_id = ?", $id);
+
+			return $q->fetchOne();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}

@@ -116,6 +116,98 @@
                 <source>Customer Updated Successfully</source>
                 <target>FR_Customer Updated Successfully</target>
             </trans-unit>            
+            <trans-unit id="29">
+                <source>Customer Name</source>
+                <target>FR_Customer Name</target>
+            </trans-unit>            
+            <trans-unit id="30">
+                <source>Project Admins</source>
+                <target>FR_Project Admins</target>
+            </trans-unit>            
+            <trans-unit id="31">
+                <source>Project</source>
+                <target>FR_Project</target>
+            </trans-unit>            
+            <trans-unit id="32">
+                <source>Selected Project(s) Deleted Successfully</source>
+                <target>FR_Selected Project(s) Deleted Successfully</target>
+            </trans-unit>            
+            <trans-unit id="33">
+                <source>Project Admin</source>
+                <target>FR_Project Admin</target>
+            </trans-unit>            
+            <trans-unit id="34">
+                <source>Add Customer</source>
+                <target>FR_Add Customer</target>
+            </trans-unit>            
+            <trans-unit id="35">
+                <source>Add Another</source>
+                <target>FR_Add Another</target>
+            </trans-unit>            
+            <trans-unit id="36">
+                <source>Enter a valid customer name</source>
+                <target>FR_Enter a valid customer name</target>
+            </trans-unit>            
+            <trans-unit id="37">
+                <source>Project name is required</source>
+                <target>FR_Project name is required</target>
+            </trans-unit>            
+            <trans-unit id="38">
+                <source>Enter a valid employee name</source>
+                <target>FR_Enter a valid employee name</target>
+            </trans-unit>            
+            <trans-unit id="39">
+                <source>Cannot exceed 50 charactors</source>
+                <target>FR_Cannot exceed 50 charactors</target>
+            </trans-unit>            
+            <trans-unit id="40">
+                <source>Project Added Successfully</source>
+                <target>FR_Project Added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="41">
+                <source>Project Name</source>
+                <target>FR_Project Name</target>
+            </trans-unit>            
+            <trans-unit id="42">
+                <source>Copy Activity</source>
+                <target>FR_Copy Activity</target>
+            </trans-unit>            
+            <trans-unit id="43">
+                <source>Copy</source>
+                <target>FR_Copy</target>
+            </trans-unit>            
+            <trans-unit id="44">
+                <source>Copy From</source>
+                <target>FR_Copy From</target>
+            </trans-unit>            
+            <trans-unit id="45">
+                <source>Activity name is required</source>
+                <target>FR_Activity name is required</target>
+            </trans-unit>            
+            <trans-unit id="46">
+                <source>Cannot exceed 100 charactors</source>
+                <target>FR_Cannot exceed 100 charactors</target>
+            </trans-unit>            
+            <trans-unit id="47">
+                <source>Add Project Activity</source>
+                <target>FR_Add Project Activity</target>
+            </trans-unit>            
+            <trans-unit id="48">
+                <source>Activity Name</source>
+                <target>FR_Activity Name</target>
+            </trans-unit>            
+            <trans-unit id="49">
+                <source>No assigned activities</source>
+                <target>FR_No assigned activities</target>
+            </trans-unit>            
+            <trans-unit id="50">
+                <source>No activities selected</source>
+                <target>FR_No activities selected</target>
+            </trans-unit>            
+            <trans-unit id="51">
+                <source>Activity Copy Successfully</source>
+                <target>FR_Activity Copy Successfully</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

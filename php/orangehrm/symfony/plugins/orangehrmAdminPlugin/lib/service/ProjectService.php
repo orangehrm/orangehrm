@@ -106,6 +106,10 @@ class ProjectService extends BaseService {
 
 		return $projectName;
 	}
+	
+	public function readProject($projectId){
+		return $this->projectDao->readProject($projectId);
+	}
 
 	/**
 	 * When ProjectAdmin[] is given, this method extracts project ids and give it as an array.
