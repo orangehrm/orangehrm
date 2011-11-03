@@ -40,6 +40,10 @@
         <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
         <br class="clear"/>
 
+        <label><?php echo __("Number of Employees")?></label>
+        <div id="numOfEmployees"><?php echo $employeeCount;?></div>
+        <br/>
+
         <?php echo $form['taxId']->renderLabel(__('Tax ID')); ?>
         <?php echo $form['taxId']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
         <br class="clear"/>

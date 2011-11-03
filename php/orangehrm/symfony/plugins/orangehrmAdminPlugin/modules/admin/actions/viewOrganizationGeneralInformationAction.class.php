@@ -29,6 +29,8 @@ class viewOrganizationGeneralInformationAction extends sfAction {
     public function execute($request) {
 
         $this->setForm(new OrganizationGeneralInformationForm());
+        $employeeService = new EmployeeService();
+        $this->employeeCount = $employeeService->getEmployeeCount();
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

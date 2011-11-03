@@ -332,6 +332,10 @@
                 <source>Description is not specified</source>
                 <target>FR_Description is not specified</target>
             </trans-unit>
+            <trans-unit id="83">
+                <source>Number of Employees</source>
+                <target>FR_Number of Employees</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
