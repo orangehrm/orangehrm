@@ -62,8 +62,8 @@ class orangehrmPostExecutionFilter extends sfFilter {
                     $this->peformActionOperation($resultUsageOption, $returnValue);
                 }
 
-                if (isset($messages[$serviceInstance::getState()])) {
-                    MessageRegistry::instance()->addMessage($messages[$serviceInstance::getState()], $module, $action);
+                if (isset($messages[$serviceInstance->getState()])) {
+                    MessageRegistry::instance()->addMessage($messages[$serviceInstance->getState()], $module, $action);
                 }
             }
         }
