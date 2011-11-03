@@ -13,7 +13,7 @@
 <div id="addCustomer">
             <div class="outerbox">
 
-                <div class="mainHeading"><h2 id="addCustomerHeading"><?php echo __("Customer"); ?></h2></div>
+                <div class="mainHeading"><h2 id="addCustomerHeading"><?php echo __("Add Customer"); ?></h2></div>
                 <form name="frmAddCustomer" id="frmAddCustomer" method="post" action="<?php echo url_for('admin/addCustomer'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
@@ -48,6 +48,7 @@
 	var lang_customerNameRequired = "<?php echo __("Customer name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_exceed255Charactors = "<?php echo __("Cannot exceed 255 charactors"); ?>";
+	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";
 	var customerId = '<?php echo $customerId;?>';
 	var cancelBtnUrl = '<?php echo url_for('admin/viewCustomers'); ?>';
 </script>

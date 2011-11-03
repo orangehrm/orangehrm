@@ -67,19 +67,19 @@ class ProjectService extends BaseService {
 	public function getProjectById($projectId) {
 		return $this->projectDao->getProjectById($projectId);
 	}
-	
+
 	public function getProjectActivity($projectId) {
 		return $this->projectDao->getProjectActivity($projectId);
 	}
-	
+
 	public function getProjectActivityById($activityId) {
 		return $this->projectDao->getProjectActivityById($activityId);
 	}
-	
+
 	public function getAllActiveProjects() {
 		return $this->projectDao->getAllActiveProjects();
 	}
-	
+
 	public function getActivityListByProjectId($projectId) {
 		return $this->projectDao->getActivityListByProjectId($projectId);
 	}
@@ -106,8 +106,8 @@ class ProjectService extends BaseService {
 
 		return $projectName;
 	}
-	
-	public function readProject($projectId){
+
+	public function readProject($projectId) {
 		return $this->projectDao->readProject($projectId);
 	}
 
@@ -144,6 +144,21 @@ class ProjectService extends BaseService {
 		$projectList = $this->getProjectDao()->getActiveProjectsByProjectIds($projectIdArray);
 
 		return $projectList;
+	}
+
+	/**
+	 *
+	 * @param int $empNumber 
+	 * @return array
+	 */
+	public function isProjectAdmin($empNumber) {
+		try {
+			$projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber, true);
+			return (count($projects) > 0);
+		} catch (Exception $e) {
+			// TODO: Warn
+			return false;
+		}
 	}
 
 }

@@ -8,6 +8,10 @@ $(document).ready(function() {
             }
        });
        
+       if(customerId > 0) {
+           $('#addCustomerHeading').text(lang_editCustomer);
+       }
+       
        $('#btnCancel').click(function() {
            window.location.replace(cancelBtnUrl);
        });

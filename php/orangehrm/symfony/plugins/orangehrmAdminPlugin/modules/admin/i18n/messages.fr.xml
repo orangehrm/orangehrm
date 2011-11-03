@@ -285,6 +285,10 @@
                 <source>Activity Copy Successfully</source>
                 <target>FR_Activity Copy Successfully</target>
             </trans-unit>            
+            <trans-unit id="52">
+                <source>Edit Customer</source>
+                <target>FR_Edit Customer</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>
