@@ -1,5 +1,6 @@
 <?php
 
+require_once 'PHPUnit/Framework.php';
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,31 +17,26 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
-class viewDepartmentTreeAction extends sfAction {
+require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-    private $departmentService;
+class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
 
-    public function getDepartmentService() {
-        if (is_null($this->departmentService)) {
-            $this->departmentService = new DepartmentService();
-            $this->departmentService->setDepartmentDao(new DepartmentDao());
-        }
-        return $this->departmentService;
+    private $companyStructureDao;
+    protected $fixture;
+
+    /**
+     * Set up method
+     */
+    protected function setUp() {
+
+        $this->companyStructureDao = new CompanyStructureDao();
+        //$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
+        //TestDataService::populate($this->fixture);
     }
 
-    public function setDepartmentService(DepartmentService $departmentService) {
-        $this->departmentService = $departmentService;
-    }
-
-    public function execute($request) {
-        $treeObject = Doctrine::getTable('Department')->getTree();
-        $tree = new ohrmTreeViewComponent();
-        $tree->getPropertyObject()->setTreeObject($treeObject);
-        $this->tree = $tree;
-
-        $this->form = new DepartmentForm();
+    public function testSetOrganizationName(){
+        $this->assertEquals($this->companyStructureDao->setOrganizationName("OrangeHRM"), 1);
     }
 
 }

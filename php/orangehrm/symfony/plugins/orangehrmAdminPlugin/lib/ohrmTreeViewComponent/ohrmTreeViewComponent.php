@@ -87,15 +87,16 @@ class ohrmTreeViewComponent extends ohrmComponent {
         }
 
         $listContent = '';
-
         $nodeName = isset($node['name']) ? $node['name'] : $node->getName();
+        $nodeUnitId = $node->getUnitId();
+        $displayNodeName = (!empty($nodeUnitId)) ? $nodeUnitId." : ".$nodeName : $nodeName;
 
-        $listContent .= content_tag('span', $nodeName, array(
+        $listContent .= content_tag('span', $displayNodeName, array(
                     'id' => 'span_' . $node['id'],
                     'class' => 'labelNode'
                 ));
 
-        $listContent .= content_tag('a', $nodeName, array(
+        $listContent .= content_tag('a', $displayNodeName, array(
                     'href' => '#?',
                     'id' => 'treeLink_edit_' . $node['id'],
                     'class' => 'editLink'

@@ -116,7 +116,6 @@
                 <source>Customer Updated Successfully</source>
                 <target>FR_Customer Updated Successfully</target>
             </trans-unit>            
-<<<<<<< .mine
             <trans-unit id="29">
                 <source>Organization Name</source>
                 <target>FR_Organization Name</target>
@@ -124,10 +123,6 @@
             <trans-unit id="30">
                 <source>Tax ID</source>
                 <target>FR_Tax ID</target>
-            </trans-unit>
-            <trans-unit id="31">
-                <source>Registration Number</source>
-                <target>FR_Registration Number</target>
             </trans-unit>
             <trans-unit id="31">
                 <source>Registration Number</source>
@@ -285,10 +280,58 @@
                 <source>Activity Copy Successfully</source>
                 <target>FR_Activity Copy Successfully</target>
             </trans-unit>            
-            <trans-unit id="52">
+            <trans-unit id="70">
                 <source>Edit Customer</source>
                 <target>FR_Edit Customer</target>
             </trans-unit>            
+            <trans-unit id="71">
+                <source>Company Structure</source>
+                <target>FR_Company Structure</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Done</source>
+                <target>FR_Done</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Add Unit</source>
+                <target>FR_Add Unit</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Edit Unit</source>
+                <target>FR_Edit Unit</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>This department will be added under</source>
+                <target>FR_This department will be added under</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>and all the sub units under it will be permanantly deleted</source>
+                <target>FR_and all the sub units under it will be permanantly deleted</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Sub Unit Was Deleted Successfully</source>
+                <target>FR_Sub Unit Was Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Sub Unit Was Saved Successfully</source>
+                <target>FR_Sub Unit Was Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Maximum allowed character limit is</source>
+                <target>FR_Maximum allowed character limit is</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Maximum allowed character limit is</source>
+                <target>FR_Maximum allowed character limit is</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Name required</source>
+                <target>FR_Name required</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Description is not specified</source>
+                <target>FR_Description is not specified</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

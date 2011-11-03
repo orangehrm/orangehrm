@@ -1091,4 +1091,4 @@ INSERT INTO `ohrm_selected_group_field` (`group_field_id`, `summary_display_fiel
                                                (2, 1, 3),
                                                (2, 2, 4);
 
-INSERT INTO `ohrm_department` VALUES (1, 'Organization', null, 'Organization name', 1, 2, 0);
+INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', null, 'Organization Description', 1, 2, 0);

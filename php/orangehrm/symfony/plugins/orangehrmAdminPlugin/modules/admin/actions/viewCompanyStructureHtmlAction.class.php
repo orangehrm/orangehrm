@@ -18,24 +18,24 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class viewDepartmentTreeHtmlAction extends sfAction {
+class viewCompanyStructureHtmlAction extends sfAction {
 
-    private $departmentService;
+    private $companyStructureService;
 
-    public function getDepartmentService() {
-        if (is_null($this->departmentService)) {
-            $this->departmentService = new DepartmentService();
-            $this->departmentService->setDepartmentDao(new DepartmentDao());
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
         }
-        return $this->departmentService;
+        return $this->companyStructureService;
     }
 
-    public function setDepartmentService(DepartmentService $departmentService) {
-        $this->departmentService = $departmentService;
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
     }
 
     public function execute($request) {
-        $treeObject = Doctrine::getTable('Department')->getTree();
+        $treeObject = Doctrine::getTable('Subunit')->getTree();
         $tree = new ohrmTreeViewComponent();
         $tree->getPropertyObject()->setTreeObject($treeObject);
         $this->tree = $tree;

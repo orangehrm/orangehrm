@@ -21,7 +21,7 @@
 class OrganizationGeneralInformationForm extends BaseForm {
 
     private $organizationService;
-    private $departmentService;
+    private $companyStructureService;
     private $organization;
 
     public function getOrganizationService() {
@@ -31,11 +31,11 @@ class OrganizationGeneralInformationForm extends BaseForm {
         return $this->organizationService;
     }
 
-    public function getDepartmentService() {
-        if (is_null($this->departmentService)) {
-            $this->departmentService = new DepartmentService(new DepartmentDao());
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService(new CompanyStructureDao());
         }
-        return $this->departmentService;
+        return $this->companyStructureService;
     }
 
     public function configure() {
@@ -100,7 +100,7 @@ class OrganizationGeneralInformationForm extends BaseForm {
         $this->organization->save();
         $name = $this->getValue('name');
         $organizationName = (!empty($name)) ? $name : __("Organization");
-        $this->getDepartmentService()->setOrganizationName($organizationName);
+        $this->getCompanyStructureService()->setOrganizationName($organizationName);
     }
 
     private function __setDefaultValues(Organization $organization) {

@@ -1,12 +1,12 @@
 <?php
 
-class DepartmentForm extends ohrmFormComponent {
+class SubunitForm extends ohrmFormComponent {
 
     public function configure() {
         $properties = new ohrmFormComponentProperty();
 
-        $properties->setService(new DepartmentService());
-        $properties->setMethod('readDepartment');
+        $properties->setService(new CompanyStructureService());
+        $properties->setMethod('getSubunit');
         $properties->setParameters(array(1));
         $properties->setFields(array(
             'Id' => 'getId',

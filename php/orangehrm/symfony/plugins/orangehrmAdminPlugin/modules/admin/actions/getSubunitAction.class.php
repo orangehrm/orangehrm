@@ -19,38 +19,36 @@
  *
  */
 
-class deleteDepartmentAction extends sfAction{
+class getSubunitAction extends sfAction{
 
-    private $departmentService;
+     private $companyStructureService;
 
-    public function getDepartmentService() {
-        if (is_null($this->departmentService)) {
-            $this->departmentService = new DepartmentService();
-            $this->departmentService->setDepartmentDao(new DepartmentDao());
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
         }
-        return $this->departmentService;
+        return $this->companyStructureService;
     }
 
-    public function setDepartmentService(DepartmentService $departmentService) {
-        $this->departmentService = $departmentService;
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
     }
 
     public function execute($request) {
-        $id = trim($request->getParameter('departmentId'));
+        $subunitId = (int) $request->getParameter('subunitId');
+
+        $object = new stdClass();
 
         try {
-            $department = $this->getDepartmentService()->readDepartment($id);
-            $result = $this->getDepartmentService()->deleteDepartment($department);
+            $subunit = $this->getCompanyStructureService()->getSubunit($subunitId);
+            $object->id = $subunit->getId();
+            $object->name = $subunit->getName();
+            $object->description = $subunit->getDescription();
+            $object->unitId = $subunit->getUnitId();
 
-            if ($result) {
-                $object->messageType = 'success';
-                $object->message = 'Department was deleted successfully';
-            } else {
-                $object->messageType = 'failure';
-                $object->message = 'Failed to delete department';
-            }
         } catch (Exception $e) {
-            $object->message = 'Failed to load instituion.';
+            $object->message = 'Failed to load instituion.' . $e->getMessage();
             $object->messageType = 'failure';
         }
 
@@ -58,5 +56,6 @@ class deleteDepartmentAction extends sfAction{
         echo json_encode($object);
         exit;
     }
+
 }
 

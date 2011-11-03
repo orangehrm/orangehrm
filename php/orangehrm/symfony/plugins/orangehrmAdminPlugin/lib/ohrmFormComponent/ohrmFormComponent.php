@@ -158,9 +158,9 @@ EOT
     }
 
     public function printRequiredFieldsNotice() {
-        $content = 'Fields marked with an asterisk ';
+        $content = __('Fields marked with an asterisk')." ";
         $content .= content_tag('span', '*', array('class' => 'required'));
-        $content .= ' are required.';
+        $content .= ' '.__('are required.');
         echo content_tag('div', $content, array('class' => 'requirednotice'));
         return true;
     }

@@ -1219,7 +1219,7 @@ create table `ohrm_job_interview_interviewer`(
 	primary key (`interview_id`, `interviewer_id`)
 )engine=innodb default charset=utf8;
 
-create table `ohrm_department` (
+create table `ohrm_subunit` (
   `id` smallint(6) unsigned not null auto_increment,
   `name` varchar(100) not null unique,
   `unit_id` varchar(100) default null,

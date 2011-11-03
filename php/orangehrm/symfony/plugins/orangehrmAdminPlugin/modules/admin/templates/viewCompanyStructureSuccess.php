@@ -1,38 +1,12 @@
-<?php
-$tree->addScriptContent("
-    $('#ohrmFormComponent_Form').validate({
-        rules: {
-            txtName: { required: true, maxlength: 100 },
-            txtDescription: { maxlength: 400 },
-            txtUnitId: { maxlength: 100 }
-        },
-        messages: {
-            txtName: {
-                required: 'Department name is required',
-                maxlength: 'Maximum character limit exceeded for unit name'
-            },
-            txtDescription: {
-                maxlength: 'Maximum character limit exceeded for description'
-            },
-            txtUnitId: {
-                maxlength: 'Maximum character limit exceeded for unit id'
-            }
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-");
-?>
-
 <style type="text/css">
-    #divDepartmentTreeContainer {
+    #divCompanyStructureContainer {
         width: 49%;
         display: block;
         float: left;
+        padding-left: 20px;
     }
 
-    #divDepartmentFormContainer {
+    #divSubunitFormContainer {
         width: 49%;
         display: block;
         float: left;
@@ -42,31 +16,27 @@ $tree->addScriptContent("
         width: 80%;
         height: 70%;
     }
-    div#divDepartmentFormContainer form#ohrmFormComponent_Form label{
-        padding-left: 5px;
-        width: 100px;
-    }
 
-    div#divDepartmentFormContainer form#ohrmFormComponent_Form input#txtName.formInputText{
+    div#divSubunitFormContainer form#ohrmFormComponent_Form input#txtName.formInputText{
         width: 300px;
         padding-left: 5px;
     }
 
-    div#divDepartmentFormContainer form#ohrmFormComponent_Form input#txtUnit_Id.formInputText{
+    div#divSubunitFormContainer form#ohrmFormComponent_Form input#txtUnit_Id.formInputText{
         width: 300px;
         padding-left: 5px;
     }
-    div#divDepartmentFormContainer form#ohrmFormComponent_Form textarea#txtDescription.formTextArea{
+    div#divSubunitFormContainer form#ohrmFormComponent_Form textarea#txtDescription.formTextArea{
         height: 100px;
         width: 300px;
         margin-left: 0px;
     }
 
-    div#divDepartmentFormContainer div.requirednotice{
+    div#divSubunitFormContainer div.requirednotice{
         margin-left: 8px;
         font-size: 11px;
     }
-    div#divDepartmentFormContainer form#ohrmFormComponent_Form label#lblParentNotice{
+    div#divSubunitFormContainer form#ohrmFormComponent_Form label#lblParentNotice{
         width: 400px;
     }
 
@@ -80,12 +50,23 @@ $tree->addScriptContent("
     }
     #tooltip h3, #tooltip div { margin: 0; }
 
-    html body label{
+    #heading{
         width: 200px;
         padding-left: 20px;
-        font-size: 15px;
+        font-size: 18px;
+        font-weight: bold;
         margin-top: 0px;
-}
+    }
+
+    div#divSubunitFormContainer form#ohrmFormComponent_Form label{
+        padding-left: 5px;
+        width: 100px;
+    }
+
+    div#divSubunitFormContainer form#ohrmFormComponent_Form label.error{
+        padding-left: 105px;
+        width: 250px !important;
+    }
 
 </style>
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
@@ -100,24 +81,22 @@ $tree->addScriptContent("
 <?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
 
-<br class="clear"/>
 <div id="messageDiv"></div>
 <br class="clear"/>
-<!--<div id="editButton" style="text-align: left; padding-left: 10px">-->
-        <label><?php echo __("Organization Structure") ?></label>
-    <input type="button" class="editbutton" name="btnEdit" id="btnEdit"
-           value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-<!--</div>-->
+<label id="heading"><?php echo __("Company Structure") ?></label>
+<input type="button" class="editbutton" name="btnEdit" id="btnEdit"
+       value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 <br class="clear"/>
 <br class="clear"/>
-<div id="divDepartmentTreeContainer"><?php $tree->render(); ?></div>
+<div id="divCompanyStructureContainer"><?php $tree->render(); ?></div>
 
 <div id="unitDialog" title="" style="display:none;">
-    <div id="divDepartmentFormContainer" style="width: 450px"><?php $form->render();
+    <div id="divSubunitFormContainer" style="width: 450px"><?php $form->render();
 $form->printRequiredFieldsNotice(); ?></div>
 </div>
 
-<div id="dltDialog" title="<?php echo __("Confirmation required"); ?>"  style="display:none;">
+<div id="dltDialog" title="<?php echo __("OrangeHRM - Confirmation Required"); ?>"  style="display:none;">
+    <br class="clear"/>
     <div id="dltConfirmationMsg"></div>
     <input type="hidden" id="dltNodeId" value=""/>
     <div class="dialogButtons">
@@ -130,11 +109,13 @@ $form->printRequiredFieldsNotice(); ?></div>
 <script type="text/javascript">
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_done = "<?php echo __("Done"); ?>";
-    var lang_addUnit = "<?php echo __("Add Unit"); ?>";
-    var lang_editUnit = "<?php echo __("Edit Unit"); ?>";
-    var lang_noDescriptionSpecified = "<?php echo __("No description specified"); ?>";
-    var lang_confirmationPart1 = "<?php echo __("You are going to delete"); ?>";
+    var lang_addUnit = "<?php echo "OrangeHRM - ".__("Add Unit"); ?>";
+    var lang_editUnit = "<?php echo "OrangeHRM - ".__("Edit Unit"); ?>";
     var lang_confirmationPart2 = "<?php echo __("and all the sub units under it will be permanantly deleted"); ?>";
+    var lang_addNote = "<?php echo __("This department will be added under"); ?>";
+    var lang_nameRequired = "<?php echo __("Name required"); ?>";
+    var lang_max = "<?php echo __("Maximum allowed character limit is") . " "; ?>";
+    var lang_noDescriptionSpecified = "<?php echo __("Description is not specified"); ?>";
 
     $(document).ready(function() {
 
@@ -142,7 +123,7 @@ $form->printRequiredFieldsNotice(); ?></div>
             autoOpen: false,
             modal: true,
             width: 470,
-            height: 300,
+            height: 280,
             position: 'middle'
         });
 
@@ -178,10 +159,10 @@ $form->printRequiredFieldsNotice(); ?></div>
         $('#dialogYes').click(function(){
             nodeId = $('#dltNodeId').val()
             $.ajax({
-                url: '<?php echo public_path('index.php/admin/deleteDepartment'); ?>',
+                url: '<?php echo public_path('index.php/admin/deleteSubunit'); ?>',
                 type: 'post',
                 data: {
-                    'departmentId': nodeId
+                    'subunitId': nodeId
                 },
                 dataType: 'json',
                 success: function(obj) {
@@ -203,8 +184,30 @@ $form->printRequiredFieldsNotice(); ?></div>
         });
 
         $('#ohrmFormActionButton_Save').click(function() {
-            saveNode();
-            $('#unitDialog').dialog('close');
+            if(saveNode()){
+                $('#unitDialog').dialog('close');}
+        });
+        $('#ohrmFormComponent_Form').validate({
+            rules: {
+                txtName: { required: true, maxlength: 100 },
+                txtDescription: { maxlength: 400 },
+                txtUnit_Id: { maxlength: 100 }
+            },
+            messages: {
+                txtName: {
+                    required: lang_nameRequired,
+                    maxlength: lang_max+"100"
+                },
+                txtDescription: {
+                    maxlength: lang_max+"400"
+                },
+                txtUnit_Id: {
+                    maxlength: lang_max+"100"
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
         });
     });
 
@@ -214,10 +217,10 @@ $form->printRequiredFieldsNotice(); ?></div>
         clearErrors();
         $.ajax({
             async: false,
-            url: '<?php echo public_path('index.php/admin/loadDepartment'); ?>',
+            url: '<?php echo public_path('index.php/admin/getSubunit'); ?>',
             type: 'post',
             data: {
-                'departmentId': nodeId
+                'subunitId': nodeId
             },
             dataType: 'json',
             success: function(obj) {
@@ -236,10 +239,10 @@ $form->printRequiredFieldsNotice(); ?></div>
     function loadToolTip(nodeId){
         $.ajax({
             async: false,
-            url: '<?php echo public_path('index.php/admin/loadDepartment'); ?>',
+            url: '<?php echo public_path('index.php/admin/getSubunit'); ?>',
             type: 'post',
             data: {
-                'departmentId': nodeId
+                'subunitId': nodeId
             },
             dataType: 'json',
             success: function(obj) {
@@ -281,7 +284,7 @@ $form->printRequiredFieldsNotice(); ?></div>
         _clearMessage();
         nodeName = $('#treeLink_edit_' + nodeId).html();
         $('#lblParentNotice').remove();
-        $('<label id="lblParentNotice">This department will be added under <span class="boldText">' + nodeName + '</span></label>').insertAfter($('#txtDescription').next('br'));
+        $('<label id="lblParentNotice">'+lang_addNote +'<span class="boldText">' + nodeName + '</span></label>').insertAfter($('#txtDescription').next('br'));
 
         $('#hdnParent').val(nodeId);
         showForm();
@@ -298,13 +301,14 @@ $form->printRequiredFieldsNotice(); ?></div>
     }
 
     function saveNode() {
+
         if (!$('#ohrmFormComponent_Form').valid()) {
-            return;
+            return false;
         }
 
         $.ajax({
             async: false,
-            url: '<?php echo public_path('index.php/admin/saveDepartment'); ?>',
+            url: '<?php echo public_path('index.php/admin/saveSubunit'); ?>',
             type: 'post',
             data: $('#ohrmFormComponent_Form').serialize(),
             dataType: 'json',
@@ -320,7 +324,7 @@ $form->printRequiredFieldsNotice(); ?></div>
 
     function resetForm() {
         loadNode(parseInt($('#hdnId').val()));
-        $('#divDepartmentFormContainer div[generated="true"]').remove();
+        $('#divSubunitFormContainer div[generated="true"]').remove();
         $('#lblParentNotice').remove();
         clearErrors();
     }
@@ -335,9 +339,9 @@ $form->printRequiredFieldsNotice(); ?></div>
     function reloadTree() {
         $.ajax({
             async: false,
-            url: '<?php echo public_path('index.php/admin/viewDepartmentTreeHtml'); ?>/seed/' + Math.random(),
+            url: '<?php echo public_path('index.php/admin/viewCompanyStructureHtml'); ?>/seed/' + Math.random(),
             success: function(response) {
-                $('#divDepartmentTreeContainer').html(response);
+                $('#divCompanyStructureContainer').html(response);
                 $('.labelNode').hide()
             }
         });
@@ -345,7 +349,7 @@ $form->printRequiredFieldsNotice(); ?></div>
 
     function _showMessage(messageType, message) {
         _clearMessage();
-        $('#messageDiv').append('<div class="messageBalloon_' + messageType + ' id="divMessageBar" generated="true" style="width: 95%; margin: 0px 0px 8px 0px;">'+ message + '</div>');
+        $('#messageDiv').append('<div class="messageBalloon_' + messageType + ' id="divMessageBar" generated="true" style="width: 40%;">'+ message + '</div>');
     }
 
     function _clearMessage() {

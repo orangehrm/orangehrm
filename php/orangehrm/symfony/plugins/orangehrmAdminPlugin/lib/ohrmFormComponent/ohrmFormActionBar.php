@@ -8,7 +8,7 @@ class ohrmFormActionBar extends ohrmFormDecorator {
 
         $actionBarHtml .= tag('input', array(
             'type' => 'button',
-            'value' => 'Save',
+            'value' => __('Save'),
             'id' => 'ohrmFormActionButton_Save',
             'name' => 'btnSave',
             'class' => 'plainbtn',
@@ -30,7 +30,7 @@ class ohrmFormActionBar extends ohrmFormDecorator {
 
         $actionBarHtml .= tag('input', array(
             'type' => 'button',
-            'value' => 'Cancel',
+            'value' => __('Cancel'),
             'id' => 'ohrmFormActionButton_Cancel',
             'name' => 'btnCancel',
             'class' => 'plainbtn',
@@ -39,7 +39,7 @@ class ohrmFormActionBar extends ohrmFormDecorator {
         $actionBarHtml .= "\n";
 
         //$actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: 98%; border-top: solid 1px #FAD163; margin: 10px 0px 0px 2px; padding: 4px;'));
-        $actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: 180px; padding-left:260px'));
+        $actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: 180px; padding-left:10px'));
         $actionBarHtml .= tag('br', array('class' => 'clear'));
         
         return $this->decoratedForm->getHtml() . $actionBarHtml;

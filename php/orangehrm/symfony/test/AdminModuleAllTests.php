@@ -51,7 +51,7 @@ class PluginAllTests
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/dao/OrganizationDaoTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/dao/DepartmentDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/../plugins/orangehrmAdminPlugin/test/model/dao/CompanyStructureDaoTest.php');
       
 
         /* Service Test Cases */
