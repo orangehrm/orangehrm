@@ -84,20 +84,25 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateRecordsCount() {
 
         $searchParam = new CandidateSearchParameters();
-
         $searchParam->setJobTitleCode('JOB002');
+        
+        $candidateService = $this->getMock('CandidateService', array('buildSearchCountQuery'));        
+        $candidateService->expects($this->once())
+                ->method('buildSearchCountQuery')
+                ->with($searchParam)
+                ->will($this->returnValue('searchCountQuery'));        
 
-        $candidateDao = $this->getMock('CandidateDao');
-
+        $candidateDao = $this->getMock('CandidateDao', array('getCandidateRecordsCount'));
         $candidateDao->expects($this->once())
                 ->method('getCandidateRecordsCount')
-                ->with($searchParam)
-                ->will($this->returnValue(4));
-
-        $this->candidateService->setCandidateDao($candidateDao);
-
-        $result = $this->candidateService->getCandidateRecordsCount($searchParam);
+                ->with('searchCountQuery')
+                ->will($this->returnValue(4));    
+        
+        $candidateService->setCandidateDao($candidateDao);
+        
+        $result = $candidateService->getCandidateRecordsCount($searchParam);
         $this->assertEquals($result, 4);
+
     }
 
     /**
