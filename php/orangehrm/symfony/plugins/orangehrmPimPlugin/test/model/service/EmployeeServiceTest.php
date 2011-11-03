@@ -81,7 +81,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->addEmployee($employee);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue(PIMServiceException instanceof $e);
+            $this->assertTrue($e instanceof PIMServiceException);
         }
     }
 
