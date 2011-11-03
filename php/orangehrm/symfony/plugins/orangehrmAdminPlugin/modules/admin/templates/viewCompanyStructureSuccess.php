@@ -185,7 +185,7 @@ $form->printRequiredFieldsNotice(); ?></div>
 
         $('#ohrmFormActionButton_Save').click(function() {
             if(saveNode()){
-                $('#unitDialog').dialog('close');}
+                closeDialog();}
         });
         $('#ohrmFormComponent_Form').validate({
             rules: {
@@ -289,6 +289,7 @@ $form->printRequiredFieldsNotice(); ?></div>
         $('#hdnParent').val(nodeId);
         showForm();
         $("#ui-dialog-title-unitDialog").text(lang_addUnit)
+        clearErrors()
         openDialog()
     }
 
@@ -318,6 +319,7 @@ $form->printRequiredFieldsNotice(); ?></div>
                     loadNode(obj.affectedId);
                 }
                 _showMessage(obj.messageType, obj.message);
+                closeDialog()
             }
         });
     }
