@@ -95,32 +95,15 @@ function sysCheckPassed() {
             <?php
 
             	$error_found = false;
-
-				$minVersion = '5.1.2';
-				$supportedVersions = array (
-					'5.0.1', '5.0.2', '5.0.3', '5.0.4',
-					'5.1.0', '5.1.1', '5.1.2', '5.1.3',
-					'5.1.4', '5.1.5', '5.1.6', '5.1.7',
-					'5.2.0', '5.2.1', '5.2.2'
-				);
-				$invalidVersions = array('5.0.0', '5.0.5');
-
-				$php_version = constant('PHP_VERSION');
-				$check_php_version_result = checkPHPVersion($minVersion, $supportedVersions, $invalidVersions, $php_version);
-
-            	switch($check_php_version_result)
-            	{
-            		case INSTALLUTIL_VERSION_INVALID:
-	                  echo "<b><font color='red'>Invalid version, ($php_version) Installed</font></b>";
-   	               $error_found = true;
-            			break;
-            		case INSTALLUTIL_VERSION_UNSUPPORTED:
-      	            echo "<b><font color='red'>Unsupported (ver $php_version)</font></b>";
-            			break;
-            		case INSTALLUTIL_VERSION_SUPPORTED:
-      	            echo "<b><font color='green'>OK (ver $php_version)</font></b>";
-            			break;
-               }
+                $phpVersion = PHP_VERSION;
+               
+               if (version_compare(PHP_VERSION, '5.2.4') < 0) {
+                   $error_found = true;
+                   echo "<b><font color='red'>PHP 5.2.4 or higher is required. Installed version is $phpVersion</font></b>";
+               } else {
+                   echo "<b><font color='green'>OK (ver $phpVersion)</font></b>";
+               }               
+              
             ?>
             </strong></td>
           </tr>
