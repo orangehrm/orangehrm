@@ -48,13 +48,12 @@ class getSubunitAction extends sfAction{
             $object->unitId = $subunit->getUnitId();
 
         } catch (Exception $e) {
-            $object->message = 'Failed to load instituion.' . $e->getMessage();
+            $object->message = __('Failed to load sub unit');
             $object->messageType = 'failure';
         }
 
         @ob_clean();
-        echo json_encode($object);
-        exit;
+        return $this->renderText(json_encode($object));
     }
 
 }

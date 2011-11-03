@@ -1,8 +1,8 @@
 <?php
 
-class saveSubunitAction extends sfAction{
+class saveSubunitAction extends sfAction {
 
-   private $companyStructureService;
+    private $companyStructureService;
 
     public function getCompanyStructureService() {
         if (is_null($this->companyStructureService)) {
@@ -17,7 +17,7 @@ class saveSubunitAction extends sfAction{
     }
 
     public function execute($request) {
-         $id = trim($request->getParameter('hdnId'));
+        $id = trim($request->getParameter('hdnId'));
         $name = trim($request->getParameter('txtName'));
         $description = trim($request->getParameter('txtDescription'));
         $unitId = trim($request->getParameter('txtUnit_Id'));
@@ -45,16 +45,16 @@ class saveSubunitAction extends sfAction{
                 $object->message = __('Sub Unit Was Saved Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = 'Failed to save department';
+                $object->message = __('Failed to save sub unit');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = ErrorMessageResolver::resolveMessage($e);
+            $object->message = __('Failed to save sub unit');
         }
 
         @ob_clean();
-        echo json_encode($object);
-        exit;
+        return $this->renderText(json_encode($object));
     }
+
 }
 

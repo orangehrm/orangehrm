@@ -4,7 +4,7 @@ $(document).ready(function() {
         autoOpen: false,
         modal: true,
         width: 470,
-        height: 280,
+        height: 290,
         position: 'middle'
     });
 

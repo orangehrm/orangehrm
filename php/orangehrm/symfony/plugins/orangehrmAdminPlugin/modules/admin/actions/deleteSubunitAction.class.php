@@ -18,8 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
-class deleteSubunitAction extends sfAction{
+class deleteSubunitAction extends sfAction {
 
     private $companyStructureService;
 
@@ -47,16 +46,16 @@ class deleteSubunitAction extends sfAction{
                 $object->message = __('Sub Unit Was Deleted Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = 'Failed to delete department';
+                $object->message = __('Failed to delete sub unit');
             }
         } catch (Exception $e) {
-            $object->message = 'Failed to load instituion.';
             $object->messageType = 'failure';
+            $object->message = __('Failed to delete sub unit');
         }
 
         @ob_clean();
-        echo json_encode($object);
-        exit;
+        return $this->renderText(json_encode($object));
     }
+
 }
 
