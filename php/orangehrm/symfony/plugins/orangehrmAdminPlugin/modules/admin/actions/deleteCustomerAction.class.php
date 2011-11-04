@@ -29,14 +29,23 @@ class deleteCustomerAction extends sfAction {
 		$toBeDeletedCustomerIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedCustomerIds)) {
-			foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId){
-				$count = $this->getCustomerService()->getTimesheetItemCountForCustomer();
-			}
+			$delete = true;
 			foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId) {
-				
-				$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);
+				$deletable = $this->getCustomerService()->isCustomerHasTimesheetItems($toBeDeletedCustomerId);
+				if ($deletable) {
+					$delete = false;
+					break;
+				}
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Customer(s) Deleted Successfully')));
+			if ($delete) {
+				foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId) {
+
+					$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);
+				}
+				$this->getUser()->setFlash('templateMessage', array('success', __('Selected Customer(s) Deleted Successfully')));
+			} else {
+				$this->getUser()->setFlash('templateMessage', array('failure', __('Not Allowed to Delete Customer(s) Which Have Time Logged Against')));
+			}
 		}
 
 		$this->redirect('admin/viewCustomers');

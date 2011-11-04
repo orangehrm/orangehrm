@@ -50,9 +50,9 @@ class AddCustomerForm extends BaseForm {
 		));
 
 		$this->widgetSchema->setNameFormat('addCustomer[%s]');
-		
+
 		if (isset($customer) && $customer != null) {
-			
+
 			$this->setDefault('customerName', $customer->getName());
 			$this->setDefault('description', $customer->getDescription());
 		}
@@ -62,21 +62,31 @@ class AddCustomerForm extends BaseForm {
 
 		$this->resultArray = array();
 		$customerId = $this->getValue('customerId');
-		if($customerId > 0){
+		if ($customerId > 0) {
 			$service = $this->getCustomerService();
 			$customer = $service->getCustomerById($customerId);
 			$this->resultArray['messageType'] = 'success';
 			$this->resultArray['message'] = __('Customer Updated Successfully');
-		}else {
+		} else {
 			$customer = new Customer();
 			$this->resultArray['messageType'] = 'success';
 			$this->resultArray['message'] = __('Customer Added Successfully');
 		}
-			
+
 		$customer->setName($this->getValue('customerName'));
 		$customer->setDescription($this->getValue('description'));
 		$customer->save();
 		return $this->resultArray;
+	}
+
+	public function getCustomerListAsJson() {
+		
+		$list = array();
+		$customerList = $this->getCustomerService()->getAllCustomers();
+		foreach ($customerList as $customer) {
+			$list[] = array('id' => $customer->getCustomerId(), 'name' => $customer->getName());
+		}
+		return json_encode($list);
 	}
 
 }

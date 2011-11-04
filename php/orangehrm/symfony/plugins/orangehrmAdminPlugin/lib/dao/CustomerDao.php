@@ -68,26 +68,30 @@ class CustomerDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
-	public function getAllCustomers(){
-		
+
+	public function getAllCustomers() {
+
 		try {
 			$q = Doctrine_Query :: create()
-					->from('Customer')
-					->where('deleted =?', Customer::ACTIVE);
+				->from('Customer')
+				->where('deleted =?', Customer::ACTIVE);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
-	public function getTimesheetItemCountForCustomer($customerId){
-		
+
+	public function isCustomerHasTimesheetItems($customerId) {
+
 		try {
 			$q = Doctrine_Query :: create()
-					->from('Customer')
-					->where('deleted =?', Customer::ACTIVE);
-			return $q->execute();
+				->select("COUNT(*)")
+				->from('TimesheetItem ti')
+				->leftJoin('ti.Project p')
+				->leftJoin('p.Customer c')
+				->where('c.customerId = ?', $customerId);
+			$count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+			return ($count > 0);
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}

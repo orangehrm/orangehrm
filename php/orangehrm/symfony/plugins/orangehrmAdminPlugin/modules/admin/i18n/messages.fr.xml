@@ -340,6 +340,10 @@
                 <source>Unit Id</source>
                 <target>FR_Unit Id</target>
             </trans-unit>
+            <trans-unit id="85">
+                <source>Name already exist</source>
+                <target>FR_Name already exist</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

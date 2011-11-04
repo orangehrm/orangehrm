@@ -117,8 +117,8 @@ class timeActions extends sfActions {
         $customerName = $request->getParameter('customerName');
 
         $projectName = $request->getParameter('projectName');
-        $projectName = htmlspecialchars($projectName, ENT_QUOTES);
-        $customerName = htmlspecialchars($customerName, ENT_QUOTES);
+//        $projectName = htmlspecialchars($projectName, ENT_QUOTES);
+//        $customerName = htmlspecialchars($customerName, ENT_QUOTES);
         $timesheetDao = new TimesheetDao();
         $customer = $timesheetDao->getCustomerByName($customerName);
         $customerId = $customer->getCustomerId();

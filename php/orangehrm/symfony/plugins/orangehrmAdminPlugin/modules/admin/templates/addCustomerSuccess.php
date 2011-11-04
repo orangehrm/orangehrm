@@ -45,10 +45,13 @@
 </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 <script type="text/javascript">
+	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
+        var customerList = eval(customers);
 	var lang_customerNameRequired = "<?php echo __("Customer name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_exceed255Charactors = "<?php echo __("Cannot exceed 255 charactors"); ?>";
 	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";
+	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
 	var customerId = '<?php echo $customerId;?>';
 	var cancelBtnUrl = '<?php echo url_for('admin/viewCustomers'); ?>';
 </script>
