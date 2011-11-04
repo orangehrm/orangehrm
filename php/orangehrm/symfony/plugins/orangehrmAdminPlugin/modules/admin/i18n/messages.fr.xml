@@ -344,6 +344,14 @@
                 <source>Name already exist</source>
                 <target>FR_Name already exist</target>
             </trans-unit>
+            <trans-unit id="86">
+                <source>Add Project</source>
+                <target>FR_Add Project</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>Edit Project</source>
+                <target>FR_Edit Project</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

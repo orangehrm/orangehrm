@@ -19,7 +19,7 @@
 <div id="addProject">
             <div class="outerbox">
 
-                <div class="mainHeading"><h2 id="addProjectHeading"><?php echo __("Project"); ?></h2></div>
+                <div class="mainHeading"><h2 id="addProjectHeading"><?php echo __("Add Project"); ?></h2></div>
                 <form name="frmAddProject" id="frmAddProject" method="post" action="<?php echo url_for('admin/addProject'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
@@ -75,6 +75,11 @@
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 <br class="clear"/>
 
+<?php echo isset($templateMessageAct) ? templateMessage($templateMessageAct) : ''; ?>
+<div id="messagebar" class="<?php echo isset($messageTypeAct) ? "messageBalloon_{$messageTypeAct}" : ''; ?>" >
+	<span><?php echo isset($messageAct) ? $messageAct : ''; ?></span>
+</div>
+
 <?php if(!empty($projectId)) { ?>
 <div id="addActivity">
     <div class="outerbox">
@@ -101,7 +106,10 @@
 </div>
 
 <div id="activityList">
+    <form name="frmDelActivity" id="frmDelActivity" method="post" action="<?php echo url_for('admin/deleteProjectActivity?projectId='.$projectId);?>">
+    <?php $actDelForm['_csrf_token']; ?>
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
+    </form>
 </div>
 <?php } ?>
 
@@ -180,4 +188,9 @@
     var lang_noActivities = "<?php echo __("No assigned activities"); ?>";
     var lang_noActivitiesSelected = "<?php echo __("No activities selected"); ?>";
     var projectId = '<?php echo $projectId; ?>';
+    var custId = '<?php echo $custId; ?>';
+    var custName = '<?php echo $customerName; ?>';
+    var lang_edit = '<?php echo __("Edit"); ?>';
+    var lang_save = '<?php echo __("Save"); ?>';
+    var lang_editProject = '<?php echo __("Edit Project"); ?>';
 </script>

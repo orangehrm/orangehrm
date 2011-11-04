@@ -169,12 +169,17 @@ $(document).ready(function() {
     });
     
     $('#btnSave').click(function() {
-       
-        if(isValidForm()){
-            removeTypeHints();
-            setProjectAdmins();
-            $('#frmAddProject').submit()
-        }   
+        
+        if($('#btnSave').val() == lang_edit){
+            enableWidgets();
+            $('#btnSave').val(lang_save);
+        } else if($('#btnSave').val() == lang_save){
+            if(isValidForm()){
+                removeTypeHints();
+                setProjectAdmins();
+                $('#frmAddProject').submit()
+            }   
+        }
     });
     
     if(projectId>0){
@@ -185,12 +190,19 @@ $(document).ready(function() {
             var index = countArray.indexOf(i);
             countArray.splice(index, 1);
         }
-        
+        $('#addProjectHeading').text(lang_editProject);
+        disableWidgets();              
+    }
+    
+    if(custId > 0) {      
+        $('#addProject_customerName').val(custName);
+        $('#addProject_customerName').removeClass('inputFormatHint');
+        $('#addProject_customerId').val(custId);
     }
     
     $('#btnActSave').click(function(){
         $('#addProjectActivity_projectId').val(projectId);
-        $('#frmAddActivity').submit()
+        $('#frmAddActivity').submit();
     });
     
     $('#btnActCancel').click(function(){
@@ -199,14 +211,14 @@ $(document).ready(function() {
     
     $('#btnCopyDig').click(function() {
 
-		var checked = $('#frmCopyAct input:checked').length;
+        var checked = $('#frmCopyAct input:checked').length;
 
-		if ( checked > 0 ) {
-			$('#frmCopyAct').submit();
-		} else {
+        if ( checked > 0 ) {
+            $('#frmCopyAct').submit();
+        } else {
             $('#errorHolderCopy').text(lang_noActivitiesSelected);
         }
-	});
+    });
     
     $('#btnAdd').click(function(){
         $('#addActivity').show();
@@ -237,6 +249,10 @@ $(document).ready(function() {
             $('#btnDelete').attr('disabled','disabled');
         }
     });
+    
+    $('#btnDelete').click(function(){
+        $('#frmDelActivity').submit();
+    })
     
     $('a[href="javascript:"]').click(function(){
         var name = $(this).closest("a").text();
@@ -275,6 +291,32 @@ $(document).ready(function() {
 
 function openDialogue(){
     $("#customerDialog").dialog("open")
+}
+
+function disableWidgets(){
+    $('#addProject_customerName').attr('disabled','disabled');
+    $('#addProject_projectName').attr('disabled','disabled');
+    $('.formInputProjectAdmin').attr('disabled','disabled');
+    $('#addProject_description').attr('disabled','disabled');
+    $('#addCustomerLink').hide();
+    $('#addButton').hide();
+    $('.removeText').hide();
+    $('#btnSave').val(lang_edit);
+    
+    
+}
+
+function enableWidgets(){
+    
+    $('#addProject_customerName').removeAttr('disabled');
+    $('#addProject_projectName').removeAttr('disabled');
+    $('.formInputProjectAdmin').removeAttr('disabled');
+    $('#addProject_description').removeAttr('disabled');
+    $('#addCustomerLink').show();
+    $('#addButton').show();
+    $('.removeText').show();
+    $('#btnSave').val(lang_save);
+    
 }
 
 function removeTypeHints() {
@@ -316,7 +358,7 @@ function validateThickBox(){
 function saveCustomer(url){
     
     $.getJSON(url, function(data) {
-        window.location.replace(projectUrl+'?custId='+data.id);
+        window.location.replace(projectUrl+'?custId='+data.id+'&projectId='+projectId);
     })
 }
 
@@ -407,7 +449,7 @@ function buildActivityList(data){
     var i;
     for (i=0; i<data.length; i++){
 
-       var newActivity = $(document.createElement('div')).attr("class", 'activityDiv');    
+        var newActivity = $(document.createElement('div')).attr("class", 'activityDiv');    
 
         newActivity.after().html('<input type="checkbox" checked="yes" name="activityNames[]" value="'+data[i].name+'" class="check"/>' +
             '<span '+'class="activityName"'+'">'+data[i].name+'</span>'+'<br class="clear" />');

@@ -348,6 +348,20 @@ class ProjectDao extends BaseDao {
 		}
 	}
 
+	public function isProjectHasTimesheetItems($projectId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->select("COUNT(*)")
+				->from('TimesheetItem ti')
+				->leftJoin('ti.Project p')
+				->where('p.projectId = ?', $projectId);
+			$count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+			return ($count > 0);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>

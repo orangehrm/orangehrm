@@ -61,7 +61,7 @@ class copyActivityAction extends sfAction {
 			}
 			$activities->save();
 			
-			$this->getUser()->setFlash('templateMessage', array('success', __('Activity Copy Successfully')));
+			$this->getUser()->setFlash('templateMessageAct', array('success', __('Activity Copy Successfully')));
 			$this->redirect('admin/addProject?projectId=' . $projectId);
 		}
 	}

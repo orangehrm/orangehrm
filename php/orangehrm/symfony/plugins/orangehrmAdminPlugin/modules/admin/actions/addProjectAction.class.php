@@ -20,6 +20,15 @@
 class addProjectAction extends sfAction {
 
 	private $projectService;
+	private $customerService;
+
+	public function getCustomerService() {
+		if (is_null($this->customerService)) {
+			$this->customerService = new CustomerService();
+			$this->customerService->setCustomerDao(new CustomerDao());
+		}
+		return $this->customerService;
+	}
 
 	public function getProjectService() {
 		if (is_null($this->projectService)) {
@@ -42,10 +51,17 @@ class addProjectAction extends sfAction {
 	public function execute($request) {
 
 		$this->projectId = $request->getParameter('projectId');
+		$this->custId = $request->getParameter('custId');
+		
+		if ($this->custId > 0) {
+			$customer = $this->getCustomerService()->getCustomerById($this->custId);
+			$this->customerName = $customer->getName();
+		}
 		$values = array('projectId' => $this->projectId);
 		$this->setForm(new AddProjectForm(array(), $values));
 		$this->customerForm = new AddCustomerForm();
-
+		$this->actDelForm = new DeleteProjectActivityForm();
+		
 		if (!empty($this->projectId)) {
 			$this->activityForm = new AddProjectActivityForm();
 			$this->copyActForm = new CopyActivityForm();
@@ -58,6 +74,10 @@ class addProjectAction extends sfAction {
 
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+		
+		if ($this->getUser()->hasFlash('templateMessageAct')) {
+			list($this->messageTypeAct, $this->messageAct) = $this->getUser()->getFlash('templateMessageAct');
 		}
 
 		if ($request->isMethod('post')) {

@@ -11,7 +11,7 @@
  * @author orangehrm
  */
 class deleteProjectAction extends sfAction {
-	
+
 	private $projectService;
 
 	public function getProjectService() {
@@ -21,7 +21,7 @@ class deleteProjectAction extends sfAction {
 		}
 		return $this->projectService;
 	}
-	
+
 	/**
 	 *
 	 * @param <type> $request
@@ -31,12 +31,23 @@ class deleteProjectAction extends sfAction {
 		$toBeDeletedProjectIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedProjectIds)) {
-
+			$delete = true;
 			foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-				
-				$customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
+				$deletable = $this->getProjectService()->isProjectHasTimesheetItems($toBeDeletedProjectId);
+				if ($deletable) {
+					$delete = false;
+					break;
+				}
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Project(s) Deleted Successfully')));
+			if ($delete) {
+				foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
+
+					$customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
+				}
+				$this->getUser()->setFlash('templateMessage', array('success', __('Selected Project(s) Deleted Successfully')));
+			} else {
+				$this->getUser()->setFlash('templateMessage', array('failure', __('Not Allowed to Delete Project(s) Which Have Time Logged Against')));
+			}
 		}
 
 		$this->redirect('admin/viewProjects');
