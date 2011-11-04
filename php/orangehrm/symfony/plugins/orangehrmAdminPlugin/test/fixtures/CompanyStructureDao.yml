@@ -1,0 +1,4 @@
+Subunit:
+  0: {id: 1, name: 'Organization', unitId: 'company', description: 'company description', lft: 1, rgt: 6, level: 0}
+  1: {id: 2, name: 'Department 1', unitId: 'dept', description: 'department description', lft: 2, rgt: 5, level: 1}
+  2: {id: 3, name: 'Sub Department 1', unitId: 'sub dept', description: 'sub department description', lft: 3, rgt: 4, level: 2}

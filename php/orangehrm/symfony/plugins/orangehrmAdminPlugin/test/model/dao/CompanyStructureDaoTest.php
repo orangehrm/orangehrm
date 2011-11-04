@@ -31,12 +31,41 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->companyStructureDao = new CompanyStructureDao();
-        //$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
-        //TestDataService::populate($this->fixture);
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/CompanyStructureDao.yml';
+        TestDataService::populate($this->fixture);
     }
 
-    public function testSetOrganizationName(){
+    public function testSetOrganizationName() {
         $this->assertEquals($this->companyStructureDao->setOrganizationName("OrangeHRM"), 1);
+    }
+
+    public function testGetSubunit() {
+        $this->assertTrue($this->companyStructureDao->getSubunit(1) instanceof Subunit);
+    }
+
+    public function testSaveSubunit() {
+        $subunit = new Subunit();
+        $subunit->setName("Open Source");
+        $subunit->setDescription("Handles OrangeHRM product");
+        $subunit->setLft(5);
+        $subunit->setRgt(3);
+        $subunit->setLevel(1);
+        $this->assertTrue($this->companyStructureDao->saveSubunit($subunit));
+    }
+
+    public function testDeleteSubunit() {
+        $subunit = new Subunit();
+        $subunit->setLft(2);
+        $subunit->setRgt(5);
+        $this->assertTrue($this->companyStructureDao->deleteSubunit($subunit));
+    }
+
+    public function testAddSubunit(){
+        $subunitList = TestDataService::loadObjectList('Subunit', $this->fixture, 'Subunit');
+        $subunit = $subunitList[2];
+        $parentSubunit = new Subunit();
+        $parentSubunit->setName("New Department");
+        $this->assertTrue($this->companyStructureDao->addSubunit($parentSubunit, $subunit));
     }
 
 }
