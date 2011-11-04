@@ -175,7 +175,10 @@ class ohrmForm implements ohrmFormInterface {
         $requiredFields = $this->propertyObject->getRequiredFields();
 
         if (in_array($label, $requiredFields)) {
+            $label = __($label);
             $label .= '&nbsp;' . content_tag('span', '*', array('class' => 'required'));
+        }else{
+            $label = __($label);
         }
 
         $tagAttributes = array(
