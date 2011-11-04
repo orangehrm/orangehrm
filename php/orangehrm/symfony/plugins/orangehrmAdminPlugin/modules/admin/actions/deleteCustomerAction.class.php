@@ -29,7 +29,9 @@ class deleteCustomerAction extends sfAction {
 		$toBeDeletedCustomerIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedCustomerIds)) {
-
+			foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId){
+				$count = $this->getCustomerService()->getTimesheetItemCountForCustomer();
+			}
 			foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId) {
 				
 				$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);

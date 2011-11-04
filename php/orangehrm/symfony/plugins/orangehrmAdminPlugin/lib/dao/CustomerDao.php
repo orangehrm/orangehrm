@@ -80,6 +80,18 @@ class CustomerDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	public function getTimesheetItemCountForCustomer($customerId){
+		
+		try {
+			$q = Doctrine_Query :: create()
+					->from('Customer')
+					->where('deleted =?', Customer::ACTIVE);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
 }
 

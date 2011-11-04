@@ -73,6 +73,10 @@ class CustomerService extends BaseService {
 		return $this->customerDao->getAllCustomers();
 	}
 	
+	public function getTimesheetItemCountForCustomer($customerId){
+		return $this->customerDao->getTimesheetItemCountForCustomer($customerId);
+	}
+	
 	
 }
 
