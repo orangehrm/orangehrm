@@ -11,7 +11,7 @@
 <div id="messageDiv"></div>
 <br class="clear"/>
 <label id="heading"><?php echo __("Company Structure") ?></label>
-<input type="button" class="editbutton" name="btnEdit" id="btnEdit"
+<input style="float: left" type="button" class="editbutton" name="btnEdit" id="btnEdit"
        value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 <br class="clear"/>
 <br class="clear"/>

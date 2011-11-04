@@ -39,8 +39,8 @@ class ohrmFormActionBar extends ohrmFormDecorator {
         $actionBarHtml .= "\n";
 
         //$actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: 98%; border-top: solid 1px #FAD163; margin: 10px 0px 0px 2px; padding: 4px;'));
-        $actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: 180px; padding-left:10px'));
-        $actionBarHtml .= tag('br', array('class' => 'clear'));
+        $actionBarHtml = content_tag('div', $actionBarHtml, array('style' => 'width: auto; padding-left:10px padding-right:20px','class'=>'formbuttons'));
+        //$actionBarHtml .= tag('br', array('class' => 'clear'));
         
         return $this->decoratedForm->getHtml() . $actionBarHtml;
     }

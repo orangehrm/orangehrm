@@ -50,14 +50,15 @@ div#divSubunitFormContainer form#ohrmFormComponent_Form label#lblParentNotice{
 #tooltip h3, #tooltip div { margin: 0; }
 
 #heading{
-    width: 200px;
-    padding-left: 20px;
+    width: auto;
+    padding-left: 25px;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0px;
 }
 
 div#divSubunitFormContainer form#ohrmFormComponent_Form label{
+    margin-top: 5px;
     padding-left: 5px;
     width: 100px;
 }
@@ -65,4 +66,21 @@ div#divSubunitFormContainer form#ohrmFormComponent_Form label{
 div#divSubunitFormContainer form#ohrmFormComponent_Form label.error{
     padding-left: 105px;
     width: 250px !important;
+}
+
+li {
+    list-style-type: none;
+    margin-bottom: 2px;
+    margin-left: 6px;
+}
+
+input#btnEdit.editbutton{
+    float: left;
+    margin-left: 10px;
+}
+
+
+div#divSubunitFormContainer form#ohrmFormComponent_Form label#lblParentNotice{
+    width: 100%;
+    margin-top: 8px;
 }
