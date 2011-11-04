@@ -61,13 +61,13 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetSelectedCompositeDisplayFields() {
 
-        $reportId = 3;
+        $reportId = 1;
         $results = $this->reportableDao->getSelectedCompositeDisplayFields($reportId);
 
         $this->assertTrue($results[0] instanceOf SelectedCompositeDisplayField);
         $this->assertEquals(2, count($results));
         $this->assertEquals(2, $results[1]->getCompositeDisplayFieldId());
-        $this->assertEquals(3, $results[1]->getReportId());
+        $this->assertEquals(1, $results[1]->getReportId());
         $this->assertEquals(2, $results[1]->getId());
     }
 
@@ -89,7 +89,7 @@ class ReportableDaoTest extends PHPUnit_Framework_TestCase {
         $reportGroupId = 111;
         $results = $this->reportableDao->getMetaDisplayFields($reportId);
 
-        $this->assertTrue(null, $results);
+        $this->assertEquals(0, count($results));
     }
 
     /* Test case for getReport method */

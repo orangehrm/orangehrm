@@ -199,7 +199,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $this->reportGeneratorService->setReportableService($reportableServiceMock);
         $selectStatement = $this->reportGeneratorService->getSelectConditionWithoutSummaryFunction($reportId);
 
-        $this->assertEquals('ohrm_project.name AS projectname,ohrm_project_activity.name AS activityname,CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName,ohrm_project_activity.project_id,ohrm_project_activity.activity_id', $selectStatement);        
+        $this->assertEquals('ohrm_project.name AS projectname,ohrm_project_activity.name AS activityname,CONCAT(hs_hr_employee.emp_firstname, " " ,hs_hr_employee.emp_lastname) AS employeeName', $selectStatement);        
     }
 
     /* Tests generateSql method */
@@ -386,10 +386,10 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $selectedFilterFieldList = new Doctrine_Collection("SelectedFilterField");
         $values = null;
 
-        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 4)));
-        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 5)));
-        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 6)));
-        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(2, 7)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(3, 4)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(3, 5)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(3, 6)));
+        $selectedFilterFieldList->add(TestDataService::fetchObject('SelectedFilterField', array(3, 7)));
 
         $conditionArray = $this->reportGeneratorService->generateWhereClauseConditionArray($selectedFilterFieldList, $values);
 
