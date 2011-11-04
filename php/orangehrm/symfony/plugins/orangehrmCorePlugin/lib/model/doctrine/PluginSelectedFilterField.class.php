@@ -12,5 +12,6 @@
  */
 abstract class PluginSelectedFilterField extends BaseSelectedFilterField
 {
-
+    const RUNTIME_FILTER_FIELD = "Runtime";
+    const PREDEFINED_FILTER_FIELD = "Predefined";
 }

@@ -121,7 +121,7 @@ class ReportGeneratorService {
 
         $reportGroupId = $this->getReportGroupIdOfAReport($reportId);
 
-        $type = PluginAvailableFilterField::RUNTIME_FILTER_FIELD;
+        $type = PluginSelectedFilterField::RUNTIME_FILTER_FIELD;
         $runtimeSelectedFilterFields = $this->getReportableService()->getSelectedFilterFieldsByType($reportId, $type, true);
 
         if (($reportGroupId != null) && ($runtimeSelectedFilterFields != null)) {
@@ -184,7 +184,7 @@ class ReportGeneratorService {
 
         $reportGroupId = $this->getReportGroupIdOfAReport($reportId);
 
-        $type = PluginAvailableFilterField::RUNTIME_FILTER_FIELD;
+        $type = PluginSelectedFilterField::RUNTIME_FILTER_FIELD;
 
         $runtimeSelectedFilterFields = $this->getReportableService()->getSelectedFilterFieldsByType($reportId, $type, true);
         $runtimeFilterFieldList = new Doctrine_Collection("FilterField");
