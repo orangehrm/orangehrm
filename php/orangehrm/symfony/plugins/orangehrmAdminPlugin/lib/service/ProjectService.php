@@ -131,14 +131,20 @@ class ProjectService extends BaseService {
 		return $this->getProjectDao()->getActiveProjectList();
 	}
 
-	public function getActiveProjectListRelatedToProjectAdmin($empNo) {
+	public function getActiveProjectListRelatedToProjectAdmin($empNo, $emptyIfNotAprojectAdmin = false) {
 
 		$projectAdmins = $this->getProjectDao()->getProjectAdminRecordsByEmpNo($empNo);
 
 		$projectIdArray = array();
 
-		foreach ($projectAdmins as $projectAdmin) {
-			$projectIdArray[] = $projectAdmin->getProjectId();
+		if (!is_null($projectAdmins)) {
+			foreach ($projectAdmins as $projectAdmin) {
+				$projectIdArray[] = $projectAdmin->getProjectId();
+			}
+		}
+
+		if (empty($projectIdArray)) {
+			return array();
 		}
 
 		$projectList = $this->getProjectDao()->getActiveProjectsByProjectIds($projectIdArray);
