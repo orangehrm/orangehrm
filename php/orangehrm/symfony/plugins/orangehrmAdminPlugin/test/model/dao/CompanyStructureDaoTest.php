@@ -60,9 +60,9 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
     public function testDeleteSubunit() {
         $subunitList = TestDataService::loadObjectList('Subunit', $this->fixture, 'Subunit');
         $subunit = $subunitList[2];
-        //$id = $subunit->getId();
         $this->assertTrue($this->companyStructureDao->deleteSubunit($subunit));
-        //$this->assertFalse($this->companyStructureDao->getSubunitById($id));
+        $result = TestDataService::fetchObject('Subunit', 3);
+        $this->assertFalse($result);
     }
 
     public function testAddSubunit() {
@@ -80,7 +80,6 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($tree[0]->getLevel());
         $this->assertNotNull($tree[0]->getRgt());
         $this->assertNotNull($tree[0]->getLft());
-
     }
 
 }
