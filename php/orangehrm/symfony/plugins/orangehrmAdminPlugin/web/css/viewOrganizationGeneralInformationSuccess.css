@@ -14,7 +14,7 @@
 
 form input.txtBox {
     border: 1px solid #888888;
-    width:240px;
+    width:200px;
     vertical-align:middle;
     height:14px;
     margin-top: 5px;
@@ -22,7 +22,7 @@ form input.txtBox {
 
 .drpDown {
     margin-top: 5px;
-    width: 250px;
+    width: 210px;
 }
 
 label.error {
@@ -31,7 +31,7 @@ label.error {
     display: block;
     font-size: 11px;
     margin-top: 5px;
-    padding-left: 175px;
+    padding-left: 155px;
     width: 200px !important;
 }
 
@@ -39,25 +39,35 @@ label {
     margin-top: 5px;
     padding-left: 15px;
     text-align: left;
-    width: 160px;
+    width: 140px;
 }
 
 .txtArea{
-     margin-top: 5px;
-     width:240px;
-     height: 90px;
+    margin-top: 5px;
+    width:200px;
+    height: 90px;
 }
 
 #numOfEmployees{
-   margin-top: 5px;
+    margin-top: 5px;
 }
 
-#messageba{
-    width: 600px;
+#messagebar{
+    width: 800px;
     font-weight: bold;
 }
 
 #genInfo{
-    width: 600px;
+    width: 800px;
+}
+
+.leftDiv{
+    float: left;
+    width: 380px;
+}
+
+.rightDiv{
+    float: left;
+    width: 380px;
 }
 

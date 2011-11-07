@@ -31,81 +31,95 @@
 </div>
 
 <div id="genInfo">
-<div class="outerbox">
-    <div class="mainHeading"><h2 id="genInfoHeading"><?php echo __('General Information'); ?></h2></div>
-    <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo url_for('admin/viewOrganizationGeneralInformation'); ?>">
+    <div class="outerbox">
+        <div class="mainHeading"><h2 id="genInfoHeading"><?php echo __('General Information'); ?></h2></div>
+        <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo url_for('admin/viewOrganizationGeneralInformation'); ?>">
 
-        <?php echo $form['_csrf_token']; ?>
-        <?php echo $form['name']->renderLabel(__('Organization Name') . ' <span class="required">*</span>'); ?>
-        <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-        <br class="clear"/>
+            <?php echo $form['_csrf_token']; ?>
+            <br class="clear"/>
 
-        <label><?php echo __("Number of Employees")?></label>
-        <div id="numOfEmployees"><?php echo $employeeCount;?></div>
-        <br/>
+            <div class="leftDiv">
+                <?php echo $form['name']->renderLabel(__('Organization Name') . ' <span class="required">*</span>'); ?>
+                <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['taxId']->renderLabel(__('Tax ID')); ?>
-        <?php echo $form['taxId']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+                <label><?php echo __("Number of Employees") ?></label>
+                <div id="numOfEmployees"><?php echo $employeeCount; ?></div>
+            </div>
 
-        <?php echo $form['registraionNumber']->renderLabel(__('Registration Number')); ?>
-        <?php echo $form['registraionNumber']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
-        <br />
-        <div class="hrLine"></div>
 
-        <?php echo $form['phone']->renderLabel(__('Phone')); ?>
-        <?php echo $form['phone']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+            <div class="rightDiv">
+                <?php echo $form['taxId']->renderLabel(__('Tax ID')); ?>
+                <?php echo $form['taxId']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['fax']->renderLabel(__('Fax')); ?>
-        <?php echo $form['fax']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+                <?php echo $form['registraionNumber']->renderLabel(__('Registration Number')); ?>
+                <?php echo $form['registraionNumber']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+            </div>
 
-        <?php echo $form['email']->renderLabel(__('Email')); ?>
-        <?php echo $form['email']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
-        <br />
-        <div class="hrLine" ></div>
+            <br class="clear"/>
+            <br />
+            <div class="hrLine"></div>
+            <br class="clear"/>
+            <div class="leftDiv">
+                <?php echo $form['phone']->renderLabel(__('Phone')); ?>
+                <?php echo $form['phone']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['street1']->renderLabel(__('Address Street 1')); ?>
-        <?php echo $form['street1']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-        <br class="clear"/>
+                <?php echo $form['fax']->renderLabel(__('Fax')); ?>
+                <?php echo $form['fax']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+            </div>
 
-        <?php echo $form['street2']->renderLabel(__('Address Street 2')); ?>
-        <?php echo $form['street2']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-        <br class="clear"/>
+            <div class="rightDiv">
+                <?php echo $form['email']->renderLabel(__('Email')); ?>
+                <?php echo $form['email']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+            </div>
+            <br class="clear"/>
+            <br />
+            <div class="hrLine" ></div>
+            <br class="clear"/>
 
-        <?php echo $form['city']->renderLabel(__('City')); ?>
-        <?php echo $form['city']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+            <div class="leftDiv">
+                <?php echo $form['street1']->renderLabel(__('Address Street 1')); ?>
+                <?php echo $form['street1']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['province']->renderLabel(__('State/Province')); ?>
-        <?php echo $form['province']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+                <?php echo $form['street2']->renderLabel(__('Address Street 2')); ?>
+                <?php echo $form['street2']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['zipCode']->renderLabel(__('Zip/Postal Code')); ?>
-        <?php echo $form['zipCode']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-        <br class="clear"/>
+                <?php echo $form['city']->renderLabel(__('City')); ?>
+                <?php echo $form['city']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+            </div>
+            <div class="rightDiv">
+                <?php echo $form['province']->renderLabel(__('State/Province')); ?>
+                <?php echo $form['province']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['country']->renderLabel(__('Country')); ?>
-        <?php echo $form['country']->render(array("class" => "drpDown", "maxlength" => 30)); ?>
-        <br class="clear"/>
+                <?php echo $form['zipCode']->renderLabel(__('Zip/Postal Code')); ?>
+                <?php echo $form['zipCode']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
+                <br class="clear"/>
 
-        <?php echo $form['note']->renderLabel(__('Note')); ?>
-        <?php echo $form['note']->render(array("class" => "txtArea", "maxlength" => 255)); ?>
-        <br class="clear"/>
-        
-        <div class="formbuttons">
-            <input type="button" class="savebutton" name="btnSaveGenInfo" id="btnSaveGenInfo"
-                   value="<?php echo __("Edit"); ?>"
-                   onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-        </div>
-    </form>
+                <?php echo $form['country']->renderLabel(__('Country')); ?>
+                <?php echo $form['country']->render(array("class" => "drpDown", "maxlength" => 30)); ?>
+            </div>
+            <br class="clear"/>
+            <div class="leftDiv">
+                <?php echo $form['note']->renderLabel(__('Note')); ?>
+                <?php echo $form['note']->render(array("class" => "txtArea", "maxlength" => 255)); ?>
+            </div>
+            <br class="clear"/>
+
+            <div class="formbuttons">
+                <input type="button" class="savebutton" name="btnSaveGenInfo" id="btnSaveGenInfo"
+                       value="<?php echo __("Edit"); ?>"
+                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+            </div>
+        </form>
+    </div>
 </div>
-</div>
 
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 
 <script type="text/javascript">
 
@@ -115,6 +129,6 @@
     var nameRequired = '<?php echo __('Organization name required'); ?>';
     var invalidPhoneNumber = '<?php echo __('Phone number can contain only space, numbers, "+", and "-"'); ?>';
     var invalidFaxNumber = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';
-    var incorrectEmail = "<?php echo __('Email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
+    var incorrectEmail = "<?php echo __('Email address should contain at least one \".\" and one \"@\" Example:user@example.com'); ?>";
     //]]>
 </script>
