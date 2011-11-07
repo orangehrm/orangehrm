@@ -17,7 +17,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class CompanyStructureService extends BaseService {
 
     private $companyStructureDao;
@@ -60,21 +59,53 @@ class CompanyStructureService extends BaseService {
         return $this->getCompanyStructureDao()->saveSubunit($subunit);
     }
 
-
+    /**
+     * Save the parent sub unit again
+     *
+     * This will update the parent sub unit if the child is changed.
+     *
+     * @version
+     * @param Subunit $parentSubunit
+     * @param Subunit $subunit
+     * @return boolean
+     */
     public function addSubunit(Subunit $parentSubunit, Subunit $subunit) {
         return $this->getCompanyStructureDao()->addSubunit($parentSubunit, $subunit);
     }
 
+    /**
+     * Delete subunit
+     *
+     * This will delete the passed subunit and it's children
+     *
+     * @version
+     * @param Subunit $subunit
+     * @return boolean
+     */
     public function deleteSubunit(Subunit $subunit) {
         return $this->getCompanyStructureDao()->deleteSubunit($subunit);
     }
 
-    public function setOrganizationName($name){
+    /**
+     * Set the organization name to the root of the tree. Previously the root has the name
+     * 'Organization' then if the company name is set this will update the root node of the tree
+     *
+     * @version
+     * @param string $name
+     * @return int - affected rows
+     */
+    public function setOrganizationName($name) {
         return $this->getCompanyStructureDao()->setOrganizationName($name);
     }
 
-    public function getSubunitTreeObject(){
-       return $this->getCompanyStructureDao()->getSubunitTreeObject();
+    /**
+     * Get the whole subunit tree
+     *
+     * @version
+     * @return Nested set - Subunit object list
+     */
+    public function getSubunitTreeObject() {
+        return $this->getCompanyStructureDao()->getSubunitTreeObject();
     }
 
 }

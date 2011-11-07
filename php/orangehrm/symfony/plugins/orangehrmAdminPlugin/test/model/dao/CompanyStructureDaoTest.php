@@ -74,5 +74,14 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($parentSubunit->getId());
     }
 
+    public function testGetSubunitTreeObject() {
+        $treeObject = $this->companyStructureDao->getSubunitTreeObject();
+        $tree = $treeObject->fetchTree();
+        $this->assertNotNull($tree[0]->getLevel());
+        $this->assertNotNull($tree[0]->getRgt());
+        $this->assertNotNull($tree[0]->getLft());
+
+    }
+
 }
 
