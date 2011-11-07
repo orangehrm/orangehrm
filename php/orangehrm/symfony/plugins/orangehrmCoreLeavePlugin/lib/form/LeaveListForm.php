@@ -28,6 +28,19 @@ class LeaveListForm extends sfForm {
     private $empJson;
     private $leavePeriodService;
     public $pageNo;
+    private $companyStructureService;
+
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
+        }
+        return $this->companyStructureService;
+    }
+
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
+    }
 
     public function __construct($mode = null, $leavePeriod = null, $employee = null, $filters = null, $loggedUserId = null, $leaveRequest = null) {
 
@@ -185,20 +198,14 @@ class LeaveListForm extends sfForm {
         $this->getWidget('calToDate')->setDefault($endDate);
 
         if ($this->mode != self::MODE_MY_LEAVE_LIST && $this->mode != self::MODE_MY_LEAVE_DETAILED_LIST) {
-
-            $companyService = new CompanyService();
-
             $subUnitList = array(0 => "All");
 
-            $tree = $companyService->getSubDivisionTree();
+            $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
+
+            $tree = $treeObject->fetchTree();
 
             foreach ($tree as $node) {
-
-                // Add nodes, indenting correctly. Skip root node
-                if ($node->getId() != 1) {
-                    $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
-                    $subUnitList[$node->getId()] = $indent . $node->getTitle();
-                }
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'];
             }
 
             $employeeId = trim($this->_getFilterParam('txtEmpId'));

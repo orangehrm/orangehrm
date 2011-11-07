@@ -20,8 +20,23 @@
  */
 class viewCompanyStructureHtmlAction extends sfAction {
 
+     private $companyStructureService;
+
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
+        }
+        return $this->companyStructureService;
+    }
+
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
+    }
+
+
     public function execute($request) {
-        $treeObject = Doctrine::getTable('Subunit')->getTree();
+        $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
         $tree = new ohrmTreeViewComponent();
         $tree->getPropertyObject()->setTreeObject($treeObject);
         $this->tree = $tree;

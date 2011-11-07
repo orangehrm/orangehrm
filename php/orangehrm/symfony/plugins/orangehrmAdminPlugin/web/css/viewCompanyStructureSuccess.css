@@ -6,7 +6,7 @@
 }
 
 #divSubunitFormContainer {
-    width: 49%;
+    width: 450px;
     display: block;
     float: left;
 }
@@ -79,8 +79,15 @@ input#btnEdit.editbutton{
     margin-left: 10px;
 }
 
-
 div#divSubunitFormContainer form#ohrmFormComponent_Form label#lblParentNotice{
     width: 100%;
     margin-top: 8px;
+}
+
+#unitDialog{
+    display:none;
+}
+
+#dltDialog{
+    display:none;
 }

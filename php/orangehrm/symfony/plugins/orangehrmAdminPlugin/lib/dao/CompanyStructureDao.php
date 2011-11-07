@@ -17,7 +17,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class CompanyStructureDao extends BaseDao {
 
     public function getSubunitById($id) {
@@ -75,12 +74,20 @@ class CompanyStructureDao extends BaseDao {
         }
     }
 
-    public function setOrganizationName($name){
+    public function setOrganizationName($name) {
         try {
-        $q = Doctrine_Query:: create()->update('Subunit')
-                    ->set('name', '?', $name)
-                    ->where('id = 1');
+            $q = Doctrine_Query:: create()->update('Subunit')
+                            ->set('name', '?', $name)
+                            ->where('id = 1');
             return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function getSubunitTreeObject() {
+        try {
+            return Doctrine::getTable('Subunit')->getTree();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

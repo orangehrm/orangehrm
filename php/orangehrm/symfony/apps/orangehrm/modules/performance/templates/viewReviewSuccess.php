@@ -71,14 +71,14 @@ $formatData['newSeparater'] = '/';
                     <select id="txtSubDivisionId" name="txtSubDivisionId" class="formSelect" tabindex="4">
                         <option value="0">All</option>
                         <?php
-                        foreach ($subDivisionList as $subDivisionb) {
+                        foreach ($tree as $node) {
 
-                            if ($subDivisionb->getId() == $clues['divisionId']) {
+                            if ($node->getId() == $clues['divisionId']) {
                                 $selected = ' selected';
                             } else {
                                 $selected = '';
                             }
-                            echo "<option value=\"" . $subDivisionb->getId() . "\"" . $selected . ">" . $subDivisionb->getTitle() . "</option>\n";
+                            echo "<option value=\"" . $node->getId() . "\"" . $selected . ">" . str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'] . "</option>\n";
                         }
                         ?>
                     </select>

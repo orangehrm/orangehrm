@@ -20,7 +20,7 @@
 class AttendanceTotalSummaryReportForm extends sfForm {
 
     private $jobService;
-    private $companyService;
+    private $companyStructureService;
     public $emoloyeeList;
 
     public function configure() {
@@ -63,18 +63,6 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $this->jobService = $jobService;
     }
 
-    public function getCompanyService() {
-        if (is_null($this->companyService)) {
-            $this->companyService = new CompanyService();
-            $this->companyService->setCompanyDao(new CompanyDao());
-        }
-        return $this->companyService;
-    }
-
-    public function setCompanyService(CompanyService $companyService) {
-        $this->companyService = $companyService;
-    }
-
     private function _setJobTitleWidget() {
 
         $jobService = $this->getJobService();
@@ -90,35 +78,29 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $this->setValidator('jobTitle', new sfValidatorChoice(array('choices' => array_keys($choices))));
     }
 
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
+        }
+        return $this->companyStructureService;
+    }
+
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
+    }
+
     private function _setSubDivisionWidget() {
-
-        $choice = array();
-
-        $companyService = $this->getCompanyService();
-        $tree = $companyService->getSubDivisionTree();
 
         $subUnitList[0] = __("All");
 
+        $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
+
+        $tree = $treeObject->fetchTree();
+
         foreach ($tree as $node) {
-
-            // Add nodes, indenting correctly. Skip root node
-            if ($node->getId() != 1) {
-                if ($node->depth == "") {
-                    $node->depth = 1;
-                }
-
-                $value = $node->getId();
-                $children = $node->getChildren();
-
-                foreach ($children as $childNode) {
-                    $value = $value . "," . $childNode->getId();
-                }
-
-                $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
-                $subUnitList[$value] = $indent . $node->getTitle();
-            }
+            $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'];
         }
-
         $this->setWidget('subUnit', new sfWidgetFormChoice(array('choices' => $subUnitList)));
         $this->setValidator('subUnit', new sfValidatorChoice(array('choices' => array_keys($subUnitList))));
     }

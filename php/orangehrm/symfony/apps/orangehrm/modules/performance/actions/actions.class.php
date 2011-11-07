@@ -675,8 +675,9 @@ class performanceActions extends sfActions {
             }
 
             /* Subdivision list */
-            $companyService = new CompanyService();
-            $this->subDivisionList = $companyService->getSubDivisionList();
+            $compStructure = new CompanyStructureService();
+            $treeObject = $compStructure->getSubunitTreeObject();
+            $this->tree = $treeObject->fetchTree();
 
             /* Checking whether a newly invoked search form */
             $newSearch = false;

@@ -33,10 +33,29 @@ class CompanyStructureService extends BaseService {
         $this->companyStructureDao = $dao;
     }
 
+    /**
+     * Get sub unit for a given id
+     *
+     * @version
+     * @param int $id Subunit auto incremental id
+     * @return Subunit instance if found or a dao exception
+     */
     public function getSubunitById($id) {
         return $this->getCompanyStructureDao()->getSubunitById($id);
     }
 
+    /**
+     * Save a Subunit
+     *
+     * If id is not set, it will be set to next available value and a new subunit
+     * will be added.
+     *
+     * If id is set the belonged subunit will be updated.
+     *
+     * @version
+     * @param Subunit $subunit
+     * @return boolean
+     */
     public function saveSubunit(Subunit $subunit) {
         return $this->getCompanyStructureDao()->saveSubunit($subunit);
     }
@@ -46,13 +65,16 @@ class CompanyStructureService extends BaseService {
         return $this->getCompanyStructureDao()->addSubunit($parentSubunit, $subunit);
     }
 
-
     public function deleteSubunit(Subunit $subunit) {
         return $this->getCompanyStructureDao()->deleteSubunit($subunit);
     }
 
     public function setOrganizationName($name){
         return $this->getCompanyStructureDao()->setOrganizationName($name);
+    }
+
+    public function getSubunitTreeObject(){
+       return $this->getCompanyStructureDao()->getSubunitTreeObject();
     }
 
 }

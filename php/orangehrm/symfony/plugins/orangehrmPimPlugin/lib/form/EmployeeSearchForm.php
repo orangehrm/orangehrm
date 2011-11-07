@@ -25,16 +25,16 @@ class EmployeeSearchForm extends BaseForm {
 
     private $userType;
     private $loggedInUserId;
-    private $companyService;
+    private $companyStructureService;
     private $jobService;
 
     public function configure() {
 
-        $this->userType =  $this->getOption('userType');
-        $this->loggedInUserId =  $this->getOption('loggedInUserId');
-        
+        $this->userType = $this->getOption('userType');
+        $this->loggedInUserId = $this->getOption('loggedInUserId');
+
         $this->setWidgets(array(
-            'employee_name' => new sfWidgetFormInputText(),            
+            'employee_name' => new sfWidgetFormInputText(),
             'id' => new sfWidgetFormInputText(),
         ));
 
@@ -42,7 +42,7 @@ class EmployeeSearchForm extends BaseForm {
         $this->_setJobTitleWidget();
 
         /* Setting sub divisions */
-        $this->_setSubDivisionWidget();
+        $this->_setSubunitWidget();
 
         $this->_setEmployeeStatusWidget();
 
@@ -52,13 +52,13 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->setValidator('employee_name', new sfValidatorString(array('required' => false)));
         $this->setValidator('id', new sfValidatorString(array('required' => false)));
-        
+
         $this->widgetSchema->setNameFormat('empsearch[%s]');
     }
 
     public function getEmployeeListAsJson() {
 
-        $jsonArray	=	array();
+        $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
@@ -67,44 +67,40 @@ class EmployeeSearchForm extends BaseForm {
         } elseif ($this->userType == 'Supervisor') {
 
             $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
-
         }
 
         $employeeUnique = array();
-        foreach($employeeList as $employee) {
+        foreach ($employeeList as $employee) {
 
-            if(!isset($employeeUnique[$employee->getEmpNumber()])) {
+            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
                 $name = $employee->getFirstName() . " " . $employee->getMiddleName();
                 $name = trim(trim($name) . " " . $employee->getLastName());
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
             }
-
         }
 
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;
-
     }
 
     public function getSupervisorListAsJson() {
 
-        $jsonArray	=	array();
+        $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $employeeList = $employeeService->getSupervisorList();
 
-        foreach($employeeList as $employee) {
+        foreach ($employeeList as $employee) {
 
             $name = $employee->getFirstName() . " " . $employee->getMiddleName();
             $name = trim(trim($name) . " " . $employee->getLastName());
 
-            $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
-
+            $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
         }
 
         $jsonString = json_encode($jsonArray);
@@ -113,7 +109,7 @@ class EmployeeSearchForm extends BaseForm {
     }
 
     public function getJobService() {
-        if(is_null($this->jobService)) {
+        if (is_null($this->jobService)) {
             $this->jobService = new JobService();
             $this->jobService->setJobDao(new JobDao());
         }
@@ -136,8 +132,8 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->setWidget('job_title', new sfWidgetFormChoice(array('choices' => $choices)));
         $this->setValidator('job_title', new sfValidatorChoice(array('choices' => array_keys($choices))));
-
     }
+
     private function _setEmployeeStatusWidget() {
 
         $jobService = $this->getJobService();
@@ -150,43 +146,32 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->setWidget('employee_status', new sfWidgetFormChoice(array('choices' => $choices)));
         $this->setValidator('employee_status', new sfValidatorChoice(array('choices' => array_keys($choices))));
-
     }
 
-    public function getCompanyService() {
-        if(is_null($this->companyService)) {
-            $this->companyService = new CompanyService();
-            $this->companyService->setCompanyDao(new CompanyDao());
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
         }
-        return $this->companyService;
+        return $this->companyStructureService;
     }
 
-    public function setCompanyService(CompanyService $companyService) {
-        $this->companyService = $companyService;
+    public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
+        $this->companyStructureService = $companyStructureService;
     }
-    
-    private function _setSubDivisionWidget() {
 
-        $companyService = $this->getCompanyService();
+    private function _setSubunitWidget() {
 
         $subUnitList = array(0 => __("All"));
-        $tree = $companyService->getSubDivisionTree();
+        $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
 
-        foreach($tree as $node) {
+        $tree = $treeObject->fetchTree();
 
-            // Add nodes, indenting correctly. Skip root node
-            if ($node->getId() != 1) {
-                if($node->depth == "") {
-                    $node->depth = 1;
-                }
-                $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
-                $subUnitList[$node->getId()] = $indent . $node->getTitle();
-            }
+        foreach ($tree as $node) {
+            $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'];
         }
-
         $this->setWidget('sub_unit', new sfWidgetFormChoice(array('choices' => $subUnitList)));
         $this->setValidator('sub_unit', new sfValidatorChoice(array('choices' => array_keys($subUnitList))));
-
     }
 
 }
