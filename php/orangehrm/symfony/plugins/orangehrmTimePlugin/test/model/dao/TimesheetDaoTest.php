@@ -27,7 +27,6 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->timesheetDao = new TimesheetDao();
-        TestDataService::truncateTables(array('TimesheetActionLog', 'TimesheetItem', 'Timesheet', 'ProjectActivity', 'Project', 'Customer', 'Users'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml');
     }
 
@@ -503,9 +502,18 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetTimesheetTimeFormat() {
 
+        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao->expects($this->once())
+                     ->method('getValue')
+                     ->with(ConfigService::KEY_TIMESHEET_TIME_FORMAT)
+                     ->will($this->returnValue(1));
+        
+        $this->timesheetDao->setConfigDao($configDao);      
+        
         $format = $this->timesheetDao->getTimesheetTimeFormat();
-  
+        
         $this->assertEquals('1', $format);
+        
     }
 
     public function testGetLatestTimesheetEndDate() {

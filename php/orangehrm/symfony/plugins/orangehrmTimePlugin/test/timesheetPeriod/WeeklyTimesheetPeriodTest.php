@@ -33,23 +33,23 @@ class WeeklyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
         sfContext::getInstance()->getUser()->setAttribute('user', $userObj);        
 
         $datesArray = $this->weeklyTimesheetPeriod->calculateDaysInTheTimesheetPeriod($currentDate, $xmlString);
-        $this->assertEquals($datesArray[0], "2011-04-20");
-        $this->assertEquals($datesArray[3], "2011-04-23");
-        $this->assertEquals(end($datesArray), "2011-04-26");
+        $this->assertEquals($datesArray[0], "2011-04-18 00:00");
+        $this->assertEquals($datesArray[3], "2011-04-21 00:00");
+        $this->assertEquals(end($datesArray), "2011-04-24 00:00");
 
         $currentDate = '2012-02-28';
 
         $datesArray = $this->weeklyTimesheetPeriod->calculateDaysInTheTimesheetPeriod($currentDate, $xmlString);
-        $this->assertEquals($datesArray[0], "2012-02-22");
-        $this->assertEquals($datesArray[3], "2012-02-25");
-        $this->assertEquals(end($datesArray), "2012-02-28");
+        $this->assertEquals($datesArray[0], "2012-02-27 00:00");
+        $this->assertEquals($datesArray[3], "2012-03-01 00:00");
+        $this->assertEquals(end($datesArray), "2012-03-04 00:00");
 
         $currentDate = '2011-12-29';
 
         $datesArray = $this->weeklyTimesheetPeriod->calculateDaysInTheTimesheetPeriod($currentDate, $xmlString);
-        $this->assertEquals($datesArray[0], "2011-12-28");
-        $this->assertEquals($datesArray[3], "2011-12-31");
-        $this->assertEquals(end($datesArray), "2012-01-03");
+        $this->assertEquals($datesArray[0], "2011-12-26 00:00");
+        $this->assertEquals($datesArray[3], "2011-12-29 00:00");
+        $this->assertEquals(end($datesArray), "2012-01-01 00:00");
     }
 
     public function testSetTimesheetPeriodAndStartDate() {
