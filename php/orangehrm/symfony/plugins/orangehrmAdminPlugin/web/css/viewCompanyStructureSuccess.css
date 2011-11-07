@@ -76,7 +76,7 @@ li {
 
 input#btnEdit.editbutton{
     float: left;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 div#divSubunitFormContainer form#ohrmFormComponent_Form label#lblParentNotice{

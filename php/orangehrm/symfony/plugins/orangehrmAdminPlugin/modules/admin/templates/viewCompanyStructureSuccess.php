@@ -11,11 +11,13 @@
 <div id="messageDiv"></div>
 <br class="clear"/>
 <label id="heading"><?php echo __("Company Structure") ?></label>
-<input type="button" class="editbutton" name="btnEdit" id="btnEdit"
-       value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 <br class="clear"/>
 <br class="clear"/>
 <div id="divCompanyStructureContainer"><?php $tree->render(); ?></div>
+<br class="clear"/>
+<br class="clear"/>
+<input type="button" class="editbutton" name="btnEdit" id="btnEdit"
+       value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
 <div id="unitDialog" title="">
     <div id="divSubunitFormContainer"><?php $form->render();
