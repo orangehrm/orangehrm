@@ -142,11 +142,4 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
         $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod3', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);    }
 
-    /**
-     * @todo Implement this test
-     */
-    public function testDecorateQuery_DQL_SelectFields() {
-        $this->markTestIncomplete();
-    }
-
 }
