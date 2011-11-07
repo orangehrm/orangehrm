@@ -243,9 +243,15 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
     }
 
     public function testConvertDurationToHours() {
+        
+        $timesheetService = $this->getMock('TimesheetService', array('getTimesheetTimeFormat'));
+        $timesheetService->expects($this->exactly(2))
+                         ->method('getTimesheetTimeFormat')
+                         ->will($this->returnValue(1));
 
-        $durationInHours = $this->timesheetService->convertDurationToHours(3600);
-        $durationInHours1 = $this->timesheetService->convertDurationToHours(5400);
+        $durationInHours = $timesheetService->convertDurationToHours(3600);
+        $durationInHours1 = $timesheetService->convertDurationToHours(5400);
+
         $this->assertEquals($durationInHours, '1:00');
         $this->assertEquals($durationInHours1, '1:30');
     }
