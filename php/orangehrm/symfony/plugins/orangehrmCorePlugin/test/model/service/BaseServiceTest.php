@@ -131,15 +131,15 @@ class BaseServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedQuery, $resultQuery);
 
         /* Single field */
-        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`, `emp_firstname`";
-        $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod1', $originalQuery);
-        $this->assertEquals($expectedQuery, $resultQuery);        
+        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname` LIMIT 0,10";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_firstname` , `emp_lastname`   LIMIT  0,10";
+        $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod2', $originalQuery);
+        $this->assertEquals($expectedQuery, $resultQuery);
 
         /* Multiple fields without a WHERE clause */
-        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`";
-        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname`, `emp_firstname`, `job_title_code`, `joined_date`";
-        $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod2', $originalQuery);
+        $originalQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_lastname` LIMIT 0,10";
+        $expectedQuery = "SELECT `emp_firstname`, `emp_lastname` FROM `hs_hr_employee` ORDER BY `emp_firstname`, `job_title_code`, `joined_date` , `emp_lastname`   LIMIT  0,10";
+        $resultQuery = $this->baseService->decorateQuery('SampleService_ForOrderBy', 'sampleMethod3', $originalQuery);
         $this->assertEquals($expectedQuery, $resultQuery);    }
 
     /**

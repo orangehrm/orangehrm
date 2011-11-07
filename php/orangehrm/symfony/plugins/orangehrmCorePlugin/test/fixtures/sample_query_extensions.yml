@@ -55,11 +55,14 @@ SampleService_ForOrderBy:
     select: []
     where: []
     orderBy:
-      - emp_firstname
+      - { field: emp_firstname, position: after }
   sampleMethod2:
     select: []
     where: []
     orderBy:
-      - emp_firstname
-      - job_title_code
-      - joined_date
+      - { field: emp_firstname, position: before }
+  sampleMethod3:
+    select: []
+    where: []
+    orderBy:
+      - { field: 'emp_firstname`, `job_title_code`, `joined_date', position: before }
