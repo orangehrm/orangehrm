@@ -20,7 +20,7 @@
 
 class CompanyStructureDao extends BaseDao {
 
-    public function getSubunit($id) {
+    public function getSubunitById($id) {
         try {
             return Doctrine::getTable('Subunit')->find($id);
         } catch (Exception $e) {
@@ -51,9 +51,6 @@ class CompanyStructureDao extends BaseDao {
     public function addSubunit(Subunit $parentSubunit, Subunit $subunit) {
         try {
             $subunit->setId(0);
-
-            $treeObject = Doctrine::getTable('Subunit')->getTree();
-
             $subunit->getNode()->insertAsLastChildOf($parentSubunit);
 
             $parentSubunit->setRgt($parentSubunit->getRgt() + 2);

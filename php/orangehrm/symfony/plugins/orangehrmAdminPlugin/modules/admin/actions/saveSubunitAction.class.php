@@ -35,21 +35,21 @@ class saveSubunitAction extends sfAction {
             if (empty($parentId)) {
                 $result = $this->getCompanyStructureService()->saveSubunit($subunit);
             } else {
-                $parentSubunit = $this->getCompanyStructureService()->getSubunit($parentId);
+                $parentSubunit = $this->getCompanyStructureService()->getSubunitById($parentId);
                 $result = $this->getCompanyStructureService()->addSubunit($parentSubunit, $subunit);
             }
 
             if ($result) {
                 $object->affectedId = $subunit->getId();
                 $object->messageType = 'success';
-                $object->message = __('Sub Unit Was Saved Successfully');
+                $object->message = __('Sub Unit Saved Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = __('Failed to save sub unit');
+                $object->message = __('Failed to Save Sub Unit');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = __('Failed to save sub unit');
+            $object->message = __('Sub Unit Name Cannot be Duplicated');
         }
 
         @ob_clean();

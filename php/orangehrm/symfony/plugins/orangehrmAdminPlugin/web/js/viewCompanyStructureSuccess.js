@@ -12,7 +12,7 @@ $(document).ready(function() {
         autoOpen: false,
         modal: true,
         width: 300,
-        height: 150,
+        height: 130,
         position: 'middle'
     });
 

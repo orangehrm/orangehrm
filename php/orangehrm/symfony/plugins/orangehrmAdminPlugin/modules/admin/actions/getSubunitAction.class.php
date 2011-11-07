@@ -41,7 +41,7 @@ class getSubunitAction extends sfAction{
         $object = new stdClass();
 
         try {
-            $subunit = $this->getCompanyStructureService()->getSubunit($subunitId);
+            $subunit = $this->getCompanyStructureService()->getSubunitById($subunitId);
             $object->id = $subunit->getId();
             $object->name = $subunit->getName();
             $object->description = $subunit->getDescription();

@@ -39,8 +39,11 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($this->companyStructureDao->setOrganizationName("OrangeHRM"), 1);
     }
 
-    public function testGetSubunit() {
-        $this->assertTrue($this->companyStructureDao->getSubunit(1) instanceof Subunit);
+    public function testGetSubunitById() {
+        $savedSubunit = $this->companyStructureDao->getSubunitById(1);
+        $this->assertTrue($savedSubunit instanceof Subunit);
+        $this->assertEquals($savedSubunit->getId(), 1);
+        $this->assertEquals($savedSubunit->getName(), 'Organization');
     }
 
     public function testSaveSubunit() {
@@ -51,13 +54,15 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $subunit->setRgt(3);
         $subunit->setLevel(1);
         $this->assertTrue($this->companyStructureDao->saveSubunit($subunit));
+        $this->assertNotNull($subunit->getId());
     }
 
     public function testDeleteSubunit() {
-        $subunit = new Subunit();
-        $subunit->setLft(2);
-        $subunit->setRgt(5);
+        $subunitList = TestDataService::loadObjectList('Subunit', $this->fixture, 'Subunit');
+        $subunit = $subunitList[2];
+        //$id = $subunit->getId();
         $this->assertTrue($this->companyStructureDao->deleteSubunit($subunit));
+        //$this->assertFalse($this->companyStructureDao->getSubunitById($id));
     }
 
     public function testAddSubunit() {
@@ -66,6 +71,7 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $parentSubunit = new Subunit();
         $parentSubunit->setName("New Department");
         $this->assertTrue($this->companyStructureDao->addSubunit($parentSubunit, $subunit));
+        $this->assertNotNull($parentSubunit->getId());
     }
 
 }

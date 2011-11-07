@@ -23,7 +23,7 @@ class CompanyStructureService extends BaseService {
     private $companyStructureDao;
 
     public function getCompanyStructureDao() {
-        if (!(isset($this->companyStructureDao) && $this->companyStructureDao instanceof CompanyStructureDao)) {
+        if (!($this->companyStructureDao instanceof CompanyStructureDao)) {
             $this->companyStructureDao = new CompanyStructureDao();
         }
         return $this->companyStructureDao;
@@ -33,8 +33,8 @@ class CompanyStructureService extends BaseService {
         $this->companyStructureDao = $dao;
     }
 
-    public function getSubunit($id) {
-        return $this->getCompanyStructureDao()->getSubunit($id);
+    public function getSubunitById($id) {
+        return $this->getCompanyStructureDao()->getSubunitById($id);
     }
 
     public function saveSubunit(Subunit $subunit) {

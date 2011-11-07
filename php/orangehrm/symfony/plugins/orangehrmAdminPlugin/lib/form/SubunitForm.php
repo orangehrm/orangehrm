@@ -24,7 +24,7 @@ class SubunitForm extends ohrmFormComponent {
         $properties = new ohrmFormComponentProperty();
 
         $properties->setService(new CompanyStructureService());
-        $properties->setMethod('getSubunit');
+        $properties->setMethod('getSubunitById');
         $properties->setParameters(array(1));
         $properties->setFields(array(
             'Id' => 'getId',

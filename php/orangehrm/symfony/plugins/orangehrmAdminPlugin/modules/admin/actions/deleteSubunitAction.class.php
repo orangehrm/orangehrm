@@ -38,19 +38,19 @@ class deleteSubunitAction extends sfAction {
         $id = trim($request->getParameter('subunitId'));
 
         try {
-            $subunit = $this->getCompanyStructureService()->getSubunit($id);
+            $subunit = $this->getCompanyStructureService()->getSubunitById($id);
             $result = $this->getCompanyStructureService()->deleteSubunit($subunit);
 
             if ($result) {
                 $object->messageType = 'success';
-                $object->message = __('Sub Unit Was Deleted Successfully');
+                $object->message = __('Sub Unit Deleted Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = __('Failed to delete sub unit');
+                $object->message = __('Failed to Delete Sub Unit');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = __('Failed to delete sub unit');
+            $object->message = __('Failed to Delete Sub Unit');
         }
 
         @ob_clean();
