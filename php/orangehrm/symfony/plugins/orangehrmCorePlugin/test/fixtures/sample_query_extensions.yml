@@ -1,27 +1,27 @@
 SampleService_ForSelect:
   sampleMethod1:
     select:
-      - emp_middle_name
+      - { field: emp_middle_name }
     where: []
     orderBy: []
 
   sampleMethod2:
     select:
-      - emp_middle_name
-      - job_title_code
-      - joined_date
+      - { field: emp_middle_name }
+      - { field: job_title_code }
+      - { field: joined_date }
     where: []
     orderBy: []
   sampleMethod3:
     select:
-      - {field: emp_middle_name, alias: middleName}
+      - { field: emp_middle_name, alias: middleName }
     where: []
     orderBy: []
   sampleMethod4:
     select:
-      - {field: emp_middle_name, alias: middleName}
-      - job_title_code
-      - {field: joined_date, alias: active}
+      - { field: emp_middle_name, alias: middleName }
+      - { field: job_title_code }
+      - { field: joined_date, alias: active }
     where: []
     orderBy: []
   sampleMethod5:
