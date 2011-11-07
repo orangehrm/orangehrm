@@ -1674,11 +1674,6 @@ alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
        						references hs_hr_users (id) on delete cascade;
 
-alter table `ohrm_project`
-  add constraint foreign key (`customer_id`)
-   	references `ohrm_customer` (`customer_id`)
-		on delete restrict;
-
 alter table `ohrm_project_activity`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
 
