@@ -51,3 +51,13 @@ label {
 #numOfEmployees{
    margin-top: 5px;
 }
+
+#messageba{
+    width: 600px;
+    font-weight: bold;
+}
+
+#genInfo{
+    width: 600px;
+}
+

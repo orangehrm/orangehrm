@@ -41,8 +41,11 @@ class viewOrganizationGeneralInformationAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $result = $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Organization Information Saved Successfully')));
-                $this->redirect('admin/viewOrganizationGeneralInformation');
+                $name = $this->form->getValue('name');
+                $organizationName = (!empty($name)) ? $name : __("Organization");
+                $companyStructureService = new CompanyStructureService();
+                $companyStructureService->setOrganizationName($organizationName);
+                list($this->messageType, $this->message) = array('success', __('Organization Information Saved Successfully'));
             }
         }
     }

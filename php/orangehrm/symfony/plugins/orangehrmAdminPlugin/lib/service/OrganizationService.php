@@ -33,6 +33,13 @@ class OrganizationService extends BaseService {
         $this->organizationDao = $organizationDao;
     }
 
+
+    /**
+     * Get organization general information
+     * 
+     * @version
+     * @return Organization $organization
+     */
     public function getOrganizationGeneralInformation(){
         return $this->getOrganizationDao()->getOrganizationGeneralInformation();
     }

@@ -26,11 +26,11 @@
 <?php echo javascript_include_tag('../orangehrmAdminPlugin/js/viewOrganizationGeneralInformationSuccess'); ?>
 <?php echo stylesheet_tag('../orangehrmAdminPlugin/css/viewOrganizationGeneralInformationSuccess'); ?>
 
-<div id="messagebar" style="width: 600px;" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold; "><?php echo isset($message) ? $message : ''; ?></span>
+<div id="messagebar"  class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
+    <span><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 
-<div id="genInfo" style="width: 600px">
+<div id="genInfo">
 <div class="outerbox">
     <div class="mainHeading"><h2 id="genInfoHeading"><?php echo __('General Information'); ?></h2></div>
     <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo url_for('admin/viewOrganizationGeneralInformation'); ?>">
