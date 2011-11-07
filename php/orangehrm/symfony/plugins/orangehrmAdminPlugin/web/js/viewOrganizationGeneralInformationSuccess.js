@@ -34,7 +34,7 @@ $(document).ready(function() {
 
         errorElement : 'label',
         errorPlacement: function(error, element) {
-            error.insertBefore(element.next(".clear"));
+             error.appendTo( element.prev('label') );
         }
     });
 
