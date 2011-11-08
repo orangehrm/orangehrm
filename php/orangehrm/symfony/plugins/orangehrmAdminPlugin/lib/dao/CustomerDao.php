@@ -86,7 +86,7 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
-	public function isCustomerHasTimesheetItems($customerId) {
+	public function hasCustomerGotTimesheetItems($customerId) {
 
 		try {
 			$q = Doctrine_Query :: create()

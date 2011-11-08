@@ -73,8 +73,8 @@ class CustomerService extends BaseService {
 		return $this->customerDao->getAllCustomers();
 	}
 	
-	public function isCustomerHasTimesheetItems($customerId){
-		return $this->customerDao->isCustomerHasTimesheetItems($customerId);
+	public function hasCustomerGotTimesheetItems($customerId){
+		return $this->customerDao->hasCustomerGotTimesheetItems($customerId);
 	}
 	
 	

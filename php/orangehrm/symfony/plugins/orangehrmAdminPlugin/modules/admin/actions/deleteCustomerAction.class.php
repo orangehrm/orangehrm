@@ -31,7 +31,7 @@ class deleteCustomerAction extends sfAction {
 		if (!empty($toBeDeletedCustomerIds)) {
 			$delete = true;
 			foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId) {
-				$deletable = $this->getCustomerService()->isCustomerHasTimesheetItems($toBeDeletedCustomerId);
+				$deletable = $this->getCustomerService()->hasCustomerGotTimesheetItems($toBeDeletedCustomerId);
 				if ($deletable) {
 					$delete = false;
 					break;
