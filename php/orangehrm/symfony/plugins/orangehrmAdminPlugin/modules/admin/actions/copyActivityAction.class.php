@@ -49,19 +49,35 @@ class copyActivityAction extends sfAction {
 		$projectId = $request->getParameter('projectId');
 		$this->form->bind($request->getParameter($this->form->getName()));
 
+		$projectActivityList = $this->getProjectService()->getActivityListByProjectId($projectId);
 		if ($this->form->isValid()) {
 			$activityNameList = $request->getParameter('activityNames', array());
 			$activities = new Doctrine_Collection('ProjectActivity');
-			foreach ($activityNameList as $activityName){
-				$activity = new ProjectActivity();
-				$activity->setProjectId($projectId);
-				$activity->setName($activityName);
-				$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
-				$activities->add($activity);	
+
+			$isUnique = true;
+			foreach ($activityNameList as $activityName) {
+				foreach ($projectActivityList as $projectActivity) {
+					if ($activityName == $projectActivity->getName()) {
+						$isUnique = false;
+						break;
+					}
+				}
 			}
-			$activities->save();
+			if ($isUnique) {
+				foreach ($activityNameList as $activityName) {
+
+					$activity = new ProjectActivity();
+					$activity->setProjectId($projectId);
+					$activity->setName($activityName);
+					$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
+					$activities->add($activity);
+				}
+				$activities->save();
+				$this->getUser()->setFlash('templateMessageAct', array('success', __('Activity Copy Successfully')));
+			} else {
+				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Cannot Have Duplicate Activities')));
+			}
 			
-			$this->getUser()->setFlash('templateMessageAct', array('success', __('Activity Copy Successfully')));
 			$this->redirect('admin/addProject?projectId=' . $projectId);
 		}
 	}
