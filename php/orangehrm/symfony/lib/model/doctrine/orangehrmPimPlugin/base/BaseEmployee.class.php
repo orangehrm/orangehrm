@@ -52,7 +52,7 @@
  * @property string $custom8
  * @property string $custom9
  * @property string $custom10
- * @property CompanyStructure $subDivision
+ * @property Subunit $subDivision
  * @property JobTitle $jobTitle
  * @property EmployeeStatus $employeeStatus
  * @property Doctrine_Collection $supervisors
@@ -140,7 +140,7 @@
  * @method string              getCustom8()                  Returns the current record's "custom8" value
  * @method string              getCustom9()                  Returns the current record's "custom9" value
  * @method string              getCustom10()                 Returns the current record's "custom10" value
- * @method CompanyStructure    getSubDivision()              Returns the current record's "subDivision" value
+ * @method Subunit             getSubDivision()              Returns the current record's "subDivision" value
  * @method JobTitle            getJobTitle()                 Returns the current record's "jobTitle" value
  * @method EmployeeStatus      getEmployeeStatus()           Returns the current record's "employeeStatus" value
  * @method Doctrine_Collection getSupervisors()              Returns the current record's "supervisors" collection
@@ -491,7 +491,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('CompanyStructure as subDivision', array(
+        $this->hasOne('Subunit as subDivision', array(
              'local' => 'work_station',
              'foreign' => 'id'));
 

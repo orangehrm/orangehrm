@@ -22,7 +22,7 @@
  * @property Users $Creator
  * @property Doctrine_Collection $PerformanceReviewComment
  * @property JobTitle $JobTitle
- * @property CompanyStructure $SubDivision
+ * @property Subunit $SubDivision
  * 
  * @method integer             getId()                       Returns the current record's "id" value
  * @method integer             getEmployeeId()               Returns the current record's "employeeId" value
@@ -41,7 +41,7 @@
  * @method Users               getCreator()                  Returns the current record's "Creator" value
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
  * @method JobTitle            getJobTitle()                 Returns the current record's "JobTitle" value
- * @method CompanyStructure    getSubDivision()              Returns the current record's "SubDivision" value
+ * @method Subunit             getSubDivision()              Returns the current record's "SubDivision" value
  * @method PerformanceReview   setId()                       Sets the current record's "id" value
  * @method PerformanceReview   setEmployeeId()               Sets the current record's "employeeId" value
  * @method PerformanceReview   setReviewerId()               Sets the current record's "reviewerId" value
@@ -144,7 +144,7 @@ abstract class BasePerformanceReview extends sfDoctrineRecord
              'local' => 'jobTitleCode',
              'foreign' => 'id'));
 
-        $this->hasOne('CompanyStructure as SubDivision', array(
+        $this->hasOne('Subunit as SubDivision', array(
              'local' => 'subDivisionId',
              'foreign' => 'id'));
     }

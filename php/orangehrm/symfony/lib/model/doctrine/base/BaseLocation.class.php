@@ -15,33 +15,30 @@
  * @property string $loc_phone
  * @property string $loc_fax
  * @property string $loc_comments
- * @property Doctrine_Collection $CompanyStructure
  * @property Doctrine_Collection $Employees
  * 
- * @method string              getLocCode()          Returns the current record's "loc_code" value
- * @method string              getLocName()          Returns the current record's "loc_name" value
- * @method string              getLocCountry()       Returns the current record's "loc_country" value
- * @method string              getLocState()         Returns the current record's "loc_state" value
- * @method string              getLocCity()          Returns the current record's "loc_city" value
- * @method string              getLocAdd()           Returns the current record's "loc_add" value
- * @method string              getLocZip()           Returns the current record's "loc_zip" value
- * @method string              getLocPhone()         Returns the current record's "loc_phone" value
- * @method string              getLocFax()           Returns the current record's "loc_fax" value
- * @method string              getLocComments()      Returns the current record's "loc_comments" value
- * @method Doctrine_Collection getCompanyStructure() Returns the current record's "CompanyStructure" collection
- * @method Doctrine_Collection getEmployees()        Returns the current record's "Employees" collection
- * @method Location            setLocCode()          Sets the current record's "loc_code" value
- * @method Location            setLocName()          Sets the current record's "loc_name" value
- * @method Location            setLocCountry()       Sets the current record's "loc_country" value
- * @method Location            setLocState()         Sets the current record's "loc_state" value
- * @method Location            setLocCity()          Sets the current record's "loc_city" value
- * @method Location            setLocAdd()           Sets the current record's "loc_add" value
- * @method Location            setLocZip()           Sets the current record's "loc_zip" value
- * @method Location            setLocPhone()         Sets the current record's "loc_phone" value
- * @method Location            setLocFax()           Sets the current record's "loc_fax" value
- * @method Location            setLocComments()      Sets the current record's "loc_comments" value
- * @method Location            setCompanyStructure() Sets the current record's "CompanyStructure" collection
- * @method Location            setEmployees()        Sets the current record's "Employees" collection
+ * @method string              getLocCode()      Returns the current record's "loc_code" value
+ * @method string              getLocName()      Returns the current record's "loc_name" value
+ * @method string              getLocCountry()   Returns the current record's "loc_country" value
+ * @method string              getLocState()     Returns the current record's "loc_state" value
+ * @method string              getLocCity()      Returns the current record's "loc_city" value
+ * @method string              getLocAdd()       Returns the current record's "loc_add" value
+ * @method string              getLocZip()       Returns the current record's "loc_zip" value
+ * @method string              getLocPhone()     Returns the current record's "loc_phone" value
+ * @method string              getLocFax()       Returns the current record's "loc_fax" value
+ * @method string              getLocComments()  Returns the current record's "loc_comments" value
+ * @method Doctrine_Collection getEmployees()    Returns the current record's "Employees" collection
+ * @method Location            setLocCode()      Sets the current record's "loc_code" value
+ * @method Location            setLocName()      Sets the current record's "loc_name" value
+ * @method Location            setLocCountry()   Sets the current record's "loc_country" value
+ * @method Location            setLocState()     Sets the current record's "loc_state" value
+ * @method Location            setLocCity()      Sets the current record's "loc_city" value
+ * @method Location            setLocAdd()       Sets the current record's "loc_add" value
+ * @method Location            setLocZip()       Sets the current record's "loc_zip" value
+ * @method Location            setLocPhone()     Sets the current record's "loc_phone" value
+ * @method Location            setLocFax()       Sets the current record's "loc_fax" value
+ * @method Location            setLocComments()  Sets the current record's "loc_comments" value
+ * @method Location            setEmployees()    Sets the current record's "Employees" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -99,10 +96,6 @@ abstract class BaseLocation extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('CompanyStructure', array(
-             'local' => 'loc_code',
-             'foreign' => 'loc_code'));
-
         $this->hasMany('Employee as Employees', array(
              'refClass' => 'EmpLocations',
              'local' => 'loc_code',

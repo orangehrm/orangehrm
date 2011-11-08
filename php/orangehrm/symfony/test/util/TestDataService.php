@@ -252,7 +252,7 @@ class TestDataService {
                 $pdo->beginTransaction();
 
                 foreach (self::$tableNames as $tableName) {
-                    $query = 'DELETE FROM ' .  $tableName;
+                    $query = 'TRUNCATE TABLE ' .  $tableName;
                     $pdo->query($query);                    
                 }
 

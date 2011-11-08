@@ -9,15 +9,21 @@
  * @property string $name
  * @property string $unitId
  * @property string $description
+ * @property Doctrine_Collection $Employee
+ * @property Doctrine_Collection $PerformanceReview
  * 
- * @method integer getId()          Returns the current record's "id" value
- * @method string  getName()        Returns the current record's "name" value
- * @method string  getUnitId()      Returns the current record's "unitId" value
- * @method string  getDescription() Returns the current record's "description" value
- * @method Subunit setId()          Sets the current record's "id" value
- * @method Subunit setName()        Sets the current record's "name" value
- * @method Subunit setUnitId()      Sets the current record's "unitId" value
- * @method Subunit setDescription() Sets the current record's "description" value
+ * @method integer             getId()                Returns the current record's "id" value
+ * @method string              getName()              Returns the current record's "name" value
+ * @method string              getUnitId()            Returns the current record's "unitId" value
+ * @method string              getDescription()       Returns the current record's "description" value
+ * @method Doctrine_Collection getEmployee()          Returns the current record's "Employee" collection
+ * @method Doctrine_Collection getPerformanceReview() Returns the current record's "PerformanceReview" collection
+ * @method Subunit             setId()                Sets the current record's "id" value
+ * @method Subunit             setName()              Sets the current record's "name" value
+ * @method Subunit             setUnitId()            Sets the current record's "unitId" value
+ * @method Subunit             setDescription()       Sets the current record's "description" value
+ * @method Subunit             setEmployee()          Sets the current record's "Employee" collection
+ * @method Subunit             setPerformanceReview() Sets the current record's "PerformanceReview" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -53,6 +59,14 @@ abstract class BaseSubunit extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('Employee', array(
+             'local' => 'id',
+             'foreign' => 'work_station'));
+
+        $this->hasMany('PerformanceReview', array(
+             'local' => 'id',
+             'foreign' => 'subDivisionId'));
+
         $nestedset0 = new Doctrine_Template_NestedSet(array(
              ));
         $this->actAs($nestedset0);

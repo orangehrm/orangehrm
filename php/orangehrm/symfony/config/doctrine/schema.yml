@@ -68,10 +68,6 @@ Location:
       local: loc_country
       foreign: cou_code
       type: one
-    CompanyStructure:
-      local: loc_code
-      foreign: loc_code
-      type: many
     Employees:
       class: Employee
       local: loc_code
@@ -104,46 +100,6 @@ Country:
       local: cou_code
       foreign: loc_country
       type: many
-
-CompanyStructure:
-  tableName: hs_hr_compstructtree
-  columns:
-    title:
-      type: string(2147483647)
-      notnull: true
-    description:
-      type: string(2147483647)
-      notnull: true
-    lft:
-      type: integer(4)
-      default: '0'
-      notnull: true
-    rgt:
-      type: integer(4)
-      default: '0'
-      notnull: true
-    id:
-      type: integer(4)
-      primary: true
-    parnt:
-      type: integer(4)
-      default: '0'
-      notnull: true
-    loc_code: string(13)
-    dept_id: string(32)
-  relations:
-    employees:
-      class: Employee
-      local: id
-      foreign: work_station
-      type: many
-      foreignAlias: subDivision
-    location:
-      class: Location
-      local: loc_code
-      foreign: loc_code
-      type: one
-  
 
 EmployeeStatus:
   tableName: hs_hr_empstat
@@ -1000,7 +956,7 @@ PerformanceReview:
       foreign: id
       type: one
     SubDivision:
-      class: CompanyStructure
+      class: Subunit
       local: subDivisionId
       foreign: id
       type: one

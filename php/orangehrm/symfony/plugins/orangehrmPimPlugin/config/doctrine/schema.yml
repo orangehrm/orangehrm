@@ -104,7 +104,7 @@ Employee:
     custom10: string(250)
   relations:
     subDivision:
-      class: CompanyStructure
+      class: Subunit
       local: work_station
       foreign: id
       type: one
