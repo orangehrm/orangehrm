@@ -106,4 +106,3 @@ class addProjectAction extends sfAction {
 
 }
 
-?>
