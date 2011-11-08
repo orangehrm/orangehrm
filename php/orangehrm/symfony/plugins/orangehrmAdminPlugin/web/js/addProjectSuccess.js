@@ -1,6 +1,18 @@
 var countArray = new Array();
 $(document).ready(function() {
     
+    if(projectId>0){
+        var noOfInterviewers = $('#addProject_projectAdminList').val();
+        var i;
+        for(i=2; i<=noOfInterviewers; i++){
+            $('#projectAdmin_'+(i)).show();
+            var index = countArray.indexOf(i);
+            countArray.splice(index, 1);
+        }
+        $('#addProjectHeading').text(lang_Project);
+        disableWidgets();              
+    }
+    
     counter = 1;
     //Auto complete
     $(".formInputProjectAdmin").autocomplete(employees, {
@@ -37,7 +49,8 @@ $(document).ready(function() {
     });
     
     $('#addActivity').hide();
-        
+    $('#removeButton1').hide();
+    
     $('#btnCancel').click(function() {
         window.location.replace(cancelBtnUrl);
     });
@@ -49,9 +62,7 @@ $(document).ready(function() {
         countArray[i] = i+2;
     }
     countArray = countArray.reverse();
-
-    $('#removeButton1').hide();
-    
+  
     $("#addButton").live('click', function(){
 
         if(countArray.length == 1){
@@ -172,6 +183,7 @@ $(document).ready(function() {
         
         if($('#btnSave').val() == lang_edit){
             enableWidgets();
+            $('#addProjectHeading').text(lang_editProject);
             $('#btnSave').val(lang_save);
         } else if($('#btnSave').val() == lang_save){
             if(isValidForm()){
@@ -182,17 +194,12 @@ $(document).ready(function() {
         }
     });
     
-    if(projectId>0){
-        var noOfInterviewers = $('#addProject_projectAdminList').val();
-        var i;
-        for(i=2; i<=noOfInterviewers; i++){
-            $('#projectAdmin_'+(i)).show();
-            var index = countArray.indexOf(i);
-            countArray.splice(index, 1);
-        }
-        $('#addProjectHeading').text(lang_editProject);
-        disableWidgets();              
-    }
+    $('#btnDelete').click(function(){
+       $('#frmList_ohrmListComponent').attr({
+            action:deleteActivityUrl+"?projectId="+projectId
+        });
+        $('#frmList_ohrmListComponent').submit();      
+    });
     
     if(custId > 0) {      
         $('#addProject_customerName').val(custName);
@@ -316,6 +323,7 @@ function enableWidgets(){
     $('#addButton').show();
     $('.removeText').show();
     $('#btnSave').val(lang_save);
+    $('#removeButton1').hide();
     
 }
 

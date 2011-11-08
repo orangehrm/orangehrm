@@ -10,6 +10,10 @@
  * @author     Your name here
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class ProjectActivity extends PluginProjectActivity
-{
+class ProjectActivity extends PluginProjectActivity {
+
+	const ACTIVE_PROJECT_ACTIVITY = 0;
+	const DELETED_PROJECT_ACTIVITY = 1;
+	
+	
 }

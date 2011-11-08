@@ -130,9 +130,11 @@
             <br class="clear"/>
         </form>
         <br class="clear"/>
+	<div class="actionbuttons">
         <input type="button" id="dialogSave" class="savebutton" value="<?php echo __('Save'); ?>" />
         <input type="button" id="dialogCancel" class="cancelbutton" value="<?php echo __('Cancel'); ?>" />
         <br class="clear"/>
+	</div>
         <div class="DigPaddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
     </div>
 </div>
@@ -179,6 +181,7 @@
             var custUrl = '<?php echo url_for("admin/saveCustomerJson"); ?>';
             var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
             var urlForGetActivity = '<?php echo url_for("admin/getActivityListJason?projectId="); ?>';
+            var deleteActivityUrl = '<?php echo url_for("admin/deleteProjectActivity"); ?>';
             var cancelBtnUrl = '<?php echo url_for("admin/viewProjects"); ?>';
             var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
             var lang_identical_rows = "<?php echo __("Cannot assign same employee twice"); ?>";
@@ -190,5 +193,6 @@
             var lang_edit = '<?php echo __("Edit"); ?>';
             var lang_save = '<?php echo __("Save"); ?>';
             var lang_editProject = '<?php echo __("Edit Project"); ?>';
-    var lang_uniqueCustomer = '<?php echo __("Name already exist"); ?>';
+            var lang_Project = '<?php echo __("Project"); ?>';
+	    var lang_uniqueCustomer = '<?php echo __("Name already exist"); ?>';
 </script>

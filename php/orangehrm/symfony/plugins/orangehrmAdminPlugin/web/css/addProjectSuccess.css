@@ -1,5 +1,5 @@
 .outerbox{
-    width: 700px;
+    width: 700px !important;
 }
 
 .customerDrop{
@@ -68,7 +68,7 @@ form {
     font-size: 8pt;
 }
 .DigPaddingLeftRequired {
-    padding-left: 15px;
+    padding-left: 5px;
     padding-top: 5px;
     font-size: 8pt;
     text-align: left;
@@ -145,4 +145,7 @@ div.actionbuttons{
 }
 .check{
     margin-right: 10px;
+}
+#copyActivityList{
+    margin-left: 15px;
 }

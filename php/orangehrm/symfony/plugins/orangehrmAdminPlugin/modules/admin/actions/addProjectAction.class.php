@@ -65,7 +65,7 @@ class addProjectAction extends sfAction {
 			$this->activityForm = new AddProjectActivityForm();
 			$this->copyActForm = new CopyActivityForm();
 			//For list activities
-			$activityList = $this->getProjectService()->getProjectActivity($this->projectId);
+			$activityList = $this->getProjectService()->getActivityListByProjectId($this->projectId);
 			$this->_setListComponent($activityList);
 			$params = array();
 			$this->parmetersForListCompoment = $params;

@@ -318,12 +318,11 @@ ProjectActivity:
       label: Add
     Delete:
       label: Delete
-      type: submit
     Copy:
       label: Copy From
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteProjectActivity'
+  formAction: '#'
   assets: []
   jsInitMethods: []
 

@@ -63,6 +63,10 @@ class ProjectService extends BaseService {
 	public function deleteProject($projectId) {
 		return $this->projectDao->deleteProject($projectId);
 	}
+	
+	public function deleteProjectActivity($activityId) {
+		return $this->projectDao->deleteProjectActivity($activityId);
+	}
 
 	public function getProjectById($projectId) {
 		return $this->projectDao->getProjectById($projectId);
@@ -86,6 +90,10 @@ class ProjectService extends BaseService {
 	
 	public function isProjectHasTimesheetItems($projectId) {
 		return $this->projectDao->isProjectHasTimesheetItems($projectId);
+	}
+	
+	public function hasActivityGotTimesheetItems($activityId) {
+		return $this->projectDao->hasActivityGotTimesheetItems($activityId);
 	}
 
 	/**
