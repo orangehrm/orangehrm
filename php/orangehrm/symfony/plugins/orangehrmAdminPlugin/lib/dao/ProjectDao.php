@@ -203,7 +203,8 @@ class ProjectDao extends BaseDao {
             throw new AdminServiceException($e->getMessage());
         }
     }
-    public function getSearchProjectListCount($srchClues){
+
+    public function getSearchProjectListCount($srchClues) {
         try {
             $q = $this->_buildSearchQuery($srchClues);
             return $q->count();
@@ -218,7 +219,7 @@ class ProjectDao extends BaseDao {
         $sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
         $offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
         $limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
-        
+
         try {
             $q = $this->_buildSearchQuery($srchClues);
             $q->orderBy($sortField . ' ' . $sortOrder)
@@ -330,22 +331,23 @@ class ProjectDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
-	/**
-	 * Delete ProjectActivity
-	 * @param array() $activityList
-	 * @returns boolean
-	 * @throws DaoException
-	 */
-	public function deleteProjectActivity($activitId) {
-		
-		try {
-			$projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
-			$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
-			$projectActivity->save();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+
+    /**
+     * Delete ProjectActivity
+     * @param array() $activityList
+     * @returns boolean
+     * @throws DaoException
+     */
+    public function deleteProjectActivity($activitId) {
+
+        try {
+            $projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
+            $projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+            $projectActivity->save();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 
     /**
      * Save ProjectActivity
@@ -370,30 +372,6 @@ class ProjectDao extends BaseDao {
         }
     }
 
-    /**
-     * Delete ProjectActivity
-     * @param array() $activityList
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function deleteProjectActivity($activityList = array()) {
-        try {
-            if (is_array($activityList)) {
-                $q = Doctrine_Query::create()
-                                ->delete('ProjectActivity')
-                                ->whereIn('activity_id', $activityList);
-
-                $numDeleted = $q->execute();
-                if ($numDeleted > 0) {
-                    return true;
-                }
-                return false;
-            }
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
     public function isProjectHasTimesheetItems($projectId) {
 
         try {
@@ -409,20 +387,20 @@ class ProjectDao extends BaseDao {
         }
     }
 
-	
-	public function hasActivityGotTimesheetItems($activityId) {
+    public function hasActivityGotTimesheetItems($activityId) {
 
-		try {
-			$q = Doctrine_Query :: create()
-				->select("COUNT(*)")
-				->from('TimesheetItem ti')
-				->leftJoin('ti.ProjectActivity p')
-				->where('p.activityId = ?', $activityId);
-			$count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-			return ($count > 0);
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+        try {
+            $q = Doctrine_Query :: create()
+                            ->select("COUNT(*)")
+                            ->from('TimesheetItem ti')
+                            ->leftJoin('ti.ProjectActivity p')
+                            ->where('p.activityId = ?', $activityId);
+            $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+            return ($count > 0);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }
 
