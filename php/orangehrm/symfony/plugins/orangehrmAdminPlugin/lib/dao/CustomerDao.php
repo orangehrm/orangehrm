@@ -19,6 +19,15 @@
  */
 class CustomerDao extends BaseDao {
 
+	/**
+	 *
+	 * @param type $limit
+	 * @param type $offset
+	 * @param type $sortField
+	 * @param type $sortOrder
+	 * @param type $activeOnly
+	 * @return type 
+	 */
 	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = 0) {
 
 		$sortField = ($sortField == "") ? 'name' : $sortField;
@@ -37,6 +46,11 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $activeOnly
+	 * @return type 
+	 */
 	public function getCustomerCount($activeOnly = 0) {
 
 		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
@@ -52,6 +66,11 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $customerId
+	 * @return type 
+	 */
 	public function getCustomerById($customerId) {
 
 		try {
@@ -61,6 +80,10 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $customerId 
+	 */
 	public function deleteCustomer($customerId) {
 
 		try {
@@ -72,6 +95,11 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $activeOnly
+	 * @return type 
+	 */
 	public function getAllCustomers($activeOnly = 0) {
 
 		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
@@ -86,6 +114,11 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $customerId
+	 * @return type 
+	 */
 	public function hasCustomerGotTimesheetItems($customerId) {
 
 		try {

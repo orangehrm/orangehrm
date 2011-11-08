@@ -17,9 +17,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class CustomerService extends BaseService {
-	
+
 	private $customerDao;
 
 	/**
@@ -44,40 +43,80 @@ class CustomerService extends BaseService {
 	public function setCustomerDao(CustomerDao $customerDao) {
 		$this->customerDao = $customerDao;
 	}
-	
+
 	/**
-	 *
-	 * @return <type> 
+	 * Get Customer List
+	 * 
+	 * Get Customer List with pagination.
+	 * 
+	 * @param type $noOfRecords
+	 * @param type $offset
+	 * @param type $sortField
+	 * @param type $sortOrder
+	 * @param type $activeOnly
+	 * @return type 
 	 */
-	public function getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly){
+	public function getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly) {
 		return $this->customerDao->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
 	}
 
 	/**
+	 * Get Active customer cout.
 	 *
-	 * @return <type>
+	 * Get the total number of active customers for list component.
+	 * 
+	 * @param type $activeOnly
+	 * @return type 
 	 */
-	public function getCustomerCount($activeOnly){
+	public function getCustomerCount($activeOnly) {
 		return $this->customerDao->getCustomerCount($activeOnly);
 	}
-	
-	public function getCustomerById($customerId){
+
+	/**
+	 * Get customer by id
+	 * 
+	 * @param type $customerId
+	 * @return type 
+	 */
+	public function getCustomerById($customerId) {
 		return $this->customerDao->getCustomerById($customerId);
 	}
-	
-	public function deleteCustomer($customerId){
+
+	/**
+	 * Delete customer
+	 * 
+	 * Set customer 'deleted' parameter to 1.
+	 * 
+	 * @param type $customerId
+	 * @return type 
+	 */
+	public function deleteCustomer($customerId) {
 		return $this->customerDao->deleteCustomer($customerId);
 	}
-	
-	public function getAllCustomers($activeOnly){
+
+	/**
+	 * 
+	 * Get all customer list
+	 * 
+	 * Get all active customers
+	 * 
+	 * @param type $activeOnly
+	 * @return type 
+	 */
+	public function getAllCustomers($activeOnly) {
 		return $this->customerDao->getAllCustomers();
 	}
-	
-	public function hasCustomerGotTimesheetItems($customerId){
+
+	/**
+	 * Check wheather the customer has any timesheet records
+	 * 
+	 * @param type $customerId
+	 * @return type 
+	 */
+	public function hasCustomerGotTimesheetItems($customerId) {
 		return $this->customerDao->hasCustomerGotTimesheetItems($customerId);
 	}
-	
-	
+
 }
 
 ?>
