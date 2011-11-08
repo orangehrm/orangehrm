@@ -504,9 +504,6 @@ INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `d
 		('USG001', 'MOD007', '1', '1', '1', '1'),
  	 	('USG001', 'MOD008', '1', '1', '1', '1'),
  	 	('USG001', 'MOD009', '1', '1', '1', '1');
-INSERT INTO `hs_hr_compstructtree`(`title`, `description`, `loc_code`, `lft`, `rgt`, `id`, `parnt`, `dept_id`) VALUES ('', 'Parent Company', null , 1, 2, 1, 0, null);
-
-
 
 INSERT INTO `hs_hr_weekends`(`day`, `length`) VALUES (1, 0),
     (2, 0),
@@ -574,7 +571,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0, 'hs_hr_leavetype', 'leave_type_id'),
     (0, 'hs_hr_holidays', 'holiday_id'),
     (0, 'ohrm_project', 'project_id'),
-    (1, 'hs_hr_compstructtree', 'id'),
     (0, 'hs_hr_leave_requests', 'leave_request_id'),
     (0, 'ohrm_project_activity', 'activity_id'),
     (0, 'hs_hr_workshift', 'workshift_id'),
@@ -684,12 +680,12 @@ INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7'
                                     
 INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
    (1,'timesheet', 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2'),
-   (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM hs_hr_compstructtree) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#'),
+   (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.emp_status != "EST000" OR hs_hr_employee.emp_status is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM ohrm_subunit) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#'),
    (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
                     LEFT JOIN hs_hr_emp_emergency_contacts ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
-                    LEFT JOIN hs_hr_compstructtree ON 
-                        (hs_hr_employee.work_station = hs_hr_compstructtree.id) 
+                    LEFT JOIN ohrm_subunit ON 
+                        (hs_hr_employee.work_station = ohrm_subunit.id) 
                     LEFT JOIN hs_hr_empstat ON 
                         (hs_hr_employee.emp_status = hs_hr_empstat.estat_code) 
                     LEFT JOIN hs_hr_job_title ON 
@@ -921,7 +917,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (79, 3, 'hs_hr_job_spec.jobspec_name', 'Job Specification', 'empJobSpecification',  'false', null, null, 'label', '<xml><getter>empJobSpecification</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (81, 3, 'hs_hr_employee.joined_date', 'Joined Date', 'empJoinedDate',  'false', null, null, 'label', '<xml><getter>empJoinedDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
-    (82, 3, 'hs_hr_compstructtree.title', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (82, 3, 'ohrm_subunit.name', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (83, 3, 'hs_hr_location.loc_name', 'Location', 'empLocation',  'false', null, null, 'label', '<xml><getter>empLocation</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (84, 3, 'hs_hr_emp_passport.ep_passport_num', 'Number', 'empPassportNo',  'false', null, null, 'label', '<xml><getter>empPassportNo</getter></xml>', 200, '0', null, true, 5, '---', false, false),
     (85, 3, 'DATE(hs_hr_emp_passport.ep_passportissueddate)', 'Issued Date', 'empPassportIssuedDate',  'false', null, null, 'label', '<xml><getter>empPassportIssuedDate</getter></xml>', 100, '0', null, true, 5, '---', false, false),

@@ -27,7 +27,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'lastName' => 'e.emp_lastName',
             'job_title' => 'j.jobtit_name',
             'employee_status' => 'es.estat_name',
-            'sub_unit' => 'cs.title',
+            'sub_unit' => 'cs.name',
             'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
             'supervisorId' => 's.emp_firstname',
     );
@@ -45,7 +45,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'fullName' => array('e.emp_firstname', 'e.emp_middle_name', 'e.emp_lastName'),
             'jobTitle' => 'j.jobtit_name',
             'employeeStatus' => 'es.estat_name',
-            'subDivision' => 'cs.title',
+            'subDivision' => 'cs.name',
             'supervisor' => array('s.emp_firstname', 's.emp_lastname'),
     );
 
@@ -207,7 +207,7 @@ class EmployeeTable extends PluginEmployeeTable {
         $select = 'SELECT e.emp_number AS empNumber, e.employee_id AS employeeId, ' .
                 'e.emp_firstname AS firstName, e.emp_lastname AS lastName, ' .
                 'e.emp_middle_name AS middleName, ' .
-                'cs.title AS subDivision, cs.id AS subDivisionId,' .
+                'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.jobtit_name AS jobTitle, j.jobtit_code AS jobTitleId, ' .
                 'es.estat_name AS employeeStatus, es.estat_code AS employeeStatusId, ' .
                 //'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
@@ -215,7 +215,7 @@ class EmployeeTable extends PluginEmployeeTable {
                 $supervisorNameSubQuery . ' AS supervisors';
 
         $query = 'FROM hs_hr_employee e ' .
-                '  LEFT JOIN hs_hr_compstructtree cs ON cs.id = e.work_station ' .
+                '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
                 '  LEFT JOIN hs_hr_job_title j on j.jobtit_code = e.job_title_code ' .
                 '  LEFT JOIN hs_hr_empstat es on e.emp_status = es.estat_code ' .
                 '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
@@ -245,8 +245,8 @@ class EmployeeTable extends PluginEmployeeTable {
                          * Not efficient if searching substations by more than one value, but
                          * we only have the facility to search by one value in the UI.
                         */
-                        $conditions[] =  'e.work_station IN (SELECT n.id FROM hs_hr_compstructtree n ' .
-                                'INNER JOIN hs_hr_compstructtree p WHERE n.lft >= p.lft ' .
+                        $conditions[] =  'e.work_station IN (SELECT n.id FROM ohrm_subunit n ' .
+                                'INNER JOIN ohrm_subunit p WHERE n.lft >= p.lft ' .
                                 'AND n.rgt <= p.rgt AND p.id = ? )';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'id') {

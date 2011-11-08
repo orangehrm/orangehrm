@@ -142,8 +142,8 @@ function fillData($phase=1, $source='/dbscript/dbscript-') {
 
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++)
 		if(!@mysql_query($dbScriptStatements[$c])) {
-			$_SESSION['error'] = mysql_error();
-			$error = mysql_error();
+			$error = mysql_error() . ". Query: " . $dbScriptStatements[$c];
+            $_SESSION['error'] = $error;
 			error_log (date("r")." Fill Data Phase $phase - Error Statement # $c \n",3, "installer/log.txt");
 			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, "installer/log.txt");
 			return;

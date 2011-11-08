@@ -11,19 +11,6 @@ create table `hs_hr_config` (
 	primary key (`key`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_compstructtree` (
-  `title` tinytext not null,
-  `description` text not null,
-  `loc_code` varchar(13) default NULL,
-  `lft` int(4) not null default '0',
-  `rgt` int(4) not null default '0',
-  `id` int(6) not null,
-  `parnt` int(6) not null default '0',
-  `dept_id` varchar(32) null,
-  primary key  (`id`),
-  key loc_code (`loc_code`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_job_spec` (
 	`jobspec_id` int(11) not null default 0,
 	`jobspec_name` varchar(50) default null,
@@ -1220,7 +1207,7 @@ create table `ohrm_job_interview_interviewer`(
 )engine=innodb default charset=utf8;
 
 create table `ohrm_subunit` (
-  `id` smallint(6) unsigned not null auto_increment,
+  `id` int(6) not null auto_increment,
   `name` varchar(100) not null unique,
   `unit_id` varchar(100) default null,
   `description` varchar(400),
@@ -1396,10 +1383,6 @@ alter table ohrm_job_candidate_vacancy
        add constraint foreign key (vacancy_id)
                              references ohrm_job_vacancy(id) on delete cascade;
 
-alter table hs_hr_compstructtree
-       add constraint foreign key (loc_code)
-                             references hs_hr_location(loc_code) on delete restrict;
-
 alter table hs_pr_salary_currency_detail
        add constraint foreign key (currency_id)
                              references hs_hr_currency_type(currency_id) on delete cascade;
@@ -1434,7 +1417,7 @@ alter table hs_hr_membership
 
 alter table hs_hr_employee
        add constraint foreign key (work_station)
-                             references hs_hr_compstructtree(id) on delete set null;
+                             references ohrm_subunit(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (ethnic_race_code)
