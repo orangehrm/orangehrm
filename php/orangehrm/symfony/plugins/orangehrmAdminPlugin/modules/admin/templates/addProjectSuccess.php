@@ -106,10 +106,9 @@
 </div>
 
 <div id="activityList">
-    <form name="frmDelActivity" id="frmDelActivity" method="post" action="<?php echo url_for('admin/deleteProjectActivity?projectId='.$projectId);?>">
-    <?php $actDelForm['_csrf_token']; ?>
+
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
-    </form>
+
 </div>
 <?php } ?>
 
@@ -193,4 +192,5 @@
     var lang_edit = '<?php echo __("Edit"); ?>';
     var lang_save = '<?php echo __("Save"); ?>';
     var lang_editProject = '<?php echo __("Edit Project"); ?>';
+    var lang_uniqueCustomer = '<?php echo __("Name already exist"); ?>';
 </script>

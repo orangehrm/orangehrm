@@ -74,7 +74,7 @@ class AddCustomerForm extends BaseForm {
 			$this->resultArray['message'] = __('Customer Added Successfully');
 		}
 
-		$customer->setName($this->getValue('customerName'));
+		$customer->setName(trim($this->getValue('customerName')));
 		$customer->setDescription($this->getValue('description'));
 		$customer->save();
 		return $this->resultArray;

@@ -164,7 +164,7 @@ $(document).ready(function() {
     
     $('#dialogSave').click(function(){
         if(validateThickBox()){
-            saveCustomer(custUrl+'?customerName='+$('#addCustomer_customerName').val()+'&description='+$('#addCustomer_description').val());
+            saveCustomer(custUrl+'?customerName='+$.trim($('#addCustomer_customerName').val())+'&description='+$('#addCustomer_description').val());
         }
     });
     
@@ -352,6 +352,20 @@ function validateThickBox(){
         isValid = false;
     }
     
+    var vcCount = customerList.length;
+
+    var i;
+    vcName = $.trim($('#addCustomer_customerName').val()).toLowerCase();
+    for (i=0; i < vcCount; i++) {
+
+        arrayName = customerList[i].name.toLowerCase();
+        if (vcName == arrayName) {
+            $('#errorHolderName').addClass("error").html(lang_uniqueCustomer);
+            isValid = false
+            break;
+        }
+    }
+ 
     return isValid;
 }
 

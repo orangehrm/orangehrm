@@ -60,7 +60,6 @@ class addProjectAction extends sfAction {
 		$values = array('projectId' => $this->projectId);
 		$this->setForm(new AddProjectForm(array(), $values));
 		$this->customerForm = new AddCustomerForm();
-		$this->actDelForm = new DeleteProjectActivityForm();
 		
 		if (!empty($this->projectId)) {
 			$this->activityForm = new AddProjectActivityForm();

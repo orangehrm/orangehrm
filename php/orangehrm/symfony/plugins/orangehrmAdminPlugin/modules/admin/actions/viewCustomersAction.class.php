@@ -20,7 +20,7 @@
 class viewCustomersAction extends sfAction {
 
 	private $customerService;
-	
+
 	public function getCustomerService() {
 		if (is_null($this->customerService)) {
 			$this->customerService = new CustomerService();
@@ -35,6 +35,11 @@ class viewCustomersAction extends sfAction {
 	 */
 	public function execute($request) {
 
+		$usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
+		}
+
 		$isPaging = $request->getParameter('pageNo');
 		$sortField = $request->getParameter('sortField');
 		$sortOrder = $request->getParameter('sortOrder');
@@ -42,7 +47,7 @@ class viewCustomersAction extends sfAction {
 		$pageNumber = $isPaging;
 		$noOfRecords = Customer::NO_OF_RECORDS_PER_PAGE;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-		$customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);
+		$customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
 		$this->_setListComponent($customerList, $noOfRecords, $pageNumber);
 		$params = array();
 		$this->parmetersForListCompoment = $params;

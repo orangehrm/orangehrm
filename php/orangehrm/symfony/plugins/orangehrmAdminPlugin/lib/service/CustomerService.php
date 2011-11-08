@@ -49,16 +49,16 @@ class CustomerService extends BaseService {
 	 *
 	 * @return <type> 
 	 */
-	public function getCustomerList($noOfRecords, $offset, $sortField, $sortOrder){
-		return $this->customerDao->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);
+	public function getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly){
+		return $this->customerDao->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
 	}
 
 	/**
 	 *
 	 * @return <type>
 	 */
-	public function getCustomerCount(){
-		return $this->customerDao->getCustomerCount();
+	public function getCustomerCount($activeOnly){
+		return $this->customerDao->getCustomerCount($activeOnly);
 	}
 	
 	public function getCustomerById($customerId){
@@ -69,7 +69,7 @@ class CustomerService extends BaseService {
 		return $this->customerDao->deleteCustomer($customerId);
 	}
 	
-	public function getAllCustomers(){
+	public function getAllCustomers($activeOnly){
 		return $this->customerDao->getAllCustomers();
 	}
 	

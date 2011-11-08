@@ -19,14 +19,15 @@
  */
 class CustomerDao extends BaseDao {
 
-	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC') {
+	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = 0) {
 
 		$sortField = ($sortField == "") ? 'name' : $sortField;
 		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Customer')
-				->where('deleted = ?', Customer::ACTIVE)
+				->where('deleted = ?', $activeOnly)
 				->orderBy($sortField . ' ' . $sortOrder)
 				->offset($offset)
 				->limit($limit);
@@ -36,12 +37,14 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
-	public function getCustomerCount() {
+	public function getCustomerCount($activeOnly = 0) {
 
+		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
+		
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Customer')
-				->where('deleted = ?', Customer::ACTIVE);
+				->where('deleted = ?', $activeOnly);
 			$count = $q->execute()->count();
 			return $count;
 		} catch (Exception $e) {
@@ -69,12 +72,14 @@ class CustomerDao extends BaseDao {
 		}
 	}
 
-	public function getAllCustomers() {
+	public function getAllCustomers($activeOnly = 0) {
 
+		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
+		
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Customer')
-				->where('deleted =?', Customer::ACTIVE);
+				->where('deleted =?', $activeOnly);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

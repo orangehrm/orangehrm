@@ -31,9 +31,14 @@ class addCustomerAction extends sfAction {
 
 	public function execute($request) {
 
+		$usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
+		}
+
 		$this->customerId = $request->getParameter('customerId');
 		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(),$values));
+		$this->setForm(new AddCustomerForm(array(), $values));
 
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
