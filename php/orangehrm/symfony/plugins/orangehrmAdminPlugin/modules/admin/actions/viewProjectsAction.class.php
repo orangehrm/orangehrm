@@ -19,55 +19,100 @@
  */
 class viewProjectsAction extends sfAction {
 
-	private $projectService;
+    private $projectService;
 
-	public function getProjectService() {
-		if (is_null($this->projectService)) {
-			$this->projectService = new ProjectService();
-			$this->projectService->setProjectDao(new ProjectDao());
-		}
-		return $this->projectService;
-	}
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+            $this->projectService->setProjectDao(new ProjectDao());
+        }
+        return $this->projectService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-		$isPaging = $request->getParameter('pageNo');
-		$sortField = $request->getParameter('sortField');
-		$sortOrder = $request->getParameter('sortOrder');
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$pageNumber = $isPaging;
-		$noOfRecords = Project::NO_OF_RECORDS_PER_PAGE;
-		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-		$customerList = $this->getProjectService()->getProjectList($noOfRecords, $offset, $sortField, $sortOrder);
-		$this->_setListComponent($customerList, $noOfRecords, $pageNumber);
-		$params = array();
-		$this->parmetersForListCompoment = $params;
+        $isPaging = $request->getParameter('pageNo');
+        $sortField = $request->getParameter('sortField');
+        $sortOrder = $request->getParameter('sortOrder');
+        $projectId = $request->getParameter('projectId');
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-	}
-	
-	/**
-	 *
-	 * @param <type> $customerList
-	 * @param <type> $noOfRecords
-	 * @param <type> $pageNumber
-	 */
-	private function _setListComponent($customerList, $noOfRecords, $pageNumber) {
+        $this->setForm(new SearchProjectForm());
 
-		$configurationFactory = new ProjectHeaderFactory();
-		ohrmListComponent::setPageNumber($pageNumber);
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
-		ohrmListComponent::setListData($customerList);
-		ohrmListComponent::setItemsPerPage($noOfRecords);
-		ohrmListComponent::setNumberOfRecords($this->getProjectService()->getProjectCount());
-	}
+        $pageNumber = $isPaging;
+        //$limit = Project::NO_OF_RECORDS_PER_PAGE;
+        $limit = 1;
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
+        $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+        if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId) {
+            if ($this->getUser()->hasAttribute('searchClues')) {
+                $searchClues = $this->getUser()->getAttribute('searchClues');
+                $searchClues['offset'] = $offset;
+                $searchClues['sortField'] = $sortField;
+                $searchClues['sortOrder'] = $sortOrder;
+                $this->form->setDefaultDataToWidgets($searchClues);
+            }
+        } else {
+            $this->getUser()->setAttribute('searchClues', $searchClues);
+        }
+        $projectList = $this->getProjectService()->searchProjects($searchClues);
+        $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues);
+        $this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount);
+        $params = array();
+        $this->parmetersForListCompoment = $params;
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
+        if ($request->isMethod('post')) {
+            $offset = 0;
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+                $this->getUser()->setAttribute('searchClues', $searchClues);
+                $searchedProjectList = $this->getProjectService()->searchProjects($searchClues);
+                $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues);
+                $this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param <type> $projectList
+     * @param <type> $noOfRecords
+     * @param <type> $pageNumber
+     */
+    private function _setListComponent($projectList, $limit, $pageNumber, $recordCount) {
+        $configurationFactory = new ProjectHeaderFactory();
+        ohrmListComponent::setPageNumber($pageNumber);
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($projectList);
+        ohrmListComponent::setItemsPerPage($limit);
+        ohrmListComponent::setNumberOfRecords($recordCount);
+    }
+
+    private function _setSearchClues($sortField, $sortOrder, $offset, $limit) {
+        return array(
+            'customer' => $this->form->getValue('customer'),
+            'project' => $this->form->getValue('project'),
+            'projectAdmin' => $this->form->getValue('projectAdmin'),
+            'sortField' => $sortField,
+            'sortOrder' => $sortOrder,
+            'offset' => $offset,
+            'limit' => $limit
+        );
+    }
 
 }
 
-?>

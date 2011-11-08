@@ -14,6 +14,28 @@ div.formbuttons {
 .headerCell {
     font-size: 12px !important;
 }
+
+form#frmSearchProject label{
+    margin-top: 2px;
+    width: 100px;
+}
+
+form#frmSearchProject .txtBox{
+    margin-top: 1px;
+    width: 200px;
+}
+
+form#frmSearchProject .actionbuttons{
+    padding: 6px;
+    padding-left: 8px;
+    width: 35%;
+}
+
+form#frmSearchProject .contentDiv{
+    float: left;
+    padding-left: 20px;
+    width: 350px;
+}
 .trHover{
     cursor: auto;
 }

@@ -1,0 +1,18 @@
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
+
+Customer:
+  0: {customerId: 1, deleted: 0, name: 'customer 1', description: 'customer description 1'}
+  1: {customerId: 2, deleted: 0, name: 'customer 2', description: 'customer description 2'}
+
+Project:
+  0: {projectId: 1, customerId: 1, deleted: 0, name: 'project 1', description: 'project description 1'}
+  1: {projectId: 2, customerId: 1, deleted: 0, name: 'project 2', description: 'project description 2'}
+
+ProjectAdmin:
+  0: {projectId: 1, empNumber: 1}
+  1: {projectId: 1, empNumber: 2}

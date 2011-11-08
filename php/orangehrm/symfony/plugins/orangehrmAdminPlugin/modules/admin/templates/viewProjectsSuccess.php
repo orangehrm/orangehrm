@@ -22,35 +22,80 @@
 ?>
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-
 <?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
+<?php use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css'); ?>
+<?php use_javascript('../../../scripts/jquery/jquery.autocomplete.js'); ?>
 <?php use_stylesheet('../orangehrmAdminPlugin/css/viewProjectsSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/viewProjectsSuccess'); ?>
 
- <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-	<span><?php echo isset($message) ? $message : ''; ?></span>
+    <span><?php echo isset($message) ? $message : ''; ?></span>
 </div>
+<div id="searchProject">
+    <div class="outerbox">
+        <div class="mainHeading"><h2 id="searchProjectHeading"><?php echo __("Projects"); ?></h2></div>
+        <form name="frmSearchProject" id="frmSearchProject" method="post" action="<?php echo url_for('admin/viewProjects'); ?>" >
+            <?php echo $form['_csrf_token']; ?>
 
+            <br class="clear"/>
+            <div id="customer" class="contentDiv">
+                <?php echo $form['customer']->renderLabel(__('Customer Name')); ?>
+                <?php echo $form['customer']->render(array("class" => "txtBox")); ?>
+                <br class="clear"/>
+            </div>
+
+            <div id="project" class="contentDiv">
+                <?php echo $form['project']->renderLabel(__('Project')); ?>
+                <?php echo $form['project']->render(array("class" => "txtBox")); ?>
+                <br class="clear"/>
+            </div>
+
+            <div id="projectAdmin" class="contentDiv">
+                <?php echo $form['projectAdmin']->renderLabel(__('Project Admin')); ?>
+                <?php echo $form['projectAdmin']->render(array("class" => "txtBox")); ?>
+                <br class="clear"/>
+            </div>
+            <br class="clear"/>
+            <br class="clear"/>
+            <div class="actionbar" style="border-top: 1px solid #FAD163; margin-top: 3px">
+                <div class="actionbuttons">
+                    <input type="button" class="searchbutton" name="btnSave" id="btnSearch"
+                           value="<?php echo __("Search"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                    <input type="button" class="resetbutton" name="btnReset" id="btnReset"
+                           value="<?php echo __("Reset"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
+                </div>
+                <br class="clear"/>
+            </div>
+            <br class="clear"/>
+        </form>
+    </div>
+</div>
 <div id="customerList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
-</div>
+            </div>
 
-<form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewProjects'); ?>">
-                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;   ?>" />
+            <form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewProjects'); ?>">
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;                 ?>" />
                 <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-</form>
+            </form>
 
-<script type="text/javascript">
-	function submitPage(pageNo) {
+            <script type="text/javascript">
+                function submitPage(pageNo) {
 
                     document.frmHiddenParam.pageNo.value = pageNo;
                     document.frmHiddenParam.hdnAction.value = 'paging';
                     document.getElementById('frmHiddenParam').submit();
 
                 }
-	var addProjectUrl = '<?php echo url_for('admin/addProject'); ?>';
+                var addProjectUrl = '<?php echo url_for('admin/addProject'); ?>';
+                var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
+                var customersArray = eval(customers);
+                var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()) ?> ;
+                var projectsArray = eval(projects);
+                var projectAdmins = <?php echo str_replace('&#039;', "'", $form->getProjectAdminListAsJson()) ?> ;
+                var projectAdminsArray = eval(projectAdmins);
+                var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
 </script>

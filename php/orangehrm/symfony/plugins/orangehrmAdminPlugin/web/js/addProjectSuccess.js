@@ -40,7 +40,7 @@ $(document).ready(function() {
     $('#removeButton1').hide();
     
     $('#btnCancel').click(function() {
-        window.location.replace(cancelBtnUrl);
+        window.location.replace(cancelBtnUrl+'?projectId='+projectId);
     });
        
     $('.projectAdminError').css('display','none');
