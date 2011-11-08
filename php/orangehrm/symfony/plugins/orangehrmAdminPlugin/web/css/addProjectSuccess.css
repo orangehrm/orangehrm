@@ -149,3 +149,6 @@ div.actionbuttons{
 #copyActivityList{
     margin-left: 15px;
 }
+.headerCell {
+    font-size: 12px !important;
+}

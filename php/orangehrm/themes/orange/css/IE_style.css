@@ -282,3 +282,7 @@ div.supActionbuttons {
 html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div#actionPane div select#viewCandidateAction_5.actionDrpDown {
     width: 135px;
 }
+
+#addCustomer_customerName{
+    width: 305px
+}

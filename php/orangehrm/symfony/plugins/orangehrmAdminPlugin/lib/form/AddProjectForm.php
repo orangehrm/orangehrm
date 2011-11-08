@@ -78,7 +78,7 @@ class AddProjectForm extends BaseForm {
 	}
 
 	private function setDefaultValues($projectId) {
-		
+
 		$project = $this->getProjectService()->getProjectById($this->projectId);
 		$this->setDefault('projectId', $projectId);
 		$this->setDefault('customerId', $project->getCustomer()->getCustomerId());
@@ -95,7 +95,7 @@ class AddProjectForm extends BaseForm {
 	}
 
 	public function save() {
-		
+
 		$id = $this->getValue('projectId');
 		if (empty($id)) {
 
@@ -210,17 +210,18 @@ class AddProjectForm extends BaseForm {
 
 		return $jsonString;
 	}
-	
+
 	public function getProjectListAsJson() {
 
 		$jsonArray = array();
 
 		$projectList = $this->getProjectService()->getAllActiveProjects();
 
-
 		foreach ($projectList as $project) {
+			if ($this->projectId != $project->getProjectId()) {
 
-			$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
+				$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
+			}
 		}
 
 		$jsonString = json_encode($jsonArray);

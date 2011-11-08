@@ -73,8 +73,6 @@
     </div>
 
 </div>
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
-<br class="clear"/>
 
 <?php echo isset($templateMessageAct) ? templateMessage($templateMessageAct) : ''; ?>
             <div id="messagebar" class="<?php echo isset($messageTypeAct) ? "messageBalloon_{$messageTypeAct}" : ''; ?>" >
@@ -109,7 +107,7 @@
 <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 
 <?php } ?>
-
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
             <div id="customerDialog" title="<?php echo __('Add Customer') ?>"  style="display:none;">
 
                 <div class="dialogButtons">
@@ -159,6 +157,7 @@
                            value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
                 </div>
+		<div class="DigPaddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
             </form>
         </div>
 
@@ -195,4 +194,6 @@
             var lang_editProject = '<?php echo __("Edit Project"); ?>';
             var lang_Project = '<?php echo __("Project"); ?>';
 	    var lang_uniqueCustomer = '<?php echo __("Name already exist"); ?>';
+	    var lang_editActivity = '<?php echo __("Edit Project Activity"); ?>';
+	    var lang_addActivity = '<?php echo __("Add Project Activity"); ?>';
 </script>

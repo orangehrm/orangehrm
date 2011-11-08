@@ -1,18 +1,6 @@
 var countArray = new Array();
 $(document).ready(function() {
-    
-    if(projectId>0){
-        var noOfInterviewers = $('#addProject_projectAdminList').val();
-        var i;
-        for(i=2; i<=noOfInterviewers; i++){
-            $('#projectAdmin_'+(i)).show();
-            var index = countArray.indexOf(i);
-            countArray.splice(index, 1);
-        }
-        $('#addProjectHeading').text(lang_Project);
-        disableWidgets();              
-    }
-    
+        
     counter = 1;
     //Auto complete
     $(".formInputProjectAdmin").autocomplete(employees, {
@@ -94,7 +82,7 @@ $(document).ready(function() {
         autoOpen: false,
         modal: true,
         width: 500,
-        height:300,
+        height:'auto',
         position: 'middle'
     });
     
@@ -111,7 +99,15 @@ $(document).ready(function() {
     });
     
     $("#btnCopy").click(function(){
+        $('#projectName').addClass("inputFormatHint").val(lang_typeHint);
         $("#copyActivity").dialog("open");
+    });
+    
+    $('#projectName').keydown(function(){
+        if($('#projectName').val() == lang_typeHint){
+            $('#projectName').val("")
+            $('#projectName').removeClass("inputFormatHint");
+        }
     });
     
     $("#btnCopyCancel").click(function(){
@@ -179,6 +175,17 @@ $(document).ready(function() {
         }
     });
     
+    if(projectId>0){
+        var noOfInterviewers = $('#addProject_projectAdminList').val();
+        var i;
+        for(i=2; i<=noOfInterviewers; i++){
+            $('#projectAdmin_'+(i)).show();
+            countArray.splice(i, 1);
+        }
+        $('#addProjectHeading').text(lang_Project);
+        disableWidgets();              
+    }
+    
     $('#btnSave').click(function() {
         
         if($('#btnSave').val() == lang_edit){
@@ -195,7 +202,7 @@ $(document).ready(function() {
     });
     
     $('#btnDelete').click(function(){
-       $('#frmList_ohrmListComponent').attr({
+        $('#frmList_ohrmListComponent').attr({
             action:deleteActivityUrl+"?projectId="+projectId
         });
         $('#frmList_ohrmListComponent').submit();      
@@ -213,6 +220,7 @@ $(document).ready(function() {
     });
     
     $('#btnActCancel').click(function(){
+        actValidator.resetForm();
         $('#addActivity').hide();
     });
     
@@ -231,6 +239,7 @@ $(document).ready(function() {
         $('#addActivity').show();
         $('#addProjectActivity_activityId').val("");
         $('#addProjectActivity_activityName').val("");
+        $('#addActivityHeading').text(lang_addActivity);
     });
     
     $('#btnDelete').attr('disabled', 'disabled');
@@ -267,11 +276,12 @@ $(document).ready(function() {
         var activityId = row.find('input').val();
         $('#addProjectActivity_activityId').val(activityId);
         $('#addProjectActivity_activityName').val(name);
+        $('#addActivityHeading').text(lang_editActivity);
         $('#addActivity').show();
-
+        
     });
     
-    $("#frmAddActivity").validate({
+    var actValidator = $("#frmAddActivity").validate({
 
         rules: {
             'addProjectActivity[activityName]' : {

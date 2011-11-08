@@ -15,3 +15,6 @@ div.formbuttons {
 .headerCell {
     font-size: 12px !important;
 }
+.trHover{
+    cursor: auto;
+}

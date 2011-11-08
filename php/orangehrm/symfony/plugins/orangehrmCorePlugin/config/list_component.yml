@@ -309,7 +309,7 @@ ProjectActivity:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getActivityId
-  title: ''
+  title: "<?php echo __("Activities");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []
