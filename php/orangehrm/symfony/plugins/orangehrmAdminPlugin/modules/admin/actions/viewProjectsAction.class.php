@@ -49,10 +49,13 @@ class viewProjectsAction extends sfAction {
         $this->setForm(new SearchProjectForm());
 
         $pageNumber = $isPaging;
+        if ($projectId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }
         $limit = Project::NO_OF_RECORDS_PER_PAGE;
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
         $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
-        if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId) {
+        if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId > 0) {
             if ($this->getUser()->hasAttribute('searchClues')) {
                 $searchClues = $this->getUser()->getAttribute('searchClues');
                 $searchClues['offset'] = $offset;
@@ -63,9 +66,11 @@ class viewProjectsAction extends sfAction {
         } else {
             $this->getUser()->setAttribute('searchClues', $searchClues);
         }
+
         $projectList = $this->getProjectService()->searchProjects($searchClues);
         $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues);
         $this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount);
+        $this->getUser()->setAttribute('pageNumber', $pageNumber);
         $params = array();
         $this->parmetersForListCompoment = $params;
 
@@ -75,6 +80,7 @@ class viewProjectsAction extends sfAction {
 
         if ($request->isMethod('post')) {
             $offset = 0;
+            $pageNumber = 1;
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);

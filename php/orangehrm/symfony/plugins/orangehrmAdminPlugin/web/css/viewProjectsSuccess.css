@@ -22,7 +22,7 @@ form#frmSearchProject label{
 
 form#frmSearchProject .txtBox{
     margin-top: 1px;
-    width: 200px;
+    width: 50%;
 }
 
 form#frmSearchProject .actionbuttons{
@@ -34,7 +34,7 @@ form#frmSearchProject .actionbuttons{
 form#frmSearchProject .contentDiv{
     float: left;
     padding-left: 20px;
-    width: 350px;
+    width: 30%;
 }
 .trHover{
     cursor: auto;

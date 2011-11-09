@@ -193,7 +193,7 @@
                 <target>FR_Customer Name</target>
             </trans-unit>            
             <trans-unit id="48">
-                <source>Project Admins</source>
+                <source>Project Admins</source>s
                 <target>FR_Project Admins</target>
             </trans-unit>            
             <trans-unit id="49">
@@ -355,6 +355,10 @@
             <trans-unit id="88">
                 <source>Sub Unit Name Cannot be Duplicated</source>
                 <target>FR_Sub Unit Name Cannot be Duplicated</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Projects</source>
+                <target>FR_Projects</target>
             </trans-unit>
         </body>
     </file>

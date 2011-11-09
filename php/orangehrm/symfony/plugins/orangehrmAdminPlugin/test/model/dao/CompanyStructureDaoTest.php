@@ -50,9 +50,6 @@ class CompanyStructureDaoTest extends PHPUnit_Framework_TestCase {
         $subunit = new Subunit();
         $subunit->setName("Open Source");
         $subunit->setDescription("Handles OrangeHRM product");
-        $subunit->setLft(5);
-        $subunit->setRgt(3);
-        $subunit->setLevel(1);
         $this->assertTrue($this->companyStructureDao->saveSubunit($subunit));
         $this->assertNotNull($subunit->getId());
     }
