@@ -252,8 +252,8 @@ class TestDataService {
                 $pdo->beginTransaction();
 
                 foreach (self::$tableNames as $tableName) {
-                    $query = 'TRUNCATE TABLE ' .  $tableName;
-                    $pdo->query($query);                    
+                    $query = 'DELETE FROM ' .  $tableName;
+                    $pdo->query($query); 
                 }
 
                 $query = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" . 
