@@ -125,7 +125,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase{
 	public function testReadEmployeeLeaveEntitlement(){
 		$this->leaveEntitlementDao->saveEmployeeLeaveEntitlement( $this->employee->getEmpNumber(),$this->leaveType->getLeaveTypeId(),$this->leavePeriod->getLeavePeriodId() ,7);
 		$result = $this->leaveEntitlementDao->readEmployeeLeaveEntitlement( $this->employee->getEmpNumber(),$this->leaveType->getLeaveTypeId(),$this->leavePeriod->getLeavePeriodId());
-		$this->assertType('EmployeeLeaveEntitlement',$result);
+		$this->assertTrue($result instanceof EmployeeLeaveEntitlement);
 	}
 	
 	/**
