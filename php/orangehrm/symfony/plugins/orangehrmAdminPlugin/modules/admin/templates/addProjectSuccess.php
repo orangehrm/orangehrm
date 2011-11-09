@@ -192,7 +192,6 @@
             var lang_noActivitiesSelected = "<?php echo __("No activities selected"); ?>";
             var projectId = '<?php echo $projectId; ?>';
             var custId = '<?php echo $custId; ?>';
-            var custName = '<?php echo $customerName; ?>';
             var lang_edit = '<?php echo __("Edit"); ?>';
             var lang_save = '<?php echo __("Save"); ?>';
             var lang_editProject = '<?php echo __("Edit Project"); ?>';

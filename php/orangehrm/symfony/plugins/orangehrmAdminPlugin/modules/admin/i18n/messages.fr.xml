@@ -377,6 +377,10 @@
                 <target>FR_Cannot Have Duplicate Activities</target>
             </trans-unit>
             <trans-unit id="94">
+                <source>Project Activity Updated Successfully</source>
+                <target>FR_Project Activity Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="95">
                 <source>Project Updated Successfully</source>
                 <target>FR_Project Updated Successfully</target>
             </trans-unit>

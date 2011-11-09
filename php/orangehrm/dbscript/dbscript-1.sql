@@ -646,7 +646,7 @@ create table `ohrm_project` (
   `project_id` int(11) not null auto_increment,
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
-  `description` varchar(250) default null,
+  `description` varchar(256) default null,
   `deleted` tinyint(1) default 0,
   primary key  (`project_id`,`customer_id`),
   key `customer_id` (`customer_id`)

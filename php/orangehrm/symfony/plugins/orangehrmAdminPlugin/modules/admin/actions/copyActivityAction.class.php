@@ -57,7 +57,7 @@ class copyActivityAction extends sfAction {
 			$isUnique = true;
 			foreach ($activityNameList as $activityName) {
 				foreach ($projectActivityList as $projectActivity) {
-					if ($activityName == $projectActivity->getName()) {
+					if (strtolower($activityName) == strtolower($projectActivity->getName())) {
 						$isUnique = false;
 						break;
 					}

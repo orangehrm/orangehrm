@@ -1,7 +1,7 @@
 var countArray = new Array();
 var customerProjectList;
 $(document).ready(function() {
-        
+
     counter = 1;
     //Auto complete
     $(".formInputProjectAdmin").autocomplete(employees, {
@@ -226,9 +226,9 @@ $(document).ready(function() {
     });
     
     if(custId > 0) {      
-        $('#addProject_customerName').val(custName);
         $('#addProject_customerName').removeClass('inputFormatHint');
         $('#addProject_customerId').val(custId);
+        enableWidgets();
     }
     
     $('#btnActSave').click(function(){

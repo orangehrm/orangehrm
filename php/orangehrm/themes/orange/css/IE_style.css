@@ -286,3 +286,6 @@ html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div
 #addCustomer_customerName{
     width: 305px
 }
+#addProject_description{
+    width: 295px;
+}

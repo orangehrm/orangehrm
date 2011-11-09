@@ -15,6 +15,10 @@ div.formbuttons {
     font-size: 12px !important;
 }
 
+.outerbox {
+    width: 98% !important;
+}
+
 form#frmSearchProject label{
     margin-top: 2px;
     width: 100px;

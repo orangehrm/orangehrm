@@ -29,7 +29,7 @@ class addProjectActivityAction extends sfAction {
 				
 				$projectId = $this->form->save();
 				if($this->form->edited){
-					$this->getUser()->setFlash('templateMessageAct', array('success', __('Project Updated Successfully')));
+					$this->getUser()->setFlash('templateMessageAct', array('success', __('Project Activity Updated Successfully')));
 				} else {
 					$this->getUser()->setFlash('templateMessageAct', array('success', __('Project Activity Added Successfully')));
 				}
