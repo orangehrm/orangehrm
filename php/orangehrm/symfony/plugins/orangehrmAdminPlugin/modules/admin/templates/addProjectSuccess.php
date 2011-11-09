@@ -58,7 +58,7 @@
             <br class="clear" />
 
             <?php echo $form['description']->renderLabel(__('Description')); ?>
-            <?php echo $form['description']->render(array("class" => "formInput", "maxlength" => 255)); ?>
+            <?php echo $form['description']->render(array("class" => "formInput", "maxlength" => 256)); ?>
             <div class="errorHolder"></div>
             <br class="clear"/>
 

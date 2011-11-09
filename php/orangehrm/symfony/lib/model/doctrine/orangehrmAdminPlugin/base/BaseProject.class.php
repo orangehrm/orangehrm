@@ -63,9 +63,9 @@ abstract class BaseProject extends sfDoctrineRecord
              'type' => 'string',
              'length' => 100,
              ));
-        $this->hasColumn('description', 'string', 250, array(
+        $this->hasColumn('description', 'string', 256, array(
              'type' => 'string',
-             'length' => 250,
+             'length' => 256,
              ));
     }
 

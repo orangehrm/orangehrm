@@ -13,7 +13,7 @@ $(document).ready(function() {
     }
        
     $('#btnCancel').click(function() {
-        window.location.replace(cancelBtnUrl);
+        window.location.replace(cancelBtnUrl+'?customerId='+customerId);
     });
        
     $('#btnAdd').click(function() {

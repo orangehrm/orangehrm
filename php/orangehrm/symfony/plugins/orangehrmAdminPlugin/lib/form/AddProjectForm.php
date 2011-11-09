@@ -63,7 +63,7 @@ class AddProjectForm extends BaseForm {
 		    'customerName' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
 		    'projectName' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
 		    'projectAdminList' => new sfValidatorString(array('required' => false)),
-		    'description' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
+		    'description' => new sfValidatorString(array('required' => false, 'max_length' => 256)),
 		));
 
 		for ($i = 1; $i <= $this->numberOfProjectAdmins; $i++) {

@@ -223,6 +223,7 @@ class ProjectDao extends BaseDao {
         try {
             $q = $this->_buildSearchQuery($srchClues);
             $q->orderBy($sortField . ' ' . $sortOrder)
+		    ->where('deleted = ?', Project::ACTIVE_PROJECT)
                     ->offset($offset)
                     ->limit($limit);
 
@@ -333,10 +334,8 @@ class ProjectDao extends BaseDao {
     }
 
     /**
-     * Delete ProjectActivity
-     * @param array() $activityList
-     * @returns boolean
-     * @throws DaoException
+     *
+     * @param type $activitId 
      */
     public function deleteProjectActivity($activitId) {
 

@@ -99,8 +99,11 @@ $(document).ready(function() {
     });
     
     $("#btnCopy").click(function(){
+        $('.activityDiv').remove();
+        $('#errorHolderCopy').text("");
         $('#projectName').addClass("inputFormatHint").val(lang_typeHint);
         $("#copyActivity").dialog("open");
+        
     });
     
     $('#projectName').keydown(function(){

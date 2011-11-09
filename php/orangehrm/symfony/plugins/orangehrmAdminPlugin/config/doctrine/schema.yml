@@ -76,7 +76,7 @@ Project:
       type: integer(1)
       default: '0'
     name: string(100)
-    description: string(250)
+    description: string(256)
   relations:
     Customer:
       local: customer_id
