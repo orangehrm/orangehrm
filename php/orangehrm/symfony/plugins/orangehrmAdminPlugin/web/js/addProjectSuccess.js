@@ -1,4 +1,5 @@
 var countArray = new Array();
+var customerProjectList;
 $(document).ready(function() {
         
     counter = 1;
@@ -22,6 +23,9 @@ $(document).ready(function() {
     }).result(function(event, item) {
 
         $('#addProject_customerId').val(item.id);
+        var url = urlForGetProjectList+item.id;
+        getProjectListAsJson(url);
+        
     });
     
     //project auto complete
@@ -187,6 +191,8 @@ $(document).ready(function() {
         }
         $('#addProjectHeading').text(lang_Project);
         disableWidgets();              
+        var url = urlForGetProjectList+projectId;
+        getProjectListAsJson(url);
     }
     
     $('#btnSave').click(function() {
@@ -283,12 +289,44 @@ $(document).ready(function() {
         $('#addActivity').show();
         
     });
+
+    $.validator.addMethod("uniqueActName", function(value, element, params) {
+        
+        var temp = true;
+        var currentActivity;
+        var id = $('#addProjectActivity_activityId').val();
+        var vcCount = activityList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == activityList[j].id){
+                currentActivity = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#addProjectActivity_activityName').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = activityList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentActivity != null){
+            if(vcName == activityList[currentActivity].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
+
     
     var actValidator = $("#frmAddActivity").validate({
 
         rules: {
             'addProjectActivity[activityName]' : {
                 required:true,
+                uniqueActName:true,
                 maxlength: 100
             }
 
@@ -296,6 +334,7 @@ $(document).ready(function() {
         messages: {
             'addProjectActivity[activityName]' : {
                 required:lang_activityNameRequired,
+                uniqueActName:lang_uniqueName,
                 maxlength: lang_exceed100Chars
             }
 
@@ -310,6 +349,10 @@ $(document).ready(function() {
 });
 
 function openDialogue(){
+    $('#addCustomer_customerName').val("");
+    $('#errorHolderName').html("");
+    $('#addCustomer_description').val("");
+    $('#errorHolderDesc').html("");
     $("#customerDialog").dialog("open")
 }
 
@@ -466,6 +509,13 @@ function validateProjectAdmins(){
     return flag;
 }
 
+function getProjectListAsJson(url){
+    
+    $.getJSON(url, function(data) {
+        customerProjectList = data;      
+    })
+}
+
 function getActivityList(url){
     
     $.getJSON(url, function(data) {
@@ -494,6 +544,37 @@ function buildActivityList(data){
 }
 
 function isValidForm(){
+    
+    $.validator.addMethod("uniqueName", function(value, element, params) {
+        
+        var temp = true;
+        var currentProject;
+        var id = $('#addProject_projectId').val();
+        var vcCount = customerProjectList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == customerProjectList[j].projectId){
+                currentProject = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#addProject_projectName').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = customerProjectList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentProject != null){
+            if(vcName == customerProjectList[currentProject].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
+
     
     $.validator.addMethod("projectAdminNameValidation", function(value, element, params) {
         var temp = false;
@@ -551,6 +632,7 @@ function isValidForm(){
             },
             'addProject[projectName]' : {
                 required:true,
+                uniqueName: true,
                 maxlength: 50
             },
             'addProject[projectAdmin_1]' : {
@@ -581,6 +663,7 @@ function isValidForm(){
             },
             'addProject[projectName]' : {
                 required: lang_projectRequired,
+                uniqueName:lang_uniqueName,
                 maxlength: lang_exceed50Chars
             },
             'addProject[projectAdmin_1]' : {

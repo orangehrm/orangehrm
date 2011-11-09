@@ -162,12 +162,13 @@
         </div>
 
         <script type="text/javascript">
-            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?> ;
             var employeeList = eval(employees);
-            var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
+            var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()); ?> ;
             var customerList = eval(customers);
-            var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()) ?> ;
+            var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()); ?> ;
             var projectList = eval(projects);
+	    var activityList = <?php echo str_replace('&#039;', "'", $form->getActivityListAsJson($projectId)); ?>;
             var numberOfProjectAdmins = <?php echo $form->numberOfProjectAdmins; ?>;
             var lang_typeHint = '<?php echo __("Type for hints") . "..."; ?>';
             var lang_nameRequired = '<?php echo __("Customer name is required"); ?>';
@@ -180,6 +181,7 @@
             var custUrl = '<?php echo url_for("admin/saveCustomerJson"); ?>';
             var projectUrl = '<?php echo url_for("admin/addProject"); ?>';
             var urlForGetActivity = '<?php echo url_for("admin/getActivityListJason?projectId="); ?>';
+            var urlForGetProjectList = '<?php echo url_for("admin/getProjectListJson?customerId="); ?>';
             var deleteActivityUrl = '<?php echo url_for("admin/deleteProjectActivity"); ?>';
             var cancelBtnUrl = '<?php echo url_for("admin/viewProjects"); ?>';
             var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
@@ -194,6 +196,7 @@
             var lang_editProject = '<?php echo __("Edit Project"); ?>';
             var lang_Project = '<?php echo __("Project"); ?>';
 	    var lang_uniqueCustomer = '<?php echo __("Name already exist"); ?>';
+	    var lang_uniqueName = '<?php echo __("Name already exist"); ?>';
 	    var lang_editActivity = '<?php echo __("Edit Project Activity"); ?>';
 	    var lang_addActivity = '<?php echo __("Add Project Activity"); ?>';
 </script>

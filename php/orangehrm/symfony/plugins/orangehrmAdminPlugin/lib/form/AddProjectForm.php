@@ -175,7 +175,7 @@ class AddProjectForm extends BaseForm {
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 
-		$employeeList = $employeeService->getEmployeeList();
+		$employeeList = $employeeService->getEmployeeList('empNumber','ASC',true);
 		$employeeUnique = array();
 		foreach ($employeeList as $employee) {
 
@@ -226,6 +226,23 @@ class AddProjectForm extends BaseForm {
 
 		$jsonString = json_encode($jsonArray);
 
+		return $jsonString;
+	}
+
+	public function getActivityListAsJson($projectId) {
+
+		$jsonArray = array();
+
+		if (!empty($projectId)) {
+			
+			$activityList = $this->getProjectService()->getActivityListByProjectId($projectId);
+
+			foreach ($activityList as $activity) {
+				$jsonArray[] = array('name' => $activity->getName(), 'id' => $activity->getActivityId());
+			}
+
+			$jsonString = json_encode($jsonArray);
+		}
 		return $jsonString;
 	}
 

@@ -50,12 +50,18 @@ class addProjectAction extends sfAction {
 
 	public function execute($request) {
 
+		$usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
+		}
+		
 		$this->projectId = $request->getParameter('projectId');
 		$this->custId = $request->getParameter('custId');
 		
 		if ($this->custId > 0) {
 			$customer = $this->getCustomerService()->getCustomerById($this->custId);
 			$this->customerName = $customer->getName();
+			$this->getUser()->setFlash('templateMessage', array('success', __('Customer Added Successfully')));
 		}
 		$values = array('projectId' => $this->projectId);
 		$this->setForm(new AddProjectForm(array(), $values));
@@ -65,8 +71,8 @@ class addProjectAction extends sfAction {
 			$this->activityForm = new AddProjectActivityForm();
 			$this->copyActForm = new CopyActivityForm();
 			//For list activities
-			$activityList = $this->getProjectService()->getActivityListByProjectId($this->projectId);
-			$this->_setListComponent($activityList);
+			$this->activityList = $this->getProjectService()->getActivityListByProjectId($this->projectId);
+			$this->_setListComponent($this->activityList);
 			$params = array();
 			$this->parmetersForListCompoment = $params;
 		}

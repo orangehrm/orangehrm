@@ -360,6 +360,22 @@
                 <source>Projects</source>
                 <target>FR_Projects</target>
             </trans-unit>
+            <trans-unit id="90">
+                <source>Activities</source>
+                <target>FR_Activities</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>Project Activity Added Successfully</source>
+                <target>FR_Project Activity Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>Selected Project Activities Deleted Successfully</source>
+                <target>FR_Selected Project Activities Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>Cannot Have Duplicate Activities</source>
+                <target>FR_Cannot Have Duplicate Activities</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
