@@ -23,6 +23,7 @@ class AddProjectForm extends BaseForm {
 	private $customerService;
 	public $projectId;
 	public $numberOfProjectAdmins = 5;
+	public $edited = false;
 
 	public function getProjectService() {
 		if (is_null($this->projectService)) {
@@ -105,7 +106,7 @@ class AddProjectForm extends BaseForm {
 			$projectId = $this->saveProject($project);
 			$this->saveProjectAdmins($projectAdmins, $projectId);
 		} else {
-
+			$this->edited = true;
 			$project = $this->getProjectService()->getProjectById($id);
 			$projectId = $this->saveProject($project);
 			$projectAdminList = $this->getValue('projectAdminList');

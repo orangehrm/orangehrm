@@ -116,6 +116,14 @@ $(document).ready(function() {
             $('#projectName').removeClass("inputFormatHint");
         }
     });
+   
+    $('#addCustomer_customerName').keyup(function(){
+        validateThickBox();
+    });
+   
+    $('#addCustomer_description').keyup(function(){
+        validateThickBox();
+    });
     
     $("#btnCopyCancel").click(function(){
         $("#copyActivity").dialog("close");
@@ -178,7 +186,7 @@ $(document).ready(function() {
     
     $('#dialogSave').click(function(){
         if(validateThickBox()){
-            saveCustomer(custUrl+'?customerName='+$.trim($('#addCustomer_customerName').val())+'&description='+$('#addCustomer_description').val());
+            saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
         }
     });
     
@@ -434,7 +442,7 @@ function validateThickBox(){
 }
 
 function saveCustomer(url){
-    
+
     $.getJSON(url, function(data) {
         window.location.replace(projectUrl+'?custId='+data.id+'&projectId='+projectId);
     })

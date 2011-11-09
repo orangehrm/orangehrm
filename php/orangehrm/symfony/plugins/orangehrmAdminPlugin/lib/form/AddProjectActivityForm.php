@@ -22,6 +22,7 @@
 class AddProjectActivityForm extends BaseForm {
 	
 	private $projectService;
+	public $edited = false;
 
 	public function getProjectService() {
 		if (is_null($this->projectService)) {
@@ -58,6 +59,7 @@ class AddProjectActivityForm extends BaseForm {
 		
 		if(!empty ($activityId)){
 			$activity = $this->getProjectService()->getProjectActivityById($activityId);
+			$this->edited = true;
 		} else {
 			$activity = new ProjectActivity();
 		}

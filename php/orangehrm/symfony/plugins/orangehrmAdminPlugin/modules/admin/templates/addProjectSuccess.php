@@ -162,13 +162,15 @@
         </div>
 
         <script type="text/javascript">
-            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?> ;
+            var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
             var employeeList = eval(employees);
             var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()); ?> ;
             var customerList = eval(customers);
             var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()); ?> ;
             var projectList = eval(projects);
+	    <?php if($projectId > 0) { ?>
 	    var activityList = <?php echo str_replace('&#039;', "'", $form->getActivityListAsJson($projectId)); ?>;
+	    <?php } ?>
             var numberOfProjectAdmins = <?php echo $form->numberOfProjectAdmins; ?>;
             var lang_typeHint = '<?php echo __("Type for hints") . "..."; ?>';
             var lang_nameRequired = '<?php echo __("Customer name is required"); ?>';

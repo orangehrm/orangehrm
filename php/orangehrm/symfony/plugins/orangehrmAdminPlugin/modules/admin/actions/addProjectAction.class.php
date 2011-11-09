@@ -91,7 +91,11 @@ class addProjectAction extends sfAction {
 			if ($this->form->isValid()) {
 
 				$projectId = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __('Project Added Successfully')));
+				if($this->form->edited){
+					$this->getUser()->setFlash('templateMessage', array('success', __('Project Updated Successfully')));
+				} else {
+					$this->getUser()->setFlash('templateMessage', array('success', __('Project Added Successfully')));
+				}				
 				$this->redirect('admin/addProject?projectId=' . $projectId);
 			}
 		}

@@ -376,6 +376,10 @@
                 <source>Cannot Have Duplicate Activities</source>
                 <target>FR_Cannot Have Duplicate Activities</target>
             </trans-unit>
+            <trans-unit id="94">
+                <source>Project Updated Successfully</source>
+                <target>FR_Project Updated Successfully</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
