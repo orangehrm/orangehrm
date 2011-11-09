@@ -1339,7 +1339,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($employees[0], $result[0]);
         
         // Search by Root - Should return all employees in list
-        $result = $this->employeeService->filterEmployeeListBySubUnit($employees, CompanyStructure::ROOT_ID);
+        $result = $this->employeeService->filterEmployeeListBySubUnit($employees, 1);
         $this->assertEquals($employees, $result);
         
         // Empty subunit Id should be the same as root 

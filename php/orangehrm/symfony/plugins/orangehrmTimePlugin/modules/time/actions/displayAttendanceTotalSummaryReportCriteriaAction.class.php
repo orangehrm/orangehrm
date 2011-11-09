@@ -23,7 +23,7 @@ class displayAttendanceTotalSummaryReportCriteriaAction extends displayReportCri
 
         $employeeService = new EmployeeService();
         $jobService = new JobService();
-        $companyService = new CompanyService();
+        $companyStructureService = new CompanyStructureService();
         
         if (isset($formValues["employee"])) {
             $empNumber = $formValues["employee"];
@@ -49,8 +49,8 @@ class displayAttendanceTotalSummaryReportCriteriaAction extends displayReportCri
         if (isset($formValues["sub_unit"]) && ($formValues["job_title"]!=0)) {
             $value = $formValues["sub_unit"];
             $id = $value;
-            $companyStructure = $companyService->readCompanyStructure($id);
-            $subUnitName = $companyStructure->getTitle();
+            $subunit = $companyStructureService->getSubunitById($id);
+            $subUnitName = $subunit->getName();
             $this->getRequest()->setParameter("subUnit", $subUnitName);
         }
 

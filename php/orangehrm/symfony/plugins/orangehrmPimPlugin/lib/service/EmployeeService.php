@@ -663,7 +663,7 @@ class EmployeeService extends BaseService {
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
         try {
-            if (empty($subUnitId) || $subUnitId == CompanyStructure::ROOT_ID) {
+            if (empty($subUnitId) || $subUnitId == 1) {
                 return $employeeList;
             }
 

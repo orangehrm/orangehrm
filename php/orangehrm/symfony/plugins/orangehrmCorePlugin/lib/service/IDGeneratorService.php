@@ -117,10 +117,6 @@ class IDGeneratorService extends BaseService
 				$prefix	=	'';
 			break;
 
-			case 'CompanyStructure':
-				$prefix	=	'';
-			break;
-
 			case 'ProjectActivity':
 				$prefix	=	'';
 			break;

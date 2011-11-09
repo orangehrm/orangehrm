@@ -91,6 +91,7 @@
 
                 }
                 var addProjectUrl = '<?php echo url_for('admin/addProject'); ?>';
+                var viewProjectUrl = '<?php echo url_for('admin/viewProjects'); ?>';
                 var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
                 var customersArray = eval(customers);
                 var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()) ?> ;

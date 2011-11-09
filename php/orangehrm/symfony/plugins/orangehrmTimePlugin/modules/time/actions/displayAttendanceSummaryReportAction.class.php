@@ -84,7 +84,7 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
     public function setReportCriteriaInfoInRequest($formValues) {
         $employeeService = new EmployeeService();
         $jobService = new JobService();
-        $companyService = new CompanyService();
+        $companyStructureService = new CompanyStructureService();
 
         if (isset($formValues["employeeId"]) || ($formValues["employeeId"] == '-1')) {
 
@@ -115,12 +115,10 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
         if (isset($formValues["subUnit"]) && ($formValues["subUnit"] != 0)) {
             $value = $formValues["subUnit"];
             $id = $value;
-            $companyStructure = $companyService->readCompanyStructure($id);
-            $subUnitName = $companyStructure->getTitle();
+            $subunit = $companyStructureService->getSubunitById($id);
+            $subUnitName = $subunit->getName();
             $this->getRequest()->setParameter("subUnit", $subUnitName);
         }
-        //$formValues["fromDate"] = ($formValues["fromDate"] == "") ? '1970-01-01': $formValues["fromDate"];
-       // $formValues["toDate"] = ($formValues["toDate"] == "") ? date('Y-m-d'): $formValues["toDate"];
         $this->getRequest()->setParameter('attendanceDateRangeFrom', $formValues["fromDate"]);
         $this->getRequest()->setParameter('attendanceDateRangeTo', $formValues["toDate"]);
     }

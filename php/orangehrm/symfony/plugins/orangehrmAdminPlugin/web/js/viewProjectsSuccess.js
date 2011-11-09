@@ -65,8 +65,7 @@ $(document).ready(function() {
     addTypeForHints()
 
     $('#btnReset').click(function(){
-        $('.txtBox').val("")
-        addTypeForHints()
+       window.location.replace(viewProjectUrl);
     })
     
     $('#btnSearch').click(function(){

@@ -65,30 +65,23 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
 
         $choice = array();
 
-        $companyService = new CompanyService();
-        $subDivisionTree = $companyService->getSubDivisionTree();
-
         $choice['0'] = __('All');
-        foreach ($subDivisionTree as $node) {
+        $companyStructureService = new CompanyStructureService();
+        $treeObject = $companyStructureService->getSubunitTreeObject();
 
-            // Add nodes, indenting correctly. Skip root node
+        $tree = $treeObject->fetchTree();
+
+        foreach ($tree as $node) {
             if ($node->getId() != 1) {
-                if ($node->depth == "") {
-                    $node->depth = 1;
-                }
-
                 $value = $node->getId();
-                $children = $node->getChildren();
+                $children = $node->getNode()->getChildren();
 
                 foreach ($children as $childNode) {
                     $value = $value . "," . $childNode->getId();
                 }
-
-                $indent = str_repeat('&nbsp;&nbsp;', $node->depth - 1);
-                $choice[$value] = $indent . $node->getTitle();
+                $choice[$value] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
-
         return $choice;
     }
 
@@ -152,4 +145,5 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
     public function getDefaultValue(SelectedFilterField $selectedFilterField) {
         return $selectedFilterField->value1;
     }
+
 }

@@ -168,7 +168,9 @@ class EmployeeSearchForm extends BaseForm {
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'];
+            if ($node->getId() != 1) {
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']-1) . $node['name'];
+            }
         }
         $this->setWidget('sub_unit', new sfWidgetFormChoice(array('choices' => $subUnitList)));
         $this->setValidator('sub_unit', new sfValidatorChoice(array('choices' => array_keys($subUnitList))));

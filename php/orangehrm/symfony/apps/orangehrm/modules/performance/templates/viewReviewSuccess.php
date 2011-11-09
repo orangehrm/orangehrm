@@ -72,20 +72,20 @@ $formatData['newSeparater'] = '/';
                         <option value="0">All</option>
                         <?php
                         foreach ($tree as $node) {
-
-                            if ($node->getId() == $clues['divisionId']) {
-                                $selected = ' selected';
-                            } else {
-                                $selected = '';
+                            if ($node->getId() != 1) {
+                                if ($node->getId() == $clues['divisionId']) {
+                                    $selected = ' selected';
+                                } else {
+                                    $selected = '';
+                                }
+                                echo "<option value=\"" . $node->getId() . "\"" . $selected . ">" . str_repeat('&nbsp;&nbsp;', $node['level']-1) . $node['name'] . "</option>\n";
                             }
-                            echo "<option value=\"" . $node->getId() . "\"" . $selected . ">" . str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'] . "</option>\n";
                         }
                         ?>
                     </select>
                     <br class="clear"/>
 
-                    <?php if ($loggedAdmin || $loggedReviewer) {
-                    ?>
+                    <?php if ($loggedAdmin || $loggedReviewer) { ?>
                             <label for="txtEmpName">Employee</label>
                             <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText"
                                    value="<?php echo isset($clues['empName']) ? $clues['empName'] : 'Type for hints...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
@@ -162,27 +162,27 @@ $formatData['newSeparater'] = '/';
                                         </td>
 
                                         <td scope="col">
-                                                                        							Employee
+                                                                                    							Employee
                                         </td>
 
                                         <td scope="col">
-                                                                        							Job Title
+                                                                                    							Job Title
                                         </td>
 
                                         <td scope="col">
-                                                                        							Review Period
+                                                                                    							Review Period
                                         </td>
 
                                         <td scope="col">
-                                                                        							Due Date
+                                                                                    							Due Date
                                         </td>
 
                                         <td scope="col">
-                                                                        							Status
+                                                                                    							Status
                                         </td>
 
                                         <td scope="col">
-                                                                        							Reviewer
+                                                                                    							Reviewer
                                         </td>
 
                                     </tr>
@@ -342,7 +342,7 @@ $formatData['newSeparater'] = '/';
                                $('#hdnReviewerId').val(item.id);
                                });
 
-<?php } // $loggedAdmin || $loggedReviewer:Ends       ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
 
                            /* Clearing auto-fill fields */
                            $("#txtEmpName").click(function(){ $(this).attr({ value: '' }); $("#hdnEmpId").attr({ value: '0' }); });
@@ -376,7 +376,7 @@ $formatData['newSeparater'] = '/';
                                if ($('#txtEmpName').val() == 'Type for hints...') {
                                $('#txtEmpName').val('');
                                }
-<?php } // $loggedAdmin || $loggedReviewer:Ends       ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
 
 <?php if ($loggedAdmin) { ?>
                                autoFields = autoFields + "|txtReviewerName";
@@ -384,7 +384,7 @@ $formatData['newSeparater'] = '/';
                                if ($('#txtReviewerName').val() == 'Type for hints...') {
                                $('#txtReviewerName').val('');
                                }
-<?php } // $loggedAdmin:Ends       ?>
+<?php } // $loggedAdmin:Ends        ?>
 
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
                                fillAutoFields(autoFields.split("|"), autoHidden.split("|"));
@@ -410,18 +410,18 @@ $formatData['newSeparater'] = '/';
                            }
                            // Clear button
                            $('#clearBtn').click(function(){
-                           $('#txtPeriodFromDate').val(datepickerDateFormat);                           
+                           $('#txtPeriodFromDate').val(datepickerDateFormat);
                            $('#txtPeriodToDate').val(datepickerDateFormat);
                            $('#txtJobTitleCode').val('0');
                            $('#txtSubDivisionId').val('0');
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
                                $('#txtEmpName').val('');
                                $('#hdnEmpId').val('0');
-<?php } // $loggedAdmin || $loggedReviewer:Ends       ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
 <?php if ($loggedAdmin) { ?>
                                $('#txtReviewerName').val('');
                                $('#hdnReviewerId').val('0');
-<?php } // $loggedAdmin:Ends       ?>
+<?php } // $loggedAdmin:Ends        ?>
 
                            });
 

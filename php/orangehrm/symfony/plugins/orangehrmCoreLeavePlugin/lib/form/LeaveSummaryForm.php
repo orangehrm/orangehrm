@@ -238,7 +238,9 @@ class LeaveSummaryForm extends sfForm {
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']) . $node['name'];
+            if ($node->getId() != 1) {
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] -1) . $node['name'];
+            }
         }
         $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));
         $this->formValidators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($subUnitList)));
