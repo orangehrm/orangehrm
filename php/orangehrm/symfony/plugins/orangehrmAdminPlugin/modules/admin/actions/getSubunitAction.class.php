@@ -48,7 +48,7 @@ class getSubunitAction extends sfAction{
             $object->unitId = $subunit->getUnitId();
 
         } catch (Exception $e) {
-            $object->message = __('Failed to load sub unit');
+            $object->message = __('Failed to load subunit');
             $object->messageType = 'failure';
         }
 

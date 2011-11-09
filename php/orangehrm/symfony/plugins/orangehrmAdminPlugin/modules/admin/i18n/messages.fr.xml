@@ -305,16 +305,16 @@
                 <target>FR_This unit will be added under</target>
             </trans-unit>
             <trans-unit id="76">
-                <source>and all the sub units under it will be permanantly deleted</source>
-                <target>FR_and all the sub units under it will be permanantly deleted</target>
+                <source>and all the subunits under it will be permanantly deleted</source>
+                <target>FR_and all the subunits under it will be permanantly deleted</target>
             </trans-unit>
             <trans-unit id="77">
-                <source>Sub Unit Deleted Successfully</source>
-                <target>FR_Sub Unit Deleted Successfully</target>
+                <source>Subunit Deleted Successfully</source>
+                <target>FR_Subunit Deleted Successfully</target>
             </trans-unit>
             <trans-unit id="78">
-                <source>Sub Unit Saved Successfully</source>
-                <target>FR_Sub Unit Saved Successfully</target>
+                <source>Subunit Saved Successfully</source>
+                <target>FR_Subunit Saved Successfully</target>
             </trans-unit>
             <trans-unit id="79">
                 <source>Maximum allowed character limit is</source>
@@ -353,8 +353,8 @@
                 <target>FR_Edit Project</target>
             </trans-unit>
             <trans-unit id="88">
-                <source>Sub Unit Name Cannot be Duplicated</source>
-                <target>FR_Sub Unit Name Cannot be Duplicated</target>
+                <source>Subunit Name Cannot be Duplicated</source>
+                <target>FR_Subunit Name Cannot be Duplicated</target>
             </trans-unit>
             <trans-unit id="89">
                 <source>Projects</source>

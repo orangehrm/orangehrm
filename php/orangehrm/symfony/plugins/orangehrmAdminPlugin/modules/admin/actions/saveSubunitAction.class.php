@@ -42,14 +42,14 @@ class saveSubunitAction extends sfAction {
             if ($result) {
                 $object->affectedId = $subunit->getId();
                 $object->messageType = 'success';
-                $object->message = __('Sub Unit Saved Successfully');
+                $object->message = __('Subunit Saved Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = __('Failed to Save Sub Unit');
+                $object->message = __('Failed to Save Subunit');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = __('Sub Unit Name Cannot be Duplicated');
+            $object->message = __('Subunit Name Cannot be Duplicated');
         }
 
         @ob_clean();

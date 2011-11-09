@@ -43,14 +43,14 @@ class deleteSubunitAction extends sfAction {
 
             if ($result) {
                 $object->messageType = 'success';
-                $object->message = __('Sub Unit Deleted Successfully');
+                $object->message = __('Subunit Deleted Successfully');
             } else {
                 $object->messageType = 'failure';
-                $object->message = __('Failed to Delete Sub Unit');
+                $object->message = __('Failed to Delete Subunit');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = __('Failed to Delete Sub Unit');
+            $object->message = __('Failed to Delete Subunit');
         }
 
         @ob_clean();
