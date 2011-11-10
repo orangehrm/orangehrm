@@ -633,11 +633,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
                     foreach ($reportsMenus as $ptm) {
                         $subsubs1[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
                     }
-                    
-                    if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmTimesheetCsvExtractorPlugin') && $arrAllRights[Admin]['edit']) {
-                         $subsubs1[] = new MenuItem('timesheets', 'Export Timesheet', './symfony/web/index.php/timecsv/displayTimesheetReportCriteria', 'rightMenu');
-                    }
-                    
+                                                          
                     $sub->setSubMenuItems($subsubs1);
                 }
                 
