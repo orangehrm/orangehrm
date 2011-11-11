@@ -297,7 +297,7 @@ class ProjectDao extends BaseDao {
      * @returns ProjectAdmin
      * @throws DaoException
      */
-    public function getProjectAdmin($projectId) {
+    public function getProjectAdminByProjectId($projectId) {
         try {
             $q = Doctrine_Query::create()
                             ->from('ProjectAdmin pa')
@@ -305,29 +305,6 @@ class ProjectDao extends BaseDao {
                             ->where("pa.project_id = ?", $projectId);
 
             return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Checking the existance of Project admin
-     * @param String $projectId
-     * @param String $empId
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function isExistingProjectAdmin($projectId, $empId) {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('ProjectAdmin pa')
-                            ->where("pa.project_id = ?", $projectId)
-                            ->andWhere("pa.emp_number =?", $empId);
-
-            if ($q->count() > 0) {
-                return true;
-            }
-            return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

@@ -1586,7 +1586,7 @@ class adminActions extends sfActions {
         $companyService = new CompanyService();
         $customerService = new CustomerService();
         $this->listCustomer = $customerService->getCustomerList();
-        $this->projectAdmins = $projectService->getProjectAdmin($project);
+        $this->projectAdmins = $projectService->getProjectAdminByProjectId($project);
 
         $this->empJson = $companyService->getEmployeeListAsJson();
     }
