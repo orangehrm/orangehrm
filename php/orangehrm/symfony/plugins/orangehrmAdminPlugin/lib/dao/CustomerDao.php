@@ -54,7 +54,7 @@ class CustomerDao extends BaseDao {
 	public function getCustomerCount($activeOnly = 0) {
 
 		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
-		
+
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Customer')
@@ -90,6 +90,57 @@ class CustomerDao extends BaseDao {
 			$customer = Doctrine :: getTable('Customer')->find($customerId);
 			$customer->setDeleted(Customer::DELETED);
 			$customer->save();
+			$this->_deleteRelativeProjectsForCustomer($customerId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	private function _deleteRelativeProjectsForCustomer($customerId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->andWhere('customer_id = ?', $customerId);
+			$projects = $q->execute();
+
+			foreach ($projects as $project) {
+				$project->setDeleted(Project::DELETED_PROJECT);
+				$project->save();
+				$this->_deleteRelativeProjectActivitiesForProject($project->getProjectId());
+				$this->_deleteRelativeProjectAdminsForProject($project->getProjectId());
+			}
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	private function _deleteRelativeProjectActivitiesForProject($projectId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('ProjectActivity')
+				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->andWhere('project_id = ?', $projectId);
+			$projectActivities = $q->execute();
+
+			foreach ($projectActivities as $projectActivity) {
+				$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+				$projectActivity->save();
+			}
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	private function _deleteRelativeProjectAdminsForProject($projectId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->delete('ProjectAdmin pa')
+				->where('pa.project_id = ?', $projectId);
+			$q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
@@ -103,7 +154,7 @@ class CustomerDao extends BaseDao {
 	public function getAllCustomers($activeOnly = 0) {
 
 		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
-		
+
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Customer')

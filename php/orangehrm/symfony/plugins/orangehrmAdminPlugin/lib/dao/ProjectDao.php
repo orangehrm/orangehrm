@@ -55,11 +55,45 @@ class ProjectDao extends BaseDao {
             $project = Doctrine :: getTable('Project')->find($projectId);
             $project->setDeleted(Project::DELETED_PROJECT);
             $project->save();
+	    $this->_deleteRelativeProjectActivitiesForProject($projectId);
+	    $this->_deleteRelativeProjectAdminsForProject($projectId);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
+    private function _deleteRelativeProjectActivitiesForProject($projectId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('ProjectActivity')
+				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->andWhere('project_id = ?', $projectId);
+			$projectActivities =  $q->execute();
+			
+			foreach ($projectActivities as $projectActivity){
+				$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+				$projectActivity->save();
+			}
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+	
+	private function _deleteRelativeProjectAdminsForProject($projectId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->delete('ProjectAdmin pa')
+				->where('pa.project_id = ?', $projectId);
+			$q->execute();
+
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+    
     public function getProjectById($projectId) {
 
         try {
@@ -113,7 +147,7 @@ class ProjectDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                             ->from('Project')
-                            ->where('deleted = ?', 0)
+                            ->where('deleted = ?', Project::ACTIVE_PROJECT)
                             ->orderBy($orderField . ' ' . $orderBy);
 
             $projectList = $q->execute();

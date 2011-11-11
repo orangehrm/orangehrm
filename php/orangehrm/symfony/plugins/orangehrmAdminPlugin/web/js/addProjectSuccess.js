@@ -556,30 +556,32 @@ function isValidForm(){
     $.validator.addMethod("uniqueName", function(value, element, params) {
         
         var temp = true;
-        var currentProject;
-        var id = $('#addProject_projectId').val();
-        var vcCount = customerProjectList.length;
-        for (var j=0; j < vcCount; j++) {
-            if(id == customerProjectList[j].projectId){
-                currentProject = j;
+        
+        if(customerProjectList != ""){  
+            var currentProject;
+            var id = $('#addProject_projectId').val();
+            var vcCount = customerProjectList.length;
+            for (var j=0; j < vcCount; j++) {
+                if(id == customerProjectList[j].projectId){
+                    currentProject = j;
+                }
             }
-        }
-        var i;
-        vcName = $.trim($('#addProject_projectName').val()).toLowerCase();
-        for (i=0; i < vcCount; i++) {
+            var i;
+            vcName = $.trim($('#addProject_projectName').val()).toLowerCase();
+            for (i=0; i < vcCount; i++) {
 
-            arrayName = customerProjectList[i].name.toLowerCase();
-            if (vcName == arrayName) {
-                temp = false
-                break;
+                arrayName = customerProjectList[i].name.toLowerCase();
+                if (vcName == arrayName) {
+                    temp = false
+                    break;
+                }
+            }
+            if(currentProject != null){
+                if(vcName == customerProjectList[currentProject].name.toLowerCase()){
+                    temp = true;
+                }
             }
         }
-        if(currentProject != null){
-            if(vcName == customerProjectList[currentProject].name.toLowerCase()){
-                temp = true;
-            }
-        }
-		
         return temp;
     });
 
