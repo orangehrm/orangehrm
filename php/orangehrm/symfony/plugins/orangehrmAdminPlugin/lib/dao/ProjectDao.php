@@ -357,7 +357,7 @@ class ProjectDao extends BaseDao {
      * @returns ProjectActivity
      * @throws DaoException
      */
-    public function getProjectActivity($projectId) {
+    public function getProjectActivityById($projectId) {
         try {
             $q = Doctrine_Query::create()
                             ->from('ProjectActivity pa')

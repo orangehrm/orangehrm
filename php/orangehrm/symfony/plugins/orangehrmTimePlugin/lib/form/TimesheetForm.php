@@ -196,8 +196,8 @@ class TimesheetForm extends sfForm {
                 $rowArray['projectName'] = $row[0]->getProject()->getCustomer()->getName() . " - ##" . $row[0]->getProject()->getName();
                 $rowArray['isProjectDeleted'] = $row[0]->getProject()->getDeleted();
                 $rowArray['activityId'] = $row[0]["activityId"];
-                $rowArray['activityName'] = $row[0]->getProjectActivity()->getName();
-                $rowArray['isActivityDeleted'] = $row[0]->getProjectActivity()->getDeleted();
+                $rowArray['activityName'] = $row[0]->getProjectActivityById()->getName();
+                $rowArray['isActivityDeleted'] = $row[0]->getProjectActivityById()->getDeleted();
 
                 foreach ($dates as $date) {
 

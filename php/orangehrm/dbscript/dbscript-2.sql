@@ -550,7 +550,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr_nationality', 'nat_code'),
     (0, 'hs_hr_language', 'lang_code'),
-    (0, 'ohrm_customer', 'customer_id'),
     (0, 'hs_hr_job_title', 'jobtit_code'),
     (6, 'hs_hr_empstat', 'estat_code'),
     (8, 'hs_hr_eec', 'eec_code'),
@@ -570,9 +569,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0, 'hs_hr_leave', 'leave_id'),
     (0, 'hs_hr_leavetype', 'leave_type_id'),
     (0, 'hs_hr_holidays', 'holiday_id'),
-    (0, 'ohrm_project', 'project_id'),
     (0, 'hs_hr_leave_requests', 'leave_request_id'),
-    (0, 'ohrm_project_activity', 'activity_id'),
     (0, 'hs_hr_workshift', 'workshift_id'),
     (0, 'hs_hr_custom_export', 'export_id'),
     (0, 'hs_hr_custom_import', 'import_id'),

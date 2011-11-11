@@ -1649,7 +1649,7 @@ class adminActions extends sfActions {
         $currentProjectId = isset($_POST['id']) ? $_POST['id'] : $request->getParameter('id');
         $this->currentProject = $currentProjectId;
 
-        $projectActivityList = $projectService->getProjectActivity($currentProjectId);
+        $projectActivityList = $projectService->getProjectActivityById($currentProjectId);
         if (count($projectActivityList) > 0) {
             $this->projectActivityList = $projectActivityList;
             $this->hasProjectActivity = true;

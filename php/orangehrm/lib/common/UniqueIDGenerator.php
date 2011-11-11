@@ -194,10 +194,6 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_users", "id", "USR"),
 						new IDField("hs_hr_user_group", "userg_id", "USG"),
 
-						new IDField("ohrm_customer", "customer_id"),
-						new IDField("ohrm_project", "project_id"),
-						new IDField("ohrm_project_activity", "activity_id"),
-
 						new IDField("hs_hr_module", "mod_id", "MOD"),
 
 						new IDField("hs_hr_empreport", "rep_code", "REP"),
