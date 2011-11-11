@@ -236,6 +236,8 @@ class ProjectDao extends BaseDao {
     private function _buildSearchQuery($srchClues) {
 
         $q = Doctrine_Query::create()
+                        ->select('p.projectId, p.name, c.name')
+                        ->addSelect('(SELECT GROUP_CONCAT(emp.firstName,\' \',emp.lastName) FROM Employee emp LEFT JOIN emp.projectAdmin pq ON (pq.emp_number = emp.emp_number) WHERE pq.projectId = p.projectId) AS projectAdmins')
                         ->from('Project p')
                         ->leftJoin('p.Customer c')
                         ->leftJoin('p.ProjectAdmin pa')

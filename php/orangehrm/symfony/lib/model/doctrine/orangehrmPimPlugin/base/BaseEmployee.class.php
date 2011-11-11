@@ -68,7 +68,7 @@
  * @property Doctrine_Collection $salary
  * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
- * @property Doctrine_Collection $ProjectAdmin
+ * @property Doctrine_Collection $projectAdmin
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $subordinates
@@ -156,7 +156,7 @@
  * @method Doctrine_Collection getSalary()                   Returns the current record's "salary" collection
  * @method Doctrine_Collection getContracts()                Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
- * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "ProjectAdmin" collection
+ * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
@@ -243,7 +243,7 @@
  * @method Employee            setSalary()                   Sets the current record's "salary" collection
  * @method Employee            setContracts()                Sets the current record's "contracts" collection
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
- * @method Employee            setProjectAdmin()             Sets the current record's "ProjectAdmin" collection
+ * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
@@ -557,7 +557,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
-        $this->hasMany('ProjectAdmin', array(
+        $this->hasMany('ProjectAdmin as projectAdmin', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

@@ -189,8 +189,13 @@ Employee:
       class: EmployeeAttachment
       local: emp_number
       foreign: emp_number
-      type: many      
-
+      type: many
+    projectAdmin:
+      class: ProjectAdmin
+      local: emp_number
+      foreign: emp_number
+      type: many
+    
 EmpPicture:
   tableName: hs_hr_emp_picture
   columns:

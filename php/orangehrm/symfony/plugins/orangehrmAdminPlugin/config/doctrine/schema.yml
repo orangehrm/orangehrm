@@ -134,31 +134,31 @@ ProjectActivity:
       foreign: project_id
       type: one
 
-JobTitle:
-  tableName: ohrm_job_title
-  columns:
-    jobtit_code:
-      name: jobtit_code as jobTitleCode
-      type: string(13)
-      primary: true
-    job_title:
-      name: job_title as jobTitle
-      type: string(100)
-    job_description:
-      name: job_description as jobDescription
-      type: string(400)
-    job_specification:
-      name: job_specification as jobSpecification
-      type: string(2147483647)
-    note: string(400)
-  relations:
-    employees:
-      class: Employee
-      local: jobtit_code
-      foreign: job_title_code
-      type: many
-    definekpi:
-      class: DefineKpi
-      local: jobtit_code
-      foreign: job_title_code
-      type: many
+#JobTitle:
+#  tableName: ohrm_job_title
+#  columns:
+#    jobtit_code:
+#      name: jobtit_code as jobTitleCode
+#      type: string(13)
+#      primary: true
+#    job_title:
+#      name: job_title as jobTitle
+#      type: string(100)
+#    job_description:
+#      name: job_description as jobDescription
+#      type: string(400)
+#    job_specification:
+#      name: job_specification as jobSpecification
+#      type: string(2147483647)
+#    note: string(400)
+#  relations:
+#    employees:
+#      class: Employee
+#      local: jobtit_code
+#      foreign: job_title_code
+#      type: many
+#    definekpi:
+#      class: DefineKpi
+#      local: jobtit_code
+#      foreign: job_title_code
+#      type: many
