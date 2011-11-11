@@ -407,7 +407,7 @@ class ProjectDao extends BaseDao {
         }
     }
 
-    public function isProjectHasTimesheetItems($projectId) {
+    public function hasProjectGotTimesheetItems($projectId) {
 
         try {
             $q = Doctrine_Query :: create()

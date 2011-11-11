@@ -33,7 +33,7 @@ class deleteProjectAction extends sfAction {
 		if (!empty($toBeDeletedProjectIds)) {
 			$delete = true;
 			foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-				$deletable = $this->getProjectService()->isProjectHasTimesheetItems($toBeDeletedProjectId);
+				$deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
 				if ($deletable) {
 					$delete = false;
 					break;

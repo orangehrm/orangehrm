@@ -92,8 +92,8 @@ class ProjectService extends BaseService {
 		return $this->projectDao->hasActivityGotTimesheetItems($activityId);
 	}
 
-	public function isProjectHasTimesheetItems($projectId) {
-		return $this->projectDao->isProjectHasTimesheetItems($projectId);
+	public function hasProjectGotTimesheetItems($projectId) {
+		return $this->projectDao->hasProjectGotTimesheetItems($projectId);
 	}
 
 	public function getProjectsByCustomerId($customerId) {
