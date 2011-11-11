@@ -373,7 +373,7 @@ class ProjectDao extends BaseDao {
      *
      * @param type $activitId
      */
-    public function deleteProjectActivity($activitId) {
+    public function deleteProjectActivities($activitId) {
 
         try {
             $projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);

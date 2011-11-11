@@ -43,7 +43,7 @@ class deleteProjectActivityAction extends sfAction {
 			if ($delete) {
 				foreach ($toBeDeletedActivityIds as $toBeDeletedActivityId) {
 
-					$customer = $this->getProjectService()->deleteProjectActivity($toBeDeletedActivityId);
+					$customer = $this->getProjectService()->deleteProjectActivities($toBeDeletedActivityId);
 				}
 				$this->getUser()->setFlash('templateMessageAct', array('success', __('Selected Project Activities Deleted Successfully')));
 			} else {

@@ -1686,7 +1686,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
 
             $projectService = new ProjectService();
-            $projectService->deleteProjectActivity($request->getParameter('chkLocID'));
+            $projectService->deleteProjectActivities($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array('Successfully Deleted'));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
