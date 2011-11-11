@@ -136,10 +136,27 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                                 <?php foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects): ?>
                                     <?php if ($format == '1') { ?>
-                                    <td class="duration"><?php echo ($timesheetItemObjects->getDuration() == null ) ? "0:00" : $timesheetItemObjects->getConvertTime(); ?></td><td class="commentIcon"><?php if ($timesheetItemObjects->getComment() != null): ?><?php echo image_tag('callout.png', 'id=' . $timesheetItemObjects->getTimesheetItemId() . "##" . $timesheetItemRow['projectName'] . "##" . $timesheetItemRow['activityName'] . " class=icon") ?><?php endif; ?></td>
+                                    <td class="duration"><?php echo ($timesheetItemObjects->getDuration() == null ) ? "0:00" : $timesheetItemObjects->getConvertTime(); ?></td>
+                                    <td class="commentIcon">
+                                    <?php 
+                                    if ($timesheetItemObjects->getComment() != null) {
+                                       echo image_tag('callout.png', 
+                                                 array('id' => 'callout_'. $timesheetItemObjects->getTimesheetItemId(),
+                                                       'class' => 'icon')); 
+                                    } ?>
+                                    </td>
                                 <?php } ?>
                                 <?php if ($format == '2') { ?>
-                                    <td class="duration"><?php echo ($timesheetItemObjects->getDuration() == null ) ? "0.00" : $timesheetItemObjects->getConvertTime(); ?></td><td class="commentIcon"><?php if ($timesheetItemObjects->getComment() != null): ?><?php echo image_tag('callout.png', 'id=' . $timesheetItemObjects->getTimesheetItemId() . "##" . $timesheetItemRow['projectName'] . "##" . $timesheetItemRow['activityName'] . " class=icon") ?><?php endif; ?></td>
+                                    <td class="duration"><?php echo ($timesheetItemObjects->getDuration() == null ) ? "0.00" : $timesheetItemObjects->getConvertTime(); ?></td>
+                                    <td class="commentIcon">
+                                    <?php 
+                                      if ($timesheetItemObjects->getComment() != null) {
+                                          echo image_tag('callout.png', 
+                                                 array('id' => 'callout_'. $timesheetItemObjects->getTimesheetItemId(),
+                                                       'class' => 'icon')); 
+
+                                      } ?>
+                                    </td>
                                 <?php } ?>
 
                                 <?php if ($format == '1') { ?>

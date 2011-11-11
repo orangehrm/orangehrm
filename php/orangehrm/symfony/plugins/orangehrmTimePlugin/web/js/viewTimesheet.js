@@ -143,14 +143,16 @@ $(document).ready(function(){
         $("#timeComment").attr("disabled","disabled");
         //removing errors message in the comment box
         $("#commentError").html("");
-        var array = ($(this).attr('id')).split('##');
-        timesheetItemId = array[0];
-
+        var elementId = $(this).attr('id');
+        var timesheetItemId = elementId.replace('callout_', '');
+        var projectName = $(this).closest('tr').find('td:first').text();
+        var activityName = $(this).closest('tr').find('td:nth-child(2)').text();
+        
         var comment = getComment(timesheetItemId);
         var decoded = $("<div/>").html(comment).text();
         $("#timeComment").val(decoded);
-        $("#commentProjectName").text(":"+" "+array[1]);
-        $("#commentActivityName").text(":"+" "+array[2]);
+        $("#commentProjectName").text(": " + projectName);
+        $("#commentActivityName").text(": " + activityName);
         var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
         $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
         $("#commentDialog").dialog('open');
@@ -189,24 +191,6 @@ function getComment(timesheetItemId){
     });
     return question;
 }
-
-function viewComment(e){
-
-    $("#timeComment").attr("disabled","disabled");
-    //removing errors message in the comment box
-    $("#commentError").html("");
-    var array = ($(e.target).attr('id')).split('##');
-    timesheetItemId = array[0];
-    var comment = getComment(timesheetItemId);
-    $("#timeComment").val(comment);
-    $("#commentProjectName").text(":"+" "+array[1]);
-    $("#commentActivityName").text(":"+" "+array[2]);
-    var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
-    $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
-    $("#commentDialog").dialog('open');
-
-}
-
 
 function validateComment(){
 
