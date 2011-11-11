@@ -334,24 +334,6 @@ class ProjectDao extends BaseDao {
     }
 
     /**
-     * Retrieve Project by Id
-     * @param int $id
-     * @returns Project
-     * @throws DaoException
-     */
-    public function readProject($id) {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('Project')
-                            ->where("project_id = ?", $id);
-
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * Retrieve project activity by projectId
      * @param String $projectId
      * @returns ProjectActivity

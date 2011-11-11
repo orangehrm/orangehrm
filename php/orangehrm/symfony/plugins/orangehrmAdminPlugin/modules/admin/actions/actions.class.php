@@ -1569,7 +1569,7 @@ class adminActions extends sfActions {
     public function executeUpdateProject(sfWebRequest $request) {
         $projectService = new ProjectService();
 
-        $project = $projectService->readProject($request->getParameter('id'));
+        $project = $projectService->getProjectById($request->getParameter('id'));
         $this->project = $project;
 
         if ($request->isMethod('post')) {

@@ -117,14 +117,10 @@ class ProjectService extends BaseService {
 	 */
 	public function getProjectName($projectId) {
 
-		$project = $this->readProject($projectId);
+		$project = $this->getProjectById($projectId);
 		$projectName = $project->getCustomer()->getName() . " - " . $project->getName();
 
 		return $projectName;
-	}
-
-	public function readProject($projectId) {
-		return $this->projectDao->readProject($projectId);
 	}
 
 	/**
