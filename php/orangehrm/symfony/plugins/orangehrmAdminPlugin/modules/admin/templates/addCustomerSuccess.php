@@ -3,8 +3,6 @@
 
 <?php use_stylesheet('../orangehrmAdminPlugin/css/addCustomerSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/addCustomerSuccess'); ?>
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
 	<span><?php echo isset($message) ? $message : ''; ?></span>

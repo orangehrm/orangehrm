@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class AddProjectForm extends BaseForm {
+class ProjectForm extends BaseForm {
 
 	private $customerService;
 	public $projectId;
@@ -109,8 +109,7 @@ class AddProjectForm extends BaseForm {
 			$this->edited = true;
 			$project = $this->getProjectService()->getProjectById($id);
 			$projectId = $this->saveProject($project);
-			$projectAdminList = $this->getValue('projectAdminList');
-			$projectAdmins = explode(",", $projectAdminList);
+			$projectAdmins = explode(",", $this->getValue('projectAdminList'));
 			$existingProjectAdmins = $project->getProjectAdmin();
 			$idList = array();
 			if ($existingProjectAdmins[0]->getEmpNumber() != "") {

@@ -59,8 +59,8 @@ class addProjectAction extends sfAction {
 		$this->custId = $request->getParameter('custId');
 				
 		$values = array('projectId' => $this->projectId);
-		$this->setForm(new AddProjectForm(array(), $values));
-		$this->customerForm = new AddCustomerForm();
+		$this->setForm(new ProjectForm(array(), $values));
+		$this->customerForm = new CustomerForm();
 		
 		if ($this->custId > 0) {
 			$customer = $this->getCustomerService()->getCustomerById($this->custId);

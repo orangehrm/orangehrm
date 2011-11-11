@@ -38,7 +38,7 @@ class addCustomerAction extends sfAction {
 
 		$this->customerId = $request->getParameter('customerId');
 		$values = array('customerId' => $this->customerId);
-		$this->setForm(new AddCustomerForm(array(), $values));
+		$this->setForm(new CustomerForm(array(), $values));
 
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

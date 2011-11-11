@@ -19,7 +19,7 @@
  *
  */
 
-class AddCustomerForm extends BaseForm {
+class CustomerForm extends BaseForm {
 
 	private $customerService;
 

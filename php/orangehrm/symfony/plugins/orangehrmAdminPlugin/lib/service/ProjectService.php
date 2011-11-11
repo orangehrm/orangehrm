@@ -95,7 +95,7 @@ class ProjectService extends BaseService {
 	public function isProjectHasTimesheetItems($projectId) {
 		return $this->projectDao->isProjectHasTimesheetItems($projectId);
 	}
-	
+
 	public function getProjectsByCustomerId($customerId) {
 		return $this->projectDao->getProjectsByCustomerId($customerId);
 	}
@@ -174,13 +174,8 @@ class ProjectService extends BaseService {
 	 * @return array
 	 */
 	public function isProjectAdmin($empNumber) {
-		try {
-			$projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber, true);
-			return (count($projects) > 0);
-		} catch (Exception $e) {
-			// TODO: Warn
-			return false;
-		}
+		$projects = $this->getActiveProjectListRelatedToProjectAdmin($empNumber, true);
+		return (count($projects) > 0);
 	}
 
 	public function getProjectAdminList() {
