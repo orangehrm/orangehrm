@@ -49,7 +49,10 @@ class viewCustomersAction extends sfAction {
 		if ($customerId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
 			$pageNumber = $this->getUser()->getAttribute('pageNumber');
 		}
-		
+		if ($this->getUser()->getAttribute('addScreen') && $this->getUser()->hasAttribute('pageNumber')) {
+			$pageNumber = $this->getUser()->getAttribute('pageNumber');
+		}
+
 		$noOfRecords = Customer::NO_OF_RECORDS_PER_PAGE;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
 		$customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);

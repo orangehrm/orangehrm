@@ -43,12 +43,14 @@ class addCustomerAction extends sfAction {
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
+		$this->getUser()->setAttribute('addScreen', true);
 
 		if ($request->isMethod('post')) {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$result = $this->form->save();
+				$this->getUser()->setAttribute('addScreen', false);
 				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
 				$this->redirect('admin/viewCustomers');
 			}
