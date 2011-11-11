@@ -228,6 +228,8 @@ $(document).ready(function() {
     if(custId > 0) {      
         $('#addProject_customerName').removeClass('inputFormatHint');
         $('#addProject_customerId').val(custId);
+        var url = urlForGetProjectList+custId;
+        getProjectListAsJson(url);
         enableWidgets();
     }
     
