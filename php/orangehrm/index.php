@@ -898,9 +898,6 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
     } elseif (isset($_GET['id'])) {
         $home = "./symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id'];
     }
-} elseif (($_GET['menu_no_top'] == "ldap") && $arrRights['view']) {
-    $uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : '';
-    $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN";
 } else if ($_GET['menu_no_top'] == "bug") {
     $home = "./lib/controllers/CentralController.php?mtcode=BUG&amp;capturemode=addmode";
 } elseif ($_GET['menu_no_top'] == "rep") {
