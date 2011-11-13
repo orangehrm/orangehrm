@@ -71,13 +71,13 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo Change return type to saved object
+     * @todo Don't return any value
      * @todo Change method name to saveEmployee
      * @todo Improve exception, pass $e
      */
     public function addEmployee(Employee $employee) {
         try {
-            return $this->employeeDao->addEmployee($employee);
+            return $this->getEmployeeDao()->addEmployee($employee);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -93,7 +93,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmployee($empNumber) {
         try {
-            return $this->employeeDao->getEmployee($empNumber);
+            return $this->getEmployeeDao()->getEmployee($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -114,33 +114,36 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Picture
+     * Retrieve picture for given employee number
+     * 
+     * @version 2.6.11
      * @param int $empNumber
-     * @returns Collection
+     * @return EmpPicture EmpPicture or null if no picture found 
      * @throws PIMServiceException
      * 
-     * @ignore
      */
     public function getPicture($empNumber) {
         try {
-            return $this->employeeDao->getPicture($empNumber);
+            return $this->getEmployeeDao()->getPicture($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
 
     /**
-     * Save Personal Details
+     * Save Personal Details of given employee
+     * 
      * @param Employee $employee
      * @param boolean $isESS
-     * @returns boolean
+     * @return boolean true always
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo Don't return value
+     * @todo Remove $isESS parameter and handle it in action
      */
     public function savePersonalDetails(Employee $employee, $isESS = false) {
         try {
-            return $this->employeeDao->savePersonalDetails($employee, $isESS);
+            return $this->getEmployeeDao()->savePersonalDetails($employee, $isESS);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -156,7 +159,7 @@ class EmployeeService extends BaseService {
      */
     public function saveContactDetails(Employee $employee) {
         try {
-            return $this->employeeDao->saveContactDetails($employee);
+            return $this->getEmployeeDao()->saveContactDetails($employee);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -171,7 +174,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmergencyContacts($empNumber) {
         try {
-            return $this->employeeDao->getEmergencyContacts($empNumber);
+            return $this->getEmployeeDao()->getEmergencyContacts($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -188,7 +191,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
         try {
-            return $this->employeeDao->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
+            return $this->getEmployeeDao()->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -206,7 +209,7 @@ class EmployeeService extends BaseService {
     public function deleteImmigration($empNumber, $entriesToDelete) {
 
         try {
-            return $this->employeeDao->deleteImmigration($empNumber, $entriesToDelete);
+            return $this->getEmployeeDao()->deleteImmigration($empNumber, $entriesToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -221,7 +224,7 @@ class EmployeeService extends BaseService {
      */
     public function getDependents($empNumber) {
         try {
-            return $this->employeeDao->getDependents($empNumber);
+            return $this->getEmployeeDao()->getDependents($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -238,7 +241,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
         try {
-            return $this->employeeDao->deleteDependents($empNumber, $entriesToDelete);
+            return $this->getEmployeeDao()->deleteDependents($empNumber, $entriesToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -255,7 +258,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
         try {
-            return $this->employeeDao->deleteChildren($empNumber, $entriesToDelete);
+            return $this->getEmployeeDao()->deleteChildren($empNumber, $entriesToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -271,7 +274,7 @@ class EmployeeService extends BaseService {
      */
     public function isSupervisor($empNumber) {
         try {
-            return $this->employeeDao->isSupervisor($empNumber);
+            return $this->getEmployeeDao()->isSupervisor($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -287,7 +290,7 @@ class EmployeeService extends BaseService {
      */
     public function deletePhoto($empNumber) {
         try {
-            return $this->employeeDao->deletePhoto($empNumber);
+            return $this->getEmployeeDao()->deletePhoto($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -303,7 +306,7 @@ class EmployeeService extends BaseService {
      */
     function saveEmployeePicture(EmpPicture $empPicture) {
         try {
-            return $this->employeeDao->saveEmployeePicture($empPicture);
+            return $this->getEmployeeDao()->saveEmployeePicture($empPicture);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -316,7 +319,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
-        return $this->employeeDao->saveEmployeePassport($empPassport);
+        return $this->getEmployeeDao()->saveEmployeePassport($empPassport);
     }
 
     /**
@@ -327,7 +330,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
-        return $this->employeeDao->getEmployeePassport($empNumber, $sequenceNo);
+        return $this->getEmployeeDao()->getEmployeePassport($empNumber, $sequenceNo);
     }
 
     /**
@@ -337,7 +340,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
-        return $this->employeeDao->saveWorkExperience($empWorkExp);
+        return $this->getEmployeeDao()->saveWorkExperience($empWorkExp);
     }
 
     /**
@@ -348,7 +351,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getWorkExperience($empNumber, $sequenceNo = null) {
-        return $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
+        return $this->getEmployeeDao()->getWorkExperience($empNumber, $sequenceNo);
     }
 
     /**
@@ -359,7 +362,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
-        return $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
+        return $this->getEmployeeDao()->deleteWorkExperience($empNumber, $workExperienceToDelete);
     }
 
     /**
@@ -370,7 +373,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getEducation($empNumber, $eduCode = null) {
-        return $this->employeeDao->getEducation($empNumber, $eduCode);
+        return $this->getEmployeeDao()->getEducation($empNumber, $eduCode);
     }
 
     /**
@@ -381,7 +384,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function deleteEducation($empNumber, $educationToDelete) {
-        return $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
+        return $this->getEmployeeDao()->deleteEducation($empNumber, $educationToDelete);
     }
 
     /**
@@ -391,7 +394,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveEducation(EmployeeEducation $education) {
-        return $this->employeeDao->saveEducation($education);
+        return $this->getEmployeeDao()->saveEducation($education);
     }
 
     /**
@@ -402,7 +405,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getSkill($empNumber, $skillCode = null) {
-        return $this->employeeDao->getSkill($empNumber, $skillCode);
+        return $this->getEmployeeDao()->getSkill($empNumber, $skillCode);
     }
 
     /**
@@ -413,7 +416,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function deleteSkill($empNumber, $skillToDelete) {
-        return $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
+        return $this->getEmployeeDao()->deleteSkill($empNumber, $skillToDelete);
     }
 
     /**
@@ -423,7 +426,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveSkill(EmployeeSkill $skill) {
-        return $this->employeeDao->saveSkill($skill);
+        return $this->getEmployeeDao()->saveSkill($skill);
     }
 
     /**
@@ -434,7 +437,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
-        return $this->employeeDao->getLanguage($empNumber, $languageCode, $languageType);
+        return $this->getEmployeeDao()->getLanguage($empNumber, $languageCode, $languageType);
     }
 
     /**
@@ -445,7 +448,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
-        return $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
+        return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
     }
 
     /**
@@ -455,7 +458,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveLanguage(EmployeeLanguage $language) {
-        return $this->employeeDao->saveLanguage($language);
+        return $this->getEmployeeDao()->saveLanguage($language);
     }
 
     /**
@@ -466,7 +469,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getLicense($empNumber, $licenseCode = null) {
-        return $this->employeeDao->getLicense($empNumber, $licenseCode);
+        return $this->getEmployeeDao()->getLicense($empNumber, $licenseCode);
     }
 
     /**
@@ -477,7 +480,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
-        return $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
+        return $this->getEmployeeDao()->deleteLicense($empNumber, $licenseToDelete);
     }
 
     /**
@@ -487,7 +490,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function saveLicense(EmployeeLicense $license) {
-        return $this->employeeDao->saveLicense($license);
+        return $this->getEmployeeDao()->saveLicense($license);
     }
 
     /**
@@ -498,7 +501,7 @@ class EmployeeService extends BaseService {
      */
     public function getAttachments($empNumber, $screen) {
         try {
-            return $this->employeeDao->getAttachments($empNumber, $screen);
+            return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -514,7 +517,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteAttachments($empNumber, $attachmentsToDelete) {
         try {
-            return $this->employeeDao->deleteAttachments($empNumber, $attachmentsToDelete);
+            return $this->getEmployeeDao()->deleteAttachments($empNumber, $attachmentsToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -529,7 +532,7 @@ class EmployeeService extends BaseService {
      */
     public function getAttachment($empNumber, $attachId) {
         try {
-            return $this->employeeDao->getAttachment($empNumber, $attachId);
+            return $this->getEmployeeDao()->getAttachment($empNumber, $attachId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -544,7 +547,7 @@ class EmployeeService extends BaseService {
      */
     public function readEmployeePicture($empNumber) {
         try {
-            return $this->employeeDao->readEmployeePicture($empNumber);
+            return $this->getEmployeeDao()->readEmployeePicture($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -558,7 +561,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
         try {
-            return $this->employeeDao->getEmployeeList($orderField, $orderBy, $withoutTerminatedEmployees);
+            return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $withoutTerminatedEmployees);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -573,7 +576,7 @@ class EmployeeService extends BaseService {
      */
     public function getSupervisorList() {
         try {
-            return $this->employeeDao->getSupervisorList();
+            return $this->getEmployeeDao()->getSupervisorList();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -589,7 +592,7 @@ class EmployeeService extends BaseService {
      */
     public function searchEmployee($field, $value) {
         try {
-            return $this->employeeDao->searchEmployee($field, $value);
+            return $this->getEmployeeDao()->searchEmployee($field, $value);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -603,7 +606,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeCount() {
         try {
-            return $this->employeeDao->getEmployeeCount();
+            return $this->getEmployeeDao()->getEmployeeCount();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -618,7 +621,7 @@ class EmployeeService extends BaseService {
      */
     public function getSupervisorEmployeeList($supervisorId) {
         try {
-            return $this->employeeDao->getSupervisorEmployeeList($supervisorId);
+            return $this->getEmployeeDao()->getSupervisorEmployeeList($supervisorId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -633,7 +636,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeListAsJson($workShift = false) {
         try {
-            return $this->employeeDao->getEmployeeListAsJson($workShift);
+            return $this->getEmployeeDao()->getEmployeeListAsJson($workShift);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -692,7 +695,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteEmployee($empList = array()) {
         try {
-            return $this->employeeDao->deleteEmployee($empList);
+            return $this->getEmployeeDao()->deleteEmployee($empList);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -707,7 +710,7 @@ class EmployeeService extends BaseService {
      */
     public function isEmployeeIdInUse($employeeId) {
         try {
-            return $this->employeeDao->isEmployeeIdInUse($employeeId);
+            return $this->getEmployeeDao()->isEmployeeIdInUse($employeeId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -725,7 +728,7 @@ class EmployeeService extends BaseService {
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
-            return $this->employeeDao->checkForEmployeeWithSameName($first, $middle, $last);
+            return $this->getEmployeeDao()->checkForEmployeeWithSameName($first, $middle, $last);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -852,7 +855,7 @@ class EmployeeService extends BaseService {
      */
     public function getWorkShift($empNumber) {
         try {
-            return $this->employeeDao->getWorkShift($empNumber);
+            return $this->getEmployeeDao()->getWorkShift($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -867,7 +870,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeTaxExemptions($empNumber) {
         try {
-            return $this->employeeDao->getEmployeeTaxExemptions($empNumber);
+            return $this->getEmployeeDao()->getEmployeeTaxExemptions($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -882,7 +885,7 @@ class EmployeeService extends BaseService {
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         try {
-            return $this->employeeDao->saveEmployeeTaxExemptions($empUsTaxExemption);
+            return $this->getEmployeeDao()->saveEmployeeTaxExemptions($empUsTaxExemption);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -897,7 +900,7 @@ class EmployeeService extends BaseService {
      */
     public function saveJobDetails(Employee $employee) {
         try {
-            return $this->employeeDao->saveJobDetails($employee);
+            return $this->getEmployeeDao()->saveJobDetails($employee);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -911,7 +914,7 @@ class EmployeeService extends BaseService {
      */
     public function getMembershipDetails($empNumber) {
         try {
-            return $this->employeeDao->getMembershipDetails($empNumber);
+            return $this->getEmployeeDao()->getMembershipDetails($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -925,7 +928,7 @@ class EmployeeService extends BaseService {
      */
     public function getMembershipDetail($empNumber, $membershipType, $membership) {
         try {
-            return $this->employeeDao->getMembershipDetail($empNumber, $membershipType, $membership);
+            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipType, $membership);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -949,7 +952,7 @@ class EmployeeService extends BaseService {
                 $membershipType = $tempArray[1];
                 $membership = $tempArray[2];
 
-                $this->employeeDao->deleteMembershipDetails($empNumber, $membershipType, $membership);
+                $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membershipType, $membership);
             }
 
             return true;
@@ -969,7 +972,7 @@ class EmployeeService extends BaseService {
      */
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
         try {
-            return $this->employeeDao->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
+            return $this->getEmployeeDao()->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -984,7 +987,7 @@ class EmployeeService extends BaseService {
      */
     public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
         try {
-            return $this->employeeDao->saveEmpBasicsalary($empBasicsalary);
+            return $this->getEmployeeDao()->saveEmpBasicsalary($empBasicsalary);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1000,7 +1003,7 @@ class EmployeeService extends BaseService {
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
         try {
-            return $this->employeeDao->deleteSalary($empNumber, $salaryToDelete);
+            return $this->getEmployeeDao()->deleteSalary($empNumber, $salaryToDelete);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1015,7 +1018,7 @@ class EmployeeService extends BaseService {
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {
         try {
-            return $this->employeeDao->saveReportingMethod($reportingMethod);
+            return $this->getEmployeeDao()->saveReportingMethod($reportingMethod);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1029,7 +1032,7 @@ class EmployeeService extends BaseService {
      */
     public function getReportingMethod($reportingMethodId) {
         try {
-            return $this->employeeDao->getReportingMethod($reportingMethodId);
+            return $this->getEmployeeDao()->getReportingMethod($reportingMethodId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1042,7 +1045,7 @@ class EmployeeService extends BaseService {
      */
     public function getReportingMethodList() {
         try {
-            return $this->employeeDao->getReportingMethodList();
+            return $this->getEmployeeDao()->getReportingMethodList();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1057,7 +1060,7 @@ class EmployeeService extends BaseService {
     public function getSupervisorListForEmployee($empNumber) {
 
         try {
-            return $this->employeeDao->getSupervisorListForEmployee($empNumber);
+            return $this->getEmployeeDao()->getSupervisorListForEmployee($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1072,7 +1075,7 @@ class EmployeeService extends BaseService {
     public function getSubordinateListForEmployee($empNumber) {
 
         try {
-            return $this->employeeDao->getSubordinateListForEmployee($empNumber);
+            return $this->getEmployeeDao()->getSubordinateListForEmployee($empNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1087,7 +1090,7 @@ class EmployeeService extends BaseService {
     public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
 
         try {
-            return $this->employeeDao->getReportToObject($supNumber, $subNumber, $reportingMethod);
+            return $this->getEmployeeDao()->getReportToObject($supNumber, $subNumber, $reportingMethod);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1110,7 +1113,7 @@ class EmployeeService extends BaseService {
                 $subNumber = $tempArray[1];
                 $reportingMethod = $tempArray[2];
 
-                $state = $this->employeeDao->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
+                $state = $this->getEmployeeDao()->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
             }
             return $state;
         } catch (Exception $e) {
@@ -1126,7 +1129,7 @@ class EmployeeService extends BaseService {
      */
     public function isAdmin($userId) {
         try {
-            return $this->employeeDao->isAdmin($userId);
+            return $this->getEmployeeDao()->isAdmin($userId);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -1139,7 +1142,7 @@ class EmployeeService extends BaseService {
      */
     public function getEmailList() {
         try {
-            return $this->employeeDao->getEmailList();
+            return $this->getEmployeeDao()->getEmailList();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }   
@@ -1151,6 +1154,6 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     public function getSubordinateIdList(){
-        return $this->employeeDao->getSubordinateIdList();
+        return $this->getEmployeeDao()->getSubordinateIdList();
     }
 }
