@@ -396,7 +396,6 @@ class ProjectDao extends BaseDao {
 
 	public function getProjectListForUserRole($role, $empNumber) {
 
-
 		try {
 			$q = Doctrine_Query :: create()
 				->select('p.id')
@@ -416,6 +415,5 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-
 }
 
