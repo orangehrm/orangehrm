@@ -35,9 +35,10 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         TestDataService::populate($this->fixture);
     }
 
-    public function testSearchProjectsForNallArray() {
+    public function testSearchProjectsForNullArray() {
         $srchClues = array();
-        $result = $this->projectDao->searchProjects($srchClues);
+	$allowedProjectList = array(1,2);
+        $result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
         $this->assertEquals(count($result), 2);
     }
 
@@ -45,7 +46,8 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         $srchClues = array(
             'project' => 'project 1'
         );
-        $result = $this->projectDao->searchProjects($srchClues);
+	$allowedProjectList = array(1);
+        $result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
         $this->assertEquals(count($result), 1);
         $this->assertEquals($result[0]->getProjectId(), 1);
     }
@@ -54,7 +56,8 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         $srchClues = array(
             'customer' => 'customer 1'
         );
-        $result = $this->projectDao->searchProjects($srchClues);
+	$allowedProjectList = array(1,2);
+        $result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
         $this->assertEquals(count($result), 2);
         $this->assertEquals($result[1]->getCustomerName(), 'customer 1');
     }
@@ -63,7 +66,8 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         $srchClues = array(
             'projectAdmin' => 'Kayla Abbey'
         );
-        $result = $this->projectDao->searchProjects($srchClues);
+	$allowedProjectList = array(1);
+        $result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
         $this->assertEquals(count($result), 1);
         $this->assertEquals($result[0]->getProjectId(), 1);
     }

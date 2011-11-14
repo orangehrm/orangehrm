@@ -236,9 +236,7 @@ class ProjectDao extends BaseDao {
 		}
 	}
 
-	public function getSearchProjectListCount($srchClues, $usrObj) {
-
-		$allowedProjectList = $usrObj->getAllowedProjectList();
+	public function getSearchProjectListCount($srchClues, $allowedProjectList) {
 
 		try {
 			$q = $this->_buildSearchQuery($srchClues);
@@ -255,13 +253,13 @@ class ProjectDao extends BaseDao {
 		}
 	}
 
-	public function searchProjects($srchClues, $usrObj) {
+	public function searchProjects($srchClues, $allowedProjectList) {
 
 		$sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
 		$sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
 		$offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
 		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
-		$allowedProjectList = $usrObj->getAllowedProjectList();
+
 		try {
 			$q = $this->_buildSearchQuery($srchClues);
 			$q->orderBy($sortField . ' ' . $sortOrder)

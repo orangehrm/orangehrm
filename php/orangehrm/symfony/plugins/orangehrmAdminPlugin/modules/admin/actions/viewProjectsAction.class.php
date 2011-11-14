@@ -45,7 +45,7 @@ class viewProjectsAction extends sfAction {
 		if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
-
+		$allowedProjectList = $usrObj->getAllowedProjectList();
 		$isPaging = $request->getParameter('pageNo');
 		$sortField = $request->getParameter('sortField');
 		$sortOrder = $request->getParameter('sortOrder');
@@ -72,8 +72,8 @@ class viewProjectsAction extends sfAction {
 			$this->getUser()->setAttribute('searchClues', $searchClues);
 		}
 		
-		$projectList = $this->getProjectService()->searchProjects($searchClues, $usrObj);		
-		$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $usrObj);
+		$projectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);		
+		$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
 		$this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount, $usrObj);
 		$this->getUser()->setAttribute('pageNumber', $pageNumber);
 		$params = array();
@@ -90,8 +90,8 @@ class viewProjectsAction extends sfAction {
 			if ($this->form->isValid()) {				
 				$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 				$this->getUser()->setAttribute('searchClues', $searchClues);
-				$searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $usrObj);
-				$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $usrObj);
+				$searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
+				$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
 				$this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount,$usrObj);
 			}
 		}

@@ -163,12 +163,12 @@ class ProjectService extends BaseService {
 		return $this->getProjectDao()->getProjectAdminList();
 	}
 
-	public function searchProjects($srchClues, $usrObj) {
-		return $this->getProjectDao()->searchProjects($srchClues, $usrObj);
+	public function searchProjects($srchClues, $allowedProjectList) {
+		return $this->getProjectDao()->searchProjects($srchClues, $allowedProjectList);
 	}
 
-	public function getSearchProjectListCount($srchClues, $usrObj) {
-		return $this->getProjectDao()->getSearchProjectListCount($srchClues, $usrObj);
+	public function getSearchProjectListCount($srchClues, $allowedProjectList) {
+		return $this->getProjectDao()->getSearchProjectListCount($srchClues, $allowedProjectList);
 	}
 
 }
