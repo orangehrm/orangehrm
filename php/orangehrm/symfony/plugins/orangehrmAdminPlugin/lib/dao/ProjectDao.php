@@ -19,59 +19,59 @@
  */
 class ProjectDao extends BaseDao {
 
-    public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC') {
+	public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC') {
 
-        $sortField = ($sortField == "") ? 'name' : $sortField;
-        $sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('Project')
-                            ->where('deleted = ?', Project::ACTIVE_PROJECT)
-                            ->orderBy($sortField . ' ' . $sortOrder)
-                            ->offset($offset)
-                            ->limit($limit);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		$sortField = ($sortField == "") ? 'name' : $sortField;
+		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->orderBy($sortField . ' ' . $sortOrder)
+				->offset($offset)
+				->limit($limit);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getProjectCount() {
+	public function getProjectCount() {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('Project')
-                            ->where('deleted = ?', Project::ACTIVE_PROJECT);
-            $count = $q->execute()->count();
-            return $count;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT);
+			$count = $q->execute()->count();
+			return $count;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function deleteProject($projectId) {
+	public function deleteProject($projectId) {
 
-        try {
-            $project = Doctrine :: getTable('Project')->find($projectId);
-            $project->setDeleted(Project::DELETED_PROJECT);
-            $project->save();
-	    $this->_deleteRelativeProjectActivitiesForProject($projectId);
-	    $this->_deleteRelativeProjectAdminsForProject($projectId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$project = Doctrine :: getTable('Project')->find($projectId);
+			$project->setDeleted(Project::DELETED_PROJECT);
+			$project->save();
+			$this->_deleteRelativeProjectActivitiesForProject($projectId);
+			$this->_deleteRelativeProjectAdminsForProject($projectId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    private function _deleteRelativeProjectActivitiesForProject($projectId) {
+	private function _deleteRelativeProjectActivitiesForProject($projectId) {
 
 		try {
 			$q = Doctrine_Query :: create()
 				->from('ProjectActivity')
 				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
 				->andWhere('project_id = ?', $projectId);
-			$projectActivities =  $q->execute();
-			
-			foreach ($projectActivities as $projectActivity){
+			$projectActivities = $q->execute();
+
+			foreach ($projectActivities as $projectActivity) {
 				$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
 				$projectActivity->save();
 			}
@@ -79,7 +79,7 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
+
 	private function _deleteRelativeProjectAdminsForProject($projectId) {
 
 		try {
@@ -87,314 +87,335 @@ class ProjectDao extends BaseDao {
 				->delete('ProjectAdmin pa')
 				->where('pa.project_id = ?', $projectId);
 			$q->execute();
-
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
 
-    
-    public function getProjectById($projectId) {
+	public function getProjectById($projectId) {
 
-        try {
-            return Doctrine :: getTable('Project')->find($projectId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			return Doctrine :: getTable('Project')->find($projectId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getProjectActivityById($activityId) {
+	public function getProjectActivityById($activityId) {
 
-        try {
-            return Doctrine :: getTable('ProjectActivity')->find($activityId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			return Doctrine :: getTable('ProjectActivity')->find($activityId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getAllActiveProjects() {
+	public function getAllActiveProjects() {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('Project')
-                            ->where('deleted = ?', Project::ACTIVE_PROJECT);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getActivityListByProjectId($projectId) {
+	public function getActivityListByProjectId($projectId) {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('ProjectActivity')
-                            ->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
-                            ->andWhere('project_id = ?', $projectId);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->from('ProjectActivity')
+				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->andWhere('project_id = ?', $projectId);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    /**
-     * Retrieve Active Projects
-     * @param string $orderField
-     * @param string $orderBy
-     * @return Project[]
-     */
-    public function getActiveProjectList($orderField='project_id', $orderBy='ASC') {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('Project')
-                            ->where('deleted = ?', Project::ACTIVE_PROJECT)
-                            ->orderBy($orderField . ' ' . $orderBy);
+	/**
+	 * Retrieve Active Projects
+	 * @param string $orderField
+	 * @param string $orderBy
+	 * @return Project[]
+	 */
+	public function getActiveProjectList($orderField='project_id', $orderBy='ASC') {
+		try {
+			$q = Doctrine_Query::create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->orderBy($orderField . ' ' . $orderBy);
 
-            $projectList = $q->execute();
+			$projectList = $q->execute();
 
-            if ($projectList[0]->getName() == null) {
-                return null;
-            }
+			if ($projectList[0]->getName() == null) {
+				return null;
+			}
 
-            return $projectList;
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
+			return $projectList;
+		} catch (Exception $e) {
+			throw new AdminServiceException($e->getMessage());
+		}
+	}
 
-    /**
-     * Retrieve active projects given project ids.
-     * @param integer[] $projectIdArray
-     * @param string $orderField
-     * @param string $orderBy
-     * @return Project[]
-     */
-    public function getActiveProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('Project')
-                            ->where('deleted = ?', 0)
-                            ->andWhereIn('project_id', $projectIdArray)
-                            ->orderBy($orderField . ' ' . $orderBy);
+	/**
+	 * Retrieve active projects given project ids.
+	 * @param integer[] $projectIdArray
+	 * @param string $orderField
+	 * @param string $orderBy
+	 * @return Project[]
+	 */
+	public function getActiveProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
+		try {
+			$q = Doctrine_Query::create()
+				->from('Project')
+				->where('deleted = ?', 0)
+				->andWhereIn('project_id', $projectIdArray)
+				->orderBy($orderField . ' ' . $orderBy);
 
-            $projectList = $q->execute();
+			$projectList = $q->execute();
 
-            if ($projectList[0]->getName() == null) {
-                return null;
-            }
+			if ($projectList[0]->getName() == null) {
+				return null;
+			}
 
-            return $projectList;
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
+			return $projectList;
+		} catch (Exception $e) {
+			throw new AdminServiceException($e->getMessage());
+		}
+	}
 
-    /**
-     * Retrieve all projects given project ids.
-     * @param integer[] $projectIdArray
-     * @param string $orderField
-     * @param string $orderBy
-     * @return Project[]
-     */
-    public function getAllProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('Project')
-                            ->whereIn('project_id', $projectIdArray)
-                            ->orderBy($orderField . ' ' . $orderBy);
+	/**
+	 * Retrieve all projects given project ids.
+	 * @param integer[] $projectIdArray
+	 * @param string $orderField
+	 * @param string $orderBy
+	 * @return Project[]
+	 */
+	public function getAllProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
+		try {
+			$q = Doctrine_Query::create()
+				->from('Project')
+				->whereIn('project_id', $projectIdArray)
+				->orderBy($orderField . ' ' . $orderBy);
 
-            $projectList = $q->execute();
+			$projectList = $q->execute();
 
-            if ($projectList[0]->getName() == null) {
-                return null;
-            }
+			if ($projectList[0]->getName() == null) {
+				return null;
+			}
 
-            return $projectList;
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
+			return $projectList;
+		} catch (Exception $e) {
+			throw new AdminServiceException($e->getMessage());
+		}
+	}
 
-    /**
-     * Retrieves records from project admin table given employee number.
-     * @param integer $empNo
-     * @return ProjectAdmin[]
-     */
-    public function getProjectAdminByEmpNumber($empNo) {
+	/**
+	 * Retrieves records from project admin table given employee number.
+	 * @param integer $empNo
+	 * @return ProjectAdmin[]
+	 */
+	public function getProjectAdminByEmpNumber($empNo) {
 
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('ProjectAdmin')
-                            ->where('emp_number = ?', $empNo);
-            $projectAdmin = $q->execute();
+		try {
+			$q = Doctrine_Query::create()
+				->from('ProjectAdmin')
+				->where('emp_number = ?', $empNo);
+			$projectAdmin = $q->execute();
 
-            if ($projectAdmin[0]->getProjectId() == null) {
-                return null;
-            }
+			if ($projectAdmin[0]->getProjectId() == null) {
+				return null;
+			}
 
-            return $projectAdmin;
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
+			return $projectAdmin;
+		} catch (Exception $e) {
+			throw new AdminServiceException($e->getMessage());
+		}
+	}
 
-    public function getSearchProjectListCount($srchClues) {
-        try {
-            $q = $this->_buildSearchQuery($srchClues);
-            return $q->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	public function getSearchProjectListCount($srchClues) {
+		try {
+			$q = $this->_buildSearchQuery($srchClues);
+			return $q->count();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function searchProjects($srchClues) {
+	public function searchProjects($srchClues) {
 
-        $sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
-        $sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
-        $offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
-        $limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
+		$sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
+		$sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
+		$offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
+		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
 
-        try {
-            $q = $this->_buildSearchQuery($srchClues);
-            $q->orderBy($sortField . ' ' . $sortOrder)
-                    ->addWhere('p.deleted = ?', Project::ACTIVE_PROJECT)
-                    ->offset($offset)
-                    ->limit($limit);
+		try {
+			$q = $this->_buildSearchQuery($srchClues);
+			$q->orderBy($sortField . ' ' . $sortOrder)
+				->addWhere('p.deleted = ?', Project::ACTIVE_PROJECT)
+				->offset($offset)
+				->limit($limit);
 
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    private function _buildSearchQuery($srchClues) {
+	private function _buildSearchQuery($srchClues) {
 
-        $q = Doctrine_Query::create()
-                        ->select('p.projectId, p.name, c.name')
-                        ->addSelect('(SELECT GROUP_CONCAT(emp.firstName,\' \',emp.lastName) FROM Employee emp LEFT JOIN emp.projectAdmin pq ON (pq.emp_number = emp.emp_number) WHERE pq.projectId = p.projectId) AS projectAdmins')
-                        ->from('Project p')
-                        ->leftJoin('p.Customer c')
-                        ->leftJoin('p.ProjectAdmin pa')
-                        ->leftJoin('pa.Employee e');
+		$q = Doctrine_Query::create()
+			->select('p.projectId, p.name, c.name')
+			->addSelect('(SELECT GROUP_CONCAT(emp.firstName,\' \',emp.lastName) FROM Employee emp LEFT JOIN emp.projectAdmin pq ON (pq.emp_number = emp.emp_number) WHERE pq.projectId = p.projectId) AS projectAdmins')
+			->from('Project p')
+			->leftJoin('p.Customer c')
+			->leftJoin('p.ProjectAdmin pa')
+			->leftJoin('pa.Employee e');
 
-        if (!empty($srchClues['customer'])) {
-            $q->addWhere('c.name = ?', trim($srchClues['customer']));
-        }
-        if (!empty($srchClues['project'])) {
-            $q->addWhere('p.name = ?', trim($srchClues['project']));
-        }
-        if (!empty($srchClues['projectAdmin'])) {
-            $projectAdmin = preg_replace('!\s+!', '%', trim($srchClues['projectAdmin']));
-            $projectAdmin = "%" . $projectAdmin . "%";
-            $q->addWhere("concat_ws(' ', e.emp_firstname, e.emp_middle_name, e.emp_lastname) LIKE ?", $projectAdmin);
-        }
-        return $q;
-    }
+		if (!empty($srchClues['customer'])) {
+			$q->addWhere('c.name = ?', trim($srchClues['customer']));
+		}
+		if (!empty($srchClues['project'])) {
+			$q->addWhere('p.name = ?', trim($srchClues['project']));
+		}
+		if (!empty($srchClues['projectAdmin'])) {
+			$projectAdmin = preg_replace('!\s+!', '%', trim($srchClues['projectAdmin']));
+			$projectAdmin = "%" . $projectAdmin . "%";
+			$q->addWhere("concat_ws(' ', e.emp_firstname, e.emp_middle_name, e.emp_lastname) LIKE ?", $projectAdmin);
+		}
+		return $q;
+	}
 
-    /**
-     * Returns ProjectAdmin for a given project
-     * @param String $projectId
-     * @returns ProjectAdmin
-     * @throws DaoException
-     */
-    public function getProjectAdminByProjectId($projectId) {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('ProjectAdmin pa')
-                            ->leftJoin('pa.Employee emp')
-                            ->where("pa.project_id = ?", $projectId);
+	/**
+	 * Returns ProjectAdmin for a given project
+	 * @param String $projectId
+	 * @returns ProjectAdmin
+	 * @throws DaoException
+	 */
+	public function getProjectAdminByProjectId($projectId) {
+		try {
+			$q = Doctrine_Query::create()
+				->from('ProjectAdmin pa')
+				->leftJoin('pa.Employee emp')
+				->where("pa.project_id = ?", $projectId);
 
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    /**
-     *
-     * @param type $activitId
-     */
-    public function deleteProjectActivities($activitId) {
+	/**
+	 *
+	 * @param type $activitId
+	 */
+	public function deleteProjectActivities($activitId) {
 
-        try {
-            $projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
-            $projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
-            $projectActivity->save();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
+			$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+			$projectActivity->save();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    /**
-     * Save ProjectActivity
-     * @param String $projectId
-     * @param String $activity
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function saveProjectActivity($projectId, $activity) {
-        try {
-            $projectActivity = new ProjectActivity();
-            $idGenService = new IDGeneratorService();
-            $idGenService->setEntity($projectActivity);
-            $projectActivity->setActivityId($idGenService->getNextID());
-            $projectActivity->setProjectId($projectId);
-            $projectActivity->setName($activity);
-            $projectActivity->save();
+	/**
+	 * Save ProjectActivity
+	 * @param String $projectId
+	 * @param String $activity
+	 * @returns boolean
+	 * @throws DaoException
+	 */
+	public function saveProjectActivity($projectId, $activity) {
+		try {
+			$projectActivity = new ProjectActivity();
+			$idGenService = new IDGeneratorService();
+			$idGenService->setEntity($projectActivity);
+			$projectActivity->setActivityId($idGenService->getNextID());
+			$projectActivity->setProjectId($projectId);
+			$projectActivity->setName($activity);
+			$projectActivity->save();
 
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+			return true;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function hasProjectGotTimesheetItems($projectId) {
+	public function hasProjectGotTimesheetItems($projectId) {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->select("COUNT(*)")
-                            ->from('TimesheetItem ti')
-                            ->leftJoin('ti.Project p')
-                            ->where('p.projectId = ?', $projectId);
-            $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-            return ($count > 0);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->select("COUNT(*)")
+				->from('TimesheetItem ti')
+				->leftJoin('ti.Project p')
+				->where('p.projectId = ?', $projectId);
+			$count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+			return ($count > 0);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function hasActivityGotTimesheetItems($activityId) {
+	public function hasActivityGotTimesheetItems($activityId) {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->select("COUNT(*)")
-                            ->from('TimesheetItem ti')
-                            ->leftJoin('ti.ProjectActivity p')
-                            ->where('p.activityId = ?', $activityId);
-            $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-            return ($count > 0);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->select("COUNT(*)")
+				->from('TimesheetItem ti')
+				->leftJoin('ti.ProjectActivity p')
+				->where('p.activityId = ?', $activityId);
+			$count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+			return ($count > 0);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    /**
-     *
-     * @param type $customerId
-     * @return type 
-     */
-    public function getProjectsByCustomerId($customerId) {
+	/**
+	 *
+	 * @param type $customerId
+	 * @return type 
+	 */
+	public function getProjectsByCustomerId($customerId) {
 
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('Project')
-                            ->where('deleted = ?', Project::ACTIVE_PROJECT)
-                            ->andWhere('customer_id = ?', $customerId);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Project')
+				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->andWhere('customer_id = ?', $customerId);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	public function getProjectListForUserRole($role, $empNumber) {
+
+
+		try {
+			$q = Doctrine_Query :: create()
+				->select('p.id')
+				->from('Project p');
+			if ($role == ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER) {
+				$q->leftJoin('p.ProjectAdmin pa')
+					->where('pa.emp_number = ?', $empNumber);					
+			}
+
+			$result = $q->fetchArray();
+			$idList = array();
+			foreach ($result as $item) {
+				$idList[] = $item['id'];
+			}
+			return $idList;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
 }
 

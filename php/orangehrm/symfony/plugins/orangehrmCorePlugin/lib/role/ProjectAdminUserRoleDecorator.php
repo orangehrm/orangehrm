@@ -227,6 +227,19 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 		return $this->user->getAccessibleRecruitmentMenus();
 	}
 
+	public function getAllowedProjectList() {
+
+		$accessFlowStateMachineService = new AccessFlowStateMachineService();
+		$allowedProjectIdList = $accessFlowStateMachineService->getAllowedProjectList(ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $this->getEmployeeNumber());
+		$existingIdList = $this->user->getAllowedProjectList();
+		if (is_null($allowedProjectIdList)) {
+			return $existingIdList;
+		} else {
+			$allowedProjectIdList = array_unique(array_merge($allowedProjectIdList, $existingIdList));
+			return $allowedProjectIdList;
+		}
+	}
+
 	public function isAdmin() {
 		return $this->user->isAdmin();
 	}

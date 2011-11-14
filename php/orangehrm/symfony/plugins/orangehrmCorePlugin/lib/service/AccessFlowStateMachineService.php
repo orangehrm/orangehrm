@@ -129,6 +129,11 @@ class AccessFlowStateMachineService {
         $candidateService = new CandidateService();
         return $candidateService->getCandidateListForUserRole($role, $empNumber);
     }
+    
+    public function getAllowedProjectList($role, $empNumber) {
+        $projetService = new ProjectService();
+        return $projetService->getProjectListForUserRole($role, $empNumber);
+    }
 
     public function getAllowedVacancyList($role, $empNumber) {
         $vacancyService = new VacancyService();

@@ -95,6 +95,10 @@ class ProjectService extends BaseService {
 	public function getProjectsByCustomerId($customerId) {
 		return $this->projectDao->getProjectsByCustomerId($customerId);
 	}
+	
+	public function getProjectListForUserRole($role, $empNumber){
+		return $this->projectDao->getProjectListForUserRole($role, $empNumber);
+	}
 
 	/**
 	 * Set Project Data Access Object

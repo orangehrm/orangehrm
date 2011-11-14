@@ -33,6 +33,7 @@ class User {
 	private $applicationStates = array();
 	private $actionableTimesheets = null;
 	private $candidateList = array();
+	private $projectList = array();
 	private $candidateListToDelete = array();
 	private $vacancyList = array();
 	private $candidateHistoryList = array();
@@ -150,6 +151,10 @@ class User {
 
 	public function getAllowedCandidateList() {
 		return $this->candidateList;
+	}
+	
+	public function getAllowedProjectList() {
+		return $this->projectList;
 	}
 
 	public function getAllowedCandidateListToDelete() {
