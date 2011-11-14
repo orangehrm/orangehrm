@@ -188,32 +188,6 @@ class ProjectDao extends BaseDao {
 	}
 
 	/**
-	 * Retrieve all projects given project ids.
-	 * @param integer[] $projectIdArray
-	 * @param string $orderField
-	 * @param string $orderBy
-	 * @return Project[]
-	 */
-	public function getAllProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
-		try {
-			$q = Doctrine_Query::create()
-				->from('Project')
-				->whereIn('project_id', $projectIdArray)
-				->orderBy($orderField . ' ' . $orderBy);
-
-			$projectList = $q->execute();
-
-			if ($projectList[0]->getName() == null) {
-				return null;
-			}
-
-			return $projectList;
-		} catch (Exception $e) {
-			throw new AdminServiceException($e->getMessage());
-		}
-	}
-
-	/**
 	 * Retrieves records from project admin table given employee number.
 	 * @param integer $empNo
 	 * @return ProjectAdmin[]
@@ -333,29 +307,6 @@ class ProjectDao extends BaseDao {
 			$projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
 			$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
 			$projectActivity->save();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-
-	/**
-	 * Save ProjectActivity
-	 * @param String $projectId
-	 * @param String $activity
-	 * @returns boolean
-	 * @throws DaoException
-	 */
-	public function saveProjectActivity($projectId, $activity) {
-		try {
-			$projectActivity = new ProjectActivity();
-			$idGenService = new IDGeneratorService();
-			$idGenService->setEntity($projectActivity);
-			$projectActivity->setActivityId($idGenService->getNextID());
-			$projectActivity->setProjectId($projectId);
-			$projectActivity->setName($activity);
-			$projectActivity->save();
-
-			return true;
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
