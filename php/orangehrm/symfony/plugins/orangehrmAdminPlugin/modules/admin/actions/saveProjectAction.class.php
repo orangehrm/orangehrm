@@ -54,14 +54,17 @@ class saveProjectAction extends sfAction {
 		if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
-		
+		$this->isProjectAdmin = false;
+		if ($usrObj->isProjectAdmin()) {
+			$this->isProjectAdmin = true;
+		}
 		$this->projectId = $request->getParameter('projectId');
 		$this->custId = $request->getParameter('custId');
-				
+
 		$values = array('projectId' => $this->projectId);
 		$this->setForm(new ProjectForm(array(), $values));
 		$this->customerForm = new CustomerForm();
-		
+
 		if ($this->custId > 0) {
 			$customer = $this->getCustomerService()->getCustomerById($this->custId);
 			$customerName = $customer->getName();
@@ -69,7 +72,7 @@ class saveProjectAction extends sfAction {
 			print_r($this->customerName);
 			$this->getUser()->setFlash('templateMessage', array('success', __('Customer Added Successfully')));
 		}
-		
+
 		if (!empty($this->projectId)) {
 			$this->activityForm = new AddProjectActivityForm();
 			$this->copyActForm = new CopyActivityForm();
@@ -83,7 +86,7 @@ class saveProjectAction extends sfAction {
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
-		
+
 		if ($this->getUser()->hasFlash('templateMessageAct')) {
 			list($this->messageTypeAct, $this->messageAct) = $this->getUser()->getFlash('templateMessageAct');
 		}
@@ -94,11 +97,11 @@ class saveProjectAction extends sfAction {
 			if ($this->form->isValid()) {
 
 				$projectId = $this->form->save();
-				if($this->form->edited){
+				if ($this->form->edited) {
 					$this->getUser()->setFlash('templateMessage', array('success', __('Project Updated Successfully')));
 				} else {
 					$this->getUser()->setFlash('templateMessage', array('success', __('Project Added Successfully')));
-				}				
+				}
 				$this->redirect('admin/saveProject?projectId=' . $projectId);
 			}
 		}

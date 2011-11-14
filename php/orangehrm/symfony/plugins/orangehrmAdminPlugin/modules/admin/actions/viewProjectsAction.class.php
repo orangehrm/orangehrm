@@ -65,16 +65,16 @@ class viewProjectsAction extends sfAction {
 				$searchClues = $this->getUser()->getAttribute('searchClues');
 				$searchClues['offset'] = $offset;
 				$searchClues['sortField'] = $sortField;
-				$searchClues['sortOrder'] = $sortOrder;
+				$searchClues['sortOrder'] = $sortOrder;				
 				$this->form->setDefaultDataToWidgets($searchClues);
 			}
 		} else {
 			$this->getUser()->setAttribute('searchClues', $searchClues);
 		}
-
-		$projectList = $this->getProjectService()->searchProjects($searchClues);
-		$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues);
-		$this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount);
+		
+		$projectList = $this->getProjectService()->searchProjects($searchClues, $usrObj);		
+		$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $usrObj);
+		$this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount, $usrObj);
 		$this->getUser()->setAttribute('pageNumber', $pageNumber);
 		$params = array();
 		$this->parmetersForListCompoment = $params;
@@ -87,12 +87,12 @@ class viewProjectsAction extends sfAction {
 			$offset = 0;
 			$pageNumber = 1;
 			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
+			if ($this->form->isValid()) {				
 				$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 				$this->getUser()->setAttribute('searchClues', $searchClues);
-				$searchedProjectList = $this->getProjectService()->searchProjects($searchClues);
-				$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues);
-				$this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount);
+				$searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $usrObj);
+				$projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $usrObj);
+				$this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount,$usrObj);
 			}
 		}
 	}
@@ -103,8 +103,16 @@ class viewProjectsAction extends sfAction {
 	 * @param <type> $noOfRecords
 	 * @param <type> $pageNumber
 	 */
-	private function _setListComponent($projectList, $limit, $pageNumber, $recordCount) {
+	private function _setListComponent($projectList, $limit, $pageNumber, $recordCount,$usrObj) {
+
 		$configurationFactory = new ProjectHeaderFactory();
+		if (!$usrObj->isAdmin()) {
+			$configurationFactory->setRuntimeDefinitions(array(
+			    'hasSelectableRows' => false,
+			    'buttons' => array(),
+			));
+		}
+		
 		ohrmListComponent::setPageNumber($pageNumber);
 		ohrmListComponent::setConfigurationFactory($configurationFactory);
 		ohrmListComponent::setListData($projectList);

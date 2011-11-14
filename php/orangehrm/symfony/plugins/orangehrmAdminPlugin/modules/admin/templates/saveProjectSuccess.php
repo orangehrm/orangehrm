@@ -200,4 +200,5 @@
 	    var lang_uniqueName = '<?php echo __("Name already exist"); ?>';
 	    var lang_editActivity = '<?php echo __("Edit Project Activity"); ?>';
 	    var lang_addActivity = '<?php echo __("Add Project Activity"); ?>';
+	    var isProjectAdmin = '<?php echo $isProjectAdmin; ?>';
 </script>

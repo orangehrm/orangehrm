@@ -236,22 +236,32 @@ class ProjectDao extends BaseDao {
 		}
 	}
 
-	public function getSearchProjectListCount($srchClues) {
+	public function getSearchProjectListCount($srchClues, $usrObj) {
+
+		$allowedProjectList = $usrObj->getAllowedProjectList();
+
 		try {
 			$q = $this->_buildSearchQuery($srchClues);
-			return $q->count();
+			$projectList = $q->execute();
+			$allowedProjets = array();
+			foreach ($projectList as $project) {
+				if (in_array($project->getProjectId(), $allowedProjectList)) {
+					$allowedProjets[] = $project;
+				}
+			}
+			return sizeof($allowedProjets);
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
 
-	public function searchProjects($srchClues) {
+	public function searchProjects($srchClues, $usrObj) {
 
 		$sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
 		$sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
 		$offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
 		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
-
+		$allowedProjectList = $usrObj->getAllowedProjectList();
 		try {
 			$q = $this->_buildSearchQuery($srchClues);
 			$q->orderBy($sortField . ' ' . $sortOrder)
@@ -259,7 +269,14 @@ class ProjectDao extends BaseDao {
 				->offset($offset)
 				->limit($limit);
 
-			return $q->execute();
+			$projectList = $q->execute();
+			$allowedProjets = array();
+			foreach ($projectList as $project) {
+				if (in_array($project->getProjectId(), $allowedProjectList)) {
+					$allowedProjets[] = $project;
+				}
+			}
+			return $allowedProjets;
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
@@ -398,22 +415,23 @@ class ProjectDao extends BaseDao {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->select('p.id')
+				->select('p.projectId')
 				->from('Project p');
 			if ($role == ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER) {
 				$q->leftJoin('p.ProjectAdmin pa')
-					->where('pa.emp_number = ?', $empNumber);					
+					->where('pa.emp_number = ?', $empNumber);
 			}
 
 			$result = $q->fetchArray();
 			$idList = array();
 			foreach ($result as $item) {
-				$idList[] = $item['id'];
+				$idList[] = $item['projectId'];
 			}
 			return $idList;
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
+
 }
 

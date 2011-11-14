@@ -218,6 +218,10 @@ $(document).ready(function() {
         }
     });
     
+    if(isProjectAdmin){
+        $('#btnSave').hide();
+    }
+    
     $('#btnDelete').click(function(){
         $('#frmList_ohrmListComponent').attr({
             action:deleteActivityUrl+"?projectId="+projectId
