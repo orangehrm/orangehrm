@@ -27,7 +27,7 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'elementProperty' => array(
 			'labelGetter' => 'getName',
 			'placeholderGetters' => array('id' => 'getProjectId'),
-			'urlPattern' => 'addProject?projectId={id}'),
+			'urlPattern' => 'saveProject?projectId={id}'),
 		));
 
 		$header3->populateFromArray(array(

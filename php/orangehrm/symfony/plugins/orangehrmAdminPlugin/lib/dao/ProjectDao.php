@@ -220,7 +220,7 @@ class ProjectDao extends BaseDao {
      * @param integer $empNo
      * @return ProjectAdmin[]
      */
-    public function getProjectAdminRecordsByEmpNo($empNo) {
+    public function getProjectAdminByEmpNumber($empNo) {
 
         try {
             $q = Doctrine_Query::create()
@@ -302,24 +302,6 @@ class ProjectDao extends BaseDao {
             $q = Doctrine_Query::create()
                             ->from('ProjectAdmin pa')
                             ->leftJoin('pa.Employee emp')
-                            ->where("pa.project_id = ?", $projectId);
-
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Retrieve project activity by projectId
-     * @param String $projectId
-     * @returns ProjectActivity
-     * @throws DaoException
-     */
-    public function getProjectActivityById($projectId) {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('ProjectActivity pa')
                             ->where("pa.project_id = ?", $projectId);
 
             return $q->execute();

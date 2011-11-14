@@ -42,7 +42,7 @@ class viewProjectsAction extends sfAction {
 	public function execute($request) {
 
 		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
+		if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
 

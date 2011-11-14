@@ -33,7 +33,7 @@ class addProjectActivityAction extends sfAction {
 				} else {
 					$this->getUser()->setFlash('templateMessageAct', array('success', __('Project Activity Added Successfully')));
 				}
-				$this->redirect('admin/addProject?projectId='.$projectId);
+				$this->redirect('admin/saveProject?projectId='.$projectId);
 			}
 		}
 		$this->redirect('admin/viewProjects');

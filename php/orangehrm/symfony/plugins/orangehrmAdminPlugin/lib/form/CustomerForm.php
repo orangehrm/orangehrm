@@ -32,7 +32,7 @@ class CustomerForm extends BaseForm {
 	}
 
 	public function configure() {
-
+		
 		$this->customerId = $this->getOption('customerId');
 		if (isset($this->customerId)) {
 			$customer = $this->getCustomerService()->getCustomerById($this->customerId);
@@ -57,6 +57,7 @@ class CustomerForm extends BaseForm {
 			$this->setDefault('customerName', $customer->getName());
 			$this->setDefault('description', $customer->getDescription());
 		}
+				
 	}
 
 	public function save() {

@@ -76,10 +76,6 @@ class ProjectService extends BaseService {
 		return $this->projectDao->getProjectActivityById($projectId);
 	}
 
-	public function getProjectActivityById($activityId) {
-		return $this->projectDao->getProjectActivityById($activityId);
-	}
-
 	public function getAllActiveProjects() {
 		return $this->projectDao->getAllActiveProjects();
 	}
@@ -123,21 +119,6 @@ class ProjectService extends BaseService {
 		return $projectName;
 	}
 
-	/**
-	 * When ProjectAdmin[] is given, this method extracts project ids and give it as an array.
-	 * @param ProjectAdmin[] $projectAdmins
-	 * @return integer[]
-	 */
-	public function extractProjectIdsFromProjectAdminRecords($projectAdmins) {
-
-		$projectId = array();
-		foreach ($projectAdmins as $projectAdmin) {
-			$projectId[] = $projectAdmin->getProjectId();
-		}
-
-		return $projectId;
-	}
-
 	public function getActiveProjectList() {
 
 		return $this->getProjectDao()->getActiveProjectList();
@@ -145,7 +126,7 @@ class ProjectService extends BaseService {
 
 	public function getActiveProjectListRelatedToProjectAdmin($empNo, $emptyIfNotAprojectAdmin = false) {
 
-		$projectAdmins = $this->getProjectDao()->getProjectAdminRecordsByEmpNo($empNo);
+		$projectAdmins = $this->getProjectDao()->getProjectAdminByEmpNumber($empNo);
 
 		$projectIdArray = array();
 

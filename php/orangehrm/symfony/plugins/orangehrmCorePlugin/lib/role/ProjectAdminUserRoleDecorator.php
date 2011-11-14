@@ -234,7 +234,12 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 	public function isHiringManager() {
 		return $this->user->isHiringManager();
 	}
-        public function isInterviewer() {
+
+	public function isProjectAdmin() {
+		return true;
+	}
+
+	public function isInterviewer() {
 		return $this->user->isInterviewer();
 	}
 

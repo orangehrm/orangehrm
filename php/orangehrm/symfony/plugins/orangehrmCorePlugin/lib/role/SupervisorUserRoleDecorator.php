@@ -302,6 +302,10 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         return $this->user->isAdmin();
     }
 
+    public function isProjectAdmin() {
+        return $this->user->isProjectAdmin();
+    }
+    
     public function isHiringManager() {
         return $this->user->isHiringManager();
     }

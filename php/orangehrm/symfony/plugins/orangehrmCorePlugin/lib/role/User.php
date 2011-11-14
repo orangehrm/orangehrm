@@ -36,7 +36,8 @@ class User {
 	private $candidateListToDelete = array();
 	private $vacancyList = array();
 	private $candidateHistoryList = array();
-	private $isAdmin = false;
+	private $isAdmin = false;	
+	private $isProjectAdmin = false;	
 	private $isHiringManager = false;
 	private $isInterviewer = false;
 	private $employeeListForAttendanceTotalSummaryReport;
@@ -169,6 +170,10 @@ class User {
 
 	public function isHiringManager() {
 		return $this->isHiringManager;
+	}
+
+	public function isProjectAdmin() {
+		return $this->isProjectAdmin;
 	}
 
 	public function isInterviewer() {

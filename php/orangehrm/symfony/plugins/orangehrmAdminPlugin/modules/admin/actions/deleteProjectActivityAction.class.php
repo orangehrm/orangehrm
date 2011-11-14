@@ -51,7 +51,7 @@ class deleteProjectActivityAction extends sfAction {
 			}
 		}
 
-		$this->redirect('admin/addProject?projectId='.$projectId);
+		$this->redirect('admin/saveProject?projectId='.$projectId);
 	}
 
 }

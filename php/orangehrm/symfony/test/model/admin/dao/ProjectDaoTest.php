@@ -66,7 +66,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetProjectAdminRecordsByEmpNo() {
 
         $empNo = 1;
-        $projectAdmin = $this->projectDao->getProjectAdminRecordsByEmpNo($empNo);
+        $projectAdmin = $this->projectDao->getProjectAdminByEmpNumber($empNo);
 
         $this->assertTrue($projectAdmin[0] instanceof ProjectAdmin);
         $this->assertEquals(3, count($projectAdmin));

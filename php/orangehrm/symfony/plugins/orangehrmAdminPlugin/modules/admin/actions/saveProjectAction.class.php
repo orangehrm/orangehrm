@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class addProjectAction extends sfAction {
+class saveProjectAction extends sfAction {
 
 	private $projectService;
 	private $customerService;
@@ -51,7 +51,7 @@ class addProjectAction extends sfAction {
 	public function execute($request) {
 
 		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
+		if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
 		
@@ -99,7 +99,7 @@ class addProjectAction extends sfAction {
 				} else {
 					$this->getUser()->setFlash('templateMessage', array('success', __('Project Added Successfully')));
 				}				
-				$this->redirect('admin/addProject?projectId=' . $projectId);
+				$this->redirect('admin/saveProject?projectId=' . $projectId);
 			}
 		}
 	}

@@ -90,7 +90,7 @@
                     document.getElementById('frmHiddenParam').submit();
 
                 }
-                var addProjectUrl = '<?php echo url_for('admin/addProject'); ?>';
+                var addProjectUrl = '<?php echo url_for('admin/saveProject'); ?>';
                 var viewProjectUrl = '<?php echo url_for('admin/viewProjects'); ?>';
                 var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
                 var customersArray = eval(customers);

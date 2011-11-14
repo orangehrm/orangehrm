@@ -78,7 +78,7 @@ class copyActivityAction extends sfAction {
 				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Cannot Have Duplicate Activities')));
 			}
 			
-			$this->redirect('admin/addProject?projectId=' . $projectId);
+			$this->redirect('admin/saveProject?projectId=' . $projectId);
 		}
 	}
 
