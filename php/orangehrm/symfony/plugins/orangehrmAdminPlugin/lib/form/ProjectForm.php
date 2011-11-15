@@ -175,7 +175,7 @@ class ProjectForm extends BaseForm {
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 
-		$employeeList = $employeeService->getEmployeeList('empNumber','ASC',true);
+		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
 		$employeeUnique = array();
 		foreach ($employeeList as $employee) {
 
@@ -211,30 +211,12 @@ class ProjectForm extends BaseForm {
 		return $jsonString;
 	}
 
-	public function getProjectListAsJson() {
-
-		$jsonArray = array();
-
-		$projectList = $this->getProjectService()->getAllActiveProjects();
-
-		foreach ($projectList as $project) {
-			if ($this->projectId != $project->getProjectId()) {
-
-				$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
-			}
-		}
-
-		$jsonString = json_encode($jsonArray);
-
-		return $jsonString;
-	}
-
 	public function getActivityListAsJson($projectId) {
 
 		$jsonArray = array();
 
 		if (!empty($projectId)) {
-			
+
 			$activityList = $this->getProjectService()->getActivityListByProjectId($projectId);
 
 			foreach ($activityList as $activity) {
@@ -243,6 +225,24 @@ class ProjectForm extends BaseForm {
 
 			$jsonString = json_encode($jsonArray);
 		}
+		return $jsonString;
+	}
+
+	public function getCustomerProjectListAsJson() {
+
+		$jsonArray = array();
+
+		$projectList = $this->getProjectService()->getAllActiveProjects();
+
+
+		foreach ($projectList as $project) {
+			if ($this->projectId != $project->getProjectId()) {
+				$jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##" . $project->getName(), 'id' => $project->getProjectId());
+			}
+		}
+
+		$jsonString = json_encode($jsonArray);
+
 		return $jsonString;
 	}
 

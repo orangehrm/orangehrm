@@ -29,9 +29,9 @@ $(document).ready(function() {
     });
     
     //project auto complete
-    $(".project").autocomplete(projects, {
+    $(".project").autocomplete(customerProjects, {
         formatItem: function(item) {
-            return item.name;
+            return item.name.replace("##", "");;
         },
         matchContains:true
     }).result(function(event, item) {
@@ -232,8 +232,8 @@ $(document).ready(function() {
     if(custId > 0) {      
         $('#addProject_customerName').removeClass('inputFormatHint');
         $('#addProject_customerId').val(custId);
-        var url = urlForGetProjectList+custId;
-        getProjectListAsJson(url);
+        var projectUrl = urlForGetProjectList+custId;
+        getProjectListAsJson(projectUrl);
         enableWidgets();
     }
     

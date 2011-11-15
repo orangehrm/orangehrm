@@ -166,8 +166,8 @@
             var employeeList = eval(employees);
             var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()); ?> ;
             var customerList = eval(customers);
-            var projects = <?php echo str_replace('&#039;', "'", $form->getProjectListAsJson()); ?> ;
-            var projectList = eval(projects);
+            var customerProjects = <?php echo str_replace('&#039;', "'", $form->getCustomerProjectListAsJson()); ?> ;
+            var customerProjectsList = eval(customerProjects);
 	    <?php if($projectId > 0) { ?>
 	    var activityList = <?php echo str_replace('&#039;', "'", $form->getActivityListAsJson($projectId)); ?>;
 	    <?php } ?>
