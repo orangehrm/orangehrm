@@ -20,83 +20,110 @@
  */
 class SearchProjectForm extends BaseForm {
 
-    private $customerService;
-    private $projectService;
+	private $customerService;
+	private $projectService;
+	private $userObj;
 
-    public function getProjectService() {
-        if (is_null($this->projectService)) {
-            $this->projectService = new ProjectService();
-            $this->projectService->setProjectDao(new ProjectDao());
-        }
-        return $this->projectService;
-    }
+	public function getProjectService() {
+		if (is_null($this->projectService)) {
+			$this->projectService = new ProjectService();
+			$this->projectService->setProjectDao(new ProjectDao());
+		}
+		return $this->projectService;
+	}
 
-    public function getCustomerService() {
-        if (is_null($this->customerService)) {
-            $this->customerService = new CustomerService();
-            $this->customerService->setCustomerDao(new CustomerDao());
-        }
-        return $this->customerService;
-    }
+	public function getCustomerService() {
+		if (is_null($this->customerService)) {
+			$this->customerService = new CustomerService();
+			$this->customerService->setCustomerDao(new CustomerDao());
+		}
+		return $this->customerService;
+	}
 
-    public function configure() {
-        $this->setWidgets(array(
-            'customer' => new sfWidgetFormInputText(),
-            'project' => new sfWidgetFormInputText(),
-            'projectAdmin' => new sfWidgetFormInputText()
-        ));
+	public function configure() {
 
-        $this->setValidators(array(
-            'customer' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
-            'project' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
-            'projectAdmin' => new sfValidatorString(array('required' => false, 'max_length' => 100))
-        ));
+		$this->userObj = sfContext::getInstance()->getUser()->getAttribute('user');;
 
-        $this->widgetSchema->setNameFormat('searchProject[%s]');
-    }
+		$this->setWidgets(array(
+		    'customer' => new sfWidgetFormInputText(),
+		    'project' => new sfWidgetFormInputText(),
+		    'projectAdmin' => new sfWidgetFormInputText()
+		));
 
-    public function setDefaultDataToWidgets($searchClues){
-        $this->setDefault('customer', $searchClues['customer']);
-        $this->setDefault('project', $searchClues['project']);
-        $this->setDefault('projectAdmin', $searchClues['projectAdmin']);
-    }
+		$this->setValidators(array(
+		    'customer' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+		    'project' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+		    'projectAdmin' => new sfValidatorString(array('required' => false, 'max_length' => 100))
+		));
 
-    public function getProjectAdminListAsJson() {
+		$this->widgetSchema->setNameFormat('searchProject[%s]');
+	}
 
-        $jsonArray = array();
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
+	public function setDefaultDataToWidgets($searchClues) {
+		$this->setDefault('customer', $searchClues['customer']);
+		$this->setDefault('project', $searchClues['project']);
+		$this->setDefault('projectAdmin', $searchClues['projectAdmin']);
+	}
 
-        $employeeList = $employeeService->getEmployeeList();
+	public function getProjectAdminListAsJson() {
 
-        foreach ($employeeList as $employee) {
-            $jsonArray[] = array('name' => $employee->getFullName(), 'id' => $employee->getEmpNumber());
-        }
+		$jsonArray = array();
+		$employeeService = new EmployeeService();
+		$employeeService->setEmployeeDao(new EmployeeDao());
 
-        $jsonString = json_encode($jsonArray);
+		$employeeList = $employeeService->getEmployeeList();
 
-        return $jsonString;
-    }
+		foreach ($employeeList as $employee) {
+			$jsonArray[] = array('name' => $employee->getFullName(), 'id' => $employee->getEmpNumber());
+		}
 
-    public function getCustomerListAsJson() {
-        $jsonArray = array();
-        $customerList = $this->getCustomerService()->getAllCustomers();
-        foreach ($customerList as $customer) {
-            $jsonArray[] = array('name' => $customer->getName(), 'id' => $customer->getCustomerId());
-        }
-        $jsonString = json_encode($jsonArray);
-        return $jsonString;
-    }
+		$jsonString = json_encode($jsonArray);
 
-    public function getProjectListAsJson() {
-        $jsonArray = array();
-        $projectList = $this->getProjectService()->getAllActiveProjects();
-        foreach ($projectList as $project) {
-            $jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
-        }
-        $jsonString = json_encode($jsonArray);
-        return $jsonString;
-    }
+		return $jsonString;
+	}
+
+	public function getCustomerListAsJson() {
+
+		$allowedProjectList = $this->userObj->getAllowedProjectList();
+		$allowedCustomerList = array();
+		foreach ($allowedProjectList as $projectId) {
+			$project = $this->getProjectService()->getProjectById($projectId);
+			$allowedCustomerList[] = $project->getCustomerId();
+		}
+		$jsonArray = array();
+		$customerList = $this->getCustomerService()->getAllCustomers();		
+		$allowedCustomers = array();
+		foreach ($customerList as $customer) {
+			if (in_array($customer->getCustomerId(), $allowedCustomerList)) {
+				$allowedCustomers[] = $customer;
+			}
+		}		
+		foreach ($allowedCustomers as $customer) {
+			$jsonArray[] = array('name' => $customer->getName(), 'id' => $customer->getCustomerId());
+		}
+		$jsonString = json_encode($jsonArray);
+		return $jsonString;
+	}
+
+	public function getProjectListAsJson() {
+
+		$allowedProjectList = $this->userObj->getAllowedProjectList();
+		$jsonArray = array();
+		$projectList = $this->getProjectService()->getAllActiveProjects();
+
+		$allowedProjets = array();
+		foreach ($projectList as $project) {
+			if (in_array($project->getProjectId(), $allowedProjectList)) {
+				$allowedProjets[] = $project;
+			}
+		}
+
+		foreach ($allowedProjets as $project) {
+			$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
+		}
+		$jsonString = json_encode($jsonArray);
+		return $jsonString;
+	}
 
 }
 

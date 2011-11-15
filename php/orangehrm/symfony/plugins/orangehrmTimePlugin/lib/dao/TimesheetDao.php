@@ -424,7 +424,8 @@ class TimesheetDao {
             $query = Doctrine_Query::create()
                     ->from('Project')
                     ->where('name = ?', $projectName)
-                    ->andWhere('customer_id = ?', $customerId);
+                    ->andWhere('customer_id = ?', $customerId)
+		    ->andWhere('deleted = ?', 0);
 
             $results = $query->execute();
 
