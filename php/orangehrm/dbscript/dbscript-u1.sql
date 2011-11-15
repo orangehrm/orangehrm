@@ -635,7 +635,7 @@ create table `ohrm_customer` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
-  `deleted` tinyint(1) default 0,
+  `is_deleted` tinyint(1) default 0,
   primary key  (`customer_id`)
 ) engine=innodb default charset=utf8;
 
@@ -653,7 +653,7 @@ create table `ohrm_project` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
-  `deleted` tinyint(1) default 0,
+  `is_deleted` tinyint(1) default 0,
   primary key  (`project_id`,`customer_id`),
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
@@ -662,7 +662,7 @@ create table `ohrm_project_activity` (
   `activity_id` int(11) not null,
   `project_id` int(11) not null,
   `name` varchar(100) default null,
-  `deleted` tinyint(1) default 0,
+  `is_deleted` tinyint(1) default 0,
   primary key  (`activity_id`),
   key `project_id` (`project_id`)
 ) engine=innodb default charset=utf8;

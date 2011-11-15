@@ -174,7 +174,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $conditionArray = $this->reportGeneratorService->generateRuntimeWhereClauseConditions($selectedRuntimeFilterFields, $values);
 
         $this->assertEquals(2, count($conditionArray));
-        $this->assertEquals("ohrm_project.project_id = 2 AND ohrm_project_activity.deleted = 0", $conditionArray[2]);
+        $this->assertEquals("ohrm_project.project_id = 2 AND ohrm_project_activity.is_deleted = 0", $conditionArray[2]);
         $this->assertEquals("( date BETWEEN '1989' AND '1982' )", $conditionArray[1]);
     }
 
@@ -237,11 +237,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($reportId)
                 ->will($this->returnValue($selectConditionWithoutSummaryFunction));
 
-        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0");
+        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.is_deleted = 0");
         $reportGeneratorServiceMock->setReportableService($reportableServiceMock);
         $sql = $reportGeneratorServiceMock->generateSql($reportId, $conditionArray);
 
-        $this->assertEquals("SELECT ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
+        $this->assertEquals("SELECT ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.is_deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
     }
 
     /* Test getProjectActivityNameByActivityId */
@@ -325,11 +325,11 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $staticColumns["fromDate"] = "1970-01-01";
         $staticColumns["toDate"] = date("Y-m-d");
 
-        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0");
+        $conditionArray = array('2' => "ohrm_project.project_id = 1 AND ohrm_project_activity.is_deleted = 0");
         $reportGeneratorServiceMock->setReportableService($reportableServiceMock);
         $sql = $reportGeneratorServiceMock->generateSql($reportId, $conditionArray, $staticColumns);
 
-        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '" . $staticColumns["toDate"] . "' AS toDate , ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
+        $this->assertEquals("SELECT '1' AS projectId , '1970-01-01' AS fromDate , '" . $staticColumns["toDate"] . "' AS toDate , ohrm_project_activity.name AS activityname,ROUND(COALESCE(sum(duration)/3600, 0),2) AS totalduration FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE true) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE ohrm_project.project_id = 1 AND ohrm_project_activity.is_deleted = 0 GROUP BY ohrm_project_activity.activity_id", $sql);
     }
 
     public function testLinkFilterFieldIdsToFormValues() {

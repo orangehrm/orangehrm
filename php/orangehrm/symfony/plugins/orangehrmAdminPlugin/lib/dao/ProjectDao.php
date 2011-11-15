@@ -27,7 +27,7 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
 			}
 			$q->orderBy($sortField . ' ' . $sortOrder)
 				->offset($offset)
@@ -44,7 +44,7 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
 			}
 			$count = $q->execute()->count();
 			return $count;
@@ -71,7 +71,7 @@ class ProjectDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('ProjectActivity')
-				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->where('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
 				->andWhere('project_id = ?', $projectId);
 			$projectActivities = $q->execute();
 
@@ -120,7 +120,7 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
 			}
 			return $q->execute();
 		} catch (Exception $e) {
@@ -133,7 +133,7 @@ class ProjectDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('ProjectActivity')
-				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->where('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
 				->andWhere('project_id = ?', $projectId);
 			return $q->execute();
 		} catch (Exception $e) {
@@ -151,7 +151,7 @@ class ProjectDao extends BaseDao {
 		try {
 			$q = Doctrine_Query::create()
 				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
 				->orderBy($orderField . ' ' . $orderBy);
 
 			$projectList = $q->execute();
@@ -178,7 +178,7 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query::create()
 				->from('Project');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
 			}
 			$q->andWhereIn('project_id', $projectIdArray)
 				->orderBy($orderField . ' ' . $orderBy);
@@ -245,7 +245,7 @@ class ProjectDao extends BaseDao {
 		try {
 			$q = $this->_buildSearchQuery($srchClues);
 			$q->orderBy($sortField . ' ' . $sortOrder)
-				->addWhere('p.deleted = ?', Project::ACTIVE_PROJECT)
+				->addWhere('p.is_deleted = ?', Project::ACTIVE_PROJECT)
 				->offset($offset)
 				->limit($limit);
 
@@ -360,7 +360,7 @@ class ProjectDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
 				->andWhere('customer_id = ?', $customerId);
 			return $q->execute();
 		} catch (Exception $e) {

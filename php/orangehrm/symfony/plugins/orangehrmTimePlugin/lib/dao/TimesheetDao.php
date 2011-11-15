@@ -425,7 +425,7 @@ class TimesheetDao {
                     ->from('Project')
                     ->where('name = ?', $projectName)
                     ->andWhere('customer_id = ?', $customerId)
-		    ->andWhere('deleted = ?', 0);
+		    ->andWhere('is_deleted = ?', 0);
 
             $results = $query->execute();
 
@@ -453,7 +453,7 @@ class TimesheetDao {
                 $query = Doctrine_Query::create()
                         ->from('ProjectActivity')
                         ->where('project_id = ?', $projectId)
-                        ->andWhere('deleted = ?', 0);
+                        ->andWhere('is_deleted = ?', 0);
             } else {
                 $query = Doctrine_Query::create()
                         ->from('ProjectActivity')
@@ -589,7 +589,7 @@ class TimesheetDao {
         try {
             $q = Doctrine_Query::create()
                     ->from('Project')
-                    ->andWhere('deleted = ?', $deleted)
+                    ->andWhere('is_deleted = ?', $deleted)
                     ->orderBy($orderField . ' ' . $orderBy);
 
             $projectList = $q->execute();

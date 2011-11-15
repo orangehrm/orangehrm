@@ -50,7 +50,7 @@ Customer:
       type: integer(4)
       primary: true
       autoincrement: true
-    deleted:
+    is_deleted:
       type: integer(1)
       default: '0'
     name: string(100)
@@ -72,7 +72,7 @@ Project:
     customer_id:
       name : customer_id as customerId
       type: integer(4)
-    deleted:
+    is_deleted:
       type: integer(1)
       default: '0'
     name: string(100)
@@ -124,7 +124,7 @@ ProjectActivity:
       type: integer(4)
       notnull: true
       name: project_id as projectId
-    deleted:
+    is_deleted:
       type: integer(1)
       default: '0'
     name: string(110)

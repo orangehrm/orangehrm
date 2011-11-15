@@ -68,11 +68,11 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
         mysql_query("TRUNCATE TABLE `ohrm_project_activity`", $this->connection);
 
 		// Insert a project and customer for use in the test
-        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(0, 'Internal customer', 'description', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(1, 'Test customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(0, 'Internal customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
         
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
@@ -477,7 +477,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		// create some activites
 		$actList = $this->_getTestActivities();
 		$this->_createActivites($actList);
-		mysql_query("UPDATE ohrm_project_activity SET deleted = 0");
+		mysql_query("UPDATE ohrm_project_activity SET is_deleted = 0");
 
 		// delete one and check
 		$ids = array(1);
@@ -501,7 +501,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$num = $this->_getNumActivities("deleted = 1");
 		$this->assertEquals(1, $num);
 
-		mysql_query("UPDATE ohrm_project_activity SET deleted = 0");
+		mysql_query("UPDATE ohrm_project_activity SET is_deleted = 0");
 
 		// verify that only activies in given project are deleted.
 		// NOTE: 1,2,3 belong to projId 1, 4 to projId 2
@@ -593,7 +593,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      */
     private function _createActivites($activities) {
 		foreach ($activities as $activity) {
-			$sql = sprintf("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
+			$sql = sprintf("INSERT INTO ohrm_project_activity(activity_id, project_id, name, is_deleted) " .
                            "VALUES(%d, %d, '%s', %d)",
                            $activity->getId(), $activity->getProjectId(), $activity->getName(),
                            ($activity->isDeleted() ? 1 : 0));

@@ -2,13 +2,13 @@
 ---
 
 Project:
-  0: {project_id: 1, customer_id: 1, name: 'OrangeHRM', description: null, deleted: 0}
-  1: {project_id: 2, customer_id: 1, name: 'OrangePM', description: null, deleted: 1}
-  2: {project_id: 3, customer_id: 1, name: 'NUS', description: null, deleted: 0}
-  3: {project_id: 4, customer_id: 1, name: 'RedHat', description: null, deleted: 0}
-  4: {project_id: 5, customer_id: 1, name: 'Alabama', description: null, deleted: 1}
-  5: {project_id: 6, customer_id: 1, name: 'NTU', description: null, deleted: 0}
-  6: {project_id: 7, customer_id: 1, name: 'UOM', description: null, deleted: 1}
+  0: {project_id: 1, customer_id: 1, name: 'OrangeHRM', description: null, is_deleted: 0}
+  1: {project_id: 2, customer_id: 1, name: 'OrangePM', description: null, is_deleted: 1}
+  2: {project_id: 3, customer_id: 1, name: 'NUS', description: null, is_deleted: 0}
+  3: {project_id: 4, customer_id: 1, name: 'RedHat', description: null, is_deleted: 0}
+  4: {project_id: 5, customer_id: 1, name: 'Alabama', description: null, is_deleted: 1}
+  5: {project_id: 6, customer_id: 1, name: 'NTU', description: null, is_deleted: 0}
+  6: {project_id: 7, customer_id: 1, name: 'UOM', description: null, is_deleted: 1}
 
 Employee:
   0: {emp_number: 1, employee_id: 0001, emp_lastname: 'Nadarajah', emp_firstname: 'Indiran'}

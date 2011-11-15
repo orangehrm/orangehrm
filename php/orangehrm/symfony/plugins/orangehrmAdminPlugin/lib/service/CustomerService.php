@@ -85,7 +85,7 @@ class CustomerService extends BaseService {
 	/**
 	 * Delete customer
 	 * 
-	 * Set customer 'deleted' parameter to 1.
+	 * Set customer 'is_deleted' parameter to 1.
 	 * 
 	 * @param type $customerId
 	 * @return type 

@@ -7,20 +7,20 @@
  * 
  * @property integer $activityId
  * @property integer $projectId
- * @property integer $deleted
+ * @property integer $is_deleted
  * @property string $name
  * @property Project $Project
  * @property Doctrine_Collection $TimesheetItem
  * 
  * @method integer             getActivityId()    Returns the current record's "activityId" value
  * @method integer             getProjectId()     Returns the current record's "projectId" value
- * @method integer             getDeleted()       Returns the current record's "deleted" value
+ * @method integer             getIsDeleted()     Returns the current record's "is_deleted" value
  * @method string              getName()          Returns the current record's "name" value
  * @method Project             getProject()       Returns the current record's "Project" value
  * @method Doctrine_Collection getTimesheetItem() Returns the current record's "TimesheetItem" collection
  * @method ProjectActivity     setActivityId()    Sets the current record's "activityId" value
  * @method ProjectActivity     setProjectId()     Sets the current record's "projectId" value
- * @method ProjectActivity     setDeleted()       Sets the current record's "deleted" value
+ * @method ProjectActivity     setIsDeleted()     Sets the current record's "is_deleted" value
  * @method ProjectActivity     setName()          Sets the current record's "name" value
  * @method ProjectActivity     setProject()       Sets the current record's "Project" value
  * @method ProjectActivity     setTimesheetItem() Sets the current record's "TimesheetItem" collection
@@ -46,7 +46,7 @@ abstract class BaseProjectActivity extends sfDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
-        $this->hasColumn('deleted', 'integer', 1, array(
+        $this->hasColumn('is_deleted', 'integer', 1, array(
              'type' => 'integer',
              'default' => '0',
              'length' => 1,

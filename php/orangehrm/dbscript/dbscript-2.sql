@@ -797,7 +797,7 @@ INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_f
 
 INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
     (1, 1, 'project_name', 'ohrm_project.project_id', 'ohrmWidgetProjectList', 2, 'true'),
-    (2, 1, 'activity_show_deleted', 'ohrm_project_activity.deleted', 'ohrmWidgetInputCheckbox', 2, 'false'),
+    (2, 1, 'activity_show_deleted', 'ohrm_project_activity.is_deleted', 'ohrmWidgetInputCheckbox', 2, 'false'),
     (3, 1, 'project_date_range', 'date', 'ohrmWidgetDateRange', 1, 'false'),
     (4, 1, 'employee', 'hs_hr_employee.emp_number', 'ohrmWidgetEmployeeListAutoFill', 2, 'true'),
     (5, 1, 'activity_name', 'ohrm_project_activity.activity_id', 'ohrmWidgetProjectActivityList', 2, 'true'),
@@ -816,7 +816,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
     (20, 3, 'location', 'emp_location.loc_code', 'ohrmReportWidgetLocationDropDown', 1, null),
-    (21, 1, 'is_deleted', 'ohrm_project_activity.deleted', '', 2, null);
+    (21, 1, 'is_deleted', 'ohrm_project_activity.is_deleted', '', 2, null);
 
 INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`, `is_list`) VALUES
     (1, 3, 'Personal', false),

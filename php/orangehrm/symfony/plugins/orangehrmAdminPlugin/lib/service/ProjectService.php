@@ -86,7 +86,7 @@ class ProjectService extends BaseService {
 	 *
 	 * Delete project
 	 * 
-	 * Set project's deleted flag to 1. This will handled the deleting of corresponding
+	 * Set project's is_deleted flag to 1. This will handled the deleting of corresponding
 	 * project activities and project admins under deleted project.
 	 * 
 	 * @param type $projectId
@@ -100,7 +100,7 @@ class ProjectService extends BaseService {
 	 *
 	 * Delete project activity
 	 * 
-	 * Set project activity's deleted flag to 1.
+	 * Set project activity's is_deleted flag to 1.
 	 * 
 	 * @param type $activityId
 	 * @return type 

@@ -7,7 +7,7 @@
  * 
  * @property integer $projectId
  * @property integer $customerId
- * @property integer $deleted
+ * @property integer $is_deleted
  * @property string $name
  * @property string $description
  * @property Customer $Customer
@@ -17,7 +17,7 @@
  * 
  * @method integer             getProjectId()       Returns the current record's "projectId" value
  * @method integer             getCustomerId()      Returns the current record's "customerId" value
- * @method integer             getDeleted()         Returns the current record's "deleted" value
+ * @method integer             getIsDeleted()       Returns the current record's "is_deleted" value
  * @method string              getName()            Returns the current record's "name" value
  * @method string              getDescription()     Returns the current record's "description" value
  * @method Customer            getCustomer()        Returns the current record's "Customer" value
@@ -26,7 +26,7 @@
  * @method Doctrine_Collection getTimesheetItem()   Returns the current record's "TimesheetItem" collection
  * @method Project             setProjectId()       Sets the current record's "projectId" value
  * @method Project             setCustomerId()      Sets the current record's "customerId" value
- * @method Project             setDeleted()         Sets the current record's "deleted" value
+ * @method Project             setIsDeleted()       Sets the current record's "is_deleted" value
  * @method Project             setName()            Sets the current record's "name" value
  * @method Project             setDescription()     Sets the current record's "description" value
  * @method Project             setCustomer()        Sets the current record's "Customer" value
@@ -54,7 +54,7 @@ abstract class BaseProject extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 4,
              ));
-        $this->hasColumn('deleted', 'integer', 1, array(
+        $this->hasColumn('is_deleted', 'integer', 1, array(
              'type' => 'integer',
              'default' => '0',
              'length' => 1,

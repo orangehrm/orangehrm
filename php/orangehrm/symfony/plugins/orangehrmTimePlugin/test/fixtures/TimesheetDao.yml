@@ -5,18 +5,18 @@ Users:
   1: {id: 4, user_name: 'user4'}
 
 Customer:
-  0: {customer_id: 1, name: 'user', description: 'main customer', deleted: 0 }
-  1: {customer_id: 2, name: 'user', description: 'main customer', deleted: 0 }
-  2: {customer_id: 3, name: 'user', description: 'main customer', deleted: 0 }
+  0: {customer_id: 1, name: 'user', description: 'main customer', is_deleted: 0 }
+  1: {customer_id: 2, name: 'user', description: 'main customer', is_deleted: 0 }
+  2: {customer_id: 3, name: 'user', description: 'main customer', is_deleted: 0 }
 
 Project:
-  0: {project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', deleted: 0 }
-  1: {project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', deleted: 0 }
-  2: {project_id: 3, customer_id: 3, name: 'OrangeHRM3', description: 'thirdproject', deleted: 1 }
+  0: {project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', is_deleted: 0 }
+  1: {project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', is_deleted: 0 }
+  2: {project_id: 3, customer_id: 3, name: 'OrangeHRM3', description: 'thirdproject', is_deleted: 1 }
 
 ProjectActivity:
-  0: {activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', deleted: 0 }
-  1: {activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', deleted: 1 }
+  0: {activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
+  1: {activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 1 }
   
 Timesheet:
   0: {timesheet_id: 1, employee_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19'}

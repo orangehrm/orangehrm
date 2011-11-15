@@ -7,8 +7,8 @@ Project:
   0: {project_id: 1, customer_id: 1, name: 'NUS'}
 
 ProjectActivity:
-  0: {activity_id: 1, project_id: 1, name: 'Create Schema', deleted: 0}
-  1: {activity_id: 2, project_id: 1, name: 'Build Model', deleted: 0}
+  0: {activity_id: 1, project_id: 1, name: 'Create Schema', is_deleted: 0}
+  1: {activity_id: 2, project_id: 1, name: 'Build Model', is_deleted: 0}
 
 ReportGroup:
   0: {report_group_id: 1, name: 'timesheet', core_sql: 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE whereCondition2'}
@@ -24,7 +24,7 @@ GroupField:
 
 FilterField:
   0: {filter_field_id: 1, report_group_id: 1, name: 'project_name', where_clause_part: 'ohrm_project.project_id', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, required: 'false'}
-  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'ohrm_project_activity.deleted', filter_field_widget: 'ohrmWidgetInputCheckbox', condition_no: 2, required: 'false'}
+  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'ohrm_project_activity.is_deleted', filter_field_widget: 'ohrmWidgetInputCheckbox', condition_no: 2, required: 'false'}
   2: {filter_field_id: 3, report_group_id: 1, name: 'project_date_range', where_clause_part: 'date', filter_field_widget: 'ohrmWidgetDateRange', condition_no: 1, required: 'false'}
   3: {filter_field_id: 4, report_group_id: 2, name: 'project_name', where_clause_part: 'ohrm_project.project_id', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, required: 'false'}
   4: {filter_field_id: 5, report_group_id: 2, name: 'salary', where_clause_part: 'hs_hr_emp_basicsalary.ebsal_basic_salary', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 1, required: 'false'}

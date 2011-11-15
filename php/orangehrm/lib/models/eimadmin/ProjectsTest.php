@@ -153,7 +153,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
       	}
 
       	// Delete one project
-      	mysql_query("UPDATE `ohrm_project` SET deleted = 1 WHERE project_id = 1001");
+      	mysql_query("UPDATE `ohrm_project` SET is_deleted = 1 WHERE project_id = 1001");
 
       	// By default, all projects are returned
       	$res = $this->classProject->fetchProjects();

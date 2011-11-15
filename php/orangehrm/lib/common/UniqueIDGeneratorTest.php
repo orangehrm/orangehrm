@@ -323,7 +323,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $this->_getLastId($cusTable, $cusId));
 
 		$this->assertTrue(mysql_query('INSERT INTO hs_hr_language(lang_code, lang_name) VALUES("LAN019", "Japanese")'));
-		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
+		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(29, "Test customer", "desc", 0)'));
 
 		$idGen->initTable($this->connection);
 		$this->assertEquals(19, $this->_getLastId($langTable, $langId));
@@ -383,7 +383,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $this->_getLastId($cusTable, $cusId));
 
 		$this->assertTrue(mysql_query('INSERT INTO hs_hr_language(lang_code, lang_name) VALUES("LAN019", "Japanese")'));
-		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(29, "Test customer", "desc", 0)'));
+		$this->assertTrue(mysql_query('INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(29, "Test customer", "desc", 0)'));
 
 		$idGen->resetIDs();
 		$this->assertEquals(19, $this->_getLastId($langTable, $langId));

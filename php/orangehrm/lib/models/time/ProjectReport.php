@@ -85,7 +85,7 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
                         ")" .
                "WHERE " .                            
 						"a.project_id = '$projectId' AND " .
-	                    "(a.deleted <> 1 OR e.activity_id IS NOT NULL)";
+	                    "(a.is_deleted <> 1 OR e.activity_id IS NOT NULL)";
                   
 		$sql = "SELECT activity_id, activity_name, project_id, " .
                       "COALESCE(sum(duration), 0) AS duration " .

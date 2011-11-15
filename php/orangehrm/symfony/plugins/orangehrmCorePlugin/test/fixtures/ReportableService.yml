@@ -10,7 +10,7 @@ Report:
 
 FilterField:
   0: {filter_field_id: 1, report_group_id: 1, name: 'project_name', where_clause_part: 'ohrm_project.project_id', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, required: 'false'}
-  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'ohrm_project_activity.deleted', filter_field_widget: 'ohrmWidgetInputCheckbox', condition_no: 2, required: 'false'}
+  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'ohrm_project_activity.is_deleted', filter_field_widget: 'ohrmWidgetInputCheckbox', condition_no: 2, required: 'false'}
 
 SelectedFilterField:
   0: {report_id: 1, filter_field_id: 1, filter_field_order: 1, value1: '3000', where_condition: '>', type: 'Runtime'}

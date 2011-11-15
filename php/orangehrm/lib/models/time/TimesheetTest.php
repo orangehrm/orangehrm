@@ -71,9 +71,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) VALUES ('010', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
 
-		$this->assertTrue(mysql_query("INSERT INTO `ohrm_customer` (`customer_id`, `name`, `description`, `deleted`) ".
+		$this->assertTrue(mysql_query("INSERT INTO `ohrm_customer` (`customer_id`, `name`, `description`, `is_deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
-    	$this->assertTrue(mysql_query("INSERT INTO `ohrm_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
+    	$this->assertTrue(mysql_query("INSERT INTO `ohrm_project` (`project_id`, `customer_id`, `name`, `description`, `is_deleted`) ".
     				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
     	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
     				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*7).", 'Testing')"));

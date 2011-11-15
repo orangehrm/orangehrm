@@ -37,7 +37,7 @@ class CustomerDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Customer');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = 0');
+				$q->addWhere('is_deleted = 0');
 			}
 			$q->orderBy($sortField . ' ' . $sortOrder)
 				->offset($offset)
@@ -59,7 +59,7 @@ class CustomerDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Customer');
 			if ($activeOnly == true) {
-				$q->addWhere('deleted = ?', 0);
+				$q->addWhere('is_deleted = ?', 0);
 			}
 			$count = $q->execute()->count();
 			return $count;
@@ -103,7 +103,7 @@ class CustomerDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT)
+				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
 				->andWhere('customer_id = ?', $customerId);
 			$projects = $q->execute();
 
@@ -123,7 +123,7 @@ class CustomerDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('ProjectActivity')
-				->where('deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+				->where('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
 				->andWhere('project_id = ?', $projectId);
 			$projectActivities = $q->execute();
 
@@ -159,7 +159,7 @@ class CustomerDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Customer');
 			if ($activeOnly == true) {
-				$q->where('deleted =?', 0);
+				$q->where('is_deleted =?', 0);
 			}
 			return $q->execute();
 		} catch (Exception $e) {

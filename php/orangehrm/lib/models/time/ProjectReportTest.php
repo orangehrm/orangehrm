@@ -593,15 +593,15 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 
 		$this->_runQuery("TRUNCATE table ohrm_project_activity");
 	 	$this->assertEquals(0, $this->_count("ohrm_project_activity"));
-	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, is_deleted) " .
 				        "VALUES(1, 1, 'Programming', 0)");
 		$this->assertEquals(1, $this->_count("ohrm_project_activity"));
 
-	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, is_deleted) " .
 				        "VALUES(2, 2, 'QA', 0)");
 		$this->assertEquals(2, $this->_count("ohrm_project_activity"));
 
-	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, deleted) " .
+	 	$this->_runQuery("INSERT INTO ohrm_project_activity(activity_id, project_id, name, is_deleted) " .
 				        "VALUES(3, 2, 'Meetings', 0)");
 		$this->assertEquals(3, $this->_count("ohrm_project_activity"));
 
@@ -647,12 +647,12 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 		$count = $this->_count("ohrm_project_activity");
 
 		$this->_addActivity(1, "Test1");
-		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test1' and deleted = 0"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test1' and is_deleted = 0"));
 		$this->assertTrue(isset($this->activities[1]));
 		$this->assertTrue(isset($this->activities[1]['Test1']));
 
 		$this->_addActivity(1, "Test2", true);
-		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test2' and deleted = 1"));
+		$this->assertEquals(1, $this->_count("ohrm_project_activity", "name = 'Test2' and is_deleted = 1"));
 		$this->assertTrue(isset($this->activities[1]['Test2']));
 
 		$this->assertEquals($count + 2, $this->_count("ohrm_project_activity"));
@@ -853,7 +853,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 * Add customer used by unit test
 	 */
 	private function _addCustomer() {
-		$template = "INSERT INTO ohrm_customer(customer_id, name, description, deleted) VALUES(%d, '%s', '%s', 0)";
+		$template = "INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(%d, '%s', '%s', 0)";
 		$sql = sprintf($template, $this->customerId, $this->customerName, "Desc. " . $this->customerName);
 		$this->_runQuery($sql);
 	}
@@ -863,7 +863,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	private function _addProjects() {
 
-		$template = "INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
+		$template = "INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) " .
 				    "VALUES(%d, %d, '%s', '%s', 0)";
 
 		$id = $this->_count("ohrm_project") + 1;

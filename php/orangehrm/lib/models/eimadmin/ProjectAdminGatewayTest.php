@@ -72,11 +72,11 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
         mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
 
 		// Insert a project and customer and employees for use in the test
-        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) " .
         			"VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) " .
         			"VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) " .
         			"VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
         mysql_query("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name) " .
         			"VALUES(1, '0011', 'Rajasinghe', 'Saman', 'Marlon')");
@@ -389,7 +389,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_array($list));
 		$this->assertEquals(0, count($list));
 
-        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, deleted) " .
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) " .
         			"VALUES(21, 1, 'Test project 1', 'a test proj 1', 0)");
 
 		// Get admins for valid project with no admins
@@ -500,13 +500,13 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	$this->assertFalse($gw->isAdmin($empNumber = 2, $projectId = 21));
 
     	// Deleted projects not considered when project Id not given
-        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 1"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET is_deleted = 1 WHERE project_id = 1"));
 		$this->assertEquals(1, mysql_affected_rows());
 
     	$this->assertFalse($gw->isAdmin($empNumber = 1));
     	$this->assertTrue($gw->isAdmin($empNumber = 1, $projectId = 1));
 
-        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 2"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET is_deleted = 1 WHERE project_id = 2"));
 		$this->assertEquals(1, mysql_affected_rows());
 
     	$this->assertFalse($gw->isAdmin($empNumber = 2));
@@ -584,7 +584,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		}
 
 		// Verify that deleted projects are not returned by default
-        $this->assertTrue(mysql_query("UPDATE ohrm_project SET deleted = 1 WHERE project_id = 1"));
+        $this->assertTrue(mysql_query("UPDATE ohrm_project SET is_deleted = 1 WHERE project_id = 1"));
 		$this->assertEquals(1, mysql_affected_rows());
 
 		$list = $gw->getProjectsForAdmin(1);

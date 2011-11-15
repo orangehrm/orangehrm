@@ -174,7 +174,7 @@ class Customer {
 
     public function deleteCustomer() {
         $sql = sprintf("UPDATE ohrm_customer c LEFT JOIN ohrm_project p ON (c.customer_id = p.customer_id) " .
-                "SET c.deleted = 1, p.deleted = 1 " .
+                "SET c.is_deleted = 1, p.is_deleted = 1 " .
                 "WHERE c.customer_id = %s", $this->getCustomerId());
 
         $dbConnection = new DMLFunctions();
