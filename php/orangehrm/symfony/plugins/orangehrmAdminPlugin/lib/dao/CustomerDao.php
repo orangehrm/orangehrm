@@ -90,7 +90,7 @@ class CustomerDao extends BaseDao {
 
 		try {
 			$customer = Doctrine :: getTable('Customer')->find($customerId);
-			$customer->setDeleted(Customer::DELETED);
+			$customer->setIsDeleted(Customer::DELETED);
 			$customer->save();
 			$this->_deleteRelativeProjectsForCustomer($customerId);
 		} catch (Exception $e) {
@@ -108,7 +108,7 @@ class CustomerDao extends BaseDao {
 			$projects = $q->execute();
 
 			foreach ($projects as $project) {
-				$project->setDeleted(Project::DELETED_PROJECT);
+				$project->setIsDeleted(Project::DELETED_PROJECT);
 				$project->save();
 				$this->_deleteRelativeProjectActivitiesForProject($project->getProjectId());
 				$this->_deleteRelativeProjectAdminsForProject($project->getProjectId());
@@ -128,7 +128,7 @@ class CustomerDao extends BaseDao {
 			$projectActivities = $q->execute();
 
 			foreach ($projectActivities as $projectActivity) {
-				$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+				$projectActivity->setIsDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
 				$projectActivity->save();
 			}
 		} catch (Exception $e) {

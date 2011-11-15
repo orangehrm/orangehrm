@@ -69,7 +69,7 @@ class copyActivityAction extends sfAction {
 					$activity = new ProjectActivity();
 					$activity->setProjectId($projectId);
 					$activity->setName($activityName);
-					$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
+					$activity->setIsDeleted(ProjectActivity::ACTIVE_PROJECT);
 					$activities->add($activity);
 				}
 				$activities->save();

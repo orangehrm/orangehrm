@@ -57,7 +57,7 @@ class ProjectDao extends BaseDao {
 
 		try {
 			$project = Doctrine :: getTable('Project')->find($projectId);
-			$project->setDeleted(Project::DELETED_PROJECT);
+			$project->setIsDeleted(Project::DELETED_PROJECT);
 			$project->save();
 			$this->_deleteRelativeProjectActivitiesForProject($projectId);
 			$this->_deleteRelativeProjectAdminsForProject($projectId);
@@ -76,7 +76,7 @@ class ProjectDao extends BaseDao {
 			$projectActivities = $q->execute();
 
 			foreach ($projectActivities as $projectActivity) {
-				$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+				$projectActivity->setIsDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
 				$projectActivity->save();
 			}
 		} catch (Exception $e) {
@@ -313,7 +313,7 @@ class ProjectDao extends BaseDao {
 
 		try {
 			$projectActivity = Doctrine :: getTable('ProjectActivity')->find($activitId);
-			$projectActivity->setDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
+			$projectActivity->setIsDeleted(ProjectActivity::DELETED_PROJECT_ACTIVITY);
 			$projectActivity->save();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

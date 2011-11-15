@@ -63,7 +63,7 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 	public function testDeleteCustomer(){
 		$this->customerDao->deleteCustomer(1);
 		$result = $this->customerDao->getCustomerById(1);
-		$this->assertEquals($result->getDeleted(), 1);
+		$this->assertEquals($result->getIsDeleted(), 1);
 	}
 	
 	public function testGetAllCustomersWithActiveOnly(){

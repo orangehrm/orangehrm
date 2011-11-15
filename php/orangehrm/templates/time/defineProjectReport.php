@@ -173,7 +173,7 @@ function setProjects(check){
 		  		
 		    	foreach ($projects as $project) {
 		    		
-					if($project->getDeleted() == 0 ){
+					if($project->getIsDeleted() == 0 ){
 						
                      	$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 		  ?>	
@@ -237,7 +237,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
                           for($a = 0;$a <count($arrayProjectAndCustomers); $a++) {
 							$objProject = $arrayProjectAndCustomers[$a]['project'];
                           	
-                          	if($objProject->getDeleted() == 0){                          		
+                          	if($objProject->getIsDeleted() == 0){                          		
                             	
 								$selected = "";
 								

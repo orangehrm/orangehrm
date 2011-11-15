@@ -97,7 +97,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 	public function testDeleteProject() {
 		$this->projectDao->deleteProject(1);
 		$result = $this->projectDao->getProjectById(1);
-		$this->assertEquals($result->getDeleted(), 1);
+		$this->assertEquals($result->getIsDeleted(), 1);
 	}
 
 	public function testGetProjectActivityById() {
@@ -177,7 +177,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 		$this->projectDao->deleteProjectActivities(1);
 		$projectActivity = $this->projectDao->getProjectActivityById(1);
-		$this->assertEquals($projectActivity->getDeleted(), 1);
+		$this->assertEquals($projectActivity->getIsDeleted(), 1);
 	}
 
 	public function testHasProjectGotTimesheetItems() {

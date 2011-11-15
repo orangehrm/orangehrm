@@ -888,7 +888,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 		$activity = new ProjectActivity();
 		$activity->setName($name);
 		$activity->setProjectId($projectId);
-		$activity->setDeleted($deleted);
+		$activity->setIsDeleted($deleted);
 		$activity->save();
 
 		$this->activities[$projectId][$name] = $activity;

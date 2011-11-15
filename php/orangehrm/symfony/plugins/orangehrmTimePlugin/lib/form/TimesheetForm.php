@@ -68,10 +68,10 @@ class TimesheetForm extends sfForm {
                 $activities = $this->getTimesheetDao()->getProjectActivitiesByPorjectId($project->getProjectId(), true);
                 $activityArray = null;
                 foreach ($activities as $activity) {
-                    if ($activity->getDeleted() != 1) {
+                    if ($activity->getIsDeleted() != 1) {
                         $activityArray[$activity->getActivityId()] = $activity->getName();
                     }
-                    if($activity->getActivityId() == $numberOfRows[$i]['activityId'] && $activity->getDeleted() == 1){
+                    if($activity->getActivityId() == $numberOfRows[$i]['activityId'] && $activity->getIsDeleted() == 1){
                         $activityArray[$activity->getActivityId()] = $activity->getName();
                     }
                 }
@@ -194,10 +194,10 @@ class TimesheetForm extends sfForm {
 	
                 $rowArray['projectId'] = $row[0]["projectId"];
                 $rowArray['projectName'] = $row[0]->getProject()->getCustomer()->getName() . " - ##" . $row[0]->getProject()->getName();
-                $rowArray['isProjectDeleted'] = $row[0]->getProject()->getDeleted();
+                $rowArray['isProjectDeleted'] = $row[0]->getProject()->getIsDeleted();
                 $rowArray['activityId'] = $row[0]["activityId"];
                 $rowArray['activityName'] = $row[0]->getProjectActivity()->getName();
-                $rowArray['isActivityDeleted'] = $row[0]->getProjectActivity()->getDeleted();
+                $rowArray['isActivityDeleted'] = $row[0]->getProjectActivity()->getIsDeleted();
 
                 foreach ($dates as $date) {
 
@@ -291,7 +291,7 @@ class TimesheetForm extends sfForm {
 
 
         foreach ($projectList as $project) {
-//            if ($project->getDeleted() != Projects::PROJECT_DELETED) {
+//            if ($project->getIsDeleted() != Projects::PROJECT_DELETED) {
             $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##"  . $project->getName(), 'id' => $project->getProjectId());
 //            }
         }

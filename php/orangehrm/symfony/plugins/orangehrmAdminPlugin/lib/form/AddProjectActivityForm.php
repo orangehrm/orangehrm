@@ -66,7 +66,7 @@ class AddProjectActivityForm extends BaseForm {
 		
 		$activity->setProjectId($projectId);
 		$activity->setName($this->getValue('activityName'));
-		$activity->setDeleted(ProjectActivity::ACTIVE_PROJECT);
+		$activity->setIsDeleted(ProjectActivity::ACTIVE_PROJECT);
 		$activity->save();
 		return $projectId;
 	}

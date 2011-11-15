@@ -201,7 +201,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				<?php } ?>
 				<select id="cmbProject-<?php echo $k; ?>" name="cmbProject-<?php echo $k; ?>" <?php echo $tags; ?>
 				id="cmbProject-<?php echo $k; ?>" onchange="fetchActivities(this.value, this.id)">
-				<?php if ($value['projectObj']->getDeleted()) { ?>
+				<?php if ($value['projectObj']->getIsDeleted()) { ?>
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProject; ?> --</option>
 				<?php } ?>
 				<?php for ($j=0; $j<$projectsCount; $j++) { // Project list : Begins ?>
@@ -216,7 +216,7 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 			<td class="selectTd" id="cmbActivity-<?php echo $k; ?>-td">
 				<?php
 					$tags = '';
-					if ($value['isActivityDeleted'] || $value['projectObj']->getDeleted()) {
+					if ($value['isActivityDeleted'] || $value['projectObj']->getIsDeleted()) {
 					$tags ='style="display:none" disabled="disabled"';
 				?>
 					<span id="cmbActivity-<?php echo $k; ?>-span">
@@ -227,12 +227,12 @@ foreach ($grid as $key => $value) { // Grid iteration: Begins
 				<?php } ?>
 				<select id="cmbActivity-<?php echo $k; ?>" name="cmbActivity-<?php echo $k; ?>" <?php echo $tags; ?>
 				id="cmbActivity-<?php echo $k; ?>">
-				<?php if ($value['isActivityDeleted'] || $value['projectObj']->getDeleted()) { ?>
+				<?php if ($value['isActivityDeleted'] || $value['projectObj']->getIsDeleted()) { ?>
 				<option value="-1">-- <?php echo $lang_Time_Timesheet_SelectProjectFirst; ?> --</option>
 				<?php } ?>
 <?php for ($j=0; $j<$activityCount; $j++) { ?>
 				<option value="<?php echo $activityList[$j]->getId(); ?>"
-				<?php echo (($activityList[$j]->getId() == $activityId) && !($value['isActivityDeleted'] || $value['projectObj']->getDeleted())) ? ' selected="selected"' : ''; ?>>
+				<?php echo (($activityList[$j]->getId() == $activityId) && !($value['isActivityDeleted'] || $value['projectObj']->getIsDeleted())) ? ' selected="selected"' : ''; ?>>
 				<?php echo $activityList[$j]->getName(); ?>
 				</option>
 <?php } ?>
