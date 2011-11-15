@@ -232,7 +232,7 @@ class ProjectForm extends BaseForm {
 
 		$jsonArray = array();
 
-		$projectList = $this->getProjectService()->getAllActiveProjects();
+		$projectList = $this->getProjectService()->getAllProjects();
 
 
 		foreach ($projectList as $project) {

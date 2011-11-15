@@ -109,7 +109,7 @@ class SearchProjectForm extends BaseForm {
 
 		$allowedProjectList = $this->userObj->getAllowedProjectList();
 		$jsonArray = array();
-		$projectList = $this->getProjectService()->getAllActiveProjects();
+		$projectList = $this->getProjectService()->getAllProjects();
 
 		$allowedProjets = array();
 		foreach ($projectList as $project) {

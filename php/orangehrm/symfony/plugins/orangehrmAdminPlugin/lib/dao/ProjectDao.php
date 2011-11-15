@@ -27,23 +27,25 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project');
 			if ($activeOnly == true) {
-				$q->where('deleted = ?', Project::ACTIVE_PROJECT);
+				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
 			}
-			$q->orderBy($sortField . ' ' . $sortOrder);
-			$q->offset($offset);
-			$q->limit($limit);
+			$q->orderBy($sortField . ' ' . $sortOrder)
+				->offset($offset)
+				->limit($limit);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
 
-	public function getProjectCount() {
+	public function getProjectCount($activeOnly = true) {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT);
+				->from('Project');
+			if ($activeOnly == true) {
+				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+			}
 			$count = $q->execute()->count();
 			return $count;
 		} catch (Exception $e) {
@@ -112,12 +114,14 @@ class ProjectDao extends BaseDao {
 		}
 	}
 
-	public function getAllActiveProjects() {
+	public function getAllProjects($activeOnly = true) {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT);
+				->from('Project');
+			if ($activeOnly == true) {
+				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+			}
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
@@ -169,12 +173,14 @@ class ProjectDao extends BaseDao {
 	 * @param string $orderBy
 	 * @return Project[]
 	 */
-	public function getActiveProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC') {
+	public function getProjectsByProjectIds($projectIdArray, $orderField='project_id', $orderBy='ASC', $activeOnly = true) {
 		try {
 			$q = Doctrine_Query::create()
-				->from('Project')
-				->where('deleted = ?', 0)
-				->andWhereIn('project_id', $projectIdArray)
+				->from('Project');
+			if ($activeOnly == true) {
+				$q->addWhere('deleted = ?', Project::ACTIVE_PROJECT);
+			}
+			$q->andWhereIn('project_id', $projectIdArray)
 				->orderBy($orderField . ' ' . $orderBy);
 
 			$projectList = $q->execute();

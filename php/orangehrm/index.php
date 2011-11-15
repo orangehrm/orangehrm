@@ -438,7 +438,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=PAC&menu_no_top=eim");
+    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./symfony/web/index.php/admin/viewProjects");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
     $subs[] = new MenuItem("project", "Projects", "./symfony/web/index.php/admin/viewProjects");
     $menuItem->setSubMenuItems($subs);
@@ -453,7 +453,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
     $subs[] = new MenuItem("companyproperty", $lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-    $subs[] = new MenuItem("project", __("Projets"), "./symfony/web/index.php/admin/viewProjects");
+    $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects");
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 }

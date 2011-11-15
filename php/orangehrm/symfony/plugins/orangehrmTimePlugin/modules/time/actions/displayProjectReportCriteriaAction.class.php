@@ -41,7 +41,7 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
         $projectService = new ProjectService();
         $projectId = $formValues["project_name"];
-        $projectName = $projectService->getProjectName($projectId);
+        $projectName = $projectService->getProjectNameWithCustomerName($projectId);
 
         $this->getRequest()->setParameter('projectName', $projectName);
         $this->getRequest()->setParameter('projectDateRangeFrom', $formValues["project_date_range"]["from"]);

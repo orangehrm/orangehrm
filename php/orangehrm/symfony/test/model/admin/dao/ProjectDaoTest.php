@@ -41,11 +41,11 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("RedHat", $activeProjects[2]->getName());
     }
 
-    /* Tests getActiveProjectsByProjectIds method */
+    /* Tests getProjectsByProjectIds method */
     public function testGetActiveProjectsByProjectIds() {
 
         $projectIdArray = array(1, 3, 5, 7);
-        $activeProjects = $this->projectDao->getActiveProjectsByProjectIds($projectIdArray);
+        $activeProjects = $this->projectDao->getProjectsByProjectIds($projectIdArray);
 
         $this->assertTrue($activeProjects[0] instanceof Project);
         $this->assertEquals(2, count($activeProjects));

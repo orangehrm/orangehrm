@@ -31,7 +31,7 @@ class displayProjectActivityDetailsReportAction extends displayReportAction {
         $projectService = new ProjectService();
 
         $projectId = $this->getRequest()->getParameter("projectId");
-        $projectName = $projectService->getProjectName($projectId);
+        $projectName = $projectService->getProjectNameWithCustomerName($projectId);
 
         $activityId = $this->getRequest()->getParameter("activityId");
 

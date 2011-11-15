@@ -72,15 +72,26 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result[0]->getProjectId(), 1);
 	}
 
-	public function testGetProjectList() {
+	public function testGetProjectListWithActiveOnly() {
 		$result = $this->projectDao->getProjectList();
 		$this->assertEquals(count($result), 2);
 		$this->assertEquals($result[0]->getProjectId(), 1);
 	}
+	
+	public function testGetProjectList() {
+		$result = $this->projectDao->getProjectList("","","","",false);
+		$this->assertEquals(count($result), 3);
+		$this->assertEquals($result[0]->getProjectId(), 1);
+	}
 
-	public function testGetProjectCount() {
+	public function testGetProjectCountWithActiveOnly() {
 		$result = $this->projectDao->getProjectCount();
 		$this->assertEquals($result, 2);
+	}
+	
+	public function testGetProjectCount() {
+		$result = $this->projectDao->getProjectCount(false);
+		$this->assertEquals($result, 3);
 	}
 
 	public function testDeleteProject() {
@@ -99,9 +110,14 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result->getName(), 'project 1');
 	}
 
-	public function testGetAllActiveProjects() {
-		$result = $this->projectDao->getAllActiveProjects();
+	public function testGetAllActiveProjectsWithActiveOnly() {
+		$result = $this->projectDao->getAllProjects();
 		$this->assertEquals(count($result), 2);
+	}
+	
+	public function testGetAllActiveProjects() {
+		$result = $this->projectDao->getAllProjects(false);
+		$this->assertEquals(count($result), 3);
 	}
 
 	public function testGetActivityListByProjectId() {
@@ -126,10 +142,18 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count($activeProjects));
 	}
 
+	public function testGetProjectsByProjectIdsWithActiveOnly() {
+
+		$projectIdArray = array(1, 2);
+		$activeProjects = $this->projectDao->getProjectsByProjectIds($projectIdArray);
+		$this->assertTrue($activeProjects[0] instanceof Project);
+		$this->assertEquals(2, count($activeProjects));
+	}
+	
 	public function testGetActiveProjectsByProjectIds() {
 
 		$projectIdArray = array(1, 2);
-		$activeProjects = $this->projectDao->getActiveProjectsByProjectIds($projectIdArray);
+		$activeProjects = $this->projectDao->getProjectsByProjectIds($projectIdArray);
 		$this->assertTrue($activeProjects[0] instanceof Project);
 		$this->assertEquals(2, count($activeProjects));
 	}

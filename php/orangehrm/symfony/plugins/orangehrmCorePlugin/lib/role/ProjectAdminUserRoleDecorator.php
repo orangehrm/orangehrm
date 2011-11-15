@@ -190,7 +190,7 @@ class ProjectAdminUserRoleDecorator extends UserRoleDecorator {
 
 	public function getActiveProjectList() {
 
-		$activeProjectList = $this->getProjectService()->getActiveProjectListRelatedToProjectAdmin($this->user->getEmployeeNumber());
+		$activeProjectList = $this->getProjectService()->getProjectListByProjectAdmin($this->user->getEmployeeNumber());
 		return $activeProjectList;
 	}
 
