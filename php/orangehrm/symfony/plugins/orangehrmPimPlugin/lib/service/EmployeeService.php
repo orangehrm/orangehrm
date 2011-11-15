@@ -1087,10 +1087,10 @@ class EmployeeService extends BaseService {
      * @return ReportTo object
      * @ignore
      */
-    public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
+    public function getReportToObject($supNumber, $subNumber) {
 
         try {
-            return $this->getEmployeeDao()->getReportToObject($supNumber, $subNumber, $reportingMethod);
+            return $this->getEmployeeDao()->getReportToObject($supNumber, $subNumber);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }

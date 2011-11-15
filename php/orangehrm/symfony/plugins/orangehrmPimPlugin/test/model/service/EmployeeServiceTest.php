@@ -1715,12 +1715,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $employeeDao->expects($this->once())
                 ->method('getReportToObject')
-                ->with($supNumber, $subNumber, $reportingMode)
+                ->with($supNumber, $subNumber)
                 ->will($this->returnValue($reportToObjectList[0]));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readReportToObject = $this->employeeService->getReportToObject($supNumber, $subNumber, $reportingMode);
+        $readReportToObject = $this->employeeService->getReportToObject($supNumber, $subNumber);
         $this->assertTrue($readReportToObject instanceof ReportTo);
     }
 

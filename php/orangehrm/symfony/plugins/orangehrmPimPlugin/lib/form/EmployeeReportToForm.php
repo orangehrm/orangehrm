@@ -108,23 +108,19 @@ class EmployeeReportToForm extends BaseForm {
 
         //if ($this->userType == 'Admin') {
         $employeeList = $employeeService->getEmployeeList();
-        // } elseif ($this->userType == 'Supervisor') {
-        //$employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
-        // }
-        
+
         // Get supervisosubordinates of current employee
         $employeeUnique = array();
-        
-        //
+
         // Skip supervisors and subordinates already assigned
-        //
+
         $supervisors = $employeeService->getSupervisorListForEmployee($this->empNumber);
         $subordinates = $employeeService->getSubordinateListForEmployee($this->empNumber);
-        
-        foreach($subordinates as $subordinate) {
+
+        foreach ($subordinates as $subordinate) {
             $employeeUnique[$subordinate->getSubordinateId()] = true;
         }
-        foreach($supervisors as $supervisor) {
+        foreach ($supervisors as $supervisor) {
             $employeeUnique[$supervisor->getSupervisorId()] = true;
         }
 
@@ -186,7 +182,7 @@ class EmployeeReportToForm extends BaseForm {
         }
 
         if ($supOrSub == ReportTo::SUPERVISOR) {
-            $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber, $reportingType);
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber);
 
             if ($existingReportToObject != null) {
                 $existingReportToObject->setReportingMethodId($reportingType);
@@ -201,7 +197,7 @@ class EmployeeReportToForm extends BaseForm {
         }
 
         if ($supOrSub == ReportTo::SUBORDINATE) {
-            $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee, $reportingType);
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee);
 
             if ($existingReportToObject != null) {
                 $existingReportToObject->setReportingMethod($reportingType);

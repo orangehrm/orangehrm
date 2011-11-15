@@ -1318,13 +1318,12 @@ class EmployeeDao extends BaseDao {
      * @param int $supNumber $subNumber $reportingMethod
      * @return ReportTo object
      */
-    public function getReportToObject($supNumber, $subNumber, $reportingMethod) {
+    public function getReportToObject($supNumber, $subNumber) {
 
         try {
             $q = Doctrine_Query::create()->from('ReportTo rt')
                             ->where('rt.erep_sup_emp_number =?', $supNumber)
-                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber)
-                            ->andWhere('rt.erep_reporting_mode =?', $reportingMethod);
+                            ->andWhere('rt.erep_sub_emp_number =?', $subNumber);
 
             return $q->fetchOne();
         } catch (Exception $e) {
