@@ -8,10 +8,12 @@ Employee:
 Customer:
   0: {customerId: 1, deleted: 0, name: 'customer 1', description: 'customer description 1'}
   1: {customerId: 2, deleted: 0, name: 'customer 2', description: 'customer description 2'}
+  2: {customerId: 3, deleted: 1, name: 'customer 3', description: 'customer description 3'}
 
 Project:
   0: {projectId: 1, customerId: 1, deleted: 0, name: 'project 1', description: 'project description 1'}
   1: {projectId: 2, customerId: 1, deleted: 0, name: 'project 2', description: 'project description 2'}
+  2: {projectId: 3, customerId: 3, deleted: 1, name: 'project 3', description: 'project description 3'}
 
 ProjectActivity:
   0: {activityId: 1, projectId: 1, deleted: 0, name: 'project activity 1'}

@@ -28,16 +28,18 @@ class CustomerDao extends BaseDao {
 	 * @param type $activeOnly
 	 * @return type 
 	 */
-	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = 0) {
+	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = true) {
 
 		$sortField = ($sortField == "") ? 'name' : $sortField;
 		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
-		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
+
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Customer')
-				->where('deleted = ?', $activeOnly)
-				->orderBy($sortField . ' ' . $sortOrder)
+				->from('Customer');
+			if ($activeOnly == true) {
+				$q->addWhere('deleted = 0');
+			}
+			$q->orderBy($sortField . ' ' . $sortOrder)
 				->offset($offset)
 				->limit($limit);
 			return $q->execute();
@@ -51,14 +53,14 @@ class CustomerDao extends BaseDao {
 	 * @param type $activeOnly
 	 * @return type 
 	 */
-	public function getCustomerCount($activeOnly = 0) {
-
-		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
+	public function getCustomerCount($activeOnly = true) {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Customer')
-				->where('deleted = ?', $activeOnly);
+				->from('Customer');
+			if ($activeOnly == true) {
+				$q->addWhere('deleted = ?', 0);
+			}
 			$count = $q->execute()->count();
 			return $count;
 		} catch (Exception $e) {
@@ -151,14 +153,14 @@ class CustomerDao extends BaseDao {
 	 * @param type $activeOnly
 	 * @return type 
 	 */
-	public function getAllCustomers($activeOnly = 0) {
-
-		$activeOnly = ($activeOnly == "") ? 'deleted' : $activeOnly;
+	public function getAllCustomers($activeOnly = true) {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Customer')
-				->where('deleted =?', $activeOnly);
+				->from('Customer');
+			if ($activeOnly == true) {
+				$q->where('deleted =?', 0);
+			}
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

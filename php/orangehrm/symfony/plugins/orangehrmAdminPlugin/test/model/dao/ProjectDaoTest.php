@@ -178,7 +178,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetProjectListForUserRole() {
 
 		$result = $this->projectDao->getProjectListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(count($result), 3);
 	}
 
 }

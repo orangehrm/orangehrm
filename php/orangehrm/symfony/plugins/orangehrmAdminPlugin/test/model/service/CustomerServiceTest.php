@@ -52,13 +52,11 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetCustomerCount() {
 
-		$customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
-
 		$customerDao = $this->getMock('CustomerDao');
 		$customerDao->expects($this->once())
 			->method('getCustomerCount')
 			->with("")
-			->will($this->returnValue(count($customerList)));
+			->will($this->returnValue(2));
 
 		$this->customerService->setCustomerDao($customerDao);
 
@@ -105,12 +103,12 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 		$customerDao = $this->getMock('CustomerDao');
 		$customerDao->expects($this->once())
 			->method('getAllCustomers')
-			->with(0)
+			->with(false)
 			->will($this->returnValue($customerList));
 
 		$this->customerService->setCustomerDao($customerDao);
 
-		$result = $this->customerService->getAllCustomers(0);
+		$result = $this->customerService->getAllCustomers(false);
 		$this->assertEquals($result,$customerList);
 	}
 	

@@ -104,7 +104,7 @@ class CustomerService extends BaseService {
 	 * @return type 
 	 */
 	public function getAllCustomers($activeOnly) {
-		return $this->customerDao->getAllCustomers();
+		return $this->customerDao->getAllCustomers($activeOnly);
 	}
 
 	/**

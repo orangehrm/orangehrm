@@ -52,8 +52,8 @@ class ProjectService extends BaseService {
 	 * @param type $sortOrder
 	 * @return type 
 	 */
-	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder) {
-		return $this->projectDao->getProjectList($noOfRecords, $offset, $sortField, $sortOrder);
+	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly) {
+		return $this->projectDao->getProjectList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
 	}
 
 	public function getProjectCount() {

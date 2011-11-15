@@ -35,14 +35,24 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 		TestDataService::populate($this->fixture);
 	}
 
-	public function testGetCustomerList(){
+	public function testGetCustomerListWithActiveOnly(){
 		$result = $this->customerDao->getCustomerList();
 		$this->assertEquals(count($result), 2);
 	}
 	
-	public function testGetCustomerCount(){
+	public function testGetCustomerList(){
+		$result = $this->customerDao->getCustomerList("","","","",false);
+		$this->assertEquals(count($result), 3);
+	}
+	
+	public function testGetCustomerCountWithActiveOnly(){
 		$result = $this->customerDao->getCustomerCount();
 		$this->assertEquals($result, 2);
+	}
+	
+	public function testGetCustomerCount(){
+		$result = $this->customerDao->getCustomerCount(false);
+		$this->assertEquals($result, 3);
 	}
 	
 	public function testGetCustomerById(){
@@ -56,10 +66,16 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result->getDeleted(), 1);
 	}
 	
-	public function testGetAllCustomers(){
+	public function testGetAllCustomersWithActiveOnly(){
 		$result = $this->customerDao->getAllCustomers();
 		$this->assertEquals(count($result), 2);
-		$this->assertTrue($result instanceof Customer);
+		$this->assertTrue($result[0] instanceof Customer);
+	}
+	
+	public function testGetAllCustomers(){
+		$result = $this->customerDao->getAllCustomers(false);
+		$this->assertEquals(count($result), 3);
+		$this->assertTrue($result[0] instanceof Customer);
 	}
 	
 	public function testHasCustomerGotTimesheetItems(){

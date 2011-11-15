@@ -19,17 +19,19 @@
  */
 class ProjectDao extends BaseDao {
 
-	public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC') {
+	public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = true) {
 
 		$sortField = ($sortField == "") ? 'name' : $sortField;
 		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Project')
-				->where('deleted = ?', Project::ACTIVE_PROJECT)
-				->orderBy($sortField . ' ' . $sortOrder)
-				->offset($offset)
-				->limit($limit);
+				->from('Project');
+			if ($activeOnly == true) {
+				$q->where('deleted = ?', Project::ACTIVE_PROJECT);
+			}
+			$q->orderBy($sortField . ' ' . $sortOrder);
+			$q->offset($offset);
+			$q->limit($limit);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
