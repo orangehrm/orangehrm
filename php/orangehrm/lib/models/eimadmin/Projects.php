@@ -43,7 +43,7 @@ class Projects {
     const PROJECT_DB_FIELD_CUSTOMER_ID = 'customer_id';
     const PROJECT_DB_FIELD_NAME = 'name';
     const PROJECT_DB_FIELD_DESCRIPTION = 'description';
-    const PROJECT_DB_FIELD_DELETED = 'deleted';
+    const PROJECT_DB_FIELD_DELETED = 'is_deleted';
 
     /**
      * class attributes
