@@ -412,29 +412,7 @@ $(document).ready(function()
         }
 
 
-        function validateNote(){
 
-            errFlag1 = false;
-
-            // $(".messageBalloon_success").remove();
-            $('#validationMsg').removeAttr('class');
-            $('#validationMsg').html("");
-
-            var errorStyle = "background-color:#FFDFDF;";
-
-            if ($(".note").val().length > 250) {
-                $('.punchOutbutton').attr('disabled', 'disabled');
-                $('.punchInbutton').attr('disabled', 'disabled');
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorForInvalidNote);
-                $(".note").attr('style', errorStyle);
-                  
-                errFlag1 = true;
-            }
-
-            return !errFlag1;
-
-        }
 
         function validatePunchOutOverLapping(){
 
@@ -448,7 +426,7 @@ $(document).ready(function()
                         timeZone=0;
                         
                     }
-            var inTime=punchInTime;
+            var inTime=punchInUtcTime;
             var timezone=timeZone*3600;
  
             var outTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
@@ -582,6 +560,28 @@ function convertDateToYMDFormat(date){
     return $.datepicker.formatDate("yy-mm-dd", parsedDate);
 }
 
+        function validateNote(){
 
+            errFlag1 = false;
+
+            // $(".messageBalloon_success").remove();
+            $('#validationMsg').removeAttr('class');
+            $('#validationMsg').html("");
+
+            var errorStyle = "background-color:#FFDFDF;";
+
+            if ($(".note").val().length > 250) {
+                $('.punchOutbutton').attr('disabled', 'disabled');
+                $('.punchInbutton').attr('disabled', 'disabled');
+                $('#validationMsg').attr('class', "messageBalloon_failure");
+                $('#validationMsg').html(errorForInvalidNote);
+                $(".note").attr('style', errorStyle);
+                  
+                errFlag1 = true;
+            }
+
+            return !errFlag1;
+
+        }
 
 

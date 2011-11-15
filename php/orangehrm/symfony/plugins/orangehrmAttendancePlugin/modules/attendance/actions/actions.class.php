@@ -48,7 +48,7 @@ class AttendanceActions extends sfActions {
         $timezone = $request->getParameter('timezone');
         $recordId = $request->getParameter('recordId');
 
-        $ti = strtotime($temppunchInTime) - $timezone;
+        $ti = strtotime($temppunchInTime);
         $to = strtotime($temppunchOutTime) - $timezone;
 
 

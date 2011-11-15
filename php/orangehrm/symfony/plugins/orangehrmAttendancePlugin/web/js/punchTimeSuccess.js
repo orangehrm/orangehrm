@@ -436,8 +436,9 @@ $(document).ready(function()
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
 
-            var inTime=punchInTime;
+            var inTime=punchInUtcTime;
             var timezone=gmtHours;
+        
             var outTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
             var r = $.ajax({
                 type: 'POST',

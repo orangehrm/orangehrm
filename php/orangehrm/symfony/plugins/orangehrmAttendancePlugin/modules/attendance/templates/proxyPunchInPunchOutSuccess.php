@@ -99,8 +99,7 @@
     var punchInNote='<?php echo json_encode($punchInNote); ?>';
     var punchInUtcTime='<?php echo $punchInUtcTime; ?>';       
   
-   
-    
+
     
     
 </script>
