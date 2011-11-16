@@ -22,6 +22,15 @@ class AddJobVacancyForm extends BaseForm {
 
     private $vacancyService;
     private $vacancyId;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     /**
      * Get VacancyService
@@ -152,13 +161,10 @@ class AddJobVacancyForm extends BaseForm {
      * @return array
      */
     private function getJobTitleList() {
+       $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $list = array("" => "-- " . __('Select') . " --");
-        $jobService = new JobService();
-        $jobTitleList = $jobService->getJobTitleList();
         foreach ($jobTitleList as $jobTitle) {
-            if ($jobTitle->getIsActive() == JobTitle::JOB_STATUS_ACTIVE) {
-                $list[$jobTitle->getId()] = $jobTitle->getName();
-            }
+            $list[$jobTitle->getId()] = $jobTitle->getJobTitleName();
         }
         return $list;
     }

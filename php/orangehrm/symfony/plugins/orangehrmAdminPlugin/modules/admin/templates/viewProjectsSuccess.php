@@ -82,6 +82,17 @@
                 <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
             </form>
 
+<!-- confirmation box -->
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+
+    <?php echo __("Selected project(s) will be deleted") . "?"; ?>
+
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+    </div>
+</div>
+
             <script type="text/javascript">
                 function submitPage(pageNo) {
 

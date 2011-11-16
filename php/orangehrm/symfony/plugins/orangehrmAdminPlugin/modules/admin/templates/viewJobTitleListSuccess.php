@@ -20,34 +20,42 @@
  *
  */
 ?>
+
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-
 <?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewCustomersSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/viewCustomersSuccess'); ?>
+<?php use_stylesheet('../orangehrmAdminPlugin/css/viewJobTitleListSuccess'); ?>
+<?php use_javascript('../orangehrmAdminPlugin/js/viewJobTitleListSuccess'); ?>
 
- <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-	<span><?php echo isset($message) ? $message : ''; ?></span>
+    <span><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 
-<div id="customerList">
+<div id="jobTitleList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 
-<form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewCustomers'); ?>">
-                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;   ?>" />
-                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-</form>
+<!-- comment dialog -->
+
+<div id="commentDialog" title="<?php echo __('Job Description'); ?>" style="display: none">
+    <form action="updateComment" method="post" id="frmCommentSave">
+        <input type="hidden" id="leaveId" />
+        <input type="hidden" id="leaveOrRequest" />
+        <textarea name="leaveComment" id="leaveComment" cols="40" rows="10" class="commentTextArea"></textarea>
+        <br class="clear" />
+        <div><input type="button" id="commentCancel" class="plainbtn" value="<?php echo __('Cancel'); ?>" /></div>
+    </form>
+</div>
+
+<!-- end of comment dialog-->
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
 
-    <?php echo __("Selected customer(s) will be deleted") . "?"; ?>
+    <?php echo __("Selected job title(s) will be deleted") . "?"; ?>
 
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
@@ -56,12 +64,5 @@
 </div>
 
 <script type="text/javascript">
-	function submitPage(pageNo) {
-
-                    document.frmHiddenParam.pageNo.value = pageNo;
-                    document.frmHiddenParam.hdnAction.value = 'paging';
-                    document.getElementById('frmHiddenParam').submit();
-
-                }
-	var addCustomerUrl = '<?php echo url_for('admin/addCustomer'); ?>';
+    var addJobTitleUrl = '<?php echo url_for('admin/saveJobTitle'); ?>';
 </script>

@@ -38,10 +38,18 @@ class LeaveSummaryForm extends sfForm {
     private $employeeService;
     private $leaveTypeService;
     private $companyService;
-    private $jobService;
     private $leaveSummaryService;
     private $leaveEntitlementService;
     private $companyStructureService;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     public function configure() {
 
@@ -252,27 +260,13 @@ class LeaveSummaryForm extends sfForm {
         $this->formValidators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
     }
 
-    public function getJobService() {
-        if (is_null($this->jobService)) {
-            $this->jobService = new JobService();
-            $this->jobService->setJobDao(new JobDao());
-        }
-        return $this->jobService;
-    }
-
-    public function setJobService(JobService $jobService) {
-        $this->jobService = $jobService;
-    }
-
     private function _setJobTitleWidgets() {
 
-        $jobService = $this->getJobService();
-        $jobList = $jobService->getJobTitleList();
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $choices = array('0' => __('All'));
 
-        foreach ($jobList as $job) {
-
-            $choices[$job->getId()] = $job->getName();
+        foreach ($jobTitleList as $job) {
+            $choices[$job->getId()] = $job->getJobTitleName();
         }
 
         $this->formWidgets['cmbJobTitle'] = new sfWidgetFormChoice(array('choices' => $choices));

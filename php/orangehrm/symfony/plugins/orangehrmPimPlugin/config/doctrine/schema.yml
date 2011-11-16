@@ -79,7 +79,7 @@ Employee:
     emp_marital_status: string(20)
     emp_dri_lice_exp_date: date(25)
     emp_status: string(13)
-    job_title_code: string(13)
+    job_title_code: integer(6)
     eeo_cat_code: string(13)
     work_station: integer(4)
     emp_zipcode: string(20)
@@ -111,7 +111,7 @@ Employee:
     jobTitle:
       class: JobTitle
       local: job_title_code
-      foreign: jobtit_code
+      foreign: id
       type: one
     employeeStatus:
       class: EmployeeStatus

@@ -55,9 +55,9 @@ $formatData['newSeparater'] = '/';
                                 $selected = '';
                             }
 
-                            $jobName = $job->getName();
+                            $jobName = $job->getJobTitleName();
 
-                            if ($job->getIsActive() == JobTitle::JOB_STATUS_DELETED) {
+                            if ($job->getIsDeleted() == JobTitle::DELETED) {
                                 $jobName = $jobName . ' (' . __('Deleted') . ')';
                             }
 

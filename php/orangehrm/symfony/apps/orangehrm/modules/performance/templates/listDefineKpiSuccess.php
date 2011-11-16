@@ -19,7 +19,7 @@
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value="all"><?php echo __('All')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-	                     	<option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getName()); if(!$jobTitle->getIsActive()) { echo " (Deleted)"; } ?></option>
+                        <option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName()); if(!$jobTitle->getIsDeleted() == JobTitle::ACTIVE) { echo " (Deleted)"; } ?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>

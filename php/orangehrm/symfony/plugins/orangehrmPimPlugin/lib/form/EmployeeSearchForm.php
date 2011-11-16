@@ -27,6 +27,15 @@ class EmployeeSearchForm extends BaseForm {
     private $loggedInUserId;
     private $companyStructureService;
     private $jobService;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     public function configure() {
 
@@ -122,12 +131,11 @@ class EmployeeSearchForm extends BaseForm {
 
     private function _setJobTitleWidget() {
 
-        $jobService = $this->getJobService();
-        $jobList = $jobService->getJobTitleList();
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $choices = array('0' => __('All'));
 
-        foreach ($jobList as $job) {
-            $choices[$job->getId()] = $job->getName();
+        foreach ($jobTitleList as $job) {
+            $choices[$job->getId()] = $job->getJobTitleName();
         }
 
         $this->setWidget('job_title', new sfWidgetFormChoice(array('choices' => $choices)));

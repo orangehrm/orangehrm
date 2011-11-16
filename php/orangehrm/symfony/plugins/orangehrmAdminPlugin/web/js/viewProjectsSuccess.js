@@ -65,13 +65,39 @@ $(document).ready(function() {
     addTypeForHints()
 
     $('#btnReset').click(function(){
-       window.location.replace(viewProjectUrl);
+        window.location.replace(viewProjectUrl);
     })
     
     $('#btnSearch').click(function(){
         removeTypeForHints()
         $('#frmSearchProject').submit()
     })
+
+    $('#btnDelete').click(function(){
+        $('#frmList_ohrmListComponent').submit(function(){
+            $('#deleteConfirmation').dialog('open');
+            return false;
+        });
+    });
+
+    $("#deleteConfirmation").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 325,
+        height: 50,
+        position: 'middle',
+        open: function() {
+            $('#dialogCancelBtn').focus();
+        }
+    });
+
+    $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
+    $('#dialogDeleteBtn').click(function() {
+        document.frmList_ohrmListComponent.submit();
+    });
+    $('#dialogCancelBtn').click(function() {
+        $("#deleteConfirmation").dialog("close");
+    });
 });
 
 function addTypeForHints(){

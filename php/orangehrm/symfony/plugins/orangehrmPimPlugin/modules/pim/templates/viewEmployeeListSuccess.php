@@ -181,7 +181,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                         <td>
                         <?php echo link_to($employee->getLastName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber()); ?>
                         </td>
-                        <td><?php echo $employee->getJobTitle()->getName(); ?></td>
+                        <td><?php echo $employee->getJobTitle()->getJobTitleName(); ?></td>
                         <td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
                         <td><?php echo $employee->getSubDivision()->getTitle() ?></td>
                         <td><?php echo $employee->getSupervisorNames() ?></td>

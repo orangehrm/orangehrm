@@ -29,7 +29,7 @@
  * @property string $emp_marital_status
  * @property date $emp_dri_lice_exp_date
  * @property string $emp_status
- * @property string $job_title_code
+ * @property integer $job_title_code
  * @property string $eeo_cat_code
  * @property integer $work_station
  * @property string $emp_zipcode
@@ -117,7 +117,7 @@
  * @method string              getEmpMaritalStatus()         Returns the current record's "emp_marital_status" value
  * @method date                getEmpDriLiceExpDate()        Returns the current record's "emp_dri_lice_exp_date" value
  * @method string              getEmpStatus()                Returns the current record's "emp_status" value
- * @method string              getJobTitleCode()             Returns the current record's "job_title_code" value
+ * @method integer             getJobTitleCode()             Returns the current record's "job_title_code" value
  * @method string              getEeoCatCode()               Returns the current record's "eeo_cat_code" value
  * @method integer             getWorkStation()              Returns the current record's "work_station" value
  * @method string              getEmpZipcode()               Returns the current record's "emp_zipcode" value
@@ -394,9 +394,9 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'type' => 'string',
              'length' => 13,
              ));
-        $this->hasColumn('job_title_code', 'string', 13, array(
-             'type' => 'string',
-             'length' => 13,
+        $this->hasColumn('job_title_code', 'integer', 6, array(
+             'type' => 'integer',
+             'length' => 6,
              ));
         $this->hasColumn('eeo_cat_code', 'string', 13, array(
              'type' => 'string',
@@ -497,7 +497,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
 
         $this->hasOne('JobTitle as jobTitle', array(
              'local' => 'job_title_code',
-             'foreign' => 'jobtit_code'));
+             'foreign' => 'id'));
 
         $this->hasOne('EmployeeStatus as employeeStatus', array(
              'local' => 'emp_status',

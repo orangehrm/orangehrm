@@ -54,9 +54,8 @@
                                           action="<?php echo url_for('pim/viewJobDetails'); ?>">
                                           <?php echo $form['_csrf_token']; ?>
                                           <?php echo $form['emp_number']->render(); ?>
-                                          <?php echo $form['job_title']->renderLabel(__('Job Title') . ' <span class="required">*</span>'); ?>
+                                          <?php echo $form['job_title']->renderLabel(__('Job Title')); ?>
                                           <?php echo $form['job_title']->render(array("class" => "formSelect")); ?>
-                                    <label class="error" id="jobTitleError"></label>
                                     <br class="clear"/>
 
                                     <?php echo $form['emp_status']->renderLabel(__('Employment Status')); ?>                                    
@@ -72,18 +71,6 @@
                                           <label class="error" id="terminatedReason"></label>
                                           <br class="clear"/>
                                       </div> <!-- End of terminatedDetails -->
-
-                                      <label><?php echo __("Job Specification"); ?></label>
-                                      <div id="job_spec_name"><?php echo $form->jobSpecName; ?></div><a id="viewDetailsLink" href="#"><?php echo __("View Details"); ?></a>
-                                      <br class="clear"/>
-                                      <div id="job_spec_details" style="display:none;">
-                                          <label><?php echo __("Description"); ?></label>
-                                          <textarea id="job_spec_desc" cols="40" rows="5"><?php echo $form->jobSpecDescription; ?></textarea>
-                                          <br class="clear"/>
-                                          <label><?php echo __("Duties"); ?></label>
-                                          <textarea id="job_spec_duties" cols="40" rows="5"><?php echo $form->jobSpecDuties; ?></textarea>
-                                          <br class="clear"/>
-                                      </div>
 
                                     <?php echo $form['eeo_category']->renderLabel(__('Job Category')); ?>
                                     <?php echo $form['eeo_category']->render(array("class" => "formSelect")); ?>
@@ -256,12 +243,6 @@
                                                                   }
                                                               });
 
-                                                              $('#job_job_title').change(function(){
-                                                                  if ($(this).val() != '') {
-                                                                      $("#jobTitleError").empty();
-                                                                  }
-                                                              });
-
                                                               $('#contractEdidMode').hide();
 
                                                               $("#btnSave").click(function() {
@@ -289,10 +270,6 @@
 
                                                                       if($("#btnSave").attr('value') == save) {
 
-                                                                          if ($('#job_job_title').val() == '') {
-                                                                              $("#jobTitleError").empty();
-                                                                              $("#jobTitleError").append('<?php echo __('Job Title is required'); ?>');
-                                                                          } else {
 
                                                                               if ($('#job_emp_status').val() != 'EST000') {
                                                                                   $('#job_terminated_date').val('');
@@ -300,8 +277,6 @@
                                                                               }
                                                                               stratDate = $('#job_contract_start_date').val();                                                  
                                                                               $("#frmEmpJobDetails").submit();
-                                                                          }
-
                                                                       }
                                                                   }
                                                               });
@@ -333,37 +308,11 @@
 
                                                                   // don't check if not selected
                                                                   if (jobTitle == '0' || jobTitle == '') {
-                                                                      $("#job_spec_name").text('');
-                                                                      $("#job_spec_desc").val('');
-                                                                      $("#job_spec_duties").val('');
                                                                       $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
-                                                                      $("#job_spec_details").hide();
                                                                       $("#viewDetailsLink").hide();
                                                                       $('a#viewDetailsLink').text(lang_View_Details);
                                                                       return;
                                                                   }
-
-                                                                  var specUrl = '<?php echo url_for('admin/getJobSpecJson?job='); ?>' + jobTitle;
-
-                                                                  $.getJSON(specUrl, function(data) {
-
-                                                                      var name = "";
-                                                                      var desc = "";
-                                                                      var duties = "";
-
-                                                                      if (data) {
-                                                                          name = data.jobspec_name;
-                                                                          duties = data.jobspec_duties;
-                                                                          desc =  data.jobspec_desc;
-                                                                      }
-                                                                      $("#job_spec_name").text(name);
-                                                                      $("#job_spec_desc").val(desc);
-                                                                      $("#job_spec_duties").val(duties);
-
-                                                                      /* Showing / Hiding viewDetailsLink at Job Title change */
-                                                                      showHideViewDetailsLink();
-
-                                                                  })
 
                                                                   // Note: it be more efficient if these 2 ajax calls were combined.
                                                                   var empStatusUrl = '<?php echo url_for('admin/getEmpStatusesJson?job='); ?>' + jobTitle;

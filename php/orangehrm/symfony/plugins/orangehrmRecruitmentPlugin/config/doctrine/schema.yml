@@ -6,7 +6,7 @@ JobVacancy:
       primary: true
     job_title_code:
       name: job_title_code as jobTitleCode
-      type: string(10)
+      type: integer(13)
     hiring_manager_id:
       name: hiring_manager_id as hiringManagerId
       type: integer(13)
@@ -28,7 +28,7 @@ JobVacancy:
   relations:
     JobTitle:
       local: jobTitleCode
-      foreign: jobtit_code
+      foreign: id
       type: one
     Employee:
       local: hiringManagerId

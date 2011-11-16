@@ -25,11 +25,17 @@ require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 class EmployeeJobDetailsForm extends BaseForm {
 
     public $fullName;
-    public $jobSpecName;
-    public $jobSpecDescription;
-    public $jobSpecDuties;
     public $attachment;
     private $companyStructureService;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     const CONTRACT_KEEP = 1;
     const CONTRACT_DELETE = 2;
@@ -90,12 +96,6 @@ class EmployeeJobDetailsForm extends BaseForm {
             $this->setDefault('terminated_date', set_datepicker_date_format($employee->terminated_date));
             $this->setDefault('termination_reason', $employee->termination_reason);
 
-            $jobSpec = $employee->jobTitle->JobSpecifications;
-            if (!empty($jobSpec)) {
-                $this->jobSpecName = $jobSpec->jobspec_name;
-                $this->jobSpecDescription = $jobSpec->jobspec_desc;
-                $this->jobSpecDuties = $jobSpec->jobspec_duties;
-            }
         }
 
         $this->setDefault('eeo_category', $employee->eeo_cat_code);
@@ -243,13 +243,13 @@ class EmployeeJobDetailsForm extends BaseForm {
     }
 
     private function _getJobTitles($jobTitleId) {
-        $jobService = new JobService();
-        $jobList = $jobService->getJobTitleList();
+
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList("", "", false);
         $choices = array('' => '-- ' . __('Select') . ' --');
 
-        foreach ($jobList as $job) {
-            if ($job->isActive || ($job->getId() == $jobTitleId)) {
-                $choices[$job->getId()] = $job->getName();
+        foreach ($jobTitleList as $job) {
+            if (($job->getIsDeleted() == JobTitle::ACTIVE) || ($job->getId() == $jobTitleId)) {
+                $choices[$job->getId()] = $job->getJobTitleName();
             }
         }
         return $choices;
@@ -302,7 +302,7 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         foreach ($tree as $node) {
             if ($node->getId() != 1) {
-                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] -1) . $node['name'];
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
 

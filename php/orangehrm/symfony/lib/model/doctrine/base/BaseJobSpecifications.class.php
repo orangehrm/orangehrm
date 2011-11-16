@@ -9,18 +9,15 @@
  * @property string $jobspec_name
  * @property string $jobspec_desc
  * @property string $jobspec_duties
- * @property Doctrine_Collection $JobTitle
  * 
- * @method integer             getJobspecId()      Returns the current record's "jobspec_id" value
- * @method string              getJobspecName()    Returns the current record's "jobspec_name" value
- * @method string              getJobspecDesc()    Returns the current record's "jobspec_desc" value
- * @method string              getJobspecDuties()  Returns the current record's "jobspec_duties" value
- * @method Doctrine_Collection getJobTitle()       Returns the current record's "JobTitle" collection
- * @method JobSpecifications   setJobspecId()      Sets the current record's "jobspec_id" value
- * @method JobSpecifications   setJobspecName()    Sets the current record's "jobspec_name" value
- * @method JobSpecifications   setJobspecDesc()    Sets the current record's "jobspec_desc" value
- * @method JobSpecifications   setJobspecDuties()  Sets the current record's "jobspec_duties" value
- * @method JobSpecifications   setJobTitle()       Sets the current record's "JobTitle" collection
+ * @method integer           getJobspecId()      Returns the current record's "jobspec_id" value
+ * @method string            getJobspecName()    Returns the current record's "jobspec_name" value
+ * @method string            getJobspecDesc()    Returns the current record's "jobspec_desc" value
+ * @method string            getJobspecDuties()  Returns the current record's "jobspec_duties" value
+ * @method JobSpecifications setJobspecId()      Sets the current record's "jobspec_id" value
+ * @method JobSpecifications setJobspecName()    Sets the current record's "jobspec_name" value
+ * @method JobSpecifications setJobspecDesc()    Sets the current record's "jobspec_desc" value
+ * @method JobSpecifications setJobspecDuties()  Sets the current record's "jobspec_duties" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -54,8 +51,6 @@ abstract class BaseJobSpecifications extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('JobTitle', array(
-             'local' => 'jobspec_id',
-             'foreign' => 'jobspecId'));
+        
     }
 }

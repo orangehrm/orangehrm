@@ -29,6 +29,15 @@ class viewCandidatesForm extends BaseForm {
     private $allowedCandidateList;
     private $allowedVacancyList;
     public $allowedCandidateListToDelete;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     /**
      * Get CandidateService
@@ -167,11 +176,10 @@ class viewCandidatesForm extends BaseForm {
      * @return array
      */
     private function getJobTitleList() {
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $list = array("" => __('All'));
-        $jobService = new JobService();
-        $jobTitleList = $jobService->getJobTitleList();
         foreach ($jobTitleList as $jobTitle) {
-            $list[$jobTitle->getId()] = $jobTitle->getName();
+            $list[$jobTitle->getId()] = $jobTitle->getJobTitleName();
         }
         return $list;
     }

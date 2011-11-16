@@ -384,6 +384,30 @@
                 <source>Project Updated Successfully</source>
                 <target>FR_Project Updated Successfully</target>
             </trans-unit>
+            <trans-unit id="96">
+                <source>Job Description</source>
+                <target>FR_Job Description</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Job Information</source>
+                <target>FR_Job Information</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>Job Title Updated Successfully</source>
+                <target>FR_Job Title Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>Job Title Added Successfully</source>
+                <target>FR_Job Title Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Add Job Title</source>
+                <target>FR_Add Job Title</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Edit Job Title</source>
+                <target>FR_Edit Job Title</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

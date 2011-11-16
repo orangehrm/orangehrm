@@ -21,6 +21,15 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
 
     private $whereClauseCondition;
     private $jobTitleList;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     public function configure($options = array(), $attributes = array()) {
 
@@ -35,13 +44,13 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
         $options = array();
 
         foreach ($this->getOption('choices') as $key => $option) {
-            
+
             $attributes = array('value' => self::escapeOnce($key));
 
             if ($key == $value) {
                 $attributes['selected'] = 'selected';
             }
-            
+
             $options[] = $this->renderContentTag(
                             'option',
                             self::escapeOnce($option),
@@ -66,13 +75,12 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
 
         $choice = array();
 
-        $jobService = new JobService();
-        $jobList = $jobService->getJobTitleList();
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
 
         $choice['0'] = __('All');
 
         foreach ($jobList as $job) {
-            $choice[$job->getId()] = $job->getName();
+            $choice[$job->getId()] = $job->getJobTitleName();
         }
 
         return $choice;
@@ -126,7 +134,7 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
      * @return string
      */
     public function generateWhereClausePart($fieldName, $value) {
-        
+
         if ($value == '0') {
             return null;
         } else {
@@ -134,9 +142,9 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
             return $whereClausePart;
         }
     }
-    
+
     public function getDefaultValue(SelectedFilterField $selectedFilterField) {
         return $selectedFilterField->value1;
-    }    
+    }
 
 }

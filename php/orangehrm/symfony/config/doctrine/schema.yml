@@ -136,58 +136,7 @@ UniqueId:
     field_name:
       type: string(50)
       notnull: true
-      
-JobTitle:
-  tableName: hs_hr_job_title
-  columns:
-    jobtit_code:
-      name: jobtit_code as id
-      type: string(13)
-      primary: true
-    jobtit_name:
-      name: jobtit_name as name 
-      type: string(50)
-    jobtit_desc: 
-      name: jobtit_desc as description
-      type: string(200)
-    jobtit_comm: 
-      name: jobtit_comm as comments
-      type: string(400)
-    sal_grd_code: 
-      name: sal_grd_code as salaryGradeId
-      type: string(13)
-      notnull: false
-    jobspec_id: 
-      name: jobspec_id as jobspecId
-      type: string(13)
-      notnull: false
-    is_active:
-      name: is_active as isActive
-      type: integer(4)
-  relations:
-    employees:
-      class: Employee
-      local: jobtit_code
-      foreign: job_title_code
-      type: many
-    SalaryGrade:
-      local: salaryGradeId
-      foreign: sal_grd_code
-      type: one
-    JobSpecifications:
-      local: jobspecId
-      foreign: jobspec_id
-      type: one
-    JobTitleEmployeeStatus:
-      local: id
-      foreign: jobtit_code
-      type: many
-    definekpi:
-      class: DefineKpi
-      local: jobtit_code
-      foreign: job_title_code
-      type: many
-      
+           
 CompanyGeninfo:
   tableName: hs_hr_geninfo
   columns:

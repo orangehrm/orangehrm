@@ -25,7 +25,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'employee_name' => 'concat_ws(\' \', e.emp_firstname,e.emp_middle_name,e.emp_lastname)',
             'middleName' => 'e.emp_middle_name',
             'lastName' => 'e.emp_lastName',
-            'job_title' => 'j.jobtit_name',
+            'job_title' => 'j.job_title',
             'employee_status' => 'es.estat_name',
             'sub_unit' => 'cs.name',
             'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
@@ -43,7 +43,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'firstMiddleName' => array('e.emp_firstname','e.emp_middle_name'),
             'lastName' => 'e.emp_lastName',
             'fullName' => array('e.emp_firstname', 'e.emp_middle_name', 'e.emp_lastName'),
-            'jobTitle' => 'j.jobtit_name',
+            'jobTitle' => 'j.job_title',
             'employeeStatus' => 'es.estat_name',
             'subDivision' => 'cs.name',
             'supervisor' => array('s.emp_firstname', 's.emp_lastname'),
@@ -101,7 +101,7 @@ class EmployeeTable extends PluginEmployeeTable {
 
                 $jobTitle = new JobTitle();
                 $jobTitle->setId($row['jobTitleId']);
-                $jobTitle->setName($row['jobTitle']);
+                $jobTitle->setJobTitleName($row['jobTitle']);
                 $employee->setJobTitle($jobTitle);
 
                 $employeeStatus = new EmployeeStatus();
@@ -208,7 +208,7 @@ class EmployeeTable extends PluginEmployeeTable {
                 'e.emp_firstname AS firstName, e.emp_lastname AS lastName, ' .
                 'e.emp_middle_name AS middleName, ' .
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
-                'j.jobtit_name AS jobTitle, j.jobtit_code AS jobTitleId, ' .
+                'j.job_title AS jobTitle, j.id AS jobTitleId, ' .
                 'es.estat_name AS employeeStatus, es.estat_code AS employeeStatusId, ' .
                 //'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
                 //' AS supervisors ';
@@ -216,7 +216,7 @@ class EmployeeTable extends PluginEmployeeTable {
 
         $query = 'FROM hs_hr_employee e ' .
                 '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
-                '  LEFT JOIN hs_hr_job_title j on j.jobtit_code = e.job_title_code ' .
+                '  LEFT JOIN ohrm_job_title j on j.id = e.job_title_code ' .
                 '  LEFT JOIN hs_hr_empstat es on e.emp_status = es.estat_code ' .
                 '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
                 '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number ';
@@ -254,7 +254,7 @@ class EmployeeTable extends PluginEmployeeTable {
                         $bindParams[] = $searchBy;
                         //$bindParams[] = '%' . $searchBy . '%';
                     } else if ($searchField == 'job_title') {
-                        $conditions[] = ' j.jobtit_code = ? ';
+                        $conditions[] = ' j.id = ? ';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'employee_status') {
                         $conditions[] = ' es.estat_code = ? ';

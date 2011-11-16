@@ -120,11 +120,11 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($result), 3);
 	}
 
-	public function testGetActivityListByProjectId() {
-		$result = $this->projectDao->getActivityListByProjectId(1);
-		$this->assertEquals(count($result), 2);
-		$this->assertEquals($result[0], 'project activity 1');
-	}
+//	public function testGetActivityListByProjectId() {
+//		$result = $this->projectDao->getActivityListByProjectId(1);
+//		$this->assertEquals(count($result), 2);
+//		$this->assertEquals($result[0], 'project activity 1');
+//	}
 
 	public function testGetSearchProjectListCount() {
 		$srchClues = array(

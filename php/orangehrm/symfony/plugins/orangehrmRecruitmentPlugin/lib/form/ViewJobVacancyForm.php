@@ -18,12 +18,20 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
 class ViewJobVacancyForm extends BaseForm {
 
     private $candidateService;
     private $vacancyService;
     private $allowedVacancyList;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     /**
      * Get CandidateService
@@ -124,11 +132,10 @@ class ViewJobVacancyForm extends BaseForm {
      * @return array
      */
     private function getJobTitleList() {
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $list = array("" => __('All'));
-        $jobService = new JobService();
-        $jobTitleList = $jobService->getJobTitleList();
         foreach ($jobTitleList as $jobTitle) {
-            $list[$jobTitle->getId()] = $jobTitle->getName();
+            $list[$jobTitle->getId()] = $jobTitle->getJobTitleName();
         }
         return $list;
     }

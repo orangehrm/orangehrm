@@ -134,31 +134,63 @@ ProjectActivity:
       foreign: project_id
       type: one
 
-#JobTitle:
-#  tableName: ohrm_job_title
-#  columns:
-#    jobtit_code:
-#      name: jobtit_code as jobTitleCode
-#      type: string(13)
-#      primary: true
-#    job_title:
-#      name: job_title as jobTitle
-#      type: string(100)
-#    job_description:
-#      name: job_description as jobDescription
-#      type: string(400)
-#    job_specification:
-#      name: job_specification as jobSpecification
-#      type: string(2147483647)
-#    note: string(400)
-#  relations:
-#    employees:
-#      class: Employee
-#      local: jobtit_code
-#      foreign: job_title_code
-#      type: many
-#    definekpi:
-#      class: DefineKpi
-#      local: jobtit_code
-#      foreign: job_title_code
-#      type: many
+JobTitle:
+  tableName: ohrm_job_title
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    job_title:
+      name: job_title as jobTitleName
+      type: string(100)
+    job_description:
+      name: job_description as jobDescription
+      type: string(400)
+    note: string(400)
+    is_deleted:
+      name: is_deleted as isDeleted
+      type: integer(1)
+      default: '0'
+  relations:
+    JobSpecificationAttachment:
+      local: id
+      foreign: jobTitleId
+      type: one
+    employees:
+      class: Employee
+      local: id
+      foreign: job_title_code
+      type: many
+    definekpi:
+      class: DefineKpi
+      local: id
+      foreign: job_title_code
+      type: many
+
+JobSpecificationAttachment:
+  tableName: ohrm_job_specification_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    job_title_id:
+      name: job_title_id as jobTitleId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+  relations:
+    JobTitle:
+      local: jobTitleId
+      foreign: id
+      type: one

@@ -381,3 +381,24 @@ ViewPredefinedReport:
   formAction: 'index.php/core/viewDefinedPredefinedReports'
   assets: []
   jsInitMethods: []
+
+JobTitle:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Job Information");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteJobTitle'
+  assets: []
+  jsInitMethods: []

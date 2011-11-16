@@ -1,12 +1,12 @@
 $(document).ready(function() {
-          
+
     $('#btnAdd').click(function() {
-        window.location.replace(addCustomerUrl);
+        window.location.replace(addJobTitleUrl);
     });
-       
+
     $('#btnDelete').attr('disabled', 'disabled');
 
-        
+
     $("#ohrmList_chkSelectAll").click(function() {
         if($(":checkbox").length == 1) {
             $('#btnDelete').attr('disabled','disabled');
@@ -19,7 +19,7 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     $(':checkbox[name*="chkSelectRow[]"]').click(function() {
         if($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
             $('#btnDelete').removeAttr('disabled');
