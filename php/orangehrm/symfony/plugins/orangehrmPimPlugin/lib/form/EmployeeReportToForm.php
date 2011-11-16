@@ -106,7 +106,6 @@ class EmployeeReportToForm extends BaseForm {
         $jsonArray = array();
         $employeeService = $this->getEmployeeService();
 
-        //if ($this->userType == 'Admin') {
         $employeeList = $employeeService->getEmployeeList();
 
         // Get supervisosubordinates of current employee
@@ -157,21 +156,6 @@ class EmployeeReportToForm extends BaseForm {
         $reportingMethod = $this->getValue('reportingMethod');
         $selectedEmployee = $this->getValue('selectedEmployee');
         $previousRecord = $this->getValue('previousRecord');
-
-//        echo 'empNumber = ' . $empNumber . '<br>';
-//        echo 'supOrSub = ' . $supOrSub . '<br>';
-//        echo 'name = ' . $name . '<br>';
-//        echo 'reportingType = ' . $reportingType . '<br>';
-//        echo 'reportingMethod = ' . $reportingMethod . '<br>';
-//        echo 'selectedEmployee = ' . $selectedEmployee . '<br>';
-//        echo 'previousRecord = ' . $previousRecord . '<br>';
-//        die('L161');
-
-        if($previousRecord != null){
-            $tempList = array($previousRecord);
-            $this->getEmployeeService()->deleteReportToObject($tempList);
-            $updated = true;
-        }
 
         if ($reportingMethod != null) {
 
