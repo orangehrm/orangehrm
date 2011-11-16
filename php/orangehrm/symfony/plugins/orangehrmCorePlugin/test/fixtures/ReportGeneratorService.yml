@@ -1,10 +1,10 @@
 ## YAML Template.
 ---
 Customer:
-  0: {id: 1, name: 'John'}
+  0: {customer_id: 1, name: 'John'}
 
 Project:
-  0: {project_id: 1, id: 1, name: 'NUS'}
+  0: {project_id: 1, customer_id: 1, name: 'NUS'}
 
 ProjectActivity:
   0: {activity_id: 1, project_id: 1, name: 'Create Schema', is_deleted: 0}

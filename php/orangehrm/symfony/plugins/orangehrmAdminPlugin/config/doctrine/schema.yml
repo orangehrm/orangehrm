@@ -45,7 +45,8 @@ Organization:
 Customer:
   tableName: ohrm_customer
   columns:
-    id:
+    customer_id:
+      name: customer_id as customerId
       type: integer(4)
       primary: true
       autoincrement: true
@@ -56,8 +57,8 @@ Customer:
     description: string(255)
   relations:
     Project:
-      local: id
-      foreign: id
+      local: customer_id
+      foreign: customer_id
       type: many
       
 Project:
@@ -68,7 +69,8 @@ Project:
       type: integer(4)
       primary: true
       autoincrement: true
-    id:
+    customer_id:
+      name : customer_id as customerId
       type: integer(4)
     is_deleted:
       type: integer(1)
@@ -77,8 +79,8 @@ Project:
     description: string(256)
   relations:
     Customer:
-      local: id
-      foreign: id
+      local: customer_id
+      foreign: customer_id
       type: one
     ProjectActivity:
       local: project_id

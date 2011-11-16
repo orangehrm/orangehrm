@@ -639,11 +639,11 @@ create table `hs_hr_mailnotifications` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_customer` (
-  `id` int(11) not null,
+  `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`id`)
+  primary key  (`customer_id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -657,12 +657,12 @@ create table `hs_hr_employee_timesheet_period` (
 
 create table `ohrm_project` (
   `project_id` int(11) not null,
-  `id` int(11) not null,
+  `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`project_id`,`id`),
-  key `id` (`id`)
+  primary key  (`project_id`,`customer_id`),
+  key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_project_activity` (
@@ -1209,8 +1209,8 @@ alter table hs_hr_mailnotifications
        						references hs_hr_users (id) on delete cascade;
 
 alter table `ohrm_project`
-  add constraint foreign key (`id`)
-	references `ohrm_customer` (`id`)
+  add constraint foreign key (`customer_id`)
+	references `ohrm_customer` (`customer_id`)
 		on delete restrict;
 alter table `ohrm_project_activity`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
@@ -1808,7 +1808,7 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(6, 'Hourly'
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_customer', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_customer', 'customer_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_title', 'jobtit_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(6, 'hs_hr_empstat', 'estat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(8, 'hs_hr_eec', 'eec_code');

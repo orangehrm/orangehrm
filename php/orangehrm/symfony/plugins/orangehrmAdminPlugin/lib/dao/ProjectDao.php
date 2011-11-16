@@ -361,7 +361,7 @@ class ProjectDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project')
 				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
-				->andWhere('id = ?', $customerId);
+				->andWhere('customer_id = ?', $customerId);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

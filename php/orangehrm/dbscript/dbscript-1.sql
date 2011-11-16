@@ -635,21 +635,21 @@ create table `hs_hr_mailnotifications` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_customer` (
-  `id` int(11) not null auto_increment,
+  `customer_id` int(11) not null auto_increment,
   `name` varchar(100) not null,
   `description` varchar(255) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`id`)
+  primary key  (`customer_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_project` (
   `project_id` int(11) not null auto_increment,
-  `id` int(11) not null,
+  `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(256) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`project_id`,`id`),
-  key `id` (`id`)
+  primary key  (`project_id`,`customer_id`),
+  key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_project_activity` (

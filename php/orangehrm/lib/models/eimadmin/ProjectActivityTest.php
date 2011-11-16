@@ -68,11 +68,11 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
         mysql_query("TRUNCATE TABLE `ohrm_project_activity`", $this->connection);
 
 		// Insert a project and customer for use in the test
-        mysql_query("INSERT INTO ohrm_customer(id, name, description, is_deleted) VALUES(1, 'Test customer', 'description', 0)");
-        mysql_query("INSERT INTO ohrm_customer(id, name, description, is_deleted) VALUES(0, 'Internal customer', 'description', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, id, name, description, is_deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, id, name, description, is_deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
-        mysql_query("INSERT INTO ohrm_project(project_id, id, name, description, is_deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(1, 'Test customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(0, 'Internal customer', 'description', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
+        mysql_query("INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
         
 		UniqueIDGenerator::getInstance()->resetIDs();
     }

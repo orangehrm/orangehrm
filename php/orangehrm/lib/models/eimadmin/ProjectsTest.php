@@ -93,7 +93,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
 	    mysql_query("TRUNCATE TABLE `ohrm_project`", $this->connection);
 
-		mysql_query("DELETE FROM `ohrm_customer` WHERE `id` IN (1001, 1002, 1003);", $this->connection);
+		mysql_query("DELETE FROM `ohrm_customer` WHERE `customer_id` IN (1001, 1002, 1003);", $this->connection);
 		UniqueIDGenerator::getInstance()->initTable();
     }
 

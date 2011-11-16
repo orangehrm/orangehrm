@@ -368,7 +368,7 @@ HsHrProject:
     project_id:
       type: integer(4)
       primary: true
-    id:
+    customer_id:
       type: integer(4)
       primary: true
     deleted:
@@ -378,8 +378,8 @@ HsHrProject:
     description: string(250)
   relations:
     HsHrCustomer:
-      local: id
-      foreign: id
+      local: customer_id
+      foreign: customer_id
       type: one
     HsHrProjectActivity:
       local: project_id
@@ -2087,7 +2087,7 @@ HsHrCompProperty:
 HsHrCustomer:
   tableName: ohrm_customer
   columns:
-    id:
+    customer_id:
       type: integer(4)
       primary: true
     deleted:
@@ -2097,8 +2097,8 @@ HsHrCustomer:
     description: string(250)
   relations:
     HsHrProject:
-      local: id
-      foreign: id
+      local: customer_id
+      foreign: customer_id
       type: many
 HsHrJobApplication:
   tableName: hs_hr_job_application
