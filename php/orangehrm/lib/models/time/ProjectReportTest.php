@@ -683,12 +683,12 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetNextId() {
-		$this->assertEquals(2, $this->_getNextId("ohrm_customer", "customer_id"));
+		$this->assertEquals(2, $this->_getNextId("ohrm_customer", "id"));
 
 		$this->customerId = 5;
 		$this->customerName = "Qwerty";
 		$this->_addCustomer();
-		$this->assertEquals(6, $this->_getNextId("ohrm_customer", "customer_id"));
+		$this->assertEquals(6, $this->_getNextId("ohrm_customer", "id"));
 
 	}
 
@@ -853,7 +853,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 * Add customer used by unit test
 	 */
 	private function _addCustomer() {
-		$template = "INSERT INTO ohrm_customer(customer_id, name, description, is_deleted) VALUES(%d, '%s', '%s', 0)";
+		$template = "INSERT INTO ohrm_customer(id, name, description, is_deleted) VALUES(%d, '%s', '%s', 0)";
 		$sql = sprintf($template, $this->customerId, $this->customerName, "Desc. " . $this->customerName);
 		$this->_runQuery($sql);
 	}
@@ -863,7 +863,7 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	 */
 	private function _addProjects() {
 
-		$template = "INSERT INTO ohrm_project(project_id, customer_id, name, description, is_deleted) " .
+		$template = "INSERT INTO ohrm_project(project_id, id, name, description, is_deleted) " .
 				    "VALUES(%d, %d, '%s', '%s', 0)";
 
 		$id = $this->_count("ohrm_project") + 1;

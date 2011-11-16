@@ -9,7 +9,7 @@
 	        <label for="searchMode"><?php echo __("Search By")?></label>
 	        <select name="searchMode" id="searchMode">
 	            <option value="all"><?php echo __("--Select--")?></option>
-	            <option value="customer_id" <?php if($searchMode == 'customer_id'){ echo "selected";}?>><?php echo __("ID")?></option>
+	            <option value="id" <?php if($searchMode == 'id'){ echo "selected";}?>><?php echo __("ID")?></option>
 	            <option value="name" <?php if($searchMode == 'name'){ echo "selected";}?>><?php echo __("Name")?></option>
 	        </select>
 	
@@ -50,7 +50,7 @@
 				</td>
 				
 					<td scope="col">
-						 <?php echo $sorter->sortLink('customer_id', __('Customer Id'), '@customer_list', ESC_RAW); ?>
+						 <?php echo $sorter->sortLink('id', __('Customer Id'), '@customer_list', ESC_RAW); ?>
 					</td>
 					<td scope="col">
 						 <?php echo $sorter->sortLink('name', __('Customer Name'), '@customer_list', ESC_RAW); ?>

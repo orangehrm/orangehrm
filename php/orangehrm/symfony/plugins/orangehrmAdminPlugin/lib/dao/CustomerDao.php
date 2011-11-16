@@ -104,7 +104,7 @@ class CustomerDao extends BaseDao {
 			$q = Doctrine_Query :: create()
 				->from('Project')
 				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
-				->andWhere('customer_id = ?', $customerId);
+				->andWhere('id = ?', $customerId);
 			$projects = $q->execute();
 
 			foreach ($projects as $project) {

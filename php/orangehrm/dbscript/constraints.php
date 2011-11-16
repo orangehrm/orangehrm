@@ -74,7 +74,7 @@ array("hs_hr_leave", array("leave_request_id","leave_type_id","employee_id"), "h
 array("hs_hr_mailnotifications",         array("user_id"), "hs_hr_users",        array("id"), "cascade"),
 array("hs_hr_employee_timesheet_period", array("employee_id"), "hs_hr_employee", array("emp_number"), "cascade"),
 array("hs_hr_employee_timesheet_period", array("timesheet_period_id"), "hs_hr_timesheet_submission_period", array("timesheet_period_id"), "cascade"),
-array("ohrm_project",    array("customer_id"), "ohrm_customer",   array("customer_id"), "restrict"),
+array("ohrm_project",    array("id"), "ohrm_customer",   array("id"), "restrict"),
 array("ohrm_project_activity",    array("project_id"), "ohrm_project",   array("project_id"), "cascade"),
 array("ohrm_project_admin",    array("project_id"), "ohrm_project",   array("project_id"), "cascade"),
 array("ohrm_project_admin",    array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),

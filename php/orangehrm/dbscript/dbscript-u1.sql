@@ -632,11 +632,11 @@ create table `hs_hr_mailnotifications` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_customer` (
-  `customer_id` int(11) not null,
+  `id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`customer_id`)
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -650,12 +650,12 @@ create table `hs_hr_employee_timesheet_period` (
 
 create table `ohrm_project` (
   `project_id` int(11) not null,
-  `customer_id` int(11) not null,
+  `id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`project_id`,`customer_id`),
-  key `customer_id` (`customer_id`)
+  primary key  (`project_id`,`id`),
+  key `id` (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_project_activity` (
@@ -868,12 +868,12 @@ create table `hs_hr_emp_locations` (
 ) engine=innodb default charset=utf8;
 
 INSERT INTO `ohrm_customer`
-  (`customer_id`, `name`, `description`)
+  (`id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")
   ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
 INSERT INTO `ohrm_project`
-  (`project_id`, `customer_id`, `name`, `description`)
+  (`project_id`, `id`, `name`, `description`)
   VALUES (0, 0, 'Internal', "Used to track special time events")
   ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
