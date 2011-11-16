@@ -476,9 +476,6 @@ if($empNumber == $_SESSION['empID']) {
 
     </ul>
     
-    <!-- Back to Employee list link -->
-    <span><a href="<?php echo public_path('index.php/pim/viewEmployeeList', true); ?>">Back to Employee List</a></span>
-        
 </div>
 
 <!-- end of leave section -->
