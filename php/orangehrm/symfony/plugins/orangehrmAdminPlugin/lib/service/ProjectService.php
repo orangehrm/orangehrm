@@ -260,15 +260,6 @@ class ProjectService extends BaseService {
 	}
 
 	/**
-	 * Get project admin list
-	 * 
-	 * @return type 
-	 */
-	public function getProjectAdminList() {
-		return $this->getProjectDao()->getProjectAdminList();
-	}
-
-	/**
 	 * 
 	 * Search project by project name, customer name and project admin.
 	 * 
