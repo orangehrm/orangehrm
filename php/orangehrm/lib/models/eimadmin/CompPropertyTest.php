@@ -5,7 +5,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require_once "testConf.php";
-;
+
 require_once 'CompProperty.php';
 
 /**

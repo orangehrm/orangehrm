@@ -4,7 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'LocaleUtilTest::main');
 }
 
-;
+
 
 require_once "testConf.php";
 require_once ROOT_PATH."/lib/confs/sysConf.php";

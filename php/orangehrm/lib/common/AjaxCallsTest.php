@@ -4,7 +4,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'AjaxCallsTest::main');
 }
 
-;
 
 require_once 'AjaxCalls.php';
 

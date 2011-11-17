@@ -4,7 +4,7 @@
  * @author Sujith T
  *
  */
-;
+
 
 class PerformanceReviewServiceTest extends PHPUnit_Framework_TestCase {
    private $testCases;

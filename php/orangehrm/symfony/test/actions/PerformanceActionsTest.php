@@ -1,6 +1,6 @@
 <?php
 
-;
+
 define('SYMFONY_ROOT', dirname(__FILE__) . '/../../');
 
 require_once SYMFONY_ROOT . 'test/util/MockContext.class.php';

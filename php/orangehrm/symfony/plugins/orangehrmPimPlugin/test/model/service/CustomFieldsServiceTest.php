@@ -1,5 +1,5 @@
 <?php
-;
+
 /**
  * Test class of CustomFieldsService
  *

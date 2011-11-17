@@ -1,5 +1,7 @@
 <?php
-;
+require_once 'util/PHPUnitVersionHelper.php';
+PHPUnitVersionHelper::includeRequiredFiles();
+
 require_once 'util/TestDataService.php';
 
 if (!defined('ROOT_PATH')) {

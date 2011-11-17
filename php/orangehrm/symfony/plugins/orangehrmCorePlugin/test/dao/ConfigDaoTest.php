@@ -1,6 +1,6 @@
 <?php
 
-;
+
 
 /**
  * ConfigDao Test Class

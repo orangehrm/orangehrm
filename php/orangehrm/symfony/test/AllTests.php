@@ -1,6 +1,6 @@
 <?php
 
-;
+
 require_once 'util/TestDataService.php';
 define('ROOT_PATH', dirname(__FILE__) . '/../../');
 define('SF_APP_NAME', 'orangehrm');

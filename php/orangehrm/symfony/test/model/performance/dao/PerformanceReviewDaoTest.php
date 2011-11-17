@@ -24,7 +24,7 @@
  *
  * @author Samantha Jayasinghe
  */
-;
+
 
 class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
 	

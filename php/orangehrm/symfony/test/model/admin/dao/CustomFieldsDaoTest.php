@@ -1,5 +1,5 @@
 <?php
-;
+
 /**
  * CustomFieldsDao Test Class
  * @author Sujith T

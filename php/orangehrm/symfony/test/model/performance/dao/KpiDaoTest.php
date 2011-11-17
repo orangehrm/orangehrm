@@ -24,7 +24,7 @@
  *
  * @author Samantha Jayasinghe
  */
-;
+
 
 class KpiDaoTest extends PHPUnit_Framework_TestCase{
 	

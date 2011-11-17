@@ -23,7 +23,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
  
-;
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
 require_once 'InstallUtilTest.php';

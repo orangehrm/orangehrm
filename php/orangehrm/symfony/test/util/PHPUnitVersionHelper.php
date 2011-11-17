@@ -1,5 +1,6 @@
 <?php
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -18,37 +19,30 @@
  *
  */
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'controllers_AllTests::main');
-}
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
- 
+/**
+ * Helper class to include files required by different versions of PHPUnit.
+ * 
+ */
+class PHPUnitVersionHelper {
+    
+    public static function includeRequiredFiles() {
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
- 
-require_once 'TimeControllerTest.php';
-require_once 'ViewControllerTest.php';
-require_once 'RecruitmentControllerTest.php';
+      // Check PHPUnit Version.
+      require_once 'PHPUnit/Runner/Version.php';
+      $phpunitVersion = PHPUnit_Runner_Version::id();
 
- 
-class controllers_AllTests
-{
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
- 
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM controllers');
-        $suite->addTestSuite('TimeControllerTest');
-        $suite->addTestSuite('ViewControllerTest');
-        $suite->addTestSuite('RecruitmentControllerTest');
-        return $suite;
+      if (version_compare($phpunitVersion, '3.5.0') < 0) {
+        echo('Your version of PHPUnit is outdated. Detected version: ' . $phpunitVersion . ". Please update to 3.5 or newer.\n");
+      }
+
+      // PHPUnit >= 3.5 no longer requires Framework.php
+      if (version_compare($phpunitVersion, '3.5.0') >= 0) {
+        require_once 'PHPUnit/Autoload.php';
+      }
+      else {
+        require_once 'PHPUnit/Framework.php';
+      }
     }
 }
- 
-if (PHPUnit_MAIN_METHOD == 'controllers_AllTests::main') {
-    controllers_AllTests::main();
-}
+
 ?>

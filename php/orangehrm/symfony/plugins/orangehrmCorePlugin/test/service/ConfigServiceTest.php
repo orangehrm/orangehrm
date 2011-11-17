@@ -1,6 +1,6 @@
 <?php
 
-;
+
 
 /**
  * ConfigService Test Class

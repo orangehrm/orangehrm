@@ -4,7 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'EmpInfoTest::main');
 }
 
-;
+
 
 require_once 'EmpInfo.php';
 

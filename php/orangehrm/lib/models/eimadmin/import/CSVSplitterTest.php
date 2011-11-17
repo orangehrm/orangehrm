@@ -4,7 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'CSVSplitterTest::main');
 }
 
-;
+
 
 require_once 'CSVSplitter.php';
 

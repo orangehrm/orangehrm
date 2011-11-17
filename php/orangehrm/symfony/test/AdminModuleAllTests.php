@@ -1,5 +1,4 @@
 <?php
-;
 require_once 'util/TestDataService.php';
 
 if (!defined('ROOT_PATH')) {

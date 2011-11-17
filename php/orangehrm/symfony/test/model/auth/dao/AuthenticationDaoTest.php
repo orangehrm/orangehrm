@@ -1,6 +1,6 @@
 <?php
 
-;
+
 
 /**
  * Test class for AuthenticationDao.

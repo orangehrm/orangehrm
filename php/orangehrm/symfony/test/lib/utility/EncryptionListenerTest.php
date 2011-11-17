@@ -1,5 +1,5 @@
 <?php
-;
+
 
 class EncryptionListenerTest extends PHPUnit_Framework_TestCase {
 

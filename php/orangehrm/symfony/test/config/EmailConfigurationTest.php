@@ -1,5 +1,5 @@
 <?php
-;
+
 
 class EmailConfigurationTest extends PHPUnit_Framework_TestCase {
     
