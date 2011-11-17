@@ -124,12 +124,6 @@ Employee:
       foreign: erep_sup_emp_number
       refClass: ReportTo
       foreignAlias: subordinates
-    locations:
-      class: Location
-      local: emp_number
-      foreign: loc_code
-      refClass: EmpLocations
-      foreignAlias: employees
     dependents:
       class: EmpDependent
       local: emp_number

@@ -98,7 +98,7 @@ Country:
     locations:
       class: Location
       local: cou_code
-      foreign: loc_country
+      foreign: country
       type: many
 
 EmployeeStatus:
