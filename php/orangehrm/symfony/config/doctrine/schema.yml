@@ -2,10 +2,10 @@ EmpLocations:
   tableName: hs_hr_emp_locations
   columns:
     emp_number as empNumber:
-      type: integer(4)
+      type: integer
       primary: true
-    loc_code:
-      type: string(13)
+    location_id as locationId:
+      type: integer
       primary: true      
 
 EmpChildren:

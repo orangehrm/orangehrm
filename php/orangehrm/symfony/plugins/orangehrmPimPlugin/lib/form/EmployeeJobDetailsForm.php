@@ -107,7 +107,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         // Assign first location
         $locationList = $employee->locations;
         if (count($locationList) > 0) {
-            $this->setDefault('location', $locationList[0]->loc_code);
+            $this->setDefault('location', $locationList[0]->id);
         }
 
         $contracts = $employee->contracts;
@@ -213,10 +213,10 @@ class EmployeeJobDetailsForm extends BaseForm {
         // Unlink all locations except current.
         //
         foreach ($employee->locations as $empLocation) {
-            if ($location == $empLocation->loc_code) {
+            if ($location == $empLocation->id) {
                 $foundLocation = true;
             } else {
-                $employee->unlink('locations', $empLocation->loc_code);
+                $employee->unlink('locations', $empLocation->id);
             }
         }
 
@@ -310,10 +310,10 @@ class EmployeeJobDetailsForm extends BaseForm {
         $companyService = new CompanyService();
 
         $locationList = array('' => '-- ' . __('Select') . ' --');
-        $locations = $companyService->getCompanyLocation('loc_name');
+        $locations = $companyService->getCompanyLocation('name');
 
         foreach ($locations as $location) {
-            $locationList[$location->loc_code] = $location->loc_name;
+            $locationList[$location->id] = $location->name;
         }
 
         return($locationList);

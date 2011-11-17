@@ -99,7 +99,7 @@ abstract class BaseLocation extends sfDoctrineRecord
         parent::setUp();
         $this->hasMany('Employee as employees', array(
              'refClass' => 'EmpLocations',
-             'local' => 'id',
+             'local' => 'location_id',
              'foreign' => 'emp_number'));
     }
 }

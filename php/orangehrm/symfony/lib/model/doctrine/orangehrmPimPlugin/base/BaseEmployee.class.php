@@ -559,7 +559,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('Location as locations', array(
              'refClass' => 'EmpLocations',
              'local' => 'emp_number',
-             'foreign' => 'id'));
+             'foreign' => 'location_id'));
 
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',

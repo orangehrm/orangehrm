@@ -360,7 +360,7 @@ create table `hs_hr_language` (
 
 
 create table `ohrm_location` (
-  `id` varchar(13) not null default '',
+  `id` int not null,
   `name` varchar(100) default null,
   `country_code` varchar(3) default null,
   `province` varchar(60) default null,
@@ -804,9 +804,9 @@ create table `hs_hr_comp_property` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_locations` (
-  `emp_number` int(7) not null,
-  `loc_code` varchar(13) not null,
-  primary key  (`emp_number`, `loc_code`)
+  `emp_number` int not null,
+  `location_id` int not null,
+  primary key  (`emp_number`, `location_id`)
 ) engine=innodb default charset=utf8;
 
 CREATE TABLE `hs_hr_leave_period` (
@@ -1685,7 +1685,7 @@ alter table `hs_hr_emp_location_history`
         references hs_hr_employee(`emp_number`) on delete cascade;
 
 alter table `hs_hr_emp_locations`
-    add constraint foreign key (`loc_code`)
+    add constraint foreign key (`location_id`)
         references ohrm_location(`id`) on delete cascade,
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;

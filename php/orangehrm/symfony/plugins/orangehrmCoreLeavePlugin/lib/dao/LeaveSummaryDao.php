@@ -77,7 +77,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbLocation'])) {
-            $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
+            $where[] = "c.location_id = '{$clues['cmbLocation']}'";
         }
                 
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
@@ -137,7 +137,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbLocation'])) {
-            $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
+            $where[] = "c.location_id = '{$clues['cmbLocation']}'";
         }
         
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {

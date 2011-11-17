@@ -25,10 +25,10 @@ Employee:
   3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
   4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 1}
 
-EmpLocation:
-  0: {empNumber: 1, loc_code: 1}
-  1: {empNumber: 4, loc_code: 1}
-  2: {empNumber: 5, loc_code: 2}
+EmpLocations:
+  0: {empNumber: 1, locationId: 1}
+  1: {empNumber: 4, locationId: 1}
+  2: {empNumber: 5, locationId: 2}
 
 ReportingMethod:
   0: {reportingMethodId: '1', reportingMethodName: 'reportingMethodName1'}

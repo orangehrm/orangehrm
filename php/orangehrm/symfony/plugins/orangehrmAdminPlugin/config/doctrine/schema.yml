@@ -222,7 +222,7 @@ Location:
       type: one
     employees:
       class: Employee
-      local: id
+      local: location_id
       foreign: emp_number
       refClass: EmpLocations
       foreignAlias: locations
