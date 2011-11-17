@@ -204,8 +204,8 @@ Location:
       autoincrement: true
     name: string(110)
     country: string(5)
-    state_provice:
-      name: state_provice as stateProvice
+    state_province:
+      name: state_province as stateProvince
       type: string(60)
     city: string(60)
     address: string(255)
@@ -220,9 +220,9 @@ Location:
       local: country
       foreign: cou_code
       type: one
-    Employees:
+    employees:
       class: Employee
       local: id
       foreign: emp_number
       refClass: EmpLocations
-      foreignAlias: employees
+      foreignAlias: locations
