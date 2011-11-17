@@ -73,7 +73,7 @@ function sysCheckPassed() {
 <link href="style.css" rel="stylesheet" type="text/css" />
 
 
-<div id="content">
+<div id="content" style="width:1000px">
 
   <h2>Step 3: System Check</h2>
 
@@ -204,6 +204,21 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
                if(is_writable(ROOT_PATH . '/lib/logs')) {
+                  echo "<b><font color='green'>OK</font></b>";
+				} else {
+                  echo "<b><font color='red'>Not Writeable</font>";
+                  echo "<b><font color='red'><sup>*</sup></font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
+            <td class="tdComponent">Write Permissions for "symfony/config"</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(is_writable(ROOT_PATH . '/symfony/config')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font>";
