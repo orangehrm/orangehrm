@@ -73,7 +73,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setKeywords("java,oracle");
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
@@ -83,7 +83,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListCountForJobTitleAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setKeywords("java,oracle");
         $searchParam->setVacancyId(1);
         $searchParam->setHiringManagerId(2);
@@ -236,7 +236,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleAndVacancy() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setVacancyId(2);
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
@@ -249,7 +249,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleVacancyAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setVacancyId(2);
         $searchParam->setKeywords("java,oracle");
 
@@ -263,7 +263,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleAndHiringManager() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setHiringManagerId(2);
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
@@ -276,7 +276,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleHiringManagerAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setKeywords("java,oracle");
 
@@ -303,7 +303,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleVacancyAndHiringManager() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setVacancyId(2);
         $searchParam->setHiringManagerId(2);
 
@@ -317,7 +317,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleVacancyHiringManagerAndCandidate() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setVacancyId(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateName('Chanaka Bandara');
@@ -332,7 +332,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleVacancyHiringManagerCandidateAndKewords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setVacancyId(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateName('Chanaka Bandara');
@@ -348,7 +348,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleHiringManagerAndCandidate() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateName('Chanaka Bandara');
 
@@ -362,7 +362,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleHiringManagerCandidateAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setHiringManagerId(2);
         $searchParam->setCandidateName('Chanaka Bandara');
         $searchParam->setKeywords("java,oracle");
@@ -377,7 +377,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleAndCandidate() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setCandidateName('Yasitha Pandi');
 
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
@@ -390,7 +390,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForJobTitleCandidateAndKeywords() {
 
         $searchParam = new CandidateSearchParameters();
-        $searchParam->setJobTitleCode('JOB002');
+        $searchParam->setJobTitleCode(2);
         $searchParam->setCandidateName('Yasitha Pandi');
         $searchParam->setKeywords("java,oracle");
 

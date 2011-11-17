@@ -40,7 +40,7 @@
    
    	<div id="contentContainer">
 	   <div  class="outerbox">
-	   			<div id="formHeading" class="mainHeading"><h2><?php echo __("Key Performance Indicators for Job Title:")?> <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getName());}?></h2></div>
+	   			<div id="formHeading" class="mainHeading"><h2><?php echo __("Key Performance Indicators for Job Title:")?> <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getJobTitleName());}?></h2></div>
 				<div class="navigationHearder">
 	                   <?php if ($pager->haveToPaginate()) { ?>
 
@@ -113,7 +113,7 @@
 				 			</td>
 				 			
 							<td class="">
-				 				<?php echo  htmlspecialchars_decode($kpi->getJobTitle()->getName())?>
+				 				<?php echo  htmlspecialchars_decode($kpi->getJobTitle()->getJobTitleName())?>
 				 			</td>
 				 			
 				 			<td class="">

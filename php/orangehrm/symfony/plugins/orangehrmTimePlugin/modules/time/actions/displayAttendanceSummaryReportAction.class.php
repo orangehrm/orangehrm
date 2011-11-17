@@ -2,44 +2,6 @@
 
 class displayAttendanceSummaryReportAction extends displayReportAction {
 
-//    public function execute($request) {
-//        $reportId = $request->getParameter("reportId");
-//
-//        $reportableGeneratorService = new ReportGeneratorService();
-//
-//        $form = new AttendanceTotalSummaryReportForm();
-//        $reportableService = new ReportableService();
-//        $report = $reportableService->getReport($reportId);
-//        $useFilterField = $report->getUseFilterField();
-//
-//        if (!$useFilterField) {
-//
-//            if ($request->isMethod('post')) {
-//
-//                $form->bind($request->getParameter($form->getName()));
-//                if ($form->isValid()) {
-//                    $reportGeneratorService = new ReportGeneratorService();
-//                    $formValues = $form->getValues();
-//                    $sql = $reportGeneratorService->generateSqlForNotUseFilterFieldReports($reportId, $formValues);
-//                }
-//            }
-//        }
-//
-//        $dataSet = $reportableGeneratorService->generateReportDataSet($sql);
-//        $headers = $reportableGeneratorService->getHeaders($reportId);
-//
-//        $this->setConfigurationFactory();
-//        $configurationFactory = $this->getConfFactory();
-//        $configurationFactory->setHeaders($headers);
-//
-//        ohrmListComponent::setConfigurationFactory($configurationFactory);
-//
-//        $this->setListHeaderPartial();
-//        ohrmListComponent::setListData($dataSet);
-//
-//        $this->parmetersForListComponent = $this->setParametersForListComponent();
-//    }
-
     public function setConfigurationFactory() {
 
         $confFactory = new AttendanceSummaryReportListConfigurationFactory();
@@ -84,6 +46,7 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
     public function setReportCriteriaInfoInRequest($formValues) {
         $employeeService = new EmployeeService();
         $jobService = new JobService();
+        $jobTitleService = new JobTitleService();
         $companyStructureService = new CompanyStructureService();
 
         if (isset($formValues["employeeId"]) || ($formValues["employeeId"] == '-1')) {
@@ -107,8 +70,8 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
 
         if (isset($formValues["jobTitle"]) && ($formValues["jobTitle"] != 0)) {
             $jobTitCode = $formValues["jobTitle"];
-            $jobTitle = $jobService->readJobTitle($jobTitCode);
-            $jobTitName = $jobTitle->getJobTitName();
+            $jobTitle = $jobTitleService->getJobTitleById($jobTitCode);
+            $jobTitName = $jobTitle->getJobTitleName();
             $this->getRequest()->setParameter("jobTitle", $jobTitName);
         }
 

@@ -6,14 +6,14 @@ Employee:
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
 
 JobTitle:
-  0: {id: 'JOB001', name: 'SE', description: 'Software Engineer', isActive: '1'}
-  1: {id: 'JOB002', name: 'Architect', description: 'Software Architect', isActive: '1'}
+  0: {id: 1, jobTitleName: 'SE', jobDescription: 'Software Engineer', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Architect', jobDescription: 'Software Architect', isDeleted: 0}
 
 JobVacancy:
-  0: {id: 1, jobTitleCode: 'JOB001', hiringManagerId: 1, name: 'Software Engineer 2011', description: 'SE for 2011', noOfPositions: 2, status: 1, publishedInFeed: 1, definedTime: '2011-06-03 10:20:15', updatedTime: '2011-06-03 10:20:15'}
-  1: {id: 2, jobTitleCode: 'JOB002', hiringManagerId: 2, name: 'Software Architect 2011', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 0, definedTime: '2011-06-05 11:54:35', updatedTime: '2011-06-05 11:54:35'}
-  2: {id: 3, jobTitleCode: 'JOB002', hiringManagerId: 3, name: 'Software Architect 2010', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 1, definedTime: '2011-06-07 14:58:35', updatedTime: '2011-06-07 14:58:35'}
-  3: {id: 4, jobTitleCode: 'JOB001', hiringManagerId: 4, name: 'Software Architect 2012', description: 'Architect for 2012', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
+  0: {id: 1, jobTitleCode: 1, hiringManagerId: 1, name: 'Software Engineer 2011', description: 'SE for 2011', noOfPositions: 2, status: 1, publishedInFeed: 1, definedTime: '2011-06-03 10:20:15', updatedTime: '2011-06-03 10:20:15'}
+  1: {id: 2, jobTitleCode: 2, hiringManagerId: 2, name: 'Software Architect 2011', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 0, definedTime: '2011-06-05 11:54:35', updatedTime: '2011-06-05 11:54:35'}
+  2: {id: 3, jobTitleCode: 2, hiringManagerId: 3, name: 'Software Architect 2010', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 1, definedTime: '2011-06-07 14:58:35', updatedTime: '2011-06-07 14:58:35'}
+  3: {id: 4, jobTitleCode: 1, hiringManagerId: 4, name: 'Software Architect 2012', description: 'Architect for 2012', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
 
 JobCandidate:
   0: {id: 1, firstName: 'Yasitha', lastName: 'Pandi', contactNumber: '0372243567', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-03', email: 'namal@gmail.com', addedPerson: 1}

@@ -10,8 +10,8 @@ Location:
   1: {loc_code: 'LOC002', loc_name: 'London', loc_country: 'GB', loc_add: 'London', loc_zip: 9874}
 
 JobTitle:
-  0: {id: 'JOB001', name: 'Marketing Executive', description: 'ME'}
-  1: {id: 'JOB002', name: 'Production Manager', description: 'PM'}
+  0: {id: 1, jobTitleName: 'Marketing Executive', jobDescription: 'ME'}
+  1: {id: 2, jobTitleName: 'Production Manager', jobDescription: 'PM'}
 
 LeaveType:
   0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
@@ -19,11 +19,11 @@ LeaveType:
   2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0}
 
 Employee:
-  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 2, job_title_code: 'JOB001', emp_status: 'EST000'}
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 2, job_title_code: 1, emp_status: 'EST000'}
   1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', work_station: 2}
-  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 3, job_title_code: 'JOB002', emp_status: 'EST001'}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 3, job_title_code: 2, emp_status: 'EST001'}
   3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
-  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 'JOB001'}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 1}
 
 EmpLocation:
   0: {empNumber: 1, loc_code: 'LOC001'}

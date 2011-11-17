@@ -79,7 +79,7 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
 
         $choice['0'] = __('All');
 
-        foreach ($jobList as $job) {
+        foreach ($jobTitleList as $job) {
             $choice[$job->getId()] = $job->getJobTitleName();
         }
 
