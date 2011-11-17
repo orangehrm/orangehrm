@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once 'PHPUnit/Framework.php';
+;
 
 class EmployeeTableTest extends PHPUnit_Framework_TestCase {
 

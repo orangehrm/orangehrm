@@ -4,7 +4,7 @@
  * @author Sujith T
  *
  */
-require_once 'PHPUnit/Framework.php';
+;
 
 class PerformanceReviewServiceTest extends PHPUnit_Framework_TestCase {
    private $testCases;

@@ -4,7 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'KeyHandlerOldTest::main');
 }
 
-require_once 'PHPUnit/Framework.php';
+;
 
 require_once 'KeyHandlerOld.php';
 require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';

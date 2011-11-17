@@ -24,7 +24,7 @@
  *
  * @author Samantha Jayasinghe
  */
-require_once 'PHPUnit/Framework.php';
+;
 
 class KpiDaoTest extends PHPUnit_Framework_TestCase{
 	

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+;
 
 require_once ROOT_PATH . '/symfony/lib/vendor/symfony/lib/helper/TagHelper.php';
 

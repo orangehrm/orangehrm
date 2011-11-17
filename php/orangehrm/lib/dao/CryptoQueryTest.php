@@ -5,7 +5,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require_once "testConf.php";
-require_once 'PHPUnit/Framework.php';
+;
 require_once 'CryptoQuery.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';

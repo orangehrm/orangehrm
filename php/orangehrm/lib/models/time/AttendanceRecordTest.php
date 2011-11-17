@@ -10,7 +10,7 @@ if (! defined ( 'ROOT_PATH' )) {
 define ( 'ENVIRNOMENT', 'test' );
 
 
-require_once 'PHPUnit/Framework.php';
+;
 
 require_once ROOT_PATH . '/lib/models/time/AttendanceRecord.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';

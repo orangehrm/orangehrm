@@ -24,7 +24,7 @@
  *
  * @author Samantha Jayasinghe
  */
-require_once 'PHPUnit/Framework.php';
+;
 
 class PerformanceReviewDaoTest extends PHPUnit_Framework_TestCase{
 	

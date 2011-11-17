@@ -1,6 +1,6 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+;
 
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures

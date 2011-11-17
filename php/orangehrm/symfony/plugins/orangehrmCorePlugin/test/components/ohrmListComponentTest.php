@@ -1,5 +1,5 @@
 <?php
-require_once 'PHPUnit/Framework.php';
+;
 
 require_once '/var/www/html/orangehrm/symfony/plugins/orangehrmCorePlugin/modules/core/actions/ohrmListComponent.class.php';
 

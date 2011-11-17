@@ -1,5 +1,5 @@
 <?php
-require_once 'PHPUnit/Framework.php';
+;
 /**
  * Test class of CustomFieldsService
  *

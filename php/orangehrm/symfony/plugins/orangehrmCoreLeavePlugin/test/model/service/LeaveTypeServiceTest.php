@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-require_once 'PHPUnit/Framework.php';
+;
 /**
  * Leave Type rule service
  */

@@ -1,5 +1,5 @@
 <?php
-require_once 'PHPUnit/Framework.php';
+;
 
 class EmailServiceTest extends PHPUnit_Framework_TestCase{
 	

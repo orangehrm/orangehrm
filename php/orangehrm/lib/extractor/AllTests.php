@@ -22,7 +22,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'extractor_AllTests::main');
 }
  
-require_once 'PHPUnit/Framework.php';
+;
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");

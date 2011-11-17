@@ -1,6 +1,6 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+;
 
 /**
  * Test class for LabelCell.
