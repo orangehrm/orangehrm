@@ -1,0 +1,16 @@
+.outerbox{
+    width: 800px;
+}
+
+.formInput{
+    width: 300px;
+    margin-top: 4px;
+}
+
+label{
+    margin-top: 5px !important; 
+}
+
+#location_country{
+    width: 310px; 
+}
