@@ -42,4 +42,8 @@ class JobVacancy extends PluginJobVacancy {
         return (($this->status == JobVacancy::CLOSED) ? $this->getName() . " (Closed)" : $this->getName());
     }
 
+    public function getJobTitleName(){
+        return $this->getJobTitle()->getJobTitleName();
+    }
+
 }

@@ -357,7 +357,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobTitles, "index.php?uniqcode=JOB&menu_no_top=eim");
+    $subsubs[] = new MenuItem("job", "Job Titles", "./symfony/web/index.php/admin/viewJobTitleList");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobSpecs, "index.php?uniqcode=SPC&menu_no_top=eim");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_PayGrades, "index.php?uniqcode=SGR&menu_no_top=eim");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "index.php?uniqcode=EST&menu_no_top=eim");

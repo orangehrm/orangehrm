@@ -11,27 +11,6 @@ create table `hs_hr_config` (
 	primary key (`key`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_job_spec` (
-	`jobspec_id` int(11) not null default 0,
-	`jobspec_name` varchar(50) default null,
-	`jobspec_desc` text default null,
-	`jobspec_duties` text default null,
-	primary key(`jobspec_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_job_title` (
-	`jobtit_code` varchar(13) not null default '',
-	`jobtit_name` varchar(50) default null,
-	`jobtit_desc` varchar(200) default null,
-	`jobtit_comm` varchar(400) default null,
-	`sal_grd_code` varchar(13) default null,
-	`jobspec_id` int(11) default null,
-	`is_active` tinyint(4) default 1,
-	primary key(`jobtit_code`),
-    key sal_grd_code (`sal_grd_code`),
-    key jobspec_id (`jobspec_id`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_empstat` (
 	`estat_code` varchar(13) not null default '',
 	`estat_name` varchar(50) default null,
@@ -45,7 +24,7 @@ create table `hs_hr_eec` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_jobtit_empstat` (
-	`jobtit_code` varchar(13) not null default '',
+	`jobtit_code` int(7) not null,
 	`estat_code` varchar(13) not null default '',
   primary key  (`jobtit_code`,`estat_code`)
 ) engine=innodb default charset=utf8;
@@ -328,7 +307,7 @@ create table `hs_hr_employee` (
   `emp_dri_lice_exp_date` date null default null,
   `emp_military_service` varchar(100) default '',
   `emp_status` varchar(13) default null,
-  `job_title_code` varchar(13) default null,
+  `job_title_code` int(7) default null,
   `eeo_cat_code` varchar(13) default null,
   `work_station` int(6) default null,
   `emp_street1` varchar(100) default '',
@@ -1101,7 +1080,7 @@ create table `ohrm_selected_display_field_group` (
 
 create table `ohrm_job_vacancy`(
 	`id` int(13) not null,
-	`job_title_code` varchar(10) not null,
+	`job_title_code` int(4) not null,
         `hiring_manager_id` int(13) default null,
 	`name` varchar(100) not null,
 	`description` text default null,
@@ -1235,6 +1214,29 @@ create table `ohrm_organization_gen_info` (
   primary key (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_job_title` (
+  `id` int(13) not null auto_increment,
+  `job_title` varchar(100) not null,
+  `job_description` varchar(400) default null,
+  `note` varchar(400) default null,
+  `is_deleted` tinyint(1) default 0,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_job_specification_attachment`(
+	`id` int(13) not null auto_increment,
+	`job_title_id` int(13) not null,
+	`file_name` varchar(200) not null,
+        `file_type` varchar(200) default null,
+	`file_size` int(11) not null,
+	`file_content` mediumblob,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+alter table ohrm_job_specification_attachment
+       add constraint foreign key (job_title_id)
+                             references ohrm_job_title(id) on delete cascade;
+
 alter table ohrm_available_group_field
        add constraint foreign key (group_field_id)
                              references ohrm_group_field(group_field_id);
@@ -1365,7 +1367,7 @@ alter table ohrm_job_candidate_history
 
 alter table ohrm_job_vacancy
        add constraint foreign key (job_title_code)
-                             references hs_hr_job_title(jobtit_code) on delete cascade;
+                             references ohrm_job_title(id) on delete cascade;
 
 alter table ohrm_job_vacancy
        add constraint foreign key (hiring_manager_id)
@@ -1395,17 +1397,9 @@ alter table hs_hr_location
        add constraint foreign key (loc_country)
                              references hs_hr_country(cou_code) on delete cascade;
 
-alter table hs_hr_job_title
-       add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete set null;
-
-alter table hs_hr_job_title
-       add constraint foreign key (jobspec_id)
-                             references hs_hr_job_spec(jobspec_id) on delete set null;
-
 alter table hs_hr_jobtit_empstat
        add constraint foreign key (jobtit_code)
-                             references hs_hr_job_title(jobtit_code) on delete cascade;
+                             references ohrm_job_title(id) on delete cascade;
 
 alter table hs_hr_jobtit_empstat
        add constraint foreign key (estat_code)
@@ -1429,7 +1423,7 @@ alter table hs_hr_employee
 
 alter table hs_hr_employee
        add constraint foreign key (job_title_code)
-                             references hs_hr_job_title(jobtit_code) on delete set null;
+                             references ohrm_job_title(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (emp_status)

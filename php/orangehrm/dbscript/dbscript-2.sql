@@ -550,7 +550,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr_nationality', 'nat_code'),
     (0, 'hs_hr_language', 'lang_code'),
-    (0, 'hs_hr_job_title', 'jobtit_code'),
     (6, 'hs_hr_empstat', 'estat_code'),
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
@@ -685,8 +684,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.work_station = ohrm_subunit.id) 
                     LEFT JOIN hs_hr_empstat ON 
                         (hs_hr_employee.emp_status = hs_hr_empstat.estat_code) 
-                    LEFT JOIN hs_hr_job_title ON 
-                        (hs_hr_employee.job_title_code = hs_hr_job_title.jobtit_code) 
+                    LEFT JOIN ohrm_job_title ON
+                        (hs_hr_employee.job_title_code = ohrm_job_title.id)
                     LEFT JOIN hs_hr_eec ON 
                         (hs_hr_employee.eeo_cat_code = hs_hr_eec.eec_code) 
                     LEFT JOIN hs_hr_nationality ON 
@@ -699,8 +698,6 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = emp_location.emp_number)
                     LEFT JOIN hs_hr_location ON
                         (emp_location.loc_code = hs_hr_location.loc_code)
-                    LEFT JOIN hs_hr_job_spec ON 
-                        (hs_hr_job_title.jobspec_id = hs_hr_job_spec.jobspec_id) 
                     LEFT JOIN hs_hr_emp_contract_extend ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
                     LEFT JOIN hs_hr_emp_basicsalary ON 
@@ -909,7 +906,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (74, 3, 'hs_hr_emp_directdebit.dd_amount', 'Direct Deposit Amount', 'ddAmount',  'false', null, null, 'label', '<xml><getter>ddAmount</getter></xml>', 200, '0', null, true, 7, '---', false, false),
     (75, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_start_date)', 'Contract Start Date', 'empContStartDate',  'false', null, null, 'label', '<xml><getter>empContStartDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (76, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_end_date)', 'Contract End Date', 'empContEndDate',  'false', null, null, 'label', '<xml><getter>empContEndDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
-    (77, 3, 'hs_hr_job_title.jobtit_name', 'Job Title', 'empJobTitle',  'false', null, null, 'label', '<xml><getter>empJobTitle</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (77, 3, 'ohrm_job_title.job_title', 'Job Title', 'empJobTitle',  'false', null, null, 'label', '<xml><getter>empJobTitle</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (78, 3, 'hs_hr_empstat.estat_name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (79, 3, 'hs_hr_job_spec.jobspec_name', 'Job Specification', 'empJobSpecification',  'false', null, null, 'label', '<xml><getter>empJobSpecification</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),

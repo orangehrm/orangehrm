@@ -25,9 +25,9 @@ class JobVacancyHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Job Title',
 		    'width' => '24%',
 		    'isSortable' => true,
-		    'sortField' => 'jt.name',
+		    'sortField' => 'jt.job_title',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getJobTitle'),
+		    'elementProperty' => array('getter' => 'getJobTitleName'),
 		));
 
 		$header3->populateFromArray(array(

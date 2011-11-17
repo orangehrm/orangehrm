@@ -183,8 +183,7 @@ if(file_exists($confPHP)) {
 
 						new IDField("hs_hr_education", "edu_code", "EDU"),
 						new IDField("hs_hr_licenses", "licenses_code", "LIC"),
-
-						new IDField("hs_hr_job_title", "jobtit_code", "JOB"),
+                    
 						new IDField("hs_pr_salary_grade", "sal_grd_code", "SAL"),
 						new IDField("hs_hr_empstat", "estat_code", "EST"),
 						new IDField("hs_hr_eec", "eec_code", "EEC"),
@@ -206,7 +205,6 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_workshift", "workshift_id"),
 						new IDField("hs_hr_custom_export", "export_id"),
 						new IDField("hs_hr_custom_import", "import_id"),
-						new IDField("hs_hr_job_spec", "jobspec_id"),
 
 						/* Not used yet. Uncomment when we start using these
 						new IDField("hs_hr_employee_timesheet_period", "timesheet_period_id"),
