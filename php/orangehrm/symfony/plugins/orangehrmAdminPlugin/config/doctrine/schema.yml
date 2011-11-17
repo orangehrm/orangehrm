@@ -203,9 +203,9 @@ Location:
       primary: true
       autoincrement: true
     name: string(110)
-    country: string(5)
-    state_province:
-      name: state_province as stateProvince
+    country_code as countryCode: string(3)
+    province:
+      name: province
       type: string(60)
     city: string(60)
     address: string(255)
@@ -217,7 +217,7 @@ Location:
     notes: string(255)
   relations:
     country:
-      local: country
+      local: country_code
       foreign: cou_code
       type: one
     employees:

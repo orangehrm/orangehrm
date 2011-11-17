@@ -225,7 +225,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbLeaveType'] = '';
         $clues['cmbSubDivision'] = '';
         $clues['cmbJobTitle'] = '';
-        $clues['cmbLocation'] = 'LOC001';
+        $clues['cmbLocation'] = 1;
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 

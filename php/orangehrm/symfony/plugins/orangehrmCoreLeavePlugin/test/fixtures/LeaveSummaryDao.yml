@@ -6,8 +6,8 @@ Subunit:
   4: {id: 5, name: 'HR'}
 
 Location:
-  0: {loc_code: 'LOC001', loc_name: 'Houston', loc_country: 'US', loc_add: 'Houston', loc_zip: 1234}
-  1: {loc_code: 'LOC002', loc_name: 'London', loc_country: 'GB', loc_add: 'London', loc_zip: 9874}
+  0: {id: 1, name: 'Houston', country_code: 'US', address: 'Houston', zip_code: 1234}
+  1: {id: 2, name: 'London', country_code: 'GB', address: 'London', zip_code: 9874}
 
 JobTitle:
   0: {id: 1, jobTitleName: 'Marketing Executive', jobDescription: 'ME'}
@@ -26,9 +26,9 @@ Employee:
   4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 1}
 
 EmpLocation:
-  0: {empNumber: 1, loc_code: 'LOC001'}
-  1: {empNumber: 4, loc_code: 'LOC001'}
-  2: {empNumber: 5, loc_code: 'LOC002'}
+  0: {empNumber: 1, loc_code: 1}
+  1: {empNumber: 4, loc_code: 1}
+  2: {empNumber: 5, loc_code: 2}
 
 ReportingMethod:
   0: {reportingMethodId: '1', reportingMethodName: 'reportingMethodName1'}

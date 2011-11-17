@@ -359,18 +359,18 @@ create table `hs_hr_language` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_location` (
-  `loc_code` varchar(13) not null default '',
-  `loc_name` varchar(100) default null,
-  `loc_country` varchar(3) default null,
-  `loc_state` varchar(50) default null,
-  `loc_city` varchar(50) default null,
-  `loc_add` varchar(100) default null,
-  `loc_zip` varchar(10) default null,
-  `loc_phone` varchar(30) default null,
-  `loc_fax` varchar(30) default null,
-  `loc_comments` varchar(100) default null,
-  primary key  (`loc_code`)
+create table `ohrm_location` (
+  `id` varchar(13) not null default '',
+  `name` varchar(100) default null,
+  `country_code` varchar(3) default null,
+  `province` varchar(60) default null,
+  `city` varchar(60) default null,
+  `address` varchar(255) default null,
+  `zip_code` varchar(15) default null,
+  `phone` varchar(35) default null,
+  `fax` varchar(35) default null,
+  `notes` varchar(255) default null,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_membership` (
@@ -1393,8 +1393,8 @@ alter table hs_pr_salary_currency_detail
        add constraint foreign key (sal_grd_code)
                              references hs_pr_salary_grade(sal_grd_code) on delete cascade;
 
-alter table hs_hr_location
-       add constraint foreign key (loc_country)
+alter table ohrm_location
+       add constraint foreign key (country_code)
                              references hs_hr_country(cou_code) on delete cascade;
 
 alter table hs_hr_jobtit_empstat
@@ -1686,7 +1686,7 @@ alter table `hs_hr_emp_location_history`
 
 alter table `hs_hr_emp_locations`
     add constraint foreign key (`loc_code`)
-        references hs_hr_location(`loc_code`) on delete cascade,
+        references ohrm_location(`id`) on delete cascade,
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
 
