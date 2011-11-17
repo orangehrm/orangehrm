@@ -408,6 +408,22 @@
                 <source>Edit Job Title</source>
                 <target>FR_Edit Job Title</target>
             </trans-unit>
+            <trans-unit id="102">
+                <source>Job Specification Size Exceeded 1MB</source>
+                <target>FR_Job Specification Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Selected job title(s) will be deleted</source>
+                <target>FR_Selected job title(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>Selected customer(s) will be deleted</source>
+                <target>FR_Selected customer(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Selected project(s) will be deleted</source>
+                <target>FR_Selected project(s) will be deleted</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -46,6 +46,7 @@ $(document).ready(function() {
 function makeViewMode(){
     $('.formInputText').attr('disabled', 'disabled')
     $('.formInputTextArea').attr('disabled', 'disabled')
+    $('#jobTitle_jobSpec').attr('disabled', 'disabled')
     $('#radio').hide()
     $('#fileUploadSection').hide()
     $('#btnSave').attr('value', lang_edit)
@@ -54,6 +55,7 @@ function makeViewMode(){
 function makeEditMode(){
     $('.formInputText').removeAttr('disabled')
     $('.formInputTextArea').removeAttr('disabled')
+    $('#jobTitle_jobSpec').removeAttr('disabled')
     $('#radio').show()
     $('#jobTitle_jobSpecUpdate_1').attr('checked', 'checked');
     $('#btnSave').attr('value', lang_save)

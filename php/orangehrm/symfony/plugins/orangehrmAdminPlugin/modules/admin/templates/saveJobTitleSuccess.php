@@ -24,7 +24,7 @@
 
 <?php use_stylesheet('../orangehrmAdminPlugin/css/saveJobTitleSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/saveJobTitleSuccess'); ?>
-
+<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
@@ -51,7 +51,7 @@
                 echo $form['jobSpec']->renderLabel(__('Job Specification'), array("class " => "formInputFileUpload"));
                 echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
                 echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __("1M Max, any larger attachments will be ignored") . "]</span>";
                 echo "<br class=\"clear\"/>";
             } else {
                 $attachment = $form->attachment;
@@ -70,7 +70,7 @@
                 echo $form['jobSpec']->renderLabel(' ');
                 echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
                 echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __("1M Max, any larger attachments will be ignored") . "]</span>";
                 echo "</div>";
             }
             ?>

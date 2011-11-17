@@ -31,9 +31,13 @@ class saveJobTitleAction extends sfAction {
         $values = array('jobTitleId' => $jobTitleId);
 
         $this->setForm(new JobTitleForm(array(), $values));
-        
+
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+            $file = $request->getFiles($this->form->getName());
+            if ($_FILES['jobTitle']['size']['jobSpec'] > 1024000) {
+                $this->templateMessage = array('WARNING', 'Job Specification Size Exceeded 1MB');
+            }
             if ($this->form->isValid()) {
                 $result = $this->form->save();
                 $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));

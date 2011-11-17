@@ -333,9 +333,9 @@ class AddCandidateForm extends BaseForm {
      */
     private function _getNewlySavedCandidateId($candidate) {
 
-        $candidate->firstName = $this->getValue('firstName');
-        $candidate->middleName = $this->getValue('middleName');
-        $candidate->lastName = $this->getValue('lastName');
+        $candidate->firstName = trim($this->getValue('firstName'));
+        $candidate->middleName = trim($this->getValue('middleName'));
+        $candidate->lastName = trim($this->getValue('lastName'));
         $candidate->email = $this->getValue('email');
         $candidate->comment = $this->getValue('comment');
         $candidate->contactNumber = $this->getValue('contactNo');

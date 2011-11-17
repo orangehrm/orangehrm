@@ -22,6 +22,15 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     private $jobService;
     private $companyStructureService;
     public $emoloyeeList;
+    private $jobTitleService;
+
+    public function getJobTitleService() {
+        if (is_null($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
+        }
+        return $this->jobTitleService;
+    }
 
     public function configure() {
 
@@ -65,13 +74,11 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
     private function _setJobTitleWidget() {
 
-        $jobService = $this->getJobService();
-        $jobList = $jobService->getActiveJobTitleList();
-
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         $choices[0] = __('All');
 
-        foreach ($jobList as $job) {
-            $choices[$job->getId()] = $job->getName();
+        foreach ($jobTitleList as $job) {
+            $choices[$job->getId()] = $job->getJobTitleName();
         }
 
         $this->setWidget('jobTitle', new sfWidgetFormChoice(array('choices' => $choices)));

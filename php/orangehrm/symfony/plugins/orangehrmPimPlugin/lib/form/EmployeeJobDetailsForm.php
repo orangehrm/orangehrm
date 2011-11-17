@@ -95,7 +95,6 @@ class EmployeeJobDetailsForm extends BaseForm {
             $this->setDefault('emp_status', $employee->emp_status);
             $this->setDefault('terminated_date', set_datepicker_date_format($employee->terminated_date));
             $this->setDefault('termination_reason', $employee->termination_reason);
-
         }
 
         $this->setDefault('eeo_category', $employee->eeo_cat_code);
@@ -183,9 +182,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         $employee = $employeeService->getEmployee($this->getValue('emp_number'));
 
         $jobTitle = $this->getValue('job_title');
-        if ($jobTitle != '') {
-            $employee->job_title_code = $jobTitle;
-        }
+        $employee->job_title_code = $jobTitle;
         $empStatus = $this->getValue('emp_status');
         if ($empStatus == '') {
             $employee->emp_status = null;
