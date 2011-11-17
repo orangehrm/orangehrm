@@ -194,3 +194,35 @@ JobSpecificationAttachment:
       local: jobTitleId
       foreign: id
       type: one
+
+Location:
+  tableName: ohrm_location
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    name: string(110)
+    country: string(5)
+    state_provice:
+      name: state_provice as stateProvice
+      type: string(60)
+    city: string(60)
+    address: string(255)
+    zip_code:
+      name: zip_code as zipCode
+      type: string(35)
+    phone: string(35)
+    fax: string(35)
+    notes: string(255)
+  relations:
+    country:
+      local: country
+      foreign: cou_code
+      type: one
+    Employees:
+      class: Employee
+      local: id
+      foreign: emp_number
+      refClass: EmpLocations
+      foreignAlias: employees

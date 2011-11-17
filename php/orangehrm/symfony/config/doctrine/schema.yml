@@ -48,32 +48,32 @@ EmpWorkExperience:
       foreign: emp_number
       type: one
       
-Location:
-  tableName: hs_hr_location
-  columns:
-    loc_code:
-      type: string(13)
-      primary: true
-    loc_name: string(100)
-    loc_country: string(3)
-    loc_state: string(50)
-    loc_city: string(50)
-    loc_add: string(100)
-    loc_zip: string(10)
-    loc_phone: string(30)
-    loc_fax: string(30)
-    loc_comments: string(100)
-  relations:
-    country:
-      local: loc_country
-      foreign: cou_code
-      type: one
-    Employees:
-      class: Employee
-      local: loc_code
-      foreign: emp_number
-      refClass: EmpLocations
-      foreignAlias: employees
+#Location:
+#  tableName: hs_hr_location
+#  columns:
+#    loc_code:
+#      type: string(13)
+#      primary: true
+#    loc_name: string(100)
+#    loc_country: string(3)
+#    loc_state: string(50)
+#    loc_city: string(50)
+#    loc_add: string(100)
+#    loc_zip: string(10)
+#    loc_phone: string(30)
+#    loc_fax: string(30)
+#    loc_comments: string(100)
+#  relations:
+#    country:
+#      local: loc_country
+#      foreign: cou_code
+#      type: one
+#    Employees:
+#      class: Employee
+#      local: loc_code
+#      foreign: emp_number
+#      refClass: EmpLocations
+#      foreignAlias: employees
 
 Country:
   tableName: hs_hr_country
