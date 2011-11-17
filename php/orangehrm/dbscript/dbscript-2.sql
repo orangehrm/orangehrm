@@ -351,7 +351,6 @@ INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES
     (122, 'ROL', 'Romanian Leu'),
     (123, 'RUB', 'Russian Rouble'),
     (180, 'RUR', 'Russia Rubles'),
-    (124, 'SAR', 'South African Rand'),
     (125, 'SBD', 'Solomon Islands Dollar'),
     (126, 'SCR', 'Seychelles Rupee'),
     (127, 'SDD', 'Sudanese Dinar'),
@@ -397,7 +396,8 @@ INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES
     (168, 'ZAR', 'South African Rand'),
     (176, 'ZMK', 'Zambian Kwacha'),
     (169, 'ZRN', 'New Zaire'),
-    (170, 'ZWD', 'Zimbabwe Dollar');
+    (170, 'ZWD', 'Zimbabwe Dollar'),
+    (173, 'SAR', 'Saudi Arabia Riyal');
   
 
 INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`) VALUES (1, 'Alaska', 'AK', 'US'),
