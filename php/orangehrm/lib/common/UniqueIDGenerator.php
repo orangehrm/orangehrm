@@ -188,8 +188,6 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_empstat", "estat_code", "EST"),
 						new IDField("hs_hr_eec", "eec_code", "EEC"),
 
-						new IDField("hs_hr_location", "loc_code", "LOC"),
-
 						new IDField("hs_hr_users", "id", "USR"),
 						new IDField("hs_hr_user_group", "userg_id", "USG"),
 
