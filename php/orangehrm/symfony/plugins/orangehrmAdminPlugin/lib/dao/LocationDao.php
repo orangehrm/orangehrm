@@ -90,6 +90,16 @@ class LocationDao extends BaseDao {
 		}
 	}
 
+	public function getLocationList() {
+		
+		try {
+			$q = Doctrine_Query :: create()
+				->from('Location');
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>

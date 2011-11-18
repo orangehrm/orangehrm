@@ -85,6 +85,15 @@ class LocationService extends BaseService {
 	public function getNumberOfEmplyeesForLocation($locationId) {
 		return $this->locationDao->getNumberOfEmplyeesForLocation($locationId);
 	}
+	
+	/**
+	 * Get all locations
+	 * 
+	 * @return type 
+	 */
+	public function getLocationList() {
+		return $this->locationDao->getLocationList();
+	}
 
 }
 

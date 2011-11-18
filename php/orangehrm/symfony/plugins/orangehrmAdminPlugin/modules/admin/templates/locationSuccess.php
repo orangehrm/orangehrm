@@ -26,12 +26,12 @@
             <br class="clear"/>
 	    
 	    <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['name']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['name']->render(array("class" => "formInput", "maxlength" => 102)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['country']->renderLabel(__('Country') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['country']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['country']->render(array("class" => "formInput", "maxlength" => 3)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
@@ -47,27 +47,27 @@
 	    <br class="clear"/>
 	    
 	    <?php echo $form['address']->renderLabel(__('Address')); ?>
-            <?php echo $form['address']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['address']->render(array("class" => "formInput", "maxlength" => 256)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['zipCode']->renderLabel(__('Zip Code')); ?>
-            <?php echo $form['zipCode']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['zipCode']->render(array("class" => "formInput", "maxlength" => 32)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['phone']->renderLabel(__('Phone')); ?>
-            <?php echo $form['phone']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['phone']->render(array("class" => "formInput", "maxlength" => 32)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['fax']->renderLabel(__('Fax')); ?>
-            <?php echo $form['fax']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['fax']->render(array("class" => "formInput", "maxlength" => 32)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['notes']->renderLabel(__('Notes')); ?>
-            <?php echo $form['notes']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['notes']->render(array("class" => "formInput", "maxlength" => 256)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
@@ -84,6 +84,8 @@
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 
 <script type="text/javascript">
+	var locations = <?php echo str_replace('&#039;', "'", $form->getLocationListAsJson()) ?> ;
+        var locationList = eval(locations);
 	var lang_LocNameRequired = "<?php echo __("Location name is required"); ?>";
 	var lang_CountryRequired = "<?php echo __("Country is required"); ?>";
 	var lang_ValidCountry = "<?php echo __("Enter a valid country"); ?>";
@@ -96,4 +98,5 @@
 	var lang_editLocation = "<?php echo __("Edit Location"); ?>";
 	var locationId = "<?php echo $locationId ?>";
 	var viewLocationUrl = "<?php echo url_for("admin/viewLocations"); ?>";
+	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
 </script>

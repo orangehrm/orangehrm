@@ -40,11 +40,41 @@ function setCountryState() {
     
 function isValidForm(){
     
+    $.validator.addMethod("uniqueName", function(value, element, params) {
+        var temp = true;
+        var currentLocation;
+        var id = parseInt(locationId,10);
+        var vcCount = locationList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == locationList[j].id){
+                currentLocation = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#location_name').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = locationList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentLocation != null){
+            if(vcName == locationList[currentLocation].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
+    
     var validator = $("#frmLocation").validate({
 
         rules: {
             'location[name]' : {
                 required:true,
+                uniqueName: true,
                 maxlength: 100
             },
             'location[country]' : {
@@ -79,6 +109,7 @@ function isValidForm(){
         messages: {
             'location[name]' : {
                 required: lang_LocNameRequired,
+                uniqueName: lang_uniqueName,
                 maxlength: lang_Max100Chars
             },
             'location[country]' : {

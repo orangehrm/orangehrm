@@ -55,7 +55,7 @@ class locationAction extends sfAction {
 				} else {
 					$this->getUser()->setFlash('templateMessage', array('success', __('Location Added Successfully')));
 				}
-				$this->redirect('admin/location?locationId='.$locationId);
+				$this->redirect('admin/viewLocations');
 			}
 		}
 	}

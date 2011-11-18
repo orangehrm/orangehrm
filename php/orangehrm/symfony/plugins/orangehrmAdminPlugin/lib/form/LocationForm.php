@@ -160,6 +160,15 @@ class LocationForm extends BaseForm {
 		return $location->getId();
 	}
 
+	public function getLocationListAsJson() {
+		
+		$list = array();
+		$locationList = $this->getLocationService()->getLocationList();
+		foreach ($locationList as $location) {
+			$list[] = array('id' => $location->getId(), 'name' => $location->getName());
+		}
+		return json_encode($list);
+	}
 }
 
 ?>
