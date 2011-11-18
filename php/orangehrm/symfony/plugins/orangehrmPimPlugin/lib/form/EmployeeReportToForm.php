@@ -184,7 +184,7 @@ class EmployeeReportToForm extends BaseForm {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee);
 
             if ($existingReportToObject != null) {
-                $existingReportToObject->setReportingMethod($reportingType);
+                $existingReportToObject->setReportingMethodId($reportingType);
                 $existingReportToObject->save();
             } else {
                 $newReportToObject = new ReportTo();
