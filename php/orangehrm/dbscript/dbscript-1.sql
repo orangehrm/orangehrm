@@ -360,13 +360,13 @@ create table `hs_hr_language` (
 
 
 create table `ohrm_location` (
-  `id` int not null,
-  `name` varchar(100) default null,
-  `country_code` varchar(3) default null,
+  `id` int not null auto_increment,
+  `name` varchar(110) not null,
+  `country_code` varchar(3) not null,
   `province` varchar(60) default null,
   `city` varchar(60) default null,
   `address` varchar(255) default null,
-  `zip_code` varchar(15) default null,
+  `zip_code` varchar(35) default null,
   `phone` varchar(35) default null,
   `fax` varchar(35) default null,
   `notes` varchar(255) default null,

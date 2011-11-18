@@ -34,22 +34,6 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		TestDataService::populate($this->fixture);
 	}
 
-	public function testGetProjectList() {
-
-		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
-
-		$projectDao = $this->getMock('ProjectDao');
-		$projectDao->expects($this->once())
-			->method('getProjectList')
-			->with("", "", "", "", "")
-			->will($this->returnValue($projectList));
-
-		$this->projectService->setProjectDao($projectDao);
-
-		$result = $this->projectService->getProjectList("", "", "", "", "");
-		$this->assertEquals($result, $projectList);
-	}
-
 	public function testGetProjectCount() {
 
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');

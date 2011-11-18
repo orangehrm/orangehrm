@@ -19,25 +19,6 @@
  */
 class ProjectDao extends BaseDao {
 
-	public function getProjectList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = true) {
-
-		$sortField = ($sortField == "") ? 'name' : $sortField;
-		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
-		try {
-			$q = Doctrine_Query :: create()
-				->from('Project');
-			if ($activeOnly == true) {
-				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
-			}
-			$q->orderBy($sortField . ' ' . $sortOrder)
-				->offset($offset)
-				->limit($limit);
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-
 	public function getProjectCount($activeOnly = true) {
 
 		try {
@@ -221,15 +202,8 @@ class ProjectDao extends BaseDao {
 	public function getSearchProjectListCount($srchClues, $allowedProjectList) {
 
 		try {
-			$q = $this->_buildSearchQuery($srchClues);
-			$projectList = $q->execute();
-			$allowedProjets = array();
-			foreach ($projectList as $project) {
-				if (in_array($project->getProjectId(), $allowedProjectList)) {
-					$allowedProjets[] = $project;
-				}
-			}
-			return sizeof($allowedProjets);
+			$q = $this->_buildSearchQuery($srchClues, $allowedProjectList);
+			return $q->count();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
@@ -243,26 +217,18 @@ class ProjectDao extends BaseDao {
 		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
 
 		try {
-			$q = $this->_buildSearchQuery($srchClues);
+			$q = $this->_buildSearchQuery($srchClues, $allowedProjectList);
 			$q->orderBy($sortField . ' ' . $sortOrder)
 				->addWhere('p.is_deleted = ?', Project::ACTIVE_PROJECT)
 				->offset($offset)
 				->limit($limit);
-
-			$projectList = $q->execute();
-			$allowedProjets = array();
-			foreach ($projectList as $project) {
-				if (in_array($project->getProjectId(), $allowedProjectList)) {
-					$allowedProjets[] = $project;
-				}
-			}
-			return $allowedProjets;
+			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
 
-	private function _buildSearchQuery($srchClues) {
+	private function _buildSearchQuery($srchClues, $allowedProjectList) {
 
 		$q = Doctrine_Query::create()
 			->select('p.projectId, p.name, c.name')
@@ -272,6 +238,9 @@ class ProjectDao extends BaseDao {
 			->leftJoin('p.ProjectAdmin pa')
 			->leftJoin('pa.Employee e');
 
+		if (!empty($allowedProjectList)) {
+			$q->whereIn('p.projectId', $allowedProjectList);
+		}
 		if (!empty($srchClues['customer'])) {
 			$q->addWhere('c.name = ?', trim($srchClues['customer']));
 		}
@@ -283,6 +252,7 @@ class ProjectDao extends BaseDao {
 			$projectAdmin = "%" . $projectAdmin . "%";
 			$q->addWhere("concat_ws(' ', e.emp_firstname, e.emp_middle_name, e.emp_lastname) LIKE ?", $projectAdmin);
 		}
+
 		return $q;
 	}
 

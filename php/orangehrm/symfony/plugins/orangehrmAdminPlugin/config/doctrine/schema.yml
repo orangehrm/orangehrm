@@ -217,6 +217,7 @@ Location:
     notes: string(255)
   relations:
     country:
+      class: Country
       local: country_code
       foreign: cou_code
       type: one

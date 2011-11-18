@@ -72,18 +72,6 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result[0]->getProjectId(), 1);
 	}
 
-	public function testGetProjectListWithActiveOnly() {
-		$result = $this->projectDao->getProjectList();
-		$this->assertEquals(count($result), 2);
-		$this->assertEquals($result[0]->getProjectId(), 1);
-	}
-	
-	public function testGetProjectList() {
-		$result = $this->projectDao->getProjectList("","","","",false);
-		$this->assertEquals(count($result), 3);
-		$this->assertEquals($result[0]->getProjectId(), 1);
-	}
-
 	public function testGetProjectCountWithActiveOnly() {
 		$result = $this->projectDao->getProjectCount();
 		$this->assertEquals($result, 2);

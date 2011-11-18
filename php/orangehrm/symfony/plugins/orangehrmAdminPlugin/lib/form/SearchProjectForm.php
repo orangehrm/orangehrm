@@ -42,7 +42,7 @@ class SearchProjectForm extends BaseForm {
 
 	public function configure() {
 
-		$this->userObj = sfContext::getInstance()->getUser()->getAttribute('user');;
+		$this->userObj = sfContext::getInstance()->getUser()->getAttribute('user');
 
 		$this->setWidgets(array(
 		    'customer' => new sfWidgetFormInputText(),

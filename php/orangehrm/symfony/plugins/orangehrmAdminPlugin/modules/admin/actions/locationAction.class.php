@@ -32,7 +32,32 @@ class locationAction extends sfAction {
 	
 	public function execute($request) {
 		
-		$this->setForm(new LocationForm());
+		$usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
+		}
+		
+		$this->locationId = $request->getParameter('locationId');
+		$values = array('locationId' => $this->locationId);
+		$this->setForm(new LocationForm(array(),$values));
+		
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+		
+		if ($request->isMethod('post')) {
+
+			$this->form->bind($request->getParameter($this->form->getName()));
+			if ($this->form->isValid()) {
+				$locationId = $this->form->save();
+				if ($this->form->edited) {
+					$this->getUser()->setFlash('templateMessage', array('success', __('Location Updated Successfully')));
+				} else {
+					$this->getUser()->setFlash('templateMessage', array('success', __('Location Added Successfully')));
+				}
+				$this->redirect('admin/location?locationId='.$locationId);
+			}
+		}
 	}
 }
 

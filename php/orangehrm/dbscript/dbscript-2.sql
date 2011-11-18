@@ -554,7 +554,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
-    (0, 'hs_hr_location', 'loc_code'),
     (0, 'hs_hr_membership', 'membship_code'),
     (0, 'hs_hr_membership_type', 'membtype_code'),
     (6, 'hs_hr_module', 'mod_id'),
@@ -695,8 +694,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = hs_hr_emp_dependents.emp_number)
                     LEFT JOIN hs_hr_emp_locations AS emp_location ON
                         (hs_hr_employee.emp_number = emp_location.emp_number)
-                    LEFT JOIN hs_hr_location ON
-                        (emp_location.loc_code = hs_hr_location.loc_code)
+                    LEFT JOIN ohrm_location ON
+                        (emp_location.loc_code = ohrm_location.id)
                     LEFT JOIN hs_hr_emp_contract_extend ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
                     LEFT JOIN hs_hr_emp_basicsalary ON 
@@ -910,7 +909,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (81, 3, 'hs_hr_employee.joined_date', 'Joined Date', 'empJoinedDate',  'false', null, null, 'label', '<xml><getter>empJoinedDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
     (82, 3, 'ohrm_subunit.name', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),
-    (83, 3, 'hs_hr_location.loc_name', 'Location', 'empLocation',  'false', null, null, 'label', '<xml><getter>empLocation</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (83, 3, 'ohrm_location.name', 'Location', 'empLocation',  'false', null, null, 'label', '<xml><getter>empLocation</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (84, 3, 'hs_hr_emp_passport.ep_passport_num', 'Number', 'empPassportNo',  'false', null, null, 'label', '<xml><getter>empPassportNo</getter></xml>', 200, '0', null, true, 5, '---', false, false),
     (85, 3, 'DATE(hs_hr_emp_passport.ep_passportissueddate)', 'Issued Date', 'empPassportIssuedDate',  'false', null, null, 'label', '<xml><getter>empPassportIssuedDate</getter></xml>', 100, '0', null, true, 5, '---', false, false),
     (86, 3, 'DATE(hs_hr_emp_passport.ep_passportexpiredate)', 'Expiry Date', 'empPassportExpiryDate',  'false', null, null, 'label', '<xml><getter>empPassportExpiryDate</getter></xml>', 100, '0', null, true, 5, '---', false, false),

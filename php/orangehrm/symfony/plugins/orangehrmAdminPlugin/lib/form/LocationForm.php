@@ -20,6 +20,11 @@
  */
 class LocationForm extends BaseForm {
 
+	public $locationId;
+	private $locationService;
+	private $countryService;
+	public $edited = false;
+	
 	/**
 	 * Returns Country Service
 	 * @returns CountryService
@@ -30,16 +35,27 @@ class LocationForm extends BaseForm {
 		}
 		return $this->countryService;
 	}
+	
+	public function getLocationService() {
+		if (is_null($this->locationService)) {
+			$this->locationService = new LocationService();
+			$this->locationService->setLocationDao(new LocationDao());
+		}
+		return $this->locationService;
+	}
 
 	public function configure() {
 
+		$this->locationId = $this->getOption('locationId');
 		$countries = $this->getCountryList();
+		$states = $this->getStatesList();
 
 		$this->setWidgets(array(
 		    'locationId' => new sfWidgetFormInputHidden(),
 		    'name' => new sfWidgetFormInputText(),
 		    'country' => new sfWidgetFormSelect(array('choices' => $countries)),
-		    'stateProvince' => new sfWidgetFormInputText(),
+		    'state' => new sfWidgetFormSelect(array('choices' => $states)),
+		    'province' => new sfWidgetFormInputText(),
 		    'city' => new sfWidgetFormInputText(),
 		    'address' => new sfWidgetFormTextArea(),
 		    'zipCode' => new sfWidgetFormInputText(),
@@ -52,7 +68,8 @@ class LocationForm extends BaseForm {
 		    'locationId' => new sfValidatorNumber(array('required' => false)),
 		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 102)),
 		    'country' => new sfValidatorString(array('required' => true, 'max_length' => 3)),
-		    'stateProvince' => new sfValidatorString(array('required' => false, 'max_length' => 52)),
+		    'state' => new sfValidatorString(array('required' => false, 'max_length' => 52)),
+		    'province' => new sfValidatorString(array('required' => false, 'max_length' => 52)),
 		    'city' => new sfValidatorString(array('required' => false, 'max_length' => 52)),
 		    'address' => new sfValidatorString(array('required' => false, 'max_length' => 256)),
 		    'zipCode' => new sfValidatorString(array('required' => false, 'max_length' => 32)),
@@ -63,6 +80,30 @@ class LocationForm extends BaseForm {
 
 
 		$this->widgetSchema->setNameFormat('location[%s]');
+		
+		if ($this->locationId != null) {
+			$this->setDefaultValues($this->locationId);
+		}
+	}
+	
+	private function setDefaultValues($locationId) {
+
+		$location = $this->getLocationService()->getLocationById($this->locationId);
+		$this->setDefault('locationId', $locationId);
+		$this->setDefault('name', $location->getName());
+		$this->setDefault('country', $location->getCountryCode());
+		if($location->getCountryCode() == 'US') {
+			$this->setDefault('state', $location->getProvince());
+		} else {
+			$this->setDefault('province', $location->getProvince());
+		}
+		$this->setDefault('city', $location->getCity());
+		$this->setDefault('address', $location->getAddress());
+		$this->setDefault('zipCode', $location->getZipCode());
+		$this->setDefault('phone', $location->getPhone());
+		$this->setDefault('fax', $location->getFax());
+		$this->setDefault('notes', $location->getNotes());
+		
 	}
 
 	/**
@@ -70,12 +111,53 @@ class LocationForm extends BaseForm {
 	 * @return array
 	 */
 	private function getCountryList() {
-		$list = array(0 => "-- " . __('Select') . " --");
+		$list = array("" => "-- " . __('Select') . " --");
 		$countries = $this->getCountryService()->getCountryList();
 		foreach ($countries as $country) {
 			$list[$country->cou_code] = $country->cou_name;
 		}
 		return $list;
+	}
+
+	/**
+	 * Returns States List
+	 * @return array
+	 */
+	private function getStatesList() {
+		$list = array("" => "-- " . __('Select') . " --");
+		$states = $this->getCountryService()->getProvinceList();
+		foreach ($states as $state) {
+			$list[$state->province_code] = $state->province_name;
+		}
+		return $list;
+	}
+
+	public function save() {
+
+		$locationId = $this->getValue('locationId');
+		if(empty($locationId)){
+			$location = new Location();
+		} else {
+			$this->edited = true;
+			$location = $this->getLocationService()->getLocationById($locationId);
+		}
+		$location->setName($this->getValue('name'));
+		$country = $this->getValue('country');
+		$location->setCountryCode($country);
+		if ($country == 'US') {
+			$location->setProvince($this->getValue('state'));
+		} else {
+			$location->setProvince($this->getValue('province'));
+		}
+		$location->setCity($this->getValue('city'));
+		$location->setAddress($this->getValue('address'));
+		$location->setZipCode($this->getValue('zipCode'));
+		$location->setPhone($this->getValue('phone'));
+		$location->setFax($this->getValue('fax'));
+		$location->setNotes($this->getValue('notes'));
+		$location->save();
+		
+		return $location->getId();
 	}
 
 }

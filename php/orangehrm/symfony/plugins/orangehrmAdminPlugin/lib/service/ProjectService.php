@@ -54,22 +54,6 @@ class ProjectService extends BaseService {
 	}
 
 	/**
-	 * Get Project List
-	 * 
-	 * Get Active Project list in default. Can get all projects by passing $activeOnly as false.
-	 * 
-	 * @param type $noOfRecords
-	 * @param type $offset
-	 * @param type $sortField
-	 * @param type $sortOrder
-	 * @param type $activeOnly
-	 * @return type 
-	 */
-	public function getProjectList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly) {
-		return $this->projectDao->getProjectList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
-	}
-
-	/**
 	 *
 	 * get Project count
 	 * 

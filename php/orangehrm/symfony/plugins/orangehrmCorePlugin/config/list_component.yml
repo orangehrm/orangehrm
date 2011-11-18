@@ -402,3 +402,24 @@ JobTitle:
   formAction: 'index.php/admin/deleteJobTitle'
   assets: []
   jsInitMethods: []
+  
+Location:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteLocations'
+  assets: []
+  jsInitMethods: []

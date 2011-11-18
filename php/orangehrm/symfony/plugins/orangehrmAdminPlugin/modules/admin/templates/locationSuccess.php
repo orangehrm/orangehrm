@@ -18,7 +18,7 @@
 <div id="location">
     <div class="outerbox">
 
-        <div class="mainHeading"><h2 id="locationHeading"><?php echo __("Location"); ?></h2></div>
+        <div class="mainHeading"><h2 id="locationHeading"><?php echo __("Add Location"); ?></h2></div>
         <form name="frmLocation" id="frmLocation" method="post" action="<?php echo url_for('admin/location'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
@@ -35,8 +35,9 @@
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
-	    <?php echo $form['stateProvince']->renderLabel(__('State/Province')); ?>
-            <?php echo $form['stateProvince']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+	    <?php echo $form['state']->renderLabel(__('State/Province')); ?>
+            <?php echo $form['state']->render(array("class" => "formInput", "maxlength" => 52)); ?>
+            <?php echo $form['province']->render(array("class" => "formInput", "maxlength" => 52)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
@@ -80,3 +81,19 @@
 	</form>
     </div>
 </div>
+<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+
+<script type="text/javascript">
+	var lang_LocNameRequired = "<?php echo __("Location name is required"); ?>";
+	var lang_CountryRequired = "<?php echo __("Country is required"); ?>";
+	var lang_ValidCountry = "<?php echo __("Enter a valid country"); ?>";
+	var lang_validPhoneNo = "<?php echo __("Enter a valid phone number"); ?>";
+	var lang_validFaxNo = "<?php echo __("Enter a valid fax number"); ?>";
+	var lang_Max100Chars = "<?php echo __("Cannot exceed 100 charactors"); ?>";
+	var lang_Max50Chars = "<?php echo __("Cannot exceed 50 charactors"); ?>";
+	var lang_Max30Chars = "<?php echo __("Cannot exceed 30 charactors"); ?>";
+	var lang_Max255Chars = "<?php echo __("Cannot exceed 255 charactors"); ?>";
+	var lang_editLocation = "<?php echo __("Edit Location"); ?>";
+	var locationId = "<?php echo $locationId ?>";
+	var viewLocationUrl = "<?php echo url_for("admin/viewLocations"); ?>";
+</script>

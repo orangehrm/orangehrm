@@ -33,7 +33,6 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 							array("hs_hr_leavetype", "leave_type_id", null),
 							array("hs_hr_licenses", "licenses_code", "LIC"),
 							array("hs_hr_language", "lang_code", "LAN"),
-							array("hs_hr_location", "loc_code", "LOC"),
 							array("hs_hr_membership", "membship_code", "MME"),
 							array("hs_hr_membership_type", "membtype_code", "MEM"),
 							array("hs_hr_module", "mod_id", "MOD"),

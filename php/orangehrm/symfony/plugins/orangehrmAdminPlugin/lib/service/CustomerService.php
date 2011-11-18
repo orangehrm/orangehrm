@@ -38,7 +38,7 @@ class CustomerService extends BaseService {
 
 	/**
 	 *
-	 * @param UbCoursesDao $UbCoursesDao 
+	 * @param CustomerDao $customerDao 
 	 */
 	public function setCustomerDao(CustomerDao $customerDao) {
 		$this->customerDao = $customerDao;
@@ -56,8 +56,8 @@ class CustomerService extends BaseService {
 	 * @param type $activeOnly
 	 * @return type 
 	 */
-	public function getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly) {
-		return $this->customerDao->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder, $activeOnly);
+	public function getCustomerList($limit=50, $offset=0, $sortField='name', $sortOrder='ASC', $activeOnly = true) {
+		return $this->customerDao->getCustomerList($limit, $offset, $sortField, $sortOrder, $activeOnly);
 	}
 
 	/**
