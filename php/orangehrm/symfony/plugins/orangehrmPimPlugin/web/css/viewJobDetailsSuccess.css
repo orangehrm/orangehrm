@@ -81,3 +81,7 @@ a.fileLink {
     margin-left: 140px;
     font-size: 11px;
 }
+
+form#frmEmpJobDetails div#fileLink a.fileLink{
+    margin-top: 5px;
+}

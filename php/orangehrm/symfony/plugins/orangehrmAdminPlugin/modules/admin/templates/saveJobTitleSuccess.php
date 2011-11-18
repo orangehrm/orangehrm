@@ -31,9 +31,9 @@
 
 <div id="saveHobTitle">
     <div class="outerbox">
-<?php $heading = (empty($form->jobTitleId)) ? __("Add Job Title") : __("Edit Job Title")?>
+        <?php $heading = (empty($form->jobTitleId)) ? __("Add Job Title") : __("Edit Job Title") ?>
         <div class="mainHeading"><h2 id="saveHobTitleHeading"><?php echo $heading; ?></h2></div>
-        <form name="frmSavejobTitle" id="frmSavejobTitle" method="post" action="<?php echo url_for('admin/saveJobTitle?jobTitleId='.$form->jobTitleId); ?>" enctype="multipart/form-data">
+        <form name="frmSavejobTitle" id="frmSavejobTitle" method="post" action="<?php echo url_for('admin/saveJobTitle?jobTitleId=' . $form->jobTitleId); ?>" enctype="multipart/form-data">
 
             <?php echo $form['_csrf_token']; ?>
             <br class="clear"/>
@@ -44,6 +44,7 @@
 
             <?php echo $form['jobDescription']->renderLabel(__('Job Description')); ?>
             <?php echo $form['jobDescription']->render(array("class" => "formInputTextArea", "maxlength" => 400)); ?>
+            <div class="errorHolder"></div>
             <br class="clear"/>
 
             <?php
@@ -77,6 +78,7 @@
 
             <?php echo $form['note']->renderLabel(__('Note')); ?>
             <?php echo $form['note']->render(array("class" => "formInputTextArea", "maxlength" => 400)); ?>
+            <div class="errorHolder"></div>
             <br class="clear"/>
 
             <div class="formbuttons">
@@ -100,5 +102,6 @@
     var lang_jobTitleRequired = "<?php echo __("Job Title is required"); ?>";
     var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList'); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
+    var lang_exceed400Chars = '<?php echo __("Cannot exceed 400 charactors"); ?>';
     //]]>
 </script>

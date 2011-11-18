@@ -51,5 +51,7 @@ div#fileLink{
 div#messageBalloon_warning.messageBalloon_warning{
     width: 600px;
 }
-
+form#frmSavejobTitle div.errorHolder label.error{
+    padding-left: 155px;
+}
 

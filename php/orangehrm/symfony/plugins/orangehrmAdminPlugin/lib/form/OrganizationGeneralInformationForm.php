@@ -82,7 +82,7 @@ class OrganizationGeneralInformationForm extends BaseForm {
         $this->organization->setFax($this->getValue('fax'));
         $this->organization->setEmail($this->getValue('email'));
         $this->organization->setCountry($this->getValue('country'));
-        $this->organization->setProvince($this->getValue('name'));
+        $this->organization->setProvince($this->getValue('province'));
         $this->organization->setCity($this->getValue('city'));
         $this->organization->setZipCode($this->getValue('zipCode'));
         $this->organization->setStreet1($this->getValue('street1'));

@@ -424,6 +424,18 @@
                 <source>Selected project(s) will be deleted</source>
                 <target>FR_Selected project(s) will be deleted</target>
             </trans-unit>
+            <trans-unit id="106">
+                <source>Job Title is required</source>
+                <target>FR_Job Title is required</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Selected Job Title(s) Deleted Successfully</source>
+                <target>FR_Selected Job Title(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>Cannot exceed 400 charactors</source>
+                <target>FR_Cannot exceed 400 charactors</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -26,6 +26,7 @@ class EmployeeJobDetailsForm extends BaseForm {
 
     public $fullName;
     public $attachment;
+    public $jobSpecAttachment;
     private $companyStructureService;
     private $jobTitleService;
 
@@ -95,6 +96,9 @@ class EmployeeJobDetailsForm extends BaseForm {
             $this->setDefault('emp_status', $employee->emp_status);
             $this->setDefault('terminated_date', set_datepicker_date_format($employee->terminated_date));
             $this->setDefault('termination_reason', $employee->termination_reason);
+
+            $jobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
+            $this->jobSpecAttachment =  $jobTitle->getJobSpecificationAttachment();
         }
 
         $this->setDefault('eeo_category', $employee->eeo_cat_code);

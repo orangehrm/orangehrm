@@ -238,7 +238,7 @@ $formatData['newSeparater'] = '/';
                                    </td>
 
                                    <td class="">
-                                <?php echo htmlspecialchars_decode($review->getJobTitle()->getName()); ?>
+                                <?php echo htmlspecialchars_decode($review->getJobTitle()->getJobTitleName()); ?>
                                    </td>
 
                                    <td class="">

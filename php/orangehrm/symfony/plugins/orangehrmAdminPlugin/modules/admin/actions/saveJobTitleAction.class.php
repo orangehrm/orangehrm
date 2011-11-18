@@ -36,7 +36,7 @@ class saveJobTitleAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
             if ($_FILES['jobTitle']['size']['jobSpec'] > 1024000) {
-                $this->templateMessage = array('WARNING', 'Job Specification Size Exceeded 1MB');
+                $this->templateMessage = array('WARNING', __('Job Specification Size Exceeded 1MB'));
             }
             if ($this->form->isValid()) {
                 $result = $this->form->save();

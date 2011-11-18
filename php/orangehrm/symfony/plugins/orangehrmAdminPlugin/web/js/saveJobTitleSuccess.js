@@ -4,16 +4,29 @@ $(document).ready(function() {
         rules: {
             'jobTitle[jobTitle]' : {
                 required:true
+            },
+            'jobTitle[jobDescription]' : {
+                maxlength: 390
+            },
+            'jobTitle[note]' : {
+                maxlength: 390
             }
         },
         messages: {
             'jobTitle[jobTitle]' : {
                 required: lang_jobTitleRequired
+            },
+            'jobTitle[jobDescription]' : {
+                maxlength: lang_exceed400Chars
+            },
+            'jobTitle[note]' : {
+                maxlength: lang_exceed400Chars
             }
         },
 
         errorPlacement: function(error, element) {
             error.appendTo(element.prev('label'));
+            error.appendTo(element.next('div.errorHolder'));
         }
     });
 
