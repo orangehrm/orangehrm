@@ -21,6 +21,7 @@
 /**
  * Employee Service
  * @package pim
+ * @todo Add deleteReportingMethod() function
  */
 class EmployeeService extends BaseService {
 
@@ -735,25 +736,37 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     *
-     * @param type $employeeId
-     * @param type $currentDate
-     * @return type 
-     * @ignore
+     * Retrieves the service period of an employee in years
+     * as on given date
+     * 
+     * Returns 0 if employee's joined date is not set.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber
+     * @param string $date Any date format supported by strtotime()
+     * @return int O if joined date is not set or joined date is after $date
+     * @throws PIMServiceException If employee with given ID is not found
+     * 
+     * @todo Rename the method to getYearsOfService()
+     * @todo Improve year duration calculation 
      */
-    public function getEmployeeYearsOfService($employeeId, $currentDate) {
-        $employee = $this->getEmployee($employeeId);
+    public function getEmployeeYearsOfService($empNumber, $date) {
+        $employee = $this->getEmployee($empNumber);
         if (!($employee instanceof Employee)) {
-            throw new PIMServiceException("Employee with employeeId " . $employeeId . " not found!");
+            throw new PIMServiceException("Employee with employeeId " . $empNumber . " not found!");
         }
-        return $this->getDurationInYears($employee->getJoinedDate(), $currentDate);
+        return $this->getDurationInYears($employee->getJoinedDate(), $date);
     }
 
     /**
-     *
-     * @param type $fromDate
-     * @param type $toDate
-     * @return type 
+     * Retrieves the duration between two dates in years
+     * 
+     * If any of the date is empty, it will return 0.
+     * 
+     * @version 2.6.11
+     * @param string $fromDate
+     * @param string $toDate
+     * @return int 
      * @ignore
      */
     public function getDurationInYears($fromDate, $toDate) {
@@ -761,7 +774,7 @@ class EmployeeService extends BaseService {
         $secondsOfYear = 60 * 60 * 24 * 365;
         $secondsOfMonth = 60 * 60 * 24 * 30;
 
-        if ($fromDate != "" && $toDate != "") {
+        if (!empty($fromDate) && !empty($toDate)) {
             $fromDateTimeStamp = strtotime($fromDate);
             $toDateTimeStamp = strtotime($toDate);
 
@@ -815,43 +828,17 @@ class EmployeeService extends BaseService {
                 $years--;
             }
         }
-        //this sections commented off if there is a need to extend it further
-        /* while($ctr < $toYear) {
-          $daysCount = $daysCount + $numberOfDaysInYear;
-          //this is for leap year
-          if($ctr % 4 == 0) {
-          $daysCount = $daysCount + 1;
-          }
-          if($noOfDays < $daysCount) {
-          $daysCount = $daysCount - $numberOfDaysInYear;
-          if($ctr % 4 == 0) {
-          $daysCount = $daysCount - 1;
-          }
-          break;
-          }
 
-          $years++;
-          $ctr++;
-          } */
-
-        /* $years = floor($timeStampDiff/$secondsOfYear);
-
-          $remainingMonthsTimeStamp = ($timeStampDiff - ($years * $secondsOfYear));
-          $remainingDays = $remainingMonthsTimeStamp/$secondsOfDay; */
-        /* $remainingDays = $noOfDays - $daysCount;
-
-          $months = floor(($remainingDays/$numberOfDaysInYear) * $numberOfMonths);
-          $yearByMonth = ($months > 0)? ($months/12):0;
-          $years = $years + $yearByMonth; */
         return $years;
     }
 
     /**
-     * Retrieve Workshift for a given employee number
-     * @param int $empNumber
-     * @returns EmployeeWorkShift
+     * Retrieves Workshift details of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @return EmployeeWorkShift EmployeeWorkShift instance if found or false
      * @throws PIMServiceException
-     * @ignore
      */
     public function getWorkShift($empNumber) {
         try {
@@ -862,11 +849,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Tax Exemption for a given employee number
-     * @param int $empNumber
-     * @returns EmpUsTaxExemption
+     * Retrieves Tax details of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @return EmpUsTaxExemption EmpUsTaxExemption instance if found or NULL
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Rename the method to getTaxExemptions()
      */
     public function getEmployeeTaxExemptions($empNumber) {
         try {
@@ -877,11 +867,15 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Tax Exemptions
+     * Saves Tax Exemptions of an employee 
+     * 
+     * @version 2.6.11
      * @param EmpUsTaxExemption $empUsTaxExemption
-     * @returns boolean
+     * @return boolean true always
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Don't return value
+     * @todo Rename the method as saveTaxExemptions()
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         try {
@@ -892,11 +886,15 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Contact Details
-     * @param Employee $employee
-     * @returns boolean
+     * Saves Job details of an employee
+     * 
+     * @version 2.6.11
+     * @param Employee $employee Employee instance
+     * @return boolean true always
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Don't return value
+     * @todo Save only job details in corresponding DAO method
      */
     public function saveJobDetails(Employee $employee) {
         try {
@@ -907,10 +905,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get membership details for given employee
-     * @param int $empNumber Employee Number
-     * @return array membership details as array
-     * @ignore
+     * Retrieves Membership details of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @return EmployeeMemberDetail A collection of EmployeeMemberDetail
+     * @throws PIMServiceException
+     * 
+     * @todo Rename the method as getMemberships()
      */
     public function getMembershipDetails($empNumber) {
         try {
@@ -921,25 +923,49 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get membership details for given employee
-     * @param int $empNumber Employee Number
-     * @return array membership details as array
-     * @ignore
+     * Retrieves details of a membership of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @param string $membershipType
+     * @param string $membershipCode
+     * @return Doctrine_Collection A collection of EmployeeMemberDetail
+     * @throws PIMServiceException
+     * 
+     * @todo Rename the method as getMembership()
+     * @todo Return only one object
      */
-    public function getMembershipDetail($empNumber, $membershipType, $membership) {
+    public function getMembershipDetail($empNumber, $membershipType, $membershipCode) {
         try {
-            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipType, $membership);
+            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipType, $membershipCode);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
 
     /**
-     * Delete Member Details
-     * @param array() $membershipsToDelete
-     * @returns boolean
+     * Deletes the given Memberships
+     * 
+     * @version 2.6.11
+     * @param array $membershipsToDelete Array of strings with the format
+     * "emp_number membership_type_code membership_code"
+     * eg: array("1 MEM001 MME001", "2 MEM001 MME002")
+     * 
+     * @return boolean true always
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Rename the method as deleteMemberships()
+     * @todo Array elements can also be arrays rather than space-separated values
+     * @todo If all the deletions fail, need to return false
+     * @todo add parameter $empNumber
+     * @todo change $membershipsToDelete as: array $membershipsToDelete Associative array with membership types <br/>
+     *              code and membership codes. <br/>
+     *        Eg: array( array('membershipTypeCode'=>'MEM001',
+     *                         'membershipCode' => 'MME001'),
+     *                   array('membershipTypeCode'=>'MEM001',
+     *                         'membershipCode' => 'MME002'))
+     * 
+     * 
      */
     public function deleteMembershipDetails($membershipsToDelete) {
 
@@ -962,13 +988,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Unassigned Currency List
-     * @param int $empNumber
-     * @param String $salaryGrade
+     * Retrieve non-assigned Currency List for given employee for the given salary grade
+     * 
+     * @param int $empNumber Employee Number
+     * @param string $salaryGrade Salary Grade
      * @param boolean $asArray
-     * @returns Collection
-     * @throws DaoException
-     * @ignore
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of CurrencyType objects
+     *  if $asArray is false, otherwise returns an array
+     * @throws PIMServiceException     
+     * 
+     * @todo Rename to getNonAssignedCurrencies
      */
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
         try {
@@ -979,27 +1008,35 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save EmpBasicsalary
+     * Saves basic salary of an employee
+     * 
+     * @version 2.6.11
      * @param EmpBasicsalary $empBasicsalary
-     * @returns boolean
+     * @return boolean true always
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Don't return value
+     * @todo Rename to saveBasicSalary
+     * @todo EmpBasicsalary to EmpBasicSalary 
      */
-    public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+    public function saveEmpBasicsalary(EmpBasicsalary $basicSalary) {
         try {
-            return $this->getEmployeeDao()->saveEmpBasicsalary($empBasicsalary);
+            return $this->getEmployeeDao()->saveEmpBasicsalary($basicSalary);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
 
     /**
-     * Delete Salary
-     * @param int $empNumber
-     * @param array() $salaryToDelete
-     * @returns boolean
-     * @throws DaoException
-     * @ignore
+     * Deletes a salary of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $salaryToDelete Array of EmpBasicsalary IDs
+     * @return boolean true always
+     * @throws PIMServiceException
+     * 
+     * @todo return number deleted
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
         try {
@@ -1010,11 +1047,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Reporting Method
-     * @param ReportingMethod $reportingMethod
-     * @returns ReportingMethod $reportingMethod
+     * Saves a reporting method used in PIM Report-to
+     * 
+     * @version 2.6.11
+     * @param ReportingMethod $reportingMethod Reporting Method instance
+     * @return ReportingMethod $reportingMethod Updated Reporting method
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo Don't return value
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {
         try {
@@ -1025,10 +1065,12 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get Reporting Method for a given reporting method id
-     * @param int $reportingMethodId
-     * @return ReportingMethod doctrine object
-     * @ignore
+     * Retrieves a reporting method used in PIM Report-to
+     * 
+     * @version 2.6.11
+     * @param int $reportingMethodId Reporting Method ID
+     * @return ReportingMethod ReportingMethod instance if found or false
+     * @throws PIMServiceException
      */
     public function getReportingMethod($reportingMethodId) {
         try {
@@ -1039,9 +1081,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get Reporting Method List
-     * @return ReportingMethod doctrine Collection
-     * @ignore
+     * Retrieves all reporting methods used in PIM Report-to
+     * 
+     * @version 2.6.11
+     * @return Doctrine_Collection A collection of ReportingMethod objects
+     * @throws PIMServiceException
+     * 
+     * @todo rename to getReportingMethods
      */
     public function getReportingMethodList() {
         try {
@@ -1052,10 +1098,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * get supervisor list
-     * @param $empNumber
-     * @return Doctine collection ReportTo
-     * @ignore
+     * Retrieves supervisors of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return Doctrine_Collection A collection of ReportTo objects
+     * @throws PIMServiceException
+     * 
+     * @todo Rename the method as getSupervisors
      */
     public function getSupervisorListForEmployee($empNumber) {
 
@@ -1067,10 +1117,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * get subordinate list
-     * @param $empNumber
-     * @return Doctine collection ReportTo
-     * @ignore
+     * Retrieves subordinates of an employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return Doctrine_Collection A collection of ReportTo objects
+     * @throws PIMServiceException
+     * 
+     * @todo Rename the method as getSubordinates
      */
     public function getSubordinateListForEmployee($empNumber) {
 
@@ -1082,10 +1136,15 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get report to details object
-     * @param int $supNumber $subNumber $reportingMethod
-     * @return ReportTo object
-     * @ignore
+     * Retrieves report-to details of given supervisor and subordinate IDs
+     * 
+     * @version 2.6.11
+     * @param int $supNumber
+     * @param int $subNumber
+     * @return ReportTo ReportTo instance if found or NULL
+     * @throws PIMServiceException
+     * 
+     * @todo Rename the method as getReportTo()
      */
     public function getReportToObject($supNumber, $subNumber) {
 
@@ -1097,10 +1156,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete reportTo object
-     * @param $supOrSubListToDelete array
-     * @return boolean
-     * @ignore
+     * Deletes report-to details
+     * 
+     * @version 2.6.11
+     * @param array $supOrSubListToDelete
+     * @return boolean true or NULL
+     * @throws PIMServiceException
+     * 
+     * @todo Array elements can also be arrays rather than space-separated values
+     * @todo Currently it returns last deleted record's return value instead return 
+     * an overall value
+     * @todo Rename the method to deleteReportTo()
      */
     public function deleteReportToObject($supOrSubListToDelete) {
 
@@ -1126,6 +1192,8 @@ class EmployeeService extends BaseService {
      * @param string $userId
      * @return bool - True if given user is an admin, false if not
      * @ignore
+     *
+     * @todo Is this method needed? Use methods in Auth service
      */
     public function isAdmin($userId) {
         try {
@@ -1139,6 +1207,8 @@ class EmployeeService extends BaseService {
      *
      * @return type 
      * @ignore
+     * 
+     * @todo Remove this method and its usage
      */
     public function getEmailList() {
         try {
@@ -1152,6 +1222,9 @@ class EmployeeService extends BaseService {
      *
      * @return type 
      * @ignore
+     * 
+     * @todo Get the result as a PHP array in Doctrine rather than creating the
+     * array afterwards.
      */
     public function getSubordinateIdList(){
         return $this->getEmployeeDao()->getSubordinateIdList();
