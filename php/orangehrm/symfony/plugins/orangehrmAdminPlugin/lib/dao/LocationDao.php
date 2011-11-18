@@ -21,7 +21,7 @@ class LocationDao extends BaseDao {
 
 	/**
 	 *
-	 * @param type $customerId
+	 * @param type $locationId
 	 * @return type 
 	 */
 	public function getLocationById($locationId) {
@@ -33,6 +33,11 @@ class LocationDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $srchClues
+	 * @return type 
+	 */
 	public function getSearchLocationListCount($srchClues) {
 
 		try {
@@ -43,6 +48,11 @@ class LocationDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $srchClues
+	 * @return type 
+	 */
 	public function searchLocations($srchClues) {
 
 		$sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
@@ -61,6 +71,11 @@ class LocationDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @param type $srchClues
+	 * @return type 
+	 */
 	private function _buildSearchQuery($srchClues) {
 
 		$q = Doctrine_Query::create()
@@ -78,6 +93,11 @@ class LocationDao extends BaseDao {
 		return $q;
 	}
 
+	/**
+	 *
+	 * @param type $locationId
+	 * @return type 
+	 */
 	public function getNumberOfEmplyeesForLocation($locationId) {
 
 		try {
@@ -90,6 +110,10 @@ class LocationDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @return type 
+	 */
 	public function getLocationList() {
 		
 		try {
