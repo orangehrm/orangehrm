@@ -71,3 +71,7 @@ label {
     width: 380px;
 }
 
+div.errorHolder label.error{
+     padding-left: 155px;
+}
+

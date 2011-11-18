@@ -148,8 +148,6 @@ if (Config::getTimePeriodSet()) {
 if ($_SESSION['isAdmin'] == 'Yes') {
     $rights = new Rights();
 
-    //	$arrRights=array('add'=> true , 'edit'=> true, 'delete'=> true, 'view'=> true);
-
     foreach ($arrAllRights as $moduleCode => $currRights) {
         $arrAllRights[$moduleCode] = $rights->getRights($_SESSION['userGroup'], $moduleCode);
     }
@@ -171,9 +169,6 @@ if ($_SESSION['isAdmin'] == 'Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-//    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor']) && $_SESSION['isAcceptor']) || (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])) {
-//    $arrAllRights[Recruit] = array('add' => false, 'edit' => true, 'delete' => false, 'view' => true);
-//    }
     if ($_SESSION['isHiringManager'] || $_SESSION['isInterviewer']) {
         $arrAllRights[Recruit] = array('view' => true);
     }
@@ -252,17 +247,6 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
     $timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
-/* Attendance Default Page */
-//if ($authorizeObj->isAdmin()) {
-//	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Employee_Report';
-//} else {
-//	$attendanceDefault = 'lib/controllers/CentralController.php?timecode=Time&action=Show_My_Report';
-//}
-
-
-
-
-
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
     $beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
     $empId = $_SESSION['empID'];
@@ -281,16 +265,6 @@ if ($authorizeObj->isESS()) {
     }
 }
 
-
-
-
-
-
-//if ($authorizeObj->isAdmin()) {
-//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
-//} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor() || $authorizeObj->isOfferer()) {
-//    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
-//}
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
 $allowAdminView = false;
@@ -714,40 +688,12 @@ if ($arrAllRights[Recruit]['view']) {
     if (file_exists('symfony/config/databases.yml')) {
         $subs = array();
         foreach ($accessibleRecruitmentMenuItems as $tttt) {
-
             $subs[] = new MenuItem("recruit", $tttt->getDisplayName(), $tttt->getLink(), "rightMenu");
         }
-        // if ($_SESSION['isAdmin'] == 'Yes') {
-        //    $subs[] = new MenuItem("vacancies", $lang_Menu_Recruit_JobVacancies, "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
-        // }
-        // if ($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
-        //    $subs[] = new MenuItem("applications", $lang_Menu_Recruit_JobApplicants, "lib/controllers/CentralController.php?recruitcode=Application&action=List");
-        // }
     }
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 }
-
-///* Start recruitment menu */
-//if ($arrAllRights[Recruit]['view']) {
-//
-//
-//	$menuItem = new MenuItem("recruit", $lang_Menu_Recruit ,"./index.php?menu_no_top=recruit");
-//	$menuItem->setCurrent($_GET['menu_no_top']=="recruit");
-//
-//	$subs = array();
-//	if ($_SESSION['isAdmin']=='Yes') {
-//		$subs[] = new MenuItem("vacancies",$lang_Menu_Recruit_JobVacancies , "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
-//	}
-//
-//	if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
-//		$subs[] = new MenuItem("applications",$lang_Menu_Recruit_JobApplicants , "lib/controllers/CentralController.php?recruitcode=Application&action=List");
-//	}
-//
-//	$menuItem->setSubMenuItems($subs);
-//	$menu[] = $menuItem;
-//}
-
 
 /* Performance menu start */
 
@@ -772,26 +718,9 @@ $menuItem->setSubMenuItems($subs);
 
 $menu[] = $menuItem;
 
-/* Start reports menu */
-/*if ($_SESSION['isAdmin'] == 'Yes' && $arrAllRights[Report]['view']) {
-    $menuItem = new MenuItem("report", $lang_Menu_Reports, "./index.php?menu_no_top=rep");
-    $menuItem->setCurrent($_GET['menu_no_top'] == "rep");
-
-    $subs = array();
-    $subs[] = new MenuItem("viewreports", $lang_Menu_Reports_ViewReports, "index.php?repcode=EMPVIEW&menu_no_top=rep");
-
-    if ($arrAllRights[Report]['add'] || $arrAllRights[Report]['edit'] || $arrAllRights[Report]['delete']) {
-        $subs[] = new MenuItem("definereports", $lang_Menu_Reports_DefineReports, "index.php?repcode=EMPDEF&menu_no_top=rep");
-    }
-    $menuItem->setSubMenuItems($subs);
-    $menu[] = $menuItem;
-}*/
-
 /* Start ESS menu */
 if ($_SESSION['isAdmin'] != 'Yes') {
-    //$menuItem = new MenuItem("ess", $lang_Menu_Ess, "./index.php?menu_no_top=ess");
     $menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
-    //new MenuItem("pimconfig", "Configure", "./symfony/web/index.php/pim/configurePim", "rightMenu");
 
     $menuItem->setCurrent($_GET['menu_no_top'] == "ess");
     $enableEssMenu = false;
@@ -886,10 +815,9 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
         $home = './symfony/web/index.php/' . $uri;
     } else {
-        $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+        $home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation";
     }
 } elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
-    //$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 
     $home = "./symfony/web/index.php/pim/viewEmployeeList/reset/1";
     if (isset($_GET['uri'])) {
@@ -903,7 +831,6 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
     $repcode = isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW';
     $home = "./lib/controllers/CentralController.php?repcode={$repcode}&amp;VIEW=MAIN";
 } elseif ($_GET['menu_no_top'] == "ess") {
-    //$home = "./lib/controllers/CentralController.php?reqcode=ESS&amp;id={$_SESSION['empID']}&amp;capturemode=updatemode";
     $home = './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'];
 } elseif ($_GET['menu_no_top'] == "leave") {
     $home = $leaveHomePage;
@@ -949,9 +876,8 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
 
     <body>
         <div id="companyLogoHeader"></div><div id="rightHeaderImage"></div>
-        <!-- <div id="menu-div" style="clear:left;"> -->
 <?php $menuObj->getMenu($menu, $optionMenu, $welcomeMessage); ?>
-        <!-- </div> -->
+
         <div id="main-content" style="float:left;height:640px;text-align:center;padding-left:0px;">
             <iframe style="display:block;margin-left:auto;margin-right:auto;width:100%;" src="<?php echo $home; ?>" id="rightMenu" name="rightMenu" height="100%;" frameborder="0"></iframe>
 

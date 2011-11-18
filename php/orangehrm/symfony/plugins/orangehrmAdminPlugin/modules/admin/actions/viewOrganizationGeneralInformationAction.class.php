@@ -28,6 +28,11 @@ class viewOrganizationGeneralInformationAction extends sfAction {
 
     public function execute($request) {
 
+        $usrObj = $this->getUser()->getAttribute('user');
+        if (!($usrObj->isAdmin())) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
+
         $this->setForm(new OrganizationGeneralInformationForm());
         $employeeService = new EmployeeService();
         $this->employeeCount = $employeeService->getEmployeeCount();

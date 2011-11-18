@@ -6,10 +6,10 @@ $(document).ready(function() {
                 required:true
             },
             'jobTitle[jobDescription]' : {
-                maxlength: 390
+                maxlength: 400
             },
             'jobTitle[note]' : {
-                maxlength: 390
+                maxlength: 400
             }
         },
         messages: {

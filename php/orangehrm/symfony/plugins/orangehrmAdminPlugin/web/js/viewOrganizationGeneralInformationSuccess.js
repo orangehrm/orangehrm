@@ -15,6 +15,9 @@ $(document).ready(function() {
             },
             'organization[email]' : {
                 email: true
+            },
+            'organization[note]' : {
+                maxlength: 255
             }
         },
         messages: {
@@ -29,12 +32,16 @@ $(document).ready(function() {
             },
             'organization[email]' : {
                 email: incorrectEmail
+            },
+            'organization[note]' : {
+                maxlength: lang_exceed255Chars
             }
         },
 
         errorElement : 'label',
         errorPlacement: function(error, element) {
-             error.appendTo( element.prev('label') );
+            error.appendTo( element.prev('label') );
+            error.appendTo(element.next('div.errorHolder'));
         }
     });
 

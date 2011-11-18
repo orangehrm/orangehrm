@@ -107,6 +107,7 @@
             <div class="leftDiv">
                 <?php echo $form['note']->renderLabel(__('Note')); ?>
                 <?php echo $form['note']->render(array("class" => "txtArea", "maxlength" => 255)); ?>
+                <div class="errorHolder"></div>
             </div>
             <br class="clear"/>
 
@@ -130,5 +131,6 @@
     var invalidPhoneNumber = '<?php echo __('Phone number can contain only space, numbers, "+", and "-"'); ?>';
     var invalidFaxNumber = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';
     var incorrectEmail = "<?php echo __('Email address should contain at least one \".\" and one \"@\" Example:user@example.com'); ?>";
+    var lang_exceed255Chars = '<?php echo __("Cannot exceed 255 charactors"); ?>';
     //]]>
 </script>
