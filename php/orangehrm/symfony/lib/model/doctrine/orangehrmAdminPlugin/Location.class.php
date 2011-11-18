@@ -11,7 +11,7 @@
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 class Location extends PluginLocation {
-	const NO_OF_RECORDS_PER_PAGE = 50;
+	const NO_OF_RECORDS_PER_PAGE = 2;
 
 	public function getCountryName() {
 		return ucwords(strtolower($this->getCountry()->getName()));

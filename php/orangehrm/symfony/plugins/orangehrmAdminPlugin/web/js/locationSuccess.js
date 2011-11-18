@@ -14,7 +14,7 @@ $(document).ready(function() {
     });
     
     $('#btnCancel').click(function() {
-        window.location.replace(viewLocationUrl);
+        window.location.replace(viewLocationUrl+'?locationId='+locationId);
     });
     
     

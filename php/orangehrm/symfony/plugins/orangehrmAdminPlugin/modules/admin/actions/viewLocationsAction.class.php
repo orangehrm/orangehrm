@@ -59,7 +59,7 @@ class viewLocationsAction extends sfAction {
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
 		$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 
-		if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId > 0) {
+		if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $locationId > 0) {
 			if ($this->getUser()->hasAttribute('searchClues')) {
 				$searchClues = $this->getUser()->getAttribute('searchClues');
 				$searchClues['offset'] = $offset;
