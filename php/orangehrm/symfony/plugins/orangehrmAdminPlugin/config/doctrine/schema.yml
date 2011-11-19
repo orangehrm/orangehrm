@@ -232,7 +232,7 @@ EmploymentStatus:
   tableName: ohrm_emp_status
   columns:
     id:
-      type: string(13)
+      type: integer(13)
       primary: true
       autoincrement: true
     name: string(60)

@@ -33,6 +33,15 @@ class employmentStatusAction extends sfAction {
 	public function execute($request) {
 		
 		$this->setForm(new EmploymentStatusForm());
+		
+		if ($request->isMethod('post')) {
+			$this->form->bind($request->getParameter($this->form->getName()));
+			if ($this->form->isValid()) {
+				$this->form->save();
+				$this->getUser()->setFlash('templateMessage', array('success', __('Employment Status Saved Successfully')));
+				$this->redirect('admin/employmentStatus');
+			}
+		}
 	}
 }
 

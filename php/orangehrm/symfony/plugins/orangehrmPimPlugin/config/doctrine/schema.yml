@@ -78,7 +78,7 @@ Employee:
     emp_gender: integer(2)
     emp_marital_status: string(20)
     emp_dri_lice_exp_date: date(25)
-    emp_status: string(13)
+    emp_status: integer(13)
     job_title_code: integer(6)
     eeo_cat_code: string(13)
     work_station: integer(4)

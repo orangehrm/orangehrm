@@ -36,6 +36,14 @@ class EmploymentStatusForm extends BaseForm {
 		$this->widgetSchema->setNameFormat('empStatus[%s]');
 				
 	}
+	
+	public function save(){
+		
+		$empStatus = new EmploymentStatus();
+		$empStatus->setName($this->getValue('name'));
+		$empStatus->save();
+		
+	}
 }
 
 ?>

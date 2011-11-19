@@ -517,7 +517,7 @@ JobTitleEmployeeStatus:
       type: string(13)
       primary: true
     estat_code:
-      type: string(13)
+      type: integer(13)
       primary: true
   relations:
     JobTitle:
