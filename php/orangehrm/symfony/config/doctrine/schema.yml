@@ -73,23 +73,6 @@ Country:
       local: cou_code
       foreign: country
       type: many
-
-EmployeeStatus:
-  tableName: hs_hr_empstat
-  columns:
-    estat_code:
-      name: estat_code as id
-      type: string(13)
-      primary: true
-    estat_name: 
-      name: estat_name as name
-      type: string(50)
-  relations:
-    employees:
-      class: Employee
-      local: estat_code
-      foreign: emp_status
-      type: many
       
 UniqueId:
   tableName: hs_hr_unique_id

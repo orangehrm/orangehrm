@@ -1,0 +1,25 @@
+.outerbox{
+    width: 600px;
+}
+
+label{
+    margin-top: 2px;
+}
+.errorHolder{
+    width: 250px;
+}
+label.error {
+    width:168px !important;
+}
+#messagebar{
+    width: 540px;
+}
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.formInput{
+    width: 300px;
+}

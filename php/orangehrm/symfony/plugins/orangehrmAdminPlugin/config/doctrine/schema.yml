@@ -227,3 +227,18 @@ Location:
       foreign: emp_number
       refClass: EmpLocations
       foreignAlias: locations
+      
+EmploymentStatus:
+  tableName: ohrm_emp_status
+  columns:
+    id:
+      type: string(13)
+      primary: true
+      autoincrement: true
+    name: string(60)
+  relations:
+    employees:
+      class: Employee
+      local: id
+      foreign: emp_status
+      type: many
