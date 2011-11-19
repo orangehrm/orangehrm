@@ -185,7 +185,6 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_licenses", "licenses_code", "LIC"),
                     
 						new IDField("hs_pr_salary_grade", "sal_grd_code", "SAL"),
-						new IDField("hs_hr_empstat", "estat_code", "EST"),
 						new IDField("hs_hr_eec", "eec_code", "EEC"),
 
 						new IDField("hs_hr_users", "id", "USR"),

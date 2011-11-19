@@ -114,9 +114,9 @@ Employee:
       foreign: id
       type: one
     employeeStatus:
-      class: EmployeeStatus
+      class: EmploymentStatus
       local: emp_status
-      foreign: estat_code
+      foreign: id
       type: one
     supervisors:
       class: Employee

@@ -475,13 +475,6 @@ INSERT INTO `hs_hr_eec`(`eec_code`, `eec_desc`) VALUES ('EEC001', 'OFFICIALS AND
     ('EEC007', 'SKILLED CRAFT WORKERS'),
     ('EEC008', 'SERVICE-MAINTENANCE');
 
-INSERT INTO `hs_hr_empstat`(`estat_code`, `estat_name`) VALUES ('EST001', 'Full Time Contract'),
-    ('EST002', 'Full Time Internship'),
-    ('EST003', 'Full Time Permanent'),
-    ('EST004', 'Part Time Contract'),
-    ('EST005', 'Part Time Internship'),
-    ('EST006', 'Part Time Permanent');
-
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
 INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
@@ -512,10 +505,6 @@ INSERT INTO `hs_hr_weekends`(`day`, `length`) VALUES (1, 0),
     (5, 0),
     (6, 8),
     (7, 8);
-
-INSERT INTO `hs_hr_empstat`
-	(`estat_code`, `estat_name`)
-	VALUES ('EST000', 'Terminated');
 
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES (1, 'Weekly'),
     (2, 'Bi Weekly'),
@@ -550,7 +539,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr_nationality', 'nat_code'),
     (0, 'hs_hr_language', 'lang_code'),
-    (6, 'hs_hr_empstat', 'estat_code'),
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
@@ -680,8 +668,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
                     LEFT JOIN ohrm_subunit ON 
                         (hs_hr_employee.work_station = ohrm_subunit.id) 
-                    LEFT JOIN hs_hr_empstat ON 
-                        (hs_hr_employee.emp_status = hs_hr_empstat.estat_code) 
+                    LEFT JOIN ohrm_emp_status ON 
+                        (hs_hr_employee.emp_status = ohrm_emp_status.id) 
                     LEFT JOIN ohrm_job_title ON
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
                     LEFT JOIN hs_hr_eec ON 
@@ -905,7 +893,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (75, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_start_date)', 'Contract Start Date', 'empContStartDate',  'false', null, null, 'label', '<xml><getter>empContStartDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (76, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_end_date)', 'Contract End Date', 'empContEndDate',  'false', null, null, 'label', '<xml><getter>empContEndDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (77, 3, 'ohrm_job_title.job_title', 'Job Title', 'empJobTitle',  'false', null, null, 'label', '<xml><getter>empJobTitle</getter></xml>', 200, '0', null, true, 6, '---', false, false),
-    (78, 3, 'hs_hr_empstat.estat_name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (78, 3, 'ohrm_emp_status.name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (81, 3, 'hs_hr_employee.joined_date', 'Joined Date', 'empJoinedDate',  'false', null, null, 'label', '<xml><getter>empJoinedDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
     (82, 3, 'ohrm_subunit.name', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),

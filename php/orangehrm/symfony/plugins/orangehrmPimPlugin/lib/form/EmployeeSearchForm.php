@@ -28,7 +28,16 @@ class EmployeeSearchForm extends BaseForm {
     private $companyStructureService;
     private $jobService;
     private $jobTitleService;
+    private $empStatusService;
 
+    public function getEmploymentStatusService() {
+        if (is_null($this->empStatusService)) {
+            $this->empStatusService = new EmploymentStatusService();
+            $this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+        }
+        return $this->empStatusService;
+    }
+    
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
             $this->jobTitleService = new JobTitleService();
@@ -144,8 +153,8 @@ class EmployeeSearchForm extends BaseForm {
 
     private function _setEmployeeStatusWidget() {
 
-        $jobService = $this->getJobService();
-        $statusList = $jobService->getEmployeeStatusList();
+        $empStatusService = $this->getEmploymentStatusService();
+        $statusList = $empStatusService->getEmploymentStatusList();
         $choices = array('0' => __('All'));
 
         foreach ($statusList as $status) {

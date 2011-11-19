@@ -54,6 +54,7 @@
  * @property string $custom10
  * @property Subunit $subDivision
  * @property JobTitle $jobTitle
+ * @property EmploymentStatus $employeeStatus
  * @property Doctrine_Collection $supervisors
  * @property Doctrine_Collection $dependents
  * @property Doctrine_Collection $emergencyContacts
@@ -68,7 +69,6 @@
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
  * @property Doctrine_Collection $locations
- * @property EmploymentStatus $EmploymentStatus
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $subordinates
@@ -142,6 +142,7 @@
  * @method string              getCustom10()                 Returns the current record's "custom10" value
  * @method Subunit             getSubDivision()              Returns the current record's "subDivision" value
  * @method JobTitle            getJobTitle()                 Returns the current record's "jobTitle" value
+ * @method EmploymentStatus    getEmployeeStatus()           Returns the current record's "employeeStatus" value
  * @method Doctrine_Collection getSupervisors()              Returns the current record's "supervisors" collection
  * @method Doctrine_Collection getDependents()               Returns the current record's "dependents" collection
  * @method Doctrine_Collection getEmergencyContacts()        Returns the current record's "emergencyContacts" collection
@@ -156,7 +157,6 @@
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
  * @method Doctrine_Collection getLocations()                Returns the current record's "locations" collection
- * @method EmploymentStatus    getEmploymentStatus()         Returns the current record's "EmploymentStatus" value
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSubordinates()             Returns the current record's "subordinates" collection
@@ -229,6 +229,7 @@
  * @method Employee            setCustom10()                 Sets the current record's "custom10" value
  * @method Employee            setSubDivision()              Sets the current record's "subDivision" value
  * @method Employee            setJobTitle()                 Sets the current record's "jobTitle" value
+ * @method Employee            setEmployeeStatus()           Sets the current record's "employeeStatus" value
  * @method Employee            setSupervisors()              Sets the current record's "supervisors" collection
  * @method Employee            setDependents()               Sets the current record's "dependents" collection
  * @method Employee            setEmergencyContacts()        Sets the current record's "emergencyContacts" collection
@@ -243,7 +244,6 @@
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
  * @method Employee            setLocations()                Sets the current record's "locations" collection
- * @method Employee            setEmploymentStatus()         Sets the current record's "EmploymentStatus" value
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSubordinates()             Sets the current record's "subordinates" collection
@@ -499,6 +499,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'job_title_code',
              'foreign' => 'id'));
 
+        $this->hasOne('EmploymentStatus as employeeStatus', array(
+             'local' => 'emp_status',
+             'foreign' => 'id'));
+
         $this->hasMany('Employee as supervisors', array(
              'refClass' => 'ReportTo',
              'local' => 'erep_sub_emp_number',
@@ -556,10 +560,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'refClass' => 'EmpLocations',
              'local' => 'emp_number',
              'foreign' => 'location_id'));
-
-        $this->hasOne('EmploymentStatus', array(
-             'local' => 'emp_status',
-             'foreign' => 'id'));
 
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',

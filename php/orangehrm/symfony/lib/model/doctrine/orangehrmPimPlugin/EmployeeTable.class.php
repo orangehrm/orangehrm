@@ -209,7 +209,7 @@ class EmployeeTable extends PluginEmployeeTable {
                 'e.emp_middle_name AS middleName, ' .
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, ' .
-                'es.estat_name AS employeeStatus, es.estat_code AS employeeStatusId, ' .
+                'es.name AS employeeStatus, es.id AS employeeStatusId, ' .
                 //'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
                 //' AS supervisors ';
                 $supervisorNameSubQuery . ' AS supervisors';
@@ -217,7 +217,7 @@ class EmployeeTable extends PluginEmployeeTable {
         $query = 'FROM hs_hr_employee e ' .
                 '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
                 '  LEFT JOIN ohrm_job_title j on j.id = e.job_title_code ' .
-                '  LEFT JOIN hs_hr_empstat es on e.emp_status = es.estat_code ' .
+                '  LEFT JOIN ohrm_emp_status es on e.emp_status = es.id ' .
                 '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
                 '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number ';
 
