@@ -199,13 +199,13 @@ class LeaveSummaryForm extends sfForm {
         $this->formValidators['cmbRecordsCount'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
     }
 
-    public function getCompanyService() {
-        if (is_null($this->companyService)) {
-            $this->companyService = new CompanyService();
-            $this->companyService->setCompanyDao(new CompanyDao());
-        }
-        return $this->companyService;
-    }
+    public function getLocationService() {
+		if (is_null($this->locationService)) {
+			$this->locationService = new LocationService();
+			$this->locationService->setLocationDao(new LocationDao());
+		}
+		return $this->locationService;
+	}
 
     public function setCompanyService(CompanyService $companyService) {
         $this->companyService = $companyService;
@@ -213,13 +213,13 @@ class LeaveSummaryForm extends sfForm {
 
     private function _setLocationWidgets() {
 
-        $companyService = $this->getCompanyService();
-        $locationList = $companyService->getCompanyLocation();
+        $locationService = $this->getLocationService();
+        $locationList = $locationService->getLocationList();
         $choices = array('0' => __('All'));
 
         foreach ($locationList as $location) {
 
-            $choices[$location->getLocCode()] = $location->getLocName();
+            $choices[$location->getId()] = $location->getName();
         }
 
         $this->formWidgets['cmbLocation'] = new sfWidgetFormChoice(array('choices' => $choices));

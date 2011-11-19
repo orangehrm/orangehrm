@@ -97,7 +97,7 @@ class CompanyDao extends BaseDao {
     * @returns Collection
     * @throws DaoException
     */
-   public function getCompanyLocation($orderField = "loc_code", $orderBy = "ASC") {
+   public function getCompanyLocation($orderField = "id", $orderBy = "ASC") {
       try {
          $q = Doctrine_Query::create()
              ->from("Location")

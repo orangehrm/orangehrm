@@ -61,13 +61,13 @@ class ohrmReportWidgetLocationDropDown extends sfWidgetForm implements ohrmEnhan
      * @return string[] $locationList
      */
     private function _getLocationList() {
-        $companyService = new CompanyService();
+        $locationService = new LocationService();
 
         $locationList = array('-1' => __('All'));
-        $locations = $companyService->getCompanyLocation('loc_name');
+        $locations = $locationService->getLocationList();
 
         foreach ($locations as $location) {
-            $locationList[$location->loc_code] = $location->loc_name;
+            $locationList[$location->id] = $location->name;
         }
 
         return ($locationList);
