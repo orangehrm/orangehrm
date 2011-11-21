@@ -423,3 +423,24 @@ Location:
   formAction: 'index.php/admin/deleteLocations'
   assets: []
   jsInitMethods: []
+
+EmploymentStatus:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Employment Status");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteEmploymentStatus'
+  assets: []
+  jsInitMethods: []

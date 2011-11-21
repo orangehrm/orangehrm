@@ -17,40 +17,33 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EmploymentStatusService extends BaseService {
 
-	private $empStatusDao;
-
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->empStatusDao = new EmploymentStatusDao();
-	}
-
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getEmploymentStatusDao() {
-		return $this->empStatusDao;
-	}
-
-	/**
-	 *
-	 * @param EmploymentStatusDao $employmentStatusDao 
-	 */
-	public function setEmploymentStatusDao(EmploymentStatusDao $employmentStatusDao) {
-		$this->empStatusDao = $employmentStatusDao;
+class deleteEmploymentStatusAction extends sfAction {
+	
+	public function getEmploymentStatusService() {
+		if (is_null($this->empStatusService)) {
+			$this->empStatusService = new EmploymentStatusService();
+			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+		}
+		return $this->empStatusService;
 	}
 	
-	public function getEmploymentStatusList(){
-		return $this->empStatusDao->getEmploymentStatusList();
+	public function execute($request) {
+
+		$toBeDeletedStausIds = $request->getParameter('chkSelectRow');
+
+		if (!empty($toBeDeletedStausIds)) {
+
+			foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
+
+				$status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
+				$status->delete();
+			}
+			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Employment Status(es) Deleted Successfully')));
+		}
+
+		$this->redirect('admin/employmentStatus');
 	}
-	
-	public function getEmploymentStatusById($id){
-		return $this->empStatusDao->getEmploymentStatusById($id);
-	}
-	
-	
 }
+
+?>

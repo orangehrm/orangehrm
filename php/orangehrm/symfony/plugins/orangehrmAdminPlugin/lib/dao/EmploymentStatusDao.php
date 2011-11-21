@@ -33,7 +33,20 @@ class EmploymentStatusDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	/**
+	 *
+	 * @param type $id
+	 * @return type 
+	 */
+	public function getEmploymentStatusById($id) {
 
+		try {
+			return Doctrine :: getTable('EmploymentStatus')->find($id);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>

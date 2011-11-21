@@ -17,9 +17,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class employmentStatusAction extends sfAction {
-	
+
+	private $empStatusService;
+
+
+	public function getEmploymentStatusService() {
+		if (is_null($this->empStatusService)) {
+			$this->empStatusService = new EmploymentStatusService();
+			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+		}
+		return $this->empStatusService;
+	}
+
 	/**
 	 * @param sfForm $form
 	 * @return
@@ -29,15 +39,20 @@ class employmentStatusAction extends sfAction {
 			$this->form = $form;
 		}
 	}
-	
+
 	public function execute($request) {
-		
+
 		$this->setForm(new EmploymentStatusForm());
-		
+
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
-		
+
+		$statusList = $this->getEmploymentStatusService()->getEmploymentStatusList();
+		$this->_setListComponent($statusList);
+		$params = array();
+		$this->parmetersForListCompoment = $params;
+
 		if ($request->isMethod('post')) {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
@@ -47,6 +62,12 @@ class employmentStatusAction extends sfAction {
 			}
 		}
 	}
-}
+	
+	private function _setListComponent($statusList) {
 
+		$configurationFactory = new EmploymentStatusHeaderFactory();
+		ohrmListComponent::setConfigurationFactory($configurationFactory);
+		ohrmListComponent::setListData($statusList);
+	}
+}
 ?>

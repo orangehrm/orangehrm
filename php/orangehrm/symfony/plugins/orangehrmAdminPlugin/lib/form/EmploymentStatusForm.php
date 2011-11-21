@@ -21,6 +21,14 @@
 
 class EmploymentStatusForm extends BaseForm {
 	
+	public function getEmploymentStatusService() {
+		if (is_null($this->empStatusService)) {
+			$this->empStatusService = new EmploymentStatusService();
+			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+		}
+		return $this->empStatusService;
+	}
+	
 	public function configure() {
 
 		$this->setWidgets(array(
@@ -39,7 +47,12 @@ class EmploymentStatusForm extends BaseForm {
 	
 	public function save(){
 		
-		$empStatus = new EmploymentStatus();
+		$empStatusId = $this->getValue('empStatusId');
+		if(!empty($empStatusId)){
+			$empStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($empStatusId);
+		} else {
+			$empStatus = new EmploymentStatus();
+		}
 		$empStatus->setName($this->getValue('name'));
 		$empStatus->save();
 		

@@ -333,7 +333,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs = array();
     $subsubs[] = new MenuItem("job", "Job Titles", "./symfony/web/index.php/admin/viewJobTitleList");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_PayGrades, "index.php?uniqcode=SGR&menu_no_top=eim");
-    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "index.php?uniqcode=EST&menu_no_top=eim");
+    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "./symfony/web/index.php/admin/employmentStatus");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EEO, "index.php?uniqcode=EEC&menu_no_top=eim");
     $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_WorkShifts, "lib/controllers/CentralController.php?timecode=Time&action=View_Work_Shifts");
     $sub->setSubMenuItems($subsubs);

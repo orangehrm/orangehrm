@@ -105,8 +105,8 @@
                 <target>FR_Customer added Successfully</target>
             </trans-unit>            
             <trans-unit id="26">
-                <source>Selected Customer(s) Deleted Successfully</source>
-                <target>FR_Selected Customer(s) Deleted Successfully</target>
+                <source>All the projects under selected Customer will also be deleted</source>
+                <target>FR_All the projects under selected Customer will also be deleted</target>
             </trans-unit>            
             <trans-unit id="27">
                 <source>Customer Added Successfully</source>
@@ -487,6 +487,30 @@
             <trans-unit id="121">
                 <source>Location Updated Successfully</source>
                 <target>FR_Location Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>Status name is required</source>
+                <target>FR_Status name is required</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>Employment Status Saved Successfully</source>
+                <target>FR_Employment Status Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>Add Employment Status</source>
+                <target>FR_Add Employment Status</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Edit Employment Status</source>
+                <target>FR_Edit Employment Status</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Selected employment status(es) will be deleted</source>
+                <target>FR_Selected employment status(es) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Selected Employment Status(es) Deleted Successfully</source>
+                <target>FR_Selected Employment Status(es) Deleted Successfully</target>
             </trans-unit>
         </body>
     </file>
