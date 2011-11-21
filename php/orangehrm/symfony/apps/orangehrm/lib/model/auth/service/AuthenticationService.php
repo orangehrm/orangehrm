@@ -72,8 +72,8 @@ class AuthenticationService extends BaseService {
 
             if ($user->getIsAdmin() == 'No' && $user->getEmpNumber() == '') {
                 throw new AuthenticationServiceException('Employee not assigned');
-            } elseif ($user->getEmployee()->getEmpStatus() == EmployeeStatus::TERMINATED_STATUS) {
-                throw new AuthenticationServiceException('Employee is terminated');
+//            } elseif ($user->getEmployee()->getEmpStatus() == EmployeeStatus::TERMINATED_STATUS) {
+//                throw new AuthenticationServiceException('Employee is terminated');
             } elseif ($user->getStatus() == 'Disabled') {
                 throw new AuthenticationServiceException('Account disabled');
             }
