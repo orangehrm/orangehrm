@@ -548,7 +548,7 @@ create table `hs_pr_salary_currency_detail` (
   primary key  (`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_pr_salary_grade` (
+create table `ohrm_pay_grade` (
   `sal_grd_code` varchar(13) not null default '',
   `sal_grd_name` varchar(60) default null unique,
   primary key  (`sal_grd_code`)
@@ -949,7 +949,7 @@ alter table hs_pr_salary_currency_detail
 
 alter table hs_pr_salary_currency_detail
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
+                             references ohrm_pay_grade(sal_grd_code) on delete cascade;
 
 alter table hs_hr_location
        add constraint foreign key (loc_country)
@@ -957,7 +957,7 @@ alter table hs_hr_location
 
 alter table hs_hr_job_title
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete set null;
+                             references ohrm_pay_grade(sal_grd_code) on delete set null;
 
 alter table hs_hr_job_title
        add constraint foreign key (jobspec_id)
@@ -1081,7 +1081,7 @@ alter table hs_hr_emp_reportto
 
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
+                             references ohrm_pay_grade(sal_grd_code) on delete cascade;
 
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (currency_id)
@@ -1823,7 +1823,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_skill', 'skill_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(1, 'hs_hr_user_group', 'userg_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(1, 'hs_hr_users', 'id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_pr_salary_grade', 'sal_grd_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_pay_grade', 'sal_grd_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_empreport', 'rep_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave', 'leave_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'hs_hr_leavetype', 'leave_type_id');

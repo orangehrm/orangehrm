@@ -17,19 +17,9 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class employmentStatusAction extends sfAction {
 
-	private $empStatusService;
-
-
-	public function getEmploymentStatusService() {
-		if (is_null($this->empStatusService)) {
-			$this->empStatusService = new EmploymentStatusService();
-			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
-		}
-		return $this->empStatusService;
-	}
-
+class payGradeAction extends sfAction {
+	
 	/**
 	 * @param sfForm $form
 	 * @return
@@ -39,40 +29,32 @@ class employmentStatusAction extends sfAction {
 			$this->form = $form;
 		}
 	}
-
+	
 	public function execute($request) {
 
 		$usrObj = $this->getUser()->getAttribute('user');
 		if (!$usrObj->isAdmin()) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
+		$this->payGradeId = $request->getParameter('payGradeId');
+		$values = array('payGradeId' => $this->payGradeId);
+		$this->setForm(new PayGradeForm(array(), $values));
 		
-		$this->setForm(new EmploymentStatusForm());
-
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
-
-		$statusList = $this->getEmploymentStatusService()->getEmploymentStatusList();
-		$this->_setListComponent($statusList);
-		$params = array();
-		$this->parmetersForListCompoment = $params;
-
+		
 		if ($request->isMethod('post')) {
+
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
-				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __('Employment Status Saved Successfully')));
-				$this->redirect('admin/employmentStatus');
+				$payGradeId = $this->form->save();
+				$this->getUser()->setFlash('templateMessage', array('success', __('Pay Grade Saved Successfully')));
+				$this->redirect('admin/payGrade?payGradeId='.$payGradeId);
 			}
 		}
 	}
 	
-	private function _setListComponent($statusList) {
-
-		$configurationFactory = new EmploymentStatusHeaderFactory();
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
-		ohrmListComponent::setListData($statusList);
-	}
 }
+
 ?>

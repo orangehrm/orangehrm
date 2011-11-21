@@ -31,7 +31,7 @@ abstract class BaseSalaryGrade extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('hs_pr_salary_grade');
+        $this->setTableName('ohrm_pay_grade');
         $this->hasColumn('sal_grd_code', 'string', 13, array(
              'type' => 'string',
              'primary' => true,

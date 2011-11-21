@@ -541,7 +541,7 @@ create table `hs_pr_salary_currency_detail` (
   primary key  (`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_pr_salary_grade` (
+create table `ohrm_pay_grade` (
   `sal_grd_code` varchar(13) not null default '',
   `sal_grd_name` varchar(60) default null unique,
   primary key  (`sal_grd_code`)

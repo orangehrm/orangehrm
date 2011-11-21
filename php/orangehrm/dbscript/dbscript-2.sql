@@ -550,7 +550,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (0, 'hs_hr_skill', 'skill_code'),
     (1, 'hs_hr_user_group', 'userg_id'),
     (1, 'hs_hr_users', 'id'),
-    (0, 'hs_pr_salary_grade', 'sal_grd_code'),
     (0, 'hs_hr_empreport', 'rep_code'),
     (0, 'hs_hr_leave', 'leave_id'),
     (0, 'hs_hr_leavetype', 'leave_type_id'),
@@ -688,8 +687,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
                     LEFT JOIN hs_hr_emp_basicsalary ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
-                    LEFT JOIN hs_pr_salary_grade ON 
-                        (hs_hr_emp_basicsalary.sal_grd_code = hs_pr_salary_grade.sal_grd_code) 
+                    LEFT JOIN ohrm_pay_grade ON 
+                        (hs_hr_emp_basicsalary.sal_grd_code = ohrm_pay_grade.id) 
                     LEFT JOIN hs_hr_currency_type ON 
                         (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id) 
                     LEFT JOIN hs_hr_payperiod ON 
@@ -880,7 +879,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (62, 3, 'supervisor.emp_firstname', 'First Name', 'supervisorFirstName',  'false', null, null, 'label', '<xml><getter>supervisorFirstName</getter></xml>', 200, '0', null, true, 9, '---', false, false),
     (63, 3, 'subordinate.emp_firstname', 'First Name', 'subordinateFirstName',  'false', null, null, 'label', '<xml><getter>subordinateFirstName</getter></xml>', 200, '0', null, true, 8, '---', false, false),
     (64, 3, 'supervisor.emp_lastname', 'Last Name', 'supervisorLastName',  'false', null, null, 'label', '<xml><getter>supervisorLastName</getter></xml>', 200, '0', null, true, 9, '---', false, false),
-    (65, 3, 'hs_pr_salary_grade.sal_grd_name', 'Pay Grade', 'salPayGrade',  'false', null, null, 'label', '<xml><getter>salPayGrade</getter></xml>', 200, '0', null, true, 7, '---', false, false),
+    (65, 3, 'ohrm_pay_grade.name', 'Pay Grade', 'salPayGrade',  'false', null, null, 'label', '<xml><getter>salPayGrade</getter></xml>', 200, '0', null, true, 7, '---', false, false),
     (66, 3, 'hs_hr_emp_basicsalary.salary_component', 'Salary Component', 'salSalaryComponent',  'false', null, null, 'label', '<xml><getter>salSalaryComponent</getter></xml>', 200, '0', null, true, 7, '---', false, false),
     (67, 3, 'hs_hr_emp_basicsalary.ebsal_basic_salary', 'Amount', 'salAmount',  'false', null, null, 'label', '<xml><getter>salAmount</getter></xml>', 200, '0', null, true, 7, '---', true, false),
     (68, 3, 'hs_hr_emp_basicsalary.comments', 'Comments', 'salComments',  'false', null, null, 'label', '<xml><getter>salComments</getter></xml>', 200, '0', null, true, 7, '---', false, false),

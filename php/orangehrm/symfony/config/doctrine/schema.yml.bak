@@ -1844,7 +1844,7 @@ Employee:
       foreign: emp_number
       type: many
 HsPrSalaryGrade:
-  tableName: hs_pr_salary_grade
+  tableName: ohrm_pay_grade
   columns:
     sal_grd_code:
       type: string(13)

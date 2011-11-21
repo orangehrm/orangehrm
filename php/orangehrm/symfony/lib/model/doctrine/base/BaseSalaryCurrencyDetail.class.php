@@ -12,6 +12,7 @@
  * @property float $max_salary
  * @property CurrencyType $CurrencyType
  * @property SalaryGrade $SalaryGrade
+ * @property PayGrade $PayGrade
  * 
  * @method string               getSalGrdCode()   Returns the current record's "sal_grd_code" value
  * @method string               getCurrencyId()   Returns the current record's "currency_id" value
@@ -20,6 +21,7 @@
  * @method float                getMaxSalary()    Returns the current record's "max_salary" value
  * @method CurrencyType         getCurrencyType() Returns the current record's "CurrencyType" value
  * @method SalaryGrade          getSalaryGrade()  Returns the current record's "SalaryGrade" value
+ * @method PayGrade             getPayGrade()     Returns the current record's "PayGrade" value
  * @method SalaryCurrencyDetail setSalGrdCode()   Sets the current record's "sal_grd_code" value
  * @method SalaryCurrencyDetail setCurrencyId()   Sets the current record's "currency_id" value
  * @method SalaryCurrencyDetail setMinSalary()    Sets the current record's "min_salary" value
@@ -27,6 +29,7 @@
  * @method SalaryCurrencyDetail setMaxSalary()    Sets the current record's "max_salary" value
  * @method SalaryCurrencyDetail setCurrencyType() Sets the current record's "CurrencyType" value
  * @method SalaryCurrencyDetail setSalaryGrade()  Sets the current record's "SalaryGrade" value
+ * @method SalaryCurrencyDetail setPayGrade()     Sets the current record's "PayGrade" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -72,5 +75,9 @@ abstract class BaseSalaryCurrencyDetail extends sfDoctrineRecord
         $this->hasOne('SalaryGrade', array(
              'local' => 'sal_grd_code',
              'foreign' => 'sal_grd_code'));
+
+        $this->hasOne('PayGrade', array(
+             'local' => 'sal_grd_code',
+             'foreign' => 'id'));
     }
 }

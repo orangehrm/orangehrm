@@ -242,3 +242,21 @@ EmploymentStatus:
       local: id
       foreign: emp_status
       type: many
+
+PayGrade:
+  tableName: ohrm_pay_grade
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(60)    
+  relations:
+    EmpBasicsalary:
+      local: id
+      foreign: sal_grd_code
+      type: many
+    SalaryCurrencyDetail:
+      local: id
+      foreign: sal_grd_code
+      type: many

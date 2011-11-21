@@ -54,9 +54,9 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
                            "VALUES(1, 'Spec 1', 'Desc 1', 'duties 1')");
         $this->_runQuery("INSERT INTO hs_hr_job_spec(jobspec_id, jobspec_name, jobspec_desc, jobspec_duties) " .
                            "VALUES(2, 'Spec 2', 'Desc 2', 'duties 2')");
-        $this->_runQuery("INSERT INTO hs_pr_salary_grade(sal_grd_code, sal_grd_name) " .
+        $this->_runQuery("INSERT INTO ohrm_pay_grade(sal_grd_code, sal_grd_name) " .
                            "VALUES('SAL001', 'Director grade')");
-        $this->_runQuery("INSERT INTO hs_pr_salary_grade(sal_grd_code, sal_grd_name) " .
+        $this->_runQuery("INSERT INTO ohrm_pay_grade(sal_grd_code, sal_grd_name) " .
                            "VALUES('SAL002', 'Other grade')");
         $this->_runQuery("INSERT INTO hs_hr_job_title(jobtit_code, jobtit_name, jobtit_desc,jobtit_comm, " .
                 "sal_grd_code, jobspec_id) " .
@@ -81,7 +81,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 
     private function _deleteTables() {
         $this->_runQuery("TRUNCATE TABLE `hs_hr_job_title`");
-        $this->_runQuery("TRUNCATE TABLE `hs_pr_salary_grade`");
+        $this->_runQuery("TRUNCATE TABLE `ohrm_pay_grade`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_job_spec`");        
     }
 

@@ -195,7 +195,7 @@ class SalaryGrades {
 
 		$sql_builder = new SQLQBuilder();
 
-		$tableName = "`hs_pr_salary_grade`";
+		$tableName = "`ohrm_pay_grade`";
 		$arrFieldList[0] = "`sal_grd_code`";
 		$arrFieldList[1] = "`sal_grd_name`";
 
@@ -391,7 +391,7 @@ class SalaryGrades {
 	
 	public function isSalaryGradeNameExists($salGradeName) {	    
 	    
-	    $selectTable = '`hs_pr_salary_grade`';	    
+	    $selectTable = '`ohrm_pay_grade`';	    
 	    $selectFields[] = '`sal_grd_code`';	    
 	    $selectConditions[] = "`sal_grd_name` = '$salGradeName'";
 	    

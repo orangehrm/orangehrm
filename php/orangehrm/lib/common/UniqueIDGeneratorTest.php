@@ -42,7 +42,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 							array("hs_hr_skill", "skill_code", "SKI"),
 							array("hs_hr_time_event", "time_event_id", null),
 							array("hs_hr_timesheet", "timesheet_id", null),
-							array("hs_pr_salary_grade", "sal_grd_code", "SAL"),
+							array("ohrm_pay_grade", "sal_grd_code", "SAL"),
 							array("hs_hr_users", "id", null),
 							array("hs_hr_user_group", "userg_id", null),
 							array("hs_hr_workshift", "workshift_id", null),

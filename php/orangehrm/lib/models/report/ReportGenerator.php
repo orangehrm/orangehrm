@@ -127,7 +127,7 @@ class ReportGenerator {
             'QUL' => new ReportField("{CONCAT_WS(' - ', hs_hr_education.`edu_uni`, hs_hr_education.`edu_deg`)}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_education', 'emp_number', 'emp_number', new JoinTable('hs_hr_education', 'edu_code', 'edu_code', 'hs_hr_emp_education')),
             'YEAROFPASSING' => new ReportField("{IF(STRCMP(YEAR(`edu_end_date`), '0'), YEAR(`edu_end_date`), '$emptyMarker')}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_education', 'emp_number', 'emp_number'),
             'EMPSTATUS' => new ReportField('estat_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_empstat', 'estat_code', 'emp_status'),
-            'PAYGRD' => new ReportField('sal_grd_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_basicsalary', 'emp_number', 'emp_number', new JoinTable('hs_pr_salary_grade', 'sal_grd_code', 'sal_grd_code', 'hs_hr_emp_basicsalary')),
+            'PAYGRD' => new ReportField('sal_grd_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_basicsalary', 'emp_number', 'emp_number', new JoinTable('ohrm_pay_grade', 'sal_grd_code', 'sal_grd_code', 'hs_hr_emp_basicsalary')),
             'LANGUAGES' => new ReportField('lang_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_language', 'emp_number', 'emp_number',  new JoinTable('hs_hr_language', 'lang_code', 'lang_code', 'hs_hr_emp_language')),
             'SKILLS' => new ReportField('skill_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_skill', 'emp_number', 'emp_number', new JoinTable('hs_hr_skill', 'skill_code', 'skill_code', 'hs_hr_emp_skill')),
             'CONTRACT' => new ReportField("{CONCAT(DATE(`econ_extend_start_date`), ' - ', DATE(`econ_extend_end_date`))}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_contract_extend', 'emp_number', 'emp_number'),
@@ -353,7 +353,7 @@ class ReportGenerator {
                     $value = $this->ageToYear($value);
                 } elseif ($field == 'PAYGRD') {
                 	$where[] = "hs_hr_emp_basicsalary.`sal_grd_code` = '{$value}'";
-                	$joins[] = new ReportField('sal_grd_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_basicsalary', 'emp_number', 'emp_number', new JoinTable('hs_pr_salary_grade', 'sal_grd_code', 'sal_grd_code', 'hs_hr_emp_basicsalary'));
+                	$joins[] = new ReportField('sal_grd_name', ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_basicsalary', 'emp_number', 'emp_number', new JoinTable('ohrm_pay_grade', 'sal_grd_code', 'sal_grd_code', 'hs_hr_emp_basicsalary'));
                 	continue;
                 } elseif ($field == 'QUL') {
                 	$joins['hs_hr_emp_education.`edu_code`'] = new ReportField("{CONCAT_WS(' - ', hs_hr_education.`edu_uni`, hs_hr_education.`edu_deg`)}", ReportField :: MULTIPLE_REFERENCE, 'hs_hr_emp_education', 'emp_number', 'emp_number', new JoinTable('hs_hr_education', 'edu_code', 'edu_code', 'hs_hr_emp_education'));

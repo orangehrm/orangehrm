@@ -90,7 +90,7 @@ create table `hs_hr_payperiod` (
 create table `hs_hr_emp_basicsalary` (
   `id` INT AUTO_INCREMENT, 
   `emp_number` int(7) not null default 0,
-  `sal_grd_code` varchar(13) default null,
+  `sal_grd_code` int default null,
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
   `payperiod_code` varchar(13) default null,
@@ -509,7 +509,7 @@ create table `hs_hr_versions` (
 
 
 create table `hs_pr_salary_currency_detail` (
-  `sal_grd_code` varchar(13) not null default '',
+  `sal_grd_code` int not null ,
   `currency_id` varchar(6) not null default '',
   `salcurr_dtl_minsalary` double default null,
   `salcurr_dtl_stepsalary` double default null,
@@ -517,10 +517,10 @@ create table `hs_pr_salary_currency_detail` (
   primary key  (`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_pr_salary_grade` (
-  `sal_grd_code` varchar(13) not null default '',
-  `sal_grd_name` varchar(60) default null unique,
-  primary key  (`sal_grd_code`)
+create table `ohrm_pay_grade` (
+  `id` int not null auto_increment,
+  `name` varchar(60) default null unique,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -1437,7 +1437,7 @@ alter table hs_pr_salary_currency_detail
 
 alter table hs_pr_salary_currency_detail
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
+                             references ohrm_pay_grade(id) on delete cascade;
 
 alter table ohrm_location
        add constraint foreign key (country_code)
@@ -1568,7 +1568,7 @@ alter table hs_hr_emp_reportto
 
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
+                             references ohrm_pay_grade(id) on delete cascade;
 
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (currency_id)
