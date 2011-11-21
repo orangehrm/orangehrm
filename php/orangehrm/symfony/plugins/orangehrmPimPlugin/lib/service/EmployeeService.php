@@ -1229,4 +1229,20 @@ class EmployeeService extends BaseService {
     public function getSubordinateIdList(){
         return $this->getEmployeeDao()->getSubordinateIdList();
     }
+
+    public function getTerminationResonList(){
+        return $this->getEmployeeDao()->getTerminationResonList();
+    }
+
+    public function terminateEmployment($empNumber, $empTerminationId){
+        return $this->getEmployeeDao()->terminateEmployment($empNumber, $empTerminationId);
+    }
+
+    public function activateEmployment($empNumber){
+        return $this->getEmployeeDao()->activateEmployment($empNumber);
+    }
+
+    public function getEmpTerminationById($terminatedId){
+         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
+    }
 }

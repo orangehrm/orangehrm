@@ -57,8 +57,9 @@ class viewJobDetailsAction extends basePimAction {
                        'employee' => $employee,
                        'loggedInUser' => $loggedInEmpNum,
                        'loggedInUserName' => $loggedInUserName);
-        
+        $paramForTerminationForm = array('empNumber' => $empNumber, 'employee' => $employee);
         $this->form = new EmployeeJobDetailsForm(array(), $param, true);
+        $this->employeeTerminateForm = new EmployeeTerminateForm(array(), $paramForTerminationForm, true);
 
         if ($this->getRequest()->isMethod('post')) {
 

@@ -1394,4 +1394,46 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+
+    public function getTerminationResonList(){
+        try {
+            $q = Doctrine_Query :: create()->from('EmpTerminationReason');
+            return $q->execute();
+        }catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function terminateEmployment($empNumber, $empTerminationId){
+
+        try {
+            $q = Doctrine_Query :: create()->update('Employee')
+                            ->set('termination_id', '?', $empTerminationId)
+                    ->where('empNumber = ?', $empNumber);
+            return  $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function activateEmployment($empNumber){
+
+        try {
+            $q = Doctrine_Query :: create()->update('Employee')
+                            ->set('termination_id',  'NULL')
+                    ->where('empNumber = ?', $empNumber);
+            return  $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function getEmpTerminationById($terminatedId){
+
+        try {
+            return Doctrine::getTable('EmpTermination')->find($terminatedId);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

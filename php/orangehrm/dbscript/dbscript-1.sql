@@ -323,8 +323,7 @@ create table `hs_hr_employee` (
   `sal_grd_code` varchar(13) default null,
   `joined_date` date null default null,
   `emp_oth_email` varchar(50) default null,
-  `terminated_date` date null default null,
-  `termination_reason` varchar(256) default null,
+  `termination_id` int(4) default null,
   `custom1` varchar(250) default null,
   `custom2` varchar(250) default null,
   `custom3` varchar(250) default null,
@@ -1233,6 +1232,21 @@ create table `ohrm_job_specification_attachment`(
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_emp_termination`(
+	`id` int(4) not null auto_increment,
+	`emp_number` int(4) not null,
+        `reason_id` int(4) default null,
+	`termination_date` date not null,
+        `note` varchar(255) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_emp_termination_reason`(
+	`id` int(4) not null auto_increment,
+        `description` varchar(255) default null,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
 create table `ohrm_user_role`(
 	`id` int(10) not null auto_increment,
 	`name` varchar(255) not null,
@@ -1257,6 +1271,13 @@ create table `ohrm_role_user_selection_rule`(
 	primary key (`user_role_id`,`selection_rule_id`)
 )engine=innodb default charset=utf8;
 
+alter table ohrm_emp_termination
+       add constraint foreign key (reason_id)
+                             references ohrm_emp_termination_reason(id) on delete set null;
+
+alter table ohrm_emp_termination
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
 
 alter table ohrm_job_specification_attachment
        add constraint foreign key (job_title_id)
@@ -1457,6 +1478,10 @@ alter table hs_hr_employee
 alter table hs_hr_employee
        add constraint foreign key (eeo_cat_code)
                              references hs_hr_eec(eec_code) on delete set null;
+
+alter table hs_hr_employee
+       add constraint foreign key (termination_id)
+                             references ohrm_emp_termination(id) on delete set null;
 
 alter table hs_hr_emp_children
        add constraint foreign key (emp_number)

@@ -90,8 +90,7 @@ Employee:
     sal_grd_code: string(13)
     joined_date: date(25)
     emp_oth_email: string(50)
-    terminated_date: date(25)
-    termination_reason: string(256)
+    termination_id: integer(4)
     custom1: string(250)
     custom2: string(250)
     custom3: string(250)
@@ -189,7 +188,15 @@ Employee:
       local: emp_number
       foreign: emp_number
       type: many
-    
+    EmpTermination:
+      local: emp_number
+      foreign: emp_number
+      type: many
+    EmpTermination:
+      local: termination_id
+      foreign: id
+      type: one
+
 EmpPicture:
   tableName: hs_hr_emp_picture
   columns:
@@ -621,3 +628,48 @@ ReportingMethod:
     ReportTo:
       local: reportingMethodId
       foreign: reportingMethod
+
+EmpTermination:
+  tableName: ohrm_emp_termination
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(4)
+    reason_id:
+      name: reason_id as reasonId
+      type: integer(4)
+    termination_date:
+      name: termination_date as date
+      type: date(25)
+    note: string(225)
+  relations:
+    EmpTerminationReason:
+      local: reasonId
+      foreign: id
+      type: one
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
+    Employee:
+      local: id
+      foreign: termination_id
+      type: one
+
+EmpTerminationReason:
+  tableName: ohrm_emp_termination_reason
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    description: string(225)
+  relations:
+    EmpTermination:
+      local: id
+      foreign: reasonId
+      type: one

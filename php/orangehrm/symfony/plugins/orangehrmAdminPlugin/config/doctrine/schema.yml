@@ -227,7 +227,7 @@ Location:
       foreign: emp_number
       refClass: EmpLocations
       foreignAlias: locations
-      
+
 EmploymentStatus:
   tableName: ohrm_employment_status
   columns:

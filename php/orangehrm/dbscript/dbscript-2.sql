@@ -1064,4 +1064,7 @@ INSERT INTO `ohrm_selected_group_field` (`group_field_id`, `summary_display_fiel
                                                (2, 1, 3),
                                                (2, 2, 4);
 
-INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', '', 'Organization Description', 1, 2, 0);
+INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', '', '', 1, 2, 0);
+
+
+INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'), (2, 'Resigned');

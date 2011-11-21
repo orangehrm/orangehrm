@@ -1,6 +1,8 @@
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
+<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
+<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
@@ -19,6 +21,12 @@
     var lang_View_Details =  "<?php echo __('View Details'); ?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details'); ?>";
     var lang_max_char_terminated_reason =  "<?php echo __('Maximum character limit for terminated reason is 256'); ?>";
+    var  lang_max_char_terminated_note =  "<?php echo __('Maximum character limit for terminated reason is 255'); ?>";
+    var lang_terminatedReasonRequired = "<?php echo __("Reason is required"); ?>";
+    var lang_activateEmployement = "<?php echo __("Activate Employement"); ?>";
+    var lang_terminateEmployement = "<?php echo __("Terminate Employement"); ?>";
+    var lang_editTerminateEmployement = "<?php echo __("Edit Employement Termination"); ?>";
+    var activateEmployementUrl = '<?php echo url_for('pim/activateEmployement?empNumber=' . $empNumber); ?>';
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
@@ -155,226 +163,322 @@
 
                                       <div class="formbuttons">
                                         <?php if (!$ownRecords): ?>
-                                              <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" />
-                                        <?php endif; ?>
+                                              <input type="button" class="savebutton" id="btnSave" style="padding-left: 5px; float: left" value="<?php echo __("Edit"); ?>" />
+                                        <?php
+                                              $empTermination = $form->empTermination;
+                                              if (!empty($empTermination)) {
+                                                  $terminatedId = $empTermination->getId();
+                                                  $btnTitle = __("Activate Employement");
+                                                  $label = __("Terminated on")." : ". set_datepicker_date_format($empTermination->getDate());
+                                              } else {
+                                                  $btnTitle = __("Terminate Employement");
+                                              }
+                                        ?>
+                                              <input type="button" class="savebutton" id="btnTerminateEmployement" style="margin-left: 5px; float: left" value="<?php echo $btnTitle; ?>" />
+                                              <label id="terminatedDate" style="width: 200px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>
+                                    <?php endif; ?>
+                                                <br class="clear"/>
                                           </div>
 
                                       </form>
                                   </div>
                               </div>
-                        <?php if (!$ownRecords): ?>
-                                                  <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
-                        <?php endif; ?>
-                        <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
-                        <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
 
-                                              </td>
-                                              <td valign="top" align="center">
-                                              </td>
-                                          </tr>
-                                      </table>
-                                  </td>
-                              </tr>
-                          </table>
-<?php //echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess');   ?>
-                                                  <script type="text/javascript">
-                                                      //<![CDATA[
+<?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
+<?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
 
-                                                      var firstPart = '<?php echo url_for('admin/viewJobSpec?attachId='); ?>';
-                                                      var notDefinedLabel = '<?php echo  __('Not Defined'); ?>';
+                                          </td>
+                                          <td valign="top" align="center">
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </td>
+                          </tr>
+                      </table>
 
-                                                      var stratDate = "";
 
-                                                      function showHideViewDetailsLink() {
+                      <div id="terminateEmployement" title="<?php echo __("Terminate Employement"); ?>"  style="display:none;">
+                          <form id="frmTerminateEmployement" method="post"
+                                action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
+        <?php echo $employeeTerminateForm['_csrf_token']; ?>
 
-                                                          if ($("#job_spec_desc").val() != '' || $("#job_spec_duties").val() != '') {
-                                                              $('#viewDetailsLink').show();
-                                                          } else {
-                                                              $('#viewDetailsLink').hide();
-                                                          }
-
-                                                      }
-
-                                                      function showHideTerminatedDetails() {
-
-                                                          if ($('#job_emp_status').val() == 'EST000') {
-                                                              $('#terminatedDetails').show();
-                                                          } else {
-                                                              $('#terminatedDetails').hide();
-                                                          }
-
-                                                      }
-
-                                                      $(document).ready(function() {
-
-                                                          $("#job_job_title").change(function() {
-
-                                                              var jobTitle = this.options[this.selectedIndex].value;
-
-                                                              if(jobTitle != ""){
-
-                                                                  var specUrl = '<?php echo url_for('admin/getJobSpecificationJson?jobTitleId='); ?>' + jobTitle;
-
-                                                                  $.getJSON(specUrl, function(data) {
-
-                                                                      var specId = "";
-                                                                      var fileName = "";
-
-                                                                      if (data) {
-                                                                          specId = (data.specId != null) ? data.specId : specId;
-                                                                          fileName = data.fileName;
-                                                                      }
-
-                                                                      if(specId != ""){
-                                                                          $('#fileLink').html("<a target=\"_blank\" class=\"fileLink\" href=\""+ firstPart + specId + ">"+fileName+ "</a>");
-                                                                      }else{
-                                                                          $('#fileLink').html("<label id=\"notDefinedLabel\">"+notDefinedLabel+"</label>")
-                                                                      }
-
-                                                                  });}
-                                                          });
-
-                                                          /* Form validation */
-                                                          $("#frmEmpJobDetails").validate({
-                                                              rules: {
-                                                                  'job[terminated_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
-                                                                  'job[termination_reason]': { maxlength: 256 },
-                                                                  'job[joined_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
-                                                                  'job[contract_start_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false}}},
-                                                                  'job[contract_end_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} }, date_range: function() {return {format:datepickerDateFormat, fromDate:stratDate}}}
-                                                              },
-                                                              messages: {
-                                                                  'job[terminated_date]': { valid_date: lang_invalidDate },
-                                                                  'job[termination_reason]': { maxlength: lang_max_char_terminated_reason },
-                                                                  'job[joined_date]': { valid_date: lang_invalidDate },
-                                                                  'job[contract_start_date]': { valid_date: lang_invalidDate},
-                                                                  'job[contract_end_date]': { valid_date: lang_invalidDate, date_range:'<?php echo __('End date should be after the start date'); ?>'}
-                                                              },
-                                                              errorElement : 'div',
-                                                              errorPlacement: function(error, element) {
-                                                                  error.appendTo(element.prev('label'));
-                                                              }
-                                                          });
+<?php echo $employeeTerminateForm['reason']->renderLabel(__('Reason') . ' <span class="required">*</span>'); ?>
+        <?php echo $employeeTerminateForm['reason']->render(array("class" => "formSelect")); ?>
+                                              <br class="clear"/>
+<?php echo $employeeTerminateForm['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
+        <?php echo $employeeTerminateForm['date']->render(array("class" => "formDateInput")); ?>
+                                              <br class="clear"/>
+<?php echo $employeeTerminateForm['note']->renderLabel(__('Note')); ?>
+<?php echo $employeeTerminateForm['note']->render(array("class" => "formTxtArea")); ?>
+                                              <div class="errorHolder"></div>
+                                          </form>
+                                          <div class="formbuttons">
+                                              <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
+                                              <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+                                          </div>
+                                          <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+                                      </div>
 
 
 
-                                                          var readonlyFlag = 0;
-<?php if ($essMode) { ?>
-                                                      readonlyFlag = 1;
-<?php } ?>
 
-                                                  var list = new Array('#job_job_title', '#job_emp_status', '#job_terminated_date', '.calendarBtn', '#job_termination_reason', '#job_eeo_category',
-                                                  '#job_joined_date', '#job_sub_unit', '#job_location',
-                                                  '#contract_file', 'ul.radio_list input',
-                                                  '#job_contract_start_date', '#job_contract_end_date',
-                                                  '#job_contract_file');
-                                                  for(i=0; i < list.length; i++) {
-                                                  $(list[i]).attr("disabled", "disabled");
+                                      <script type="text/javascript">
+                                          //<![CDATA[
+
+                                          var firstPart = '<?php echo url_for('admin/viewJobSpec?attachId='); ?>';
+                                          var notDefinedLabel = '<?php echo __('Not Defined'); ?>';
+
+                                          var stratDate = "";
+
+                                          function showHideViewDetailsLink() {
+
+                                              if ($("#job_spec_desc").val() != '' || $("#job_spec_duties").val() != '') {
+                                                  $('#viewDetailsLink').show();
+                                              } else {
+                                                  $('#viewDetailsLink').hide();
+                                              }
+                                          }
+
+                                          function showHideTerminatedDetails() {
+
+                                              if ($('#job_emp_status').val() == 'EST000') {
+                                                  $('#terminatedDetails').show();
+                                              } else {
+                                                  $('#terminatedDetails').hide();
+                                              }
+                                          }
+
+                                          function clearErrors() {
+                                              $("label.error[generated='true']").each(function() {
+                                                  $('#' + $(this).attr('for')).removeClass('error');
+                                                  $(this).remove();
+                                              });
+                                          }
+
+                                          function openTerminateEmploymentDialog(){
+                                              $('#ui-dialog-title-terminateEmployement').text(lang_editTerminateEmployement)
+                                            $('#terminateEmployement').dialog('open');
+                                          }
+
+                                          $(document).ready(function() {
+
+                                              $("#terminateEmployement").dialog({
+                                                  autoOpen: false,
+                                                  modal: true,
+                                                  width: 470,
+                                                  height: 270,
+                                                  position: 'middle'
+                                              });
+
+                                              $('#btnTerminateEmployement').click(function(){
+                                                  if($(this).val() == lang_terminateEmployement){
+                                                  clearErrors()
+                                                  $('#terminate_date_Button').removeAttr('disabled')
+                                                  $('#terminateEmployement').dialog('open');}
+                                              else{
+                                                  window.location.replace(activateEmployementUrl);
+                                              }
+                                              })
+
+                                              $('#dialogConfirm').click(function(){
+                                                  if($('#terminate_date').val() == datepickerDateFormat){
+                                                      $('#terminate_date').val("")
                                                   }
-<?php if (empty($form->attachment)) { ?>
-                                                      $('#job_contract_update_3').attr('checked', 'checked');
-<?php } ?>
+                                                  if($('#frmTerminateEmployement').valid()){
+                                                      $('#frmTerminateEmployement').submit()
+                                                      $("#terminateEmployement").dialog("close")}
+                                              });
 
-                                                  $('#fileUploadSection').hide();
+                                              $('#dialogCancel').click(function(){
+                                                  clearErrors()
+                                                  $("#terminateEmployement").dialog("close")
+                                              });
 
-                                                  $("input[name=job[contract_update]]").click(function () {
-
-                                                  if ($('#job_contract_update_3').attr("checked")) {
-                                                  $('#fileUploadSection').show();
-                                                  } else {
-                                                  $('#fileUploadSection').hide();
-                                                  }
-                                                  });
-
-                                                  $('#contractEdidMode').hide();
-
-                                                  $("#btnSave").click(function() {
-
-                                                  $('#contractEdidMode').show();
-                                                  $('#contractReadMode').hide();
-
-                                                  if ( !readonlyFlag) {
-                                                  //if user clicks on Edit make all fields editable
-                                                  if($("#btnSave").attr('value') == edit) {
-                                                  for(i=0; i < list.length; i++) {
-                                                  $(list[i]).removeAttr("disabled");
-                                                  }
-
-                                                  $("#btnSave").attr('value', save);
-
-<?php if (empty($form->attachment)) { ?>
-                                                      $('#job_contract_update_1').attr('disabled', 'disabled');
-                                                      $('#job_contract_update_2').attr('disabled', 'disabled');
-                                                      $('#job_contract_update_3').attr('checked', 'checked');
-<?php } ?>
-
-                                                  return;
-                                                  }
-
-                                                  if($("#btnSave").attr('value') == save) {
-
-
-                                                  if ($('#job_emp_status').val() != 'EST000') {
-                                                  $('#job_terminated_date').val('');
-                                                  $('#job_termination_reason').val('');
-                                                  }
-                                                  stratDate = $('#job_contract_start_date').val();
-                                                  $("#frmEmpJobDetails").submit();
-                                                  }
-                                                  }
-                                                  });
-
-                                                  $('a#viewDetailsLink').click(function() {
-                                                  var linkText = $('div#job_spec_details').is(':visible') ? lang_View_Details: lang_Hide_Details;
-                                                  $(this).text(linkText);
-
-                                                  $('div#job_spec_details').toggle();
-                                                  });
-
-                                                  /* Hiding/showing terminatedDetails */
-
-                                                  showHideTerminatedDetails();
-
-                                                  $('#job_emp_status').change(function(){
-                                                  showHideTerminatedDetails();
-                                                  });
-
-                                                  /* Hiding showing viewDetailsLink at loading */
-                                                  showHideViewDetailsLink();
-
-                                                  /*
-                                                  * Ajax call to fetch job specification for selected job
-                                                  */
-                                                  $("#job_job_title").change(function() {
+                                              $("#job_job_title").change(function() {
 
                                                   var jobTitle = this.options[this.selectedIndex].value;
 
-                                                  // don't check if not selected
-                                                  if (jobTitle == '0' || jobTitle == '') {
-                                                  $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
-                                                  $("#viewDetailsLink").hide();
-                                                  $('a#viewDetailsLink').text(lang_View_Details);
-                                                  return;
+                                                  if(jobTitle != ""){
+
+                                                      var specUrl = '<?php echo url_for('admin/getJobSpecificationJson?jobTitleId='); ?>' + jobTitle;
+
+                                                      $.getJSON(specUrl, function(data) {
+
+                                                          var specId = "";
+                                                          var fileName = "";
+
+                                                          if (data) {
+                                                              specId = (data.specId != null) ? data.specId : specId;
+                                                              fileName = data.fileName;
+                                                          }
+
+                                                          if(specId != ""){
+                                                              $('#fileLink').html("<a target=\"_blank\" class=\"fileLink\" href=\""+ firstPart + specId + "\">"+fileName+ "</a>")
+                                                          }else{
+                                                              $('#fileLink').html("<label id=\"notDefinedLabel\">"+notDefinedLabel+"</label>")
+                                                          }
+
+                                                      });}
+                                              });
+
+                                              /* Form validation */
+                                              $("#frmEmpJobDetails").validate({
+                                                  rules: {
+                                                      'job[terminated_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
+                                                      'job[termination_reason]': { maxlength: 256 },
+                                                      'job[joined_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
+                                                      'job[contract_start_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false}}},
+                                                      'job[contract_end_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} }, date_range: function() {return {format:datepickerDateFormat, fromDate:stratDate}}}
+                                                  },
+                                                  messages: {
+                                                      'job[terminated_date]': { valid_date: lang_invalidDate },
+                                                      'job[termination_reason]': { maxlength: lang_max_char_terminated_reason },
+                                                      'job[joined_date]': { valid_date: lang_invalidDate },
+                                                      'job[contract_start_date]': { valid_date: lang_invalidDate},
+                                                      'job[contract_end_date]': { valid_date: lang_invalidDate, date_range:'<?php echo __('End date should be after the start date'); ?>'}
+                                                  },
+                                                  errorElement : 'div',
+                                                  errorPlacement: function(error, element) {
+                                                      error.appendTo(element.prev('label'));
                                                   }
+                                              });
 
-                                                  // Note: it be more efficient if these 2 ajax calls were combined.
-                                                  var empStatusUrl = '<?php echo url_for('admin/getEmpStatusesJson?job='); ?>' + jobTitle;
+                                              $("#frmTerminateEmployement").validate({
+                                                  rules: {
+                                                      'terminate[reason]': { required: true },
+                                                      'terminate[note]': { maxlength: 256 },
+                                                      'terminate[date]': { required: true, valid_date: function(){ return {format:datepickerDateFormat} } }
+                                                  },
+                                                  messages: {
+                                                      'terminate[reason]': { required: lang_terminatedReasonRequired },
+                                                      'terminate[note]': { maxlength: lang_max_char_terminated_note },
+                                                      'terminate[date]': { required: lang_invalidDate, valid_date: lang_invalidDate }
+                                                  },
+                                                  errorPlacement: function(error, element) {
+                                                      error.appendTo(element.prev('label'));
+                                                      error.appendTo(element.next('div.errorHolder'));
+                                                  }
+                                              });
 
-                                                  $.getJSON(empStatusUrl, function(data) {
 
-                                                  $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
-                                                  if (data) {
-                                                  var statusCount = data.length;
-                                                  var cmbJobTitle = $('#job_job_title').get(0);
-                                                  var jobTitle = cmbJobTitle.options[cmbJobTitle.selectedIndex].value;
 
-                                                  for (var i = 0; i < statusCount; i++) {
-                                                  var status = data[i];
-                                                  var selected = '';
+                                              var readonlyFlag = 0;
+<?php if ($essMode) { ?>
+                                          readonlyFlag = 1;
+<?php } ?>
 
-                                                  // This restores current employee status
-                                                  if ((jobTitle == '<?php echo $form->getValue('job_title'); ?>') &&
-                                                  (status.id == '<?php echo $form->getValue('emp_status'); ?>') ) {
+                                      var list = new Array('#job_job_title', '#job_emp_status', '#job_terminated_date', '.calendarBtn', '#job_termination_reason', '#job_eeo_category',
+                                      '#job_joined_date', '#job_sub_unit', '#job_location',
+                                      '#contract_file', 'ul.radio_list input',
+                                      '#job_contract_start_date', '#job_contract_end_date',
+                                      '#job_contract_file');
+                                      for(i=0; i < list.length; i++) {
+                                      $(list[i]).attr("disabled", "disabled");
+                                      }
+<?php if (empty($form->attachment)) { ?>
+                                          $('#job_contract_update_3').attr('checked', 'checked');
+<?php } ?>
+
+                                      $('#fileUploadSection').hide();
+
+                                      $("input[name=job[contract_update]]").click(function () {
+
+                                      if ($('#job_contract_update_3').attr("checked")) {
+                                      $('#fileUploadSection').show();
+                                      } else {
+                                      $('#fileUploadSection').hide();
+                                      }
+                                      });
+
+                                      $('#contractEdidMode').hide();
+
+                                      $("#btnSave").click(function() {
+
+                                      $('#contractEdidMode').show();
+                                      $('#contractReadMode').hide();
+
+                                      if ( !readonlyFlag) {
+                                      //if user clicks on Edit make all fields editable
+                                      if($("#btnSave").attr('value') == edit) {
+                                      for(i=0; i < list.length; i++) {
+                                      $(list[i]).removeAttr("disabled");
+                                      }
+
+                                      $("#btnSave").attr('value', save);
+
+<?php if (empty($form->attachment)) { ?>
+                                          $('#job_contract_update_1').attr('disabled', 'disabled');
+                                          $('#job_contract_update_2').attr('disabled', 'disabled');
+                                          $('#job_contract_update_3').attr('checked', 'checked');
+<?php } ?>
+
+                                      return;
+                                      }
+
+                                      if($("#btnSave").attr('value') == save) {
+
+
+                                      if ($('#job_emp_status').val() != 'EST000') {
+                                      $('#job_terminated_date').val('');
+                                      $('#job_termination_reason').val('');
+                                      }
+                                      stratDate = $('#job_contract_start_date').val();
+                                      $("#frmEmpJobDetails").submit();
+                                      }
+                                      }
+                                      });
+
+                                      $('a#viewDetailsLink').click(function() {
+                                      var linkText = $('div#job_spec_details').is(':visible') ? lang_View_Details: lang_Hide_Details;
+                                      $(this).text(linkText);
+
+                                      $('div#job_spec_details').toggle();
+                                      });
+
+                                      /* Hiding/showing terminatedDetails */
+
+                                      showHideTerminatedDetails();
+
+                                      $('#job_emp_status').change(function(){
+                                      showHideTerminatedDetails();
+                                      });
+
+                                      /* Hiding showing viewDetailsLink at loading */
+                                      showHideViewDetailsLink();
+
+                                      /*
+                                      * Ajax call to fetch job specification for selected job
+                                      */
+                                      $("#job_job_title").change(function() {
+
+                                      var jobTitle = this.options[this.selectedIndex].value;
+
+                                      // don't check if not selected
+                                      if (jobTitle == '0' || jobTitle == '') {
+                                      $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
+                                      $("#viewDetailsLink").hide();
+                                      $('a#viewDetailsLink').text(lang_View_Details);
+                                      return;
+                                      }
+
+                                      // Note: it be more efficient if these 2 ajax calls were combined.
+                                      var empStatusUrl = '<?php echo url_for('admin/getEmpStatusesJson?job='); ?>' + jobTitle;
+
+                                      $.getJSON(empStatusUrl, function(data) {
+
+                                      $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
+                                      if (data) {
+                                      var statusCount = data.length;
+                                      var cmbJobTitle = $('#job_job_title').get(0);
+                                      var jobTitle = cmbJobTitle.options[cmbJobTitle.selectedIndex].value;
+
+                                      for (var i = 0; i < statusCount; i++) {
+                                      var status = data[i];
+                                      var selected = '';
+
+                                      // This restores current employee status
+                                      if ((jobTitle == '<?php echo $form->getValue('job_title'); ?>') &&
+                                      (status.id == '<?php echo $form->getValue('emp_status'); ?>') ) {
 selected = "selected='selected'";
 }
 

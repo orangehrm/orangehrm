@@ -24,6 +24,9 @@ form#frmEmpJobDetails div.error {
     width: 300px;
     font-size: 8pt;
 }
+#ui-datepicker-div{
+    z-index: 1003;
+}
 
 ul.radio_list { list-style: none; margin-left: 135px; }
 ul.radio_list li { display: inline; }
@@ -84,4 +87,27 @@ a.fileLink {
 
 form#frmEmpJobDetails div#fileLink a.fileLink{
     margin-top: 5px;
+}
+
+form#frmTerminateEmployement label label.error{
+    padding-left: 120px;
+    width: 200px !important;
+}
+
+form#frmTerminateEmployement div.errorHolder label.error{
+    padding-left: 120px;
+    width: 200px !important;
+}
+
+div#terminateEmployement.ui-dialog-content div.dialogButtons{
+    text-align: left;
+    padding-left: 40px;
+}
+
+form#frmTerminateEmployement textarea#terminate_note.formTxtArea{
+    margin-top: 6px;
+}
+
+form#frmEmpJobDetails div.formbuttons label#terminatedDate{
+    margin-top: 3px;
 }

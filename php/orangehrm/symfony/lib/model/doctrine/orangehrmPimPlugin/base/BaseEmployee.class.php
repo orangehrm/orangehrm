@@ -40,8 +40,7 @@
  * @property string $sal_grd_code
  * @property date $joined_date
  * @property string $emp_oth_email
- * @property date $terminated_date
- * @property string $termination_reason
+ * @property integer $termination_id
  * @property string $custom1
  * @property string $custom2
  * @property string $custom3
@@ -68,6 +67,7 @@
  * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
+ * @property EmpTermination $EmpTermination
  * @property Doctrine_Collection $locations
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
@@ -128,8 +128,7 @@
  * @method string              getSalGrdCode()               Returns the current record's "sal_grd_code" value
  * @method date                getJoinedDate()               Returns the current record's "joined_date" value
  * @method string              getEmpOthEmail()              Returns the current record's "emp_oth_email" value
- * @method date                getTerminatedDate()           Returns the current record's "terminated_date" value
- * @method string              getTerminationReason()        Returns the current record's "termination_reason" value
+ * @method integer             getTerminationId()            Returns the current record's "termination_id" value
  * @method string              getCustom1()                  Returns the current record's "custom1" value
  * @method string              getCustom2()                  Returns the current record's "custom2" value
  * @method string              getCustom3()                  Returns the current record's "custom3" value
@@ -156,6 +155,7 @@
  * @method Doctrine_Collection getContracts()                Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
+ * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
  * @method Doctrine_Collection getLocations()                Returns the current record's "locations" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
@@ -215,8 +215,7 @@
  * @method Employee            setSalGrdCode()               Sets the current record's "sal_grd_code" value
  * @method Employee            setJoinedDate()               Sets the current record's "joined_date" value
  * @method Employee            setEmpOthEmail()              Sets the current record's "emp_oth_email" value
- * @method Employee            setTerminatedDate()           Sets the current record's "terminated_date" value
- * @method Employee            setTerminationReason()        Sets the current record's "termination_reason" value
+ * @method Employee            setTerminationId()            Sets the current record's "termination_id" value
  * @method Employee            setCustom1()                  Sets the current record's "custom1" value
  * @method Employee            setCustom2()                  Sets the current record's "custom2" value
  * @method Employee            setCustom3()                  Sets the current record's "custom3" value
@@ -243,6 +242,7 @@
  * @method Employee            setContracts()                Sets the current record's "contracts" collection
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
+ * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
  * @method Employee            setLocations()                Sets the current record's "locations" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
@@ -438,13 +438,9 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'type' => 'string',
              'length' => 50,
              ));
-        $this->hasColumn('terminated_date', 'date', 25, array(
-             'type' => 'date',
-             'length' => 25,
-             ));
-        $this->hasColumn('termination_reason', 'string', 256, array(
-             'type' => 'string',
-             'length' => 256,
+        $this->hasColumn('termination_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
              ));
         $this->hasColumn('custom1', 'string', 250, array(
              'type' => 'string',
@@ -555,6 +551,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('ProjectAdmin as projectAdmin', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
+
+        $this->hasOne('EmpTermination', array(
+             'local' => 'termination_id',
+             'foreign' => 'id'));
 
         $this->hasMany('Location as locations', array(
              'refClass' => 'EmpLocations',
