@@ -11,8 +11,8 @@ create table `hs_hr_config` (
 	primary key (`key`)
 ) engine=innodb default charset=utf8;
 
-create table `ohrm_emp_status` (
-	`id` int(13) not null auto_increment,
+create table `ohrm_employment_status` (
+	`id` int not null auto_increment,
 	`name` varchar(60) not null,
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
@@ -1403,7 +1403,7 @@ alter table hs_hr_jobtit_empstat
 
 alter table hs_hr_jobtit_empstat
        add constraint foreign key (estat_code)
-                             references ohrm_emp_status(id) on delete cascade;
+                             references ohrm_employment_status(id) on delete cascade;
 
 alter table hs_hr_membership
        add constraint foreign key (membtype_code)
@@ -1427,7 +1427,7 @@ alter table hs_hr_employee
 
 alter table hs_hr_employee
        add constraint foreign key (emp_status)
-                             references ohrm_emp_status(id) on delete set null;
+                             references ohrm_employment_status(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (eeo_cat_code)

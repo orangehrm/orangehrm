@@ -43,3 +43,6 @@ form#frmSearchProject .contentDiv{
 .trHover{
     cursor: auto;
 }
+#project label{
+    width: 60px !important;
+}

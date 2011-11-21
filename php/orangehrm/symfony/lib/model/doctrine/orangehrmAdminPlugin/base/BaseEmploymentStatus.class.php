@@ -25,12 +25,11 @@ abstract class BaseEmploymentStatus extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('ohrm_emp_status');
-        $this->hasColumn('id', 'integer', 13, array(
+        $this->setTableName('ohrm_employment_status');
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'primary' => true,
              'autoincrement' => true,
-             'length' => 13,
              ));
         $this->hasColumn('name', 'string', 60, array(
              'type' => 'string',

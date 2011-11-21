@@ -217,7 +217,7 @@ class EmployeeTable extends PluginEmployeeTable {
         $query = 'FROM hs_hr_employee e ' .
                 '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
                 '  LEFT JOIN ohrm_job_title j on j.id = e.job_title_code ' .
-                '  LEFT JOIN ohrm_emp_status es on e.emp_status = es.id ' .
+                '  LEFT JOIN ohrm_employment_status es on e.emp_status = es.id ' .
                 '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
                 '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number ';
 

@@ -26,7 +26,7 @@ form#frmSearchLocation label{
 
 form#frmSearchLocation .txtBox{
     margin-top: 1px;
-    width: 50%;
+    width: 60%;
 }
 
 form#frmSearchLocation .actionbuttons{
@@ -42,4 +42,11 @@ form#frmSearchLocation .contentDiv{
 }
 .trHover{
     cursor: auto;
+}
+#city label{
+    width: 40px !important;
+}
+
+#country label{
+    width: 60px !important;
 }

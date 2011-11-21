@@ -668,8 +668,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
                     LEFT JOIN ohrm_subunit ON 
                         (hs_hr_employee.work_station = ohrm_subunit.id) 
-                    LEFT JOIN ohrm_emp_status ON 
-                        (hs_hr_employee.emp_status = ohrm_emp_status.id) 
+                    LEFT JOIN ohrm_employment_status ON 
+                        (hs_hr_employee.emp_status = ohrm_employment_status.id) 
                     LEFT JOIN ohrm_job_title ON
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
                     LEFT JOIN hs_hr_eec ON 
@@ -893,7 +893,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (75, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_start_date)', 'Contract Start Date', 'empContStartDate',  'false', null, null, 'label', '<xml><getter>empContStartDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (76, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_end_date)', 'Contract End Date', 'empContEndDate',  'false', null, null, 'label', '<xml><getter>empContEndDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (77, 3, 'ohrm_job_title.job_title', 'Job Title', 'empJobTitle',  'false', null, null, 'label', '<xml><getter>empJobTitle</getter></xml>', 200, '0', null, true, 6, '---', false, false),
-    (78, 3, 'ohrm_emp_status.name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (78, 3, 'ohrm_employment_status.name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (81, 3, 'hs_hr_employee.joined_date', 'Joined Date', 'empJoinedDate',  'false', null, null, 'label', '<xml><getter>empJoinedDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
     (82, 3, 'ohrm_subunit.name', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),
