@@ -1233,6 +1233,31 @@ create table `ohrm_job_specification_attachment`(
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_user_role`(
+	`id` int(10) not null auto_increment,
+	`name` varchar(255) not null,
+	`is_assignable` tinyint(1) default 0,
+        `is_predefined` tinyint(1) default 0,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_user_selection_rule`(
+	`id` int(10) not null auto_increment,
+	`name` varchar(255) not null,
+        `description` varchar(255) ,
+	`implementation_class` varchar(255) not null,
+        `rule_xml_data` text,
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
+create table `ohrm_role_user_selection_rule`(
+	`user_role_id` int(10) not null,
+        `selection_rule_id` int(10) not null,
+        `configurable_params` text,
+	primary key (`user_role_id`,`selection_rule_id`)
+)engine=innodb default charset=utf8;
+
+
 alter table ohrm_job_specification_attachment
        add constraint foreign key (job_title_id)
                              references ohrm_job_title(id) on delete cascade;

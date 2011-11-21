@@ -516,3 +516,57 @@ SelectedDisplayFieldGroup:
       onDelete: cascade
       local: display_field_group_id
       foreign: id
+
+UserRole:
+  tableName: ohrm_user_role
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      notnull: true
+    is_assignable:
+      type: int
+      type: boolean
+      notnull: true
+    is_predefined:
+      type: int
+      type: boolean
+      notnull: true
+      
+UserSelectionRule:
+  tableName: ohrm_user_selection_rule
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      notnull: true
+    description:
+      type: string(255)
+      notnull: true
+    implementation_class:
+      type: string(255)
+      notnull: true
+    rule_xml_data:
+      type: string
+      notnull: true
+      
+UserRoleUserSelectionRule:
+  tableName: ohrm_role_user_selection_rule
+  columns:
+    user_role_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    selection_rule_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    configurable_params:
+      type: string
+      notnull: true   
