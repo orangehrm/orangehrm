@@ -1234,7 +1234,7 @@ create table `ohrm_job_specification_attachment`(
 
 create table `ohrm_emp_termination`(
 	`id` int(4) not null auto_increment,
-	`emp_number` int(4) not null,
+	`emp_number` int(4) default null,
         `reason_id` int(4) default null,
 	`termination_date` date not null,
         `note` varchar(255) default null,

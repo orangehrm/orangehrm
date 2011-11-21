@@ -82,7 +82,7 @@ class LeaveSummaryDao extends BaseDao {
                 
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
             $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
-            $where[] = "(a.emp_status !='{$status}' OR a.emp_status IS NULL)";           
+            $where[] = "(a.termination_id IS NULL)";
         }
         
         //$where[] = "b.available_flag = 1";
@@ -142,7 +142,7 @@ class LeaveSummaryDao extends BaseDao {
         
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
             $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
-            $where[] = "(a.emp_status !='{$status}' OR a.emp_status IS NULL)";           
+            $where[] = "(a.termination_id IS NULL)";
         }
         //$where[] = "b.available_flag = 1";
         if(count($where) > 0) {

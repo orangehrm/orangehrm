@@ -1,8 +1,17 @@
+EmploymentStatus:
+  0: {id: 1, name: 'Full Time'}
+
+EmpTerminationReason:
+  0: {id: 1, description: 'Resign'}
+
+EmpTermination:
+  0: {id: 1, reasonId: 1, date: '2011-11-20'}
+
 Employee:
-  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', emp_status: 'EST000'}
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', termination_id: 1}
   1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
   2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham'}
-  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', emp_status: 'EST001'}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', emp_status: 1}
   4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson'}
   5: {empNumber: 6, firstName: 'Jane', lastName: 'Edward'}
 

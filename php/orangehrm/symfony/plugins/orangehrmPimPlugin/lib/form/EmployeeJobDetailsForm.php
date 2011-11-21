@@ -199,7 +199,7 @@ class EmployeeJobDetailsForm extends BaseForm {
             $employee->emp_status = $empStatus;
         }
 
-        $employee->terminated_date = $this->getValue('terminated_date');
+        $employee->termination_date = $this->getValue('terminated_date');
 
         $employee->termination_reason = $this->getValue('termination_reason');
 
