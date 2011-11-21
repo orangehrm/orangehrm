@@ -510,25 +510,6 @@ CustomFields:
       notnull: false
     extra_data: string(250)
  
-JobTitleEmployeeStatus:
-  tableName: hs_hr_jobtit_empstat
-  columns:
-    jobtit_code:
-      type: string(13)
-      primary: true
-    estat_code:
-      type: integer(13)
-      primary: true
-  relations:
-    JobTitle:
-      local: jobtit_code
-      foreign: id
-      type: one
-    EmployeeStatus:
-      local: estat_code
-      foreign: id
-      type: one
-
 UserGroup:
   tableName: hs_hr_user_group
   columns:

@@ -23,6 +23,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     private $companyStructureService;
     public $emoloyeeList;
     private $jobTitleService;
+    private $empStatusService;
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
@@ -92,6 +93,14 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         }
         return $this->companyStructureService;
     }
+   
+    public function getEmploymentStatusService() {
+        if (is_null($this->empStatusService)) {
+            $this->empStatusService = new EmploymentStatusService();
+            $this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+        }
+        return $this->empStatusService;
+    }
 
     public function setCompanyStructureService(CompanyStructureService $companyStructureService) {
         $this->companyStructureService = $companyStructureService;
@@ -116,8 +125,8 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
     private function _setEmployeeStatusWidget() {
 
-        $jobService = $this->getJobService();
-        $statusList = $jobService->getEmployeeStatusList();
+        $empStatusService = $this->getEmploymentStatusService();
+        $statusList = $empStatusService->getEmploymentStatusList();
         $choices[0] = __('All');
 
         foreach ($statusList as $status) {

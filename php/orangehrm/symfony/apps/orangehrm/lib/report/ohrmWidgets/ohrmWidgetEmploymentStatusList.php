@@ -65,8 +65,8 @@ class ohrmWidgetEmploymentStatusList extends sfWidgetForm implements ohrmEnhance
 
         $choice = array();
 
-        $jobService = new JobService();
-        $statusList = $jobService->getEmployeeStatusList();
+        $empStatusService = new EmploymentStatusService();
+        $statusList = $empStatusService->getEmploymentStatusList();
         $choice['0']= __('All');
 
         foreach ($statusList as $status) {
