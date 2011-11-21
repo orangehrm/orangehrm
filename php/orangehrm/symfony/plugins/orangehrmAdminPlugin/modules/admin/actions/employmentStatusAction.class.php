@@ -34,6 +34,10 @@ class employmentStatusAction extends sfAction {
 		
 		$this->setForm(new EmploymentStatusForm());
 		
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+		
 		if ($request->isMethod('post')) {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {

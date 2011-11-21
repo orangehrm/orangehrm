@@ -44,7 +44,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'lastName' => 'e.emp_lastName',
             'fullName' => array('e.emp_firstname', 'e.emp_middle_name', 'e.emp_lastName'),
             'jobTitle' => 'j.job_title',
-            'employeeStatus' => 'es.estat_name',
+            'employeeStatus' => 'es.name',
             'subDivision' => 'cs.name',
             'supervisor' => array('s.emp_firstname', 's.emp_lastname'),
     );
@@ -104,7 +104,7 @@ class EmployeeTable extends PluginEmployeeTable {
                 $jobTitle->setJobTitleName($row['jobTitle']);
                 $employee->setJobTitle($jobTitle);
 
-                $employeeStatus = new EmployeeStatus();
+                $employeeStatus = new EmploymentStatus();
                 $employeeStatus->setId($row['employeeStatusId']);
                 $employeeStatus->setName($row['employeeStatus']);
                 $employee->setEmployeeStatus($employeeStatus);
