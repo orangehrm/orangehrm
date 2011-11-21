@@ -51,7 +51,7 @@
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
-	    <?php echo $form['zipCode']->renderLabel(__('Zip Code')); ?>
+	    <?php echo $form['zipCode']->renderLabel(__('Zip/Postal Code')); ?>
             <?php echo $form['zipCode']->render(array("class" => "formInput", "maxlength" => 32)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>

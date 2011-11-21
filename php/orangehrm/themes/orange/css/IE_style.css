@@ -289,3 +289,22 @@ html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div
 #addProject_description{
     width: 295px;
 }
+#location_name{
+    width: 305px;
+}
+#location_province{
+    width: 305px;
+}
+#location_city{
+    width: 305px;
+}
+#location_zipCode{
+    width: 305px;
+}
+#location_phone{
+    width: 305px;
+}
+#location_fax{
+    width: 305px;
+}
+
