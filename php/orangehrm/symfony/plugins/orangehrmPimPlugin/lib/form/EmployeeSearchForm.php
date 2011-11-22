@@ -29,6 +29,10 @@ class EmployeeSearchForm extends BaseForm {
     private $jobService;
     private $jobTitleService;
     private $empStatusService;
+    
+    const WITHOUT_TERMINATED = 1;
+    const WITH_TERMINATED = 2;
+    const ONLY_TERMINATED = 3;
 
     public function getEmploymentStatusService() {
         if (is_null($this->empStatusService)) {
@@ -37,7 +41,7 @@ class EmployeeSearchForm extends BaseForm {
         }
         return $this->empStatusService;
     }
-    
+
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
             $this->jobTitleService = new JobTitleService();
@@ -63,6 +67,8 @@ class EmployeeSearchForm extends BaseForm {
         $this->_setSubunitWidget();
 
         $this->_setEmployeeStatusWidget();
+
+        $this->_setTerminatedEmployeeWidget();
 
         $this->setWidget('supervisor_name', new sfWidgetFormInputText());
         $this->setValidator('supervisor_name', new sfValidatorString(array('required' => false)));
@@ -186,11 +192,18 @@ class EmployeeSearchForm extends BaseForm {
 
         foreach ($tree as $node) {
             if ($node->getId() != 1) {
-                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level']-1) . $node['name'];
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
         $this->setWidget('sub_unit', new sfWidgetFormChoice(array('choices' => $subUnitList)));
         $this->setValidator('sub_unit', new sfValidatorChoice(array('choices' => array_keys($subUnitList))));
+    }
+
+    private function _setTerminatedEmployeeWidget() {
+        $terminateSelection = array(self::WITHOUT_TERMINATED => __('Active'), self::WITH_TERMINATED => __('All'), self::ONLY_TERMINATED => __('Terminated'));
+        $this->setWidget('termination', new sfWidgetFormChoice(array('choices' => $terminateSelection)));
+        $this->setValidator('termination', new sfValidatorChoice(array('choices' => array_keys($terminateSelection))));
+
     }
 
 }

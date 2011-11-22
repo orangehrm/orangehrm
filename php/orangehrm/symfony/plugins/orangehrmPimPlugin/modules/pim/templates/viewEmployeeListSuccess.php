@@ -57,8 +57,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     echo $form['employee_status']->renderLabel(__("Employment Status"));
     echo $form['employee_status']->render();
+
+    echo $form['termination']->renderLabel(__("Show Employees"));
+    echo $form['termination']->render();
 ?>
-                <br class="clear"/>
+     <br class="clear"/>
 <?php
     echo $form['supervisor_name']->renderLabel(__("Supervisor Name"));
     echo $form['supervisor_name']->render();
@@ -181,7 +184,12 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                         <td>
                         <?php echo link_to($employee->getLastName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber()); ?>
                         </td>
-                        <td><?php echo $employee->getJobTitle()->getJobTitleName(); ?></td>
+                        <td><?php
+                        $terminationId = $employee->getTerminationId();
+                        $job = $employee->getJobTitle();
+                        $nameDeleted = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName()." (Deleted)" : $job->getJobTitleName();
+                        $nameTerminated = (!empty($terminationId)) ? $nameDeleted." (Terminated)" : $nameDeleted;
+                        echo $nameTerminated ?></td>
                         <td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
                         <td><?php echo $employee->getSubDivision()->getTitle() ?></td>
                         <td><?php echo $employee->getSupervisorNames() ?></td>
@@ -287,6 +295,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                                     $("#empsearch_job_title").val('0');
                                     $("#empsearch_employee_status").val('0');
                                     $("#empsearch_sub_unit").val('0');
+                                    $("#empsearch_termination").val('<?php echo EmployeeSearchForm::WITHOUT_TERMINATED ;?>');
                                     $('#search_form').submit();
                                 });
 

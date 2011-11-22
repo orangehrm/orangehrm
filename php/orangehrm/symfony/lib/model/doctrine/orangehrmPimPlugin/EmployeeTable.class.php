@@ -30,6 +30,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'sub_unit' => 'cs.name',
             'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
             'supervisorId' => 's.emp_firstname',
+            'termination' => 'e.termination_id'
     );
 
     /**
@@ -46,7 +47,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'jobTitle' => 'j.job_title',
             'employeeStatus' => 'es.name',
             'subDivision' => 'cs.name',
-            'supervisor' => array('s.emp_firstname', 's.emp_lastname'),
+            'supervisor' => array('s.emp_firstname', 's.emp_lastname')
     );
 
 
@@ -85,7 +86,6 @@ class EmployeeTable extends PluginEmployeeTable {
         $conn = Doctrine_Manager::connection();
         $statement = $conn->prepare($completeQuery);
         $result = $statement->execute($bindParams);
-        //$statement->setFetchMode(PDO::FETCH_ASSOC);
 
         $employees = new Doctrine_Collection(Doctrine::getTable('Employee'));
 
@@ -98,10 +98,12 @@ class EmployeeTable extends PluginEmployeeTable {
                 $employee->setFirstName($row['firstName']);
                 $employee->setMiddleName($row['middleName']);
                 $employee->setLastName($row['lastName']);
+                $employee->setTerminationId($row['terminationId']);
 
                 $jobTitle = new JobTitle();
                 $jobTitle->setId($row['jobTitleId']);
                 $jobTitle->setJobTitleName($row['jobTitle']);
+                $jobTitle->setIsDeleted($row['isDeleted']);
                 $employee->setJobTitle($jobTitle);
 
                 $employeeStatus = new EmploymentStatus();
@@ -194,7 +196,7 @@ class EmployeeTable extends PluginEmployeeTable {
     private function _getEmployeeListQuery(&$select, &$query, array &$bindParams, &$orderBy,
             $sortField = null, $sortOrder = null, array $filters = null) {
 
-        $searchByStatus = false;
+        $searchByTerminated = EmployeeSearchForm::WITHOUT_TERMINATED;
 
         /*
 	     * Using direct SQL since it is difficult to use Doctrine DQL or RawSQL to get an efficient
@@ -206,12 +208,10 @@ class EmployeeTable extends PluginEmployeeTable {
         
         $select = 'SELECT e.emp_number AS empNumber, e.employee_id AS employeeId, ' .
                 'e.emp_firstname AS firstName, e.emp_lastname AS lastName, ' .
-                'e.emp_middle_name AS middleName, ' .
+                'e.emp_middle_name AS middleName, e.termination_id AS terminationId, ' .
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
-                'j.job_title AS jobTitle, j.id AS jobTitleId, ' .
+                'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, ' .
-                //'GROUP_CONCAT(s.emp_firstname, \' \', s.emp_lastname ORDER BY erep_reporting_mode ) ' .
-                //' AS supervisors ';
                 $supervisorNameSubQuery . ' AS supervisors';
 
         $query = 'FROM hs_hr_employee e ' .
@@ -227,12 +227,6 @@ class EmployeeTable extends PluginEmployeeTable {
         if (!empty($filters)) {
 
             $filterCount = 0;
-
-            // { ["employee_name"]=> string(3) "Abc"
-            // ["supervisor_name"]=> string(3) "def"
-            // ["id"]=> string(0) "" ["job_title"]=> string(0) ""
-            // ["employee_status"]=> string(0) ""
-            // ["sub_unit"]=> string(0) "" }
 
             foreach ($filters as $searchField=>$searchBy ) {
                 if (!empty($searchField) && !empty($searchBy)
@@ -252,7 +246,6 @@ class EmployeeTable extends PluginEmployeeTable {
                     } else if ($searchField == 'id') {
                         $conditions[] = ' e.employee_id LIKE ? ';
                         $bindParams[] = $searchBy;
-                        //$bindParams[] = '%' . $searchBy . '%';
                     } else if ($searchField == 'job_title') {
                         $conditions[] = ' j.id = ? ';
                         $bindParams[] = $searchBy;
@@ -282,16 +275,20 @@ class EmployeeTable extends PluginEmployeeTable {
                     }
                     $filterCount++;
 
-                    if ($searchField == 'employee_status') {
-                        $searchByStatus = true;
+                    if ($searchField == 'termination') {
+                        $searchByTerminated = $searchBy;
                     }
                 }
             }
         }
 
         /* If not searching by employee status, hide terminated employees */
-        if (!$searchByStatus) {
-            $conditions[] = "( e.emp_status != 'EST000' OR e.emp_status IS NULL )";
+        if ($searchByTerminated == EmployeeSearchForm::WITHOUT_TERMINATED) {
+            $conditions[] = "( e.termination_id IS NULL )";
+        }
+
+        if ($searchByTerminated == EmployeeSearchForm::ONLY_TERMINATED) {
+            $conditions[] = "( e.termination_id IS NOT NULL )";
         }
 
         /* Build the query */
