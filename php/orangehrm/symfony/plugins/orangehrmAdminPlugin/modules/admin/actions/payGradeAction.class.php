@@ -37,6 +37,10 @@ class payGradeAction extends sfAction {
 			$this->redirect('pim/viewPersonalDetails');
 		}
 		$this->payGradeId = $request->getParameter('payGradeId');
+		if(!empty($this->payGradeId)){
+			$this->currencyForm = new PayGradeCurrencyForm();
+			$this->deleteForm = new DeletePayGradeCurrencies();
+		}		
 		$values = array('payGradeId' => $this->payGradeId);
 		$this->setForm(new PayGradeForm(array(), $values));
 		

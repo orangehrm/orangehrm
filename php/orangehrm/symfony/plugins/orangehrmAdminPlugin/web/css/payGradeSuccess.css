@@ -23,3 +23,7 @@ label.error {
 .formInput{
     width: 300px;
 }
+
+#addDeleteBtnDiv{
+    padding:  5px 5px 5px 5px;
+}

@@ -250,7 +250,7 @@ class EmployeeTable extends PluginEmployeeTable {
                         $conditions[] = ' j.id = ? ';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'employee_status') {
-                        $conditions[] = ' es.estat_code = ? ';
+                        $conditions[] = ' es.id = ? ';
                         $bindParams[] = $searchBy;
                     } else if ($searchField == 'supervisorId') {
                         

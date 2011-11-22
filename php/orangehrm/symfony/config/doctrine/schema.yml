@@ -432,28 +432,6 @@ CurrencyType:
       foreign: currency_id
       type: many
 
-SalaryCurrencyDetail:
-  tableName: hs_pr_salary_currency_detail
-  columns:
-    sal_grd_code:
-      type: string(13)
-      primary: true
-    currency_id:
-      type: string(6)
-      primary: true
-    salcurr_dtl_minsalary as min_salary: float(2147483647)
-    salcurr_dtl_stepsalary as salary_step: float(2147483647)
-    salcurr_dtl_maxsalary as max_salary: float(2147483647)
-  relations:
-    CurrencyType:
-      local: currency_id
-      foreign: currency_id
-      type: one
-    SalaryGrade:
-      local: sal_grd_code
-      foreign: sal_grd_code
-      type: one
-
 Payperiod:
   tableName: hs_hr_payperiod
   columns:

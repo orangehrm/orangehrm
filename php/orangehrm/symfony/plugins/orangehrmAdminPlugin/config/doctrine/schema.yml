@@ -260,3 +260,28 @@ PayGrade:
       local: id
       foreign: sal_grd_code
       type: many
+      
+PayGradeCurrencyDetail:
+  tableName: ohrm_pay_grade_currency_details
+  columns:
+    pay_grade_id:
+      type: int
+      primary: true
+    currency_id:
+      type: string(6)
+      primary: true
+    min_salary:
+      name: min_salary as minSalary
+      type: float(2147483647)
+    max_salary:
+      name: max_salary as maxSalary
+      type: float(2147483647)
+  relations:
+    CurrencyType:
+      local: currency_id
+      foreign: currency_id
+      type: one
+    SalaryGrade:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: one
