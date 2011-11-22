@@ -14,7 +14,9 @@ $(document).ready(function() {
     if(payGradeId > 0){
         $('#payGrade_name').attr('disabled','disabled');
         $('#btnSave').val(lang_edit);
+        $('#payGrade_payGradeId').val(payGradeId);
         $('#payGradeHeading').text(lang_editPayGrade);
+        
     }
     
     var validator = $("#frmPayGrade").validate({
