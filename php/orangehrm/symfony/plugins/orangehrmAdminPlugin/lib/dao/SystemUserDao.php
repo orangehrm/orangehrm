@@ -37,7 +37,7 @@ class SystemUserDao extends BaseDao{
      * Check is existing user according to user name
      * 
      * @param type $userName 
-     * @return boolean 
+     * @return mixed , false if user not exist  , otherwise it returns 
      */
     public function isExistingSystemUser( $userName){
         try {
@@ -70,9 +70,9 @@ class SystemUserDao extends BaseDao{
      */
     public function getSystemUsers( ){
         try {
-            $query = Doctrine_Query:: create()->from('SystemUser u')
-                            ->where('u.user_name = ?', $userName);
-            return $query->fetchOne();
+            $query = Doctrine_Query:: create()->from('SystemUser u');
+                            
+            return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(),$e->getCode(),$e);
         }
@@ -91,7 +91,7 @@ class SystemUserDao extends BaseDao{
         try {
                 $query = Doctrine_Query :: create()->delete('SystemUser u')
                                 ->whereIn('u.id', $deletedIds);
-                $result = $query->execute();
+                $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(),$e->getCode(),$e);
         }

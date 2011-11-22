@@ -58,9 +58,43 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
                 $systemUser->setUserPassword('orangehrm');
                 
                 $this->systemUserDao->saveSystemUser( $systemUser );
-                
-                
+                 
 	}
+        
+        public function testIsExistingSystemUserForNonEsistingUser(){
+            $result = $this->systemUserDao->isExistingSystemUser( 'google' );
+            $this->assertFalse( $result);
+        }
     
+        public function testIsExistingSystemUserForEsistingUser(){
+            $result = $this->systemUserDao->isExistingSystemUser( 'Samantha' );
+            $this->assertTrue( $result instanceof SystemUser);
+        }
+        
+        public function testGetSystemUser(){
+           
+                
+            $result = $this->systemUserDao->getSystemUser( 1 );
+           
+            $this->assertEquals( $result->getUserName(),'samantha');
+            $this->assertEquals( $result->getUserPassword(),'samantha');
+        }
+        
+        
+        public function testGetSystemUserForNonExistingId(){
+            $result = $this->systemUserDao->getSystemUser( 100 );
+            $this->assertFalse( $result);
+        }
+        
+        public function testGetSystemUsers(){
+            $result = $this->systemUserDao->getSystemUsers(  );
+            $this->assertEquals(2, count(  $result));
+        }
+        
+        public function testDeleteSystemUsers(){
+            $this->systemUserDao->deleteSystemUsers( array(1,2));
+            $result = $this->systemUserDao->getSystemUsers(  );
+            $this->assertEquals(0, count(  $result));
+        }
 }
 ?>

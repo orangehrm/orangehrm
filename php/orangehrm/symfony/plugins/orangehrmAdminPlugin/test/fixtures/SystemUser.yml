@@ -11,5 +11,5 @@ UserRole:
   2: {id: 3, name: Supervisor, is_assignable: 1, is_predefined: 0}
   
 SystemUser:
-  0: {user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha'}
-  1: {user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika'}
+  0: {id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha'}
+  1: {id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika'}
