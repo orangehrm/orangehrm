@@ -60,8 +60,13 @@ class PayGradeForm extends BaseForm {
 	}
 	
 	public function save(){
+		$payGradeId = $this->getValue('payGradeId');
 		
-		$payGrade = new PayGrade();
+		if(!empty ($payGradeId)){
+			$payGrade = $this->getPayGradeService()->getPayGradeById($payGradeId);
+		} else {
+			$payGrade = new PayGrade();
+		}	
 		$payGrade->setName($this->getValue('name'));
 		$payGrade->save();
 		

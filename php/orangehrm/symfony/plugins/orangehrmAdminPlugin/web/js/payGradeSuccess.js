@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#btnSave').click(function() {  
         
         if($('#btnSave').val() == lang_edit){
-            $('#payGrade_name').attr('disabled','disabled');
+            $('#payGrade_name').removeAttr('disabled');
             $('#btnSave').val(lang_save);
             
         } else if ($('#btnSave').val() == lang_save){
@@ -16,7 +16,6 @@ $(document).ready(function() {
         $('#btnSave').val(lang_edit);
         $('#payGrade_payGradeId').val(payGradeId);
         $('#payGradeHeading').text(lang_editPayGrade);
-        
     }
     
     var validator = $("#frmPayGrade").validate({
