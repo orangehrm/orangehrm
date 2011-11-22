@@ -1247,6 +1247,19 @@ create table `ohrm_emp_termination_reason`(
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_user`(
+        `id` int(10) not null auto_increment,
+        `user_role_id` int(10) not null,
+        `emp_number` int(13) DEFAULT NULL,
+        `user_name` varchar(40) unique,
+        `user_password` varchar(40) DEFAULT NULL,
+        `deleted` tinyint(1) NOT NULL DEFAULT '0',
+        `status` tinyint(1) NOT NULL DEFAULT '0',
+        key `user_role_id` (`user_role_id`),
+        key `emp_number` (`emp_number`),
+	primary key (`id`)
+)engine=innodb default charset=utf8;
+
 create table `ohrm_user_role`(
 	`id` int(10) not null auto_increment,
 	`name` varchar(255) not null,
@@ -1740,3 +1753,10 @@ alter table `hs_hr_emp_locations`
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
 
+alter table `ohrm_user`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;
+
+alter table `ohrm_user`
+    add constraint foreign key (`user_role_id`)
+        references ohrm_user_role(`id`) on delete cascade;

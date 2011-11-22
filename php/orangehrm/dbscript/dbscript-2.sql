@@ -1067,3 +1067,14 @@ INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', '', '', 1, 2, 0);
 
 
 INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'), (2, 'Resigned');
+
+
+INSERT INTO `ohrm_user_role` (`id`, `name`, `is_assignable`, `is_predefined`) VALUES
+(1, 'Admin', 0, 1),
+(2, 'ESS', 0, 1),
+(3, 'Supervisor', 1, 0),
+(4, 'ProjectAdmin', 1, 0),
+(5, 'Interviewer', 1, 0),
+(6, 'Offerer', 1, 0),
+(7, 'Interviewer', 1, 0),
+(8, 'Offerer', 1, 0);

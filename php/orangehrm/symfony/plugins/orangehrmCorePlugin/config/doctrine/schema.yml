@@ -516,6 +516,37 @@ SelectedDisplayFieldGroup:
       onDelete: cascade
       local: display_field_group_id
       foreign: id
+      
+SystemUser:
+  tableName: ohrm_user
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id:
+      type: integer
+    emp_number:
+      type: integer
+    user_name:
+      string(40)
+    user_password:
+      string(40)
+    deleted:
+      type: integer(1)
+      default: '0'
+    status:
+      type: integer(1)
+      default: '1'
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
 
 UserRole:
   tableName: ohrm_user_role
