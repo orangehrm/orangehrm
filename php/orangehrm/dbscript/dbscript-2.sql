@@ -797,7 +797,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
     (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
-    (20, 3, 'location', 'emp_location.location_id', 'ohrmReportWidgetLocationDropDown', 1, null),
+    (20, 3, 'location', 'ohrm_location.location_id', 'ohrmReportWidgetLocationDropDown', 1, null),
     (21, 1, 'is_deleted', 'ohrm_project_activity.is_deleted', '', 2, null);
 
 INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`, `is_list`) VALUES

@@ -63,13 +63,13 @@ class ohrmReportWidgetPayGradeDropDown extends sfWidgetForm implements ohrmEnhan
     private function _getPayGrades() {
         $choices = array();
 
-        $jobService = new JobService();
-        $payGrades = $jobService->getSaleryGradeList();
+        $service = new PayGradeService();
+        $payGrades = $service->getPayGradeList();
 
         $choices = array('' => '-- ' . __('Select Salary Grade') . ' --');
 
         foreach ($payGrades as $payGrade) {
-            $choices[$payGrade->getSalGrdCode()] = $payGrade->getSalGrdName();
+            $choices[$payGrade->getId()] = $payGrade->getName();
         }
 
         return $choices;

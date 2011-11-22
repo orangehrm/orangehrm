@@ -55,6 +55,7 @@
  * @property JobTitle $jobTitle
  * @property EmploymentStatus $employeeStatus
  * @property Doctrine_Collection $supervisors
+ * @property Doctrine_Collection $locations
  * @property Doctrine_Collection $dependents
  * @property Doctrine_Collection $emergencyContacts
  * @property Doctrine_Collection $immigrationDocuments
@@ -68,7 +69,6 @@
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
  * @property EmpTermination $EmpTermination
- * @property Doctrine_Collection $locations
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -144,6 +144,7 @@
  * @method JobTitle            getJobTitle()                 Returns the current record's "jobTitle" value
  * @method EmploymentStatus    getEmployeeStatus()           Returns the current record's "employeeStatus" value
  * @method Doctrine_Collection getSupervisors()              Returns the current record's "supervisors" collection
+ * @method Doctrine_Collection getLocations()                Returns the current record's "locations" collection
  * @method Doctrine_Collection getDependents()               Returns the current record's "dependents" collection
  * @method Doctrine_Collection getEmergencyContacts()        Returns the current record's "emergencyContacts" collection
  * @method Doctrine_Collection getImmigrationDocuments()     Returns the current record's "immigrationDocuments" collection
@@ -157,7 +158,6 @@
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
- * @method Doctrine_Collection getLocations()                Returns the current record's "locations" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -232,6 +232,7 @@
  * @method Employee            setJobTitle()                 Sets the current record's "jobTitle" value
  * @method Employee            setEmployeeStatus()           Sets the current record's "employeeStatus" value
  * @method Employee            setSupervisors()              Sets the current record's "supervisors" collection
+ * @method Employee            setLocations()                Sets the current record's "locations" collection
  * @method Employee            setDependents()               Sets the current record's "dependents" collection
  * @method Employee            setEmergencyContacts()        Sets the current record's "emergencyContacts" collection
  * @method Employee            setImmigrationDocuments()     Sets the current record's "immigrationDocuments" collection
@@ -245,7 +246,6 @@
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
- * @method Employee            setLocations()                Sets the current record's "locations" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -507,6 +507,11 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'erep_sub_emp_number',
              'foreign' => 'erep_sup_emp_number'));
 
+        $this->hasMany('Location as locations', array(
+             'refClass' => 'EmpLocations',
+             'local' => 'emp_number',
+             'foreign' => 'location_id'));
+
         $this->hasMany('EmpDependent as dependents', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
@@ -558,11 +563,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasOne('EmpTermination', array(
              'local' => 'termination_id',
              'foreign' => 'id'));
-
-        $this->hasMany('Location as locations', array(
-             'refClass' => 'EmpLocations',
-             'local' => 'emp_number',
-             'foreign' => 'location_id'));
 
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',

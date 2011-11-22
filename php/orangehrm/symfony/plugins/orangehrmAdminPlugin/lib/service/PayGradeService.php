@@ -48,6 +48,10 @@ class PayGradeService extends BaseService {
 	public function getPayGradeById($payGradeId){
 		return $this->payGradeDao->getPayGradeById($payGradeId);
 	}
+	
+	public function getPayGradeList(){
+		return $this->payGradeDao->getPayGradeList();
+	}
 
 }
 

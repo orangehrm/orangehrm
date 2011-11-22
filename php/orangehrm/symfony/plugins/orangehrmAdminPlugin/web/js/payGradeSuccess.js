@@ -1,14 +1,22 @@
 $(document).ready(function() {
    
-    $('#btnSave').click(function() {    
-        $('#frmPayGrade').submit();
+    $('#btnSave').click(function() {  
         
+        if($('#btnSave').val() == lang_edit){
+            $('#payGrade_name').attr('disabled','disabled');
+            $('#btnSave').val(lang_save);
+            
+        } else if ($('#btnSave').val() == lang_save){
+            $('#frmPayGrade').submit();
+        }        
     });
     
     if(payGradeId > 0){
         $('#payGrade_name').attr('disabled','disabled');
-        $('btnSave').val(lang_edit);
+        $('#btnSave').val(lang_edit);
+        $('#payGradeHeading').text(lang_editPayGrade);
     }
+    
     var validator = $("#frmPayGrade").validate({
 
         rules: {
@@ -20,7 +28,7 @@ $(document).ready(function() {
         messages: {
             'payGrade[name]' : {
                 required: lang_NameRequired,
-                maxlength: lang_exceed50Charactors       
+                maxlength: lang_exceed50Charactors    
             }
         },
         errorPlacement: function(error, element) {

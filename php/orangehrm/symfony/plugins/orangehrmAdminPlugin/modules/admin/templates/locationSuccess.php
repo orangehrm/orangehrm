@@ -99,4 +99,6 @@
 	var locationId = "<?php echo $locationId ?>";
 	var viewLocationUrl = "<?php echo url_for("admin/viewLocations"); ?>";
 	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_save = "<?php echo __("Save"); ?>";
+	var lang_edit = "<?php echo __("Edit"); ?>";
 </script>

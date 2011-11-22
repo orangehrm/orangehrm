@@ -7,9 +7,14 @@ $(document).ready(function() {
     });
     
     $('#btnSave').click(function() {
-        $('#location_locationId').val(locationId);
-        if(isValidForm()){          
-            $('#frmLocation').submit();
+        
+        if ($('#btnSave').val() == lang_edit){
+            enableWidgets();
+        } else if ($('#btnSave').val() == lang_save){
+            $('#location_locationId').val(locationId);
+            if(isValidForm()){          
+                $('#frmLocation').submit();
+            }
         }
     });
     
@@ -20,10 +25,20 @@ $(document).ready(function() {
     
     if(locationId > 0){
         $('#locationHeading').text(lang_editLocation);
+        disableWidgets();
     }
     
 });
 
+function disableWidgets(){
+    $('.formInput').attr('disabled','disabled');
+    $('#btnSave').val(lang_edit);  
+}
+
+function enableWidgets(){ 
+    $('.formInput').removeAttr('disabled');
+    $('#btnSave').val(lang_save);
+}
 
 function setCountryState() {
     var hide = "display:none;";

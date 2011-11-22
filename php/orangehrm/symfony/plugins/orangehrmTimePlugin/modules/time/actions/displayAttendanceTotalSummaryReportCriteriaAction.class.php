@@ -23,6 +23,7 @@ class displayAttendanceTotalSummaryReportCriteriaAction extends displayReportCri
 
         $employeeService = new EmployeeService();
         $jobService = new JobService();
+	$empStatusService = new EmploymentStatusService();
         $companyStructureService = new CompanyStructureService();
         
         if (isset($formValues["employee"])) {
@@ -34,8 +35,8 @@ class displayAttendanceTotalSummaryReportCriteriaAction extends displayReportCri
 
         if (isset($formValues["employment_status"]) && ($formValues["employment_status"]!=0)) {
             $estatCode = $formValues["employment_status"];
-            $estat = $jobService->readEmployeeStatus($estatCode);
-            $estatName = $estat->getEstatName();
+            $estat = $empStatusService->getEmploymentStatusById($estatCode);
+            $estatName = $estat->getName();
             $this->getRequest()->setParameter("empStatusName", $estatName);
         }
 

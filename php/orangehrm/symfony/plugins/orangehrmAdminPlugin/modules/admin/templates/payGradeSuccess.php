@@ -43,4 +43,7 @@
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var payGradeId = "<?php echo $payGradeId; ?>";
 	var lang_edit = "<?php echo __("Edit"); ?>";
+	var lang_save = "<?php echo __("Save"); ?>";
+	var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
+	var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
 </script>

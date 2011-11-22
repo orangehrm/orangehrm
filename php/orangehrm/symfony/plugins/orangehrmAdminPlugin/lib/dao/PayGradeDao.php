@@ -33,6 +33,20 @@ class PayGradeDao extends BaseDao {
 		}
 	}
 
+	/**
+	 *
+	 * @return type 
+	 */
+	public function getPayGradeList(){
+		
+		try {
+			$q = Doctrine_Query :: create()
+				->from('PayGrade');
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 }
 
 ?>
