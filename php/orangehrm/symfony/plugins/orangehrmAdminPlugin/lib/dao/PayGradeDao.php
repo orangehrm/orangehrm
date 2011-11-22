@@ -37,16 +37,21 @@ class PayGradeDao extends BaseDao {
 	 *
 	 * @return type 
 	 */
-	public function getPayGradeList(){
-		
+	public function getPayGradeList($sortField='name', $sortOrder='ASC') {
+
+		$sortField = ($sortField == "") ? 'name' : $sortField;
+		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+
 		try {
 			$q = Doctrine_Query :: create()
-				->from('PayGrade');
+				->from('PayGrade')
+				->orderBy($sortField . ' ' . $sortOrder);
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
 	}
+
 }
 
 ?>

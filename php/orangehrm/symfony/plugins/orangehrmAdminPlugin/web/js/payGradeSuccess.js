@@ -11,6 +11,10 @@ $(document).ready(function() {
         }        
     });
     
+        $('#btnCancel').click(function() {
+        window.location.replace(viewPayGradesUrl);
+    });
+    
     if(payGradeId > 0){
         $('#payGrade_name').attr('disabled','disabled');
         $('#btnSave').val(lang_edit);

@@ -444,3 +444,24 @@ EmploymentStatus:
   formAction: 'index.php/admin/deleteEmploymentStatus'
   assets: []
   jsInitMethods: []
+
+PayGrade:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Pay Grade");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deletePayGrades'
+  assets: []
+  jsInitMethods: []

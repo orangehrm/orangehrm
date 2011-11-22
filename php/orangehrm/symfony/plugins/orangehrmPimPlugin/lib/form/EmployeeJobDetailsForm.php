@@ -216,10 +216,10 @@ class EmployeeJobDetailsForm extends BaseForm {
         // Unlink all locations except current.
         //	
         foreach ($employee->getLocations() as $empLocation) {
-            if ($location == $empLocation->location_id) {
+            if ($location == $empLocation->id) {
                 $foundLocation = true;
             } else {
-                $employee->unlink('locations', $empLocation->location_id);
+                $employee->unlink('locations', $empLocation->id);
             }
         }
 

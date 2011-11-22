@@ -37,7 +37,6 @@
 	<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 </div>
 
-
 <script type="text/javascript">
 	var lang_NameRequired = "<?php echo __("Pay Grade name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
@@ -46,4 +45,5 @@
 	var lang_save = "<?php echo __("Save"); ?>";
 	var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
 	var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
+	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
 </script>
