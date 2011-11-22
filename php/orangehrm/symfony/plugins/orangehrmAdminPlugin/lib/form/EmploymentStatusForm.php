@@ -57,6 +57,16 @@ class EmploymentStatusForm extends BaseForm {
 		$empStatus->save();
 		
 	}
+	
+	public function getEmploymentStatusListAsJson() {
+		
+		$list = array();
+		$empStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList();
+		foreach ($empStatusList as $empStatus) {
+			$list[] = array('id' => $empStatus->getId(), 'name' => $empStatus->getName());
+		}
+		return json_encode($list);
+	}
 }
 
 ?>

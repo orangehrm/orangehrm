@@ -58,9 +58,12 @@
 </div>
 
 <script type="text/javascript">
+	var empStatuses = <?php echo str_replace('&#039;', "'", $form->getEmploymentStatusListAsJson()) ?> ;
+        var empStatusList = eval(empStatuses);
 	var lang_NameRequired = "<?php echo __("Status name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var empStatusInfoUrl = "<?php echo url_for("admin/getEmploymentStatusJson?id="); ?>";
-	var lang_editEmpStatus = "<?php echo __("Edit Employment Status");; ?>";
-	var lang_addEmpStatus = "<?php echo __("Add Employment Status");; ?>";
+	var lang_editEmpStatus = "<?php echo __("Edit Employment Status"); ?>";
+	var lang_addEmpStatus = "<?php echo __("Add Employment Status"); ?>";
+	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
 </script>

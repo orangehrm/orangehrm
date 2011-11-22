@@ -27,7 +27,8 @@ class EmploymentStatusDao extends BaseDao {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('EmploymentStatus');
+				->from('EmploymentStatus')
+				->orderBy('name ASC');
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

@@ -82,18 +82,49 @@ $(document).ready(function() {
         $("#deleteConfirmation").dialog("close");
     });
     
+    $.validator.addMethod("uniqueName", function(value, element, params) {
+        var temp = true;
+        var currentStatus;
+        var id = $('#empStatus_empStatusId').val();
+        var vcCount = empStatusList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == empStatusList[j].id){
+                currentStatus = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#empStatus_name').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = empStatusList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentStatus != null){
+            if(vcName == empStatusList[currentStatus].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
+    
     var validator = $("#frmEmpStatus").validate({
 
         rules: {
             'empStatus[name]' : {
                 required:true,
-                maxlength: 50
+                maxlength: 50,
+                uniqueName: true
             }
         },
         messages: {
             'empStatus[name]' : {
                 required: lang_NameRequired,
-                maxlength: lang_exceed50Charactors       
+                maxlength: lang_exceed50Charactors,
+                uniqueName: lang_uniqueName
             }
 
         },
