@@ -512,6 +512,10 @@
                 <source>Selected Employment Status(es) Deleted Successfully</source>
                 <target>FR_Selected Employment Status(es) Deleted Successfully</target>
             </trans-unit>
+            <trans-unit id="126">
+                <source>Job Title already exists</source>
+                <target>FR_Job Title already exists</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -103,5 +103,8 @@
     var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList'); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
     var lang_exceed400Chars = '<?php echo __("Cannot exceed 400 charactors"); ?>';
+    var jobTitles = <?php echo str_replace('&#039;', "'", $form->getJobTitleListAsJson()) ?> ;
+    var jobTitleList = eval(jobTitles);
+    var lang_uniqueName = "<?php echo __("Job Title already exists"); ?>";
     //]]>
 </script>

@@ -30,7 +30,11 @@ class viewJobTitleListAction extends sfAction {
     }
 
     public function execute($request) {
-        $JobTitleList = $this->getJobTitleService()->getJobTitleList();
+
+        $sortField = $request->getParameter('sortField');
+        $sortOrder = $request->getParameter('sortOrder');
+
+        $JobTitleList = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder);
         $this->_setListComponent($JobTitleList);
         $params = array();
         $this->parmetersForListCompoment = $params;

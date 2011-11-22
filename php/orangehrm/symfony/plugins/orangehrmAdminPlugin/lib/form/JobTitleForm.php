@@ -86,7 +86,7 @@ class JobTitleForm extends BaseForm {
         if (!empty($this->jobTitleId)) {
             $jobTitleObj = $this->getJobTitleService()->getJobTitleById($this->jobTitleId);
             $attachment = $jobTitleObj->getJobSpecificationAttachment();
-            if(!empty($attachment) && $jobSpecUpdate != self::CONTRACT_KEEP){
+            if (!empty($attachment) && $jobSpecUpdate != self::CONTRACT_KEEP) {
                 $attachment->delete();
             }
             $resultArray['messageType'] = 'success';
@@ -102,7 +102,7 @@ class JobTitleForm extends BaseForm {
         $jobTitleObj->setNote($note);
         if (!empty($jobSpec)) {
             $jobTitleObj->setJobSpecificationAttachment($this->__getJobSpecAttachmentObj());
-        }else{
+        } else {
             $jobTitleObj->setJobSpecificationAttachment(null);
         }
 
@@ -117,13 +117,23 @@ class JobTitleForm extends BaseForm {
         $jobSpec = $this->getValue('jobSpec');
 
         $jobSpecAttachement = new JobSpecificationAttachment();
-        
+
         $jobSpecAttachement->setFileName($jobSpec->getOriginalName());
         $jobSpecAttachement->setFileType($jobSpec->getType());
         $jobSpecAttachement->setFileSize($jobSpec->getSize());
         $jobSpecAttachement->setFileContent(file_get_contents($jobSpec->getTempName()));
 
         return $jobSpecAttachement;
+    }
+
+    public function getJobTitleListAsJson() {
+
+        $list = array();
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
+        foreach ($jobTitleList as $job) {
+            $list[] = array('id' => $job->getId(), 'name' => $job->getJobTitleName());
+        }
+        return json_encode($list);
     }
 
 }

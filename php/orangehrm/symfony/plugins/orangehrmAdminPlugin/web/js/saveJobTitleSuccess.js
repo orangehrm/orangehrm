@@ -1,9 +1,41 @@
 $(document).ready(function() {
+
+    $.validator.addMethod("uniqueName", function(value, element, params) {
+        var temp = true;
+        var currentJobTitle;
+        var id = parseInt(jobTitleId,10);
+        var vcCount = jobTitleList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == jobTitleList[j].id){
+                currentJobTitle = j;
+            }
+        }
+        var i;
+        jobTitleName = $.trim($('#jobTitle_jobTitle').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = jobTitleList[i].name.toLowerCase();
+            if (jobTitleName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentJobTitle != null){
+            if(jobTitleName == jobTitleList[currentJobTitle].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
+
+
     $("#frmSavejobTitle").validate({
 
         rules: {
             'jobTitle[jobTitle]' : {
-                required:true
+                required:true,
+                uniqueName:true
             },
             'jobTitle[jobDescription]' : {
                 maxlength: 400
@@ -14,7 +46,8 @@ $(document).ready(function() {
         },
         messages: {
             'jobTitle[jobTitle]' : {
-                required: lang_jobTitleRequired
+                required: lang_jobTitleRequired,
+                uniqueName: lang_uniqueName
             },
             'jobTitle[jobDescription]' : {
                 maxlength: lang_exceed400Chars

@@ -95,8 +95,6 @@ class EmployeeJobDetailsForm extends BaseForm {
         if (!empty($jobTitleId)) {
             $this->setDefault('job_title', $jobTitleId);
             $this->setDefault('emp_status', $employee->emp_status);
-            $this->setDefault('terminated_date', set_datepicker_date_format($employee->terminated_date));
-            $this->setDefault('termination_reason', $employee->termination_reason);
 
             $jobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
             $this->jobSpecAttachment = $jobTitle->getJobSpecificationAttachment();
@@ -199,10 +197,6 @@ class EmployeeJobDetailsForm extends BaseForm {
             $employee->emp_status = $empStatus;
         }
 
-        $employee->termination_date = $this->getValue('terminated_date');
-
-        $employee->termination_reason = $this->getValue('termination_reason');
-
         $eeoCat = $this->getValue('eeo_category');
         if ($eeoCat == '') {
             $employee->eeo_cat_code = null;
@@ -255,7 +249,8 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         foreach ($jobTitleList as $job) {
             if (($job->getIsDeleted() == JobTitle::ACTIVE) || ($job->getId() == $jobTitleId)) {
-                $choices[$job->getId()] = $job->getJobTitleName();
+                $name = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName()." (Deleted)" : $job->getJobTitleName();
+                $choices[$job->getId()] = $name;
             }
         }
         return $choices;
