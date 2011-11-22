@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
 class PayGradeForm extends BaseForm {
 
 	private $payGradeId;
