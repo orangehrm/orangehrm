@@ -96,5 +96,12 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
             $result = $this->systemUserDao->getSystemUsers(  );
             $this->assertEquals(0, count(  $result));
         }
+        
+        public function testGetPreDefinedUserRole(){
+            $result = $this->systemUserDao->getPreDefinedUserRole(  );
+            $this->assertEquals($result[0]->getName(),'Admin');
+            $this->assertEquals($result[1]->getName(),'ESS');
+            $this->assertEquals(2, count(  $result));
+        }
 }
 ?>

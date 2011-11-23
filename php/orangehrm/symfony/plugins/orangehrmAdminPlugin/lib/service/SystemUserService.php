@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,8 +18,30 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class SystemUserDao extends BaseDao{
+class SystemUserService extends BaseService{
     
+    private $systemUserDao = null;
+    
+    /**
+     * Constructor of System User Service class
+     * 
+     * Set System User Dao if object not intilaized
+     */
+    function __construct() {
+        if( empty($this->systemUserDao)){
+            $this->setSystemUserDao(new SystemUserDao());
+        }
+        
+    }
+
+    public function getSystemUserDao() {
+        return $this->systemUserDao;
+    }
+
+    public function setSystemUserDao($systemUserDao) {
+        $this->systemUserDao = $systemUserDao;
+    }
+
     /**
      * Save System User
      * 
@@ -27,9 +50,9 @@ class SystemUserDao extends BaseDao{
      */
     public function saveSystemUser( SystemUser $systemUser){
         try {
-            $systemUser->save(); 
+            $this->getSystemUserDao()->saveSystemUser( $systemUser );
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
     
@@ -41,11 +64,9 @@ class SystemUserDao extends BaseDao{
      */
     public function isExistingSystemUser( $userName){
         try {
-            $query = Doctrine_Query:: create()->from('SystemUser u')
-                            ->where('u.user_name = ?', $userName);
-            return $query->fetchOne();
+            $this->getSystemUserDao()->isExistingSystemUser( $userName);
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
     
@@ -57,9 +78,9 @@ class SystemUserDao extends BaseDao{
      */
     public function getSystemUser( $userId ){
         try {
-            return Doctrine :: getTable('SystemUser')->find($userId);
+            $this->getSystemUserDao()->getSystemUser( $userId );
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
     
@@ -68,50 +89,40 @@ class SystemUserDao extends BaseDao{
      * 
      * @return Doctrine_Collection 
      */
-    public function getSystemUsers( ){
+    public function getSystemUsers(){
         try {
-            $query = Doctrine_Query:: create()->from('SystemUser u');
-                            
-            return $query->execute();
+            $this->getSystemUserDao()->getSystemUsers();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
     
-    public function searchSystemUsers( array $searchClues){
-        
-    }
-    
-    /**
+   /**
      * Delete System Users
      * @param array $deletedIds 
      * 
      */
     public function deleteSystemUsers( array $deletedIds){
         try {
-                $query = Doctrine_Query :: create()->delete('SystemUser u')
-                                ->whereIn('u.id', $deletedIds);
-                $query->execute();
+            $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
     
-     /**
-     * Get System Users
+    /**
+     * Get Pre Defined User Roles
      * 
-     * @return Doctrine_Collection 
+     * @return Doctrine_Collection UserRoles 
      */
-    public function getPreDefinedUserRole( ){
+    public function getPreDefinedUserRoles(){
         try {
-            $query = Doctrine_Query:: create()->from('UserRole ur')
-                        ->whereIn('ur.is_predefined', 1);
-                            
-            return $query->execute();
+           return $this->getSystemUserDao()->getPreDefinedUserRole();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
+    
 }
 
 ?>
