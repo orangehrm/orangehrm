@@ -1017,6 +1017,7 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (76, 80, 5),
     (77, 81, 5),
     (78, 82, 5),
+    (79, 83, 5),
     (80, 84, 5),
     (81, 85, 5),
     (82, 86, 5),

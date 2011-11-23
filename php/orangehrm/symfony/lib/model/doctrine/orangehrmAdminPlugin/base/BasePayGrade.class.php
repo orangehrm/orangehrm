@@ -8,16 +8,16 @@
  * @property integer $id
  * @property string $name
  * @property Doctrine_Collection $EmpBasicsalary
- * @property Doctrine_Collection $SalaryCurrencyDetail
+ * @property Doctrine_Collection $PayGradeCurrencyDetail
  * 
- * @method integer             getId()                   Returns the current record's "id" value
- * @method string              getName()                 Returns the current record's "name" value
- * @method Doctrine_Collection getEmpBasicsalary()       Returns the current record's "EmpBasicsalary" collection
- * @method Doctrine_Collection getSalaryCurrencyDetail() Returns the current record's "SalaryCurrencyDetail" collection
- * @method PayGrade            setId()                   Sets the current record's "id" value
- * @method PayGrade            setName()                 Sets the current record's "name" value
- * @method PayGrade            setEmpBasicsalary()       Sets the current record's "EmpBasicsalary" collection
- * @method PayGrade            setSalaryCurrencyDetail() Sets the current record's "SalaryCurrencyDetail" collection
+ * @method integer             getId()                     Returns the current record's "id" value
+ * @method string              getName()                   Returns the current record's "name" value
+ * @method Doctrine_Collection getEmpBasicsalary()         Returns the current record's "EmpBasicsalary" collection
+ * @method Doctrine_Collection getPayGradeCurrencyDetail() Returns the current record's "PayGradeCurrencyDetail" collection
+ * @method PayGrade            setId()                     Sets the current record's "id" value
+ * @method PayGrade            setName()                   Sets the current record's "name" value
+ * @method PayGrade            setEmpBasicsalary()         Sets the current record's "EmpBasicsalary" collection
+ * @method PayGrade            setPayGradeCurrencyDetail() Sets the current record's "PayGradeCurrencyDetail" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -47,8 +47,8 @@ abstract class BasePayGrade extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'sal_grd_code'));
 
-        $this->hasMany('SalaryCurrencyDetail', array(
+        $this->hasMany('PayGradeCurrencyDetail', array(
              'local' => 'id',
-             'foreign' => 'sal_grd_code'));
+             'foreign' => 'pay_grade_id'));
     }
 }
