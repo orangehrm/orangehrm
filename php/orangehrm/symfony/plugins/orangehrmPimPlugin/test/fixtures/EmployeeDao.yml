@@ -102,8 +102,8 @@ WorkShift:
 EmployeeWorkShift:
     0: {workshift_id: 1, emp_number: 1}
 
-SalaryGrade:
-    0: {sal_grd_code: 'SAL001', sal_grd_name: 'Salary Grade A'}
+PayGrade:
+    0: {id: 1, name: 'Salary Grade A'}    
 
 EmpBasicsalary:
-    0: {id: 1, emp_number: 1, sal_grd_code: 'SAL001', currency_id: 'LKR', ebsal_basic_salary: '10000.00'}
+    0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00'}
