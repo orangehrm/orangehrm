@@ -234,7 +234,7 @@ create table `hs_hr_emp_directdebit` (
 
 create table `hs_hr_emp_skill` (
   `emp_number` int(7) not null default 0,
-  `skill_code` varchar(13) not null default '',
+  `skill_id` int not null,
   `years_of_exp` decimal(2,0) not null default '0',
   `comments` varchar(100) not null default ''
 ) engine=innodb default charset=utf8;
@@ -438,11 +438,11 @@ create table `hs_hr_rights` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_skill` (
-  `skill_code` varchar(13) not null default '',
-  `skill_name` varchar(120) default null,
-  `skill_description` text default null,
-  primary key  (`skill_code`)
+create table `ohrm_skill` (
+  `id` int not null auto_increment,
+  `name` varchar(120) default null,
+  `description` text default null,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -1524,8 +1524,8 @@ alter table hs_hr_emp_skill
                              references hs_hr_employee(emp_number) on delete cascade;
 
 alter table hs_hr_emp_skill
-       add constraint foreign key (skill_code)
-                             references hs_hr_skill(skill_code) on delete cascade;
+       add constraint foreign key (skill_id)
+                             references ohrm_skill(id) on delete cascade;
 
 alter table hs_hr_emp_attachment
        add constraint foreign key (emp_number)

@@ -351,18 +351,13 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub = new MenuItem("qualifications", $lang_Menu_Admin_Quali, "#");
     $subsubs = array();
+    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Skills, "./symfony/web/index.php/admin/viewSkills");
     $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "index.php?uniqcode=EDU&menu_no_top=eim");
     $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "index.php?uniqcode=LIC&menu_no_top=eim");
+    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("skills", $lang_Menu_Admin_Skills, "#");
-    $subsubs = array();
-    $subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Skills, "index.php?uniqcode=SKI&menu_no_top=eim");
-    $subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
-    $sub->setSubMenuItems($subsubs);
-
-    $subs[] = $sub;
     $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "#");
     $subsubs = array();
     $subsubs[] = new MenuItem("memberships", $lang_Menu_Admin_Memberships_MembershipTypes, "index.php?uniqcode=MEM&menu_no_top=eim");

@@ -260,7 +260,7 @@ PayGrade:
       local: id
       foreign: sal_grd_code
       type: many
-      
+
 PayGradeCurrency:
   tableName: ohrm_pay_grade_currency
   columns:
@@ -281,7 +281,24 @@ PayGradeCurrency:
       local: currency_id
       foreign: currency_id
       type: one
-    PayGrade:
-      local: pay_grade_id
-      foreign: id
-      type: one
+    SalaryGrade:
+      local: sal_grd_code
+      foreign: sal_grd_code
+      type: one      
+      
+Skill:
+  tableName: ohrm_skill
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(120)
+    description: string(2147483647)
+  relations:
+    EmployeeSkill:
+      local: id
+      foreign: skillId
+      type: many      
+
+      

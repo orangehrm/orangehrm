@@ -322,6 +322,16 @@ class TestDataService {
         return $q->execute();
 
     }
+    
+    public static function fetchLastInsertedRecord($alias, $orderBy) {
+
+        $q = Doctrine_Query::create()
+             ->from("$alias a")
+             ->orderBy("$orderBy DESC");
+
+        return $q->fetchOne();
+
+    }    
 
     public static function fetchObject($alias, $primaryKey) {
 

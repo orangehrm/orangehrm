@@ -516,6 +516,34 @@
                 <source>Job Title already exists</source>
                 <target>FR_Job Title already exists</target>
             </trans-unit>
+            <trans-unit id="127">
+                <source>Skills</source>
+                <target>FR_Skills</target>
+            </trans-unit>   
+            <trans-unit id="128">
+                <source>Add Skill</source>
+                <target>FR_Add Skill</target>
+            </trans-unit> 
+            <trans-unit id="129">
+                <source>Edit Skill</source>
+                <target>FR_Edit Skill</target>
+            </trans-unit> 
+            <trans-unit id="130">
+                <source>Description length should not exceed 250 characters</source>
+                <target>FR_Description length should not exceed 250 characters</target>
+            </trans-unit> 
+            <trans-unit id="131">
+                <source>Skill Saved Successfully</source>
+                <target>FR_Skill Saved Successfully</target>
+            </trans-unit> 
+            <trans-unit id="132">
+                <source>Skill Updated Successfully</source>
+                <target>FR_Skill Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>Skill(s) Deleted Successfully</source>
+                <target>FR_Skill(s) Deleted Successfully</target>
+            </trans-unit>  
         </body>
     </file>
 </xliff>

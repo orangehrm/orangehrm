@@ -279,20 +279,6 @@ EmployeeLicense:
       foreign: licenses_code
       type: one
 
-Skill:
-  tableName: hs_hr_skill
-  columns:
-    skill_code:
-      type: string(13)
-      primary: true
-    skill_name: string(120)
-    skill_description: string(2147483647)
-  relations:
-    EmployeeSkill:
-      local: skill_code
-      foreign: skill_code
-      type: many      
-
 EmployeeSkill:
   tableName: hs_hr_emp_skill
   columns:
@@ -301,9 +287,8 @@ EmployeeSkill:
       default: '0'
       notnull: true
       primary: true
-    skill_code as code:
-      type: string(13)
-      default: ''
+    skill_id as skillId:
+      type: integer
       notnull: true
       primary: true
     years_of_exp:
@@ -320,8 +305,8 @@ EmployeeSkill:
       foreign: emp_number
       type: one
     Skill:
-      local: skill_code
-      foreign: skill_code
+      local: skillId
+      foreign: id
       type: one
 
 Language:

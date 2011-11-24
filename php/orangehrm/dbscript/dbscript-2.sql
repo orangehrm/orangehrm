@@ -547,7 +547,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (6, 'hs_hr_module', 'mod_id'),
     (0, 'hs_hr_education', 'edu_code'),
     (0, 'hs_hr_ethnic_race', 'ethnic_race_code'),
-    (0, 'hs_hr_skill', 'skill_code'),
     (1, 'hs_hr_user_group', 'userg_id'),
     (1, 'hs_hr_users', 'id'),
     (0, 'hs_hr_empreport', 'rep_code'),
@@ -709,8 +708,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_emp_education.edu_code = hs_hr_education.edu_code) 
                     LEFT JOIN hs_hr_emp_skill ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
-                    LEFT JOIN hs_hr_skill ON 
-                        (hs_hr_emp_skill.skill_code = hs_hr_skill.skill_code) 
+                    LEFT JOIN ohrm_skill ON 
+                        (hs_hr_emp_skill.skill_id = ohrm_skill.id) 
                     LEFT JOIN hs_hr_emp_language ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
                     LEFT JOIN hs_hr_language ON 
@@ -793,7 +792,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (13, 3, 'joined_date', 'hs_hr_employee.joined_date', 'ohrmReportWidgetJoinedDate', 1, null),
     (14, 3, 'job_title', 'hs_hr_employee.job_title_code', 'ohrmWidgetJobTitleList', 1, null),
     (15, 3, 'language', 'hs_hr_emp_language.lang_code', 'ohrmReportWidgetLanguageDropDown', 1, null),
-    (16, 3, 'skill', 'hs_hr_emp_skill.skill_code', 'ohrmReportWidgetSkillDropDown', 1, null),
+    (16, 3, 'skill', 'hs_hr_emp_skill.skill_id', 'ohrmReportWidgetSkillDropDown', 1, null),
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
     (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
@@ -867,7 +866,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (47, 3, 'CONCAT(hs_hr_education.edu_uni, " , " ,hs_hr_education.edu_deg)', 'Program', 'eduProgram',  'false', null, null, 'label', '<xml><getter>eduProgram</getter></xml>', 200, '0', null, true, 11, '---', false, false),
     (48, 3, 'hs_hr_emp_education.edu_year', 'Year', 'eduYear',  'false', null, null, 'label', '<xml><getter>eduYear</getter></xml>', 100, '0', null, true, 11, '---', false, false),
     (49, 3, 'hs_hr_emp_education.edu_gpa', 'GPA/Score', 'eduGPAOrScore',  'false', null, null, 'label', '<xml><getter>eduGPAOrScore</getter></xml>', 80, '0', null, true, 11, '---', false, false),
-    (52, 3, 'hs_hr_skill.skill_name', 'Skill', 'skill',  'false', null, null, 'label', '<xml><getter>skill</getter></xml>', 200, '0', null, true, 12, '---', false, false),
+    (52, 3, 'ohrm_skill.name', 'Skill', 'skill',  'false', null, null, 'label', '<xml><getter>skill</getter></xml>', 200, '0', null, true, 12, '---', false, false),
     (53, 3, 'hs_hr_emp_skill.years_of_exp', 'Years of Experience', 'skillYearsOfExperience',  'false', null, null, 'label', '<xml><getter>skillYearsOfExperience</getter></xml>', 135, '0', null, true, 12, '---', false, false),
     (54, 3, 'hs_hr_emp_skill.comments', 'Comments', 'skillComments',  'false', null, null, 'label', '<xml><getter>skillComments</getter></xml>', 200, '0', null, true, 12, '---', false, false),
     (55, 3, 'hs_hr_language.lang_name', 'Language', 'langName',  'false', null, null, 'label', '<xml><getter>langName</getter></xml>', 200, '0', null, true, 13, '---', false, false),
@@ -918,7 +917,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (103, 3, 'supervisor.emp_number', 'supervisorId', 'supervisorId',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 9, '---', false, true),
     (104, 3, 'hs_hr_emp_work_experience.eexp_seqno', 'workExpSeqNo', 'workExpSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 10, '---', false, true),
     (105, 3, 'hs_hr_emp_education.edu_code', 'empEduCode', 'empEduCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 11, '---', false, true),
-    (106, 3, 'hs_hr_emp_skill.skill_code', 'empSkillCode', 'empSkillCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 12, '---', false, true),
+    (106, 3, 'hs_hr_emp_skill.skill_id', 'empSkillCode', 'empSkillCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 12, '---', false, true),
     (107, 3, 'hs_hr_emp_language.lang_code', 'empLangCode', 'empLangCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (108, 3, 'hs_hr_emp_language.elang_type', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (109, 3, 'hs_hr_emp_licenses.licenses_code', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),

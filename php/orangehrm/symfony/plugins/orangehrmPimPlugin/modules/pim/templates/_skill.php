@@ -66,15 +66,15 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
 
                     foreach ($skills as $skill) {                        
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $skillName = $skill->getSkill()->getSkillName();
+                        $skillName = $skill->getSkill()->getName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td class="check"><input type="hidden" id="code_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->code); ?>" />
-                    <input type="hidden" id="skill_name_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skillName); ?>" />
-                <input type="hidden" id="years_of_exp_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->years_of_exp); ?>" />
-                <input type="hidden" id="comments_<?php echo $skill->code;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />
+                <td class="check"><input type="hidden" id="code_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->skillId); ?>" />
+                    <input type="hidden" id="skill_name_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skillName); ?>" />
+                <input type="hidden" id="years_of_exp_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->years_of_exp); ?>" />
+                <input type="hidden" id="comments_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $skill->code;?>" name="delSkill[]"/></td>
+                <input type="checkbox" class="chkbox" value="<?php echo $skill->skillId;?>" name="delSkill[]"/></td>
                 <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
                 <td><?php echo htmlspecialchars($skill->years_of_exp);?></td>
                 </tr>

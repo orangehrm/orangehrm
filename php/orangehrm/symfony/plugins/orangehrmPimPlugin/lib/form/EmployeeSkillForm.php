@@ -80,13 +80,13 @@ class EmployeeSkillForm extends sfForm {
         $list = array("" => "-- " . __('Select') . " --");
 
         foreach($skillList as $skill) {
-            $list[$skill->getSkillCode()] = $skill->getSkillName();
+            $list[$skill->getId()] = $skill->getName();
         }
         
         // Clear already used skill items
         foreach ($this->empSkillList as $empSkill) {
-            if (isset($list[$empSkill->code])) {
-                unset($list[$empSkill->code]);
+            if (isset($list[$empSkill->skillId])) {
+                unset($list[$empSkill->skillId]);
             }
         }
         return $list;

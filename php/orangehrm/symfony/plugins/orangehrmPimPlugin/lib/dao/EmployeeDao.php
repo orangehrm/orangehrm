@@ -507,7 +507,7 @@ class EmployeeDao extends BaseDao {
                             ->where('w.emp_number = ?', $empNumber);
 
             if (!is_null($skillCode)) {
-                $q->andwhere('w.skill_code = ?', $skillCode);
+                $q->andwhere('w.skill_id = ?', $skillCode);
                 return $q->fetchOne();
             }
 
@@ -543,7 +543,7 @@ class EmployeeDao extends BaseDao {
             if (is_array($skillToDelete)) {
                 // Delete Skill
                 $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
-                                ->whereIn('skill_code', $skillToDelete)
+                                ->whereIn('skill_id', $skillToDelete)
                                 ->andwhere('emp_number = ?', $empNumber);
 
                 $result = $q->execute();

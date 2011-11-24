@@ -28,6 +28,7 @@ class orangehrmAdminPluginAllTests {
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SystemUserDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
 
 
         

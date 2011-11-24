@@ -80,7 +80,7 @@ class saveDeleteSkillAction extends basePimAction {
         }
 
         $skill->emp_number = $post['emp_number'];
-        $skill->code = $post['code'];
+        $skill->skillId = $post['code'];
         $skill->years_of_exp = $post['years_of_exp'];
         $skill->comments = $post['comments'];
 

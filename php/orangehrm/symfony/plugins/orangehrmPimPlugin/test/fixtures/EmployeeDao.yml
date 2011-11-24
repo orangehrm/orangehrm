@@ -52,12 +52,12 @@ EmployeeEducation:
   1: {emp_number: '1', edu_code: 'EDU002', edu_major: 'ENG1', edu_year: '2008', edu_gpa: '4', edu_start_date: '2007-03-04', edu_end_date: '2011-03-05'}
 
 Skill:
-  0: {skill_code: 'SKI001', skill_name: 'good', skill_description: 'good work'}
-  1: {skill_code: 'SKI002', skill_name: 'better', skill_description: 'better work'}
+  0: {id: 1, name: 'good', description: 'good work'}
+  1: {id: 2, name: 'better', description: 'better work'}
 
 EmployeeSkill:
-  0: {emp_number: '1', skill_code: 'SKI001', years_of_exp: '4', comments: 'com1'}
-  1: {emp_number: '1', skill_code: 'SKI002', years_of_exp: '2', comments: 'com2'}
+  0: {emp_number: '1', skill_id: 1, years_of_exp: '4', comments: 'com1'}
+  1: {emp_number: '1', skill_id: 2, years_of_exp: '2', comments: 'com2'}
 
 Language:
   0: {lang_code: 'LAN001', lang_name: 'English'}

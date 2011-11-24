@@ -178,7 +178,6 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_nationality", "nat_code", "NAT"),
 						new IDField("hs_hr_ethnic_race", "ethnic_race_code", "ETH"),
 
-						new IDField("hs_hr_skill", "skill_code", "SKI"),
 						new IDField("hs_hr_language", "lang_code", "LAN"),
 
 						new IDField("hs_hr_education", "edu_code", "EDU"),

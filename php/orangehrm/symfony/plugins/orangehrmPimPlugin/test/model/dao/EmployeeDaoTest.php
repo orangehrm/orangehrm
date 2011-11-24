@@ -392,7 +392,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetSkillWithSkillCode() {
 
         $empNumber = 1;
-        $skillCode = 'SKI002';
+        $skillCode = 2;
 
         $skill = $this->employeeDao->getSkill($empNumber, $skillCode);
         $this->assertTrue($skill instanceof EmployeeSkill);
@@ -406,7 +406,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empSkill = new EmployeeSkill;
 
         $empSkill->emp_number = 3;
-        $empSkill->code = 'SKI001';
+        $empSkill->skillId = 1;
 
         $this->assertTrue($this->employeeDao->saveSkill($empSkill));
     }

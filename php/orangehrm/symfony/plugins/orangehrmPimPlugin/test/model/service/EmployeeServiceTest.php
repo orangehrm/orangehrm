@@ -730,7 +730,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $skill = new EmployeeSkill();
         $skill->setEmpNumber($empNumber);
-        $skill->setCode('SKI002');
+        $skill->setSkillId(2);
         $skill->setYearsOfExp(2);
         
         $mockDao = $this->getMock('EmployeeDao');
@@ -754,7 +754,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $skill = new EmployeeSkill();
         $skill->setEmpNumber($empNumber);
-        $skill->setCode('SKI002');
+        $skill->setSkillId(2);
         $skill->setYearsOfExp(2);
         
         $isEss = true;
