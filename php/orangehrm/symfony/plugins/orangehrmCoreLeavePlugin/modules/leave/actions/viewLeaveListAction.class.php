@@ -325,12 +325,11 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
     private function getEmployeeListAsJson() {
 
         $jsonArray	=	array();
-        $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
         $employeeService = new EmployeeService();
         $employeeList = array();
 
         if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
-            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', false);
         }
 
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {
@@ -341,9 +340,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
                 if(!isset($employeeUnique[$employee->getEmpNumber()])) {
                     $name = $employee->getFullName();
 
-                    foreach($escapeCharSet as $char) {
-                        $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-                    }
                     $employeeUnique[$employee->getEmpNumber()] = $name;
                     $jsonArray[] = array('name'=>$name, 'id' => $employee->getEmpNumber());
                 }

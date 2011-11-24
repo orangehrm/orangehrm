@@ -43,6 +43,7 @@ class VacancyDao extends BaseDao {
             } if (!empty($vacancyId)) {
                 $q->addWhere('jv.id = ?', $vacancyId);
             }
+            $q->addWhere('e.termination_id IS NULL');
             $results = $q->execute();
             $hiringManagerList = array();
             $newHiringManagerList = array();

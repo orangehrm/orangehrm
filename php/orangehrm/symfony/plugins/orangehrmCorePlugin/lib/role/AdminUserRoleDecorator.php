@@ -218,7 +218,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
 
-		$employeeList = $this->getEmployeeService()->getEmployeeList();
+		$employeeList = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
 
 		$employee = new Employee();
 		$employee->setEmpNumber('-1');

@@ -110,7 +110,9 @@ class CandidateDao extends BaseDao {
                 $param->setCandidateId($candidate['id']);
                 $param->setVacancyId($candidate['vacancyId']);
                 $param->setCandidateName($candidate['first_name'] . " " . $candidate['middle_name'] . " " . $candidate['last_name'] . $this->_getCandidateNameSuffix($candidate['candidateStatus']));
-                $param->setHiringManagerName($candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname']);
+                $employeeName = $candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname'];
+                $hmName = (!empty($candidate['termination_id'])) ? $employeeName." (Terminated)" : $employeeName;
+                $param->setHiringManagerName($hmName);
                 $param->setDateOfApplication($candidate['date_of_application']);
                 $param->setAttachmentId($candidate['attachmentId']);
                 $param->setStatusName(ucwords(strtolower($candidate['status'])));
@@ -413,7 +415,7 @@ class CandidateDao extends BaseDao {
     public function buildSearchQuery(CandidateSearchParameters $paramObject, $countQuery = false) {
 
         try {
-            $query = ($countQuery) ? "SELECT COUNT(*)" : "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
+            $query = ($countQuery) ? "SELECT COUNT(*)" : "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, e.termination_id, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
             $query .= "  FROM ohrm_job_candidate jc";
             $query .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
             $query .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
@@ -563,26 +565,6 @@ class CandidateDao extends BaseDao {
             $this->_addAdditionalWhereClause($where, $candidateFullNameClause, $candidateName, 'LIKE');
         }
     }
-
-    /**
-     *
-     * @param <type> $historyId
-     * @return <type> 
-     */
-    /* public function getLastPerformedActionByCandidateVacancyId($candidateVacancyId) {
-
-      try {
-      $q = Doctrine_Query:: create()
-      ->select('action')
-      ->from('CandidateHistory')
-      ->where('candidate_vacancy_id = ?', $candidateVacancyId)
-      ->orderBy('id DESC');
-      $list = $q->fetchOne();
-      return $list->getAction();
-      } catch (Exception $e) {
-      throw new DaoException($e->getMessage());
-      }
-      } */
 
     public function isHiringManager($candidateVacancyId, $empNumber) {
         try {

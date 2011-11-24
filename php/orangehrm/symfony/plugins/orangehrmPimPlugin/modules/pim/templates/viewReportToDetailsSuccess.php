@@ -160,7 +160,11 @@
                                                 $supChkBoxValue = $sup->getSupervisorId() . " " . $empNumber . " " . $sup->getReportingMethodId();
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
                                             ?>
-                                            <?php $supName = $sup->getSupervisor()->getFirstName() . " " . $sup->getSupervisor()->getLastName(); ?>
+                                            <?php 
+                                            $supervisor = $sup->getSupervisor();
+                                            $terminationId = $supervisor->getTerminationId();
+                                            $suffix = (!empty($terminationId)) ? " (Terminated)" : "";                                           
+                                            $supName = $supervisor->getFirstName() . " " . $supervisor->getLastName() . $suffix; ?>
                                             <?php $supReportingMethodName = $sup->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
                                         <?php
@@ -219,7 +223,11 @@
                                                 $subChkBoxValue = $empNumber . " " . $sub->getSubordinateId() . " " . $sub->getReportingMethodId();
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
                                             ?>
-                                            <?php $subName = $sub->getSubordinate()->getFirstName() . " " . $sub->getSubordinate()->getLastName(); ?>
+                                            <?php 
+                                            $subordinate = $sub->getSubordinate();
+                                            $terminationId = $subordinate->getTerminationId();
+                                            $suffix = (!empty($terminationId)) ? " (Terminated)" : "";
+                                            $subName = $subordinate->getFirstName() . " " . $subordinate->getLastName() . $suffix; ?>
                                             <?php $subReportingMethodName = $sub->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
                                         <?php

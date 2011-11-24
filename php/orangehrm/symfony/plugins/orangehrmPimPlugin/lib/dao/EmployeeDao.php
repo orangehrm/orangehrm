@@ -35,7 +35,7 @@ class EmployeeDao extends BaseDao {
             if ($employee->getEmpNumber() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($employee);
-                $employee->setEmpNumber($idGenService->getNextID());		
+                $employee->setEmpNumber($idGenService->getNextID());
             }
             $employee->save();
             return true;
@@ -88,9 +88,9 @@ class EmployeeDao extends BaseDao {
                             ->set('nickName', '?', $employee->nickName)
                             ->set('otherId', '?', $employee->otherId)
                             ->set('emp_marital_status', '?', $employee->emp_marital_status)
-                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)                            
+                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)
                             ->set('militaryService', '?', $employee->militaryService);
-            
+
             if (!empty($employee->emp_gender)) {
                 $q->set('emp_gender', '?', $employee->emp_gender);
             }
@@ -793,8 +793,8 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query :: create()->from('Employee');
             $q->orderBy($orderField . ' ' . $orderBy);
 
-            if ($withoutTerminatedEmployees) {
-                 $q->andwhere("(emp_status != 'EST000' OR emp_status IS NULL)");
+            if ($withoutTerminatedEmployees == false) {
+                $q->andwhere("termination_id IS NULL");
             }
 
             return $q->execute();
@@ -900,7 +900,7 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-    public function getSubordinateIdList(){
+    public function getSubordinateIdList() {
         try {
             $idList = array();
             $q = Doctrine_Query :: create()->select("rt.subordinateId")
@@ -936,7 +936,10 @@ class EmployeeDao extends BaseDao {
                     } else
                         $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
                 }
-                array_push($jsonString, "{name:'" . $employee->getFirstName() . ' ' . $employee->getLastName() . "',id:'" . $employee->getEmpNumber() . "',workShift:'" . $workShiftLength . "'}");
+                $terminationId = $employee->getTerminationId();
+                if (empty($terminationId)) {
+                    array_push($jsonString, "{name:'" . $employee->getFirstName() . ' ' . $employee->getLastName() . "',id:'" . $employee->getEmpNumber() . "',workShift:'" . $workShiftLength . "'}");
+                }
             }
 
             $jsonStr = " [" . implode(",", $jsonString) . "]";
@@ -1356,8 +1359,7 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-    
-       /**
+    /**
      * Check if user with given userId is a admin
      * @param string $userId
      * @return bool - True if given user is a admin, false if not
@@ -1365,70 +1367,67 @@ class EmployeeDao extends BaseDao {
     public function isAdmin($userId) {
         try {
             $q = Doctrine_Query :: create()
-
-            ->from('users')
-            ->where('id = ?', $userId)
-            ->andWhere('is_admin =?',"Yes");
+                            ->from('users')
+                            ->where('id = ?', $userId)
+                            ->andWhere('is_admin =?', "Yes");
 
             $results = $q->execute();
-            if($results[0]->getId()== null){
+            if ($results[0]->getId() == null) {
                 return false;
             }
 
             return true;
-
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
     }
-    
+
     public function getEmailList() {
         try {
             $q = Doctrine_Query :: create()
-                    ->select('e.emp_work_email, e.emp_oth_email')
-                    ->from('Employee e');
-                    
+                            ->select('e.emp_work_email, e.emp_oth_email')
+                            ->from('Employee e');
+
             return $q->execute();
-            
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getTerminationResonList(){
+    public function getTerminationResonList() {
         try {
             $q = Doctrine_Query :: create()->from('EmpTerminationReason');
             return $q->execute();
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function terminateEmployment($empNumber, $empTerminationId){
+    public function terminateEmployment($empNumber, $empTerminationId) {
 
         try {
             $q = Doctrine_Query :: create()->update('Employee')
                             ->set('termination_id', '?', $empTerminationId)
-                    ->where('empNumber = ?', $empNumber);
-            return  $q->execute();
+                            ->where('empNumber = ?', $empNumber);
+            return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function activateEmployment($empNumber){
+    public function activateEmployment($empNumber) {
 
         try {
             $q = Doctrine_Query :: create()->update('Employee')
-                            ->set('termination_id',  'NULL')
-                    ->where('empNumber = ?', $empNumber);
-            return  $q->execute();
+                            ->set('termination_id', 'NULL')
+                            ->where('empNumber = ?', $empNumber);
+            return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getEmpTerminationById($terminatedId){
+    public function getEmpTerminationById($terminatedId) {
 
         try {
             return Doctrine::getTable('EmpTermination')->find($terminatedId);
@@ -1436,4 +1435,5 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+
 }

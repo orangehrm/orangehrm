@@ -19,12 +19,20 @@ class JobVacancy extends PluginJobVacancy {
     const TYPE = "VACANCY";
 
     public function getHiringManagerName() {
-        $hmName = ($this->getHiringManagerId() != "") ? $this->getEmployee()->getFirstAndLastNames() : "";
+        $employee = $this->getEmployee();
+        $firstAndLastName = $employee->getFirstAndLastNames();
+        $terminationId = $employee->getTerminationId();
+        $name = (!empty($terminationId)) ? $firstAndLastName." (Terminated)" : $firstAndLastName;
+        $hmName = ($this->getHiringManagerId() != "") ? $name : "";
         return $hmName;
     }
 
     public function getHiringManagerFullName() {
-        $hmName = ($this->getHiringManagerId() != "") ? $this->getEmployee()->getFullName() : "";
+        $employee = $this->getEmployee();
+        $firstAndLastName = $employee->getFirstAndLastNames();
+        $terminationId = $employee->getTerminationId();
+        $name = (!empty($terminationId)) ? $firstAndLastName." (Terminated)" : $firstAndLastName;
+        $hmName = ($this->getHiringManagerId() != "") ? $name : "";
         return $hmName;
     }
 
