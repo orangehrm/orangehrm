@@ -12,5 +12,5 @@
  */
 abstract class PluginPayGradeCurrency extends BasePayGradeCurrency
 {
-
+	
 }

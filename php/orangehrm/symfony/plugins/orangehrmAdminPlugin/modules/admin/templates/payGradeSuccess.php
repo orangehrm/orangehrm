@@ -79,7 +79,7 @@
             </div>
 	    </div>
 	</form>
-	<form name="frmDelCurrencies" id="frmDelCurrencies" method="post" action="<?php echo url_for('admin/deletePayGradeCurrency');?>">
+	<form name="frmDelCurrencies" id="frmDelCurrencies" method="post" action="<?php echo url_for('admin/deletePayGradeCurrency?payGradeId='.$payGradeId);?>">
         <?php echo $deleteForm['_csrf_token']; ?>
 	    <div id="addDeleteBtnDiv">
                 <input type="button" class="addbutton" id="btnAddCurrency"
@@ -147,5 +147,6 @@
 	var lang_validSalaryRange  = "<?php echo __("Invalid salary range"); ?>";
 	var lang_addCurrency  = "<?php echo __("Edit Currency"); ?>";
 	var lang_editCurrency  = "<?php echo __("Add Currency"); ?>";
+	var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
 	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
 </script>

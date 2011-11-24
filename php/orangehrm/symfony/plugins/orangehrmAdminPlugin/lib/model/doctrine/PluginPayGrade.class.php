@@ -13,4 +13,16 @@
 abstract class PluginPayGrade extends BasePayGrade
 {
 
+	public function getCurrencyList(){
+		
+		$service = new PayGradeService();
+		$currencyList = $service->getCurrencyListByPayGradeId($this->getId());
+		//print_r($currencyList->toArray());die;
+		$temp = array();
+		
+		foreach ($currencyList as $currency) {
+			$temp[] = $currency->getCurrencyType()->getCurrencyName();
+		}
+		return implode(',', $temp);
+	}
 }

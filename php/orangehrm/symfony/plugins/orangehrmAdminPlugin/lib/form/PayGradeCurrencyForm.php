@@ -20,6 +20,8 @@
  */
 class PayGradeCurrencyForm extends BaseForm {
 	
+	private $payGradeService;
+
 	public function getPayGradeService() {
 		if (is_null($this->payGradeService)) {
 			$this->payGradeService = new PayGradeService();
@@ -62,7 +64,7 @@ class PayGradeCurrencyForm extends BaseForm {
 			$currency = new PayGradeCurrency();
 		}
 		
-		//$currency->setPayGradeId($payGradeId);
+		$currency->setPayGradeId($payGradeId);
 		$currency->setCurrencyId($temp[0]);
 		$currency->setMinSalary($this->getValue('minSalary'));
 		$currency->setMaxSalary($this->getValue('maxSalary'));
