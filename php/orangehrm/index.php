@@ -135,6 +135,16 @@ if (!isset($_GET['menu_no_top'])) {
     }
 }
 
+/** Clean Get variables that are used in URLs in page */
+$varsToClean = array('uniqcode', 'isAdmin', 'pageNo', 'id', 'repcode', 'reqcode', 'menu_no_top');
+
+foreach ($varsToClean as $var) {
+    if (isset($_GET[$var])) {
+        $_GET[$var] = CommonFunctions::cleanAlphaNumericIdField($_GET[$var]);
+    }
+}
+
+
 /* For checking TimesheetPeriodStartDaySet status : Begins */
 
 //This should be change using $timesheetPeriodService->isTimesheetPeriodDefined() method to support symfony version of the timesheet period 

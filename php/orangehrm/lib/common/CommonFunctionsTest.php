@@ -248,6 +248,19 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('A description', CommonFunctions::getFirstNChars("A description", 25));
         $this->assertEquals('A description', CommonFunctions::getFirstNChars("A description", 25, '...'));
     }
+    
+    public function testCleanAlphaNumericIdField() {
+        $this->assertEquals('223E3Ciframe3E3Cscript3Ealert28123293Cscript3E', CommonFunctions::cleanAlphaNumericIdField('%22%3E%3C/iframe%3E%3Cscript%3Ealert%28123%29;%3C/script%3E'));
+        $this->assertEquals('alert123', CommonFunctions::cleanAlphaNumericIdField('"></iframe><script>alert(123);</script>'));
+        $this->assertEquals('1', CommonFunctions::cleanAlphaNumericIdField('1'));
+        $this->assertEquals('0721', CommonFunctions::cleanAlphaNumericIdField('0721'));
+        $this->assertEquals('EAC', CommonFunctions::cleanAlphaNumericIdField('EAC'));
+        $this->assertEquals('0', CommonFunctions::cleanAlphaNumericIdField('0'));
+        $this->assertEquals('X_1', CommonFunctions::cleanAlphaNumericIdField('X_1'));
+        $this->assertEquals('abc', CommonFunctions::cleanAlphaNumericIdField('abc'));
+        $this->assertEquals('aZ_920diz1', CommonFunctions::cleanAlphaNumericIdField('aZ_920%$@diz 1!'));
+        
+    }
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

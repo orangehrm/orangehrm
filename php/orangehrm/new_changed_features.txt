@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver  2.6.??
+
+     Bug Fixes
+     --------
+     Time->Reports->Employee Reports: Fixed issue with Employee field changing value when "View" button is clicked.
+     Properly escape $_GET parameters
+
 New & Changed Features for OrangeHRM ver 2.6.11
 
      New Features

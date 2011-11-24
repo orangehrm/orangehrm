@@ -29,7 +29,7 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
         $this->addOption($this->id . '_' . 'empId', new sfWidgetFormInputHidden($options, $attributes));
 
 
-        $this->addOption('template', '%empId% &nbsp&nbsp %empName%');
+        $this->addOption('template', '%empId%%empName%');
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -264,7 +264,7 @@ EOF
      */
     public function generateWhereClausePart($fieldName, $value) {
 
-        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
+        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value['empId'];
 
         return $whereClausePart;
     }

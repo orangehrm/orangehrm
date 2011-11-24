@@ -39,11 +39,9 @@ class displayEmployeeReportCriteriaAction extends displayReportCriteriaAction {
 
     public function setReportCriteriaInfoInRequest($formValues) {
 
-        $employeeService = new EmployeeService();
-        $empNumber = $formValues["employee"];
-        $employee = $employeeService->getEmployee($empNumber);
-        $empName = $employee->getFirstAndLastNames();
-
+        $employee = $formValues["employee"];
+        $empName = $employee['empName'];
+        
         $this->getRequest()->setParameter('empName', $empName);
     }
 

@@ -568,6 +568,23 @@ class CommonFunctions {
 
         return $allow;
     }
+    
+    /**
+     * Clean the passed value, running through striptags and only keeping a-z, A-Z, 0-9, '_' characters
+     * and removing all others.
+     * 
+     * Primary use is to clean $_GET parameters like 'id', 'uniqcode' etc.
+     * 
+     * @param string $value Value to be cleaned
+     * @return string cleaned value
+     */
+    public static function cleanAlphaNumericIdField($value) {
+        $sanitizedValue = $value;
+        $sanitizedValue = strip_tags($sanitizedValue);
+        
+        $sanitizedValue = preg_replace("/[^0-9a-zA-Z_]/", "", $sanitizedValue);
+        return $sanitizedValue;
+    }
 
 }
 ?>

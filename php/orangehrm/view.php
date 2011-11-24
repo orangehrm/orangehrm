@@ -19,6 +19,15 @@
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
+        /** Clean Get variables that are used in page */
+        $varsToClean = array('isAdmin');
+
+        foreach ($varsToClean as $var) {
+            if (isset($_GET[$var])) {
+                $_GET[$var] = CommonFunctions::cleanAlphaNumericIdField($_GET[$var]);
+            }
+        }
+        
 	$sysConst = new sysConf();
 	$locRights = $_SESSION['localRights'];
 
