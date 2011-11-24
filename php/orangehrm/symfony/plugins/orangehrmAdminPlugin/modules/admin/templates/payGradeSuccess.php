@@ -3,6 +3,8 @@
 
 <?php use_stylesheet('../orangehrmAdminPlugin/css/payGradeSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/payGradeSuccess'); ?>
+<?php use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css'); ?>
+<?php use_javascript('../../../scripts/jquery/jquery.autocomplete.js'); ?>
 <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <?php $hasCurrencies = count($currencyList) > 0; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
@@ -44,8 +46,8 @@
     <div class="mainHeading"><h2><?php echo __('Assigned Currencies'); ?></h2></div>
     <div>
         <form name="frmCurrency" id="frmCurrency" method="post" action="<?php echo url_for('admin/savePayGradeCurrency'); ?>">
-	    <?php echo $form['_csrf_token']; ?>
-            <?php echo $form->renderHiddenFields(); ?>
+	    <?php echo $currencyForm['_csrf_token']; ?>
+            <?php echo $currencyForm->renderHiddenFields(); ?>
 
 	 <div id="addPaneCurrency" style="display: none" >
 	 <br class="clear"/>
@@ -109,8 +111,8 @@
             ?>
                 <tr class="<?php echo $cssClass;?>">
                     <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]'
-                               value="<?php echo $currency->id; ?>"/></td>
-                    <td><a href="#" class="curName"><?php echo $currency->name; ?></a></td>
+                               value="<?php echo $currency->currency_id; ?>"/></td>
+                    <td><a href="#" class="editLink"><?php echo $currency->getCurrencyType()->getCurrencyName(); ?></a></td>
                     <td><?php echo $currency->minSalary; ?></td>
                     <td><?php echo $currency->maxSalary; ?></td>
                 </tr>
@@ -126,7 +128,11 @@
 </div>
 </div>
 <?php } ?>
-<script type="text/javascript">
+<script type="text/javascript"> 
+	var currencies = <?php echo str_replace('&#039;', "'", $form->getCurrencyListAsJson()); ?> ;
+        var currencyList = eval(currencies);
+	var assignedCurrencies = <?php echo str_replace('&#039;', "'", $form->getAssignedCurrencyListAsJson($payGradeId)); ?>;
+        var assignedCurrencyList = eval(assignedCurrencies);
 	var lang_NameRequired = "<?php echo __("Pay Grade name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var payGradeId = "<?php echo $payGradeId; ?>";
@@ -136,5 +142,10 @@
 	var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
 	var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
 	var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be numeric"); ?>";
+	var lang_validCurrency = "<?php echo __("Enter a valid currency"); ?>";
+	var lang_currencyAlreadyExist = "<?php echo __("Currency is already exist"); ?>";
+	var lang_validSalaryRange  = "<?php echo __("Invalid salary range"); ?>";
+	var lang_addCurrency  = "<?php echo __("Edit Currency"); ?>";
+	var lang_editCurrency  = "<?php echo __("Add Currency"); ?>";
 	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
 </script>

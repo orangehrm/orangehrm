@@ -8,16 +8,16 @@
  * @property integer $id
  * @property string $name
  * @property Doctrine_Collection $EmpBasicsalary
- * @property Doctrine_Collection $PayGradeCurrencyDetail
+ * @property Doctrine_Collection $PayGradeCurrency
  * 
- * @method integer             getId()                     Returns the current record's "id" value
- * @method string              getName()                   Returns the current record's "name" value
- * @method Doctrine_Collection getEmpBasicsalary()         Returns the current record's "EmpBasicsalary" collection
- * @method Doctrine_Collection getPayGradeCurrencyDetail() Returns the current record's "PayGradeCurrencyDetail" collection
- * @method PayGrade            setId()                     Sets the current record's "id" value
- * @method PayGrade            setName()                   Sets the current record's "name" value
- * @method PayGrade            setEmpBasicsalary()         Sets the current record's "EmpBasicsalary" collection
- * @method PayGrade            setPayGradeCurrencyDetail() Sets the current record's "PayGradeCurrencyDetail" collection
+ * @method integer             getId()               Returns the current record's "id" value
+ * @method string              getName()             Returns the current record's "name" value
+ * @method Doctrine_Collection getEmpBasicsalary()   Returns the current record's "EmpBasicsalary" collection
+ * @method Doctrine_Collection getPayGradeCurrency() Returns the current record's "PayGradeCurrency" collection
+ * @method PayGrade            setId()               Sets the current record's "id" value
+ * @method PayGrade            setName()             Sets the current record's "name" value
+ * @method PayGrade            setEmpBasicsalary()   Sets the current record's "EmpBasicsalary" collection
+ * @method PayGrade            setPayGradeCurrency() Sets the current record's "PayGradeCurrency" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -47,7 +47,7 @@ abstract class BasePayGrade extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'sal_grd_code'));
 
-        $this->hasMany('PayGradeCurrencyDetail', array(
+        $this->hasMany('PayGradeCurrency', array(
              'local' => 'id',
              'foreign' => 'pay_grade_id'));
     }

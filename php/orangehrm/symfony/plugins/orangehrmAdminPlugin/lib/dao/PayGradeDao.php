@@ -52,6 +52,31 @@ class PayGradeDao extends BaseDao {
 		}
 	}
 
+	public function getCurrencyListByPayGradeId($payGradeId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('PayGradeCurrency')
+				->where('pay_grade_id = ?', $payGradeId);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
+	public function getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('PayGradeCurrency')
+				->where('pay_grade_id = ?', $payGradeId)
+				->andWhere('currency_id = ?', $currencyId);
+			return $q->fetchOne();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
+
 }
 
 ?>

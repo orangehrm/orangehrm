@@ -30,6 +30,14 @@ class payGradeAction extends sfAction {
 		}
 	}
 	
+	public function getPayGradeService() {
+		if (is_null($this->payGradeService)) {
+			$this->payGradeService = new PayGradeService();
+			$this->payGradeService->setPayGradeDao(new PayGradeDao());
+		}
+		return $this->payGradeService;
+	}
+	
 	public function execute($request) {
 
 		$usrObj = $this->getUser()->getAttribute('user');
@@ -39,7 +47,8 @@ class payGradeAction extends sfAction {
 		$this->payGradeId = $request->getParameter('payGradeId');
 		if(!empty($this->payGradeId)){
 			$this->currencyForm = new PayGradeCurrencyForm();
-			$this->deleteForm = new DeletePayGradeCurrencies();
+			$this->deleteForm = new DeletePayGradeCurrenciesForm();
+			$this->currencyList = $this->getPayGradeService()->getCurrencyListByPayGradeId($this->payGradeId);
 		}		
 		$values = array('payGradeId' => $this->payGradeId);
 		$this->setForm(new PayGradeForm(array(), $values));

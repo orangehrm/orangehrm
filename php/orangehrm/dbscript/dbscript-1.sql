@@ -508,13 +508,12 @@ create table `hs_hr_versions` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_pr_salary_currency_detail` (
-  `sal_grd_code` int not null ,
+create table `ohrm_pay_grade_currency` (
+  `pay_grade_id` int not null ,
   `currency_id` varchar(6) not null default '',
-  `salcurr_dtl_minsalary` double default null,
-  `salcurr_dtl_stepsalary` double default null,
-  `salcurr_dtl_maxsalary` double default null,
-  primary key  (`sal_grd_code`,`currency_id`)
+  `min_salary` double default null,
+  `max_salary` double default null,
+  primary key  (`pay_grade_id`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_pay_grade` (
@@ -1444,12 +1443,12 @@ alter table ohrm_job_candidate_vacancy
        add constraint foreign key (vacancy_id)
                              references ohrm_job_vacancy(id) on delete cascade;
 
-alter table hs_pr_salary_currency_detail
+alter table ohrm_pay_grade_currency
        add constraint foreign key (currency_id)
                              references hs_hr_currency_type(currency_id) on delete cascade;
 
-alter table hs_pr_salary_currency_detail
-       add constraint foreign key (sal_grd_code)
+alter table ohrm_pay_grade_currency
+       add constraint foreign key (pay_grade_id)
                              references ohrm_pay_grade(id) on delete cascade;
 
 alter table ohrm_location

@@ -261,8 +261,8 @@ PayGrade:
       foreign: sal_grd_code
       type: many
       
-PayGradeCurrencyDetail:
-  tableName: ohrm_pay_grade_currency_details
+PayGradeCurrency:
+  tableName: ohrm_pay_grade_currency
   columns:
     pay_grade_id:
       type: int

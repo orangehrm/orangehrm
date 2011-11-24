@@ -22,7 +22,18 @@ class PayGradeForm extends BaseForm {
 
 	private $payGradeId;
 	private $payGradeService;
-	
+
+	/**
+	 * Get CurrencyService
+	 * @returns CurrencyService
+	 */
+	public function getCurrencyService() {
+		if (is_null($this->currencyService)) {
+			$this->currencyService = new CurrencyService();
+		}
+		return $this->currencyService;
+	}
+
 	public function getPayGradeService() {
 		if (is_null($this->payGradeService)) {
 			$this->payGradeService = new PayGradeService();
@@ -30,11 +41,11 @@ class PayGradeForm extends BaseForm {
 		}
 		return $this->payGradeService;
 	}
-	
+
 	public function configure() {
 
 		$this->payGradeId = $this->getOption('payGradeId');
-		
+
 		$this->setWidgets(array(
 		    'payGradeId' => new sfWidgetFormInputHidden(),
 		    'name' => new sfWidgetFormInputText(),
@@ -46,31 +57,51 @@ class PayGradeForm extends BaseForm {
 		));
 
 		$this->widgetSchema->setNameFormat('payGrade[%s]');
-		
+
 		if ($this->payGradeId != null) {
 			$this->setDefaultValues($this->payGradeId);
 		}
 	}
-	
+
 	private function setDefaultValues($payGradeId) {
 
 		$payGrade = $this->getPayGradeService()->getPayGradeById($payGradeId);
 		$this->setDefault('payGradeId', $payGradeId);
 		$this->setDefault('name', $payGrade->getName());
 	}
-	
-	public function save(){
+
+	public function save() {
 		$payGradeId = $this->getValue('payGradeId');
-		
-		if(!empty ($payGradeId)){
+
+		if (!empty($payGradeId)) {
 			$payGrade = $this->getPayGradeService()->getPayGradeById($payGradeId);
 		} else {
 			$payGrade = new PayGrade();
-		}	
+		}
 		$payGrade->setName($this->getValue('name'));
 		$payGrade->save();
-		
+
 		return $payGrade->getId();
+	}
+
+	public function getCurrencyListAsJson() {
+		
+		$list = array();
+		$currencies = $this->getCurrencyService()->getCurrencyList();
+		foreach ($currencies as $currency) {
+			$list[] = array('id' => $currency->getCurrencyId(), 'name' => $currency->getCurrencyId()." - ".$currency->getCurrencyName());
+		}
+		return json_encode($list);
+	}
+	
+	public function getAssignedCurrencyListAsJson($payGradeId) {
+		
+		$list = array();
+		$currencies = $this->getPayGradeService()->getCurrencyListByPayGradeId($payGradeId);
+		foreach ($currencies as $currency) {
+			$list[] = array('id' => $currency->getCurrencyId(), 'name' => $currency->getCurrencyId()." - ".$currency->getCurrencyType()->getCurrencyName());
+		}
+		return json_encode($list);
 	}
 }
 

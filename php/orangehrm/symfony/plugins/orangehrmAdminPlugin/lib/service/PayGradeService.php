@@ -52,6 +52,14 @@ class PayGradeService extends BaseService {
 	public function getPayGradeList($sortField='name', $sortOrder='ASC'){
 		return $this->payGradeDao->getPayGradeList($sortField, $sortOrder);
 	}
+	
+	public function getCurrencyListByPayGradeId($payGradeId){
+		return $this->payGradeDao->getCurrencyListByPayGradeId($payGradeId);
+	}
+	
+	public function getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId){
+		return $this->payGradeDao->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
+	}
 
 }
 
