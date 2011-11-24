@@ -465,3 +465,25 @@ PayGrade:
   formAction: 'index.php/admin/deletePayGrades'
   assets: []
   jsInitMethods: []
+  
+SystemUser:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("System Users");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addSystemUser
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteSystemUsers'
+  assets: []
+  jsInitMethods: []

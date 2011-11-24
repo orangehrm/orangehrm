@@ -78,7 +78,7 @@ class SystemUserService extends BaseService{
      */
     public function getSystemUser( $userId ){
         try {
-            $this->getSystemUserDao()->getSystemUser( $userId );
+            return $this->getSystemUserDao()->getSystemUser( $userId );
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
@@ -91,7 +91,7 @@ class SystemUserService extends BaseService{
      */
     public function getSystemUsers(){
         try {
-            $this->getSystemUserDao()->getSystemUsers();
+            return $this->getSystemUserDao()->getSystemUsers();
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }

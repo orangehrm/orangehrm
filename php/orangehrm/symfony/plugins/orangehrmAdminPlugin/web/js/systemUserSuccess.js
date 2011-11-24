@@ -34,6 +34,11 @@ $(document).ready(function() {
                 $('#sytemUser_employeeId').val(item.id);
             }
 	);
+            
+     $("#sytemUser_password").password({
+	           score: '.score' 
+	       });
+
     
 });
 
@@ -96,6 +101,7 @@ function isValidForm(){
 
         errorPlacement: function(error, element) {
             error.appendTo(element.next('div.errorHolder'));
+            
         }
 
     });

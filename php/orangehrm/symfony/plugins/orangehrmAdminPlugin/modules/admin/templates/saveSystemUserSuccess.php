@@ -1,6 +1,4 @@
 
-
-
 <?php
 use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
 use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
@@ -11,6 +9,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 ?>
 <?php use_stylesheet('../orangehrmAdminPlugin/css/systemUserSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/systemUserSuccess'); ?>
+<?php use_javascript('../orangehrmAdminPlugin/js/password_strength'); ?>
 
 <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
@@ -28,32 +27,32 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <br class="clear"/>
 	    
 	    <?php echo $form['userType']->renderLabel(__('User Type') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['userType']->render(array("class" => "formInput", "maxlength" => 3)); ?>
+            <?php echo $form['userType']->render(array("class" => "formSelect", "maxlength" => 3)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
             <?php echo $form['employeeName']->renderLabel(__('Employee Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['employeeName']->render(array("class" => "formInput", "maxlength" => 200)); ?>
+            <?php echo $form['employeeName']->render(array("class" => "formInputText", "maxlength" => 200)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
             
 	    <?php echo $form['userName']->renderLabel(__('User Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['userName']->render(array("class" => "formInput", "maxlength" => 20)); ?>
+            <?php echo $form['userName']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	    <?php echo $form['password']->renderLabel(__('User Password') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['password']->render(array("class" => "formInput", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
+            <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ',array('class'=>'score') ); ?>
+            
 	    <br class="clear"/>
             
             <?php echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['confirmPassword']->render(array("class" => "formInput", "maxlength" => 20)); ?>
+            <?php echo $form['confirmPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
 	     <?php echo $form['status']->renderLabel(__('Status') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['status']->render(array("class" => "formInput", "maxlength" => 3)); ?>
+            <?php echo $form['status']->render(array("class" => "formSelect", "maxlength" => 3)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
