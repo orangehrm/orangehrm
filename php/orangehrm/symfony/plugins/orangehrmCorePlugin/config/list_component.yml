@@ -450,7 +450,7 @@ PayGrade:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getId
-  title: "<?php echo __("Pay Grade");?>"
+  title: "<?php echo __("Pay Grades");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []

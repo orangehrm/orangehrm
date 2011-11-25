@@ -114,7 +114,7 @@ class EmployeeSalaryForm extends BaseForm {
     }
 
     public function postValidate($validator, $values) {
-        $jobService = new JobService();
+        $service = new PayGradeService();
 
         $salaryGrade = $values['sal_grd_code'];
 
@@ -122,7 +122,7 @@ class EmployeeSalaryForm extends BaseForm {
             
         if (!empty($salaryGrade)) {
             
-            $salaryDetail = $jobService->getSalaryCurrencyDetail($salaryGrade, $values['currency_id']);
+            $salaryDetail = $service->getCurrencyByCurrencyIdAndPayGradeId($values['currency_id'], $salaryGrade);
 
             
             if (empty($salaryDetail)) {
@@ -131,8 +131,8 @@ class EmployeeSalaryForm extends BaseForm {
                 $error = new sfValidatorError($validator, $message);
                 throw new sfValidatorErrorSchema($validator, array('' => $error));
 
-            } else if ( (!is_null($salaryDetail->min_salary) && ($salary < $salaryDetail->min_salary)) ||
-                        (!is_null($salaryDetail->max_salary) && ($salary > $salaryDetail->max_salary)) ) {
+            } else if ( (!is_null($salaryDetail->minSalary) && ($salary < $salaryDetail->minSalary)) ||
+                        (!is_null($salaryDetail->maxSalary) && ($salary > $salaryDetail->maxSalary)) ) {
 
                 $message = sfContext::getInstance()->getI18N()->__('Salary should be within min and max');
                 $error = new sfValidatorError($validator, $message);
