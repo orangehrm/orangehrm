@@ -7,6 +7,7 @@ $(document).ready(function() {
             $('#btnSave').val(lang_save);
             
         } else if ($('#btnSave').val() == lang_save){
+            $('#payGrade_payGradeId').val(payGradeId);
             $('#frmPayGrade').submit();
         }        
     });
@@ -28,7 +29,6 @@ $(document).ready(function() {
     if(payGradeId > 0){
         $('#payGrade_name').attr('disabled','disabled');
         $('#btnSave').val(lang_edit);
-        $('#payGrade_payGradeId').val(payGradeId);
         $('#payGradeCurrency_payGradeId').val(payGradeId);
         $('#payGradeHeading').text(lang_editPayGrade);
     }

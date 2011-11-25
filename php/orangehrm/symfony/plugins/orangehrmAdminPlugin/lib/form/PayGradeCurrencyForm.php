@@ -21,6 +21,7 @@
 class PayGradeCurrencyForm extends BaseForm {
 	
 	private $payGradeService;
+	public $payGradeId;
 
 	public function getPayGradeService() {
 		if (is_null($this->payGradeService)) {
@@ -32,6 +33,8 @@ class PayGradeCurrencyForm extends BaseForm {
 	
 	public function configure() {
 
+		$this->payGradeId = $this->getOption('payGradeId');
+		
 		$this->setWidgets(array(
 		    'currencyId' => new sfWidgetFormInputHidden(),
 		    'payGradeId' => new sfWidgetFormInputHidden(),
@@ -53,23 +56,22 @@ class PayGradeCurrencyForm extends BaseForm {
 	
 	public function save(){
 		
-		$payGradeId = $this->getValue('payGradeId');
 		$currencyId = $this->getValue('currencyId');
 		$currencyName = $this->getValue('currencyName');
 		$temp = explode(" - ", $currencyName);
 		
 		if(!empty ($currencyId)){
-			$currency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
+			$currency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $this->payGradeId);
 		} else {
 			$currency = new PayGradeCurrency();
 		}
 		
-		$currency->setPayGradeId($payGradeId);
+		$currency->setPayGradeId($this->payGradeId);
 		$currency->setCurrencyId($temp[0]);
 		$currency->setMinSalary($this->getValue('minSalary'));
 		$currency->setMaxSalary($this->getValue('maxSalary'));
 		$currency->save();
-		return $payGradeId;
+		return $this->payGradeId;
 	}
 	
 }

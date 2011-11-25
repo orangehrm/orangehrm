@@ -18,9 +18,10 @@ class savePayGradeCurrencyAction extends sfAction {
 		if (!$usrObj->isAdmin()) {
 			$this->redirect('pim/viewPersonalDetails');
 		}
-
-		$this->form = new PayGradeCurrencyForm();
-		
+		$payGradeId = $request->getParameter('payGradeId');
+		$values = array('payGradeId' => $payGradeId);
+		$this->form = new PayGradeCurrencyForm(array(), $values);
+	
 		if ($request->isMethod('post')) {
 
 			$this->form->bind($request->getParameter($this->form->getName()));

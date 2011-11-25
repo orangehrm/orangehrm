@@ -45,7 +45,7 @@
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Assigned Currencies'); ?></h2></div>
     <div>
-        <form name="frmCurrency" id="frmCurrency" method="post" action="<?php echo url_for('admin/savePayGradeCurrency'); ?>">
+        <form name="frmCurrency" id="frmCurrency" method="post" action="<?php echo url_for('admin/savePayGradeCurrency?payGradeId='.$payGradeId); ?>">
 	    <?php echo $currencyForm['_csrf_token']; ?>
             <?php echo $currencyForm->renderHiddenFields(); ?>
 
