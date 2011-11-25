@@ -50,6 +50,8 @@
 	var lang_exceed255Charactors = "<?php echo __("Cannot exceed 255 charactors"); ?>";
 	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";
 	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_edit = "<?php echo __("Edit"); ?>";
+	var lang_save = "<?php echo __("Save"); ?>";
 	var customerId = '<?php echo $customerId;?>';
 	var cancelBtnUrl = '<?php echo url_for('admin/viewCustomers'); ?>';
 </script>

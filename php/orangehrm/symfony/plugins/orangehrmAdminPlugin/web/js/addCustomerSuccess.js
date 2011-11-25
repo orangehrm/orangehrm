@@ -2,14 +2,20 @@ $(document).ready(function() {
    
     $('#addCustomer_customerId').val(customerId);
     $('#btnSave').click(function() {
-          
-        if(isValidForm()){          
-            $('#frmAddCustomer').submit();
+        if($('#btnSave').val() == lang_edit){
+            $('.formInput').removeAttr('disabled');
+            $('#btnSave').val(lang_save);
+        } else if ($('#btnSave').val() == lang_save){
+            if(isValidForm()){          
+                $('#frmAddCustomer').submit();
+            }      
         }
     });
        
     if(customerId > 0) {
         $('#addCustomerHeading').text(lang_editCustomer);
+        $('.formInput').attr('disabled', 'disabled');
+        $('#btnSave').val(lang_edit);
     }
        
     $('#btnCancel').click(function() {
