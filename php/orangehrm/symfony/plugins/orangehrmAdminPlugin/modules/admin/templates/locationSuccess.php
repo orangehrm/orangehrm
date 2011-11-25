@@ -89,8 +89,8 @@
 	var lang_LocNameRequired = "<?php echo __("Location name is required"); ?>";
 	var lang_CountryRequired = "<?php echo __("Country is required"); ?>";
 	var lang_ValidCountry = "<?php echo __("Enter a valid country"); ?>";
-	var lang_validPhoneNo = "<?php echo __("Enter a valid phone number"); ?>";
-	var lang_validFaxNo = "<?php echo __("Enter a valid fax number"); ?>";
+	var lang_validPhoneNo = '<?php echo __('Phone can contain only space, numbers, "+", and "-"'); ?>';
+	var lang_validFaxNo = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';
 	var lang_Max100Chars = "<?php echo __("Cannot exceed 100 charactors"); ?>";
 	var lang_Max50Chars = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_Max30Chars = "<?php echo __("Cannot exceed 30 charactors"); ?>";

@@ -605,9 +605,9 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * @ignore
      */
-    public function getEmployeeCount() {
+    public function getEmployeeCount($withoutTerminatedEmployees = false) {
         try {
-            return $this->getEmployeeDao()->getEmployeeCount();
+            return $this->getEmployeeDao()->getEmployeeCount($withoutTerminatedEmployees = false);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }

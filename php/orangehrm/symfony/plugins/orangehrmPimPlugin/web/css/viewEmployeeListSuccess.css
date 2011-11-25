@@ -79,3 +79,11 @@ table.data-table td.emp_first {
 table.data-table td.emp_last {
     min-width: 100px;
 }
+
+form#frmDelete table#emp_list.data-table thead tr td.emp_id{
+    width: 80px;
+}
+
+form#search_form div#formcontent label{
+    font-weight: normal;
+}

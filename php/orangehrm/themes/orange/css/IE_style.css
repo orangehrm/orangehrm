@@ -307,4 +307,11 @@ html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div
 #location_fax{
     width: 305px;
 }
+form#frmGenInfo div.leftDiv textarea#organization_note.txtArea{
+    width:195px;
+}
+
+form#frmGenInfo div.rightDiv select#organization_country.drpDown{
+width: 205px;
+}
 

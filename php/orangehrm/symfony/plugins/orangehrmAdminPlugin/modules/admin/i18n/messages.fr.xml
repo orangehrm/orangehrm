@@ -185,8 +185,8 @@
                 <target>FR_Email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
             </trans-unit>
             <trans-unit id="46">
-                <source>Organization Information Saved Successfully</source>
-                <target>FR_Organization Information Saved Successfully</target>
+                <source>General Information Saved Successfully</source>
+                <target>FR_General Information Saved Successfully</target>
             </trans-unit>
             <trans-unit id="47">
                 <source>Customer Name</source>
@@ -389,8 +389,8 @@
                 <target>FR_Job Description</target>
             </trans-unit>
             <trans-unit id="97">
-                <source>Job Information</source>
-                <target>FR_Job Information</target>
+                <source>Job Titles</source>
+                <target>FR_Job Titles</target>
             </trans-unit>
             <trans-unit id="98">
                 <source>Job Title Updated Successfully</source>

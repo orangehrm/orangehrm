@@ -18,3 +18,7 @@ div.formbuttons {
 .trHover{
     cursor: auto;
 }
+
+form#frmList_ohrmListComponent table.data-table tbody td{
+    vertical-align: top;
+}

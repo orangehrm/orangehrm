@@ -76,14 +76,14 @@ class localizationAction extends sfAction {
 
                 $formValues = $this->form->getFormValues();               
                 $defaultLanguage = $formValues['defaultLanguage'];
-                $browserLanguage = !empty($formValues['setBrowserLanguage']) ? "Yes" : "No";
-                
-                if($browserLanguage == "Yes" && !empty($languages[0])){
+                $setBrowserLanguage = !empty($formValues['setBrowserLanguage']) ? "Yes" : "No";
+                $supprotedLanguages = $this->form->getLanguages();
+                if($setBrowserLanguage == "Yes" && in_array($languages[0], $supprotedLanguages)){
                    $defaultLanguage = $languages[0];
                 }
                 $this->getUser()->setCulture($defaultLanguage);
                 $this->getConfigService()->setAdminLocalizationDefaultLanguage($formValues['defaultLanguage']);
-                $this->getConfigService()->setAdminLocalizationUseBrowserLanguage($browserLanguage);
+                $this->getConfigService()->setAdminLocalizationUseBrowserLanguage($setBrowserLanguage);
                 $this->getUser()->setDateFormat($formValues['defaultDateFormat']);
                 $this->getConfigService()->setAdminLocalizationDefaultDateFormat($formValues['defaultDateFormat']);
 

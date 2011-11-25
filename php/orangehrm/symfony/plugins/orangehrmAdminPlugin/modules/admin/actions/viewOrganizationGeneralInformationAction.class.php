@@ -50,7 +50,7 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $organizationName = (!empty($name)) ? $name : __("Organization");
                 $companyStructureService = new CompanyStructureService();
                 $companyStructureService->setOrganizationName($organizationName);
-                list($this->messageType, $this->message) = array('success', __('Organization Information Saved Successfully'));
+                list($this->messageType, $this->message) = array('success', __('General Information Saved Successfully'));
             }
         }
     }

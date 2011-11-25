@@ -50,3 +50,7 @@ form#frmSearchLocation .contentDiv{
 #country label{
     width: 60px !important;
 }
+
+form#frmList_ohrmListComponent table.data-table tbody td{
+    vertical-align: top;
+}

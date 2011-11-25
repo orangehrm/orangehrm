@@ -10,7 +10,7 @@ input#calFromDate,input#calToDate {
 }
 
 label.mainLabel {
-    font-weight: bold;
+    font-weight: normal;
     float: none;
     display: inline-block;
     width: 150px;

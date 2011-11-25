@@ -387,7 +387,7 @@ JobTitle:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getId
-  title: "<?php echo __("Job Information");?>"
+  title: "<?php echo __("Job Titles");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []

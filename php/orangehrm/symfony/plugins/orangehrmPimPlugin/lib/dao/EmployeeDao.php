@@ -866,9 +866,14 @@ class EmployeeDao extends BaseDao {
      * @returns int
      * @throws DaoException
      */
-    public function getEmployeeCount() {
+    public function getEmployeeCount($withoutTerminatedEmployees = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
+
+            if ($withoutTerminatedEmployees == false) {
+                $q->where("termination_id IS NULL");
+            }
+
             return $q->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

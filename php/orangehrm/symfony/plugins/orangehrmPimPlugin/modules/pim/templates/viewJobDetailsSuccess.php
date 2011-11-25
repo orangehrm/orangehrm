@@ -174,7 +174,7 @@
                                                   $btnTitle = __("Terminate Employement");
                                               }
                                         ?>
-                                              <input type="button" class="savebutton" id="btnTerminateEmployement" style="margin-left: 5px; float: left" value="<?php echo $btnTitle; ?>" />
+                                              <input type="button" class="terminateButton" id="btnTerminateEmployement" style="margin-left: 5px; float: left; width: 140px; background-color: #FFFFFF; border: 1px solid #888888;" value="<?php echo $btnTitle; ?>" />
                                               <label id="terminatedDate" style="width: 200px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>
                                     <?php endif; ?>
                                                 <br class="clear"/>
