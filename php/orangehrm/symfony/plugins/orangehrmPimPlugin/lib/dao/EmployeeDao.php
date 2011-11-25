@@ -1185,8 +1185,8 @@ class EmployeeDao extends BaseDao {
             $hydrateMode = ($asArray) ? Doctrine :: HYDRATE_ARRAY : Doctrine :: HYDRATE_RECORD;
             $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
                             ->from('CurrencyType c')
-                            ->leftJoin('c.SalaryCurrencyDetail s')
-                            ->where('s.sal_grd_code = ?', $salaryGrade)
+                            ->leftJoin('c.PayGradeCurrency s')
+                            ->where('s.pay_grade_code = ?', $salaryGrade)
                             ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
                                     , array($empNumber, $salaryGrade));
 
