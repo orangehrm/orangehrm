@@ -200,14 +200,14 @@ class EmployeeSalaryForm extends BaseForm {
     private function _getPayGrades() {
         $choices = array();
         
-        $jobService = new JobService();
-        $payGrades = $jobService->getSaleryGradeList();
+        $service = new PayGradeService();
+        $payGrades = $service->getPayGradeList();
         
         if (count($payGrades) > 0) {
             $choices = array('' => '-- ' . __('Select') . ' --');
 
             foreach ($payGrades as $payGrade) {
-                $choices[$payGrade->getSalGrdCode()] = $payGrade->getSalGrdName();
+                $choices[$payGrade->getId()] = $payGrade->getName();
             }
         }
         return $choices;

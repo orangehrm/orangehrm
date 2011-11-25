@@ -94,6 +94,16 @@ class PayGradeForm extends BaseForm {
 		return json_encode($list);
 	}
 	
+	public function getPayGradeListAsJson() {
+		
+		$list = array();
+		$payGrades = $this->getPayGradeService()->getPayGradeList();
+		foreach ($payGrades as $payGrade) {
+			$list[] = array('id' => $payGrade->getId(), 'name' => $payGrade->getName());
+		}
+		return json_encode($list);
+	}
+	
 	public function getAssignedCurrencyListAsJson($payGradeId) {
 		
 		$list = array();

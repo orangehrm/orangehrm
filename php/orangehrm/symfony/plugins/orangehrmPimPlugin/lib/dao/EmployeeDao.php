@@ -1186,7 +1186,7 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
                             ->from('CurrencyType c')
                             ->leftJoin('c.PayGradeCurrency s')
-                            ->where('s.pay_grade_code = ?', $salaryGrade)
+                            ->where('s.pay_grade_id = ?', $salaryGrade)
                             ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
                                     , array($empNumber, $salaryGrade));
 

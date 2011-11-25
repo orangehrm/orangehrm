@@ -106,19 +106,49 @@ $(document).ready(function() {
         }
     });
 
+    $.validator.addMethod("uniquePayGradeName", function(value, element, params) {
+        var temp = true;
+        var currentName;
+        var id = $('#payGrade_payGradeId').val();
+        var vcCount = payGradeList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == payGradeList[j].id){
+                currentName = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#payGrade_name').val()).toLowerCase();
+
+        for (i=0; i < vcCount; i++) {
+            arrayName = payGradeList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentName != null){
+            if(vcName == payGradeList[currentName].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
     
     var validator = $("#frmPayGrade").validate({
 
         rules: {
             'payGrade[name]' : {
                 required:true,
-                maxlength: 50
+                maxlength: 50,
+                uniquePayGradeName: true
             }
         },
         messages: {
             'payGrade[name]' : {
                 required: lang_NameRequired,
-                maxlength: lang_exceed50Charactors    
+                maxlength: lang_exceed50Charactors,
+                uniquePayGradeName: lang_uniquePayGradeName
             }
         },
         errorPlacement: function(error, element) {

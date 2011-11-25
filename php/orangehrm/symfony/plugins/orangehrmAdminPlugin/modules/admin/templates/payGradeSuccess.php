@@ -128,9 +128,11 @@
 </div>
 </div>
 <?php } ?>
-<script type="text/javascript"> 
+<script type="text/javascript">
 	var currencies = <?php echo str_replace('&#039;', "'", $form->getCurrencyListAsJson()); ?> ;
         var currencyList = eval(currencies);
+	var payGrades = <?php echo str_replace('&#039;', "'", $form->getPayGradeListAsJson()); ?> ;
+        var payGradeList = eval(payGrades);
 	var assignedCurrencies = <?php echo str_replace('&#039;', "'", $form->getAssignedCurrencyListAsJson($payGradeId)); ?>;
         var assignedCurrencyList = eval(assignedCurrencies);
 	var lang_NameRequired = "<?php echo __("Pay Grade name is required"); ?>";
@@ -148,5 +150,6 @@
 	var lang_addCurrency  = "<?php echo __("Edit Currency"); ?>";
 	var lang_editCurrency  = "<?php echo __("Add Currency"); ?>";
 	var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
+	var lang_uniquePayGradeName  = "<?php echo __("Name is already exist"); ?>";
 	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
 </script>
