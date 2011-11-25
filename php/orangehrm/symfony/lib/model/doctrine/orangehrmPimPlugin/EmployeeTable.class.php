@@ -372,7 +372,7 @@ class EmployeeTable extends PluginEmployeeTable {
 
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
-        $subordinatesList = $employeeService->getSupervisorEmployeeChain($supervisorId);
+        $subordinatesList = $employeeService->getSupervisorEmployeeChain($supervisorId, true);
 
         $ids = array();
         

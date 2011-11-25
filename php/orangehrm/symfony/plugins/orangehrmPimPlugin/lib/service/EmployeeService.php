@@ -649,9 +649,9 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * @ignore
      */
-    public function getSupervisorEmployeeChain($supervisorId) {
+    public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
-            return $this->getEmployeeDao()->getSupervisorEmployeeChain($supervisorId);
+            return $this->getEmployeeDao()->getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }

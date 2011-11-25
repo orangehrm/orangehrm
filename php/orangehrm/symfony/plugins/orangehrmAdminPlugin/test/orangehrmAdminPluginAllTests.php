@@ -29,6 +29,26 @@ class orangehrmAdminPluginAllTests {
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SystemUserDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/OrganizationDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/CompanyStructureDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/ProjectDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/JobTitleDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/CustomerDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/LocationDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmploymentStatusDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
+
+
+        /* Service Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/LocalizationServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/PimCsvDataImportServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/CompanyStructureServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/JobTitleServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/CustomerServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/ProjectServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/LocationServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/EmploymentStatusServiceTest.php');
+
 
 
         

@@ -960,7 +960,7 @@ class EmployeeDao extends BaseDao {
      * @returns array
      * @throws DaoException
      */
-    public function getSupervisorEmployeeChain($supervisorId) {
+    public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
             $employeeList = array();
 
@@ -969,6 +969,10 @@ class EmployeeDao extends BaseDao {
                             ->from('ReportTo rt')
                             ->leftJoin('rt.subordinate emp')
                             ->where("rt.supervisorId=$supervisorId");
+
+            if ($withoutTerminatedEmployees == false) {
+                $q->addWhere("emp.termination_id IS NULL");
+            }
 
             $reportToList = $q->execute();
             foreach ($reportToList as $reportTo) {
