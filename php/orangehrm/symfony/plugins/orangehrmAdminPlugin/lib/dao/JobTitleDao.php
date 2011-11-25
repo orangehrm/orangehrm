@@ -19,7 +19,7 @@
  */
 class JobTitleDao extends BaseDao {
 
-    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true) {
+    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true, $limit = null, $offset = null) {
 
         $sortField = ($sortField == "") ? 'jobTitleName' : $sortField;
         $sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
@@ -31,6 +31,10 @@ class JobTitleDao extends BaseDao {
                 $q->addWhere('isDeleted = ?', JobTitle::ACTIVE);
             }
             $q->orderBy($sortField . ' ' . $sortOrder);
+            if (!empty($limit)) {
+                $q->offset($offset)
+                  ->limit($limit);
+            }
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

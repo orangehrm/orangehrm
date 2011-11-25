@@ -36,11 +36,23 @@ class viewJobTitleListAction extends sfAction {
             $this->redirect('pim/viewPersonalDetails');
         }
 
+        $jobTitleId = $request->getParameter('jobTitleId');
+        $isPaging = $request->getParameter('pageNo');
+
+        $pageNumber = $isPaging;
+        if (!empty($jobTitleId) && $this->getUser()->hasAttribute('pageNumber')) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }
+
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
 
-        $JobTitleList = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder);
-        $this->_setListComponent($JobTitleList);
+        $noOfRecords = JobTitle::NO_OF_RECORDS_PER_PAGE;
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+
+        $JobTitleList = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder, true, $noOfRecords, $offset);
+        $this->_setListComponent($JobTitleList, $noOfRecords, $pageNumber);
+        $this->getUser()->setAttribute('pageNumber', $pageNumber);
         $params = array();
         $this->parmetersForListCompoment = $params;
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -48,11 +60,14 @@ class viewJobTitleListAction extends sfAction {
         }
     }
 
-    private function _setListComponent($JobTitleList) {
+    private function _setListComponent($JobTitleList, $noOfRecords, $pageNumber) {
 
         $configurationFactory = new JobTitleHeaderFactory();
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($JobTitleList);
+        ohrmListComponent::setPageNumber($pageNumber);
+        ohrmListComponent::setItemsPerPage($noOfRecords);
+        ohrmListComponent::setNumberOfRecords(count($this->getJobTitleService()->getJobTitleList()));
     }
 
 }

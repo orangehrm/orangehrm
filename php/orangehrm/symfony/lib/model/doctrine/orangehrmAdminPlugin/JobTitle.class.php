@@ -12,6 +12,7 @@
  */
 class JobTitle extends PluginJobTitle
 {
+    const NO_OF_RECORDS_PER_PAGE = 50;
     const DELETED = 1;
     const ACTIVE = 0;
 

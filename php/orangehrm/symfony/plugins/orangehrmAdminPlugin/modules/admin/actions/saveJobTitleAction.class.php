@@ -27,6 +27,11 @@ class saveJobTitleAction extends sfAction {
 
     public function execute($request) {
 
+        $usrObj = $this->getUser()->getAttribute('user');
+        if (!($usrObj->isAdmin())) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
+        $this->getUser()->setAttribute('addScreen', true);
         $jobTitleId = $request->getParameter('jobTitleId');
         $values = array('jobTitleId' => $jobTitleId);
 

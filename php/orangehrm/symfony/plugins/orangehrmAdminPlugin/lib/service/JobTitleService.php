@@ -42,8 +42,8 @@ class JobTitleService extends BaseService {
      * @param boolean $activeOnly
      * @return JobTitle Doctrine collection
      */
-    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true) {
-        return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly);
+    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true, $limit = null, $offset = null) {
+        return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
     }
 
     /**

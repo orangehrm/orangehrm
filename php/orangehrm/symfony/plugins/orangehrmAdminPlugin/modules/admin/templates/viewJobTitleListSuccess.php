@@ -50,6 +50,11 @@
     </form>
 </div>
 
+<form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewJobTitleList'); ?>">
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;   ?>" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+</form>
+
 <!-- end of comment dialog-->
 
 <!-- confirmation box -->
@@ -65,4 +70,11 @@
 
 <script type="text/javascript">
     var addJobTitleUrl = '<?php echo url_for('admin/saveJobTitle'); ?>';
+    function submitPage(pageNo) {
+
+                    document.frmHiddenParam.pageNo.value = pageNo;
+                    document.frmHiddenParam.hdnAction.value = 'paging';
+                    document.getElementById('frmHiddenParam').submit();
+
+                }
 </script>

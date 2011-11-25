@@ -100,7 +100,7 @@
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_save = "<?php echo __("Save"); ?>";
     var lang_jobTitleRequired = "<?php echo __("Job Title is required"); ?>";
-    var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList'); ?>';
+    var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList?jobTitleId='.$form->jobTitleId); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
     var lang_exceed400Chars = '<?php echo __("Cannot exceed 400 charactors"); ?>';
     var jobTitles = <?php echo str_replace('&#039;', "'", $form->getJobTitleListAsJson()) ?> ;
