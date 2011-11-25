@@ -90,8 +90,12 @@ form#frmEmpJobDetails div#fileLink a.fileLink{
 }
 
 form#frmTerminateEmployement label label.error{
-    padding-left: 120px;
+    padding-left: 100px;
     width: 200px !important;
+}
+
+form#frmTerminateEmployement label{
+    width: 100px;
 }
 
 form#frmTerminateEmployement div.errorHolder label.error{

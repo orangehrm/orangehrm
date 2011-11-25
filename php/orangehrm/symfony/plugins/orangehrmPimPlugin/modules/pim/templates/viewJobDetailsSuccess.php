@@ -21,7 +21,7 @@
     var lang_View_Details =  "<?php echo __('View Details'); ?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details'); ?>";
     var lang_max_char_terminated_reason =  "<?php echo __('Maximum character limit for terminated reason is 256'); ?>";
-    var  lang_max_char_terminated_note =  "<?php echo __('Maximum character limit for terminated reason is 255'); ?>";
+    var  lang_max_char_terminated_note =  "<?php echo __('Maximum character limit for terminated note is 255'); ?>";
     var lang_terminatedReasonRequired = "<?php echo __("Reason is required"); ?>";
     var lang_activateEmployement = "<?php echo __("Activate Employement"); ?>";
     var lang_terminateEmployement = "<?php echo __("Terminate Employement"); ?>";
@@ -211,6 +211,7 @@
 <?php echo $employeeTerminateForm['note']->renderLabel(__('Note')); ?>
 <?php echo $employeeTerminateForm['note']->render(array("class" => "formTxtArea")); ?>
                                               <div class="errorHolder"></div>
+                                              <br class="clear"/>
                                           </form>
                                           <div class="formbuttons">
                                               <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />

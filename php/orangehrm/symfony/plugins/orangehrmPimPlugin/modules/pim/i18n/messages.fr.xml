@@ -1152,6 +1152,10 @@
                 <source>Confirm</source>
                 <target>FR_Confirm</target>
             </trans-unit>
+            <trans-unit id="291">
+                <source>Maximum character limit for terminated note is 255</source>
+                <target>FR_Maximum character limit for terminated note is 255</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
