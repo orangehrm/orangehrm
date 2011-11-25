@@ -35,6 +35,12 @@ class viewCompanyStructureAction extends sfAction {
     }
 
     public function execute($request) {
+
+        $usrObj = $this->getUser()->getAttribute('user');
+        if (!($usrObj->isAdmin())) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
+        
         $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
         $tree = new ohrmTreeViewComponent();
         $tree->getPropertyObject()->setTreeObject($treeObject);
