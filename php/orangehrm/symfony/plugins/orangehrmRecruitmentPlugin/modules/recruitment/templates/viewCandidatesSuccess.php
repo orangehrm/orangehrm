@@ -89,7 +89,7 @@
             </div>
             <div class="column" id="toDateDiv">
                 <?php echo $form['toDate']->render(array("class" => "formDateInput")); ?>
-                <div class="errorHolder toDate"></div>
+                <div style="display: none" class="errorHolder toDate"></div>
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('To'); ?></label>
             </div>

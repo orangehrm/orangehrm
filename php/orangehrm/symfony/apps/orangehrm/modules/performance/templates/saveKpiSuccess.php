@@ -51,10 +51,14 @@
  	</div>
 </div>
 
- 	   <script type="text/javascript">
-
-
-</script>
+    <style type="text/css">
+        form#frmSave.content_inner div#formWrapper .formSelect{
+            width: 210px;
+        }
+        form#frmSave.content_inner div#formWrapper .formInputText{
+            width: 200px;
+        }
+    </style>
    <script type="text/javascript">
 	    
 

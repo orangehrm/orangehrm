@@ -23,3 +23,7 @@
     margin: 10px 10px 10px 30px;
     padding: 8px 8px 8px 15px;
 }
+
+form#frmLeaveApply table.tableArrange tbody tr td select#assignleave_txtLeaveType{
+    width:160px;
+}

@@ -65,3 +65,10 @@ div.navigationHearder {
     padding-right: 6px;
     text-align: right;
 }
+
+table#tblSearchCriteria tbody tr td select{
+    width: 200px;
+}
+table#tblSearchCriteria tbody tr td input#leaveSummary_txtEmpName.ac_input{
+    width: 190px;
+}

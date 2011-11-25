@@ -151,7 +151,7 @@ class ProjectForm extends BaseForm {
 	protected function saveProject($project) {
 
 		$project->setCustomerId($this->getValue('customerId'));
-		$project->setName($this->getValue('projectName'));
+		$project->setName(trim($this->getValue('projectName')));
 		$project->setDescription($this->getValue('description'));
 		$project->setIsDeleted(Project::ACTIVE_PROJECT);
 		$project->save();

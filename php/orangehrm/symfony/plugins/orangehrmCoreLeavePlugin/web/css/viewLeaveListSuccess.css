@@ -13,7 +13,7 @@ label.mainLabel {
     font-weight: normal;
     float: none;
     display: inline-block;
-    width: 150px;
+    width: 160px;
 }
 
 label.subLabel {
@@ -133,4 +133,20 @@ table.data-table tbody tr td {
 form#frmFilterLeave label.mainLabel label.error{
     padding-left: 153px;
     font-weight: normal;
+}
+
+form#frmFilterLeave select#cmbSubunit{
+    width: 200px;
+}
+
+form#frmFilterLeave input#txtEmployee{
+    width: 190px;
+}
+
+form#frmFilterLeave input#calFromDate.ohrm_datepicker{
+    width: 190px;
+}
+
+form#frmFilterLeave input#calToDate.ohrm_datepicker{
+    width: 190px;
 }

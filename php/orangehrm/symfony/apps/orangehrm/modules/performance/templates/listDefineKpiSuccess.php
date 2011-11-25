@@ -137,6 +137,12 @@
 	   </div>
 	 </div>
  </div>
+
+<style type="text/css">
+        form#frmSearch.content_inner div#formWrapper .formSelect{
+            width: 200px;
+        }
+    </style>
 <script type="text/javascript">
 
 		$(document).ready(function() {

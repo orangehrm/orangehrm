@@ -78,14 +78,15 @@ $formatData['newSeparater'] = '/';
                                 } else {
                                     $selected = '';
                                 }
-                                echo "<option value=\"" . $node->getId() . "\"" . $selected . ">" . str_repeat('&nbsp;&nbsp;', $node['level']-1) . $node['name'] . "</option>\n";
+                                echo "<option value=\"" . $node->getId() . "\"" . $selected . ">" . str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'] . "</option>\n";
                             }
                         }
                         ?>
                     </select>
                     <br class="clear"/>
 
-                    <?php if ($loggedAdmin || $loggedReviewer) { ?>
+                    <?php if ($loggedAdmin || $loggedReviewer) {
+ ?>
                             <label for="txtEmpName">Employee</label>
                             <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText"
                                    value="<?php echo isset($clues['empName']) ? $clues['empName'] : 'Type for hints...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
@@ -93,10 +94,9 @@ $formatData['newSeparater'] = '/';
                                    value="<?php echo isset($clues['empId']) ? $clues['empId'] : '0' ?>" style="visibility:hidden;">
                             <div class="errorDiv"></div>
                             <br class="clear"/>
-                    <?php } // $loggedAdmin || $loggedReviewer:Ends  ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends   ?>
 
-                    <?php if ($loggedAdmin) {
-                    ?>
+                    <?php if ($loggedAdmin) { ?>
                             <label for="txtReviewerName">Reviewer</label>
                             <input id="txtReviewerName"  name="txtReviewerName" type="text" class="formInputText"
                                    value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : 'Type for hints...' ?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
@@ -162,27 +162,27 @@ $formatData['newSeparater'] = '/';
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Employee
+                                                                                                							Employee
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Job Title
+                                                                                                							Job Title
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Review Period
+                                                                                                							Review Period
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Due Date
+                                                                                                							Due Date
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Status
+                                                                                                							Status
                                         </td>
 
                                         <td scope="col">
-                                                                                    							Reviewer
+                                                                                                							Reviewer
                                         </td>
 
                                     </tr>
@@ -298,6 +298,15 @@ $formatData['newSeparater'] = '/';
 
                            </div> <!-- content: Ends -->
 
+                           <style type="text/css">
+                               form#frmSearch.content_inner div#formWrapper .formSelect{
+                                   width: 210px;
+                               }
+                               form#frmSearch.content_inner div#formWrapper .formInputText{
+                                   width: 200px;
+                               }
+                           </style>
+
                            <script type="text/javascript">
 
                                var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
@@ -342,7 +351,7 @@ $formatData['newSeparater'] = '/';
                                $('#hdnReviewerId').val(item.id);
                                });
 
-<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends         ?>
 
                            /* Clearing auto-fill fields */
                            $("#txtEmpName").click(function(){ $(this).attr({ value: '' }); $("#hdnEmpId").attr({ value: '0' }); });
@@ -376,7 +385,7 @@ $formatData['newSeparater'] = '/';
                                if ($('#txtEmpName').val() == 'Type for hints...') {
                                $('#txtEmpName').val('');
                                }
-<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends         ?>
 
 <?php if ($loggedAdmin) { ?>
                                autoFields = autoFields + "|txtReviewerName";
@@ -384,7 +393,7 @@ $formatData['newSeparater'] = '/';
                                if ($('#txtReviewerName').val() == 'Type for hints...') {
                                $('#txtReviewerName').val('');
                                }
-<?php } // $loggedAdmin:Ends        ?>
+<?php } // $loggedAdmin:Ends         ?>
 
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
                                fillAutoFields(autoFields.split("|"), autoHidden.split("|"));
@@ -417,11 +426,11 @@ $formatData['newSeparater'] = '/';
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
                                $('#txtEmpName').val('');
                                $('#hdnEmpId').val('0');
-<?php } // $loggedAdmin || $loggedReviewer:Ends        ?>
+<?php } // $loggedAdmin || $loggedReviewer:Ends         ?>
 <?php if ($loggedAdmin) { ?>
                                $('#txtReviewerName').val('');
                                $('#hdnReviewerId').val('0');
-<?php } // $loggedAdmin:Ends        ?>
+<?php } // $loggedAdmin:Ends         ?>
 
                            });
 

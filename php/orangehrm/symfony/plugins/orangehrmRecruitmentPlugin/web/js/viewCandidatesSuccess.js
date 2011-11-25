@@ -201,7 +201,7 @@ $(document).ready(function() {
         }
         return temp;
     });
-
+    
     var validator = $("#frmSrchCandidates").validate({
 
         rules: {
@@ -247,6 +247,7 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
 
             error.appendTo( element.prev('label') );
+            element.parent().children('div.errorHolder').show();
             error.appendTo(element.parent().children('div.errorHolder'));
         }
 
