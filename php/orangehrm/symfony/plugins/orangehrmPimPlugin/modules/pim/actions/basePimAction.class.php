@@ -54,7 +54,7 @@ abstract class basePimAction extends sfAction {
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeChain($loggedInEmpNum);
+            $subordinates = $empService->getSupervisorEmployeeChain($loggedInEmpNum, true);
 
             foreach($subordinates as $employee) {
                 if($employee->getEmpNumber() == $empNumber) {
