@@ -17,36 +17,33 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EmploymentStatusDao extends BaseDao {
+class MembershipService extends BaseService {
 
-	/**
-	 *
-	 * @return type 
-	 */
-	public function getEmploymentStatusList() {
+    private $membershipDao;
 
-		try {
-			$q = Doctrine_Query :: create()
-				->from('EmploymentStatus')
-				->orderBy('name ASC');
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-	
-	/**
-	 *
-	 * @param type $id
-	 * @return type 
-	 */
-	public function getEmploymentStatusById($id) {
+    public function __construct() {
+        $this->membershipDao = new MembershipDao();
+    }
 
-		try {
-			return Doctrine :: getTable('EmploymentStatus')->find($id);
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+    public function getMembershipDao() {
+        return $this->membershipDao;
+    }
+
+    public function setMembershipDao(MembershipDao $MembershipDao) {
+        $this->membershipDao = $MembershipDao;
+    }
+
+    public function getMembershipList() {
+        return $this->membershipDao->getMembershipList();
+    }
+
+    public function getMembershipById($id) {
+        return $this->membershipDao->getMembershipById($id);
+    }
+
+    public function deleteMemberships($membershipList) {
+        return $this->membershipDao->deleteMemberships($membershipList);
+    }
+
 }
 

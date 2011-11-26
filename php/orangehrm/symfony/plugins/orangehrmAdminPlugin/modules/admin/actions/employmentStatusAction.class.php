@@ -75,4 +75,3 @@ class employmentStatusAction extends sfAction {
 		ohrmListComponent::setListData($statusList);
 	}
 }
-?>

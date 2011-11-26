@@ -349,49 +349,6 @@ EmployeeLanguage:
       foreign: lang_code
       type: one
  
-MembershipType:
-  tableName: hs_hr_membership_type
-  columns:
-    membtype_code:
-      name: membtype_code as membershipTypeCode
-      type: string(13)
-      primary: true
-    membtype_name:
-      name: membtype_name as membershipTypeName
-      type: string(150)
-  relations:
-    EmployeeMemberDetail:
-      local: membershipTypeCode
-      foreign: membershipTypeCode
-      type: many
-    Membership:
-      local: membershipTypeCode
-      foreign: membershipTypeCode
-      type: many
-
-Membership:
-  tableName: hs_hr_membership
-  columns:
-    membship_code:
-      name: membship_code as membershipCode
-      type: string(13)
-      primary: true
-    membtype_code:
-      name: membtype_code as membershipTypeCode
-      type: string(13)
-    membship_name:
-      name: membship_name as membershipName
-      type: string(150)
-  relations:
-    MembershipType:
-      local: membershipTypeCode
-      foreign: membershipTypeCode
-      type: one
-    EmployeeMemberDetail:
-      local: membershipCode
-      foreign: membershipCode
-      type: many
- 
 CurrencyType:
   tableName: hs_hr_currency_type
   columns:

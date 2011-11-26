@@ -935,9 +935,9 @@ class EmployeeService extends BaseService {
      * @todo Rename the method as getMembership()
      * @todo Return only one object
      */
-    public function getMembershipDetail($empNumber, $membershipType, $membershipCode) {
+    public function getMembershipDetail($empNumber, $membershipCode) {
         try {
-            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipType, $membershipCode);
+            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipCode);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
@@ -975,10 +975,9 @@ class EmployeeService extends BaseService {
                 $tempArray = explode(" ", $membershipToDelete);
 
                 $empNumber = $tempArray[0];
-                $membershipType = $tempArray[1];
-                $membership = $tempArray[2];
+                $membership = $tempArray[1];
 
-                $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membershipType, $membership);
+                $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membership);
             }
 
             return true;

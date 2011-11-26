@@ -1,39 +1,38 @@
 $(document).ready(function() {
-   
+
     $('#btnSave').click(function() {
-        
-        $('#frmEmpStatus').submit();
+        $('#frmMembership').submit();
     });
-    
-    $('#empStatus').hide();
-    
+
+    $('#membership').hide();
+
     $('#btnAdd').click(function() {
-        $('#empStatus').show();
+        $('#membership').show();
         $('#btnAdd').hide();
-        $('#empStatus_name').val('');
-        $('#empStatus_empStatusId').val('');
-        $('#empStatusHeading').html(lang_addEmpStatus);
+        $('#membership_name').val('');
+        $('#membership_membershipId').val('');
+        $('#membershipHeading').html(lang_addMembership);
         $(".messageBalloon_success").remove();
     });
-    
+
     $('#btnCancel').click(function() {
-        $('#empStatus').hide();
+        $('#membership').hide();
         $('#btnAdd').show();
         validator.resetForm();
     });
-    
+
     $('a[href="javascript:"]').click(function(){
-		var row = $(this).closest("tr");
-		var statId = row.find('input').val();
-		var url = empStatusInfoUrl+statId;
-        $('#empStatusHeading').html(lang_editEmpStatus);
-		getEmploymentInfo(url);
+        var row = $(this).closest("tr");
+        var statId = row.find('input').val();
+        var url = membershipInfoUrl+statId;
+        $('#membershipHeading').html(lang_editMembership);
+        getMembershipInfo(url);
 
-	});
-    
-        $('#btnDelete').attr('disabled', 'disabled');
+    });
 
-        
+    $('#btnDelete').attr('disabled', 'disabled');
+
+
     $("#ohrmList_chkSelectAll").click(function() {
         if($(":checkbox").length == 1) {
             $('#btnDelete').attr('disabled','disabled');
@@ -46,7 +45,7 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     $(':checkbox[name*="chkSelectRow[]"]').click(function() {
         if($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
             $('#btnDelete').removeAttr('disabled');
@@ -80,47 +79,47 @@ $(document).ready(function() {
     $('#dialogCancelBtn').click(function() {
         $("#deleteConfirmation").dialog("close");
     });
-    
+
     $.validator.addMethod("uniqueName", function(value, element, params) {
         var temp = true;
         var currentStatus;
-        var id = $('#empStatus_empStatusId').val();
-        var vcCount = empStatusList.length;
-        for (var j=0; j < vcCount; j++) {
-            if(id == empStatusList[j].id){
+        var id = $('#membership_membershipId').val();
+        var memCount = membershipList.length;
+        for (var j=0; j < memCount; j++) {
+            if(id == membershipList[j].id){
                 currentStatus = j;
             }
         }
         var i;
-        vcName = $.trim($('#empStatus_name').val()).toLowerCase();
-        for (i=0; i < vcCount; i++) {
+        var name = $.trim($('#membership_name').val()).toLowerCase();
+        for (i=0; i < memCount; i++) {
 
-            arrayName = empStatusList[i].name.toLowerCase();
-            if (vcName == arrayName) {
+            arrayName = membershipList[i].name.toLowerCase();
+            if (name == arrayName) {
                 temp = false
                 break;
             }
         }
         if(currentStatus != null){
-            if(vcName == empStatusList[currentStatus].name.toLowerCase()){
+            if(name == membershipList[currentStatus].name.toLowerCase()){
                 temp = true;
             }
         }
-		
+
         return temp;
     });
-    
-    var validator = $("#frmEmpStatus").validate({
+
+    var validator = $("#frmMembership").validate({
 
         rules: {
-            'empStatus[name]' : {
+            'membership[name]' : {
                 required:true,
                 maxlength: 50,
                 uniqueName: true
             }
         },
         messages: {
-            'empStatus[name]' : {
+            'membership[name]' : {
                 required: lang_NameRequired,
                 maxlength: lang_exceed50Charactors,
                 uniqueName: lang_uniqueName
@@ -136,13 +135,13 @@ $(document).ready(function() {
     });
 });
 
-function getEmploymentInfo(url){
-    
+function getMembershipInfo(url){
+
     $.getJSON(url, function(data) {
-		$('#empStatus_empStatusId').val(data.id);
-		$('#empStatus_name').val(data.name);
-		$('#empStatus').show();
-		$(".messageBalloon_success").remove();
-		$('#btnAdd').hide();
-	});
+        $('#membership_membershipId').val(data.id);
+        $('#membership_name').val(data.name);
+        $('#membership').show();
+        $(".messageBalloon_success").remove();
+        $('#btnAdd').hide();
+    });
 }

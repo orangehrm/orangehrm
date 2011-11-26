@@ -171,10 +171,6 @@ if(file_exists($confPHP)) {
 	public function initTable($link = null) {
 
 		$idFields = array(
-
-						new IDField("hs_hr_membership", "membship_code", "MME"),
-						new IDField("hs_hr_membership_type", "membtype_code", "MEM"),
-
 						new IDField("hs_hr_nationality", "nat_code", "NAT"),
 						new IDField("hs_hr_ethnic_race", "ethnic_race_code", "ETH"),
 

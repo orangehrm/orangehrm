@@ -360,8 +360,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("memberships", $lang_Menu_Admin_Memberships_MembershipTypes, "index.php?uniqcode=MEM&menu_no_top=eim");
-    $subsubs[] = new MenuItem("memberships", $lang_Menu_Admin_Memberships_Memberships, "index.php?uniqcode=MME&menu_no_top=eim");
+    $subsubs[] = new MenuItem("memberships", $lang_Menu_Admin_Memberships_Memberships, "./symfony/web/index.php/admin/membership");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 

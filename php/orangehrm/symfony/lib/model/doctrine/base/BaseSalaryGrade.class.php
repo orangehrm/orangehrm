@@ -9,15 +9,18 @@
  * @property string $sal_grd_name
  * @property Doctrine_Collection $EmpBasicsalary
  * @property Doctrine_Collection $JobTitle
+ * @property Doctrine_Collection $PayGradeCurrency
  * 
- * @method string              getSalGrdCode()     Returns the current record's "sal_grd_code" value
- * @method string              getSalGrdName()     Returns the current record's "sal_grd_name" value
- * @method Doctrine_Collection getEmpBasicsalary() Returns the current record's "EmpBasicsalary" collection
- * @method Doctrine_Collection getJobTitle()       Returns the current record's "JobTitle" collection
- * @method SalaryGrade         setSalGrdCode()     Sets the current record's "sal_grd_code" value
- * @method SalaryGrade         setSalGrdName()     Sets the current record's "sal_grd_name" value
- * @method SalaryGrade         setEmpBasicsalary() Sets the current record's "EmpBasicsalary" collection
- * @method SalaryGrade         setJobTitle()       Sets the current record's "JobTitle" collection
+ * @method string              getSalGrdCode()       Returns the current record's "sal_grd_code" value
+ * @method string              getSalGrdName()       Returns the current record's "sal_grd_name" value
+ * @method Doctrine_Collection getEmpBasicsalary()   Returns the current record's "EmpBasicsalary" collection
+ * @method Doctrine_Collection getJobTitle()         Returns the current record's "JobTitle" collection
+ * @method Doctrine_Collection getPayGradeCurrency() Returns the current record's "PayGradeCurrency" collection
+ * @method SalaryGrade         setSalGrdCode()       Sets the current record's "sal_grd_code" value
+ * @method SalaryGrade         setSalGrdName()       Sets the current record's "sal_grd_name" value
+ * @method SalaryGrade         setEmpBasicsalary()   Sets the current record's "EmpBasicsalary" collection
+ * @method SalaryGrade         setJobTitle()         Sets the current record's "JobTitle" collection
+ * @method SalaryGrade         setPayGradeCurrency() Sets the current record's "PayGradeCurrency" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -48,6 +51,10 @@ abstract class BaseSalaryGrade extends sfDoctrineRecord
              'foreign' => 'sal_grd_code'));
 
         $this->hasMany('JobTitle', array(
+             'local' => 'sal_grd_code',
+             'foreign' => 'sal_grd_code'));
+
+        $this->hasMany('PayGradeCurrency', array(
              'local' => 'sal_grd_code',
              'foreign' => 'sal_grd_code'));
     }

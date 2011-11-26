@@ -1137,12 +1137,11 @@ class EmployeeDao extends BaseDao {
      * @param int $empNumber $membershipType $membership
      * @return array Membership details as array
      */
-    public function getMembershipDetail($empNumber, $membershipType, $membership) {
+    public function getMembershipDetail($empNumber, $membership) {
 
         try {
             $q = Doctrine_Query::create()->from('EmployeeMemberDetail emd')
                             ->where('emd.emp_number =?', $empNumber)
-                            ->andWhere("emd.membershipTypeCode = ?", $membershipType)
                             ->andWhere("emd.membershipCode = ?", $membership);
 
             return $q->execute();
@@ -1156,13 +1155,12 @@ class EmployeeDao extends BaseDao {
      * @param $empNumber $membershipType $membership
      * @return boolean
      */
-    public function deleteMembershipDetails($empNumber, $membershipType, $membership) {
+    public function deleteMembershipDetails($empNumber, $membership) {
         try {
             $query = Doctrine_Query::create()
                             ->delete()
                             ->from("EmployeeMemberDetail")
                             ->where("empNumber = ?", $empNumber)
-                            ->andWhere("membershipTypeCode = ?", $membershipType)
                             ->andWhere("membershipCode = ?", $membership);
 
             $membershipDetailDeleted = $query->execute();

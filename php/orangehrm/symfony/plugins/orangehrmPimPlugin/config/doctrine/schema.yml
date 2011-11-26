@@ -551,11 +551,7 @@ EmployeeMemberDetail:
       primary: true
     membship_code:
       name: membship_code as membershipCode
-      type: string(13)
-      primary: true
-    membtype_code:
-      name: membtype_code as membershipTypeCode
-      type: string(13)
+      type: integer
       primary: true
     ememb_subscript_amount:
       name: ememb_subscript_amount as subscriptionAmount
@@ -576,13 +572,9 @@ EmployeeMemberDetail:
       name: ememb_renewal_date as subscriptionRenewalDate
       type: date(25)
   relations:
-    MembershipType:
-      local: membershipTypeCode
-      foreign: membershipTypeCode
-      type: one
     Membership:
       local: membershipCode
-      foreign: membershipCode
+      foreign: id
       type: one
     Employee:
       local: empNumber

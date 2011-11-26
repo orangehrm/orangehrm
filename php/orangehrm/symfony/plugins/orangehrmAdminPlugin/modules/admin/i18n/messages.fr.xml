@@ -544,6 +544,30 @@
                 <source>Skill(s) Deleted Successfully</source>
                 <target>FR_Skill(s) Deleted Successfully</target>
             </trans-unit>  
+            <trans-unit id="134">
+                <source>Membership</source>
+                <target>FR_Membership</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>Add Membership</source>
+                <target>FR_Add Membership</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Membership Saved Successfully</source>
+                <target>FR_Membership Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>Edit Membership</source>
+                <target>FR_Edit Membership</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>Selected membership(s) will be deleted</source>
+                <target>FR_Selected membership(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>Selected Membership(s) Deleted Successfully</source>
+                <target>FR_Selected Membership(s) Deleted Successfully</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

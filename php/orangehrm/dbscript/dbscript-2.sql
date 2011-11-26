@@ -542,8 +542,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
-    (0, 'hs_hr_membership', 'membship_code'),
-    (0, 'hs_hr_membership_type', 'membtype_code'),
     (6, 'hs_hr_module', 'mod_id'),
     (0, 'hs_hr_education', 'edu_code'),
     (0, 'hs_hr_ethnic_race', 'ethnic_race_code'),
@@ -720,10 +718,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_emp_licenses.licenses_code = hs_hr_licenses.licenses_code) 
                     LEFT JOIN hs_hr_emp_member_detail ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number) 
-                    LEFT JOIN hs_hr_membership ON 
-                        (hs_hr_emp_member_detail.membship_code = hs_hr_membership.membship_code) 
-                    LEFT JOIN hs_hr_membership_type ON 
-                        (hs_hr_emp_member_detail.membtype_code = hs_hr_membership_type.membtype_code) 
+                    LEFT JOIN ohrm_membership ON
+                        (hs_hr_emp_member_detail.membship_code = ohrm_membership.id)
                     LEFT JOIN hs_hr_country ON 
                         (hs_hr_employee.coun_code = hs_hr_country.cou_code) 
                     LEFT JOIN hs_hr_emp_directdebit ON 
@@ -851,8 +847,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (31, 3, 'hs_hr_emp_dependents.ed_name', 'Name', 'dependentName',  'false', null, null, 'label', '<xml><getter>dependentName</getter></xml>', 200, '0', null, true, 4, '---', false, false),
     (32, 3, 'IF (hs_hr_emp_dependents.ed_relationship_type = \'other\', hs_hr_emp_dependents.ed_relationship, hs_hr_emp_dependents.ed_relationship_type)', 'Relationship', 'dependentRelationship',  'false', null, null, 'label', '<xml><getter>dependentRelationship</getter></xml>', 200, '0', null, true, 4, '---', false, false),
     (33, 3, 'hs_hr_emp_dependents.ed_date_of_birth', 'Date of Birth', 'dependentDateofBirth',  'false', null, null, 'label', '<xml><getter>dependentDateofBirth</getter></xml>', 100, '0', null, true, 4, '---', false, false),
-    (34, 3, 'hs_hr_membership_type.membtype_name', 'Membership Type', 'membershipType',  'false', null, null, 'label', '<xml><getter>membershipType</getter></xml>', 200, '0', null, true, 15, '---', false, false),
-    (35, 3, 'hs_hr_membership.membship_name', 'Membership', 'membershipName',  'false', null, null, 'label', '<xml><getter>membershipName</getter></xml>', 200, '0', null, true, 15, '---', false, false),
+    (35, 3, 'ohrm_membership.name', 'Membership', 'name',  'false', null, null, 'label', '<xml><getter>name</getter></xml>', 200, '0', null, true, 15, '---', false, false),
     (36, 3, 'hs_hr_emp_member_detail.ememb_subscript_ownership', 'Subscription Paid By', 'subscriptionPaidBy',  'false', null, null, 'label', '<xml><getter>subscriptionPaidBy</getter></xml>', 200, '0', null, true, 15, '---', false, false),
     (37, 3, 'hs_hr_emp_member_detail.ememb_subscript_amount', 'Subscription Amount', 'subscriptionAmount',  'false', null, null, 'label', '<xml><getter>subscriptionAmount</getter></xml>', 200, '0', null, true, 15, '---', false, false),
     (38, 3, 'hs_hr_emp_member_detail.ememb_subs_currency', 'Currency', 'membershipCurrency',  'false', null, null, 'label', '<xml><getter>membershipCurrency</getter></xml>', 200, '0', null, true, 15, '---', false, false),
@@ -922,7 +917,6 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (108, 3, 'hs_hr_emp_language.elang_type', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (109, 3, 'hs_hr_emp_licenses.licenses_code', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
-    (111, 3, 'hs_hr_emp_member_detail.membtype_code', 'membershipTypeCode', 'membershipTypeCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
     (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false);
 
     
@@ -972,7 +966,6 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (27, 31, 5),
     (28, 32, 5),
     (29, 33, 5),
-    (30, 34, 5),
     (31, 35, 5),
     (32, 36, 5),
     (33, 37, 5),

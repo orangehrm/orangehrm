@@ -301,4 +301,18 @@ Skill:
       foreign: skillId
       type: many      
 
+Membership:
+  tableName: ohrm_membership
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+  relations:
+    EmployeeMemberDetail:
+      local: id
+      foreign: membershipCode
+      type: many
       

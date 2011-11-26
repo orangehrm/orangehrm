@@ -17,36 +17,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EmploymentStatusDao extends BaseDao {
+class deleteMembershipsAction extends sfAction {
 
-	/**
-	 *
-	 * @return type 
-	 */
-	public function getEmploymentStatusList() {
+    private $membershipService;
 
-		try {
-			$q = Doctrine_Query :: create()
-				->from('EmploymentStatus')
-				->orderBy('name ASC');
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-	
-	/**
-	 *
-	 * @param type $id
-	 * @return type 
-	 */
-	public function getEmploymentStatusById($id) {
+    public function getMembershipService() {
+        if (is_null($this->membershipService)) {
+            $this->membershipService = new MembershipService();
+            $this->membershipService->setMembershipDao(new MembershipDao());
+        }
+        return $this->membershipService;
+    }
 
-		try {
-			return Doctrine :: getTable('EmploymentStatus')->find($id);
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+    public function execute($request) {
+
+        $toBeDeletedIds = $request->getParameter('chkSelectRow');
+        $this->getMembershipService()->deleteMemberships($toBeDeletedIds);
+        $this->getUser()->setFlash('templateMessage', array('success', __('Selected Membership(s) Deleted Successfully')));
+        $this->redirect('admin/membership');
+    }
+
 }
 

@@ -136,7 +136,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetMembershipDetails() {
 
-        //$employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
         $memberDetailArray = $this->employeeDao->getMembershipDetails(1);
         $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
         $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
@@ -148,11 +147,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetMembershipDetail() {
 
         $empNumber = 1;
-        $membershipType = 'MEM001';
-        $membership = 'MIME001';
+        $membership = 1;
 
-        //$employeeMemberDetail1 = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
-        $memberDetail = $this->employeeDao->getMembershipDetail($empNumber, $membershipType, $membership);
+        $memberDetail = $this->employeeDao->getMembershipDetail($empNumber, $membership);
         $this->assertTrue($memberDetail[0] instanceof EmployeeMemberDetail);
     }
 
@@ -162,10 +159,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testDeleteMembershipDetails() {
 
         $empNumber = 1;
-        $membershipType = 'MEM001';
-        $membership = 'MIME001';
+        $membership = 1;
 
-        $this->assertTrue($this->employeeDao->deleteMembershipDetails($empNumber, $membershipType, $membership));
+        $this->assertTrue($this->employeeDao->deleteMembershipDetails($empNumber, $membership));
     }
 
     /**

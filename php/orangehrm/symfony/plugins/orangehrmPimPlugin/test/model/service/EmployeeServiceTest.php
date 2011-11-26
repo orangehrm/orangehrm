@@ -1777,8 +1777,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetMembershipDetail() {
 
         $empNumber = 1;
-        $membershipType = 'MEM001';
-        $membership = 'MIME001';
+        $membership = 1;
 
         $membershipDetailList = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
 
@@ -1791,7 +1790,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readMembershipDetail = $this->employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
+        $readMembershipDetail = $this->employeeService->getMembershipDetail($empNumber, $membership);
         $this->assertTrue($readMembershipDetail instanceof EmployeeMemberDetail);
     }
 
@@ -1801,16 +1800,15 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testDeleteMembershipDetails() {
 
         $empNumber = 1;
-        $membershipType = 'MEM001';
-        $membership = 'MIME001';
+        $membership = 1;
 
-        $membershipsToDelete = array("1 MEM001 MIME001");
+        $membershipsToDelete = array("1 1");
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
                 ->method('deleteMembershipDetails')
-                ->with($empNumber, $membershipType, $membership)
+                ->with($empNumber, $membership)
                 ->will($this->returnValue(true));
 
         $this->employeeService->setEmployeeDao($employeeDao);

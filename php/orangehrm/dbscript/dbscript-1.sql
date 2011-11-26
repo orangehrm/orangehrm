@@ -196,14 +196,13 @@ create table `hs_hr_emp_licenses` (
 
 create table `hs_hr_emp_member_detail` (
   `emp_number` int(7) not null default 0,
-  `membship_code` varchar(13) not null default '',
-  `membtype_code` varchar(13) not null default '',
+  `membship_code` int(6) not null default 0,
   `ememb_subscript_ownership` varchar(20) default null,
   `ememb_subscript_amount` decimal(15,2) default null,
   `ememb_subs_currency` varchar(20) default null,
   `ememb_commence_date` date default null,
   `ememb_renewal_date` date default null,
-  primary key  (`emp_number`,`membship_code`,`membtype_code`)
+  primary key  (`emp_number`,`membship_code`)
 ) engine=innodb default charset=utf8;
 
 
@@ -371,21 +370,6 @@ create table `ohrm_location` (
   `notes` varchar(255) default null,
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
-
-create table `hs_hr_membership` (
-  `membship_code` varchar(13) not null default '',
-  `membtype_code` varchar(13) default null,
-  `membship_name` varchar(120) default null,
-  primary key  (`membship_code`)
-) engine=innodb default charset=utf8;
-
-
-create table `hs_hr_membership_type` (
-  `membtype_code` varchar(13) not null default '',
-  `membtype_name` varchar(120) default null,
-  primary key  (`membtype_code`)
-) engine=innodb default charset=utf8;
-
 
 create table `hs_hr_module` (
   `mod_id` varchar(36) not null default '',
@@ -1283,6 +1267,12 @@ create table `ohrm_role_user_selection_rule`(
 	primary key (`user_role_id`,`selection_rule_id`)
 )engine=innodb default charset=utf8;
 
+create table `ohrm_membership` (
+  `id` int(6) not null auto_increment,
+  `name` varchar(100) not null,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_emp_termination
        add constraint foreign key (reason_id)
                              references ohrm_emp_termination_reason(id) on delete set null;
@@ -1463,10 +1453,6 @@ alter table hs_hr_jobtit_empstat
        add constraint foreign key (estat_code)
                              references ohrm_employment_status(id) on delete cascade;
 
-alter table hs_hr_membership
-       add constraint foreign key (membtype_code)
-                             references hs_hr_membership_type(membtype_code) on delete cascade;
-
 alter table hs_hr_employee
        add constraint foreign key (work_station)
                              references ohrm_subunit(id) on delete set null;
@@ -1554,13 +1540,10 @@ alter table hs_hr_emp_passport
 alter table hs_hr_emp_directdebit
        add constraint foreign key (salary_id)
                              references hs_hr_emp_basicsalary(id) on delete cascade;
-alter table hs_hr_emp_member_detail
-       add constraint foreign key (membtype_code)
-                             references hs_hr_membership_type(membtype_code) on delete cascade;
 
 alter table hs_hr_emp_member_detail
        add constraint foreign key (membship_code)
-                             references hs_hr_membership(membship_code) on delete cascade;
+                             references ohrm_membership(id) on delete cascade;
 
 alter table hs_hr_emp_member_detail
        add constraint foreign key (emp_number)

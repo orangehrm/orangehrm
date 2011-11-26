@@ -12,18 +12,14 @@ EmpPassport:
 EmpUsTaxExemption:
   0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
 
-MembershipType:
-  0: {membtype_code: 'MEM001', membtype_name: 'Permanent'}
-  1: {membtype_code: 'MEM002', membtype_name: 'Temporary'}
-
 Membership:
-  0: {membship_code: 'MIME001', membtype_code: 'MEM001', membship_name: 'membership1'}
-  1: {membship_code: 'MIME002', membtype_code: 'MEM001', membship_name: 'membership2'}
-  2: {membship_code: 'MIME003', membtype_code: 'MEM002', membship_name: 'membership3'}
+  0: {id: 1, name: 'membership1'}
+  1: {id: 2, name: 'membership2'}
+  2: {id: 3, name: 'membership3'}
 
 EmployeeMemberDetail:
-  0: {emp_number: '1', membship_code: 'MIME001', membtype_code: 'MEM001', ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22'}
-  1: {emp_number: '1', membship_code: 'MIME002', membtype_code: 'MEM001', ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
+  0: {emp_number: '1', membship_code: 1, ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22'}
+  1: {emp_number: '1', membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
 
 ReportingMethod:
   0: {reportingMethodId: '3', reportingMethodName: 'reportingMethodName1'}
