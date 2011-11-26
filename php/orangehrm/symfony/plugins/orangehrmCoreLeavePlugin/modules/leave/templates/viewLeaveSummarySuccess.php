@@ -28,7 +28,7 @@
 <?php } ?>
 
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('leave/viewLeaveSummary'); ?>">
-<div class="outerbox" style="width: 800px;">
+<div class="outerbox" style="width: 850px;">
 <div class="mainHeading"><h2><?php echo __('Leave Summary') ?></h2></div>
 
 <div class="searchbar">

@@ -61,8 +61,8 @@ class ProjectForm extends BaseForm {
 		$this->setValidators(array(
 		    'projectId' => new sfValidatorNumber(array('required' => false)),
 		    'customerId' => new sfValidatorNumber(array('required' => true)),
-		    'customerName' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
-		    'projectName' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
+		    'customerName' => new sfValidatorString(array('required' => true, 'max_length' => 52, 'trim'=>true)),
+		    'projectName' => new sfValidatorString(array('required' => true, 'max_length' => 52, 'trim'=>true)),
 		    'projectAdminList' => new sfValidatorString(array('required' => false)),
 		    'description' => new sfValidatorString(array('required' => false, 'max_length' => 256)),
 		));
