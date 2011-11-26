@@ -58,6 +58,9 @@ class Employee extends PluginEmployee {
         $fullName = trim($this->firstName) . " " . trim($this->middleName);
         $fullName = trim( trim($fullName) . " " . trim($this->lastName) );
 
+        $terminationId = $this->termination_id;
+        $fullName = (!empty($terminationId)) ? $fullName." (Terminated)" : $fullName;
+
         return $fullName;
     }
 
@@ -69,6 +72,9 @@ class Employee extends PluginEmployee {
     public function getFirstAndLastNames() {
 
         $fullName = trim($this->firstName) . " " . trim($this->lastName);
+
+        $terminationId = $this->termination_id;
+        $fullName = (!empty($terminationId)) ? $fullName." (Terminated)" : $fullName;
 
         return $fullName;
 

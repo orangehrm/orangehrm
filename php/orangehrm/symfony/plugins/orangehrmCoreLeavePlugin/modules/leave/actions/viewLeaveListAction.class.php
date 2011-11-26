@@ -63,8 +63,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             $empId = $request->getGetParameter('txtEmpID');
             
             if (!empty($empId)) {
-                $empStatus = $this->getEmployeeService()->getEmployee($empId)->getEmpStatus();
-                if($empStatus == Employee::EMPLOYEE_STATUS_TERMINATED) {
+                $terminationId = $this->getEmployeeService()->getEmployee($empId)->getTerminationId();
+                if(!empty($terminationId)) {
                    $filters['cmbWithTerminated'] = 'on';
                 }                
             }
@@ -137,7 +137,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             if (trim($employeeId) == "") {
 
                 if ($this->userType == "Supervisor") {
-                        $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
+                        $employeeFilter = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber(), true);
                 }
 
                 $employeeFilter = $employeeService->filterEmployeeListBySubUnit($employeeFilter, $subunitId);

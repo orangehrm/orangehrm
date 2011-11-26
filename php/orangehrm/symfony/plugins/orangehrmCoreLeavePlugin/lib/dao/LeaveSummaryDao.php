@@ -25,26 +25,6 @@ class LeaveSummaryDao extends BaseDao {
     public function __construct() {
     }
 
-    /**
-     * Get Leave Type list
-     * @return LeaveType Collection
-     */
-    /*public function getLeaveTypeList(){
-		try {
-            	$q = Doctrine_Query::create()
-			    ->from('LeaveType lt')
-			    ->where('lt.availableFlag = 1')
-			    ->orderBy('lt.leaveTypeId');
-			    
-			$leaveTypeList	=	$q->execute();
-			
-			return $leaveTypeList ;
-		
-        } catch( Exception $e) {
-            throw new DaoException( $e->getMessage());
-        }
-	}*/
-
     public function fetchRawLeaveSummaryRecords($clues, $offset=0, $limit=20, $includeTerminated = false) {
         
         $q = "SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
@@ -81,7 +61,6 @@ class LeaveSummaryDao extends BaseDao {
         }
                 
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
-            $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
             $where[] = "(a.termination_id IS NULL)";
         }
         
@@ -91,13 +70,6 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         $q .= " ORDER By a.emp_number, b.leave_type_id";
-
-        // Removed - To make it compatible with CSV/PDF export plugins
-        //        $limitArray = array(20, 50, 100, 200);
-        //
-        //        if (!in_array($limit, $limitArray)) {
-        //            $limit = 20;
-        //        }
 
         $q .= " LIMIT $offset,$limit";
 
@@ -141,10 +113,9 @@ class LeaveSummaryDao extends BaseDao {
         }
         
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
-            $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
             $where[] = "(a.termination_id IS NULL)";
         }
-        //$where[] = "b.available_flag = 1";
+        
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
         }

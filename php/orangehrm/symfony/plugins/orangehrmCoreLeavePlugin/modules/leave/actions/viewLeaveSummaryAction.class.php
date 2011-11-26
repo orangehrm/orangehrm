@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,7 +18,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
+ */
 
 /**
  * Displaying viewLeaveSummary UI
@@ -28,14 +29,13 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
     private $employeeService;
 
-
     /**
      * @param sfForm $form
      * @return
      */
     public function setForm(sfForm $form) {
-        if(is_null($this->form)) {
-            $this->form	= $form;
+        if (is_null($this->form)) {
+            $this->form = $form;
         }
     }
 
@@ -57,7 +57,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
     public function setEmployeeService(EmployeeService $service) {
         $this->employeeService = $service;
     }
-    
+
     /**
      * Get instance of form used by this action.
      * Allows subclasses to override the form class used in the action.
@@ -71,9 +71,12 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
     public function execute($request) {
         $userDetails = $this->getLoggedInUserDetails();
         $searchParam = array();
-        $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "")?trim($request->getParameter("employeeId")):null;
-        if(!is_null($searchParam['employeeId']) && ($this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getEmpStatus() == Employee::EMPLOYEE_STATUS_TERMINATED)) {
-            $searchParam['cmbWithTerminated'] = 'on';
+        $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "") ? trim($request->getParameter("employeeId")) : null;
+        if (!is_null($searchParam['employeeId'])) {
+            $terminationId = $this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getTerminationId();
+            if (!empty($terminationId)) {
+                $searchParam['cmbWithTerminated'] = 'on';
+            }
         }
         $params = array_merge($searchParam, $userDetails);
 
@@ -90,7 +93,6 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
                 if ($request->getParameter('hdnAction') == 'save') {
                     $this->form->saveEntitlements($request);
                 }
-
             }
         }
 
@@ -99,21 +101,23 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
         LeaveSummaryConfigurationFactory::setUserType($userDetails['userType']);
         LeaveSummaryConfigurationFactory::setUserId($userDetails['loggedUserId']);
-        
+
         $leaveSummaryService = new LeaveSummaryService();
         $leaveSummaryDao = new LeaveSummaryDao();
         $configurationFactory = new LeaveSummaryConfigurationFactory();
-        
+
         $leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
 
         $clues = $this->form->getSearchClues();
         $clues['loggedUserId'] = $userDetails['loggedUserId'];
-        if(!is_null($searchParam['employeeId']) && ($this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getEmpStatus() == Employee::EMPLOYEE_STATUS_TERMINATED)) {
-            $clues['cmbWithTerminated'] = 'on';
+        if (!is_null($searchParam['employeeId'])) {
+            $terminationId = $this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getTerminationId();
+            if (!empty($terminationId)) {
+            $clues['cmbWithTerminated'] = 'on';}
         }
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
-        $pageNo = $request->getParameter('hdnAction') == 'search'? 1 : $request->getParameter('pageNo', 1);
-        $offset = ($pageNo - 1)*$noOfRecords;
+        $pageNo = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
+        $offset = ($pageNo - 1) * $noOfRecords;
 
         $listData = $leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $noOfRecords);
         $totalRecordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
@@ -124,12 +128,11 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         ohrmListComponent::setNumberOfRecords($totalRecordsCount);
         ohrmListComponent::$pageNumber = $pageNo;
 
-        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', 
-            array($this->form->getSearchClues(),
-            0,
-            $totalRecordsCount
+        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords',
+                array($this->form->getSearchClues(),
+                    0,
+                    $totalRecordsCount
         ));
-
     }
 
     /**
@@ -154,7 +157,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
             $userDetails['userType'] = 'Supervisor';
         }
 
-        if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
+        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
             $userDetails['userType'] = 'Admin';
         }
         return $userDetails;
@@ -170,7 +173,6 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         } elseif ($this->getUser()->hasAttribute('leaveSummaryLimit')) {
             $this->form->recordsLimit = $this->getUser()->getAttribute('leaveSummaryLimit');
         }
-
     }
 
     /**
@@ -179,19 +181,19 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
     public function setUserDetails($key, $value) {
         $_SESSION[$key] = $value;
     }
-    
+
     public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams) {
         $dataRetriever = new ExportDataRetriever();
         $dataRetriever->setConfigurationFactory($configurationFactory);
         $dataRetriever->setDataRetrievalService($dataRetrievalService);
         $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
         $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
-        
+
         $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
         $this->getUser()->setAttribute('persistant.exportFileName', 'leave-summary');
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', 'Leave Summary');
-        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at '.date('Y-m-d H:i'));
-
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at ' . date('Y-m-d H:i'));
     }
+
 }
 
