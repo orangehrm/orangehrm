@@ -243,7 +243,7 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetVacancyListForAdminUserRole(){
         $result = $this->vacancyDao->getVacancyListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-        $this->assertEquals(count($result), 4);
+        $this->assertEquals(count($result), 5);
     }
 
     public function testGetVacancyById(){

@@ -32,9 +32,9 @@ class VacancyDao extends BaseDao {
     public function getHiringManagersList($jobTitle, $vacancyId, $allowedVacancyList=null) {
         try {
             $q = Doctrine_Query::create()
-                            ->select('jv.hiringManagerId, e.empNumber, e.firstName, e.middleName, e.lastName')
-                            ->from('JobVacancy jv')
-                            ->leftJoin('jv.Employee e');
+                            ->select('e.empNumber, e.firstName, e.middleName, e.lastName')
+                            ->from('Employee e')
+                            ->innerJoin('e.managedVacancies jv');
             if ($allowedVacancyList != null) {
                 $q->whereIn('jv.id', $allowedVacancyList);
             }
@@ -45,20 +45,18 @@ class VacancyDao extends BaseDao {
             }
             $q->addWhere('e.termination_id IS NULL');
             $results = $q->execute();
+
             $hiringManagerList = array();
-            $newHiringManagerList = array();
-            if ($results[0]->gethiringManagerId() != "") {
-                foreach ($results as $result) {
-                    $hmlist = array('id' => $empNumber = $result->getEmployee()->getEmpNumber(), 'name' => $result->getEmployee()->getFullName());
-                    $hiringManagerList[$empNumber] = $hmlist;
-                }
-                foreach ($hiringManagerList as $hm) {
-                    $newHiringManagerList[] = $hm;
-                }
+            
+            foreach ($results as $result) {
+                $hiringManagerList[] = array('id' =>  $result->getEmpNumber(), 
+                                             'name' => $result->getFullName());
             }
-            return $newHiringManagerList;
+            
+            return $hiringManagerList;            
+            
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+           throw new DaoException($e->getMessage());
         }
     }
 

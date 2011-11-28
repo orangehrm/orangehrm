@@ -80,7 +80,7 @@
  * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $ReportTo
- * @property Doctrine_Collection $JobVacancy
+ * @property Doctrine_Collection $managedVacancies
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property Doctrine_Collection $CandidateHistory
@@ -169,7 +169,7 @@
  * @method Doctrine_Collection getEmpUsTaxExemption()        Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
- * @method Doctrine_Collection getJobVacancy()               Returns the current record's "JobVacancy" collection
+ * @method Doctrine_Collection getManagedVacancies()         Returns the current record's "managedVacancies" collection
  * @method Doctrine_Collection getJobCandidate()             Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
  * @method Doctrine_Collection getCandidateHistory()         Returns the current record's "CandidateHistory" collection
@@ -257,7 +257,7 @@
  * @method Employee            setEmpUsTaxExemption()        Sets the current record's "EmpUsTaxExemption" collection
  * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
- * @method Employee            setJobVacancy()               Sets the current record's "JobVacancy" collection
+ * @method Employee            setManagedVacancies()         Sets the current record's "managedVacancies" collection
  * @method Employee            setJobCandidate()             Sets the current record's "JobCandidate" collection
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
  * @method Employee            setCandidateHistory()         Sets the current record's "CandidateHistory" collection
@@ -609,7 +609,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'erep_sup_emp_number'));
 
-        $this->hasMany('JobVacancy', array(
+        $this->hasMany('JobVacancy as managedVacancies', array(
              'local' => 'empNumber',
              'foreign' => 'hiringManagerId'));
 

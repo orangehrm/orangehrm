@@ -34,6 +34,9 @@ JobVacancy:
       local: hiringManagerId
       foreign: empNumber
       type: one
+      foreignType: many
+      foreignAlias: managedVacancies
+      
     JobCandidateVacancy:
       local: id
       foreign: vacancyId
