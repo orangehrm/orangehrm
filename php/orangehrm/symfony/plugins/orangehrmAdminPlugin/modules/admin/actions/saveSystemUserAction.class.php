@@ -41,7 +41,6 @@ class saveSystemUserAction extends sfAction {
 	public function execute($request) {
 		
 		
-		
 		$this->userId = $request->getParameter('userId');
 		$values = array('userId' => $this->userId);
 		$this->setForm(new SystemUserForm(array(),$values));
@@ -56,12 +55,12 @@ class saveSystemUserAction extends sfAction {
 			if ($this->form->isValid()) {
 				$this->form->save();
                                 
-				//if ($this->form->edited) {
-				//	$this->getUser()->setFlash('templateMessage', array('success', __('Location Updated Successfully')));
-				//} else {
-				//	$this->getUser()->setFlash('templateMessage', array('success', __('Location Added Successfully')));
-				//}
-				//$this->redirect('admin/viewLocations');
+				if ($this->form->edited) {
+					$this->getUser()->setFlash('templateMessage', array('success', __('User Updated Successfully')));
+				} else {
+					$this->getUser()->setFlash('templateMessage', array('success', __('User Added Successfully')));
+				}
+				$this->redirect('admin/viewSystemUsers');
 			}
 		}
 	}

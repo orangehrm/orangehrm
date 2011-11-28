@@ -7,7 +7,7 @@ $(document).ready(function() {
             enableWidgets();
         } else if ($('#btnSave').val() == user_save){
            
-            $('#sytemUser_userId').val(userId);
+            $('#systemUser_userId').val(userId);
             if(isValidForm()){          
                 $('#frmSystemUser').submit();
             }
@@ -24,18 +24,18 @@ $(document).ready(function() {
         disableWidgets();
     }
     
-    $("#sytemUser_employeeName").autocomplete(employees, {
+    $("#systemUser_employeeName").autocomplete(employees, {
 
             formatItem: function(item) {
                            return item.name;
                     }
                     ,matchContains:true
             }).result(function(event, item) {
-                $('#sytemUser_employeeId').val(item.id);
+                $('#systemUser_employeeId').val(item.id);
             }
 	);
             
-     $("#sytemUser_password").password({
+     $("#systemUser_password").password({
 	           score: '.score' 
 	       });
 
@@ -43,12 +43,15 @@ $(document).ready(function() {
 });
 
 function disableWidgets(){
-    $('.formInput').attr('disabled','disabled');
+    
+    $('.formInputText').attr('disabled','disabled');
+    $('.formSelect').attr('disabled','disabled');
     $('#btnSave').val(user_edit);  
 }
 
 function enableWidgets(){ 
-    $('.formInput').removeAttr('disabled');
+    $('.formInputText').removeAttr('disabled');
+    $('.formSelect').removeAttr('disabled');
     $('#btnSave').val(user_save);
 }
 
@@ -61,40 +64,49 @@ function isValidForm(){
     var validator = $("#frmSystemUser").validate({
 
         rules: {
-            'sytemUser[userName]' : {
-                required:true,
-                maxlength: 20
-            },
-            'sytemUser[password]' : {
-                required:true,
-                maxlength: 20
-            },
-            'sytemUser[confirmPassword]' : {
+            'systemUser[userName]' : {
                 required:true,
                 maxlength: 20,
-                equalTo: "#sytemUser_password"
+                remote: {
+                   url: isUniqueUserUrl,
+                   data: { user_id: userId}
+                }
             },
-            'sytemUser[employeeName]' : {
+            'systemUser[password]' : {
+                required:function(element) {
+                    if(userId > 0)
+                        return false;
+                    else
+                        return true;
+                  },
+                maxlength: 20
+            },
+            'systemUser[confirmPassword]' : {
+                maxlength: 20,
+                equalTo: "#systemUser_password"
+            },
+            'systemUser[employeeName]' : {
                 required:true,
                 maxlength: 200
             }
 
         },
         messages: {
-            'sytemUser[userName]' : {
+            'systemUser[userName]' : {
                 required: user_UserNameRequired,
-                maxlength: user_Max20Chars
+                maxlength: user_Max20Chars,
+                remote: user_name_alrady_taken
             },
-            'sytemUser[password]' : {
+            'systemUser[password]' : {
                 required: user_UserPaswordRequired,
                 maxlength: user_Max20Chars
             },
-            'sytemUser[confirmPassword]' : {
+            'systemUser[confirmPassword]' : {
                 required: user_UserConfirmPassword,
                 maxlength: user_Max20Chars,
                 equalTo: user_samePassword
             },
-            'sytemUser[employeeName]' : {
+            'systemUser[employeeName]' : {
                 required: user_EmployeeNameRequired
             }
         },

@@ -14,8 +14,10 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'width' => '33%',
 		    'isSortable' => true,
 		    'sortField' => 'user_name',
-		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getUserName'),
+		    'elementType' => 'link',
+		    'elementProperty' => array('labelGetter' => 'getUserName',
+                                        'placeholderGetters' => array('id' => 'getId'),
+                                        'urlPattern' => 'saveSystemUser?userId={id}'),
 		    
 		));
 		

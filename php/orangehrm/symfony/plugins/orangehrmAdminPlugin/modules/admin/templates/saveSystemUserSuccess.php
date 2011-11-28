@@ -41,12 +41,12 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
-	    <?php echo $form['password']->renderLabel(__('User Password') . ' <span class="required">*</span>'); ?>
+	    <?php if(!$form->edited){echo $form['password']->renderLabel(__('User Password') . ' <span class="required">*</span>');}else{ echo $form['password']->renderLabel(__('User Password'));} ?>
             <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ',array('class'=>'score') ); ?>
             
 	    <br class="clear"/>
             
-            <?php echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required">*</span>'); ?>
+            <?php if(!$form->edited){ echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required">*</span>');}else{ echo $form['confirmPassword']->renderLabel(__('Confirm Password') ); } ?>
             <?php echo $form['confirmPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
@@ -86,4 +86,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         var employees                   = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray              = eval(employees);
         var user_typeForHints           = "Type for hints...";
+        var user_name_alrady_taken      =   "<?php echo __("User name already taken"); ?>";
+        var isUniqueUserUrl             = '<?php echo url_for('admin/isUniqueUserJson'); ?>'; 
 </script>

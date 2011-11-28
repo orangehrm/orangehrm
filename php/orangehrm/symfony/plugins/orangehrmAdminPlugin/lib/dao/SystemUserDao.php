@@ -39,10 +39,14 @@ class SystemUserDao extends BaseDao{
      * @param type $userName 
      * @return mixed , false if user not exist  , otherwise it returns SystemUser object
      */
-    public function isExistingSystemUser( $userName){
+    public function isExistingSystemUser( $userName , $userId = null){
         try {
             $query = Doctrine_Query:: create()->from('SystemUser u')
-                            ->where('u.user_name = ?', $userName);
+                            ->andWhere('u.user_name = ?', $userName);
+            if(!empty($userId)){
+              $query->andWhere('u.id != ?', $userId);  
+            }
+            //print($query->getSqlQuery());
             return $query->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(),$e->getCode(),$e);
@@ -70,7 +74,8 @@ class SystemUserDao extends BaseDao{
      */
     public function getSystemUsers( ){
         try {
-            $query = Doctrine_Query:: create()->from('SystemUser u');
+            $query = Doctrine_Query:: create()->from('SystemUser u')
+                    ->where('u.deleted=?',0);
                             
             return $query->execute();
         } catch (Exception $e) {
@@ -89,8 +94,10 @@ class SystemUserDao extends BaseDao{
      */
     public function deleteSystemUsers( array $deletedIds){
         try {
-                $query = Doctrine_Query :: create()->delete('SystemUser u')
-                                ->whereIn('u.id', $deletedIds);
+                $query = Doctrine_Query :: create()
+                        ->update('SystemUser u')
+                        ->set('u.deleted',1)
+                        ->whereIn('u.id', $deletedIds);
                 $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(),$e->getCode(),$e);

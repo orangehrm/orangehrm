@@ -60,11 +60,12 @@ class SystemUserService extends BaseService{
      * Check is existing user according to user name
      * 
      * @param type $userName 
+     * @param int $userId
      * @return mixed , false if user not exist  , otherwise it returns SystemUser object
      */
-    public function isExistingSystemUser( $userName){
+    public function isExistingSystemUser( $userName , $userId){
         try {
-            $this->getSystemUserDao()->isExistingSystemUser( $userName);
+           return  $this->getSystemUserDao()->isExistingSystemUser( $userName , $userId);
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }

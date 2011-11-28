@@ -35,6 +35,9 @@ class SystemUserForm extends BaseForm {
 	public function configure() {
 
 		$this->userId   =   $this->getOption('userId');
+                if(!empty($this->userId)){
+                    $this->edited = true ;
+                }
 		$userRoleList   =   $this->getPreDefinedUserRoleList();
 		$statusList     =   $this->getStatusList();
 
@@ -62,7 +65,7 @@ class SystemUserForm extends BaseForm {
 		));
 
 
-		$this->widgetSchema->setNameFormat('sytemUser[%s]');
+		$this->widgetSchema->setNameFormat('systemUser[%s]');
 		
 		if ($this->userId != null) {
 			$this->setDefaultValues($this->userId);
@@ -71,22 +74,15 @@ class SystemUserForm extends BaseForm {
 	
 	private function setDefaultValues($locationId) {
 
-		/*$location = $this->getLocationService()->getLocationById($this->locationId);
-		$this->setDefault('locationId', $locationId);
-		$this->setDefault('name', $location->getName());
-		$this->setDefault('country', $location->getCountryCode());
-		if($location->getCountryCode() == 'US') {
-			$this->setDefault('state', $location->getProvince());
-		} else {
-			$this->setDefault('province', $location->getProvince());
-		}
-		$this->setDefault('city', $location->getCity());
-		$this->setDefault('address', $location->getAddress());
-		$this->setDefault('zipCode', $location->getZipCode());
-		$this->setDefault('phone', $location->getPhone());
-		$this->setDefault('fax', $location->getFax());
-		$this->setDefault('notes', $location->getNotes());
-		*/
+                $systemUser   =   $this->getSystemUserService()->getSystemUser( $this->userId );
+		
+		$this->setDefault('userId', $systemUser->getId());
+		$this->setDefault('userType', $systemUser->getUserRoleId());
+		$this->setDefault('employeeName', $systemUser->getEmployee()->getFullName());
+		$this->setDefault('employeeId', $systemUser->getEmpNumber());
+		$this->setDefault('userName', $systemUser->getUserName());
+                $this->setDefault('status', $systemUser->getStatus());
+		
 	}
 
 	/**
