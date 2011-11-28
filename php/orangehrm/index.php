@@ -371,7 +371,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("users", $lang_Menu_Admin_Users, "#");
+    $sub = new MenuItem("users", $lang_Menu_Admin_Users, "./symfony/web/index.php/admin/viewSystemUsers", "rightMenu");
     $subsubs = array();
     $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
     $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
