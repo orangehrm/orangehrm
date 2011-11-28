@@ -43,7 +43,7 @@
 <?php if($payGradeId > 0) { ?>
 <div id="currency">
 <div class="outerbox">
-    <div class="mainHeading"><h2><?php echo __('Assigned Currencies'); ?></h2></div>
+    <div class="mainHeading"><h2 id="currencyHeading"><?php echo __('Assigned Currencies'); ?></h2></div>
     <div>
         <form name="frmCurrency" id="frmCurrency" method="post" action="<?php echo url_for('admin/savePayGradeCurrency?payGradeId='.$payGradeId); ?>">
 	    <?php echo $currencyForm['_csrf_token']; ?>
@@ -143,12 +143,12 @@
 	var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
 	var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
 	var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
-	var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be numeric"); ?>";
+	var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be a number. No spaces are allowed"); ?>";
 	var lang_validCurrency = "<?php echo __("Enter a valid currency"); ?>";
 	var lang_currencyAlreadyExist = "<?php echo __("Currency is already exist"); ?>";
 	var lang_validSalaryRange  = "<?php echo __("Invalid salary range"); ?>";
-	var lang_addCurrency  = "<?php echo __("Edit Currency"); ?>";
-	var lang_editCurrency  = "<?php echo __("Add Currency"); ?>";
+	var lang_addCurrency  = "<?php echo __("Add Currency"); ?>";
+	var lang_editCurrency  = "<?php echo __("Edit Currency"); ?>";
 	var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
 	var lang_uniquePayGradeName  = "<?php echo __("Name is already exist"); ?>";
 	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";

@@ -42,20 +42,22 @@ $(document).ready(function() {
         $('#addDeleteBtnDiv').hide();
         $('.checkboxCurr').hide();
         validatorCurr.resetForm();
-        $('#currencyHeading').val(lang_addCurrency);
+        $('#currencyHeading').text(lang_addCurrency);
     });
     
     $('#cancelButton').click(function(){
         $('#addPaneCurrency').hide();
         $('#actionButtons').hide();
         $('#addDeleteBtnDiv').show();
-        $('#currencyHeading').val(lang_assignedCurrency);
+        $('#currencyHeading').text(lang_assignedCurrency);
         $('.checkboxCurr').show();
         validatorCurr.resetForm();
     });
     
     $('#btnSaveCurrency').click(function(){
-        $('#frmCurrency').submit();
+        if(isValidForm){
+            $('#frmCurrency').submit();
+        }
     });
     
     $('.editLink').click(function(event) {
@@ -73,7 +75,7 @@ $(document).ready(function() {
         $('#payGradeCurrency_currencyName').val(curId+" - "+curName);
         $('#payGradeCurrency_minSalary').val(minSal);
         $('#payGradeCurrency_maxSalary').val(maxSal);
-        $('#currencyHeading').val(lang_editCurrency);
+        $('#currencyHeading').text(lang_editCurrency);
         
         $('#addPaneCurrency').show();
         $('#actionButtons').show();
@@ -175,7 +177,7 @@ $(document).ready(function() {
             }
         }
         return isValid;
-    });
+});
     
     $.validator.addMethod("validSalaryRange", function(value, element, params) {
         

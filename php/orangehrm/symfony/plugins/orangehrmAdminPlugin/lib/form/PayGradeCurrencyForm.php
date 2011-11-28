@@ -58,7 +58,7 @@ class PayGradeCurrencyForm extends BaseForm {
 		
 		$currencyId = $this->getValue('currencyId');
 		$currencyName = $this->getValue('currencyName');
-		$temp = explode(" - ", $currencyName);
+		$temp = explode(" - ", trim($currencyName));
 		
 		if(!empty ($currencyId)){
 			$currency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $this->payGradeId);
