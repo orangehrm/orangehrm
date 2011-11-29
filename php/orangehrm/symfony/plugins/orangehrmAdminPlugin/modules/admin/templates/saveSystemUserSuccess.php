@@ -32,7 +32,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 	    <br class="clear"/>
 	    
             <?php echo $form['employeeName']->renderLabel(__('Employee Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200 ,"value"=>__("Type for hints..."))); ?>
+            <?php if(!$form->edited){ echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200 ,"value"=>__("Type for hints..."))); }else{ echo $form['employeeName']->render(array("class" => "formInputText", "maxlength" => 200 ));}?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
             
