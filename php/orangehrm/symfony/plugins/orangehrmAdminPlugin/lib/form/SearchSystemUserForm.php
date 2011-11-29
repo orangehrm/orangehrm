@@ -68,9 +68,9 @@ class SearchSystemUserForm extends BaseForm {
         
         private function getStatusList(){
             $list = array();
-            $list[] = __("All");
-            $list[1] = __("Enabled");
-            $list[2] = __("Disabled");
+            $list[''] = __("All");
+            $list['1'] = __("Enabled");
+            $list['0'] = __("Disabled");
             
             return $list;
         }

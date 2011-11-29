@@ -177,7 +177,7 @@ class SystemUserDao extends BaseDao{
 		if (!empty($searchClues['employeeId'])) {
 			$query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
 		}
-                if (!empty($searchClues['status'])) {
+                if ($searchClues['status'] != '') {
 			$query->addWhere('u.status = ?', $searchClues['status']);
 		}
                 
