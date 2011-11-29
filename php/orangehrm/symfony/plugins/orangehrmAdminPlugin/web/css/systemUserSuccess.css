@@ -18,4 +18,8 @@ label.error {
     font-size: 8pt;
 }
 
+.formInput {
+    width: 300px;
+}
+
 .score { float:left; margin-left:5px; padding:2px; margin-top:5px; font-weight: bold;  width:100px; text-align:center; }

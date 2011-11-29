@@ -69,7 +69,9 @@ class SystemUserForm extends BaseForm {
 		
 		if ($this->userId != null) {
 			$this->setDefaultValues($this->userId);
-		}
+		}else{
+                    $this->setDefault('userType', 2);
+                }
 	}
 	
 	private function setDefaultValues($locationId) {

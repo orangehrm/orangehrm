@@ -14,9 +14,7 @@ $(document).ready(function() {
         }
     });
     
-    $('#btnCancel').click(function() {
-        window.location.replace(viewLocationUrl+'?locationId='+locationId);
-    });
+    
     
     
     if(userId > 0){
@@ -39,7 +37,16 @@ $(document).ready(function() {
 	           score: '.score' 
 	       });
 
-    
+    $('#systemUser_employeeName').click(function(){
+        if($('#systemUser_employeeName').val() == user_typeForHints){
+            $('#systemUser_employeeName').val("")
+            $('#systemUser_employeeName').removeClass("inputFormatHint");
+        }
+        }); 
+        
+     $('#btnCancel').click(function() {
+        window.location.replace(viewSystemUserUrl);
+    });
 });
 
 function disableWidgets(){
@@ -56,6 +63,18 @@ function enableWidgets(){
 }
 
 
+$.validator.addMethod("validEmployeeName", function(value, element) {                 
+               	 var empName    =   trim($('#systemUser_employeeName').val());
+                 var empId      =   $('#systemUser_employeeId').val();  
+                 
+                 if(empName.length > 0 && empId == ''){
+                     return false;
+                 }else{
+                     return true;
+                 }
+                
+            });
+            
     
 function isValidForm(){
     
@@ -87,7 +106,8 @@ function isValidForm(){
             },
             'systemUser[employeeName]' : {
                 required:true,
-                maxlength: 200
+                maxlength: 200,
+                validEmployeeName: true
             }
 
         },
@@ -107,7 +127,8 @@ function isValidForm(){
                 equalTo: user_samePassword
             },
             'systemUser[employeeName]' : {
-                required: user_EmployeeNameRequired
+                required: user_EmployeeNameRequired,
+                validEmployeeName: user_ValidEmployee
             }
         },
 

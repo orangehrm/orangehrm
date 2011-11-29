@@ -32,16 +32,16 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 	    <br class="clear"/>
 	    
             <?php echo $form['employeeName']->renderLabel(__('Employee Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['employeeName']->render(array("class" => "formInputText", "maxlength" => 200)); ?>
+            <?php echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200 ,"value"=>__("Type for hints..."))); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
             
-	    <?php echo $form['userName']->renderLabel(__('User Name') . ' <span class="required">*</span>'); ?>
+	    <?php echo $form['userName']->renderLabel(__('Username') . ' <span class="required">*</span>'); ?>
             <?php echo $form['userName']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
 	    <br class="clear"/>
 	    
-	    <?php if(!$form->edited){echo $form['password']->renderLabel(__('User Password') . ' <span class="required">*</span>');}else{ echo $form['password']->renderLabel(__('User Password'));} ?>
+	    <?php if(!$form->edited){echo $form['password']->renderLabel(__('Password') . ' <span class="required">*</span>');}else{ echo $form['password']->renderLabel(__('User Password'));} ?>
             <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ',array('class'=>'score') ); ?>
             
 	    <br class="clear"/>
@@ -72,12 +72,12 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <script type="text/javascript">
 	
-	var user_UserNameRequired       = "<?php echo __("User name is required"); ?>";
+	var user_UserNameRequired       = "<?php echo __("Username is required"); ?>";
         var user_EmployeeNameRequired   = "<?php echo __("Employee name is required"); ?>";
-        var user_ValidEmployee          = "<?php echo __("Select Valid Employee"); ?>";
-	var user_UserPaswordRequired    = "<?php echo __("User password is required"); ?>";
-	var user_UserConfirmPassword    = "<?php echo __("User confirm password is required"); ?>";
-        var user_samePassword           = "<?php echo __("Please enter the same password"); ?>";
+        var user_ValidEmployee          = "<?php echo __("Select valid employee"); ?>";
+	var user_UserPaswordRequired    = "<?php echo __("Password is required"); ?>";
+	var user_UserConfirmPassword    = "<?php echo __("Confirm password is required"); ?>";
+        var user_samePassword           = "<?php echo __("Passwords do not match"); ?>";
 	var user_Max20Chars             = "<?php echo __("Cannot exceed 20 charactors"); ?>";
         var user_editLocation           = "<?php echo __("Edit User"); ?>";
 	var userId                      = "<?php echo $userId ?>";
@@ -86,6 +86,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         var employees                   = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray              = eval(employees);
         var user_typeForHints           = "Type for hints...";
-        var user_name_alrady_taken      =   "<?php echo __("User name already taken"); ?>";
-        var isUniqueUserUrl             = '<?php echo url_for('admin/isUniqueUserJson'); ?>'; 
+        var user_name_alrady_taken      =   "<?php echo __("Username already taken"); ?>";
+        var isUniqueUserUrl             = '<?php echo url_for('admin/isUniqueUserJson'); ?>';
+        var viewSystemUserUrl             = '<?php echo url_for('admin/viewSystemUsers'); ?>';
 </script>
