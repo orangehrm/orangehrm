@@ -171,11 +171,11 @@ class SystemUserDao extends BaseDao{
 		if (!empty($searchClues['userName'])) {
 			$query->addWhere('u.user_name = ?', $searchClues['userName']);
 		}
-		if (!empty($searchClues['userRoleId'])) {
-			$query->addWhere('u.user_role_id = ?', $searchClues['userRoleId']);
+		if (!empty($searchClues['userType'])) {
+			$query->addWhere('u.user_role_id = ?', $searchClues['userType']);
 		}
-		if (!empty($searchClues['empId'])) {
-			$query->addWhere('u.emp_number = ?', $searchClues['empId']);
+		if (!empty($searchClues['employeeId'])) {
+			$query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
 		}
                 if (!empty($searchClues['status'])) {
 			$query->addWhere('u.status = ?', $searchClues['status']);

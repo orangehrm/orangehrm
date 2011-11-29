@@ -471,7 +471,7 @@ SystemUser:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getId
-  title: "<?php echo __("System Users");?>"
+  title: ''
   tableWidth: 100%
   hasSummary: false
   summary: []

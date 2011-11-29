@@ -22,3 +22,38 @@ div.formbuttons {
 .trHover{
     cursor: auto;
 }
+
+
+div.searchbox div.actionbar {
+    border-top: 1px solid #FAD163;
+    margin-top: 3px;
+}
+
+div.searchbox {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+form#search_form div#formcontent select,
+form#search_form div#formcontent input {
+    padding-left:4px;
+    padding-right:0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width:150px;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent label {
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent select {
+    width:156px;
+}
+
+input#empsearch_employee_name,
+input#empsearch_supervisor_name {
+    width: 250px;
+}

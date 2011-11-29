@@ -36,14 +36,65 @@
     <span><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 
-<div id="customerList">
-    <?php  include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
-            </div>
+<div id="searchProject">
+    <div class="outerbox">
 
-            <form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
-                <input type="hidden" name="pageNo" id="pageNo" value="" />
-                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+        <div class="mainHeading">
+            <h2><?php echo __("System Users") ?></h2>
+        </div>
+
+        <div class="searchbox">
+            <form id="search_form" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
+                <div id="formcontent">
+                    <?php
+                    echo $form['_csrf_token'];
+                    echo $form->renderHiddenFields(); 
+                    echo $form['userName']->renderLabel(__("Username"));
+                    echo $form['userName']->render();
+
+                    echo $form['userType']->renderLabel(__("User Type"));
+                    echo $form['userType']->render();
+
+                    echo $form['employeeName']->renderLabel(__("Employee Name"));
+                    echo $form['employeeName']->render();
+
+                    ?>
+                    <br class="clear"/>
+                    <?php
+                    echo $form['status']->renderLabel(__("Status"));
+                    echo $form['status']->render();
+
+                    
+                    ?>
+                </div>
+                <div class="actionbar">
+                    <div class="actionbuttons">
+                        <input
+                            type="button" class="plainbtn" id="searchBtn"
+                            onmouseover="this.className='plainbtn plainbtnhov'"
+                            onmouseout="this.className='plainbtn'" value="<?php echo __("Search") ?>" name="_search" />
+                        <input
+                            type="reset" class="plainbtn"
+                            onmouseover="this.className='plainbtn plainbtnhov'" id="resetBtn"
+                            onmouseout="this.className='plainbtn'" value="<?php echo __("Reset") ?>" name="_reset" />
+
+                    </div>
+                    <br class="clear" />
+                </div>
+                <br class="clear" />
             </form>
+        </div>
+    </div>
+</div>
+
+<div id="customerList">
+    <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
+</div>
+
+<form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
+    <input type="hidden" name="pageNo" id="pageNo" value="" />
+    <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+</form>
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
@@ -56,15 +107,18 @@
     </div>
 </div>
 
-            <script type="text/javascript">
-                function submitPage(pageNo) {
+<script type="text/javascript">
+    function submitPage(pageNo) {
 
-                    document.frmHiddenParam.pageNo.value = pageNo;
-                    document.frmHiddenParam.hdnAction.value = 'paging';
-                    document.getElementById('frmHiddenParam').submit();
+        document.frmHiddenParam.pageNo.value = pageNo;
+        document.frmHiddenParam.hdnAction.value = 'paging';
+        document.getElementById('search_form').submit();
 
-                }
+    }
                 
-                var addUserUrl = '<?php echo url_for('admin/saveSystemUser'); ?>';
+    var addUserUrl          =   '<?php echo url_for('admin/saveSystemUser'); ?>';
+    var lang_typeforhint    =   '<?php echo __("Type for hints") . "..."; ?>';
+    var employees           = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+    var employeesArray      = eval(employees);
 
 </script>

@@ -48,7 +48,7 @@ class viewSystemUsersAction extends sfAction {
 		$sortOrder = $request->getParameter('sortOrder');
 		$userId = $request->getParameter('userId');
 
-		$this->setForm(new SearchProjectForm());
+		$this->setForm(new SearchSystemUserForm());
 
 		$pageNumber = $isPaging;
 		if ($userId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
@@ -56,7 +56,14 @@ class viewSystemUsersAction extends sfAction {
 		}
 		$limit = SystemUser::NO_OF_RECORDS_PER_PAGE;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
+                
+                if ($request->isMethod('post')) {
+
+			$this->form->bind($request->getParameter($this->form->getName()));
+                }
+                
 		$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+                
 		if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $userId > 0) {
 			if ($this->getUser()->hasAttribute('searchClues')) {
 				$searchClues = $this->getUser()->getAttribute('searchClues');
@@ -105,12 +112,19 @@ class viewSystemUsersAction extends sfAction {
 	}
 
 	private function _setSearchClues($sortField, $sortOrder, $offset, $limit) {
-		return array(
+		$searchClues = array(
+                    'userName'=> $this->form->getValue('userName'),
+                    'userType'=> $this->form->getValue('userType'),
+                    'employeeId'=> $this->form->getValue('employeeId'),
+                    'status' => $this->form->getValue('status'),
 		    'sortField' => $sortField,
 		    'sortOrder' => $sortOrder,
 		    'offset' => $offset,
 		    'limit' => $limit
 		);
+                
+               
+                return $searchClues;
 	}
 
 }
