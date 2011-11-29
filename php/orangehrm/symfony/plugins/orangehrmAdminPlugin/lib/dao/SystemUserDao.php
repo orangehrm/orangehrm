@@ -84,9 +84,6 @@ class SystemUserDao extends BaseDao{
         }
     }
     
-    public function searchSystemUsers( array $searchClues){
-        
-    }
     
     /**
      * Delete System Users
@@ -120,6 +117,64 @@ class SystemUserDao extends BaseDao{
             throw new DaoException($e->getMessage(),$e->getCode(),$e);
         }
     }
+    
+    /**
+     * Get Count of Search Query 
+     * 
+     * @param type $searchClues
+     * @return type 
+     */
+    public function getSearchSystemUsersCount( $searchClues ){
+        try {
+                  $q = $this->_buildSearchQuery($searchClues);
+                   return $q->count();
+            } catch (Exception $e) {
+                    throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            }
+    }
+    
+    /**
+     * Search System Users 
+     * 
+     * @param type $searchClues
+     * @return type 
+     */
+    public function searchSystemUsers( $searchClues){
+         try {
+                  $q = $this->_buildSearchQuery($searchClues);
+                   return $q->execute();
+            } catch (Exception $e) {
+                    throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            }
+    }
+    
+    
+    /**
+     *
+     * @param type $searchClues
+     * @return Doctrine Query 
+     */
+    private function _buildSearchQuery($searchClues) {
+
+		$query = Doctrine_Query:: create()->from('SystemUser u');
+			
+		if (!empty($searchClues['userName'])) {
+			$query->addWhere('u.user_name = ?', $searchClues['userName']);
+		}
+		if (!empty($searchClues['userRoleId'])) {
+			$query->addWhere('u.user_role_id = ?', $searchClues['userRoleId']);
+		}
+		if (!empty($searchClues['empId'])) {
+			$query->addWhere('u.emp_number = ?', $searchClues['empId']);
+		}
+                if (!empty($searchClues['status'])) {
+			$query->addWhere('u.status = ?', $searchClues['status']);
+		}
+                
+                $query->addWhere('u.deleted=?',0);
+
+		return $query;
+	}
 }
 
 ?>

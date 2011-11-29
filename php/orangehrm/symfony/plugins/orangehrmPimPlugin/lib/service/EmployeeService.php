@@ -432,9 +432,23 @@ class EmployeeService extends BaseService {
 
     /**
      * Get Language
-     * @param int $empNumber
-     * @param int $eduCode
+     * 
+     * This method return all languages for Employee according to given parameters
+     * 
+     * If language code is not set, It returns all languages for Employee
+     * 
+     * If Language Type is not set, It returns all languages for Employee
+     * 
+     * If Language code and Language type are not set, It returns a Language for Employee  
+     * 
+     * @version 2.6.11
+     * @param int $empNumbers
+     * @param String $languageCode
+     * @params String $languageType
      * @returns Collection/Language
+     * 
+     * @todo need to throw exception if error occur
+     * 
      * @ignore
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
@@ -443,9 +457,15 @@ class EmployeeService extends BaseService {
 
     /**
      * Delete Language
-     * @param int $empNumber
+     * 
+     * This Method deletes Employee Languages for given Employee and Language codes
+     * 
+     * @version 2.6.11
+     * @param inteager $empNumber
      * @param array() $languageToDelete (array of langCode->LangType)
      * @return int - number of records deleted. False if did not delete anything.
+     * 
+     * @todo need to throw exception if error occur
      * @ignore
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
@@ -453,9 +473,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * save Language
+     * Save Language
+     * 
+     * saves employee Language
+     * 
+     * @version 2.6.11
      * @param EmployeeLanguage $language
      * @returns boolean
+     * 
+     * @todo need to throw exception if error occur
+     * @todo Don't return any value
+     * 
      * @ignore
      */
     public function saveLanguage(EmployeeLanguage $language) {
@@ -464,9 +492,20 @@ class EmployeeService extends BaseService {
 
     /**
      * Get License
+     * 
+     * This method return Employee License for given employe and liesnce code
+     * 
+     * If License code is not set, It returns all license for Employee
+     * 
+     * If Licence code is set , It returns a Employee Licence object
+     *  
+     * @version 2.6.11
      * @param int $empNumber
-     * @param int $eduCode
+     * @param String $licenseCode
      * @returns Collection/License
+     * 
+     * @todo need to throw exception if error occur
+     * 
      * @ignore
      */
     public function getLicense($empNumber, $licenseCode = null) {
@@ -475,9 +514,16 @@ class EmployeeService extends BaseService {
 
     /**
      * Delete License
+     * 
+     * deletes license according to given employee number and license codes
+     * 
+     * @version 2.6.11
      * @param int $empNumber
      * @param array() $licenseToDelete
      * @returns boolean
+     * 
+     * @todo need to throw exception if error occur
+     * 
      * @ignore
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
@@ -486,8 +532,15 @@ class EmployeeService extends BaseService {
 
     /**
      * save License
+     * 
+     * This method saves Employee License
+     * 
      * @param EmployeeLicense $license
      * @returns boolean
+     * 
+     * @todo need to throw exception if error occur
+     * @todo Don't return any value
+     * 
      * @ignore
      */
     public function saveLicense(EmployeeLicense $license) {

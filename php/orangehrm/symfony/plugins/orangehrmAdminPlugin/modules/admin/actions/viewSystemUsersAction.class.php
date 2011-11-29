@@ -54,7 +54,7 @@ class viewSystemUsersAction extends sfAction {
 		if ($userId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
 			$pageNumber = $this->getUser()->getAttribute('pageNumber');
 		}
-		$limit =1;
+		$limit =50;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
 		$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 		if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $userId > 0) {
@@ -69,7 +69,8 @@ class viewSystemUsersAction extends sfAction {
 			$this->getUser()->setAttribute('searchClues', $searchClues);
 		}
 		
-		$systemUserList = $this->getSystemUserService()->getSystemUsers();
+		$systemUserList = $this->getSystemUserService()->searchSystemUsers( $searchClues );
+                $systemUserListCount =  $this->getSystemUserService()->getSearchSystemUsersCount( $searchClues );
 		$this->_setListComponent($systemUserList, $limit, $pageNumber, 2);
 		$this->getUser()->setAttribute('pageNumber', $pageNumber);
 		$params = array();
@@ -93,7 +94,7 @@ class viewSystemUsersAction extends sfAction {
 		
                 $configurationFactory->setRuntimeDefinitions(array(
 			    'hasSelectableRows' => true,
-//			    'buttons' => array(),
+
 			));
 		
 		ohrmListComponent::setPageNumber($pageNumber);
@@ -105,9 +106,6 @@ class viewSystemUsersAction extends sfAction {
 
 	private function _setSearchClues($sortField, $sortOrder, $offset, $limit) {
 		return array(
-		    'customer' => $this->form->getValue('customer'),
-		    'project' => $this->form->getValue('project'),
-		    'projectAdmin' => $this->form->getValue('projectAdmin'),
 		    'sortField' => $sortField,
 		    'sortOrder' => $sortOrder,
 		    'offset' => $offset,

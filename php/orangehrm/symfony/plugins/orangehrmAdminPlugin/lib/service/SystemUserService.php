@@ -128,6 +128,34 @@ class SystemUserService extends BaseService{
         }
     }
     
+   /**
+     * Get Count of Search Query 
+     * 
+     * @param type $searchClues
+     * @return int 
+     */
+    public function getSearchSystemUsersCount( $searchClues ){
+        try {
+           return $this->getSystemUserDao()->getSearchSystemUsersCount( $searchClues );
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+        }
+    }
+    
+    /**
+     * Search System Users 
+     * 
+     * @param type $searchClues
+     * @return type 
+     */
+     public function searchSystemUsers( $searchClues){
+         try {
+           return $this->getSystemUserDao()->searchSystemUsers( $searchClues );
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+        }
+     }
+    
 }
 
 ?>
