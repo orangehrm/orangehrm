@@ -27,6 +27,7 @@ class SystemUserDao extends BaseDao{
      */
     public function saveSystemUser( SystemUser $systemUser){
         try {
+            
             $systemUser->save(); 
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(),$e->getCode(),$e);

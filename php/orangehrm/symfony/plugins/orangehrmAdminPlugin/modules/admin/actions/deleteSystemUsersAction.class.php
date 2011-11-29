@@ -28,28 +28,16 @@ class deleteSystemUsersAction extends sfAction {
 
 		$toBeDeletedUserIds = $request->getParameter('chkSelectRow');
                 
-                print_r( $toBeDeletedUserIds );
+                
 
 		if (!empty($toBeDeletedUserIds)) {
 			$delete = true;
-			/*foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-				$deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
-				if ($deletable) {
-					$delete = false;
-					break;
-				}
-			}
-			if ($delete) {
-				foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-
-					$customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
-				}
-				$this->getUser()->setFlash('templateMessage', array('success', __('Selected Project(s) Deleted Successfully')));
-			} else {
-				$this->getUser()->setFlash('templateMessage', array('failure', __('Not Allowed to Delete Project(s) Which Have Time Logged Against')));
-			}
-                         */
-		}
+                        $this->getSystemUserService()->deleteSystemUsers($toBeDeletedUserIds);
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Selected System Users(s) Deleted Successfully')));
+			
+		}else{
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Please Select at Least One System User to Delete')));
+                }
 
 		$this->redirect('admin/viewSystemUsers');
 	}

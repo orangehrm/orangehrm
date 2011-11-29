@@ -12,4 +12,16 @@
  */
 class SystemUser extends PluginSystemUser
 {
+    /**
+     * Get text status according system user status
+     * 
+     * @return String
+     */
+    public function getTextStatus(){
+        if( $this->getStatus() == '1'){
+            return 'Enabled';
+        }else{
+            return 'Disabled';
+        }
+    }
 }

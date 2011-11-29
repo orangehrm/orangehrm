@@ -48,8 +48,12 @@ class SystemUserService extends BaseService{
      * @param SystemUser $systemUser 
      * @return void
      */
-    public function saveSystemUser( SystemUser $systemUser){
+    public function saveSystemUser( SystemUser $systemUser,$changePassword = false){
         try {
+            if( $changePassword ){
+                
+                $systemUser->setUserPassword( md5($systemUser->getUserPassword()));
+            }
             $this->getSystemUserDao()->saveSystemUser( $systemUser );
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);

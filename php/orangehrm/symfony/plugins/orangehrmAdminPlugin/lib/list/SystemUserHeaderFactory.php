@@ -47,7 +47,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'isSortable' => true,
 		    'sortField' => 'name',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getstatus'),
+		    'elementProperty' => array('getter' => 'getTextStatus'),
 		    
 		));
 

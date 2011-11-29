@@ -111,7 +111,9 @@ class SystemUserForm extends BaseForm {
 
 	public function save() {
 
-		$userId = $this->getValue('userId');
+		$userId     =   $this->getValue('userId');
+                $password   =   $this->getValue('password');
+                $changePasword = false ;
 		if(empty($userId)){
 			$user = new SystemUser();
 		} else {
@@ -119,13 +121,17 @@ class SystemUserForm extends BaseForm {
 			$user = $this->getSystemUserService()->getSystemUser( $userId );
 		}
                 
+                if( !empty( $password ) ){
+                    $changePasword = true ;
+                }
+                
 		$user->setUserRoleId( $this->getValue('userType'));
                 $user->setEmpNumber( $this->getValue('employeeId') );
                 $user->setUserName( $this->getValue('userName'));
                 $user->setUserPassword( $this->getValue('password'));
                 $user->setStatus( $this->getValue('status'));
                
-		$this->getSystemUserService()->saveSystemUser( $user );
+		$this->getSystemUserService()->saveSystemUser( $user , $changePasword);
 		
 	}
         
