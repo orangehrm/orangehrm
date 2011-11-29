@@ -35,7 +35,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Employee Name ',
 		    'width' => '33%',
 		    'isSortable' => true,
-		    'sortField' => 'name',
+		    'sortField' => 'u.Employee.emp_firstname',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => array('getEmployee','getFullName')),
 		    
@@ -45,7 +45,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Status',
 		    'width' => '33%',
 		    'isSortable' => true,
-		    'sortField' => 'name',
+		    'sortField' => 'status',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'getTextStatus'),
 		    
