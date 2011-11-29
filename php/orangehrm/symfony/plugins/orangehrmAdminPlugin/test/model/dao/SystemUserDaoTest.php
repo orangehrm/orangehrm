@@ -18,6 +18,9 @@
  */
 require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
+/**
+ * @group Admin
+ */
 class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
     
         private $systemUserDao;
