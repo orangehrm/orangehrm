@@ -54,7 +54,7 @@ class viewSystemUsersAction extends sfAction {
 		if ($userId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
 			$pageNumber = $this->getUser()->getAttribute('pageNumber');
 		}
-		$limit =50;
+		$limit = SystemUser::NO_OF_RECORDS_PER_PAGE;
 		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
 		$searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 		if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $userId > 0) {
@@ -71,7 +71,7 @@ class viewSystemUsersAction extends sfAction {
 		
 		$systemUserList = $this->getSystemUserService()->searchSystemUsers( $searchClues );
                 $systemUserListCount =  $this->getSystemUserService()->getSearchSystemUsersCount( $searchClues );
-		$this->_setListComponent($systemUserList, $limit, $pageNumber, 2);
+		$this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
 		$this->getUser()->setAttribute('pageNumber', $pageNumber);
 		$params = array();
 		$this->parmetersForListCompoment = $params;

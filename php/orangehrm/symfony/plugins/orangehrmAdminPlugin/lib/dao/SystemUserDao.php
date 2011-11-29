@@ -141,8 +141,18 @@ class SystemUserDao extends BaseDao{
      */
     public function searchSystemUsers( $searchClues){
          try {
-                  $q = $this->_buildSearchQuery($searchClues);
-                   return $q->execute();
+                $sortField = ($searchClues['sortField'] == "") ? 'user_name' : $searchClues['sortField'];
+		$sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
+		$offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
+		$limit = ($searchClues['limit'] == "") ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
+                
+                $q = $this->_buildSearchQuery($searchClues);
+                
+                $q->orderBy($sortField . ' ' . $sortOrder)
+                  ->offset($offset)
+                  ->limit($limit);
+
+                return $q->execute();
             } catch (Exception $e) {
                     throw new DaoException($e->getMessage(),$e->getCode(),$e);
             }

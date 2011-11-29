@@ -12,6 +12,7 @@
  */
 class SystemUser extends PluginSystemUser
 {
+    const NO_OF_RECORDS_PER_PAGE = 50 ;
     /**
      * Get text status according system user status
      * 
