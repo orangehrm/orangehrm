@@ -46,19 +46,22 @@
         <div class="searchbox">
             <form id="search_form" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
                 <div id="formcontent">
+                    
                     <?php
                     echo $form['_csrf_token'];
                     echo $form->renderHiddenFields(); 
-                    echo $form['userName']->renderLabel(__("Username"));
-                    echo $form['userName']->render();
-
+                    
+                    echo $form['employeeName']->renderLabel(__("Employee Name"));
+                    echo $form['employeeName']->render();
+                   
                     echo $form['userType']->renderLabel(__("User Type"));
                     echo $form['userType']->render();
 
-                    echo $form['employeeName']->renderLabel(__("Employee Name"));
-                    echo $form['employeeName']->render();
-
+                    echo $form['userName']->renderLabel(__("Username"));
+                    echo $form['userName']->render();
+                    
                     ?>
+                    <div class="errorHolder"></div>
                     <br class="clear"/>
                     <?php
                     echo $form['status']->renderLabel(__("Status"));
@@ -66,6 +69,7 @@
 
                     
                     ?>
+                    
                 </div>
                 <div class="actionbar">
                     <div class="actionbuttons">
@@ -74,7 +78,7 @@
                             onmouseover="this.className='plainbtn plainbtnhov'"
                             onmouseout="this.className='plainbtn'" value="<?php echo __("Search") ?>" name="_search" />
                         <input
-                            type="reset" class="plainbtn"
+                            type="button" class="plainbtn"
                             onmouseover="this.className='plainbtn plainbtnhov'" id="resetBtn"
                             onmouseout="this.className='plainbtn'" value="<?php echo __("Reset") ?>" name="_reset" />
 
@@ -118,7 +122,8 @@
                 
     var addUserUrl          =   '<?php echo url_for('admin/saveSystemUser'); ?>';
     var lang_typeforhint    =   '<?php echo __("Type for hints") . "..."; ?>';
-    var employees           = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
-    var employeesArray      = eval(employees);
+    var employees           =   <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+    var employeesArray      =   eval(employees);
+    var user_ValidEmployee  =   "<?php echo __("Select valid employee"); ?>";
 
 </script>

@@ -1,3 +1,9 @@
+
+div.searchbox label.error {
+    width:168px !important;
+    color: red;
+    padding-left: 122px;
+}
 div.formbuttons {
     background-color: white;
     float: left;
