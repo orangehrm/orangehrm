@@ -10,6 +10,12 @@ define('ROOT_PATH', dirname(__FILE__) . '/../../');
 $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
 define('WPATH', $scriptPath . "/../../");
 
+/* Redirect to installer if not set up */
+if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
+    header('Location: ' . WPATH . 'install.php');
+    exit();
+}
+
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
 $configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'prod', true);
