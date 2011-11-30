@@ -26,8 +26,8 @@ $(document).ready(function() {
                   
         $("#searchSystemUser_employeeName").val(lang_typeforhint).addClass("inputFormatHint");
         $("#searchSystemUser_userName").val('');
-        $("#searchSystemUser_userType option[value='']")..attr("selected", "selected");
-        $("#searchSystemUser_status option[value='']")..attr("selected", "selected");
+        $("#searchSystemUser_userType option[value='']").attr("selected", "selected");
+        $("#searchSystemUser_status option[value='']").attr("selected", "selected");
     });
     
     $('#searchSystemUser_employeeName').click(function(){
@@ -51,7 +51,11 @@ $.validator.addMethod("validEmployeeName", function(value, element) {
                 
             });
             
-    
+
+function addSystemUser(){
+    window.location.replace(addUserUrl);
+}
+
 function isValidForm(){
     
     var validator = $("#search_form").validate({
@@ -77,7 +81,5 @@ function isValidForm(){
     return true;
 }
 
-function addSystemUser(){
-    window.location.replace(addUserUrl);
-}
+
 
