@@ -370,9 +370,9 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $sub = new MenuItem("users", $lang_Menu_Admin_Users, "./symfony/web/index.php/admin/viewSystemUsers", "rightMenu");
     $subsubs = array();
-    $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
-    $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
-    $subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
+    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
+    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
+    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmSecurityAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
         $subsubs[] = new MenuItem('users', 'Configure Security Authentication', './symfony/web/index.php/securityAuthentication/securityAuthenticationConfigure', 'rightMenu');
     }

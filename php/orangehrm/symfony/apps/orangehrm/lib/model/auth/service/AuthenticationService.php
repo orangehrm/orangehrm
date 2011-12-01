@@ -106,14 +106,16 @@ class AuthenticationService extends BaseService {
      *
      * @param Users $user 
      */
-    protected function setBasicUserAttributes(Users $user) {
+    protected function setBasicUserAttributes(SystemUser $user) {
         $sfUser = sfContext::getInstance()->getUser();
         $sfUser->setAttribute('auth.userId', $user->getId());
         $sfUser->setAttribute('auth.userGroup', $user->getUsergId());
         $sfUser->setAttribute('auth.isAdmin', $user->getIsAdmin());
+         $sfUser->setAttribute('auth.isAdmin',true);
         $sfUser->setAttribute('auth.empId', $user->getEmployee()->getEmployeeId());
         $sfUser->setAttribute('auth.empNumber', $user->getEmpNumber());
-        $sfUser->setAttribute('auth.firstName', $user->getFirstName());
+       // $sfUser->setAttribute('auth.firstName', $user->getFirstName());
+        $sfUser->setAttribute('auth.firstName', $user->getEmployee()->getEmpFirstname()); 
     }
 
     /**
@@ -121,10 +123,10 @@ class AuthenticationService extends BaseService {
      * @param Users $user 
      * @deprecated
      */
-    protected function setBasicUserAttributesToSession(Users $user) {
+    protected function setBasicUserAttributesToSession(SystemUser $user) {
         $_SESSION['user'] = $user->getId();
         $_SESSION['userGroup'] = $user->getUsergId();
-        $_SESSION['isAdmin'] = $user->getIsAdmin();
+         $_SESSION['isAdmin'] = $user->getIsAdmin();
         /* In the base product, this session variable is assigned with the value
            employee number (emp_number field), left padded with zeros. The session
            variable does not contain the value of actual employee id (employee_id 
@@ -133,14 +135,14 @@ class AuthenticationService extends BaseService {
         $_SESSION['empID'] = str_pad($user->getEmployee()->getEmpNumber(), $padLength, '0', STR_PAD_LEFT);
 
         $_SESSION['empNumber'] = $user->getEmpNumber();
-        $_SESSION['fname'] = $user->getFirstName();
+        $_SESSION['fname'] = $user->getEmployee()->getEmpFirstname();
     }
 
     /**
      *
      * @param Users $user 
      */
-    protected function setRoleBasedUserAttributes(Users $user) {
+    protected function setRoleBasedUserAttributes(SystemUser $user) {
         $isSupervisor = false;
         $isProjectAdmin = false;
         $isManager = false;
@@ -179,7 +181,7 @@ class AuthenticationService extends BaseService {
      * @param Users $user 
      * @deprecated
      */
-    protected function setRoleBasedUserAttributesToSession(Users $user) {
+    protected function setRoleBasedUserAttributesToSession(SystemUser $user) {
         $isNotAdmin = ($user->getIsAdmin() == 'No');
         $authorizeObj = Auth::instance();
 
@@ -193,7 +195,7 @@ class AuthenticationService extends BaseService {
         $_SESSION['isInterviewer'] = ($isNotAdmin) ? $authorizeObj->hasRole(Auth::INTERVIEWER) : false;
     }
 
-    protected function setSystemBasedUserAttributes(Users $user, $additionalData) {
+    protected function setSystemBasedUserAttributes(SystemUser $user, $additionalData) {
         $styleSheet = 'orange'; // Current theme; TODO: Load from config
         $sfUser = sfContext::getInstance()->getUser();
         $sfUser->setAttribute('system.webPath', public_path('/'));
@@ -201,7 +203,7 @@ class AuthenticationService extends BaseService {
         $sfUser->setAttribute('system.timeZoneOffset', $additionalData['timeZoneOffset']);
     }
 
-    protected function setSystemBasedUserAttributesToSession(Users $user, $additionalData) {
+    protected function setSystemBasedUserAttributesToSession(SystemUser $user, $additionalData) {
         $styleSheet = 'orange'; // Current theme; TODO: Load from config
         $_SESSION['WPATH'] = str_replace('/symfony/web/', '', public_path('/'));
         $_SESSION['styleSheet'] = $styleSheet;

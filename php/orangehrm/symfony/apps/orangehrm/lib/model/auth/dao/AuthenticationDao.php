@@ -10,10 +10,11 @@ class AuthenticationDao extends BaseDao {
      */
     public function getCredentials($username, $password) {
         $query = Doctrine_Query::create()
-                ->from('Users')
+                ->from('SystemUser')
                 ->where('user_name = ?', $username)
                 ->andWhere('user_password = ?', $password);
-
+        
+      
         return $query->fetchOne();
     }
 

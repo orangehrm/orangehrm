@@ -12,7 +12,8 @@
  */
 class SystemUser extends PluginSystemUser
 {
-    const NO_OF_RECORDS_PER_PAGE = 50 ;
+    const NO_OF_RECORDS_PER_PAGE    =   50 ;
+    const ADMIN_USER_ROLE_ID        =   1;
     /**
      * Get text status according system user status
      * 
@@ -24,5 +25,23 @@ class SystemUser extends PluginSystemUser
         }else{
             return 'Disabled';
         }
+    }
+    
+    public function getIsAdmin(){
+        if( $this->getUserRoleId() == SystemUser::ADMIN_USER_ROLE_ID){
+            return 'Yes';
+        }else{
+            return 'No';
+        }
+        
+    }
+    
+    public function getUsergId(){
+        if( $this->getUserRoleId() == SystemUser::ADMIN_USER_ROLE_ID){
+             return 'USG001';
+        }else{
+            return null;
+        }
+      
     }
 }
