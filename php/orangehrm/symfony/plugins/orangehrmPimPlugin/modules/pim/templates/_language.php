@@ -75,17 +75,17 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
 
                     foreach ($languages as $language) {                        
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $languageName = $language->getLanguage()->getLangName();
+                        $languageName = $language->getLanguage()->getName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td class="check"><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->code); ?>" />
+                <td class="check"><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->langId); ?>" />
                 <input type="hidden" class="language_name" value="<?php echo htmlspecialchars($languageName); ?>" />
-                <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->lang_type); ?>" />
+                <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->fluency); ?>" />
                 <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $language->code . "_" . $language->lang_type;?>" name="delLanguage[]"/></td>
+                <input type="checkbox" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/></td>
                 <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a></td>
-                <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->lang_type));?></td>
+                <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->fluency));?></td>
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
                 <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
                 </tr>

@@ -354,7 +354,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Skills, "./symfony/web/index.php/admin/viewSkills");
     $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "index.php?uniqcode=EDU&menu_no_top=eim");
     $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "index.php?uniqcode=LIC&menu_no_top=eim");
-    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
+    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Languages, "./symfony/web/index.php/admin/viewLanguages");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 

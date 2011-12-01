@@ -538,7 +538,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr_nationality', 'nat_code'),
-    (0, 'hs_hr_language', 'lang_code'),
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
@@ -710,8 +709,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_emp_skill.skill_id = ohrm_skill.id) 
                     LEFT JOIN hs_hr_emp_language ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
-                    LEFT JOIN hs_hr_language ON 
-                        (hs_hr_emp_language.lang_code = hs_hr_language.lang_code) 
+                    LEFT JOIN ohrm_language ON 
+                        (hs_hr_emp_language.lang_id = ohrm_language.id) 
                     LEFT JOIN hs_hr_emp_licenses ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_licenses.emp_number) 
                     LEFT JOIN hs_hr_licenses ON 
@@ -787,7 +786,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (12, 3, 'service_period', 'datediff(current_date(), hs_hr_employee.joined_date)/365', 'ohrmReportWidgetServicePeriod', 1, null),
     (13, 3, 'joined_date', 'hs_hr_employee.joined_date', 'ohrmReportWidgetJoinedDate', 1, null),
     (14, 3, 'job_title', 'hs_hr_employee.job_title_code', 'ohrmWidgetJobTitleList', 1, null),
-    (15, 3, 'language', 'hs_hr_emp_language.lang_code', 'ohrmReportWidgetLanguageDropDown', 1, null),
+    (15, 3, 'language', 'hs_hr_emp_language.lang_id', 'ohrmReportWidgetLanguageDropDown', 1, null),
     (16, 3, 'skill', 'hs_hr_emp_skill.skill_id', 'ohrmReportWidgetSkillDropDown', 1, null),
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
     (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
@@ -864,7 +863,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (52, 3, 'ohrm_skill.name', 'Skill', 'skill',  'false', null, null, 'label', '<xml><getter>skill</getter></xml>', 200, '0', null, true, 12, '---', false, false),
     (53, 3, 'hs_hr_emp_skill.years_of_exp', 'Years of Experience', 'skillYearsOfExperience',  'false', null, null, 'label', '<xml><getter>skillYearsOfExperience</getter></xml>', 135, '0', null, true, 12, '---', false, false),
     (54, 3, 'hs_hr_emp_skill.comments', 'Comments', 'skillComments',  'false', null, null, 'label', '<xml><getter>skillComments</getter></xml>', 200, '0', null, true, 12, '---', false, false),
-    (55, 3, 'hs_hr_language.lang_name', 'Language', 'langName',  'false', null, null, 'label', '<xml><getter>langName</getter></xml>', 200, '0', null, true, 13, '---', false, false),
+    (55, 3, 'ohrm_language.name', 'Language', 'langName',  'false', null, null, 'label', '<xml><getter>langName</getter></xml>', 200, '0', null, true, 13, '---', false, false),
     (57, 3, 'CASE hs_hr_emp_language.competency WHEN 1 THEN "Poor" WHEN 2 THEN "Basic" WHEN 3 THEN "Good" WHEN 4 THEN "Mother Tongue" END', 'Competency', 'langCompetency',  'false', null, null, 'label', '<xml><getter>langCompetency</getter></xml>', 130, '0', null, true, 13, '---', false, false),
     (58, 3, 'hs_hr_emp_language.comments', 'Comments', 'langComments',  'false', null, null, 'label', '<xml><getter>langComments</getter></xml>', 200, '0', null, true, 13, '---', false, false),
     (59, 3, 'hs_hr_licenses.licenses_desc', 'License Type', 'empLicenseType',  'false', null, null, 'label', '<xml><getter>empLicenseType</getter></xml>', 200, '0', null, true, 14, '---', false, false),
@@ -899,7 +898,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (89, 3, 'hs_hr_emp_passport.ep_i9_review_date', 'Eligible Review Date', 'empPassportEligibleReviewDate',  'false', null, null, 'label', '<xml><getter>empPassportEligibleReviewDate</getter></xml>', 200, '0', null, true, 5, '---', false, false),
     (90, 3, 'hs_hr_emp_passport.ep_comments', 'Comments', 'empPassportComments',  'false', null, null, 'label', '<xml><getter>empPassportComments</getter></xml>', 200, '0', null, true, 5, '---', false, false),
     (91, 3, 'subordinate.emp_lastname', 'Last Name', 'subordinateLastName',  'false', null, null, 'label', '<xml><getter>subordinateLastName</getter></xml>', 200, '0', null, true, 8, '---', false, false),
-    (92, 3, 'CASE hs_hr_emp_language.elang_type WHEN 1 THEN "Writing" WHEN 2 THEN "Speaking" WHEN 3 THEN "Reading" END', 'Fluency', 'langFluency',  'false', null, null, 'label', '<xml><getter>langFluency</getter></xml>', 200, '0', null, true, 13, '---', false, false),
+    (92, 3, 'CASE hs_hr_emp_language.fluency WHEN 1 THEN "Writing" WHEN 2 THEN "Speaking" WHEN 3 THEN "Reading" END', 'Fluency', 'langFluency',  'false', null, null, 'label', '<xml><getter>langFluency</getter></xml>', 200, '0', null, true, 13, '---', false, false),
     (93, 3, 'supervisor_reporting_method.reporting_method_name', 'Reporting Method', 'supReportingMethod',  'false', null, null, 'label', '<xml><getter>supReportingMethod</getter></xml>', 200, '0', null, true, 9, '---', false, false),
     (94, 3, 'subordinate_reporting_method.reporting_method_name', 'Reporting Method', 'subReportingMethod',  'false', null, null, 'label', '<xml><getter>subReportingMethod</getter></xml>', 200, '0', null, true, 8, '---', false, false),
     (95, 3, 'CASE hs_hr_emp_passport.ep_passport_type_flg WHEN 1 THEN "Passport" WHEN 2 THEN "Visa" END', 'Document Type', 'documentType',  'false', null, null, 'label', '<xml><getter>documentType</getter></xml>', 200, '0', null, true, 5, '---', false, false),
@@ -913,8 +912,8 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (104, 3, 'hs_hr_emp_work_experience.eexp_seqno', 'workExpSeqNo', 'workExpSeqNo',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 10, '---', false, true),
     (105, 3, 'hs_hr_emp_education.edu_code', 'empEduCode', 'empEduCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 11, '---', false, true),
     (106, 3, 'hs_hr_emp_skill.skill_id', 'empSkillCode', 'empSkillCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 12, '---', false, true),
-    (107, 3, 'hs_hr_emp_language.lang_code', 'empLangCode', 'empLangCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
-    (108, 3, 'hs_hr_emp_language.elang_type', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
+    (107, 3, 'hs_hr_emp_language.lang_id', 'empLangCode', 'empLangCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
+    (108, 3, 'hs_hr_emp_language.fluency', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (109, 3, 'hs_hr_emp_licenses.licenses_code', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
     (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false);

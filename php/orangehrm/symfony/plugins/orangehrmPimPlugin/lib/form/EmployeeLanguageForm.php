@@ -104,12 +104,12 @@ class EmployeeLanguageForm extends sfForm {
     }
 
     private function _getLanguageList() {
-        $skillService = new SkillService();
-        $languageList = $skillService->getLanguageList();
+        $languageService = new LanguageService();
+        $languageList = $languageService->getLanguageList();
         $list = array("" => "-- " . __('Select') . " --");
 
         foreach($languageList as $language) {
-            $list[$language->getLangCode()] = $language->getLangName();
+            $list[$language->getId()] = $language->getName();
         }
 
         return $list;

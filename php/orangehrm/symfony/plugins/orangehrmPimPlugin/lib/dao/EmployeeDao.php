@@ -433,11 +433,11 @@ class EmployeeDao extends BaseDao {
             $fetchOne = false;
 
             if (!is_null($langCode)) {
-                $q->andwhere('l.lang_code = ?', $langCode);
+                $q->andwhere('l.lang_id = ?', $langCode);
             }
 
             if (!is_null($langType)) {
-                $q->andwhere('l.lang_type = ?', $langType);
+                $q->andwhere('l.fluency = ?', $langType);
             }
 
             if (!is_null($langCode) && !is_null($langType)) {
@@ -480,7 +480,7 @@ class EmployeeDao extends BaseDao {
                 $q->delete('EmployeeLanguage el');
 
                 foreach ($languagesToDelete as $code => $type) {
-                    $q->orWhere('(lang_code = ? and lang_type = ?)', array($code, $type));
+                    $q->orWhere('(lang_id = ? and fluency = ?)', array($code, $type));
                 }
                 //var_dump($q->getSqlQuery());die;
 

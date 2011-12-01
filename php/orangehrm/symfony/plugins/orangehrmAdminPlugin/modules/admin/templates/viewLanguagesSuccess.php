@@ -19,16 +19,16 @@
  */
 ?>
 
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewSkillsSuccess'); ?>
+<?php use_stylesheet('../orangehrmAdminPlugin/css/viewLanguagesSuccess'); ?>
 
 <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 
 <div id="saveFormDiv">
     <div class="outerbox">
 
-    <div class="mainHeading"><h2 id="saveFormHeading">Add Skill</h2></div>
+    <div class="mainHeading"><h2 id="saveFormHeading">Add Language</h2></div>
 
-        <form name="frmSave" id="frmSave" method="post" action="<?php echo url_for('admin/viewSkills'); ?>">
+        <form name="frmSave" id="frmSave" method="post" action="<?php echo url_for('admin/viewLanguages'); ?>">
             
             <?php echo $form['_csrf_token']; ?>
             
@@ -36,11 +36,6 @@
             
             <?php echo $form['name']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
             <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 120)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-            
-            <?php echo $form['description']->renderLabel(__('Description')); ?>
-            <?php echo $form['description']->render(array("class" => "formInputText")); ?>
             <div class="errorHolder"></div>
             <br class="clear"/>
             
@@ -64,8 +59,8 @@
 
 <div id="recordsListDiv">
     <div class="outerbox">
-        <form name="frmList" id="frmList" method="post" action="<?php echo url_for('admin/deleteSkills'); ?>">
-            <div class="mainHeading"><h2><?php echo __('Skills'); ?></h2></div>
+        <form name="frmList" id="frmList" method="post" action="<?php echo url_for('admin/deleteLanguages'); ?>">
+            <div class="mainHeading"><h2><?php echo __('Languages'); ?></h2></div>
 
             <div class="actionbar" id="listActions">
                 <div class="actionbuttons">
@@ -81,7 +76,6 @@
                     <tr>
                         <td class="check"><input type="checkbox" id="checkAll" class="checkbox" /></td>
                         <td><?php echo __('Name'); ?></td>
-                        <td><?php echo __('Description'); ?></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,9 +89,6 @@
                         <td class="tdName tdValue">
                             <a href="#"><?php echo $record->getName(); ?></a>
                         </td>
-                        <td class="tdValue">
-                            <?php echo $record->getDescription(); ?> 
-                        </td>
                     </tr>
                     
                     <?php endforeach; ?>
@@ -109,24 +100,22 @@
 </div> <!-- recordsListDiv -->    
 
 
-<?php use_javascript('../orangehrmAdminPlugin/js/viewSkillsSuccess'); ?>
+<?php use_javascript('../orangehrmAdminPlugin/js/viewLanguagesSuccess'); ?>
 
 <script type="text/javascript">
 //<![CDATA[	    
  
     var recordsCount = <?php echo count($records);?>;
    
-    var recordKeyId = "skill_id";
+    var recordKeyId = "language_id";
    
     var saveFormFieldIds = new Array();
-    saveFormFieldIds[0] = "skill_name";
-    saveFormFieldIds[1] = "skill_description";
+    saveFormFieldIds[0] = "language_name";
     
-    var lang_addFormHeading = "<?php echo __('Add Skill'); ?>";
-    var lang_editFormHeading = "<?php echo __('Edit Skill'); ?>";
+    var lang_addFormHeading = "<?php echo __('Add Language'); ?>";
+    var lang_editFormHeading = "<?php echo __('Edit Language'); ?>";
     
     var lang_nameIsRequired = "<?php echo __('Name is required'); ?>";
-    var lang_descLengthExceeded = "<?php echo __('Description length should not exceed 250 characters'); ?>";
     
 //]]>	
 </script> 

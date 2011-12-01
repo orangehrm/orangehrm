@@ -88,9 +88,9 @@ class saveDeleteLanguageAction extends basePimAction {
             $language = new EmployeeLanguage();
         }
 
-        $language->emp_number = $post['emp_number'];
-        $language->code = $post['code'];
-        $language->lang_type = $post['lang_type'];
+        $language->empNumber = $post['emp_number'];
+        $language->langId = $post['code'];
+        $language->fluency = $post['lang_type'];
         $language->competency = $post['competency'];
         $language->comments = $post['comments'];
 

@@ -110,11 +110,11 @@ create table `hs_hr_emp_contract_extend` (
 
 create table `hs_hr_emp_language` (
   `emp_number` int(7) not null default 0,
-  `lang_code` varchar(13) not null default '',
-  `elang_type` smallint(6) default '0',
+  `lang_id` int not null,
+  `fluency` smallint default '0',
   `competency` smallint default '0',
   `comments` varchar(100),
-  primary key  (`emp_number`,`lang_code`,`elang_type`)
+  primary key  (`emp_number`,`lang_id`,`fluency`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_us_tax` (
@@ -350,10 +350,10 @@ create table `hs_hr_file_version` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_language` (
-  `lang_code` varchar(13) not null default '',
-  `lang_name` varchar(120) default null,
-  primary key  (`lang_code`)
+create table `ohrm_language` (
+  `id` int not null auto_increment,
+  `name` varchar(120) default null,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -1582,8 +1582,8 @@ alter table hs_hr_emp_language
                              references hs_hr_employee(emp_number) on delete cascade;
 
 alter table hs_hr_emp_language
-       add constraint foreign key (lang_code)
-                             references hs_hr_language(lang_code) on delete cascade;
+       add constraint foreign key (lang_id)
+                             references ohrm_language(id) on delete cascade;
 
 alter table hs_hr_emp_us_tax
        add constraint foreign key (emp_number)

@@ -316,3 +316,17 @@ Membership:
       foreign: membershipCode
       type: many
       
+Language:
+  tableName: ohrm_language
+  columns:
+    id:
+      type: string(13)
+      primary: true
+      autoincrement: true
+    name: string(120)
+  relations:
+    EmployeeLanguage:
+      local: id
+      foreign: lang_id
+      type: many      
+      

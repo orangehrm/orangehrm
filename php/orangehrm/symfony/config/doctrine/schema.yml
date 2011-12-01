@@ -309,46 +309,6 @@ EmployeeSkill:
       foreign: id
       type: one
 
-Language:
-  tableName: hs_hr_language
-  columns:
-    lang_code:
-      type: string(13)
-      primary: true
-    lang_name: string(120)
-  relations:
-    EmployeeLanguage:
-      local: lang_code
-      foreign: lang_code
-      type: many
- 
-EmployeeLanguage:
-  tableName: hs_hr_emp_language
-  columns:
-    emp_number:
-      type: integer(4)
-      primary: true
-    lang_code as code:
-      type: string(13)
-      primary: true
-    elang_type as lang_type:
-      type: integer(2)
-      primary: true
-    competency:
-      type: integer(2)
-      default: '0'
-    comments:
-      type: string(100)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
-    Language:
-      local: lang_code
-      foreign: lang_code
-      type: one
- 
 CurrencyType:
   tableName: hs_hr_currency_type
   columns:

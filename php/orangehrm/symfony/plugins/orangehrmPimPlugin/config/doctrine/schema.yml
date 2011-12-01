@@ -671,3 +671,31 @@ EmpTerminationReason:
       local: id
       foreign: reasonId
       type: one
+      
+EmployeeLanguage:
+  tableName: hs_hr_emp_language
+  columns:
+    emp_number as empNumber:
+      type: integer
+      primary: true
+    lang_id as langId:
+      type: string(13)
+      primary: true
+    fluency:
+      type: integer
+      primary: true
+      default: '0'
+    competency:
+      type: integer
+      default: '0'
+    comments:
+      type: string(100)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Language:
+      local: lang_id
+      foreign: id
+      type: one      

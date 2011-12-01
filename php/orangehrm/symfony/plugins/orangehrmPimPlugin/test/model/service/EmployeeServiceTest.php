@@ -797,8 +797,8 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $language = new EmployeeLanguage();
         $language->setEmpNumber($empNumber);
-        $language->setCode('LAN002');
-        $language->setLangType(1);
+        $language->setLangId(2);
+        $language->setFluency(1);
         $language->setCompetency(1);
         $language->setComments('no comments'); 
         
@@ -822,12 +822,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $language = new EmployeeLanguage();
         $language->setEmpNumber($empNumber);
-        $language->setCode('LAN002');
-        $language->setLangType(1);
+        $language->setLangId(2);
+        $language->setFluency(1);
         $language->setCompetency(1);
         $language->setComments('no comments');        
         
-        $languageCode = 'LAN002';
+        $languageCode = 2;
         $langType = 1;
         
         $mockDao = $this->getMock('EmployeeDao');
