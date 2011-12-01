@@ -17,10 +17,10 @@ create table `ohrm_employment_status` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_eec` (
-	`eec_code` varchar(13) not null default '',
-	`eec_desc` varchar(50) default null,
-  primary key  (`eec_code`)
+create table `ohrm_job_category` (
+	`id` int not null auto_increment,
+	`name` varchar(60) default null,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_jobtit_empstat` (
@@ -1462,7 +1462,7 @@ alter table hs_hr_employee
 
 alter table hs_hr_employee
        add constraint foreign key (eeo_cat_code)
-                             references hs_hr_eec(eec_code) on delete set null;
+                             references ohrm_job_category(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (termination_id)

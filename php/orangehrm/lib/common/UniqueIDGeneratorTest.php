@@ -23,7 +23,7 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 	private $tableInfo = array(array("hs_hr_compstructtree", "id", null),
 							array("ohrm_customer", "customer_id", null),
 							array("hs_hr_education", "edu_code", "EDU"),
-							array("hs_hr_eec", "eec_code", "EEC"),
+							array("ohrm_job_category", "eec_code", "EEC"),
 							array("hs_hr_employee", "emp_number", null),
 							array("hs_hr_ethnic_race", "ethnic_race_code", "ETH"),
 							array("hs_hr_holidays", "holiday_id", null),

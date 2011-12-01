@@ -27,3 +27,8 @@ label.error {
 #addDeleteBtnDiv{
     padding:  5px 5px 5px 5px;
 }
+
+.salary{
+    text-align: right;
+    padding-right: 100px !important;
+}

@@ -52,7 +52,7 @@ create table `hs_hr_empstat` (
   primary key  (`estat_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_eec` (
+create table `ohrm_job_category` (
 	`eec_code` varchar(13) not null default '',
 	`eec_desc` varchar(50) default null,
   primary key  (`eec_code`)
@@ -997,7 +997,7 @@ alter table hs_hr_employee
 
 alter table hs_hr_employee
        add constraint foreign key (eeo_cat_code)
-                             references hs_hr_eec(eec_code) on delete set null;
+                             references ohrm_job_category(eec_code) on delete set null;
 
 alter table hs_hr_emp_children
        add constraint foreign key (emp_number)
@@ -1743,14 +1743,14 @@ INSERT INTO `hs_hr_province` VALUES (63, 'Armed Forces Europe', 'AE', 'US');
 INSERT INTO `hs_hr_province` VALUES (64, 'Armed Forces Middle East', 'AE', 'US');
 INSERT INTO `hs_hr_province` VALUES (65, 'Armed Forces Pacific', 'AP', 'US');
 
-INSERT INTO `hs_hr_eec` VALUES ('EEC001', 'OFFICIALS AND ADMINISTRATORS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC002', 'PROFESSIONALS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC003', 'TECHNICIANS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC004', 'PROTECTIVE SERVICE WORKERS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC005', 'PARAPROFESSIONALS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC006', 'ADMINISTRATIVE SUPPORT');
-INSERT INTO `hs_hr_eec` VALUES ('EEC007', 'SKILLED CRAFT WORKERS');
-INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
+INSERT INTO `ohrm_job_category` VALUES ('EEC001', 'OFFICIALS AND ADMINISTRATORS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC002', 'PROFESSIONALS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC003', 'TECHNICIANS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC004', 'PROTECTIVE SERVICE WORKERS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC005', 'PARAPROFESSIONALS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC006', 'ADMINISTRATIVE SUPPORT');
+INSERT INTO `ohrm_job_category` VALUES ('EEC007', 'SKILLED CRAFT WORKERS');
+INSERT INTO `ohrm_job_category` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
 
 INSERT INTO `hs_hr_empstat` VALUES ('EST001', 'Full Time Contract');
 INSERT INTO `hs_hr_empstat` VALUES ('EST002', 'Full Time Internship');
@@ -1811,7 +1811,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_customer', 'customer_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_title', 'jobtit_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(6, 'hs_hr_empstat', 'estat_code');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(8, 'hs_hr_eec', 'eec_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(8, 'ohrm_job_category', 'eec_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_licenses', 'licenses_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_employee', 'emp_number');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_location', 'loc_code');

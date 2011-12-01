@@ -466,15 +466,6 @@ INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`)
     (64, 'Armed Forces Middle East', 'AE', 'US'),
     (65, 'Armed Forces Pacific', 'AP', 'US');
 
-INSERT INTO `hs_hr_eec`(`eec_code`, `eec_desc`) VALUES ('EEC001', 'OFFICIALS AND ADMINISTRATORS'),
-    ('EEC002', 'PROFESSIONALS'),
-    ('EEC003', 'TECHNICIANS'),
-    ('EEC004', 'PROTECTIVE SERVICE WORKERS'),
-    ('EEC005', 'PARAPROFESSIONALS'),
-    ('EEC006', 'ADMINISTRATIVE SUPPORT'),
-    ('EEC007', 'SKILLED CRAFT WORKERS'),
-    ('EEC008', 'SERVICE-MAINTENANCE');
-
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
 INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
@@ -538,7 +529,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
-    (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
     (6, 'hs_hr_module', 'mod_id'),
@@ -666,8 +656,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_status = ohrm_employment_status.id) 
                     LEFT JOIN ohrm_job_title ON
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
-                    LEFT JOIN hs_hr_eec ON 
-                        (hs_hr_employee.eeo_cat_code = hs_hr_eec.eec_code) 
+                    LEFT JOIN ohrm_job_category ON 
+                        (hs_hr_employee.eeo_cat_code = ohrm_job_category.id) 
                     LEFT JOIN ohrm_nationality ON
                         (hs_hr_employee.nation_code = ohrm_nationality.id)
                     LEFT JOIN hs_hr_emp_dependents ON 
@@ -881,7 +871,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (76, 3, 'DATE(hs_hr_emp_contract_extend.econ_extend_end_date)', 'Contract End Date', 'empContEndDate',  'false', null, null, 'label', '<xml><getter>empContEndDate</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (77, 3, 'ohrm_job_title.job_title', 'Job Title', 'empJobTitle',  'false', null, null, 'label', '<xml><getter>empJobTitle</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (78, 3, 'ohrm_employment_status.name', 'Employment Status', 'empEmploymentStatus',  'false', null, null, 'label', '<xml><getter>empEmploymentStatus</getter></xml>', 200, '0', null, true, 6, '---', false, false),
-    (80, 3, 'hs_hr_eec.eec_desc', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
+    (80, 3, 'ohrm_job_category.name', 'Job Category', 'empJobCategory',  'false', null, null, 'label', '<xml><getter>empJobCategory</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (81, 3, 'hs_hr_employee.joined_date', 'Joined Date', 'empJoinedDate',  'false', null, null, 'label', '<xml><getter>empJoinedDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
     (82, 3, 'ohrm_subunit.name', 'Sub Unit', 'empSubUnit',  'false', null, null, 'label', '<xml><getter>empSubUnit</getter></xml>', 200, '0', null, true, 6, '---', false, false),
     (83, 3, 'ohrm_location.name', 'Location', 'empLocation',  'false', null, null, 'label', '<xml><getter>empLocation</getter></xml>', 200, '0', null, true, 6, '---', false, false),

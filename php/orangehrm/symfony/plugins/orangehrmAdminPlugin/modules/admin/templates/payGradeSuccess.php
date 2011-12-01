@@ -54,7 +54,7 @@
 	    <div>
 		<?php echo $currencyForm['currencyName']->renderLabel(__('Currency') . ' <span class="required">*</span>'); ?>
                 <?php echo $currencyForm['currencyName']->render(array("class" => "formInput", "maxlength" => 52)); ?>
-		<div class="errorHolder"></div>
+		<div class="errorHolder curName"></div>
 		<br class="clear"/>
 	    </div>
 	    <div>
@@ -113,8 +113,8 @@
                     <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]'
                                value="<?php echo $currency->currency_id; ?>"/></td>
                     <td><a href="#" class="editLink"><?php echo $currency->getCurrencyType()->getCurrencyName(); ?></a></td>
-                    <td><?php echo $currency->minSalary; ?></td>
-                    <td><?php echo $currency->maxSalary; ?></td>
+                    <td class="salary"><?php echo $currency->minSalary; ?></td>
+                    <td class="salary"><?php echo $currency->maxSalary; ?></td>
                 </tr>
             <?php   $row++;
             }

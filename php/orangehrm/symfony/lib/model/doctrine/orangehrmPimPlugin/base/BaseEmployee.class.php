@@ -69,7 +69,11 @@
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
  * @property EmpTermination $EmpTermination
+<<<<<<< .mine
+ * @property JobCategory $JobCategory
+=======
  * @property Nationality $Nationality
+>>>>>>> .r8894
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -86,7 +90,6 @@
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property Doctrine_Collection $CandidateHistory
  * @property Doctrine_Collection $EmpChildren
- * @property JobCategory $JobCategory
  * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $Users
  * @property Doctrine_Collection $EmployeeWorkShift
@@ -157,7 +160,11 @@
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
+<<<<<<< .mine
+ * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
+=======
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
+>>>>>>> .r8894
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -174,7 +181,6 @@
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
  * @method Doctrine_Collection getCandidateHistory()         Returns the current record's "CandidateHistory" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
- * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
  * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
@@ -244,7 +250,11 @@
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
+<<<<<<< .mine
+ * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
+=======
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
+>>>>>>> .r8894
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -261,7 +271,6 @@
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
  * @method Employee            setCandidateHistory()         Sets the current record's "CandidateHistory" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
- * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
  * @method Employee            setUsers()                    Sets the current record's "Users" collection
  * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
@@ -560,6 +569,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'termination_id',
              'foreign' => 'id'));
 
+        $this->hasOne('JobCategory', array(
+             'local' => 'eeo_cat_code',
+             'foreign' => 'id'));
+
         $this->hasOne('Nationality', array(
              'local' => 'nation_code',
              'foreign' => 'id'));
@@ -628,10 +641,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('EmpChildren', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
-
-        $this->hasOne('JobCategory', array(
-             'local' => 'eeo_cat_code',
-             'foreign' => 'eec_code'));
 
         $this->hasMany('EmployeeLicense', array(
              'local' => 'empNumber',

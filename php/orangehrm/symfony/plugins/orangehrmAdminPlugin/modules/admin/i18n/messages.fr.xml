@@ -569,6 +569,86 @@
                 <target>FR_Selected Membership(s) Deleted Successfully</target>
             </trans-unit>
             <trans-unit id="140">
+                <source>Pay Grades</source>
+                <target>FR_Pay Grades</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>Pay Grade</source>
+                <target>FR_Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>Currency</source>
+                <target>FR_Currency</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>Add Pay Grade</source>
+                <target>FR_Add Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>Pay Grade name is required</source>
+                <target>FR_Pay Grade name is required</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Pay Grade Saved Successfully</source>
+                <target>FR_Pay Grade Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="146">
+                <source>Assigned Currencies</source>
+                <target>FR_Assigned Currencies</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>Minimum Salary</source>
+                <target>FR_Minimum Salary</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>Maximum Salary</source>
+                <target>FR_Maximum Salary</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>Invalid salary range</source>
+                <target>FR_Invalid salary range</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>Salary should be a number. No spaces are allowed</source>
+                <target>FR_Salary should be a number. No spaces are allowed</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>Selected pay grade(s) will be deleted</source>
+                <target>FR_Selected pay grade(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Selected Pay Grade(s) Deleted Successfully</source>
+                <target>FR_Selected Pay Grade(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Edit Pay Grade</source>
+                <target>FR_Edit Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>Edit Currency</source>
+                <target>FR_Edit Currency</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>Add Currency</source>
+                <target>FR_Add Currency</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>Enter a valid currency</source>
+                <target>FR_Enter a valid currency</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Pay Grade Currency Deleted Successfully</source>
+                <target>FR_Pay Grade Currency Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>Pay Grade Currencies Deleted Successfully</source>
+                <target>FR_Pay Grade Currencies Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Name is already exist</source>
+                <target>FR_Name is already exist</target>
+            </trans-unit>
+            <trans-unit id="140">
                 <source>Nationalities</source>
                 <target>FR_Nationalities</target>
             </trans-unit>

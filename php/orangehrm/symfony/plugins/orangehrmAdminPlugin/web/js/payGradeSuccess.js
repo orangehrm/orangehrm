@@ -19,7 +19,8 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-
+            $('.curName').html("");
+            $('#payGradeCurrency_currencyName').removeClass("error");
         });
     
     $('#btnCancel').click(function() {
@@ -55,9 +56,7 @@ $(document).ready(function() {
     });
     
     $('#btnSaveCurrency').click(function(){
-        if(isValidForm){
             $('#frmCurrency').submit();
-        }
     });
     
     $('.editLink').click(function(event) {
@@ -182,9 +181,9 @@ $(document).ready(function() {
     $.validator.addMethod("validSalaryRange", function(value, element, params) {
         
         var isValid = true;
-        var minSalry = $('#payGradeCurrency_minSalary').val();
-        var maxSalry = $('#payGradeCurrency_maxSalary').val();
-        
+        var minSalry = parseInt($('#payGradeCurrency_minSalary').val(), 10);
+        var maxSalry = parseInt($('#payGradeCurrency_maxSalary').val(), 10);
+
         if(minSalry > maxSalry && maxSalry != "") {
             isValid = false;
         }

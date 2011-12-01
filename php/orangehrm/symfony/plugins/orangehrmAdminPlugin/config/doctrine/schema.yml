@@ -345,3 +345,17 @@ Nationality:
       foreign: nation_code
       type: many
       
+JobCategory:
+  tableName: ohrm_job_category
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(50)
+  relations:
+    Employee:
+      local: id
+      foreign: eeo_cat_code
+      type: many
+      

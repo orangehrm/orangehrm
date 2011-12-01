@@ -46,7 +46,7 @@ create table `hs_hr_empstat` (
   primary key  (`estat_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_eec` (
+create table `ohrm_job_category` (
 	`eec_code` varchar(13) not null default '',
 	`eec_desc` varchar(50) default null,
   primary key  (`eec_code`)

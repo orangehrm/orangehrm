@@ -155,20 +155,7 @@ CompanyProperty:
       type: string(250)
       notnull: true
     emp_id: integer(4)
- 
-JobCategory:
-  tableName: hs_hr_eec
-  columns:
-    eec_code:
-      type: string(13)
-      primary: true
-    eec_desc: string(50)
-  relations:
-    Employee:
-      local: eec_code
-      foreign: eeo_cat_code
-      type: many
- 
+  
 SalaryGrade:
   tableName: ohrm_pay_grade
   columns:

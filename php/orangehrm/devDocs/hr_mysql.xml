@@ -545,7 +545,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1007" Tablename="hs_hr_eec" PrevTableName="" XPos="1830" YPos="40" TableType="0" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="" TableOptions="" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="9" >
+<TABLE ID="1007" Tablename="ohrm_job_category" PrevTableName="" XPos="1830" YPos="40" TableType="0" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="" TableOptions="" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="9" >
 <COLUMNS>
 <COLUMN ID="1099" ColName="eec_code" PrevColName="" Pos="1" idDatatype="20" DatatypeParams="(6)" Width="0" Prec="0" PrimaryKey="1" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>

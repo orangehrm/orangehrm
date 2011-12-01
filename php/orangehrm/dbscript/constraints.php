@@ -22,7 +22,7 @@ array("hs_hr_employee",         array("ethnic_race_code"),   "hs_hr_ethnic_race"
 array("hs_hr_employee",         array("nation_code"),    "hs_hr_nationality", array("nat_code"),     "null"),
 array("hs_hr_employee", 		array("job_title_code"), "hs_hr_job_title",   array("jobtit_code"), "null"),
 array("hs_hr_employee", 		array("emp_status"),     "hs_hr_empstat",     array("estat_code"),  "null"),
-array("hs_hr_employee",         array("eeo_cat_code"),   "hs_hr_eec",         array("eec_code"), "null"),
+array("hs_hr_employee",         array("eeo_cat_code"),   "ohrm_job_category",         array("eec_code"), "null"),
 array("hs_hr_emp_children",     array("emp_number"),     "hs_hr_employee",    array("emp_number"), "cascade"),
 array("hs_hr_emp_dependents",   array("emp_number"),     "hs_hr_employee",    array("emp_number"), "cascade"),
 array("hs_hr_emp_emergency_contacts",    array("emp_number"), "hs_hr_employee", array("emp_number"), "cascade"),

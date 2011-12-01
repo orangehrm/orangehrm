@@ -1091,7 +1091,7 @@ HsHrTimesheetSubmissionPeriod:
       foreign: timesheet_period_id
       type: many
 HsHrEec:
-  tableName: hs_hr_eec
+  tableName: ohrm_job_category
   columns:
     eec_code:
       type: string(13)
