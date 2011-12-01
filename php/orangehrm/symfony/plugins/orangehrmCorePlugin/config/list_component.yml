@@ -508,3 +508,24 @@ Membership:
   formAction: 'index.php/admin/deleteMemberships'
   assets: []
   jsInitMethods: []
+
+Nationality:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Nationalities");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteNationalities'
+  assets: []
+  jsInitMethods: []

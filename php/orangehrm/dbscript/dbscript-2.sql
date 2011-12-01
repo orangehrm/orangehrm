@@ -537,13 +537,12 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
       (2, 'Indirect');
 
 
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES (0, 'hs_hr_nationality', 'nat_code'),
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (8, 'hs_hr_eec', 'eec_code'),
     (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
     (6, 'hs_hr_module', 'mod_id'),
     (0, 'hs_hr_education', 'edu_code'),
-    (0, 'hs_hr_ethnic_race', 'ethnic_race_code'),
     (1, 'hs_hr_user_group', 'userg_id'),
     (1, 'hs_hr_users', 'id'),
     (0, 'hs_hr_empreport', 'rep_code'),
@@ -669,10 +668,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
                     LEFT JOIN hs_hr_eec ON 
                         (hs_hr_employee.eeo_cat_code = hs_hr_eec.eec_code) 
-                    LEFT JOIN hs_hr_nationality ON 
-                        (hs_hr_employee.nation_code = hs_hr_nationality.nat_code) 
-                    LEFT JOIN hs_hr_ethnic_race ON 
-                        (hs_hr_employee.ethnic_race_code = hs_hr_ethnic_race.ethnic_race_code) 
+                    LEFT JOIN ohrm_nationality ON
+                        (hs_hr_employee.nation_code = ohrm_nationality.id)
                     LEFT JOIN hs_hr_emp_dependents ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_dependents.emp_number)
                     LEFT JOIN hs_hr_emp_locations AS emp_location ON
@@ -747,9 +744,8 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                      hs_hr_employee.emp_firstname,
                      hs_hr_employee.emp_middle_name,
                      hs_hr_employee.emp_birthday,
-                     hs_hr_nationality.nat_name,
+                     ohrm_nationality.name,
                      hs_hr_employee.emp_gender,
-                     hs_hr_ethnic_race.ethnic_race_desc,
                      hs_hr_employee.emp_marital_status,
                      hs_hr_employee.emp_dri_lice_num,
                      hs_hr_employee.emp_dri_lice_exp_date,
@@ -826,9 +822,8 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (11, 3, 'hs_hr_employee.emp_firstname', 'Employee First Name','employeeFirstname',  'false', null, null, 'label', '<xml><getter>employeeFirstname</getter></xml>', 200, '0', null, false, 1, '---', false, false),
     (12, 3, 'hs_hr_employee.emp_middle_name', 'Employee Middle Name', 'employeeMiddlename',  'false', null, null, 'label', '<xml><getter>employeeMiddlename</getter></xml>', 200, '0', null, false, 1, '---', false, false),
     (13, 3, 'hs_hr_employee.emp_birthday', 'Date of Birth',           'empBirthday',  'false', null, null, 'label', '<xml><getter>empBirthday</getter></xml>', 100, '0', null, false, 1, '---', false, false),
-    (14, 3, 'hs_hr_nationality.nat_name', 'Nationality',              'nationality',  'false', null, null, 'label', '<xml><getter>nationality</getter></xml>', 200, '0', null, false, 1, '---', false, false),
+    (14, 3, 'ohrm_nationality.name', 'Nationality',              'nationality',  'false', null, null, 'label', '<xml><getter>nationality</getter></xml>', 200, '0', null, false, 1, '---', false, false),
     (15, 3, 'CASE hs_hr_employee.emp_gender WHEN 1 THEN "Male" WHEN 2 THEN "Female" WHEN 3 THEN "Other" END', 'Gender', 'empGender',  'false', null, null, 'label', '<xml><getter>empGender</getter></xml>', 80, '0', null, false, 1, '---', false, false),
-    (16, 3, 'hs_hr_ethnic_race.ethnic_race_desc', 'Ethnic Race', 'ethnicRace',  'false', null, null, 'label', '<xml><getter>ethnicRace</getter></xml>', 200, '0', null, false, 1, '---', false, false),
     (17, 3, 'hs_hr_employee.emp_marital_status', 'Marital Status',    'maritalStatus',  'false', null, null, 'label', '<xml><getter>maritalStatus</getter></xml>', 100, '0', null, false, 1, '---', false, false),
     (18, 3, 'hs_hr_employee.emp_dri_lice_num', 'Driver License Number', 'driversLicenseNumber',  'false', null, null, 'label', '<xml><getter>driversLicenseNumber</getter></xml>', 240, '0', null, false, 1, '---', false, false),
     (19, 3, 'hs_hr_employee.emp_dri_lice_exp_date', 'License Expiry Date', 'licenseExpiryDate',  'false', null, null, 'label', '<xml><getter>licenseExpiryDate</getter></xml>', 135, '0', null, false, 1, '---', false, false),
@@ -947,7 +942,6 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (9, 13, 5),
     (10, 14, 5),
     (11, 15, 5),
-    (12, 16, 5),
     (13, 17, 5),
     (14, 18, 5),
     (15, 19, 5),

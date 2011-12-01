@@ -646,7 +646,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($retVal);
         
         $employee->emp_dri_lice_exp_date = '2011-01-01';
-        $employee->nation_code = 'NAT001';
+        $employee->nation_code = 1;
         $employee->ethnic_race_code = 'ETH001';
         $employee->emp_birthday = '1975-01-30';
         

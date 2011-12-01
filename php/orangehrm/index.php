@@ -361,18 +361,12 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "./symfony/web/index.php/admin/membership", "rightMenu");
     $subs[] = $sub;
 
-    $sub = new MenuItem("natandrace", $lang_Menu_Admin_NationalityNRace, "#");
-    $subsubs = array();
-    $subsubs[] = new MenuItem("natandrace", $lang_Menu_Admin_NationalityNRace_Nationality, "index.php?uniqcode=NAT&menu_no_top=eim");
-    $subsubs[] = new MenuItem("natandrace", $lang_Menu_Admin_NationalityNRace_EthnicRaces, "index.php?uniqcode=ETH&menu_no_top=eim");
-    $sub->setSubMenuItems($subsubs);
+    $sub = new MenuItem("nationalities", "Nationalities", "./symfony/web/index.php/admin/nationality", "rightMenu");
     $subs[] = $sub;
 
     $sub = new MenuItem("users", $lang_Menu_Admin_Users, "./symfony/web/index.php/admin/viewSystemUsers", "rightMenu");
     $subsubs = array();
-    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
-    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_ESS, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=No");
-    //$subsubs[] = new MenuItem("users", $lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
+
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmSecurityAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
         $subsubs[] = new MenuItem('users', 'Configure Security Authentication', './symfony/web/index.php/securityAuthentication/securityAuthenticationConfigure', 'rightMenu');
     }

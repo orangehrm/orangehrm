@@ -328,5 +328,20 @@ Language:
     EmployeeLanguage:
       local: id
       foreign: lang_id
-      type: many      
+      type: many
+
+Nationality:
+  tableName: ohrm_nationality
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+  relations:
+    Employee:
+      local: id
+      foreign: nation_code
+      type: many
       

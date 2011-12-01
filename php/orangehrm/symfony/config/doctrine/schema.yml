@@ -346,32 +346,6 @@ Payperiod:
       local: payperiod_code
       foreign: payperiod_code
       type: many
-      
-Nationality:
-  tableName: hs_hr_nationality
-  columns:
-    nat_code:
-      type: string(13)
-      primary: true
-    nat_name: string(120)
-  relations:
-    Employee:
-      local: nat_code
-      foreign: nation_code
-      type: many
-
-EthnicRace:
-  tableName: hs_hr_ethnic_race
-  columns:
-    ethnic_race_code:
-      type: string(13)
-      primary: true
-    ethnic_race_desc: string(50)
-  relations:
-    Employee:
-      local: ethnic_race_code
-      foreign: ethnic_race_code
-      type: many
        
 CustomFields:
   tableName: hs_hr_custom_fields

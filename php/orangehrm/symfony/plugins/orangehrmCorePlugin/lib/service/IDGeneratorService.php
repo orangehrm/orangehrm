@@ -97,14 +97,6 @@ class IDGeneratorService extends BaseService
 				$prefix	=	'MME';
 			break;
 
-			case 'Nationality':
-				$prefix	=	'NAT';
-			break;
-
-			case 'EthnicRace':
-				$prefix	=	'ETH';
-			break;
-
 			case 'UserGroup':
 				$prefix	=	'USG';
 			break;

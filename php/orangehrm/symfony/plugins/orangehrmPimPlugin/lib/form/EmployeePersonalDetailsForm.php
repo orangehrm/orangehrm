@@ -87,7 +87,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'chkSmokeFlag' => new sfWidgetFormInputCheckbox(),
             'txtLicExpDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'personal_txtLicExpDate')),
             'txtMilitarySer' => new sfWidgetFormInputText(),
-            'cmbEthnicRace' => new sfWidgetFormSelect(array('choices'=> $this->getEthnicalRaceList())),
         );
 
         //setting default values
@@ -99,10 +98,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
 
         //setting the default selected nation code
         $this->widgets['cmbNation']->setDefault($employee->nation_code);
-
-        //setting the default value for ethnical code
-        $this->widgets['cmbEthnicRace']->setDefault($employee->ethnic_race_code);
-
 
         //setting default marital status
         $this->widgets['cmbMarital']->setDefault($employee->emp_marital_status);
@@ -118,7 +113,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $this->widgets['txtOtherID']->setAttribute('value', $employee->otherId);
       
         // Widgets for non-ess mode only
-        //if (!$ess) {
             //initializing and setting default values
             $this->widgets['txtEmployeeId'] = new sfWidgetFormInputText();
             $this->widgets['txtEmployeeId']->setAttribute('value', $employee->employeeId);
@@ -134,7 +128,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
             
             $this->widgets['txtLicenNo'] = new sfWidgetFormInputText();
             $this->widgets['txtLicenNo']->setAttribute('value', $employee->licenseNo);
-        //}
         
         $this->setWidgets($this->widgets);
 
@@ -158,8 +151,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'cmbMarital' => new sfValidatorString(array('required' => false)),
             'chkSmokeFlag' => new sfValidatorString(array('required' => false)),
             'txtLicExpDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be $inputDatePattern")),
-            'txtMilitarySer' => new sfValidatorString(array('required' => false)),
-            'cmbEthnicRace' => new sfValidatorChoice(array('required' => false, 'choices'=> array_keys($this->getEthnicalRaceList()))),
+            'txtMilitarySer' => new sfValidatorString(array('required' => false))
 
         ));
 
@@ -177,18 +169,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $list = array(0 => "-- " . __('Select') . " --");
         
         foreach($nationalities as $nationality) {
-            $list[$nationality->getNatCode()] = $nationality->getNatName();
-        }
-        return $list;
-    }
-
-    private function getEthnicalRaceList() {
-        $nationalityService = $this->getNationalityService();
-        $races = $nationalityService->getEthnicRaceList();
-        $list = array(0 => "-- " . __('Select') . " --");
-
-        foreach($races as $race) {
-            $list[$race->getEthnicRaceCode()] = $race->getEthnicRaceDesc();
+            $list[$nationality->getId()] = $nationality->getName();
         }
         return $list;
     }
@@ -222,11 +203,6 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $employee->emp_dri_lice_exp_date = $this->getValue('txtLicExpDate');
 
         $employee->militaryService = $this->getValue('txtMilitarySer');
-
-        $race = $this->getValue('cmbEthnicRace');
-        if ($race != '0') {
-            $employee->ethnic_race_code = $race;
-        }
 
         if (!$ess) {
             $employee->employeeId = $this->getValue('txtEmployeeId');

@@ -568,6 +568,34 @@
                 <source>Selected Membership(s) Deleted Successfully</source>
                 <target>FR_Selected Membership(s) Deleted Successfully</target>
             </trans-unit>
+            <trans-unit id="140">
+                <source>Nationalities</source>
+                <target>FR_Nationalities</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>Nationality</source>
+                <target>FR_Nationality</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>Add Nationality</source>
+                <target>FR_Add Nationality</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>Nationality Saved Successfully</source>
+                <target>FR_Nationality Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>Edit Nationality</source>
+                <target>FR_Edit Nationality</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Selected nationality(ies) will be deleted</source>
+                <target>FR_Selected nationality(ies) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="146">
+                <source>Selected Nationality(ies) Deleted Successfully</source>
+                <target>FR_Selected Nationality(ies) Deleted Successfully</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

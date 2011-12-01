@@ -74,7 +74,7 @@ Employee:
       default: ''
     ethnic_race_code: string(13)
     emp_birthday: date(25)
-    nation_code: string(13)
+    nation_code: integer
     emp_gender: integer(2)
     emp_marital_status: string(20)
     emp_dri_lice_exp_date: date(25)

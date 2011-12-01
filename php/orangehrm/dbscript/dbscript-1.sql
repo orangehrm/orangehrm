@@ -296,7 +296,7 @@ create table `hs_hr_employee` (
   `emp_smoker` smallint(6) default '0',
   `ethnic_race_code` varchar(13) default null,
   `emp_birthday` date null default null,
-  `nation_code` varchar(13) default null,
+  `nation_code` int(4) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,
   `emp_ssn_num` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT '',
@@ -381,14 +381,6 @@ create table `hs_hr_module` (
   primary key  (`mod_id`)
 ) engine=innodb default charset=utf8;
 
-
-create table `hs_hr_nationality` (
-  `nat_code` varchar(13) not null default '',
-  `nat_name` varchar(120) default null,
-  primary key  (`nat_code`)
-) engine=innodb default charset=utf8;
-
-
 create table `hs_hr_province` (
   `id` int(11) not null auto_increment,
   `province_name` varchar(40) not null default '',
@@ -402,13 +394,6 @@ create table `hs_hr_education` (
 	`edu_uni` varchar(100) default null,
 	`edu_deg` varchar(100) default null,
 	primary key (`edu_code`)
-) engine=innodb default charset=utf8;
-
-
-create table `hs_hr_ethnic_race` (
-  `ethnic_race_code` varchar(13) not null default '',
-  `ethnic_race_desc` varchar(50) default null,
-  primary key  (`ethnic_race_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_rights` (
@@ -1273,6 +1258,12 @@ create table `ohrm_membership` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_nationality` (
+  `id` int(6) not null auto_increment,
+  `name` varchar(100) not null,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_emp_termination
        add constraint foreign key (reason_id)
                              references ohrm_emp_termination_reason(id) on delete set null;
@@ -1458,12 +1449,8 @@ alter table hs_hr_employee
                              references ohrm_subunit(id) on delete set null;
 
 alter table hs_hr_employee
-       add constraint foreign key (ethnic_race_code)
-                             references hs_hr_ethnic_race(ethnic_race_code) on delete set null;
-
-alter table hs_hr_employee
        add constraint foreign key (nation_code)
-                             references hs_hr_nationality(nat_code) on delete set null;
+                             references ohrm_nationality(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (job_title_code)
