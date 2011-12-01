@@ -75,7 +75,7 @@ class addCandidateAction extends sfAction {
             $reDirect = true;
             $this->edit = false;
         }
-        $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber());
+        $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber(), 'isAdmin' => $userObj->isAdmin());
         $this->setForm(new AddCandidateForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {

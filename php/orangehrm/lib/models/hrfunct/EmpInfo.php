@@ -605,13 +605,13 @@ class EmpInfo {
         $sql_builder = new SQLQBuilder();
 
         $arrTables[0] = "`hs_hr_employee` a";
-        $arrTables[1] = "`hs_hr_job_title` c";
+        $arrTables[1] = "`ohrm_job_title` c";
         $arrTables[2] = "`hs_hr_compstructtree` d";
         $arrTables[3] = "`hs_hr_empstat` e";
         $arrTables[4] = "`hs_hr_emp_reportto` f";
         $arrTables[5] = "`hs_hr_employee` g";
 
-        $joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
+        $joinConditions[1] = "a.`job_title_code` = c.`id`";
         $joinConditions[2] = "a.`work_station` = d.`id`";
         $joinConditions[3] = "a.`emp_status` = e.`estat_code`";
         $joinConditions[4] = "a.`emp_number` = f.`erep_sub_emp_number`";

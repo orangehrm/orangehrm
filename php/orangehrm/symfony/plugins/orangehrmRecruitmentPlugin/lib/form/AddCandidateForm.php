@@ -30,6 +30,7 @@ class AddCandidateForm extends BaseForm {
     private $removedHistory;
     public $allowedVacancyList;
     public $empNumber;
+    private $isAdmin;
     private $allowedFileTypes = array(
         "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "doc" => "application/msword",
@@ -99,6 +100,7 @@ class AddCandidateForm extends BaseForm {
         $this->candidateId = $this->getOption('candidateId');
         $this->allowedVacancyList = $this->getOption('allowedVacancyList');
         $this->empNumber = $this->getOption('empNumber');
+                $this->isAdmin = $this->getOption('isAdmin');
         $attachmentList = $this->attachment;
         if (count($attachmentList) > 0) {
             $this->attachment = $attachmentList[0];
@@ -185,7 +187,7 @@ class AddCandidateForm extends BaseForm {
         $activeVacancyList = $this->getVacancyService()->getAllVacancies(JobVacancy::ACTIVE);
         foreach ($activeVacancyList as $vacancy) {
             $vacancyId = $vacancy->getId();
-            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy->getHiringManagerId() == $this->empNumber || $this->empNumber == null)) {
+            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy->getHiringManagerId() == $this->empNumber || $this->isAdmin)) {
                 $list[$vacancy->getId()] = $vacancy->getName();
             }
         }
