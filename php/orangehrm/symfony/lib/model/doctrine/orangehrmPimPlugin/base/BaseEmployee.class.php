@@ -30,7 +30,7 @@
  * @property date $emp_dri_lice_exp_date
  * @property integer $emp_status
  * @property integer $job_title_code
- * @property string $eeo_cat_code
+ * @property integer $eeo_cat_code
  * @property integer $work_station
  * @property string $emp_zipcode
  * @property string $emp_hm_telephone
@@ -69,11 +69,8 @@
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
  * @property EmpTermination $EmpTermination
-<<<<<<< .mine
- * @property JobCategory $JobCategory
-=======
  * @property Nationality $Nationality
->>>>>>> .r8894
+ * @property JobCategory $JobCategory
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -121,7 +118,7 @@
  * @method date                getEmpDriLiceExpDate()        Returns the current record's "emp_dri_lice_exp_date" value
  * @method integer             getEmpStatus()                Returns the current record's "emp_status" value
  * @method integer             getJobTitleCode()             Returns the current record's "job_title_code" value
- * @method string              getEeoCatCode()               Returns the current record's "eeo_cat_code" value
+ * @method integer             getEeoCatCode()               Returns the current record's "eeo_cat_code" value
  * @method integer             getWorkStation()              Returns the current record's "work_station" value
  * @method string              getEmpZipcode()               Returns the current record's "emp_zipcode" value
  * @method string              getEmpHmTelephone()           Returns the current record's "emp_hm_telephone" value
@@ -160,11 +157,8 @@
  * @method Doctrine_Collection getAttachments()              Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()             Returns the current record's "projectAdmin" collection
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
-<<<<<<< .mine
- * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
-=======
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
->>>>>>> .r8894
+ * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -250,11 +244,8 @@
  * @method Employee            setAttachments()              Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()             Sets the current record's "projectAdmin" collection
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
-<<<<<<< .mine
- * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
-=======
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
->>>>>>> .r8894
+ * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -406,9 +397,8 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'type' => 'integer',
              'length' => 6,
              ));
-        $this->hasColumn('eeo_cat_code', 'string', 13, array(
-             'type' => 'string',
-             'length' => 13,
+        $this->hasColumn('eeo_cat_code', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('work_station', 'integer', 4, array(
              'type' => 'integer',
@@ -569,12 +559,12 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'termination_id',
              'foreign' => 'id'));
 
-        $this->hasOne('JobCategory', array(
-             'local' => 'eeo_cat_code',
-             'foreign' => 'id'));
-
         $this->hasOne('Nationality', array(
              'local' => 'nation_code',
+             'foreign' => 'id'));
+
+        $this->hasOne('JobCategory', array(
+             'local' => 'eeo_cat_code',
              'foreign' => 'id'));
 
         $this->hasMany('EmployeeLeaveEntitlement', array(

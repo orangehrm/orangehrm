@@ -37,7 +37,7 @@ class jobCategoryAction extends sfAction {
 			$this->redirect('pim/viewPersonalDetails');
 		}
 		
-		$this->setForm(new EmploymentStatusForm());
+		$this->setForm(new JobCategoryForm());
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}

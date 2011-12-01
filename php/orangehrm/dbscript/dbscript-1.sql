@@ -307,7 +307,7 @@ create table `hs_hr_employee` (
   `emp_military_service` varchar(100) default '',
   `emp_status` int(13) default null,
   `job_title_code` int(7) default null,
-  `eeo_cat_code` varchar(13) default null,
+  `eeo_cat_code` int default null,
   `work_station` int(6) default null,
   `emp_street1` varchar(100) default '',
   `emp_street2` varchar(100) default '',
