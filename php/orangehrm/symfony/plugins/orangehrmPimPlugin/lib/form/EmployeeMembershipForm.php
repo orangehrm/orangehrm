@@ -72,8 +72,7 @@ class EmployeeMembershipForm extends BaseForm {
 
     public function configure() {
 
-        $membershipType = $this->getMembershipTypeList();
-        $membership = array('' => "-- " . __('Select') . " --");
+        $memberships = $this->getMembershipList();
         $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'Company' => __('Company'), 'Individual' => __('Individual'));
         $currency = $this->getCurrencyList();
 
@@ -85,8 +84,7 @@ class EmployeeMembershipForm extends BaseForm {
         $this->setWidgets(array(
             'empNumber' => new sfWidgetFormInputHidden(array(),
                     array('value' => $empNumber)),
-            'membershipType' => new sfWidgetFormSelect(array('choices' => $membershipType)),
-            'membership' => new sfWidgetFormSelect(array('choices' => $membership)),
+            'membership' => new sfWidgetFormSelect(array('choices' => $memberships)),
             'subscriptionPaidBy' => new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy)),
             'subscriptionAmount' => new sfWidgetFormInputText(),
             'currency' => new sfWidgetFormSelect(array('choices' => $currency)),
@@ -100,8 +98,7 @@ class EmployeeMembershipForm extends BaseForm {
         //Setting validators
         $this->setValidators(array(
             'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
-            'membershipType' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($membershipType))),
-            'membership' => new sfValidatorString(array('required' => true, 'max_length' => 13), array('required' => 'Select a membership')),
+            'membership' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($memberships))),
             'subscriptionPaidBy' => new sfValidatorString(array('required' => false)),
             'subscriptionAmount' => new sfValidatorNumber(array('required' => false)),
             'currency' => new sfValidatorString(array('required' => false)),
@@ -117,11 +114,11 @@ class EmployeeMembershipForm extends BaseForm {
      * Returns Membership Type List
      * @return array
      */
-    private function getMembershipTypeList() {
+    private function getMembershipList() {
         $list = array("" => "-- " . __('Select') . " --");
-        $membershipTypes = $this->getMembershipService()->getMembershipTypeList();
-        foreach ($membershipTypes as $membershipType) {
-            $list[$membershipType->getMembershipTypeCode()] = $membershipType->getMembershipTypeName();
+        $membershipList = $this->getMembershipService()->getMembershipList();
+        foreach ($membershipList as $membership) {
+            $list[$membership->getId()] = $membership->getName();
         }
         return $list;
     }
@@ -145,18 +142,17 @@ class EmployeeMembershipForm extends BaseForm {
     public function save() {
 
         $empNumber = $this->getValue('empNumber');
-        $membershipType = $this->getValue('membershipType');
         $membership = $this->getValue('membership');
 
         $employeeService = new EmployeeService();
-        $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membershipType, $membership);
+
+        $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membership);
         $membershipDetail = $membershipDetails[0];
 
         if ($membershipDetail->getEmpNumber() == null) {
 
             $membershipDetail = new EmployeeMemberDetail();
             $membershipDetail->empNumber = $empNumber;
-            $membershipDetail->membershipTypeCode = $membershipType;
             $membershipDetail->membershipCode = $membership;
         }
 

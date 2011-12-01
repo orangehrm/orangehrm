@@ -68,10 +68,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
 
-                            <?php echo $form['membershipType']->renderLabel(__('Membership Type'). ' <span class="required">*</span>'); ?>
-                            <?php echo $form['membershipType']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
-                            <br class="clear"/>
-
                             <?php echo $form['membership']->renderLabel(__('Membership'). ' <span class="required">*</span>'); ?>
                             <?php echo $form['membership']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
                             <br class="clear"/>
@@ -135,7 +131,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                 <tr>
                                     <td class="check"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></td>
                                     <td class="memshipCode"><?php echo __("Membership"); ?></td>
-                                    <td><?php echo __("Membership Type"); ?></td>
                                     <td><?php echo __("Subscription Paid By"); ?></td>
                                     <td class="memshipAmount"><?php echo __("Subscription Amount"); ?></td>
                                     <td><?php echo __("Currency"); ?></td>
@@ -149,14 +144,12 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                 foreach ($membershipDetails as $memship) {
                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                     echo '<tr class="' . $cssClass . '">';
-                                    $chkBoxValue = $empNumber . " " . $memship->membershipTypeCode . " " . $memship->membershipCode;
+                                    $chkBoxValue = $empNumber . " " . $memship->membershipCode;
                                     echo "<td class='check'><input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
                                 ?>
                                 <?php $newMembership = $memship->getMembership();?>
-                                <?php $newMembershipType = $memship->getMembershipType();?>
-                                <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->membershipName; ?></a></td>
+                                <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->name; ?></a></td>
                             <?php
-                                    echo "<td  class='memship' valigh='top'>" . $newMembershipType->membershipTypeName . "</td>";
                                     echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
                                     echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionAmount . '</td>';
                                     echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
@@ -190,7 +183,6 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
-                    var selectAMembershipType = '<?php echo __("Membership type is required"); ?>';
                     var selectAMembership = '<?php echo __("Membership is required"); ?>';
                     var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
                     var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';

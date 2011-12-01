@@ -493,7 +493,7 @@ Membership:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getId
-  title: "<?php echo __("Membership");?>"
+  title: "<?php echo __("Memberships");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []

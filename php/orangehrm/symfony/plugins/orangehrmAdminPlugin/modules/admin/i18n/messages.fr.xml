@@ -545,8 +545,8 @@
                 <target>FR_Skill(s) Deleted Successfully</target>
             </trans-unit>  
             <trans-unit id="134">
-                <source>Membership</source>
-                <target>FR_Membership</target>
+                <source>Memberships</source>
+                <target>FR_Memberships</target>
             </trans-unit>
             <trans-unit id="135">
                 <source>Add Membership</source>

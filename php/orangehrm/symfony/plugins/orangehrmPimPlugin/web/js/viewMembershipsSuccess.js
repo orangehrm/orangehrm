@@ -25,19 +25,6 @@ $(document).ready(function() {
             $("#checkAllMem").attr('checked', 'checked');
         }
     });
-
-    $('#membership_membershipType').change(function() {
-        var r = $.ajax({
-            type: "POST",
-            url: getMembershipsUrl,
-            dataType: "html",
-            data: "membershipTypeCode="+$('#membership_membershipType').val(),
-            success: function(msg){
-                $('#membership_membership').html(msg);
-
-            }
-        })
-    });
     
     // Edit a membership detail in the list
     $('#frmEmpDelMemberships a').live('click', function() {
@@ -47,16 +34,13 @@ $(document).ready(function() {
         var row = $(this).closest("tr");
         var primarykey = row.find('input.checkboxMem:first').val();
         var membership = $(this).text();
-        var membershipType = row.find("td:nth-child(3)").text();
-        var subscriptionPaidBy = row.find("td:nth-child(4)").text();
-        var subscriptionAmount = row.find("td:nth-child(5)").text();
-        var currency = row.find("td:nth-child(6)").text();
-        var subscriptionCommenceDate = row.find("td:nth-child(7)").text();
-        var subscriptionRenewalDate = row.find("td:nth-child(8)").text();
+        var subscriptionPaidBy = row.find("td:nth-child(3)").text();
+        var subscriptionAmount = row.find("td:nth-child(4)").text();
+        var currency = row.find("td:nth-child(5)").text();
+        var subscriptionCommenceDate = row.find("td:nth-child(6)").text();
+        var subscriptionRenewalDate = row.find("td:nth-child(7)").text();
    
-        $('#membership_membershipType').val(membershipType);
-        ajaxCall(primarykey);
-        $('#membership_membershipType').attr('disabled', 'disabled');
+        $('#membership_membership').val(membership);
         $('#membership_membership').attr('disabled', 'disabled');
         $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
         $('#membership_subscriptionAmount').val(subscriptionAmount);
@@ -98,7 +82,6 @@ $(document).ready(function() {
     // Add a membership detail contact
     $('#btnAddMembershipDetail').click(function() {
         
-        $('#membership_membershipType').removeAttr('disabled');
         $('#membership_membership').removeAttr('disabled');
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
@@ -113,7 +96,6 @@ $(document).ready(function() {
     });
 
     $('#btnSaveMembership').click(function() {
-        $('#membership_membershipType').removeAttr('disabled');
         $('#membership_membership').removeAttr('disabled');
         commenceDate = $('#membership_subscriptionCommenceDate').val();
         $('#frmEmpMembership').submit();
@@ -134,9 +116,6 @@ $(document).ready(function() {
     var validator = $("#frmEmpMembership").validate({
 
         rules: {
-            'membership[membershipType]' : {
-                required: true
-            },
             'membership[membership]' : {
                 required: true
             },
@@ -169,10 +148,6 @@ $(document).ready(function() {
             }
         },
         messages: {
-            'membership[membershipType]' : {
-                required: selectAMembershipType
-                    
-            },
             'membership[membership]' :{
                 required: selectAMembership
             },
@@ -200,7 +175,6 @@ $(document).ready(function() {
 
 function clearAddForm() {
 
-    $('#membership_membershipType').val('');
     $('#membership_membership').val('');
     $('#membership_subscriptionPaidBy').val('');
     $('#membership_subscriptionAmount').val('');
@@ -222,20 +196,5 @@ function removeEditLinks() {
     $('#mem_list tbody td.memshipCode a').each(function(index) {
         $(this).parent().text($(this).text());
     });
-}
-
-function ajaxCall(primarykey){
-
-    var primaryArray = primarykey.split(" ");
-
-    var r = $.ajax({
-        type: "POST",
-        url: getMembershipsUrl,
-        dataType: "html",
-        data: "membershipTypeCode="+$('#membership_membershipType').val()+"&selectedMembership="+primaryArray[2],
-        success: function(msg){
-            $('#membership_membership').html(msg);
-        }
-    })
 }
 

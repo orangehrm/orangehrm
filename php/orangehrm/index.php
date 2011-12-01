@@ -358,10 +358,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "#");
-    $subsubs = array();
-    $subsubs[] = new MenuItem("memberships", $lang_Menu_Admin_Memberships_Memberships, "./symfony/web/index.php/admin/membership");
-    $sub->setSubMenuItems($subsubs);
+    $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "./symfony/web/index.php/admin/membership", "rightMenu");
     $subs[] = $sub;
 
     $sub = new MenuItem("natandrace", $lang_Menu_Admin_NationalityNRace, "#");
