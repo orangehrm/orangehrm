@@ -42,7 +42,12 @@ class LanguageDao extends BaseDao {
     public function getLanguageList() {
         
         try {
-            return Doctrine::getTable('Language')->findAll();
+            
+            $q = Doctrine_Query::create()->from('Language')
+                                         ->orderBy('name');
+            
+            return $q->execute(); 
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }        
@@ -61,6 +66,25 @@ class LanguageDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }        
+        
+    }
+    
+    public function isExistingLanguageName($languageName) {
+        
+        try {
+            
+            $q = Doctrine_Query:: create()->from('Language l')
+                            ->where('l.name = ?', trim($languageName));
+
+            if ($q->count() > 0) {
+                return true;
+            }
+            
+            return false;
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }       
         
     }
 
