@@ -18,54 +18,40 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class EmploymentStatusForm extends BaseForm {
-
-	public function getEmploymentStatusService() {
-		if (is_null($this->empStatusService)) {
-			$this->empStatusService = new EmploymentStatusService();
-			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
-		}
-		return $this->empStatusService;
-	}
-
+class WorkShiftForm extends BaseForm {
+	
 	public function configure() {
 
+		$employeeList = $this->getEmployeeList();
 		$this->setWidgets(array(
-		    'empStatusId' => new sfWidgetFormInputHidden(),
+		    'workShiftId' => new sfWidgetFormInputHidden(),
 		    'name' => new sfWidgetFormInputText(),
+		    'hours' => new sfWidgetFormInputText(),
+		    'availableEmp' => new sfWidgetFormSelectMany(array('choices' => $employeeList)),
+		    'assignedEmp' => new sfWidgetFormSelectMany(array('choices' => array())),
 		));
 
 		$this->setValidators(array(
 		    'empStatusId' => new sfValidatorNumber(array('required' => false)),
 		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
+		    'hours' => new sfValidatorNumber(array('required' => false)),
+		    'availableEmp' => new sfValidatorString(array('required' => false)),
+		    'assignedEmp' => new sfValidatorString(array('required' => false)),
 		));
 
-		$this->widgetSchema->setNameFormat('empStatus[%s]');
+		$this->widgetSchema->setNameFormat('workShift[%s]');				
+	}
+	
+	public function getEmployeeList(){
 		
-	}
-
-	public function save() {
-
-		$empStatusId = $this->getValue('empStatusId');
-		if (!empty($empStatusId)) {
-			$empStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($empStatusId);
-		} else {
-			$empStatus = new EmploymentStatus();
+		$temp = array();
+		$employeeService = new EmployeeService();
+		$employeeService->setEmployeeDao(new EmployeeDao());
+		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+		foreach ($employeeList as $employee){
+			$temp[] = $employee->getFullName();
 		}
-		$empStatus->setName($this->getValue('name'));
-		$empStatus->save();
+		return $temp;		
 	}
-
-	public function getEmploymentStatusListAsJson() {
-
-		$list = array();
-		$empStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList();
-		foreach ($empStatusList as $empStatus) {
-			$list[] = array('id' => $empStatus->getId(), 'name' => $empStatus->getName());
-		}
-		return json_encode($list);
-	}
-
 }
 
-?>

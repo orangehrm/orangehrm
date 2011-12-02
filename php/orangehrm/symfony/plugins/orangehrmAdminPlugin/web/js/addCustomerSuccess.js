@@ -91,5 +91,4 @@ function isValidForm(){
         }
 
     });
-    return true;
 }
