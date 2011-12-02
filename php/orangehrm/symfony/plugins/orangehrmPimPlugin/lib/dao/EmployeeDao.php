@@ -168,7 +168,7 @@ class EmployeeDao extends BaseDao {
     /**
      * Get Emergency contacts for given employee
      * @param int $empNumber Employee Number
-     * @return array Emergency Contacts as array
+     * @return array EmpEmergencyContact objects as array
      */
     public function getEmergencyContacts($empNumber) {
 

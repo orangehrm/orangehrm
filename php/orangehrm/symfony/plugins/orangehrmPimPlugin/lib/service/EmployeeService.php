@@ -21,6 +21,8 @@
 /**
  * Employee Service
  * @package pim
+ * @todo: Add get/save/delete for all 
+ * @todo: All methods to return PIMServiceException or DaoException consistantly
  * @todo Add deleteReportingMethod() function
  */
 class EmployeeService extends BaseService {
@@ -122,6 +124,7 @@ class EmployeeService extends BaseService {
      * @return EmpPicture EmpPicture or null if no picture found 
      * @throws PIMServiceException
      * 
+     * @todo Remove this or getEmployeePicture (don't have both)
      */
     public function getPicture($empNumber) {
         try {
@@ -151,12 +154,15 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Contact Details
+     * Save Employee Contact Details of given employee
+     * 
+     * @version 2.6.11
      * @param Employee $employee
-     * @returns boolean
+     * @return boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo Don't return any value (currently returns true always)
+     * @todo Exceptions should preserve previous exception
      */
     public function saveContactDetails(Employee $employee) {
         try {
@@ -168,10 +174,12 @@ class EmployeeService extends BaseService {
 
     /**
      * Get Emergency contacts for given employee
-     * @param int $empNumber Employee Number
-     * @return array Emergency Contacts as array
      * 
-     * @ignore
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return array EmpEmergencyContact objects as array. Array will be empty 
+     *               if no emergency contacts defined for employee.
+     * @throws PIMServiceException
      */
     public function getEmergencyContacts($empNumber) {
         try {
@@ -182,13 +190,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Emergency contacts
-     * @param int $empNumber
-     * @param array() $emergencyContactsToDelete
+     * Delete the given emergency contacts from the given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $emergencyContactsToDelete Array of emergency contact seqNo values.
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo return number of contacts deleted?? (currently returns true always)
+     * @todo Exceptions should preserve previous exception
+     * @todo Is the name $emergencyContactsToDelete ok?
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
         try {
@@ -199,13 +211,18 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Immigration
-     * @param int $empNumber
-     * @param array() $entriesToDelete
+     * Delete the given immigration entries for the given employee.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $entriesToDelete Array of immigration entry seqno values.
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo Rename to deleteImmigrationRecords
+     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo Exceptions should preserve previous exception
+     * @todo Don't we need a getImmigrationRecords method?
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
 
@@ -218,10 +235,12 @@ class EmployeeService extends BaseService {
 
     /**
      * Get dependents for given employee
-     * @param int $empNumber Employee Number
-     * @return array Dependents as array
      * 
-     * @ignore
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return array EmpDependent Array of EmpDependent objects
+     * 
+     * @todo Exceptions should preserve previous exception
      */
     public function getDependents($empNumber) {
         try {
@@ -232,13 +251,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Dependents
-     * @param int $empNumber
-     * @param array() $entriesToDelete
+     * Delete the given dependents from the given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $entriesToDelete Array of dependent seqno values.
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo Exceptions should preserve previous exception
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
         try {
@@ -249,13 +271,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Children
-     * @param int $empNumber
-     * @param array() $entriesToDelete
+     * Delete given children from the given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $entriesToDelete Array of EmpChild seqno values 
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo Exceptions should preserve previous exception
+     * @todo We need a getChildren method
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
         try {
@@ -267,11 +293,13 @@ class EmployeeService extends BaseService {
 
 
     /**
-     * Check if employee with given empNumber is a supervisor
-     * @param int $empNumber
-     * @return bool - True if given employee is a supervisor, false if not
+     * Check if employee with given employee number is a supervisor
      * 
-     * @ignore
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return bool True if given employee is a supervisor, false if not
+     * 
+     * @todo Exceptions should preserve previous exception
      */
     public function isSupervisor($empNumber) {
         try {
@@ -282,12 +310,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Photo
-     * @param int $empNumber
-     * @returns boolean
+     * Delete picture of the given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo Don't return any value (currently returns true always)
+     * @todo Exceptions should preserve previous exception
+     * @todo Rename to deletePicture (to match with get method)
      */
     public function deletePhoto($empNumber) {
         try {
@@ -298,12 +330,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save EmployeePicture
-     * @param EmpPicture $empPicture
-     * @returns boolean
+     * Save the given employee picture.
+     * 
+     * @version 2.6.11
+     * @param EmpPicture $empPicture EmpPicture object to save
+     * @return boolean
      * @throws PIMServiceException
      * 
-     * @ignore
+     * @todo Don't return any value (currently returns true always)
+     * @todo Exceptions should preserve previous exception
+     * @todo Rename to savePicture (without Employee) to match other methods
      */
     function saveEmployeePicture(EmpPicture $empPicture) {
         try {
@@ -314,117 +350,176 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * save immigration
-     * @param EmpPassport $empPassport
-     * @returns boolean
-     * @ignore
+     * Save given employee immigration entry
+     * 
+     * @version 2.6.11
+     * @param EmpPassport $empPassport EmpPassport instance
+     * @return boolean
+     * 
+     * @todo Rename to saveImmigrationEntry (without Employee) and change Passport -> Immigration
+     * @todo Rename EmpPassport to EmpImmigrationRecord
+     * @todo return no value (currently always returns true)
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
         return $this->getEmployeeDao()->saveEmployeePassport($empPassport);
     }
 
     /**
-     * Get EmpPassport
-     * @param int $empNumber
-     * @param int $sequenceNo
-     * @returns Collection/EmpPassport
-     * @ignore
+     * Get Employee Immigration Record(s) for given employee.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param int $sequenceNo Immigration Record sequence Number (optional)
+     * 
+     * @return Collection/EmpPassport If sequenceNo is given returns matching 
+     * Immigration Record or false if not found. If sequenceNo is not given, returns Immigration 
+     * Record collection. (Empty collection if no records available)
+     * 
+     * @todo rename to getImmigrationRecords
      */
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getEmployeePassport($empNumber, $sequenceNo);
     }
 
     /**
-     * save WorkExperience
-     * @param EmpWorkExperience $empWorkExp
-     * @returns boolean
-     * @ignore
+     * Save given Work Experience Record
+     * 
+     * @version 2.6.11
+     * @param EmpWorkExperience $empWorkExp Work Experience record to save
+     * @return boolean
+     * @throws DaoException
+     * 
+     * @todo return no value (currently always returns true)
      */
     public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
         return $this->getEmployeeDao()->saveWorkExperience($empWorkExp);
     }
 
     /**
-     * Get WorkExperience
-     * @param int $empNumber
-     * @param int $sequenceNo
-     * @returns Collection/WorkExperience
-     * @ignore
+     * Get Work Experience Record(s) for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @param int $sequenceNo Work Experience record sequence number
+     * 
+     * @return Collection/WorkExperience  If sequenceNo is given returns matching 
+     * EmpWorkExperience or false if not found. If sequenceNo is not given, returns 
+     * EmpWorkExperience collection. (Empty collection if no records available)
+     * @throws DaoException
+     * 
+     * @todo Exceptions should preserve previous exception
      */
     public function getWorkExperience($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getWorkExperience($empNumber, $sequenceNo);
     }
 
     /**
-     * Delete WorkExperiences
-     * @param int $empNumber
-     * @param array() $workExperienceToDelete
-     * @returns boolean
-     * @ignore
+     * Delete given WorkExperience entries from given employee.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $workExperienceToDelete sequenceNos of the work experience
+     *              records to delete
+     * 
+     * @return boolean True if workExperienceToDelete is not empty, false if empty.
+     * @throws DaoException
+     * 
+     * @todo return number of entries deleted?? (currently return value is based
+     *       on $workExperienceToDelete not actual deleted records
      */
     public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
         return $this->getEmployeeDao()->deleteWorkExperience($empNumber, $workExperienceToDelete);
     }
 
     /**
-     * Get Education
-     * @param int $empNumber
-     * @param int $eduCode
-     * @returns Collection/Education
-     * @ignore
+     * Get Education Entry/Entries for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param int $eduCode Education Entry code
+     * @return Collection/EmployeeEducation If eduCode is given returns matching 
+     * EmployeeEducation Entry or false if not found. If sequenceNo is not given, returns 
+     * EmployeeEducation collection.
+     * @throws DaoException
+     * 
+     * @todo Rename EmployeeEducation to EmpEducation for consistancty
      */
     public function getEducation($empNumber, $eduCode = null) {
         return $this->getEmployeeDao()->getEducation($empNumber, $eduCode);
     }
 
     /**
-     * Delete Education
-     * @param int $empNumber
-     * @param array() $educationToDelete
-     * @returns boolean
-     * @ignore
+     * Delete given education entries for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $educationToDelete sequenceNos of the education entries to delete
+     * @return boolean True if educationToDelete is not empty, false if empty.
+     * @throws DaoException
+     * 
+     * @todo return number of entries deleted?? (currently return value is based
+     *       on $educationToDelete not actual deleted records
      */
     public function deleteEducation($empNumber, $educationToDelete) {
         return $this->getEmployeeDao()->deleteEducation($empNumber, $educationToDelete);
     }
 
     /**
-     * save Education
-     * @param EmployeeEducation $education
-     * @returns boolean
-     * @ignore
+     * Save the given EmployeeEducation entry.
+     * 
+     * @version 2.6.11
+     * @param EmployeeEducation $education EmployeeEducation object to save
+     * @returns boolean true
+     * @throws DaoException
+     * 
+     * @todo Don't return any value. Currently returns true always.
      */
     public function saveEducation(EmployeeEducation $education) {
         return $this->getEmployeeDao()->saveEducation($education);
     }
 
     /**
-     * Get Skill
-     * @param int $empNumber
-     * @param int $eduCode
-     * @returns Collection/Skill
-     * @ignore
+     * Get all skills or a single skill with given skill code for given employee.
+     * 
+     * If skillCode is null, returns all EmployeeSkill objects for the employee.
+     * If skillCode is given, returns the EmployeeSkill object with given skillcode.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param int $skillCode Skill Code
+     * @returns Collection/EmployeeSkill 
+     * @throws DaoException
+     * 
      */
     public function getSkill($empNumber, $skillCode = null) {
         return $this->getEmployeeDao()->getSkill($empNumber, $skillCode);
     }
 
     /**
-     * Delete Skill
-     * @param int $empNumber
-     * @param array() $skillToDelete
-     * @returns boolean
-     * @ignore
+     * Delete given skill entries for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param array $skillToDelete id's of the skill entries to delete
+     * @return boolean True if $skillToDelete is not empty, false if empty.
+     * @throws DaoException
+     * 
+     * @todo return number of entries deleted?? (currently return value is based
+     *       on $skillToDelete not actual deleted records
      */
     public function deleteSkill($empNumber, $skillToDelete) {
         return $this->getEmployeeDao()->deleteSkill($empNumber, $skillToDelete);
     }
 
     /**
-     * save Skill
-     * @param EmployeeSkill $skill
-     * @returns boolean
-     * @ignore
+     * Save the given EmployeeSkill entry.
+     * 
+     * @version 2.6.11
+     * @param EmployeeSkill $education EmployeeSkill object to save
+     * @returns boolean true
+     * @throws DaoException
+     * 
+     * @todo Don't return any value. Currently returns true always.
      */
     public function saveSkill(EmployeeSkill $skill) {
         return $this->getEmployeeDao()->saveSkill($skill);
