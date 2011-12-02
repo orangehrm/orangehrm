@@ -91,7 +91,7 @@ class SkillDaoTest extends PHPUnit_Framework_TestCase {
         
         /* Checking record order */
         $this->assertEquals('Driving', $skillList[0]->getName());
-        $this->assertEquals('Sign Language', $skillList[2]->getName());
+        $this->assertEquals('Skydiving', $skillList[2]->getName());
         
     }
     

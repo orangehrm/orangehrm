@@ -42,7 +42,12 @@ class SkillDao extends BaseDao {
     public function getSkillList() {
         
         try {
-            return Doctrine::getTable('Skill')->findAll();
+            
+            $q = Doctrine_Query::create()->from('Skill')
+                                         ->orderBy('name');
+            
+            return $q->execute();            
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }        

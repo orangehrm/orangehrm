@@ -97,6 +97,7 @@ function loadAddForm() {
         $('#saveFormHeading').text(lang_addFormHeading);
         
         $('#recordsListTable td.check').hide();
+        $('#messageBalloon_success').hide(); // TODO: Check again
         
         for (i in saveFormFieldIds) {
             $('#'+saveFormFieldIds[i]).val('');
@@ -118,7 +119,8 @@ function loadEditForm() {
         
         $('#saveFormDiv').show();
         $('#saveFormHeading').text(lang_editFormHeading);
-        
+        $('#messageBalloon_success').hide(); // TODO: Check again 
+
         var row = $(this).closest("tr");
         
         var i=0;
