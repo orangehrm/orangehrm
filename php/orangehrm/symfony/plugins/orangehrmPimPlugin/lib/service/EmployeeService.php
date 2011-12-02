@@ -433,7 +433,7 @@ class EmployeeService extends BaseService {
     /**
      * Get Language
      * 
-     * This method return all languages for Employee according to given parameters
+     * Retrieve Employee Language for given employee number 
      * 
      * If language code is not set, It returns all languages for Employee
      * 
@@ -442,14 +442,13 @@ class EmployeeService extends BaseService {
      * If Language code and Language type are not set, It returns a Language for Employee  
      * 
      * @version 2.6.11
-     * @param int $empNumbers
-     * @param String $languageCode
-     * @params String $languageType
-     * @returns Collection/Language
+     * @param int $empNumbers Employee Number
+     * @param String $languageCode Language Code 
+     * @params String $languageType Language Type
+     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  
      * 
-     * @todo need to throw exception if error occur
+     * @todo Rename to getLanguages
      * 
-     * @ignore
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
         return $this->getEmployeeDao()->getLanguage($empNumber, $languageCode, $languageType);
@@ -458,40 +457,35 @@ class EmployeeService extends BaseService {
     /**
      * Delete Language
      * 
-     * This Method deletes Employee Languages for given Employee and Language codes
+     * deletes Employee Languages for given Employee number and Language codes
      * 
      * @version 2.6.11
-     * @param inteager $empNumber
-     * @param array() $languageToDelete (array of langCode->LangType)
+     * @param int $empNumber Employee Number
+     * @param array() $languageToDelete Array of strings with the format
      * @return int - number of records deleted. False if did not delete anything.
      * 
-     * @todo need to throw exception if error occur
-     * @ignore
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
         return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
     }
 
     /**
-     * Save Language
+     * Save Language of an employee
      * 
-     * saves employee Language
      * 
      * @version 2.6.11
-     * @param EmployeeLanguage $language
-     * @returns boolean
+     * @param EmployeeLanguage $language Employee Language
+     * @returns boolean 
      * 
-     * @todo need to throw exception if error occur
      * @todo Don't return any value
      * 
-     * @ignore
      */
     public function saveLanguage(EmployeeLanguage $language) {
         return $this->getEmployeeDao()->saveLanguage($language);
     }
 
     /**
-     * Get License
+     * Retrieve License for an employee
      * 
      * This method return Employee License for given employe and liesnce code
      * 
@@ -500,21 +494,18 @@ class EmployeeService extends BaseService {
      * If Licence code is set , It returns a Employee Licence object
      *  
      * @version 2.6.11
-     * @param int $empNumber
+     * @param int $empNumber 
      * @param String $licenseCode
-     * @returns Collection/License
+     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLicense objects
      * 
      * @todo need to throw exception if error occur
      * 
-     * @ignore
      */
     public function getLicense($empNumber, $licenseCode = null) {
         return $this->getEmployeeDao()->getLicense($empNumber, $licenseCode);
     }
 
     /**
-     * Delete License
-     * 
      * deletes license according to given employee number and license codes
      * 
      * @version 2.6.11
@@ -524,34 +515,35 @@ class EmployeeService extends BaseService {
      * 
      * @todo need to throw exception if error occur
      * 
-     * @ignore
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
         return $this->getEmployeeDao()->deleteLicense($empNumber, $licenseToDelete);
     }
 
     /**
-     * save License
+     * save License of an Employee
      * 
-     * This method saves Employee License
-     * 
+     * @version 2.6.11
      * @param EmployeeLicense $license
      * @returns boolean
      * 
      * @todo need to throw exception if error occur
      * @todo Don't return any value
      * 
-     * @ignore
      */
     public function saveLicense(EmployeeLicense $license) {
         return $this->getEmployeeDao()->saveLicense($license);
     }
 
     /**
-     * Get attachment
+     * Get attachment for an employee and given screen name
+     * 
      * @param type $empNumber - employee number
      * @param type $screen - screen attached to
-     * @ignore
+     * 
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeAttachment objects
+     * @throws PIMServiceException
+     * 
      */
     public function getAttachments($empNumber, $screen) {
         try {
@@ -562,12 +554,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Attachments
-     * @param int $empNumber
-     * @param array $attachmentsToDelete
+     * Delete Attachments for an employee
+     * 
+     * @param int $empNumber Employee Number
+     * @param array $attachmentsToDelete Array of strings
      * @returns boolean
+     * 
      * @throws PIMServiceException
-     * @ignore
      */
     public function deleteAttachments($empNumber, $attachmentsToDelete) {
         try {
@@ -578,11 +571,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Attachment
-     * @param int $empNumber
-     * @returns Collection
+     * Retrieve Attachment for an employee 
+     * 
+     * @param int $empNumber Employee Number 
+     * @param int $attachId Attach Id
+     * 
+     * @returns EmployeeAttachment Employee Attachment
+     * 
      * @throws PIMServiceException
-     * @ignore
      */
     public function getAttachment($empNumber, $attachId) {
         try {
@@ -593,11 +589,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Returns EmployeePicture by Emp Number
-     * @param int $empNumber
-     * @returns EmpPicture
+     * Retrieve Employee Picture for an employee
+     * 
+     * @param int $empNumber Employee Number
+     * 
+     * @returns EmpPicture Employee Picture object
+     * 
      * @throws PIMServiceException
-     * @ignore
      */
     public function readEmployeePicture($empNumber) {
         try {
@@ -608,10 +606,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Returns Employee List
-     * @returns Collection
+     * Retrieve Employee list according to terminated status
+     * 
+     * @param String $orderField Order Field, default is empNumber
+     * @param String $orderBy Order By, Default is ASC
+     * @param boolean 
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
-     * @ignore
      */
     public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
         try {
@@ -625,8 +626,7 @@ class EmployeeService extends BaseService {
      * Returns list of supervisors (employees having at least one subordinate)
      *
      * @returns Collection
-     * @throws DaoException
-     * @ignore
+     * @throws PIMServiceException
      */
     public function getSupervisorList() {
         try {
