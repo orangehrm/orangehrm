@@ -17,17 +17,21 @@ $(document).ready(function() {
 function validateData() {
     
     $("#frmSave").validate({
-
+        
         rules: {
             'language[name]' : {
                 required:true,
-                maxlength: 120
+                maxlength: 120,
+                remote: {
+                   url: urlForExistingNameCheck
+                }
             }
 
         },
         messages: {
             'language[name]' : {
-                required: lang_nameIsRequired
+                required: lang_nameIsRequired,
+                remote: lang_nameExists
             }
 
         },

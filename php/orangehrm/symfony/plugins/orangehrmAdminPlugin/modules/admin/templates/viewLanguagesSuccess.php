@@ -112,10 +112,13 @@
     var saveFormFieldIds = new Array();
     saveFormFieldIds[0] = "language_name";
     
+    var urlForExistingNameCheck = '<?php echo url_for('admin/checkLanguageNameExistence'); ?>';
+    
     var lang_addFormHeading = "<?php echo __('Add Language'); ?>";
     var lang_editFormHeading = "<?php echo __('Edit Language'); ?>";
     
     var lang_nameIsRequired = "<?php echo __('Name is required'); ?>";
+    var lang_nameExists = "<?php echo __('Name exists'); ?>";
     
 //]]>	
 </script> 
