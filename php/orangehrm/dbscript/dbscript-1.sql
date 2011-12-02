@@ -1222,7 +1222,7 @@ create table `ohrm_user`(
         `user_name` varchar(40) unique,
         `user_password` varchar(40) DEFAULT NULL,
         `deleted` tinyint(1) NOT NULL DEFAULT '0',
-        `status` tinyint(1) NOT NULL DEFAULT '0',
+        `status` tinyint(1) NOT NULL DEFAULT '1',
         key `user_role_id` (`user_role_id`),
         key `emp_number` (`emp_number`),
 	primary key (`id`)

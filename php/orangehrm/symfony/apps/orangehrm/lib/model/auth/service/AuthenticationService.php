@@ -76,7 +76,7 @@ class AuthenticationService extends BaseService {
             } elseif (!is_null ($user->getEmployee()->getTerminationId())) {
                 throw new AuthenticationServiceException('Employee is terminated');
 
-            } elseif ($user->getStatus() == 'Disabled') {
+            } elseif ($user->getStatus() == 0) {
                 throw new AuthenticationServiceException('Account disabled');
             }
 

@@ -125,12 +125,13 @@ class SystemUserForm extends BaseForm {
                 
                 if( !empty( $password ) ){
                     $changePasword = true ;
+                    $user->setUserPassword( $this->getValue('password'));
                 }
                 
 		$user->setUserRoleId( $this->getValue('userType'));
                 $user->setEmpNumber( $this->getValue('employeeId') );
                 $user->setUserName( $this->getValue('userName'));
-                $user->setUserPassword( $this->getValue('password'));
+                
                 $user->setStatus( $this->getValue('status'));
                
 		$this->getSystemUserService()->saveSystemUser( $user , $changePasword);
