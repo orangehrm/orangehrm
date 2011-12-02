@@ -112,4 +112,13 @@ class SkillDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testIsExistingSkillName() {
+        
+        $this->assertTrue($this->skillDao->isExistingSkillName('Driving'));
+        $this->assertTrue($this->skillDao->isExistingSkillName('DRIVING'));
+        $this->assertTrue($this->skillDao->isExistingSkillName('driving'));
+        $this->assertTrue($this->skillDao->isExistingSkillName('  Driving  '));
+        
+    }
+    
 }

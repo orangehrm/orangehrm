@@ -122,11 +122,14 @@
     saveFormFieldIds[0] = "skill_name";
     saveFormFieldIds[1] = "skill_description";
     
+    var urlForExistingNameCheck = '<?php echo url_for('admin/checkSkillNameExistence'); ?>';
+    
     var lang_addFormHeading = "<?php echo __('Add Skill'); ?>";
     var lang_editFormHeading = "<?php echo __('Edit Skill'); ?>";
     
     var lang_nameIsRequired = "<?php echo __('Name is required'); ?>";
     var lang_descLengthExceeded = "<?php echo __('Description length should not exceed 250 characters'); ?>";
+    var lang_nameExists = "<?php echo __('Name exists'); ?>";
     
 //]]>	
 </script> 

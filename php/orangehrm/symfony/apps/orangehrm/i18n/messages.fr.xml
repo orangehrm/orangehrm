@@ -792,6 +792,10 @@
                 <source>Include Past Employees</source>
                 <target>FR_Include Past Employees</target>
             </trans-unit>
+            <trans-unit id="227">
+                <source>Name exists</source>
+                <target>FR_Name exists</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

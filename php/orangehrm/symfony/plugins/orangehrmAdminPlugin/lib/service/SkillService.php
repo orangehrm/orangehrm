@@ -84,12 +84,18 @@ class SkillService extends BaseService {
     public function deleteSkills($toDeleteIds) {
         return $this->getSkillDao()->deleteSkills($toDeleteIds);
     }
-    
+
     /**
-     * @todo Remove or modify once languages are implemented
-     */
-    public function getLanguageList() {
-        return null;
+     * Checks whether the given skill name exists
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $skillName Skill name that needs to be checked
+     * @return boolean
+     */    
+    public function isExistingSkillName($skillName) {
+        return $this->getSkillDao()->isExistingSkillName($skillName);
     }
     
 

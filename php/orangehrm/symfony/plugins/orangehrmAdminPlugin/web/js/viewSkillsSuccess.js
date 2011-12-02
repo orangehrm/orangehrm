@@ -21,7 +21,11 @@ function validateData() {
         rules: {
             'skill[name]' : {
                 required:true,
-                maxlength: 120
+                maxlength: 120,
+                remote: {
+                   url: urlForExistingNameCheck
+                }
+
             },
             'skill[description]' : {
                 maxlength: 250
@@ -30,7 +34,8 @@ function validateData() {
         },
         messages: {
             'skill[name]' : {
-                required: lang_nameIsRequired
+                required: lang_nameIsRequired,
+                remote: lang_nameExists
             },
             'skill[description]' : {
                 maxlength: lang_descLengthExceeded
@@ -49,12 +54,7 @@ function validateData() {
 
 function executeLoadtimeActions() {
     
-    if (recordsCount > 0) {
-        $('#saveFormDiv').hide();
-    } else {
-        $('#recordsListDiv').hide();
-        $('#btnCancel').hide();
-    }
+    $('#saveFormDiv').hide();
     
     $('table.data-table tbody tr:odd').addClass('odd');
     $('table.data-table tbody tr:even').addClass('even');

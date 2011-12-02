@@ -63,5 +63,24 @@ class SkillDao extends BaseDao {
         }        
         
     }
+    
+    public function isExistingSkillName($skillName) {
+        
+        try {
+            
+            $q = Doctrine_Query:: create()->from('Skill s')
+                            ->where('s.name = ?', trim($skillName));
+
+            if ($q->count() > 0) {
+                return true;
+            }
+            
+            return false;
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }       
+        
+    }
 
 }
