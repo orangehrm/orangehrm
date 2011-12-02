@@ -39,6 +39,7 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/MembershipDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/NationalityDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/PayGradeDaoTest.php');
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/LocalizationServiceTest.php');
@@ -51,6 +52,7 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmploymentStatusServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/MembershipServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/NationalityServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/PayGradeServiceTest.php');
 
 
 
