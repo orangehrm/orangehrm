@@ -46,7 +46,7 @@ class LanguageService extends BaseService {
      * Can be used for a new record or updating.
      * 
      * @version 2.6.12 
-     * @param Skill $skill 
+     * @param Language $language 
      * @return NULL Doesn't return a value
      */
     public function saveLanguage(Language $language) {        
@@ -54,28 +54,28 @@ class LanguageService extends BaseService {
     }
     
     /**
-     * Retrieves a skill by ID
+     * Retrieves a language by ID
      * 
      * @version 2.6.12 
      * @param int $id 
-     * @return Skill An instance of Skill or NULL
+     * @return Language An instance of Language or NULL
      */    
     public function getLanguageById($id) {
         return $this->getLanguageDao()->getLanguageById($id);
     }
   
     /**
-     * Retrieves all skills
+     * Retrieves all languages ordered by name
      * 
      * @version 2.6.12 
-     * @return Doctrine_Collection A doctrine collection of Skill objects 
+     * @return Doctrine_Collection A doctrine collection of Language objects 
      */        
     public function getLanguageList() {
         return $this->getLanguageDao()->getLanguageList();
     }
     
     /**
-     * Deletes skills
+     * Deletes languages
      * 
      * @version 2.6.12 
      * @param array $toDeleteIds An array of IDs to be deleted
@@ -85,12 +85,4 @@ class LanguageService extends BaseService {
         return $this->getLanguageDao()->deleteLanguages($toDeleteIds);
     }
     
-    /**
-     * @todo Remove or modify once languages are implemented
-     */
-//    public function getLanguageList() {
-//        return null;
-//    }
-    
-
 }

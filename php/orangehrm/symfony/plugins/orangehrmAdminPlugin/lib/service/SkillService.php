@@ -65,7 +65,7 @@ class SkillService extends BaseService {
     }
   
     /**
-     * Retrieves all skills
+     * Retrieves all skills ordered by name
      * 
      * @version 2.6.12 
      * @return Doctrine_Collection A doctrine collection of Skill objects 
