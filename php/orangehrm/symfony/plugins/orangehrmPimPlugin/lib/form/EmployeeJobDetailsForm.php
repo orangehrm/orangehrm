@@ -257,12 +257,12 @@ class EmployeeJobDetailsForm extends BaseForm {
     }
 
     private function _getEEOCategories() {
-        $jobService = new JobService();
-        $categories = $jobService->getJobCategoryList('eec_desc');
+        $jobService = new JobCategoryService();
+        $categories = $jobService->getJobCategoryList();
         $choices = array('' => '-- ' . __('Select') . ' --');
 
         foreach ($categories as $category) {
-            $choices[$category->getEecCode()] = $category->getEecDesc();
+            $choices[$category->getId()] = $category->getName();
         }
         return $choices;
     }
