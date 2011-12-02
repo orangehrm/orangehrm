@@ -4,7 +4,7 @@
 
 /**
  * ConfigService Test Class
- *
+ * @group Core
  */
 class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 

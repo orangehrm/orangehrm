@@ -27,6 +27,7 @@ require_once sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/module
  * Test of AssignLeaveAction
  *
  * @author sujith
+ * @group CoreLeave
  */
 class AssignLeaveActionTest extends PHPUnit_Framework_TestCase {
 

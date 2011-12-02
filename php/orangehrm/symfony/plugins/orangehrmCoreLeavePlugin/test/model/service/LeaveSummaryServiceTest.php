@@ -18,7 +18,9 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
+/**
+ * @group CoreLeave 
+ */
 class LeaveSummaryServiceTest extends PHPUnit_Framework_TestCase {
 
     protected $leaveSummaryService;

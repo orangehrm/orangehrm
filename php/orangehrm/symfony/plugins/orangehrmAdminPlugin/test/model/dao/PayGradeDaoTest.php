@@ -19,6 +19,9 @@
  */
 require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
+/**
+ *  @group Admin
+ */
 class PayGradeDaoTest extends PHPUnit_Framework_TestCase {
 	
 	private $payGradeDao;

@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +15,10 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ */
+
+/**
+ * @group Pim
  */
 class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 

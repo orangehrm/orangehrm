@@ -21,6 +21,8 @@
 
 /**
  * Test for LeavePeriodDao class
+ * 
+ * @group CoreLeave 
  */
 class LeavePeriodDaoTest extends PHPUnit_Framework_TestCase {
 

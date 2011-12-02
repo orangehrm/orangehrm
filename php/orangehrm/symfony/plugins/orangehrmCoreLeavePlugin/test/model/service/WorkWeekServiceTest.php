@@ -19,7 +19,9 @@
  *
 */
 
-
+/**
+ * @group CoreLeave 
+ */
 class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
 {
 

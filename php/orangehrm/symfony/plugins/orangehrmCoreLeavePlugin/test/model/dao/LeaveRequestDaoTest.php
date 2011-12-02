@@ -21,6 +21,7 @@
 
 /**
  * Leave Type rule service
+ * @group CoreLeave 
  */
  class LeaveRequestDaoTest extends PHPUnit_Framework_TestCase{
  	

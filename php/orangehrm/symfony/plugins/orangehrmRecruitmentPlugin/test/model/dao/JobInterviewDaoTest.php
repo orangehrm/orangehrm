@@ -20,6 +20,9 @@
  */
 require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
+/**
+ * @group Recruitment
+ */
 class JobInterviewDaoTest extends PHPUnit_Framework_TestCase {
 
 	private $jobInterviewDao;

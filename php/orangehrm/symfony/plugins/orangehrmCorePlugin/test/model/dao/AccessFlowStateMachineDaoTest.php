@@ -8,7 +8,7 @@
 /**
  * Description of AccessFlowStateMachineDaoTest
  *
- * @author orangehrm
+ * @group Core
  */
 class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
 

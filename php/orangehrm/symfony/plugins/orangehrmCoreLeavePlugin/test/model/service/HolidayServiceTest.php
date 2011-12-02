@@ -18,7 +18,9 @@
  * Boston, MA  02110-1301, USA
  *
 */
-
+/**
+ * @group CoreLeave 
+ */
 class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
     private $holidayService;

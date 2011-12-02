@@ -21,6 +21,9 @@
  */
 require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
+/**
+ * @group Core
+ */
 class BaseServiceDataTest extends PHPUnit_Framework_TestCase {
 
     protected static $baseService;

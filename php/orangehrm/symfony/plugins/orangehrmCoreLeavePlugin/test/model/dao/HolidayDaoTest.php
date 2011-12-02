@@ -19,6 +19,9 @@
  *
 */
 
+/**
+ * @group CoreLeave 
+ */
 class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     private $holidayDao ;

@@ -22,6 +22,7 @@
 
 /**
  * Leave period service test
+ * @group CoreLeave 
  */
 class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
 

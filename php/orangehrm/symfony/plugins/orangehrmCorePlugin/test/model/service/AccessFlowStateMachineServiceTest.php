@@ -8,7 +8,7 @@
 /**
  * Description of AccessFlowStateMachineServiceTest
  *
- * @author orangehrm
+ * @group Core
  */
 class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 

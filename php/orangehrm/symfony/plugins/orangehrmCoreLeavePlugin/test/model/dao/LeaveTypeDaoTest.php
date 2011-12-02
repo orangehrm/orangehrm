@@ -21,7 +21,9 @@
 
 require_once  sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-
+/**
+ * @group CoreLeave 
+ */
 class LeaveTypeDaoTest extends PHPUnit_Framework_TestCase{
 
   	public $leaveTypeDao ;

@@ -4,7 +4,7 @@
 
 /**
  * ConfigDao Test Class
- *
+ * @group Core
  */
 class ConfigDaoTest extends PHPUnit_Framework_TestCase {
 

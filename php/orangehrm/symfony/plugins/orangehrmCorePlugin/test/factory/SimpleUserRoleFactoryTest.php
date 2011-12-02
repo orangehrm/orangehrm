@@ -8,7 +8,7 @@
 /**
  * Description of SimpleUserRoleFactoryTest
  *
- * @author orangehrm
+ * @group Core
  */
 class SimpleUserRoleFactoryTest extends PHPUnit_Framework_TestCase {
 

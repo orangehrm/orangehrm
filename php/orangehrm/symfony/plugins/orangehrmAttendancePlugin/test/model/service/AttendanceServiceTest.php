@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *  @group Attendance
+ */
 class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
 
     private $attendanceService;
