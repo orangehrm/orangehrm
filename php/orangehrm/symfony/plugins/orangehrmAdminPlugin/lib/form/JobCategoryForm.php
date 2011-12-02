@@ -21,6 +21,16 @@
 
 class JobCategoryForm extends BaseForm {
 	
+	private $jobCatService;
+
+	public function getJobCategoryService() {
+		if (is_null($this->jobCatService)) {
+			$this->jobCatService = new JobCategoryService();
+			$this->jobCatService->setJobCategoryDao(new JobCategoryDao());
+		}
+		return $this->jobCatService;
+	}
+	
 	public function configure() {
 
 		$this->setWidgets(array(
@@ -39,9 +49,24 @@ class JobCategoryForm extends BaseForm {
 	
 	public function save(){
 		
-		$jobCat = new JobCategory();
+		$jobCatId = $this->getValue('jobCategoryId');
+		if(!empty ($jobCatId)){
+			$jobCat = $this->getJobCategoryService()->getJobCategoryById($jobCatId);
+		} else {
+			$jobCat = new JobCategory();
+		}
 		$jobCat->setName($this->getValue('name'));
 		$jobCat->save();
+	}
+	
+	public function getJobCategoryListAsJson() {
+		
+		$list = array();
+		$jobCatList = $this->getJobCategoryService()->getJobCategoryList();
+		foreach ($jobCatList as $jobCat) {
+			$list[] = array('id' => $jobCat->getId(), 'name' => $jobCat->getName());
+		}
+		return json_encode($list);
 	}
 }
 

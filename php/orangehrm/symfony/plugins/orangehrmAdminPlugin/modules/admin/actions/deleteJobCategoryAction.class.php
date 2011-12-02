@@ -17,8 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-class jobCategoryAction extends sfAction {
+class deleteJobCategoryAction extends sfAction {
 	
 	private $jobCatService;
 
@@ -30,49 +29,22 @@ class jobCategoryAction extends sfAction {
 		return $this->jobCatService;
 	}
 	
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
-
 	public function execute($request) {
-		
-		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
-			$this->redirect('pim/viewPersonalDetails');
-		}
-		
-		$this->setForm(new JobCategoryForm());
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-		
-		$jobCatList = $this->getJobCategoryService()->getJobCategoryList();
-		$this->_setListComponent($jobCatList);
-		$params = array();
-		$this->parmetersForListCompoment = $params;
-		
-		if ($request->isMethod('post')) {
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __('Job Category Saved Successfully')));
-				$this->redirect('admin/jobCategory');
-			}
-		}
-	}
-	
-	private function _setListComponent($jobCatList) {
 
-		$configurationFactory = new JobCategoryHeaderFactory();
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
-		ohrmListComponent::setListData($jobCatList);
+		$toBeDeletedJobCatIds = $request->getParameter('chkSelectRow');
+
+		if (!empty($toBeDeletedJobCatIds)) {
+
+			foreach ($toBeDeletedJobCatIds as $toBeDeletedJobCatId) {
+
+				$status = $this->getJobCategoryService()->getJobCategoryById($toBeDeletedJobCatId);
+				$status->delete();
+			}
+			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Job Category(s) Deleted Successfully')));
+		}
+
+		$this->redirect('admin/jobCategory');
 	}
 }
 
-
+?>

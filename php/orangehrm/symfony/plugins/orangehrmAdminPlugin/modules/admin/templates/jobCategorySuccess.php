@@ -40,3 +40,29 @@
     </div>
 <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
 </div>
+
+<div id="customerList">
+    <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
+</div>
+
+<!-- confirmation box -->
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+
+    <?php echo __("Selected job category(s) will be deleted") . "?"; ?>
+
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+    </div>
+</div>
+
+<script type="text/javascript">
+	var jobCatrgories = <?php echo str_replace('&#039;', "'", $form->getJobCategoryListAsJson()) ?> ;
+        var jobCatList = eval(jobCatrgories);
+	var lang_NameRequired = "<?php echo __("Name is required"); ?>";
+	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
+	var jobCatInfoUrl = "<?php echo url_for("admin/getJobCategoryJson?id="); ?>";
+	var lang_editJobCat = "<?php echo __("Edit Job Category"); ?>";
+	var lang_addJobCat = "<?php echo __("Add Job Category"); ?>";
+	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+</script>
