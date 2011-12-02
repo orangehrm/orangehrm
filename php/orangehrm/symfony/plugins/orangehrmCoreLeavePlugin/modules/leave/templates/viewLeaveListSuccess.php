@@ -60,7 +60,7 @@ $searchActionButtons = $form->getSearchActionButtons();
 <?php } ?>
 <?php if (isset($form['cmbWithTerminated'])) { ?>
                 <br class="clear" />
-                <label class="mainLabel"><?php echo __('With Terminated Employees'); ?></label><?php echo $form['cmbWithTerminated']->render(); ?>
+                <label class="mainLabel"><?php echo __('Include Past Employees'); ?></label><?php echo $form['cmbWithTerminated']->render(); ?>
 <?php } ?>
             <br class="clear" />
             <div class="buttonWrapper">

@@ -616,123 +616,123 @@
                 <source>Individual</source>
                 <target>FR_Individual</target>
             </trans-unit>
-			<trans-unit id="183">
+            <trans-unit id="183">
                 <source>Field </source>
                 <target>FR_Field </target>
             </trans-unit>
-			<trans-unit id="184">
+            <trans-unit id="184">
                 <source>Fields </source>
                 <target>FR_Fields </target>
             </trans-unit>
-			<trans-unit id="185">
+            <trans-unit id="185">
                 <source>will be deleted from all employees' records. Do you want to continue?</source>
                 <target>FR_will be deleted from all employees' records. Do you want to continue?</target>
             </trans-unit>
-			<trans-unit id="186">
+            <trans-unit id="186">
                 <source>Not Defined</source>
                 <target>FR_Not Defined</target>
             </trans-unit>
-			<trans-unit id="187">
+            <trans-unit id="187">
                 <source>Replace Current</source>
                 <target>FR_Replace Current</target>
             </trans-unit>
-		    <trans-unit id="188">
+            <trans-unit id="188">
                 <source>Direct</source>
                 <target>FR_Direct</target>
             </trans-unit>
-			<trans-unit id="189">
+            <trans-unit id="189">
                 <source>Indirect</source>
                 <target>FR_Indirect</target>
             </trans-unit>
-			<trans-unit id="190">
+            <trans-unit id="190">
                 <source>Pay Frequency</source>
                 <target>FR_Pay Frequency</target>
             </trans-unit>
-			<trans-unit id="191">
+            <trans-unit id="191">
                 <source>Amount</source>
                 <target>FR_Amount</target>
             </trans-unit>
-			<trans-unit id="192">
+            <trans-unit id="192">
                 <source>Currency is required</source>
                 <target>FR_Currency is required</target>
             </trans-unit>
-			<trans-unit id="193">
+            <trans-unit id="193">
                 <source>Amount is required</source>
                 <target>FR_Amount is required</target>
             </trans-unit>
-			<trans-unit id="194">
+            <trans-unit id="194">
                 <source>Account Number is required</source>
                 <target>FR_Account Number is required</target>
             </trans-unit>
-			<trans-unit id="195">
+            <trans-unit id="195">
                 <source>Add Salary Component</source>
                 <target>FR_Add Salary Component</target>
             </trans-unit>
-			<trans-unit id="196">
+            <trans-unit id="196">
                 <source>Edit Salary Component</source>
                 <target>FR_Edit Salary Component</target>
             </trans-unit>
-			<trans-unit id="197">
+            <trans-unit id="197">
                 <source>Assigned Salary Components</source>
                 <target>FR_Assigned Salary Components</target>
             </trans-unit>
-			<trans-unit id="198">
+            <trans-unit id="198">
                 <source>Routing Number</source>
                 <target>FR_Routing Number</target>
             </trans-unit>
-			<trans-unit id="199">
+            <trans-unit id="199">
                 <source>Edit Salary Component</source>
                 <target>FR_Edit Salary Component</target>
             </trans-unit>
-			<trans-unit id="200">
+            <trans-unit id="200">
                 <source>Direct Deposit Details</source>
                 <target>FR_Direct Deposit Details</target>
             </trans-unit>
-			<trans-unit id="201">
+            <trans-unit id="201">
                 <source>Salary Component(s) Deleted Successfully</source>
                 <target>FR_Salary Component(s) Deleted Successfully</target>
             </trans-unit>
-			<trans-unit id="202">
+            <trans-unit id="202">
                 <source>Salary Details Updated Successfully</source>
                 <target>FR_Salary Details Updated Successfully</target>
             </trans-unit>
-			<trans-unit id="203">
+            <trans-unit id="203">
                 <source>Please Select At Least One Salary Component To Delete</source>
                 <target>FR_Please Select At Least One Salary Component To Delete</target>
             </trans-unit>
-			<trans-unit id="204">
+            <trans-unit id="204">
                 <source>Routing Number should only contain digits</source>
                 <target>FR_Routing Number should only contain digits</target>
             </trans-unit>
-			<trans-unit id="205">
+            <trans-unit id="205">
                 <source>Amount should be a number</source>
                 <target>FR_Amount should be a number</target>
             </trans-unit>
-			<trans-unit id="206">
+            <trans-unit id="206">
                 <source>Savings</source>
                 <target>FR_Saving</target>
             </trans-unit>
-		    <trans-unit id="207">
+            <trans-unit id="207">
                 <source>Checking</source>
                 <target>FR_Checking</target>
             </trans-unit>
-			<trans-unit id="208">
+            <trans-unit id="208">
                 <source>Show Direct Deposit Details</source>
                 <target>FR_Show Direct Deposit Details</target>
             </trans-unit>
-			<trans-unit id="209">
+            <trans-unit id="209">
                 <source>Please specify other account type</source>
                 <target>FR_Please specify other account type</target>
             </trans-unit>
-			<trans-unit id="210">
+            <trans-unit id="210">
                 <source>Issued date should be less than expiry date</source>
                 <target>FR_Issued date should be less than expiry date</target>
             </trans-unit>
-			<trans-unit id="211">
+            <trans-unit id="211">
                 <source>Amount should be less than 999999999.99</source>
                 <target>FR_Amount should be less than 999999999.99</target>
             </trans-unit>
-			<trans-unit id="212">
+            <trans-unit id="212">
                 <source>Comments cannot exceed 255 characters in length</source>
                 <target>Comments cannot exceed 255 characters in length</target>
             </trans-unit>
@@ -760,17 +760,37 @@
                 <source>First </source>
                 <target>FR_First</target>
             </trans-unit>
-			<trans-unit id="219">
+            <trans-unit id="219">
                 <source>Current Status</source>
                 <target>FR_Current Status</target>
             </trans-unit>
-			<trans-unit id="220">
+            <trans-unit id="220">
                 <source>Notes</source>
                 <target>FR_Notes</target>
             </trans-unit>
-			<trans-unit id="221">
+            <trans-unit id="221">
                 <source>Time</source>
                 <target>FR_Time</target>
+            </trans-unit>
+            <trans-unit id="222">
+                <source>Include</source>
+                <target>FR_Include</target>
+            </trans-unit>
+            <trans-unit id="223">
+                <source>Current Employees Only</source>
+                <target>FR_Current Employees Only</target>
+            </trans-unit>
+            <trans-unit id="224">
+                <source>Current and Past Employees</source>
+                <target>FR_Current and Past Employees</target>
+            </trans-unit>
+            <trans-unit id="225">
+                <source>Past Employees Only</source>
+                <target>FR_Past Employees Only</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>Include Past Employees</source>
+                <target>FR_Include Past Employees</target>
             </trans-unit>
         </body>
     </file>

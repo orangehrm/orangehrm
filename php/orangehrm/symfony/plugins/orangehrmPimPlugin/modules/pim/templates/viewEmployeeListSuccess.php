@@ -58,7 +58,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     echo $form['employee_status']->renderLabel(__("Employment Status"));
     echo $form['employee_status']->render();
 
-    echo $form['termination']->renderLabel(__("Show Employees"));
+    echo $form['termination']->renderLabel(__("Include"));
     echo $form['termination']->render();
 ?>
      <br class="clear"/>

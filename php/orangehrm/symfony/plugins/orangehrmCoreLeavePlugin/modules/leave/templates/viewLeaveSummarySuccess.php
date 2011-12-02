@@ -60,7 +60,7 @@
     <td colspan="3"><?php echo $form['cmbRecordsCount']->render(); ?></td>
 </tr>
 <tr>
-    <td><?php echo __('With Terminated Employees'); ?></td>
+    <td><?php echo __('Include Past Employees'); ?></td>
     <td colspan="3"><?php echo $form['cmbWithTerminated']->render(); ?></td>
 </tr>
 </table>

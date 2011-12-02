@@ -18,17 +18,17 @@ form#search_form div#formcontent input {
     padding-right:0px;
     padding-top: 1px;
     padding-bottom: 1px;
-    width:150px;
+    width:11.1%;
     margin-bottom: 5px;
 }
 
 form#search_form div#formcontent label {
-    width: 100px;
+    width: 8.2%;
     margin-bottom: 5px;
 }
 
 form#search_form div#formcontent select {
-    width:156px;
+    width:11.6%;
 }
 
 input#empsearch_employee_name,

@@ -200,7 +200,7 @@ class EmployeeSearchForm extends BaseForm {
     }
 
     private function _setTerminatedEmployeeWidget() {
-        $terminateSelection = array(self::WITHOUT_TERMINATED => __('Active'), self::WITH_TERMINATED => __('All'), self::ONLY_TERMINATED => __('Terminated'));
+        $terminateSelection = array(self::WITHOUT_TERMINATED => __('Current Employees Only'), self::WITH_TERMINATED => __('Current and Past Employees'), self::ONLY_TERMINATED => __('Past Employees Only'));
         $this->setWidget('termination', new sfWidgetFormChoice(array('choices' => $terminateSelection)));
         $this->setValidator('termination', new sfValidatorChoice(array('choices' => array_keys($terminateSelection))));
 
