@@ -1,4 +1,7 @@
 
+div.searchbox label {
+    font-weight: normal;
+}
 div.searchbox label.error {
     width:168px !important;
     color: red;
