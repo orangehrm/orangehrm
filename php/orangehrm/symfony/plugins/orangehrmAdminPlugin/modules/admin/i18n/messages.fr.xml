@@ -696,6 +696,30 @@
                 <source>Add Job Category</source>
                 <target>FR_Add Job Category</target>
             </trans-unit>
+            <trans-unit id="172">
+                <source>Languages</source>
+                <target>FR_Languages</target>
+            </trans-unit>   
+            <trans-unit id="173">
+                <source>Add Language</source>
+                <target>FR_Add Language</target>
+            </trans-unit>   
+            <trans-unit id="174">
+                <source>Edit Language</source>
+                <target>FR_Edit Language</target>
+            </trans-unit> 
+            <trans-unit id="175">
+                <source>Language Saved Successfully</source>
+                <target>FR_Language Saved Successfully</target>
+            </trans-unit>   
+            <trans-unit id="176">
+                <source>Language Updated Successfully</source>
+                <target>FR_Language Updated Successfully</target>
+            </trans-unit>       
+            <trans-unit id="177">
+                <source>Language(s) Deleted Successfully</source>
+                <target>FR_Language(s) Deleted Successfully</target>
+            </trans-unit>             
         </body>
     </file>
 </xliff>

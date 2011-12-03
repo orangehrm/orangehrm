@@ -21,17 +21,17 @@ function validateData() {
         rules: {
             'language[name]' : {
                 required:true,
-                maxlength: 120,
-                remote: {
+                maxlength: 120
+                /*remote: {
                    url: urlForExistingNameCheck
-                }
+                }*/
             }
 
         },
         messages: {
             'language[name]' : {
                 required: lang_nameIsRequired,
-                remote: lang_nameExists
+                /*remote: lang_nameExists*/
             }
 
         },
