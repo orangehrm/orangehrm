@@ -71,6 +71,7 @@
  * @property EmpTermination $EmpTermination
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
+ * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -89,7 +90,6 @@
  * @property Doctrine_Collection $EmpChildren
  * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $Users
- * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $PerformanceReview
  * @property Doctrine_Collection $PerformanceReviewComment
  * 
@@ -159,6 +159,7 @@
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
+ * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -177,7 +178,6 @@
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
- * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
  * @method Employee            setEmpNumber()                Sets the current record's "empNumber" value
@@ -246,6 +246,7 @@
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
+ * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -264,7 +265,6 @@
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
  * @method Employee            setUsers()                    Sets the current record's "Users" collection
- * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
  * 
@@ -567,6 +567,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'eeo_cat_code',
              'foreign' => 'id'));
 
+        $this->hasMany('EmployeeWorkShift', array(
+             'local' => 'empNumber',
+             'foreign' => 'emp_number'));
+
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',
              'foreign' => 'employee_id'));
@@ -638,10 +642,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
 
         $this->hasMany('Users', array(
              'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmployeeWorkShift', array(
-             'local' => 'empNumber',
              'foreign' => 'emp_number'));
 
         $this->hasMany('PerformanceReview', array(

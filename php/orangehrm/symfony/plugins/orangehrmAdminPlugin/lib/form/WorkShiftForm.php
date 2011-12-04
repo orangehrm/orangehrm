@@ -32,16 +32,37 @@ class WorkShiftForm extends BaseForm {
 		));
 
 		$this->setValidators(array(
-		    'empStatusId' => new sfValidatorNumber(array('required' => false)),
+		    'workShiftId' => new sfValidatorNumber(array('required' => false)),
 		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
-		    'hours' => new sfValidatorNumber(array('required' => false)),
-		    'availableEmp' => new sfValidatorString(array('required' => false)),
-		    'assignedEmp' => new sfValidatorString(array('required' => false)),
+		    'hours' => new sfValidatorNumber(array('required' => true)),
+		    'availableEmp' => new sfValidatorPass(),
+		    'assignedEmp' => new sfValidatorPass(),
 		));
 
 		$this->widgetSchema->setNameFormat('workShift[%s]');				
 	}
 	
+	public function save(){
+		
+		$workShift = new WorkShift();
+		$workShift->setName($this->getValue('name'));
+		$workShift->setHoursPerDay($this->getValue('hours'));
+		$workShift->save();
+		$this->_saveEmployeeWorkShift($workShift->getId());
+	}
+	
+	private function _saveEmployeeWorkShift($workShiftId){
+		
+		$empArray = $this->getValue('assignedEmp');
+		for($i=0; $i<sizeof($empArray); $i++){
+			$empWorkShift = new EmployeeWorkShift();
+			$empWorkShift->setWorkShiftId($workShiftId);
+			$empWorkShift->setEmpNumber($empArray[$i]);
+			$empWorkShift->save();
+		}
+	}
+
+
 	public function getEmployeeList(){
 		
 		$temp = array();

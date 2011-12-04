@@ -180,7 +180,6 @@ class UniqueIDGenerator {
 		    new IDField("hs_hr_holidays", "holiday_id"),
 		    new IDField("hs_hr_leavetype", "leave_type_id", "LTY"),
 		    new IDField("hs_hr_leave_requests", "leave_request_id"),
-		    new IDField("hs_hr_workshift", "workshift_id"),
 		    new IDField("hs_hr_custom_export", "export_id"),
 		    new IDField("hs_hr_custom_import", "import_id"),
 			/* Not used yet. Uncomment when we start using these

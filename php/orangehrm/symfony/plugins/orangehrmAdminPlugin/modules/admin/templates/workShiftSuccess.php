@@ -23,7 +23,7 @@
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
             <br class="clear"/>
-	   
+
 	    <?php echo $form['name']->renderLabel(__('Shift Name'). ' <span class="required">*</span>'); ?>
             <?php echo $form['name']->render(array("class" => "formInput", "maxlength" => 52)); ?>
             <div class="errorHolder"></div>
@@ -70,3 +70,10 @@
 	</form>
     </div>
 </div>
+
+<script type="text/javascript">
+	var lang_NameRequired = "<?php echo __("Shift Name is required"); ?>";
+	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
+	var lang_hoursRequired = "<?php echo __("Hour per day is required"); ?>";
+	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
+</script>

@@ -32,6 +32,18 @@ class workShiftAction extends sfAction {
 	public function execute($request) {
 		
 		$this->setForm(new WorkShiftForm());
+		if ($this->getUser()->hasFlash('templateMessage')) {
+			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+		}
+		
+		if ($request->isMethod('post')) {
+			$this->form->bind($request->getParameter($this->form->getName()));
+			if ($this->form->isValid()) {
+				$this->form->save();
+				$this->getUser()->setFlash('templateMessage', array('success', __('Work Shift Saved Successfully')));
+				$this->redirect('admin/workShift');
+			}
+		}
 	}
 }
 

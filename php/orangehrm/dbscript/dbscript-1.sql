@@ -623,17 +623,17 @@ create table `hs_hr_unique_id` (
   unique key `table_field` (`table_name`, `field_name`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_workshift` (
-  `workshift_id` int(11) not null,
+create table `ohrm_work_shift` (
+  `id` int(11) not null auto_increment,
   `name` varchar(250) not null,
   `hours_per_day` decimal(4,2) not null,
-  primary key  (`workshift_id`)
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_employee_workshift` (
-  `workshift_id` int(11) not null,
+create table `ohrm_employee_work_shift` (
+  `work_shift_id` int(11) not null auto_increment,
   `emp_number` int(11) not null,
-  primary key  (`workshift_id`,`emp_number`),
+  primary key  (`work_shift_id`,`emp_number`),
   key `emp_number` (`emp_number`)
 ) engine=innodb default charset=utf8;
 
@@ -1694,8 +1694,8 @@ alter table `ohrm_project_admin`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
-alter table `hs_hr_employee_workshift`
-  add constraint foreign key (`workshift_id`) references `hs_hr_workshift` (`workshift_id`) on delete cascade,
+alter table `ohrm_employee_work_shift`
+  add constraint foreign key (`work_shift_id`) references `ohrm_work_shift` (`id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_hsp`

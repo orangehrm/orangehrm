@@ -540,7 +540,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0, 'hs_hr_leavetype', 'leave_type_id'),
     (0, 'hs_hr_holidays', 'holiday_id'),
     (0, 'hs_hr_leave_requests', 'leave_request_id'),
-    (0, 'hs_hr_workshift', 'workshift_id'),
     (0, 'hs_hr_custom_export', 'export_id'),
     (0, 'hs_hr_custom_import', 'import_id'),
     (0, 'hs_hr_pay_period', 'id'),

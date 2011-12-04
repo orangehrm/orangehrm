@@ -358,4 +358,44 @@ JobCategory:
       local: id
       foreign: eeo_cat_code
       type: many
+
+WorkShift:
+  tableName: ohrm_work_shift
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(260)
+      notnull: true
+    hours_per_day:
+      type: decimal(4)
+      name: hours_per_day as hoursPerDay
+      notnull: true
+      scale: false
+  relations:
+    EmployeeWorkShift:
+      local: id
+      foreign: work_shift_id
+      type: many
       
+EmployeeWorkShift:
+  tableName: ohrm_employee_work_shift
+  columns:
+    work_shift_id:
+      type: integer(4)
+      name: work_shift_id as workShiftId
+      primary: true
+    emp_number:
+      type: integer(4)
+      primary: true
+  relations:
+    WorkShift:
+      local: work_shift_id
+      foreign: id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: empNumber
+      type: one
