@@ -17,55 +17,52 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class saveSystemUserAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
-        
-        public function preExecute(){
-            $sessionUser = $this->getUser()->getAttribute('user');
-		if (!$sessionUser->isAdmin()) {
-			
-                        print("you are not allowed");
-		} 
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
         }
-	
-	public function execute($request) {
-		
-		
-		$this->userId = $request->getParameter('userId');
-		$values = array('userId' => $this->userId);
-		$this->setForm(new SystemUserForm(array(),$values));
-		
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-		
-		if ($request->isMethod('post')) {
+    }
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$this->form->save();
-                                
-				if ($this->form->edited) {
-					$this->getUser()->setFlash('templateMessage', array('success', __('User Updated Successfully')));
-				} else {
-					$this->getUser()->setFlash('templateMessage', array('success', __('User Added Successfully')));
-				}
-				$this->redirect('admin/viewSystemUsers');
-			}
+    public function preExecute() {
+        $usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
 		}
-	}
-        
-        
+    }
+
+    public function execute($request) {
+
+
+        $this->userId = $request->getParameter('userId');
+        $values = array('userId' => $this->userId);
+        $this->setForm(new SystemUserForm(array(), $values));
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
+        if ($request->isMethod('post')) {
+
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+
+                if ($this->form->edited) {
+                    $this->getUser()->setFlash('templateMessage', array('success', __('User Updated Successfully')));
+                } else {
+                    $this->getUser()->setFlash('templateMessage', array('success', __('User Added Successfully')));
+                }
+                $this->redirect('admin/viewSystemUsers');
+            }
+        }
+    }
+
 }
 
 ?>
