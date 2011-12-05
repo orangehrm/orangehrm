@@ -291,7 +291,6 @@ class EmployeeService extends BaseService {
         }
     }
 
-
     /**
      * Check if employee with given employee number is a supervisor
      * 
@@ -703,6 +702,7 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve Employee list according to terminated status
      * 
+     * @version 2.6.11
      * @param String $orderField Order Field, default is empNumber
      * @param String $orderBy Order By, Default is ASC
      * @param boolean 
@@ -720,7 +720,8 @@ class EmployeeService extends BaseService {
     /**
      * Returns list of supervisors (employees having at least one subordinate)
      *
-     * @returns Collection
+     * @version 2.6.11
+     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      */
     public function getSupervisorList() {
@@ -732,12 +733,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Search Employee
-     * @param String $field
-     * @param String $value
-     * @return Collection
+     * Search Employee for given field and value 
+     * 
+     * @version 2.6.11
+     * @param String $field property name
+     * @param String $value property value 
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
-     * @ignore
      */
     public function searchEmployee($field, $value) {
         try {
@@ -748,10 +750,12 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Returns Employee Count
-     * @returns int
+     * Returns Employee Count according to terminated status
+     * 
+     * @version 2.6.11
+     * @returns int Employee Count
      * @throws PIMServiceException
-     * @ignore
+     * 
      */
     public function getEmployeeCount($withoutTerminatedEmployees = false) {
         try {
@@ -762,11 +766,12 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Returns Supervisor Employee List
-     * @param int $supervisorId
-     * @returns Collection
+     * Retrieve Supervisor Employee List
+     * 
+     * @version 2.6.11
+     * @param int $supervisorId Supervisor Id
+     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
-     * @ignore
      */
     public function getSupervisorEmployeeList($supervisorId) {
         try {
@@ -777,11 +782,15 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Returns Employee List as Json
-     * @param boolean $workShift
-     * @returns String
+     * Returns Employee List as Json string 
+     * 
+     * if $workShift is true json string include employee work shift value as well
+     * 
+     * @version 2.6.11
+     * @param boolean $workShift Work Shift
+     * @returns String Json string include employee name and employee id
+     * 
      * @throws PIMServiceException
-     * @ignore
      */
     public function getEmployeeListAsJson($workShift = false) {
         try {
@@ -792,10 +801,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Supervisor Employee Chain
-     * @param int $supervisorId
-     * @throws PIMServiceException
-     * @ignore
+     * Retrieve Supervisor Employee Chain 
+     * 
+     * @version 2.6.11
+     * @param int $supervisorId Supervisor Id
+     * @param boolean $withoutTerminatedEmployees Terminated status
+     * @throws PIMServiceException 
+     * 
      */
     public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
@@ -806,12 +818,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Filtering Employee by Sub units
-     * @param Collection $employeeList
+     * Filtering Employee by Sub unit
+     * 
+     * 
+     * @version 2.6.11
+     * @param Doctrine_Collection/Array $employeeList Employee List Collection
      * @param String $subUnitId
      * @returns array()
      * @throws PIMServiceException
-     * @ignore
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
         try {
@@ -1334,7 +1348,7 @@ class EmployeeService extends BaseService {
         }
     }
 
-       /**
+    /**
      * Check if user with given userId is an admin
      * @param string $userId
      * @return bool - True if given user is an admin, false if not
@@ -1349,7 +1363,7 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
-    
+
     /**
      *
      * @return type 
@@ -1362,9 +1376,9 @@ class EmployeeService extends BaseService {
             return $this->getEmployeeDao()->getEmailList();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
-        }   
+        }
     }
-    
+
     /**
      *
      * @return type 
@@ -1373,23 +1387,24 @@ class EmployeeService extends BaseService {
      * @todo Get the result as a PHP array in Doctrine rather than creating the
      * array afterwards.
      */
-    public function getSubordinateIdList(){
+    public function getSubordinateIdList() {
         return $this->getEmployeeDao()->getSubordinateIdList();
     }
 
-    public function getTerminationResonList(){
+    public function getTerminationResonList() {
         return $this->getEmployeeDao()->getTerminationResonList();
     }
 
-    public function terminateEmployment($empNumber, $empTerminationId){
+    public function terminateEmployment($empNumber, $empTerminationId) {
         return $this->getEmployeeDao()->terminateEmployment($empNumber, $empTerminationId);
     }
 
-    public function activateEmployment($empNumber){
+    public function activateEmployment($empNumber) {
         return $this->getEmployeeDao()->activateEmployment($empNumber);
     }
 
-    public function getEmpTerminationById($terminatedId){
-         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
+    public function getEmpTerminationById($terminatedId) {
+        return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
     }
+
 }
