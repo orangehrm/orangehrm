@@ -44,4 +44,14 @@ class SystemUser extends PluginSystemUser
         }
       
     }
+    
+    public function getName(){
+        if( $this->getEmployee()->getEmpFirstname() != ''){
+            return $this->getEmployee()->getEmpFirstname();
+        }else{
+            return $this->getUserRole()->getName();
+        }
+            
+           
+    }
 }

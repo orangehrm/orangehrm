@@ -115,7 +115,7 @@ class AuthenticationService extends BaseService {
         $sfUser->setAttribute('auth.empId', $user->getEmployee()->getEmployeeId());
         $sfUser->setAttribute('auth.empNumber', $user->getEmpNumber());
        // $sfUser->setAttribute('auth.firstName', $user->getFirstName());
-        $sfUser->setAttribute('auth.firstName', $user->getEmployee()->getEmpFirstname()); 
+        $sfUser->setAttribute('auth.firstName', $user->getName()); 
     }
 
     /**
@@ -135,7 +135,7 @@ class AuthenticationService extends BaseService {
         $_SESSION['empID'] = str_pad($user->getEmployee()->getEmpNumber(), $padLength, '0', STR_PAD_LEFT);
 
         $_SESSION['empNumber'] = $user->getEmpNumber();
-        $_SESSION['fname'] = $user->getEmployee()->getEmpFirstname();
+        $_SESSION['fname'] = $user->getName();
     }
 
     /**
