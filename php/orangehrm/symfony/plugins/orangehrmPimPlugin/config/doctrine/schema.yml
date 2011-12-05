@@ -724,3 +724,23 @@ EmployeeLicense:
       local: license_id
       foreign: id
       type: one
+      
+EmployeeWorkShift:
+  tableName: ohrm_employee_work_shift
+  columns:
+    work_shift_id:
+      type: integer(4)
+      name: work_shift_id as workShiftId
+      primary: true
+    emp_number:
+      type: integer(4)
+      primary: true
+  relations:
+    WorkShift:
+      local: work_shift_id
+      foreign: id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: empNumber
+      type: one

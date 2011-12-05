@@ -12,8 +12,5 @@
  */
 abstract class PluginEmployeeWorkShift extends BaseEmployeeWorkShift
 {
-	public function getWorkShift() {
-	    $workShift = new WorkShift();
-	    return $workShift->getTable()->find($this->getWorkShiftId());
-	}
+
 }

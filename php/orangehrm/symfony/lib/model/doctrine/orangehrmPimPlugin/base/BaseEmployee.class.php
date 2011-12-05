@@ -71,7 +71,6 @@
  * @property EmpTermination $EmpTermination
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
- * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -84,6 +83,7 @@
  * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $ReportTo
  * @property Doctrine_Collection $EmployeeLicense
+ * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $managedVacancies
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
@@ -159,7 +159,6 @@
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
- * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -172,6 +171,7 @@
  * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
+ * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection getManagedVacancies()         Returns the current record's "managedVacancies" collection
  * @method Doctrine_Collection getJobCandidate()             Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
@@ -246,7 +246,6 @@
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
- * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -259,6 +258,7 @@
  * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
+ * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
  * @method Employee            setManagedVacancies()         Sets the current record's "managedVacancies" collection
  * @method Employee            setJobCandidate()             Sets the current record's "JobCandidate" collection
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
@@ -567,10 +567,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'eeo_cat_code',
              'foreign' => 'id'));
 
-        $this->hasMany('EmployeeWorkShift', array(
-             'local' => 'empNumber',
-             'foreign' => 'emp_number'));
-
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',
              'foreign' => 'employee_id'));
@@ -619,6 +615,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('EmployeeLicense', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
+
+        $this->hasMany('EmployeeWorkShift', array(
+             'local' => 'empNumber',
+             'foreign' => 'emp_number'));
 
         $this->hasMany('JobVacancy as managedVacancies', array(
              'local' => 'empNumber',
