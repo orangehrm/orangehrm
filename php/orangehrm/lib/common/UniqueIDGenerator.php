@@ -170,7 +170,6 @@ class UniqueIDGenerator {
 
 		$idFields = array(
 		    new IDField("hs_hr_education", "edu_code", "EDU"),
-		    new IDField("hs_hr_licenses", "licenses_code", "LIC"),
 		    new IDField("hs_hr_users", "id", "USR"),
 		    new IDField("hs_hr_user_group", "userg_id", "USG"),
 		    new IDField("hs_hr_module", "mod_id", "MOD"),

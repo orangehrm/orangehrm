@@ -788,6 +788,30 @@
                 <source>Confirm Password</source>
                 <target>FR_Confirm Password</target>
           </trans-unit>				  
+            <trans-unit id="196">
+                <source>Licenses</source>
+                <target>FR_Licenses</target>
+            </trans-unit>   
+            <trans-unit id="197">
+                <source>Add License</source>
+                <target>FR_Add License</target>
+            </trans-unit>   
+            <trans-unit id="198">
+                <source>Edit License</source>
+                <target>FR_Edit License</target>
+            </trans-unit> 
+            <trans-unit id="199">
+                <source>License Saved Successfully</source>
+                <target>FR_License Saved Successfully</target>
+            </trans-unit>   
+            <trans-unit id="200">
+                <source>License Updated Successfully</source>
+                <target>FR_License Updated Successfully</target>
+            </trans-unit>       
+            <trans-unit id="201">
+                <source>License(s) Deleted Successfully</source>
+                <target>FR_License(s) Deleted Successfully</target>
+            </trans-unit>             
         </body>
     </file>
 </xliff>

@@ -45,10 +45,10 @@ create table `hs_hr_currency_type` (
   primary key  (`currency_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_licenses` (
-	`licenses_code` varchar(13) not null default '',
-	`licenses_desc` varchar(50) default null,
-  primary key  (`licenses_code`)
+create table `ohrm_license` (
+	`id` int not null auto_increment,
+	`name` varchar(100) not null,
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_db_version` (
@@ -185,14 +185,15 @@ create table `hs_hr_emp_history_of_ealier_pos` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_emp_licenses` (
-  `emp_number` int(7) not null default 0,
-  `licenses_code` varchar(100) not null default '',
+create table `ohrm_emp_license` (
+  `emp_number` int not null,
+  `license_id` int not null,
   `license_no` varchar(50) default null,
-  `licenses_date` date null default null,
-  `licenses_renewal_date` date null default null,
-  primary key  (`emp_number`,`licenses_code`)
+  `license_issued_date` date null default null,
+  `license_expiry_date` date null default null,
+  primary key (`emp_number`,`license_id`)
 ) engine=innodb default charset=utf8;
+
 
 create table `hs_hr_emp_member_detail` (
   `emp_number` int(7) not null default 0,
@@ -1485,13 +1486,13 @@ alter table hs_hr_emp_history_of_ealier_pos
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_emp_licenses
+alter table ohrm_emp_license
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_emp_licenses
-       add constraint foreign key (licenses_code)
-                             references hs_hr_licenses(licenses_code) on delete cascade;
+alter table ohrm_emp_license
+       add constraint foreign key (license_id)
+                             references ohrm_license(id) on delete cascade;
 
 alter table hs_hr_emp_skill
        add constraint foreign key (emp_number)

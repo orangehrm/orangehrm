@@ -699,3 +699,28 @@ EmployeeLanguage:
       local: lang_id
       foreign: id
       type: one      
+
+EmployeeLicense:
+  tableName: ohrm_emp_license
+  columns:
+    emp_number:
+      name: emp_number as empNumber
+      type: integer
+      primary: true
+    license_id as licenseId:
+      type: integer
+      primary: true
+    license_no as licenseNo:
+      type: string(50)      
+    license_issued_date as licenseIssuedDate: date
+    license_expiry_date as licenseExpiryDate: date
+  relations:
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
+    License:
+      class: License
+      local: license_id
+      foreign: id
+      type: one

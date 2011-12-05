@@ -529,7 +529,6 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
-    (0, 'hs_hr_licenses', 'licenses_code'),
     (0, 'hs_hr_employee', 'emp_number'),
     (6, 'hs_hr_module', 'mod_id'),
     (0, 'hs_hr_education', 'edu_code'),
@@ -697,10 +696,10 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
                     LEFT JOIN ohrm_language ON 
                         (hs_hr_emp_language.lang_id = ohrm_language.id) 
-                    LEFT JOIN hs_hr_emp_licenses ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_licenses.emp_number) 
-                    LEFT JOIN hs_hr_licenses ON 
-                        (hs_hr_emp_licenses.licenses_code = hs_hr_licenses.licenses_code) 
+                    LEFT JOIN ohrm_emp_license ON 
+                        (hs_hr_employee.emp_number = ohrm_emp_license.emp_number) 
+                    LEFT JOIN ohrm_license ON 
+                        (ohrm_emp_license.license_id = ohrm_license.id) 
                     LEFT JOIN hs_hr_emp_member_detail ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number) 
                     LEFT JOIN ohrm_membership ON
@@ -850,9 +849,9 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (55, 3, 'ohrm_language.name', 'Language', 'langName',  'false', null, null, 'label', '<xml><getter>langName</getter></xml>', 200, '0', null, true, 13, '---', false, false),
     (57, 3, 'CASE hs_hr_emp_language.competency WHEN 1 THEN "Poor" WHEN 2 THEN "Basic" WHEN 3 THEN "Good" WHEN 4 THEN "Mother Tongue" END', 'Competency', 'langCompetency',  'false', null, null, 'label', '<xml><getter>langCompetency</getter></xml>', 130, '0', null, true, 13, '---', false, false),
     (58, 3, 'hs_hr_emp_language.comments', 'Comments', 'langComments',  'false', null, null, 'label', '<xml><getter>langComments</getter></xml>', 200, '0', null, true, 13, '---', false, false),
-    (59, 3, 'hs_hr_licenses.licenses_desc', 'License Type', 'empLicenseType',  'false', null, null, 'label', '<xml><getter>empLicenseType</getter></xml>', 200, '0', null, true, 14, '---', false, false),
-    (60, 3, 'hs_hr_emp_licenses.licenses_date', 'Issued Date', 'empLicenseIssuedDate',  'false', null, null, 'label', '<xml><getter>empLicenseIssuedDate</getter></xml>', 100, '0', null, true, 14, '---', false, false),
-    (61, 3, 'hs_hr_emp_licenses.licenses_renewal_date', 'Expiry Date', 'empLicenseExpiryDate',  'false', null, null, 'label', '<xml><getter>empLicenseExpiryDate</getter></xml>', 100, '0', null, true, 14, '---', false, false),
+    (59, 3, 'ohrm_license.name', 'License Type', 'empLicenseType',  'false', null, null, 'label', '<xml><getter>empLicenseType</getter></xml>', 200, '0', null, true, 14, '---', false, false),
+    (60, 3, 'ohrm_emp_license.license_issued_date', 'Issued Date', 'empLicenseIssuedDate',  'false', null, null, 'label', '<xml><getter>empLicenseIssuedDate</getter></xml>', 100, '0', null, true, 14, '---', false, false),
+    (61, 3, 'ohrm_emp_license.license_expiry_date', 'Expiry Date', 'empLicenseExpiryDate',  'false', null, null, 'label', '<xml><getter>empLicenseExpiryDate</getter></xml>', 100, '0', null, true, 14, '---', false, false),
     (62, 3, 'supervisor.emp_firstname', 'First Name', 'supervisorFirstName',  'false', null, null, 'label', '<xml><getter>supervisorFirstName</getter></xml>', 200, '0', null, true, 9, '---', false, false),
     (63, 3, 'subordinate.emp_firstname', 'First Name', 'subordinateFirstName',  'false', null, null, 'label', '<xml><getter>subordinateFirstName</getter></xml>', 200, '0', null, true, 8, '---', false, false),
     (64, 3, 'supervisor.emp_lastname', 'Last Name', 'supervisorLastName',  'false', null, null, 'label', '<xml><getter>supervisorLastName</getter></xml>', 200, '0', null, true, 9, '---', false, false),
@@ -898,7 +897,7 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (106, 3, 'hs_hr_emp_skill.skill_id', 'empSkillCode', 'empSkillCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 12, '---', false, true),
     (107, 3, 'hs_hr_emp_language.lang_id', 'empLangCode', 'empLangCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (108, 3, 'hs_hr_emp_language.fluency', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
-    (109, 3, 'hs_hr_emp_licenses.licenses_code', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
+    (109, 3, 'ohrm_emp_license.license_id', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
     (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false);
 

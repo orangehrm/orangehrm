@@ -399,3 +399,17 @@ EmployeeWorkShift:
       local: emp_number
       foreign: empNumber
       type: one
+      
+License:
+  tableName: ohrm_license
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+  relations:
+    EmployeeLicense:
+      local: id
+      foreign: license_id
+      type: many

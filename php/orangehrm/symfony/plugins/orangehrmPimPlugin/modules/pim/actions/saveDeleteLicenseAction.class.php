@@ -79,11 +79,11 @@ class saveDeleteLicenseAction extends basePimAction {
             $license = new EmployeeLicense();
         }
 
-        $license->emp_number = $post['emp_number'];
-        $license->code = $post['code'];
-        $license->license_no = $post['license_no'];
-        $license->date = $post['date'];
-        $license->renewal_date = $post['renewal_date'];
+        $license->empNumber = $post['emp_number'];
+        $license->licenseId = $post['code'];
+        $license->licenseNo = $post['license_no'];
+        $license->licenseIssuedDate = $post['date'];
+        $license->licenseExpiryDate = $post['renewal_date'];
 
         return $license;
     }

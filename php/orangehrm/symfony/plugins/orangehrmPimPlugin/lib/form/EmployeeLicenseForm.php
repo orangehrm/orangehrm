@@ -83,18 +83,18 @@ class EmployeeLicenseForm extends sfForm {
     }
 
     private function _getLicenseList() {
-        $educationService = new EducationService();
-        $licenseList = $educationService->getLicensesList();
+        $licenseService = new LicenseService();
+        $licenseList = $licenseService->getLicenseList();
         $list = array("" => "-- " . __('Select') . " --");
 
         foreach($licenseList as $license) {
-            $list[$license->getLicensesCode()] = $license->getLicensesDesc();
+            $list[$license->getId()] = $license->getName();
         }
         
         // Clear already used license items
         foreach ($this->empLicenseList as $empLicense) {
-            if (isset($list[$empLicense->code])) {
-                unset($list[$empLicense->code]);
+            if (isset($list[$empLicense->licenseId])) {
+                unset($list[$empLicense->licenseId]);
             }
         }
         return $list;

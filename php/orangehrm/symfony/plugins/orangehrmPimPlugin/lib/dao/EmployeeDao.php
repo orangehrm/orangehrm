@@ -569,7 +569,7 @@ class EmployeeDao extends BaseDao {
                             ->where('l.emp_number = ?', $empNumber);
 
             if (!is_null($licenseCode)) {
-                $q->andwhere('l.code = ?', $licenseCode);
+                $q->andwhere('l.license_id = ?', $licenseCode);
                 return $q->fetchOne();
             }
 
@@ -605,7 +605,7 @@ class EmployeeDao extends BaseDao {
             if (is_array($licenseToDelete)) {
                 // Delete work experience
                 $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
-                                ->whereIn('l.code', $licenseToDelete)
+                                ->whereIn('l.license_id', $licenseToDelete)
                                 ->andwhere('l.emp_number = ?', $empNumber);
 
                 $result = $q->execute();

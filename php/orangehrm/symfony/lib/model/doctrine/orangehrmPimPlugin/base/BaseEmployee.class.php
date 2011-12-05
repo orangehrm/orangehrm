@@ -83,12 +83,12 @@
  * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $ReportTo
+ * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $managedVacancies
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property Doctrine_Collection $CandidateHistory
  * @property Doctrine_Collection $EmpChildren
- * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $Users
  * @property Doctrine_Collection $PerformanceReview
  * @property Doctrine_Collection $PerformanceReviewComment
@@ -171,12 +171,12 @@
  * @method Doctrine_Collection getEmpUsTaxExemption()        Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
+ * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection getManagedVacancies()         Returns the current record's "managedVacancies" collection
  * @method Doctrine_Collection getJobCandidate()             Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
  * @method Doctrine_Collection getCandidateHistory()         Returns the current record's "CandidateHistory" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
- * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
@@ -258,12 +258,12 @@
  * @method Employee            setEmpUsTaxExemption()        Sets the current record's "EmpUsTaxExemption" collection
  * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
+ * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
  * @method Employee            setManagedVacancies()         Sets the current record's "managedVacancies" collection
  * @method Employee            setJobCandidate()             Sets the current record's "JobCandidate" collection
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
  * @method Employee            setCandidateHistory()         Sets the current record's "CandidateHistory" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
- * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
  * @method Employee            setUsers()                    Sets the current record's "Users" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
@@ -616,6 +616,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'erep_sup_emp_number'));
 
+        $this->hasMany('EmployeeLicense', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
+
         $this->hasMany('JobVacancy as managedVacancies', array(
              'local' => 'empNumber',
              'foreign' => 'hiringManagerId'));
@@ -634,10 +638,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
 
         $this->hasMany('EmpChildren', array(
              'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmployeeLicense', array(
-             'local' => 'empNumber',
              'foreign' => 'emp_number'));
 
         $this->hasMany('Users', array(

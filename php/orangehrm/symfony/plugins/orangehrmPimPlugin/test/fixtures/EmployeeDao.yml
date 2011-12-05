@@ -63,13 +63,13 @@ EmployeeLanguage:
   0: {empNumber: '1', langId: 1, fluency: '2', competency: '1', comments: 'comment1'}
   1: {empNumber: '1', langId: 2, fluency: '1', competency: '2', comments: 'comment2'}
 
-Licenses:
-  0: {licenses_code: 'LIC001', licenses_desc: 'sri lankan'}
-  1: {licenses_code: 'LIC002', licenses_desc: 'USA'}
+License:
+  0: {id: 1, name: 'sri lankan'}
+  1: {id: 2, name: 'USA'}
 
 EmployeeLicense:
-  0: {emp_number: '1', licenses_code: 'LIC001', license_no: '2bja8768', licenses_date: '2004-02-23', licenses_renewal_date: '2007-02-23'}
-  1: {emp_number: '1', licenses_code: 'LIC002', license_no: '2bjghj768', licenses_date: '2002-02-23', licenses_renewal_date: '2004-02-23'}
+  0: {empNumber: '1', licenseId: 1, licenseNo: '2bja8768', licenseIssuedDate: '2004-02-23', licenseExpiryDate: '2007-02-23'}
+  1: {empNumber: '1', licenseId: 2, licenseNo: '2bjghj768', licenseIssuedDate: '2002-02-23', licenseExpiryDate: '2004-02-23'}
 
 EmpDependent:
     0: {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
@@ -90,10 +90,10 @@ EmployeeAttachment:
     1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
 
 WorkShift:
-    0: {workshift_id: 1, name: 'John Conner', hours_per_day: 8}
+    0: {id: 1, name: 'John Conner', hoursPerDay: 8}
 
 EmployeeWorkShift:
-    0: {workshift_id: 1, emp_number: 1}
+    0: {workShiftId: 1, emp_number: 1}
 
 PayGrade:
     0: {id: 1, name: 'Salary Grade A'}    

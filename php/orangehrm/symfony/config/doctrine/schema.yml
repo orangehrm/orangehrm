@@ -228,44 +228,6 @@ EmployeeEducation:
       foreign: edu_code
       type: one
 
-Licenses:
-  tableName: hs_hr_licenses
-  columns:
-    licenses_code:
-      type: string(13)
-      primary: true
-    licenses_desc: string(50)
-  relations:
-    EmployeeLicenses:
-      local: licenses_code
-      foreign: licenses_code
-      type: many
-
-EmployeeLicense:
-  tableName: hs_hr_emp_licenses
-  columns:
-    emp_number:
-      name: emp_number as emp_number
-      type: integer(4)
-      primary: true
-    licenses_code as code:
-      type: string(100)
-      primary: true
-    license_no:
-      type: string(50)      
-    licenses_date as date: date(25)
-    licenses_renewal_date as renewal_date: date(25)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: empNumber
-      type: one
-    license:
-      class: Licenses
-      local: licenses_code
-      foreign: licenses_code
-      type: one
-
 EmployeeSkill:
   tableName: hs_hr_emp_skill
   columns:

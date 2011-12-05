@@ -512,7 +512,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLicenseWithLicenseCode() {
 
         $empNumber = 1;
-        $licenseCode = 'LIC001';
+        $licenseCode = 1;
 
         $licenseCode = $this->employeeDao->getLicense($empNumber, $licenseCode);
         $this->assertTrue($licenseCode instanceof EmployeeLicense);
@@ -525,8 +525,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empLicense = new EmployeeLicense;
 
-        $empLicense->emp_number = 3;
-        $empLicense->code = 'LIC001';
+        $empLicense->empNumber = 3;
+        $empLicense->licenseId = 1;
 
         $this->assertTrue($this->employeeDao->saveLicense($empLicense));
     }
@@ -848,7 +848,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetWorkShift() {
         $empNumber = 1;
         $workShift = $this->employeeDao->getWorkShift($empNumber);
-        $this->assertEquals(1, $workShift->getWorkshiftId());
+        $this->assertEquals(1, $workShift->getWorkShiftId());
         
     }
     

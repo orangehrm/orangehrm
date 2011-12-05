@@ -73,18 +73,18 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
                     foreach ($licenses as $license) {                        
                         $cssClass = ($row % 2) ? 'even' : 'odd';
                         //empty($license->from_date)
-                        $startDate = set_datepicker_date_format($license->date);
-                        $endDate = set_datepicker_date_format($license->renewal_date);
-                        $licenseDesc = htmlspecialchars($license->license->licenses_desc);
+                        $startDate = set_datepicker_date_format($license->licenseIssuedDate);
+                        $endDate = set_datepicker_date_format($license->licenseExpiryDate);
+                        $licenseDesc = htmlspecialchars($license->License->name);
                         ?>
                     <tr class="<?php echo $cssClass;?>">
-                <td class="check"><input type="hidden" id="code_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->code); ?>" />
-                <input type="hidden" id="code_desc_<?php echo $license->code;?>" value="<?php echo $licenseDesc; ?>" />
-                <input type="hidden" id="license_no_<?php echo $license->code;?>" value="<?php echo htmlspecialchars($license->license_no); ?>" />
-                <input type="hidden" id="start_date_<?php echo $license->code;?>" value="<?php echo $startDate; ?>" />
-                <input type="hidden" id="end_date_<?php echo $license->code;?>" value="<?php echo $endDate; ?>" />
+                <td class="check"><input type="hidden" id="code_<?php echo $license->licenseId;?>" value="<?php echo htmlspecialchars($license->licenseId); ?>" />
+                <input type="hidden" id="code_desc_<?php echo $license->licenseId;?>" value="<?php echo $licenseDesc; ?>" />
+                <input type="hidden" id="license_no_<?php echo $license->licenseId;?>" value="<?php echo htmlspecialchars($license->licenseNo); ?>" />
+                <input type="hidden" id="start_date_<?php echo $license->licenseId;?>" value="<?php echo $startDate; ?>" />
+                <input type="hidden" id="end_date_<?php echo $license->licenseId;?>" value="<?php echo $endDate; ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $license->code;?>" name="delLicense[]"/></td>
+                <input type="checkbox" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/></td>
                 <td class="desc"><a href="#" class="edit"><?php echo $licenseDesc;?></a></td>
                 <td><?php echo htmlspecialchars($startDate);?></td>
                 <td><?php echo htmlspecialchars($endDate);?></td>
