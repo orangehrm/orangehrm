@@ -20,96 +20,94 @@
  */
 class SearchSystemUserForm extends BaseForm {
 
-	private $systemUserService;
+    private $systemUserService;
 
-	public function getSystemUserService() {
-            $this->systemUserService = new SystemUserService();
-            return $this->systemUserService;
-        }
-        
-	public function configure() {
-
-		$userRoleList   =   $this->getPreDefinedUserRoleList();
-		$statusList     =   $this->getStatusList();
-
-		$this->setWidgets(array(
-		    'userName' => new sfWidgetFormInputText(),
-		    'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
-		    'employeeName' => new sfWidgetFormInputText(),
-                    'employeeId' => new sfWidgetFormInputHidden(),
-                    'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
-		));
-
-		$this->setValidators(array(
-                    'userName' => new sfValidatorString(array('required' => false)),
-		    'userType' => new sfValidatorString(array('required' => false)),
-		    'employeeName' => new sfValidatorString(array('required' => false)),
-                    'employeeId' => new sfValidatorString(array('required' => false)),
-                    'status' => new sfValidatorString(array('required' => false)),
-		));
-
-		$this->widgetSchema->setNameFormat('searchSystemUser[%s]');
-	}
-
-	/**
-	 * Get Pre Defined User Role List
-         * 
-	 * @return array
-	 */
-	private function getPreDefinedUserRoleList() {
-		$list = array();
-                $list[] = __("All");
-		$userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
-		foreach ($userRoles as $userRole) {
-			$list[$userRole->getId()] = $userRole->getName();
-		}
-		return $list;
-	}
-        
-        private function getStatusList(){
-            $list = array();
-            $list[''] = __("All");
-            $list['1'] = __("Enabled");
-            $list['0'] = __("Disabled");
-            
-            return $list;
-        }
-        
-        public function getEmployeeListAsJson() {
-
-            $jsonArray = array();
-            $employeeService = new EmployeeService();
-            $employeeService->setEmployeeDao(new EmployeeDao());
-
-            $employeeList = $employeeService->getEmployeeList();
-
-            $employeeUnique = array();
-            foreach ($employeeList as $employee) {
-                $workShiftLength = 0;
-
-                if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                    $name = $employee->getFullName();
-
-                    $employeeUnique[$employee->getEmpNumber()] = $name;
-                    $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-                }
-            }
-
-            $jsonString = json_encode($jsonArray);
-
-            return $jsonString;
+    public function getSystemUserService() {
+        $this->systemUserService = new SystemUserService();
+        return $this->systemUserService;
     }
-    
+
+    public function configure() {
+
+        $userRoleList = $this->getPreDefinedUserRoleList();
+        $statusList = $this->getStatusList();
+
+        $this->setWidgets(array(
+            'userName' => new sfWidgetFormInputText(),
+            'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
+            'employeeName' => new sfWidgetFormInputText(),
+            'employeeId' => new sfWidgetFormInputHidden(),
+            'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
+        ));
+
+        $this->setValidators(array(
+            'userName' => new sfValidatorString(array('required' => false)),
+            'userType' => new sfValidatorString(array('required' => false)),
+            'employeeName' => new sfValidatorString(array('required' => false)),
+            'employeeId' => new sfValidatorString(array('required' => false)),
+            'status' => new sfValidatorString(array('required' => false)),
+        ));
+
+        $this->widgetSchema->setNameFormat('searchSystemUser[%s]');
+    }
+
+    /**
+     * Get Pre Defined User Role List
+     * 
+     * @return array
+     */
+    private function getPreDefinedUserRoleList() {
+        $list = array();
+        $list[] = __("All");
+        $userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
+        foreach ($userRoles as $userRole) {
+            $list[$userRole->getId()] = $userRole->getName();
+        }
+        return $list;
+    }
+
+    private function getStatusList() {
+        $list = array();
+        $list[''] = __("All");
+        $list['1'] = __("Enabled");
+        $list['0'] = __("Disabled");
+
+        return $list;
+    }
+
+    public function getEmployeeListAsJson() {
+
+        $jsonArray = array();
+        $employeeService = new EmployeeService();
+        $employeeService->setEmployeeDao(new EmployeeDao());
+
+        $employeeList = $employeeService->getEmployeeList();
+
+        $employeeUnique = array();
+        foreach ($employeeList as $employee) {
+            $workShiftLength = 0;
+
+            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
+
+                $name = $employee->getFullName();
+
+                $employeeUnique[$employee->getEmpNumber()] = $name;
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+            }
+        }
+
+        $jsonString = json_encode($jsonArray);
+
+        return $jsonString;
+    }
+
     public function setDefaultDataToWidgets($searchClues) {
-		$this->setDefault('userName', $searchClues['userName']);
-		$this->setDefault('userType', $searchClues['userType']);
-		$this->setDefault('employeeName', $searchClues['employeeName']);
-                $this->setDefault('employeeId', $searchClues['employeeId']);
-                $this->setDefault('status', $searchClues['status']);
-	}
-
-
+        $this->setDefault('userName', $searchClues['userName']);
+        $this->setDefault('userType', $searchClues['userType']);
+        $this->setDefault('employeeName', $searchClues['employeeName']);
+        $this->setDefault('employeeId', $searchClues['employeeId']);
+        $this->setDefault('status', $searchClues['status']);
+    }
 
 }
 

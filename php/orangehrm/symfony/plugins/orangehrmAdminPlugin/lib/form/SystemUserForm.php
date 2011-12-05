@@ -20,130 +20,122 @@
  */
 class SystemUserForm extends BaseForm {
 
-        private $userId = null;
-	private $systemUserService;
-	public $edited = false;
-	
-        public function getSystemUserService() {
-            $this->systemUserService = new SystemUserService();
-            return $this->systemUserService;
+    private $userId = null;
+    private $systemUserService;
+    public $edited = false;
+
+    public function getSystemUserService() {
+        $this->systemUserService = new SystemUserService();
+        return $this->systemUserService;
+    }
+
+    public function configure() {
+
+        $this->userId = $this->getOption('userId');
+        if (!empty($this->userId)) {
+            $this->edited = true;
+        }
+        $userRoleList = $this->getPreDefinedUserRoleList();
+        $statusList = $this->getStatusList();
+
+        $this->setWidgets(array(
+            'userId' => new sfWidgetFormInputHidden(),
+            'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
+            'employeeName' => new sfWidgetFormInputText(),
+            'employeeId' => new sfWidgetFormInputHidden(),
+            'userName' => new sfWidgetFormInputText(),
+            'password' => new sfWidgetFormInputPassword(),
+            'confirmPassword' => new sfWidgetFormInputPassword(),
+            'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
+        ));
+
+        $this->setValidators(array(
+            'userId' => new sfValidatorNumber(array('required' => false)),
+            'userType' => new sfValidatorString(array('required' => true, 'max_length' => 3)),
+            'employeeName' => new sfValidatorString(array('required' => true, 'max_length' => 200)),
+            'employeeId' => new sfValidatorString(array('required' => true)),
+            'userName' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
+            'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+            'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+            'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
+        ));
+
+
+        $this->widgetSchema->setNameFormat('systemUser[%s]');
+
+        if ($this->userId != null) {
+            $this->setDefaultValues($this->userId);
+        } else {
+            $this->setDefault('userType', 2);
+        }
+    }
+
+    private function setDefaultValues($locationId) {
+
+        $systemUser = $this->getSystemUserService()->getSystemUser($this->userId);
+
+        $this->setDefault('userId', $systemUser->getId());
+        $this->setDefault('userType', $systemUser->getUserRoleId());
+        $this->setDefault('employeeName', $systemUser->getEmployee()->getFullName());
+        $this->setDefault('employeeId', $systemUser->getEmpNumber());
+        $this->setDefault('userName', $systemUser->getUserName());
+        $this->setDefault('status', $systemUser->getStatus());
+    }
+
+    /**
+     * Get Pre Defined User Role List
+     * 
+     * @return array
+     */
+    private function getPreDefinedUserRoleList() {
+        $list = array();
+        $userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
+        foreach ($userRoles as $userRole) {
+            $list[$userRole->getId()] = $userRole->getName();
+        }
+        return $list;
+    }
+
+    private function getStatusList() {
+        $list = array();
+        $list[1] = __("Enabled");
+        $list[0] = __("Disabled");
+
+        return $list;
+    }
+
+    public function save() {
+
+        $userId = $this->getValue('userId');
+        $password = $this->getValue('password');
+        $changePasword = false;
+        if (empty($userId)) {
+            $user = new SystemUser();
+        } else {
+            $this->edited = true;
+            $user = $this->getSystemUserService()->getSystemUser($userId);
         }
 
-        
-
-        	
-	public function configure() {
-
-		$this->userId   =   $this->getOption('userId');
-                if(!empty($this->userId)){
-                    $this->edited = true ;
-                }
-		$userRoleList   =   $this->getPreDefinedUserRoleList();
-		$statusList     =   $this->getStatusList();
-
-		$this->setWidgets(array(
-		    'userId' => new sfWidgetFormInputHidden(),
-		    'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
-                    'employeeName' => new sfWidgetFormInputText(),
-                    'employeeId' => new sfWidgetFormInputHidden(),
-		    'userName' => new sfWidgetFormInputText(),
-		    'password' => new sfWidgetFormInputPassword(),
-                    'confirmPassword' => new sfWidgetFormInputPassword(),
-		    'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
-		   
-		));
-
-		$this->setValidators(array(
-		    'userId' => new sfValidatorNumber(array('required' => false)),
-		    'userType' => new sfValidatorString(array('required' => true, 'max_length' => 3)),
-                    'employeeName' => new sfValidatorString(array('required' => true, 'max_length' => 200)),
-                    'employeeId' => new sfValidatorString(array('required' => true)),
-		    'userName' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
-		    'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
-		    'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
-		    'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
-		));
-
-
-		$this->widgetSchema->setNameFormat('systemUser[%s]');
-		
-		if ($this->userId != null) {
-			$this->setDefaultValues($this->userId);
-		}else{
-                    $this->setDefault('userType', 2);
-                }
-	}
-	
-	private function setDefaultValues($locationId) {
-
-                $systemUser   =   $this->getSystemUserService()->getSystemUser( $this->userId );
-		
-		$this->setDefault('userId', $systemUser->getId());
-		$this->setDefault('userType', $systemUser->getUserRoleId());
-		$this->setDefault('employeeName', $systemUser->getEmployee()->getFullName());
-		$this->setDefault('employeeId', $systemUser->getEmpNumber());
-		$this->setDefault('userName', $systemUser->getUserName());
-                $this->setDefault('status', $systemUser->getStatus());
-		
-	}
-
-	/**
-	 * Get Pre Defined User Role List
-         * 
-	 * @return array
-	 */
-	private function getPreDefinedUserRoleList() {
-		$list = array();
-		$userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
-		foreach ($userRoles as $userRole) {
-			$list[$userRole->getId()] = $userRole->getName();
-		}
-		return $list;
-	}
-        
-        private function getStatusList(){
-            $list = array();
-            $list[1] = __("Enabled");
-            $list[0] = __("Disabled");
-            
-            return $list;
+        if (!empty($password)) {
+            $changePasword = true;
+            $user->setUserPassword($this->getValue('password'));
         }
 
-	
+        $user->setUserRoleId($this->getValue('userType'));
+        $user->setEmpNumber($this->getValue('employeeId'));
+        $user->setUserName($this->getValue('userName'));
 
-	public function save() {
+        $user->setStatus($this->getValue('status'));
 
-		$userId     =   $this->getValue('userId');
-                $password   =   $this->getValue('password');
-                $changePasword = false ;
-		if(empty($userId)){
-			$user = new SystemUser();
-		} else {
-			$this->edited = true;
-			$user = $this->getSystemUserService()->getSystemUser( $userId );
-		}
-                
-                if( !empty( $password ) ){
-                    $changePasword = true ;
-                    $user->setUserPassword( $this->getValue('password'));
-                }
-                
-		$user->setUserRoleId( $this->getValue('userType'));
-                $user->setEmpNumber( $this->getValue('employeeId') );
-                $user->setUserName( $this->getValue('userName'));
-                
-                $user->setStatus( $this->getValue('status'));
-               
-		$this->getSystemUserService()->saveSystemUser( $user , $changePasword);
-		
-	}
-        
-        public function getEmployeeListAsJson() {
+        $this->getSystemUserService()->saveSystemUser($user, $changePasword);
+    }
+
+    public function getEmployeeListAsJson() {
 
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
-        
+
         $employeeList = $employeeService->getEmployeeList();
 
         $employeeUnique = array();
@@ -151,7 +143,7 @@ class SystemUserForm extends BaseForm {
             $workShiftLength = 0;
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-                
+
                 $name = $employee->getFullName();
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
@@ -164,8 +156,6 @@ class SystemUserForm extends BaseForm {
         return $jsonString;
     }
 
-
-	
 }
 
 ?>
