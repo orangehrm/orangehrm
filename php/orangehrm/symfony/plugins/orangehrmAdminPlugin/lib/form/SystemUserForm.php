@@ -144,7 +144,7 @@ class SystemUserForm extends BaseForm {
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
         
-        $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+        $employeeList = $employeeService->getEmployeeList();
 
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
