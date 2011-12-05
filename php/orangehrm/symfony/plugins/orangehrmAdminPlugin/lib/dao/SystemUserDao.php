@@ -17,148 +17,146 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class SystemUserDao extends BaseDao{
-    
+class SystemUserDao extends BaseDao {
+
     /**
      * Save System User
      * 
      * @param SystemUser $systemUser 
      * @return void
      */
-    public function saveSystemUser( SystemUser $systemUser){
+    public function saveSystemUser(SystemUser $systemUser) {
         try {
-            
-            $systemUser->save(); 
+
+            $systemUser->save();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Check is existing user according to user name
      * 
      * @param type $userName 
      * @return mixed , false if user not exist  , otherwise it returns SystemUser object
      */
-    public function isExistingSystemUser( $userName , $userId = null){
+    public function isExistingSystemUser($userName, $userId = null) {
         try {
             $query = Doctrine_Query:: create()->from('SystemUser u')
-                            ->andWhere('u.user_name = ?', $userName);
-            if(!empty($userId)){
-              $query->andWhere('u.id != ?', $userId);  
+                    ->andWhere('u.user_name = ?', $userName);
+            if (!empty($userId)) {
+                $query->andWhere('u.id != ?', $userId);
             }
             //print($query->getSqlQuery());
             return $query->fetchOne();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get System User for given User Id
      * 
      * @param type $userId
      * @return SystemUser  
      */
-    public function getSystemUser( $userId ){
+    public function getSystemUser($userId) {
         try {
             return Doctrine :: getTable('SystemUser')->find($userId);
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get System Users
      * 
      * @return Doctrine_Collection 
      */
-    public function getSystemUsers( ){
+    public function getSystemUsers() {
         try {
             $query = Doctrine_Query:: create()->from('SystemUser u')
-                    ->where('u.deleted=?',0);
-                            
+                    ->where('u.deleted=?', 0);
+
             return $query->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
-    
+
     /**
      * Delete System Users
      * @param array $deletedIds 
      * 
      */
-    public function deleteSystemUsers( array $deletedIds){
+    public function deleteSystemUsers(array $deletedIds) {
         try {
-                $query = Doctrine_Query :: create()
-                        ->update('SystemUser u')
-                        ->set('u.deleted',1)
-                        ->whereIn('u.id', $deletedIds);
-                $query->execute();
+            $query = Doctrine_Query :: create()
+                    ->update('SystemUser u')
+                    ->set('u.deleted', 1)
+                    ->whereIn('u.id', $deletedIds);
+            $query->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
-     /**
+
+    /**
      * Get System Users
      * 
      * @return Doctrine_Collection 
      */
-    public function getPreDefinedUserRole( ){
+    public function getPreDefinedUserRole() {
         try {
             $query = Doctrine_Query:: create()->from('UserRole ur')
-                        ->whereIn('ur.is_predefined', 1);
-                            
+                    ->whereIn('ur.is_predefined', 1);
+
             return $query->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(),$e->getCode(),$e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get Count of Search Query 
      * 
      * @param type $searchClues
      * @return type 
      */
-    public function getSearchSystemUsersCount( $searchClues ){
+    public function getSearchSystemUsersCount($searchClues) {
         try {
-                  $q = $this->_buildSearchQuery($searchClues);
-                   return $q->count();
-            } catch (Exception $e) {
-                    throw new DaoException($e->getMessage(),$e->getCode(),$e);
-            }
+            $q = $this->_buildSearchQuery($searchClues);
+            return $q->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
     }
-    
+
     /**
      * Search System Users 
      * 
      * @param type $searchClues
      * @return type 
      */
-    public function searchSystemUsers( $searchClues){
-         try {
-                $sortField = ($searchClues['sortField'] == "") ? 'user_name' : $searchClues['sortField'];
-		$sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
-		$offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
-		$limit = ($searchClues['limit'] == "") ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
-                
-                $q = $this->_buildSearchQuery($searchClues);
-                
-                $q->orderBy($sortField . ' ' . $sortOrder)
-                  ->offset($offset)
-                  ->limit($limit);
+    public function searchSystemUsers($searchClues) {
+        try {
+            $sortField = ($searchClues['sortField'] == "") ? 'user_name' : $searchClues['sortField'];
+            $sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
+            $offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
+            $limit = ($searchClues['limit'] == "") ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
 
-                return $q->execute();
-            } catch (Exception $e) {
-                    throw new DaoException($e->getMessage(),$e->getCode(),$e);
-            }
+            $q = $this->_buildSearchQuery($searchClues);
+
+            $q->orderBy($sortField . ' ' . $sortOrder)
+                    ->offset($offset)
+                    ->limit($limit);
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
     }
-    
-    
+
     /**
      *
      * @param type $searchClues
@@ -166,25 +164,26 @@ class SystemUserDao extends BaseDao{
      */
     private function _buildSearchQuery($searchClues) {
 
-		$query = Doctrine_Query:: create()->from('SystemUser u');
-			
-		if (!empty($searchClues['userName'])) {
-			$query->addWhere('u.user_name = ?', $searchClues['userName']);
-		}
-		if (!empty($searchClues['userType'])) {
-			$query->addWhere('u.user_role_id = ?', $searchClues['userType']);
-		}
-		if (!empty($searchClues['employeeId'])) {
-			$query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
-		}
-                if ($searchClues['status'] != '') {
-			$query->addWhere('u.status = ?', $searchClues['status']);
-		}
-                
-                $query->addWhere('u.deleted=?',0);
+        $query = Doctrine_Query:: create()->from('SystemUser u');
 
-		return $query;
-	}
+        if (!empty($searchClues['userName'])) {
+            $query->addWhere('u.user_name = ?', $searchClues['userName']);
+        }
+        if (!empty($searchClues['userType'])) {
+            $query->addWhere('u.user_role_id = ?', $searchClues['userType']);
+        }
+        if (!empty($searchClues['employeeId'])) {
+            $query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
+        }
+        if ($searchClues['status'] != '') {
+            $query->addWhere('u.status = ?', $searchClues['status']);
+        }
+
+        $query->addWhere('u.deleted=?', 0);
+
+        return $query;
+    }
+
 }
 
 ?>
