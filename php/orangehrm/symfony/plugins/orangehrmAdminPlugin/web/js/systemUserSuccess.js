@@ -86,6 +86,7 @@ function isValidForm(){
             'systemUser[userName]' : {
                 required:true,
                 maxlength: 20,
+                minlength: 5,
                 remote: {
                    url: isUniqueUserUrl,
                    data: { user_id: userId}
@@ -98,6 +99,7 @@ function isValidForm(){
                     else
                         return true;
                   },
+                minlength: 4,
                 maxlength: 20
             },
             'systemUser[confirmPassword]' : {
@@ -115,11 +117,13 @@ function isValidForm(){
             'systemUser[userName]' : {
                 required: user_UserNameRequired,
                 maxlength: user_Max20Chars,
-                remote: user_name_alrady_taken
+                remote: user_name_alrady_taken,
+                minlength: user_UserNameLength
             },
             'systemUser[password]' : {
                 required: user_UserPaswordRequired,
-                maxlength: user_Max20Chars
+                maxlength: user_Max20Chars,
+                minlength: user_UserPasswordLength
             },
             'systemUser[confirmPassword]' : {
                 required: user_UserConfirmPassword,
