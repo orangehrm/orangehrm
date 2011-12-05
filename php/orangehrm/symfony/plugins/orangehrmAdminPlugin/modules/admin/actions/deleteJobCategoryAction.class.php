@@ -40,7 +40,7 @@ class deleteJobCategoryAction extends sfAction {
 				$status = $this->getJobCategoryService()->getJobCategoryById($toBeDeletedJobCatId);
 				$status->delete();
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Job Category(s) Deleted Successfully')));
+			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Job Category Record(s) Deleted Successfully')));
 		}
 
 		$this->redirect('admin/jobCategory');

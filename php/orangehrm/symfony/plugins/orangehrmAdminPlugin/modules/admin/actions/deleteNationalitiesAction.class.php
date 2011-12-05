@@ -33,7 +33,7 @@ class deleteNationalitiesAction extends sfAction {
 
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
         $this->getNationalityService()->deleteNationalities($toBeDeletedIds);
-        $this->getUser()->setFlash('templateMessage', array('success', __('Selected Nationality(ies) Deleted Successfully')));
+        $this->getUser()->setFlash('templateMessage', array('success', __('Selected Nationality Record(s) Deleted Successfully')));
         $this->redirect('admin/nationality');
     }
 
