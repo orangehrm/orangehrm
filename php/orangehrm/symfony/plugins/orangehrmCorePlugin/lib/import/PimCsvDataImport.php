@@ -148,7 +148,7 @@ class PimCsvDataImport extends CsvDataImport {
 		$nationalities = $this->getNationalityService()->getNationalityList();
 
 		foreach ($nationalities as $nationality) {
-			if (strtolower($nationality->getNatName()) == strtolower($name)) {
+			if (strtolower($nationality->getName()) == strtolower($name)) {
 				return $nationality;
 			}
 		}

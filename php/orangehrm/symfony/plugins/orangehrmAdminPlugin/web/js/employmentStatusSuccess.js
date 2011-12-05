@@ -23,15 +23,15 @@ $(document).ready(function() {
     });
     
     $('a[href="javascript:"]').click(function(){
-		var row = $(this).closest("tr");
-		var statId = row.find('input').val();
-		var url = empStatusInfoUrl+statId;
+        var row = $(this).closest("tr");
+        var statId = row.find('input').val();
+        var url = empStatusInfoUrl+statId;
         $('#empStatusHeading').html(lang_editEmpStatus);
-		getEmploymentInfo(url);
+        getEmploymentInfo(url);
 
-	});
+    });
     
-        $('#btnDelete').attr('disabled', 'disabled');
+    $('#btnDelete').attr('disabled', 'disabled');
 
         
     $("#ohrmList_chkSelectAll").click(function() {
@@ -139,10 +139,10 @@ $(document).ready(function() {
 function getEmploymentInfo(url){
     
     $.getJSON(url, function(data) {
-		$('#empStatus_empStatusId').val(data.id);
-		$('#empStatus_name').val(data.name);
-		$('#empStatus').show();
-		$(".messageBalloon_success").remove();
-		$('#btnAdd').hide();
-	});
+        $('#empStatus_empStatusId').val(data.id);
+        $('#empStatus_name').val(data.name);
+        $('#empStatus').show();
+        $(".messageBalloon_success").remove();
+        $('#btnAdd').hide();
+    });
 }

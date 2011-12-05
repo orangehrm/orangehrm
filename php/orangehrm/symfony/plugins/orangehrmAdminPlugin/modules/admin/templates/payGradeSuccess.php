@@ -152,4 +152,5 @@
 	var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
 	var lang_uniquePayGradeName  = "<?php echo __("Name is already exist"); ?>";
 	var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
+	var lang_typeHint = "<?php echo __("Type for hints")."..."; ?>";
 </script>

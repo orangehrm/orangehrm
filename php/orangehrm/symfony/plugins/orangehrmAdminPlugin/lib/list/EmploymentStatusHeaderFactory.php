@@ -1,8 +1,8 @@
 <?php
 
 class EmploymentStatusHeaderFactory extends ohrmListConfigurationFactory {
-	
-		protected function init() {
+
+	protected function init() {
 
 		$header1 = new ListHeader();
 
@@ -13,7 +13,7 @@ class EmploymentStatusHeaderFactory extends ohrmListConfigurationFactory {
 			'labelGetter' => 'getName',
 			'urlPattern' => 'javascript:'),
 		));
-
+		
 		$this->headers = array($header1);
 	}
 

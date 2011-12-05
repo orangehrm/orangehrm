@@ -69,6 +69,22 @@
 	    </div>
 	</form>
     </div>
+    <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+</div>
+
+<div id="customerList">
+    <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
+</div>
+
+<!-- confirmation box -->
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+
+    <?php echo __("Selected employment status(es) will be deleted") . "?"; ?>
+
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -76,4 +92,8 @@
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_hoursRequired = "<?php echo __("Hour per day is required"); ?>";
 	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
+	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
+	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
+	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson"); ?>";
+	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson"); ?>";
 </script>

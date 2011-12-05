@@ -19,6 +19,16 @@
  */
 class workShiftAction extends sfAction {
 	
+	private $workShiftService;
+
+	public function getWorkShiftService() {
+		if (is_null($this->workShiftService)) {
+			$this->workShiftService = new WorkShiftService();
+			$this->workShiftService->setWorkShiftDao(new WorkShiftDao());
+		}
+		return $this->workShiftService;
+	}
+	
 	/**
 	 * @param sfForm $form
 	 * @return
@@ -31,10 +41,20 @@ class workShiftAction extends sfAction {
 
 	public function execute($request) {
 		
+		$usrObj = $this->getUser()->getAttribute('user');
+		if (!$usrObj->isAdmin()) {
+			$this->redirect('pim/viewPersonalDetails');
+		}
+		
 		$this->setForm(new WorkShiftForm());
 		if ($this->getUser()->hasFlash('templateMessage')) {
 			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
 		}
+		
+		$workShiftList = $this->getWorkShiftService()->getWorkShiftList();
+		$this->_setListComponent($workShiftList);
+		$params = array();
+		$this->parmetersForListCompoment = $params;
 		
 		if ($request->isMethod('post')) {
 			$this->form->bind($request->getParameter($this->form->getName()));
@@ -44,6 +64,13 @@ class workShiftAction extends sfAction {
 				$this->redirect('admin/workShift');
 			}
 		}
+	}
+	
+	private function _setListComponent($workShiftList) {
+
+		$configurationFactory = new WorkShiftHeaderFactory();
+		ohrmListComponent::setConfigurationFactory($configurationFactory);
+		ohrmListComponent::setListData($workShiftList);
 	}
 }
 

@@ -19,14 +19,14 @@ $(document).ready(function() {
         },
         matchContains:true
     }).result(function(event, item) {
-            $('.curName').html("");
-            $('#payGradeCurrency_currencyName').removeClass("error");
-        });
+        $('.curName').html("");
+        $('#payGradeCurrency_currencyName').removeClass("error");
+    });
     
     $('#btnCancel').click(function() {
         window.location.replace(viewPayGradesUrl);
     });
-    
+                
     if(payGradeId > 0){
         $('#payGrade_name').attr('disabled','disabled');
         $('#btnSave').val(lang_edit);
@@ -44,6 +44,22 @@ $(document).ready(function() {
         $('.checkboxCurr').hide();
         validatorCurr.resetForm();
         $('#currencyHeading').text(lang_addCurrency);
+        $('#payGradeCurrency_currencyName').each(function(){
+            if($(this).parent().css('display') == 'block') {
+                if ($(this).val() == '' || $(this).val() == lang_typeHint) {
+                    $(this).addClass("inputFormatHint").val(lang_typeHint);
+                }
+            }
+        });
+   
+        $('#payGradeCurrency_currencyName').one('focus', function() {
+        
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeClass("inputFormatHint");
+            }
+
+        });
     });
     
     $('#cancelButton').click(function(){
@@ -56,7 +72,10 @@ $(document).ready(function() {
     });
     
     $('#btnSaveCurrency').click(function(){
-            $('#frmCurrency').submit();
+        if ($('#payGradeCurrency_currencyName').val() == lang_typeHint) {
+            $('#payGradeCurrency_currencyName').val("");
+        }
+        $('#frmCurrency').submit();
     });
     
     $('.editLink').click(function(event) {
@@ -176,7 +195,7 @@ $(document).ready(function() {
             }
         }
         return isValid;
-});
+    });
     
     $.validator.addMethod("validSalaryRange", function(value, element, params) {
         

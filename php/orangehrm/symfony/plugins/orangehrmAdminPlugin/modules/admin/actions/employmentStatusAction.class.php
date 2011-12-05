@@ -21,7 +21,6 @@ class employmentStatusAction extends sfAction {
 
 	private $empStatusService;
 
-
 	public function getEmploymentStatusService() {
 		if (is_null($this->empStatusService)) {
 			$this->empStatusService = new EmploymentStatusService();
