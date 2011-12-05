@@ -377,7 +377,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub = new MenuItem("email", $lang_Menu_Admin_EmailNotifications, "#");
     $subsubs = array();
     $subsubs[] = new MenuItem("email", $lang_Menu_Admin_EmailConfiguration, "./symfony/web/index.php/admin/listMailConfiguration");
-    $subsubs[] = new MenuItem("email", $lang_Menu_Admin_EmailSubscribe, "./symfony/web/index.php/admin/listMailSubscriptions");
+    $subsubs[] = new MenuItem("email", $lang_Menu_Admin_EmailSubscribe, "./symfony/web/index.php/admin/viewEmailNotification");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 

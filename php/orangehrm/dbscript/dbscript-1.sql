@@ -1266,6 +1266,25 @@ create table `ohrm_nationality` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_email_notification` (
+  `id` int(6) not null auto_increment,
+  `name` varchar(100) not null,
+  `is_enable` int(6) not null,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_email_subscriber` (
+  `id` int(6) not null auto_increment,
+  `notification_id` int(6) not null,
+  `name` varchar(100) not null,
+  `email` varchar(100) not null,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
+alter table ohrm_email_subscriber
+       add constraint foreign key (notification_id)
+                             references ohrm_email_notification(id) on delete cascade;
+
 alter table ohrm_emp_termination
        add constraint foreign key (reason_id)
                              references ohrm_emp_termination_reason(id) on delete set null;

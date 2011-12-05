@@ -1247,3 +1247,12 @@ INSERT INTO `ohrm_nationality` (`id`, `name`) VALUES
 (191, 'Yemenite'),
 (192, 'Zambian'),
 (193, 'Zimbabwean');
+
+INSERT INTO `ohrm_email_notification` (`id`, `name`, `is_enable`) VALUES
+(1, 'Leave Applications', 0),
+(2, 'Leave Assignments', 0),
+(3, 'Leave Approvals', 0),
+(4, 'Leave Cancellations', 0),
+(5, 'Leave Rejections', 0),
+(6, 'HSP Notifications', 0),
+(7, 'Performance Review Submissions', 0);

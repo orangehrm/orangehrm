@@ -359,6 +359,41 @@ JobCategory:
       foreign: eeo_cat_code
       type: many
 
+EmailNotification:
+  tableName: ohrm_email_notification
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+    is_enable:
+      name: is_enable as isEnable
+      type: integer
+  relations:
+    EmailSubscriber:
+      local: id
+      foreign: notificationId
+      type: many
+
+EmailSubscriber:
+  tableName: ohrm_email_subscriber
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    notification_id:
+      name: notification_id as notificationId
+      type: integer
+    name: string(100)
+    email: string(100)
+  relations:
+    EmailNotification:
+      local: notificationId
+      foreign: id
+      type: one
+
 WorkShift:
   tableName: ohrm_work_shift
   columns:

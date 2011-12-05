@@ -551,6 +551,27 @@ Nationality:
   assets: []
   jsInitMethods: []
 
+EmailNotification:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Email Notification");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Edit:
+      label: Edit
+    Save:
+      label: Save
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/updateNotification'
+  assets: []
+  jsInitMethods: []
+
 WorkShift:
   pluginName: orangehrmAdminPlugin
   hasSelectableRows: true
@@ -569,5 +590,28 @@ WorkShift:
   buttonsPosition: before-data
   formMethod: post
   formAction: 'index.php/admin/deleteWorkShifts'
+  assets: []
+  jsInitMethods: []
+
+Subscriber:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Subscribers");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+    Back:
+      label: Back
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/admin/deleteSubscribers'
   assets: []
   jsInitMethods: []

@@ -812,6 +812,62 @@
                 <source>License(s) Deleted Successfully</source>
                 <target>FR_License(s) Deleted Successfully</target>
             </trans-unit>             
+            <trans-unit id="178">
+                <source>Email Notification</source>
+                <target>FR_Email Notification</target>
+            </trans-unit>
+            <trans-unit id="179">
+                <source>Notification Type</source>
+                <target>FR_Notification Type</target>
+            </trans-unit>
+            <trans-unit id="180">
+                <source>Subscriber(s)</source>
+                <target>FR_Subscriber(s)</target>
+            </trans-unit>
+            <trans-unit id="181">
+                <source>Selected Notifications Saved Successfully</source>
+                <target>FR_Selected Notifications Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="182">
+                <source>Subscribers</source>
+                <target>FR_Subscribers</target>
+            </trans-unit>
+            <trans-unit id="183">
+                <source>Add Subscriber</source>
+                <target>FR_Add Subscriber</target>
+            </trans-unit>
+            <trans-unit id="184">
+                <source>Edit Subscriber</source>
+                <target>FR_Edit Subscriber</target>
+            </trans-unit>
+            <trans-unit id="185">
+                <source>Click on a notification type to add subscribers</source>
+                <target>FR_Click on a notification type to add subscribers</target>
+            </trans-unit>
+            <trans-unit id="186">
+                <source>Subscriber Saved Successfully</source>
+                <target>FR_Subscriber Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="187">
+                <source>Selected subscriber(s) will be deleted</source>
+                <target>FR_Selected subscriber(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="188">
+                <source>Selected Subscriber(s) Deleted Successfully</source>
+                <target>FR_Selected Subscriber(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="189">
+                <source>Email is required</source>
+                <target>FR_Email is required</target>
+            </trans-unit>
+            <trans-unit id="190">
+                <source>Email already exist</source>
+                <target>FR_Email already exist</target>
+            </trans-unit>
+            <trans-unit id="191">
+                <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+                <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
