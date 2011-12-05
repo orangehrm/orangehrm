@@ -719,7 +719,75 @@
             <trans-unit id="177">
                 <source>Language(s) Deleted Successfully</source>
                 <target>FR_Language(s) Deleted Successfully</target>
-            </trans-unit>             
+            </trans-unit>    
+           <trans-unit id="178">
+                <source>System Users</source>
+                <target>FR_System Users</target>
+            </trans-unit>      
+           <trans-unit id="179">
+                <source>Username</source>
+                <target>FR_Username</target>
+            </trans-unit>     
+           <trans-unit id="180">
+                <source>User Type</source>
+                <target>FR_User Type</target>
+            </trans-unit> 
+           <trans-unit id="181">
+                <source>Employee Name</source>
+                <target>FR_Employee Name</target>
+            </trans-unit> 	
+          <trans-unit id="182">
+                <source>Add User</source>
+                <target>FR_Add User</target>
+            </trans-unit> 	
+          <trans-unit id="183">
+                <source>Username already taken</source>
+                <target>FR_Username already taken</target>
+            </trans-unit>		
+          <trans-unit id="184">
+                <source>Password</source>
+                <target>FR_Password</target>
+            </trans-unit>	
+          <trans-unit id="185">
+                <source>Edit User</source>
+                <target>FR_Edit User</target>
+            </trans-unit>				
+		  <trans-unit id="186">
+                <source>User Added Successfully</source>
+                <target>FR_User Added Successfully</target>
+            </trans-unit>	
+		  <trans-unit id="187">
+                <source>System User(s) Deleted Successfully</source>
+                <target>FR_System User(s) Deleted Successfully</target>
+            </trans-unit>	
+		  <trans-unit id="188">
+                <source>Pay Grade Currency Saved Successfully</source>
+                <target>FR_Pay Grade Currency Saved Successfully</target>
+          </trans-unit>	
+		  <trans-unit id="189">
+                <source>Employee name is required</source>
+                <target>FR_Employee name is required</target>
+          </trans-unit>	
+		  <trans-unit id="190">
+                <source>Username is required</source>
+                <target>FR_Username is required</target>
+          </trans-unit>	
+		  <trans-unit id="192">
+                <source>Passwords do not match</source>
+                <target>FR_Passwords do not match</target>
+          </trans-unit>	
+		  <trans-unit id="193">
+                <source>Select valid employee</source>
+                <target>FR_Select valid employee</target>
+          </trans-unit>			  		
+		  <trans-unit id="194">
+                <source>User Name should have at least 5 characters</source>
+                <target>FR_User Name should have at least 5 characters</target>
+          </trans-unit>		
+		  <trans-unit id="195">
+                <source>Confirm Password</source>
+                <target>FR_Confirm Password</target>
+          </trans-unit>				  
         </body>
     </file>
 </xliff>
