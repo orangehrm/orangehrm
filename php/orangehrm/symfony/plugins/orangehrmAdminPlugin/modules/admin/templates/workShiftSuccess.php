@@ -79,7 +79,7 @@
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
 
-    <?php echo __("Selected employment status(es) will be deleted") . "?"; ?>
+    <?php echo __("Selected work shift(s) will be deleted") . "?"; ?>
 
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
@@ -88,12 +88,14 @@
 </div>
 
 <script type="text/javascript">
+	var employees = '<?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>';
+	var employeeList = eval(employees);
 	var lang_NameRequired = "<?php echo __("Shift Name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_hoursRequired = "<?php echo __("Hour per day is required"); ?>";
 	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
-	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson"); ?>";
-	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson"); ?>";
+	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
+	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";
 </script>

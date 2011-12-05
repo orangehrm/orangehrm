@@ -6,7 +6,7 @@ $(document).ready(function() {
             $('.formInput').removeAttr('disabled');
             $('#btnSave').val(lang_save);
         } else if ($('#btnSave').val() == lang_save){
-            if(isValidForm()){          
+            if(isValidForm()){  
                 $('#frmAddCustomer').submit();
             }      
         }
@@ -91,4 +91,5 @@ function isValidForm(){
         }
 
     });
+    return true;
 }

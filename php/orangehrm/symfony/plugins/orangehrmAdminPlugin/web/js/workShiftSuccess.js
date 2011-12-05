@@ -10,7 +10,9 @@ $(document).ready(function() {
     
     $('#btnSave').click(function() {
         var selected = $.map( $('#workShift_assignedEmp option'),
-                      function(e) { return $(e).val(); } );
+            function(e) {
+                return $(e).val();
+            } );
         $('#workShift_assignedEmp').val(selected);
         $('#frmWorkShift').submit();
 
@@ -19,6 +21,7 @@ $(document).ready(function() {
     $('#workShift').hide();
     
     $('#btnAdd').click(function() {
+        resetMultipleSelectBoxes();
         $('#workShift').show();
         $('#btnAdd').hide();
         $('#workShift_name').val('');
@@ -133,9 +136,44 @@ function getWorkShiftInfo(url){
         $('#workShift_workShiftId').val(data.id);
         $('#workShift_name').val(data.name);
         $('#workShift_hours').val(data.hoursPerDay);
-        $('#empStatus').show();
+        $('#workShift').show();
         $(".messageBalloon_success").remove();
         $('#btnAdd').hide();
         return data.id;
     });
 }
+
+function getWorkShiftEmpInfo(url){
+    
+    $.getJSON(url, function(data) {
+        
+        resetMultipleSelectBoxes();
+        $.each(data, function() {
+   
+            var option = new Option(this.empName, this.empNo);
+            // Use Jquery to get select list element
+            var dropdownList = $("#workShift_assignedEmp")[0];
+
+            if ($.browser.msie) {
+                dropdownList.add(option);
+            }
+            else {
+                dropdownList.add(option, null);
+            }
+            $("#workShift_availableEmp option[value='"+this.empNo+"']").remove();
+        });
+    });
+}
+
+function resetMultipleSelectBoxes(){
+    
+    $('#workShift_assignedEmp')[0].options.length = 0;
+    $('#workShift_availableEmp')[0].options.length = 0;
+
+    for(var i=0; i<employeeList.length; i++){
+        $('#workShift_availableEmp').
+        append($("<option></option>").
+            attr("value",employeeList[i].id).
+            text(employeeList[i].name)); 
+    }
+} 
