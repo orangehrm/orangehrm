@@ -93,9 +93,9 @@ class addEmployeeAction extends basePimAction {
             if ($this->createUserAccount) {
 
                 $userService = $this->getUserService();
-                $user = $userService->getUserByUserName($posts['user_name']);
+                $user = $userService->isExistingSystemUser($posts['user_name'],null);
 
-                if($user instanceof Users) {
+                if($user instanceof SystemUser) {
 
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Adding Employee Failed. User Name Already Exists')));
                     $this->redirect('pim/addEmployee');
@@ -179,15 +179,14 @@ class addEmployeeAction extends basePimAction {
             $userService = $this->getUserService();
 
             if(trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) {
-                $user = new Users();
+                $user = new SystemUser();
                 $user->user_name = $posts['user_name'];
                 $user->user_password = md5($posts['user_password']);
                 $user->emp_number = $empNumber;
-                $user->status = $posts['status'];
-                $user->created_by = $_SESSION['user'];
-                $user->is_admin = "No";
-                $user->date_entered = date("Y-m-d");
-                $userService->saveUser($user);
+                $user->setUserRoleId(2);
+                $userService->saveSystemUser($user);
+             
+               
             }
         }
     }
@@ -195,7 +194,7 @@ class addEmployeeAction extends basePimAction {
     private function getUserService() {
 
         if(is_null($this->userService)) {
-            $this->userService = new UserService();
+            $this->userService = new SystemUserService();
         }
 
         return $this->userService;
