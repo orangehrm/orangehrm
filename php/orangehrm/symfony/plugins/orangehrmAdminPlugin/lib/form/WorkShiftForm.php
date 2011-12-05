@@ -19,7 +19,17 @@
  *
  */
 class WorkShiftForm extends BaseForm {
-	
+
+	private $workShiftService;
+
+	public function getWorkShiftService() {
+		if (is_null($this->workShiftService)) {
+			$this->workShiftService = new WorkShiftService();
+			$this->workShiftService->setWorkShiftDao(new WorkShiftDao());
+		}
+		return $this->workShiftService;
+	}
+
 	public function configure() {
 
 		$employeeList = $this->getEmployeeList();
@@ -39,22 +49,53 @@ class WorkShiftForm extends BaseForm {
 		    'assignedEmp' => new sfValidatorPass(),
 		));
 
-		$this->widgetSchema->setNameFormat('workShift[%s]');				
+		$this->widgetSchema->setNameFormat('workShift[%s]');
 	}
-	
-	public function save(){
-		
-		$workShift = new WorkShift();
-		$workShift->setName($this->getValue('name'));
-		$workShift->setHoursPerDay($this->getValue('hours'));
-		$workShift->save();
-		$this->_saveEmployeeWorkShift($workShift->getId());
+
+	public function save() {
+
+		$workShiftId = $this->getValue('workShiftId');
+		if (empty($workShiftId)) {
+			$workShift = new WorkShift();
+			$empArray = $this->getValue('assignedEmp');
+			$workShift->setName($this->getValue('name'));
+			$workShift->setHoursPerDay($this->getValue('hours'));
+			$workShift->save();
+		} else {
+			$workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
+			$workShift->setName($this->getValue('name'));
+			$workShift->setHoursPerDay($this->getValue('hours'));
+			$this->getWorkShiftService()->updateWorkShift($workShift);
+			
+			$employees = $this->getValue('assignedEmp');
+			$existingEmployees = $workShift->getEmployeeWorkShift();
+			$idList = array();
+			if ($existingEmployees[0]->getEmpNumber() != "") {
+				foreach ($existingEmployees as $existingEmployee) {
+					$id = $existingEmployee->getEmpNumber();
+					if (!in_array($id, $employees)) {
+						$existingEmployee->delete();
+					} else {
+						$idList[] = $id;
+					}
+				}
+			}
+
+			$this->resultArray = array();
+
+			$employeeList = array_diff($employees, $idList);
+			$newList = array();
+			foreach ($employeeList as $employee) {
+				$newList[] = $employee;
+			}
+			$empArray = $newList;
+		}
+		$this->_saveEmployeeWorkShift($workShift->getId(), $empArray);
 	}
-	
-	private function _saveEmployeeWorkShift($workShiftId){
-		
-		$empArray = $this->getValue('assignedEmp');
-		for($i=0; $i<sizeof($empArray); $i++){
+
+	private function _saveEmployeeWorkShift($workShiftId, $empArray) {
+
+		for ($i = 0; $i < sizeof($empArray); $i++) {
 			$empWorkShift = new EmployeeWorkShift();
 			$empWorkShift->setWorkShiftId($workShiftId);
 			$empWorkShift->setEmpNumber($empArray[$i]);
@@ -62,21 +103,20 @@ class WorkShiftForm extends BaseForm {
 		}
 	}
 
+	public function getEmployeeList() {
 
-	public function getEmployeeList(){
-		
 		$temp = array();
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
-		foreach ($employeeList as $employee){
+		foreach ($employeeList as $employee) {
 			$temp[$employee->getEmpNumber()] = $employee->getFullName();
 		}
-		return $temp;		
+		return $temp;
 	}
-	
-	public function getEmployeeListAsJson(){
-		
+
+	public function getEmployeeListAsJson() {
+
 		$jsonArray = array();
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
@@ -97,5 +137,6 @@ class WorkShiftForm extends BaseForm {
 
 		return $jsonString;
 	}
+
 }
 
