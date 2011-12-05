@@ -13,8 +13,20 @@ div.formbuttons {
     padding: 3px;
     width: 35%;
     border-top:white;
-    margin-top:0px;
+    margin-top:3px;
     text-align:left;
+    margin-left: 5px;
+    margin-bottom: 3px;
+    
+}
+div.actionbuttons {
+    background-color: white;
+    float: left;
+    padding: 3px;
+    width: 35%;
+    margin-top:3px;
+    margin-left: 5px;
+    margin-bottom: 3px;
 }
 .null {
     font-size: 12px !important;
