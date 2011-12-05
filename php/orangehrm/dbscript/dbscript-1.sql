@@ -572,7 +572,7 @@ create table `hs_hr_weekends` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_mailnotifications` (
-	`user_id` varchar(36) not null,
+	`user_id` int(20) not null,
 	`notification_type_id` int not null ,
 	`status` int(2) not null,
     `email` varchar(100) default null,
@@ -848,10 +848,11 @@ create table `ohrm_timesheet_action_log`(
   `comment` varchar(255) default null,
   `action` varchar(255),
   `date_time` date not null,
-  `performed_by` varchar(255) not null,
+  `performed_by` int(20) not null,
   `timesheet_id` bigint(20) not null,
   primary key  (`timesheet_action_log_id`),
-  key `timesheet_id` (`timesheet_id`)
+  key `timesheet_id` (`timesheet_id`),
+  key `performed_by`(`performed_by`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_workflow_state_machine`(
@@ -1358,7 +1359,7 @@ alter table ohrm_selected_display_field_group
 
 alter table ohrm_timesheet_action_log
        add constraint foreign key (performed_by)
-                             references hs_hr_users(id) on delete cascade;
+                             references ohrm_user(id) on delete cascade;
 
 alter table ohrm_job_interview
        add constraint foreign key (candidate_vacancy_id)
@@ -1681,7 +1682,7 @@ alter table hs_hr_leave
 
 alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user(id) on delete cascade;
 
 alter table `ohrm_project_activity`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
