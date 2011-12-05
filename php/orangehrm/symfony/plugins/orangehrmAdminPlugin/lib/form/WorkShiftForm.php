@@ -66,7 +66,7 @@ class WorkShiftForm extends BaseForm {
 			$workShift->setName($this->getValue('name'));
 			$workShift->setHoursPerDay($this->getValue('hours'));
 			$this->getWorkShiftService()->updateWorkShift($workShift);
-			
+
 			$employees = $this->getValue('assignedEmp');
 			$existingEmployees = $workShift->getEmployeeWorkShift();
 			$idList = array();
@@ -135,6 +135,19 @@ class WorkShiftForm extends BaseForm {
 		}
 		$jsonString = json_encode($jsonArray);
 
+		return $jsonString;
+	}
+
+	public function getWorkShiftListAsJson() {
+
+		$jsonArray = array();
+		$workShiftList = $this->getWorkShiftService()->getWorkShiftList();
+
+		foreach ($workShiftList as $workShift) {
+			$jsonArray[] = array('name' => $workShift->getName(), 'id' => $workShift->getId());
+		}
+
+		$jsonString = json_encode($jsonArray);
 		return $jsonString;
 	}
 

@@ -97,12 +97,43 @@ $(document).ready(function() {
     $('#dialogCancelBtn').click(function() {
         $("#deleteConfirmation").dialog("close");
     });
+        
+    $.validator.addMethod("uniqueName", function(value, element, params) {
+        
+        var temp = true;
+        var currentShift;
+        var id = $('#workShift_workShiftId').val();
+        var vcCount = workShiftList.length;
+        for (var j=0; j < vcCount; j++) {
+            if(id == workShiftList[j].id){
+                currentShift = j;
+            }
+        }
+        var i;
+        vcName = $.trim($('#workShift_name').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+
+            arrayName = workShiftList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        if(currentShift != null){
+            if(vcName == workShiftList[currentShift].name.toLowerCase()){
+                temp = true;
+            }
+        }
+		
+        return temp;
+    });
     
     var validator = $("#frmWorkShift").validate({
 
         rules: {
             'workShift[name]' : {
                 required:true,
+                uniqueName: true,
                 maxlength: 50
             },
             'workShift[hours]' : {
@@ -114,6 +145,7 @@ $(document).ready(function() {
         messages: {
             'workShift[name]' : {
                 required: lang_NameRequired,
+                uniqueName: lang_nameAlreadyExist,
                 maxlength: lang_exceed50Charactors
             },
             'workShift[hours]' : {
@@ -139,7 +171,6 @@ function getWorkShiftInfo(url){
         $('#workShift').show();
         $(".messageBalloon_success").remove();
         $('#btnAdd').hide();
-        return data.id;
     });
 }
 

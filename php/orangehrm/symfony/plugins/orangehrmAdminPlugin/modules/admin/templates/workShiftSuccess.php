@@ -90,12 +90,15 @@
 <script type="text/javascript">
 	var employees = '<?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>';
 	var employeeList = eval(employees);
+	var workShifts = '<?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>';
+	var workShiftList = eval(workShifts);
 	var lang_NameRequired = "<?php echo __("Shift Name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_hoursRequired = "<?php echo __("Hour per day is required"); ?>";
 	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
+	var lang_nameAlreadyExist = "<?php echo __("Name already exist"); ?>";
 	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
-	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";
+	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";	
 </script>
