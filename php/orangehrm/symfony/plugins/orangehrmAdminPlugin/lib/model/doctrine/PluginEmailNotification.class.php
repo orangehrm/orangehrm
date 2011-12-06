@@ -20,9 +20,9 @@ abstract class PluginEmailNotification extends BaseEmailNotification
         $subscribers = $this->getEmailSubscriber();
 	$label = array();
         foreach($subscribers as $subscriber){
-            $label[] = $subscriber->getName() . " <" . $subscriber->getEmail() . ">, ";
+            $label[] = $subscriber->getName() . " <" . $subscriber->getEmail() . ">";
         }
-
+	$label = implode(",", $label);
         return $label;
     }
 }
