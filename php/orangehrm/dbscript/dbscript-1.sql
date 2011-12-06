@@ -1,10 +1,3 @@
-create table `hs_hr_geninfo` (
-	`code` varchar(13) not null default '',
-	`geninfo_keys` varchar(200) default null,
-	`geninfo_values` varchar(800) default null,
-	primary key (`code`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_config` (
 	`key` varchar(100) not null default '',
 	`value` varchar(512) not null default '',
@@ -50,31 +43,6 @@ create table `ohrm_license` (
 	`name` varchar(100) not null,
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
-
-create table `hs_hr_db_version` (
-  `id` varchar(36) not null default '',
-  `name` varchar(45) default null,
-  `description` varchar(100) default null,
-  `entered_date` datetime null default null,
-  `modified_date` datetime null default null,
-  `entered_by` int(10) default null,
-  `modified_by` int(10) default null,
-  primary key  (`id`),
-    key `entered_by`(`entered_by`),
-    key `modified_by`(`modified_by`)
-) engine=innodb default charset=utf8;
-
-
-create table `hs_hr_developer` (
-  `id` varchar(36) not null default '',
-  `first_name` varchar(45) default null,
-  `last_name` varchar(45) default null,
-  `reports_to_id` varchar(45) default null,
-  `description` varchar(200) default null,
-  `department` varchar(45) default null,
-  primary key  (`id`)
-) engine=innodb default charset=utf8;
-
 
 create table `hs_hr_district` (
   `district_code` varchar(13) not null default '',
@@ -428,26 +396,6 @@ create table `hs_hr_user_group` (
 )  engine=innodb default charset=utf8;
 
 
-
-
-
-create table `hs_hr_versions` (
-  `id` varchar(36) not null default '',
-  `name` varchar(45) default null,
-  `entered_date` datetime null default null,
-  `modified_date` datetime null default null,
-  `modified_by` int(10) default null,
-  `created_by` int(10) default null,
-  `deleted` tinyint(4) not null default '0',
-  `db_version` varchar(36) default null,
-  `file_version` varchar(36) default null,
-  `description` text,
-  primary key  (`id`),
-    key `modified_by`(`modified_by`),
-    key `created_by`(`created_by`)
-) engine=innodb default charset=utf8;
-
-
 create table `ohrm_pay_grade_currency` (
   `pay_grade_id` int not null ,
   `currency_id` varchar(6) not null default '',
@@ -698,47 +646,6 @@ create table `hs_hr_hsp_summary` (
   `total_accrued` decimal(10,2) NOT NULL default '0.00',
   `total_used` decimal(10,2) NOT NULL default '0.00',
   primary key (`summary_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_emp_jobtitle_history` (
-  `id` int(11) not null auto_increment,
-  `emp_number` int(7) not null,
-  `code` varchar(15) not null,
-  `name` varchar(250) default null,
-  `start_date` datetime default null,
-  `end_date` datetime default null,
-  primary key  (`id`),
-  key  `emp_number` (`emp_number`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_emp_subdivision_history` (
-  `id` int(11) not null auto_increment,
-  `emp_number` int(7) not null,
-  `code` varchar(15) not null,
-  `name` varchar(250) default null,
-  `start_date` datetime default null,
-  `end_date` datetime default null,
-  primary key  (`id`),
-  key  `emp_number` (`emp_number`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_emp_location_history` (
-  `id` int(11) not null auto_increment,
-  `emp_number` int(7) not null,
-  `code` varchar(15) not null,
-  `name` varchar(250) default null,
-  `start_date` datetime default null,
-  `end_date` datetime default null,
-  primary key  (`id`),
-  key  `emp_number` (`emp_number`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_comp_property` (
-  `prop_id` int(11) not null auto_increment,
-  `prop_name` varchar(250) not null,
-  `emp_id` int(7) null default null,
-  primary key  (`prop_id`),
-  key  `emp_id` (`emp_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_locations` (
@@ -1577,14 +1484,6 @@ alter table hs_hr_emp_contract_extend
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_db_version
-       add constraint foreign key (entered_by)
-       						references ohrm_user (id) on delete cascade;
-
-alter table hs_hr_db_version
-       add constraint foreign key (modified_by)
-       						references ohrm_user (id) on delete cascade;
-
 alter table hs_hr_file_version
        add constraint foreign key (altered_module)
 							references hs_hr_module (mod_id) on delete cascade;
@@ -1597,10 +1496,6 @@ alter table hs_hr_file_version
        add constraint foreign key (modified_by)
        						references ohrm_user (id) on delete cascade;
 
-alter table hs_hr_module
-       add constraint foreign key (version)
-       						references hs_hr_versions (id) on delete cascade;
-
 alter table hs_hr_rights
        add constraint foreign key (mod_id)
        						references hs_hr_module (mod_id) on delete cascade;
@@ -1608,24 +1503,6 @@ alter table hs_hr_rights
 alter table hs_hr_rights
        add constraint foreign key (userg_id)
        						references hs_hr_user_group (userg_id) on delete cascade;
-
-
-
-alter table hs_hr_versions
-       add constraint foreign key (modified_by)
-       						references ohrm_user(id) on delete cascade;
-
-alter table hs_hr_versions
-       add constraint foreign key (created_by)
-       						references ohrm_user (id) on delete cascade;
-
-alter table hs_hr_versions
-       add constraint foreign key (db_version)
-       						references hs_hr_db_version (id) on delete cascade;
-
-alter table hs_hr_versions
-       add constraint foreign key (file_version)
-       						references hs_hr_file_version (id) on delete cascade;
 
 alter table hs_hr_emprep_usergroup
        add constraint foreign key (userg_id)
@@ -1686,18 +1563,6 @@ alter table `hs_hr_hsp`
 
 alter table `hs_hr_hsp_payment_request`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
-
-alter table `hs_hr_emp_jobtitle_history`
-    add constraint foreign key (`emp_number`)
-        references hs_hr_employee(`emp_number`) on delete cascade;
-
-alter table `hs_hr_emp_subdivision_history`
-    add constraint foreign key (`emp_number`)
-        references hs_hr_employee(`emp_number`) on delete cascade;
-
-alter table `hs_hr_emp_location_history`
-    add constraint foreign key (`emp_number`)
-        references hs_hr_employee(`emp_number`) on delete cascade;
 
 alter table `hs_hr_emp_locations`
     add constraint foreign key (`location_id`)

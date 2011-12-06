@@ -466,11 +466,8 @@ INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`)
     (64, 'Armed Forces Middle East', 'AE', 'US'),
     (65, 'Armed Forces Pacific', 'AP', 'US');
 
-INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
-INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
 INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,'file_ver_01');
-INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,0,'DVR001','FVR001','version 1.0');
 INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','OrangeHRM','info@orangehrm.com','VER001','HR Admin'),
 								  ('MOD002','PIM','OrangeHRM','info@orangehrm.com','VER001','HR Functions'),
 								  ('MOD004','Report','OrangeHRM','info@orangehrm.com','VER001','Reporting'),
