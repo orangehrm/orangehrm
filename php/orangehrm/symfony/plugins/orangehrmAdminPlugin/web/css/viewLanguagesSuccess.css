@@ -34,11 +34,7 @@ input.formInputText, textarea.formInputText{
 /* Table CSS */
 
 td.check {
-    width: 0;
-}
-
-td.tdName {
-    width: 200px;
+    width: 30px;
 }
 
 tbody td {
