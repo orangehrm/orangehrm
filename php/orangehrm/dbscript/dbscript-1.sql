@@ -57,9 +57,11 @@ create table `hs_hr_db_version` (
   `description` varchar(100) default null,
   `entered_date` datetime null default null,
   `modified_date` datetime null default null,
-  `entered_by` varchar(36) default null,
-  `modified_by` varchar(36) default null,
-  primary key  (`id`)
+  `entered_by` int(10) default null,
+  `modified_by` int(10) default null,
+  primary key  (`id`),
+    key `entered_by`(`entered_by`),
+    key `modified_by`(`modified_by`)
 ) engine=innodb default charset=utf8;
 
 
@@ -345,10 +347,12 @@ create table `hs_hr_file_version` (
   `description` varchar(200) default null,
   `entered_date` datetime null default null,
   `modified_date` datetime null default null,
-  `entered_by` varchar(36) default null,
-  `modified_by` varchar(36) default null,
+  `entered_by` int(10) default null,
+  `modified_by` int(10) default null,
   `name` varchar(50) default null,
-  primary key  (`id`)
+  primary key  (`id`),
+    key `entered_by`(`entered_by`),
+    key `modified_by`(`modified_by`)
 ) engine=innodb default charset=utf8;
 
 
@@ -424,43 +428,7 @@ create table `hs_hr_user_group` (
 )  engine=innodb default charset=utf8;
 
 
-create table `hs_hr_users` (
-  `id` varchar(36) not null default '',
-  `user_name` varchar(40) default '',
-  `user_password` varchar(40) default null,
-  `first_name` varchar(45) default null,
-  `last_name` varchar(45) default null,
-  `emp_number` int(7) default null,
-  `user_hash` varchar(32) default null,
-  `is_admin` char(3) default null,
-  `receive_notification` char(1) default null,
-  `description` text,
-  `date_entered` datetime null default null,
-  `date_modified` datetime null default null,
-  `modified_user_id` varchar(36) default null,
-  `created_by` varchar(36) default null,
-  `title` varchar(50) default null,
-  `department` varchar(50) default null,
-  `phone_home` varchar(45) default null,
-  `phone_mobile` varchar(45) default null,
-  `phone_work` varchar(45) default null,
-  `phone_other` varchar(45) default null,
-  `phone_fax` varchar(45) default null,
-  `email1` varchar(100) default null,
-  `email2` varchar(100) default null,
-  `status` varchar(25) default null,
-  `address_street` varchar(150) default null,
-  `address_city` varchar(150) default null,
-  `address_state` varchar(100) default null,
-  `address_country` varchar(25) default null,
-  `address_postalcode` varchar(10) default null,
-  `user_preferences` text,
-  `deleted` tinyint(1) not null default '0',
-  `employee_status` varchar(25) default null,
-  `userg_id` varchar(36) default null,
-  primary key  (`id`),
-  unique key `user_name` type btree (`user_name`)
-) engine=innodb default charset=utf8;
+
 
 
 create table `hs_hr_versions` (
@@ -468,13 +436,15 @@ create table `hs_hr_versions` (
   `name` varchar(45) default null,
   `entered_date` datetime null default null,
   `modified_date` datetime null default null,
-  `modified_by` varchar(36) default null,
-  `created_by` varchar(36) default null,
+  `modified_by` int(10) default null,
+  `created_by` int(10) default null,
   `deleted` tinyint(4) not null default '0',
   `db_version` varchar(36) default null,
   `file_version` varchar(36) default null,
   `description` text,
-  primary key  (`id`)
+  primary key  (`id`),
+    key `modified_by`(`modified_by`),
+    key `created_by`(`created_by`)
 ) engine=innodb default charset=utf8;
 
 
@@ -1225,8 +1195,14 @@ create table `ohrm_user`(
         `user_password` varchar(40) DEFAULT NULL,
         `deleted` tinyint(1) NOT NULL DEFAULT '0',
         `status` tinyint(1) NOT NULL DEFAULT '1',
+        `date_entered` datetime null default null,
+        `date_modified` datetime null default null,
+        `modified_user_id` int(10) default null,
+        `created_by` int(10) default null,
         key `user_role_id` (`user_role_id`),
         key `emp_number` (`emp_number`),
+        key `modified_user_id`(`modified_user_id`),
+        key `created_by`(`created_by`),
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
@@ -1603,11 +1579,11 @@ alter table hs_hr_emp_contract_extend
 
 alter table hs_hr_db_version
        add constraint foreign key (entered_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user (id) on delete cascade;
 
 alter table hs_hr_db_version
        add constraint foreign key (modified_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user (id) on delete cascade;
 
 alter table hs_hr_file_version
        add constraint foreign key (altered_module)
@@ -1615,11 +1591,11 @@ alter table hs_hr_file_version
 
 alter table hs_hr_file_version
        add constraint foreign key (entered_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user (id) on delete cascade;
 
 alter table hs_hr_file_version
        add constraint foreign key (modified_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user (id) on delete cascade;
 
 alter table hs_hr_module
        add constraint foreign key (version)
@@ -1633,29 +1609,15 @@ alter table hs_hr_rights
        add constraint foreign key (userg_id)
        						references hs_hr_user_group (userg_id) on delete cascade;
 
-alter table hs_hr_users
-       add constraint foreign key (modified_user_id)
-       						references hs_hr_users (id) on delete set null;
 
-alter table hs_hr_users
-       add constraint foreign key (created_by)
-       						references hs_hr_users (id) on delete set null;
-
-alter table hs_hr_users
-       add constraint foreign key (userg_id)
-       						references hs_hr_user_group (userg_id) on delete set null;
-
-alter table hs_hr_users
-       add constraint foreign key (emp_number)
-       						references hs_hr_employee (emp_number) on delete set null;
 
 alter table hs_hr_versions
        add constraint foreign key (modified_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user(id) on delete cascade;
 
 alter table hs_hr_versions
        add constraint foreign key (created_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references ohrm_user (id) on delete cascade;
 
 alter table hs_hr_versions
        add constraint foreign key (db_version)
@@ -1750,3 +1712,7 @@ alter table `ohrm_user`
 alter table `ohrm_user`
     add constraint foreign key (`user_role_id`)
         references ohrm_user_role(`id`) on delete cascade;
+
+alter table `ohrm_user`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;

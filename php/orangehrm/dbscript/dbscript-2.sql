@@ -532,7 +532,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0, 'hs_hr_employee', 'emp_number'),
     (6, 'hs_hr_module', 'mod_id'),
     (1, 'hs_hr_user_group', 'userg_id'),
-    (1, 'hs_hr_users', 'id'),
     (0, 'hs_hr_empreport', 'rep_code'),
     (0, 'hs_hr_leave', 'leave_id'),
     (0, 'hs_hr_leavetype', 'leave_type_id'),
