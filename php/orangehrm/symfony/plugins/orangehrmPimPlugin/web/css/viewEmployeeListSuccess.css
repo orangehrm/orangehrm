@@ -87,3 +87,7 @@ form#frmDelete table#emp_list.data-table thead tr td.emp_id{
 form#search_form div#formcontent label{
     font-weight: normal;
 }
+
+html body div.outerbox div.maincontent div.searchbox form#search_form div#formcontent select#empsearch_termination{
+       width:12.5%;
+}
