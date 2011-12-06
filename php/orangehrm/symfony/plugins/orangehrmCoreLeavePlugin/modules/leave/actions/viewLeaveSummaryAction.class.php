@@ -113,7 +113,8 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         if (!is_null($searchParam['employeeId'])) {
             $terminationId = $this->getEmployeeService()->getEmployee($searchParam['employeeId'])->getTerminationId();
             if (!empty($terminationId)) {
-            $clues['cmbWithTerminated'] = 'on';}
+                $clues['cmbWithTerminated'] = 'on';
+            }
         }
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
         $pageNo = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);

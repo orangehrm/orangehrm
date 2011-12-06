@@ -1038,8 +1038,16 @@ INSERT INTO `ohrm_selected_group_field` (`group_field_id`, `summary_display_fiel
 INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', '', '', 1, 2, 0);
 
 
-INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'), (2, 'Resigned');
-
+INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'),
+(2, 'Retired'),
+(3, 'Contract'),
+(4, 'Resigned - Company Requested'),
+(5, 'Resigned - Self Proposed'),
+(6, 'Resigned'),
+(7, 'Deceased'),
+(8, 'Physically Disabled/Compensated'),
+(9, 'Layed off'),
+(10, 'Dismissed');
 
 INSERT INTO `ohrm_user_role` (`id`, `name`, `is_assignable`, `is_predefined`) VALUES
 (1, 'Admin', 0, 1),

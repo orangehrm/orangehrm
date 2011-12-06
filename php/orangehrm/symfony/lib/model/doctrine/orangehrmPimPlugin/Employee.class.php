@@ -59,7 +59,7 @@ class Employee extends PluginEmployee {
         $fullName = trim( trim($fullName) . " " . trim($this->lastName) );
 
         $terminationId = $this->termination_id;
-        $fullName = (!empty($terminationId)) ? $fullName." (Terminated)" : $fullName;
+        $fullName = (!empty($terminationId)) ? $fullName." (Past Employee)" : $fullName;
 
         return $fullName;
     }
@@ -74,7 +74,7 @@ class Employee extends PluginEmployee {
         $fullName = trim($this->firstName) . " " . trim($this->lastName);
 
         $terminationId = $this->termination_id;
-        $fullName = (!empty($terminationId)) ? $fullName." (Terminated)" : $fullName;
+        $fullName = (!empty($terminationId)) ? $fullName." (Past Employee)" : $fullName;
 
         return $fullName;
 
@@ -438,7 +438,7 @@ class Employee extends PluginEmployee {
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeChain($supervisorId);
+            $subordinates = $empService->getSupervisorEmployeeChain($supervisorId, true);
 
             foreach($subordinates as $employee) {
                 if($employee->getEmpNumber() == $this->getEmpNumber()) {

@@ -163,7 +163,7 @@
                                             <?php 
                                             $supervisor = $sup->getSupervisor();
                                             $terminationId = $supervisor->getTerminationId();
-                                            $suffix = (!empty($terminationId)) ? " (Terminated)" : "";                                           
+                                            $suffix = (!empty($terminationId)) ? " (Past Employee)" : "";
                                             $supName = $supervisor->getFirstName() . " " . $supervisor->getLastName() . $suffix; ?>
                                             <?php $supReportingMethodName = $sup->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
@@ -226,7 +226,7 @@
                                             <?php 
                                             $subordinate = $sub->getSubordinate();
                                             $terminationId = $subordinate->getTerminationId();
-                                            $suffix = (!empty($terminationId)) ? " (Terminated)" : "";
+                                            $suffix = (!empty($terminationId)) ? " (Past Employee)" : "";
                                             $subName = $subordinate->getFirstName() . " " . $subordinate->getLastName() . $suffix; ?>
                                             <?php $subReportingMethodName = $sub->getReportingMethod()->getReportingMethodName(); ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>

@@ -182,14 +182,16 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                         ?>
                         </td>
                         <td>
-                        <?php echo link_to($employee->getLastName(), "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber()); ?>
+                        <?php 
+                        $lastName = $employee->getLastName();
+                        $terminationId = $employee->getTerminationId();
+                        $nameTerminated = (!empty($terminationId)) ? $lastName." (Past Employee)" : $lastName;
+                        echo link_to($nameTerminated, "pim/viewPersonalDetails?empNumber=" . $employee->getEmpNumber()); ?>
                         </td>
                         <td><?php
-                        $terminationId = $employee->getTerminationId();
                         $job = $employee->getJobTitle();
                         $nameDeleted = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName()." (Deleted)" : $job->getJobTitleName();
-                        $nameTerminated = (!empty($terminationId)) ? $nameDeleted." (Terminated)" : $nameDeleted;
-                        echo $nameTerminated ?></td>
+                        echo $nameDeleted ?></td>
                         <td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
                         <td><?php echo $employee->getSubDivision()->getTitle() ?></td>
                         <td><?php echo $employee->getSupervisorNames() ?></td>

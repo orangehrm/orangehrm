@@ -22,7 +22,7 @@ class JobVacancy extends PluginJobVacancy {
         $employee = $this->getEmployee();
         $firstAndLastName = $employee->getFirstAndLastNames();
         $terminationId = $employee->getTerminationId();
-        $name = (!empty($terminationId)) ? $firstAndLastName." (Terminated)" : $firstAndLastName;
+        $name = (!empty($terminationId)) ? $firstAndLastName." (Past Employee)" : $firstAndLastName;
         $hmName = ($this->getHiringManagerId() != "") ? $name : "";
         return $hmName;
     }
@@ -31,7 +31,7 @@ class JobVacancy extends PluginJobVacancy {
         $employee = $this->getEmployee();
         $firstAndLastName = $employee->getFirstAndLastNames();
         $terminationId = $employee->getTerminationId();
-        $name = (!empty($terminationId)) ? $firstAndLastName." (Terminated)" : $firstAndLastName;
+        $name = (!empty($terminationId)) ? $firstAndLastName." (Past Employee)" : $firstAndLastName;
         $hmName = ($this->getHiringManagerId() != "") ? $name : "";
         return $hmName;
     }

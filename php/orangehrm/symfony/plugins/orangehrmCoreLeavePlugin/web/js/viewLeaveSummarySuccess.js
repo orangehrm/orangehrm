@@ -44,6 +44,10 @@ function initLeaveSummary() {
         }
     });
 
+    $('#btnReset').click(function(){
+        handleResetButton();
+    })
+
 }
 
 function handleEditButton() {
