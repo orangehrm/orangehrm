@@ -790,8 +790,8 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
         $home = './symfony/web/index.php/' . $uri;
     } else {
-        $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
-        //$home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation"; //TODO: Use this after fully converted to Symfony
+//        $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+        $home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation"; //TODO: Use this after fully converted to Symfony
     }
 } elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
 
