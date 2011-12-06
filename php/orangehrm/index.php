@@ -292,17 +292,6 @@ if ($_SESSION['isAdmin'] == 'No') {
         }
     }
 
-    if ($_SESSION['isSupervisor']) {
-
-        // Default page for supervisors is the Company property page
-        $defaultAdminView = "TCP";
-
-        // Allow supervisors to view TCP (Company property) page only (in the admin module)
-        // If uniqcode is not set, the default view is Company Property
-        if ((!isset($_GET['uniqcode'])) || ($_GET['uniqcode'] == 'TCP')) {
-            $allowAdminView = true;
-        }
-    }
 }
 
 require_once ROOT_PATH . '/lib/common/Language.php';
@@ -331,8 +320,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs = array();
     $subsubs[] = new MenuItem("companyinfo", "General Information", "./symfony/web/index.php/admin/viewOrganizationGeneralInformation");
     $subsubs[] = new MenuItem("companyinfo", "Locations", "./symfony/web/index.php/admin/viewLocations");
-    $subsubs[] = new MenuItem("companyinfo", "Company Structure", "./symfony/web/index.php/admin/viewCompanyStructure");
-    $subsubs[] = new MenuItem("companyproperty", $lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
+    $subsubs[] = new MenuItem("companyinfo", "Structure", "./symfony/web/index.php/admin/viewCompanyStructure");
 
     $sub->setSubMenuItems($subsubs);
 
@@ -411,16 +399,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subs[] = new MenuItem("project", "Projects", "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
-} else if ($_SESSION['isSupervisor'] && !$_SESSION['isProjectAdmin']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-    $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("companyproperty", $lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-    $menuItem->setSubMenuItems($subs);
-    $menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-    $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("companyproperty", $lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
     $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects");
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
