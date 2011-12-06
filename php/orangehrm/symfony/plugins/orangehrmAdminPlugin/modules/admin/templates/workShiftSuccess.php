@@ -88,9 +88,9 @@
 </div>
 
 <script type="text/javascript">
-	var employees = '<?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>';
+	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;
 	var employeeList = eval(employees);
-	var workShifts = '<?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>';
+	var workShifts = <?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>;
 	var workShiftList = eval(workShifts);
 	var lang_NameRequired = "<?php echo __("Shift Name is required"); ?>";
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
