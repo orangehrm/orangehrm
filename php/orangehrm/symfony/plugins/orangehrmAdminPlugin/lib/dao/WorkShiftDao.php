@@ -55,6 +55,17 @@ class WorkShiftDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+	
+	public function getWorkShiftEmployeeList(){
+
+		try {
+			$q = Doctrine_Query :: create()
+				->from('EmployeeWorkShift');
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
 	public function updateWorkShift(WorkShift $workShift) {
 		

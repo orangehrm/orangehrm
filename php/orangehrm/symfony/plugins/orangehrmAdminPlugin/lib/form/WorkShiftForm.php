@@ -106,11 +106,19 @@ class WorkShiftForm extends BaseForm {
 	public function getEmployeeList() {
 
 		$temp = array();
+		$existWorkShiftEmpList = array();
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+
+		$workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
+		foreach ($workShiftEmpList as $workShiftEmp) {
+			$existWorkShiftEmpList[] = $workShiftEmp->emp_number;
+		}
 		foreach ($employeeList as $employee) {
-			$temp[$employee->getEmpNumber()] = $employee->getFullName();
+			if (!in_array($employee->getEmpNumber(), $existWorkShiftEmpList)) {
+				$temp[$employee->getEmpNumber()] = $employee->getFullName();
+			}
 		}
 		return $temp;
 	}
@@ -118,8 +126,14 @@ class WorkShiftForm extends BaseForm {
 	public function getEmployeeListAsJson() {
 
 		$jsonArray = array();
+		$existWorkShiftEmpList = array();
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
+
+		$workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
+		foreach ($workShiftEmpList as $workShiftEmp) {
+			$existWorkShiftEmpList[] = $workShiftEmp->emp_number;
+		}
 
 		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
 		$employeeUnique = array();
@@ -130,7 +144,9 @@ class WorkShiftForm extends BaseForm {
 				$name = $employee->getFullName();
 
 				$employeeUnique[$employee->getEmpNumber()] = $name;
-				$jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+				if (!in_array($employee->getEmpNumber(), $existWorkShiftEmpList)) {
+					$jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+				}
 			}
 		}
 		$jsonString = json_encode($jsonArray);

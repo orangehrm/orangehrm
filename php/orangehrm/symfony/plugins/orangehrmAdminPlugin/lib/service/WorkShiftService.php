@@ -56,6 +56,10 @@ class WorkShiftService extends BaseService {
 		return $this->workShiftDao->getWorkShiftEmployeeListById($workShiftId);
 	}
 	
+	public function getWorkShiftEmployeeList(){
+		return $this->workShiftDao->getWorkShiftEmployeeList();
+	}
+	
 	public function updateWorkShift($workShift) {
 		return $this->workShiftDao->updateWorkShift($workShift);
 	}
