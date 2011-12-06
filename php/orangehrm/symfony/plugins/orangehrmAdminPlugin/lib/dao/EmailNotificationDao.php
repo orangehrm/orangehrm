@@ -80,7 +80,8 @@ class EmailNotificationDao extends BaseDao {
 		try {
 			$q = Doctrine_Query :: create()
 				->from('EmailSubscriber')
-				->where('notificationId = ?', $emailNotificationId);
+				->where('notificationId = ?', $emailNotificationId)
+				->orderBy('name ASC');
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
