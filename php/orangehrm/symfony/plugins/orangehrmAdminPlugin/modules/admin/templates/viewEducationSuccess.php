@@ -35,7 +35,7 @@
             <?php echo $form['id']->render(); ?>
             
             <?php echo $form['name']->renderLabel(__('Level'). ' <span class="required">*</span>'); ?>
-            <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 120)); ?>
+            <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
             <div class="errorHolder"></div>
             <br class="clear"/>
             
