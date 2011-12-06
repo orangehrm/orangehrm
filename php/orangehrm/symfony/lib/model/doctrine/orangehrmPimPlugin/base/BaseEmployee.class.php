@@ -83,8 +83,8 @@
  * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $ReportTo
  * @property Doctrine_Collection $EmployeeLicense
- * @property Doctrine_Collection $EmployeeEducation
  * @property Doctrine_Collection $EmployeeWorkShift
+ * @property Doctrine_Collection $EmployeeEducation
  * @property Doctrine_Collection $managedVacancies
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
@@ -172,8 +172,8 @@
  * @method Doctrine_Collection getEmployeeMemberDetail()     Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getReportTo()                 Returns the current record's "ReportTo" collection
  * @method Doctrine_Collection getEmployeeLicense()          Returns the current record's "EmployeeLicense" collection
- * @method Doctrine_Collection getEmployeeEducation()        Returns the current record's "EmployeeEducation" collection
  * @method Doctrine_Collection getEmployeeWorkShift()        Returns the current record's "EmployeeWorkShift" collection
+ * @method Doctrine_Collection getEmployeeEducation()        Returns the current record's "EmployeeEducation" collection
  * @method Doctrine_Collection getManagedVacancies()         Returns the current record's "managedVacancies" collection
  * @method Doctrine_Collection getJobCandidate()             Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
@@ -260,8 +260,8 @@
  * @method Employee            setEmployeeMemberDetail()     Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setReportTo()                 Sets the current record's "ReportTo" collection
  * @method Employee            setEmployeeLicense()          Sets the current record's "EmployeeLicense" collection
- * @method Employee            setEmployeeEducation()        Sets the current record's "EmployeeEducation" collection
  * @method Employee            setEmployeeWorkShift()        Sets the current record's "EmployeeWorkShift" collection
+ * @method Employee            setEmployeeEducation()        Sets the current record's "EmployeeEducation" collection
  * @method Employee            setManagedVacancies()         Sets the current record's "managedVacancies" collection
  * @method Employee            setJobCandidate()             Sets the current record's "JobCandidate" collection
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
@@ -619,13 +619,13 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 
-        $this->hasMany('EmployeeEducation', array(
-             'local' => 'empNumber',
-             'foreign' => 'empNumber'));
-
         $this->hasMany('EmployeeWorkShift', array(
              'local' => 'empNumber',
              'foreign' => 'emp_number'));
+
+        $this->hasMany('EmployeeEducation', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
 
         $this->hasMany('JobVacancy as managedVacancies', array(
              'local' => 'empNumber',

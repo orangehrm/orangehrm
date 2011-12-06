@@ -428,3 +428,17 @@ License:
       local: id
       foreign: license_id
       type: many
+      
+Education:
+  tableName: ohrm_education
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+  relations:
+    EmployeeEducation:
+      local: id
+      foreign: educationId
+      type: many      

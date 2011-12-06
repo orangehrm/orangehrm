@@ -42,6 +42,6 @@ abstract class BaseEducation extends sfDoctrineRecord
         parent::setUp();
         $this->hasMany('EmployeeEducation', array(
              'local' => 'id',
-             'foreign' => 'levelId'));
+             'foreign' => 'educationId'));
     }
 }

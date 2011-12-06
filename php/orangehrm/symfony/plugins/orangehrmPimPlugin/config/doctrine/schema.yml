@@ -744,3 +744,28 @@ EmployeeWorkShift:
       local: emp_number
       foreign: empNumber
       type: one
+      
+EmployeeEducation:
+  tableName: ohrm_emp_education
+  columns:
+    emp_number as empNumber:
+      type: integer
+      primary: true
+    education_id as educationId:
+      type: integer
+      primary: true
+    institute: string(100)  
+    major: string(100)
+    year: decimal(4)
+    score: string(25)
+    start_date as startDate: date
+    end_date as endDate: date
+  relations:
+    Employee:
+      local: empNumber
+      foreign: empNumber
+      type: one
+    Education:
+      local: educationId
+      foreign: id
+      type: one      
