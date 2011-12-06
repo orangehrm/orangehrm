@@ -1252,5 +1252,5 @@ INSERT INTO `ohrm_email_notification` (`id`, `name`, `is_enable`) VALUES
 (3, 'Leave Approvals', 0),
 (4, 'Leave Cancellations', 0),
 (5, 'Leave Rejections', 0),
-(6, 'HSP Notifications', 0),
+#(6, 'HSP Notifications', 0),
 (7, 'Performance Review Submissions', 0);
