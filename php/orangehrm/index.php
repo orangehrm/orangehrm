@@ -400,7 +400,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
-    $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects");
+    $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 }
