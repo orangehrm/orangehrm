@@ -315,3 +315,7 @@ form#frmGenInfo div.rightDiv select#organization_country.drpDown{
 width: 205px;
 }
 
+form#frmList_ohrmListComponent div.actionbar div.formbuttons{
+    width: 400px;
+}
+
