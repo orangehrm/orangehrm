@@ -84,5 +84,18 @@ class LicenseService extends BaseService {
     public function deleteLicenses($toDeleteIds) {
         return $this->getLicenseDao()->deleteLicenses($toDeleteIds);
     }
+
+    /**
+     * Checks whether the given license name exists
+     *
+     * Case insensitive
+     *
+     * @version 2.6.12
+     * @param string $licenseName License name that needs to be checked
+     * @return boolean
+     */
+    public function isExistingLicenseName($licenseName) {
+        return $this->getLicenseDao()->isExistingLicenseName($licenseName);
+    }
     
 }

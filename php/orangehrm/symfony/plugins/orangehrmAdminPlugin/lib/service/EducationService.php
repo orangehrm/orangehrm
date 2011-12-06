@@ -84,5 +84,18 @@ class EducationService extends BaseService {
     public function deleteEducations($toDeleteIds) {
         return $this->getEducationDao()->deleteEducations($toDeleteIds);
     }
+
+    /**
+     * Checks whether the given education name exists
+     *
+     * Case insensitive
+     *
+     * @version 2.6.12
+     * @param string $educationName Education name that needs to be checked
+     * @return boolean
+     */
+    public function isExistingEducationName($educationName) {
+        return $this->getEducationDao()->isExistingEducationName($educationName);
+    }
     
 }

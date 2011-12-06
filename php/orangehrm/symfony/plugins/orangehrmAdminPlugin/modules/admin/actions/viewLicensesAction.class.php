@@ -51,6 +51,8 @@ class viewLicensesAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
             
 			if ($this->form->isValid()) {
+
+                $this->_checkDuplicateEntry();
                 
 				$templateMessage = $this->form->save();
 				$this->getUser()->setFlash('templateMessage', $templateMessage);                
@@ -70,6 +72,17 @@ class viewLicensesAction extends sfAction {
 			$this->redirect('pim/viewPersonalDetails');
 		}
         
-    }  
+    }
+
+    protected function _checkDuplicateEntry() {
+
+        $id = $this->form->getValue('id');
+
+        if (empty($id) && $this->getLicenseService()->isExistingLicenseName($this->form->getValue('name'))) {
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('License Name Exists')));
+            $this->redirect('admin/viewLicenses');
+        }
+
+    }
     
 }

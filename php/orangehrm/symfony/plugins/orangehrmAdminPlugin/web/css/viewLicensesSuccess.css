@@ -48,6 +48,6 @@ thead td, table.data-table tbody tr td {
 
 
 /* Message bar CSS */
-#messageBalloon_success {
+#messageBalloon_success, #messageBalloon_warning {
     width: 440px;
 }

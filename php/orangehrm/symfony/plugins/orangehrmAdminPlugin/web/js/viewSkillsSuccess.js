@@ -21,11 +21,7 @@ function validateData() {
         rules: {
             'skill[name]' : {
                 required:true,
-                maxlength: 120,
-                remote: {
-                   url: urlForExistingNameCheck
-                }
-
+                maxlength: 120
             },
             'skill[description]' : {
                 maxlength: 250
@@ -34,8 +30,7 @@ function validateData() {
         },
         messages: {
             'skill[name]' : {
-                required: lang_nameIsRequired,
-                remote: lang_nameExists
+                required: lang_nameIsRequired
             },
             'skill[description]' : {
                 maxlength: lang_descLengthExceeded

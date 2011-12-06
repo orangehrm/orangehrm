@@ -964,6 +964,22 @@
                 <source>Edit Work Shift</source>
                 <target>FR_Edit Work Shift</target>
             </trans-unit>
+            <trans-unit id="240">
+                <source>Skill Name Exists</source>
+                <target>FR_Skill Name Exists</target>
+            </trans-unit>
+            <trans-unit id="241">
+                <source>Language Name Exists</source>
+                <target>FR_Language Name Exists</target>
+            </trans-unit>
+            <trans-unit id="242">
+                <source>License Name Exists</source>
+                <target>FR_License Name Exists</target>
+            </trans-unit>
+            <trans-unit id="243">
+                <source>Education Level Exists</source>
+                <target>FR_Education Level Exists</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

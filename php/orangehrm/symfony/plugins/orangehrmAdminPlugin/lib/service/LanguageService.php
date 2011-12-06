@@ -84,5 +84,18 @@ class LanguageService extends BaseService {
     public function deleteLanguages($toDeleteIds) {
         return $this->getLanguageDao()->deleteLanguages($toDeleteIds);
     }
+
+    /**
+     * Checks whether the given language name exists
+     *
+     * Case insensitive
+     *
+     * @version 2.6.12
+     * @param string $languageName Language name that needs to be checked
+     * @return boolean
+     */
+    public function isExistingLanguageName($languageName) {
+        return $this->getLanguageDao()->isExistingLanguageName($languageName);
+    }
     
 }
