@@ -81,23 +81,23 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 
                     foreach ($educations as $education) {
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $startDate = set_datepicker_date_format($education->start_date);
-                        $endDate = set_datepicker_date_format($education->end_date);
-                        $eduDesc = htmlspecialchars($education->Education->edu_uni . ", " . $education->Education->edu_deg);
+                        $startDate = set_datepicker_date_format($education->startDate);
+                        $endDate = set_datepicker_date_format($education->endDate);
+                        $eduDesc = htmlspecialchars($education->Education->name);
                     ?>
                         <tr class="<?php echo $cssClass; ?>">
-                            <td class="check"><input type="hidden" id="code_<?php echo $education->code; ?>" value="<?php echo htmlspecialchars($education->code); ?>" />
-                                <input type="hidden" id="code_desc_<?php echo $education->code; ?>" value="<?php echo $eduDesc; ?>" />
-                                <input type="hidden" id="major_<?php echo $education->code; ?>" value="<?php echo htmlspecialchars($education->major); ?>" />
-                                <input type="hidden" id="year_<?php echo $education->code; ?>" value="<?php echo htmlspecialchars($education->year); ?>" />
-                                <input type="hidden" id="gpa_<?php echo $education->code; ?>" value="<?php echo htmlspecialchars($education->gpa); ?>" />
-                                <input type="hidden" id="start_date_<?php echo $education->code; ?>" value="<?php echo $startDate; ?>" />
-                                <input type="hidden" id="end_date_<?php echo $education->code; ?>" value="<?php echo $endDate; ?>" />
+                            <td class="check"><input type="hidden" id="code_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->educationId); ?>" />
+                                <input type="hidden" id="code_desc_<?php echo $education->educationId; ?>" value="<?php echo $eduDesc; ?>" />
+                                <input type="hidden" id="major_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->major); ?>" />
+                                <input type="hidden" id="year_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->year); ?>" />
+                                <input type="hidden" id="gpa_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->score); ?>" />
+                                <input type="hidden" id="start_date_<?php echo $education->educationId; ?>" value="<?php echo $startDate; ?>" />
+                                <input type="hidden" id="end_date_<?php echo $education->educationId; ?>" value="<?php echo $endDate; ?>" />
 
-                                <input type="checkbox" class="chkbox" value="<?php echo $education->code; ?>" name="delEdu[]"/></td>
+                                <input type="checkbox" class="chkbox" value="<?php echo $education->educationId; ?>" name="delEdu[]"/></td>
                             <td class="program"><a href="#" class="edit"><?php echo $eduDesc; ?></a></td>
                             <td><?php echo htmlspecialchars($education->year); ?></td>
-                            <td><?php echo htmlspecialchars($education->gpa); ?></td>
+                            <td><?php echo htmlspecialchars($education->score); ?></td>
                         </tr>
                     <?php
                         $row++;

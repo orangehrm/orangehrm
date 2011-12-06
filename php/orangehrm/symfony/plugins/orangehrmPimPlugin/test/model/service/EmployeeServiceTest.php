@@ -660,10 +660,10 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $education = new EmployeeEducation();
         $education->setEmpNumber($empNumber);
-        $education->setCode('EDU001');
+        $education->setEducationId(1);
         $education->setMajor('Engineering');
         $education->setYear('2000');
-        $education->setGpa('3.2');       
+        $education->setScore('3.2');       
        
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
@@ -682,14 +682,14 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEducation() {
         $empNumber = 121;
-        $eduCode = 'EDU001';
+        $eduCode = 1;
         
         $education = new EmployeeEducation();
         $education->setEmpNumber($empNumber);
-        $education->setCode('EDU001');
+        $education->setEducationId(1);
         $education->setMajor('Engineering');
         $education->setYear('2000');
-        $education->setGpa('3.2');  
+        $education->setScore('3.2');  
         
         $isEss = true;
         
@@ -869,7 +869,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $license = new EmployeeLicense();
         $license->setEmpNumber($empNumber);
-        $license->setCode('LIC002');
+        $license->setLicenseId(2);
         $license->setLicenseNo('199919');
         
         $mockDao = $this->getMock('EmployeeDao');
@@ -889,11 +889,11 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetLicense() {
         $empNumber = 121;
-        $licenseCode = 'LAN002';
+        $licenseCode = 2;
         
         $license = new EmployeeLicense();
         $license->setEmpNumber($empNumber);
-        $license->setCode($licenseCode);
+        $license->setLicenseId($licenseCode);
         $license->setLicenseNo('199919');        
         
         $mockDao = $this->getMock('EmployeeDao');

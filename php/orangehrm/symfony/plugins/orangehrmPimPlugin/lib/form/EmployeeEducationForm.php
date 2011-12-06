@@ -93,13 +93,13 @@ class EmployeeEducationForm extends sfForm {
         $list = array("" => "-- " . __('Select') . " --");
 
         foreach($educationList as $education) {
-            $list[$education->getEduCode()] = $education->getEduDeg() . ", " . $education->getEduUni();
+            $list[$education->getId()] = $education->getName();
         }
         
         // Clear already used education items
         foreach ($this->empEducationList as $empEdu) {
-            if (isset($list[$empEdu->code])) {
-                unset($list[$empEdu->code]);
+            if (isset($list[$empEdu->educationId])) {
+                unset($list[$empEdu->educationId]);
             }
         }
         return $list;

@@ -33,7 +33,7 @@ class ExceptionCatcherFilter extends sfFilter {
 
             $logger = Logger::getLogger('filter.ExceptionCatcherFilter');
             $logger->error('Uncaught Exception: ' . $e);
-
+            
             echo "<h2>An internal error occurred. Please contact your system administrator. </h2>";
 
         }

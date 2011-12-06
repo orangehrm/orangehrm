@@ -39,6 +39,7 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/LanguageDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/LicenseDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/EducationDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/MembershipDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/NationalityDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/PayGradeDaoTest.php');

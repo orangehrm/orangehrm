@@ -79,7 +79,7 @@ class viewQualificationsAction extends basePimAction {
             $this->redirect($this->getRequest()->getReferer());
             return;
         }
-
+        
         $this->_setMessage();
 
         $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));

@@ -79,13 +79,13 @@ class saveDeleteEducationAction extends basePimAction {
             $education = new EmployeeEducation();
         }
 
-        $education->emp_number = $post['emp_number'];
-        $education->code = $post['code'];
+        $education->empNumber = $post['emp_number'];
+        $education->educationId = $post['code'];
         $education->major = $post['major'];
         $education->year = $post['year'];
-        $education->gpa = $post['gpa'];
-        $education->start_date = $post['start_date'];
-        $education->end_date = $post['end_date'];
+        $education->score = $post['gpa'];
+        $education->startDate = $post['start_date'];
+        $education->endDate = $post['end_date'];
 
         return $education;
     }

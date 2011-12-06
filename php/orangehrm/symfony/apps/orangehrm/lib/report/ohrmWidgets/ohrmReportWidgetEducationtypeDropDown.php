@@ -66,7 +66,7 @@ class ohrmReportWidgetEducationtypeDropDown extends sfWidgetForm implements ohrm
         $list = array("" => "-- " . __('Select') . " --");
 
         foreach($educationList as $education) {
-            $list[$education->getEduCode()] = $education->getEduDeg() . ", " . $education->getEduUni();
+            $list[$education->getId()] = $education->getName();
         }
         
         return $list;

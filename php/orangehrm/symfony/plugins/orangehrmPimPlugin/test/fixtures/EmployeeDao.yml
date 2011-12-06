@@ -40,12 +40,12 @@ EmpWorkExperience:
   1: {emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3'}
 
 Education:
-  0: {edu_code: 'EDU001', edu_uni: 'MTR', edu_deg: 'ENG'}
-  1: {edu_code: 'EDU002', edu_uni: 'Pera', edu_deg: 'ENG1'}
+  0: {id: 1, name: 'MTR, ENG'}
+  1: {id: 2, name: 'Pera, ENG1'}
 
 EmployeeEducation:
-  0: {emp_number: '1', edu_code: 'EDU001', edu_major: 'ENG', edu_year: '2007', edu_gpa: '3.7', edu_start_date: '2006-03-04', edu_end_date: '2010-03-05'}
-  1: {emp_number: '1', edu_code: 'EDU002', edu_major: 'ENG1', edu_year: '2008', edu_gpa: '4', edu_start_date: '2007-03-04', edu_end_date: '2011-03-05'}
+  0: {empNumber: '1', educationId: 1, major: 'ENG', year: '2007', score: '3.7', startDate: '2006-03-04', endDate: '2010-03-05'}
+  1: {empNumber: '1', educationId: 2, major: 'ENG1', year: '2008', score: '4', startDate: '2007-03-04', endDate: '2011-03-05'}
 
 Skill:
   0: {id: 1, name: 'good', description: 'good work'}

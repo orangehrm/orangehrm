@@ -342,7 +342,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetEducationWithEduCode() {
 
         $empNumber = 1;
-        $eduCode = 'EDU002';
+        $eduCode = 2;
 
         $education = $this->employeeDao->getEducation($empNumber, $eduCode);
         $this->assertTrue($education instanceof EmployeeEducation);
@@ -355,8 +355,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empEdu = new EmployeeEducation;
 
-        $empEdu->emp_number = 2;
-        $empEdu->code = 'EDU002';
+        $empEdu->empNumber = 2;
+        $empEdu->educationId = 2;
         $empEdu->major = 'major';
 
         $this->assertTrue($this->employeeDao->saveEducation($empEdu));

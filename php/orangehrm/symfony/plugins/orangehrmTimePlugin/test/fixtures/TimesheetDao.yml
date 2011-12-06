@@ -1,8 +1,12 @@
 ## YAML Template.
 ---
-Users:
-  0: {id: 3, user_name: 'user3'}
-  1: {id: 4, user_name: 'user4'}
+
+UserRole:
+  0: {id: 1, name: 'Admin'}
+
+SystemUser:
+  0: {id: 3, user_name: 'user3', user_role_id: 1}
+  1: {id: 4, user_name: 'user4', user_role_id: 1}
 
 Customer:
   0: {customer_id: 1, name: 'user', description: 'main customer', is_deleted: 0 }

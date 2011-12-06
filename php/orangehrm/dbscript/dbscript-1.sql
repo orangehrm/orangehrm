@@ -249,15 +249,16 @@ create table `hs_hr_emp_picture` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_emp_education` (
-  `emp_number` int(7) not null default 0,
-  `edu_code` varchar(13) not null default '',
-  `edu_major` varchar(100) default null,
-  `edu_year` decimal(4,0) default null,
-  `edu_gpa` varchar(25) default null,
-  `edu_start_date` datetime default null,
-  `edu_end_date` datetime default null,
-  primary key  (`edu_code`,`emp_number`)
+create table `ohrm_emp_education` (
+  `emp_number` int not null,
+  `education_id` int not null,
+  `institute` varchar(100) default null,
+  `major` varchar(100) default null,
+  `year` decimal(4,0) default null,
+  `score` varchar(25) default null,
+  `start_date` date default null,
+  `end_date` date default null,
+  primary key  (`emp_number`, `education_id`)
 ) engine=innodb default charset=utf8;
 
 
@@ -390,11 +391,10 @@ create table `hs_hr_province` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_education` (
-	`edu_code` varchar(13) not null default '',
-	`edu_uni` varchar(100) default null,
-	`edu_deg` varchar(100) default null,
-	primary key (`edu_code`)
+create table `ohrm_education` (
+	`id` int not null auto_increment,
+	`name` varchar(100) not null,
+	primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_rights` (
@@ -1529,13 +1529,13 @@ alter table hs_hr_emp_picture
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_emp_education
+alter table ohrm_emp_education
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_emp_education
-       add constraint foreign key (edu_code)
-                             references hs_hr_education(edu_code) on delete cascade;
+alter table ohrm_emp_education
+       add constraint foreign key (education_id)
+                             references ohrm_education(id) on delete cascade;
 
 alter table hs_hr_emp_work_experience
        add constraint foreign key (emp_number)
