@@ -31,11 +31,11 @@ class EmailNotificationDao extends BaseDao {
 
 	public function updateEmailNotification($toBeEnabledIds) {
 		try {
-			$this->disableEmailNotification($toBeEnabledIds);
+			$this->disableEmailNotification($toBeEnabledIds);				
 			if (!empty($toBeEnabledIds)) {
 				$this->enableEmailNotification($toBeEnabledIds);
 			}
-			return;
+			return true;
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}

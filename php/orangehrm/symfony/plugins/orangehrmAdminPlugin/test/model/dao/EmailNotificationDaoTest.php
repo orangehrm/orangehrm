@@ -41,7 +41,7 @@ class EmailNotificationDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testUpdateEmailNotification(){
          $result = $this->emailNotificationDao->updateEmailNotification(array(1,2));
-         $this->assertEquals($result, 2);
+         $this->assertTrue($result);
     }
 
     public function testGetEnabledEmailNotificationIdList(){
