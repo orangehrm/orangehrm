@@ -538,6 +538,10 @@ SystemUser:
     status:
       type: integer(1)
       default: '1'
+    date_entered: timestamp(25)
+    date_modified: timestamp(25)
+    modified_user_id: integer
+    created_by: integer
   relations:
     Employee:
       local: emp_number

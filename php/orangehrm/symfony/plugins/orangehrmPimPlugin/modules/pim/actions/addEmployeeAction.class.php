@@ -180,6 +180,8 @@ class addEmployeeAction extends basePimAction {
 
             if(trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) {
                 $user = new SystemUser();
+                $user->setDateEntered(date('Y-m-d H:i:s'));
+                $user->setCreatedBy($this->getUser()->getAttribute('user')->getUserId());
                 $user->user_name = $posts['user_name'];
                 $user->user_password = md5($posts['user_password']);
                 $user->emp_number = $empNumber;

@@ -40,7 +40,7 @@ class saveSystemUserAction extends sfAction {
 
 
         $this->userId = $request->getParameter('userId');
-        $values = array('userId' => $this->userId);
+        $values = array('userId' => $this->userId,'sessionUser'=>$this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));
 
         if ($this->getUser()->hasFlash('templateMessage')) {

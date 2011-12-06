@@ -111,9 +111,13 @@ class SystemUserForm extends BaseForm {
         $changePasword = false;
         if (empty($userId)) {
             $user = new SystemUser();
+            $user->setDateEntered(date('Y-m-d H:i:s'));
+            $user->setCreatedBy($this->getOption('sessionUser')->getUserId());
         } else {
             $this->edited = true;
             $user = $this->getSystemUserService()->getSystemUser($userId);
+            $user->setDateModified(date('Y-m-d H:i:s'));
+            $user->setModifiedUserId($this->getOption('sessionUser')->getUserId());
         }
 
         if (!empty($password)) {
@@ -127,7 +131,9 @@ class SystemUserForm extends BaseForm {
 
         $user->setStatus($this->getValue('status'));
 
+        
         $this->getSystemUserService()->saveSystemUser($user, $changePasword);
+        
     }
 
     public function getEmployeeListAsJson() {

@@ -12,27 +12,39 @@
  * @property string $user_password
  * @property integer $deleted
  * @property integer $status
+ * @property timestamp $date_entered
+ * @property timestamp $date_modified
+ * @property integer $modified_user_id
+ * @property integer $created_by
  * @property Employee $Employee
  * @property UserRole $UserRole
  * 
- * @method integer    getId()            Returns the current record's "id" value
- * @method integer    getUserRoleId()    Returns the current record's "user_role_id" value
- * @method integer    getEmpNumber()     Returns the current record's "emp_number" value
- * @method string     getUserName()      Returns the current record's "user_name" value
- * @method string     getUserPassword()  Returns the current record's "user_password" value
- * @method integer    getDeleted()       Returns the current record's "deleted" value
- * @method integer    getStatus()        Returns the current record's "status" value
- * @method Employee   getEmployee()      Returns the current record's "Employee" value
- * @method UserRole   getUserRole()      Returns the current record's "UserRole" value
- * @method SystemUser setId()            Sets the current record's "id" value
- * @method SystemUser setUserRoleId()    Sets the current record's "user_role_id" value
- * @method SystemUser setEmpNumber()     Sets the current record's "emp_number" value
- * @method SystemUser setUserName()      Sets the current record's "user_name" value
- * @method SystemUser setUserPassword()  Sets the current record's "user_password" value
- * @method SystemUser setDeleted()       Sets the current record's "deleted" value
- * @method SystemUser setStatus()        Sets the current record's "status" value
- * @method SystemUser setEmployee()      Sets the current record's "Employee" value
- * @method SystemUser setUserRole()      Sets the current record's "UserRole" value
+ * @method integer    getId()               Returns the current record's "id" value
+ * @method integer    getUserRoleId()       Returns the current record's "user_role_id" value
+ * @method integer    getEmpNumber()        Returns the current record's "emp_number" value
+ * @method string     getUserName()         Returns the current record's "user_name" value
+ * @method string     getUserPassword()     Returns the current record's "user_password" value
+ * @method integer    getDeleted()          Returns the current record's "deleted" value
+ * @method integer    getStatus()           Returns the current record's "status" value
+ * @method timestamp  getDateEntered()      Returns the current record's "date_entered" value
+ * @method timestamp  getDateModified()     Returns the current record's "date_modified" value
+ * @method integer    getModifiedUserId()   Returns the current record's "modified_user_id" value
+ * @method integer    getCreatedBy()        Returns the current record's "created_by" value
+ * @method Employee   getEmployee()         Returns the current record's "Employee" value
+ * @method UserRole   getUserRole()         Returns the current record's "UserRole" value
+ * @method SystemUser setId()               Sets the current record's "id" value
+ * @method SystemUser setUserRoleId()       Sets the current record's "user_role_id" value
+ * @method SystemUser setEmpNumber()        Sets the current record's "emp_number" value
+ * @method SystemUser setUserName()         Sets the current record's "user_name" value
+ * @method SystemUser setUserPassword()     Sets the current record's "user_password" value
+ * @method SystemUser setDeleted()          Sets the current record's "deleted" value
+ * @method SystemUser setStatus()           Sets the current record's "status" value
+ * @method SystemUser setDateEntered()      Sets the current record's "date_entered" value
+ * @method SystemUser setDateModified()     Sets the current record's "date_modified" value
+ * @method SystemUser setModifiedUserId()   Sets the current record's "modified_user_id" value
+ * @method SystemUser setCreatedBy()        Sets the current record's "created_by" value
+ * @method SystemUser setEmployee()         Sets the current record's "Employee" value
+ * @method SystemUser setUserRole()         Sets the current record's "UserRole" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -72,6 +84,20 @@ abstract class BaseSystemUser extends sfDoctrineRecord
              'type' => 'integer',
              'default' => '1',
              'length' => 1,
+             ));
+        $this->hasColumn('date_entered', 'timestamp', 25, array(
+             'type' => 'timestamp',
+             'length' => 25,
+             ));
+        $this->hasColumn('date_modified', 'timestamp', 25, array(
+             'type' => 'timestamp',
+             'length' => 25,
+             ));
+        $this->hasColumn('modified_user_id', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('created_by', 'integer', null, array(
+             'type' => 'integer',
              ));
     }
 
