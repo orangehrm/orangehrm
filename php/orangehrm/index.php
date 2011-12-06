@@ -406,9 +406,9 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./symfony/web/index.php/admin/viewProjects");
+    $menuItem = new MenuItem("admin", $lang_Menu_Admin, './symfony/web/index.php/admin/viewProjects', 'rightMenu');
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("project", "Projects", "./symfony/web/index.php/admin/viewProjects");
+    $subs[] = new MenuItem("project", "Projects", "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && !$_SESSION['isProjectAdmin']) {
