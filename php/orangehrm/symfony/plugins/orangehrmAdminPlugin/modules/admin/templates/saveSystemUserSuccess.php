@@ -48,7 +48,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <?php if (!$form->edited) {
                 echo $form['password']->renderLabel(__('Password') . ' <span class="required">*</span>');
             } else {
-                echo $form['password']->renderLabel(__('User Password'));
+                echo $form['password']->renderLabel(__('Password'));
             } ?>
             <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ', array('class' => 'score')); ?>
 
