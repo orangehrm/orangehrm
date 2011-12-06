@@ -291,7 +291,6 @@ if ($_SESSION['isAdmin'] == 'No') {
             $allowAdminView = true;
         }
     }
-
 }
 
 require_once ROOT_PATH . '/lib/common/Language.php';
@@ -313,7 +312,7 @@ $menu = array();
 if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    
+
     $subs = array();
 
     $sub = new MenuItem("companyinfo", "Organization", "#");
@@ -373,20 +372,20 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subsubs = array();
     $subsubs[] = new MenuItem("project", __("Customers"), "./symfony/web/index.php/admin/viewCustomers");
     $subsubs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects");
-    
+
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
-    
+
     $sub = new MenuItem("configuration", "Configuration", "#");
     $subsubs = array();
     $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
-    $sub->setSubMenuItems($subsubs);    
+    $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmAuditTrailPlugin') && $arrAllRights[Admin]['view']) {
         $subs[] = new MenuItem('audittrail', 'Audit Trail', './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
     }
-    
+
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmLDAPAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
         $subs[] = new MenuItem('ldap', 'LDAP Configuration', './symfony/web/index.php/ldapAuthentication/configureLDAPAuthentication', 'rightMenu');
     }
@@ -400,6 +399,8 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
+    $menuItem = new MenuItem("admin", $lang_Menu_Admin, './symfony/web/index.php/admin/viewProjects', 'rightMenu');
+    $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
     $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
@@ -438,7 +439,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
     if ($_SESSION['isAdmin'] == 'Yes') {
         $subs[] = new MenuItem("reports", $lang_Menu_Reports, "./symfony/web/index.php/core/viewDefinedPredefinedReports/reportGroup/3/reportType/PIM_DEFINED", "rightMenu");
     }
-    
+
     if (PIM_MENU_TYPE == 'dropdown') {
         $sub = new MenuItem("personal", $lang_pim_tabs_Personal, "#", null, $enablePimMenu);
         $subsubs = array();
@@ -580,10 +581,10 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
                     foreach ($reportsMenus as $ptm) {
                         $subsubs1[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
                     }
-                                                          
+
                     $sub->setSubMenuItems($subsubs1);
                 }
-                
+
                 $subs[] = $sub;
             }
         }
@@ -694,7 +695,7 @@ $menu[] = $menuItem;
 
 /* Start ESS menu */
 if ($_SESSION['isAdmin'] != 'Yes') {
-    $menuItem = new MenuItem("ess", $lang_Menu_Ess ,'./symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
+    $menuItem = new MenuItem("ess", $lang_Menu_Ess, './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
 
     $menuItem->setCurrent($_GET['menu_no_top'] == "ess");
     $enableEssMenu = false;
@@ -843,10 +844,10 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         <link href="themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="favicon.ico" rel="icon" type="image/gif"/>
         <script type="text/javaScript" src="scripts/archive.js"></script>
-        <?php
-        $menuObj->getCSS();
-        $menuObj->getJavascript($menu);
-        ?>
+<?php
+$menuObj->getCSS();
+$menuObj->getJavascript($menu);
+?>
     </head>
 
     <body>
