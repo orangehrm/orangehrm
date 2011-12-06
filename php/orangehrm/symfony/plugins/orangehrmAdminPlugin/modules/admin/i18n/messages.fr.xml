@@ -900,6 +900,70 @@
                 <source>Level</source>
                 <target>FR_Level</target>
             </trans-unit>               
+            <trans-unit id="224">
+                <source>Work Shifts</source>
+                <target>FR_Work Shifts</target>
+            </trans-unit>
+            <trans-unit id="225">
+                <source>Shift Name</source>
+                <target>FR_Shift Name</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>Hours Per Day</source>
+                <target>FR_Hours Per Day</target>
+            </trans-unit>
+            <trans-unit id="227">
+                <source>Available Employees</source>
+                <target>FR_Available Employees</target>
+            </trans-unit>
+            <trans-unit id="228">
+                <source>Assigned Employees</source>
+                <target>FR_Assigned Employees</target>
+            </trans-unit>
+            <trans-unit id="229">
+                <source>Remove</source>
+                <target>FR_Remove</target>
+            </trans-unit>
+            <trans-unit id="230">
+                <source>Add Work Shift</source>
+                <target>FR_Add Work Shift</target>
+            </trans-unit>
+            <trans-unit id="231">
+                <source>Shift Name is required</source>
+                <target>FR_Shift Name is required</target>
+            </trans-unit>
+            <trans-unit id="232">
+                <source>Hour per day is required</source>
+                <target>FR_Hour per day is required</target>
+            </trans-unit>
+            <trans-unit id="233">
+                <source>Work Shift Saved Successfully</source>
+                <target>FR_Work Shift Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="234">
+                <source>Selected work shift(s) will be deleted</source>
+                <target>FR_Selected work shift(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="235">
+                <source>Selected Work Shift(s) Deleted Successfully</source>
+                <target>FR_Selected Work Shift(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="236">
+                <source>Enter a valid number</source>
+                <target>FR_Enter a valid number</target>
+            </trans-unit>
+            <trans-unit id="237">
+                <source>Value should be a possitive number</source>
+                <target>FR_Value should be a possitive number</target>
+            </trans-unit>
+            <trans-unit id="238">
+                <source>Value should be less than 24</source>
+                <target>FR_Value should be less than 24</target>
+            </trans-unit>
+            <trans-unit id="239">
+                <source>Edit Work Shift</source>
+                <target>FR_Edit Work Shift</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

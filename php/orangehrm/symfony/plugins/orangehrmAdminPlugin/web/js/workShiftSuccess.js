@@ -138,7 +138,9 @@ $(document).ready(function() {
             },
             'workShift[hours]' : {
                 required:true,
-                number: true
+                number: true,
+                min: 1,
+                max: 24
             }
 
         },
@@ -150,7 +152,9 @@ $(document).ready(function() {
             },
             'workShift[hours]' : {
                 required: lang_hoursRequired,
-                number: lang_notNumeric
+                number: lang_notNumeric,
+                min: lang_possitiveNumber,
+                max: lang_lessThan24
             }
         },
 
