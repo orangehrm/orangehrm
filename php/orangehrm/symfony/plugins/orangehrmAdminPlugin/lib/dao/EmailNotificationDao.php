@@ -19,89 +19,94 @@
  */
 class EmailNotificationDao extends BaseDao {
 
-    public function getEmailNotificationList() {
-        try {
-            $q = Doctrine_Query :: create()
-                            ->from('EmailNotification');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	public function getEmailNotificationList() {
+		try {
+			$q = Doctrine_Query :: create()
+				->from('EmailNotification');
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function updateEmailNotification($toBeEnabledIds) {
-        try {
-            $this->disableEmailNotification($toBeEnabledIds);
-            return $this->enableEmailNotification($toBeEnabledIds);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	public function updateEmailNotification($toBeEnabledIds) {
+		try {
+			$this->disableEmailNotification($toBeEnabledIds);
+			if (!empty($toBeEnabledIds)) {
+				$this->enableEmailNotification($toBeEnabledIds);
+			}
+			return;
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    private function disableEmailNotification($toBeEnabledIds) {
-        try {
-            $q = Doctrine_Query :: create()->update('EmailNotification')
-                            ->set('isEnable', '?', EmailNotification::DISABLED)
-                            ->whereNotIn('id', $toBeEnabledIds);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	private function disableEmailNotification($toBeEnabledIds) {
+		try {
+			$q = Doctrine_Query :: create()->update('EmailNotification')
+				->set('isEnable', '?', EmailNotification::DISABLED);
+			if (!empty($toBeEnabledIds)) {
+				$q->whereNotIn('id', $toBeEnabledIds);
+			}
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    private function enableEmailNotification($toBeEnabledIds) {
-        try {
-            $q = Doctrine_Query :: create()->update('EmailNotification')
-                            ->set('isEnable', '?', EmailNotification::ENABLED)
-                            ->whereIn('id', $toBeEnabledIds);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	private function enableEmailNotification($toBeEnabledIds) {
+		try {
+			$q = Doctrine_Query :: create()->update('EmailNotification')
+				->set('isEnable', '?', EmailNotification::ENABLED)
+				->whereIn('id', $toBeEnabledIds);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getEnabledEmailNotificationIdList(){
-         try {
-            $q = Doctrine_Query :: create()->select('id')
-                    ->from('EmailNotification')
-                    ->where('isEnable = ?', EmailNotification::ENABLED);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	public function getEnabledEmailNotificationIdList() {
+		try {
+			$q = Doctrine_Query :: create()->select('id')
+				->from('EmailNotification')
+				->where('isEnable = ?', EmailNotification::ENABLED);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getSubscribersByNotificationId($emailNotificationId){
-         try {
-            $q = Doctrine_Query :: create()
-                    ->from('EmailSubscriber')
-                    ->where('notificationId = ?', $emailNotificationId);
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+	public function getSubscribersByNotificationId($emailNotificationId) {
+		try {
+			$q = Doctrine_Query :: create()
+				->from('EmailSubscriber')
+				->where('notificationId = ?', $emailNotificationId);
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function getSubscriberById($subscriberId){
+	public function getSubscriberById($subscriberId) {
 
-        try {
-            return Doctrine :: getTable('EmailSubscriber')->find($subscriberId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+		try {
+			return Doctrine :: getTable('EmailSubscriber')->find($subscriberId);
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
-    public function deleteSubscribers($subscriberIdList){
-         try {
-            $q = Doctrine_Query::create()
-                            ->delete('EmailSubscriber')
-                            ->whereIn('id', $subscriberIdList);
+	public function deleteSubscribers($subscriberIdList) {
+		try {
+			$q = Doctrine_Query::create()
+				->delete('EmailSubscriber')
+				->whereIn('id', $subscriberIdList);
 
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+			return $q->execute();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}
 
 }
 
