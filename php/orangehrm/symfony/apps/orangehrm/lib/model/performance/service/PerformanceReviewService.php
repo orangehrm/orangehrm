@@ -189,12 +189,14 @@ class PerformanceReviewService extends BaseService {
 
         try{
 
-            $mailNotificationService = new MailService();
-            $subscription = $mailNotificationService->getSubscription(MailNotification::PERFORMANCE_SUBMISSION);
+        $mailNotificationService = new EmailNotificationService();
+        $subscriptions = $mailNotificationService->getSubscribersByNotificationId(EmailNotification::PERFORMANCE_SUBMISSION);
 
-            if ($subscription instanceof MailNotification) {
+	foreach ($subscriptions as $subscription) {
+	
+            if ($subscription instanceof EmailSubscriber) {
 
-                if ($subscription->getStatus() == MailNotification::STATUS_SUBSCRIBED) {
+                if ($subscription->getEmailNotification()->getIsEnable() == EmailNotification::ENABLED) {
 
                     $to = $subscription->getEmail();
 
@@ -211,7 +213,7 @@ class PerformanceReviewService extends BaseService {
                 }
 
             }
-
+	}
             return true;
 
         } catch( Exception $e) {

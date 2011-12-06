@@ -131,12 +131,14 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
      */
     public function sendToSubscribers() {
 
-        $mailNotificationService = new MailService();
-        $subscription = $mailNotificationService->getSubscription(MailNotification::LEAVE_ASSIGNMENT);
+        $mailNotificationService = new EmailNotificationService();
+        $subscription = $mailNotificationService->getSubscribersByNotificationId(EmailNotification::LEAVE_ASSIGNMENT);
 
-        if ($subscription instanceof MailNotification) {
+	foreach ($subscriptions as $subscription) {
+	
+        if ($subscription instanceof EmailSubscriber) {
 
-            if ($subscription->getStatus() == MailNotification::STATUS_SUBSCRIBED) {
+            if ($subscription->getEmailNotification()->getIsEnable() == EmailNotification::ENABLED) {
 
                 $to = $subscription->getEmail();
 
@@ -166,7 +168,7 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
             }
 
         }
-
+	}
     }
 
     public function send() {
