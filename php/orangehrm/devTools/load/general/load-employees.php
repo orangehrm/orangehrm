@@ -26,16 +26,21 @@ require_once "../../../lib/confs/Conf.php";
 
 // Connecting to the database
 $conf = new Conf();
-if (!mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass)) { echo mysql_error(); exit(0); }
+if (!mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass)) { echo mysql_error(); die; }
 if (!mysql_select_db($conf->dbname)) { echo mysql_error(); exit(0); }
 
-// Truncate 'hs_hr_employees' and 'hs_hr_users'
-if (!mysql_query("TRUNCATE TABLE `hs_hr_employee`")) { echo mysql_error(); exit(0); }
-if (!mysql_query("TRUNCATE TABLE `hs_hr_users`")) { echo mysql_error(); exit(0); }
+// Truncating tables
+if (!mysql_query("TRUNCATE TABLE `hs_hr_employee`")) { echo mysql_error(); die; }
+if (!mysql_query("TRUNCATE TABLE `ohrm_user_role`")) { echo mysql_error(); die; }
+if (!mysql_query("TRUNCATE TABLE `ohrm_user`")) { echo mysql_error(); die; }
 
-// Inserting Admin data to 'hs_hr_users': `user_name` = admin, `user_password` = 21232f297a57a5a743894a0e4a801fc3 (md5("admin"))
-if (!mysql_query("INSERT INTO `hs_hr_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `emp_number`, `user_hash`, `is_admin`, `receive_notification`, `description`, `modified_user_id`, `created_by`, `title`, `department`, `phone_home`, `phone_mobile`, `phone_work`, `phone_other`, `phone_fax`, `email1`, `email2`, `status`, `address_street`, `address_city`, `address_state`, `address_country`, `address_postalcode`, `user_preferences`, `deleted`, `employee_status`, `userg_id`) VALUES
-('USR001', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', '', NULL, '', 'Yes', '1', '', NULL, NULL, '', '', '', '', '', '', '', '', '', 'Enabled', '', '', '', '', '', '', 0, '', 'USG001')")) { exit(0); }
+// User roles
+$q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `is_assignable`, `is_predefined`) VALUES (1, 'Admin', 0, 1), (2, 'ESS', 0, 1)";
+if (!mysql_query($q)) { echo mysql_error(); die; }
+
+// Default admin
+$q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
+if (!mysql_query($q)) { echo mysql_error(); die; }
 
 // Employee data
 $employees[0][0] = "001"; $employees[0][1] = "Abbey"; $employees[0][2] = "Kayla";
@@ -309,30 +314,33 @@ INSERT INTO hs_hr_employee SET
   emp_oth_email = NULL
 EMPSQLSTR;
 
-    if (!mysql_query($empSql)) { echo mysql_error(); exit(0); }
+    if (!mysql_query($empSql)) { echo mysql_error(); die; }
 
     $userSql = <<< USERSQLSTR
-INSERT INTO hs_hr_users SET
-  id = '{$users[$i][0]}',
-  user_name = '{$users[$i][1]}',
-  user_password = '{$users[$i][2]}',
-  first_name = NULL,
-  last_name = NULL,
+INSERT INTO ohrm_user SET
+  user_role_id = 2,
   emp_number = {$empNum},
-  user_hash = NULL,
-  is_admin = 'No',
-  modified_user_id = 'USR001',
-  status = 'Enabled',
-  deleted = 0
+  user_name = '{$users[$i][1]}',
+  user_password = '{$users[$i][2]}'
 USERSQLSTR;
 
-    if (!mysql_query($userSql)) { echo mysql_error(); exit(0); }
+    if (!mysql_query($userSql)) { echo mysql_error(); die; }
 }
 // Sets Last ID at `hs_hr_unique_id`
 if (!mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `id` = '8' AND `table_name` = 'hs_hr_employee'")) { echo mysql_error(); exit(0); }
-if (!mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '".(count($users)+1)."' WHERE `id` = '17' AND `table_name` = 'hs_hr_users'")) { echo mysql_error(); exit(0); }
 
 //End
-echo "Successfully Created!<br>";
+echo "<h2>Successfully Created " . count($employees) . " employees and their user accounts!</h2>";
 
 ?>
+<?php if (!mysql_error()): ?>
+<pre>
+ * Admin username = admin		Admin password = admin
+ *
+ * For employee, "Kayla Abbey":
+ *
+ * ESS username = Kayla			ESS password = Kayla
+ *
+ * As above, for each employee, username and password would be his/her first name
+</pre>
+<?php endif; ?>
