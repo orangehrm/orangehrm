@@ -75,7 +75,7 @@ class LocationForm extends BaseForm {
 		    'zipCode' => new sfValidatorString(array('required' => false, 'max_length' => 32)),
 		    'phone' => new sfValidatorString(array('required' => false, 'max_length' => 32)),
 		    'fax' => new sfValidatorString(array('required' => false, 'max_length' => 32)),
-		    'notes' => new sfValidatorString(array('required' => false, 'max_length' => 256)),
+		    'notes' => new sfValidatorString(array('required' => false, 'max_length' => 256, 'trim' => true)),
 		));
 
 

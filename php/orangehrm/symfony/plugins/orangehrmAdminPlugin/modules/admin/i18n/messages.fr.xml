@@ -980,6 +980,10 @@
                 <source>Education Level Exists</source>
                 <target>FR_Education Level Exists</target>
             </trans-unit>
+            <trans-unit id="244">
+                <source>Selected system user(s) will be deleted</source>
+                <target>FR_Selected system user(s) will be deleted</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

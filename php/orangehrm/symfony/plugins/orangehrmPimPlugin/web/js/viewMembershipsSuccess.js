@@ -39,8 +39,8 @@ $(document).ready(function() {
         var currency = row.find("td:nth-child(5)").text();
         var subscriptionCommenceDate = row.find("td:nth-child(6)").text();
         var subscriptionRenewalDate = row.find("td:nth-child(7)").text();
-   
-        $('#membership_membership').val(membership);
+        var memcode = primarykey.split(" ");
+        $('#membership_membership').val(memcode[1]);
         $('#membership_membership').attr('disabled', 'disabled');
         $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
         $('#membership_subscriptionAmount').val(subscriptionAmount);

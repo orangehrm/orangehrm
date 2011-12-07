@@ -200,10 +200,17 @@ $(document).ready(function() {
     $.validator.addMethod("validSalaryRange", function(value, element, params) {
         
         var isValid = true;
-        var minSalry = parseInt($('#payGradeCurrency_minSalary').val(), 10);
-        var maxSalry = parseInt($('#payGradeCurrency_maxSalary').val(), 10);
+        var minSal = $('#payGradeCurrency_minSalary').val();
+        var maxSal = $('#payGradeCurrency_maxSalary').val();
+        
+        if(minSal != ""){
+            minSal = parseFloat(minSal);
+        }
+        if(maxSal != ""){
+            maxSal = parseFloat(maxSal);
+        }
 
-        if(minSalry > maxSalry && maxSalry != "") {
+        if(minSal > maxSal && maxSal != "") {
             isValid = false;
         }
         return isValid;
@@ -249,11 +256,13 @@ $(document).ready(function() {
             },
             'payGradeCurrency[minSalary]' : {
                 number: true,
-                maxlength: 50
+                min: 0,
+                max:999999999.99
             },
             'payGradeCurrency[maxSalary]' : {
                 number:true,
-                maxlength: 50,
+                min: 0,
+                max:999999999.99,
                 validSalaryRange: true
             }
         },
@@ -266,11 +275,13 @@ $(document).ready(function() {
             },
             'payGradeCurrency[minSalary]' : {
                 number: lang_salaryShouldBeNumeric,
-                maxlength: lang_exceed50Charactors
+                min: lang_negativeAmount,
+                max:lang_tooLargeAmount
             },
             'payGradeCurrency[maxSalary]' : {
                 number: lang_salaryShouldBeNumeric,
-                maxlength: lang_exceed50Charactors,
+                min: lang_negativeAmount,
+                max:lang_tooLargeAmount,
                 validSalaryRange: lang_validSalaryRange
             }
         },

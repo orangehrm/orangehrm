@@ -46,3 +46,6 @@ form#frmSearchProject .contentDiv{
 #project label{
     width: 60px !important;
 }
+form#frmList_ohrmListComponent table.data-table tbody td{
+    vertical-align: top;
+}

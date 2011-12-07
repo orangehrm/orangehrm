@@ -74,7 +74,7 @@ function loadCheckboxBehavior() {
             $("#checkAll").attr('checked', 'checked');
         }
         
-        if ($(".checkbox:checked").length > 0) {
+        if ($(".checkbox:checked").length > 0 && $(".checkbox").length >1) {
             $('#btnDel').removeAttr('disabled');
         } else {
             $('#btnDel').attr('disabled', 'disabled');
@@ -151,8 +151,12 @@ function loadCancelButtonBehavior() {
     
 } 
 
-function loadDeleteButtonBehavior() {   
-    
+function loadDeleteButtonBehavior() {
+
+    if($(".checkbox").length == 1) {
+        $('#btnDel').attr('disabled','disabled');
+    }
+
     if ($(".checkbox:checked").length == 0) {
         $('#btnDel').attr('disabled', 'disabled');
     } 

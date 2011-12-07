@@ -30,7 +30,7 @@ function validateData() {
         },
         messages: {
             'education[name]' : {
-                required: lang_nameIsRequired,
+                required: lang_nameIsRequired
                 /*remote: lang_nameExists*/
             }
 
@@ -72,7 +72,7 @@ function loadCheckboxBehavior() {
             $("#checkAll").attr('checked', 'checked');
         }
         
-        if ($(".checkbox:checked").length > 0) {
+        if ($(".checkbox:checked").length > 0 && $(".checkbox").length >1) {
             $('#btnDel').removeAttr('disabled');
         } else {
             $('#btnDel').attr('disabled', 'disabled');

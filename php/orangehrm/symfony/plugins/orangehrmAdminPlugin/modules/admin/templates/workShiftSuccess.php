@@ -98,7 +98,7 @@
 	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
-	var lang_possitiveNumber = "<?php echo __("Value should be a possitive number"); ?>";
+	var lang_possitiveNumber = "<?php echo __("Value should be a positive number"); ?>";
 	var lang_lessThan24 = "<?php echo __("Value should be less than 24"); ?>";
 	var lang_nameAlreadyExist = "<?php echo __("Name already exist"); ?>";
 	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";

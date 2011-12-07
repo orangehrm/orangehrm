@@ -54,8 +54,8 @@ class JobTitleForm extends BaseForm {
 
         $this->setValidators(array(
             'jobTitle' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
-            'jobDescription' => new sfValidatorString(array('required' => false, 'max_length' => 400)),
-            'note' => new sfValidatorString(array('required' => false, 'max_length' => 400)),
+            'jobDescription' => new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true)),
+            'note' => new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true)),
             'jobSpec' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
                 'validated_file_class' => 'orangehrmValidatedFile')),
             'jobSpecUpdate' => new sfValidatorString(array('required' => false))

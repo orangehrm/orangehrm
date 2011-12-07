@@ -51,3 +51,7 @@ thead td, table.data-table tbody tr td {
 #messageBalloon_success, #messageBalloon_warning {
     width: 440px;
 }
+
+div#listActions.actionbar div.actionbuttons{
+    padding: 6px;
+}

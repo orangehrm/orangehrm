@@ -53,7 +53,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         $empTerminatedId = $employee->termination_id;
         $jobTitles = $this->_getJobTitles($jobTitleId);
 
-        $employeeStatuses = $this->_getEmpStatuses($jobTitleId);
+        $employeeStatuses = $this->_getEmpStatuses();
 
 
         $eeoCategories = $this->_getEEOCategories();
@@ -91,10 +91,10 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         // Default values
         $this->setDefault('emp_number', $empNumber);
+        $this->setDefault('emp_status', $employee->emp_status);
 
         if (!empty($jobTitleId)) {
             $this->setDefault('job_title', $jobTitleId);
-            $this->setDefault('emp_status', $employee->emp_status);
 
             $jobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
             $this->jobSpecAttachment = $jobTitle->getJobSpecificationAttachment();
@@ -249,7 +249,7 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         foreach ($jobTitleList as $job) {
             if (($job->getIsDeleted() == JobTitle::ACTIVE) || ($job->getId() == $jobTitleId)) {
-                $name = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName()." (Deleted)" : $job->getJobTitleName();
+                $name = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName() . " (Deleted)" : $job->getJobTitleName();
                 $choices[$job->getId()] = $name;
             }
         }
@@ -267,7 +267,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         return $choices;
     }
 
-    private function _getEmpStatuses($jobTitle) {
+    private function _getEmpStatuses() {
         $empStatusService = new EmploymentStatusService();
 
         $choices = array('' => '-- ' . __('Select') . ' --');

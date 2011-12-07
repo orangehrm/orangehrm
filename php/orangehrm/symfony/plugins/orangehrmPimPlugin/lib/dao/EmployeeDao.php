@@ -977,7 +977,7 @@ class EmployeeDao extends BaseDao {
             $reportToList = $q->execute();
             foreach ($reportToList as $reportTo) {
                 array_push($employeeList, $reportTo->getSubordinate());
-                $list = $this->getSupervisorEmployeeChain($reportTo->getSubordinateId());
+                $list = $this->getSupervisorEmployeeChain($reportTo->getSubordinateId(), true);
                 if (count($list) > 0)
                     foreach ($list as $employee)
                         array_push($employeeList, $employee);

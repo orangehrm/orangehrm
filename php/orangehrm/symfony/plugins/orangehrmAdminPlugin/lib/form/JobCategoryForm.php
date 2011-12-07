@@ -40,7 +40,7 @@ class JobCategoryForm extends BaseForm {
 
 		$this->setValidators(array(
 		    'jobCategoryId' => new sfValidatorNumber(array('required' => false)),
-		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
+		    'name' => new sfValidatorString(array('required' => true, 'max_length' => 52, 'trim' => true)),
 		));
 
 		$this->widgetSchema->setNameFormat('jobCategory[%s]');

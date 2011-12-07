@@ -90,7 +90,7 @@ class EmployeeSearchForm extends BaseForm {
             $employeeList = $employeeService->getEmployeeList();
         } elseif ($this->userType == 'Supervisor') {
 
-            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId);
+            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId, true);
         }
 
         $employeeUnique = array();
