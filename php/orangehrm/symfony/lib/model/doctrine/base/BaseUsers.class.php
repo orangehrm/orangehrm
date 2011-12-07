@@ -43,7 +43,6 @@
  * @property UserGroup $userGroup
  * @property Employee $employee
  * @property Doctrine_Collection $MailNotification
- * @property Doctrine_Collection $TimesheetActionLog
  * @property Doctrine_Collection $Users
  * @property Doctrine_Collection $PerformanceReview
  * 
@@ -85,7 +84,6 @@
  * @method UserGroup           getUserGroup()            Returns the current record's "userGroup" value
  * @method Employee            getEmployee()             Returns the current record's "employee" value
  * @method Doctrine_Collection getMailNotification()     Returns the current record's "MailNotification" collection
- * @method Doctrine_Collection getTimesheetActionLog()   Returns the current record's "TimesheetActionLog" collection
  * @method Doctrine_Collection getUsers()                Returns the current record's "Users" collection
  * @method Doctrine_Collection getPerformanceReview()    Returns the current record's "PerformanceReview" collection
  * @method Users               setId()                   Sets the current record's "id" value
@@ -126,7 +124,6 @@
  * @method Users               setUserGroup()            Sets the current record's "userGroup" value
  * @method Users               setEmployee()             Sets the current record's "employee" value
  * @method Users               setMailNotification()     Sets the current record's "MailNotification" collection
- * @method Users               setTimesheetActionLog()   Sets the current record's "TimesheetActionLog" collection
  * @method Users               setUsers()                Sets the current record's "Users" collection
  * @method Users               setPerformanceReview()    Sets the current record's "PerformanceReview" collection
  * 
@@ -302,10 +299,6 @@ abstract class BaseUsers extends sfDoctrineRecord
         $this->hasMany('MailNotification', array(
              'local' => 'id',
              'foreign' => 'user_id'));
-
-        $this->hasMany('TimesheetActionLog', array(
-             'local' => 'id',
-             'foreign' => 'performed_by'));
 
         $this->hasMany('Users', array(
              'local' => 'id',

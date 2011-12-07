@@ -88,6 +88,7 @@ TimesheetActionLog:
       local: timesheet_id
       foreign: timesheetId
     Users:
+      class: SystemUser
       onDelete: cascade
       local: performed_by
       foreign: id

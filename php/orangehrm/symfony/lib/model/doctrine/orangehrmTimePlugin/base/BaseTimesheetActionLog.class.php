@@ -12,7 +12,7 @@
  * @property string $comment
  * @property date $dateTime
  * @property Timesheet $Timesheet
- * @property Users $Users
+ * @property SystemUser $Users
  * 
  * @method integer            getTimesheetActionLogId() Returns the current record's "timesheetActionLogId" value
  * @method integer            getTimesheetId()          Returns the current record's "timesheetId" value
@@ -21,7 +21,7 @@
  * @method string             getComment()              Returns the current record's "comment" value
  * @method date               getDateTime()             Returns the current record's "dateTime" value
  * @method Timesheet          getTimesheet()            Returns the current record's "Timesheet" value
- * @method Users              getUsers()                Returns the current record's "Users" value
+ * @method SystemUser         getUsers()                Returns the current record's "Users" value
  * @method TimesheetActionLog setTimesheetActionLogId() Sets the current record's "timesheetActionLogId" value
  * @method TimesheetActionLog setTimesheetId()          Sets the current record's "timesheetId" value
  * @method TimesheetActionLog setPerformedBy()          Sets the current record's "performedBy" value
@@ -73,7 +73,7 @@ abstract class BaseTimesheetActionLog extends sfDoctrineRecord
              'foreign' => 'timesheetId',
              'onDelete' => 'cascade'));
 
-        $this->hasOne('Users', array(
+        $this->hasOne('SystemUser as Users', array(
              'local' => 'performed_by',
              'foreign' => 'id',
              'onDelete' => 'cascade'));
