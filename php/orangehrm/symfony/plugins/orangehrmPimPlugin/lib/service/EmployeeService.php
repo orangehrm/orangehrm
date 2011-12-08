@@ -1208,57 +1208,6 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Saves a reporting method used in PIM Report-to
-     * 
-     * @version 2.6.11
-     * @param ReportingMethod $reportingMethod Reporting Method instance
-     * @return ReportingMethod $reportingMethod Updated Reporting method
-     * @throws PIMServiceException
-     * 
-     * @todo Don't return value
-     */
-    public function saveReportingMethod(ReportingMethod $reportingMethod) {
-        try {
-            return $this->getEmployeeDao()->saveReportingMethod($reportingMethod);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     * Retrieves a reporting method used in PIM Report-to
-     * 
-     * @version 2.6.11
-     * @param int $reportingMethodId Reporting Method ID
-     * @return ReportingMethod ReportingMethod instance if found or false
-     * @throws PIMServiceException
-     */
-    public function getReportingMethod($reportingMethodId) {
-        try {
-            return $this->getEmployeeDao()->getReportingMethod($reportingMethodId);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     * Retrieves all reporting methods used in PIM Report-to
-     * 
-     * @version 2.6.11
-     * @return Doctrine_Collection A collection of ReportingMethod objects
-     * @throws PIMServiceException
-     * 
-     * @todo rename to getReportingMethods
-     */
-    public function getReportingMethodList() {
-        try {
-            return $this->getEmployeeDao()->getReportingMethodList();
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
-    }
-
-    /**
      * Retrieves supervisors of an employee
      * 
      * @version 2.6.11

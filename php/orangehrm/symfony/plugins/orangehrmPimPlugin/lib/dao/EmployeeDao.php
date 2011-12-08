@@ -1240,58 +1240,6 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Add or Save Reporting Method
-     * @param ReportingMethod $reportingMethod
-     * @return Doctine object ReportingMethod
-     */
-    public function saveReportingMethod(ReportingMethod $reportingMethod) {
-
-        try {
-
-            if ($reportingMethod->getReportingMethodId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($reportingMethod);
-                $reportingMethod->setReportingMethodId($idGenService->getNextID());
-            }
-            $reportingMethod->save();
-
-            return $reportingMethod;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * get Reporting Method
-     * @param $reportingMethodId
-     * @return Doctine object ReportingMethod
-     */
-    public function getReportingMethod($reportingMethodId) {
-
-        try {
-            $q = Doctrine_Query::create()->from('ReportingMethod rm')
-                            ->where('rm.reporting_method_id =?', $reportingMethodId);
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * get Reporting Method List
-     * @return Doctine collection ReportingMethodList
-     */
-    public function getReportingMethodList() {
-
-        try {
-            $q = Doctrine_Query :: create()->from('ReportingMethod');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * get supervisor list
      * @param $empNumber
      * @return Doctine collection ReportTo

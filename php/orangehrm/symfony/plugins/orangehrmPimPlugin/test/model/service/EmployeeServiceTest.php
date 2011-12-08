@@ -1602,61 +1602,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test SaveReportingMethod
-     */
-    public function testSaveReportingMethod() {
-
-        $employeeDao = $this->getMock('EmployeeDao');
-
-        $employeeDao->expects($this->once())
-                ->method('saveReportingMethod')
-                ->will($this->returnValue(true));
-
-        $this->employeeService->setEmployeeDao($employeeDao);
-
-        $reportingMethod = new ReportingMethod();
-        $reportingMethod->reportingMethodName = "report name";
-        $result = $this->employeeService->saveReportingMethod($reportingMethod);
-        $this->assertTrue($result);
-    }
-
-    /**
-     * Test Get Report Mode for a given report mode id
-     */
-    public function testGetReportingMethod() {
-
-        $employeeDao = $this->getMock('EmployeeDao');
-
-        $employeeDao->expects($this->once())
-                ->method('getReportingMethod')
-                ->will($this->returnValue(new ReportingMethod()));
-
-        $this->employeeService->setEmployeeDao($employeeDao);
-
-        $readReportingMethod = $this->employeeService->getReportingMethod(6);
-        $this->assertTrue($readReportingMethod instanceof ReportingMethod);
-    }
-
-    /**
-     * Test Get Report Mode List
-     */
-    public function testGetReportingMethodList() {
-
-        $reportingMethodList = TestDataService::loadObjectList('ReportingMethod', $this->fixture, 'ReportingMethod');
-
-        $employeeDao = $this->getMock('EmployeeDao');
-
-        $employeeDao->expects($this->once())
-                ->method('getReportingMethodList')
-                ->will($this->returnValue($reportingMethodList));
-
-        $this->employeeService->setEmployeeDao($employeeDao);
-
-        $readReportingMethodList = $this->employeeService->getReportingMethodList();
-        $this->assertTrue($readReportingMethodList[0] instanceof ReportingMethod);
-    }
-
-    /**
      * Test Supervisor Report-To list for a given employee
      */
     public function testGetSupervisorListForEmployee() {

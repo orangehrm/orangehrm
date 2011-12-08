@@ -168,38 +168,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test for saveReportingMethod returns ReportingMethod doctrine object
-     */
-    public function testSaveReportingMethod() {
-
-        $reportingMethod = new ReportingMethod();
-        $reportingMethod->reportingMethodName = "report name";
-
-        $storedReportingMethod = $this->employeeDao->saveReportingMethod($reportingMethod);
-        $this->assertTrue($storedReportingMethod instanceof ReportingMethod);
-        $this->assertEquals($storedReportingMethod->reportingMethodName, "report name");
-    }
-
-    /**
-     * Test for getReportingMethod returns ReportingMethod doctrine object
-     */
-    public function testGetReportingMethod() {
-
-        $reportingMethod = $this->employeeDao->getReportingMethod(3);
-        $this->assertTrue($reportingMethod instanceof ReportingMethod);
-    }
-
-    /**
-     * Test for getReportingMethod returns ReportingMethod doctrine collection
-     */
-    public function testGetReportingMethodList() {
-
-        $reportingMethod = $this->employeeDao->getReportingMethodList();
-        $this->assertTrue($reportingMethod[0] instanceof ReportingMethod);
-        $this->assertTrue($reportingMethod[1] instanceof ReportingMethod);
-    }
-
-    /**
      * Test for getSupervisorListForEmployee returns ReportTo doctrine collection
      */
     public function testGetSupervisorListForEmployee() {
