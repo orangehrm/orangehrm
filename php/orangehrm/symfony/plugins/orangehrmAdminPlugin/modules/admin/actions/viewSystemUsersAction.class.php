@@ -44,8 +44,8 @@ class viewSystemUsersAction extends sfAction {
      * @param <type> $request
      */
     public function execute($request) {
-
-
+       
+       
 
         $isPaging = $request->getParameter('pageNo');
         $sortField = $request->getParameter('sortField');
@@ -53,18 +53,16 @@ class viewSystemUsersAction extends sfAction {
         $userId = $request->getParameter('userId');
 
         $this->setForm(new SearchSystemUserForm());
-
+           
         $pageNumber = $isPaging;
         if ($userId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
             $pageNumber = $this->getUser()->getAttribute('pageNumber');
         }
+    
         $limit = SystemUser::NO_OF_RECORDS_PER_PAGE;
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
 
-        if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-        }
+       
 
         $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 
@@ -74,12 +72,15 @@ class viewSystemUsersAction extends sfAction {
                 $searchClues['offset'] = $offset;
                 $searchClues['sortField'] = $sortField;
                 $searchClues['sortOrder'] = $sortOrder;
+                
                 $this->form->setDefaultDataToWidgets($searchClues);
+                
             }
+            
         } else {
             $this->getUser()->setAttribute('searchClues', $searchClues);
         }
-
+       
         $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
         $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
         $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
@@ -90,6 +91,24 @@ class viewSystemUsersAction extends sfAction {
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
+        
+        if ($request->isMethod('post')) {
+            if( $this->form->getName() == 'searchSystemUser'){
+                $offset = 0;
+                $pageNumber = 1;
+                $this->form->bind($request->getParameter($this->form->getName()));
+                
+                if ($this->form->isValid()) {		
+                    print('test');
+                    $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+
+                    $this->getUser()->setAttribute('searchClues', $searchClues);
+                    $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
+                    $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
+                    $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
+                }
+            }
+		}
     }
 
     /**

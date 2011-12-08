@@ -118,7 +118,7 @@
 
         document.frmHiddenParam.pageNo.value = pageNo;
         document.frmHiddenParam.hdnAction.value = 'paging';
-        document.getElementById('search_form').submit();
+        document.getElementById('frmHiddenParam').submit();
 
     }
                 
