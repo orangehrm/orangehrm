@@ -26,6 +26,7 @@ class EmployeeReportToForm extends BaseForm {
     public $fullName;
     public $empNumber;
     private $employeeService;
+    private $reportingMethodService;
 
     /**
      * Get EmployeeService
@@ -46,6 +47,20 @@ class EmployeeReportToForm extends BaseForm {
      */
     public function setEmployeeService(EmployeeService $employeeService) {
         $this->employeeService = $employeeService;
+    }
+    
+    public function getReportingMethodService() {
+
+        if (is_null($this->reportingMethodService)) {
+            $this->reportingMethodService = new EmployeeService();
+        }
+        
+        return $this->reportingMethodService;
+        
+    }    
+    
+    public function setReportingMethodService(ReportingMethod $reportingMethodService) {
+        $this->reportingMethodService = $reportingMethodService;
     }
 
     public function configure() {
@@ -92,10 +107,10 @@ class EmployeeReportToForm extends BaseForm {
 
         $list = array("" => "-- " . __('Select') . " --");
 
-        $reportingMethodTypes = $this->getEmployeeService()->getReportingMethodList();
+        $reportingMethodTypes = $this->getReportingMethodService()->getReportingMethodList();
 
         foreach ($reportingMethodTypes as $reportingMethodType) {
-            $list[$reportingMethodType->reportingMethodId] = $reportingMethodType->reportingMethodName;
+            $list[$reportingMethodType->id] = $reportingMethodType->name;
         }
         $list[-1] = __('Other');
         return $list;
@@ -160,9 +175,9 @@ class EmployeeReportToForm extends BaseForm {
         if ($reportingMethod != null) {
 
             $newReportingMethod = new ReportingMethod();
-            $newReportingMethod->reportingMethodName = $reportingMethod;
-            $savedReportingMethod = $this->getEmployeeService()->saveReportingMethod($newReportingMethod);
-            $reportingType = $savedReportingMethod->reportingMethodId;
+            $newReportingMethod->name = $reportingMethod;
+            $savedReportingMethod = $this->getReportingMethodService()->saveReportingMethod($newReportingMethod);
+            $reportingType = $savedReportingMethod->id;
         }
 
         if ($supOrSub == ReportTo::SUPERVISOR) {

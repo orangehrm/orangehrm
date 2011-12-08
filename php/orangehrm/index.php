@@ -421,11 +421,12 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
     $subs = array();
     if ($_SESSION['isAdmin'] == 'Yes') {
 
-        $sub = new MenuItem("configure", "Configure", "#");
+        $sub = new MenuItem("configure", "Configuration", "#");
         $subsubs = array();
         $subsubs[] = new MenuItem("pimconfig", "Optional Fields", "./symfony/web/index.php/pim/configurePim", "rightMenu");
         $subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields, "./symfony/web/index.php/pim/listCustomFields");
         $subsubs[] = new MenuItem("customfields", "Data Import", "./symfony/web/index.php/admin/pimCsvImport");
+        $subsubs[] = new MenuItem("customfields", "Reporting Methods", "./symfony/web/index.php/pim/viewReportingMethods");
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
     }

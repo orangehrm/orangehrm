@@ -240,9 +240,9 @@ create table `hs_hr_emp_reportto` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_emp_reporting_method` (
-  `reporting_method_id` int(7) not null ,
+  `reporting_method_id` int(7) not null auto_increment,
   `reporting_method_name` varchar(100) not null,
-  primary key  (`reporting_method_id`,`reporting_method_name`)
+  primary key  (`reporting_method_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_work_experience` (

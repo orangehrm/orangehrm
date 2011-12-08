@@ -65,6 +65,6 @@ abstract class BaseReportTo extends sfDoctrineRecord
 
         $this->hasOne('ReportingMethod', array(
              'local' => 'reportingMethodId',
-             'foreign' => 'reportingMethodId'));
+             'foreign' => 'id'));
     }
 }
