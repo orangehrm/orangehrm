@@ -104,6 +104,7 @@ class viewSystemUsersAction extends sfAction {
 
         $configurationFactory->setRuntimeDefinitions(array(
             'hasSelectableRows' => true,
+            'unselectableRowIds' => array( $this->getUser()->getAttribute('user')->getUserId()),
         ));
 
         ohrmListComponent::setPageNumber($pageNumber);
