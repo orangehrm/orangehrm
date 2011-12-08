@@ -1156,6 +1156,14 @@
                 <source>Maximum character limit for terminated note is 255</source>
                 <target>FR_Maximum character limit for terminated note is 255</target>
             </trans-unit>
+            <trans-unit id="292">
+                <source>Institute</source>
+                <target>FR_Institute</target>
+            </trans-unit>   
+            <trans-unit id="293">
+                <source>Institute cannot exceed 100 characters in length</source>
+                <target>FR_Institute cannot exceed 100 characters in length</target>
+            </trans-unit>             
         </body>
     </file>
 </xliff>

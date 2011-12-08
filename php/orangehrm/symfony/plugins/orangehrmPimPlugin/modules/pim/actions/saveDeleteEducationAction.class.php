@@ -81,6 +81,7 @@ class saveDeleteEducationAction extends basePimAction {
 
         $education->empNumber = $post['emp_number'];
         $education->educationId = $post['code'];
+        $education->institute = $post['institute'];
         $education->major = $post['major'];
         $education->year = $post['year'];
         $education->score = $post['gpa'];

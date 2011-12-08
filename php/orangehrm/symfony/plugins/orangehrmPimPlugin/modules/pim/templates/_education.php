@@ -27,11 +27,15 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form['emp_number']->render(); ?>
 
-            <?php echo $form['code']->renderLabel(__('Program') . ' <span class="required">*</span>'); ?>
+            <?php echo $form['code']->renderLabel(__('Level') . ' <span class="required">*</span>'); ?>
             <?php echo $form['code']->render(array("class" => "formSelect")); ?>
             <span id="static_education_code" style="display:none;"></span>
             <br class="clear"/>
 
+            <?php echo $form['institute']->renderLabel(__('Institute')); ?>
+            <?php echo $form['institute']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
+            <br class="clear"/>            
+            
             <?php echo $form['major']->renderLabel(__('Major/Specialization')); ?>
             <?php echo $form['major']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
             <br class="clear"/>
@@ -88,6 +92,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                         <tr class="<?php echo $cssClass; ?>">
                             <td class="check"><input type="hidden" id="code_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->educationId); ?>" />
                                 <input type="hidden" id="code_desc_<?php echo $education->educationId; ?>" value="<?php echo $eduDesc; ?>" />
+                                <input type="hidden" id="institute_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->institute); ?>" />
                                 <input type="hidden" id="major_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->major); ?>" />
                                 <input type="hidden" id="year_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->year); ?>" />
                                 <input type="hidden" id="gpa_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->score); ?>" />
@@ -125,6 +130,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
     var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
     var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after the start date'); ?>";
     var lang_selectEducationToDelete = "<?php echo __('Please Select At Least One Education Item To Delete'); ?>";
+    var lang_instituteMaxLength = "<?php echo __('Institute cannot exceed 100 characters in length'); ?>";
     var lang_majorMaxLength = "<?php echo __('Major cannot exceed 100 characters in length'); ?>";
     var lang_gpaMaxLength = "<?php echo __('GPA/Score cannot exceed 25 characters in length'); ?>";
     var lang_yearShouldBeNumber = "<?php echo __('Year should be a number'); ?>";
@@ -182,6 +188,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $('#static_education_code').hide().val("");
             $("#education_code").show().val("");
             $("#education_code option[class='added']").remove();
+            $("#education_institute").val("");
             $("#education_major").val("");
             $("#education_year").val("");
             $("#education_gpa").val("");
@@ -217,6 +224,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $("#frmEducation").validate({
             rules: {
                 'education[code]': {required: true},
+                'education[institute]': {required: false, maxlength: 100},
                 'education[major]': {required: false, maxlength: 100},
                 'education[year]': {required: false, digits: true},
                 'education[gpa]': {required: false, maxlength: 25},
@@ -225,6 +233,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             },
             messages: {
                 'education[code]': {required: lang_educationRequired},
+                'education[institute]': {maxlength: lang_instituteMaxLength},
                 'education[major]': {maxlength: lang_majorMaxLength},
                 'education[year]': {digits: lang_yearShouldBeNumber},
                 'education[gpa]': {maxlength: lang_gpaMaxLength},
@@ -305,6 +314,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 
             $('#education_code').val(code);
 
+            $("#education_institute").val($("#institute_" + code).val());
             $("#education_major").val($("#major_" + code).val());
             $("#education_year").val($("#year_" + code).val());
             $("#education_gpa").val($("#gpa_" + code).val());

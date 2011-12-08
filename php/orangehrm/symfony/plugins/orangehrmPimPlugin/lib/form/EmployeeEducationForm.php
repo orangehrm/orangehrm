@@ -55,6 +55,7 @@ class EmployeeEducationForm extends sfForm {
         $this->widgets = array(
             'emp_number' => new sfWidgetFormInputHidden(),
             'code' => new sfWidgetFormSelect(array('choices' => $this->_getEducationList())),
+            'institute' => new sfWidgetFormInputText(),
             'major' => new sfWidgetFormInputText(),
             'year' => new sfWidgetFormInputText(),
             'gpa' => new sfWidgetFormInputText(),
@@ -70,6 +71,8 @@ class EmployeeEducationForm extends sfForm {
         $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
         $this->setValidator('code', new sfValidatorString(array('required' => true,
             'max_length' => 13)));
+        $this->setValidator('institute', new sfValidatorString(array('required' => false,
+            'max_length' => 100)));
         $this->setValidator('major', new sfValidatorString(array('required' => false,
             'max_length' => 100)));
         $this->setValidator('year', new sfValidatorNumber(array('required' => false, 'max'=>9999, 'min'=>0)));

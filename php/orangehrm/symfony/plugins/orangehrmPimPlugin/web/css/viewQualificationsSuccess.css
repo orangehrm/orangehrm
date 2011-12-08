@@ -81,7 +81,7 @@ select#education_code {
     width: 320px;
 }
 
-input#education_major {
+input#education_major, input#education_institute {
     width: 310px;
 }
 
