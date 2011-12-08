@@ -183,6 +183,23 @@ class SystemUserDao extends BaseDao {
 
         return $query;
     }
+    
+    public function getAdminUserCount($enabledOnly=true, $undeletedOnly=true) {
+        
+        $q = Doctrine_Query::create()->from('SystemUser')
+                                     ->where('user_role_id = ?', SystemUser::ADMIN_USER_ROLE_ID);
+        
+        if ($enabledOnly) {
+            $q->addWhere('status = ?', SystemUser::ENABLED);
+        }
+        
+        if ($undeletedOnly) {
+            $q->addWhere('deleted = ?', SystemUser::UNDELETED);
+        }
+        
+        return $q->count();
+        
+    }
 
 }
 

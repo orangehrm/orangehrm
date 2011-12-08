@@ -91,11 +91,11 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
         
         public function testGetSystemUsers(){
             $result = $this->systemUserDao->getSystemUsers(  );
-            $this->assertEquals(2, count(  $result));
+            $this->assertEquals(3, count(  $result));
         }
         
         public function testDeleteSystemUsers(){
-            $this->systemUserDao->deleteSystemUsers( array(1,2));
+            $this->systemUserDao->deleteSystemUsers( array(1,2,3));
             $result = $this->systemUserDao->getSystemUsers(  );
             $this->assertEquals(0, count(  $result));
         }
@@ -105,6 +105,15 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($result[0]->getName(),'Admin');
             $this->assertEquals($result[1]->getName(),'ESS');
             $this->assertEquals(2, count(  $result));
+        }
+        
+        public function testGetAdminUserCount() {
+            
+            $this->assertEquals(1, $this->systemUserDao->getAdminUserCount());
+            $this->assertEquals(2, $this->systemUserDao->getAdminUserCount(false));
+            $this->assertEquals(2, $this->systemUserDao->getAdminUserCount(true, false));
+            $this->assertEquals(3, $this->systemUserDao->getAdminUserCount(false, false));
+            
         }
 }
 ?>

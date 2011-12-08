@@ -13,3 +13,5 @@ UserRole:
 SystemUser:
   0: {id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha'}
   1: {id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika'}
+  2: {id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0}
+  3: {id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1}
