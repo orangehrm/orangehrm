@@ -34,7 +34,6 @@ abstract class BaseReportingMethod extends sfDoctrineRecord
              ));
         $this->hasColumn('reporting_method_name as name', 'string', 100, array(
              'type' => 'string',
-             'primary' => true,
              'length' => 100,
              ));
     }

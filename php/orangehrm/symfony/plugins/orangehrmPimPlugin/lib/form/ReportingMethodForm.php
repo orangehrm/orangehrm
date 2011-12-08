@@ -45,7 +45,7 @@ class ReportingMethodForm extends BaseForm {
 
         $this->setValidators(array(
             'id' => new sfValidatorNumber(array('required' => false)),
-            'name' => new sfValidatorString(array('required' => true, 'max_length' => 120))
+            'name' => new sfValidatorString(array('required' => true, 'max_length' => 100))
         ));
 
         $this->widgetSchema->setNameFormat('reportingMethod[%s]');

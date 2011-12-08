@@ -1163,7 +1163,31 @@
             <trans-unit id="293">
                 <source>Institute cannot exceed 100 characters in length</source>
                 <target>FR_Institute cannot exceed 100 characters in length</target>
-            </trans-unit>             
+            </trans-unit>
+            <trans-unit id="294">
+                <source>Reporting Methods</source>
+                <target>FR_Reporting Methods</target>
+            </trans-unit>
+            <trans-unit id="295">
+                <source>Add Reporting Method</source>
+                <target>FR_Add Reporting Method</target>
+            </trans-unit>
+            <trans-unit id="296">
+                <source>Edit Reporting Method</source>
+                <target>FR_Edit Reporting Method</target>
+            </trans-unit>
+            <trans-unit id="297">
+                <source>Reporting Method Saved Successfully</source>
+                <target>FR_Reporting Method Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="298">
+                <source>Reporting Method Updated Successfully</source>
+                <target>FR_Reporting Method Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="299">
+                <source>Reporting Method(s) Deleted Successfully</source>
+                <target>FR_Reporting Method(s) Deleted Successfully</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -614,15 +614,12 @@ ReportTo:
 ReportingMethod:
   tableName: ohrm_emp_reporting_method
   columns:
-    rep_mode_id:
-      name: reporting_method_id as id
+    reporting_method_id as id:
       type: integer(4)
       primary: true
       autoincrement: true
-    rep_mode_name:
-      name: reporting_method_name as name
+    reporting_method_name as name:
       type: string(100)
-      primary: true
   relations:
     ReportTo:
       local: id

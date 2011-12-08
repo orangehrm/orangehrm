@@ -19,7 +19,7 @@ function validateData() {
     $("#frmSave").validate({
         
         rules: {
-            'language[name]' : {
+            'reportingMethod[name]' : {
                 required:true,
                 maxlength: 120
                 /*remote: {
@@ -29,7 +29,7 @@ function validateData() {
 
         },
         messages: {
-            'language[name]' : {
+            'reportingMethod[name]' : {
                 required: lang_nameIsRequired
                 /*remote: lang_nameExists*/
             }
