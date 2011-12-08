@@ -216,6 +216,31 @@ $(document).ready(function() {
         return isValid;
     });
     
+    $.validator.addMethod("twoDecimalsMin", function(value, element, params) {
+        
+        var isValid = false;
+        var minSal = $('#payGradeCurrency_minSalary').val();
+        var match = minSal.match(/^\d{1,3}(\.\d{0,2})?$/);
+        if(match) {
+            isValid = true;
+        }
+        return isValid;
+    });
+    
+    $.validator.addMethod("twoDecimalsMax", function(value, element, params) {
+        
+        var isValid = false;
+        var maxSal = $('#payGradeCurrency_maxSalary').val();
+        var match = maxSal.match(/^\d{1,3}(\.\d{0,2})?$/);
+        if(match) {
+            isValid = true;
+        }
+        if (maxSal == ""){
+            isValid = true;
+        }
+        return isValid;
+    });
+    
     $.validator.addMethod("uniqueName", function(value, element, params) {
         var temp = true;
         var currentName;
@@ -255,12 +280,12 @@ $(document).ready(function() {
                 uniqueName: true
             },
             'payGradeCurrency[minSalary]' : {
-                number: true,
+                twoDecimalsMin: true,
                 min: 0,
                 max:999999999.99
             },
             'payGradeCurrency[maxSalary]' : {
-                number:true,
+                twoDecimalsMax:true,
                 min: 0,
                 max:999999999.99,
                 validSalaryRange: true
@@ -274,12 +299,12 @@ $(document).ready(function() {
                 uniqueName: lang_currencyAlreadyExist
             },
             'payGradeCurrency[minSalary]' : {
-                number: lang_salaryShouldBeNumeric,
+                twoDecimalsMin: lang_salaryShouldBeNumeric,
                 min: lang_negativeAmount,
                 max:lang_tooLargeAmount
             },
             'payGradeCurrency[maxSalary]' : {
-                number: lang_salaryShouldBeNumeric,
+                twoDecimalsMax: lang_salaryShouldBeNumeric,
                 min: lang_negativeAmount,
                 max:lang_tooLargeAmount,
                 validSalaryRange: lang_validSalaryRange

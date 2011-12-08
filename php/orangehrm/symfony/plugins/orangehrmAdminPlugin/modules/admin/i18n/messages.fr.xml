@@ -984,6 +984,10 @@
                 <source>Selected system user(s) will be deleted</source>
                 <target>FR_Selected system user(s) will be deleted</target>
             </trans-unit>
+            <trans-unit id="245">
+                <source>Salary should be a number with two decimals. No spaces are allowed</source>
+                <target>FR_Salary should be a number with two decimals. No spaces are allowed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

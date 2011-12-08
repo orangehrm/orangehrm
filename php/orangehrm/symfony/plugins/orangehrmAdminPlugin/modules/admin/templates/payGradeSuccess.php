@@ -145,7 +145,7 @@
                            var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
                            var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
                            var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
-                           var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be a number. No spaces are allowed"); ?>";
+                           var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be a number with two decimals. No spaces are allowed"); ?>";
                            var lang_validCurrency = "<?php echo __("Enter a valid currency"); ?>";
                            var lang_currencyAlreadyExist = "<?php echo __("Currency already exists"); ?>";
                            var lang_validSalaryRange  = "<?php echo __("Invalid salary range"); ?>";

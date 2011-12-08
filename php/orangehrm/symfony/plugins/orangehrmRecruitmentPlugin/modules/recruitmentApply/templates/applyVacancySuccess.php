@@ -32,10 +32,9 @@
     <?php $resumeWidth = 38; ?>
 <?php endif; ?>
 
-<?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
-
+<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+	<span><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 <div id="addCandidate">
     <div class="outerbox" style="width:800px">

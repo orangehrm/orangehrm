@@ -115,12 +115,12 @@ span.attach{
 	padding-left: 140px;
 }
 div.messageBalloon_success {
-	width: 670px;
+	width: 740px;
 	text-align: left;
 }
 div.messageBalloon_warning {
-	width: 7000px;
-	text-align: center;
+	width: 740px;
+	text-align: left;
 }
 #backLink{
 	color: #363636;

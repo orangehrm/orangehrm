@@ -68,8 +68,8 @@ class PayGradeCurrencyForm extends BaseForm {
 		
 		$currency->setPayGradeId($this->payGradeId);
 		$currency->setCurrencyId($temp[0]);
-		$currency->setMinSalary($this->getValue('minSalary'));
-		$currency->setMaxSalary($this->getValue('maxSalary'));
+		$currency->setMinSalary(sprintf("%01.2f", $this->getValue('minSalary')));
+		$currency->setMaxSalary(sprintf("%01.2f", $this->getValue('maxSalary')));
 		$currency->save();
 		return $this->payGradeId;
 	}
