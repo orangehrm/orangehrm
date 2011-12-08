@@ -99,7 +99,6 @@ class viewSystemUsersAction extends sfAction {
                 $this->form->bind($request->getParameter($this->form->getName()));
                 
                 if ($this->form->isValid()) {		
-                    print('test');
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 
                     $this->getUser()->setAttribute('searchClues', $searchClues);
