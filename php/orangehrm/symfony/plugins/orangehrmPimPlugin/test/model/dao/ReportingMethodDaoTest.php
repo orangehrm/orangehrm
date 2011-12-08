@@ -32,35 +32,35 @@ class ReportingMethodDaoTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 
 		$this->reportingMethodDao = new ReportingMethodDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/ReportingMethodDao.yml';
+		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/ReportingMethodDao.yml';
 		TestDataService::populate($this->fixture);
 	}
 
     public function testAddReportingMethod() {
         
         $reportingMethod = new ReportingMethod();
-        $reportingMethod->setName('Tamil');
+        $reportingMethod->setName('Finance');
         
         $this->reportingMethodDao->saveReportingMethod($reportingMethod);
         
         $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'id');
         
         $this->assertTrue($savedReportingMethod instanceof ReportingMethod);
-        $this->assertEquals('Tamil', $savedReportingMethod->getName());
+        $this->assertEquals('Finance', $savedReportingMethod->getName());
         
     }
     
     public function testEditReportingMethod() {
         
         $reportingMethod = TestDataService::fetchObject('ReportingMethod', 3);
-        $reportingMethod->setName('Canadian French');
+        $reportingMethod->setName('Finance HR');
         
         $this->reportingMethodDao->saveReportingMethod($reportingMethod);
         
         $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'id');
         
         $this->assertTrue($savedReportingMethod instanceof ReportingMethod);
-        $this->assertEquals('Canadian French', $savedReportingMethod->getName());
+        $this->assertEquals('Finance HR', $savedReportingMethod->getName());
         
     }
     
@@ -69,7 +69,7 @@ class ReportingMethodDaoTest extends PHPUnit_Framework_TestCase {
         $reportingMethod = $this->reportingMethodDao->getReportingMethodById(1);
         
         $this->assertTrue($reportingMethod instanceof ReportingMethod);
-        $this->assertEquals('Spanish', $reportingMethod->getName());
+        $this->assertEquals('Indirect', $reportingMethod->getName());
         
     }
     
@@ -84,8 +84,8 @@ class ReportingMethodDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, count($reportingMethodList));        
         
         /* Checking record order */
-        $this->assertEquals('English', $reportingMethodList[0]->getName());
-        $this->assertEquals('Spanish', $reportingMethodList[2]->getName());
+        $this->assertEquals('Direct', $reportingMethodList[0]->getName());
+        $this->assertEquals('Indirect', $reportingMethodList[2]->getName());
         
     }
     
@@ -108,10 +108,10 @@ class ReportingMethodDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testIsExistingReportingMethodName() {
         
-        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('Spanish'));
-        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('SPANISH'));
-        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('spanish'));
-        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('  Spanish  '));
+        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('Indirect'));
+        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('INDIRECT'));
+        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('indirect'));
+        $this->assertTrue($this->reportingMethodDao->isExistingReportingMethodName('  Indirect  '));
         
     }
     

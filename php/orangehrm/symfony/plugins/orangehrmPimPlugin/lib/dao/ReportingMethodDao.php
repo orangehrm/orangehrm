@@ -74,8 +74,8 @@ class ReportingMethodDao extends BaseDao {
         
         try {
             
-            $q = Doctrine_Query:: create()->from('ReportingMethod l')
-                            ->where('l.name = ?', trim($reportingMethodName));
+            $q = Doctrine_Query:: create()->from('ReportingMethod rm')
+                            ->where('rm.name = ?', trim($reportingMethodName));
 
             if ($q->count() > 0) {
                 return true;
