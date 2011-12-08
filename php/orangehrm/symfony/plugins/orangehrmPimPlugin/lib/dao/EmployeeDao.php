@@ -1374,16 +1374,20 @@ class EmployeeDao extends BaseDao {
     public function isAdmin($userId) {
         try {
             $q = Doctrine_Query :: create()
-                            ->from('users')
+                            ->from('SystemUser')
                             ->where('id = ?', $userId)
-                            ->andWhere('is_admin =?', "Yes");
+                            ->andWhere('deleted = ?', SystemUser::UNDELETED)
+                            ->andWhere('status = ?', SystemUser::ENABLED)
+                            ->andWhere('user_role_id = ?', SystemUser::ADMIN_USER_ROLE_ID);
 
-            $results = $q->execute();
-            if ($results[0]->getId() == null) {
-                return false;
+            $result = $q->fetchOne();
+            
+            if ($result instanceof SystemUser) {
+                return true;
             }
-
-            return true;
+            
+            return false;
+            
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
