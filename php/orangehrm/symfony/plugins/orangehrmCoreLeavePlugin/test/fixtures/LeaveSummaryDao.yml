@@ -40,7 +40,7 @@ EmpLocations:
   2: {empNumber: 5, locationId: 2}
 
 ReportingMethod:
-  0: {reportingMethodId: '1', reportingMethodName: 'reportingMethodName1'}
+  0: {id: '1', name: 'reportingMethodName1'}
 
 ReportTo:
   0: {supervisorId: 1, subordinateId: 2, reportingMethodId: 1}
