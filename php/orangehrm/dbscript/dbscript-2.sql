@@ -1037,7 +1037,7 @@ INSERT INTO `ohrm_subunit` VALUES (1, 'Organization', '', '', 1, 2, 0);
 
 INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'),
 (2, 'Retired'),
-(3, 'Contract'),
+(3, 'Contract Not Renewed'),
 (4, 'Resigned - Company Requested'),
 (5, 'Resigned - Self Proposed'),
 (6, 'Resigned'),

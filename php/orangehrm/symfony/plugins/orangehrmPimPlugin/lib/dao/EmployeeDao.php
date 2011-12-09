@@ -1353,15 +1353,6 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-    public function getTerminationResonList() {
-        try {
-            $q = Doctrine_Query :: create()->from('EmpTerminationReason');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
     public function terminateEmployment($empNumber, $empTerminationId) {
 
         try {

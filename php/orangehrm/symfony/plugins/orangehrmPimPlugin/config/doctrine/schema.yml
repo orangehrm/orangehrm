@@ -656,14 +656,14 @@ EmpTermination:
       foreign: termination_id
       type: one
 
-EmpTerminationReason:
+TerminationReason:
   tableName: ohrm_emp_termination_reason
   columns:
     id:
       type: integer(4)
       primary: true
       autoincrement: true
-    description: string(225)
+    name: string(100)
   relations:
     EmpTermination:
       local: id

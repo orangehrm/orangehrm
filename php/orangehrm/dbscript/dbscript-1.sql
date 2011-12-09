@@ -1090,7 +1090,7 @@ create table `ohrm_emp_termination`(
 
 create table `ohrm_emp_termination_reason`(
 	`id` int(4) not null auto_increment,
-        `description` varchar(255) default null,
+    `name` varchar(100) default null,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 

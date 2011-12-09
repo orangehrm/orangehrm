@@ -8,8 +8,8 @@ Subunit:
 EmploymentStatus:
   0: {id: 1, name: 'Full Time'}
 
-EmpTerminationReason:
-  0: {id: 1, description: 'Resign'}
+TerminationReason:
+  0: {id: 1, name: 'Resign'}
 
 EmpTermination:
   0: {id: 1, reasonId: 1, date: '2011-11-20'}

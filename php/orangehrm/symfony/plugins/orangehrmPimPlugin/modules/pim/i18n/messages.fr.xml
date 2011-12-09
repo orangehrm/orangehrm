@@ -1192,6 +1192,34 @@
                 <source>Reporting Method Name Exists</source>
                 <target>FR_Reporting Method Name Exists</target>
             </trans-unit>            
+            <trans-unit id="301">
+                <source>Termination Reasons</source>
+                <target>FR_Termination Reasons</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>Add Termination Reason</source>
+                <target>FR_Add Termination Reason</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>Edit Termination Reason</source>
+                <target>FR_Edit Termination Reason</target>
+            </trans-unit>
+            <trans-unit id="304">
+                <source>Termination Reason Saved Successfully</source>
+                <target>FR_Termination Reason Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="305">
+                <source>Termination Reason Updated Successfully</source>
+                <target>FR_Termination Reason Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="306">
+                <source>Termination Reason(s) Deleted Successfully</source>
+                <target>FR_Termination Reason(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="307">
+                <source>Termination Reason Name Exists</source>
+                <target>FR_Termination Reason Name Exists</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

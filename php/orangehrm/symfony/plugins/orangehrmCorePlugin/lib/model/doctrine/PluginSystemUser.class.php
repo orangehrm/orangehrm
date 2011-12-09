@@ -19,6 +19,9 @@ abstract class PluginSystemUser extends BaseSystemUser
     const DISABLED = 0;
     const DELETED = 1;
     const UNDELETED = 0;
+    const USER_TYPE_ADMIN = "Admin"; // TODO: Check the needness when new user roles are implemented
+    const USER_TYPE_EMPLOYEE = "Employee"; // TODO: Check the needness when new user roles are implemented
+    const USER_TYPE_SUPERVISOR = "Supervisor"; // TODO: Check the needness when new user roles are implemented   
     
     /**
      * Get text status according system user status

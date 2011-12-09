@@ -1,0 +1,57 @@
+.outerbox {
+    width: 500px;
+}
+
+#saveFormDiv {
+    margin-bottom: 20px;
+} 
+
+/* Form CSS */
+
+label{
+    margin-top: 10px;
+    width: 100px;
+}
+.errorHolder{
+    width: 250px;
+}
+label.error {
+    width:300px !important;
+    padding-left: 120px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+input.formInputText, textarea.formInputText{
+    width: 300px;
+    margin-top: 10px;
+}
+
+/* Table CSS */
+
+td.check {
+    width: 30px;
+}
+
+tbody td {
+    vertical-align: top;
+}
+
+
+thead td, table.data-table tbody tr td {
+    padding-left: 10px;
+}
+
+
+/* Message bar CSS */
+#messageBalloon_success, #messageBalloon_warning {
+    width: 440px;
+}
+
+div#listActions.actionbar div.actionbuttons{
+    padding: 6px;
+}

@@ -10,23 +10,23 @@
  * @property integer $reasonId
  * @property date $date
  * @property string $note
- * @property EmpTerminationReason $EmpTerminationReason
  * @property Employee $Employee
+ * @property Doctrine_Collection $TerminationReason
  * 
- * @method integer              getId()                   Returns the current record's "id" value
- * @method integer              getEmpNumber()            Returns the current record's "empNumber" value
- * @method integer              getReasonId()             Returns the current record's "reasonId" value
- * @method date                 getDate()                 Returns the current record's "date" value
- * @method string               getNote()                 Returns the current record's "note" value
- * @method EmpTerminationReason getEmpTerminationReason() Returns the current record's "EmpTerminationReason" value
- * @method Employee             getEmployee()             Returns the current record's "Employee" value
- * @method EmpTermination       setId()                   Sets the current record's "id" value
- * @method EmpTermination       setEmpNumber()            Sets the current record's "empNumber" value
- * @method EmpTermination       setReasonId()             Sets the current record's "reasonId" value
- * @method EmpTermination       setDate()                 Sets the current record's "date" value
- * @method EmpTermination       setNote()                 Sets the current record's "note" value
- * @method EmpTermination       setEmpTerminationReason() Sets the current record's "EmpTerminationReason" value
- * @method EmpTermination       setEmployee()             Sets the current record's "Employee" value
+ * @method integer             getId()                Returns the current record's "id" value
+ * @method integer             getEmpNumber()         Returns the current record's "empNumber" value
+ * @method integer             getReasonId()          Returns the current record's "reasonId" value
+ * @method date                getDate()              Returns the current record's "date" value
+ * @method string              getNote()              Returns the current record's "note" value
+ * @method Employee            getEmployee()          Returns the current record's "Employee" value
+ * @method Doctrine_Collection getTerminationReason() Returns the current record's "TerminationReason" collection
+ * @method EmpTermination      setId()                Sets the current record's "id" value
+ * @method EmpTermination      setEmpNumber()         Sets the current record's "empNumber" value
+ * @method EmpTermination      setReasonId()          Sets the current record's "reasonId" value
+ * @method EmpTermination      setDate()              Sets the current record's "date" value
+ * @method EmpTermination      setNote()              Sets the current record's "note" value
+ * @method EmpTermination      setEmployee()          Sets the current record's "Employee" value
+ * @method EmpTermination      setTerminationReason() Sets the current record's "TerminationReason" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -65,12 +65,12 @@ abstract class BaseEmpTermination extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('EmpTerminationReason', array(
-             'local' => 'reasonId',
-             'foreign' => 'id'));
-
         $this->hasOne('Employee', array(
              'local' => 'id',
              'foreign' => 'termination_id'));
+
+        $this->hasMany('TerminationReason', array(
+             'local' => 'reasonId',
+             'foreign' => 'id'));
     }
 }
