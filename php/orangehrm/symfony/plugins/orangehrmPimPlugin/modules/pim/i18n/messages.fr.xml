@@ -1188,6 +1188,10 @@
                 <source>Reporting Method(s) Deleted Successfully</source>
                 <target>FR_Reporting Method(s) Deleted Successfully</target>
             </trans-unit>
+            <trans-unit id="300">
+                <source>Reporting Method Name Exists</source>
+                <target>FR_Reporting Method Name Exists</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

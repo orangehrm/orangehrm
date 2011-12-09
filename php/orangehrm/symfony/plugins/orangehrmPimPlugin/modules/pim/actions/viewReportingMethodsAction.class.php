@@ -79,7 +79,7 @@ class viewReportingMethodsAction extends sfAction {
         $id = $this->form->getValue('id');
 
         if (empty($id) && $this->getReportingMethodService()->isExistingReportingMethodName($this->form->getValue('name'))) {
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('ReportingMethod Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Reporting Method Name Exists')));
             $this->redirect('pim/viewReportingMethods');
         }
 
