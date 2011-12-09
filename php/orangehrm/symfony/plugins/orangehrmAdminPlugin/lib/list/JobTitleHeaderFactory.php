@@ -16,7 +16,7 @@ class JobTitleHeaderFactory extends ohrmListConfigurationFactory {
 		    'elementProperty' => array(
 			'labelGetter' => 'getJobTitleName',
 			'placeholderGetters' => array('id' => 'getId'),
-			'urlPattern' => 'saveJobTitle?jobTitleId={id}'),
+			'urlPattern' => 'index.php/admin/saveJobTitle?jobTitleId={id}'),
 		));
 
 		$header2->populateFromArray(array(
