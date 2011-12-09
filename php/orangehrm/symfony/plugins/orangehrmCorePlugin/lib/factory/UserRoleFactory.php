@@ -32,9 +32,7 @@ class UserRoleFactory {
         if ($this->userEmployeeId == null) {
             $userRoleArray['isSupervisor'] = false;
         } else {
-//            if (!$this->isAdmin($userId)) {
             $userRoleArray['isSupervisor'] = $this->isSupervisorRoleRelatedToEmployee($userId, $employeeId);
-//            }
         }
 
         $userRoleArray['isAdmin'] = $this->isAdmin($userId);

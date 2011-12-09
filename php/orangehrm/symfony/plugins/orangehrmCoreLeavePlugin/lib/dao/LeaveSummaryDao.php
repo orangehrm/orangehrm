@@ -26,7 +26,7 @@ class LeaveSummaryDao extends BaseDao {
     }
 
     public function fetchRawLeaveSummaryRecords($clues, $offset=0, $limit=20, $includeTerminated = false) {
-        
+
         $q = "SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
               b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag, a.emp_status As empStatus FROM
