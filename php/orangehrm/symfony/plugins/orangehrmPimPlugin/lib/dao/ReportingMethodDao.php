@@ -88,5 +88,5 @@ class ReportingMethodDao extends BaseDao {
         }       
         
     }
-
-}
+    
+    }

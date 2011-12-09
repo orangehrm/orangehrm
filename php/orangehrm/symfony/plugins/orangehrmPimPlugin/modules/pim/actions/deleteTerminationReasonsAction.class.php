@@ -41,6 +41,8 @@ class deleteTerminationReasonsAction extends sfAction {
         
         $toDeleteIds = $request->getParameter('chkListRecord');
         
+        $this->_checkReasonsInUse($toDeleteIds);
+        
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
             
             $result = $this->getTerminationReasonService()->deleteTerminationReasons($toDeleteIds);
@@ -63,5 +65,18 @@ class deleteTerminationReasonsAction extends sfAction {
 		}
         
     }  
+    
+    protected function _checkReasonsInUse($toDeleteIds) {
+        
+        if (!empty($toDeleteIds)) {
+            
+            if ($this->getTerminationReasonService()->isReasonInUse($toDeleteIds)) {
+                $this->getUser()->setFlash('templateMessage', array('WARNING', __('Termination Reason(s) in Use')));
+                $this->redirect('pim/viewTerminationReasons');
+            }
+            
+        }
+        
+    }
     
 }

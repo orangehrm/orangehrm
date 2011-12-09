@@ -88,5 +88,22 @@ class TerminationReasonDao extends BaseDao {
         }       
         
     }
+    
+    public function isReasonInUse($idArray) {
+        
+        $q = Doctrine_Query::create()->from('Employee em')
+                                     ->leftJoin('em.EmpTermination et')
+                                     ->leftJoin('et.TerminationReason tr')
+                                     ->whereIn('tr.id', $idArray);        
+        
+        $result = $q->fetchOne();
+        
+        if ($result instanceof Employee) {
+            return true;
+        }
+        
+        return false;
+        
+    }
 
 }

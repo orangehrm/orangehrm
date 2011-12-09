@@ -1220,6 +1220,10 @@
                 <source>Termination Reason Name Exists</source>
                 <target>FR_Termination Reason Name Exists</target>
             </trans-unit>            
+            <trans-unit id="308">
+                <source>Termination Reason(s) in Use</source>
+                <target>FR_Termination Reason(s) in Use</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

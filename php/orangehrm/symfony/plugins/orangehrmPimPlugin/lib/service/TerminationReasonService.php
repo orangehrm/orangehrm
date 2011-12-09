@@ -98,4 +98,14 @@ class TerminationReasonService extends BaseService {
         return $this->getTerminationReasonDao()->isExistingTerminationReasonName($terminationReasonName);
     }
     
+    /**
+     * Checks whether the given IDs have been assigned to any employee
+     * 
+     * @param array $idArray Reason IDs
+     * @return boolean 
+     */
+    public function isReasonInUse($idArray) {
+        return $this->getTerminationReasonDao()->isReasonInUse($idArray);
+    }
+    
 }
