@@ -52,7 +52,7 @@ class EmployeeReportToForm extends BaseForm {
     public function getReportingMethodService() {
 
         if (is_null($this->reportingMethodService)) {
-            $this->reportingMethodService = new EmployeeService();
+            $this->reportingMethodService = new ReportingMethodService();
         }
         
         return $this->reportingMethodService;
