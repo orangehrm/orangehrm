@@ -456,38 +456,10 @@
 
                                       // don't check if not selected
                                       if (jobTitle == '0' || jobTitle == '') {
-                                      $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
                                       $("#viewDetailsLink").hide();
                                       $('a#viewDetailsLink').text(lang_View_Details);
                                       return;
                                       }
-
-                                      // Note: it be more efficient if these 2 ajax calls were combined.
-                                      var empStatusUrl = '<?php echo url_for('admin/getEmpStatusesJson?job='); ?>' + jobTitle;
-
-                                      $.getJSON(empStatusUrl, function(data) {
-
-                                      $("#job_emp_status").html("<option value=''>-- <?php echo __("Select") ?> --</option>");
-                                      if (data) {
-                                      var statusCount = data.length;
-                                      var cmbJobTitle = $('#job_job_title').get(0);
-                                      var jobTitle = cmbJobTitle.options[cmbJobTitle.selectedIndex].value;
-
-                                      for (var i = 0; i < statusCount; i++) {
-                                      var status = data[i];
-                                      var selected = '';
-
-                                      // This restores current employee status
-                                      if ((jobTitle == '<?php echo $form->getValue('job_title'); ?>') &&
-                                      (status.id == '<?php echo $form->getValue('emp_status'); ?>') ) {
-selected = "selected='selected'";
-}
-
-$("#job_emp_status").append("<option value='" + status.id + "' " + selected + ">" + status.name + "</option>");
-}
-}
-
-})
 
 });
 
