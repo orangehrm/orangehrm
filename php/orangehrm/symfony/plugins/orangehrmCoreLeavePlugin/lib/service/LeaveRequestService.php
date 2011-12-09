@@ -536,7 +536,7 @@ class LeaveRequestService extends BaseService {
                     $cancellations = $this->searchLeave($leaveRequestId);
                     $this->_cancelLeave($cancellations, $changedByUserType);
                     
-                    if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
+                    if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
                         $leaveNotificationService->cancelEmployee($cancellations, $changedByUserType, $changedUserId, 'request');
                     } else {
                         $leaveNotificationService->cancel($cancellations, $changedByUserType, $changedUserId, 'request');
@@ -573,7 +573,7 @@ class LeaveRequestService extends BaseService {
 
                 foreach ($cancellations as $cancellation) {
 
-                    if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
+                    if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
                         $leaveNotificationService->cancelEmployee(array($cancellation), $changedByUserType, $changedUserId, 'single');
                     } else {
                         $leaveNotificationService->cancel(array($cancellation), $changedByUserType, $changedUserId, 'single');
