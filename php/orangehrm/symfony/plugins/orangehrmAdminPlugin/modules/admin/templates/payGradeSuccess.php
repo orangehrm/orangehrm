@@ -112,8 +112,8 @@
                                        <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]'
                                                                 value="<?php echo $currency->currency_id; ?>"/></td>
                                        <td><a href="#" class="editLink"><?php echo $currency->getCurrencyType()->getCurrencyName(); ?></a></td>
-                                       <td class="salary"><?php echo $currency->minSalary; ?></td>
-                                       <td class="salary"><?php echo $currency->maxSalary; ?></td>
+                                       <td class="salary"><?php echo number_format($currency->minSalary, 2, '.', ','); ?></td>
+                                       <td class="salary"><?php echo number_format($currency->maxSalary, 2, '.', ','); ?></td>
                                    </tr>
 <?php
                                    $row++;
@@ -154,6 +154,7 @@
                            var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
                            var lang_uniquePayGradeName  = "<?php echo __("Name is already exist"); ?>";
                            var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
+                           var getCurrencyDetailsUrl = "<?php echo url_for("admin/getCurrencyDetailsJson"); ?>";
                            var lang_typeHint = "<?php echo __("Type for hints") . "..."; ?>";
                            var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
                            var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";

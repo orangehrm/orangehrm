@@ -85,20 +85,16 @@ $(document).ready(function() {
         validatorCurr.resetForm();
         var row = $(this).closest("tr");
         var curId = row.find('input.checkboxCurr:first').val();
+        var url = getCurrencyDetailsUrl+"?curId="+curId+"&payGradeId="+payGradeId;
         var curName = row.find('a.editLink').text();
-        var minSal = row.find("td:nth-child(3)").text();
-        var maxSal = row.find("td:nth-child(4)").text();
-
-        $('#payGradeCurrency_currencyId').val(curId);
-        $('#payGradeCurrency_currencyName').val(curId+" - "+curName);
-        $('#payGradeCurrency_minSalary').val(minSal);
-        $('#payGradeCurrency_maxSalary').val(maxSal);
+        getCurrencyDetails(url, curName);
         $('#currencyHeading').text(lang_editCurrency);
         
         $('#addPaneCurrency').show();
         $('#actionButtons').show();
         $('.checkboxCurr').hide();
         $('#addDeleteBtnDiv').hide();
+       
     });
     
     //if check all button clicked
@@ -220,8 +216,11 @@ $(document).ready(function() {
         
         var isValid = false;
         var minSal = $('#payGradeCurrency_minSalary').val();
-        var match = minSal.match(/^\d{1,3}(\.\d{0,2})?$/);
+        var match = minSal.match(/^\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?$/);
         if(match) {
+            isValid = true;
+        }
+        if (minSal == ""){
             isValid = true;
         }
         return isValid;
@@ -231,7 +230,7 @@ $(document).ready(function() {
         
         var isValid = false;
         var maxSal = $('#payGradeCurrency_maxSalary').val();
-        var match = maxSal.match(/^\d{1,3}(\.\d{0,2})?$/);
+        var match = maxSal.match(/^\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?$/);
         if(match) {
             isValid = true;
         }
@@ -240,7 +239,7 @@ $(document).ready(function() {
         }
         return isValid;
     });
-    
+       
     $.validator.addMethod("uniqueName", function(value, element, params) {
         var temp = true;
         var currentName;
@@ -317,3 +316,15 @@ $(document).ready(function() {
 
     });
 });
+
+function getCurrencyDetails(url, curName){
+
+    $.getJSON(url, function(data) {
+
+        $('#payGradeCurrency_currencyId').val(data.currency_id);
+        $('#payGradeCurrency_currencyName').val(data.currency_id+" - "+curName);
+        $('#payGradeCurrency_minSalary').val(data.minSalary);
+        $('#payGradeCurrency_maxSalary').val(data.maxSalary);
+
+    });
+}
