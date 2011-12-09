@@ -50,7 +50,7 @@ class ReportingMethodService extends BaseService {
      * @return NULL Doesn't return a value
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {        
-        $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
+        return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
     }
     
     /**

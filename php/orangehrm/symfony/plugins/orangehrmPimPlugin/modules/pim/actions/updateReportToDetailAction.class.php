@@ -22,6 +22,21 @@
  * Actions class for PIM module updateMembership
  */
 class updateReportToDetailAction extends basePimAction {
+    
+    private $reportingMethodService;
+    
+    public function getReportingMethodService() {
+        
+        if (!($this->reportingMethodService instanceof ReportingMethodService)) {
+            $this->reportingMethodService = new ReportingMethodService();
+        }        
+        
+        return $this->reportingMethodService;
+    }
+
+    public function setReportingMethodService($reportingMethodService) {
+        $this->reportingMethodService = $reportingMethodService;
+    }
 
     /**
      * Add / update employee membership
@@ -47,6 +62,9 @@ class updateReportToDetailAction extends basePimAction {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                
+                $this->_checkDuplicateEntry($empNumber);
+                
                 $value = $this->form->save();
                 if ($value[0] == ReportTo::SUPERVISOR) {
                     if ($value[1]) {
@@ -68,6 +86,15 @@ class updateReportToDetailAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber');
 
         $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
+    }
+    
+    protected function _checkDuplicateEntry($empNumber) {
+
+        if (empty($id) && $this->getReportingMethodService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
+            $this->getUser()->setFlash('templateMessage', array('warning', __('Reporting Method Name Exists')));
+            $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
+        }
+
     }
 
 }
