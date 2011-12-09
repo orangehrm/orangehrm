@@ -45,7 +45,7 @@ $(document).ready(function() {
         }); 
         
      $('#btnCancel').click(function() {
-        window.location.replace(viewSystemUserUrl);
+        window.location.replace(viewSystemUserUrl+'?userId='+userId);
     });
 });
 
