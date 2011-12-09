@@ -619,7 +619,7 @@ input.calendarBtn, input[type=button].calendarBtn {
 /* Div with buttons (save, edit, cancel) in form */
 div.formbuttons {
 	text-align: left;
-	width:auto;
+	width:auto !important;
 	height:auto;
 	margin-left:5px;
 	margin-right:5px;
