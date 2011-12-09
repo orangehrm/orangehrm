@@ -52,7 +52,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'getter' => 'getNoOfDaysAllotted',
                 'name' => 'txtLeaveEntitled[]',
-                'readOnly' => (self::$userType != Users::USER_TYPE_ADMIN),
+                'readOnly' => (self::$userType != SystemUser::USER_TYPE_ADMIN),
             ),
         ));
 
@@ -106,7 +106,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
 
         $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6);
         
-        if (self::$userType != Users::USER_TYPE_ADMIN) {
+        if (self::$userType != SystemUser::USER_TYPE_ADMIN) {
             $this->runtimeDefinitions = array(
                 'buttons' => array(),
             );
