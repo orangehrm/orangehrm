@@ -419,17 +419,17 @@ class AssignLeaveForm extends sfForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', false);
+            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
         } elseif ($this->userType == 'Supervisor') {
 
-            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedUserId);
+            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedUserId, true);
         }
 
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
             $workShiftLength = 0;
-
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
+            $terminationId = $employee->getTerminationId();
+             if (!isset($employeeUnique[$employee->getEmpNumber()]) && empty($terminationId)) {
                 $employeeWorkShift = $employeeService->getWorkShift($employee->getEmpNumber());
                 if ($employeeWorkShift != null) {
                     $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();

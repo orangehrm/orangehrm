@@ -834,7 +834,7 @@ class EmployeeService extends BaseService {
             }
 
             if (empty($employeeList)) {
-                $employeeList = $this->getEmployeeList();
+                $employeeList = $this->getEmployeeList("empNumber", "ASC", true);
             }
 
             $filteredList = array();
