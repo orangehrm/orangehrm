@@ -73,7 +73,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                 <thead>
                     <tr>
                         <td class="check"><input type="checkbox" id="educationCheckAll" /></td>
-                        <td><?php echo __('Program'); ?></td>
+                        <td><?php echo __('Level'); ?></td>
                         <td><?php echo __('Year'); ?></td>
                         <td><?php echo __('GPA/Score'); ?></td>
                     </tr>
