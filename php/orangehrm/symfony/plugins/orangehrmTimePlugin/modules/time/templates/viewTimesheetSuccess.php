@@ -328,12 +328,13 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                     <?php foreach ($actionLogRecords as $row): ?>
                         <?php
-                        if (is_null($row->getUsers()->getEmpNumber())):
-                            $performedBy = $row->getUsers()->getFirstName() . " " . $row->getUsers()->getLastName();
-                        else:
-                            $employee = $row->getUsers()->getEmployee();
-                            $performedBy = $employee->getEmpFirstname() . " " . $employee->getEmpLastname();
-                        endif;
+
+                        $performedBy = $row->getUsers()->getEmployee()->getFullName();
+                        
+                        if (empty($performedBy) && $row->getUsers()->getIsAdmin() == 'Yes') {
+                            $performedBy = "Admin";
+                        }
+                        
                         ?>
 
                         <tr>
