@@ -107,12 +107,12 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
 
                         $this->mailer->send($this->message);
 
-                        $logMessage = "Leave application email was sent to $to";
+                        $logMessage = "Leave assignment email was sent to $to";
                         $this->logResult('Success', $logMessage);
 
                     } catch (Exception $e) {
 
-                        $logMessage = "Couldn't send leave application email to $to";
+                        $logMessage = "Couldn't send leave assignment email to $to";
                         $logMessage .= '. Reason: '.$e->getMessage();
                         $this->logResult('Failure', $logMessage);
 
