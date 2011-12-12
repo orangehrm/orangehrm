@@ -132,43 +132,43 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
     public function sendToSubscribers() {
 
         $mailNotificationService = new EmailNotificationService();
-        $subscription = $mailNotificationService->getSubscribersByNotificationId(EmailNotification::LEAVE_ASSIGNMENT);
+        $subscriptions = $mailNotificationService->getSubscribersByNotificationId(EmailNotification::LEAVE_ASSIGNMENT);
 
-	foreach ($subscriptions as $subscription) {
-	
-        if ($subscription instanceof EmailSubscriber) {
+        foreach ($subscriptions as $subscription) {
 
-            if ($subscription->getEmailNotification()->getIsEnable() == EmailNotification::ENABLED) {
+            if ($subscription instanceof EmailSubscriber) {
 
-                $to = $subscription->getEmail();
+                if ($subscription->getEmailNotification()->getIsEnable() == EmailNotification::ENABLED) {
 
-                try {
+                    $to = $subscription->getEmail();
 
-                    $this->message->setFrom($this->getSystemFrom());
-                    $this->message->setTo($to);
+                    try {
 
-                    $message = new LeaveAssignmentMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
+                        $this->message->setFrom($this->getSystemFrom());
+                        $this->message->setTo($to);
 
-                    $this->message->setSubject($message->generateSubscriberSubject());
-                    $this->message->setBody($message->generateSubscriberBody());
-                    
-                    $this->mailer->send($this->message);
+                        $message = new LeaveAssignmentMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
 
-                    $logMessage = "Leave application subscription email was sent to $to";
-                    $this->logResult('Success', $logMessage);
+                        $this->message->setSubject($message->generateSubscriberSubject());
+                        $this->message->setBody($message->generateSubscriberBody());
 
-                } catch (Exception $e) {
+                        $this->mailer->send($this->message);
 
-                    $logMessage = "Couldn't send leave application subscription email to $to";
-                    $logMessage .= '. Reason: '.$e->getMessage();
-                    $this->logResult('Failure', $logMessage);
+                        $logMessage = "Leave assignment subscription email was sent to $to";
+                        $this->logResult('Success', $logMessage);
+
+                    } catch (Exception $e) {
+
+                        $logMessage = "Couldn't send leave assignment subscription email to $to";
+                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $this->logResult('Failure', $logMessage);
+
+                    }
 
                 }
 
             }
-
         }
-	}
     }
 
     public function send() {
