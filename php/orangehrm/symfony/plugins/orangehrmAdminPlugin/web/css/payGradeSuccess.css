@@ -32,3 +32,11 @@ label.error {
     text-align: right;
     padding-right: 100px !important;
 }
+
+thead td {
+    padding-left: 30px;
+}
+
+td.check {
+    padding-left: 0;
+}
