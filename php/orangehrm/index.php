@@ -90,7 +90,7 @@ if (!isset($_SESSION['user'])) {
 if (isset($_GET['ACT']) && $_GET['ACT'] == 'logout') {
     session_destroy();
     setcookie('Loggedin', '', time() - 3600, '/');
-    header("Location: ./login.php");
+    header("Location: ./symfony/web/index.php/auth/login");
     exit();
 }
 

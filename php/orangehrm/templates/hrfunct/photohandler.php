@@ -20,7 +20,7 @@
 @session_start();
 
 if(!isset($_SESSION['fname'])) {
-	header("Location: ../../login.php");
+	header("Location: ../../symfony/web/index.php/auth/login");
 	exit();
 }
 
