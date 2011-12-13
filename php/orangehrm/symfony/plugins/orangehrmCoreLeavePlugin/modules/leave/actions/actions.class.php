@@ -707,17 +707,17 @@ class leaveActions extends sfActions {
                 }
             }
 
-            $changedByUserType = Users::USER_TYPE_EMPLOYEE;
+            $changedByUserType = SystemUser::USER_TYPE_EMPLOYEE;
             
             $mode = $request->getParameter('hdnMode', null);
             
             if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST && $mode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {
                 
                 if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
-                    $changedByUserType = Users::USER_TYPE_ADMIN;
+                    $changedByUserType = SystemUser::USER_TYPE_ADMIN;
                 }
                 if ($_SESSION['isSupervisor']) {                                
-                    $changedByUserType = Users::USER_TYPE_SUPERVISOR;
+                    $changedByUserType = SystemUser::USER_TYPE_SUPERVISOR;
                 }
             }
 
@@ -733,7 +733,7 @@ class leaveActions extends sfActions {
 
         }
 
-        if ($changedByUserType == Users::USER_TYPE_EMPLOYEE) {
+        if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
 
             $url = "leave/viewMyLeaveList";
 
