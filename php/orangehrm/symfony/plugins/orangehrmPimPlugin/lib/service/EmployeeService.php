@@ -542,6 +542,7 @@ class EmployeeService extends BaseService {
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  
      * 
      * @todo Rename to getLanguages
+     * @todo need to throw exception if error occur
      * 
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
@@ -558,6 +559,7 @@ class EmployeeService extends BaseService {
      * @param array() $languageToDelete Array of strings with the format
      * @return int - number of records deleted. False if did not delete anything.
      * 
+     * @todo need to throw exception if error occur
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
         return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
@@ -572,6 +574,7 @@ class EmployeeService extends BaseService {
      * @returns boolean 
      * 
      * @todo Don't return any value
+     * @todo need to throw exception if error occur
      * 
      */
     public function saveLanguage(EmployeeLanguage $language) {
@@ -632,6 +635,7 @@ class EmployeeService extends BaseService {
     /**
      * Get attachment for an employee and given screen name
      * 
+     * @version 2.6.11
      * @param type $empNumber - employee number
      * @param type $screen - screen attached to
      * 
@@ -650,9 +654,10 @@ class EmployeeService extends BaseService {
     /**
      * Delete Attachments for an employee
      * 
+     * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $attachmentsToDelete Array of strings
-     * @returns boolean
+     * @returns boolean , if successfully deleted return true
      * 
      * @throws PIMServiceException
      */
@@ -667,10 +672,11 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve Attachment for an employee 
      * 
+     * @version 2.6.11
      * @param int $empNumber Employee Number 
-     * @param int $attachId Attach Id
+     * @param int $attachId screen Id 
      * 
-     * @returns EmployeeAttachment Employee Attachment
+     * @returns EmployeeAttachment 
      * 
      * @throws PIMServiceException
      */
@@ -685,8 +691,8 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve Employee Picture for an employee
      * 
+     * @version 2.6.11
      * @param int $empNumber Employee Number
-     * 
      * @returns EmpPicture Employee Picture object
      * 
      * @throws PIMServiceException
@@ -753,7 +759,9 @@ class EmployeeService extends BaseService {
      * Returns Employee Count according to terminated status
      * 
      * @version 2.6.11
+     * @param boolean $withoutTerminatedEmployees 
      * @returns int Employee Count
+     * 
      * @throws PIMServiceException
      * 
      */
@@ -784,7 +792,7 @@ class EmployeeService extends BaseService {
     /**
      * Returns Employee List as Json string 
      * 
-     * if $workShift is true json string include employee work shift value as well
+     * if workShift parameter is true json string include employee work shift value 
      * 
      * @version 2.6.11
      * @param boolean $workShift Work Shift
@@ -820,7 +828,6 @@ class EmployeeService extends BaseService {
     /**
      * Filtering Employee by Sub unit
      * 
-     * 
      * @version 2.6.11
      * @param Doctrine_Collection/Array $employeeList Employee List Collection
      * @param String $subUnitId
@@ -850,11 +857,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Delete Employee
+     * Delete Employees for given employee Id List
+     * 
+     * @version 2.6.11
      * @param array $empList
-     * @returns int
+     * @return boolean , true if successfully deleted 
+     * 
      * @throws PIMServiceException
-     * @ignore
+     * 
+     * @todo rename method as delete Employees
+     * 
      */
     public function deleteEmployee($empList = array()) {
         try {
@@ -866,10 +878,11 @@ class EmployeeService extends BaseService {
 
     /**
      * Checks if the given employee id is in use.
-     * @throws PIMServiceException
+     * 
+     * @version 2.6.11
      * @param  $employeeId
      * @return EmployeeService.employeeDao.isEmployeeIdInUse
-     * @ignore
+     * @throws PIMServiceException
      */
     public function isEmployeeIdInUse($employeeId) {
         try {
@@ -880,14 +893,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Checks if employee with same name already exists
+     * Checks employee already exists for given first middle and last name 
      *
+     * @version 2.6.11
+     * @param string $firstName First Name of the Employee
+     * @param string $middle Middle name of the employee
+     * @param string $lastname Last name of the employee
+     * @return boolean If Employee exists retrun true else return false 
      * @throws PIMServiceException
-     * @param  $first
-     * @param  $middle
-     * @param  $last
-     * @return EmployeeService.employeeDao.checkForEmployeeWithSameName
-     * @ignore
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
