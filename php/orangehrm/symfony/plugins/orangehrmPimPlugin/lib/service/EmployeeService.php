@@ -24,6 +24,7 @@
  * @todo: Add get/save/delete for all 
  * @todo: All methods to return PIMServiceException or DaoException consistantly
  * @todo Add deleteReportingMethod() function
+ * @todo Don't wrap DAO exceptions.
  */
 class EmployeeService extends BaseService {
 
@@ -524,39 +525,34 @@ class EmployeeService extends BaseService {
         return $this->getEmployeeDao()->saveSkill($skill);
     }
 
-    /**
-     * Get Language
-     * 
+    /** 
      * Retrieve Employee Language for given employee number 
      * 
      * If language code is not set, It returns all languages for Employee
      * 
      * If Language Type is not set, It returns all languages for Employee
      * 
-     * If Language code and Language type are not set, It returns a Language for Employee  
+     * If Language code and Language type are set, It returns a Language for Employee  
      * 
      * @version 2.6.11
      * @param int $empNumbers Employee Number
      * @param String $languageCode Language Code 
-     * @params String $languageType Language Type
-     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  
+     * @param String $languageType Language Type
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  or EmployeeLanguage object
      * 
-     * @todo Rename to getLanguages
-     * @todo need to throw exception if error occur
+     * @todo add two methods for getLanguage() and getLanguageList()
      * 
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
         return $this->getEmployeeDao()->getLanguage($empNumber, $languageCode, $languageType);
     }
 
-    /**
-     * Delete Language
-     * 
-     * deletes Employee Languages for given Employee number and Language codes
+    /** 
+     * Deletes Employee Languages for given Employee number and Language codes
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param array() $languageToDelete Array of strings with the format
+     * @param int $empNumber Employee Numbera
+     * @param array() $languageToDelete Array of strings with the format language code as index and language fluency as value
      * @return int - number of records deleted. False if did not delete anything.
      * 
      * @todo need to throw exception if error occur
@@ -1164,6 +1160,7 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve non-assigned Currency List for given employee for the given salary grade
      * 
+     * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param string $salaryGrade Salary Grade
      * @param boolean $asArray
@@ -1316,7 +1313,7 @@ class EmployeeService extends BaseService {
      * @return bool - True if given user is an admin, false if not
      * @ignore
      *
-     * @todo Is this method needed? Use methods in Auth service
+     * @todo Move method to Auth Service
      */
     public function isAdmin($userId) {
         try {
@@ -1327,11 +1324,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     *
-     * @return type 
+     * Get list of all employees work emails and other emails
+     * 
+     * Work email index = 'emp_work_email'
+     * Other email index = 'emp_oth_email'
+     * 
+     * @return DoctrineCollection work emails and other emails 
      * @ignore
      * 
-     * @todo Remove this method and its usage
+     * @todo Look at usages and improve them. (use ajax instead of loading all
+     *       emails to template)
      */
     public function getEmailList() {
         try {
@@ -1342,25 +1344,56 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     *
-     * @return type 
+     * Get emp numbers of all subordinates in the system
+     * 
+     * @return Array Array of subordinate employee numbers 
      * @ignore
      * 
      * @todo Get the result as a PHP array in Doctrine rather than creating the
      * array afterwards.
+     * @todo If not in use, remove method from Service and DAO
      */
     public function getSubordinateIdList() {
         return $this->getEmployeeDao()->getSubordinateIdList();
     }
 
+    /**
+     * Terminate employment of given employee.
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @param int $empTerminationId Employee Termination Id
+     * @return int 1 if successfull, 0 if empNumber is not available 
+     * 
+     * @todo Change to take EmpTermination object. Dao should save 
+     * EmpTermination and update termination id in employee table in one
+     * transaction.
+     * @todo throw an exception if not successfull, no return type
+     */
     public function terminateEmployment($empNumber, $empTerminationId) {
         return $this->getEmployeeDao()->terminateEmployment($empNumber, $empTerminationId);
     }
 
+    /**
+     * Activate employment for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee Number
+     * @return int 1 if successfull, 0 if empNumber is not available 
+     * 
+     * @todo throw an exception if not successfull, no return type 
+     */
     public function activateEmployment($empNumber) {
         return $this->getEmployeeDao()->activateEmployment($empNumber);
     }
 
+    /**
+     * Get EmpTermination object with given Id.
+     * 
+     * @version 2.6.11
+     * @param int $terminatedId Termination Id
+     * @return EmpTermination EmpTermination object 
+     */
     public function getEmpTerminationById($terminatedId) {
         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
     }
