@@ -392,7 +392,7 @@ EmployeeAttachment:
       type: integer(4)
       primary: true
     eattach_id as attach_id:
-      type: decimal(10)
+      type: integer
       primary: true
     eattach_size as size:
       type: integer(4)

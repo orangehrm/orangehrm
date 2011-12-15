@@ -474,7 +474,7 @@ class EmployeeDao extends BaseDao {
     public function deleteLanguage($empNumber, $languagesToDelete) {
 
         try {
-            if (is_array($languagesToDelete)) {
+            if (is_array($languagesToDelete) && count($languagesToDelete) > 0) {
                 // Delete language
                 $q = Doctrine_Query::create();
                 $q->delete('EmployeeLanguage el');
@@ -482,7 +482,6 @@ class EmployeeDao extends BaseDao {
                 foreach ($languagesToDelete as $code => $type) {
                     $q->orWhere('(lang_id = ? and fluency = ?)', array($code, $type));
                 }
-                //var_dump($q->getSqlQuery());die;
 
                 $result = $q->execute();
                 return $result;
@@ -602,7 +601,7 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
         try {
-            if (is_array($licenseToDelete)) {
+            if (is_array($licenseToDelete) && count($licenseToDelete) > 0) {
                 // Delete work experience
                 $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
                                 ->whereIn('l.license_id', $licenseToDelete)

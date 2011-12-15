@@ -548,29 +548,26 @@ class EmployeeService extends BaseService {
     }
 
     /** 
-     * Deletes Employee Languages for given Employee number and Language codes
+     * Deletes languages assigned to an employee
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Numbera
-     * @param array() $languageToDelete Array of strings with the format language code as index and language fluency as value
-     * @return int - number of records deleted. False if did not delete anything.
+     * @param int $empNumber Employee Number
+     * @param array() $languageToDelete Associative array of with language IDs as keys and fluency types as values
+     * @return int Number of records deleted. False if $languageToDelete is empty
      * 
-     * @todo need to throw exception if error occur
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
         return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
     }
 
     /**
-     * Save Language of an employee
-     * 
+     * Assign a language or update an assigned language of an employee
      * 
      * @version 2.6.11
      * @param EmployeeLanguage $language Employee Language
      * @returns boolean 
      * 
      * @todo Don't return any value
-     * @todo need to throw exception if error occur
      * 
      */
     public function saveLanguage(EmployeeLanguage $language) {
@@ -578,35 +575,33 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve License for an employee
+     * Retrieves license(s) of an employee
      * 
-     * This method return Employee License for given employe and liesnce code
+     * If license ID is not set, It returns all licenses of employee
      * 
-     * If License code is not set, It returns all license for Employee
-     * 
-     * If Licence code is set , It returns a Employee Licence object
+     * If licence ID is set, It returns an EmployeeLicense object
      *  
      * @version 2.6.11
      * @param int $empNumber 
-     * @param String $licenseCode
-     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLicense objects
+     * @param int $licenseId
+     * @returns Doctrine_Collection Returns Doctrine_Collection of EmployeeLicense objects or single object
      * 
-     * @todo need to throw exception if error occur
+     * @todo add two methods for getLicense() and getLicenseList()
      * 
      */
-    public function getLicense($empNumber, $licenseCode = null) {
-        return $this->getEmployeeDao()->getLicense($empNumber, $licenseCode);
+    public function getLicense($empNumber, $licenseId = null) {
+        return $this->getEmployeeDao()->getLicense($empNumber, $licenseId);
     }
 
     /**
-     * deletes license according to given employee number and license codes
+     * Deletes license of an employee
      * 
      * @version 2.6.11
-     * @param int $empNumber
-     * @param array() $licenseToDelete
-     * @returns boolean
+     * @param int $empNumber Employee number
+     * @param array $licenseToDelete Array of license IDs
+     * @return boolean False if $licenseToDelete is empty or true otherwise
      * 
-     * @todo need to throw exception if error occur
+     * @todo Return number of items deleted
      * 
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
@@ -624,64 +619,58 @@ class EmployeeService extends BaseService {
      * @todo Don't return any value
      * 
      */
+    /**
+     * Assign a license or update an assigned license of an employee
+     * 
+     * @version 2.6.11
+     * @param EmployeeLicense $license Populated EmployeeLicense object
+     * @return boolean True always
+     * 
+     * @todo Don't return any value
+     * 
+     */    
     public function saveLicense(EmployeeLicense $license) {
         return $this->getEmployeeDao()->saveLicense($license);
     }
 
     /**
-     * Get attachment for an employee and given screen name
+     * Get attachments of an employee for given screen
      * 
      * @version 2.6.11
-     * @param type $empNumber - employee number
-     * @param type $screen - screen attached to
+     * @param int $empNumber Employee number
+     * @param string $screen Screen name
      * 
-     * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeAttachment objects
-     * @throws PIMServiceException
+     * @return Doctrine_Collection Doctrine_Collection of EmployeeAttachment objects
      * 
+     * @todo Define already used screen name in PluginEmployeeAttachment
      */
     public function getAttachments($empNumber, $screen) {
-        try {
-            return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
     }
 
     /**
-     * Delete Attachments for an employee
+     * Deletes attachments of an employee
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param array $attachmentsToDelete Array of strings
-     * @returns boolean , if successfully deleted return true
-     * 
-     * @throws PIMServiceException
+     * @param int $empNumber Employee number
+     * @param array $attachmentsToDelete Array of attachement IDs
+     * @return boolean False if $attachmentsToDelete is empty or true otherwise
      */
     public function deleteAttachments($empNumber, $attachmentsToDelete) {
-        try {
-            return $this->getEmployeeDao()->deleteAttachments($empNumber, $attachmentsToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteAttachments($empNumber, $attachmentsToDelete);
     }
 
     /**
-     * Retrieve Attachment for an employee 
+     * Retrieves an attachment of an employee 
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number 
-     * @param int $attachId screen Id 
+     * @param int $empNumber Employee number 
+     * @param int $attachmentId Attachment ID
      * 
-     * @returns EmployeeAttachment 
-     * 
-     * @throws PIMServiceException
+     * @return EmployeeAttachment/boolean EmployeeAttachment or false
      */
-    public function getAttachment($empNumber, $attachId) {
-        try {
-            return $this->getEmployeeDao()->getAttachment($empNumber, $attachId);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+    public function getAttachment($empNumber, $attachmentId) {
+        return $this->getEmployeeDao()->getAttachment($empNumber, $attachmentId);
     }
 
     /**

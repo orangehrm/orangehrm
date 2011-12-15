@@ -101,7 +101,7 @@ create table `hs_hr_emp_us_tax` (
 
 create table `hs_hr_emp_attachment` (
   `emp_number` int(7) not null default 0,
-  `eattach_id` decimal(10,0) not null default '0',
+  `eattach_id` int not null default '0',
   `eattach_desc` varchar(200) default null,
   `eattach_filename` varchar(100) default null,
   `eattach_size` int(11) default '0',
