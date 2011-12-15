@@ -1026,6 +1026,12 @@ class ReportGeneratorService {
             case "IN":
                 $whereClause = $this->constructWhereStatementForInOperator($selectedFilterField, $whereCondition);
                 break;
+            case "IS NULL":
+                $whereClause = $this->constructWhereStatementForIsNullOperator($selectedFilterField, $whereCondition);
+                break;
+            case "IS NOT NULL":
+                $whereClause = $this->constructWhereStatementForIsNotNullOperator($selectedFilterField, $whereCondition);
+                break;            
             default:
                 break;
         }
@@ -1055,6 +1061,18 @@ class ReportGeneratorService {
         return $whereClause;
     }
 
+    public function constructWhereStatementForIsNullOperator($selectedFilterField, $whereCondition){
+        $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
+        $whereClause = $whereClausePart . " IS NULL";
+        return $whereClause;
+    }
+    
+    public function constructWhereStatementForIsNotNullOperator($selectedFilterField, $whereCondition){
+        $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
+        $whereClause = $whereClausePart . " IS NOT NULL";
+        return $whereClause;
+    }
+    
     public function saveSelectedFilterFields($formValues, $reportId, $type) {
 
         $reportableService = $this->getReportableService();
@@ -1074,7 +1092,13 @@ class ReportGeneratorService {
 
                 if (is_array($value)) {
                     $value1 = next($value);
+                    if ($value1 === false) {
+                        $value1 = null;
+                    }
                     $value2 = next($value);
+                    if ($value2 === false) {
+                        $value2 = null;
+                    }
                 } else {
                     $value1 = next($value);
                     $value2 = null;
