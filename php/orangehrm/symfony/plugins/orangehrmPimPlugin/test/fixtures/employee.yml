@@ -1,6 +1,6 @@
 Employee:
-  E_001: { firstName: myname1, lastName: last1, id: '0003' }
-  E_002: { firstName: myname2, lastName: last2, id: '0004' }
+  E_001: { firstName: myname1, lastName: last1, employeeId: '0003' }
+  E_002: { firstName: myname2, lastName: last2, employeeId: '0004' }
 EmployeeAttachment:
   EA_1:  { emp_number: 001, attach_id: 1, size: 1000, description: 'cv', filename: 'CV_A.doc', attachment: 'sdfasdfsa', file_type: 'application/msword', screen: 'personal', attached_by: 002, attached_by_name: 'Another Employee'}
   EA_2:  { emp_number: 001, attach_id: 2, size: 1230, description: 'letter', filename: 'letter.doc', attachment: 'sfsdf', file_type: 'application/msword', screen: 'personal', attached_by: 002, attached_by_name: 'Another Employee'}

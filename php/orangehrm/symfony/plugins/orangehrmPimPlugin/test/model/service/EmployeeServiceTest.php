@@ -964,7 +964,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getAttachments($empNumber, $screen);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
         }  
         
     } 
@@ -999,7 +998,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
         }         
     }
     
@@ -1042,7 +1040,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
         }  
         
     }
