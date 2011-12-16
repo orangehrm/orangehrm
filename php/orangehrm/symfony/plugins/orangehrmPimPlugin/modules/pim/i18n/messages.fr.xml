@@ -1223,7 +1223,15 @@
             <trans-unit id="308">
                 <source>Termination Reason(s) in Use</source>
                 <target>FR_Termination Reason(s) in Use</target>
-            </trans-unit>            
+            </trans-unit>
+            <trans-unit id="309">
+                <source>Each import file should be configured for 100 records or less</source>
+                <target>FR_Each import file should be configured for 100 records or less</target>
+            </trans-unit>
+            <trans-unit id="310">
+                <source>Multiple import files may be required</source>
+                <target>FR_Multiple import files may be required</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

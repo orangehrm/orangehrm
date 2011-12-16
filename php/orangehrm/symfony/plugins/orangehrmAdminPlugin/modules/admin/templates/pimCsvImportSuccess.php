@@ -33,7 +33,8 @@
                     '%male' => '<span class="boldText">' . __('Male') . '</span>',
                     '%female' => '<span class="boldText">' . __('Female') . '</span>',
                 )); ?></li>
-                <li><?php echo __("Include not more than 100 records in the file");?></li>
+                <li><?php echo __("Each import file should be configured for 100 records or less");?></li>
+                <li><?php echo __("Multiple import files may be required");?></li>
                 <li><?php echo __("Sample csv file "); ?><a title="<?php echo __("Download"); ?>" target="_blank" class="download"
                        href="<?php echo url_for('admin/sampleCsvDownload');?>"><?php echo __("Download"); ?></a></li>
             </ul>
