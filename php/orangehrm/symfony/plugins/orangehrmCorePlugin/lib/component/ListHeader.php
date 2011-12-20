@@ -13,6 +13,7 @@ class ListHeader extends ComponentProperty {
         'selectSingle', // TODO: Make this values dash-separated
         'selectMultiple', // TODO: Make this values dash-separated
         'comment',
+        'treeLink',
     );
     private $textAlignmentStyles = array(
         'left',
