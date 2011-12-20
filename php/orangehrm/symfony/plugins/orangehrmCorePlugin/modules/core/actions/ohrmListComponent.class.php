@@ -59,6 +59,10 @@ class ohrmListComponent extends sfComponent {
         self::$configurationFactory = $configurationFactory;
     }
 
+    public static function getListData() {
+        return self::$listData;
+    }
+    
     public static function setListData($data) {
         self::$listData = $data;
     }
