@@ -63,6 +63,19 @@ class LanguageService extends BaseService {
     public function getLanguageById($id) {
         return $this->getLanguageDao()->getLanguageById($id);
     }
+    
+    /**
+     * Retrieves a language by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return Language An instance of Language or false
+     */    
+    public function getLanguageByName($name) {
+        return $this->getLanguageDao()->getLanguageByName($name);
+    }        
   
     /**
      * Retrieves all languages ordered by name

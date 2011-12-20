@@ -77,12 +77,21 @@ class viewLanguagesAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getLanguageService()->isExistingLanguageName($this->form->getValue('name'))) {
+        $object = $this->getLanguageService()->getLanguageByName($this->form->getValue('name'));
+        
+        if ($object instanceof Language) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('Language Name Exists')));
-            $this->redirect('admin/viewLanguages');
+            $this->redirect('admin/viewLanguages');            
+            
         }
+        
+        return false;
 
-    }
+    }    
     
 }

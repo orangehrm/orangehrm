@@ -115,4 +115,27 @@ class LanguageDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetLanguageByName() {
+        
+        $object = $this->languageDao->getLanguageByName('Spanish');
+        $this->assertTrue($object instanceof Language);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->languageDao->getLanguageByName('SPANISH');
+        $this->assertTrue($object instanceof Language);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->languageDao->getLanguageByName('spanish');
+        $this->assertTrue($object instanceof Language);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->languageDao->getLanguageByName('  Spanish  ');
+        $this->assertTrue($object instanceof Language);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->languageDao->getLanguageByName('Hindi');
+        $this->assertFalse($object);        
+        
+    }        
+    
 }
