@@ -63,6 +63,19 @@ class EducationService extends BaseService {
     public function getEducationById($id) {
         return $this->getEducationDao()->getEducationById($id);
     }
+    
+    /**
+     * Retrieves an education object by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return Education An instance of Education or false
+     */    
+    public function getEducationByName($name) {
+        return $this->getEducationDao()->getEducationByName($name);
+    }    
   
     /**
      * Retrieves all education records ordered by name

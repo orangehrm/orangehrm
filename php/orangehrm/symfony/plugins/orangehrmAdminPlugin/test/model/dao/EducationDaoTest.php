@@ -115,4 +115,27 @@ class EducationDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetEducationByName() {
+        
+        $object = $this->educationDao->getEducationByName('PhD');
+        $this->assertTrue($object instanceof Education);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->educationDao->getEducationByName('PHD');
+        $this->assertTrue($object instanceof Education);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->educationDao->getEducationByName('phd');
+        $this->assertTrue($object instanceof Education);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->educationDao->getEducationByName('  PhD  ');
+        $this->assertTrue($object instanceof Education);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->educationDao->getEducationByName('MBA');
+        $this->assertFalse($object);        
+        
+    }      
+    
 }

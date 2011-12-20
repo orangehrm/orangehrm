@@ -63,6 +63,19 @@ class SkillService extends BaseService {
     public function getSkillById($id) {
         return $this->getSkillDao()->getSkillById($id);
     }
+    
+    /**
+     * Retrieves a skill by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return Skill An instance of Skill or false
+     */    
+    public function getSkillByName($name) {
+        return $this->getSkillDao()->getSkillByName($name);
+    }    
   
     /**
      * Retrieves all skills ordered by name

@@ -121,4 +121,27 @@ class SkillDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetSkillByName() {
+        
+        $object = $this->skillDao->getSkillByName('Driving');
+        $this->assertTrue($object instanceof Skill);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->skillDao->getSkillByName('DRIVING');
+        $this->assertTrue($object instanceof Skill);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->skillDao->getSkillByName('driving');
+        $this->assertTrue($object instanceof Skill);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->skillDao->getSkillByName('  Driving  ');
+        $this->assertTrue($object instanceof Skill);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->skillDao->getSkillByName('Climbing');
+        $this->assertFalse($object);        
+        
+    }    
+    
 }

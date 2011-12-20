@@ -39,6 +39,22 @@ class EducationDao extends BaseDao {
         
     }
     
+    public function getEducationByName($name) {
+        
+        try {
+            
+            $q = Doctrine_Query::create()
+                                ->from('Education')
+                                ->where('name = ?', trim($name));
+            
+            return $q->fetchOne();
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        
+    }    
+    
     public function getEducationList() {
         
         try {

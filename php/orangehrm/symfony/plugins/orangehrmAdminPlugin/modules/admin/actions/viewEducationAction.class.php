@@ -77,12 +77,21 @@ class viewEducationAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getEducationService()->isExistingEducationName($this->form->getValue('name'))) {
+        $object = $this->getEducationService()->getEducationByName($this->form->getValue('name'));
+        
+        if ($object instanceof Education) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('Education Level Exists')));
-            $this->redirect('admin/viewEducation');
+            $this->redirect('admin/viewEducation');            
+            
         }
+        
+        return false;
 
-    }
+    }    
     
 }

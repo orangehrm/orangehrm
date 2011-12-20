@@ -77,11 +77,20 @@ class viewSkillsAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getSkillService()->isExistingSkillName($this->form->getValue('name'))) {
+        $object = $this->getSkillService()->getSkillByName($this->form->getValue('name'));
+        
+        if ($object instanceof Skill) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('Skill Name Exists')));
-            $this->redirect('admin/viewSkills');
+            $this->redirect('admin/viewSkills');            
+            
         }
+        
+        return false;
 
     }
     
